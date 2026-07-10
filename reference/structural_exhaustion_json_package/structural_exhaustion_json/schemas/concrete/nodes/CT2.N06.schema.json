@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT2.N06.schema.json",
+  "title": "CT2.N06 completed discharge record — Branch-state record — X is deletion-critical",
+  "description": "Concrete completed-discharge schema for CT2.N06, the definition node “Branch-state record — X is deletion-critical” of tactic CT2 (Minimality and replacement). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT2.N06. It must be exactly `CT2`, selecting Minimality and replacement (minimality) as the tactic that owns the definition step “Branch-state record — X is deletion-critical” in the exhaustive proof flow.",
+          "const": "CT2"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Branch-state record — X is deletion-critical”. It must be exactly `CT2.N06` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT2.N06"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT2.N06 within tactic CT2 (Minimality and replacement). It must be exactly 6, matching the N06 suffix and the node's position in that tactic graph.",
+          "const": 6
+        },
+        "status": {
+          "description": "Required completion state for CT2.N06. It must be exactly `defined`, meaning that the required definition or recorded branch-state object has been supplied for the definition obligation “Branch-state record — X is deletion-critical”; another lifecycle value does not discharge this concrete node.",
+          "const": "defined"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT2.N06. The array must contain `S-Def`; these are precisely the contracts assigned to “Branch-state record — X is deletion-critical”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Def` to occur in CT2.N06's discharged-contract list, because this node must use the contract that constructs a typed object deterministically from recorded branch-state data for the obligation “Branch-state record — X is deletion-critical”.",
+                "const": "S-Def"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT2.N06 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Def (subject, sourceStateFields, constructor, parameters, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Def` evidence instance at CT2.N06. It must be exactly `S-Def`, identifying the contract that constructs a typed object deterministically from recorded branch-state data; the same instance must supply subject, sourceStateFields, constructor, parameters, evidence.",
+                    "const": "S-Def"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT2.N06.O1",
+    "modality": "define",
+    "statement": {
+      "informal": "Define or verify: Branch-state record — X is deletion-critical",
+      "latex": "\\textbf{Branch-state record}\\\\\\(X\\) is deletion-critical"
+    },
+    "contractSchemas": [
+      "S-Def"
+    ],
+    "dependencies": [
+      "CT2.N04"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

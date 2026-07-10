@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT9.N10.schema.json",
+  "title": "CT9.N10 completed discharge record — Branch-state definition — overloaded labelled fibre",
+  "description": "Concrete completed-discharge schema for CT9.N10, the definition node “Branch-state definition — overloaded labelled fibre” of tactic CT9 (Overload exhaustion). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT9.N10. It must be exactly `CT9`, selecting Overload exhaustion (overload) as the tactic that owns the definition step “Branch-state definition — overloaded labelled fibre” in the exhaustive proof flow.",
+          "const": "CT9"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Branch-state definition — overloaded labelled fibre”. It must be exactly `CT9.N10` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT9.N10"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT9.N10 within tactic CT9 (Overload exhaustion). It must be exactly 10, matching the N10 suffix and the node's position in that tactic graph.",
+          "const": 10
+        },
+        "status": {
+          "description": "Required completion state for CT9.N10. It must be exactly `defined`, meaning that the required definition or recorded branch-state object has been supplied for the definition obligation “Branch-state definition — overloaded labelled fibre”; another lifecycle value does not discharge this concrete node.",
+          "const": "defined"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT9.N10. The array must contain `S-Def`; these are precisely the contracts assigned to “Branch-state definition — overloaded labelled fibre”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Def` to occur in CT9.N10's discharged-contract list, because this node must use the contract that constructs a typed object deterministically from recorded branch-state data for the obligation “Branch-state definition — overloaded labelled fibre”.",
+                "const": "S-Def"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT9.N10 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Def (subject, sourceStateFields, constructor, parameters, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Def` evidence instance at CT9.N10. It must be exactly `S-Def`, identifying the contract that constructs a typed object deterministically from recorded branch-state data; the same instance must supply subject, sourceStateFields, constructor, parameters, evidence.",
+                    "const": "S-Def"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT9.N10.O1",
+    "modality": "define",
+    "statement": {
+      "informal": "Define or verify: Branch-state definition — overloaded labelled fibre",
+      "latex": "\\textbf{Branch-state definition}\\\\overloaded labelled fibre"
+    },
+    "contractSchemas": [
+      "S-Def"
+    ],
+    "dependencies": [
+      "CT9.N07"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

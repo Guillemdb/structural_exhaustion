@@ -1,0 +1,620 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/tactics/CT15.schema.json",
+  "title": "CT15 static tactic graph — Rank forcing",
+  "description": "Concrete static-graph schema for CT15 (Rank forcing). It requires the complete 21-node array in fixed source order from CT15.N01 through CT15.N21, with exact node IDs, ordinals, and roles; all remaining graph data must satisfy the generic tactic specification.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticSpec"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT15",
+          "description": "Required discriminator for the CT15 (Rank forcing) tactic specification; must equal \"CT15\"."
+        },
+        "nodes": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N01",
+                      "description": "Required stable ID for CT15.N01, \"Definition — raw local tests with target-relevant rank r_T\", in CT15 (Rank forcing); must equal \"CT15.N01\"."
+                    },
+                    "nodeNumber": {
+                      "const": 1,
+                      "description": "Required one-based source ordinal for CT15.N01, \"Definition — raw local tests with target-relevant rank r_T\"; must equal the integer 1."
+                    },
+                    "nodeType": {
+                      "const": "definition",
+                      "description": "Required role for CT15.N01, \"Definition — raw local tests with target-relevant rank r_T\"; must equal \"definition\", meaning this node defines an exact object, predicate, or invariant used later."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N02",
+                      "description": "Required stable ID for CT15.N02, \"Repair datum — rank definition not target-relative\", in CT15 (Rank forcing); must equal \"CT15.N02\"."
+                    },
+                    "nodeNumber": {
+                      "const": 2,
+                      "description": "Required one-based source ordinal for CT15.N02, \"Repair datum — rank definition not target-relative\"; must equal the integer 2."
+                    },
+                    "nodeType": {
+                      "const": "recovery",
+                      "description": "Required role for CT15.N02, \"Repair datum — rank definition not target-relative\"; must equal \"recovery\", meaning this node records and repairs missing data or a missing supporting rule."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N03",
+                      "description": "Required stable ID for CT15.N03, \"Lemma — redesign rank relative to T\", in CT15 (Rank forcing); must equal \"CT15.N03\"."
+                    },
+                    "nodeNumber": {
+                      "const": 3,
+                      "description": "Required one-based source ordinal for CT15.N03, \"Lemma — redesign rank relative to T\"; must equal the integer 3."
+                    },
+                    "nodeType": {
+                      "const": "assertion",
+                      "description": "Required role for CT15.N03, \"Lemma — redesign rank relative to T\"; must equal \"assertion\", meaning this node states a claim that must be proved from the recorded state."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N04",
+                      "description": "Required stable ID for CT15.N04, \"Lemma — rank is defined relative to the target predicate?\", in CT15 (Rank forcing); must equal \"CT15.N04\"."
+                    },
+                    "nodeNumber": {
+                      "const": 4,
+                      "description": "Required one-based source ordinal for CT15.N04, \"Lemma — rank is defined relative to the target predicate?\"; must equal the integer 4."
+                    },
+                    "nodeType": {
+                      "const": "decision",
+                      "description": "Required role for CT15.N04, \"Lemma — rank is defined relative to the target predicate?\"; must equal \"decision\", meaning this node requires an exhaustive and justified branch split."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N05",
+                      "description": "Required stable ID for CT15.N05, \"Scope candidate — no finite rank — scope audit\", in CT15 (Rank forcing); must equal \"CT15.N05\"."
+                    },
+                    "nodeNumber": {
+                      "const": 5,
+                      "description": "Required one-based source ordinal for CT15.N05, \"Scope candidate — no finite rank — scope audit\"; must equal the integer 5."
+                    },
+                    "nodeType": {
+                      "const": "scope_audit",
+                      "description": "Required role for CT15.N05, \"Scope candidate — no finite rank — scope audit\"; must equal \"scope_audit\", meaning this node records a candidate scope obstruction for audit, not as a proved fact."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N06",
+                      "description": "Required stable ID for CT15.N06, \"Dichotomy lemma — does a rank drop occur?\", in CT15 (Rank forcing); must equal \"CT15.N06\"."
+                    },
+                    "nodeNumber": {
+                      "const": 6,
+                      "description": "Required one-based source ordinal for CT15.N06, \"Dichotomy lemma — does a rank drop occur?\"; must equal the integer 6."
+                    },
+                    "nodeType": {
+                      "const": "decision",
+                      "description": "Required role for CT15.N06, \"Dichotomy lemma — does a rank drop occur?\"; must equal \"decision\", meaning this node requires an exhaustive and justified branch split."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N07",
+                      "description": "Required stable ID for CT15.N07, \"Lemma — rank drop produces structural dependence\", in CT15 (Rank forcing); must equal \"CT15.N07\"."
+                    },
+                    "nodeNumber": {
+                      "const": 7,
+                      "description": "Required one-based source ordinal for CT15.N07, \"Lemma — rank drop produces structural dependence\"; must equal the integer 7."
+                    },
+                    "nodeType": {
+                      "const": "assertion",
+                      "description": "Required role for CT15.N07, \"Lemma — rank drop produces structural dependence\"; must equal \"assertion\", meaning this node states a claim that must be proved from the recorded state."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N08",
+                      "description": "Required stable ID for CT15.N08, \"Routing theorem — what dependence is certified?\", in CT15 (Rank forcing); must equal \"CT15.N08\"."
+                    },
+                    "nodeNumber": {
+                      "const": 8,
+                      "description": "Required one-based source ordinal for CT15.N08, \"Routing theorem — what dependence is certified?\"; must equal the integer 8."
+                    },
+                    "nodeType": {
+                      "const": "decision",
+                      "description": "Required role for CT15.N08, \"Routing theorem — what dependence is certified?\"; must equal \"decision\", meaning this node requires an exhaustive and justified branch split."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N09",
+                      "description": "Required stable ID for CT15.N09, \"Payload lemma — build P_15→3 — rank defect\", in CT15 (Rank forcing); must equal \"CT15.N09\"."
+                    },
+                    "nodeNumber": {
+                      "const": 9,
+                      "description": "Required one-based source ordinal for CT15.N09, \"Payload lemma — build P_15→3 — rank defect\"; must equal the integer 9."
+                    },
+                    "nodeType": {
+                      "const": "payload_constructor",
+                      "description": "Required role for CT15.N09, \"Payload lemma — build P_15→3 — rank defect\"; must equal \"payload_constructor\", meaning this node constructs a typed payload satisfying a consumer trigger."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N10",
+                      "description": "Required stable ID for CT15.N10, \"Payload lemma — build P_15→7 — rank exchange\", in CT15 (Rank forcing); must equal \"CT15.N10\"."
+                    },
+                    "nodeNumber": {
+                      "const": 10,
+                      "description": "Required one-based source ordinal for CT15.N10, \"Payload lemma — build P_15→7 — rank exchange\"; must equal the integer 10."
+                    },
+                    "nodeType": {
+                      "const": "payload_constructor",
+                      "description": "Required role for CT15.N10, \"Payload lemma — build P_15→7 — rank exchange\"; must equal \"payload_constructor\", meaning this node constructs a typed payload satisfying a consumer trigger."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N11",
+                      "description": "Required stable ID for CT15.N11, \"Payload lemma — build P_15→16 — rank delocalization\", in CT15 (Rank forcing); must equal \"CT15.N11\"."
+                    },
+                    "nodeNumber": {
+                      "const": 11,
+                      "description": "Required one-based source ordinal for CT15.N11, \"Payload lemma — build P_15→16 — rank delocalization\"; must equal the integer 11."
+                    },
+                    "nodeType": {
+                      "const": "payload_constructor",
+                      "description": "Required role for CT15.N11, \"Payload lemma — build P_15→16 — rank delocalization\"; must equal \"payload_constructor\", meaning this node constructs a typed payload satisfying a consumer trigger."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N12",
+                      "description": "Required stable ID for CT15.N12, \"CT 3 — external types\", in CT15 (Rank forcing); must equal \"CT15.N12\"."
+                    },
+                    "nodeNumber": {
+                      "const": 12,
+                      "description": "Required one-based source ordinal for CT15.N12, \"CT 3 — external types\"; must equal the integer 12."
+                    },
+                    "nodeType": {
+                      "const": "consumer_handoff",
+                      "description": "Required role for CT15.N12, \"CT 3 — external types\"; must equal \"consumer_handoff\", meaning this node hands a declared typed payload to another tactic."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N13",
+                      "description": "Required stable ID for CT15.N13, \"CT 7 — exchange\", in CT15 (Rank forcing); must equal \"CT15.N13\"."
+                    },
+                    "nodeNumber": {
+                      "const": 13,
+                      "description": "Required one-based source ordinal for CT15.N13, \"CT 7 — exchange\"; must equal the integer 13."
+                    },
+                    "nodeType": {
+                      "const": "consumer_handoff",
+                      "description": "Required role for CT15.N13, \"CT 7 — exchange\"; must equal \"consumer_handoff\", meaning this node hands a declared typed payload to another tactic."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N14",
+                      "description": "Required stable ID for CT15.N14, \"CT 16 — whole-object types\", in CT15 (Rank forcing); must equal \"CT15.N14\"."
+                    },
+                    "nodeNumber": {
+                      "const": 14,
+                      "description": "Required one-based source ordinal for CT15.N14, \"CT 16 — whole-object types\"; must equal the integer 14."
+                    },
+                    "nodeType": {
+                      "const": "consumer_handoff",
+                      "description": "Required role for CT15.N14, \"CT 16 — whole-object types\"; must equal \"consumer_handoff\", meaning this node hands a declared typed payload to another tactic."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N15",
+                      "description": "Required stable ID for CT15.N15, \"Lemma — full-rank branch gives independent coordinates\", in CT15 (Rank forcing); must equal \"CT15.N15\"."
+                    },
+                    "nodeNumber": {
+                      "const": 15,
+                      "description": "Required one-based source ordinal for CT15.N15, \"Lemma — full-rank branch gives independent coordinates\"; must equal the integer 15."
+                    },
+                    "nodeType": {
+                      "const": "assertion",
+                      "description": "Required role for CT15.N15, \"Lemma — full-rank branch gives independent coordinates\"; must equal \"assertion\", meaning this node states a claim that must be proved from the recorded state."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N16",
+                      "description": "Required stable ID for CT15.N16, \"Lemma — recorded rank charge\", in CT15 (Rank forcing); must equal \"CT15.N16\"."
+                    },
+                    "nodeNumber": {
+                      "const": 16,
+                      "description": "Required one-based source ordinal for CT15.N16, \"Lemma — recorded rank charge\"; must equal the integer 16."
+                    },
+                    "nodeType": {
+                      "const": "assertion",
+                      "description": "Required role for CT15.N16, \"Lemma — recorded rank charge\"; must equal \"assertion\", meaning this node states a claim that must be proved from the recorded state."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N17",
+                      "description": "Required stable ID for CT15.N17, \"Comparison theorem — does rank demand exceed cap?\", in CT15 (Rank forcing); must equal \"CT15.N17\"."
+                    },
+                    "nodeNumber": {
+                      "const": 17,
+                      "description": "Required one-based source ordinal for CT15.N17, \"Comparison theorem — does rank demand exceed cap?\"; must equal the integer 17."
+                    },
+                    "nodeType": {
+                      "const": "comparison",
+                      "description": "Required role for CT15.N17, \"Comparison theorem — does rank demand exceed cap?\"; must equal \"comparison\", meaning this node compares certified quantities and routes every outcome."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N18",
+                      "description": "Required stable ID for CT15.N18, \"C4 — rank budget contradiction\", in CT15 (Rank forcing); must equal \"CT15.N18\"."
+                    },
+                    "nodeNumber": {
+                      "const": 18,
+                      "description": "Required one-based source ordinal for CT15.N18, \"C4 — rank budget contradiction\"; must equal the integer 18."
+                    },
+                    "nodeType": {
+                      "const": "certificate",
+                      "description": "Required role for CT15.N18, \"C4 — rank budget contradiction\"; must equal \"certificate\", meaning this node is a terminal closure or contradiction certificate."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N19",
+                      "description": "Required stable ID for CT15.N19, \"Payload record — P_15→4: rank demand ledger\", in CT15 (Rank forcing); must equal \"CT15.N19\"."
+                    },
+                    "nodeNumber": {
+                      "const": 19,
+                      "description": "Required one-based source ordinal for CT15.N19, \"Payload record — P_15→4: rank demand ledger\"; must equal the integer 19."
+                    },
+                    "nodeType": {
+                      "const": "residual_record",
+                      "description": "Required role for CT15.N19, \"Payload record — P_15→4: rank demand ledger\"; must equal \"residual_record\", meaning this node records typed data that survives the branch."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N20",
+                      "description": "Required stable ID for CT15.N20, \"Lemma — P_15→4 satisfies CT4 trigger\", in CT15 (Rank forcing); must equal \"CT15.N20\"."
+                    },
+                    "nodeNumber": {
+                      "const": 20,
+                      "description": "Required one-based source ordinal for CT15.N20, \"Lemma — P_15→4 satisfies CT4 trigger\"; must equal the integer 20."
+                    },
+                    "nodeType": {
+                      "const": "assertion",
+                      "description": "Required role for CT15.N20, \"Lemma — P_15→4 satisfies CT4 trigger\"; must equal \"assertion\", meaning this node states a claim that must be proved from the recorded state."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT15.N21",
+                      "description": "Required stable ID for CT15.N21, \"CT 4 — charging\", in CT15 (Rank forcing); must equal \"CT15.N21\"."
+                    },
+                    "nodeNumber": {
+                      "const": 21,
+                      "description": "Required one-based source ordinal for CT15.N21, \"CT 4 — charging\"; must equal the integer 21."
+                    },
+                    "nodeType": {
+                      "const": "consumer_handoff",
+                      "description": "Required role for CT15.N21, \"CT 4 — charging\"; must equal \"consumer_handoff\", meaning this node hands a declared typed payload to another tactic."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 21,
+          "maxItems": 21,
+          "description": "Required complete node specification for CT15 (Rank forcing); must contain exactly 21 generic node objects in source order from CT15.N01 through CT15.N21, with the fixed identity, ordinal, and role declared at each position."
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodes"
+      ]
+    }
+  ]
+}

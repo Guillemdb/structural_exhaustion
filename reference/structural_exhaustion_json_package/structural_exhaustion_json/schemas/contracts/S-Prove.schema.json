@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/contracts/S-Prove.schema.json",
+  "$ref": "../structural-exhaustion.bundle.schema.json#/$defs/contractSProve",
+  "title": "S-Prove proposition-proof contract",
+  "description": "Package-level extension for proving displayed propositions and invariant-register entries in a structural-exhaustion proof state. S-Prove extends the framework lemma-schema alphabet to operationalize displayed propositions from H_0, E, I, R, V, Q, and A as specified in the structural exhaustion framework (branch_closure_methodology_extended.tex, proof language and runtime model).",
+  "properties": {
+    "schema": {
+      "description": "Required contract discriminator; it must be the literal `S-Prove`."
+    },
+    "proposition": {
+      "description": "Required mathematical statement to be proved as a displayed proposition, invariant-register entry, exclusion, residual fact, payload fact, or certificate premise in the current branch state B.",
+      "properties": {
+        "informal": {
+          "description": "Required nonempty prose formulation of the proposition, with all quantified objects, hypotheses, constants, asymptotic qualifications, and conclusions needed to apply it."
+        },
+        "latex": {
+          "description": "Optional LaTeX rendering of the same proposition, using the notation recorded in the proof language L and vocabulary record V."
+        },
+        "formalLanguage": {
+          "description": "Optional name and version of the proof assistant or formal language in which `formal` is encoded."
+        },
+        "formal": {
+          "description": "Optional machine-checkable statement logically equivalent to the informal and LaTeX formulations."
+        }
+      }
+    },
+    "assumptions": {
+      "description": "Required list of assumptions actually used by the proof; use an empty list only for an unconditional statement. Entries must name the supplying branch-state components such as H_0, E, I, R, V, Q, A, ledger deposits, slack table, defect register, or resilience register.",
+      "items": {
+        "description": "One mathematical assumption on which the proposition depends.",
+        "properties": {
+          "informal": {
+            "description": "Required nonempty prose statement of the assumption, including its scope and quantified objects."
+          },
+          "latex": {
+            "description": "Optional LaTeX rendering of the assumption in the notation declared by V or the proof language L."
+          },
+          "formalLanguage": {
+            "description": "Optional name and version of the formal language used for this assumption."
+          },
+          "formal": {
+            "description": "Optional machine-checkable encoding of the same assumption."
+          }
+        }
+      }
+    },
+    "method": {
+      "description": "Optional concise identification of the proof method, such as direct target test (CT1), minimality/replacement (CT2), charging or budget accounting (CT4/CT5/CT13), finite verified exhaustion (CT8/CT10/C5), routing through P_{i->j}, or aggregate/rank closure (CT14/CT15)."
+    },
+    "evidence": {
+      "description": "Required nonempty list of verifiable sources that discharge the proposition; references should resolve to framework labels, contract instances, dependency-table steps, worksheet rows, finite tables, audited code hashes, or formal artifacts.",
+      "items": {
+        "description": "One evidence record supporting the proposition.",
+        "properties": {
+          "kind": {
+            "description": "Required category of evidence, chosen from the schema's fixed evidence-kind alphabet; select the category that describes how the cited source establishes the proposition."
+          },
+          "reference": {
+            "description": "Required nonempty locator for the evidence, preferably a stable framework label, contract-instance id, worksheet row, branch-table row, verification theorem, or audited artifact."
+          },
+          "hash": {
+            "description": "Optional integrity hash of an external code, table, proof-assistant artifact, or other version-sensitive evidence object."
+          },
+          "notes": {
+            "description": "Optional explanation of which part of the cited evidence proves the proposition and of any asymptotic or computational qualification."
+          }
+        }
+      }
+    }
+  }
+}

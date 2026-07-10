@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/contracts/S-Dich.schema.json",
+  "$ref": "../structural-exhaustion.bundle.schema.json#/$defs/contractSDich",
+  "title": "S-Dich exhaustive residual split contract",
+  "description": "Specifies a state-measurable exhaustive split of the residual class C(B), where each alternative names its closing certificate, payload constructor, next CT tactic, or audit result. The record operationalizes the S-Dich exhaustive-split lemma schema in the structural exhaustion framework (branch_closure_methodology_extended.tex, \"Lemma schemas\").",
+  "properties": {
+    "schema": {
+      "description": "Required contract discriminator; it must be the literal `S-Dich`."
+    },
+    "residualClass": {
+      "description": "Required mathematical definition of the exact residual class C(B) being partitioned, including the inherited H_0, E, I, R, V, Q, and A entries and any ledger, budget, payload, or certificate conditions active at this node.",
+      "properties": {
+        "informal": {
+          "description": "Required nonempty prose characterization of the residual class, with all active branch-state, vocabulary, ledger, budget, payload, certificate, and tactic-signature conditions."
+        },
+        "latex": {
+          "description": "Optional LaTeX predicate defining the same residual class."
+        },
+        "formalLanguage": {
+          "description": "Optional name and version of the formal language used for the residual predicate."
+        },
+        "formal": {
+          "description": "Optional machine-checkable definition of the residual class."
+        }
+      }
+    },
+    "alternatives": {
+      "description": "Required list of at least two alternatives whose union is the residual class C(B). Each entry must be decidable from recorded branch-state data and must identify the unique framework destination responsible for it.",
+      "items": {
+        "description": "One branch alternative in the exhaustive split.",
+        "properties": {
+          "condition": {
+            "description": "Required mathematical guard for this alternative. It must include the exact state-measurable predicate, structural condition, ledger/budget comparison, payload trigger, certificate precondition, or negation used in the framework branch.",
+            "properties": {
+              "informal": {
+                "description": "Required nonempty prose statement of the branch condition and the objects to which it applies."
+              },
+              "latex": {
+                "description": "Optional LaTeX rendering of the exact branch guard, such as a residual predicate, ledger inequality, budget-functional sign check, rank comparison, finite-table membership test, or trigger condition."
+              },
+              "formalLanguage": {
+                "description": "Optional name and version of the formal language used to encode this guard."
+              },
+              "formal": {
+                "description": "Optional machine-checkable predicate for this branch condition."
+              }
+            }
+          },
+          "measurableFromState": {
+            "description": "Required literal `true`, asserting that the guard is determined by fields already recorded in the branch state and introduces no unrecorded choice or oracle."
+          },
+          "feeds": {
+            "description": "Required routing target that takes responsibility for this alternative; it must correspond to an actual node, C1-C5 certificate, P_{i->j} payload, scope audit, or admission-rejection interface in the branch tree.",
+            "properties": {
+              "kind": {
+                "description": "Required destination category: a continuing `node`, terminal `certificate`, typed `payload`, `scope_audit`, or pre-execution `audit_reject`."
+              },
+              "reference": {
+                "description": "Required nonempty stable identifier of the destination, such as a proof-flow node, labelled result, certificate record, or payload consumed by a declared tactic."
+              }
+            }
+          }
+        }
+      }
+    },
+    "pairwiseDisjoint": {
+      "description": "Optional declaration of whether no residual can satisfy two alternatives. Set to `true` only when disjointness is proved; complementary guards normally satisfy this, while a cover with ordered precedence may legitimately set `false`."
+    },
+    "evidence": {
+      "description": "Required nonempty list proving that the alternatives cover the residual class and that every guard and route is valid.",
+      "items": {
+        "description": "One evidence record supporting exhaustiveness, disjointness, measurability, or routing.",
+        "properties": {
+          "kind": {
+            "description": "Required evidence category from the fixed evidence-kind alphabet."
+          },
+          "reference": {
+            "description": "Required nonempty locator for a case-analysis lemma, S-Dich record, dependency-table row, branch-tree node, payload route, certificate record, or audit entry establishing the split."
+          },
+          "hash": {
+            "description": "Optional integrity hash for a finite case table, program, or formal artifact."
+          },
+          "notes": {
+            "description": "Optional note stating which coverage, disjointness, or route obligation the evidence discharges."
+          }
+        }
+      }
+    }
+  }
+}

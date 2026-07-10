@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT10.N02.schema.json",
+  "title": "CT10.N02 completed discharge record — Recovery entry — payloads from CT2, CT6, CT7, CT8, CT9, CT11, CT14, CT17",
+  "description": "Concrete completed-discharge schema for CT10.N02, the recovery node “Recovery entry — payloads from CT2, CT6, CT7, CT8, CT9, CT11, CT14, CT17” of tactic CT10 (Default refinement). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT10.N02. It must be exactly `CT10`, selecting Default refinement (refinement) as the tactic that owns the recovery step “Recovery entry — payloads from CT2, CT6, CT7, CT8, CT9, CT11, CT14, CT17” in the exhaustive proof flow.",
+          "const": "CT10"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Recovery entry — payloads from CT2, CT6, CT7, CT8, CT9, CT11, CT14, CT17”. It must be exactly `CT10.N02` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT10.N02"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT10.N02 within tactic CT10 (Default refinement). It must be exactly 2, matching the N02 suffix and the node's position in that tactic graph.",
+          "const": 2
+        },
+        "status": {
+          "description": "Required completion state for CT10.N02. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the recovery obligation “Recovery entry — payloads from CT2, CT6, CT7, CT8, CT9, CT11, CT14, CT17”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT10.N02. The array must contain `S-Def`, `S-Rout`; these are precisely the contracts assigned to “Recovery entry — payloads from CT2, CT6, CT7, CT8, CT9, CT11, CT14, CT17”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Def` to occur in CT10.N02's discharged-contract list, because this node must use the contract that constructs a typed object deterministically from recorded branch-state data for the obligation “Recovery entry — payloads from CT2, CT6, CT7, CT8, CT9, CT11, CT14, CT17”.",
+                "const": "S-Def"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires `S-Rout` to occur in CT10.N02's discharged-contract list, because this node must use the contract that packages a typed payload and verifies its unique producer-to-consumer route for the obligation “Recovery entry — payloads from CT2, CT6, CT7, CT8, CT9, CT11, CT14, CT17”.",
+                "const": "S-Rout"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT10.N02 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Def (subject, sourceStateFields, constructor, parameters, evidence); S-Rout (payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Def` evidence instance at CT10.N02. It must be exactly `S-Def`, identifying the contract that constructs a typed object deterministically from recorded branch-state data; the same instance must supply subject, sourceStateFields, constructor, parameters, evidence.",
+                    "const": "S-Def"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Rout` evidence instance at CT10.N02. It must be exactly `S-Rout`, identifying the contract that packages a typed payload and verifies its unique producer-to-consumer route; the same instance must supply payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT10.N02.O1",
+    "modality": "construct",
+    "statement": {
+      "informal": "Construct or verify: Recovery entry — payloads from CT2, CT6, CT7, CT8, CT9, CT11, CT14, CT17",
+      "latex": "\\textbf{Recovery entry}\\\\payloads from CT2, CT6, CT7, CT8, CT9, CT11, CT14, CT17"
+    },
+    "contractSchemas": [
+      "S-Def",
+      "S-Rout"
+    ],
+    "dependencies": [],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

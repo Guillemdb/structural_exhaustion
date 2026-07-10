@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT10.N03.schema.json",
+  "title": "CT10.N03 completed discharge record — Definition — finite refinement label ell:C→",
+  "description": "Concrete completed-discharge schema for CT10.N03, the decision node “Definition — finite refinement label ell:C→” of tactic CT10 (Default refinement). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT10.N03. It must be exactly `CT10`, selecting Default refinement (refinement) as the tactic that owns the decision step “Definition — finite refinement label ell:C→” in the exhaustive proof flow.",
+          "const": "CT10"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Definition — finite refinement label ell:C→”. It must be exactly `CT10.N03` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT10.N03"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT10.N03 within tactic CT10 (Default refinement). It must be exactly 3, matching the N03 suffix and the node's position in that tactic graph.",
+          "const": 3
+        },
+        "status": {
+          "description": "Required completion state for CT10.N03. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the decision obligation “Definition — finite refinement label ell:C→”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT10.N03. The array must contain `S-Dich`; these are precisely the contracts assigned to “Definition — finite refinement label ell:C→”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Dich` to occur in CT10.N03's discharged-contract list, because this node must use the contract that gives exhaustive, state-measurable alternatives for the residual class for the obligation “Definition — finite refinement label ell:C→”.",
+                "const": "S-Dich"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT10.N03 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Dich (residualClass, alternatives, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Dich` evidence instance at CT10.N03. It must be exactly `S-Dich`, identifying the contract that gives exhaustive, state-measurable alternatives for the residual class; the same instance must supply residualClass, alternatives, evidence.",
+                    "const": "S-Dich"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT10.N03.O1",
+    "modality": "prove",
+    "statement": {
+      "informal": "Prove or verify: Definition — finite refinement label ell:C→",
+      "latex": "\\textbf{Definition}\\\\finite refinement label \\(\\ell:\\mathcal C\\to\\Lambda\\)"
+    },
+    "contractSchemas": [
+      "S-Dich"
+    ],
+    "dependencies": [
+      "CT10.N01"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

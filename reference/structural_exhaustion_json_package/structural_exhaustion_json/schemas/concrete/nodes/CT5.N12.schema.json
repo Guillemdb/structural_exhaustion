@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT5.N12.schema.json",
+  "title": "CT5.N12 completed discharge record — Payload lemma — build P_5→4 — _S,P_S,pi_S,C_S,ell_S",
+  "description": "Concrete completed-discharge schema for CT5.N12, the payload constructor node “Payload lemma — build P_5→4 — _S,P_S,pi_S,C_S,ell_S” of tactic CT5 (Local-to-global bookkeeping). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT5.N12. It must be exactly `CT5`, selecting Local-to-global bookkeeping (bookkeeping) as the tactic that owns the payload constructor step “Payload lemma — build P_5→4 — _S,P_S,pi_S,C_S,ell_S” in the exhaustive proof flow.",
+          "const": "CT5"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Payload lemma — build P_5→4 — _S,P_S,pi_S,C_S,ell_S”. It must be exactly `CT5.N12` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT5.N12"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT5.N12 within tactic CT5 (Local-to-global bookkeeping). It must be exactly 12, matching the N12 suffix and the node's position in that tactic graph.",
+          "const": 12
+        },
+        "status": {
+          "description": "Required completion state for CT5.N12. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the payload constructor obligation “Payload lemma — build P_5→4 — _S,P_S,pi_S,C_S,ell_S”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT5.N12. The array must contain `S-Rout`; these are precisely the contracts assigned to “Payload lemma — build P_5→4 — _S,P_S,pi_S,C_S,ell_S”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Rout` to occur in CT5.N12's discharged-contract list, because this node must use the contract that packages a typed payload and verifies its unique producer-to-consumer route for the obligation “Payload lemma — build P_5→4 — _S,P_S,pi_S,C_S,ell_S”.",
+                "const": "S-Rout"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT5.N12 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Rout (payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Rout` evidence instance at CT5.N12. It must be exactly `S-Rout`, identifying the contract that packages a typed payload and verifies its unique producer-to-consumer route; the same instance must supply payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    },
+    {
+      "properties": {
+        "producedPayloads": {
+          "description": "Typed routing outputs constructed by CT5.N12. The array must contain `P_5_to_4`; these payload identifiers carry the data certified by “Payload lemma — build P_5→4 — _S,P_S,pi_S,C_S,ell_S”. The required consumer routes are `P_5_to_4` → CT4. Their construction and consumer compatibility must be justified by the node's `S-Rout` contract instance.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires payload `P_5_to_4` among the outputs of CT5.N12; this is the typed handoff constructed by “Payload lemma — build P_5→4 — _S,P_S,pi_S,C_S,ell_S” for CT4.",
+                "const": "P_5_to_4"
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "producedPayloads"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT5.N12.O1",
+    "modality": "construct",
+    "statement": {
+      "informal": "Construct or verify: Payload lemma — build P_5→4 — _S,P_S,pi_S,C_S,ell_S",
+      "latex": "\\textbf{Payload lemma}\\\\build \\(P_{5\\to4}\\)\\\\\\(\\langle\\mathcal D_{\\mathcal S},\\mathcal P_{\\mathcal S},\\pi_{\\mathcal S},C_{\\mathcal S},\\ell_{\\mathcal S}\\rangle\\)"
+    },
+    "contractSchemas": [
+      "S-Rout"
+    ],
+    "dependencies": [
+      "CT5.N11"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

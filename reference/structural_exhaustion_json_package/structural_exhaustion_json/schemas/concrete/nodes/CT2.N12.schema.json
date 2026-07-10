@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT2.N12.schema.json",
+  "title": "CT2.N12 completed discharge record — Lemma — P_2→3 satisfies CT3 trigger",
+  "description": "Concrete completed-discharge schema for CT2.N12, the assertion node “Lemma — P_2→3 satisfies CT3 trigger” of tactic CT2 (Minimality and replacement). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT2.N12. It must be exactly `CT2`, selecting Minimality and replacement (minimality) as the tactic that owns the assertion step “Lemma — P_2→3 satisfies CT3 trigger” in the exhaustive proof flow.",
+          "const": "CT2"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Lemma — P_2→3 satisfies CT3 trigger”. It must be exactly `CT2.N12` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT2.N12"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT2.N12 within tactic CT2 (Minimality and replacement). It must be exactly 12, matching the N12 suffix and the node's position in that tactic graph.",
+          "const": 12
+        },
+        "status": {
+          "description": "Required completion state for CT2.N12. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the assertion obligation “Lemma — P_2→3 satisfies CT3 trigger”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT2.N12. The array must contain `S-Prove`, `S-Trig`; these are precisely the contracts assigned to “Lemma — P_2→3 satisfies CT3 trigger”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Prove` to occur in CT2.N12's discharged-contract list, because this node must use the contract that records the proposition, its assumptions, and proof evidence for the obligation “Lemma — P_2→3 satisfies CT3 trigger”.",
+                "const": "S-Prove"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires `S-Trig` to occur in CT2.N12's discharged-contract list, because this node must use the contract that checks that a payload supplies the receiving tactic's trigger, arity, interfaces, and standing hypotheses for the obligation “Lemma — P_2→3 satisfies CT3 trigger”.",
+                "const": "S-Trig"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT2.N12 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Prove (proposition, assumptions, evidence); S-Trig (payloadId, consumerTacticId, expectedArity, componentChecks, standingHypotheses, interfaceChecks, certificateHandleChecks, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Prove` evidence instance at CT2.N12. It must be exactly `S-Prove`, identifying the contract that records the proposition, its assumptions, and proof evidence; the same instance must supply proposition, assumptions, evidence.",
+                    "const": "S-Prove"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Trig` evidence instance at CT2.N12. It must be exactly `S-Trig`, identifying the contract that checks that a payload supplies the receiving tactic's trigger, arity, interfaces, and standing hypotheses; the same instance must supply payloadId, consumerTacticId, expectedArity, componentChecks, standingHypotheses, interfaceChecks, certificateHandleChecks, evidence.",
+                    "const": "S-Trig"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT2.N12.O1",
+    "modality": "prove",
+    "statement": {
+      "informal": "Prove or verify: Lemma — P_2→3 satisfies CT3 trigger",
+      "latex": "\\textbf{Lemma}\\\\\\(P_{2\\to3}\\) satisfies CT3 trigger"
+    },
+    "contractSchemas": [
+      "S-Prove",
+      "S-Trig"
+    ],
+    "dependencies": [
+      "CT2.N11"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

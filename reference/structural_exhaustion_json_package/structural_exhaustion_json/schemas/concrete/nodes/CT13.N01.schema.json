@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT13.N01.schema.json",
+  "title": "CT13.N01 completed discharge record — Definition — demands D, tier-1 payers P_1, and availability hypothesis A",
+  "description": "Concrete completed-discharge schema for CT13.N01, the decision node “Definition — demands D, tier-1 payers P_1, and availability hypothesis A” of tactic CT13 (Tiered charging). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT13.N01. It must be exactly `CT13`, selecting Tiered charging (tiered charging) as the tactic that owns the decision step “Definition — demands D, tier-1 payers P_1, and availability hypothesis A” in the exhaustive proof flow.",
+          "const": "CT13"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Definition — demands D, tier-1 payers P_1, and availability hypothesis A”. It must be exactly `CT13.N01` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT13.N01"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT13.N01 within tactic CT13 (Tiered charging). It must be exactly 1, matching the N01 suffix and the node's position in that tactic graph.",
+          "const": 1
+        },
+        "status": {
+          "description": "Required completion state for CT13.N01. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the decision obligation “Definition — demands D, tier-1 payers P_1, and availability hypothesis A”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT13.N01. The array must contain `S-Dich`; these are precisely the contracts assigned to “Definition — demands D, tier-1 payers P_1, and availability hypothesis A”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Dich` to occur in CT13.N01's discharged-contract list, because this node must use the contract that gives exhaustive, state-measurable alternatives for the residual class for the obligation “Definition — demands D, tier-1 payers P_1, and availability hypothesis A”.",
+                "const": "S-Dich"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT13.N01 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Dich (residualClass, alternatives, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Dich` evidence instance at CT13.N01. It must be exactly `S-Dich`, identifying the contract that gives exhaustive, state-measurable alternatives for the residual class; the same instance must supply residualClass, alternatives, evidence.",
+                    "const": "S-Dich"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT13.N01.O1",
+    "modality": "prove",
+    "statement": {
+      "informal": "Prove or verify: Definition — demands D, tier-1 payers P_1, and availability hypothesis A",
+      "latex": "\\textbf{Definition}\\\\demands \\(\\mathcal D\\), tier-1 payers \\(\\mathcal P_1\\), and availability hypothesis \\(A\\)"
+    },
+    "contractSchemas": [
+      "S-Dich"
+    ],
+    "dependencies": [],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

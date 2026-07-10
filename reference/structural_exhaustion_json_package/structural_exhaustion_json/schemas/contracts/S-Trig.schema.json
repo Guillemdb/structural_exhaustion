@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/contracts/S-Trig.schema.json",
+  "$ref": "../structural-exhaustion.bundle.schema.json#/$defs/contractSTrig",
+  "title": "S-Trig consumer-admission contract",
+  "description": "Specifies the consumer trigger for a routed payload P_{i->j}: arity, component types, standing hypotheses, interface data, and certificate handles are checked before CTj starts. The record operationalizes the S-Trig consumer-trigger lemma schema in the structural exhaustion framework (branch_closure_methodology_extended.tex, \"Lemma schemas\").",
+  "properties": {
+    "schema": {
+      "description": "Required contract discriminator; it must be the literal `S-Trig`."
+    },
+    "payloadId": {
+      "description": "Required nonempty identifier of the incoming payload, exactly matching its producer's S-Rout record."
+    },
+    "consumerTacticId": {
+      "description": "Required nonempty identifier of the consumer node or tactic whose declared input signature is being checked."
+    },
+    "expectedArity": {
+      "description": "Required nonnegative number of positional components in the consumer's trigger signature; it must equal both the routed tuple length and the number of component checks."
+    },
+    "componentChecks": {
+      "description": "Required positional type-check records for the incoming tuple. Supply exactly one entry for each position from 1 through `expectedArity`, in tuple order; an empty array is appropriate only when the expected arity is zero.",
+      "items": {
+        "description": "One positional comparison between the consumer's expected sort and the producer's actual payload component.",
+        "properties": {
+          "position": {
+            "description": "Required one-based tuple position being checked; positions must collectively cover the full trigger signature without duplication or gaps."
+          },
+          "expectedSort": {
+            "description": "Required consumer-declared mathematical sort at this position, including any residual-class, interface, external-type, ledger, budget, exact-type, rank, certificate, or admissibility refinement."
+          },
+          "actualRef": {
+            "description": "Required reference to the actual routed tuple entry whose declared sort and proof record are compared with `expectedSort`."
+          },
+          "valid": {
+            "description": "Required literal `true`, asserting that the actual component inhabits the expected sort; incompatible or unproved components make the trigger fail rather than producing a branch."
+          }
+        }
+      }
+    },
+    "standingHypotheses": {
+      "description": "Required list of hypotheses CTj needs and the incoming branch state is proved to satisfy. Include H_0 assumptions, exclusions E, invariants I, residual conditions R, vocabulary entries V, payload facts Q, audit facts A, ledger/slack records, and admission assumptions as applicable; use an empty list only if the consumer is unconditional.",
+      "items": {
+        "description": "One required hypothesis with a reference to the state field or persistence proof that supplies it."
+      }
+    },
+    "interfaceChecks": {
+      "description": "Required list of verified interface compatibilities, including boundary label sets, degree profiles, gluing conventions, context classes, or shared support/remainder identities required by the consumer.",
+      "items": {
+        "description": "One interface equality or compatibility assertion and its supporting reference."
+      }
+    },
+    "certificateHandleChecks": {
+      "description": "Required list of verified proof/certificate handles on which the consumer relies, such as definitions, persistence records, comparison results, finite-enumeration evidence, or prior closure exclusions.",
+      "items": {
+        "description": "One required certificate handle and confirmation that it refers to a discharged obligation in the current state."
+      }
+    },
+    "evidence": {
+      "description": "Required nonempty list of sources proving that the incoming payload satisfies the complete trigger signature.",
+      "items": {
+        "description": "One evidence record supporting arity, component typing, hypotheses, interfaces, or certificate-handle validity.",
+        "properties": {
+          "kind": {
+            "description": "Required evidence category from the fixed evidence-kind alphabet."
+          },
+          "reference": {
+            "description": "Required nonempty locator for the consumer signature, producer route, persistence proof, typing check, or audit record."
+          },
+          "hash": {
+            "description": "Optional integrity hash for a generated signature, routing graph, or formal artifact."
+          },
+          "notes": {
+            "description": "Optional note identifying the particular trigger checks discharged by this evidence."
+          }
+        }
+      }
+    }
+  }
+}

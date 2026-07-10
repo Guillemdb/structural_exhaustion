@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/contracts/A-Cert.schema.json",
+  "$ref": "../structural-exhaustion.bundle.schema.json#/$defs/contractACert",
+  "title": "A-Cert terminal-certificate validation contract",
+  "description": "Package-level extension for validating terminal certificates and leaf-totality in the branch tree. A-Cert extends the framework lemma-schema alphabet to operationalize the certificate alphabet C1-C5 specified in the structural exhaustion framework (branch_closure_methodology_extended.tex, certificate alphabet and leaf-totality).",
+  "properties": {
+    "schema": {
+      "description": "Required contract discriminator; it must be the literal `A-Cert`."
+    },
+    "certificateClass": {
+      "description": "Required terminal class: C1 for a direct target certificate; C2 for a minimality/compression certificate; C3 for a routed defect certificate with a named consumer; C4 for a bounded-capacity certificate using an impossible ledger, budget, rank, tier, rate, or aggregate inequality via S-Comp; or C5 for a finite verified impossibility certificate with an audited table, enumeration procedure, verification theorem, and code hashes."
+    },
+    "validationStatement": {
+      "description": "Required theorem asserting that the supplied witnesses and discharged contracts establish the selected terminal class for the current branch under its recorded assumptions.",
+      "properties": {
+        "informal": {
+          "description": "Required nonempty prose validation, naming the branch assumptions, witness, invoked result, and exact contradiction or terminal consequence."
+        },
+        "latex": {
+          "description": "Optional LaTeX rendering of the certificate's concluding implication or contradiction."
+        },
+        "formalLanguage": {
+          "description": "Optional name and version of the proof assistant or formal language used to validate the certificate."
+        },
+        "formal": {
+          "description": "Optional machine-checkable theorem establishing the same terminal certificate."
+        }
+      }
+    },
+    "witnessRefs": {
+      "description": "Required nonempty list of stable references to the typed objects that witness closure, such as a realized local test, admissible smaller replacement, exact identification, routed defect account, compared ledger or budget values, rank/tier data, aggregate inequality data, or finite survivor table.",
+      "items": {
+        "description": "One witness identifier resolving to a typed object in the current branch state."
+      }
+    },
+    "requiredContractRefs": {
+      "description": "Required nonempty list of contract-instance identifiers whose successful discharge is necessary for this certificate, including relevant S-Prove, S-Def, S-Equiv, S-Dich, S-Pers, S-Det, S-Rout, S-Trig, S-Comp, S-Rest, S-Meas, A-Scope, or A-Admission obligations.",
+      "items": {
+        "description": "One stable reference to a validated supporting contract instance, not merely a contract class name."
+      }
+    },
+    "auditRowRefs": {
+      "description": "Optional list of worksheet, dependency-table, branch-table, slack-table, defect-register, or proof-flow audit rows that record this terminal exit and its dependencies.",
+      "items": {
+        "description": "One stable audit-row identifier that resolves to the branch and certificate being validated."
+      }
+    },
+    "evidence": {
+      "description": "Required nonempty list of framework results, calculations, ledger or slack worksheets, audited code, finite tables, verification theorems, audit records, or formal artifacts that verify the terminal conclusion.",
+      "items": {
+        "description": "One evidence record supporting certificate validity.",
+        "properties": {
+          "kind": {
+            "description": "Required evidence category from the fixed evidence-kind alphabet, selected to match the closure mechanism."
+          },
+          "reference": {
+            "description": "Required nonempty locator for the terminal framework result, certificate record, ledger or budget worksheet, finite-table verification theorem, branch-tree row, audit record, or formal artifact."
+          },
+          "hash": {
+            "description": "Optional integrity hash for version-sensitive code, tables, or formal certificate artifacts."
+          },
+          "notes": {
+            "description": "Optional note explaining how the evidence and witnesses realize the selected certificate class."
+          }
+        }
+      }
+    }
+  }
+}

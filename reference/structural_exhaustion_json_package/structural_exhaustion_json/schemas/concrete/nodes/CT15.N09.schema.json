@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT15.N09.schema.json",
+  "title": "CT15.N09 completed discharge record — Payload lemma — build P_15→3 — rank defect",
+  "description": "Concrete completed-discharge schema for CT15.N09, the payload constructor node “Payload lemma — build P_15→3 — rank defect” of tactic CT15 (Rank forcing). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT15.N09. It must be exactly `CT15`, selecting Rank forcing (rank) as the tactic that owns the payload constructor step “Payload lemma — build P_15→3 — rank defect” in the exhaustive proof flow.",
+          "const": "CT15"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Payload lemma — build P_15→3 — rank defect”. It must be exactly `CT15.N09` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT15.N09"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT15.N09 within tactic CT15 (Rank forcing). It must be exactly 9, matching the N09 suffix and the node's position in that tactic graph.",
+          "const": 9
+        },
+        "status": {
+          "description": "Required completion state for CT15.N09. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the payload constructor obligation “Payload lemma — build P_15→3 — rank defect”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT15.N09. The array must contain `S-Rout`; these are precisely the contracts assigned to “Payload lemma — build P_15→3 — rank defect”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Rout` to occur in CT15.N09's discharged-contract list, because this node must use the contract that packages a typed payload and verifies its unique producer-to-consumer route for the obligation “Payload lemma — build P_15→3 — rank defect”.",
+                "const": "S-Rout"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT15.N09 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Rout (payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Rout` evidence instance at CT15.N09. It must be exactly `S-Rout`, identifying the contract that packages a typed payload and verifies its unique producer-to-consumer route; the same instance must supply payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    },
+    {
+      "properties": {
+        "producedPayloads": {
+          "description": "Typed routing outputs constructed by CT15.N09. The array must contain `P_15_to_3`; these payload identifiers carry the data certified by “Payload lemma — build P_15→3 — rank defect”. The required consumer routes are `P_15_to_3` → CT3. Their construction and consumer compatibility must be justified by the node's `S-Rout` contract instance.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires payload `P_15_to_3` among the outputs of CT15.N09; this is the typed handoff constructed by “Payload lemma — build P_15→3 — rank defect” for CT3.",
+                "const": "P_15_to_3"
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "producedPayloads"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT15.N09.O1",
+    "modality": "construct",
+    "statement": {
+      "informal": "Construct or verify: Payload lemma — build P_15→3 — rank defect",
+      "latex": "\\textbf{Payload lemma}\\\\build \\(P_{15\\to3}\\)\\\\rank defect"
+    },
+    "contractSchemas": [
+      "S-Rout"
+    ],
+    "dependencies": [
+      "CT15.N08"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

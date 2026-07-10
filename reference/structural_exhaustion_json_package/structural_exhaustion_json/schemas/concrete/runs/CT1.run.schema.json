@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/runs/CT1.run.schema.json",
+  "title": "CT1 legal branch run — Local target tests",
+  "description": "Concrete schema for one legal execution branch of CT1 (Local target tests). A conforming run may use only CT1 node IDs and records, must start at an entry node, follow declared transitions with repetition only on declared loops, align every proof record with its visited node ID, and finish with a matching outcome.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT1",
+          "description": "Required discriminator for a branch execution of CT1 (Local target tests); must equal \"CT1\"."
+        },
+        "visitedNodeIds": {
+          "items": {
+            "enum": [
+              "CT1.N01",
+              "CT1.N02",
+              "CT1.N03",
+              "CT1.N04",
+              "CT1.N05",
+              "CT1.N06",
+              "CT1.N07",
+              "CT1.N08",
+              "CT1.N09",
+              "CT1.N10",
+              "CT1.N11",
+              "CT1.N12",
+              "CT1.N13",
+              "CT1.N14",
+              "CT1.N15",
+              "CT1.N16",
+              "CT1.N17",
+              "CT1.N18",
+              "CT1.N19",
+              "CT1.N20",
+              "CT1.N21",
+              "CT1.N22",
+              "CT1.N23",
+              "CT1.N24",
+              "CT1.N25",
+              "CT1.N26"
+            ]
+          },
+          "description": "Required execution-order path for one actual CT1 (Local target tests) branch. Every item must be a concrete ID from CT1.N01 through CT1.N26; the first must be an entry node, adjacent IDs must follow a declared CT1 transition, and repeats are allowed only on a declared loop."
+        },
+        "nodeRecords": {
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "../nodes/CT1.N01.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N02.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N03.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N04.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N05.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N06.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N07.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N08.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N09.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N10.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N11.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N12.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N13.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N14.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N15.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N16.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N17.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N18.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N19.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N20.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N21.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N22.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N23.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N24.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N25.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.N26.schema.json"
+              }
+            ]
+          },
+          "description": "Required discharge records aligned position-for-position with visitedNodeIds for this CT1 run. The array must have the same length as visitedNodeIds; every item must match one concrete CT1 node-record schema and its nodeId must equal the corresponding visited ID."
+        }
+      },
+      "required": [
+        "tacticId",
+        "visitedNodeIds",
+        "nodeRecords"
+      ]
+    }
+  ],
+  "x-semanticValidationRules": [
+    "validate visitedNodeIds as a path in the corresponding tactic transition graph"
+  ]
+}

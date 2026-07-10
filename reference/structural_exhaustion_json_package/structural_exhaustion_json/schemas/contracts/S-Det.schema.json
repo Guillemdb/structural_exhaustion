@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/contracts/S-Det.schema.json",
+  "$ref": "../structural-exhaustion.bundle.schema.json#/$defs/contractSDet",
+  "title": "S-Det deterministic-choice contract",
+  "description": "Specifies that a map, assignment, representative, payer, label, route, or tie-break is a total reproducible function of recorded branch-state data. The record operationalizes the S-Det deterministic-choice lemma schema in the structural exhaustion framework (branch_closure_methodology_extended.tex, \"Lemma schemas\").",
+  "properties": {
+    "schema": {
+      "description": "Required contract discriminator; it must be the literal `S-Det`."
+    },
+    "choiceFunction": {
+      "description": "Required mathematical definition of the map or rule that selects the object, representative, payer, label, support, assignment, payload route, worksheet row, finite-table representative, or certificate handle.",
+      "properties": {
+        "informal": {
+          "description": "Required nonempty prose specification of the function's domain, codomain, inputs, and selected output."
+        },
+        "latex": {
+          "description": "Optional LaTeX rendering of the choice function."
+        },
+        "formalLanguage": {
+          "description": "Optional name and version of the formal language used to encode the function."
+        },
+        "formal": {
+          "description": "Optional machine-checkable definition of the same function."
+        }
+      }
+    },
+    "recordedDataDependencies": {
+      "description": "Required nonempty list of every branch-state datum read by the choice function. Dependencies must be fixed by H_0, order, E, I, R, V, Q, A, declared labels, ledgers, budgets, or prior canonical constructions; unrecorded search outcomes or arbitrary choices are not permitted.",
+      "items": {
+        "description": "One precise state-field path, symbol, order, or previously certified canonical object on which the choice depends."
+      }
+    },
+    "totalityStatement": {
+      "description": "Required statement proving that the choice function returns an allowed value for every state in its declared domain, including degenerate cases such as an empty family when those are possible.",
+      "properties": {
+        "informal": {
+          "description": "Required nonempty prose totality claim with the function's domain and existence conditions."
+        },
+        "latex": {
+          "description": "Optional LaTeX formulation of totality."
+        },
+        "formalLanguage": {
+          "description": "Optional name and version of the formal language used for the totality theorem."
+        },
+        "formal": {
+          "description": "Optional machine-checkable totality theorem for the choice function."
+        }
+      }
+    },
+    "tieBreakRule": {
+      "description": "Optional explicit rule resolving every non-unique optimum, representative, payer, label, finite-table row, route, or assignment by a recorded total order. It is required in content whenever downstream reasoning treats a non-unique construction as canonical."
+    },
+    "canonicalityUse": {
+      "description": "Optional explanation of where downstream reasoning relies on this deterministic choice, such as ledger assignment pi, payer selection, label choice, payload construction, finite-table enumeration, comparison of selected objects, or reproducible audit records."
+    },
+    "evidence": {
+      "description": "Required nonempty list of sources proving the function is well defined, total, and canonical from the recorded dependencies.",
+      "items": {
+        "description": "One evidence record supporting determinism, totality, or the stated canonicality use.",
+        "properties": {
+          "kind": {
+            "description": "Required evidence category from the fixed evidence-kind alphabet."
+          },
+          "reference": {
+            "description": "Required nonempty locator, preferably the constructor definition, S-Def/S-Det record, tie-break lemma, ledger-assignment proof, routing-table proof, or formal implementation."
+          },
+          "hash": {
+            "description": "Optional integrity hash for the implementation, table, or formal artifact that realizes the choice."
+          },
+          "notes": {
+            "description": "Optional note explaining how the evidence covers all inputs and resolves non-uniqueness."
+          }
+        }
+      }
+    }
+  }
+}

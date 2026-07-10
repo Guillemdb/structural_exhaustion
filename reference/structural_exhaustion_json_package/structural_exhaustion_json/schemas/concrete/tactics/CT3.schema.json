@@ -1,0 +1,592 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/tactics/CT3.schema.json",
+  "title": "CT3 static tactic graph — External-type compression",
+  "description": "Concrete static-graph schema for CT3 (External-type compression). It requires the complete 20-node array in fixed source order from CT3.N01 through CT3.N20, with exact node IDs, ordinals, and roles; all remaining graph data must satisfy the generic tactic specification.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticSpec"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT3",
+          "description": "Required discriminator for the CT3 (External-type compression) tactic specification; must equal \"CT3\"."
+        },
+        "nodes": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N01",
+                      "description": "Required stable ID for CT3.N01, \"Input — boundaried piece X with interface data\", in CT3 (External-type compression); must equal \"CT3.N01\"."
+                    },
+                    "nodeNumber": {
+                      "const": 1,
+                      "description": "Required one-based source ordinal for CT3.N01, \"Input — boundaried piece X with interface data\"; must equal the integer 1."
+                    },
+                    "nodeType": {
+                      "const": "input",
+                      "description": "Required role for CT3.N01, \"Input — boundaried piece X with interface data\"; must equal \"input\", meaning this node records branch-state input that must already be available."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N02",
+                      "description": "Required stable ID for CT3.N02, \"Definition — external type tau(X)\", in CT3 (External-type compression); must equal \"CT3.N02\"."
+                    },
+                    "nodeNumber": {
+                      "const": 2,
+                      "description": "Required one-based source ordinal for CT3.N02, \"Definition — external type tau(X)\"; must equal the integer 2."
+                    },
+                    "nodeType": {
+                      "const": "decision",
+                      "description": "Required role for CT3.N02, \"Definition — external type tau(X)\"; must equal \"decision\", meaning this node requires an exhaustive and justified branch split."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N03",
+                      "description": "Required stable ID for CT3.N03, \"Scope candidate — infinite type index — scope audit\", in CT3 (External-type compression); must equal \"CT3.N03\"."
+                    },
+                    "nodeNumber": {
+                      "const": 3,
+                      "description": "Required one-based source ordinal for CT3.N03, \"Scope candidate — infinite type index — scope audit\"; must equal the integer 3."
+                    },
+                    "nodeType": {
+                      "const": "scope_audit",
+                      "description": "Required role for CT3.N03, \"Scope candidate — infinite type index — scope audit\"; must equal \"scope_audit\", meaning this node records a candidate scope obstruction for audit, not as a proved fact."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N04",
+                      "description": "Required stable ID for CT3.N04, \"Definition — candidate replacement family R(X)\", in CT3 (External-type compression); must equal \"CT3.N04\"."
+                    },
+                    "nodeNumber": {
+                      "const": 4,
+                      "description": "Required one-based source ordinal for CT3.N04, \"Definition — candidate replacement family R(X)\"; must equal the integer 4."
+                    },
+                    "nodeType": {
+                      "const": "definition",
+                      "description": "Required role for CT3.N04, \"Definition — candidate replacement family R(X)\"; must equal \"definition\", meaning this node defines an exact object, predicate, or invariant used later."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N05",
+                      "description": "Required stable ID for CT3.N05, \"Lemma — replacement-inclusion test\", in CT3 (External-type compression); must equal \"CT3.N05\"."
+                    },
+                    "nodeNumber": {
+                      "const": 5,
+                      "description": "Required one-based source ordinal for CT3.N05, \"Lemma — replacement-inclusion test\"; must equal the integer 5."
+                    },
+                    "nodeType": {
+                      "const": "decision",
+                      "description": "Required role for CT3.N05, \"Lemma — replacement-inclusion test\"; must equal \"decision\", meaning this node requires an exhaustive and justified branch split."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N06",
+                      "description": "Required stable ID for CT3.N06, \"C2 — globally valid replacement\", in CT3 (External-type compression); must equal \"CT3.N06\"."
+                    },
+                    "nodeNumber": {
+                      "const": 6,
+                      "description": "Required one-based source ordinal for CT3.N06, \"C2 — globally valid replacement\"; must equal the integer 6."
+                    },
+                    "nodeType": {
+                      "const": "certificate",
+                      "description": "Required role for CT3.N06, \"C2 — globally valid replacement\"; must equal \"certificate\", meaning this node is a terminal closure or contradiction certificate."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N07",
+                      "description": "Required stable ID for CT3.N07, \"Dichotomy lemma — separating context vs.\\ indistinguishability\", in CT3 (External-type compression); must equal \"CT3.N07\"."
+                    },
+                    "nodeNumber": {
+                      "const": 7,
+                      "description": "Required one-based source ordinal for CT3.N07, \"Dichotomy lemma — separating context vs.\\ indistinguishability\"; must equal the integer 7."
+                    },
+                    "nodeType": {
+                      "const": "decision",
+                      "description": "Required role for CT3.N07, \"Dichotomy lemma — separating context vs.\\ indistinguishability\"; must equal \"decision\", meaning this node requires an exhaustive and justified branch split."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N08",
+                      "description": "Required stable ID for CT3.N08, \"Routing theorem — which defect payload is certified?\", in CT3 (External-type compression); must equal \"CT3.N08\"."
+                    },
+                    "nodeNumber": {
+                      "const": 8,
+                      "description": "Required one-based source ordinal for CT3.N08, \"Routing theorem — which defect payload is certified?\"; must equal the integer 8."
+                    },
+                    "nodeType": {
+                      "const": "decision",
+                      "description": "Required role for CT3.N08, \"Routing theorem — which defect payload is certified?\"; must equal \"decision\", meaning this node requires an exhaustive and justified branch split."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N09",
+                      "description": "Required stable ID for CT3.N09, \"C3 — defect account already routed\", in CT3 (External-type compression); must equal \"CT3.N09\"."
+                    },
+                    "nodeNumber": {
+                      "const": 9,
+                      "description": "Required one-based source ordinal for CT3.N09, \"C3 — defect account already routed\"; must equal the integer 9."
+                    },
+                    "nodeType": {
+                      "const": "certificate",
+                      "description": "Required role for CT3.N09, \"C3 — defect account already routed\"; must equal \"certificate\", meaning this node is a terminal closure or contradiction certificate."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N10",
+                      "description": "Required stable ID for CT3.N10, \"Payload lemma — build P_3→7 — separating-context defect\", in CT3 (External-type compression); must equal \"CT3.N10\"."
+                    },
+                    "nodeNumber": {
+                      "const": 10,
+                      "description": "Required one-based source ordinal for CT3.N10, \"Payload lemma — build P_3→7 — separating-context defect\"; must equal the integer 10."
+                    },
+                    "nodeType": {
+                      "const": "payload_constructor",
+                      "description": "Required role for CT3.N10, \"Payload lemma — build P_3→7 — separating-context defect\"; must equal \"payload_constructor\", meaning this node constructs a typed payload satisfying a consumer trigger."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N11",
+                      "description": "Required stable ID for CT3.N11, \"CT 7 — exchange\", in CT3 (External-type compression); must equal \"CT3.N11\"."
+                    },
+                    "nodeNumber": {
+                      "const": 11,
+                      "description": "Required one-based source ordinal for CT3.N11, \"CT 7 — exchange\"; must equal the integer 11."
+                    },
+                    "nodeType": {
+                      "const": "consumer_handoff",
+                      "description": "Required role for CT3.N11, \"CT 7 — exchange\"; must equal \"consumer_handoff\", meaning this node hands a declared typed payload to another tactic."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N12",
+                      "description": "Required stable ID for CT3.N12, \"Payload lemma — build P_3→12 — load plus measure\", in CT3 (External-type compression); must equal \"CT3.N12\"."
+                    },
+                    "nodeNumber": {
+                      "const": 12,
+                      "description": "Required one-based source ordinal for CT3.N12, \"Payload lemma — build P_3→12 — load plus measure\"; must equal the integer 12."
+                    },
+                    "nodeType": {
+                      "const": "payload_constructor",
+                      "description": "Required role for CT3.N12, \"Payload lemma — build P_3→12 — load plus measure\"; must equal \"payload_constructor\", meaning this node constructs a typed payload satisfying a consumer trigger."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N13",
+                      "description": "Required stable ID for CT3.N13, \"CT 12 — peeling loop\", in CT3 (External-type compression); must equal \"CT3.N13\"."
+                    },
+                    "nodeNumber": {
+                      "const": 13,
+                      "description": "Required one-based source ordinal for CT3.N13, \"CT 12 — peeling loop\"; must equal the integer 13."
+                    },
+                    "nodeType": {
+                      "const": "consumer_handoff",
+                      "description": "Required role for CT3.N13, \"CT 12 — peeling loop\"; must equal \"consumer_handoff\", meaning this node hands a declared typed payload to another tactic."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N14",
+                      "description": "Required stable ID for CT3.N14, \"Branch-state definition — unresolved external-type residual\", in CT3 (External-type compression); must equal \"CT3.N14\"."
+                    },
+                    "nodeNumber": {
+                      "const": 14,
+                      "description": "Required one-based source ordinal for CT3.N14, \"Branch-state definition — unresolved external-type residual\"; must equal the integer 14."
+                    },
+                    "nodeType": {
+                      "const": "definition",
+                      "description": "Required role for CT3.N14, \"Branch-state definition — unresolved external-type residual\"; must equal \"definition\", meaning this node defines an exact object, predicate, or invariant used later."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N15",
+                      "description": "Required stable ID for CT3.N15, \"Lemma — type-data persistence\", in CT3 (External-type compression); must equal \"CT3.N15\"."
+                    },
+                    "nodeNumber": {
+                      "const": 15,
+                      "description": "Required one-based source ordinal for CT3.N15, \"Lemma — type-data persistence\"; must equal the integer 15."
+                    },
+                    "nodeType": {
+                      "const": "assertion",
+                      "description": "Required role for CT3.N15, \"Lemma — type-data persistence\"; must equal \"assertion\", meaning this node states a claim that must be proved from the recorded state."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N16",
+                      "description": "Required stable ID for CT3.N16, \"Routing theorem — what finite type structure remains?\", in CT3 (External-type compression); must equal \"CT3.N16\"."
+                    },
+                    "nodeNumber": {
+                      "const": 16,
+                      "description": "Required one-based source ordinal for CT3.N16, \"Routing theorem — what finite type structure remains?\"; must equal the integer 16."
+                    },
+                    "nodeType": {
+                      "const": "decision",
+                      "description": "Required role for CT3.N16, \"Routing theorem — what finite type structure remains?\"; must equal \"decision\", meaning this node requires an exhaustive and justified branch split."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N17",
+                      "description": "Required stable ID for CT3.N17, \"Payload lemma — build P_3→8 — repeated-type sequence\", in CT3 (External-type compression); must equal \"CT3.N17\"."
+                    },
+                    "nodeNumber": {
+                      "const": 17,
+                      "description": "Required one-based source ordinal for CT3.N17, \"Payload lemma — build P_3→8 — repeated-type sequence\"; must equal the integer 17."
+                    },
+                    "nodeType": {
+                      "const": "payload_constructor",
+                      "description": "Required role for CT3.N17, \"Payload lemma — build P_3→8 — repeated-type sequence\"; must equal \"payload_constructor\", meaning this node constructs a typed payload satisfying a consumer trigger."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N18",
+                      "description": "Required stable ID for CT3.N18, \"Lemma — finite-table certificate\", in CT3 (External-type compression); must equal \"CT3.N18\"."
+                    },
+                    "nodeNumber": {
+                      "const": 18,
+                      "description": "Required one-based source ordinal for CT3.N18, \"Lemma — finite-table certificate\"; must equal the integer 18."
+                    },
+                    "nodeType": {
+                      "const": "assertion",
+                      "description": "Required role for CT3.N18, \"Lemma — finite-table certificate\"; must equal \"assertion\", meaning this node states a claim that must be proved from the recorded state."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N19",
+                      "description": "Required stable ID for CT3.N19, \"CT 8 — pumping\", in CT3 (External-type compression); must equal \"CT3.N19\"."
+                    },
+                    "nodeNumber": {
+                      "const": 19,
+                      "description": "Required one-based source ordinal for CT3.N19, \"CT 8 — pumping\"; must equal the integer 19."
+                    },
+                    "nodeType": {
+                      "const": "consumer_handoff",
+                      "description": "Required role for CT3.N19, \"CT 8 — pumping\"; must equal \"consumer_handoff\", meaning this node hands a declared typed payload to another tactic."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT3.N20",
+                      "description": "Required stable ID for CT3.N20, \"C5 — finite type table closes\", in CT3 (External-type compression); must equal \"CT3.N20\"."
+                    },
+                    "nodeNumber": {
+                      "const": 20,
+                      "description": "Required one-based source ordinal for CT3.N20, \"C5 — finite type table closes\"; must equal the integer 20."
+                    },
+                    "nodeType": {
+                      "const": "certificate",
+                      "description": "Required role for CT3.N20, \"C5 — finite type table closes\"; must equal \"certificate\", meaning this node is a terminal closure or contradiction certificate."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 20,
+          "maxItems": 20,
+          "description": "Required complete node specification for CT3 (External-type compression); must contain exactly 20 generic node objects in source order from CT3.N01 through CT3.N20, with the fixed identity, ordinal, and role declared at each position."
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodes"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT7.N06.schema.json",
+  "title": "CT7.N06 completed discharge record — C3 — defect account already routed",
+  "description": "Concrete completed-discharge schema for CT7.N06, the certificate node “C3 — defect account already routed” of tactic CT7 (Exchange trichotomy). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT7.N06. It must be exactly `CT7`, selecting Exchange trichotomy (exchange) as the tactic that owns the certificate step “C3 — defect account already routed” in the exhaustive proof flow.",
+          "const": "CT7"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “C3 — defect account already routed”. It must be exactly `CT7.N06` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT7.N06"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT7.N06 within tactic CT7 (Exchange trichotomy). It must be exactly 6, matching the N06 suffix and the node's position in that tactic graph.",
+          "const": 6
+        },
+        "status": {
+          "description": "Required completion state for CT7.N06. It must be exactly `validated`, meaning that the node's certificate, trigger, or other validation obligation has been checked for the certificate obligation “C3 — defect account already routed”; another lifecycle value does not discharge this concrete node.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT7.N06. The array must contain `A-Cert`, `S-Rout`, `S-Trig`; these are precisely the contracts assigned to “C3 — defect account already routed”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `A-Cert` to occur in CT7.N06's discharged-contract list, because this node must use the contract that validates a terminal certificate from the named witness and prerequisite contract records for the obligation “C3 — defect account already routed”.",
+                "const": "A-Cert"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires `S-Rout` to occur in CT7.N06's discharged-contract list, because this node must use the contract that packages a typed payload and verifies its unique producer-to-consumer route for the obligation “C3 — defect account already routed”.",
+                "const": "S-Rout"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires `S-Trig` to occur in CT7.N06's discharged-contract list, because this node must use the contract that checks that a payload supplies the receiving tactic's trigger, arity, interfaces, and standing hypotheses for the obligation “C3 — defect account already routed”.",
+                "const": "S-Trig"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT7.N06 from the recorded branch state. The array must contain at least one instance for every assigned schema: A-Cert (certificateClass, validationStatement, witnessRefs, requiredContractRefs, evidence); S-Rout (payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence); S-Trig (payloadId, consumerTacticId, expectedArity, componentChecks, standingHypotheses, interfaceChecks, certificateHandleChecks, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `A-Cert` evidence instance at CT7.N06. It must be exactly `A-Cert`, identifying the contract that validates a terminal certificate from the named witness and prerequisite contract records; the same instance must supply certificateClass, validationStatement, witnessRefs, requiredContractRefs, evidence.",
+                    "const": "A-Cert"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Rout` evidence instance at CT7.N06. It must be exactly `S-Rout`, identifying the contract that packages a typed payload and verifies its unique producer-to-consumer route; the same instance must supply payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Trig` evidence instance at CT7.N06. It must be exactly `S-Trig`, identifying the contract that checks that a payload supplies the receiving tactic's trigger, arity, interfaces, and standing hypotheses; the same instance must supply payloadId, consumerTacticId, expectedArity, componentChecks, standingHypotheses, interfaceChecks, certificateHandleChecks, evidence.",
+                    "const": "S-Trig"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    },
+    {
+      "properties": {
+        "certificate": {
+          "description": "Terminal certificate emitted when CT7.N06 closes its branch. It must be exactly `C3`, the framework's certificate for closure by an already-routed defect account; the node's `A-Cert` instance and companion contracts must validate “C3 — defect account already routed”.",
+          "const": "C3"
+        }
+      },
+      "required": [
+        "certificate"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT7.N06.O1",
+    "modality": "validate",
+    "statement": {
+      "informal": "Validate or verify: C3 — defect account already routed",
+      "latex": "\\textbf{C3}\\\\defect account already routed"
+    },
+    "contractSchemas": [
+      "A-Cert",
+      "S-Rout",
+      "S-Trig"
+    ],
+    "dependencies": [
+      "CT7.N05"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

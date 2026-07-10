@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT11.N09.schema.json",
+  "title": "CT11.N09 completed discharge record — Admission reject — additivity not certified",
+  "description": "Concrete completed-discharge schema for CT11.N09, the audit gate node “Admission reject — additivity not certified” of tactic CT11 (Localization). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT11.N09. It must be exactly `CT11`, selecting Localization (localization) as the tactic that owns the audit gate step “Admission reject — additivity not certified” in the exhaustive proof flow.",
+          "const": "CT11"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Admission reject — additivity not certified”. It must be exactly `CT11.N09` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT11.N09"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT11.N09 within tactic CT11 (Localization). It must be exactly 9, matching the N09 suffix and the node's position in that tactic graph.",
+          "const": 9
+        },
+        "status": {
+          "description": "Required completion state for CT11.N09. It must be exactly `rejected`, meaning that the proposed invocation has failed admission and its defect has been recorded for the audit gate obligation “Admission reject — additivity not certified”; another lifecycle value does not discharge this concrete node.",
+          "enum": [
+            "rejected"
+          ]
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT11.N09. The array must contain `A-Admission`; these are precisely the contracts assigned to “Admission reject — additivity not certified”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `A-Admission` to occur in CT11.N09's discharged-contract list, because this node must use the contract that records why an invocation is rejected and links the failed conditions to the defect register for the obligation “Admission reject — additivity not certified”.",
+                "const": "A-Admission"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT11.N09 from the recorded branch state. The array must contain at least one instance for every assigned schema: A-Admission (invocationRef, failedConditions, defectRegisterRef, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `A-Admission` evidence instance at CT11.N09. It must be exactly `A-Admission`, identifying the contract that records why an invocation is rejected and links the failed conditions to the defect register; the same instance must supply invocationRef, failedConditions, defectRegisterRef, evidence.",
+                    "const": "A-Admission"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT11.N09.O1",
+    "modality": "audit",
+    "statement": {
+      "informal": "Audit or verify: Admission reject — additivity not certified",
+      "latex": "\\textbf{Admission reject}\\\\additivity not certified"
+    },
+    "contractSchemas": [
+      "A-Admission"
+    ],
+    "dependencies": [
+      "CT11.N08"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

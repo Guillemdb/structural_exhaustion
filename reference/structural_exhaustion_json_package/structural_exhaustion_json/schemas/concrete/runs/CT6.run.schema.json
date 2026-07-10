@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/runs/CT6.run.schema.json",
+  "title": "CT6 legal branch run — Active/dormant dichotomy",
+  "description": "Concrete schema for one legal execution branch of CT6 (Active/dormant dichotomy). A conforming run may use only CT6 node IDs and records, must start at an entry node, follow declared transitions with repetition only on declared loops, align every proof record with its visited node ID, and finish with a matching outcome.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT6",
+          "description": "Required discriminator for a branch execution of CT6 (Active/dormant dichotomy); must equal \"CT6\"."
+        },
+        "visitedNodeIds": {
+          "items": {
+            "enum": [
+              "CT6.N01",
+              "CT6.N02",
+              "CT6.N03",
+              "CT6.N04",
+              "CT6.N05",
+              "CT6.N06",
+              "CT6.N07",
+              "CT6.N08",
+              "CT6.N09",
+              "CT6.N10",
+              "CT6.N11",
+              "CT6.N12",
+              "CT6.N13",
+              "CT6.N14",
+              "CT6.N15",
+              "CT6.N16",
+              "CT6.N17",
+              "CT6.N18",
+              "CT6.N19",
+              "CT6.N20"
+            ]
+          },
+          "description": "Required execution-order path for one actual CT6 (Active/dormant dichotomy) branch. Every item must be a concrete ID from CT6.N01 through CT6.N20; the first must be an entry node, adjacent IDs must follow a declared CT6 transition, and repeats are allowed only on a declared loop."
+        },
+        "nodeRecords": {
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "../nodes/CT6.N01.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N02.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N03.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N04.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N05.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N06.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N07.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N08.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N09.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N10.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N11.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N12.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N13.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N14.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N15.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N16.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N17.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N18.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N19.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.N20.schema.json"
+              }
+            ]
+          },
+          "description": "Required discharge records aligned position-for-position with visitedNodeIds for this CT6 run. The array must have the same length as visitedNodeIds; every item must match one concrete CT6 node-record schema and its nodeId must equal the corresponding visited ID."
+        }
+      },
+      "required": [
+        "tacticId",
+        "visitedNodeIds",
+        "nodeRecords"
+      ]
+    }
+  ],
+  "x-semanticValidationRules": [
+    "validate visitedNodeIds as a path in the corresponding tactic transition graph"
+  ]
+}

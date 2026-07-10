@@ -1,0 +1,620 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/tactics/CT17.schema.json",
+  "title": "CT17 static tactic graph — Target thickening",
+  "description": "Concrete static-graph schema for CT17 (Target thickening). It requires the complete 21-node array in fixed source order from CT17.N01 through CT17.N21, with exact node IDs, ordinals, and roles; all remaining graph data must satisfy the generic tactic specification.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticSpec"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT17",
+          "description": "Required discriminator for the CT17 (Target thickening) tactic specification; must equal \"CT17\"."
+        },
+        "nodes": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N01",
+                      "description": "Required stable ID for CT17.N01, \"Definition — sparse target set and bounded local offset family\", in CT17 (Target thickening); must equal \"CT17.N01\"."
+                    },
+                    "nodeNumber": {
+                      "const": 1,
+                      "description": "Required one-based source ordinal for CT17.N01, \"Definition — sparse target set and bounded local offset family\"; must equal the integer 1."
+                    },
+                    "nodeType": {
+                      "const": "definition",
+                      "description": "Required role for CT17.N01, \"Definition — sparse target set and bounded local offset family\"; must equal \"definition\", meaning this node defines an exact object, predicate, or invariant used later."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N02",
+                      "description": "Required stable ID for CT17.N02, \"Lemma — offsets are realizable in the same branch state?\", in CT17 (Target thickening); must equal \"CT17.N02\"."
+                    },
+                    "nodeNumber": {
+                      "const": 2,
+                      "description": "Required one-based source ordinal for CT17.N02, \"Lemma — offsets are realizable in the same branch state?\"; must equal the integer 2."
+                    },
+                    "nodeType": {
+                      "const": "decision",
+                      "description": "Required role for CT17.N02, \"Lemma — offsets are realizable in the same branch state?\"; must equal \"decision\", meaning this node requires an exhaustive and justified branch split."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N03",
+                      "description": "Required stable ID for CT17.N03, \"Scope candidate — no bounded offsets — scope audit\", in CT17 (Target thickening); must equal \"CT17.N03\"."
+                    },
+                    "nodeNumber": {
+                      "const": 3,
+                      "description": "Required one-based source ordinal for CT17.N03, \"Scope candidate — no bounded offsets — scope audit\"; must equal the integer 3."
+                    },
+                    "nodeType": {
+                      "const": "scope_audit",
+                      "description": "Required role for CT17.N03, \"Scope candidate — no bounded offsets — scope audit\"; must equal \"scope_audit\", meaning this node records a candidate scope obstruction for audit, not as a proved fact."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N04",
+                      "description": "Required stable ID for CT17.N04, \"Lemma — one structural event yields the translate x+\", in CT17 (Target thickening); must equal \"CT17.N04\"."
+                    },
+                    "nodeNumber": {
+                      "const": 4,
+                      "description": "Required one-based source ordinal for CT17.N04, \"Lemma — one structural event yields the translate x+\"; must equal the integer 4."
+                    },
+                    "nodeType": {
+                      "const": "assertion",
+                      "description": "Required role for CT17.N04, \"Lemma — one structural event yields the translate x+\"; must equal \"assertion\", meaning this node states a claim that must be proved from the recorded state."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N05",
+                      "description": "Required stable ID for CT17.N05, \"Payload record — incompatible completion classes\", in CT17 (Target thickening); must equal \"CT17.N05\"."
+                    },
+                    "nodeNumber": {
+                      "const": 5,
+                      "description": "Required one-based source ordinal for CT17.N05, \"Payload record — incompatible completion classes\"; must equal the integer 5."
+                    },
+                    "nodeType": {
+                      "const": "residual_record",
+                      "description": "Required role for CT17.N05, \"Payload record — incompatible completion classes\"; must equal \"residual_record\", meaning this node records typed data that survives the branch."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N06",
+                      "description": "Required stable ID for CT17.N06, \"Scale-split theorem — finite range or repeated increments?\", in CT17 (Target thickening); must equal \"CT17.N06\"."
+                    },
+                    "nodeNumber": {
+                      "const": 6,
+                      "description": "Required one-based source ordinal for CT17.N06, \"Scale-split theorem — finite range or repeated increments?\"; must equal the integer 6."
+                    },
+                    "nodeType": {
+                      "const": "decision",
+                      "description": "Required role for CT17.N06, \"Scale-split theorem — finite range or repeated increments?\"; must equal \"decision\", meaning this node requires an exhaustive and justified branch split."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N07",
+                      "description": "Required stable ID for CT17.N07, \"Routing theorem — which separation data exists?\", in CT17 (Target thickening); must equal \"CT17.N07\"."
+                    },
+                    "nodeNumber": {
+                      "const": 7,
+                      "description": "Required one-based source ordinal for CT17.N07, \"Routing theorem — which separation data exists?\"; must equal the integer 7."
+                    },
+                    "nodeType": {
+                      "const": "decision",
+                      "description": "Required role for CT17.N07, \"Routing theorem — which separation data exists?\"; must equal \"decision\", meaning this node requires an exhaustive and justified branch split."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N08",
+                      "description": "Required stable ID for CT17.N08, \"Payload lemma — build P_17→3 — type separation\", in CT17 (Target thickening); must equal \"CT17.N08\"."
+                    },
+                    "nodeNumber": {
+                      "const": 8,
+                      "description": "Required one-based source ordinal for CT17.N08, \"Payload lemma — build P_17→3 — type separation\"; must equal the integer 8."
+                    },
+                    "nodeType": {
+                      "const": "payload_constructor",
+                      "description": "Required role for CT17.N08, \"Payload lemma — build P_17→3 — type separation\"; must equal \"payload_constructor\", meaning this node constructs a typed payload satisfying a consumer trigger."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N09",
+                      "description": "Required stable ID for CT17.N09, \"Payload lemma — build P_17→10 — label separation\", in CT17 (Target thickening); must equal \"CT17.N09\"."
+                    },
+                    "nodeNumber": {
+                      "const": 9,
+                      "description": "Required one-based source ordinal for CT17.N09, \"Payload lemma — build P_17→10 — label separation\"; must equal the integer 9."
+                    },
+                    "nodeType": {
+                      "const": "payload_constructor",
+                      "description": "Required role for CT17.N09, \"Payload lemma — build P_17→10 — label separation\"; must equal \"payload_constructor\", meaning this node constructs a typed payload satisfying a consumer trigger."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N10",
+                      "description": "Required stable ID for CT17.N10, \"Lemma — finite survivor-list certificate\", in CT17 (Target thickening); must equal \"CT17.N10\"."
+                    },
+                    "nodeNumber": {
+                      "const": 10,
+                      "description": "Required one-based source ordinal for CT17.N10, \"Lemma — finite survivor-list certificate\"; must equal the integer 10."
+                    },
+                    "nodeType": {
+                      "const": "assertion",
+                      "description": "Required role for CT17.N10, \"Lemma — finite survivor-list certificate\"; must equal \"assertion\", meaning this node states a claim that must be proved from the recorded state."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N11",
+                      "description": "Required stable ID for CT17.N11, \"CT 3 — external types\", in CT17 (Target thickening); must equal \"CT17.N11\"."
+                    },
+                    "nodeNumber": {
+                      "const": 11,
+                      "description": "Required one-based source ordinal for CT17.N11, \"CT 3 — external types\"; must equal the integer 11."
+                    },
+                    "nodeType": {
+                      "const": "consumer_handoff",
+                      "description": "Required role for CT17.N11, \"CT 3 — external types\"; must equal \"consumer_handoff\", meaning this node hands a declared typed payload to another tactic."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N12",
+                      "description": "Required stable ID for CT17.N12, \"CT 10 — refinement\", in CT17 (Target thickening); must equal \"CT17.N12\"."
+                    },
+                    "nodeNumber": {
+                      "const": 12,
+                      "description": "Required one-based source ordinal for CT17.N12, \"CT 10 — refinement\"; must equal the integer 12."
+                    },
+                    "nodeType": {
+                      "const": "consumer_handoff",
+                      "description": "Required role for CT17.N12, \"CT 10 — refinement\"; must equal \"consumer_handoff\", meaning this node hands a declared typed payload to another tactic."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N13",
+                      "description": "Required stable ID for CT17.N13, \"Lemma — is the finite survivor list empty?\", in CT17 (Target thickening); must equal \"CT17.N13\"."
+                    },
+                    "nodeNumber": {
+                      "const": 13,
+                      "description": "Required one-based source ordinal for CT17.N13, \"Lemma — is the finite survivor list empty?\"; must equal the integer 13."
+                    },
+                    "nodeType": {
+                      "const": "decision",
+                      "description": "Required role for CT17.N13, \"Lemma — is the finite survivor list empty?\"; must equal \"decision\", meaning this node requires an exhaustive and justified branch split."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N14",
+                      "description": "Required stable ID for CT17.N14, \"C5 — finite survivors exhausted\", in CT17 (Target thickening); must equal \"CT17.N14\"."
+                    },
+                    "nodeNumber": {
+                      "const": 14,
+                      "description": "Required one-based source ordinal for CT17.N14, \"C5 — finite survivors exhausted\"; must equal the integer 14."
+                    },
+                    "nodeType": {
+                      "const": "certificate",
+                      "description": "Required role for CT17.N14, \"C5 — finite survivors exhausted\"; must equal \"certificate\", meaning this node is a terminal closure or contradiction certificate."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N15",
+                      "description": "Required stable ID for CT17.N15, \"Payload lemma — build P_17→8 — finite survivors\", in CT17 (Target thickening); must equal \"CT17.N15\"."
+                    },
+                    "nodeNumber": {
+                      "const": 15,
+                      "description": "Required one-based source ordinal for CT17.N15, \"Payload lemma — build P_17→8 — finite survivors\"; must equal the integer 15."
+                    },
+                    "nodeType": {
+                      "const": "payload_constructor",
+                      "description": "Required role for CT17.N15, \"Payload lemma — build P_17→8 — finite survivors\"; must equal \"payload_constructor\", meaning this node constructs a typed payload satisfying a consumer trigger."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N16",
+                      "description": "Required stable ID for CT17.N16, \"CT 8 — pumping\", in CT17 (Target thickening); must equal \"CT17.N16\"."
+                    },
+                    "nodeNumber": {
+                      "const": 16,
+                      "description": "Required one-based source ordinal for CT17.N16, \"CT 8 — pumping\"; must equal the integer 16."
+                    },
+                    "nodeType": {
+                      "const": "consumer_handoff",
+                      "description": "Required role for CT17.N16, \"CT 8 — pumping\"; must equal \"consumer_handoff\", meaning this node hands a declared typed payload to another tactic."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N17",
+                      "description": "Required stable ID for CT17.N17, \"Lemma — orbit, interval, or order criterion\", in CT17 (Target thickening); must equal \"CT17.N17\"."
+                    },
+                    "nodeNumber": {
+                      "const": 17,
+                      "description": "Required one-based source ordinal for CT17.N17, \"Lemma — orbit, interval, or order criterion\"; must equal the integer 17."
+                    },
+                    "nodeType": {
+                      "const": "assertion",
+                      "description": "Required role for CT17.N17, \"Lemma — orbit, interval, or order criterion\"; must equal \"assertion\", meaning this node states a claim that must be proved from the recorded state."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N18",
+                      "description": "Required stable ID for CT17.N18, \"Lemma — does the arithmetic criterion rule out all blocks?\", in CT17 (Target thickening); must equal \"CT17.N18\"."
+                    },
+                    "nodeNumber": {
+                      "const": 18,
+                      "description": "Required one-based source ordinal for CT17.N18, \"Lemma — does the arithmetic criterion rule out all blocks?\"; must equal the integer 18."
+                    },
+                    "nodeType": {
+                      "const": "decision",
+                      "description": "Required role for CT17.N18, \"Lemma — does the arithmetic criterion rule out all blocks?\"; must equal \"decision\", meaning this node requires an exhaustive and justified branch split."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N19",
+                      "description": "Required stable ID for CT17.N19, \"C1 — arithmetic target hit\", in CT17 (Target thickening); must equal \"CT17.N19\"."
+                    },
+                    "nodeNumber": {
+                      "const": 19,
+                      "description": "Required one-based source ordinal for CT17.N19, \"C1 — arithmetic target hit\"; must equal the integer 19."
+                    },
+                    "nodeType": {
+                      "const": "certificate",
+                      "description": "Required role for CT17.N19, \"C1 — arithmetic target hit\"; must equal \"certificate\", meaning this node is a terminal closure or contradiction certificate."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N20",
+                      "description": "Required stable ID for CT17.N20, \"Payload lemma — build P_17→14 — arithmetic mass\", in CT17 (Target thickening); must equal \"CT17.N20\"."
+                    },
+                    "nodeNumber": {
+                      "const": 20,
+                      "description": "Required one-based source ordinal for CT17.N20, \"Payload lemma — build P_17→14 — arithmetic mass\"; must equal the integer 20."
+                    },
+                    "nodeType": {
+                      "const": "payload_constructor",
+                      "description": "Required role for CT17.N20, \"Payload lemma — build P_17→14 — arithmetic mass\"; must equal \"payload_constructor\", meaning this node constructs a typed payload satisfying a consumer trigger."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "const": "CT17.N21",
+                      "description": "Required stable ID for CT17.N21, \"CT 14 — aggregate closure\", in CT17 (Target thickening); must equal \"CT17.N21\"."
+                    },
+                    "nodeNumber": {
+                      "const": 21,
+                      "description": "Required one-based source ordinal for CT17.N21, \"CT 14 — aggregate closure\"; must equal the integer 21."
+                    },
+                    "nodeType": {
+                      "const": "consumer_handoff",
+                      "description": "Required role for CT17.N21, \"CT 14 — aggregate closure\"; must equal \"consumer_handoff\", meaning this node hands a declared typed payload to another tactic."
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType"
+                  ]
+                }
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 21,
+          "maxItems": 21,
+          "description": "Required complete node specification for CT17 (Target thickening); must contain exactly 21 generic node objects in source order from CT17.N01 through CT17.N21, with the fixed identity, ordinal, and role declared at each position."
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodes"
+      ]
+    }
+  ]
+}

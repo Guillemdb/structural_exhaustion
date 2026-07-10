@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT4.N07.schema.json",
+  "title": "CT4.N07 completed discharge record — Lemma — pi is total, deterministic, and branch-state measurable?",
+  "description": "Concrete completed-discharge schema for CT4.N07, the assertion node “Lemma — pi is total, deterministic, and branch-state measurable?” of tactic CT4 (Charging schemes). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT4.N07. It must be exactly `CT4`, selecting Charging schemes (charging) as the tactic that owns the assertion step “Lemma — pi is total, deterministic, and branch-state measurable?” in the exhaustive proof flow.",
+          "const": "CT4"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Lemma — pi is total, deterministic, and branch-state measurable?”. It must be exactly `CT4.N07` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT4.N07"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT4.N07 within tactic CT4 (Charging schemes). It must be exactly 7, matching the N07 suffix and the node's position in that tactic graph.",
+          "const": 7
+        },
+        "status": {
+          "description": "Required completion state for CT4.N07. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the assertion obligation “Lemma — pi is total, deterministic, and branch-state measurable?”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT4.N07. The array must contain `S-Prove`, `S-Det`; these are precisely the contracts assigned to “Lemma — pi is total, deterministic, and branch-state measurable?”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Prove` to occur in CT4.N07's discharged-contract list, because this node must use the contract that records the proposition, its assumptions, and proof evidence for the obligation “Lemma — pi is total, deterministic, and branch-state measurable?”.",
+                "const": "S-Prove"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires `S-Det` to occur in CT4.N07's discharged-contract list, because this node must use the contract that records a total deterministic choice rule and all data on which it depends for the obligation “Lemma — pi is total, deterministic, and branch-state measurable?”.",
+                "const": "S-Det"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT4.N07 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Prove (proposition, assumptions, evidence); S-Det (choiceFunction, recordedDataDependencies, totalityStatement, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Prove` evidence instance at CT4.N07. It must be exactly `S-Prove`, identifying the contract that records the proposition, its assumptions, and proof evidence; the same instance must supply proposition, assumptions, evidence.",
+                    "const": "S-Prove"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Det` evidence instance at CT4.N07. It must be exactly `S-Det`, identifying the contract that records a total deterministic choice rule and all data on which it depends; the same instance must supply choiceFunction, recordedDataDependencies, totalityStatement, evidence.",
+                    "const": "S-Det"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT4.N07.O1",
+    "modality": "prove",
+    "statement": {
+      "informal": "Prove or verify: Lemma — pi is total, deterministic, and branch-state measurable?",
+      "latex": "\\textbf{Lemma}\\\\\\(\\pi\\) is total, deterministic, and branch-state measurable?"
+    },
+    "contractSchemas": [
+      "S-Prove",
+      "S-Det"
+    ],
+    "dependencies": [
+      "CT4.N03"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

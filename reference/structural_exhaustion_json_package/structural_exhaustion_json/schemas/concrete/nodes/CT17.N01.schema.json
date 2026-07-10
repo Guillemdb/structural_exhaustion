@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT17.N01.schema.json",
+  "title": "CT17.N01 completed discharge record — Definition — sparse target set and bounded local offset family",
+  "description": "Concrete completed-discharge schema for CT17.N01, the definition node “Definition — sparse target set and bounded local offset family” of tactic CT17 (Target thickening). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT17.N01. It must be exactly `CT17`, selecting Target thickening (target thickening) as the tactic that owns the definition step “Definition — sparse target set and bounded local offset family” in the exhaustive proof flow.",
+          "const": "CT17"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Definition — sparse target set and bounded local offset family”. It must be exactly `CT17.N01` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT17.N01"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT17.N01 within tactic CT17 (Target thickening). It must be exactly 1, matching the N01 suffix and the node's position in that tactic graph.",
+          "const": 1
+        },
+        "status": {
+          "description": "Required completion state for CT17.N01. It must be exactly `defined`, meaning that the required definition or recorded branch-state object has been supplied for the definition obligation “Definition — sparse target set and bounded local offset family”; another lifecycle value does not discharge this concrete node.",
+          "const": "defined"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT17.N01. The array must contain `S-Def`; these are precisely the contracts assigned to “Definition — sparse target set and bounded local offset family”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Def` to occur in CT17.N01's discharged-contract list, because this node must use the contract that constructs a typed object deterministically from recorded branch-state data for the obligation “Definition — sparse target set and bounded local offset family”.",
+                "const": "S-Def"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT17.N01 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Def (subject, sourceStateFields, constructor, parameters, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Def` evidence instance at CT17.N01. It must be exactly `S-Def`, identifying the contract that constructs a typed object deterministically from recorded branch-state data; the same instance must supply subject, sourceStateFields, constructor, parameters, evidence.",
+                    "const": "S-Def"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT17.N01.O1",
+    "modality": "define",
+    "statement": {
+      "informal": "Define or verify: Definition — sparse target set and bounded local offset family",
+      "latex": "\\textbf{Definition}\\\\sparse target set and bounded local offset family"
+    },
+    "contractSchemas": [
+      "S-Def"
+    ],
+    "dependencies": [],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

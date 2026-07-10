@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/verifications/CT15.verification.schema.json",
+  "title": "CT15 complete all-node verification — Rank forcing",
+  "description": "Concrete schema for the complete all-node verification of CT15 (Rank forcing). It requires exactly 21 successful discharge records in fixed source order from CT15.N01 through CT15.N21, one per tactic node, with each record satisfying its corresponding concrete node schema.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticVerification"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT15",
+          "description": "Required discriminator for the complete verification of CT15 (Rank forcing); must equal \"CT15\"."
+        },
+        "nodeRecords": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "$ref": "../nodes/CT15.N01.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N02.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N03.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N04.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N05.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N06.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N07.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N08.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N09.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N10.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N11.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N12.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N13.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N14.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N15.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N16.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N17.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N18.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N19.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N20.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT15.N21.schema.json"
+            }
+          ],
+          "items": false,
+          "minItems": 21,
+          "maxItems": 21,
+          "description": "Required complete verification sequence for CT15 (Rank forcing); must contain exactly 21 successful discharge records, one per node from CT15.N01 through CT15.N21 in source order, each satisfying its corresponding concrete node schema."
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeRecords"
+      ]
+    }
+  ]
+}

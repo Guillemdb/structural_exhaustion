@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/runs/CT16.run.schema.json",
+  "title": "CT16 legal branch run — Whole-object exact types",
+  "description": "Concrete schema for one legal execution branch of CT16 (Whole-object exact types). A conforming run may use only CT16 node IDs and records, must start at an entry node, follow declared transitions with repetition only on declared loops, align every proof record with its visited node ID, and finish with a matching outcome.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT16",
+          "description": "Required discriminator for a branch execution of CT16 (Whole-object exact types); must equal \"CT16\"."
+        },
+        "visitedNodeIds": {
+          "items": {
+            "enum": [
+              "CT16.N01",
+              "CT16.N02",
+              "CT16.N03",
+              "CT16.N04",
+              "CT16.N05",
+              "CT16.N06",
+              "CT16.N07",
+              "CT16.N08",
+              "CT16.N09",
+              "CT16.N10",
+              "CT16.N11",
+              "CT16.N12",
+              "CT16.N13"
+            ]
+          },
+          "description": "Required execution-order path for one actual CT16 (Whole-object exact types) branch. Every item must be a concrete ID from CT16.N01 through CT16.N13; the first must be an entry node, adjacent IDs must follow a declared CT16 transition, and repeats are allowed only on a declared loop."
+        },
+        "nodeRecords": {
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "../nodes/CT16.N01.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT16.N02.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT16.N03.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT16.N04.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT16.N05.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT16.N06.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT16.N07.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT16.N08.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT16.N09.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT16.N10.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT16.N11.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT16.N12.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT16.N13.schema.json"
+              }
+            ]
+          },
+          "description": "Required discharge records aligned position-for-position with visitedNodeIds for this CT16 run. The array must have the same length as visitedNodeIds; every item must match one concrete CT16 node-record schema and its nodeId must equal the corresponding visited ID."
+        }
+      },
+      "required": [
+        "tacticId",
+        "visitedNodeIds",
+        "nodeRecords"
+      ]
+    }
+  ],
+  "x-semanticValidationRules": [
+    "validate visitedNodeIds as a path in the corresponding tactic transition graph"
+  ]
+}

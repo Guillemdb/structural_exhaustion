@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT3.N03.schema.json",
+  "title": "CT3.N03 completed discharge record — Scope candidate — infinite type index — scope audit",
+  "description": "Concrete completed-discharge schema for CT3.N03, the scope audit node “Scope candidate — infinite type index — scope audit” of tactic CT3 (External-type compression). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT3.N03. It must be exactly `CT3`, selecting External-type compression (external type) as the tactic that owns the scope audit step “Scope candidate — infinite type index — scope audit” in the exhaustive proof flow.",
+          "const": "CT3"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Scope candidate — infinite type index — scope audit”. It must be exactly `CT3.N03` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT3.N03"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT3.N03 within tactic CT3 (External-type compression). It must be exactly 3, matching the N03 suffix and the node's position in that tactic graph.",
+          "const": 3
+        },
+        "status": {
+          "description": "Required completion state for CT3.N03. It must be exactly `scope_candidate`, meaning that the finite-expressibility obstruction has been recorded for global scope audit and is not being treated as a surviving proof branch for the scope audit obligation “Scope candidate — infinite type index — scope audit”; another lifecycle value does not discharge this concrete node.",
+          "enum": [
+            "scope_candidate"
+          ]
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT3.N03. The array must contain `A-Scope`; these are precisely the contracts assigned to “Scope candidate — infinite type index — scope audit”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `A-Scope` to occur in CT3.N03's discharged-contract list, because this node must use the contract that audits a proof-language or finite-expressibility failure and records attempted repairs for the obligation “Scope candidate — infinite type index — scope audit”.",
+                "const": "A-Scope"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT3.N03 from the recorded branch state. The array must contain at least one instance for every assigned schema: A-Scope (failedContract, proofLanguage, nonExpressibilityStatement, attemptedRepairs, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `A-Scope` evidence instance at CT3.N03. It must be exactly `A-Scope`, identifying the contract that audits a proof-language or finite-expressibility failure and records attempted repairs; the same instance must supply failedContract, proofLanguage, nonExpressibilityStatement, attemptedRepairs, evidence.",
+                    "const": "A-Scope"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT3.N03.O1",
+    "modality": "audit",
+    "statement": {
+      "informal": "Audit or verify: Scope candidate — infinite type index — scope audit",
+      "latex": "\\textbf{Scope candidate}\\\\infinite type index\\\\\\scoperef"
+    },
+    "contractSchemas": [
+      "A-Scope"
+    ],
+    "dependencies": [
+      "CT3.N02"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

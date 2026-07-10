@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT17.N15.schema.json",
+  "title": "CT17.N15 completed discharge record — Payload lemma — build P_17→8 — finite survivors",
+  "description": "Concrete completed-discharge schema for CT17.N15, the payload constructor node “Payload lemma — build P_17→8 — finite survivors” of tactic CT17 (Target thickening). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT17.N15. It must be exactly `CT17`, selecting Target thickening (target thickening) as the tactic that owns the payload constructor step “Payload lemma — build P_17→8 — finite survivors” in the exhaustive proof flow.",
+          "const": "CT17"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Payload lemma — build P_17→8 — finite survivors”. It must be exactly `CT17.N15` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT17.N15"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT17.N15 within tactic CT17 (Target thickening). It must be exactly 15, matching the N15 suffix and the node's position in that tactic graph.",
+          "const": 15
+        },
+        "status": {
+          "description": "Required completion state for CT17.N15. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the payload constructor obligation “Payload lemma — build P_17→8 — finite survivors”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT17.N15. The array must contain `S-Rout`; these are precisely the contracts assigned to “Payload lemma — build P_17→8 — finite survivors”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Rout` to occur in CT17.N15's discharged-contract list, because this node must use the contract that packages a typed payload and verifies its unique producer-to-consumer route for the obligation “Payload lemma — build P_17→8 — finite survivors”.",
+                "const": "S-Rout"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT17.N15 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Rout (payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Rout` evidence instance at CT17.N15. It must be exactly `S-Rout`, identifying the contract that packages a typed payload and verifies its unique producer-to-consumer route; the same instance must supply payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    },
+    {
+      "properties": {
+        "producedPayloads": {
+          "description": "Typed routing outputs constructed by CT17.N15. The array must contain `P_17_to_8`; these payload identifiers carry the data certified by “Payload lemma — build P_17→8 — finite survivors”. The required consumer routes are `P_17_to_8` → CT8. Their construction and consumer compatibility must be justified by the node's `S-Rout` contract instance.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires payload `P_17_to_8` among the outputs of CT17.N15; this is the typed handoff constructed by “Payload lemma — build P_17→8 — finite survivors” for CT8.",
+                "const": "P_17_to_8"
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "producedPayloads"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT17.N15.O1",
+    "modality": "construct",
+    "statement": {
+      "informal": "Construct or verify: Payload lemma — build P_17→8 — finite survivors",
+      "latex": "\\textbf{Payload lemma}\\\\build \\(P_{17\\to8}\\)\\\\finite survivors"
+    },
+    "contractSchemas": [
+      "S-Rout"
+    ],
+    "dependencies": [
+      "CT17.N13"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT16.N07.schema.json",
+  "title": "CT16.N07 completed discharge record — Scope candidate — closed type not finite — scope audit",
+  "description": "Concrete completed-discharge schema for CT16.N07, the scope audit node “Scope candidate — closed type not finite — scope audit” of tactic CT16 (Whole-object exact types). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT16.N07. It must be exactly `CT16`, selecting Whole-object exact types (exact type) as the tactic that owns the scope audit step “Scope candidate — closed type not finite — scope audit” in the exhaustive proof flow.",
+          "const": "CT16"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Scope candidate — closed type not finite — scope audit”. It must be exactly `CT16.N07` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT16.N07"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT16.N07 within tactic CT16 (Whole-object exact types). It must be exactly 7, matching the N07 suffix and the node's position in that tactic graph.",
+          "const": 7
+        },
+        "status": {
+          "description": "Required completion state for CT16.N07. It must be exactly `scope_candidate`, meaning that the finite-expressibility obstruction has been recorded for global scope audit and is not being treated as a surviving proof branch for the scope audit obligation “Scope candidate — closed type not finite — scope audit”; another lifecycle value does not discharge this concrete node.",
+          "enum": [
+            "scope_candidate"
+          ]
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT16.N07. The array must contain `A-Scope`; these are precisely the contracts assigned to “Scope candidate — closed type not finite — scope audit”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `A-Scope` to occur in CT16.N07's discharged-contract list, because this node must use the contract that audits a proof-language or finite-expressibility failure and records attempted repairs for the obligation “Scope candidate — closed type not finite — scope audit”.",
+                "const": "A-Scope"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT16.N07 from the recorded branch state. The array must contain at least one instance for every assigned schema: A-Scope (failedContract, proofLanguage, nonExpressibilityStatement, attemptedRepairs, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `A-Scope` evidence instance at CT16.N07. It must be exactly `A-Scope`, identifying the contract that audits a proof-language or finite-expressibility failure and records attempted repairs; the same instance must supply failedContract, proofLanguage, nonExpressibilityStatement, attemptedRepairs, evidence.",
+                    "const": "A-Scope"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT16.N07.O1",
+    "modality": "audit",
+    "statement": {
+      "informal": "Audit or verify: Scope candidate — closed type not finite — scope audit",
+      "latex": "\\textbf{Scope candidate}\\\\closed type not finite\\\\\\scoperef"
+    },
+    "contractSchemas": [
+      "A-Scope"
+    ],
+    "dependencies": [
+      "CT16.N06"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

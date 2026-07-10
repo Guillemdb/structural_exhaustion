@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/contracts/S-Pers.schema.json",
+  "$ref": "../structural-exhaustion.bundle.schema.json#/$defs/contractSPers",
+  "title": "S-Pers branch-state persistence contract",
+  "description": "Specifies exactly which branch-state coordinates and typed data persist across a transition B -> B'. The record operationalizes the S-Pers persistence lemma schema in the structural exhaustion framework (branch_closure_methodology_extended.tex, \"Lemma schemas\").",
+  "properties": {
+    "schema": {
+      "description": "Required contract discriminator; it must be the literal `S-Pers`."
+    },
+    "fromStateRef": {
+      "description": "Required nonempty stable identifier of the source branch state before the transition."
+    },
+    "toStateRef": {
+      "description": "Required nonempty stable identifier of the destination branch state after the transition."
+    },
+    "preserved": {
+      "description": "Required structured inventory of everything carried from the source state into the destination state; all five categories must be present even when a category's list is empty.",
+      "properties": {
+        "hypotheses": {
+          "description": "Required list of baseline assumptions from H_0 still true after the transition, including their carrier objects, tactic scope, and any proof-language or admission assumptions that remain in force.",
+          "items": {
+            "description": "One preserved hypothesis, stated precisely enough to identify its scope in the destination state."
+          }
+        },
+        "exclusions": {
+          "description": "Required list of already closed exits from E that remain unavailable, such as target certificates, compression exits, routed defects with consumers, impossible ledgers/budgets, or finite-table impossibility rows.",
+          "items": {
+            "description": "One preserved exclusion, including the result or contradiction that established it."
+          }
+        },
+        "invariants": {
+          "description": "Required list of structural or quantitative invariants from I retained by the transition, including minimality consequences, forbidden-response statements, density or rank bounds, monotonicity facts, capacity estimates, exact-type equalities, ledgers, budgets, and response data.",
+          "items": {
+            "description": "One invariant proved to hold in both the source and destination states."
+          }
+        },
+        "residualConditions": {
+          "description": "Required list of residual predicates that continue to define the surviving subcase, with their exact inequalities or structural restrictions.",
+          "items": {
+            "description": "One carried residual condition from R, stated as a predicate, comparison, trigger condition, or typed survivor-class restriction for the destination branch state."
+          }
+        },
+        "vocabularyEntries": {
+          "description": "Required list of typed objects and notation from V still available downstream; entries should name their defining S-Def/S-Det/S-Rout records so symbols, payload handles, budgets, ledgers, exact types, or certificate handles are not used after their scope has ended.",
+          "items": {
+            "description": "One preserved typed symbol, construction, payload handle, or evidence reference."
+          }
+        }
+      }
+    },
+    "strengthenedInvariants": {
+      "description": "Optional list of invariants that become strictly stronger in the destination state, such as a sharper ledger balance, budget slack, capacity estimate, monotonicity fact, exact-type equality, rank bound, or forbidden-response statement recorded in I.",
+      "items": {
+        "description": "One newly strengthened invariant and the exact improvement over its source-state version."
+      }
+    },
+    "newlyAbsentExits": {
+      "description": "Optional list of branch exits newly inserted into E by the transition proof, such as an alternative closed by C1-C5 or a payload route proved impossible for this residual.",
+      "items": {
+        "description": "One newly excluded exit together with its proof-flow or labelled-result reference."
+      }
+    },
+    "evidence": {
+      "description": "Required nonempty list of sources proving every claimed preservation, strengthening, and newly absent exit.",
+      "items": {
+        "description": "One evidence record supporting the transition's persistence claims.",
+        "properties": {
+          "kind": {
+            "description": "Required evidence category from the fixed evidence-kind alphabet."
+          },
+          "reference": {
+            "description": "Required nonempty locator for the relevant persistence argument, S-Pers record, transition proof, route check, ledger update, budget update, branch-tree row, or audit entry."
+          },
+          "hash": {
+            "description": "Optional integrity hash for a version-sensitive table, program, or formal proof artifact."
+          },
+          "notes": {
+            "description": "Optional note mapping the cited evidence to particular preserved or strengthened entries."
+          }
+        }
+      }
+    }
+  }
+}

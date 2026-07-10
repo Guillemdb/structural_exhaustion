@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT12.N10.schema.json",
+  "title": "CT12.N10 completed discharge record — Lemma — strict decrease M(L')<M(L)",
+  "description": "Concrete completed-discharge schema for CT12.N10, the assertion node “Lemma — strict decrease M(L')<M(L)” of tactic CT12 (Peeling loop). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT12.N10. It must be exactly `CT12`, selecting Peeling loop (loop) as the tactic that owns the assertion step “Lemma — strict decrease M(L')<M(L)” in the exhaustive proof flow.",
+          "const": "CT12"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Lemma — strict decrease M(L')<M(L)”. It must be exactly `CT12.N10` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT12.N10"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT12.N10 within tactic CT12 (Peeling loop). It must be exactly 10, matching the N10 suffix and the node's position in that tactic graph.",
+          "const": 10
+        },
+        "status": {
+          "description": "Required completion state for CT12.N10. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the assertion obligation “Lemma — strict decrease M(L')<M(L)”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT12.N10. The array must contain `S-Prove`, `S-Meas`; these are precisely the contracts assigned to “Lemma — strict decrease M(L')<M(L)”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Prove` to occur in CT12.N10's discharged-contract list, because this node must use the contract that records the proposition, its assumptions, and proof evidence for the obligation “Lemma — strict decrease M(L')<M(L)”.",
+                "const": "S-Prove"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires `S-Meas` to occur in CT12.N10's discharged-contract list, because this node must use the contract that records a branch-state measure in a well-founded codomain and proves strict decrease for the obligation “Lemma — strict decrease M(L')<M(L)”.",
+                "const": "S-Meas"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT12.N10 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Prove (proposition, assumptions, evidence); S-Meas (measure, sourceData, wellFoundedCodomain, strictDecrease, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Prove` evidence instance at CT12.N10. It must be exactly `S-Prove`, identifying the contract that records the proposition, its assumptions, and proof evidence; the same instance must supply proposition, assumptions, evidence.",
+                    "const": "S-Prove"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Meas` evidence instance at CT12.N10. It must be exactly `S-Meas`, identifying the contract that records a branch-state measure in a well-founded codomain and proves strict decrease; the same instance must supply measure, sourceData, wellFoundedCodomain, strictDecrease, evidence.",
+                    "const": "S-Meas"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT12.N10.O1",
+    "modality": "prove",
+    "statement": {
+      "informal": "Prove or verify: Lemma — strict decrease M(L')<M(L)",
+      "latex": "\\textbf{Lemma}\\\\strict decrease \\(M(L')<M(L)\\)"
+    },
+    "contractSchemas": [
+      "S-Prove",
+      "S-Meas"
+    ],
+    "dependencies": [
+      "CT12.N07"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

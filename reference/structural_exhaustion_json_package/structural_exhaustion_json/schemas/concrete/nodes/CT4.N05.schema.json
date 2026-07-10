@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT4.N05.schema.json",
+  "title": "CT4.N05 completed discharge record — Payload lemma — P_4→13 satisfies CT13 trigger",
+  "description": "Concrete completed-discharge schema for CT4.N05, the payload constructor node “Payload lemma — P_4→13 satisfies CT13 trigger” of tactic CT4 (Charging schemes). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT4.N05. It must be exactly `CT4`, selecting Charging schemes (charging) as the tactic that owns the payload constructor step “Payload lemma — P_4→13 satisfies CT13 trigger” in the exhaustive proof flow.",
+          "const": "CT4"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Payload lemma — P_4→13 satisfies CT13 trigger”. It must be exactly `CT4.N05` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT4.N05"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT4.N05 within tactic CT4 (Charging schemes). It must be exactly 5, matching the N05 suffix and the node's position in that tactic graph.",
+          "const": 5
+        },
+        "status": {
+          "description": "Required completion state for CT4.N05. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the payload constructor obligation “Payload lemma — P_4→13 satisfies CT13 trigger”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT4.N05. The array must contain `S-Rout`; these are precisely the contracts assigned to “Payload lemma — P_4→13 satisfies CT13 trigger”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Rout` to occur in CT4.N05's discharged-contract list, because this node must use the contract that packages a typed payload and verifies its unique producer-to-consumer route for the obligation “Payload lemma — P_4→13 satisfies CT13 trigger”.",
+                "const": "S-Rout"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT4.N05 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Rout (payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Rout` evidence instance at CT4.N05. It must be exactly `S-Rout`, identifying the contract that packages a typed payload and verifies its unique producer-to-consumer route; the same instance must supply payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    },
+    {
+      "properties": {
+        "producedPayloads": {
+          "description": "Typed routing outputs constructed by CT4.N05. The array must contain `P_4_to_13`; these payload identifiers carry the data certified by “Payload lemma — P_4→13 satisfies CT13 trigger”. The required consumer routes are `P_4_to_13` → CT13. Their construction and consumer compatibility must be justified by the node's `S-Rout` contract instance.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires payload `P_4_to_13` among the outputs of CT4.N05; this is the typed handoff constructed by “Payload lemma — P_4→13 satisfies CT13 trigger” for CT13.",
+                "const": "P_4_to_13"
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "producedPayloads"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT4.N05.O1",
+    "modality": "construct",
+    "statement": {
+      "informal": "Construct or verify: Payload lemma — P_4→13 satisfies CT13 trigger",
+      "latex": "\\textbf{Payload lemma}\\\\\\(P_{4\\to13}\\) satisfies CT13 trigger"
+    },
+    "contractSchemas": [
+      "S-Rout"
+    ],
+    "dependencies": [
+      "CT4.N04"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

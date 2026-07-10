@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT14.N06.schema.json",
+  "title": "CT14.N06 completed discharge record — Scope candidate — no finite bounded-capacity description — scope audit",
+  "description": "Concrete completed-discharge schema for CT14.N06, the scope audit node “Scope candidate — no finite bounded-capacity description — scope audit” of tactic CT14 (Aggregate closure). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT14.N06. It must be exactly `CT14`, selecting Aggregate closure (aggregate) as the tactic that owns the scope audit step “Scope candidate — no finite bounded-capacity description — scope audit” in the exhaustive proof flow.",
+          "const": "CT14"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Scope candidate — no finite bounded-capacity description — scope audit”. It must be exactly `CT14.N06` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT14.N06"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT14.N06 within tactic CT14 (Aggregate closure). It must be exactly 6, matching the N06 suffix and the node's position in that tactic graph.",
+          "const": 6
+        },
+        "status": {
+          "description": "Required completion state for CT14.N06. It must be exactly `scope_candidate`, meaning that the finite-expressibility obstruction has been recorded for global scope audit and is not being treated as a surviving proof branch for the scope audit obligation “Scope candidate — no finite bounded-capacity description — scope audit”; another lifecycle value does not discharge this concrete node.",
+          "enum": [
+            "scope_candidate"
+          ]
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT14.N06. The array must contain `A-Scope`; these are precisely the contracts assigned to “Scope candidate — no finite bounded-capacity description — scope audit”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `A-Scope` to occur in CT14.N06's discharged-contract list, because this node must use the contract that audits a proof-language or finite-expressibility failure and records attempted repairs for the obligation “Scope candidate — no finite bounded-capacity description — scope audit”.",
+                "const": "A-Scope"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT14.N06 from the recorded branch state. The array must contain at least one instance for every assigned schema: A-Scope (failedContract, proofLanguage, nonExpressibilityStatement, attemptedRepairs, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `A-Scope` evidence instance at CT14.N06. It must be exactly `A-Scope`, identifying the contract that audits a proof-language or finite-expressibility failure and records attempted repairs; the same instance must supply failedContract, proofLanguage, nonExpressibilityStatement, attemptedRepairs, evidence.",
+                    "const": "A-Scope"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT14.N06.O1",
+    "modality": "audit",
+    "statement": {
+      "informal": "Audit or verify: Scope candidate — no finite bounded-capacity description — scope audit",
+      "latex": "\\textbf{Scope candidate}\\\\no finite bounded-capacity description\\\\\\scoperef"
+    },
+    "contractSchemas": [
+      "A-Scope"
+    ],
+    "dependencies": [
+      "CT14.N05"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

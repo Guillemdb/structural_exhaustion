@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT8.N13.schema.json",
+  "title": "CT8.N13 completed discharge record — Payload lemma — build P_8→3 — separating type",
+  "description": "Concrete completed-discharge schema for CT8.N13, the payload constructor node “Payload lemma — build P_8→3 — separating type” of tactic CT8 (Finite-state pumping). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT8.N13. It must be exactly `CT8`, selecting Finite-state pumping (pumping) as the tactic that owns the payload constructor step “Payload lemma — build P_8→3 — separating type” in the exhaustive proof flow.",
+          "const": "CT8"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Payload lemma — build P_8→3 — separating type”. It must be exactly `CT8.N13` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT8.N13"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT8.N13 within tactic CT8 (Finite-state pumping). It must be exactly 13, matching the N13 suffix and the node's position in that tactic graph.",
+          "const": 13
+        },
+        "status": {
+          "description": "Required completion state for CT8.N13. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the payload constructor obligation “Payload lemma — build P_8→3 — separating type”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT8.N13. The array must contain `S-Rout`; these are precisely the contracts assigned to “Payload lemma — build P_8→3 — separating type”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Rout` to occur in CT8.N13's discharged-contract list, because this node must use the contract that packages a typed payload and verifies its unique producer-to-consumer route for the obligation “Payload lemma — build P_8→3 — separating type”.",
+                "const": "S-Rout"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT8.N13 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Rout (payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Rout` evidence instance at CT8.N13. It must be exactly `S-Rout`, identifying the contract that packages a typed payload and verifies its unique producer-to-consumer route; the same instance must supply payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    },
+    {
+      "properties": {
+        "producedPayloads": {
+          "description": "Typed routing outputs constructed by CT8.N13. The array must contain `P_8_to_3`; these payload identifiers carry the data certified by “Payload lemma — build P_8→3 — separating type”. The required consumer routes are `P_8_to_3` → CT3. Their construction and consumer compatibility must be justified by the node's `S-Rout` contract instance.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires payload `P_8_to_3` among the outputs of CT8.N13; this is the typed handoff constructed by “Payload lemma — build P_8→3 — separating type” for CT3.",
+                "const": "P_8_to_3"
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "producedPayloads"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT8.N13.O1",
+    "modality": "construct",
+    "statement": {
+      "informal": "Construct or verify: Payload lemma — build P_8→3 — separating type",
+      "latex": "\\textbf{Payload lemma}\\\\build \\(P_{8\\to3}\\)\\\\separating type"
+    },
+    "contractSchemas": [
+      "S-Rout"
+    ],
+    "dependencies": [
+      "CT8.N12"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

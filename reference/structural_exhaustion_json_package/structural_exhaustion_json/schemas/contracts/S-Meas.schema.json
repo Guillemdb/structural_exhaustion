@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/contracts/S-Meas.schema.json",
+  "$ref": "../structural-exhaustion.bundle.schema.json#/$defs/contractSMeas",
+  "title": "S-Meas well-founded-descent contract",
+  "description": "Specifies the well-founded measure used to prove termination of any loop, peeling process, refinement, repair attempt, or repeated routing cycle, computed from recorded branch-state data and strictly decreasing on non-closing passes. The record operationalizes the S-Meas well-founded-descent lemma schema in the structural exhaustion framework (branch_closure_methodology_extended.tex, \"Lemma schemas\").",
+  "properties": {
+    "schema": {
+      "description": "Required contract discriminator; it must be the literal `S-Meas`."
+    },
+    "measure": {
+      "description": "Required definition of the quantity or tuple used to prove progress, such as a lexicographic state size, unresolved payload count, remaining tactic queue length, rank quotient, budget tier, finite-table index, or other measure derived from B.",
+      "properties": {
+        "informal": {
+          "description": "Required nonempty prose definition of the measure, including its domain and every tuple coordinate."
+        },
+        "latex": {
+          "description": "Optional LaTeX formula for the measure."
+        },
+        "formalLanguage": {
+          "description": "Optional name and version of the formal language used for the measure."
+        },
+        "formal": {
+          "description": "Optional machine-checkable definition of the measure."
+        }
+      }
+    },
+    "sourceData": {
+      "description": "Required nonempty list of recorded state fields from which the measure is computed. It must contain all inputs and must not depend on future choices or unrecorded proof-search state.",
+      "items": {
+        "description": "One precise state-field path or canonical object used to evaluate the measure."
+      }
+    },
+    "wellFoundedCodomain": {
+      "description": "Required definition of the ordered codomain and proof that it is well founded, such as a natural-number order, lexicographic product, multiset extension, finite tactic-state order, or declared progress order from the branch state.",
+      "properties": {
+        "informal": {
+          "description": "Required nonempty prose description of the carrier set, strict order, and well-foundedness fact."
+        },
+        "latex": {
+          "description": "Optional LaTeX notation for the codomain and order."
+        },
+        "formalLanguage": {
+          "description": "Optional name and version of the formal language used for the order."
+        },
+        "formal": {
+          "description": "Optional machine-checkable definition and well-foundedness theorem for the codomain."
+        }
+      }
+    },
+    "strictDecrease": {
+      "description": "Required theorem that every non-closing pass maps an admitted source state to a destination state with strictly smaller measure in `wellFoundedCodomain`; non-increase is insufficient.",
+      "properties": {
+        "informal": {
+          "description": "Required nonempty prose progress theorem, including the non-closing premise and quantified transition."
+        },
+        "latex": {
+          "description": "Optional LaTeX inequality or order relation expressing strict descent."
+        },
+        "formalLanguage": {
+          "description": "Optional name and version of the formal language used for the descent proof."
+        },
+        "formal": {
+          "description": "Optional machine-checkable theorem proving strict decrease on every non-closing transition."
+        }
+      }
+    },
+    "nonClosingPassRef": {
+      "description": "Optional stable identifier of the transition, loop body, or branch predicate to which the strict-decrease theorem applies; provide it whenever more than one pass or transition could otherwise be meant."
+    },
+    "evidence": {
+      "description": "Required nonempty list of sources validating the measure definition, well-founded order, and strict-decrease proof.",
+      "items": {
+        "description": "One evidence record supporting termination.",
+        "properties": {
+          "kind": {
+            "description": "Required evidence category from the fixed evidence-kind alphabet."
+          },
+          "reference": {
+            "description": "Required nonempty locator for the measure definition, S-Meas record, minimality/replacement argument, loop transition, S-Rest proof, progress-order proof, or formal well-foundedness theorem."
+          },
+          "hash": {
+            "description": "Optional integrity hash for a program or formal artifact that computes or verifies the measure."
+          },
+          "notes": {
+            "description": "Optional note identifying whether the source establishes definability, well-foundedness, or strict descent."
+          }
+        }
+      }
+    }
+  }
+}

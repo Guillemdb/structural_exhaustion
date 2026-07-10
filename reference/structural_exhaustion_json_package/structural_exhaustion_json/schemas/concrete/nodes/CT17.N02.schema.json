@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT17.N02.schema.json",
+  "title": "CT17.N02 completed discharge record — Lemma — offsets are realizable in the same branch state?",
+  "description": "Concrete completed-discharge schema for CT17.N02, the decision node “Lemma — offsets are realizable in the same branch state?” of tactic CT17 (Target thickening). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT17.N02. It must be exactly `CT17`, selecting Target thickening (target thickening) as the tactic that owns the decision step “Lemma — offsets are realizable in the same branch state?” in the exhaustive proof flow.",
+          "const": "CT17"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Lemma — offsets are realizable in the same branch state?”. It must be exactly `CT17.N02` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT17.N02"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT17.N02 within tactic CT17 (Target thickening). It must be exactly 2, matching the N02 suffix and the node's position in that tactic graph.",
+          "const": 2
+        },
+        "status": {
+          "description": "Required completion state for CT17.N02. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the decision obligation “Lemma — offsets are realizable in the same branch state?”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT17.N02. The array must contain `S-Dich`; these are precisely the contracts assigned to “Lemma — offsets are realizable in the same branch state?”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Dich` to occur in CT17.N02's discharged-contract list, because this node must use the contract that gives exhaustive, state-measurable alternatives for the residual class for the obligation “Lemma — offsets are realizable in the same branch state?”.",
+                "const": "S-Dich"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT17.N02 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Dich (residualClass, alternatives, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Dich` evidence instance at CT17.N02. It must be exactly `S-Dich`, identifying the contract that gives exhaustive, state-measurable alternatives for the residual class; the same instance must supply residualClass, alternatives, evidence.",
+                    "const": "S-Dich"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT17.N02.O1",
+    "modality": "prove",
+    "statement": {
+      "informal": "Prove or verify: Lemma — offsets are realizable in the same branch state?",
+      "latex": "\\textbf{Lemma}\\\\offsets are realizable in the same branch state?"
+    },
+    "contractSchemas": [
+      "S-Dich"
+    ],
+    "dependencies": [
+      "CT17.N01"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

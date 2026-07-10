@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT5.N01.schema.json",
+  "title": "CT5.N01 completed discharge record — Input — P_1→5: linear local-site family S",
+  "description": "Concrete completed-discharge schema for CT5.N01, the input node “Input — P_1→5: linear local-site family S” of tactic CT5 (Local-to-global bookkeeping). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT5.N01. It must be exactly `CT5`, selecting Local-to-global bookkeeping (bookkeeping) as the tactic that owns the input step “Input — P_1→5: linear local-site family S” in the exhaustive proof flow.",
+          "const": "CT5"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Input — P_1→5: linear local-site family S”. It must be exactly `CT5.N01` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT5.N01"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT5.N01 within tactic CT5 (Local-to-global bookkeeping). It must be exactly 1, matching the N01 suffix and the node's position in that tactic graph.",
+          "const": 1
+        },
+        "status": {
+          "description": "Required completion state for CT5.N01. It must be exactly `validated`, meaning that the node's certificate, trigger, or other validation obligation has been checked for the input obligation “Input — P_1→5: linear local-site family S”; another lifecycle value does not discharge this concrete node.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT5.N01. The array must contain `S-Trig`; these are precisely the contracts assigned to “Input — P_1→5: linear local-site family S”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Trig` to occur in CT5.N01's discharged-contract list, because this node must use the contract that checks that a payload supplies the receiving tactic's trigger, arity, interfaces, and standing hypotheses for the obligation “Input — P_1→5: linear local-site family S”.",
+                "const": "S-Trig"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT5.N01 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Trig (payloadId, consumerTacticId, expectedArity, componentChecks, standingHypotheses, interfaceChecks, certificateHandleChecks, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Trig` evidence instance at CT5.N01. It must be exactly `S-Trig`, identifying the contract that checks that a payload supplies the receiving tactic's trigger, arity, interfaces, and standing hypotheses; the same instance must supply payloadId, consumerTacticId, expectedArity, componentChecks, standingHypotheses, interfaceChecks, certificateHandleChecks, evidence.",
+                    "const": "S-Trig"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT5.N01.O1",
+    "modality": "validate",
+    "statement": {
+      "informal": "Validate or verify: Input — P_1→5: linear local-site family S",
+      "latex": "\\textbf{Input}\\\\\\(P_{1\\to5}\\): linear local-site family \\(\\mathcal S\\)"
+    },
+    "contractSchemas": [
+      "S-Trig"
+    ],
+    "dependencies": [],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

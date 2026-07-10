@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT7.N15.schema.json",
+  "title": "CT7.N15 completed discharge record — Payload record — neutral noncompressive exchange",
+  "description": "Concrete completed-discharge schema for CT7.N15, the residual record node “Payload record — neutral noncompressive exchange” of tactic CT7 (Exchange trichotomy). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT7.N15. It must be exactly `CT7`, selecting Exchange trichotomy (exchange) as the tactic that owns the residual record step “Payload record — neutral noncompressive exchange” in the exhaustive proof flow.",
+          "const": "CT7"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Payload record — neutral noncompressive exchange”. It must be exactly `CT7.N15` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT7.N15"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT7.N15 within tactic CT7 (Exchange trichotomy). It must be exactly 15, matching the N15 suffix and the node's position in that tactic graph.",
+          "const": 15
+        },
+        "status": {
+          "description": "Required completion state for CT7.N15. It must be exactly `defined`, meaning that the required definition or recorded branch-state object has been supplied for the residual record obligation “Payload record — neutral noncompressive exchange”; another lifecycle value does not discharge this concrete node.",
+          "const": "defined"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT7.N15. The array must contain `S-Def`; these are precisely the contracts assigned to “Payload record — neutral noncompressive exchange”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Def` to occur in CT7.N15's discharged-contract list, because this node must use the contract that constructs a typed object deterministically from recorded branch-state data for the obligation “Payload record — neutral noncompressive exchange”.",
+                "const": "S-Def"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT7.N15 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Def (subject, sourceStateFields, constructor, parameters, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Def` evidence instance at CT7.N15. It must be exactly `S-Def`, identifying the contract that constructs a typed object deterministically from recorded branch-state data; the same instance must supply subject, sourceStateFields, constructor, parameters, evidence.",
+                    "const": "S-Def"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT7.N15.O1",
+    "modality": "define",
+    "statement": {
+      "informal": "Define or verify: Payload record — neutral noncompressive exchange",
+      "latex": "\\textbf{Payload record}\\\\neutral noncompressive exchange"
+    },
+    "contractSchemas": [
+      "S-Def"
+    ],
+    "dependencies": [
+      "CT7.N11"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

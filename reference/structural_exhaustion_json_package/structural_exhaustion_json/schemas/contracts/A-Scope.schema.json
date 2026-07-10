@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/contracts/A-Scope.schema.json",
+  "$ref": "../structural-exhaustion.bundle.schema.json#/$defs/contractAScope",
+  "title": "A-Scope proof-language obstruction audit",
+  "description": "Package-level extension for auditing candidate scope obstructions and level-4 proof-language extensions. A-Scope extends the framework lemma-schema alphabet to operationalize the repair protocol and scope audit specified in the structural exhaustion framework (branch_closure_methodology_extended.tex, proof-language extension and repair protocol).",
+  "properties": {
+    "schema": {
+      "description": "Required contract discriminator; it must be the literal `A-Scope`."
+    },
+    "failedContract": {
+      "description": "Required name of the precise S- or A-contract whose obligation cannot be represented or discharged in the current proof language L; select one value from the fixed contract alphabet."
+    },
+    "proofLanguage": {
+      "description": "Required nonempty identifier and version of the declared typed proof language being audited, including enough scope information to know which sorts, constructors, predicates, measures, certificates, payloads, and accepted external results are available."
+    },
+    "nonExpressibilityStatement": {
+      "description": "Required mathematical/metatheoretic claim that the missing object, predicate, comparison, route, measure, or certificate cannot be expressed using the declared language resources; it must distinguish non-expressibility from an open or merely unsuccessful proof search.",
+      "properties": {
+        "informal": {
+          "description": "Required nonempty prose statement naming the required construct, the unavailable language feature, and why every well-typed formulation in the current language is insufficient."
+        },
+        "latex": {
+          "description": "Optional LaTeX rendering of the non-expressibility or separation statement."
+        },
+        "formalLanguage": {
+          "description": "Optional name and version of a metalanguage used to formalize the scope claim."
+        },
+        "formal": {
+          "description": "Optional machine-checkable encoding or certificate of the non-expressibility result."
+        }
+      }
+    },
+    "attemptedRepairs": {
+      "description": "Required nonempty list of concrete in-scope repairs tried before declaring a scope obstruction, such as refining V, adding an interface or context class, making a choice canonical with S-Det, constructing a typed residual, enlarging a finite alphabet, adding a payload route, or routing the dependence through a declared CT consumer.",
+      "items": {
+        "description": "One attempted repair and a precise statement of why it fails to express or discharge the required contract.",
+        "properties": {
+          "informal": {
+            "description": "Required nonempty prose description of the repair, its inputs, and the failure result."
+          },
+          "latex": {
+            "description": "Optional LaTeX formulation of the repair construction or its failed condition."
+          },
+          "formalLanguage": {
+            "description": "Optional name and version of the language in which the repair was attempted."
+          },
+          "formal": {
+            "description": "Optional machine-checkable record of the attempted repair and failure."
+          }
+        }
+      }
+    },
+    "languageExtensionConsidered": {
+      "description": "Optional boolean stating whether a specific extension of the proof language was evaluated. `true` means an extension and its effect were considered, not that it was adopted; record the proposal and outcome in the evidence or attempted repairs."
+    },
+    "evidence": {
+      "description": "Required nonempty list of audit records, impossibility proofs, failed typed constructions, or formal metatheoretic artifacts supporting the scope classification.",
+      "items": {
+        "description": "One evidence record supporting non-expressibility or documenting an attempted repair.",
+        "properties": {
+          "kind": {
+            "description": "Required evidence category from the fixed evidence-kind alphabet; scope claims normally require an `audit_record`, formal proof, or explicit human review in addition to underlying mathematical sources."
+          },
+          "reference": {
+            "description": "Required nonempty stable locator for the audit finding, language definition, repair attempt, or impossibility theorem."
+          },
+          "hash": {
+            "description": "Optional integrity hash for a language specification, formal metatheory artifact, or generated audit record."
+          },
+          "notes": {
+            "description": "Optional note explaining how this source distinguishes a genuine language limitation from an unresolved proof obligation."
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT5.N16.schema.json",
+  "title": "CT5.N16 completed discharge record — Payload record — P_5→14: local mass not yet decisive",
+  "description": "Concrete completed-discharge schema for CT5.N16, the residual record node “Payload record — P_5→14: local mass not yet decisive” of tactic CT5 (Local-to-global bookkeeping). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT5.N16. It must be exactly `CT5`, selecting Local-to-global bookkeeping (bookkeeping) as the tactic that owns the residual record step “Payload record — P_5→14: local mass not yet decisive” in the exhaustive proof flow.",
+          "const": "CT5"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Payload record — P_5→14: local mass not yet decisive”. It must be exactly `CT5.N16` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT5.N16"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT5.N16 within tactic CT5 (Local-to-global bookkeeping). It must be exactly 16, matching the N16 suffix and the node's position in that tactic graph.",
+          "const": 16
+        },
+        "status": {
+          "description": "Required completion state for CT5.N16. It must be exactly `defined`, meaning that the required definition or recorded branch-state object has been supplied for the residual record obligation “Payload record — P_5→14: local mass not yet decisive”; another lifecycle value does not discharge this concrete node.",
+          "const": "defined"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT5.N16. The array must contain `S-Def`; these are precisely the contracts assigned to “Payload record — P_5→14: local mass not yet decisive”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Def` to occur in CT5.N16's discharged-contract list, because this node must use the contract that constructs a typed object deterministically from recorded branch-state data for the obligation “Payload record — P_5→14: local mass not yet decisive”.",
+                "const": "S-Def"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT5.N16 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Def (subject, sourceStateFields, constructor, parameters, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Def` evidence instance at CT5.N16. It must be exactly `S-Def`, identifying the contract that constructs a typed object deterministically from recorded branch-state data; the same instance must supply subject, sourceStateFields, constructor, parameters, evidence.",
+                    "const": "S-Def"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT5.N16.O1",
+    "modality": "define",
+    "statement": {
+      "informal": "Define or verify: Payload record — P_5→14: local mass not yet decisive",
+      "latex": "\\textbf{Payload record}\\\\\\(P_{5\\to14}\\): local mass not yet decisive"
+    },
+    "contractSchemas": [
+      "S-Def"
+    ],
+    "dependencies": [
+      "CT5.N11"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

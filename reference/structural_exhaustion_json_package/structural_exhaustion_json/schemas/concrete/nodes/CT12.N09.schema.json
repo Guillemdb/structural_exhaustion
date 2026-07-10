@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT12.N09.schema.json",
+  "title": "CT12.N09 completed discharge record — Routing theorem — why did restoration fail?",
+  "description": "Concrete completed-discharge schema for CT12.N09, the decision node “Routing theorem — why did restoration fail?” of tactic CT12 (Peeling loop). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT12.N09. It must be exactly `CT12`, selecting Peeling loop (loop) as the tactic that owns the decision step “Routing theorem — why did restoration fail?” in the exhaustive proof flow.",
+          "const": "CT12"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Routing theorem — why did restoration fail?”. It must be exactly `CT12.N09` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT12.N09"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT12.N09 within tactic CT12 (Peeling loop). It must be exactly 9, matching the N09 suffix and the node's position in that tactic graph.",
+          "const": 9
+        },
+        "status": {
+          "description": "Required completion state for CT12.N09. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the decision obligation “Routing theorem — why did restoration fail?”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT12.N09. The array must contain `S-Dich`, `S-Rest`, `S-Pers`; these are precisely the contracts assigned to “Routing theorem — why did restoration fail?”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Dich` to occur in CT12.N09's discharged-contract list, because this node must use the contract that gives exhaustive, state-measurable alternatives for the residual class for the obligation “Routing theorem — why did restoration fail?”.",
+                "const": "S-Dich"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires `S-Rest` to occur in CT12.N09's discharged-contract list, because this node must use the contract that restores the declared signature and invariants after a state-changing step for the obligation “Routing theorem — why did restoration fail?”.",
+                "const": "S-Rest"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires `S-Pers` to occur in CT12.N09's discharged-contract list, because this node must use the contract that proves that the named assertion persists across the recorded state transition for the obligation “Routing theorem — why did restoration fail?”.",
+                "const": "S-Pers"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT12.N09 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Dich (residualClass, alternatives, evidence); S-Rest (fromStateRef, toStateRef, restoredSignature, restoredItems, evidence); S-Pers (fromStateRef, toStateRef, preserved, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Dich` evidence instance at CT12.N09. It must be exactly `S-Dich`, identifying the contract that gives exhaustive, state-measurable alternatives for the residual class; the same instance must supply residualClass, alternatives, evidence.",
+                    "const": "S-Dich"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Rest` evidence instance at CT12.N09. It must be exactly `S-Rest`, identifying the contract that restores the declared signature and invariants after a state-changing step; the same instance must supply fromStateRef, toStateRef, restoredSignature, restoredItems, evidence.",
+                    "const": "S-Rest"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Pers` evidence instance at CT12.N09. It must be exactly `S-Pers`, identifying the contract that proves that the named assertion persists across the recorded state transition; the same instance must supply fromStateRef, toStateRef, preserved, evidence.",
+                    "const": "S-Pers"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT12.N09.O1",
+    "modality": "prove",
+    "statement": {
+      "informal": "Prove or verify: Routing theorem — why did restoration fail?",
+      "latex": "\\textbf{Routing theorem}\\\\why did restoration fail?"
+    },
+    "contractSchemas": [
+      "S-Dich",
+      "S-Rest",
+      "S-Pers"
+    ],
+    "dependencies": [
+      "CT12.N07"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

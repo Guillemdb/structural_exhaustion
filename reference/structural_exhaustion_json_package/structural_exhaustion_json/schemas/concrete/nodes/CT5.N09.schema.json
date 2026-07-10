@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT5.N09.schema.json",
+  "title": "CT5.N09 completed discharge record — Lemma — local-to-global summation",
+  "description": "Concrete completed-discharge schema for CT5.N09, the assertion node “Lemma — local-to-global summation” of tactic CT5 (Local-to-global bookkeeping). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT5.N09. It must be exactly `CT5`, selecting Local-to-global bookkeeping (bookkeeping) as the tactic that owns the assertion step “Lemma — local-to-global summation” in the exhaustive proof flow.",
+          "const": "CT5"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Lemma — local-to-global summation”. It must be exactly `CT5.N09` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT5.N09"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT5.N09 within tactic CT5 (Local-to-global bookkeeping). It must be exactly 9, matching the N09 suffix and the node's position in that tactic graph.",
+          "const": 9
+        },
+        "status": {
+          "description": "Required completion state for CT5.N09. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the assertion obligation “Lemma — local-to-global summation”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT5.N09. The array must contain `S-Prove`, `S-Comp`; these are precisely the contracts assigned to “Lemma — local-to-global summation”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Prove` to occur in CT5.N09's discharged-contract list, because this node must use the contract that records the proposition, its assumptions, and proof evidence for the obligation “Lemma — local-to-global summation”.",
+                "const": "S-Prove"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires `S-Comp` to occur in CT5.N09's discharged-contract list, because this node must use the contract that places the estimates in a common comparison and records the resulting conclusion for the obligation “Lemma — local-to-global summation”.",
+                "const": "S-Comp"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT5.N09 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Prove (proposition, assumptions, evidence); S-Comp (comparison, comparisonKind, conclusionKind, conclusionRef, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Prove` evidence instance at CT5.N09. It must be exactly `S-Prove`, identifying the contract that records the proposition, its assumptions, and proof evidence; the same instance must supply proposition, assumptions, evidence.",
+                    "const": "S-Prove"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Comp` evidence instance at CT5.N09. It must be exactly `S-Comp`, identifying the contract that places the estimates in a common comparison and records the resulting conclusion; the same instance must supply comparison, comparisonKind, conclusionKind, conclusionRef, evidence.",
+                    "const": "S-Comp"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT5.N09.O1",
+    "modality": "prove",
+    "statement": {
+      "informal": "Prove or verify: Lemma — local-to-global summation",
+      "latex": "\\textbf{Lemma}\\\\local-to-global summation"
+    },
+    "contractSchemas": [
+      "S-Prove",
+      "S-Comp"
+    ],
+    "dependencies": [
+      "CT5.N07"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

@@ -1,0 +1,315 @@
+tactic_id,node_number,node_id,local_key,node_type,title,contracts,source_line
+CT1,1,CT1.N01,target,definition,Definition — target predicate T,S-Def,2342
+CT1,2,CT1.N02,tests,definition,Definition — local test family T_family=\T_i\_i∈ I,S-Def,2343
+CT1,3,CT1.N03,witness,definition,Definition — candidate witness spaces W_i(G),S-Def,2344
+CT1,4,CT1.N04,scope,decision,Lemma — bounded radius/interface; finite type index,S-Dich,2345
+CT1,5,CT1.N05,scopebad,scope_audit,Scope candidate — no local test family — scope audit,A-Scope,2346
+CT1,6,CT1.N06,complete,decision,Lemma — T exists iff some T_i is realized,S-Dich,2347
+CT1,7,CT1.N07,testgap,recovery,Repair datum — bounded witness missing from T_family,S-Def|S-Rout,2348
+CT1,8,CT1.N08,testlemma,assertion,Lemma — extend T_family by the missing witness type,S-Prove,2349
+CT1,9,CT1.N09,testroute,consumer_handoff,CT 1 — local target tests,S-Trig,2350
+CT1,10,CT1.N10,hitq,decision,Dichotomy lemma — target realization vs.\ target-avoiding state,S-Dich,2351
+CT1,11,CT1.N11,hit,certificate,C1 — realized test gives target closure,A-Cert|S-Equiv,2352
+CT1,12,CT1.N12,avoid,definition,Branch-state definition — B_not T: all tests absent,S-Def,2353
+CT1,13,CT1.N13,register,assertion,Lemma — persistence of T_i-absence,S-Prove|S-Pers,2354
+CT1,14,CT1.N14,next,decision,Payload-classification lemma — certified surviving data map to declared payloads,S-Dich,2355
+CT1,15,CT1.N15,minlemma,payload_constructor,Payload lemma — build P_1→2 — proper piece,S-Rout,2356
+CT1,16,CT1.N16,typelemma,payload_constructor,Payload lemma — build P_1→3 — boundary datum,S-Rout,2357
+CT1,17,CT1.N17,chargelemma,payload_constructor,Payload lemma — build P_1→4 — charge map,S-Rout,2358
+CT1,18,CT1.N18,sitelemma,payload_constructor,Payload lemma — build P_1→5 — local sites,S-Rout,2359
+CT1,19,CT1.N19,activelemma,payload_constructor,Payload lemma — build P_1→6 — activity setup,S-Rout,2360
+CT1,20,CT1.N20,thicklemma,payload_constructor,Payload lemma — build P_1→17 — sparse offsets,S-Rout,2361
+CT1,21,CT1.N21,minroute,consumer_handoff,CT 2 — minimality / replacement,S-Trig,2362
+CT1,22,CT1.N22,typeroute,consumer_handoff,CT 3 — external types,S-Trig,2363
+CT1,23,CT1.N23,chargeroute,consumer_handoff,CT 4 — charging,S-Trig,2364
+CT1,24,CT1.N24,siteroute,consumer_handoff,CT 5 — local-to-global,S-Trig,2365
+CT1,25,CT1.N25,activeroute,consumer_handoff,CT 6 — active/dormant,S-Trig,2366
+CT1,26,CT1.N26,thickroute,consumer_handoff,CT 17 — target thickening,S-Trig,2367
+CT2,1,CT2.N01,input,input,Assumption — minimal counterexample G under a fixed well-order,S-Trig,2488
+CT2,2,CT2.N02,piece,decision,Definition — admissible piece X with interface data,S-Dich,2489
+CT2,3,CT2.N03,scopebad,scope_audit,Scope candidate — unbounded interface — scope audit,A-Scope,2490
+CT2,4,CT2.N04,delete,decision,Lemma — deletion preserves hypotheses and target avoidance?,S-Dich,2491
+CT2,5,CT2.N05,delout,certificate,C2 — smaller counterexample contradiction,A-Cert|S-Equiv|S-Pers|S-Meas,2492
+CT2,6,CT2.N06,critical,definition,Branch-state record — X is deletion-critical,S-Def,2493
+CT2,7,CT2.N07,profile,definition,Definition — target-response profile tau(X),S-Def,2494
+CT2,8,CT2.N08,context,decision,Lemma — valid in every compatible outside context?,S-Dich,2495
+CT2,9,CT2.N09,replace,decision,Lemma — smaller X' with tau(X')⊆tau(X)?,S-Dich,2496
+CT2,10,CT2.N10,repout,certificate,C2 — replacement contradicts minimality,A-Cert|S-Equiv|S-Pers|S-Meas,2497
+CT2,11,CT2.N11,ctxres,residual_record,Payload record — P_2→3: context-dependent response,S-Def,2498
+CT2,12,CT2.N12,ctxlemma,assertion,Lemma — P_2→3 satisfies CT3 trigger,S-Prove|S-Trig,2499
+CT2,13,CT2.N13,uncomp,assertion,Corollary — survivor is deletion-critical — and target- — uncompressible,S-Prove,2500
+CT2,14,CT2.N14,ctxroute,consumer_handoff,CT 3 — external types,S-Trig,2501
+CT2,15,CT2.N15,route,decision,Routing theorem — what data is now available?,S-Dich,2502
+CT2,16,CT2.N16,critlemma,payload_constructor,Payload lemma — build P_2→10 — criticality refinement,S-Rout,2503
+CT2,17,CT2.N17,resplemma,payload_constructor,Payload lemma — build P_2→3 — missing response datum,S-Rout,2504
+CT2,18,CT2.N18,next,consumer_handoff,CT 10 — refinement,S-Trig,2505
+CT2,19,CT2.N19,typeroute,consumer_handoff,CT 3 — external types,S-Trig,2506
+CT3,1,CT3.N01,piece,input,Input — boundaried piece X with interface data,S-Trig,2633
+CT3,2,CT3.N02,type,decision,Definition — external type tau(X),S-Dich,2634
+CT3,3,CT3.N03,scopebad,scope_audit,Scope candidate — infinite type index — scope audit,A-Scope,2635
+CT3,4,CT3.N04,replacements,definition,Definition — candidate replacement family R(X),S-Def,2636
+CT3,5,CT3.N05,compare,decision,Lemma — replacement-inclusion test,S-Dich,2637
+CT3,6,CT3.N06,compress,certificate,C2 — globally valid replacement,A-Cert|S-Equiv|S-Pers|S-Meas,2638
+CT3,7,CT3.N07,distinguish,decision,Dichotomy lemma — separating context vs.\ indistinguishability,S-Dich,2639
+CT3,8,CT3.N08,defectlemma,decision,Routing theorem — which defect payload is certified?,S-Dich,2640
+CT3,9,CT3.N09,routedclose,certificate,C3 — defect account already routed,A-Cert|S-Rout|S-Trig,2641
+CT3,10,CT3.N10,exchlemma,payload_constructor,Payload lemma — build P_3→7 — separating-context defect,S-Rout,2642
+CT3,11,CT3.N11,defect,consumer_handoff,CT 7 — exchange,S-Trig,2643
+CT3,12,CT3.N12,peellemma,payload_constructor,Payload lemma — build P_3→12 — load plus measure,S-Rout,2644
+CT3,13,CT3.N13,peelroute,consumer_handoff,CT 12 — peeling loop,S-Trig,2645
+CT3,14,CT3.N14,residual,definition,Branch-state definition — unresolved external-type residual,S-Def,2646
+CT3,15,CT3.N15,persist,assertion,Lemma — type-data persistence,S-Prove|S-Pers,2647
+CT3,16,CT3.N16,next,decision,Routing theorem — what finite type structure remains?,S-Dich,2648
+CT3,17,CT3.N17,repeatlemma,payload_constructor,Payload lemma — build P_3→8 — repeated-type sequence,S-Rout,2649
+CT3,18,CT3.N18,tablelemma,assertion,Lemma — finite-table certificate,S-Prove|S-Comp,2650
+CT3,19,CT3.N19,pumproute,consumer_handoff,CT 8 — pumping,S-Trig,2651
+CT3,20,CT3.N20,tableclose,certificate,C5 — finite type table closes,A-Cert|S-Comp,2652
+CT4,1,CT4.N01,input,decision,Definition — demand set D and scarce payer set P,S-Dich,2784
+CT4,2,CT4.N02,scopebad,scope_audit,Scope candidate — no admissible local demand family — scope audit,A-Scope,2785
+CT4,3,CT4.N03,assign,decision,Definition — canonical assignment rule pi:D,S-Dich,2786
+CT4,4,CT4.N04,nopayer,residual_record,Payload record — P_4→13: no available payer,S-Def,2787
+CT4,5,CT4.N05,tierrepair,payload_constructor,Payload lemma — P_4→13 satisfies CT13 trigger,S-Rout,2788
+CT4,6,CT4.N06,tierroute,consumer_handoff,CT 13 — tiered charging,S-Trig,2789
+CT4,7,CT4.N07,canon,assertion,"Lemma — pi is total, deterministic, and branch-state measurable?",S-Prove|S-Det,2790
+CT4,8,CT4.N08,mult,decision,Dichotomy lemma — are all fibres C-bounded?,S-Dich,2791
+CT4,9,CT4.N09,overtrig,payload_constructor,Payload lemma — build P_4→9 — overcharged fibre,S-Rout,2792
+CT4,10,CT4.N10,overload,consumer_handoff,CT 9 — overload,S-Trig,2793
+CT4,11,CT4.N11,cap,assertion,Lemma — capacity inequality — |D|≤ C|P|+o(n),S-Prove|S-Comp,2794
+CT4,12,CT4.N12,lower,assertion,Lemma — demand lower bound — |D|≥ cn-o(n),S-Prove|S-Comp,2795
+CT4,13,CT4.N13,contr,comparison,Comparison theorem — does demand exceed capacity?,S-Comp,2796
+CT4,14,CT4.N14,out,certificate,C4 — charging contradiction,A-Cert|S-Comp,2797
+CT4,15,CT4.N15,open,definition,Branch-state record — capacity bound remains compatible,S-Def,2798
+CT4,16,CT4.N16,masslemma,payload_constructor,Payload lemma — build P_4→14 — aggregate mass residual,S-Rout,2799
+CT4,17,CT4.N17,aggregate,consumer_handoff,CT 14 — aggregate closure,S-Trig,2800
+CT5,1,CT5.N01,input,input,Input — P_1→5: linear local-site family S,S-Trig,2925
+CT5,2,CT5.N02,tests,assertion,Lemma — site dichotomy: active or inactive in the branch state,S-Prove,2926
+CT5,3,CT5.N03,demands,assertion,Lemma — inactive sites create bounded local witnesses,S-Prove|S-Comp,2927
+CT5,4,CT5.N04,audit,decision,Lemma — each global estimate is backed by local witnesses?,S-Dich,2928
+CT5,5,CT5.N05,auditroute,decision,Routing theorem — what failed in the locality lemma?,S-Dich,2929
+CT5,6,CT5.N06,bad,scope_audit,Scope candidate — no bounded witnesses — scope audit,A-Scope,2930
+CT5,7,CT5.N07,charge,assertion,Lemma — canonical charging of witnesses to scarce payers,S-Prove|S-Det,2931
+CT5,8,CT5.N08,nonlocalres,residual_record,Payload record — P_5→11: additive global deficit,S-Def,2932
+CT5,9,CT5.N09,sum,assertion,Lemma — local-to-global summation,S-Prove|S-Comp,2933
+CT5,10,CT5.N10,loclemma,assertion,Lemma — P_5→11 satisfies CT11 trigger,S-Prove|S-Trig,2934
+CT5,11,CT5.N11,capacity,comparison,Comparison theorem — does forced local mass exceed capacity?,S-Comp,2935
+CT5,12,CT5.N12,chargemap,payload_constructor,"Payload lemma — build P_5→4 — _S,P_S,pi_S,C_S,ell_S",S-Rout,2936
+CT5,13,CT5.N13,chargeroute,consumer_handoff,CT 4 — charging,S-Trig,2937
+CT5,14,CT5.N14,locroute,consumer_handoff,CT 11 — localization,S-Trig,2938
+CT5,15,CT5.N15,out,certificate,C4 — P_5→ C4 — global contradiction,A-Cert|S-Comp,2939
+CT5,16,CT5.N16,shortfall,residual_record,Payload record — P_5→14: local mass not yet decisive,S-Def,2940
+CT5,17,CT5.N17,masslemma,assertion,Lemma — P_5→14 satisfies CT14 trigger,S-Prove|S-Trig,2941
+CT5,18,CT5.N18,massroute,consumer_handoff,CT 14 — aggregate closure,S-Trig,2942
+CT6,1,CT6.N01,input,definition,Definition — monitored local test and activity threshold,S-Def,3042
+CT6,2,CT6.N02,active,decision,Dichotomy lemma — are there enough active tests?,S-Dich,3043
+CT6,3,CT6.N03,hot,assertion,Lemma — active tests force explicit demand,S-Prove,3044
+CT6,4,CT6.N04,hotout,payload_constructor,Payload lemma — build P_6→4 — active demand ledger,S-Rout,3045
+CT6,5,CT6.N05,hotroute,consumer_handoff,CT 4 — charging,S-Trig,3046
+CT6,6,CT6.N06,cold,definition,Definition — dormant branch and first failing scale,S-Def,3047
+CT6,7,CT6.N07,witness,decision,Lemma — first-failure witness is bounded and structural,S-Dich,3048
+CT6,8,CT6.N08,scopebad,scope_audit,Scope candidate — no bounded first failure — scope audit,A-Scope,3049
+CT6,9,CT6.N09,refineres,residual_record,Payload record — P_6→10: witness appears after refinement,S-Def,3050
+CT6,10,CT6.N10,refinelemma,assertion,Lemma — P_6→10 satisfies CT10 trigger,S-Prove|S-Trig,3051
+CT6,11,CT6.N11,refineroute,consumer_handoff,CT 10 — refinement,S-Trig,3052
+CT6,12,CT6.N12,coldroute,decision,Routing theorem — what witness type is certified?,S-Dich,3053
+CT6,13,CT6.N13,hitlemma,assertion,Lemma — target-realization trigger,S-Prove|S-Trig,3054
+CT6,14,CT6.N14,exlemma,payload_constructor,Payload lemma — build P_6→7 — same-interface witness,S-Rout,3055
+CT6,15,CT6.N15,typelemma,payload_constructor,Payload lemma — build P_6→3 — boundary-response witness,S-Rout,3056
+CT6,16,CT6.N16,chargellemma,payload_constructor,Payload lemma — build P_6→9 — saturated payer,S-Rout,3057
+CT6,17,CT6.N17,hitout,certificate,C1 — direct target hit,A-Cert|S-Equiv,3058
+CT6,18,CT6.N18,exchangefig,consumer_handoff,CT 7 — exchange,S-Trig,3059
+CT6,19,CT6.N19,typefig,consumer_handoff,CT 3 — external types,S-Trig,3060
+CT6,20,CT6.N20,chargefig,consumer_handoff,CT 9 — overload,S-Trig,3061
+CT7,1,CT7.N01,input,definition,Definition — bounded exchange pair A≤ftrightarrow A' with common interface,S-Def,3199
+CT7,2,CT7.N02,realize,decision,Lemma — does a compatible context realize T?,S-Dich,3200
+CT7,3,CT7.N03,hit,certificate,C1 — direct target hit,A-Cert|S-Equiv,3201
+CT7,4,CT7.N04,distinguish,decision,Lemma — does a context distinguish A from A'?,S-Dich,3202
+CT7,5,CT7.N05,deflemma,decision,Routing theorem — which defect payload is certified?,S-Dich,3203
+CT7,6,CT7.N06,routedclose,certificate,C3 — defect account already routed,A-Cert|S-Rout|S-Trig,3204
+CT7,7,CT7.N07,extlemma,payload_constructor,Payload lemma — build P_7→3 — external-type defect,S-Rout,3205
+CT7,8,CT7.N08,defect,consumer_handoff,CT 3 — external types,S-Trig,3206
+CT7,9,CT7.N09,peellemma,payload_constructor,Payload lemma — build P_7→12 — load plus measure,S-Rout,3207
+CT7,10,CT7.N10,peeldefect,consumer_handoff,CT 12 — peeling loop,S-Trig,3208
+CT7,11,CT7.N11,neutral,decision,Lemma — same response in all contexts and smaller representative?,S-Dich,3209
+CT7,12,CT7.N12,scopebad,scope_audit,Scope candidate — no finite context generator — scope audit,A-Scope,3210
+CT7,13,CT7.N13,complemma,assertion,Lemma — target-equivalent compression,S-Prove|S-Equiv,3211
+CT7,14,CT7.N14,compress,certificate,C2 — minimality contradiction,A-Cert|S-Equiv|S-Pers|S-Meas,3212
+CT7,15,CT7.N15,neutralres,residual_record,Payload record — neutral noncompressive exchange,S-Def,3213
+CT7,16,CT7.N16,neutralroute,decision,Routing theorem — what neutral datum remains?,S-Dich,3214
+CT7,17,CT7.N17,reflemma,payload_constructor,Payload lemma — build P_7→10 — neutral label,S-Rout,3215
+CT7,18,CT7.N18,exactlemma,payload_constructor,Payload lemma — build P_7→16 — whole-object data,S-Rout,3216
+CT7,19,CT7.N19,refroute,consumer_handoff,CT 10 — refinement,S-Trig,3217
+CT7,20,CT7.N20,exactroute,consumer_handoff,CT 16 — whole-object types,S-Trig,3218
+CT8,1,CT8.N01,input,definition,"Definition — bounded-width sequence S_0,,S_m",S-Def,3336
+CT8,2,CT8.N02,types,decision,Definition — finite label or exact external type tau(S_i),S-Dich,3337
+CT8,3,CT8.N03,scopebad,scope_audit,Scope candidate — no finite type space — scope audit,A-Scope,3338
+CT8,4,CT8.N04,labelres,residual_record,Payload record — P_8→10: label space too coarse,S-Def,3339
+CT8,5,CT8.N05,labeldesign,payload_constructor,Payload lemma — P_8→10 satisfies CT10 trigger,S-Rout,3340
+CT8,6,CT8.N06,labelroute,consumer_handoff,CT 10 — refinement,S-Trig,3341
+CT8,7,CT8.N07,repeat,decision,Pigeonhole lemma — does an exact type repeat?,S-Dich,3342
+CT8,8,CT8.N08,short,assertion,Lemma — finite-threshold certificate,S-Prove,3343
+CT8,9,CT8.N09,shortroute,certificate,C5 — finite enumeration,A-Cert|S-Comp,3344
+CT8,10,CT8.N10,equal,decision,Dichotomy lemma — are repeated states equal in all contexts?,S-Dich,3345
+CT8,11,CT8.N11,defect,assertion,Lemma — separating-context trigger,S-Prove|S-Trig,3346
+CT8,12,CT8.N12,defectroute,decision,Routing theorem — how is the witness used?,S-Dich,3347
+CT8,13,CT8.N13,typelemma,payload_constructor,Payload lemma — build P_8→3 — separating type,S-Rout,3348
+CT8,14,CT8.N14,exlemma,payload_constructor,Payload lemma — build P_8→7 — chain exchange,S-Rout,3349
+CT8,15,CT8.N15,typeroute,consumer_handoff,CT 3 — external types,S-Trig,3350
+CT8,16,CT8.N16,exroute,consumer_handoff,CT 7 — exchange,S-Trig,3351
+CT8,17,CT8.N17,complemma,assertion,Lemma — repeated-type compression,S-Prove,3352
+CT8,18,CT8.N18,compress,certificate,C2 — minimality contradiction,A-Cert|S-Equiv|S-Pers|S-Meas,3353
+CT9,1,CT9.N01,input,definition,Definition — charging map pi:D→P,S-Def,3463
+CT9,2,CT9.N02,fiberdef,decision,Definition — payer fibre F_p=pi^-1(p),S-Dich,3464
+CT9,3,CT9.N03,scopebad,scope_audit,Scope candidate — no finite labelling — scope audit,A-Scope,3465
+CT9,4,CT9.N04,labelres,residual_record,Payload record — P_9→10: label refinement needed,S-Def,3466
+CT9,5,CT9.N05,labellemma,assertion,Lemma — P_9→10 satisfies CT10 trigger,S-Prove|S-Trig,3467
+CT9,6,CT9.N06,labelroute,consumer_handoff,CT 10 — refinement,S-Trig,3468
+CT9,7,CT9.N07,fiber,decision,Dichotomy lemma — is some fibre overloaded?,S-Dich,3469
+CT9,8,CT9.N08,bounded,payload_constructor,Payload lemma — build P_9→4 — bounded multiplicity,S-Rout,3470
+CT9,9,CT9.N09,boundedroute,consumer_handoff,CT 4 — charging,S-Trig,3471
+CT9,10,CT9.N10,overload,definition,Branch-state definition — overloaded labelled fibre,S-Def,3472
+CT9,11,CT9.N11,mono,assertion,Pigeonhole lemma — homogeneous overloaded subfamily,S-Prove|S-Comp,3473
+CT9,12,CT9.N12,extract,assertion,"Instantiation lemma — target hit, same-interface exchange, or long chain",S-Prove,3474
+CT9,13,CT9.N13,route,decision,Routing theorem — what object was extracted?,S-Dich,3475
+CT9,14,CT9.N14,hitlemma,assertion,Lemma — target-hit trigger,S-Prove|S-Trig,3476
+CT9,15,CT9.N15,exchangelemma,payload_constructor,Payload lemma — build P_9→7 — same-interface object,S-Rout,3477
+CT9,16,CT9.N16,pumplemma,payload_constructor,Payload lemma — build P_9→8 — long chain,S-Rout,3478
+CT9,17,CT9.N17,hitout,certificate,C1 — direct target hit,A-Cert|S-Equiv,3479
+CT9,18,CT9.N18,exchangeout,consumer_handoff,CT 7 — exchange,S-Trig,3480
+CT9,19,CT9.N19,pumpout,consumer_handoff,CT 8 — pumping,S-Trig,3481
+CT10,1,CT10.N01,input,definition,Definition — surviving residual class C,S-Def,3586
+CT10,2,CT10.N02,recoverentry,recovery,"Recovery entry — payloads from CT2, CT6, CT7, CT8, CT9, CT11, CT14, CT17",S-Def|S-Rout,3587
+CT10,3,CT10.N03,label,decision,Definition — finite refinement label ell:C→,S-Dich,3588
+CT10,4,CT10.N04,scopebad,scope_audit,Scope candidate — infinite refinement alphabet — scope audit,A-Scope,3589
+CT10,5,CT10.N05,exhaust,assertion,Lemma — label classes exhaust C,S-Prove|S-Comp,3590
+CT10,6,CT10.N06,exchange,assertion,Lemma — supported exchanges are finite inside each label class,S-Prove,3591
+CT10,7,CT10.N07,outcome,decision,Classification theorem — what happens in one label class?,S-Dich,3592
+CT10,8,CT10.N08,closeprop,assertion,Proposition — label class is empty,S-Prove,3593
+CT10,9,CT10.N09,classclose,certificate,C5 — label class closed,A-Cert|S-Comp,3594
+CT10,10,CT10.N10,routelemma,payload_constructor,Payload lemma — class exchange or response/type datum,S-Rout,3595
+CT10,11,CT10.N11,closeroute,decision,Routing theorem — class result,S-Dich,3596
+CT10,12,CT10.N12,exchangefig,consumer_handoff,CT 7 — exchange,S-Trig,3597
+CT10,13,CT10.N13,typefig,consumer_handoff,CT 3 — external types,S-Trig,3598
+CT10,14,CT10.N14,promote,assertion,Lemma — missing-datum extraction,S-Prove,3599
+CT10,15,CT10.N15,next,definition,Definition — promoted invariant,S-Def,3600
+CT10,16,CT10.N16,nextfig,decision,Routing theorem — new invariant type,S-Dich,3601
+CT10,17,CT10.N17,rankgen,consumer_handoff,CT 15 — rank forcing,S-Trig,3602
+CT11,1,CT11.N01,input,definition,Definition — additive budget B(R)<0 on residual region R,S-Def,3692
+CT11,2,CT11.N02,decomp,assertion,Lemma — admissible decomposition into connected pieces,S-Prove,3693
+CT11,3,CT11.N03,closed,decision,Lemma — admissibility is preserved by local moves?,S-Dich,3694
+CT11,4,CT11.N04,toolroute,decision,Routing theorem — why did admissibility fail?,S-Dich,3695
+CT11,5,CT11.N05,bad,scope_audit,Scope candidate — no finite local type — scope audit,A-Scope,3696
+CT11,6,CT11.N06,sum,assertion,Lemma — summation of local contributions,S-Prove|S-Comp,3697
+CT11,7,CT11.N07,toolres,residual_record,Payload record — P_11→10: admissibility gap,S-Def,3698
+CT11,8,CT11.N08,local,decision,Localization lemma — does some connected X⊆ R have B(X)<0?,S-Dich,3699
+CT11,9,CT11.N09,badlocal,audit_gate,Admission reject — additivity not certified,A-Admission,3700
+CT11,10,CT11.N10,toollemma,assertion,Lemma — P_11→10 satisfies CT10 trigger,S-Prove|S-Trig,3701
+CT11,11,CT11.N11,object,definition,Definition — localized deficit piece X,S-Def,3702
+CT11,12,CT11.N12,toolfix,consumer_handoff,CT 10 — refinement,S-Trig,3703
+CT11,13,CT11.N13,nextroute,decision,Routing theorem — which local object was found?,S-Dich,3704
+CT11,14,CT11.N14,targetlemma,payload_constructor,Payload lemma — build P_11→1 — target-test data,S-Rout,3705
+CT11,15,CT11.N15,exchangelemma,payload_constructor,Payload lemma — build P_11→7 — localized exchange,S-Rout,3706
+CT11,16,CT11.N16,aggregatelemma,payload_constructor,Payload lemma — build P_11→14 — carried mass,S-Rout,3707
+CT11,17,CT11.N17,targetroute,consumer_handoff,CT 1 — local target tests,S-Trig,3708
+CT11,18,CT11.N18,exchangeroute,consumer_handoff,CT 7 — exchange,S-Trig,3709
+CT11,19,CT11.N19,aggregateroute,consumer_handoff,CT 14 — aggregate closure,S-Trig,3710
+CT12,1,CT12.N01,input,definition,Definition — saturated branch state with routed load L,S-Def,3839
+CT12,2,CT12.N02,measuredef,decision,Definition — well-founded measure M(L)∈N,S-Dich,3840
+CT12,3,CT12.N03,sat,decision,Dichotomy lemma — is a peeling exit triggered?,S-Dich,3841
+CT12,4,CT12.N04,discharge,assertion,Lemma — unsaturated discharge inequality,S-Prove|S-Comp,3842
+CT12,5,CT12.N05,unsat,certificate,C4 — unsaturated branch,A-Cert|S-Comp,3843
+CT12,6,CT12.N06,peel,assertion,Lemma — per-pass peel removes one routed unit,S-Prove,3844
+CT12,7,CT12.N07,restore,decision,Lemma — branch state restored and new demands paid?,S-Dich|S-Rest|S-Pers,3845
+CT12,8,CT12.N08,scopebad,scope_audit,Scope candidate — load not measurable — scope audit,A-Scope,3846
+CT12,9,CT12.N09,restorefail,decision,Routing theorem — why did restoration fail?,S-Dich|S-Rest|S-Pers,3847
+CT12,10,CT12.N10,measure,assertion,Lemma — strict decrease M(L')<M(L),S-Prove|S-Meas,3848
+CT12,11,CT12.N11,statefix,residual_record,Payload record — restored state with new demand,S-Def,3849
+CT12,12,CT12.N12,repairroute,decision,Routing theorem — what repair data is present?,S-Dich,3850
+CT12,13,CT12.N13,chargelemma,payload_constructor,Payload lemma — build P_12→4 — ordinary demand,S-Rout,3851
+CT12,14,CT12.N14,tierlemma,payload_constructor,Payload lemma — build P_12→13 — tier interaction,S-Rout,3852
+CT12,15,CT12.N15,chargeroute,consumer_handoff,CT 4 — charging,S-Trig,3853
+CT12,16,CT12.N16,tierroute,consumer_handoff,CT 13 — tiered charging,S-Trig,3854
+CT13,1,CT13.N01,input,decision,"Definition — demands D, tier-1 payers P_1, and availability hypothesis A",S-Dich,3935
+CT13,2,CT13.N02,scopebad,scope_audit,Scope candidate — no measurable tier resource — scope audit,A-Scope,3936
+CT13,3,CT13.N03,avail,decision,Dichotomy lemma — is A available?,S-Dich,3937
+CT13,4,CT13.N04,tierone,assertion,Lemma — tier-1 canonical payment,S-Prove|S-Det,3938
+CT13,5,CT13.N05,capone,payload_constructor,Payload lemma — build P_13→4 — tier-1 account,S-Rout,3939
+CT13,6,CT13.N06,caproute,consumer_handoff,CT 4 — charging,S-Trig,3940
+CT13,7,CT13.N07,minobs,assertion,Lemma — minimal obstruction O to availability,S-Prove,3941
+CT13,8,CT13.N08,tiertwo,assertion,Lemma — tier-2 charge to fallback payers P_2,S-Prove,3942
+CT13,9,CT13.N09,reconcile,decision,Lemma — tier resources disjoint or explicitly reconciled?,S-Dich,3943
+CT13,10,CT13.N10,overlaproute,decision,Routing theorem — what remains after reconciliation?,S-Dich,3944
+CT13,11,CT13.N11,combined,assertion,Theorem — combined tier capacity bound,S-Prove|S-Comp,3945
+CT13,12,CT13.N12,overlapres,residual_record,Payload record — overlap-obstruction residual,S-Def,3946
+CT13,13,CT13.N13,overlaplemma,payload_constructor,Payload lemma — build P_13→9 or P_13→14,S-Rout,3947
+CT13,14,CT13.N14,captwo,certificate,C4 — capacity contradiction,A-Cert|S-Comp,3948
+CT13,15,CT13.N15,overroute,consumer_handoff,CT 9 — overload,S-Trig,3949
+CT13,16,CT13.N16,massroute,consumer_handoff,CT 14 — aggregate closure,S-Trig,3950
+CT14,1,CT14.N01,input,decision,Definition — residual class C with recorded branch state,S-Dich,4062
+CT14,2,CT14.N02,lower,assertion,Lemma — branch state forces C to carry ≥ cn deficit,S-Prove,4063
+CT14,3,CT14.N03,upper,assertion,Lemma — members of C charge to a global o(n) resource,S-Prove,4064
+CT14,4,CT14.N04,mult,decision,Lemma — upper bound counts carried-charge multiplicity?,S-Dich,4065
+CT14,5,CT14.N05,multroute,decision,Routing theorem — which capacity datum failed?,S-Dich,4066
+CT14,6,CT14.N06,scopebad,scope_audit,Scope candidate — no finite bounded-capacity description — scope audit,A-Scope,4067
+CT14,7,CT14.N07,compare,comparison,Comparison theorem — ≥ cn demand versus o(n) capacity,S-Comp,4068
+CT14,8,CT14.N08,unbounded,residual_record,Payload record — P_14→9: unbounded-capacity member,S-Def,4069
+CT14,9,CT14.N09,refine,residual_record,Payload record — P_14→10: missing capacity label,S-Def,4070
+CT14,10,CT14.N10,overlemma,payload_constructor,Payload lemma — P_14→9 satisfies CT9 trigger,S-Rout,4071
+CT14,11,CT14.N11,refinelemma,payload_constructor,Payload lemma — P_14→10 satisfies CT10 trigger,S-Rout,4072
+CT14,12,CT14.N12,closed,certificate,C4 — C is empty on the surviving branch,A-Cert|S-Comp,4073
+CT14,13,CT14.N13,overroute,consumer_handoff,CT 9 — overload,S-Trig,4074
+CT14,14,CT14.N14,refineroute,consumer_handoff,CT 10 — refinement,S-Trig,4075
+CT15,1,CT15.N01,input,definition,Definition — raw local tests with target-relevant rank r_T,S-Def,4177
+CT15,2,CT15.N02,rankrepair,recovery,Repair datum — rank definition not target-relative,S-Def|S-Rout,4178
+CT15,3,CT15.N03,rankrepairlemma,assertion,Lemma — redesign rank relative to T,S-Prove|S-Comp,4179
+CT15,4,CT15.N04,targetaudit,decision,Lemma — rank is defined relative to the target predicate?,S-Dich,4180
+CT15,5,CT15.N05,scopebad,scope_audit,Scope candidate — no finite rank — scope audit,A-Scope,4181
+CT15,6,CT15.N06,rank,decision,Dichotomy lemma — does a rank drop occur?,S-Dich,4182
+CT15,7,CT15.N07,dep,assertion,Lemma — rank drop produces structural dependence,S-Prove|S-Comp,4183
+CT15,8,CT15.N08,structroute,decision,Routing theorem — what dependence is certified?,S-Dich,4184
+CT15,9,CT15.N09,typelemma,payload_constructor,Payload lemma — build P_15→3 — rank defect,S-Rout,4185
+CT15,10,CT15.N10,exchangelemma,payload_constructor,Payload lemma — build P_15→7 — rank exchange,S-Rout,4186
+CT15,11,CT15.N11,wholelemma,payload_constructor,Payload lemma — build P_15→16 — rank delocalization,S-Rout,4187
+CT15,12,CT15.N12,typeroute,consumer_handoff,CT 3 — external types,S-Trig,4188
+CT15,13,CT15.N13,exchangeroute,consumer_handoff,CT 7 — exchange,S-Trig,4189
+CT15,14,CT15.N14,wholeroute,consumer_handoff,CT 16 — whole-object types,S-Trig,4190
+CT15,15,CT15.N15,full,assertion,Lemma — full-rank branch gives independent coordinates,S-Prove|S-Comp,4191
+CT15,16,CT15.N16,charge,assertion,Lemma — recorded rank charge,S-Prove|S-Comp,4192
+CT15,17,CT15.N17,compare,comparison,Comparison theorem — does rank demand exceed cap?,S-Comp,4193
+CT15,18,CT15.N18,budget,certificate,C4 — rank budget contradiction,A-Cert|S-Comp,4194
+CT15,19,CT15.N19,ledger,residual_record,Payload record — P_15→4: rank demand ledger,S-Def,4195
+CT15,20,CT15.N20,chargelemma,assertion,Lemma — P_15→4 satisfies CT4 trigger,S-Prove|S-Trig,4196
+CT15,21,CT15.N21,chargeroute,consumer_handoff,CT 4 — charging,S-Trig,4197
+CT16,1,CT16.N01,input,definition,Definition — delocalized distinguishing structure X⊆ Z,S-Def,4302
+CT16,2,CT16.N02,whole,decision,Dichotomy lemma — is Z=G?,S-Dich,4303
+CT16,3,CT16.N03,proper,payload_constructor,Payload lemma — build P_16→3 — proper-piece context,S-Rout,4304
+CT16,4,CT16.N04,replace,consumer_handoff,CT 3 — external types,S-Trig,4305
+CT16,5,CT16.N05,closedtype,definition,Definition — exact closed type for the whole object,S-Def,4306
+CT16,6,CT16.N06,compute,decision,Lemma — closed-type computation,S-Dich,4307
+CT16,7,CT16.N07,scopebad,scope_audit,Scope candidate — closed type not finite — scope audit,A-Scope,4308
+CT16,8,CT16.N08,equal,decision,Lemma — are the closed data literally equal?,S-Dich,4309
+CT16,9,CT16.N09,distinct,residual_record,Payload record — P_16→10: distinct closed type,S-Def,4310
+CT16,10,CT16.N10,defaultlemma,assertion,Lemma — P_16→10 satisfies CT10 trigger,S-Prove|S-Trig,4311
+CT16,11,CT16.N11,defaultroute,consumer_handoff,CT 10 — refinement,S-Trig,4312
+CT16,12,CT16.N12,idlemma,assertion,Lemma — exact-type identification,S-Prove,4313
+CT16,13,CT16.N13,out,certificate,C2 — whole-object identification,A-Cert|S-Equiv|S-Pers|S-Meas,4314
+CT17,1,CT17.N01,input,definition,Definition — sparse target set and bounded local offset family,S-Def,4407
+CT17,2,CT17.N02,compatible,decision,Lemma — offsets are realizable in the same branch state?,S-Dich,4408
+CT17,3,CT17.N03,scopebad,scope_audit,Scope candidate — no bounded offsets — scope audit,A-Scope,4409
+CT17,4,CT17.N04,block,assertion,Lemma — one structural event yields the translate x+,S-Prove,4410
+CT17,5,CT17.N05,compres,residual_record,Payload record — incompatible completion classes,S-Def,4411
+CT17,6,CT17.N06,scale,decision,Scale-split theorem — finite range or repeated increments?,S-Dich,4412
+CT17,7,CT17.N07,compchoice,decision,Routing theorem — which separation data exists?,S-Dich,4413
+CT17,8,CT17.N08,typelemma,payload_constructor,Payload lemma — build P_17→3 — type separation,S-Rout,4414
+CT17,9,CT17.N09,labellemma,payload_constructor,Payload lemma — build P_17→10 — label separation,S-Rout,4415
+CT17,10,CT17.N10,finite,assertion,Lemma — finite survivor-list certificate,S-Prove,4416
+CT17,11,CT17.N11,typeroute,consumer_handoff,CT 3 — external types,S-Trig,4417
+CT17,12,CT17.N12,labelroute,consumer_handoff,CT 10 — refinement,S-Trig,4418
+CT17,13,CT17.N13,empty,decision,Lemma — is the finite survivor list empty?,S-Dich,4419
+CT17,14,CT17.N14,targetclose,certificate,C5 — finite survivors exhausted,A-Cert|S-Comp,4420
+CT17,15,CT17.N15,finitelemma,payload_constructor,Payload lemma — build P_17→8 — finite survivors,S-Rout,4421
+CT17,16,CT17.N16,finitefig,consumer_handoff,CT 8 — pumping,S-Trig,4422
+CT17,17,CT17.N17,orbit,assertion,"Lemma — orbit, interval, or order criterion",S-Prove,4423
+CT17,18,CT17.N18,arithq,decision,Lemma — does the arithmetic criterion rule out all blocks?,S-Dich,4424
+CT17,19,CT17.N19,arithclose,certificate,C1 — arithmetic target hit,A-Cert|S-Equiv,4425
+CT17,20,CT17.N20,masslemma,payload_constructor,Payload lemma — build P_17→14 — arithmetic mass,S-Rout,4426
+CT17,21,CT17.N21,arith,consumer_handoff,CT 14 — aggregate closure,S-Trig,4427

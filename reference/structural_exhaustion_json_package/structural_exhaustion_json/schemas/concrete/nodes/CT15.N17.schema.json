@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT15.N17.schema.json",
+  "title": "CT15.N17 completed discharge record — Comparison theorem — does rank demand exceed cap?",
+  "description": "Concrete completed-discharge schema for CT15.N17, the comparison node “Comparison theorem — does rank demand exceed cap?” of tactic CT15 (Rank forcing). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT15.N17. It must be exactly `CT15`, selecting Rank forcing (rank) as the tactic that owns the comparison step “Comparison theorem — does rank demand exceed cap?” in the exhaustive proof flow.",
+          "const": "CT15"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Comparison theorem — does rank demand exceed cap?”. It must be exactly `CT15.N17` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT15.N17"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT15.N17 within tactic CT15 (Rank forcing). It must be exactly 17, matching the N17 suffix and the node's position in that tactic graph.",
+          "const": 17
+        },
+        "status": {
+          "description": "Required completion state for CT15.N17. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the comparison obligation “Comparison theorem — does rank demand exceed cap?”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT15.N17. The array must contain `S-Comp`; these are precisely the contracts assigned to “Comparison theorem — does rank demand exceed cap?”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Comp` to occur in CT15.N17's discharged-contract list, because this node must use the contract that places the estimates in a common comparison and records the resulting conclusion for the obligation “Comparison theorem — does rank demand exceed cap?”.",
+                "const": "S-Comp"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT15.N17 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Comp (comparison, comparisonKind, conclusionKind, conclusionRef, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Comp` evidence instance at CT15.N17. It must be exactly `S-Comp`, identifying the contract that places the estimates in a common comparison and records the resulting conclusion; the same instance must supply comparison, comparisonKind, conclusionKind, conclusionRef, evidence.",
+                    "const": "S-Comp"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT15.N17.O1",
+    "modality": "prove",
+    "statement": {
+      "informal": "Prove or verify: Comparison theorem — does rank demand exceed cap?",
+      "latex": "\\textbf{Comparison theorem}\\\\does rank demand exceed cap?"
+    },
+    "contractSchemas": [
+      "S-Comp"
+    ],
+    "dependencies": [
+      "CT15.N16"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

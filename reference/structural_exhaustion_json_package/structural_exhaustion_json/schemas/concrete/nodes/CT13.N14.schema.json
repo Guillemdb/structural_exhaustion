@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT13.N14.schema.json",
+  "title": "CT13.N14 completed discharge record — C4 — capacity contradiction",
+  "description": "Concrete completed-discharge schema for CT13.N14, the certificate node “C4 — capacity contradiction” of tactic CT13 (Tiered charging). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT13.N14. It must be exactly `CT13`, selecting Tiered charging (tiered charging) as the tactic that owns the certificate step “C4 — capacity contradiction” in the exhaustive proof flow.",
+          "const": "CT13"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “C4 — capacity contradiction”. It must be exactly `CT13.N14` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT13.N14"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT13.N14 within tactic CT13 (Tiered charging). It must be exactly 14, matching the N14 suffix and the node's position in that tactic graph.",
+          "const": 14
+        },
+        "status": {
+          "description": "Required completion state for CT13.N14. It must be exactly `validated`, meaning that the node's certificate, trigger, or other validation obligation has been checked for the certificate obligation “C4 — capacity contradiction”; another lifecycle value does not discharge this concrete node.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT13.N14. The array must contain `A-Cert`, `S-Comp`; these are precisely the contracts assigned to “C4 — capacity contradiction”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `A-Cert` to occur in CT13.N14's discharged-contract list, because this node must use the contract that validates a terminal certificate from the named witness and prerequisite contract records for the obligation “C4 — capacity contradiction”.",
+                "const": "A-Cert"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires `S-Comp` to occur in CT13.N14's discharged-contract list, because this node must use the contract that places the estimates in a common comparison and records the resulting conclusion for the obligation “C4 — capacity contradiction”.",
+                "const": "S-Comp"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT13.N14 from the recorded branch state. The array must contain at least one instance for every assigned schema: A-Cert (certificateClass, validationStatement, witnessRefs, requiredContractRefs, evidence); S-Comp (comparison, comparisonKind, conclusionKind, conclusionRef, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `A-Cert` evidence instance at CT13.N14. It must be exactly `A-Cert`, identifying the contract that validates a terminal certificate from the named witness and prerequisite contract records; the same instance must supply certificateClass, validationStatement, witnessRefs, requiredContractRefs, evidence.",
+                    "const": "A-Cert"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Comp` evidence instance at CT13.N14. It must be exactly `S-Comp`, identifying the contract that places the estimates in a common comparison and records the resulting conclusion; the same instance must supply comparison, comparisonKind, conclusionKind, conclusionRef, evidence.",
+                    "const": "S-Comp"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    },
+    {
+      "properties": {
+        "certificate": {
+          "description": "Terminal certificate emitted when CT13.N14 closes its branch. It must be exactly `C4`, the framework's certificate for quantitative comparison or capacity contradiction; the node's `A-Cert` instance and companion contracts must validate “C4 — capacity contradiction”.",
+          "const": "C4"
+        }
+      },
+      "required": [
+        "certificate"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT13.N14.O1",
+    "modality": "validate",
+    "statement": {
+      "informal": "Validate or verify: C4 — capacity contradiction",
+      "latex": "\\textbf{C4}\\\\capacity contradiction"
+    },
+    "contractSchemas": [
+      "A-Cert",
+      "S-Comp"
+    ],
+    "dependencies": [
+      "CT13.N11"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

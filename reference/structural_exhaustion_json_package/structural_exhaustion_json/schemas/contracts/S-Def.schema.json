@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/contracts/S-Def.schema.json",
+  "$ref": "../structural-exhaustion.bundle.schema.json#/$defs/contractSDef",
+  "title": "S-Def definability contract",
+  "description": "Specifies how an object is defined from the recorded branch state B=(H_0, order, E, I, R, V, Q, A) using constructors admitted by the proof language L. The record operationalizes the S-Def definability lemma schema in the structural exhaustion framework (branch_closure_methodology_extended.tex, \"Lemma schemas\").",
+  "properties": {
+    "schema": {
+      "description": "Required contract discriminator; it must be the literal `S-Def`."
+    },
+    "subject": {
+      "description": "Required typed reference naming the object being defined, for example a piece (X, boundary X, iota_X), context class, local test, witness space, label set, external type, charge map, budget, rank quotient, offset set, exact response profile, black-box handle, ledger, or payload component recorded in V.",
+      "properties": {
+        "name": {
+          "description": "Required nonempty symbol or stable identifier for the defined object, matching the notation used by downstream claims."
+        },
+        "sort": {
+          "description": "Required nonempty mathematical type of the object, such as branch state, finite labelled set, piece with interface, context class, local test, witness space, external type, charge map, budget value, rank quotient, response profile, ledger entry, or payload tuple component."
+        },
+        "role": {
+          "description": "Required lifecycle role from the fixed vocabulary; for S-Def this normally records the object as `produced`, while `parameter` or `preserved` is appropriate when the definition fixes or carries existing data."
+        },
+        "definitionRef": {
+          "description": "Optional stable locator for the framework definition, contract instance, vocabulary entry, or displayed formula that introduces the object."
+        },
+        "proofRef": {
+          "description": "Optional locator for a result proving that the construction is well defined, canonical, finite, or otherwise usable."
+        }
+      }
+    },
+    "sourceStateFields": {
+      "description": "Required duplicate-free list of recorded state coordinates used by the constructor: H_0 for baseline hypotheses, order for the well-founded progress record, E for excluded exits, I for established invariants, R for the residual condition, V for typed vocabulary, Q for routed payloads, and A for audit evidence. List every dependency and no unused coordinate.",
+      "items": {
+        "description": "One fixed branch-state coordinate from which the subject is computed."
+      }
+    },
+    "constructor": {
+      "description": "Required nonempty, executable mathematical recipe for constructing the subject from the named branch-state fields and constructors admitted by L. It must resolve choices by recorded S-Det tie-breaks so the result is a function of B rather than an unrecorded oracle."
+    },
+    "parameters": {
+      "description": "Required list of all explicit constructor parameters, which may be empty. Entries must name fixed inputs such as piece interfaces, context classes, finite alphabets, ledger currencies, constants, offsets, certificate handles, payload ids, or tactic ids used by the definition.",
+      "items": {
+        "description": "One parameter name together with enough type or domain information to identify its permitted values."
+      }
+    },
+    "tieBreaks": {
+      "description": "Optional list of deterministic tie-breaking rules needed to make the constructor canonical, especially for representatives, payers, labels, assignments, finite-table rows, residual routes, or worksheet entries later consumed by S-Det or accounting checks.",
+      "items": {
+        "description": "One complete tie-break rule, ordinarily based on the fixed vertex labels or another recorded total order."
+      }
+    },
+    "interfaces": {
+      "description": "Optional list of declared interfaces through which the object interacts with outside contexts, such as boundary labels, injection maps, external types, gluing data, exact response profiles, charge maps, or consumer-trigger interface data.",
+      "items": {
+        "description": "One interface component, including the labels and compatibility data downstream operations require."
+      }
+    },
+    "contextClasses": {
+      "description": "Optional list of context domains over which response is evaluated; each entry must identify the outside context class declared in V and the interface restrictions needed by S-Equiv, CT3, CT11, CT16, or CT17.",
+      "items": {
+        "description": "One declared class of compatible external contexts, with its boundary/type restrictions."
+      }
+    },
+    "finiteAlphabets": {
+      "description": "Optional list of finite state alphabets used by the definition, including membership and enumeration rules for labels, external types, exact response profiles, finite survivor tables, tactic states, or certificate alphabets C1-C5.",
+      "items": {
+        "description": "One finite alphabet name plus an exact definition or a reference from which its elements can be enumerated."
+      }
+    },
+    "evidence": {
+      "description": "Required nonempty list of sources showing that the constructor and all declared domains, interfaces, tie-breaks, and alphabets are legitimate.",
+      "items": {
+        "description": "One evidence record supporting definability or canonicality.",
+        "properties": {
+          "kind": {
+            "description": "Required evidence category from the fixed evidence-kind alphabet."
+          },
+          "reference": {
+            "description": "Required nonempty locator for a framework definition, S-Def/S-Det record, vocabulary declaration, verification theorem, finite-table audit, or other labelled construction."
+          },
+          "hash": {
+            "description": "Optional integrity hash for version-sensitive code, tables, or formal artifacts."
+          },
+          "notes": {
+            "description": "Optional note explaining which definability, canonicality, or finiteness requirement the evidence discharges."
+          }
+        }
+      }
+    }
+  }
+}

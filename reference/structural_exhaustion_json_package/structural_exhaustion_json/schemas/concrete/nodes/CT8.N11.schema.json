@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT8.N11.schema.json",
+  "title": "CT8.N11 completed discharge record — Lemma — separating-context trigger",
+  "description": "Concrete completed-discharge schema for CT8.N11, the assertion node “Lemma — separating-context trigger” of tactic CT8 (Finite-state pumping). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT8.N11. It must be exactly `CT8`, selecting Finite-state pumping (pumping) as the tactic that owns the assertion step “Lemma — separating-context trigger” in the exhaustive proof flow.",
+          "const": "CT8"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Lemma — separating-context trigger”. It must be exactly `CT8.N11` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT8.N11"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT8.N11 within tactic CT8 (Finite-state pumping). It must be exactly 11, matching the N11 suffix and the node's position in that tactic graph.",
+          "const": 11
+        },
+        "status": {
+          "description": "Required completion state for CT8.N11. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the assertion obligation “Lemma — separating-context trigger”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT8.N11. The array must contain `S-Prove`, `S-Trig`; these are precisely the contracts assigned to “Lemma — separating-context trigger”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Prove` to occur in CT8.N11's discharged-contract list, because this node must use the contract that records the proposition, its assumptions, and proof evidence for the obligation “Lemma — separating-context trigger”.",
+                "const": "S-Prove"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires `S-Trig` to occur in CT8.N11's discharged-contract list, because this node must use the contract that checks that a payload supplies the receiving tactic's trigger, arity, interfaces, and standing hypotheses for the obligation “Lemma — separating-context trigger”.",
+                "const": "S-Trig"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT8.N11 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Prove (proposition, assumptions, evidence); S-Trig (payloadId, consumerTacticId, expectedArity, componentChecks, standingHypotheses, interfaceChecks, certificateHandleChecks, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Prove` evidence instance at CT8.N11. It must be exactly `S-Prove`, identifying the contract that records the proposition, its assumptions, and proof evidence; the same instance must supply proposition, assumptions, evidence.",
+                    "const": "S-Prove"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Trig` evidence instance at CT8.N11. It must be exactly `S-Trig`, identifying the contract that checks that a payload supplies the receiving tactic's trigger, arity, interfaces, and standing hypotheses; the same instance must supply payloadId, consumerTacticId, expectedArity, componentChecks, standingHypotheses, interfaceChecks, certificateHandleChecks, evidence.",
+                    "const": "S-Trig"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT8.N11.O1",
+    "modality": "prove",
+    "statement": {
+      "informal": "Prove or verify: Lemma — separating-context trigger",
+      "latex": "\\textbf{Lemma}\\\\separating-context trigger"
+    },
+    "contractSchemas": [
+      "S-Prove",
+      "S-Trig"
+    ],
+    "dependencies": [
+      "CT8.N10"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}

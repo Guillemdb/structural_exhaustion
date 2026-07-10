@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/tactic-run.schema.json",
+  "title": "Structural-exhaustion tactic run",
+  "description": "Validates one actual legal path through a tactic graph from an admitted branch state to a certificate C1-C5, typed payload P_{i->j}, execution rejection, or audited scope candidate, realizing the runtime model of the structural exhaustion framework's strategy manual.",
+  "$ref": "./structural-exhaustion.bundle.schema.json#/$defs/tacticRun"
+}

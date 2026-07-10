@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT15.N02.schema.json",
+  "title": "CT15.N02 completed discharge record — Repair datum — rank definition not target-relative",
+  "description": "Concrete completed-discharge schema for CT15.N02, the recovery node “Repair datum — rank definition not target-relative” of tactic CT15 (Rank forcing). It refines the common node-proof record with this node's exact identity, completion state, assigned contract evidence, and any required payload or terminal certificate.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Framework tactic discriminator for CT15.N02. It must be exactly `CT15`, selecting Rank forcing (rank) as the tactic that owns the recovery step “Repair datum — rank definition not target-relative” in the exhaustive proof flow.",
+          "const": "CT15"
+        },
+        "nodeId": {
+          "description": "Stable graph-node identifier for the obligation “Repair datum — rank definition not target-relative”. It must be exactly `CT15.N02` so the evidence, dependencies, outgoing branch, and any terminal result are attributed to this step rather than another node.",
+          "const": "CT15.N02"
+        },
+        "nodeNumber": {
+          "description": "One-based ordinal of CT15.N02 within tactic CT15 (Rank forcing). It must be exactly 2, matching the N02 suffix and the node's position in that tactic graph.",
+          "const": 2
+        },
+        "status": {
+          "description": "Required completion state for CT15.N02. It must be exactly `proved`, meaning that the node's mathematical assertion or construction has been established for the recovery obligation “Repair datum — rank definition not target-relative”; another lifecycle value does not discharge this concrete node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Contract identifiers whose proof obligations are discharged at CT15.N02. The array must contain `S-Def`, `S-Rout`; these are precisely the contracts assigned to “Repair datum — rank definition not target-relative”. Listing an identifier records discharge status but does not replace the matching typed evidence record required in `contractInstances`.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires `S-Def` to occur in CT15.N02's discharged-contract list, because this node must use the contract that constructs a typed object deterministically from recorded branch-state data for the obligation “Repair datum — rank definition not target-relative”.",
+                "const": "S-Def"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires `S-Rout` to occur in CT15.N02's discharged-contract list, because this node must use the contract that packages a typed payload and verifies its unique producer-to-consumer route for the obligation “Repair datum — rank definition not target-relative”.",
+                "const": "S-Rout"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract-evidence records that justify CT15.N02 from the recorded branch state. The array must contain at least one instance for every assigned schema: S-Def (subject, sourceStateFields, constructor, parameters, evidence); S-Rout (payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence). Every instance must include its schema discriminator and nonempty evidence as required by the referenced contract definition; together the records must establish the displayed node statement.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Def` evidence instance at CT15.N02. It must be exactly `S-Def`, identifying the contract that constructs a typed object deterministically from recorded branch-state data; the same instance must supply subject, sourceStateFields, constructor, parameters, evidence.",
+                    "const": "S-Def"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Contract discriminator for a `S-Rout` evidence instance at CT15.N02. It must be exactly `S-Rout`, identifying the contract that packages a typed payload and verifies its unique producer-to-consumer route; the same instance must supply payloadId, producerTacticId, consumerTacticId, tupleEntries, vocabularyVerified, uniqueConsumerVerified, evidence.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT15.N02.O1",
+    "modality": "construct",
+    "statement": {
+      "informal": "Construct or verify: Repair datum — rank definition not target-relative",
+      "latex": "\\textbf{Repair datum}\\\\rank definition not target-relative"
+    },
+    "contractSchemas": [
+      "S-Def",
+      "S-Rout"
+    ],
+    "dependencies": [
+      "CT15.N04"
+    ],
+    "dischargeCriteria": "Provide a proof/definition/computation artifact that establishes the displayed statement from the recorded branch state and satisfies every listed contract schema."
+  }
+}
