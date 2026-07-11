@@ -1,0 +1,12 @@
+graph_order,node_id,node_kind,title,terminal_case,contracts,lean_contract,source_file
+1,CT11.entry,entry,Validated CT11 additive-deficit entry,,S-Def,StructuralExhaustion.CT11.Nodes.Entry.Contract,StructuralExhaustion/CT11/Nodes/Entry.lean
+2,CT11.decide.scope,decision,Finite local-type scope,,A-Scope,StructuralExhaustion.CT11.Nodes.Scope.Contract,StructuralExhaustion/CT11/Nodes/Scope.lean
+3,CT11.terminal.scope,terminal,Missing local-type scope terminal,scope,A-Scope,StructuralExhaustion.CT11.RawOutcome,StructuralExhaustion/CT11/Execution.lean
+4,CT11.certify.decomposition,certification,Admissible decomposition certification,,S-Def,StructuralExhaustion.CT11.Nodes.Decomposition.Contract,StructuralExhaustion/CT11/Nodes/Decomposition.lean
+5,CT11.decide.admissibility,decision,Admissibility-closure decision,,S-Dich|S-Rout,StructuralExhaustion.CT11.Nodes.Admissibility.Contract,StructuralExhaustion/CT11/Nodes/Admissibility.lean
+6,CT11.terminal.ct10,terminal,CT10 admissibility-gap handoff,ct10,S-Rout|S-Trig,StructuralExhaustion.CT11.RawOutcome,StructuralExhaustion/CT11/Execution.lean
+7,CT11.certify.localization,certification,Summation and localization certification,,S-Comp,StructuralExhaustion.CT11.Nodes.Localization.Contract,StructuralExhaustion/CT11/Nodes/Localization.lean
+8,CT11.decide.routing,decision,Localized-object routing,,S-Rout,StructuralExhaustion.CT11.Nodes.Routing.Contract,StructuralExhaustion/CT11/Nodes/Routing.lean
+9,CT11.terminal.ct1,terminal,CT1 target-test handoff,ct1,S-Rout|S-Trig,StructuralExhaustion.CT11.RawOutcome,StructuralExhaustion/CT11/Execution.lean
+10,CT11.terminal.ct7,terminal,CT7 localized-exchange handoff,ct7,S-Rout|S-Trig,StructuralExhaustion.CT11.RawOutcome,StructuralExhaustion/CT11/Execution.lean
+11,CT11.terminal.ct14,terminal,CT14 carried-mass handoff,ct14,S-Rout|S-Trig,StructuralExhaustion.CT11.RawOutcome,StructuralExhaustion/CT11/Execution.lean

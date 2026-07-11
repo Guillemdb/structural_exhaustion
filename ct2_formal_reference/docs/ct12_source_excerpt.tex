@@ -1,0 +1,77 @@
+\subsection{CT12 --- Peeling loop}\label{ct:12}\label{peeling-loops-closure-by-well-founded-recursion}
+\ctsignature{\(\begin{array}{@{}l@{}}
+\langle\mathfrak B,L,\mu,\text{routed load}\rangle\to\ctcert{C4};\\
+\ctint{\ctnone};\ \ctrec{P_{12\to4},P_{12\to13}}.
+\end{array}\)}
+
+CT12 is the unique cyclic tactic in the library.  Its entry interface records
+an ambient branch, load account, peel move, and natural-valued load.  The
+executable framework supplies an invariant indexed by the current load, a
+single-peel certificate, a restoration relation, and exact CT4 and CT13 entry
+interfaces.
+
+The machine separates the three facts needed for a legal iteration.  A
+\texttt{PeeledState} proves that the chosen unit was peeled canonically.  A
+\texttt{RestoredState} proves that the branch invariant was restored at a
+named next load.  A \texttt{DecreasedState} separately proves that this next
+load is strictly smaller.  Only \texttt{DecreasedState} licenses the edge from
+\texttt{CT12.certify.decrease} back to
+\texttt{CT12.decide.saturation}.  Restoration without decrease cannot form a
+machine path.
+
+The executor \texttt{runLoop} is defined by well-founded recursion on the
+current natural-valued load.  Its recursive call consumes the loop state stored
+in \texttt{DecreasedState}; Lean accepts the definition using the field
+\texttt{decreases}.  The theorem
+\texttt{Graph.Edge.loop\_decreases} extracts a strict inequality from every
+back edge.  Removing this single edge leaves an acyclic graph.
+
+At the saturation decision, an unsaturated state closes by C4.  A peelable
+state passes through peel certification and restoration.  Restoration may
+produce ordinary demand for CT4, tier interaction for CT13, or a restored state
+that proceeds to the decrease certificate.  The node plan therefore exposes
+six independent fields: \texttt{scope}, \texttt{measure},
+\texttt{saturation}, \texttt{peel}, \texttt{restoration}, and
+\texttt{decrease}.
+
+\begin{itemize}
+\tightlist
+\item \textbf{S-Det} is localized at the peel certificate.
+\item \textbf{S-Rest} is localized at the restoration decision.
+\item \textbf{S-Meas} is localized at initial measurement and strict decrease.
+\item \textbf{S-Comp} is carried by the unsaturated C4 certificate.
+\item \textbf{S-Rout} and \textbf{S-Trig} are carried by exact CT4 and CT13 inputs.
+\end{itemize}
+
+\begin{figure}[p]
+\centering
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\scriptsize}]
+\node[bcwide] (entry) at (0,0) {{\tiny\ttfamily CT12.entry}\\\textbf{Validated routed load}};
+\node[bcdec,bclemma] (scope) at (0,-2.1) {{\tiny\ttfamily CT12.decide.scope}\\\textbf{Recorded natural measure?}};
+\node[bcscopefail] (scopeout) at (-6.4,-2.1) {{\tiny\ttfamily CT12.terminal.scope}\\\textbf{Scope exit}};
+\node[bcwide,bclemma] (measure) at (0,-4.4) {{\tiny\ttfamily CT12.certify.measure}\\\textbf{Initial invariant at load (L)}};
+\node[bcdec,bclemma] (sat) at (0,-6.8) {{\tiny\ttfamily CT12.decide.saturation}\\\textbf{Unsaturated or peelable?}};
+\node[bcclosed] (c4) at (-6.4,-6.8) {{\tiny\ttfamily CT12.terminal.c4}\\\textbf{C4}};
+\node[bcwide,bclemma] (peel) at (0,-9.2) {{\tiny\ttfamily CT12.certify.peel}\\\textbf{Canonical unit peel}};
+\node[bcroutechoice,bctheorem] (restore) at (0,-11.7) {{\tiny\ttfamily CT12.decide.\allowbreak restoration}\\\textbf{Restore invariant or route demand}};
+\node[bcroute,bcrouteneutral] (ct4) at (-6.4,-14.3) {{\tiny\ttfamily CT12.terminal.ct4}\\\textbf{CT 4 exit}};
+\node[bcroute,bcrouteneutral] (ct13) at (6.4,-14.3) {{\tiny\ttfamily CT12.terminal.ct13}\\\textbf{CT 13 exit}};
+\node[bcwide,bclemma] (decrease) at (0,-14.3) {{\tiny\ttfamily CT12.certify.decrease}\\\textbf{(L'<L)}};
+\draw[bcarr] (entry)--(scope);
+\draw[bcscopearr] (scope)--node[bclabel,above]{exit}(scopeout);
+\draw[bcarr] (scope)--(measure);
+\draw[bcarr] (measure)--(sat);
+\draw[bcarr] (sat)--node[bclabel,above]{unsaturated}(c4);
+\draw[bcarr] (sat)--node[bclabel,right]{peelable}(peel);
+\draw[bcarr] (peel)--(restore);
+\draw[bchandoff] (restore)--node[bclabel,above,sloped]{ordinary demand}(ct4);
+\draw[bchandoff] (restore)--node[bclabel,above,sloped]{tier demand}(ct13);
+\draw[bcarr] (restore)--node[bclabel,right]{restored}(decrease);
+\draw[bcloop] (decrease.west) -- ++(-2.1,0) |- node[bclabel,pos=.25,left]{strictly smaller load} (sat.west);
+\end{tikzpicture}%
+}
+\caption[Closure-tactic 12: certified peeling machine]{The exact CT12 loop.  The back edge exists only after invariant restoration and a separate strict-decrease certificate.}
+\label{fig:ct12-peeling-loop}
+\end{figure}
+\FloatBarrier

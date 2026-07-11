@@ -1,0 +1,604 @@
+{
+  "artifactType": "formalTacticSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT13-v1",
+  "tacticId": "CT13",
+  "name": "Tiered charging",
+  "signature": {
+    "input": "validated_typed_state",
+    "close": [
+      "C4"
+    ],
+    "handoff": [
+      "P_13_to_4",
+      "P_13_to_9",
+      "P_13_to_14"
+    ],
+    "scope": [
+      "typed_scope_exit"
+    ]
+  },
+  "entryNodeId": "CT13.entry",
+  "nodeRefs": [
+    "nodes/CT13.entry.json",
+    "nodes/CT13.decide.scope.json",
+    "nodes/CT13.terminal.scope.json",
+    "nodes/CT13.decide.availability.json",
+    "nodes/CT13.certify.tierOne.json",
+    "nodes/CT13.certify.tierOneRouting.json",
+    "nodes/CT13.terminal.ct4.json",
+    "nodes/CT13.certify.fallback.json",
+    "nodes/CT13.decide.reconciliation.json",
+    "nodes/CT13.certify.comparison.json",
+    "nodes/CT13.terminal.c4.json",
+    "nodes/CT13.decide.overlapRouting.json",
+    "nodes/CT13.terminal.ct9.json",
+    "nodes/CT13.terminal.ct14.json"
+  ],
+  "transitions": [
+    {
+      "transitionId": "CT13.edge.begin",
+      "fromNodeId": "CT13.entry",
+      "toNodeId": "CT13.decide.scope",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT13.Graph",
+        "declaration": "StructuralExhaustion.CT13.Graph.Edge.beginScope",
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "unconditional",
+        "branchTag": "begin",
+        "evidenceSlots": []
+      }
+    },
+    {
+      "transitionId": "CT13.edge.scope.exit",
+      "fromNodeId": "CT13.decide.scope",
+      "toNodeId": "CT13.terminal.scope",
+      "kind": "scope",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT13.Graph",
+        "declaration": "StructuralExhaustion.CT13.Graph.Edge.scopeExit",
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "exit",
+        "evidenceSlots": [
+          {
+            "slotId": "candidate",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT13.ScopeCandidate framework input"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT13.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Scope.Decision.exit",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Scope.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT13.edge.scope.ready",
+      "fromNodeId": "CT13.decide.scope",
+      "toNodeId": "CT13.decide.availability",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT13.Graph",
+        "declaration": "StructuralExhaustion.CT13.Graph.Edge.scopeReady",
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "ready",
+        "evidenceSlots": [
+          {
+            "slotId": "scope",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT13.ScopedState framework input"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT13.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Scope.Decision.ready",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Scope.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT13.edge.availability.yes",
+      "fromNodeId": "CT13.decide.availability",
+      "toNodeId": "CT13.certify.tierOne",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT13.Graph",
+        "declaration": "StructuralExhaustion.CT13.Graph.Edge.availabilityYes",
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "available",
+        "evidenceSlots": [
+          {
+            "slotId": "available",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT13.AvailableState framework input scope"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT13.Nodes.Availability",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Availability.Decision.available",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Availability.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT13.edge.availability.no",
+      "fromNodeId": "CT13.decide.availability",
+      "toNodeId": "CT13.certify.fallback",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT13.Graph",
+        "declaration": "StructuralExhaustion.CT13.Graph.Edge.availabilityNo",
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "unavailable",
+        "evidenceSlots": [
+          {
+            "slotId": "unavailable",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT13.UnavailableState framework input scope"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT13.Nodes.Availability",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Availability.Decision.unavailable",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Availability.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT13.edge.tierOne.certified",
+      "fromNodeId": "CT13.certify.tierOne",
+      "toNodeId": "CT13.certify.tierOneRouting",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT13.Graph",
+        "declaration": "StructuralExhaustion.CT13.Graph.Edge.tierOneCertified",
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "unconditional",
+        "branchTag": "certified",
+        "evidenceSlots": [
+          {
+            "slotId": "tierOne",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT13.TierOneState framework input available"
+          }
+        ]
+      }
+    },
+    {
+      "transitionId": "CT13.edge.tierOne.ct4",
+      "fromNodeId": "CT13.certify.tierOneRouting",
+      "toNodeId": "CT13.terminal.ct4",
+      "kind": "handoff",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT13.Graph",
+        "declaration": "StructuralExhaustion.CT13.Graph.Edge.tierOneToCT4",
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "unconditional",
+        "branchTag": "toCT4",
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT13.CT4Payload framework input tierOne"
+          }
+        ]
+      }
+    },
+    {
+      "transitionId": "CT13.edge.fallback.certified",
+      "fromNodeId": "CT13.certify.fallback",
+      "toNodeId": "CT13.decide.reconciliation",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT13.Graph",
+        "declaration": "StructuralExhaustion.CT13.Graph.Edge.fallbackCertified",
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "unconditional",
+        "branchTag": "certified",
+        "evidenceSlots": [
+          {
+            "slotId": "fallback",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT13.FallbackState framework input unavailable"
+          }
+        ]
+      }
+    },
+    {
+      "transitionId": "CT13.edge.reconciliation.yes",
+      "fromNodeId": "CT13.decide.reconciliation",
+      "toNodeId": "CT13.certify.comparison",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT13.Graph",
+        "declaration": "StructuralExhaustion.CT13.Graph.Edge.reconciliationYes",
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "reconciled",
+        "evidenceSlots": [
+          {
+            "slotId": "reconciled",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT13.ReconciledState framework input fallback"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT13.Nodes.Reconciliation",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Reconciliation.Decision.reconciled",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Reconciliation.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT13.edge.reconciliation.overlap",
+      "fromNodeId": "CT13.decide.reconciliation",
+      "toNodeId": "CT13.decide.overlapRouting",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT13.Graph",
+        "declaration": "StructuralExhaustion.CT13.Graph.Edge.reconciliationOverlap",
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "overlap",
+        "evidenceSlots": [
+          {
+            "slotId": "overlap",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT13.OverlapState framework input fallback"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT13.Nodes.Reconciliation",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Reconciliation.Decision.overlap",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Reconciliation.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT13.edge.comparison.close",
+      "fromNodeId": "CT13.certify.comparison",
+      "toNodeId": "CT13.terminal.c4",
+      "kind": "close",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT13.Graph",
+        "declaration": "StructuralExhaustion.CT13.Graph.Edge.comparisonClose",
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "unconditional",
+        "branchTag": "close",
+        "evidenceSlots": [
+          {
+            "slotId": "certificate",
+            "valueKind": "certificate",
+            "typeExpression": "StructuralExhaustion.CT13.C4Certificate framework input reconciled"
+          }
+        ]
+      }
+    },
+    {
+      "transitionId": "CT13.edge.overlap.ct9",
+      "fromNodeId": "CT13.decide.overlapRouting",
+      "toNodeId": "CT13.terminal.ct9",
+      "kind": "handoff",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT13.Graph",
+        "declaration": "StructuralExhaustion.CT13.Graph.Edge.overlapToCT9",
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "toCT9",
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT13.CT9Payload framework input overlap"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT13.Nodes.Routing",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Routing.Decision.toCT9",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Routing.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT13.edge.overlap.ct14",
+      "fromNodeId": "CT13.decide.overlapRouting",
+      "toNodeId": "CT13.terminal.ct14",
+      "kind": "handoff",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT13.Graph",
+        "declaration": "StructuralExhaustion.CT13.Graph.Edge.overlapToCT14",
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "toCT14",
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT13.CT14Payload framework input overlap"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT13.Nodes.Routing",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Routing.Decision.toCT14",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Routing.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    }
+  ],
+  "terminalCases": [
+    "scope",
+    "ct4",
+    "c4",
+    "ct9",
+    "ct14"
+  ],
+  "terminalCoverage": [
+    {
+      "terminalCase": "scope",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct13/toy-scope.json"
+    },
+    {
+      "terminalCase": "ct4",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct13/toy-ct4.json"
+    },
+    {
+      "terminalCase": "c4",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct13/toy-c4.json"
+    },
+    {
+      "terminalCase": "ct9",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct13/toy-ct9.json"
+    },
+    {
+      "terminalCase": "ct14",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct13/toy-ct14.json"
+    }
+  ],
+  "formalApi": {
+    "framework": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.Framework",
+      "sourceFile": "StructuralExhaustion/CT13/Types.lean",
+      "declarationKind": "structure"
+    },
+    "input": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.Input",
+      "sourceFile": "StructuralExhaustion/CT13/Types.lean",
+      "declarationKind": "structure"
+    },
+    "port": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.Port",
+      "sourceFile": "StructuralExhaustion/CT13/Types.lean",
+      "declarationKind": "structure"
+    },
+    "handoffPlan": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.HandoffPlan",
+      "sourceFile": "StructuralExhaustion/CT13/Types.lean",
+      "declarationKind": "structure"
+    },
+    "nodeId": {
+      "module": "StructuralExhaustion.CT13.Graph",
+      "declaration": "StructuralExhaustion.CT13.Graph.NodeId",
+      "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "terminal": {
+      "module": "StructuralExhaustion.CT13.Graph",
+      "declaration": "StructuralExhaustion.CT13.Graph.Terminal",
+      "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "edge": {
+      "module": "StructuralExhaustion.CT13.Graph",
+      "declaration": "StructuralExhaustion.CT13.Graph.Edge",
+      "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "path": {
+      "module": "StructuralExhaustion.CT13.Graph",
+      "declaration": "StructuralExhaustion.CT13.Graph.Path",
+      "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "validTrace": {
+      "module": "StructuralExhaustion.CT13.Graph",
+      "declaration": "StructuralExhaustion.CT13.Graph.ValidTrace",
+      "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+      "declarationKind": "definition"
+    },
+    "corePlan": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.CorePlan",
+      "sourceFile": "StructuralExhaustion/CT13/Execution.lean",
+      "declarationKind": "structure"
+    },
+    "rawOutcome": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.RawOutcome",
+      "sourceFile": "StructuralExhaustion/CT13/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "coreResult": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.CoreResult",
+      "sourceFile": "StructuralExhaustion/CT13/Execution.lean",
+      "declarationKind": "structure"
+    },
+    "runCore": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.runCore",
+      "sourceFile": "StructuralExhaustion/CT13/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "outcome": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.Outcome",
+      "sourceFile": "StructuralExhaustion/CT13/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "outcomeClaim": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.OutcomeClaim",
+      "sourceFile": "StructuralExhaustion/CT13/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "executionResult": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.ExecutionResult",
+      "sourceFile": "StructuralExhaustion/CT13/Execution.lean",
+      "declarationKind": "structure"
+    },
+    "run": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.run",
+      "sourceFile": "StructuralExhaustion/CT13/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "runTraced": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.runTraced",
+      "sourceFile": "StructuralExhaustion/CT13/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "soundness": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.run_verified",
+      "sourceFile": "StructuralExhaustion/CT13/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "totality": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.run_total",
+      "sourceFile": "StructuralExhaustion/CT13/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "traceValidity": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.run_trace_valid",
+      "sourceFile": "StructuralExhaustion/CT13/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "exhaustiveness": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.outcome_exhaustive",
+      "sourceFile": "StructuralExhaustion/CT13/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "availableState": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.AvailableState",
+      "sourceFile": "StructuralExhaustion/CT13/Types.lean",
+      "declarationKind": "structure"
+    },
+    "unavailableState": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.UnavailableState",
+      "sourceFile": "StructuralExhaustion/CT13/Types.lean",
+      "declarationKind": "structure"
+    },
+    "tierOneState": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.TierOneState",
+      "sourceFile": "StructuralExhaustion/CT13/Types.lean",
+      "declarationKind": "structure"
+    },
+    "fallbackState": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.FallbackState",
+      "sourceFile": "StructuralExhaustion/CT13/Types.lean",
+      "declarationKind": "structure"
+    },
+    "reconciledState": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.ReconciledState",
+      "sourceFile": "StructuralExhaustion/CT13/Types.lean",
+      "declarationKind": "structure"
+    },
+    "overlapState": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.OverlapState",
+      "sourceFile": "StructuralExhaustion/CT13/Types.lean",
+      "declarationKind": "structure"
+    },
+    "c4Certificate": {
+      "module": "StructuralExhaustion.CT13",
+      "declaration": "StructuralExhaustion.CT13.C4Certificate",
+      "sourceFile": "StructuralExhaustion/CT13/Types.lean",
+      "declarationKind": "structure"
+    }
+  },
+  "totalityPolicy": {
+    "allNodesBound": true,
+    "allTransitionsDeclared": true,
+    "allDecisionBranchesMapped": true,
+    "allTracesKernelCertified": true,
+    "allTerminalOutcomesTyped": true,
+    "allConsumerTriggersCarried": true
+  },
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT13 — Tiered charging"
+  },
+  "contractInventoryRef": "contracts.json"
+}

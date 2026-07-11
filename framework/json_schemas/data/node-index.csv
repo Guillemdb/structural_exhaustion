@@ -1,0 +1,207 @@
+tactic_id,node_number,node_id,local_key,node_type,title,contracts,source_line
+CT1,1,CT1.entry,entry,input,Validated CT1 entry,S-Def,2385
+CT1,2,CT1.decide.scope,scope,decision,Scope admission,S-Dich|A-Scope,2386
+CT1,3,CT1.terminal.scope,scope,scope_audit,scope terminal,A-Scope,2387
+CT1,4,CT1.certify.equivalence,equivalence,assertion,Target-test equivalence certification,S-Equiv,2388
+CT1,5,CT1.decide.realization,realization,decision,Realization decision,S-Dich|S-Equiv|S-Pers,2389
+CT1,6,CT1.terminal.c1,c1,certificate,c1 terminal,S-Equiv|A-Cert,2390
+CT1,7,CT1.decide.payload,payload,decision,Payload classification,S-Dich|S-Pers|S-Rout,2391
+CT1,8,CT1.terminal.ct2,ct2,consumer_handoff,ct2 terminal,S-Pers|S-Rout|S-Trig,2392
+CT1,9,CT1.terminal.ct3,ct3,consumer_handoff,ct3 terminal,S-Pers|S-Rout|S-Trig,2393
+CT1,10,CT1.terminal.ct4,ct4,consumer_handoff,ct4 terminal,S-Pers|S-Rout|S-Trig,2394
+CT1,11,CT1.terminal.ct5,ct5,consumer_handoff,ct5 terminal,S-Pers|S-Rout|S-Trig,2395
+CT1,12,CT1.terminal.ct6,ct6,consumer_handoff,ct6 terminal,S-Pers|S-Rout|S-Trig,2396
+CT1,13,CT1.terminal.ct17,ct17,consumer_handoff,ct17 terminal,S-Pers|S-Rout|S-Trig,2397
+CT2,1,CT2.entry,entry,input,Typed entry — validated minimal counterexample and proper admissible piece,S-Def,2540
+CT2,2,CT2.decide.interface,interface,decision,Interface admission — bounded state or typed scope exit,S-Dich,2541
+CT2,3,CT2.terminal.scope,scope,scope_audit,Scope terminal — interface boundedness refuted,A-Scope,2542
+CT2,4,CT2.decide.deletion,deletion,decision,Deletion search — strict smaller counterexample or deletion-critical state,S-Dich|S-Comp,2543
+CT2,5,CT2.terminal.c2.deletion,c2Deletion,certificate,C2 terminal — deletion certificate,A-Cert|S-Comp,2544
+CT2,6,CT2.decide.replacementCandidate,replacementCandidate,decision,Replacement-candidate search — candidate state or exhaustive absence,S-Dich|S-Comp|S-Equiv,2545
+CT2,7,CT2.decide.context,context,decision,Candidate-specific context certification — certificate or separating context,S-Dich|S-Equiv,2546
+CT2,8,CT2.terminal.c2.replacement,c2Replacement,certificate,C2 terminal — candidate-specific replacement certificate,A-Cert|S-Comp|S-Equiv,2547
+CT2,9,CT2.terminal.ct3.context,ct3Context,consumer_handoff,CT3 terminal — context residual,S-Equiv|S-Rout|S-Trig,2548
+CT2,10,CT2.decide.survivor,survivor,decision,Survivor classification — criticality refinement or response defect,S-Dich|S-Rout,2549
+CT2,11,CT2.terminal.ct10.criticality,ct10Criticality,consumer_handoff,CT10 terminal — survivor and criticality-refinement datum,S-Rout|S-Trig,2550
+CT2,12,CT2.terminal.ct3.response,ct3Response,consumer_handoff,CT3 terminal — survivor response defect,S-Rout|S-Trig,2551
+CT3,1,CT3.entry,entry,input,Validated CT3 entry,S-Def,2707
+CT3,2,CT3.decide.scope,scope,decision,Finite external-type scope,S-Dich|A-Scope,2708
+CT3,3,CT3.terminal.scope,scope,scope_audit,Infinite-index scope terminal,A-Scope,2709
+CT3,4,CT3.certify.equivalence,equivalence,assertion,External-type equivalence certification,S-Equiv,2710
+CT3,5,CT3.decide.compression,compression,decision,Replacement compression decision,S-Dich|S-Equiv|S-Comp,2711
+CT3,6,CT3.terminal.c2,c2,certificate,C2 replacement terminal,S-Comp|A-Cert,2712
+CT3,7,CT3.decide.defect,defect,decision,External-type defect classification,S-Dich|S-Pers|S-Rout,2713
+CT3,8,CT3.terminal.c3,c3,certificate,C3 routed-account terminal,S-Rout|A-Cert,2714
+CT3,9,CT3.terminal.ct7,ct7,consumer_handoff,CT7 exchange handoff,S-Pers|S-Rout|S-Trig,2715
+CT3,10,CT3.terminal.ct12,ct12,consumer_handoff,CT12 peeling handoff,S-Pers|S-Rout|S-Trig,2716
+CT3,11,CT3.decide.table,table,decision,Finite-table classification,S-Dich|S-Pers|S-Comp,2717
+CT3,12,CT3.terminal.c5,c5,certificate,C5 finite-table terminal,S-Comp|A-Cert,2718
+CT3,13,CT3.terminal.ct8,ct8,consumer_handoff,CT8 repeated-type handoff,S-Pers|S-Rout|S-Trig,2719
+CT4,1,CT4.entry,entry,input,Validated CT4 ledger entry,S-Def,2835
+CT4,2,CT4.decide.scope,scope,decision,Demand-family scope,S-Dich|A-Scope,2836
+CT4,3,CT4.terminal.scope,scope,scope_audit,Missing-demand scope terminal,A-Scope,2837
+CT4,4,CT4.certify.assignment,assignment,assertion,Canonical assignment certification,S-Det,2838
+CT4,5,CT4.decide.availability,availability,decision,Payer availability decision,S-Dich|S-Det|S-Rout,2839
+CT4,6,CT4.terminal.ct13,ct13,consumer_handoff,CT13 missing-tier handoff,S-Rout|S-Trig,2840
+CT4,7,CT4.decide.fibres,fibres,decision,Fibre-capacity decision,S-Dich|S-Comp|S-Rout,2841
+CT4,8,CT4.terminal.ct9,ct9,consumer_handoff,CT9 overload handoff,S-Rout|S-Trig,2842
+CT4,9,CT4.decide.comparison,comparison,decision,Capacity comparison,S-Dich|S-Comp,2843
+CT4,10,CT4.terminal.c4,c4,certificate,C4 capacity terminal,S-Comp|A-Cert,2844
+CT4,11,CT4.terminal.ct14,ct14,consumer_handoff,CT14 aggregate handoff,S-Rout|S-Trig,2845
+CT5,1,CT5.entry,entry,input,Validated CT5 local-family entry,S-Def,2969
+CT5,2,CT5.decide.scope,scope,decision,Bounded-witness scope,S-Dich|A-Scope,2970
+CT5,3,CT5.terminal.scope,scope,scope_audit,Missing-local-witness scope terminal,A-Scope,2971
+CT5,4,CT5.certify.locality,locality,assertion,Locality certification,S-Def|S-Equiv,2972
+CT5,5,CT5.decide.deficit,deficit,decision,Local-deficit classification,S-Dich|S-Rout,2973
+CT5,6,CT5.terminal.ct11,ct11,consumer_handoff,CT11 additive-deficit handoff,S-Rout|S-Trig,2974
+CT5,7,CT5.certify.summation,summation,assertion,Local-to-global summation certification,S-Comp|S-Pers,2975
+CT5,8,CT5.decide.comparison,comparison,decision,Global comparison classification,S-Dich|S-Comp|S-Rout,2976
+CT5,9,CT5.terminal.c4,c4,certificate,C4 local-to-global terminal,S-Comp|A-Cert,2977
+CT5,10,CT5.terminal.ct4,ct4,consumer_handoff,CT4 ledger handoff,S-Pers|S-Rout|S-Trig,2978
+CT5,11,CT5.terminal.ct14,ct14,consumer_handoff,CT14 aggregate handoff,S-Pers|S-Rout|S-Trig,2979
+CT6,1,CT6.entry,entry,input,Validated CT6 monitored-family entry,S-Def,3075
+CT6,2,CT6.decide.scope,scope,decision,Bounded first-failure scope,S-Dich|A-Scope,3076
+CT6,3,CT6.terminal.scope,scope,scope_audit,Missing first-failure scope terminal,A-Scope,3077
+CT6,4,CT6.certify.definition,definition,assertion,Activity and first-failure definition certification,S-Def|S-Equiv,3078
+CT6,5,CT6.decide.activity,activity,decision,Active/dormant dichotomy,S-Dich,3079
+CT6,6,CT6.certify.activeLedger,activeLedger,assertion,Active ledger construction,S-Rout,3080
+CT6,7,CT6.terminal.ct4,ct4,consumer_handoff,CT4 active-ledger handoff,S-Rout|S-Trig,3081
+CT6,8,CT6.decide.dormant,dormant,decision,Dormant first-failure routing,S-Dich|S-Rout,3082
+CT6,9,CT6.terminal.c1,c1,certificate,C1 first-failure target terminal,S-Equiv|A-Cert,3083
+CT6,10,CT6.terminal.ct3,ct3,consumer_handoff,CT3 boundary-response handoff,S-Rout|S-Trig,3084
+CT6,11,CT6.terminal.ct7,ct7,consumer_handoff,CT7 exchange handoff,S-Rout|S-Trig,3085
+CT6,12,CT6.terminal.ct9,ct9,consumer_handoff,CT9 saturation handoff,S-Rout|S-Trig,3086
+CT6,13,CT6.terminal.ct10,ct10,consumer_handoff,CT10 refinement handoff,S-Rout|S-Trig,3087
+CT7,1,CT7.entry,entry,input,Validated CT7 exchange entry,S-Def,3198
+CT7,2,CT7.decide.scope,scope,decision,Finite context-generator scope,S-Dich|A-Scope,3199
+CT7,3,CT7.terminal.scope,scope,scope_audit,Missing context-generator scope terminal,A-Scope,3200
+CT7,4,CT7.certify.context,context,assertion,Context completeness certification,S-Equiv,3201
+CT7,5,CT7.decide.realization,realization,decision,Target realization decision,S-Dich,3202
+CT7,6,CT7.terminal.c1,c1,certificate,C1 target realization terminal,A-Cert,3203
+CT7,7,CT7.decide.distinction,distinction,decision,Distinguishing/neutral decision,S-Dich|S-Equiv,3204
+CT7,8,CT7.decide.defect,defect,decision,Distinguishing defect routing,S-Rout,3205
+CT7,9,CT7.terminal.c3,c3,certificate,C3 routed-defect terminal,S-Rout|A-Cert,3207
+CT7,10,CT7.terminal.ct3,ct3,consumer_handoff,CT3 external-type handoff,S-Rout|S-Trig,3208
+CT7,11,CT7.terminal.ct12,ct12,consumer_handoff,CT12 peeling handoff,S-Rout|S-Trig,3209
+CT7,12,CT7.decide.neutral,neutral,decision,Neutral compression routing,S-Comp|S-Rout,3206
+CT7,13,CT7.terminal.c2,c2,certificate,C2 neutral-compression terminal,S-Comp|A-Cert,3210
+CT7,14,CT7.terminal.ct10,ct10,consumer_handoff,CT10 neutral-label handoff,S-Rout|S-Trig,3211
+CT7,15,CT7.terminal.ct16,ct16,consumer_handoff,CT16 whole-object handoff,S-Rout|S-Trig,3212
+CT8,1,CT8.entry,entry,input,Validated CT8 sequence entry,S-Def,3317
+CT8,2,CT8.decide.scope,scope,decision,Finite exact-type scope,S-Dich|A-Scope|S-Rout,3318
+CT8,3,CT8.terminal.scope,scope,scope_audit,Missing finite-type scope terminal,A-Scope,3319
+CT8,4,CT8.terminal.ct10,ct10,consumer_handoff,CT10 coarse-label handoff,S-Rout|S-Trig,3320
+CT8,5,CT8.certify.equivalence,equivalence,assertion,Exact-type equivalence certification,S-Equiv,3321
+CT8,6,CT8.decide.repetition,repetition,decision,Short/repeated-type decision,S-Dich|S-Comp,3322
+CT8,7,CT8.terminal.c5,c5,certificate,C5 finite-enumeration terminal,S-Comp|A-Cert,3323
+CT8,8,CT8.decide.response,response,decision,Repeated-type response decision,S-Dich|S-Equiv|S-Comp,3324
+CT8,9,CT8.terminal.c2,c2,certificate,C2 repeated-type compression terminal,S-Equiv|S-Comp|A-Cert,3325
+CT8,10,CT8.decide.routing,routing,decision,Separating-witness routing,S-Rout,3326
+CT8,11,CT8.terminal.ct3,ct3,consumer_handoff,CT3 separating-type handoff,S-Rout|S-Trig,3327
+CT8,12,CT8.terminal.ct7,ct7,consumer_handoff,CT7 chain-exchange handoff,S-Rout|S-Trig,3328
+CT9,1,CT9.entry,entry,input,Validated CT9 payer-fibre entry,S-Def,3423
+CT9,2,CT9.decide.scope,scope,decision,Finite fibre-labelling scope,S-Dich|A-Scope|S-Rout,3424
+CT9,3,CT9.terminal.scope,scope,scope_audit,Missing finite-labelling scope terminal,A-Scope,3425
+CT9,4,CT9.terminal.ct10,ct10,consumer_handoff,CT10 label-refinement handoff,S-Rout|S-Trig,3426
+CT9,5,CT9.certify.fibre,fibre,assertion,Payer-fibre certification,S-Def,3427
+CT9,6,CT9.decide.overload,overload,decision,Bounded/overloaded fibre decision,S-Dich|S-Comp|S-Rout,3428
+CT9,7,CT9.terminal.ct4,ct4,consumer_handoff,CT4 bounded-multiplicity handoff,S-Rout|S-Trig,3429
+CT9,8,CT9.certify.extraction,extraction,assertion,Homogeneous extraction certification,S-Comp,3430
+CT9,9,CT9.decide.routing,routing,decision,Extracted-object routing,S-Dich|S-Rout,3431
+CT9,10,CT9.terminal.c1,c1,certificate,C1 overload target terminal,A-Cert,3432
+CT9,11,CT9.terminal.ct7,ct7,consumer_handoff,CT7 homogeneous-exchange handoff,S-Rout|S-Trig,3433
+CT9,12,CT9.terminal.ct8,ct8,consumer_handoff,CT8 long-chain handoff,S-Rout|S-Trig,3434
+CT10,1,CT10.entry,entry,input,Validated CT10 residual-class entry,S-Def,3529
+CT10,2,CT10.decide.scope,scope,decision,Finite refinement-alphabet scope,S-Dich|A-Scope,3530
+CT10,3,CT10.terminal.scope,scope,scope_audit,Infinite-alphabet scope terminal,A-Scope,3531
+CT10,4,CT10.certify.labels,labels,assertion,Label-class exhaustion certification,S-Def|S-Comp,3532
+CT10,5,CT10.decide.classification,classification,decision,Refined-class classification,S-Dich|S-Comp|S-Rout,3533
+CT10,6,CT10.terminal.c5,c5,certificate,C5 finite-class exhaustion terminal,S-Comp|A-Cert,3534
+CT10,7,CT10.decide.direct,direct,decision,Direct class-result routing,S-Rout,3535
+CT10,8,CT10.terminal.ct3,ct3,consumer_handoff,CT3 promoted-response handoff,S-Rout|S-Trig,3538
+CT10,9,CT10.terminal.ct7,ct7,consumer_handoff,CT7 class-exchange handoff,S-Rout|S-Trig,3539
+CT10,10,CT10.certify.promotion,promotion,assertion,Missing-datum promotion certification,S-Def,3536
+CT10,11,CT10.decide.promotedRouting,promotedRouting,decision,Promoted-invariant routing,S-Rout,3537
+CT10,12,CT10.terminal.ct15,ct15,consumer_handoff,CT15 rank-datum handoff,S-Rout|S-Trig,3540
+CT11,1,CT11.entry,entry,input,Validated CT11 additive-deficit entry,S-Def,3612
+CT11,2,CT11.decide.scope,scope,decision,Finite local-type scope,A-Scope,3613
+CT11,3,CT11.terminal.scope,scope,scope_audit,Missing local-type scope terminal,A-Scope,3614
+CT11,4,CT11.certify.decomposition,decomposition,assertion,Admissible decomposition certification,S-Def,3615
+CT11,5,CT11.decide.admissibility,admissibility,decision,Admissibility-closure decision,S-Dich|S-Rout,3616
+CT11,6,CT11.terminal.ct10,ct10,consumer_handoff,CT10 admissibility-gap handoff,S-Rout|S-Trig,3617
+CT11,7,CT11.certify.localization,localization,assertion,Summation and localization certification,S-Comp,3618
+CT11,8,CT11.decide.routing,routing,decision,Localized-object routing,S-Rout,3619
+CT11,9,CT11.terminal.ct1,ct1,consumer_handoff,CT1 target-test handoff,S-Rout|S-Trig,3617
+CT11,10,CT11.terminal.ct7,ct7,consumer_handoff,CT7 localized-exchange handoff,S-Rout|S-Trig,3621
+CT11,11,CT11.terminal.ct14,ct14,consumer_handoff,CT14 carried-mass handoff,S-Rout|S-Trig,3622
+CT12,1,CT12.entry,entry,input,Validated CT12 routed-load entry,S-Def,3728
+CT12,2,CT12.decide.scope,scope,decision,Recorded natural-valued load scope,S-Meas|A-Scope,3729
+CT12,3,CT12.terminal.scope,scope,scope_audit,Unmeasurable-load scope terminal,A-Scope,3730
+CT12,4,CT12.certify.measure,measure,loop_measure,Initial loop-measure certification,S-Meas,3731
+CT12,5,CT12.decide.saturation,saturation,decision,Unsaturated/peelable decision,S-Dich,3697
+CT12,6,CT12.terminal.c4,c4,certificate,C4 unsaturated discharge terminal,S-Comp|A-Cert,3733
+CT12,7,CT12.certify.peel,peel,assertion,Canonical single-unit peel certification,S-Det,3734
+CT12,8,CT12.decide.restoration,restoration,decision,Invariant-restoration decision,S-Rest|S-Rout,3735
+CT12,9,CT12.terminal.ct4,ct4,consumer_handoff,CT4 ordinary-demand handoff,S-Rout|S-Trig,3736
+CT12,10,CT12.terminal.ct13,ct13,consumer_handoff,CT13 tier-interaction handoff,S-Rout|S-Trig,3737
+CT12,11,CT12.certify.decrease,decrease,loop_measure,Strict loop-measure decrease certification,S-Meas,3696
+CT13,1,CT13.entry,entry,input,Validated CT13 tier-account entry,S-Def,3792
+CT13,2,CT13.decide.scope,scope,decision,Measurable tier-resource scope,A-Scope,3793
+CT13,3,CT13.terminal.scope,scope,scope_audit,Missing tier-resource scope terminal,A-Scope,3794
+CT13,4,CT13.decide.availability,availability,decision,Tier-one availability decision,S-Dich,3795
+CT13,5,CT13.certify.tierOne,tierOne,assertion,Tier-one canonical payment certification,S-Det,3796
+CT13,6,CT13.certify.tierOneRouting,tierOneRouting,assertion,Tier-one account routing certification,S-Rout,3797
+CT13,7,CT13.terminal.ct4,ct4,consumer_handoff,CT4 tier-one account handoff,S-Rout|S-Trig,3798
+CT13,8,CT13.certify.fallback,fallback,assertion,Minimal-obstruction fallback certification,S-Def|S-Det,3799
+CT13,9,CT13.decide.reconciliation,reconciliation,decision,Tier-resource reconciliation decision,S-Dich|S-Comp,3800
+CT13,10,CT13.certify.comparison,comparison,assertion,Combined-capacity certification,S-Comp,3801
+CT13,11,CT13.terminal.c4,c4,certificate,C4 reconciled-tier terminal,A-Cert,3802
+CT13,12,CT13.decide.overlapRouting,overlapRouting,decision,Overlap-residual routing,S-Rout,3803
+CT13,13,CT13.terminal.ct9,ct9,consumer_handoff,CT9 overlap-fibre handoff,S-Rout|S-Trig,3804
+CT13,14,CT13.terminal.ct14,ct14,consumer_handoff,CT14 overlap-mass handoff,S-Rout|S-Trig,3805
+CT14,1,CT14.entry,entry,input,Validated CT14 residual-class entry,S-Def,3880
+CT14,2,CT14.decide.scope,scope,decision,Finite capacity-description scope,A-Scope,3881
+CT14,3,CT14.terminal.scope,scope,scope_audit,Missing capacity-description scope terminal,A-Scope,3882
+CT14,4,CT14.certify.bounds,bounds,assertion,Lower and upper aggregate-bound certification,S-Comp,3883
+CT14,5,CT14.decide.multiplicity,multiplicity,decision,Carried-charge multiplicity decision,S-Dich|S-Comp|S-Rout,3884
+CT14,6,CT14.terminal.ct9,ct9,consumer_handoff,CT9 unbounded-member handoff,S-Rout|S-Trig,3885
+CT14,7,CT14.terminal.ct10,ct10,consumer_handoff,CT10 missing-capacity-label handoff,S-Rout|S-Trig,3886
+CT14,8,CT14.certify.comparison,comparison,assertion,Aggregate comparison certification,S-Comp,3887
+CT14,9,CT14.terminal.c4,c4,certificate,C4 aggregate-capacity terminal,A-Cert,3888
+CT15,1,CT15.entry,entry,input,Validated CT15 rank-data entry,S-Def,3957
+CT15,2,CT15.decide.scope,scope,decision,Finite target-relative-rank scope,A-Scope,3958
+CT15,3,CT15.terminal.scope,scope,scope_audit,Missing finite-rank scope terminal,A-Scope,3959
+CT15,4,CT15.certify.rank,rank,assertion,Target-relative rank certification,S-Def,3960
+CT15,5,CT15.decide.rankDrop,rankDrop,decision,Rank-drop decision,S-Dich,3961
+CT15,6,CT15.decide.dependenceRouting,dependenceRouting,decision,Structural-dependence routing,S-Rout,3962
+CT15,7,CT15.terminal.ct3,ct3,consumer_handoff,CT3 rank-defect handoff,S-Rout|S-Trig,3963
+CT15,8,CT15.terminal.ct7,ct7,consumer_handoff,CT7 rank-exchange handoff,S-Rout|S-Trig,3964
+CT15,9,CT15.terminal.ct16,ct16,consumer_handoff,CT16 rank-delocalization handoff,S-Rout|S-Trig,3965
+CT15,10,CT15.certify.ledger,ledger,assertion,Full-rank ledger certification,S-Comp,3966
+CT15,11,CT15.decide.comparison,comparison,decision,Rank-budget comparison,S-Dich|S-Comp|S-Rout,3967
+CT15,12,CT15.terminal.c4,c4,certificate,C4 rank-budget terminal,A-Cert,3968
+CT15,13,CT15.terminal.ct4,ct4,consumer_handoff,CT4 rank-ledger handoff,S-Rout|S-Trig,3969
+CT16,1,CT16.entry,entry,input,Validated CT16 support datum,S-Def,4037
+CT16,2,CT16.decide.support,support,decision,Proper/whole support decision,S-Dich|S-Rout,4038
+CT16,3,CT16.terminal.ct3,ct3,consumer_handoff,CT3 proper-piece handoff,S-Rout|S-Trig,4039
+CT16,4,CT16.decide.scope,scope,decision,Finite closed-type scope,A-Scope,4040
+CT16,5,CT16.terminal.scope,scope,scope_audit,Noncomputable closed-type scope terminal,A-Scope,4041
+CT16,6,CT16.certify.closedType,closedType,assertion,Exact closed-type certification,S-Equiv,4042
+CT16,7,CT16.decide.equality,equality,decision,Literal closed-type equality decision,S-Dich|S-Equiv|S-Rout,4043
+CT16,8,CT16.terminal.c2,c2,certificate,C2 whole-object identification terminal,A-Cert,4044
+CT16,9,CT16.terminal.ct10,ct10,consumer_handoff,CT10 distinct-closed-type handoff,S-Rout|S-Trig,4045
+CT17,1,CT17.entry,entry,input,Validated CT17 sparse-target entry,S-Def,4114
+CT17,2,CT17.decide.scope,scope,decision,Bounded-offset arithmetic scope,A-Scope,4115
+CT17,3,CT17.terminal.scope,scope,scope_audit,Missing bounded-offset scope terminal,A-Scope,4116
+CT17,4,CT17.decide.compatibility,compatibility,decision,Common-branch offset compatibility decision,S-Dich|S-Rout,4117
+CT17,5,CT17.decide.separation,separation,decision,Incompatible-completion separation,S-Rout,4118
+CT17,6,CT17.terminal.ct3,ct3,consumer_handoff,CT3 completion-type handoff,S-Rout|S-Trig,4119
+CT17,7,CT17.terminal.ct10,ct10,consumer_handoff,CT10 completion-label handoff,S-Rout|S-Trig,4120
+CT17,8,CT17.certify.block,block,assertion,Target-thickened block certification,S-Comp,4121
+CT17,9,CT17.decide.scale,scale,decision,Finite/repeated scale decision,S-Dich,4122
+CT17,10,CT17.decide.survivors,survivors,decision,Finite-survivor decision,S-Dich|S-Comp|S-Rout,4123
+CT17,11,CT17.terminal.c5,c5,certificate,C5 finite-survivor exhaustion terminal,A-Cert,4124
+CT17,12,CT17.terminal.ct8,ct8,consumer_handoff,CT8 finite-survivor handoff,S-Rout|S-Trig,4125
+CT17,13,CT17.decide.arithmetic,arithmetic,decision,Large-scale arithmetic decision,S-Dich|S-Comp|S-Rout,4126
+CT17,14,CT17.terminal.c1,c1,certificate,C1 arithmetic target-hit terminal,A-Cert,4127
+CT17,15,CT17.terminal.ct14,ct14,consumer_handoff,CT14 arithmetic-mass handoff,S-Rout|S-Trig,4128

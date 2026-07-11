@@ -1,0 +1,673 @@
+{
+  "artifactType": "formalTacticSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT7-v1",
+  "tacticId": "CT7",
+  "name": "Exchange trichotomy",
+  "signature": {
+    "input": "validated_typed_state",
+    "close": [
+      "C1",
+      "C2",
+      "C3"
+    ],
+    "handoff": [
+      "P_7_to_3",
+      "P_7_to_12",
+      "P_7_to_10",
+      "P_7_to_16"
+    ],
+    "scope": [
+      "typed_scope_exit"
+    ]
+  },
+  "entryNodeId": "CT7.entry",
+  "nodeRefs": [
+    "nodes/CT7.entry.json",
+    "nodes/CT7.decide.scope.json",
+    "nodes/CT7.terminal.scope.json",
+    "nodes/CT7.certify.context.json",
+    "nodes/CT7.decide.realization.json",
+    "nodes/CT7.terminal.c1.json",
+    "nodes/CT7.decide.distinction.json",
+    "nodes/CT7.decide.defect.json",
+    "nodes/CT7.terminal.c3.json",
+    "nodes/CT7.terminal.ct3.json",
+    "nodes/CT7.terminal.ct12.json",
+    "nodes/CT7.decide.neutral.json",
+    "nodes/CT7.terminal.c2.json",
+    "nodes/CT7.terminal.ct10.json",
+    "nodes/CT7.terminal.ct16.json"
+  ],
+  "transitions": [
+    {
+      "transitionId": "CT7.edge.begin",
+      "fromNodeId": "CT7.entry",
+      "toNodeId": "CT7.decide.scope",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT7.Graph",
+        "declaration": "StructuralExhaustion.CT7.Graph.Edge.beginScope",
+        "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "unconditional",
+        "branchTag": "begin",
+        "evidenceSlots": []
+      }
+    },
+    {
+      "transitionId": "CT7.edge.scope.exit",
+      "fromNodeId": "CT7.decide.scope",
+      "toNodeId": "CT7.terminal.scope",
+      "kind": "scope",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT7.Graph",
+        "declaration": "StructuralExhaustion.CT7.Graph.Edge.scopeExit",
+        "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "exit",
+        "evidenceSlots": [
+          {
+            "slotId": "candidate",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT7.ScopeCandidate framework input"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Scope.Decision.exit",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Scope.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT7.edge.scope.ready",
+      "fromNodeId": "CT7.decide.scope",
+      "toNodeId": "CT7.certify.context",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT7.Graph",
+        "declaration": "StructuralExhaustion.CT7.Graph.Edge.scopeReady",
+        "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "ready",
+        "evidenceSlots": [
+          {
+            "slotId": "scopeState",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT7.ScopedState framework input"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Scope.Decision.ready",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Scope.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT7.edge.context.certified",
+      "fromNodeId": "CT7.certify.context",
+      "toNodeId": "CT7.decide.realization",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT7.Graph",
+        "declaration": "StructuralExhaustion.CT7.Graph.Edge.contextCertified",
+        "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "unconditional",
+        "branchTag": "certified",
+        "evidenceSlots": [
+          {
+            "slotId": "context",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT7.ContextState framework input"
+          }
+        ]
+      }
+    },
+    {
+      "transitionId": "CT7.edge.realization.close",
+      "fromNodeId": "CT7.decide.realization",
+      "toNodeId": "CT7.terminal.c1",
+      "kind": "close",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT7.Graph",
+        "declaration": "StructuralExhaustion.CT7.Graph.Edge.realizationClose",
+        "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "close",
+        "evidenceSlots": [
+          {
+            "slotId": "certificate",
+            "valueKind": "certificate",
+            "typeExpression": "StructuralExhaustion.CT7.C1Certificate framework input context"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Realization",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Realization.Decision.close",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Realization.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT7.edge.realization.none",
+      "fromNodeId": "CT7.decide.realization",
+      "toNodeId": "CT7.decide.distinction",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT7.Graph",
+        "declaration": "StructuralExhaustion.CT7.Graph.Edge.realizationUnrealized",
+        "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "unrealized",
+        "evidenceSlots": [
+          {
+            "slotId": "unrealized",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT7.UnrealizedState framework input context"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Realization",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Realization.Decision.unrealized",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Realization.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT7.edge.distinction.defect",
+      "fromNodeId": "CT7.decide.distinction",
+      "toNodeId": "CT7.decide.defect",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT7.Graph",
+        "declaration": "StructuralExhaustion.CT7.Graph.Edge.distinctionDefect",
+        "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "defect",
+        "evidenceSlots": [
+          {
+            "slotId": "defect",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT7.DefectState framework input unrealized"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Distinction",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Distinction.Decision.defect",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Distinction.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT7.edge.distinction.neutral",
+      "fromNodeId": "CT7.decide.distinction",
+      "toNodeId": "CT7.decide.neutral",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT7.Graph",
+        "declaration": "StructuralExhaustion.CT7.Graph.Edge.distinctionNeutral",
+        "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "neutral",
+        "evidenceSlots": [
+          {
+            "slotId": "neutral",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT7.NeutralState framework input unrealized"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Distinction",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Distinction.Decision.neutral",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Distinction.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT7.edge.defect.c3",
+      "fromNodeId": "CT7.decide.defect",
+      "toNodeId": "CT7.terminal.c3",
+      "kind": "close",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT7.Graph",
+        "declaration": "StructuralExhaustion.CT7.Graph.Edge.defectClose",
+        "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "close",
+        "evidenceSlots": [
+          {
+            "slotId": "certificate",
+            "valueKind": "certificate",
+            "typeExpression": "StructuralExhaustion.CT7.C3Certificate framework input defect"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Defect",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Defect.Decision.close",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Defect.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT7.edge.defect.ct3",
+      "fromNodeId": "CT7.decide.defect",
+      "toNodeId": "CT7.terminal.ct3",
+      "kind": "handoff",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT7.Graph",
+        "declaration": "StructuralExhaustion.CT7.Graph.Edge.defectToCT3",
+        "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "toCT3",
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT7.CT3Payload framework input defect"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Defect",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Defect.Decision.toCT3",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Defect.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT7.edge.defect.ct12",
+      "fromNodeId": "CT7.decide.defect",
+      "toNodeId": "CT7.terminal.ct12",
+      "kind": "handoff",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT7.Graph",
+        "declaration": "StructuralExhaustion.CT7.Graph.Edge.defectToCT12",
+        "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "toCT12",
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT7.CT12Payload framework input defect"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Defect",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Defect.Decision.toCT12",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Defect.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT7.edge.neutral.c2",
+      "fromNodeId": "CT7.decide.neutral",
+      "toNodeId": "CT7.terminal.c2",
+      "kind": "close",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT7.Graph",
+        "declaration": "StructuralExhaustion.CT7.Graph.Edge.neutralClose",
+        "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "close",
+        "evidenceSlots": [
+          {
+            "slotId": "certificate",
+            "valueKind": "certificate",
+            "typeExpression": "StructuralExhaustion.CT7.C2Certificate framework input neutral"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Neutral",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Neutral.Decision.close",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Neutral.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT7.edge.neutral.ct10",
+      "fromNodeId": "CT7.decide.neutral",
+      "toNodeId": "CT7.terminal.ct10",
+      "kind": "handoff",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT7.Graph",
+        "declaration": "StructuralExhaustion.CT7.Graph.Edge.neutralToCT10",
+        "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "toCT10",
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT7.CT10Payload framework input neutral"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Neutral",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Neutral.Decision.toCT10",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Neutral.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT7.edge.neutral.ct16",
+      "fromNodeId": "CT7.decide.neutral",
+      "toNodeId": "CT7.terminal.ct16",
+      "kind": "handoff",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT7.Graph",
+        "declaration": "StructuralExhaustion.CT7.Graph.Edge.neutralToCT16",
+        "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "toCT16",
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT7.CT16Payload framework input neutral"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Neutral",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Neutral.Decision.toCT16",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Neutral.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    }
+  ],
+  "terminalCases": [
+    "scope",
+    "c1",
+    "c3",
+    "ct3",
+    "ct12",
+    "c2",
+    "ct10",
+    "ct16"
+  ],
+  "terminalCoverage": [
+    {
+      "terminalCase": "scope",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct7/toy-scope.json"
+    },
+    {
+      "terminalCase": "c1",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct7/toy-c1.json"
+    },
+    {
+      "terminalCase": "c3",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct7/toy-c3.json"
+    },
+    {
+      "terminalCase": "ct3",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct7/toy-ct3.json"
+    },
+    {
+      "terminalCase": "ct12",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct7/toy-ct12.json"
+    },
+    {
+      "terminalCase": "c2",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct7/toy-c2.json"
+    },
+    {
+      "terminalCase": "ct10",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct7/toy-ct10.json"
+    },
+    {
+      "terminalCase": "ct16",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct7/toy-ct16.json"
+    }
+  ],
+  "formalApi": {
+    "framework": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.Framework",
+      "sourceFile": "StructuralExhaustion/CT7/Types.lean",
+      "declarationKind": "structure"
+    },
+    "input": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.Input",
+      "sourceFile": "StructuralExhaustion/CT7/Types.lean",
+      "declarationKind": "structure"
+    },
+    "port": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.Port",
+      "sourceFile": "StructuralExhaustion/CT7/Types.lean",
+      "declarationKind": "structure"
+    },
+    "handoffPlan": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.HandoffPlan",
+      "sourceFile": "StructuralExhaustion/CT7/Types.lean",
+      "declarationKind": "structure"
+    },
+    "nodeId": {
+      "module": "StructuralExhaustion.CT7.Graph",
+      "declaration": "StructuralExhaustion.CT7.Graph.NodeId",
+      "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "terminal": {
+      "module": "StructuralExhaustion.CT7.Graph",
+      "declaration": "StructuralExhaustion.CT7.Graph.Terminal",
+      "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "edge": {
+      "module": "StructuralExhaustion.CT7.Graph",
+      "declaration": "StructuralExhaustion.CT7.Graph.Edge",
+      "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "path": {
+      "module": "StructuralExhaustion.CT7.Graph",
+      "declaration": "StructuralExhaustion.CT7.Graph.Path",
+      "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "validTrace": {
+      "module": "StructuralExhaustion.CT7.Graph",
+      "declaration": "StructuralExhaustion.CT7.Graph.ValidTrace",
+      "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+      "declarationKind": "definition"
+    },
+    "corePlan": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.CorePlan",
+      "sourceFile": "StructuralExhaustion/CT7/Execution.lean",
+      "declarationKind": "structure"
+    },
+    "rawOutcome": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.RawOutcome",
+      "sourceFile": "StructuralExhaustion/CT7/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "coreResult": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.CoreResult",
+      "sourceFile": "StructuralExhaustion/CT7/Execution.lean",
+      "declarationKind": "structure"
+    },
+    "runCore": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.runCore",
+      "sourceFile": "StructuralExhaustion/CT7/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "outcome": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.Outcome",
+      "sourceFile": "StructuralExhaustion/CT7/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "outcomeClaim": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.OutcomeClaim",
+      "sourceFile": "StructuralExhaustion/CT7/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "executionResult": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.ExecutionResult",
+      "sourceFile": "StructuralExhaustion/CT7/Execution.lean",
+      "declarationKind": "structure"
+    },
+    "run": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.run",
+      "sourceFile": "StructuralExhaustion/CT7/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "runTraced": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.runTraced",
+      "sourceFile": "StructuralExhaustion/CT7/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "soundness": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.run_verified",
+      "sourceFile": "StructuralExhaustion/CT7/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "totality": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.run_total",
+      "sourceFile": "StructuralExhaustion/CT7/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "traceValidity": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.run_trace_valid",
+      "sourceFile": "StructuralExhaustion/CT7/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "exhaustiveness": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.outcome_exhaustive",
+      "sourceFile": "StructuralExhaustion/CT7/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "contextState": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.ContextState",
+      "sourceFile": "StructuralExhaustion/CT7/Types.lean",
+      "declarationKind": "structure"
+    },
+    "unrealizedState": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.UnrealizedState",
+      "sourceFile": "StructuralExhaustion/CT7/Types.lean",
+      "declarationKind": "structure"
+    },
+    "defectState": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.DefectState",
+      "sourceFile": "StructuralExhaustion/CT7/Types.lean",
+      "declarationKind": "structure"
+    },
+    "neutralState": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.NeutralState",
+      "sourceFile": "StructuralExhaustion/CT7/Types.lean",
+      "declarationKind": "structure"
+    },
+    "c1Certificate": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.C1Certificate",
+      "sourceFile": "StructuralExhaustion/CT7/Types.lean",
+      "declarationKind": "structure"
+    },
+    "c2Certificate": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.C2Certificate",
+      "sourceFile": "StructuralExhaustion/CT7/Types.lean",
+      "declarationKind": "structure"
+    },
+    "c3Certificate": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.C3Certificate",
+      "sourceFile": "StructuralExhaustion/CT7/Types.lean",
+      "declarationKind": "structure"
+    }
+  },
+  "totalityPolicy": {
+    "allNodesBound": true,
+    "allTransitionsDeclared": true,
+    "allDecisionBranchesMapped": true,
+    "allTracesKernelCertified": true,
+    "allTerminalOutcomesTyped": true,
+    "allConsumerTriggersCarried": true
+  },
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT7 — Exchange trichotomy"
+  },
+  "contractInventoryRef": "contracts.json"
+}

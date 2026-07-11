@@ -1,0 +1,140 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT13-v1",
+  "nodeId": "CT13.decide.overlapRouting",
+  "nodeKind": "decision",
+  "title": "Overlap-residual routing",
+  "human": {
+    "informal": "Execute the proof-carrying overlap-residual routing contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Rout"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT13 — Tiered charging",
+    "diagramKey": "overlapRouting"
+  },
+  "formalContract": {
+    "contractId": "CT13.decide.overlapRouting.contract",
+    "executionMode": "computable",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT13.Nodes.Routing",
+      "declaration": "StructuralExhaustion.CT13.Nodes.Routing.Contract",
+      "sourceFile": "StructuralExhaustion/CT13/Nodes/Routing.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT13.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT13.Nodes.Routing.Contract framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node.",
+    "branches": [
+      {
+        "branchTag": "toCT9",
+        "meaning": "Return the proof-carrying toCT9 constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT13.Nodes.Routing",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Routing.Decision.toCT9",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Routing.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT13.CT9Payload framework input overlap"
+          }
+        ],
+        "transitionId": "CT13.edge.overlap.ct9"
+      },
+      {
+        "branchTag": "toCT14",
+        "meaning": "Return the proof-carrying toCT14 constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT13.Nodes.Routing",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Routing.Decision.toCT14",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Routing.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT13.CT14Payload framework input overlap"
+          }
+        ],
+        "transitionId": "CT13.edge.overlap.ct14"
+      }
+    ]
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT13.Nodes.Routing",
+    "sourceFile": "StructuralExhaustion/CT13/Nodes/Routing.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT13.Nodes.Routing",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Routing.Contract",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Routing.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT13.Nodes.Routing",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Routing.Decision",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Routing.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT13.Nodes.Routing",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Routing.Plan",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Routing.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT13.Nodes.Routing",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Routing.run",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Routing.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

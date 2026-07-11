@@ -1,0 +1,787 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/tactics/CT10.schema.json",
+  "title": "CT10-v1 semantic runtime graph — Default refinement",
+  "description": "Concrete static-graph schema for the exact CT10-v1 sequential machine.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticSpec"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT10 discriminator.",
+          "const": "CT10"
+        },
+        "graphVersion": {
+          "description": "Required semantic graph version.",
+          "const": "CT10-v1"
+        },
+        "entryNodeIds": {
+          "description": "The unique semantic entry node.",
+          "const": [
+            "CT10.entry"
+          ]
+        },
+        "nodes": {
+          "description": "Exact 12-node machine in presentation order.",
+          "type": "array",
+          "prefixItems": [
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Validated CT10 residual-class entry.",
+                      "const": "CT10.entry"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT10.entry.",
+                      "const": 1
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT10.entry.",
+                      "const": "input"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT10.entry.",
+                      "const": "entry"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Finite refinement-alphabet scope.",
+                      "const": "CT10.decide.scope"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT10.decide.scope.",
+                      "const": 2
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT10.decide.scope.",
+                      "const": "decision"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT10.decide.scope.",
+                      "const": "decision"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Infinite-alphabet scope terminal.",
+                      "const": "CT10.terminal.scope"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT10.terminal.scope.",
+                      "const": 3
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT10.terminal.scope.",
+                      "const": "scope_audit"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT10.terminal.scope.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT10.terminal.scope.",
+                      "const": "scope"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Label-class exhaustion certification.",
+                      "const": "CT10.certify.labels"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT10.certify.labels.",
+                      "const": 4
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT10.certify.labels.",
+                      "const": "assertion"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT10.certify.labels.",
+                      "const": "certification"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Refined-class classification.",
+                      "const": "CT10.decide.classification"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT10.decide.classification.",
+                      "const": 5
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT10.decide.classification.",
+                      "const": "decision"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT10.decide.classification.",
+                      "const": "decision"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for C5 finite-class exhaustion terminal.",
+                      "const": "CT10.terminal.c5"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT10.terminal.c5.",
+                      "const": 6
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT10.terminal.c5.",
+                      "const": "certificate"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT10.terminal.c5.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT10.terminal.c5.",
+                      "const": "c5"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Direct class-result routing.",
+                      "const": "CT10.decide.direct"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT10.decide.direct.",
+                      "const": 7
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT10.decide.direct.",
+                      "const": "decision"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT10.decide.direct.",
+                      "const": "decision"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for CT3 promoted-response handoff.",
+                      "const": "CT10.terminal.ct3"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT10.terminal.ct3.",
+                      "const": 8
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT10.terminal.ct3.",
+                      "const": "consumer_handoff"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT10.terminal.ct3.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT10.terminal.ct3.",
+                      "const": "ct3"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for CT7 class-exchange handoff.",
+                      "const": "CT10.terminal.ct7"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT10.terminal.ct7.",
+                      "const": 9
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT10.terminal.ct7.",
+                      "const": "consumer_handoff"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT10.terminal.ct7.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT10.terminal.ct7.",
+                      "const": "ct7"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Missing-datum promotion certification.",
+                      "const": "CT10.certify.promotion"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT10.certify.promotion.",
+                      "const": 10
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT10.certify.promotion.",
+                      "const": "assertion"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT10.certify.promotion.",
+                      "const": "certification"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Promoted-invariant routing.",
+                      "const": "CT10.decide.promotedRouting"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT10.decide.promotedRouting.",
+                      "const": 11
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT10.decide.promotedRouting.",
+                      "const": "decision"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT10.decide.promotedRouting.",
+                      "const": "decision"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for CT15 rank-datum handoff.",
+                      "const": "CT10.terminal.ct15"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT10.terminal.ct15.",
+                      "const": 12
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT10.terminal.ct15.",
+                      "const": "consumer_handoff"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT10.terminal.ct15.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT10.terminal.ct15.",
+                      "const": "ct15"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 12,
+          "maxItems": 12
+        },
+        "transitions": {
+          "description": "Exact 12 typed edges in presentation order.",
+          "type": "array",
+          "prefixItems": [
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT10.edge.begin"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 1
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT10.entry"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT10.decide.scope"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT10.edge.scope.exit"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 2
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT10.decide.scope"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT10.terminal.scope"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT10.edge.scope.ready"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 3
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT10.decide.scope"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT10.certify.labels"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT10.edge.labels.certified"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 4
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT10.certify.labels"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT10.decide.classification"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT10.edge.classification.close"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 5
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT10.decide.classification"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT10.terminal.c5"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT10.edge.classification.direct"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 6
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT10.decide.classification"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT10.decide.direct"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT10.edge.classification.missing"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 7
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT10.decide.classification"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT10.certify.promotion"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT10.edge.direct.ct3"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 8
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT10.decide.direct"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT10.terminal.ct3"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT10.edge.direct.ct7"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 9
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT10.decide.direct"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT10.terminal.ct7"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT10.edge.promotion.certified"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 10
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT10.certify.promotion"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT10.decide.promotedRouting"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT10.edge.promoted.ct3"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 11
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT10.decide.promotedRouting"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT10.terminal.ct3"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT10.edge.promoted.ct15"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 12
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT10.decide.promotedRouting"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT10.terminal.ct15"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 12,
+          "maxItems": 12
+        }
+      },
+      "required": [
+        "tacticId",
+        "graphVersion",
+        "entryNodeIds",
+        "nodes",
+        "transitions"
+      ]
+    }
+  ]
+}

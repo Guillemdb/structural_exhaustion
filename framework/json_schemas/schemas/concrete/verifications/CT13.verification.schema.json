@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/verifications/CT13.verification.schema.json",
+  "title": "CT13-v1 structural all-node verification",
+  "description": "Requires structural coverage of all 14 semantic states; it does not claim automatic witness search.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticVerification"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT13 verification discriminator.",
+          "const": "CT13"
+        },
+        "nodeRecords": {
+          "description": "Exactly one completed record for each CT13-v1 node.",
+          "type": "array",
+          "prefixItems": [
+            {
+              "$ref": "../nodes/CT13.entry.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT13.decide.scope.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT13.terminal.scope.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT13.decide.availability.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT13.certify.tierOne.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT13.certify.tierOneRouting.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT13.terminal.ct4.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT13.certify.fallback.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT13.decide.reconciliation.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT13.certify.comparison.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT13.terminal.c4.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT13.decide.overlapRouting.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT13.terminal.ct9.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT13.terminal.ct14.schema.json"
+            }
+          ],
+          "items": false,
+          "minItems": 14,
+          "maxItems": 14
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeRecords"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT12.decide.scope.schema.json",
+  "title": "CT12.decide.scope completed discharge record — Recorded natural-valued load scope",
+  "description": "Concrete completed-discharge schema for semantic CT12-v1 node CT12.decide.scope.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT12.decide.scope.",
+          "const": "CT12"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for Recorded natural-valued load scope.",
+          "const": "CT12.decide.scope"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT12.decide.scope.",
+          "const": 2
+        },
+        "status": {
+          "description": "Required successful proof state for this executable machine node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT12.decide.scope.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 2,
+          "maxItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Meas evidence.",
+                "const": "S-Meas"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required A-Scope evidence.",
+                "const": "A-Scope"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT12.decide.scope.",
+          "type": "array",
+          "minItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Meas discriminator.",
+                    "const": "S-Meas"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required A-Scope discriminator.",
+                    "const": "A-Scope"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT12.decide.scope.O1",
+    "modality": "decide",
+    "statement": {
+      "informal": "Execute the proof-carrying recorded natural-valued load scope contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Meas",
+      "A-Scope"
+    ],
+    "dependencies": [
+      "CT12.entry"
+    ],
+    "dischargeCriteria": "The node implementation constructs its indexed output contract without inspecting any later node."
+  }
+}

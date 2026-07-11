@@ -1,0 +1,702 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/tactics/CT5.schema.json",
+  "title": "CT5-v1 semantic runtime graph — Local-to-global bookkeeping",
+  "description": "Concrete static-graph schema for the exact CT5-v1 sequential machine.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticSpec"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT5 discriminator.",
+          "const": "CT5"
+        },
+        "graphVersion": {
+          "description": "Required semantic graph version.",
+          "const": "CT5-v1"
+        },
+        "entryNodeIds": {
+          "description": "The unique semantic entry node.",
+          "const": [
+            "CT5.entry"
+          ]
+        },
+        "nodes": {
+          "description": "Exact 11-node machine in presentation order.",
+          "type": "array",
+          "prefixItems": [
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Validated CT5 local-family entry.",
+                      "const": "CT5.entry"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT5.entry.",
+                      "const": 1
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT5.entry.",
+                      "const": "input"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT5.entry.",
+                      "const": "entry"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Bounded-witness scope.",
+                      "const": "CT5.decide.scope"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT5.decide.scope.",
+                      "const": 2
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT5.decide.scope.",
+                      "const": "decision"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT5.decide.scope.",
+                      "const": "decision"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Missing-local-witness scope terminal.",
+                      "const": "CT5.terminal.scope"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT5.terminal.scope.",
+                      "const": 3
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT5.terminal.scope.",
+                      "const": "scope_audit"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT5.terminal.scope.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT5.terminal.scope.",
+                      "const": "scope"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Locality certification.",
+                      "const": "CT5.certify.locality"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT5.certify.locality.",
+                      "const": 4
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT5.certify.locality.",
+                      "const": "assertion"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT5.certify.locality.",
+                      "const": "certification"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Local-deficit classification.",
+                      "const": "CT5.decide.deficit"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT5.decide.deficit.",
+                      "const": 5
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT5.decide.deficit.",
+                      "const": "decision"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT5.decide.deficit.",
+                      "const": "decision"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for CT11 additive-deficit handoff.",
+                      "const": "CT5.terminal.ct11"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT5.terminal.ct11.",
+                      "const": 6
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT5.terminal.ct11.",
+                      "const": "consumer_handoff"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT5.terminal.ct11.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT5.terminal.ct11.",
+                      "const": "ct11"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Local-to-global summation certification.",
+                      "const": "CT5.certify.summation"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT5.certify.summation.",
+                      "const": 7
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT5.certify.summation.",
+                      "const": "assertion"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT5.certify.summation.",
+                      "const": "certification"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Global comparison classification.",
+                      "const": "CT5.decide.comparison"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT5.decide.comparison.",
+                      "const": 8
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT5.decide.comparison.",
+                      "const": "decision"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT5.decide.comparison.",
+                      "const": "decision"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for C4 local-to-global terminal.",
+                      "const": "CT5.terminal.c4"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT5.terminal.c4.",
+                      "const": 9
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT5.terminal.c4.",
+                      "const": "certificate"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT5.terminal.c4.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT5.terminal.c4.",
+                      "const": "c4"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for CT4 ledger handoff.",
+                      "const": "CT5.terminal.ct4"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT5.terminal.ct4.",
+                      "const": 10
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT5.terminal.ct4.",
+                      "const": "consumer_handoff"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT5.terminal.ct4.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT5.terminal.ct4.",
+                      "const": "ct4"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for CT14 aggregate handoff.",
+                      "const": "CT5.terminal.ct14"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT5.terminal.ct14.",
+                      "const": 11
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT5.terminal.ct14.",
+                      "const": "consumer_handoff"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT5.terminal.ct14.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT5.terminal.ct14.",
+                      "const": "ct14"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 11,
+          "maxItems": 11
+        },
+        "transitions": {
+          "description": "Exact 10 typed edges in presentation order.",
+          "type": "array",
+          "prefixItems": [
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT5.edge.begin"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 1
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT5.entry"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT5.decide.scope"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT5.edge.scope.exit"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 2
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT5.decide.scope"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT5.terminal.scope"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT5.edge.scope.ready"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 3
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT5.decide.scope"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT5.certify.locality"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT5.edge.locality.certified"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 4
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT5.certify.locality"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT5.decide.deficit"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT5.edge.deficit.ct11"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 5
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT5.decide.deficit"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT5.terminal.ct11"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT5.edge.deficit.ledger"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 6
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT5.decide.deficit"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT5.certify.summation"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT5.edge.summation.certified"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 7
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT5.certify.summation"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT5.decide.comparison"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT5.edge.comparison.close"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 8
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT5.decide.comparison"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT5.terminal.c4"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT5.edge.comparison.ct4"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 9
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT5.decide.comparison"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT5.terminal.ct4"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT5.edge.comparison.ct14"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 10
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT5.decide.comparison"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT5.terminal.ct14"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 10,
+          "maxItems": 10
+        }
+      },
+      "required": [
+        "tacticId",
+        "graphVersion",
+        "entryNodeIds",
+        "nodes",
+        "transitions"
+      ]
+    }
+  ]
+}

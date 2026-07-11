@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/runs/CT11.run.schema.json",
+  "title": "CT11-v1 legal semantic-machine run",
+  "description": "A legal path begins at CT11.entry, follows typed edges, and ends at one exact terminal.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT11 run discriminator.",
+          "const": "CT11"
+        },
+        "visitedNodeIds": {
+          "description": "Execution path using only CT11-v1 semantic IDs.",
+          "type": "array",
+          "items": {
+            "enum": [
+              "CT11.entry",
+              "CT11.decide.scope",
+              "CT11.terminal.scope",
+              "CT11.certify.decomposition",
+              "CT11.decide.admissibility",
+              "CT11.terminal.ct10",
+              "CT11.certify.localization",
+              "CT11.decide.routing",
+              "CT11.terminal.ct1",
+              "CT11.terminal.ct7",
+              "CT11.terminal.ct14"
+            ]
+          },
+          "minItems": 2
+        },
+        "nodeRecords": {
+          "description": "Proof records aligned with the visited path.",
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "../nodes/CT11.entry.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT11.decide.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT11.terminal.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT11.certify.decomposition.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT11.decide.admissibility.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT11.terminal.ct10.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT11.certify.localization.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT11.decide.routing.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT11.terminal.ct1.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT11.terminal.ct7.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT11.terminal.ct14.schema.json"
+              }
+            ]
+          },
+          "minItems": 2
+        },
+        "outcome": {
+          "description": "Exact terminal result of the CT11-v1 run.",
+          "properties": {
+            "terminalCase": {
+              "description": "Exact terminal-case discriminator.",
+              "enum": [
+                "scope",
+                "ct10",
+                "ct1",
+                "ct7",
+                "ct14"
+              ]
+            }
+          },
+          "required": [
+            "terminalCase"
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "visitedNodeIds",
+        "nodeRecords",
+        "outcome"
+      ]
+    }
+  ],
+  "x-semanticValidationRules": [
+    "validate visitedNodeIds against the semantic transition graph",
+    "require the final node and outcome terminalCase to agree"
+  ]
+}

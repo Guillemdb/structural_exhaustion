@@ -1,0 +1,412 @@
+{
+  "artifactType": "leanVerificationResult",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT2-v2",
+  "verificationId": "CT2.local.2026-07-11T01:07:58+00:00",
+  "tacticId": "CT2",
+  "status": "kernel_checked",
+  "toolchain": {
+    "leanToolchain": "leanprover/lean4:v4.31.0",
+    "lakefileHash": "8db204bcd9258ceacd30cdaa7842d1d1e05ffb8e06eee2f9b7c2c5ee31de4ae7",
+    "leanVersionObserved": "Lean (version 4.31.0, x86_64-unknown-linux-gnu, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)"
+  },
+  "nodeResults": [
+    {
+      "nodeId": "CT2.entry",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Entry.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) : Type (max u_1 u_2)",
+          "sourceHash": "37a221f5a5b8beb4e6b548956e9cc8ee6289877f30745725053b7ca8e5005f6b"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Entry.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} (input : StructuralExhaustion.CT2.Input F) : StructuralExhaustion.CT2.Nodes.Entry.Contract F",
+          "sourceHash": "37a221f5a5b8beb4e6b548956e9cc8ee6289877f30745725053b7ca8e5005f6b"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT2.decide.interface",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Interface.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) (input : StructuralExhaustion.CT2.Input F) : Type",
+          "sourceHash": "048483ae086c500ed7d7b117f857f4e79839dfbf6c81ed65e8d61a3b716e0845"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Interface.Decision",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) (input : StructuralExhaustion.CT2.Input F) : Type",
+          "sourceHash": "048483ae086c500ed7d7b117f857f4e79839dfbf6c81ed65e8d61a3b716e0845"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Interface.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) (input : StructuralExhaustion.CT2.Input F) : Type",
+          "sourceHash": "048483ae086c500ed7d7b117f857f4e79839dfbf6c81ed65e8d61a3b716e0845"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Interface.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} (input : StructuralExhaustion.CT2.Input F) (plan : StructuralExhaustion.CT2.Nodes.Interface.Plan F input) : StructuralExhaustion.CT2.Nodes.Interface.Contract F input",
+          "sourceHash": "048483ae086c500ed7d7b117f857f4e79839dfbf6c81ed65e8d61a3b716e0845"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT2.terminal.scope",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal.scope",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT2.Graph.Terminal",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.NodeId.scopeTerminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT2.Graph.NodeId",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.RawOutcome.scope",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} (candidate : StructuralExhaustion.CT2.ScopeCandidate F input) : StructuralExhaustion.CT2.RawOutcome F input StructuralExhaustion.CT2.Graph.Terminal.scope",
+          "sourceHash": "50d82d56e278a34c1b61acf0751b56f436a770eebaadb0c24c3a6af956db5f64"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Outcome.scope",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} {port : StructuralExhaustion.CT2.Port F input} (candidate : StructuralExhaustion.CT2.ScopeCandidate F input) : StructuralExhaustion.CT2.Outcome F input port StructuralExhaustion.CT2.Graph.Terminal.scope",
+          "sourceHash": "50d82d56e278a34c1b61acf0751b56f436a770eebaadb0c24c3a6af956db5f64"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT2.decide.deletion",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Deletion.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) (input : StructuralExhaustion.CT2.Input F) (bounded : StructuralExhaustion.CT2.BoundedState F input) : Type",
+          "sourceHash": "bf79f6a5a18582db8432fa9771a009f8a69cacaaa90d2c9fa208df02c1a957ea"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Deletion.Decision",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) (input : StructuralExhaustion.CT2.Input F) (_bounded : StructuralExhaustion.CT2.BoundedState F input) : Type",
+          "sourceHash": "bf79f6a5a18582db8432fa9771a009f8a69cacaaa90d2c9fa208df02c1a957ea"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Deletion.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) (input : StructuralExhaustion.CT2.Input F) : Type",
+          "sourceHash": "bf79f6a5a18582db8432fa9771a009f8a69cacaaa90d2c9fa208df02c1a957ea"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Deletion.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} (plan : StructuralExhaustion.CT2.Nodes.Deletion.Plan F input) (bounded : StructuralExhaustion.CT2.BoundedState F input) : StructuralExhaustion.CT2.Nodes.Deletion.Contract F input bounded",
+          "sourceHash": "bf79f6a5a18582db8432fa9771a009f8a69cacaaa90d2c9fa208df02c1a957ea"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT2.terminal.c2.deletion",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal.deletionC2",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT2.Graph.Terminal",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.NodeId.deletionC2Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT2.Graph.NodeId",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.RawOutcome.deletionC2",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} (witness : StructuralExhaustion.CT2.DeletionWitness F input) : StructuralExhaustion.CT2.RawOutcome F input StructuralExhaustion.CT2.Graph.Terminal.deletionC2",
+          "sourceHash": "50d82d56e278a34c1b61acf0751b56f436a770eebaadb0c24c3a6af956db5f64"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Outcome.deletionC2",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} {port : StructuralExhaustion.CT2.Port F input} (witness : StructuralExhaustion.CT2.DeletionWitness F input) : StructuralExhaustion.CT2.Outcome F input port StructuralExhaustion.CT2.Graph.Terminal.deletionC2",
+          "sourceHash": "50d82d56e278a34c1b61acf0751b56f436a770eebaadb0c24c3a6af956db5f64"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT2.decide.replacementCandidate",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.ReplacementCandidate.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) (input : StructuralExhaustion.CT2.Input F) (critical : StructuralExhaustion.CT2.DeletionCriticalState F input) : Type u_2",
+          "sourceHash": "20e63db8eaedf2afa1c56548e0c329a0a51603504f7be9cc4967d225f9c59fe2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.ReplacementCandidate.Decision",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) (input : StructuralExhaustion.CT2.Input F) (_critical : StructuralExhaustion.CT2.DeletionCriticalState F input) : Type u_2",
+          "sourceHash": "20e63db8eaedf2afa1c56548e0c329a0a51603504f7be9cc4967d225f9c59fe2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.ReplacementCandidate.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) (input : StructuralExhaustion.CT2.Input F) : Type u_2",
+          "sourceHash": "20e63db8eaedf2afa1c56548e0c329a0a51603504f7be9cc4967d225f9c59fe2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.ReplacementCandidate.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} (plan : StructuralExhaustion.CT2.Nodes.ReplacementCandidate.Plan F input) (critical : StructuralExhaustion.CT2.DeletionCriticalState F input) : StructuralExhaustion.CT2.Nodes.ReplacementCandidate.Contract F input critical",
+          "sourceHash": "20e63db8eaedf2afa1c56548e0c329a0a51603504f7be9cc4967d225f9c59fe2"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT2.decide.context",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Context.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) (input : StructuralExhaustion.CT2.Input F) (state : StructuralExhaustion.CT2.CandidateState F input) : Type (max (max (max u_10 u_4) u_8) u_9)",
+          "sourceHash": "df0af1ed45276d104674c1e678d76d20480a5e79f086d757afd53d0082e88ba8"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Context.Decision",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) (input : StructuralExhaustion.CT2.Input F) (state : StructuralExhaustion.CT2.CandidateState F input) : Type (max (max (max u_10 u_4) u_8) u_9)",
+          "sourceHash": "df0af1ed45276d104674c1e678d76d20480a5e79f086d757afd53d0082e88ba8"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Context.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) (input : StructuralExhaustion.CT2.Input F) : Type (max (max (max (max u_10 u_2) u_4) u_8) u_9)",
+          "sourceHash": "df0af1ed45276d104674c1e678d76d20480a5e79f086d757afd53d0082e88ba8"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Context.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} (plan : StructuralExhaustion.CT2.Nodes.Context.Plan F input) (state : StructuralExhaustion.CT2.CandidateState F input) : StructuralExhaustion.CT2.Nodes.Context.Contract F input state",
+          "sourceHash": "df0af1ed45276d104674c1e678d76d20480a5e79f086d757afd53d0082e88ba8"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT2.terminal.c2.replacement",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal.replacementC2",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT2.Graph.Terminal",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.NodeId.replacementC2Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT2.Graph.NodeId",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.RawOutcome.replacementC2",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} (state : StructuralExhaustion.CT2.CandidateState F input) (certificate : StructuralExhaustion.CT2.CandidateContextCertificate F input state) : StructuralExhaustion.CT2.RawOutcome F input StructuralExhaustion.CT2.Graph.Terminal.replacementC2",
+          "sourceHash": "50d82d56e278a34c1b61acf0751b56f436a770eebaadb0c24c3a6af956db5f64"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Outcome.replacementC2",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} {port : StructuralExhaustion.CT2.Port F input} (state : StructuralExhaustion.CT2.CandidateState F input) (certificate : StructuralExhaustion.CT2.CandidateContextCertificate F input state) : StructuralExhaustion.CT2.Outcome F input port StructuralExhaustion.CT2.Graph.Terminal.replacementC2",
+          "sourceHash": "50d82d56e278a34c1b61acf0751b56f436a770eebaadb0c24c3a6af956db5f64"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT2.terminal.ct3.context",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal.contextCT3",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT2.Graph.Terminal",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.NodeId.contextCT3Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT2.Graph.NodeId",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.RawOutcome.contextCT3",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} {state : StructuralExhaustion.CT2.CandidateState F input} (payload : StructuralExhaustion.CT2.ContextCT3Payload F input state) : StructuralExhaustion.CT2.RawOutcome F input StructuralExhaustion.CT2.Graph.Terminal.contextCT3",
+          "sourceHash": "50d82d56e278a34c1b61acf0751b56f436a770eebaadb0c24c3a6af956db5f64"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Outcome.contextCT3",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} {port : StructuralExhaustion.CT2.Port F input} {state : StructuralExhaustion.CT2.CandidateState F input} (payload : StructuralExhaustion.CT2.ContextCT3Payload F input state) (accepted : port.ct3Accepts (StructuralExhaustion.CT2.CT3Payload.context payload)) : StructuralExhaustion.CT2.Outcome F input port StructuralExhaustion.CT2.Graph.Terminal.contextCT3",
+          "sourceHash": "50d82d56e278a34c1b61acf0751b56f436a770eebaadb0c24c3a6af956db5f64"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT2.decide.survivor",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Survivor.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) (input : StructuralExhaustion.CT2.Input F) (state : StructuralExhaustion.CT2.SurvivorState F input) : Type (max (max (max (max (max (max (max (max (max (max u_10 u_17) u_18) u_19) u_20) u_21) u_22) u_6) u_7) u_8) u_9)",
+          "sourceHash": "2a69156f3b4941b659d6cda82d1ee089a66010eaead0c01dc585c0e1acbdd9c3"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Survivor.Decision",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) (input : StructuralExhaustion.CT2.Input F) (state : StructuralExhaustion.CT2.SurvivorState F input) : Type (max (max (max (max (max (max (max (max (max (max u_10 u_17) u_18) u_19) u_20) u_21) u_22) u_6) u_7) u_8) u_9)",
+          "sourceHash": "2a69156f3b4941b659d6cda82d1ee089a66010eaead0c01dc585c0e1acbdd9c3"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Survivor.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT2.Framework) (input : StructuralExhaustion.CT2.Input F) : Type (max (max (max (max (max (max (max (max (max (max u_10 u_17) u_18) u_19) u_20) u_21) u_22) u_6) u_7) u_8) u_9)",
+          "sourceHash": "2a69156f3b4941b659d6cda82d1ee089a66010eaead0c01dc585c0e1acbdd9c3"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Nodes.Survivor.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} (plan : StructuralExhaustion.CT2.Nodes.Survivor.Plan F input) (state : StructuralExhaustion.CT2.SurvivorState F input) : StructuralExhaustion.CT2.Nodes.Survivor.Contract F input state",
+          "sourceHash": "2a69156f3b4941b659d6cda82d1ee089a66010eaead0c01dc585c0e1acbdd9c3"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT2.terminal.ct10.criticality",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal.criticalityCT10",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT2.Graph.Terminal",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.NodeId.criticalityCT10Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT2.Graph.NodeId",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.RawOutcome.criticalityCT10",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} {survivor : StructuralExhaustion.CT2.SurvivorState F input} (payload : StructuralExhaustion.CT2.CriticalityCT10Payload F input survivor) : StructuralExhaustion.CT2.RawOutcome F input StructuralExhaustion.CT2.Graph.Terminal.criticalityCT10",
+          "sourceHash": "50d82d56e278a34c1b61acf0751b56f436a770eebaadb0c24c3a6af956db5f64"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Outcome.criticalityCT10",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} {port : StructuralExhaustion.CT2.Port F input} {survivor : StructuralExhaustion.CT2.SurvivorState F input} (payload : StructuralExhaustion.CT2.CriticalityCT10Payload F input survivor) (accepted : port.ct10Accepts (StructuralExhaustion.CT2.CT10Payload.criticality payload)) : StructuralExhaustion.CT2.Outcome F input port StructuralExhaustion.CT2.Graph.Terminal.criticalityCT10",
+          "sourceHash": "50d82d56e278a34c1b61acf0751b56f436a770eebaadb0c24c3a6af956db5f64"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT2.terminal.ct3.response",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal.responseCT3",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT2.Graph.Terminal",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Graph.NodeId.responseCT3Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT2.Graph.NodeId",
+          "sourceHash": "d021a3ad786cba1a97a8e60a024b731bf2a332eb655a46aaf78dc6d2ba3784e2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.RawOutcome.responseCT3",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} {survivor : StructuralExhaustion.CT2.SurvivorState F input} (payload : StructuralExhaustion.CT2.ResponseCT3Payload F input survivor) : StructuralExhaustion.CT2.RawOutcome F input StructuralExhaustion.CT2.Graph.Terminal.responseCT3",
+          "sourceHash": "50d82d56e278a34c1b61acf0751b56f436a770eebaadb0c24c3a6af956db5f64"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT2.Outcome.responseCT3",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT2.Framework} {input : StructuralExhaustion.CT2.Input F} {port : StructuralExhaustion.CT2.Port F input} {survivor : StructuralExhaustion.CT2.SurvivorState F input} (payload : StructuralExhaustion.CT2.ResponseCT3Payload F input survivor) (accepted : port.ct3Accepts (StructuralExhaustion.CT2.CT3Payload.missingResponse payload)) : StructuralExhaustion.CT2.Outcome F input port StructuralExhaustion.CT2.Graph.Terminal.responseCT3",
+          "sourceHash": "50d82d56e278a34c1b61acf0751b56f436a770eebaadb0c24c3a6af956db5f64"
+        }
+      ]
+    }
+  ],
+  "aggregateResults": {
+    "toolchain": "passed",
+    "build": "passed",
+    "bindingResolution": "passed",
+    "nodeBindings": "passed",
+    "sourceFiles": "passed",
+    "noAdmissions": "passed",
+    "soundness": "passed",
+    "totality": "passed",
+    "traceValidity": "passed",
+    "terminalCoverage": "passed"
+  },
+  "diagnostics": []
+}

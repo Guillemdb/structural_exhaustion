@@ -1,0 +1,352 @@
+{
+  "artifactType": "leanVerificationResult",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT12-v1",
+  "verificationId": "CT12.local.2026-07-11T01:07:58+00:00",
+  "tacticId": "CT12",
+  "status": "kernel_checked",
+  "toolchain": {
+    "leanToolchain": "leanprover/lean4:v4.31.0",
+    "lakefileHash": "8db204bcd9258ceacd30cdaa7842d1d1e05ffb8e06eee2f9b7c2c5ee31de4ae7",
+    "leanVersionObserved": "Lean (version 4.31.0, x86_64-unknown-linux-gnu, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)"
+  },
+  "nodeResults": [
+    {
+      "nodeId": "CT12.entry",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Entry.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) : Type",
+          "sourceHash": "9a11c022920a7466667c11be24b962a1d79ecd9ada0e3892bb1accb8c07b6315"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Entry.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT12.Framework} (input : StructuralExhaustion.CT12.Input F) : StructuralExhaustion.CT12.Nodes.Entry.Contract F",
+          "sourceHash": "9a11c022920a7466667c11be24b962a1d79ecd9ada0e3892bb1accb8c07b6315"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT12.decide.scope",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Scope.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) (input : StructuralExhaustion.CT12.Input F) : Type",
+          "sourceHash": "22b134f79ba6cae2776969662e0510e67ee3d755c0b5c9e3d71d8fb58d104c46"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Scope.Decision",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) (input : StructuralExhaustion.CT12.Input F) : Type",
+          "sourceHash": "22b134f79ba6cae2776969662e0510e67ee3d755c0b5c9e3d71d8fb58d104c46"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Scope.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) (input : StructuralExhaustion.CT12.Input F) : Type",
+          "sourceHash": "22b134f79ba6cae2776969662e0510e67ee3d755c0b5c9e3d71d8fb58d104c46"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Scope.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT12.Framework} {input : StructuralExhaustion.CT12.Input F} (_entry : StructuralExhaustion.CT12.Input F) (plan : StructuralExhaustion.CT12.Nodes.Scope.Plan F input) : StructuralExhaustion.CT12.Nodes.Scope.Contract F input",
+          "sourceHash": "22b134f79ba6cae2776969662e0510e67ee3d755c0b5c9e3d71d8fb58d104c46"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT12.terminal.scope",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT12.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "e5502593f44653620638a476bf2194b731a01d92edfe4b9b50f2e7c259473e83"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Graph.Terminal.scope",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT12.Graph.Terminal",
+          "sourceHash": "e5502593f44653620638a476bf2194b731a01d92edfe4b9b50f2e7c259473e83"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Graph.NodeId.scopeTerminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT12.Graph.NodeId",
+          "sourceHash": "e5502593f44653620638a476bf2194b731a01d92edfe4b9b50f2e7c259473e83"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.RawOutcome.scope",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT12.Framework} {input : StructuralExhaustion.CT12.Input F} (candidate : StructuralExhaustion.CT12.ScopeCandidate F input) : StructuralExhaustion.CT12.RawOutcome F input StructuralExhaustion.CT12.Graph.Terminal.scope",
+          "sourceHash": "c75a7985622cba296057ab4e333d4529f309636a03171b287bdc281da0dc52bd"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Outcome.scope",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT12.Framework} {input : StructuralExhaustion.CT12.Input F} {port : StructuralExhaustion.CT12.Port F input} (candidate : StructuralExhaustion.CT12.ScopeCandidate F input) : StructuralExhaustion.CT12.Outcome F input port StructuralExhaustion.CT12.Graph.Terminal.scope",
+          "sourceHash": "c75a7985622cba296057ab4e333d4529f309636a03171b287bdc281da0dc52bd"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT12.certify.measure",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Measure.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) (input : StructuralExhaustion.CT12.Input F) : Prop",
+          "sourceHash": "7024eee4b762811ba66d3983539975c1dc7adafd0dcc371a4bad12eb7a9dbcc2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Measure.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) (input : StructuralExhaustion.CT12.Input F) : Prop",
+          "sourceHash": "7024eee4b762811ba66d3983539975c1dc7adafd0dcc371a4bad12eb7a9dbcc2"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Measure.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT12.Framework} {input : StructuralExhaustion.CT12.Input F} (plan : StructuralExhaustion.CT12.Nodes.Measure.Plan F input) (scope : StructuralExhaustion.CT12.ScopedState F input) : StructuralExhaustion.CT12.LoopState F input input.load",
+          "sourceHash": "7024eee4b762811ba66d3983539975c1dc7adafd0dcc371a4bad12eb7a9dbcc2"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT12.decide.saturation",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Saturation.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) (input : StructuralExhaustion.CT12.Input F) {load : Nat} (state : StructuralExhaustion.CT12.LoopState F input load) : Type",
+          "sourceHash": "762a3eb2ee7871d6a6186c4eece94b7c30109e50065a4c9da10623d80fd84465"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Saturation.Decision",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) (input : StructuralExhaustion.CT12.Input F) {load : Nat} (state : StructuralExhaustion.CT12.LoopState F input load) : Type",
+          "sourceHash": "762a3eb2ee7871d6a6186c4eece94b7c30109e50065a4c9da10623d80fd84465"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Saturation.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) (input : StructuralExhaustion.CT12.Input F) : Type",
+          "sourceHash": "762a3eb2ee7871d6a6186c4eece94b7c30109e50065a4c9da10623d80fd84465"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Saturation.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT12.Framework} {input : StructuralExhaustion.CT12.Input F} (plan : StructuralExhaustion.CT12.Nodes.Saturation.Plan F input) {load : Nat} (state : StructuralExhaustion.CT12.LoopState F input load) : StructuralExhaustion.CT12.Nodes.Saturation.Contract F input state",
+          "sourceHash": "762a3eb2ee7871d6a6186c4eece94b7c30109e50065a4c9da10623d80fd84465"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT12.terminal.c4",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT12.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "e5502593f44653620638a476bf2194b731a01d92edfe4b9b50f2e7c259473e83"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Graph.Terminal.c4",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT12.Graph.Terminal",
+          "sourceHash": "e5502593f44653620638a476bf2194b731a01d92edfe4b9b50f2e7c259473e83"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Graph.NodeId.c4Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT12.Graph.NodeId",
+          "sourceHash": "e5502593f44653620638a476bf2194b731a01d92edfe4b9b50f2e7c259473e83"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.RawOutcome.c4",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT12.Framework} {input : StructuralExhaustion.CT12.Input F} {load : Nat} {state : StructuralExhaustion.CT12.LoopState F input load} (certificate : StructuralExhaustion.CT12.C4Certificate F input state) : StructuralExhaustion.CT12.RawOutcome F input StructuralExhaustion.CT12.Graph.Terminal.c4",
+          "sourceHash": "c75a7985622cba296057ab4e333d4529f309636a03171b287bdc281da0dc52bd"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Outcome.c4",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT12.Framework} {input : StructuralExhaustion.CT12.Input F} {port : StructuralExhaustion.CT12.Port F input} {load : Nat} {state : StructuralExhaustion.CT12.LoopState F input load} (certificate : StructuralExhaustion.CT12.C4Certificate F input state) : StructuralExhaustion.CT12.Outcome F input port StructuralExhaustion.CT12.Graph.Terminal.c4",
+          "sourceHash": "c75a7985622cba296057ab4e333d4529f309636a03171b287bdc281da0dc52bd"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT12.certify.peel",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Peel.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) (input : StructuralExhaustion.CT12.Input F) {load : Nat} {state : StructuralExhaustion.CT12.LoopState F input load} (peelable : StructuralExhaustion.CT12.PeelableState F input state) : Prop",
+          "sourceHash": "ae58a36c458e442172fa9cf6355b092dd98d10f048caed8ee591c619fda89cb9"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Peel.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) (input : StructuralExhaustion.CT12.Input F) : Prop",
+          "sourceHash": "ae58a36c458e442172fa9cf6355b092dd98d10f048caed8ee591c619fda89cb9"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Peel.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT12.Framework} {input : StructuralExhaustion.CT12.Input F} (plan : StructuralExhaustion.CT12.Nodes.Peel.Plan F input) {load : Nat} {state : StructuralExhaustion.CT12.LoopState F input load} (peelable : StructuralExhaustion.CT12.PeelableState F input state) : StructuralExhaustion.CT12.Nodes.Peel.Contract F input peelable",
+          "sourceHash": "ae58a36c458e442172fa9cf6355b092dd98d10f048caed8ee591c619fda89cb9"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT12.decide.restoration",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Restoration.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) (input : StructuralExhaustion.CT12.Input F) {load : Nat} {state : StructuralExhaustion.CT12.LoopState F input load} {peelable : StructuralExhaustion.CT12.PeelableState F input state} (peeled : StructuralExhaustion.CT12.PeeledState F input peelable) : Type",
+          "sourceHash": "fe45756cf5b7f5f721abc25eba82f88983cb3487d1398dab225271a3d4b180b4"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Restoration.Decision",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) (input : StructuralExhaustion.CT12.Input F) {load : Nat} {state : StructuralExhaustion.CT12.LoopState F input load} {peelable : StructuralExhaustion.CT12.PeelableState F input state} (peeled : StructuralExhaustion.CT12.PeeledState F input peelable) : Type",
+          "sourceHash": "fe45756cf5b7f5f721abc25eba82f88983cb3487d1398dab225271a3d4b180b4"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Restoration.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) (input : StructuralExhaustion.CT12.Input F) : Type",
+          "sourceHash": "fe45756cf5b7f5f721abc25eba82f88983cb3487d1398dab225271a3d4b180b4"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Restoration.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT12.Framework} {input : StructuralExhaustion.CT12.Input F} (plan : StructuralExhaustion.CT12.Nodes.Restoration.Plan F input) {load : Nat} {state : StructuralExhaustion.CT12.LoopState F input load} {peelable : StructuralExhaustion.CT12.PeelableState F input state} (peeled : StructuralExhaustion.CT12.PeeledState F input peelable) : StructuralExhaustion.CT12.Nodes.Restoration.Contract F input peeled",
+          "sourceHash": "fe45756cf5b7f5f721abc25eba82f88983cb3487d1398dab225271a3d4b180b4"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT12.terminal.ct4",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT12.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "e5502593f44653620638a476bf2194b731a01d92edfe4b9b50f2e7c259473e83"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Graph.Terminal.ct4",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT12.Graph.Terminal",
+          "sourceHash": "e5502593f44653620638a476bf2194b731a01d92edfe4b9b50f2e7c259473e83"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Graph.NodeId.ct4Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT12.Graph.NodeId",
+          "sourceHash": "e5502593f44653620638a476bf2194b731a01d92edfe4b9b50f2e7c259473e83"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.RawOutcome.ct4",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT12.Framework} {input : StructuralExhaustion.CT12.Input F} {load : Nat} {state : StructuralExhaustion.CT12.LoopState F input load} {peelable : StructuralExhaustion.CT12.PeelableState F input state} {peeled : StructuralExhaustion.CT12.PeeledState F input peelable} (payload : StructuralExhaustion.CT12.CT4Payload F input peeled) : StructuralExhaustion.CT12.RawOutcome F input StructuralExhaustion.CT12.Graph.Terminal.ct4",
+          "sourceHash": "c75a7985622cba296057ab4e333d4529f309636a03171b287bdc281da0dc52bd"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Outcome.ct4",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT12.Framework} {input : StructuralExhaustion.CT12.Input F} {port : StructuralExhaustion.CT12.Port F input} {load : Nat} {state : StructuralExhaustion.CT12.LoopState F input load} {peelable : StructuralExhaustion.CT12.PeelableState F input state} {peeled : StructuralExhaustion.CT12.PeeledState F input peelable} (payload : StructuralExhaustion.CT12.CT4Payload F input peeled) (accepted : port.accepts (StructuralExhaustion.CT12.HandoffPayload.ct4 payload)) : StructuralExhaustion.CT12.Outcome F input port StructuralExhaustion.CT12.Graph.Terminal.ct4",
+          "sourceHash": "c75a7985622cba296057ab4e333d4529f309636a03171b287bdc281da0dc52bd"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT12.terminal.ct13",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT12.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "e5502593f44653620638a476bf2194b731a01d92edfe4b9b50f2e7c259473e83"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Graph.Terminal.ct13",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT12.Graph.Terminal",
+          "sourceHash": "e5502593f44653620638a476bf2194b731a01d92edfe4b9b50f2e7c259473e83"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Graph.NodeId.ct13Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT12.Graph.NodeId",
+          "sourceHash": "e5502593f44653620638a476bf2194b731a01d92edfe4b9b50f2e7c259473e83"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.RawOutcome.ct13",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT12.Framework} {input : StructuralExhaustion.CT12.Input F} {load : Nat} {state : StructuralExhaustion.CT12.LoopState F input load} {peelable : StructuralExhaustion.CT12.PeelableState F input state} {peeled : StructuralExhaustion.CT12.PeeledState F input peelable} (payload : StructuralExhaustion.CT12.CT13Payload F input peeled) : StructuralExhaustion.CT12.RawOutcome F input StructuralExhaustion.CT12.Graph.Terminal.ct13",
+          "sourceHash": "c75a7985622cba296057ab4e333d4529f309636a03171b287bdc281da0dc52bd"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Outcome.ct13",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT12.Framework} {input : StructuralExhaustion.CT12.Input F} {port : StructuralExhaustion.CT12.Port F input} {load : Nat} {state : StructuralExhaustion.CT12.LoopState F input load} {peelable : StructuralExhaustion.CT12.PeelableState F input state} {peeled : StructuralExhaustion.CT12.PeeledState F input peelable} (payload : StructuralExhaustion.CT12.CT13Payload F input peeled) (accepted : port.accepts (StructuralExhaustion.CT12.HandoffPayload.ct13 payload)) : StructuralExhaustion.CT12.Outcome F input port StructuralExhaustion.CT12.Graph.Terminal.ct13",
+          "sourceHash": "c75a7985622cba296057ab4e333d4529f309636a03171b287bdc281da0dc52bd"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT12.certify.decrease",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Decrease.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) (input : StructuralExhaustion.CT12.Input F) {load : Nat} {state : StructuralExhaustion.CT12.LoopState F input load} {peelable : StructuralExhaustion.CT12.PeelableState F input state} {peeled : StructuralExhaustion.CT12.PeeledState F input peelable} {next : Nat} (restored : StructuralExhaustion.CT12.RestoredState F input peeled next) : Prop",
+          "sourceHash": "fcfc0727f2e25f9f730743c1b8c5f57b6810ef6f85c201f36fddb5b93a2bfac5"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Decrease.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT12.Framework) (input : StructuralExhaustion.CT12.Input F) : Prop",
+          "sourceHash": "fcfc0727f2e25f9f730743c1b8c5f57b6810ef6f85c201f36fddb5b93a2bfac5"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT12.Nodes.Decrease.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT12.Framework} {input : StructuralExhaustion.CT12.Input F} (plan : StructuralExhaustion.CT12.Nodes.Decrease.Plan F input) {load : Nat} {state : StructuralExhaustion.CT12.LoopState F input load} {peelable : StructuralExhaustion.CT12.PeelableState F input state} {peeled : StructuralExhaustion.CT12.PeeledState F input peelable} {next : Nat} (restored : StructuralExhaustion.CT12.RestoredState F input peeled next) : StructuralExhaustion.CT12.Nodes.Decrease.Contract F input restored",
+          "sourceHash": "fcfc0727f2e25f9f730743c1b8c5f57b6810ef6f85c201f36fddb5b93a2bfac5"
+        }
+      ]
+    }
+  ],
+  "aggregateResults": {
+    "toolchain": "passed",
+    "build": "passed",
+    "bindingResolution": "passed",
+    "nodeBindings": "passed",
+    "sourceFiles": "passed",
+    "noAdmissions": "passed",
+    "soundness": "passed",
+    "totality": "passed",
+    "traceValidity": "passed",
+    "terminalCoverage": "passed"
+  },
+  "diagnostics": []
+}

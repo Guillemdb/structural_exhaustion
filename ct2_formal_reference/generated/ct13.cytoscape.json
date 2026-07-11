@@ -1,0 +1,398 @@
+{
+  "tacticId": "CT13",
+  "graphVersion": "CT13-v1",
+  "entryNodeId": "CT13.entry",
+  "nodes": [
+    {
+      "data": {
+        "id": "CT13.entry",
+        "label": "Validated CT13 tier-account entry",
+        "nodeKind": "entry",
+        "terminalCase": null,
+        "contracts": [
+          "S-Def"
+        ],
+        "leanContract": "StructuralExhaustion.CT13.Nodes.Entry.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.decide.scope",
+        "label": "Measurable tier-resource scope",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "A-Scope"
+        ],
+        "leanContract": "StructuralExhaustion.CT13.Nodes.Scope.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.terminal.scope",
+        "label": "Missing tier-resource scope terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "scope",
+        "contracts": [
+          "A-Scope"
+        ],
+        "leanContract": "StructuralExhaustion.CT13.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.decide.availability",
+        "label": "Tier-one availability decision",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Dich"
+        ],
+        "leanContract": "StructuralExhaustion.CT13.Nodes.Availability.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.certify.tierOne",
+        "label": "Tier-one canonical payment certification",
+        "nodeKind": "certification",
+        "terminalCase": null,
+        "contracts": [
+          "S-Det"
+        ],
+        "leanContract": "StructuralExhaustion.CT13.Nodes.TierOne.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.certify.tierOneRouting",
+        "label": "Tier-one account routing certification",
+        "nodeKind": "certification",
+        "terminalCase": null,
+        "contracts": [
+          "S-Rout"
+        ],
+        "leanContract": "StructuralExhaustion.CT13.Nodes.TierOneRouting.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.terminal.ct4",
+        "label": "CT4 tier-one account handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct4",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT13.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.certify.fallback",
+        "label": "Minimal-obstruction fallback certification",
+        "nodeKind": "certification",
+        "terminalCase": null,
+        "contracts": [
+          "S-Def",
+          "S-Det"
+        ],
+        "leanContract": "StructuralExhaustion.CT13.Nodes.Fallback.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.decide.reconciliation",
+        "label": "Tier-resource reconciliation decision",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Dich",
+          "S-Comp"
+        ],
+        "leanContract": "StructuralExhaustion.CT13.Nodes.Reconciliation.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.certify.comparison",
+        "label": "Combined-capacity certification",
+        "nodeKind": "certification",
+        "terminalCase": null,
+        "contracts": [
+          "S-Comp"
+        ],
+        "leanContract": "StructuralExhaustion.CT13.Nodes.Comparison.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.terminal.c4",
+        "label": "C4 reconciled-tier terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "c4",
+        "contracts": [
+          "A-Cert"
+        ],
+        "leanContract": "StructuralExhaustion.CT13.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.decide.overlapRouting",
+        "label": "Overlap-residual routing",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Rout"
+        ],
+        "leanContract": "StructuralExhaustion.CT13.Nodes.Routing.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.terminal.ct9",
+        "label": "CT9 overlap-fibre handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct9",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT13.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.terminal.ct14",
+        "label": "CT14 overlap-mass handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct14",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT13.RawOutcome"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "id": "CT13.edge.begin",
+        "source": "CT13.entry",
+        "target": "CT13.decide.scope",
+        "kind": "advance",
+        "branchTag": "begin",
+        "transitionConstructor": "StructuralExhaustion.CT13.Graph.Edge.beginScope",
+        "resultConstructor": null,
+        "evidence": []
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.edge.scope.exit",
+        "source": "CT13.decide.scope",
+        "target": "CT13.terminal.scope",
+        "kind": "scope",
+        "branchTag": "exit",
+        "transitionConstructor": "StructuralExhaustion.CT13.Graph.Edge.scopeExit",
+        "resultConstructor": "StructuralExhaustion.CT13.Nodes.Scope.Decision.exit",
+        "evidence": [
+          {
+            "slotId": "candidate",
+            "typeExpression": "StructuralExhaustion.CT13.ScopeCandidate framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.edge.scope.ready",
+        "source": "CT13.decide.scope",
+        "target": "CT13.decide.availability",
+        "kind": "advance",
+        "branchTag": "ready",
+        "transitionConstructor": "StructuralExhaustion.CT13.Graph.Edge.scopeReady",
+        "resultConstructor": "StructuralExhaustion.CT13.Nodes.Scope.Decision.ready",
+        "evidence": [
+          {
+            "slotId": "scope",
+            "typeExpression": "StructuralExhaustion.CT13.ScopedState framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.edge.availability.yes",
+        "source": "CT13.decide.availability",
+        "target": "CT13.certify.tierOne",
+        "kind": "advance",
+        "branchTag": "available",
+        "transitionConstructor": "StructuralExhaustion.CT13.Graph.Edge.availabilityYes",
+        "resultConstructor": "StructuralExhaustion.CT13.Nodes.Availability.Decision.available",
+        "evidence": [
+          {
+            "slotId": "available",
+            "typeExpression": "StructuralExhaustion.CT13.AvailableState framework input scope"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.edge.availability.no",
+        "source": "CT13.decide.availability",
+        "target": "CT13.certify.fallback",
+        "kind": "advance",
+        "branchTag": "unavailable",
+        "transitionConstructor": "StructuralExhaustion.CT13.Graph.Edge.availabilityNo",
+        "resultConstructor": "StructuralExhaustion.CT13.Nodes.Availability.Decision.unavailable",
+        "evidence": [
+          {
+            "slotId": "unavailable",
+            "typeExpression": "StructuralExhaustion.CT13.UnavailableState framework input scope"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.edge.tierOne.certified",
+        "source": "CT13.certify.tierOne",
+        "target": "CT13.certify.tierOneRouting",
+        "kind": "advance",
+        "branchTag": "certified",
+        "transitionConstructor": "StructuralExhaustion.CT13.Graph.Edge.tierOneCertified",
+        "resultConstructor": null,
+        "evidence": [
+          {
+            "slotId": "tierOne",
+            "typeExpression": "StructuralExhaustion.CT13.TierOneState framework input available"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.edge.tierOne.ct4",
+        "source": "CT13.certify.tierOneRouting",
+        "target": "CT13.terminal.ct4",
+        "kind": "handoff",
+        "branchTag": "toCT4",
+        "transitionConstructor": "StructuralExhaustion.CT13.Graph.Edge.tierOneToCT4",
+        "resultConstructor": null,
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT13.CT4Payload framework input tierOne"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.edge.fallback.certified",
+        "source": "CT13.certify.fallback",
+        "target": "CT13.decide.reconciliation",
+        "kind": "advance",
+        "branchTag": "certified",
+        "transitionConstructor": "StructuralExhaustion.CT13.Graph.Edge.fallbackCertified",
+        "resultConstructor": null,
+        "evidence": [
+          {
+            "slotId": "fallback",
+            "typeExpression": "StructuralExhaustion.CT13.FallbackState framework input unavailable"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.edge.reconciliation.yes",
+        "source": "CT13.decide.reconciliation",
+        "target": "CT13.certify.comparison",
+        "kind": "advance",
+        "branchTag": "reconciled",
+        "transitionConstructor": "StructuralExhaustion.CT13.Graph.Edge.reconciliationYes",
+        "resultConstructor": "StructuralExhaustion.CT13.Nodes.Reconciliation.Decision.reconciled",
+        "evidence": [
+          {
+            "slotId": "reconciled",
+            "typeExpression": "StructuralExhaustion.CT13.ReconciledState framework input fallback"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.edge.reconciliation.overlap",
+        "source": "CT13.decide.reconciliation",
+        "target": "CT13.decide.overlapRouting",
+        "kind": "advance",
+        "branchTag": "overlap",
+        "transitionConstructor": "StructuralExhaustion.CT13.Graph.Edge.reconciliationOverlap",
+        "resultConstructor": "StructuralExhaustion.CT13.Nodes.Reconciliation.Decision.overlap",
+        "evidence": [
+          {
+            "slotId": "overlap",
+            "typeExpression": "StructuralExhaustion.CT13.OverlapState framework input fallback"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.edge.comparison.close",
+        "source": "CT13.certify.comparison",
+        "target": "CT13.terminal.c4",
+        "kind": "close",
+        "branchTag": "close",
+        "transitionConstructor": "StructuralExhaustion.CT13.Graph.Edge.comparisonClose",
+        "resultConstructor": null,
+        "evidence": [
+          {
+            "slotId": "certificate",
+            "typeExpression": "StructuralExhaustion.CT13.C4Certificate framework input reconciled"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.edge.overlap.ct9",
+        "source": "CT13.decide.overlapRouting",
+        "target": "CT13.terminal.ct9",
+        "kind": "handoff",
+        "branchTag": "toCT9",
+        "transitionConstructor": "StructuralExhaustion.CT13.Graph.Edge.overlapToCT9",
+        "resultConstructor": "StructuralExhaustion.CT13.Nodes.Routing.Decision.toCT9",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT13.CT9Payload framework input overlap"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT13.edge.overlap.ct14",
+        "source": "CT13.decide.overlapRouting",
+        "target": "CT13.terminal.ct14",
+        "kind": "handoff",
+        "branchTag": "toCT14",
+        "transitionConstructor": "StructuralExhaustion.CT13.Graph.Edge.overlapToCT14",
+        "resultConstructor": "StructuralExhaustion.CT13.Nodes.Routing.Decision.toCT14",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT13.CT14Payload framework input overlap"
+          }
+        ]
+      }
+    }
+  ]
+}

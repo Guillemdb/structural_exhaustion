@@ -1,0 +1,91 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT15-v1",
+  "nodeId": "CT15.certify.rank",
+  "nodeKind": "certification",
+  "title": "Target-relative rank certification",
+  "human": {
+    "informal": "Execute the proof-carrying target-relative rank certification contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Def"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT15 — Rank forcing",
+    "diagramKey": "rank"
+  },
+  "formalContract": {
+    "contractId": "CT15.certify.rank.contract",
+    "executionMode": "external_certificate",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT15.Nodes.Rank",
+      "declaration": "StructuralExhaustion.CT15.Nodes.Rank.Contract",
+      "sourceFile": "StructuralExhaustion/CT15/Nodes/Rank.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT15.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "rank",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT15.RankState framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT15.Nodes.Rank",
+    "sourceFile": "StructuralExhaustion/CT15/Nodes/Rank.lean",
+    "requiredRoles": [
+      "contract",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT15.Nodes.Rank",
+          "declaration": "StructuralExhaustion.CT15.Nodes.Rank.Contract",
+          "sourceFile": "StructuralExhaustion/CT15/Nodes/Rank.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT15.Nodes.Rank",
+          "declaration": "StructuralExhaustion.CT15.Nodes.Rank.Plan",
+          "sourceFile": "StructuralExhaustion/CT15/Nodes/Rank.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT15.Nodes.Rank",
+          "declaration": "StructuralExhaustion.CT15.Nodes.Rank.run",
+          "sourceFile": "StructuralExhaustion/CT15/Nodes/Rank.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/ct11/nodes/CT11.decide.admissibility.schema.json",
+  "allOf": [
+    {
+      "$ref": "../../formalization.bundle.schema.json#/$defs/formalNodeSpec"
+    },
+    {
+      "properties": {
+        "nodeId": {
+          "const": "CT11.decide.admissibility"
+        },
+        "nodeKind": {
+          "const": "decision"
+        }
+      },
+      "required": [
+        "nodeId",
+        "nodeKind"
+      ]
+    }
+  ]
+}

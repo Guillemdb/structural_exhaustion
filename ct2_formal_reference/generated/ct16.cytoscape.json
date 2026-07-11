@@ -1,0 +1,253 @@
+{
+  "tacticId": "CT16",
+  "graphVersion": "CT16-v1",
+  "entryNodeId": "CT16.entry",
+  "nodes": [
+    {
+      "data": {
+        "id": "CT16.entry",
+        "label": "Validated CT16 support datum",
+        "nodeKind": "entry",
+        "terminalCase": null,
+        "contracts": [
+          "S-Def"
+        ],
+        "leanContract": "StructuralExhaustion.CT16.Nodes.Entry.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT16.decide.support",
+        "label": "Proper/whole support decision",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Dich",
+          "S-Rout"
+        ],
+        "leanContract": "StructuralExhaustion.CT16.Nodes.Support.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT16.terminal.ct3",
+        "label": "CT3 proper-piece handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct3",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT16.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT16.decide.scope",
+        "label": "Finite closed-type scope",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "A-Scope"
+        ],
+        "leanContract": "StructuralExhaustion.CT16.Nodes.Scope.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT16.terminal.scope",
+        "label": "Noncomputable closed-type scope terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "scope",
+        "contracts": [
+          "A-Scope"
+        ],
+        "leanContract": "StructuralExhaustion.CT16.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT16.certify.closedType",
+        "label": "Exact closed-type certification",
+        "nodeKind": "certification",
+        "terminalCase": null,
+        "contracts": [
+          "S-Equiv"
+        ],
+        "leanContract": "StructuralExhaustion.CT16.Nodes.ClosedType.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT16.decide.equality",
+        "label": "Literal closed-type equality decision",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Dich",
+          "S-Equiv",
+          "S-Rout"
+        ],
+        "leanContract": "StructuralExhaustion.CT16.Nodes.Equality.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT16.terminal.c2",
+        "label": "C2 whole-object identification terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "c2",
+        "contracts": [
+          "A-Cert"
+        ],
+        "leanContract": "StructuralExhaustion.CT16.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT16.terminal.ct10",
+        "label": "CT10 distinct-closed-type handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct10",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT16.RawOutcome"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "id": "CT16.edge.begin",
+        "source": "CT16.entry",
+        "target": "CT16.decide.support",
+        "kind": "advance",
+        "branchTag": "begin",
+        "transitionConstructor": "StructuralExhaustion.CT16.Graph.Edge.beginSupport",
+        "resultConstructor": null,
+        "evidence": []
+      }
+    },
+    {
+      "data": {
+        "id": "CT16.edge.support.proper",
+        "source": "CT16.decide.support",
+        "target": "CT16.terminal.ct3",
+        "kind": "handoff",
+        "branchTag": "proper",
+        "transitionConstructor": "StructuralExhaustion.CT16.Graph.Edge.supportProper",
+        "resultConstructor": "StructuralExhaustion.CT16.Nodes.Support.Decision.proper",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT16.CT3Payload framework input proper"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT16.edge.support.whole",
+        "source": "CT16.decide.support",
+        "target": "CT16.decide.scope",
+        "kind": "advance",
+        "branchTag": "whole",
+        "transitionConstructor": "StructuralExhaustion.CT16.Graph.Edge.supportWhole",
+        "resultConstructor": "StructuralExhaustion.CT16.Nodes.Support.Decision.whole",
+        "evidence": [
+          {
+            "slotId": "whole",
+            "typeExpression": "StructuralExhaustion.CT16.WholeState framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT16.edge.scope.exit",
+        "source": "CT16.decide.scope",
+        "target": "CT16.terminal.scope",
+        "kind": "scope",
+        "branchTag": "exit",
+        "transitionConstructor": "StructuralExhaustion.CT16.Graph.Edge.scopeExit",
+        "resultConstructor": "StructuralExhaustion.CT16.Nodes.Scope.Decision.exit",
+        "evidence": [
+          {
+            "slotId": "candidate",
+            "typeExpression": "StructuralExhaustion.CT16.ScopeCandidate framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT16.edge.scope.ready",
+        "source": "CT16.decide.scope",
+        "target": "CT16.certify.closedType",
+        "kind": "advance",
+        "branchTag": "ready",
+        "transitionConstructor": "StructuralExhaustion.CT16.Graph.Edge.scopeReady",
+        "resultConstructor": "StructuralExhaustion.CT16.Nodes.Scope.Decision.ready",
+        "evidence": [
+          {
+            "slotId": "scope",
+            "typeExpression": "StructuralExhaustion.CT16.ScopedState framework input whole"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT16.edge.closedType.certified",
+        "source": "CT16.certify.closedType",
+        "target": "CT16.decide.equality",
+        "kind": "advance",
+        "branchTag": "certified",
+        "transitionConstructor": "StructuralExhaustion.CT16.Graph.Edge.closedTypeCertified",
+        "resultConstructor": null,
+        "evidence": [
+          {
+            "slotId": "closed",
+            "typeExpression": "StructuralExhaustion.CT16.ClosedTypeState framework input scope"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT16.edge.equality.close",
+        "source": "CT16.decide.equality",
+        "target": "CT16.terminal.c2",
+        "kind": "close",
+        "branchTag": "equal",
+        "transitionConstructor": "StructuralExhaustion.CT16.Graph.Edge.equalityClose",
+        "resultConstructor": "StructuralExhaustion.CT16.Nodes.Equality.Decision.equal",
+        "evidence": [
+          {
+            "slotId": "certificate",
+            "typeExpression": "StructuralExhaustion.CT16.C2Certificate framework input closed"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT16.edge.equality.distinct",
+        "source": "CT16.decide.equality",
+        "target": "CT16.terminal.ct10",
+        "kind": "handoff",
+        "branchTag": "distinct",
+        "transitionConstructor": "StructuralExhaustion.CT16.Graph.Edge.equalityDistinct",
+        "resultConstructor": "StructuralExhaustion.CT16.Nodes.Equality.Decision.distinct",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT16.CT10Payload framework input closed"
+          }
+        ]
+      }
+    }
+  ]
+}

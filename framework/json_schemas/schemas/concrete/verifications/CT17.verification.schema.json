@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/verifications/CT17.verification.schema.json",
+  "title": "CT17-v1 structural all-node verification",
+  "description": "Requires structural coverage of all 15 semantic states; it does not claim automatic witness search.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticVerification"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT17 verification discriminator.",
+          "const": "CT17"
+        },
+        "nodeRecords": {
+          "description": "Exactly one completed record for each CT17-v1 node.",
+          "type": "array",
+          "prefixItems": [
+            {
+              "$ref": "../nodes/CT17.entry.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT17.decide.scope.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT17.terminal.scope.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT17.decide.compatibility.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT17.decide.separation.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT17.terminal.ct3.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT17.terminal.ct10.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT17.certify.block.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT17.decide.scale.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT17.decide.survivors.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT17.terminal.c5.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT17.terminal.ct8.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT17.decide.arithmetic.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT17.terminal.c1.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT17.terminal.ct14.schema.json"
+            }
+          ],
+          "items": false,
+          "minItems": 15,
+          "maxItems": 15
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeRecords"
+      ]
+    }
+  ]
+}

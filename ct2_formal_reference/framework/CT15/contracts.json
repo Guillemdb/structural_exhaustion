@@ -1,0 +1,202 @@
+{
+  "artifactType": "tacticContractInventory",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT15-v1",
+  "tacticId": "CT15",
+  "contracts": [
+    {
+      "contractInstanceId": "CT15.S-Def.1",
+      "contractSchema": "S-Def",
+      "statement": {
+        "informal": "S-Def is discharged by the indexed states and typed edges of CT15.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT15.entry",
+        "CT15.certify.rank"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT15.Graph",
+          "declaration": "StructuralExhaustion.CT15.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT15",
+          "declaration": "StructuralExhaustion.CT15.run_verified",
+          "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT15.A-Scope.1",
+      "contractSchema": "A-Scope",
+      "statement": {
+        "informal": "A-Scope is discharged by the indexed states and typed edges of CT15.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT15.decide.scope",
+        "CT15.terminal.scope"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT15.Graph",
+          "declaration": "StructuralExhaustion.CT15.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT15",
+          "declaration": "StructuralExhaustion.CT15.run_verified",
+          "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT15.S-Dich.1",
+      "contractSchema": "S-Dich",
+      "statement": {
+        "informal": "S-Dich is discharged by the indexed states and typed edges of CT15.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT15.decide.rankDrop",
+        "CT15.decide.comparison"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT15.Graph",
+          "declaration": "StructuralExhaustion.CT15.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT15",
+          "declaration": "StructuralExhaustion.CT15.run_verified",
+          "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT15.S-Rout.1",
+      "contractSchema": "S-Rout",
+      "statement": {
+        "informal": "S-Rout is discharged by the indexed states and typed edges of CT15.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT15.decide.dependenceRouting",
+        "CT15.terminal.ct3",
+        "CT15.terminal.ct7",
+        "CT15.terminal.ct16",
+        "CT15.decide.comparison",
+        "CT15.terminal.ct4"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT15.Graph",
+          "declaration": "StructuralExhaustion.CT15.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT15",
+          "declaration": "StructuralExhaustion.CT15.run_verified",
+          "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT15.S-Trig.1",
+      "contractSchema": "S-Trig",
+      "statement": {
+        "informal": "S-Trig is discharged by the indexed states and typed edges of CT15.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT15.terminal.ct3",
+        "CT15.terminal.ct7",
+        "CT15.terminal.ct16",
+        "CT15.terminal.ct4"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT15.Graph",
+          "declaration": "StructuralExhaustion.CT15.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT15",
+          "declaration": "StructuralExhaustion.CT15.run_verified",
+          "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT15.S-Comp.1",
+      "contractSchema": "S-Comp",
+      "statement": {
+        "informal": "S-Comp is discharged by the indexed states and typed edges of CT15.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT15.certify.ledger",
+        "CT15.decide.comparison"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT15.Graph",
+          "declaration": "StructuralExhaustion.CT15.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT15",
+          "declaration": "StructuralExhaustion.CT15.run_verified",
+          "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT15.A-Cert.1",
+      "contractSchema": "A-Cert",
+      "statement": {
+        "informal": "A-Cert is discharged by the indexed states and typed edges of CT15.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT15.terminal.c4"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT15.Graph",
+          "declaration": "StructuralExhaustion.CT15.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT15",
+          "declaration": "StructuralExhaustion.CT15.run_verified",
+          "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    }
+  ]
+}

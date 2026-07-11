@@ -1,0 +1,90 @@
+{
+  "artifactType": "tacticInstantiation",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT9-v1",
+  "instanceId": "toy-ct8",
+  "tacticId": "CT9",
+  "bindings": [
+    {
+      "slotId": "framework",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT9Toy",
+        "declaration": "StructuralExhaustion.Examples.CT9Toy.framework",
+        "sourceFile": "StructuralExhaustion/Examples/CT9Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "input",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT9Toy",
+        "declaration": "StructuralExhaustion.Examples.CT9Toy.input",
+        "sourceFile": "StructuralExhaustion/Examples/CT9Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "corePlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT9Toy",
+        "declaration": "StructuralExhaustion.Examples.CT9Toy.ct8Plan",
+        "sourceFile": "StructuralExhaustion/Examples/CT9Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "port",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT9Toy",
+        "declaration": "StructuralExhaustion.Examples.CT9Toy.port",
+        "sourceFile": "StructuralExhaustion/Examples/CT9Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "handoffPlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT9Toy",
+        "declaration": "StructuralExhaustion.Examples.CT9Toy.handoff",
+        "sourceFile": "StructuralExhaustion/Examples/CT9Toy.lean",
+        "declarationKind": "definition"
+      }
+    }
+  ],
+  "expectedTerminalCase": "ct8",
+  "expectedNodePath": [
+    "CT9.entry",
+    "CT9.decide.scope",
+    "CT9.certify.fibre",
+    "CT9.decide.overload",
+    "CT9.certify.extraction",
+    "CT9.decide.routing",
+    "CT9.terminal.ct8"
+  ],
+  "expectedEdgePath": [
+    "CT9.edge.begin",
+    "CT9.edge.scope.ready",
+    "CT9.edge.fibre.certified",
+    "CT9.edge.overload.present",
+    "CT9.edge.extraction.certified",
+    "CT9.edge.routing.ct8"
+  ],
+  "executionResultRef": {
+    "module": "StructuralExhaustion.Examples.CT9Toy",
+    "declaration": "StructuralExhaustion.Examples.CT9Toy.ct8Result",
+    "sourceFile": "StructuralExhaustion/Examples/CT9Toy.lean",
+    "declarationKind": "definition"
+  },
+  "terminalTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT9Toy",
+    "declaration": "StructuralExhaustion.Examples.CT9Toy.ct8_terminal",
+    "sourceFile": "StructuralExhaustion/Examples/CT9Toy.lean",
+    "declarationKind": "theorem"
+  },
+  "traceTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT9Toy",
+    "declaration": "StructuralExhaustion.Examples.CT9Toy.ct8_trace",
+    "sourceFile": "StructuralExhaustion/Examples/CT9Toy.lean",
+    "declarationKind": "theorem"
+  }
+}

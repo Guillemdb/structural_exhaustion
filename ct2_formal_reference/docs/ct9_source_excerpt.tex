@@ -1,0 +1,72 @@
+\subsection{CT9 --- Overload exhaustion}\label{ct:9}\label{the-charging-principle-in-general-form}
+\ctsignature{\(P_{\ast\to9}\to \ctcert{C1};\ \ctint{P_{9\to4},P_{9\to7},P_{9\to8}};\ \ctrec{P_{9\to10}}\).}
+
+CT9 is an exact machine for proving bounded multiplicity by exhausting an
+overloaded payer fibre.  Its entry interface fixes the payer, fibre, finite
+labels, capacity datum, scope predicate, and C1 claim.  The executable
+framework adds the fibre-definition certificate, bounded and overloaded
+predicates, the homogeneous-extraction theorem, and exact CT4, CT7, CT8, and
+CT10 entry contracts.
+
+The scope node distinguishes three cases.  Absence of any finite labelling is
+a typed scope terminal.  A finite but inadequate labelling produces a proof of
+coarseness and an exact CT10 refinement input.  A usable labelling produces a
+\texttt{ScopedState}.  The \texttt{fibre} node then has one successor and
+certifies that the stored fibre is the declared inverse image with its
+capacity data.
+
+The overload decision consumes the certified fibre.  Its bounded constructor
+returns an exact CT4 input together with the bounded-multiplicity proof; its
+overloaded constructor returns an \texttt{OverloadedState}.  The
+\texttt{extraction} node has one successor and certifies the homogeneous
+subfamily required by the instantiation theorem.  Only then does the routing
+node choose C1, an exact CT7 exchange input, or an exact CT8 sequence input.
+Consequently CT9 does not assume that an arbitrary labelled family has one of
+these outputs: the extraction theorem is an explicit node contract.
+
+\begin{itemize}
+\tightlist
+\item \textbf{S-Def} is fixed by the payer fibre, finite labels, and capacity datum and certified by \texttt{FibreState}.
+\item \textbf{S-Dich} is the bounded/overloaded decision and the exhaustive extraction result.
+\item \textbf{S-Comp} is the homogeneous-extraction certificate.
+\item \textbf{S-Rout} and \textbf{S-Trig} are carried by exact CT4, CT7, CT8, and CT10 validated inputs.
+\end{itemize}
+
+An unlabelled fibre and an undeclared tie-break cannot be represented by a
+successful plan.  The scope terminal records failure of finite expressibility;
+the CT10 terminal records a concrete finite refinement problem.
+
+\begin{figure}[p]
+\centering
+\vspace*{-1.75cm}
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\scriptsize}]
+\node[bcwide] (entry) at (0,0) {{\tiny\ttfamily CT9.entry}\\\textbf{Validated payer fibre and capacity}};
+\node[bcdec,bclemma,text width=3.55cm,minimum width=4.30cm] (scope) at (0,-2.30) {{\tiny\ttfamily CT9.decide.scope}\\\textbf{Scope, refine, or usable labels?}};
+\node[bcscopefail,text width=3.05cm,minimum width=3.05cm] (scopeout) at (7.30,-2.30) {{\tiny\ttfamily CT9.terminal.scope}\\\textbf{Scope exit}};
+\node[bcroute,bcrouteneutral,bcdesign,text width=3.05cm,minimum width=3.05cm] (ct10) at (-7.30,-2.30) {{\tiny\ttfamily CT9.terminal.ct10}\\\textbf{CT 10 exit}};
+\node[bcwide,bclemma] (fibre) at (0,-4.75) {{\tiny\ttfamily CT9.certify.fibre}\\\textbf{Payer-fibre definition certificate}};
+\node[bcdec,bclemma,text width=3.45cm,minimum width=4.20cm] (overload) at (0,-7.15) {{\tiny\ttfamily CT9.decide.overload}\\\textbf{Bounded or overloaded?}};
+\node[bcroute,bcrouteneutral,bcoutputroute,text width=3.05cm,minimum width=3.05cm] (ct4) at (7.30,-7.15) {{\tiny\ttfamily CT9.terminal.ct4}\\\textbf{CT 4 exit}};
+\node[bcwide,bclemma] (extraction) at (0,-9.65) {{\tiny\ttfamily CT9.certify.extraction}\\\textbf{Homogeneous extraction certificate}};
+\node[bcroutechoice,bctheorem,text width=3.25cm,minimum width=4.10cm] (routing) at (0,-12.15) {{\tiny\ttfamily CT9.decide.routing}\\\textbf{Classify extracted object}};
+\node[bcclosed,text width=2.85cm,minimum width=2.85cm] (c1) at (-5.20,-15.20) {{\tiny\ttfamily CT9.terminal.c1}\\\textbf{C1}};
+\node[bcroute,bcrouteneutral,bcoutputroute,text width=3.05cm,minimum width=3.05cm] (ct7) at (0,-15.20) {{\tiny\ttfamily CT9.terminal.ct7}\\\textbf{CT 7 exit}};
+\node[bcroute,bcrouteneutral,bcoutputroute,text width=3.05cm,minimum width=3.05cm] (ct8) at (5.20,-15.20) {{\tiny\ttfamily CT9.terminal.ct8}\\\textbf{CT 8 exit}};
+\draw[bcarr] (entry)--(scope);
+\draw[bcscopearr] (scope)--node[bclabel,above]{no finite labels}(scopeout);
+\draw[bcrecoverarr] (scope)--node[bclabel,above]{labels too coarse}(ct10);
+\draw[bcarr] (scope)--node[bclabel,right]{ready}(fibre);
+\draw[bcarr] (fibre)--node[bclabel,right]{certified}(overload);
+\draw[bchandoff] (overload)--node[bclabel,above]{bounded}(ct4);
+\draw[bcarr] (overload)--node[bclabel,right]{overloaded}(extraction);
+\draw[bcarr] (extraction)--node[bclabel,right]{certified}(routing);
+\draw[bcarr] (routing)--node[bclabel,above,sloped]{target hit}(c1);
+\draw[bchandoff] (routing)--node[bclabel,right]{\(P_{9\to7}\)}(ct7);
+\draw[bchandoff] (routing)--node[bclabel,above,sloped]{\(P_{9\to8}\)}(ct8);
+\end{tikzpicture}%
+}
+\caption[Closure-tactic 9: exact overload machine]{Closure-tactic 9 as an exact sequential machine.  Fibre definition and homogeneous extraction are one-successor certification boundaries.  Bounded multiplicity returns an exact CT4 input; overload routing occurs only after the extraction theorem has produced its indexed state.}
+\label{fig:ct9-overload-exhaustion}
+\end{figure}
+\FloatBarrier

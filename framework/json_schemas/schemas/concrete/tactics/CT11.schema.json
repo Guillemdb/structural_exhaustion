@@ -1,0 +1,702 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/tactics/CT11.schema.json",
+  "title": "CT11-v1 semantic runtime graph — Localization",
+  "description": "Concrete static-graph schema for the exact CT11-v1 sequential machine.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticSpec"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT11 discriminator.",
+          "const": "CT11"
+        },
+        "graphVersion": {
+          "description": "Required semantic graph version.",
+          "const": "CT11-v1"
+        },
+        "entryNodeIds": {
+          "description": "The unique semantic entry node.",
+          "const": [
+            "CT11.entry"
+          ]
+        },
+        "nodes": {
+          "description": "Exact 11-node machine in presentation order.",
+          "type": "array",
+          "prefixItems": [
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Validated CT11 additive-deficit entry.",
+                      "const": "CT11.entry"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT11.entry.",
+                      "const": 1
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT11.entry.",
+                      "const": "input"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT11.entry.",
+                      "const": "entry"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Finite local-type scope.",
+                      "const": "CT11.decide.scope"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT11.decide.scope.",
+                      "const": 2
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT11.decide.scope.",
+                      "const": "decision"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT11.decide.scope.",
+                      "const": "decision"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Missing local-type scope terminal.",
+                      "const": "CT11.terminal.scope"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT11.terminal.scope.",
+                      "const": 3
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT11.terminal.scope.",
+                      "const": "scope_audit"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT11.terminal.scope.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT11.terminal.scope.",
+                      "const": "scope"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Admissible decomposition certification.",
+                      "const": "CT11.certify.decomposition"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT11.certify.decomposition.",
+                      "const": 4
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT11.certify.decomposition.",
+                      "const": "assertion"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT11.certify.decomposition.",
+                      "const": "certification"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Admissibility-closure decision.",
+                      "const": "CT11.decide.admissibility"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT11.decide.admissibility.",
+                      "const": 5
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT11.decide.admissibility.",
+                      "const": "decision"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT11.decide.admissibility.",
+                      "const": "decision"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for CT10 admissibility-gap handoff.",
+                      "const": "CT11.terminal.ct10"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT11.terminal.ct10.",
+                      "const": 6
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT11.terminal.ct10.",
+                      "const": "consumer_handoff"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT11.terminal.ct10.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT11.terminal.ct10.",
+                      "const": "ct10"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Summation and localization certification.",
+                      "const": "CT11.certify.localization"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT11.certify.localization.",
+                      "const": 7
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT11.certify.localization.",
+                      "const": "assertion"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT11.certify.localization.",
+                      "const": "certification"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Localized-object routing.",
+                      "const": "CT11.decide.routing"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT11.decide.routing.",
+                      "const": 8
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT11.decide.routing.",
+                      "const": "decision"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT11.decide.routing.",
+                      "const": "decision"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for CT1 target-test handoff.",
+                      "const": "CT11.terminal.ct1"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT11.terminal.ct1.",
+                      "const": 9
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT11.terminal.ct1.",
+                      "const": "consumer_handoff"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT11.terminal.ct1.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT11.terminal.ct1.",
+                      "const": "ct1"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for CT7 localized-exchange handoff.",
+                      "const": "CT11.terminal.ct7"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT11.terminal.ct7.",
+                      "const": 10
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT11.terminal.ct7.",
+                      "const": "consumer_handoff"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT11.terminal.ct7.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT11.terminal.ct7.",
+                      "const": "ct7"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for CT14 carried-mass handoff.",
+                      "const": "CT11.terminal.ct14"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT11.terminal.ct14.",
+                      "const": 11
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT11.terminal.ct14.",
+                      "const": "consumer_handoff"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT11.terminal.ct14.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT11.terminal.ct14.",
+                      "const": "ct14"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 11,
+          "maxItems": 11
+        },
+        "transitions": {
+          "description": "Exact 10 typed edges in presentation order.",
+          "type": "array",
+          "prefixItems": [
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT11.edge.begin"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 1
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT11.entry"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT11.decide.scope"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT11.edge.scope.exit"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 2
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT11.decide.scope"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT11.terminal.scope"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT11.edge.scope.ready"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 3
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT11.decide.scope"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT11.certify.decomposition"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT11.edge.decomposition.certified"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 4
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT11.certify.decomposition"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT11.decide.admissibility"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT11.edge.admissibility.refine"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 5
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT11.decide.admissibility"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT11.terminal.ct10"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT11.edge.admissibility.closed"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 6
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT11.decide.admissibility"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT11.certify.localization"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT11.edge.localization.certified"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 7
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT11.certify.localization"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT11.decide.routing"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT11.edge.routing.ct1"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 8
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT11.decide.routing"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT11.terminal.ct1"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT11.edge.routing.ct7"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 9
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT11.decide.routing"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT11.terminal.ct7"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT11.edge.routing.ct14"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 10
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT11.decide.routing"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT11.terminal.ct14"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 10,
+          "maxItems": 10
+        }
+      },
+      "required": [
+        "tacticId",
+        "graphVersion",
+        "entryNodeIds",
+        "nodes",
+        "transitions"
+      ]
+    }
+  ]
+}

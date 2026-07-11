@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT1.terminal.c1.schema.json",
+  "title": "CT1.terminal.c1 completed discharge record — c1 terminal",
+  "description": "Concrete completed-discharge schema for semantic CT1-v1 node CT1.terminal.c1.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT1.terminal.c1; it must be CT1.",
+          "const": "CT1"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for c1 terminal.",
+          "const": "CT1.terminal.c1"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation-order index for CT1.terminal.c1.",
+          "const": 6
+        },
+        "status": {
+          "description": "Required successful validation state for this entry or terminal node.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "Exact contract families discharged at CT1.terminal.c1: S-Equiv, A-Cert.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires S-Equiv, which certifies both target-test implications.",
+                "const": "S-Equiv"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires A-Cert, which validates the C1 closure certificate.",
+                "const": "A-Cert"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "type": "array",
+          "minItems": 2,
+          "description": "Typed contract instances for CT1.terminal.c1; every declared family is required.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Discriminator for S-Equiv evidence at CT1.terminal.c1; it certifies both target-test implications.",
+                    "const": "S-Equiv"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Discriminator for A-Cert evidence at CT1.terminal.c1; it validates the C1 closure certificate.",
+                    "const": "A-Cert"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT1.terminal.c1.O1",
+    "modality": "validate",
+    "statement": {
+      "informal": "The semantic run ends at the exact c1 outcome.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Equiv",
+      "A-Cert"
+    ],
+    "dependencies": [
+      "CT1.decide.realization"
+    ],
+    "dischargeCriteria": "The terminal constructor, raw outcome, certified outcome, and incoming typed edge all resolve."
+  }
+}

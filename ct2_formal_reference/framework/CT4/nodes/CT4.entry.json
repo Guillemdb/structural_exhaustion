@@ -1,0 +1,80 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT4-v1",
+  "nodeId": "CT4.entry",
+  "nodeKind": "entry",
+  "title": "Validated CT4 ledger entry",
+  "human": {
+    "informal": "Execute the proof-carrying validated ct4 ledger entry contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Def"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT4 — Charging schemes",
+    "diagramKey": "entry"
+  },
+  "formalContract": {
+    "contractId": "CT4.entry.contract",
+    "executionMode": "declarative",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT4.Nodes.Entry",
+      "declaration": "StructuralExhaustion.CT4.Nodes.Entry.Contract",
+      "sourceFile": "StructuralExhaustion/CT4/Nodes/Entry.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT4.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "entry",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT4.Input framework"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT4.Nodes.Entry",
+    "sourceFile": "StructuralExhaustion/CT4/Nodes/Entry.lean",
+    "requiredRoles": [
+      "contract",
+      "implementation"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT4.Nodes.Entry",
+          "declaration": "StructuralExhaustion.CT4.Nodes.Entry.Contract",
+          "sourceFile": "StructuralExhaustion/CT4/Nodes/Entry.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT4.Nodes.Entry",
+          "declaration": "StructuralExhaustion.CT4.Nodes.Entry.run",
+          "sourceFile": "StructuralExhaustion/CT4/Nodes/Entry.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

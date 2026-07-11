@@ -1,0 +1,91 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT17-v1",
+  "nodeId": "CT17.certify.block",
+  "nodeKind": "certification",
+  "title": "Target-thickened block certification",
+  "human": {
+    "informal": "Execute the proof-carrying target-thickened block certification contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Comp"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT17 — Target thickening",
+    "diagramKey": "block"
+  },
+  "formalContract": {
+    "contractId": "CT17.certify.block.contract",
+    "executionMode": "external_certificate",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT17.Nodes.Block",
+      "declaration": "StructuralExhaustion.CT17.Nodes.Block.Contract",
+      "sourceFile": "StructuralExhaustion/CT17/Nodes/Block.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT17.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "block",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT17.BlockState framework input compatible"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT17.Nodes.Block",
+    "sourceFile": "StructuralExhaustion/CT17/Nodes/Block.lean",
+    "requiredRoles": [
+      "contract",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT17.Nodes.Block",
+          "declaration": "StructuralExhaustion.CT17.Nodes.Block.Contract",
+          "sourceFile": "StructuralExhaustion/CT17/Nodes/Block.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT17.Nodes.Block",
+          "declaration": "StructuralExhaustion.CT17.Nodes.Block.Plan",
+          "sourceFile": "StructuralExhaustion/CT17/Nodes/Block.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT17.Nodes.Block",
+          "declaration": "StructuralExhaustion.CT17.Nodes.Block.run",
+          "sourceFile": "StructuralExhaustion/CT17/Nodes/Block.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

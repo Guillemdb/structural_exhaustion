@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT11.certify.localization.schema.json",
+  "title": "CT11.certify.localization completed discharge record — Summation and localization certification",
+  "description": "Concrete completed-discharge schema for semantic CT11-v1 node CT11.certify.localization.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT11.certify.localization.",
+          "const": "CT11"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for Summation and localization certification.",
+          "const": "CT11.certify.localization"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT11.certify.localization.",
+          "const": 7
+        },
+        "status": {
+          "description": "Required successful proof state for this executable machine node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT11.certify.localization.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Comp evidence.",
+                "const": "S-Comp"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT11.certify.localization.",
+          "type": "array",
+          "minItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Comp discriminator.",
+                    "const": "S-Comp"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT11.certify.localization.O1",
+    "modality": "prove",
+    "statement": {
+      "informal": "Execute the proof-carrying summation and localization certification contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Comp"
+    ],
+    "dependencies": [
+      "CT11.decide.admissibility"
+    ],
+    "dischargeCriteria": "The node implementation constructs its indexed output contract without inspecting any later node."
+  }
+}

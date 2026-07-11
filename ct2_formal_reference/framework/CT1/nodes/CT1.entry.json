@@ -1,0 +1,80 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT1-v1",
+  "nodeId": "CT1.entry",
+  "nodeKind": "entry",
+  "title": "Validated CT1 entry",
+  "human": {
+    "informal": "Admit the ambient object, branch state, and baseline proof without mixing in node implementations.",
+    "latex": "(G, B, \\operatorname{Baseline}(G))",
+    "whyNeeded": "Static target and test vocabulary belongs to Framework; runtime evidence begins in Input.",
+    "failureMeaning": "The CT1 machine is not invoked until Input has been constructed.",
+    "proofHints": [
+      "Entry.run is the identity boundary."
+    ]
+  },
+  "contracts": [
+    "S-Def"
+  ],
+  "formalContract": {
+    "contractId": "CT1.entry.contract",
+    "executionMode": "declarative",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT1.Nodes.Entry",
+      "declaration": "StructuralExhaustion.CT1.Nodes.Entry.Contract",
+      "sourceFile": "StructuralExhaustion/CT1/Nodes/Entry.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT1.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "entry",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT1.Input framework"
+      }
+    ],
+    "dischargeCondition": "Entry.run preserves the validated Input definitionally."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT1.Nodes.Entry",
+    "sourceFile": "StructuralExhaustion/CT1/Nodes/Entry.lean",
+    "requiredRoles": [
+      "contract",
+      "implementation"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT1.Nodes.Entry",
+          "declaration": "StructuralExhaustion.CT1.Nodes.Entry.Contract",
+          "sourceFile": "StructuralExhaustion/CT1/Nodes/Entry.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT1.Nodes.Entry",
+          "declaration": "StructuralExhaustion.CT1.Nodes.Entry.run",
+          "sourceFile": "StructuralExhaustion/CT1/Nodes/Entry.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  },
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT1 — Target-test alignment and first closure",
+    "diagramKey": "entry"
+  }
+}

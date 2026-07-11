@@ -1,0 +1,159 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT12-v1",
+  "nodeId": "CT12.decide.restoration",
+  "nodeKind": "decision",
+  "title": "Invariant-restoration decision",
+  "human": {
+    "informal": "Execute the proof-carrying invariant-restoration decision contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Rest",
+    "S-Rout"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT12 — Peeling loop",
+    "diagramKey": "restoration"
+  },
+  "formalContract": {
+    "contractId": "CT12.decide.restoration.contract",
+    "executionMode": "computable",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT12.Nodes.Restoration",
+      "declaration": "StructuralExhaustion.CT12.Nodes.Restoration.Contract",
+      "sourceFile": "StructuralExhaustion/CT12/Nodes/Restoration.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT12.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT12.Nodes.Restoration.Contract framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node.",
+    "branches": [
+      {
+        "branchTag": "toCT4",
+        "meaning": "Return the proof-carrying toCT4 constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT12.Nodes.Restoration",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Restoration.Decision.toCT4",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Restoration.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT12.CT4Payload framework input peeled"
+          }
+        ],
+        "transitionId": "CT12.edge.restoration.ct4"
+      },
+      {
+        "branchTag": "toCT13",
+        "meaning": "Return the proof-carrying toCT13 constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT12.Nodes.Restoration",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Restoration.Decision.toCT13",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Restoration.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT12.CT13Payload framework input peeled"
+          }
+        ],
+        "transitionId": "CT12.edge.restoration.ct13"
+      },
+      {
+        "branchTag": "continue",
+        "meaning": "Return the proof-carrying continue constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT12.Nodes.Restoration",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Restoration.Decision.continue",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Restoration.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "restored",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT12.RestoredState framework input peeled next"
+          }
+        ],
+        "transitionId": "CT12.edge.restoration.continue"
+      }
+    ]
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT12.Nodes.Restoration",
+    "sourceFile": "StructuralExhaustion/CT12/Nodes/Restoration.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT12.Nodes.Restoration",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Restoration.Contract",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Restoration.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT12.Nodes.Restoration",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Restoration.Decision",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Restoration.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT12.Nodes.Restoration",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Restoration.Plan",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Restoration.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT12.Nodes.Restoration",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Restoration.run",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Restoration.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

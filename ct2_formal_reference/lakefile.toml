@@ -1,0 +1,6 @@
+name = "ct2_formal_reference"
+version = "0.1.0"
+defaultTargets = ["StructuralExhaustion"]
+
+[[lean_lib]]
+name = "StructuralExhaustion"

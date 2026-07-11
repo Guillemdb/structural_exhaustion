@@ -1,0 +1,579 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/tactics/CT16.schema.json",
+  "title": "CT16-v1 semantic runtime graph — Whole-object exact types",
+  "description": "Concrete static-graph schema for the exact CT16-v1 sequential machine.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticSpec"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT16 discriminator.",
+          "const": "CT16"
+        },
+        "graphVersion": {
+          "description": "Required semantic graph version.",
+          "const": "CT16-v1"
+        },
+        "entryNodeIds": {
+          "description": "The unique semantic entry node.",
+          "const": [
+            "CT16.entry"
+          ]
+        },
+        "nodes": {
+          "description": "Exact 9-node machine in presentation order.",
+          "type": "array",
+          "prefixItems": [
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Validated CT16 support datum.",
+                      "const": "CT16.entry"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT16.entry.",
+                      "const": 1
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT16.entry.",
+                      "const": "input"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT16.entry.",
+                      "const": "entry"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Proper/whole support decision.",
+                      "const": "CT16.decide.support"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT16.decide.support.",
+                      "const": 2
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT16.decide.support.",
+                      "const": "decision"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT16.decide.support.",
+                      "const": "decision"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for CT3 proper-piece handoff.",
+                      "const": "CT16.terminal.ct3"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT16.terminal.ct3.",
+                      "const": 3
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT16.terminal.ct3.",
+                      "const": "consumer_handoff"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT16.terminal.ct3.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT16.terminal.ct3.",
+                      "const": "ct3"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Finite closed-type scope.",
+                      "const": "CT16.decide.scope"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT16.decide.scope.",
+                      "const": 4
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT16.decide.scope.",
+                      "const": "decision"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT16.decide.scope.",
+                      "const": "decision"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Noncomputable closed-type scope terminal.",
+                      "const": "CT16.terminal.scope"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT16.terminal.scope.",
+                      "const": 5
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT16.terminal.scope.",
+                      "const": "scope_audit"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT16.terminal.scope.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT16.terminal.scope.",
+                      "const": "scope"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Exact closed-type certification.",
+                      "const": "CT16.certify.closedType"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT16.certify.closedType.",
+                      "const": 6
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT16.certify.closedType.",
+                      "const": "assertion"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT16.certify.closedType.",
+                      "const": "certification"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for Literal closed-type equality decision.",
+                      "const": "CT16.decide.equality"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT16.decide.equality.",
+                      "const": 7
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT16.decide.equality.",
+                      "const": "decision"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT16.decide.equality.",
+                      "const": "decision"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for C2 whole-object identification terminal.",
+                      "const": "CT16.terminal.c2"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT16.terminal.c2.",
+                      "const": 8
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT16.terminal.c2.",
+                      "const": "certificate"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT16.terminal.c2.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT16.terminal.c2.",
+                      "const": "c2"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
+                },
+                {
+                  "properties": {
+                    "nodeId": {
+                      "description": "Exact runtime identity for CT10 distinct-closed-type handoff.",
+                      "const": "CT16.terminal.ct10"
+                    },
+                    "nodeNumber": {
+                      "description": "Presentation index for CT16.terminal.ct10.",
+                      "const": 9
+                    },
+                    "nodeType": {
+                      "description": "Mathematical role of CT16.terminal.ct10.",
+                      "const": "consumer_handoff"
+                    },
+                    "runtimeKind": {
+                      "description": "Machine role of CT16.terminal.ct10.",
+                      "const": "terminal"
+                    },
+                    "terminalCase": {
+                      "description": "Exact terminal case for CT16.terminal.ct10.",
+                      "const": "ct10"
+                    }
+                  },
+                  "required": [
+                    "nodeId",
+                    "nodeNumber",
+                    "nodeType",
+                    "runtimeKind",
+                    "terminalCase"
+                  ]
+                }
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 9,
+          "maxItems": 9
+        },
+        "transitions": {
+          "description": "Exact 8 typed edges in presentation order.",
+          "type": "array",
+          "prefixItems": [
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT16.edge.begin"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 1
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT16.entry"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT16.decide.support"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT16.edge.support.proper"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 2
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT16.decide.support"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT16.terminal.ct3"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT16.edge.support.whole"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 3
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT16.decide.support"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT16.decide.scope"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT16.edge.scope.exit"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 4
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT16.decide.scope"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT16.terminal.scope"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT16.edge.scope.ready"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 5
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT16.decide.scope"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT16.certify.closedType"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT16.edge.closedType.certified"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 6
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT16.certify.closedType"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT16.decide.equality"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT16.edge.equality.close"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 7
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT16.decide.equality"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT16.terminal.c2"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            },
+            {
+              "properties": {
+                "transitionId": {
+                  "description": "Exact semantic transition identity.",
+                  "const": "CT16.edge.equality.distinct"
+                },
+                "transitionNumber": {
+                  "description": "One-based presentation transition index.",
+                  "const": 8
+                },
+                "fromNodeId": {
+                  "description": "Exact typed source state.",
+                  "const": "CT16.decide.equality"
+                },
+                "toNodeId": {
+                  "description": "Exact typed target state.",
+                  "const": "CT16.terminal.ct10"
+                }
+              },
+              "required": [
+                "transitionId",
+                "transitionNumber",
+                "fromNodeId",
+                "toNodeId"
+              ]
+            }
+          ],
+          "items": false,
+          "minItems": 8,
+          "maxItems": 8
+        }
+      },
+      "required": [
+        "tacticId",
+        "graphVersion",
+        "entryNodeIds",
+        "nodes",
+        "transitions"
+      ]
+    }
+  ]
+}

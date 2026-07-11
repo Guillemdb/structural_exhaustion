@@ -1,0 +1,166 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT2-v2",
+  "nodeId": "CT2.decide.survivor",
+  "nodeKind": "decision",
+  "title": "Survivor classification",
+  "human": {
+    "informal": "Classify the deletion-critical, replacement-candidate-free survivor for a typed CT10 or CT3 handoff.",
+    "latex": "",
+    "whyNeeded": "The result constructors retain the branch datum; the handoff plan supplies the corresponding consumer acceptance proof.",
+    "failureMeaning": "The invocation cannot take this transition without the typed evidence carried by its result constructor.",
+    "proofHints": [
+      "Construct the declared proof-carrying result; do not encode a branch as an unchecked Boolean."
+    ]
+  },
+  "contracts": [
+    "S-Dich",
+    "S-Rout"
+  ],
+  "formalContract": {
+    "contractId": "CT2.decide.survivor.contract",
+    "executionMode": "interactive",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT2.Nodes.Survivor",
+      "declaration": "StructuralExhaustion.CT2.Nodes.Survivor.Contract",
+      "sourceFile": "StructuralExhaustion/CT2/Nodes/Survivor.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "framework",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT2.Framework"
+      },
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT2.Input framework"
+      },
+      {
+        "slotId": "plan",
+        "valueKind": "algorithm",
+        "typeExpression": "StructuralExhaustion.CT2.Nodes.Survivor.Plan framework input"
+      },
+      {
+        "slotId": "survivor",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT2.SurvivorState framework input"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT2.Nodes.Survivor.Contract framework input survivor"
+      }
+    ],
+    "dischargeCondition": "The referenced Lean contract and every branch constructor resolve, and each outgoing transition carries the evidence required by its target state.",
+    "branches": [
+      {
+        "branchTag": "criticality",
+        "meaning": "A complete criticality raw CT10 payload is available.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT2.Nodes.Survivor",
+          "declaration": "StructuralExhaustion.CT2.Nodes.Survivor.Decision.criticality",
+          "sourceFile": "StructuralExhaustion/CT2/Nodes/Survivor.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "survivor",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT2.SurvivorState framework input"
+          },
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT2.CriticalityCT10Payload framework input survivor"
+          }
+        ],
+        "transitionId": "CT2.edge.survivor.criticality"
+      },
+      {
+        "branchTag": "missingResponse",
+        "meaning": "A complete missing-response raw CT3 payload is available.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT2.Nodes.Survivor",
+          "declaration": "StructuralExhaustion.CT2.Nodes.Survivor.Decision.missingResponse",
+          "sourceFile": "StructuralExhaustion/CT2/Nodes/Survivor.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "survivor",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT2.SurvivorState framework input"
+          },
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT2.ResponseCT3Payload framework input survivor"
+          }
+        ],
+        "transitionId": "CT2.edge.survivor.response"
+      }
+    ]
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT2.Nodes.Survivor",
+    "sourceFile": "StructuralExhaustion/CT2/Nodes/Survivor.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "plan",
+      "implementation"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Nodes.Survivor",
+          "declaration": "StructuralExhaustion.CT2.Nodes.Survivor.Contract",
+          "sourceFile": "StructuralExhaustion/CT2/Nodes/Survivor.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Nodes.Survivor",
+          "declaration": "StructuralExhaustion.CT2.Nodes.Survivor.Decision",
+          "sourceFile": "StructuralExhaustion/CT2/Nodes/Survivor.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Nodes.Survivor",
+          "declaration": "StructuralExhaustion.CT2.Nodes.Survivor.Plan",
+          "sourceFile": "StructuralExhaustion/CT2/Nodes/Survivor.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Nodes.Survivor",
+          "declaration": "StructuralExhaustion.CT2.Nodes.Survivor.run",
+          "sourceFile": "StructuralExhaustion/CT2/Nodes/Survivor.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  },
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT2 — Minimality and replacement",
+    "diagramKey": "survivor"
+  }
+}

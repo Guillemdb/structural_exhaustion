@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/runs/CT2.run.schema.json",
+  "title": "CT2-v2 legal semantic-machine run — Minimality and replacement",
+  "description": "Concrete schema for one CT2-v2 execution path. The run starts at CT2.entry, follows semantic evidence-carrying transitions, records only visited states, and ends at one exact terminal case.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT2 run discriminator.",
+          "const": "CT2"
+        },
+        "visitedNodeIds": {
+          "description": "Execution-order path using only CT2-v2 semantic node IDs.",
+          "type": "array",
+          "items": {
+            "enum": [
+              "CT2.entry",
+              "CT2.decide.interface",
+              "CT2.terminal.scope",
+              "CT2.decide.deletion",
+              "CT2.terminal.c2.deletion",
+              "CT2.decide.replacementCandidate",
+              "CT2.decide.context",
+              "CT2.terminal.c2.replacement",
+              "CT2.terminal.ct3.context",
+              "CT2.decide.survivor",
+              "CT2.terminal.ct10.criticality",
+              "CT2.terminal.ct3.response"
+            ]
+          },
+          "minItems": 2
+        },
+        "nodeRecords": {
+          "description": "Proof records aligned one-for-one with the semantic visited path.",
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "../nodes/CT2.entry.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT2.decide.interface.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT2.terminal.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT2.decide.deletion.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT2.terminal.c2.deletion.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT2.decide.replacementCandidate.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT2.decide.context.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT2.terminal.c2.replacement.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT2.terminal.ct3.context.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT2.decide.survivor.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT2.terminal.ct10.criticality.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT2.terminal.ct3.response.schema.json"
+              }
+            ]
+          },
+          "minItems": 2
+        },
+        "outcome": {
+          "description": "Exact terminal result of the semantic run, including its distinct CT2 terminal case.",
+          "properties": {
+            "terminalCase": {
+              "description": "One of the six exact CT2-v2 terminal cases.",
+              "enum": [
+                "scope",
+                "c2.deletion",
+                "c2.replacement",
+                "ct3.context",
+                "ct10.criticality",
+                "ct3.response"
+              ]
+            }
+          },
+          "required": [
+            "terminalCase"
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "visitedNodeIds",
+        "nodeRecords",
+        "outcome"
+      ]
+    }
+  ],
+  "x-semanticValidationRules": [
+    "validate visitedNodeIds as a path in the CT2-v2 semantic transition graph",
+    "require outcome.terminalCase to equal the final terminal node's terminalCase"
+  ]
+}

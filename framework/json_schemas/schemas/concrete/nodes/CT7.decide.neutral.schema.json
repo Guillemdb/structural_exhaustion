@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT7.decide.neutral.schema.json",
+  "title": "CT7.decide.neutral completed discharge record — Neutral compression routing",
+  "description": "Concrete completed-discharge schema for semantic CT7-v1 node CT7.decide.neutral.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT7.decide.neutral.",
+          "const": "CT7"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for Neutral compression routing.",
+          "const": "CT7.decide.neutral"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT7.decide.neutral.",
+          "const": 12
+        },
+        "status": {
+          "description": "Required successful proof state for this executable machine node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT7.decide.neutral.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 2,
+          "maxItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Comp evidence.",
+                "const": "S-Comp"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required S-Rout evidence.",
+                "const": "S-Rout"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT7.decide.neutral.",
+          "type": "array",
+          "minItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Comp discriminator.",
+                    "const": "S-Comp"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Rout discriminator.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT7.decide.neutral.O1",
+    "modality": "decide",
+    "statement": {
+      "informal": "Execute the proof-carrying neutral compression routing contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Comp",
+      "S-Rout"
+    ],
+    "dependencies": [
+      "CT7.decide.distinction"
+    ],
+    "dischargeCriteria": "The node implementation constructs its indexed output contract without inspecting any later node."
+  }
+}

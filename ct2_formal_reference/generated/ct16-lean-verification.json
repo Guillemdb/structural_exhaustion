@@ -1,0 +1,304 @@
+{
+  "artifactType": "leanVerificationResult",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT16-v1",
+  "verificationId": "CT16.local.2026-07-11T01:07:58+00:00",
+  "tacticId": "CT16",
+  "status": "kernel_checked",
+  "toolchain": {
+    "leanToolchain": "leanprover/lean4:v4.31.0",
+    "lakefileHash": "8db204bcd9258ceacd30cdaa7842d1d1e05ffb8e06eee2f9b7c2c5ee31de4ae7",
+    "leanVersionObserved": "Lean (version 4.31.0, x86_64-unknown-linux-gnu, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)"
+  },
+  "nodeResults": [
+    {
+      "nodeId": "CT16.entry",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.Entry.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT16.Framework) : Type",
+          "sourceHash": "5b0596cad09860d1f5f0357107909a667ac27f6bce339b4c42552f90c35b0562"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.Entry.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT16.Framework} (input : StructuralExhaustion.CT16.Input F) : StructuralExhaustion.CT16.Nodes.Entry.Contract F",
+          "sourceHash": "5b0596cad09860d1f5f0357107909a667ac27f6bce339b4c42552f90c35b0562"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT16.decide.support",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.Support.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT16.Framework) (input : StructuralExhaustion.CT16.Input F) : Type",
+          "sourceHash": "ce61cf3ec8b7184bbe4d4bbf6ffa4071ef7e33672e6009e3e1aeaa9245a97999"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.Support.Decision",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT16.Framework) (input : StructuralExhaustion.CT16.Input F) : Type",
+          "sourceHash": "ce61cf3ec8b7184bbe4d4bbf6ffa4071ef7e33672e6009e3e1aeaa9245a97999"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.Support.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT16.Framework) (input : StructuralExhaustion.CT16.Input F) : Type",
+          "sourceHash": "ce61cf3ec8b7184bbe4d4bbf6ffa4071ef7e33672e6009e3e1aeaa9245a97999"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.Support.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT16.Framework} {input : StructuralExhaustion.CT16.Input F} (_entry : StructuralExhaustion.CT16.Input F) (plan : StructuralExhaustion.CT16.Nodes.Support.Plan F input) : StructuralExhaustion.CT16.Nodes.Support.Contract F input",
+          "sourceHash": "ce61cf3ec8b7184bbe4d4bbf6ffa4071ef7e33672e6009e3e1aeaa9245a97999"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT16.terminal.ct3",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT16.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "04fcb1f9f076f86644baccac28f8f63fa2a74b55cc443ab000300ab24c077375"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Graph.Terminal.ct3",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT16.Graph.Terminal",
+          "sourceHash": "04fcb1f9f076f86644baccac28f8f63fa2a74b55cc443ab000300ab24c077375"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Graph.NodeId.ct3Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT16.Graph.NodeId",
+          "sourceHash": "04fcb1f9f076f86644baccac28f8f63fa2a74b55cc443ab000300ab24c077375"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.RawOutcome.ct3",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT16.Framework} {input : StructuralExhaustion.CT16.Input F} {proper : StructuralExhaustion.CT16.ProperState F input} (payload : StructuralExhaustion.CT16.CT3Payload F input proper) : StructuralExhaustion.CT16.RawOutcome F input StructuralExhaustion.CT16.Graph.Terminal.ct3",
+          "sourceHash": "897ac2490da013a4ed43c7906a935347d1765e5842f9fac073b90ec02d527727"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Outcome.ct3",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT16.Framework} {input : StructuralExhaustion.CT16.Input F} {port : StructuralExhaustion.CT16.Port F input} {proper : StructuralExhaustion.CT16.ProperState F input} (payload : StructuralExhaustion.CT16.CT3Payload F input proper) (accepted : port.accepts (StructuralExhaustion.CT16.HandoffPayload.ct3 payload)) : StructuralExhaustion.CT16.Outcome F input port StructuralExhaustion.CT16.Graph.Terminal.ct3",
+          "sourceHash": "897ac2490da013a4ed43c7906a935347d1765e5842f9fac073b90ec02d527727"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT16.decide.scope",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.Scope.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT16.Framework) (input : StructuralExhaustion.CT16.Input F) (whole : StructuralExhaustion.CT16.WholeState F input) : Type",
+          "sourceHash": "7fd52aacc7ec5d38b6ed254d34abee98aedfe09024023c1374c216f4f67754e4"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.Scope.Decision",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT16.Framework) (input : StructuralExhaustion.CT16.Input F) (whole : StructuralExhaustion.CT16.WholeState F input) : Type",
+          "sourceHash": "7fd52aacc7ec5d38b6ed254d34abee98aedfe09024023c1374c216f4f67754e4"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.Scope.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT16.Framework) (input : StructuralExhaustion.CT16.Input F) : Type",
+          "sourceHash": "7fd52aacc7ec5d38b6ed254d34abee98aedfe09024023c1374c216f4f67754e4"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.Scope.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT16.Framework} {input : StructuralExhaustion.CT16.Input F} (plan : StructuralExhaustion.CT16.Nodes.Scope.Plan F input) (whole : StructuralExhaustion.CT16.WholeState F input) : StructuralExhaustion.CT16.Nodes.Scope.Contract F input whole",
+          "sourceHash": "7fd52aacc7ec5d38b6ed254d34abee98aedfe09024023c1374c216f4f67754e4"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT16.terminal.scope",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT16.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "04fcb1f9f076f86644baccac28f8f63fa2a74b55cc443ab000300ab24c077375"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Graph.Terminal.scope",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT16.Graph.Terminal",
+          "sourceHash": "04fcb1f9f076f86644baccac28f8f63fa2a74b55cc443ab000300ab24c077375"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Graph.NodeId.scopeTerminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT16.Graph.NodeId",
+          "sourceHash": "04fcb1f9f076f86644baccac28f8f63fa2a74b55cc443ab000300ab24c077375"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.RawOutcome.scope",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT16.Framework} {input : StructuralExhaustion.CT16.Input F} (candidate : StructuralExhaustion.CT16.ScopeCandidate F input) : StructuralExhaustion.CT16.RawOutcome F input StructuralExhaustion.CT16.Graph.Terminal.scope",
+          "sourceHash": "897ac2490da013a4ed43c7906a935347d1765e5842f9fac073b90ec02d527727"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Outcome.scope",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT16.Framework} {input : StructuralExhaustion.CT16.Input F} {port : StructuralExhaustion.CT16.Port F input} (candidate : StructuralExhaustion.CT16.ScopeCandidate F input) : StructuralExhaustion.CT16.Outcome F input port StructuralExhaustion.CT16.Graph.Terminal.scope",
+          "sourceHash": "897ac2490da013a4ed43c7906a935347d1765e5842f9fac073b90ec02d527727"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT16.certify.closedType",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.ClosedType.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT16.Framework) (input : StructuralExhaustion.CT16.Input F) {whole : StructuralExhaustion.CT16.WholeState F input} (scope : StructuralExhaustion.CT16.ScopedState F input whole) : Prop",
+          "sourceHash": "8122d33ecfc94ae950aa2c92e691b16c960f6c68e4c4c4df2d30f48a3bd2445a"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.ClosedType.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT16.Framework) (input : StructuralExhaustion.CT16.Input F) : Prop",
+          "sourceHash": "8122d33ecfc94ae950aa2c92e691b16c960f6c68e4c4c4df2d30f48a3bd2445a"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.ClosedType.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT16.Framework} {input : StructuralExhaustion.CT16.Input F} (plan : StructuralExhaustion.CT16.Nodes.ClosedType.Plan F input) {whole : StructuralExhaustion.CT16.WholeState F input} (scope : StructuralExhaustion.CT16.ScopedState F input whole) : StructuralExhaustion.CT16.Nodes.ClosedType.Contract F input scope",
+          "sourceHash": "8122d33ecfc94ae950aa2c92e691b16c960f6c68e4c4c4df2d30f48a3bd2445a"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT16.decide.equality",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.Equality.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT16.Framework) (input : StructuralExhaustion.CT16.Input F) {whole : StructuralExhaustion.CT16.WholeState F input} {scope : StructuralExhaustion.CT16.ScopedState F input whole} (closed : StructuralExhaustion.CT16.ClosedTypeState F input scope) : Type",
+          "sourceHash": "e297c1c45aff08d50834995ecf0d12a24434544ed0faa6707e40dbc407453433"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.Equality.Decision",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT16.Framework) (input : StructuralExhaustion.CT16.Input F) {whole : StructuralExhaustion.CT16.WholeState F input} {scope : StructuralExhaustion.CT16.ScopedState F input whole} (closed : StructuralExhaustion.CT16.ClosedTypeState F input scope) : Type",
+          "sourceHash": "e297c1c45aff08d50834995ecf0d12a24434544ed0faa6707e40dbc407453433"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.Equality.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT16.Framework) (input : StructuralExhaustion.CT16.Input F) : Type",
+          "sourceHash": "e297c1c45aff08d50834995ecf0d12a24434544ed0faa6707e40dbc407453433"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Nodes.Equality.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT16.Framework} {input : StructuralExhaustion.CT16.Input F} (plan : StructuralExhaustion.CT16.Nodes.Equality.Plan F input) {whole : StructuralExhaustion.CT16.WholeState F input} {scope : StructuralExhaustion.CT16.ScopedState F input whole} (closed : StructuralExhaustion.CT16.ClosedTypeState F input scope) : StructuralExhaustion.CT16.Nodes.Equality.Contract F input closed",
+          "sourceHash": "e297c1c45aff08d50834995ecf0d12a24434544ed0faa6707e40dbc407453433"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT16.terminal.c2",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT16.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "04fcb1f9f076f86644baccac28f8f63fa2a74b55cc443ab000300ab24c077375"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Graph.Terminal.c2",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT16.Graph.Terminal",
+          "sourceHash": "04fcb1f9f076f86644baccac28f8f63fa2a74b55cc443ab000300ab24c077375"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Graph.NodeId.c2Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT16.Graph.NodeId",
+          "sourceHash": "04fcb1f9f076f86644baccac28f8f63fa2a74b55cc443ab000300ab24c077375"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.RawOutcome.c2",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT16.Framework} {input : StructuralExhaustion.CT16.Input F} {whole : StructuralExhaustion.CT16.WholeState F input} {scope : StructuralExhaustion.CT16.ScopedState F input whole} {closed : StructuralExhaustion.CT16.ClosedTypeState F input scope} (certificate : StructuralExhaustion.CT16.C2Certificate F input closed) : StructuralExhaustion.CT16.RawOutcome F input StructuralExhaustion.CT16.Graph.Terminal.c2",
+          "sourceHash": "897ac2490da013a4ed43c7906a935347d1765e5842f9fac073b90ec02d527727"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Outcome.c2",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT16.Framework} {input : StructuralExhaustion.CT16.Input F} {port : StructuralExhaustion.CT16.Port F input} {whole : StructuralExhaustion.CT16.WholeState F input} {scope : StructuralExhaustion.CT16.ScopedState F input whole} {closed : StructuralExhaustion.CT16.ClosedTypeState F input scope} (certificate : StructuralExhaustion.CT16.C2Certificate F input closed) : StructuralExhaustion.CT16.Outcome F input port StructuralExhaustion.CT16.Graph.Terminal.c2",
+          "sourceHash": "897ac2490da013a4ed43c7906a935347d1765e5842f9fac073b90ec02d527727"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT16.terminal.ct10",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT16.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "04fcb1f9f076f86644baccac28f8f63fa2a74b55cc443ab000300ab24c077375"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Graph.Terminal.ct10",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT16.Graph.Terminal",
+          "sourceHash": "04fcb1f9f076f86644baccac28f8f63fa2a74b55cc443ab000300ab24c077375"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Graph.NodeId.ct10Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT16.Graph.NodeId",
+          "sourceHash": "04fcb1f9f076f86644baccac28f8f63fa2a74b55cc443ab000300ab24c077375"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.RawOutcome.ct10",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT16.Framework} {input : StructuralExhaustion.CT16.Input F} {whole : StructuralExhaustion.CT16.WholeState F input} {scope : StructuralExhaustion.CT16.ScopedState F input whole} {closed : StructuralExhaustion.CT16.ClosedTypeState F input scope} (payload : StructuralExhaustion.CT16.CT10Payload F input closed) : StructuralExhaustion.CT16.RawOutcome F input StructuralExhaustion.CT16.Graph.Terminal.ct10",
+          "sourceHash": "897ac2490da013a4ed43c7906a935347d1765e5842f9fac073b90ec02d527727"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT16.Outcome.ct10",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT16.Framework} {input : StructuralExhaustion.CT16.Input F} {port : StructuralExhaustion.CT16.Port F input} {whole : StructuralExhaustion.CT16.WholeState F input} {scope : StructuralExhaustion.CT16.ScopedState F input whole} {closed : StructuralExhaustion.CT16.ClosedTypeState F input scope} (payload : StructuralExhaustion.CT16.CT10Payload F input closed) (accepted : port.accepts (StructuralExhaustion.CT16.HandoffPayload.ct10 payload)) : StructuralExhaustion.CT16.Outcome F input port StructuralExhaustion.CT16.Graph.Terminal.ct10",
+          "sourceHash": "897ac2490da013a4ed43c7906a935347d1765e5842f9fac073b90ec02d527727"
+        }
+      ]
+    }
+  ],
+  "aggregateResults": {
+    "toolchain": "passed",
+    "build": "passed",
+    "bindingResolution": "passed",
+    "nodeBindings": "passed",
+    "sourceFiles": "passed",
+    "noAdmissions": "passed",
+    "soundness": "passed",
+    "totality": "passed",
+    "traceValidity": "passed",
+    "terminalCoverage": "passed"
+  },
+  "diagnostics": []
+}

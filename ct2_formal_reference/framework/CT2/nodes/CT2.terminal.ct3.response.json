@@ -1,0 +1,154 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT2-v2",
+  "nodeId": "CT2.terminal.ct3.response",
+  "nodeKind": "terminal",
+  "title": "CT3 response terminal",
+  "human": {
+    "informal": "Missing-response data reaches the raw CT3 response terminal; certification then adds the CT3 acceptance proof.",
+    "latex": "",
+    "whyNeeded": "This remains distinct from the context-residual CT3 case so provenance survives in raw data, certified outcomes, and traces.",
+    "failureMeaning": "The invocation cannot take this transition without the typed evidence carried by its result constructor.",
+    "proofHints": [
+      "Construct the declared proof-carrying result; do not encode a branch as an unchecked Boolean."
+    ]
+  },
+  "contracts": [
+    "S-Rout",
+    "S-Trig"
+  ],
+  "formalContract": {
+    "contractId": "CT2.terminal.ct3.response.contract",
+    "executionMode": "proof_only",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT2",
+      "declaration": "StructuralExhaustion.CT2.RawOutcome",
+      "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "inputs": [
+      {
+        "slotId": "framework",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT2.Framework"
+      },
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT2.Input framework"
+      },
+      {
+        "slotId": "survivor",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT2.SurvivorState framework input"
+      },
+      {
+        "slotId": "payload",
+        "valueKind": "payload",
+        "typeExpression": "StructuralExhaustion.CT2.ResponseCT3Payload framework input survivor"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "rawOutcome",
+        "valueKind": "payload",
+        "typeExpression": "StructuralExhaustion.CT2.RawOutcome framework input .responseCT3"
+      }
+    ],
+    "dischargeCondition": "The referenced Lean contract and every branch constructor resolve, and each outgoing transition carries the evidence required by its target state."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT2.Graph",
+    "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+    "requiredRoles": [
+      "state",
+      "constructor"
+    ],
+    "declarations": [
+      {
+        "role": "state",
+        "localName": "Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Graph",
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal",
+          "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "responseCT3",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Graph",
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal.responseCT3",
+          "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "responseCT3Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Graph",
+          "declaration": "StructuralExhaustion.CT2.Graph.NodeId.responseCT3Terminal",
+          "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "responseCT3",
+        "ref": {
+          "module": "StructuralExhaustion.CT2",
+          "declaration": "StructuralExhaustion.CT2.RawOutcome.responseCT3",
+          "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "responseCT3",
+        "ref": {
+          "module": "StructuralExhaustion.CT2",
+          "declaration": "StructuralExhaustion.CT2.Outcome.responseCT3",
+          "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    ]
+  },
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT2 — Minimality and replacement",
+    "diagramKey": "ct3Response"
+  },
+  "terminal": {
+    "terminalCase": "ct3.response",
+    "terminalConstructorRef": {
+      "module": "StructuralExhaustion.CT2.Graph",
+      "declaration": "StructuralExhaustion.CT2.Graph.Terminal.responseCT3",
+      "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+      "declarationKind": "constructor"
+    },
+    "outcomeConstructorRef": {
+      "module": "StructuralExhaustion.CT2",
+      "declaration": "StructuralExhaustion.CT2.Outcome.responseCT3",
+      "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
+      "declarationKind": "constructor"
+    },
+    "claimTypeExpression": "port.ct3Accepts (.missingResponse payload)",
+    "evidenceSlots": [
+      {
+        "slotId": "survivor",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT2.SurvivorState framework input"
+      },
+      {
+        "slotId": "payload",
+        "valueKind": "payload",
+        "typeExpression": "StructuralExhaustion.CT2.ResponseCT3Payload framework input survivor"
+      }
+    ]
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT12-v1",
+  "nodeId": "CT12.certify.decrease",
+  "nodeKind": "certification",
+  "title": "Strict loop-measure decrease certification",
+  "human": {
+    "informal": "Execute the proof-carrying strict loop-measure decrease certification contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Meas"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT12 — Peeling loop",
+    "diagramKey": "decrease"
+  },
+  "formalContract": {
+    "contractId": "CT12.certify.decrease.contract",
+    "executionMode": "external_certificate",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT12.Nodes.Decrease",
+      "declaration": "StructuralExhaustion.CT12.Nodes.Decrease.Contract",
+      "sourceFile": "StructuralExhaustion/CT12/Nodes/Decrease.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT12.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decreased",
+        "valueKind": "certificate",
+        "typeExpression": "StructuralExhaustion.CT12.DecreasedState framework input restored"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT12.Nodes.Decrease",
+    "sourceFile": "StructuralExhaustion/CT12/Nodes/Decrease.lean",
+    "requiredRoles": [
+      "contract",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT12.Nodes.Decrease",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Decrease.Contract",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Decrease.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT12.Nodes.Decrease",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Decrease.Plan",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Decrease.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT12.Nodes.Decrease",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Decrease.run",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Decrease.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT2.terminal.ct10.criticality.schema.json",
+  "title": "CT2.terminal.ct10.criticality completed discharge record — CT10 terminal — survivor and criticality-refinement datum",
+  "description": "Concrete completed-discharge schema for semantic CT2-v2 node CT2.terminal.ct10.criticality. It fixes the runtime identity, presentation order, successful status, and exact contract evidence without converting the semantic ID back to a numbered obligation ID.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT2.terminal.ct10.criticality; it must be CT2.",
+          "const": "CT2"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for CT10 terminal — survivor and criticality-refinement datum.",
+          "const": "CT2.terminal.ct10.criticality"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation-order index for CT2.terminal.ct10.criticality; it is not part of the semantic identity.",
+          "const": 11
+        },
+        "status": {
+          "description": "Required successful completion state for CT2.terminal.ct10.criticality, matching its terminal runtime role.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "Exact contract families discharged at CT2.terminal.ct10.criticality: S-Rout, S-Trig.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires S-Rout, which constructs the declared typed CT3 or CT10 payload.",
+                "const": "S-Rout"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires S-Trig, which certifies that the selected consumer accepts the routed payload.",
+                "const": "S-Trig"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "type": "array",
+          "minItems": 2,
+          "description": "Typed contract instances for CT2.terminal.ct10.criticality; one S-Rout, S-Trig record is required for each declared family.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Discriminator for the S-Rout evidence at CT2.terminal.ct10.criticality; this instance constructs the declared typed CT3 or CT10 payload.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Discriminator for the S-Trig evidence at CT2.terminal.ct10.criticality; this instance certifies that the selected consumer accepts the routed payload.",
+                    "const": "S-Trig"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    },
+    {
+      "properties": {
+        "producedPayloads": {
+          "description": "Payload family delivered by CT2.terminal.ct10.criticality to CT10.",
+          "type": "array",
+          "contains": {
+            "const": "P_2_to_10"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "producedPayloads"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT2.terminal.ct10.criticality.O1",
+    "modality": "construct",
+    "statement": {
+      "informal": "CT10 terminal — survivor and criticality-refinement datum.",
+      "latex": "\\textbf{CT 10 exit}\\\\criticality refinement"
+    },
+    "contractSchemas": [
+      "S-Rout",
+      "S-Trig"
+    ],
+    "dependencies": [
+      "CT2.decide.survivor"
+    ],
+    "dischargeCriteria": "Supply the declared proof-carrying state, decision, certificate, or payload. Every outgoing edge is available only through its named typed constructor and evidence slots."
+  }
+}

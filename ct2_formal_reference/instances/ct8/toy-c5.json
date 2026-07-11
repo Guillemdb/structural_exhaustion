@@ -1,0 +1,86 @@
+{
+  "artifactType": "tacticInstantiation",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT8-v1",
+  "instanceId": "toy-c5",
+  "tacticId": "CT8",
+  "bindings": [
+    {
+      "slotId": "framework",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT8Toy",
+        "declaration": "StructuralExhaustion.Examples.CT8Toy.framework",
+        "sourceFile": "StructuralExhaustion/Examples/CT8Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "input",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT8Toy",
+        "declaration": "StructuralExhaustion.Examples.CT8Toy.input",
+        "sourceFile": "StructuralExhaustion/Examples/CT8Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "corePlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT8Toy",
+        "declaration": "StructuralExhaustion.Examples.CT8Toy.c5Plan",
+        "sourceFile": "StructuralExhaustion/Examples/CT8Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "port",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT8Toy",
+        "declaration": "StructuralExhaustion.Examples.CT8Toy.port",
+        "sourceFile": "StructuralExhaustion/Examples/CT8Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "handoffPlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT8Toy",
+        "declaration": "StructuralExhaustion.Examples.CT8Toy.handoff",
+        "sourceFile": "StructuralExhaustion/Examples/CT8Toy.lean",
+        "declarationKind": "definition"
+      }
+    }
+  ],
+  "expectedTerminalCase": "c5",
+  "expectedNodePath": [
+    "CT8.entry",
+    "CT8.decide.scope",
+    "CT8.certify.equivalence",
+    "CT8.decide.repetition",
+    "CT8.terminal.c5"
+  ],
+  "expectedEdgePath": [
+    "CT8.edge.begin",
+    "CT8.edge.scope.ready",
+    "CT8.edge.equivalence.certified",
+    "CT8.edge.repetition.short"
+  ],
+  "executionResultRef": {
+    "module": "StructuralExhaustion.Examples.CT8Toy",
+    "declaration": "StructuralExhaustion.Examples.CT8Toy.c5Result",
+    "sourceFile": "StructuralExhaustion/Examples/CT8Toy.lean",
+    "declarationKind": "definition"
+  },
+  "terminalTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT8Toy",
+    "declaration": "StructuralExhaustion.Examples.CT8Toy.c5_terminal",
+    "sourceFile": "StructuralExhaustion/Examples/CT8Toy.lean",
+    "declarationKind": "theorem"
+  },
+  "traceTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT8Toy",
+    "declaration": "StructuralExhaustion.Examples.CT8Toy.c5_trace",
+    "sourceFile": "StructuralExhaustion/Examples/CT8Toy.lean",
+    "declarationKind": "theorem"
+  }
+}

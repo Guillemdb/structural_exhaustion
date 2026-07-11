@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/runs/CT6.run.schema.json",
+  "title": "CT6-v1 legal semantic-machine run",
+  "description": "A legal path begins at CT6.entry, follows typed edges, and ends at one exact terminal.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT6 run discriminator.",
+          "const": "CT6"
+        },
+        "visitedNodeIds": {
+          "description": "Execution path using only CT6-v1 semantic IDs.",
+          "type": "array",
+          "items": {
+            "enum": [
+              "CT6.entry",
+              "CT6.decide.scope",
+              "CT6.terminal.scope",
+              "CT6.certify.definition",
+              "CT6.decide.activity",
+              "CT6.certify.activeLedger",
+              "CT6.terminal.ct4",
+              "CT6.decide.dormant",
+              "CT6.terminal.c1",
+              "CT6.terminal.ct3",
+              "CT6.terminal.ct7",
+              "CT6.terminal.ct9",
+              "CT6.terminal.ct10"
+            ]
+          },
+          "minItems": 2
+        },
+        "nodeRecords": {
+          "description": "Proof records aligned with the visited path.",
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "../nodes/CT6.entry.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.decide.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.terminal.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.certify.definition.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.decide.activity.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.certify.activeLedger.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.terminal.ct4.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.decide.dormant.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.terminal.c1.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.terminal.ct3.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.terminal.ct7.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.terminal.ct9.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT6.terminal.ct10.schema.json"
+              }
+            ]
+          },
+          "minItems": 2
+        },
+        "outcome": {
+          "description": "Exact terminal result of the CT6-v1 run.",
+          "properties": {
+            "terminalCase": {
+              "description": "Exact terminal-case discriminator.",
+              "enum": [
+                "scope",
+                "ct4",
+                "c1",
+                "ct3",
+                "ct7",
+                "ct9",
+                "ct10"
+              ]
+            }
+          },
+          "required": [
+            "terminalCase"
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "visitedNodeIds",
+        "nodeRecords",
+        "outcome"
+      ]
+    }
+  ],
+  "x-semanticValidationRules": [
+    "validate visitedNodeIds against the semantic transition graph",
+    "require the final node and outcome terminalCase to agree"
+  ]
+}

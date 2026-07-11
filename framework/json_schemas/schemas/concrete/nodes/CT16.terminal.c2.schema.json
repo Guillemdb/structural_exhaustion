@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT16.terminal.c2.schema.json",
+  "title": "CT16.terminal.c2 completed discharge record — C2 whole-object identification terminal",
+  "description": "Concrete completed-discharge schema for semantic CT16-v1 node CT16.terminal.c2.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT16.terminal.c2.",
+          "const": "CT16"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for C2 whole-object identification terminal.",
+          "const": "CT16.terminal.c2"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT16.terminal.c2.",
+          "const": 8
+        },
+        "status": {
+          "description": "Required successful validation state for this entry or terminal node.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT16.terminal.c2.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required A-Cert evidence.",
+                "const": "A-Cert"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT16.terminal.c2.",
+          "type": "array",
+          "minItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required A-Cert discriminator.",
+                    "const": "A-Cert"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT16.terminal.c2.O1",
+    "modality": "validate",
+    "statement": {
+      "informal": "Execute the proof-carrying c2 whole-object identification terminal contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "A-Cert"
+    ],
+    "dependencies": [
+      "CT16.decide.equality"
+    ],
+    "dischargeCriteria": "The terminal index, incoming edge, raw outcome, and certified outcome agree definitionally."
+  }
+}

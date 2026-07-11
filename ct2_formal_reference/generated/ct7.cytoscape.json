@@ -1,0 +1,431 @@
+{
+  "tacticId": "CT7",
+  "graphVersion": "CT7-v1",
+  "entryNodeId": "CT7.entry",
+  "nodes": [
+    {
+      "data": {
+        "id": "CT7.entry",
+        "label": "Validated CT7 exchange entry",
+        "nodeKind": "entry",
+        "terminalCase": null,
+        "contracts": [
+          "S-Def"
+        ],
+        "leanContract": "StructuralExhaustion.CT7.Nodes.Entry.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.decide.scope",
+        "label": "Finite context-generator scope",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Dich",
+          "A-Scope"
+        ],
+        "leanContract": "StructuralExhaustion.CT7.Nodes.Scope.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.terminal.scope",
+        "label": "Missing context-generator scope terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "scope",
+        "contracts": [
+          "A-Scope"
+        ],
+        "leanContract": "StructuralExhaustion.CT7.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.certify.context",
+        "label": "Context completeness certification",
+        "nodeKind": "certification",
+        "terminalCase": null,
+        "contracts": [
+          "S-Equiv"
+        ],
+        "leanContract": "StructuralExhaustion.CT7.Nodes.Context.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.decide.realization",
+        "label": "Target realization decision",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Dich"
+        ],
+        "leanContract": "StructuralExhaustion.CT7.Nodes.Realization.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.terminal.c1",
+        "label": "C1 target realization terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "c1",
+        "contracts": [
+          "A-Cert"
+        ],
+        "leanContract": "StructuralExhaustion.CT7.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.decide.distinction",
+        "label": "Distinguishing/neutral decision",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Dich",
+          "S-Equiv"
+        ],
+        "leanContract": "StructuralExhaustion.CT7.Nodes.Distinction.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.decide.defect",
+        "label": "Distinguishing defect routing",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Rout"
+        ],
+        "leanContract": "StructuralExhaustion.CT7.Nodes.Defect.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.terminal.c3",
+        "label": "C3 routed-defect terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "c3",
+        "contracts": [
+          "S-Rout",
+          "A-Cert"
+        ],
+        "leanContract": "StructuralExhaustion.CT7.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.terminal.ct3",
+        "label": "CT3 external-type handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct3",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT7.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.terminal.ct12",
+        "label": "CT12 peeling handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct12",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT7.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.decide.neutral",
+        "label": "Neutral compression routing",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Comp",
+          "S-Rout"
+        ],
+        "leanContract": "StructuralExhaustion.CT7.Nodes.Neutral.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.terminal.c2",
+        "label": "C2 neutral-compression terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "c2",
+        "contracts": [
+          "S-Comp",
+          "A-Cert"
+        ],
+        "leanContract": "StructuralExhaustion.CT7.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.terminal.ct10",
+        "label": "CT10 neutral-label handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct10",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT7.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.terminal.ct16",
+        "label": "CT16 whole-object handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct16",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT7.RawOutcome"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "id": "CT7.edge.begin",
+        "source": "CT7.entry",
+        "target": "CT7.decide.scope",
+        "kind": "advance",
+        "branchTag": "begin",
+        "transitionConstructor": "StructuralExhaustion.CT7.Graph.Edge.beginScope",
+        "resultConstructor": null,
+        "evidence": []
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.scope.exit",
+        "source": "CT7.decide.scope",
+        "target": "CT7.terminal.scope",
+        "kind": "scope",
+        "branchTag": "exit",
+        "transitionConstructor": "StructuralExhaustion.CT7.Graph.Edge.scopeExit",
+        "resultConstructor": "StructuralExhaustion.CT7.Nodes.Scope.Decision.exit",
+        "evidence": [
+          {
+            "slotId": "candidate",
+            "typeExpression": "StructuralExhaustion.CT7.ScopeCandidate framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.scope.ready",
+        "source": "CT7.decide.scope",
+        "target": "CT7.certify.context",
+        "kind": "advance",
+        "branchTag": "ready",
+        "transitionConstructor": "StructuralExhaustion.CT7.Graph.Edge.scopeReady",
+        "resultConstructor": "StructuralExhaustion.CT7.Nodes.Scope.Decision.ready",
+        "evidence": [
+          {
+            "slotId": "scopeState",
+            "typeExpression": "StructuralExhaustion.CT7.ScopedState framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.context.certified",
+        "source": "CT7.certify.context",
+        "target": "CT7.decide.realization",
+        "kind": "advance",
+        "branchTag": "certified",
+        "transitionConstructor": "StructuralExhaustion.CT7.Graph.Edge.contextCertified",
+        "resultConstructor": null,
+        "evidence": [
+          {
+            "slotId": "context",
+            "typeExpression": "StructuralExhaustion.CT7.ContextState framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.realization.close",
+        "source": "CT7.decide.realization",
+        "target": "CT7.terminal.c1",
+        "kind": "close",
+        "branchTag": "close",
+        "transitionConstructor": "StructuralExhaustion.CT7.Graph.Edge.realizationClose",
+        "resultConstructor": "StructuralExhaustion.CT7.Nodes.Realization.Decision.close",
+        "evidence": [
+          {
+            "slotId": "certificate",
+            "typeExpression": "StructuralExhaustion.CT7.C1Certificate framework input context"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.realization.none",
+        "source": "CT7.decide.realization",
+        "target": "CT7.decide.distinction",
+        "kind": "advance",
+        "branchTag": "unrealized",
+        "transitionConstructor": "StructuralExhaustion.CT7.Graph.Edge.realizationUnrealized",
+        "resultConstructor": "StructuralExhaustion.CT7.Nodes.Realization.Decision.unrealized",
+        "evidence": [
+          {
+            "slotId": "unrealized",
+            "typeExpression": "StructuralExhaustion.CT7.UnrealizedState framework input context"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.distinction.defect",
+        "source": "CT7.decide.distinction",
+        "target": "CT7.decide.defect",
+        "kind": "advance",
+        "branchTag": "defect",
+        "transitionConstructor": "StructuralExhaustion.CT7.Graph.Edge.distinctionDefect",
+        "resultConstructor": "StructuralExhaustion.CT7.Nodes.Distinction.Decision.defect",
+        "evidence": [
+          {
+            "slotId": "defect",
+            "typeExpression": "StructuralExhaustion.CT7.DefectState framework input unrealized"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.distinction.neutral",
+        "source": "CT7.decide.distinction",
+        "target": "CT7.decide.neutral",
+        "kind": "advance",
+        "branchTag": "neutral",
+        "transitionConstructor": "StructuralExhaustion.CT7.Graph.Edge.distinctionNeutral",
+        "resultConstructor": "StructuralExhaustion.CT7.Nodes.Distinction.Decision.neutral",
+        "evidence": [
+          {
+            "slotId": "neutral",
+            "typeExpression": "StructuralExhaustion.CT7.NeutralState framework input unrealized"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.defect.c3",
+        "source": "CT7.decide.defect",
+        "target": "CT7.terminal.c3",
+        "kind": "close",
+        "branchTag": "close",
+        "transitionConstructor": "StructuralExhaustion.CT7.Graph.Edge.defectClose",
+        "resultConstructor": "StructuralExhaustion.CT7.Nodes.Defect.Decision.close",
+        "evidence": [
+          {
+            "slotId": "certificate",
+            "typeExpression": "StructuralExhaustion.CT7.C3Certificate framework input defect"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.defect.ct3",
+        "source": "CT7.decide.defect",
+        "target": "CT7.terminal.ct3",
+        "kind": "handoff",
+        "branchTag": "toCT3",
+        "transitionConstructor": "StructuralExhaustion.CT7.Graph.Edge.defectToCT3",
+        "resultConstructor": "StructuralExhaustion.CT7.Nodes.Defect.Decision.toCT3",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT7.CT3Payload framework input defect"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.defect.ct12",
+        "source": "CT7.decide.defect",
+        "target": "CT7.terminal.ct12",
+        "kind": "handoff",
+        "branchTag": "toCT12",
+        "transitionConstructor": "StructuralExhaustion.CT7.Graph.Edge.defectToCT12",
+        "resultConstructor": "StructuralExhaustion.CT7.Nodes.Defect.Decision.toCT12",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT7.CT12Payload framework input defect"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.neutral.c2",
+        "source": "CT7.decide.neutral",
+        "target": "CT7.terminal.c2",
+        "kind": "close",
+        "branchTag": "close",
+        "transitionConstructor": "StructuralExhaustion.CT7.Graph.Edge.neutralClose",
+        "resultConstructor": "StructuralExhaustion.CT7.Nodes.Neutral.Decision.close",
+        "evidence": [
+          {
+            "slotId": "certificate",
+            "typeExpression": "StructuralExhaustion.CT7.C2Certificate framework input neutral"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.neutral.ct10",
+        "source": "CT7.decide.neutral",
+        "target": "CT7.terminal.ct10",
+        "kind": "handoff",
+        "branchTag": "toCT10",
+        "transitionConstructor": "StructuralExhaustion.CT7.Graph.Edge.neutralToCT10",
+        "resultConstructor": "StructuralExhaustion.CT7.Nodes.Neutral.Decision.toCT10",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT7.CT10Payload framework input neutral"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.neutral.ct16",
+        "source": "CT7.decide.neutral",
+        "target": "CT7.terminal.ct16",
+        "kind": "handoff",
+        "branchTag": "toCT16",
+        "transitionConstructor": "StructuralExhaustion.CT7.Graph.Edge.neutralToCT16",
+        "resultConstructor": "StructuralExhaustion.CT7.Nodes.Neutral.Decision.toCT16",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT7.CT16Payload framework input neutral"
+          }
+        ]
+      }
+    }
+  ]
+}

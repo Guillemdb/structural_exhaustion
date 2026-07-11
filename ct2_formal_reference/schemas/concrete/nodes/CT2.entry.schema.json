@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/ct2/nodes/CT2.entry.schema.json",
+  "allOf": [
+    {
+      "$ref": "../../formalization.bundle.schema.json#/$defs/formalNodeSpec"
+    },
+    {
+      "properties": {
+        "nodeId": {
+          "const": "CT2.entry"
+        },
+        "nodeKind": {
+          "const": "entry"
+        }
+      },
+      "required": [
+        "nodeId",
+        "nodeKind"
+      ]
+    }
+  ]
+}

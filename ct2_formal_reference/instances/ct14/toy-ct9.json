@@ -1,0 +1,86 @@
+{
+  "artifactType": "tacticInstantiation",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT14-v1",
+  "instanceId": "toy-ct9",
+  "tacticId": "CT14",
+  "bindings": [
+    {
+      "slotId": "framework",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT14Toy",
+        "declaration": "StructuralExhaustion.Examples.CT14Toy.framework",
+        "sourceFile": "StructuralExhaustion/Examples/CT14Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "input",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT14Toy",
+        "declaration": "StructuralExhaustion.Examples.CT14Toy.input",
+        "sourceFile": "StructuralExhaustion/Examples/CT14Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "corePlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT14Toy",
+        "declaration": "StructuralExhaustion.Examples.CT14Toy.ct9Plan",
+        "sourceFile": "StructuralExhaustion/Examples/CT14Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "port",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT14Toy",
+        "declaration": "StructuralExhaustion.Examples.CT14Toy.port",
+        "sourceFile": "StructuralExhaustion/Examples/CT14Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "handoffPlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT14Toy",
+        "declaration": "StructuralExhaustion.Examples.CT14Toy.handoff",
+        "sourceFile": "StructuralExhaustion/Examples/CT14Toy.lean",
+        "declarationKind": "definition"
+      }
+    }
+  ],
+  "expectedTerminalCase": "ct9",
+  "expectedNodePath": [
+    "CT14.entry",
+    "CT14.decide.scope",
+    "CT14.certify.bounds",
+    "CT14.decide.multiplicity",
+    "CT14.terminal.ct9"
+  ],
+  "expectedEdgePath": [
+    "CT14.edge.begin",
+    "CT14.edge.scope.ready",
+    "CT14.edge.bounds.certified",
+    "CT14.edge.multiplicity.unbounded"
+  ],
+  "executionResultRef": {
+    "module": "StructuralExhaustion.Examples.CT14Toy",
+    "declaration": "StructuralExhaustion.Examples.CT14Toy.ct9Result",
+    "sourceFile": "StructuralExhaustion/Examples/CT14Toy.lean",
+    "declarationKind": "definition"
+  },
+  "terminalTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT14Toy",
+    "declaration": "StructuralExhaustion.Examples.CT14Toy.ct9_terminal",
+    "sourceFile": "StructuralExhaustion/Examples/CT14Toy.lean",
+    "declarationKind": "theorem"
+  },
+  "traceTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT14Toy",
+    "declaration": "StructuralExhaustion.Examples.CT14Toy.ct9_trace",
+    "sourceFile": "StructuralExhaustion/Examples/CT14Toy.lean",
+    "declarationKind": "theorem"
+  }
+}

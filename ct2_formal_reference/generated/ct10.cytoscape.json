@@ -1,0 +1,360 @@
+{
+  "tacticId": "CT10",
+  "graphVersion": "CT10-v1",
+  "entryNodeId": "CT10.entry",
+  "nodes": [
+    {
+      "data": {
+        "id": "CT10.entry",
+        "label": "Validated CT10 residual-class entry",
+        "nodeKind": "entry",
+        "terminalCase": null,
+        "contracts": [
+          "S-Def"
+        ],
+        "leanContract": "StructuralExhaustion.CT10.Nodes.Entry.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.decide.scope",
+        "label": "Finite refinement-alphabet scope",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Dich",
+          "A-Scope"
+        ],
+        "leanContract": "StructuralExhaustion.CT10.Nodes.Scope.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.terminal.scope",
+        "label": "Infinite-alphabet scope terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "scope",
+        "contracts": [
+          "A-Scope"
+        ],
+        "leanContract": "StructuralExhaustion.CT10.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.certify.labels",
+        "label": "Label-class exhaustion certification",
+        "nodeKind": "certification",
+        "terminalCase": null,
+        "contracts": [
+          "S-Def",
+          "S-Comp"
+        ],
+        "leanContract": "StructuralExhaustion.CT10.Nodes.Labels.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.decide.classification",
+        "label": "Refined-class classification",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Dich",
+          "S-Comp",
+          "S-Rout"
+        ],
+        "leanContract": "StructuralExhaustion.CT10.Nodes.Classification.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.terminal.c5",
+        "label": "C5 finite-class exhaustion terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "c5",
+        "contracts": [
+          "S-Comp",
+          "A-Cert"
+        ],
+        "leanContract": "StructuralExhaustion.CT10.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.decide.direct",
+        "label": "Direct class-result routing",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Rout"
+        ],
+        "leanContract": "StructuralExhaustion.CT10.Nodes.Direct.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.terminal.ct3",
+        "label": "CT3 promoted-response handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct3",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT10.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.terminal.ct7",
+        "label": "CT7 class-exchange handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct7",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT10.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.certify.promotion",
+        "label": "Missing-datum promotion certification",
+        "nodeKind": "certification",
+        "terminalCase": null,
+        "contracts": [
+          "S-Def"
+        ],
+        "leanContract": "StructuralExhaustion.CT10.Nodes.Promotion.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.decide.promotedRouting",
+        "label": "Promoted-invariant routing",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Rout"
+        ],
+        "leanContract": "StructuralExhaustion.CT10.Nodes.PromotedRouting.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.terminal.ct15",
+        "label": "CT15 rank-datum handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct15",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT10.RawOutcome"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "id": "CT10.edge.begin",
+        "source": "CT10.entry",
+        "target": "CT10.decide.scope",
+        "kind": "advance",
+        "branchTag": "begin",
+        "transitionConstructor": "StructuralExhaustion.CT10.Graph.Edge.beginScope",
+        "resultConstructor": null,
+        "evidence": []
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.scope.exit",
+        "source": "CT10.decide.scope",
+        "target": "CT10.terminal.scope",
+        "kind": "scope",
+        "branchTag": "exit",
+        "transitionConstructor": "StructuralExhaustion.CT10.Graph.Edge.scopeExit",
+        "resultConstructor": "StructuralExhaustion.CT10.Nodes.Scope.Decision.exit",
+        "evidence": [
+          {
+            "slotId": "candidate",
+            "typeExpression": "StructuralExhaustion.CT10.ScopeCandidate framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.scope.ready",
+        "source": "CT10.decide.scope",
+        "target": "CT10.certify.labels",
+        "kind": "advance",
+        "branchTag": "ready",
+        "transitionConstructor": "StructuralExhaustion.CT10.Graph.Edge.scopeReady",
+        "resultConstructor": "StructuralExhaustion.CT10.Nodes.Scope.Decision.ready",
+        "evidence": [
+          {
+            "slotId": "scopeState",
+            "typeExpression": "StructuralExhaustion.CT10.ScopedState framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.labels.certified",
+        "source": "CT10.certify.labels",
+        "target": "CT10.decide.classification",
+        "kind": "advance",
+        "branchTag": "certified",
+        "transitionConstructor": "StructuralExhaustion.CT10.Graph.Edge.labelsCertified",
+        "resultConstructor": null,
+        "evidence": [
+          {
+            "slotId": "labels",
+            "typeExpression": "StructuralExhaustion.CT10.LabelState framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.classification.close",
+        "source": "CT10.decide.classification",
+        "target": "CT10.terminal.c5",
+        "kind": "close",
+        "branchTag": "close",
+        "transitionConstructor": "StructuralExhaustion.CT10.Graph.Edge.classificationClose",
+        "resultConstructor": "StructuralExhaustion.CT10.Nodes.Classification.Decision.close",
+        "evidence": [
+          {
+            "slotId": "certificate",
+            "typeExpression": "StructuralExhaustion.CT10.C5Certificate framework input labels"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.classification.direct",
+        "source": "CT10.decide.classification",
+        "target": "CT10.decide.direct",
+        "kind": "advance",
+        "branchTag": "direct",
+        "transitionConstructor": "StructuralExhaustion.CT10.Graph.Edge.classificationDirect",
+        "resultConstructor": "StructuralExhaustion.CT10.Nodes.Classification.Decision.direct",
+        "evidence": [
+          {
+            "slotId": "direct",
+            "typeExpression": "StructuralExhaustion.CT10.DirectState framework input labels"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.classification.missing",
+        "source": "CT10.decide.classification",
+        "target": "CT10.certify.promotion",
+        "kind": "advance",
+        "branchTag": "missing",
+        "transitionConstructor": "StructuralExhaustion.CT10.Graph.Edge.classificationMissing",
+        "resultConstructor": "StructuralExhaustion.CT10.Nodes.Classification.Decision.missing",
+        "evidence": [
+          {
+            "slotId": "missing",
+            "typeExpression": "StructuralExhaustion.CT10.MissingState framework input labels"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.direct.ct3",
+        "source": "CT10.decide.direct",
+        "target": "CT10.terminal.ct3",
+        "kind": "handoff",
+        "branchTag": "toCT3",
+        "transitionConstructor": "StructuralExhaustion.CT10.Graph.Edge.directToCT3",
+        "resultConstructor": "StructuralExhaustion.CT10.Nodes.Direct.Decision.toCT3",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT10.DirectCT3Payload framework input direct"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.direct.ct7",
+        "source": "CT10.decide.direct",
+        "target": "CT10.terminal.ct7",
+        "kind": "handoff",
+        "branchTag": "toCT7",
+        "transitionConstructor": "StructuralExhaustion.CT10.Graph.Edge.directToCT7",
+        "resultConstructor": "StructuralExhaustion.CT10.Nodes.Direct.Decision.toCT7",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT10.CT7Payload framework input direct"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.promotion.certified",
+        "source": "CT10.certify.promotion",
+        "target": "CT10.decide.promotedRouting",
+        "kind": "advance",
+        "branchTag": "certified",
+        "transitionConstructor": "StructuralExhaustion.CT10.Graph.Edge.promotionCertified",
+        "resultConstructor": null,
+        "evidence": [
+          {
+            "slotId": "promoted",
+            "typeExpression": "StructuralExhaustion.CT10.PromotedState framework input missing"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.promoted.ct3",
+        "source": "CT10.decide.promotedRouting",
+        "target": "CT10.terminal.ct3",
+        "kind": "handoff",
+        "branchTag": "toCT3",
+        "transitionConstructor": "StructuralExhaustion.CT10.Graph.Edge.promotedToCT3",
+        "resultConstructor": "StructuralExhaustion.CT10.Nodes.PromotedRouting.Decision.toCT3",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT10.PromotedCT3Payload framework input promoted"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.promoted.ct15",
+        "source": "CT10.decide.promotedRouting",
+        "target": "CT10.terminal.ct15",
+        "kind": "handoff",
+        "branchTag": "toCT15",
+        "transitionConstructor": "StructuralExhaustion.CT10.Graph.Edge.promotedToCT15",
+        "resultConstructor": "StructuralExhaustion.CT10.Nodes.PromotedRouting.Decision.toCT15",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT10.CT15Payload framework input promoted"
+          }
+        ]
+      }
+    }
+  ]
+}

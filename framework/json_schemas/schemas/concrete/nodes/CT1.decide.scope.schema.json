@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT1.decide.scope.schema.json",
+  "title": "CT1.decide.scope completed discharge record — Scope admission",
+  "description": "Concrete completed-discharge schema for semantic CT1-v1 node CT1.decide.scope.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT1.decide.scope; it must be CT1.",
+          "const": "CT1"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for Scope admission.",
+          "const": "CT1.decide.scope"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation-order index for CT1.decide.scope.",
+          "const": 2
+        },
+        "status": {
+          "description": "Required successful proof state for this executable machine node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "Exact contract families discharged at CT1.decide.scope: S-Dich, A-Scope.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires S-Dich, which provides the exhaustive proof-carrying alternatives.",
+                "const": "S-Dich"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires A-Scope, which records the typed scope obstruction.",
+                "const": "A-Scope"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "type": "array",
+          "minItems": 2,
+          "description": "Typed contract instances for CT1.decide.scope; every declared family is required.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Discriminator for S-Dich evidence at CT1.decide.scope; it provides the exhaustive proof-carrying alternatives.",
+                    "const": "S-Dich"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Discriminator for A-Scope evidence at CT1.decide.scope; it records the typed scope obstruction.",
+                    "const": "A-Scope"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT1.decide.scope.O1",
+    "modality": "decide",
+    "statement": {
+      "informal": "Decide between a typed scope exit and a scope-ready state.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Dich",
+      "A-Scope"
+    ],
+    "dependencies": [
+      "CT1.entry"
+    ],
+    "dischargeCriteria": "The Lean contract resolves and its constructors match the outgoing typed edges exactly."
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT11.terminal.ct10.schema.json",
+  "title": "CT11.terminal.ct10 completed discharge record — CT10 admissibility-gap handoff",
+  "description": "Concrete completed-discharge schema for semantic CT11-v1 node CT11.terminal.ct10.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT11.terminal.ct10.",
+          "const": "CT11"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for CT10 admissibility-gap handoff.",
+          "const": "CT11.terminal.ct10"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT11.terminal.ct10.",
+          "const": 6
+        },
+        "status": {
+          "description": "Required successful validation state for this entry or terminal node.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT11.terminal.ct10.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 2,
+          "maxItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Rout evidence.",
+                "const": "S-Rout"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required S-Trig evidence.",
+                "const": "S-Trig"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT11.terminal.ct10.",
+          "type": "array",
+          "minItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Rout discriminator.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Trig discriminator.",
+                    "const": "S-Trig"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT11.terminal.ct10.O1",
+    "modality": "construct",
+    "statement": {
+      "informal": "Execute the proof-carrying ct10 admissibility-gap handoff contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Rout",
+      "S-Trig"
+    ],
+    "dependencies": [
+      "CT11.decide.admissibility"
+    ],
+    "dischargeCriteria": "The terminal index, incoming edge, raw outcome, and certified outcome agree definitionally."
+  }
+}

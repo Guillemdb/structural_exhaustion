@@ -1,0 +1,142 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT4-v1",
+  "nodeId": "CT4.decide.availability",
+  "nodeKind": "decision",
+  "title": "Payer availability decision",
+  "human": {
+    "informal": "Execute the proof-carrying payer availability decision contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Dich",
+    "S-Det",
+    "S-Rout"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT4 — Charging schemes",
+    "diagramKey": "availability"
+  },
+  "formalContract": {
+    "contractId": "CT4.decide.availability.contract",
+    "executionMode": "computable",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT4.Nodes.Availability",
+      "declaration": "StructuralExhaustion.CT4.Nodes.Availability.Contract",
+      "sourceFile": "StructuralExhaustion/CT4/Nodes/Availability.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT4.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT4.Nodes.Availability.Contract framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node.",
+    "branches": [
+      {
+        "branchTag": "missing",
+        "meaning": "Return the proof-carrying missing constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT4.Nodes.Availability",
+          "declaration": "StructuralExhaustion.CT4.Nodes.Availability.Decision.missing",
+          "sourceFile": "StructuralExhaustion/CT4/Nodes/Availability.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT4.CT13Payload framework input assignment"
+          }
+        ],
+        "transitionId": "CT4.edge.availability.missing"
+      },
+      {
+        "branchTag": "total",
+        "meaning": "Return the proof-carrying total constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT4.Nodes.Availability",
+          "declaration": "StructuralExhaustion.CT4.Nodes.Availability.Decision.total",
+          "sourceFile": "StructuralExhaustion/CT4/Nodes/Availability.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "total",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT4.TotalAssignmentState framework input assignment"
+          }
+        ],
+        "transitionId": "CT4.edge.availability.total"
+      }
+    ]
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT4.Nodes.Availability",
+    "sourceFile": "StructuralExhaustion/CT4/Nodes/Availability.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT4.Nodes.Availability",
+          "declaration": "StructuralExhaustion.CT4.Nodes.Availability.Contract",
+          "sourceFile": "StructuralExhaustion/CT4/Nodes/Availability.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT4.Nodes.Availability",
+          "declaration": "StructuralExhaustion.CT4.Nodes.Availability.Decision",
+          "sourceFile": "StructuralExhaustion/CT4/Nodes/Availability.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT4.Nodes.Availability",
+          "declaration": "StructuralExhaustion.CT4.Nodes.Availability.Plan",
+          "sourceFile": "StructuralExhaustion/CT4/Nodes/Availability.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT4.Nodes.Availability",
+          "declaration": "StructuralExhaustion.CT4.Nodes.Availability.run",
+          "sourceFile": "StructuralExhaustion/CT4/Nodes/Availability.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

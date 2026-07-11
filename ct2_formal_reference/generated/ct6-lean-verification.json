@@ -1,0 +1,436 @@
+{
+  "artifactType": "leanVerificationResult",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT6-v1",
+  "verificationId": "CT6.local.2026-07-11T01:07:58+00:00",
+  "tacticId": "CT6",
+  "status": "kernel_checked",
+  "toolchain": {
+    "leanToolchain": "leanprover/lean4:v4.31.0",
+    "lakefileHash": "8db204bcd9258ceacd30cdaa7842d1d1e05ffb8e06eee2f9b7c2c5ee31de4ae7",
+    "leanVersionObserved": "Lean (version 4.31.0, x86_64-unknown-linux-gnu, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)"
+  },
+  "nodeResults": [
+    {
+      "nodeId": "CT6.entry",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Entry.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT6.Framework) : Type",
+          "sourceHash": "7565103814f09d75d8b47d022a2e910d5e861646f94e0891d931603e9ddb0fe6"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Entry.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} (input : StructuralExhaustion.CT6.Input F) : StructuralExhaustion.CT6.Nodes.Entry.Contract F",
+          "sourceHash": "7565103814f09d75d8b47d022a2e910d5e861646f94e0891d931603e9ddb0fe6"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT6.decide.scope",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Scope.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT6.Framework) (input : StructuralExhaustion.CT6.Input F) : Type",
+          "sourceHash": "d9f76b7e673c6830bcb9a7a51e10e9e6abf86c4c98b4c6f19a4151fb5a8066be"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Scope.Decision",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT6.Framework) (input : StructuralExhaustion.CT6.Input F) : Type",
+          "sourceHash": "d9f76b7e673c6830bcb9a7a51e10e9e6abf86c4c98b4c6f19a4151fb5a8066be"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Scope.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT6.Framework) (input : StructuralExhaustion.CT6.Input F) : Type",
+          "sourceHash": "d9f76b7e673c6830bcb9a7a51e10e9e6abf86c4c98b4c6f19a4151fb5a8066be"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Scope.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} (_entry : StructuralExhaustion.CT6.Input F) (plan : StructuralExhaustion.CT6.Nodes.Scope.Plan F input) : StructuralExhaustion.CT6.Nodes.Scope.Contract F input",
+          "sourceHash": "d9f76b7e673c6830bcb9a7a51e10e9e6abf86c4c98b4c6f19a4151fb5a8066be"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT6.terminal.scope",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.Terminal.scope",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT6.Graph.Terminal",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.NodeId.scopeTerminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT6.Graph.NodeId",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.RawOutcome.scope",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} (candidate : StructuralExhaustion.CT6.ScopeCandidate F input) : StructuralExhaustion.CT6.RawOutcome F input StructuralExhaustion.CT6.Graph.Terminal.scope",
+          "sourceHash": "233c46b1a93fc770cd9f243ba2c16adb14772f8e5193ad736a99b9122ee23f2b"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Outcome.scope",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} {port : StructuralExhaustion.CT6.Port F input} (candidate : StructuralExhaustion.CT6.ScopeCandidate F input) : StructuralExhaustion.CT6.Outcome F input port StructuralExhaustion.CT6.Graph.Terminal.scope",
+          "sourceHash": "233c46b1a93fc770cd9f243ba2c16adb14772f8e5193ad736a99b9122ee23f2b"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT6.certify.definition",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Definition.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT6.Framework) (input : StructuralExhaustion.CT6.Input F) : Prop",
+          "sourceHash": "79a36c85789cbbedcb4ea8296f7f036ae991c0d93b14584af9736665cb3e3bcb"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Definition.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT6.Framework) (input : StructuralExhaustion.CT6.Input F) : Prop",
+          "sourceHash": "79a36c85789cbbedcb4ea8296f7f036ae991c0d93b14584af9736665cb3e3bcb"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Definition.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} (plan : StructuralExhaustion.CT6.Nodes.Definition.Plan F input) (scope : StructuralExhaustion.CT6.ScopedState F input) : StructuralExhaustion.CT6.DefinitionState F input",
+          "sourceHash": "79a36c85789cbbedcb4ea8296f7f036ae991c0d93b14584af9736665cb3e3bcb"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT6.decide.activity",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Activity.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT6.Framework) (input : StructuralExhaustion.CT6.Input F) (definition : StructuralExhaustion.CT6.DefinitionState F input) : Type",
+          "sourceHash": "f68a758cf24ff98185fc3492c1c00ae6db38741c5621107d2fe0b159b8ba0636"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Activity.Decision",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT6.Framework) (input : StructuralExhaustion.CT6.Input F) (definition : StructuralExhaustion.CT6.DefinitionState F input) : Type",
+          "sourceHash": "f68a758cf24ff98185fc3492c1c00ae6db38741c5621107d2fe0b159b8ba0636"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Activity.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT6.Framework) (input : StructuralExhaustion.CT6.Input F) : Type",
+          "sourceHash": "f68a758cf24ff98185fc3492c1c00ae6db38741c5621107d2fe0b159b8ba0636"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Activity.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} (plan : StructuralExhaustion.CT6.Nodes.Activity.Plan F input) (definition : StructuralExhaustion.CT6.DefinitionState F input) : StructuralExhaustion.CT6.Nodes.Activity.Contract F input definition",
+          "sourceHash": "f68a758cf24ff98185fc3492c1c00ae6db38741c5621107d2fe0b159b8ba0636"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT6.certify.activeLedger",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.ActiveLedger.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT6.Framework) (input : StructuralExhaustion.CT6.Input F) {definition : StructuralExhaustion.CT6.DefinitionState F input} (active : StructuralExhaustion.CT6.ActiveState F input definition) : Type",
+          "sourceHash": "3d1363fd04daa8f8be0cc9b5c7ed21d6055eb32f7557c14784e76b56e34b2501"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.ActiveLedger.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT6.Framework) (input : StructuralExhaustion.CT6.Input F) : Type",
+          "sourceHash": "3d1363fd04daa8f8be0cc9b5c7ed21d6055eb32f7557c14784e76b56e34b2501"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.ActiveLedger.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} (plan : StructuralExhaustion.CT6.Nodes.ActiveLedger.Plan F input) {definition : StructuralExhaustion.CT6.DefinitionState F input} (active : StructuralExhaustion.CT6.ActiveState F input definition) : StructuralExhaustion.CT6.Nodes.ActiveLedger.Contract F input active",
+          "sourceHash": "3d1363fd04daa8f8be0cc9b5c7ed21d6055eb32f7557c14784e76b56e34b2501"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT6.terminal.ct4",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.Terminal.ct4",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT6.Graph.Terminal",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.NodeId.ct4Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT6.Graph.NodeId",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.RawOutcome.ct4",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} {definition : StructuralExhaustion.CT6.DefinitionState F input} {active : StructuralExhaustion.CT6.ActiveState F input definition} (payload : StructuralExhaustion.CT6.CT4Payload F input active) : StructuralExhaustion.CT6.RawOutcome F input StructuralExhaustion.CT6.Graph.Terminal.ct4",
+          "sourceHash": "233c46b1a93fc770cd9f243ba2c16adb14772f8e5193ad736a99b9122ee23f2b"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Outcome.ct4",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} {port : StructuralExhaustion.CT6.Port F input} {definition : StructuralExhaustion.CT6.DefinitionState F input} {active : StructuralExhaustion.CT6.ActiveState F input definition} (payload : StructuralExhaustion.CT6.CT4Payload F input active) (accepted : port.accepts (StructuralExhaustion.CT6.HandoffPayload.ct4 payload)) : StructuralExhaustion.CT6.Outcome F input port StructuralExhaustion.CT6.Graph.Terminal.ct4",
+          "sourceHash": "233c46b1a93fc770cd9f243ba2c16adb14772f8e5193ad736a99b9122ee23f2b"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT6.decide.dormant",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Dormant.Contract",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT6.Framework) (input : StructuralExhaustion.CT6.Input F) {definition : StructuralExhaustion.CT6.DefinitionState F input} (dormant : StructuralExhaustion.CT6.DormantState F input definition) : Type",
+          "sourceHash": "e524ae878fd11cccd9bab5154d41754e7a153b39066b2aeb25c427d855bd9afa"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Dormant.Decision",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT6.Framework) (input : StructuralExhaustion.CT6.Input F) {definition : StructuralExhaustion.CT6.DefinitionState F input} (dormant : StructuralExhaustion.CT6.DormantState F input definition) : Type",
+          "sourceHash": "e524ae878fd11cccd9bab5154d41754e7a153b39066b2aeb25c427d855bd9afa"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Dormant.Plan",
+          "status": "kernel_checked",
+          "actualType": "(F : StructuralExhaustion.CT6.Framework) (input : StructuralExhaustion.CT6.Input F) : Type",
+          "sourceHash": "e524ae878fd11cccd9bab5154d41754e7a153b39066b2aeb25c427d855bd9afa"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Nodes.Dormant.run",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} (plan : StructuralExhaustion.CT6.Nodes.Dormant.Plan F input) {definition : StructuralExhaustion.CT6.DefinitionState F input} (dormant : StructuralExhaustion.CT6.DormantState F input definition) : StructuralExhaustion.CT6.Nodes.Dormant.Contract F input dormant",
+          "sourceHash": "e524ae878fd11cccd9bab5154d41754e7a153b39066b2aeb25c427d855bd9afa"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT6.terminal.c1",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.Terminal.c1",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT6.Graph.Terminal",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.NodeId.c1Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT6.Graph.NodeId",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.RawOutcome.c1",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} {definition : StructuralExhaustion.CT6.DefinitionState F input} {dormant : StructuralExhaustion.CT6.DormantState F input definition} (certificate : StructuralExhaustion.CT6.C1Certificate F input dormant) : StructuralExhaustion.CT6.RawOutcome F input StructuralExhaustion.CT6.Graph.Terminal.c1",
+          "sourceHash": "233c46b1a93fc770cd9f243ba2c16adb14772f8e5193ad736a99b9122ee23f2b"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Outcome.c1",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} {port : StructuralExhaustion.CT6.Port F input} {definition : StructuralExhaustion.CT6.DefinitionState F input} {dormant : StructuralExhaustion.CT6.DormantState F input definition} (certificate : StructuralExhaustion.CT6.C1Certificate F input dormant) : StructuralExhaustion.CT6.Outcome F input port StructuralExhaustion.CT6.Graph.Terminal.c1",
+          "sourceHash": "233c46b1a93fc770cd9f243ba2c16adb14772f8e5193ad736a99b9122ee23f2b"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT6.terminal.ct3",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.Terminal.ct3",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT6.Graph.Terminal",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.NodeId.ct3Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT6.Graph.NodeId",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.RawOutcome.ct3",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} {definition : StructuralExhaustion.CT6.DefinitionState F input} {dormant : StructuralExhaustion.CT6.DormantState F input definition} (payload : StructuralExhaustion.CT6.CT3Payload F input dormant) : StructuralExhaustion.CT6.RawOutcome F input StructuralExhaustion.CT6.Graph.Terminal.ct3",
+          "sourceHash": "233c46b1a93fc770cd9f243ba2c16adb14772f8e5193ad736a99b9122ee23f2b"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Outcome.ct3",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} {port : StructuralExhaustion.CT6.Port F input} {definition : StructuralExhaustion.CT6.DefinitionState F input} {dormant : StructuralExhaustion.CT6.DormantState F input definition} (payload : StructuralExhaustion.CT6.CT3Payload F input dormant) (accepted : port.accepts (StructuralExhaustion.CT6.HandoffPayload.ct3 payload)) : StructuralExhaustion.CT6.Outcome F input port StructuralExhaustion.CT6.Graph.Terminal.ct3",
+          "sourceHash": "233c46b1a93fc770cd9f243ba2c16adb14772f8e5193ad736a99b9122ee23f2b"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT6.terminal.ct7",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.Terminal.ct7",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT6.Graph.Terminal",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.NodeId.ct7Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT6.Graph.NodeId",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.RawOutcome.ct7",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} {definition : StructuralExhaustion.CT6.DefinitionState F input} {dormant : StructuralExhaustion.CT6.DormantState F input definition} (payload : StructuralExhaustion.CT6.CT7Payload F input dormant) : StructuralExhaustion.CT6.RawOutcome F input StructuralExhaustion.CT6.Graph.Terminal.ct7",
+          "sourceHash": "233c46b1a93fc770cd9f243ba2c16adb14772f8e5193ad736a99b9122ee23f2b"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Outcome.ct7",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} {port : StructuralExhaustion.CT6.Port F input} {definition : StructuralExhaustion.CT6.DefinitionState F input} {dormant : StructuralExhaustion.CT6.DormantState F input definition} (payload : StructuralExhaustion.CT6.CT7Payload F input dormant) (accepted : port.accepts (StructuralExhaustion.CT6.HandoffPayload.ct7 payload)) : StructuralExhaustion.CT6.Outcome F input port StructuralExhaustion.CT6.Graph.Terminal.ct7",
+          "sourceHash": "233c46b1a93fc770cd9f243ba2c16adb14772f8e5193ad736a99b9122ee23f2b"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT6.terminal.ct9",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.Terminal.ct9",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT6.Graph.Terminal",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.NodeId.ct9Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT6.Graph.NodeId",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.RawOutcome.ct9",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} {definition : StructuralExhaustion.CT6.DefinitionState F input} {dormant : StructuralExhaustion.CT6.DormantState F input definition} (payload : StructuralExhaustion.CT6.CT9Payload F input dormant) : StructuralExhaustion.CT6.RawOutcome F input StructuralExhaustion.CT6.Graph.Terminal.ct9",
+          "sourceHash": "233c46b1a93fc770cd9f243ba2c16adb14772f8e5193ad736a99b9122ee23f2b"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Outcome.ct9",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} {port : StructuralExhaustion.CT6.Port F input} {definition : StructuralExhaustion.CT6.DefinitionState F input} {dormant : StructuralExhaustion.CT6.DormantState F input definition} (payload : StructuralExhaustion.CT6.CT9Payload F input dormant) (accepted : port.accepts (StructuralExhaustion.CT6.HandoffPayload.ct9 payload)) : StructuralExhaustion.CT6.Outcome F input port StructuralExhaustion.CT6.Graph.Terminal.ct9",
+          "sourceHash": "233c46b1a93fc770cd9f243ba2c16adb14772f8e5193ad736a99b9122ee23f2b"
+        }
+      ]
+    },
+    {
+      "nodeId": "CT6.terminal.ct10",
+      "status": "kernel_checked",
+      "declarations": [
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.Terminal",
+          "status": "kernel_checked",
+          "actualType": "Type",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.Terminal.ct10",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT6.Graph.Terminal",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Graph.NodeId.ct10Terminal",
+          "status": "kernel_checked",
+          "actualType": "StructuralExhaustion.CT6.Graph.NodeId",
+          "sourceHash": "0c385086e983f84a576a2dbbce8df97851da54b692717e604b513e7e78d1b1b7"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.RawOutcome.ct10",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} {definition : StructuralExhaustion.CT6.DefinitionState F input} {dormant : StructuralExhaustion.CT6.DormantState F input definition} (payload : StructuralExhaustion.CT6.CT10Payload F input dormant) : StructuralExhaustion.CT6.RawOutcome F input StructuralExhaustion.CT6.Graph.Terminal.ct10",
+          "sourceHash": "233c46b1a93fc770cd9f243ba2c16adb14772f8e5193ad736a99b9122ee23f2b"
+        },
+        {
+          "declaration": "StructuralExhaustion.CT6.Outcome.ct10",
+          "status": "kernel_checked",
+          "actualType": "{F : StructuralExhaustion.CT6.Framework} {input : StructuralExhaustion.CT6.Input F} {port : StructuralExhaustion.CT6.Port F input} {definition : StructuralExhaustion.CT6.DefinitionState F input} {dormant : StructuralExhaustion.CT6.DormantState F input definition} (payload : StructuralExhaustion.CT6.CT10Payload F input dormant) (accepted : port.accepts (StructuralExhaustion.CT6.HandoffPayload.ct10 payload)) : StructuralExhaustion.CT6.Outcome F input port StructuralExhaustion.CT6.Graph.Terminal.ct10",
+          "sourceHash": "233c46b1a93fc770cd9f243ba2c16adb14772f8e5193ad736a99b9122ee23f2b"
+        }
+      ]
+    }
+  ],
+  "aggregateResults": {
+    "toolchain": "passed",
+    "build": "passed",
+    "bindingResolution": "passed",
+    "nodeBindings": "passed",
+    "sourceFiles": "passed",
+    "noAdmissions": "passed",
+    "soundness": "passed",
+    "totality": "passed",
+    "traceValidity": "passed",
+    "terminalCoverage": "passed"
+  },
+  "diagnostics": []
+}

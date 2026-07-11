@@ -1,0 +1,252 @@
+{
+  "tacticId": "CT14",
+  "graphVersion": "CT14-v1",
+  "entryNodeId": "CT14.entry",
+  "nodes": [
+    {
+      "data": {
+        "id": "CT14.entry",
+        "label": "Validated CT14 residual-class entry",
+        "nodeKind": "entry",
+        "terminalCase": null,
+        "contracts": [
+          "S-Def"
+        ],
+        "leanContract": "StructuralExhaustion.CT14.Nodes.Entry.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.decide.scope",
+        "label": "Finite capacity-description scope",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "A-Scope"
+        ],
+        "leanContract": "StructuralExhaustion.CT14.Nodes.Scope.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.terminal.scope",
+        "label": "Missing capacity-description scope terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "scope",
+        "contracts": [
+          "A-Scope"
+        ],
+        "leanContract": "StructuralExhaustion.CT14.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.certify.bounds",
+        "label": "Lower and upper aggregate-bound certification",
+        "nodeKind": "certification",
+        "terminalCase": null,
+        "contracts": [
+          "S-Comp"
+        ],
+        "leanContract": "StructuralExhaustion.CT14.Nodes.Bounds.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.decide.multiplicity",
+        "label": "Carried-charge multiplicity decision",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Dich",
+          "S-Comp",
+          "S-Rout"
+        ],
+        "leanContract": "StructuralExhaustion.CT14.Nodes.Multiplicity.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.terminal.ct9",
+        "label": "CT9 unbounded-member handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct9",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT14.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.terminal.ct10",
+        "label": "CT10 missing-capacity-label handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct10",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT14.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.certify.comparison",
+        "label": "Aggregate comparison certification",
+        "nodeKind": "certification",
+        "terminalCase": null,
+        "contracts": [
+          "S-Comp"
+        ],
+        "leanContract": "StructuralExhaustion.CT14.Nodes.Comparison.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.terminal.c4",
+        "label": "C4 aggregate-capacity terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "c4",
+        "contracts": [
+          "A-Cert"
+        ],
+        "leanContract": "StructuralExhaustion.CT14.RawOutcome"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "id": "CT14.edge.begin",
+        "source": "CT14.entry",
+        "target": "CT14.decide.scope",
+        "kind": "advance",
+        "branchTag": "begin",
+        "transitionConstructor": "StructuralExhaustion.CT14.Graph.Edge.beginScope",
+        "resultConstructor": null,
+        "evidence": []
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.edge.scope.exit",
+        "source": "CT14.decide.scope",
+        "target": "CT14.terminal.scope",
+        "kind": "scope",
+        "branchTag": "exit",
+        "transitionConstructor": "StructuralExhaustion.CT14.Graph.Edge.scopeExit",
+        "resultConstructor": "StructuralExhaustion.CT14.Nodes.Scope.Decision.exit",
+        "evidence": [
+          {
+            "slotId": "candidate",
+            "typeExpression": "StructuralExhaustion.CT14.ScopeCandidate framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.edge.scope.ready",
+        "source": "CT14.decide.scope",
+        "target": "CT14.certify.bounds",
+        "kind": "advance",
+        "branchTag": "ready",
+        "transitionConstructor": "StructuralExhaustion.CT14.Graph.Edge.scopeReady",
+        "resultConstructor": "StructuralExhaustion.CT14.Nodes.Scope.Decision.ready",
+        "evidence": [
+          {
+            "slotId": "scope",
+            "typeExpression": "StructuralExhaustion.CT14.ScopedState framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.edge.bounds.certified",
+        "source": "CT14.certify.bounds",
+        "target": "CT14.decide.multiplicity",
+        "kind": "advance",
+        "branchTag": "certified",
+        "transitionConstructor": "StructuralExhaustion.CT14.Graph.Edge.boundsCertified",
+        "resultConstructor": null,
+        "evidence": [
+          {
+            "slotId": "bounds",
+            "typeExpression": "StructuralExhaustion.CT14.BoundsState framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.edge.multiplicity.unbounded",
+        "source": "CT14.decide.multiplicity",
+        "target": "CT14.terminal.ct9",
+        "kind": "handoff",
+        "branchTag": "unbounded",
+        "transitionConstructor": "StructuralExhaustion.CT14.Graph.Edge.multiplicityUnbounded",
+        "resultConstructor": "StructuralExhaustion.CT14.Nodes.Multiplicity.Decision.unbounded",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT14.CT9Payload framework input bounds"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.edge.multiplicity.missing",
+        "source": "CT14.decide.multiplicity",
+        "target": "CT14.terminal.ct10",
+        "kind": "handoff",
+        "branchTag": "missingLabel",
+        "transitionConstructor": "StructuralExhaustion.CT14.Graph.Edge.multiplicityMissing",
+        "resultConstructor": "StructuralExhaustion.CT14.Nodes.Multiplicity.Decision.missingLabel",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT14.CT10Payload framework input bounds"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.edge.multiplicity.counted",
+        "source": "CT14.decide.multiplicity",
+        "target": "CT14.certify.comparison",
+        "kind": "advance",
+        "branchTag": "counted",
+        "transitionConstructor": "StructuralExhaustion.CT14.Graph.Edge.multiplicityCounted",
+        "resultConstructor": "StructuralExhaustion.CT14.Nodes.Multiplicity.Decision.counted",
+        "evidence": [
+          {
+            "slotId": "multiplicity",
+            "typeExpression": "StructuralExhaustion.CT14.MultiplicityState framework input bounds"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.edge.comparison.close",
+        "source": "CT14.certify.comparison",
+        "target": "CT14.terminal.c4",
+        "kind": "close",
+        "branchTag": "close",
+        "transitionConstructor": "StructuralExhaustion.CT14.Graph.Edge.comparisonClose",
+        "resultConstructor": null,
+        "evidence": [
+          {
+            "slotId": "certificate",
+            "typeExpression": "StructuralExhaustion.CT14.C4Certificate framework input multiplicity"
+          }
+        ]
+      }
+    }
+  ]
+}

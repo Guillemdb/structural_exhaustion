@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT7.decide.distinction.schema.json",
+  "title": "CT7.decide.distinction completed discharge record — Distinguishing/neutral decision",
+  "description": "Concrete completed-discharge schema for semantic CT7-v1 node CT7.decide.distinction.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT7.decide.distinction.",
+          "const": "CT7"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for Distinguishing/neutral decision.",
+          "const": "CT7.decide.distinction"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT7.decide.distinction.",
+          "const": 7
+        },
+        "status": {
+          "description": "Required successful proof state for this executable machine node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT7.decide.distinction.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 2,
+          "maxItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Dich evidence.",
+                "const": "S-Dich"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required S-Equiv evidence.",
+                "const": "S-Equiv"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT7.decide.distinction.",
+          "type": "array",
+          "minItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Dich discriminator.",
+                    "const": "S-Dich"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Equiv discriminator.",
+                    "const": "S-Equiv"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT7.decide.distinction.O1",
+    "modality": "decide",
+    "statement": {
+      "informal": "Execute the proof-carrying distinguishing/neutral decision contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Dich",
+      "S-Equiv"
+    ],
+    "dependencies": [
+      "CT7.decide.realization"
+    ],
+    "dischargeCriteria": "The node implementation constructs its indexed output contract without inspecting any later node."
+  }
+}

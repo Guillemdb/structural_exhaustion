@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT6.decide.dormant.schema.json",
+  "title": "CT6.decide.dormant completed discharge record — Dormant first-failure routing",
+  "description": "Concrete completed-discharge schema for semantic CT6-v1 node CT6.decide.dormant.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT6.decide.dormant.",
+          "const": "CT6"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for Dormant first-failure routing.",
+          "const": "CT6.decide.dormant"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT6.decide.dormant.",
+          "const": 8
+        },
+        "status": {
+          "description": "Required successful proof state for this executable machine node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT6.decide.dormant.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 2,
+          "maxItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Dich evidence.",
+                "const": "S-Dich"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required S-Rout evidence.",
+                "const": "S-Rout"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT6.decide.dormant.",
+          "type": "array",
+          "minItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Dich discriminator.",
+                    "const": "S-Dich"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Rout discriminator.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT6.decide.dormant.O1",
+    "modality": "decide",
+    "statement": {
+      "informal": "Execute the proof-carrying dormant first-failure routing contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Dich",
+      "S-Rout"
+    ],
+    "dependencies": [
+      "CT6.decide.activity"
+    ],
+    "dischargeCriteria": "The node implementation constructs its indexed output contract without inspecting any later node."
+  }
+}

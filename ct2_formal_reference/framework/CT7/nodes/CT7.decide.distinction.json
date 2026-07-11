@@ -1,0 +1,141 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT7-v1",
+  "nodeId": "CT7.decide.distinction",
+  "nodeKind": "decision",
+  "title": "Distinguishing/neutral decision",
+  "human": {
+    "informal": "Execute the proof-carrying distinguishing/neutral decision contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Dich",
+    "S-Equiv"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT7 — Exchange trichotomy",
+    "diagramKey": "distinction"
+  },
+  "formalContract": {
+    "contractId": "CT7.decide.distinction.contract",
+    "executionMode": "computable",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT7.Nodes.Distinction",
+      "declaration": "StructuralExhaustion.CT7.Nodes.Distinction.Contract",
+      "sourceFile": "StructuralExhaustion/CT7/Nodes/Distinction.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT7.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT7.Nodes.Distinction.Contract framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node.",
+    "branches": [
+      {
+        "branchTag": "defect",
+        "meaning": "Return the proof-carrying defect constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Distinction",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Distinction.Decision.defect",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Distinction.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "defect",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT7.DefectState framework input unrealized"
+          }
+        ],
+        "transitionId": "CT7.edge.distinction.defect"
+      },
+      {
+        "branchTag": "neutral",
+        "meaning": "Return the proof-carrying neutral constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Distinction",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Distinction.Decision.neutral",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Distinction.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "neutral",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT7.NeutralState framework input unrealized"
+          }
+        ],
+        "transitionId": "CT7.edge.distinction.neutral"
+      }
+    ]
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT7.Nodes.Distinction",
+    "sourceFile": "StructuralExhaustion/CT7/Nodes/Distinction.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT7.Nodes.Distinction",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Distinction.Contract",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Distinction.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT7.Nodes.Distinction",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Distinction.Decision",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Distinction.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT7.Nodes.Distinction",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Distinction.Plan",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Distinction.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT7.Nodes.Distinction",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Distinction.run",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Distinction.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

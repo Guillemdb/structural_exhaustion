@@ -1,0 +1,13 @@
+graph_order,node_id,node_kind,title,terminal_case,contracts,lean_contract,source_file
+1,CT2.entry,entry,Typed CT2 invocation,,S-Def,StructuralExhaustion.CT2.Nodes.Entry.Contract,StructuralExhaustion/CT2/Nodes/Entry.lean
+2,CT2.decide.interface,decision,Interface admission,,S-Dich|A-Scope,StructuralExhaustion.CT2.Nodes.Interface.Contract,StructuralExhaustion/CT2/Nodes/Interface.lean
+3,CT2.terminal.scope,terminal,Scope terminal,scope,A-Scope,StructuralExhaustion.CT2.RawOutcome,StructuralExhaustion/CT2/Execution.lean
+4,CT2.decide.deletion,decision,Deletion search,,S-Dich|S-Comp,StructuralExhaustion.CT2.Nodes.Deletion.Contract,StructuralExhaustion/CT2/Nodes/Deletion.lean
+5,CT2.terminal.c2.deletion,terminal,C2 deletion terminal,c2.deletion,S-Comp|A-Cert,StructuralExhaustion.CT2.RawOutcome,StructuralExhaustion/CT2/Execution.lean
+6,CT2.decide.replacementCandidate,decision,Smaller-replacement candidate search,,S-Dich|S-Comp|S-Equiv,StructuralExhaustion.CT2.Nodes.ReplacementCandidate.Contract,StructuralExhaustion/CT2/Nodes/ReplacementCandidate.lean
+7,CT2.decide.context,decision,Candidate context certification,,S-Dich|S-Equiv,StructuralExhaustion.CT2.Nodes.Context.Contract,StructuralExhaustion/CT2/Nodes/Context.lean
+8,CT2.terminal.c2.replacement,terminal,C2 replacement terminal,c2.replacement,S-Comp|S-Equiv|A-Cert,StructuralExhaustion.CT2.RawOutcome,StructuralExhaustion/CT2/Execution.lean
+9,CT2.terminal.ct3.context,terminal,CT3 context-residual terminal,ct3.context,S-Equiv|S-Rout|S-Trig,StructuralExhaustion.CT2.RawOutcome,StructuralExhaustion/CT2/Execution.lean
+10,CT2.decide.survivor,decision,Survivor classification,,S-Dich|S-Rout,StructuralExhaustion.CT2.Nodes.Survivor.Contract,StructuralExhaustion/CT2/Nodes/Survivor.lean
+11,CT2.terminal.ct10.criticality,terminal,CT10 criticality terminal,ct10.criticality,S-Rout|S-Trig,StructuralExhaustion.CT2.RawOutcome,StructuralExhaustion/CT2/Execution.lean
+12,CT2.terminal.ct3.response,terminal,CT3 response terminal,ct3.response,S-Rout|S-Trig,StructuralExhaustion.CT2.RawOutcome,StructuralExhaustion/CT2/Execution.lean

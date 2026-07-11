@@ -1,0 +1,141 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT11-v1",
+  "nodeId": "CT11.decide.admissibility",
+  "nodeKind": "decision",
+  "title": "Admissibility-closure decision",
+  "human": {
+    "informal": "Execute the proof-carrying admissibility-closure decision contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Dich",
+    "S-Rout"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT11 — Localization",
+    "diagramKey": "admissibility"
+  },
+  "formalContract": {
+    "contractId": "CT11.decide.admissibility.contract",
+    "executionMode": "computable",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT11.Nodes.Admissibility",
+      "declaration": "StructuralExhaustion.CT11.Nodes.Admissibility.Contract",
+      "sourceFile": "StructuralExhaustion/CT11/Nodes/Admissibility.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT11.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT11.Nodes.Admissibility.Contract framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node.",
+    "branches": [
+      {
+        "branchTag": "refine",
+        "meaning": "Return the proof-carrying refine constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT11.Nodes.Admissibility",
+          "declaration": "StructuralExhaustion.CT11.Nodes.Admissibility.Decision.refine",
+          "sourceFile": "StructuralExhaustion/CT11/Nodes/Admissibility.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT11.CT10Payload framework input decomposition"
+          }
+        ],
+        "transitionId": "CT11.edge.admissibility.refine"
+      },
+      {
+        "branchTag": "closed",
+        "meaning": "Return the proof-carrying closed constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT11.Nodes.Admissibility",
+          "declaration": "StructuralExhaustion.CT11.Nodes.Admissibility.Decision.closed",
+          "sourceFile": "StructuralExhaustion/CT11/Nodes/Admissibility.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "admissible",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT11.AdmissibleState framework input decomposition"
+          }
+        ],
+        "transitionId": "CT11.edge.admissibility.closed"
+      }
+    ]
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT11.Nodes.Admissibility",
+    "sourceFile": "StructuralExhaustion/CT11/Nodes/Admissibility.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT11.Nodes.Admissibility",
+          "declaration": "StructuralExhaustion.CT11.Nodes.Admissibility.Contract",
+          "sourceFile": "StructuralExhaustion/CT11/Nodes/Admissibility.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT11.Nodes.Admissibility",
+          "declaration": "StructuralExhaustion.CT11.Nodes.Admissibility.Decision",
+          "sourceFile": "StructuralExhaustion/CT11/Nodes/Admissibility.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT11.Nodes.Admissibility",
+          "declaration": "StructuralExhaustion.CT11.Nodes.Admissibility.Plan",
+          "sourceFile": "StructuralExhaustion/CT11/Nodes/Admissibility.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT11.Nodes.Admissibility",
+          "declaration": "StructuralExhaustion.CT11.Nodes.Admissibility.run",
+          "sourceFile": "StructuralExhaustion/CT11/Nodes/Admissibility.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+graph_order,node_id,node_kind,title,terminal_case,contracts,lean_contract,source_file
+1,CT6.entry,entry,Validated CT6 monitored-family entry,,S-Def,StructuralExhaustion.CT6.Nodes.Entry.Contract,StructuralExhaustion/CT6/Nodes/Entry.lean
+2,CT6.decide.scope,decision,Bounded first-failure scope,,S-Dich|A-Scope,StructuralExhaustion.CT6.Nodes.Scope.Contract,StructuralExhaustion/CT6/Nodes/Scope.lean
+3,CT6.terminal.scope,terminal,Missing first-failure scope terminal,scope,A-Scope,StructuralExhaustion.CT6.RawOutcome,StructuralExhaustion/CT6/Execution.lean
+4,CT6.certify.definition,certification,Activity and first-failure definition certification,,S-Def|S-Equiv,StructuralExhaustion.CT6.Nodes.Definition.Contract,StructuralExhaustion/CT6/Nodes/Definition.lean
+5,CT6.decide.activity,decision,Active/dormant dichotomy,,S-Dich,StructuralExhaustion.CT6.Nodes.Activity.Contract,StructuralExhaustion/CT6/Nodes/Activity.lean
+6,CT6.certify.activeLedger,certification,Active ledger construction,,S-Rout,StructuralExhaustion.CT6.Nodes.ActiveLedger.Contract,StructuralExhaustion/CT6/Nodes/ActiveLedger.lean
+7,CT6.terminal.ct4,terminal,CT4 active-ledger handoff,ct4,S-Rout|S-Trig,StructuralExhaustion.CT6.RawOutcome,StructuralExhaustion/CT6/Execution.lean
+8,CT6.decide.dormant,decision,Dormant first-failure routing,,S-Dich|S-Rout,StructuralExhaustion.CT6.Nodes.Dormant.Contract,StructuralExhaustion/CT6/Nodes/Dormant.lean
+9,CT6.terminal.c1,terminal,C1 first-failure target terminal,c1,S-Equiv|A-Cert,StructuralExhaustion.CT6.RawOutcome,StructuralExhaustion/CT6/Execution.lean
+10,CT6.terminal.ct3,terminal,CT3 boundary-response handoff,ct3,S-Rout|S-Trig,StructuralExhaustion.CT6.RawOutcome,StructuralExhaustion/CT6/Execution.lean
+11,CT6.terminal.ct7,terminal,CT7 exchange handoff,ct7,S-Rout|S-Trig,StructuralExhaustion.CT6.RawOutcome,StructuralExhaustion/CT6/Execution.lean
+12,CT6.terminal.ct9,terminal,CT9 saturation handoff,ct9,S-Rout|S-Trig,StructuralExhaustion.CT6.RawOutcome,StructuralExhaustion/CT6/Execution.lean
+13,CT6.terminal.ct10,terminal,CT10 refinement handoff,ct10,S-Rout|S-Trig,StructuralExhaustion.CT6.RawOutcome,StructuralExhaustion/CT6/Execution.lean

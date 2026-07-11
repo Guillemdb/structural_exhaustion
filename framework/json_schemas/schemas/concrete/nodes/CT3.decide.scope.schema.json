@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT3.decide.scope.schema.json",
+  "title": "CT3.decide.scope completed discharge record — Finite external-type scope",
+  "description": "Concrete completed-discharge schema for semantic CT3-v1 node CT3.decide.scope.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT3.decide.scope.",
+          "const": "CT3"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for Finite external-type scope.",
+          "const": "CT3.decide.scope"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT3.decide.scope.",
+          "const": 2
+        },
+        "status": {
+          "description": "Required successful proof state for this executable machine node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT3.decide.scope.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 2,
+          "maxItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Dich evidence.",
+                "const": "S-Dich"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required A-Scope evidence.",
+                "const": "A-Scope"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT3.decide.scope.",
+          "type": "array",
+          "minItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Dich discriminator.",
+                    "const": "S-Dich"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required A-Scope discriminator.",
+                    "const": "A-Scope"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT3.decide.scope.O1",
+    "modality": "decide",
+    "statement": {
+      "informal": "Execute the proof-carrying finite external-type scope contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Dich",
+      "A-Scope"
+    ],
+    "dependencies": [
+      "CT3.entry"
+    ],
+    "dischargeCriteria": "The node implementation constructs its indexed output contract without inspecting any later node."
+  }
+}

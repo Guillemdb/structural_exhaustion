@@ -1,0 +1,91 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT10-v1",
+  "nodeId": "CT10.certify.promotion",
+  "nodeKind": "certification",
+  "title": "Missing-datum promotion certification",
+  "human": {
+    "informal": "Execute the proof-carrying missing-datum promotion certification contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Def"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT10 — Default refinement",
+    "diagramKey": "promotion"
+  },
+  "formalContract": {
+    "contractId": "CT10.certify.promotion.contract",
+    "executionMode": "external_certificate",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT10.Nodes.Promotion",
+      "declaration": "StructuralExhaustion.CT10.Nodes.Promotion.Contract",
+      "sourceFile": "StructuralExhaustion/CT10/Nodes/Promotion.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT10.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "promoted",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT10.PromotedState framework input missing"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT10.Nodes.Promotion",
+    "sourceFile": "StructuralExhaustion/CT10/Nodes/Promotion.lean",
+    "requiredRoles": [
+      "contract",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT10.Nodes.Promotion",
+          "declaration": "StructuralExhaustion.CT10.Nodes.Promotion.Contract",
+          "sourceFile": "StructuralExhaustion/CT10/Nodes/Promotion.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT10.Nodes.Promotion",
+          "declaration": "StructuralExhaustion.CT10.Nodes.Promotion.Plan",
+          "sourceFile": "StructuralExhaustion/CT10/Nodes/Promotion.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT10.Nodes.Promotion",
+          "declaration": "StructuralExhaustion.CT10.Nodes.Promotion.run",
+          "sourceFile": "StructuralExhaustion/CT10/Nodes/Promotion.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

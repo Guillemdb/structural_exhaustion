@@ -1,0 +1,160 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT10-v1",
+  "nodeId": "CT10.decide.classification",
+  "nodeKind": "decision",
+  "title": "Refined-class classification",
+  "human": {
+    "informal": "Execute the proof-carrying refined-class classification contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Dich",
+    "S-Comp",
+    "S-Rout"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT10 — Default refinement",
+    "diagramKey": "classification"
+  },
+  "formalContract": {
+    "contractId": "CT10.decide.classification.contract",
+    "executionMode": "computable",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT10.Nodes.Classification",
+      "declaration": "StructuralExhaustion.CT10.Nodes.Classification.Contract",
+      "sourceFile": "StructuralExhaustion/CT10/Nodes/Classification.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT10.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT10.Nodes.Classification.Contract framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node.",
+    "branches": [
+      {
+        "branchTag": "close",
+        "meaning": "Return the proof-carrying close constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT10.Nodes.Classification",
+          "declaration": "StructuralExhaustion.CT10.Nodes.Classification.Decision.close",
+          "sourceFile": "StructuralExhaustion/CT10/Nodes/Classification.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "certificate",
+            "valueKind": "certificate",
+            "typeExpression": "StructuralExhaustion.CT10.C5Certificate framework input labels"
+          }
+        ],
+        "transitionId": "CT10.edge.classification.close"
+      },
+      {
+        "branchTag": "direct",
+        "meaning": "Return the proof-carrying direct constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT10.Nodes.Classification",
+          "declaration": "StructuralExhaustion.CT10.Nodes.Classification.Decision.direct",
+          "sourceFile": "StructuralExhaustion/CT10/Nodes/Classification.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "direct",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT10.DirectState framework input labels"
+          }
+        ],
+        "transitionId": "CT10.edge.classification.direct"
+      },
+      {
+        "branchTag": "missing",
+        "meaning": "Return the proof-carrying missing constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT10.Nodes.Classification",
+          "declaration": "StructuralExhaustion.CT10.Nodes.Classification.Decision.missing",
+          "sourceFile": "StructuralExhaustion/CT10/Nodes/Classification.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "missing",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT10.MissingState framework input labels"
+          }
+        ],
+        "transitionId": "CT10.edge.classification.missing"
+      }
+    ]
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT10.Nodes.Classification",
+    "sourceFile": "StructuralExhaustion/CT10/Nodes/Classification.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT10.Nodes.Classification",
+          "declaration": "StructuralExhaustion.CT10.Nodes.Classification.Contract",
+          "sourceFile": "StructuralExhaustion/CT10/Nodes/Classification.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT10.Nodes.Classification",
+          "declaration": "StructuralExhaustion.CT10.Nodes.Classification.Decision",
+          "sourceFile": "StructuralExhaustion/CT10/Nodes/Classification.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT10.Nodes.Classification",
+          "declaration": "StructuralExhaustion.CT10.Nodes.Classification.Plan",
+          "sourceFile": "StructuralExhaustion/CT10/Nodes/Classification.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT10.Nodes.Classification",
+          "declaration": "StructuralExhaustion.CT10.Nodes.Classification.run",
+          "sourceFile": "StructuralExhaustion/CT10/Nodes/Classification.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

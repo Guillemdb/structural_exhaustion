@@ -1,0 +1,160 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT5-v1",
+  "nodeId": "CT5.decide.comparison",
+  "nodeKind": "decision",
+  "title": "Global comparison classification",
+  "human": {
+    "informal": "Execute the proof-carrying global comparison classification contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Dich",
+    "S-Comp",
+    "S-Rout"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT5 — Local-to-global bookkeeping",
+    "diagramKey": "comparison"
+  },
+  "formalContract": {
+    "contractId": "CT5.decide.comparison.contract",
+    "executionMode": "computable",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT5.Nodes.Comparison",
+      "declaration": "StructuralExhaustion.CT5.Nodes.Comparison.Contract",
+      "sourceFile": "StructuralExhaustion/CT5/Nodes/Comparison.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT5.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT5.Nodes.Comparison.Contract framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node.",
+    "branches": [
+      {
+        "branchTag": "close",
+        "meaning": "Return the proof-carrying close constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT5.Nodes.Comparison",
+          "declaration": "StructuralExhaustion.CT5.Nodes.Comparison.Decision.close",
+          "sourceFile": "StructuralExhaustion/CT5/Nodes/Comparison.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "certificate",
+            "valueKind": "certificate",
+            "typeExpression": "StructuralExhaustion.CT5.C4Certificate framework input summation"
+          }
+        ],
+        "transitionId": "CT5.edge.comparison.close"
+      },
+      {
+        "branchTag": "toCT4",
+        "meaning": "Return the proof-carrying toCT4 constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT5.Nodes.Comparison",
+          "declaration": "StructuralExhaustion.CT5.Nodes.Comparison.Decision.toCT4",
+          "sourceFile": "StructuralExhaustion/CT5/Nodes/Comparison.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT5.CT4Payload framework input summation"
+          }
+        ],
+        "transitionId": "CT5.edge.comparison.ct4"
+      },
+      {
+        "branchTag": "toCT14",
+        "meaning": "Return the proof-carrying toCT14 constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT5.Nodes.Comparison",
+          "declaration": "StructuralExhaustion.CT5.Nodes.Comparison.Decision.toCT14",
+          "sourceFile": "StructuralExhaustion/CT5/Nodes/Comparison.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT5.CT14Payload framework input summation"
+          }
+        ],
+        "transitionId": "CT5.edge.comparison.ct14"
+      }
+    ]
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT5.Nodes.Comparison",
+    "sourceFile": "StructuralExhaustion/CT5/Nodes/Comparison.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT5.Nodes.Comparison",
+          "declaration": "StructuralExhaustion.CT5.Nodes.Comparison.Contract",
+          "sourceFile": "StructuralExhaustion/CT5/Nodes/Comparison.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT5.Nodes.Comparison",
+          "declaration": "StructuralExhaustion.CT5.Nodes.Comparison.Decision",
+          "sourceFile": "StructuralExhaustion/CT5/Nodes/Comparison.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT5.Nodes.Comparison",
+          "declaration": "StructuralExhaustion.CT5.Nodes.Comparison.Plan",
+          "sourceFile": "StructuralExhaustion/CT5/Nodes/Comparison.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT5.Nodes.Comparison",
+          "declaration": "StructuralExhaustion.CT5.Nodes.Comparison.run",
+          "sourceFile": "StructuralExhaustion/CT5/Nodes/Comparison.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

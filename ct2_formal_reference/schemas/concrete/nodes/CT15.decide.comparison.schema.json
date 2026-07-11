@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/ct15/nodes/CT15.decide.comparison.schema.json",
+  "allOf": [
+    {
+      "$ref": "../../formalization.bundle.schema.json#/$defs/formalNodeSpec"
+    },
+    {
+      "properties": {
+        "nodeId": {
+          "const": "CT15.decide.comparison"
+        },
+        "nodeKind": {
+          "const": "decision"
+        }
+      },
+      "required": [
+        "nodeId",
+        "nodeKind"
+      ]
+    }
+  ]
+}

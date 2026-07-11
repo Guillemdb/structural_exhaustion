@@ -1,0 +1,144 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT7-v1",
+  "nodeId": "CT7.terminal.c3",
+  "nodeKind": "terminal",
+  "title": "C3 routed-defect terminal",
+  "human": {
+    "informal": "Execute the proof-carrying c3 routed-defect terminal contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Rout",
+    "A-Cert"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT7 — Exchange trichotomy",
+    "diagramKey": "c3"
+  },
+  "formalContract": {
+    "contractId": "CT7.terminal.c3.contract",
+    "executionMode": "proof_only",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.RawOutcome",
+      "sourceFile": "StructuralExhaustion/CT7/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "inputs": [
+      {
+        "slotId": "framework",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT7.Framework"
+      },
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT7.Input framework"
+      },
+      {
+        "slotId": "certificate",
+        "valueKind": "certificate",
+        "typeExpression": "StructuralExhaustion.CT7.C3Certificate framework input defect"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "rawOutcome",
+        "valueKind": "payload",
+        "typeExpression": "StructuralExhaustion.CT7.RawOutcome framework input .c3"
+      }
+    ],
+    "dischargeCondition": "The terminal index, incoming edge, raw outcome, and certified outcome agree definitionally."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT7.Graph",
+    "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+    "requiredRoles": [
+      "state",
+      "constructor"
+    ],
+    "declarations": [
+      {
+        "role": "state",
+        "localName": "Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT7.Graph",
+          "declaration": "StructuralExhaustion.CT7.Graph.Terminal",
+          "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "c3",
+        "ref": {
+          "module": "StructuralExhaustion.CT7.Graph",
+          "declaration": "StructuralExhaustion.CT7.Graph.Terminal.c3",
+          "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "c3Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT7.Graph",
+          "declaration": "StructuralExhaustion.CT7.Graph.NodeId.c3Terminal",
+          "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "c3",
+        "ref": {
+          "module": "StructuralExhaustion.CT7",
+          "declaration": "StructuralExhaustion.CT7.RawOutcome.c3",
+          "sourceFile": "StructuralExhaustion/CT7/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "c3",
+        "ref": {
+          "module": "StructuralExhaustion.CT7",
+          "declaration": "StructuralExhaustion.CT7.Outcome.c3",
+          "sourceFile": "StructuralExhaustion/CT7/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    ]
+  },
+  "terminal": {
+    "terminalCase": "c3",
+    "terminalConstructorRef": {
+      "module": "StructuralExhaustion.CT7.Graph",
+      "declaration": "StructuralExhaustion.CT7.Graph.Terminal.c3",
+      "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+      "declarationKind": "constructor"
+    },
+    "outcomeConstructorRef": {
+      "module": "StructuralExhaustion.CT7",
+      "declaration": "StructuralExhaustion.CT7.Outcome.c3",
+      "sourceFile": "StructuralExhaustion/CT7/Execution.lean",
+      "declarationKind": "constructor"
+    },
+    "claimTypeExpression": "framework.entry.C3Claim input.G input.branch",
+    "evidenceSlots": [
+      {
+        "slotId": "certificate",
+        "valueKind": "certificate",
+        "typeExpression": "StructuralExhaustion.CT7.C3Certificate framework input defect"
+      }
+    ]
+  }
+}

@@ -1,0 +1,848 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/formalization.bundle.schema.json",
+  "title": "CT1 through CT17 semantic machine schema bundle",
+  "$defs": {
+    "nodeId": {
+      "type": "string",
+      "pattern": "^CT(?:[1-9]|1[0-7])\\.(?:entry|decide\\.[A-Za-z][A-Za-z0-9]*|certify\\.[A-Za-z][A-Za-z0-9]*|terminal\\.[A-Za-z][A-Za-z0-9]*(?:\\.[A-Za-z][A-Za-z0-9]*)*)$"
+    },
+    "edgeId": {
+      "type": "string",
+      "pattern": "^CT(?:[1-9]|1[0-7])\\.edge\\.[A-Za-z][A-Za-z0-9]*(?:\\.[A-Za-z][A-Za-z0-9]*)*$"
+    },
+    "terminalCase": {
+      "enum": [
+        "scope",
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "ct1",
+        "ct2",
+        "ct3",
+        "ct4",
+        "ct5",
+        "ct6",
+        "ct7",
+        "ct8",
+        "ct9",
+        "ct10",
+        "ct11",
+        "ct12",
+        "ct13",
+        "ct14",
+        "ct15",
+        "ct16",
+        "ct17",
+        "c2.deletion",
+        "c2.replacement",
+        "ct3.context",
+        "ct10.criticality",
+        "ct3.response"
+      ]
+    },
+    "leanDeclarationRef": {
+      "type": "object",
+      "required": ["module", "declaration", "sourceFile", "declarationKind"],
+      "properties": {
+        "module": {"type": "string", "minLength": 1},
+        "declaration": {
+          "type": "string",
+          "pattern": "^[A-Za-z_][A-Za-z0-9_.]*$"
+        },
+        "sourceFile": {"type": "string", "pattern": "\\.lean$"},
+        "declarationKind": {
+          "enum": [
+            "structure",
+            "inductive",
+            "definition",
+            "abbrev",
+            "theorem",
+            "macro",
+            "constructor",
+            "field"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "presentation": {
+      "type": "object",
+      "required": ["informal", "latex", "whyNeeded"],
+      "properties": {
+        "informal": {"type": "string", "minLength": 1},
+        "latex": {"type": "string"},
+        "whyNeeded": {"type": "string", "minLength": 1},
+        "failureMeaning": {"type": "string"},
+        "proofHints": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "formalSlot": {
+      "type": "object",
+      "required": ["slotId", "valueKind", "typeExpression"],
+      "properties": {
+        "slotId": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+        },
+        "valueKind": {
+          "enum": [
+            "type",
+            "data",
+            "proposition",
+            "proof",
+            "instance",
+            "algorithm",
+            "certificate",
+            "payload",
+            "state",
+            "audit_record"
+          ]
+        },
+        "typeExpression": {"type": "string", "minLength": 1},
+        "description": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "declarationBinding": {
+      "type": "object",
+      "required": ["role", "localName", "ref"],
+      "properties": {
+        "role": {
+          "enum": [
+            "contract",
+            "state",
+            "decision",
+            "plan",
+            "implementation",
+            "constructor",
+            "soundness",
+            "totality",
+            "exclusivity",
+            "routing",
+            "trigger",
+            "handoff",
+            "trace",
+            "coverage",
+            "example",
+            "macro"
+          ]
+        },
+        "localName": {
+          "type": "string",
+          "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+        },
+        "ref": {"$ref": "#/$defs/leanDeclarationRef"}
+      },
+      "additionalProperties": false
+    },
+    "nodeBranch": {
+      "type": "object",
+      "required": [
+        "branchTag",
+        "meaning",
+        "resultConstructorRef",
+        "evidenceSlots",
+        "transitionId"
+      ],
+      "properties": {
+        "branchTag": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9]*(?:\\.[A-Za-z][A-Za-z0-9]*)*$"
+        },
+        "meaning": {"type": "string", "minLength": 1},
+        "resultConstructorRef": {"$ref": "#/$defs/leanDeclarationRef"},
+        "evidenceSlots": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/formalSlot"}
+        },
+        "transitionId": {"$ref": "#/$defs/edgeId"}
+      },
+      "additionalProperties": false
+    },
+    "formalContract": {
+      "type": "object",
+      "required": [
+        "contractId",
+        "executionMode",
+        "leanContractRef",
+        "inputs",
+        "outputs",
+        "dischargeCondition"
+      ],
+      "properties": {
+        "contractId": {
+          "type": "string",
+          "pattern": "^CT(?:[1-9]|1[0-7])\\.(?:entry|decide\\.[A-Za-z][A-Za-z0-9]*|certify\\.[A-Za-z][A-Za-z0-9]*|terminal\\.[A-Za-z][A-Za-z0-9]*(?:\\.[A-Za-z][A-Za-z0-9]*)*)\\.contract$"
+        },
+        "executionMode": {
+          "enum": [
+            "declarative",
+            "proof_only",
+            "computable",
+            "noncomputable_choice",
+            "external_certificate",
+            "interactive"
+          ]
+        },
+        "leanContractRef": {"$ref": "#/$defs/leanDeclarationRef"},
+        "inputs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/formalSlot"}
+        },
+        "outputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/formalSlot"}
+        },
+        "branches": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nodeBranch"}
+        },
+        "dischargeCondition": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "terminalSpec": {
+      "type": "object",
+      "required": [
+        "terminalCase",
+        "terminalConstructorRef",
+        "outcomeConstructorRef",
+        "claimTypeExpression",
+        "evidenceSlots"
+      ],
+      "properties": {
+        "terminalCase": {"$ref": "#/$defs/terminalCase"},
+        "terminalConstructorRef": {"$ref": "#/$defs/leanDeclarationRef"},
+        "outcomeConstructorRef": {"$ref": "#/$defs/leanDeclarationRef"},
+        "claimTypeExpression": {"type": "string", "minLength": 1},
+        "evidenceSlots": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/formalSlot"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "formalNodeSpec": {
+      "type": "object",
+      "required": [
+        "artifactType",
+        "schemaVersion",
+        "graphVersion",
+        "nodeId",
+        "nodeKind",
+        "title",
+        "human",
+        "contracts",
+        "formalContract",
+        "leanImplementation",
+        "source"
+      ],
+      "properties": {
+        "artifactType": {"const": "formalNodeSpec"},
+        "schemaVersion": {"const": "2.0.0"},
+        "graphVersion": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])-v[0-9]+$"},
+        "nodeId": {"$ref": "#/$defs/nodeId"},
+        "nodeKind": {"enum": ["entry", "decision", "certification", "terminal"]},
+        "title": {"type": "string", "minLength": 1},
+        "human": {"$ref": "#/$defs/presentation"},
+        "contracts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "S-Def",
+              "S-Det",
+              "S-Equiv",
+              "S-Dich",
+              "S-Pers",
+              "S-Comp",
+              "S-Rout",
+              "S-Trig",
+              "S-Meas",
+              "S-Rest",
+              "A-Cert",
+              "A-Scope"
+            ]
+          }
+        },
+        "formalContract": {"$ref": "#/$defs/formalContract"},
+        "terminal": {"$ref": "#/$defs/terminalSpec"},
+        "leanImplementation": {
+          "type": "object",
+          "required": ["namespace", "sourceFile", "requiredRoles", "declarations"],
+          "properties": {
+            "namespace": {
+              "type": "string",
+              "pattern": "^StructuralExhaustion\\.CT(?:[1-9]|1[0-7])\\.(?:Nodes\\.[A-Za-z][A-Za-z0-9]*|Graph)$"
+            },
+            "sourceFile": {"type": "string", "pattern": "\\.lean$"},
+            "requiredRoles": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"type": "string"}
+            },
+            "declarations": {
+              "type": "array",
+              "minItems": 1,
+              "items": {"$ref": "#/$defs/declarationBinding"}
+            }
+          },
+          "additionalProperties": false
+        },
+        "source": {
+          "type": "object",
+          "required": ["document", "section", "diagramKey"],
+          "properties": {
+            "document": {"const": "branch_closure_methodology_extended.tex"},
+            "section": {"type": "string", "minLength": 1},
+            "diagramKey": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": false
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"nodeKind": {"const": "decision"}}},
+          "then": {
+            "properties": {
+              "formalContract": {"required": ["branches"]}
+            },
+            "not": {"required": ["terminal"]}
+          }
+        },
+        {
+          "if": {"properties": {"nodeKind": {"const": "terminal"}}},
+          "then": {"required": ["terminal"]}
+        },
+        {
+          "if": {"properties": {"nodeKind": {"const": "entry"}}},
+          "then": {"not": {"required": ["terminal"]}}
+        },
+        {
+          "if": {"properties": {"nodeKind": {"const": "certification"}}},
+          "then": {"not": {"required": ["terminal"]}}
+        }
+      ],
+      "additionalProperties": false
+    },
+    "transitionGuard": {
+      "type": "object",
+      "required": ["kind", "branchTag", "evidenceSlots"],
+      "properties": {
+        "kind": {"enum": ["unconditional", "branch"]},
+        "branchTag": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9]*(?:\\.[A-Za-z][A-Za-z0-9]*)*$"
+        },
+        "resultConstructorRef": {"$ref": "#/$defs/leanDeclarationRef"},
+        "evidenceSlots": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/formalSlot"}
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"kind": {"const": "branch"}}},
+          "then": {
+            "required": ["resultConstructorRef"],
+            "properties": {"evidenceSlots": {"minItems": 1}}
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "transition": {
+      "type": "object",
+      "required": [
+        "transitionId",
+        "fromNodeId",
+        "toNodeId",
+        "kind",
+        "transitionConstructorRef",
+        "guard"
+      ],
+      "properties": {
+        "transitionId": {"$ref": "#/$defs/edgeId"},
+        "fromNodeId": {"$ref": "#/$defs/nodeId"},
+        "toNodeId": {"$ref": "#/$defs/nodeId"},
+        "kind": {"enum": ["advance", "close", "handoff", "scope"]},
+        "transitionConstructorRef": {"$ref": "#/$defs/leanDeclarationRef"},
+        "guard": {"$ref": "#/$defs/transitionGuard"}
+      },
+      "additionalProperties": false
+    },
+    "coverageRecord": {
+      "type": "object",
+      "required": ["terminalCase", "mode"],
+      "properties": {
+        "terminalCase": {"$ref": "#/$defs/terminalCase"},
+        "mode": {"enum": ["executable_instance", "parametric_theorem"]},
+        "instanceRef": {"type": "string", "pattern": "^instances/.+\\.json$"},
+        "theoremRef": {"$ref": "#/$defs/leanDeclarationRef"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"mode": {"const": "executable_instance"}}},
+          "then": {"required": ["instanceRef"]}
+        },
+        {
+          "if": {"properties": {"mode": {"const": "parametric_theorem"}}},
+          "then": {"required": ["theoremRef"]}
+        }
+      ],
+      "additionalProperties": false
+    },
+    "formalTacticSpec": {
+      "type": "object",
+      "required": [
+        "artifactType",
+        "schemaVersion",
+        "graphVersion",
+        "tacticId",
+        "name",
+        "signature",
+        "entryNodeId",
+        "nodeRefs",
+        "transitions",
+        "terminalCases",
+        "terminalCoverage",
+        "formalApi",
+        "totalityPolicy",
+        "source",
+        "contractInventoryRef"
+      ],
+      "properties": {
+        "artifactType": {"const": "formalTacticSpec"},
+        "schemaVersion": {"const": "2.0.0"},
+        "graphVersion": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])-v[0-9]+$"},
+        "tacticId": {"enum": ["CT1", "CT2", "CT3", "CT4", "CT5", "CT6", "CT7", "CT8", "CT9", "CT10", "CT11", "CT12", "CT13", "CT14", "CT15", "CT16", "CT17"]},
+        "name": {"type": "string", "minLength": 1},
+        "signature": {
+          "type": "object",
+          "required": ["input", "close", "handoff", "scope"],
+          "properties": {
+            "input": {"type": "string", "minLength": 1},
+            "close": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "handoff": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "scope": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          },
+          "additionalProperties": false
+        },
+        "entryNodeId": {"$ref": "#/$defs/nodeId"},
+        "nodeRefs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^nodes/CT(?:[1-9]|1[0-7])\\..+\\.json$"
+          }
+        },
+        "transitions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/transition"}
+        },
+        "terminalCases": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/terminalCase"}
+        },
+        "terminalCoverage": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/coverageRecord"}
+        },
+        "formalApi": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"$ref": "#/$defs/leanDeclarationRef"}
+        },
+        "totalityPolicy": {
+          "type": "object",
+          "required": [
+            "allNodesBound",
+            "allTransitionsDeclared",
+            "allDecisionBranchesMapped",
+            "allTracesKernelCertified",
+            "allTerminalOutcomesTyped",
+            "allConsumerTriggersCarried"
+          ],
+          "properties": {
+            "allNodesBound": {"const": true},
+            "allTransitionsDeclared": {"const": true},
+            "allDecisionBranchesMapped": {"const": true},
+            "allTracesKernelCertified": {"const": true},
+            "allTerminalOutcomesTyped": {"const": true},
+            "allConsumerTriggersCarried": {"const": true}
+          },
+          "additionalProperties": false
+        },
+        "source": {
+          "type": "object",
+          "required": ["document", "section"],
+          "properties": {
+            "document": {"const": "branch_closure_methodology_extended.tex"},
+            "section": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": false
+        },
+        "contractInventoryRef": {"const": "contracts.json"}
+      },
+      "additionalProperties": false
+    },
+    "tacticInstantiation": {
+      "type": "object",
+      "required": [
+        "artifactType",
+        "schemaVersion",
+        "graphVersion",
+        "instanceId",
+        "tacticId",
+        "bindings",
+        "executionResultRef",
+        "terminalTheoremRef",
+        "traceTheoremRef",
+        "expectedTerminalCase",
+        "expectedNodePath",
+        "expectedEdgePath"
+      ],
+      "properties": {
+        "artifactType": {"const": "tacticInstantiation"},
+        "schemaVersion": {"const": "2.0.0"},
+        "graphVersion": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])-v[0-9]+$"},
+        "instanceId": {"type": "string", "minLength": 1},
+        "tacticId": {"enum": ["CT1", "CT2", "CT3", "CT4", "CT5", "CT6", "CT7", "CT8", "CT9", "CT10", "CT11", "CT12", "CT13", "CT14", "CT15", "CT16", "CT17"]},
+        "bindings": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "required": ["slotId", "leanRef"],
+            "properties": {
+              "slotId": {
+                "enum": ["framework", "input", "corePlan", "port", "handoffPlan"]
+              },
+              "leanRef": {"$ref": "#/$defs/leanDeclarationRef"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "executionResultRef": {"$ref": "#/$defs/leanDeclarationRef"},
+        "terminalTheoremRef": {"$ref": "#/$defs/leanDeclarationRef"},
+        "traceTheoremRef": {"$ref": "#/$defs/leanDeclarationRef"},
+        "expectedTerminalCase": {"$ref": "#/$defs/terminalCase"},
+        "expectedNodePath": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"$ref": "#/$defs/nodeId"}
+        },
+        "expectedEdgePath": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/edgeId"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "leanVerificationResult": {
+      "type": "object",
+      "required": [
+        "artifactType",
+        "schemaVersion",
+        "graphVersion",
+        "verificationId",
+        "tacticId",
+        "status",
+        "toolchain",
+        "nodeResults",
+        "aggregateResults"
+      ],
+      "properties": {
+        "artifactType": {"const": "leanVerificationResult"},
+        "schemaVersion": {"const": "2.0.0"},
+        "graphVersion": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])-v[0-9]+$"},
+        "verificationId": {"type": "string"},
+        "tacticId": {"enum": ["CT1", "CT2", "CT3", "CT4", "CT5", "CT6", "CT7", "CT8", "CT9", "CT10", "CT11", "CT12", "CT13", "CT14", "CT15", "CT16", "CT17"]},
+        "status": {"enum": ["not_run", "kernel_checked", "failed", "stale"]},
+        "toolchain": {
+          "type": "object",
+          "required": ["leanToolchain", "lakefileHash"],
+          "properties": {
+            "leanToolchain": {"type": "string"},
+            "lakefileHash": {"type": "string"},
+            "leanVersionObserved": {"type": ["string", "null"]}
+          },
+          "additionalProperties": false
+        },
+        "nodeResults": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["nodeId", "status", "declarations"],
+            "properties": {
+              "nodeId": {"$ref": "#/$defs/nodeId"},
+              "status": {
+                "enum": ["not_run", "resolved", "kernel_checked", "failed", "stale"]
+              },
+              "declarations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["declaration", "status"],
+                  "properties": {
+                    "declaration": {"type": "string"},
+                    "status": {
+                      "enum": ["not_run", "resolved", "kernel_checked", "failed", "stale"]
+                    },
+                    "actualType": {"type": ["string", "null"]},
+                    "sourceHash": {"type": ["string", "null"]}
+                  },
+                  "additionalProperties": false
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "aggregateResults": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"enum": ["not_run", "passed", "failed"]}
+        },
+        "diagnostics": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "tacticFormalizationIndex": {
+      "type": "object",
+      "required": [
+        "artifactType",
+        "schemaVersion",
+        "graphVersion",
+        "tacticId",
+        "toolchain",
+        "rootModule",
+        "nodeBindings",
+        "aggregateDeclarations",
+        "generatedBindingCheck"
+      ],
+      "properties": {
+        "artifactType": {"const": "tacticFormalizationIndex"},
+        "schemaVersion": {"const": "2.0.0"},
+        "graphVersion": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])-v[0-9]+$"},
+        "tacticId": {"enum": ["CT1", "CT2", "CT3", "CT4", "CT5", "CT6", "CT7", "CT8", "CT9", "CT10", "CT11", "CT12", "CT13", "CT14", "CT15", "CT16", "CT17"]},
+        "toolchain": {"type": "string", "minLength": 1},
+        "rootModule": {"type": "string", "minLength": 1},
+        "nodeBindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "nodeId",
+              "nodeSpecRef",
+              "contractDeclaration",
+              "requiredDeclarations"
+            ],
+            "properties": {
+              "nodeId": {"$ref": "#/$defs/nodeId"},
+              "nodeSpecRef": {
+                "type": "string",
+                "pattern": "^nodes/CT(?:[1-9]|1[0-7])\\..+\\.json$"
+              },
+              "contractDeclaration": {"type": "string", "minLength": 1},
+              "requiredDeclarations": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {"type": "string"}
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "aggregateDeclarations": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"type": "string"}
+        },
+        "generatedBindingCheck": {"type": "string", "pattern": "\\.lean$"}
+      },
+      "additionalProperties": false
+    },
+    "tacticContractInventory": {
+      "type": "object",
+      "required": ["artifactType", "schemaVersion", "graphVersion", "tacticId", "contracts"],
+      "properties": {
+        "artifactType": {"const": "tacticContractInventory"},
+        "schemaVersion": {"const": "2.0.0"},
+        "graphVersion": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])-v[0-9]+$"},
+        "tacticId": {"enum": ["CT1", "CT2", "CT3", "CT4", "CT5", "CT6", "CT7", "CT8", "CT9", "CT10", "CT11", "CT12", "CT13", "CT14", "CT15", "CT16", "CT17"]},
+        "contracts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "contractInstanceId",
+              "contractSchema",
+              "statement",
+              "nodeIds",
+              "leanEvidence",
+              "dischargePolicy"
+            ],
+            "properties": {
+              "contractInstanceId": {
+                "type": "string",
+                "pattern": "^CT(?:[1-9]|1[0-7])\\.[A-Za-z-]+\\.[0-9]+$"
+              },
+              "contractSchema": {
+                "enum": [
+                  "S-Def",
+                  "S-Det",
+                  "S-Dich",
+                  "S-Pers",
+                  "S-Comp",
+                  "S-Equiv",
+                  "S-Rout",
+                  "S-Trig",
+                  "S-Meas",
+                  "S-Rest",
+                  "A-Cert",
+                  "A-Scope"
+                ]
+              },
+              "statement": {
+                "type": "object",
+                "required": ["informal", "latex"],
+                "properties": {
+                  "informal": {"type": "string", "minLength": 1},
+                  "latex": {"type": "string"}
+                },
+                "additionalProperties": false
+              },
+              "nodeIds": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {"$ref": "#/$defs/nodeId"}
+              },
+              "leanEvidence": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"$ref": "#/$defs/leanDeclarationRef"}
+              },
+              "dischargePolicy": {"type": "string", "minLength": 1}
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "formalProofRepositoryManifest": {
+      "type": "object",
+      "required": [
+        "artifactType",
+        "schemaVersion",
+        "graphVersion",
+        "repositoryId",
+        "title",
+        "tactics",
+        "schemas",
+        "instances",
+        "leanProject",
+        "generatedArtifacts"
+      ],
+      "properties": {
+        "artifactType": {"const": "formalProofRepositoryManifest"},
+        "schemaVersion": {"const": "2.0.0"},
+        "graphVersion": {"const": "CT1-v1+CT2-v2+CT3-v1+CT4-v1+CT5-v1+CT6-v1+CT7-v1+CT8-v1+CT9-v1+CT10-v1+CT11-v1+CT12-v1+CT13-v1+CT14-v1+CT15-v1+CT16-v1+CT17-v1"},
+        "repositoryId": {"const": "structural-exhaustion-ct1-ct17-reference"},
+        "title": {"type": "string"},
+        "tactics": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "tacticId",
+              "specRef",
+              "contractInventoryRef",
+              "formalizationRef",
+              "nodeDirectory"
+            ],
+            "properties": {
+              "tacticId": {"enum": ["CT1", "CT2", "CT3", "CT4", "CT5", "CT6", "CT7", "CT8", "CT9", "CT10", "CT11", "CT12", "CT13", "CT14", "CT15", "CT16", "CT17"]},
+              "specRef": {"type": "string"},
+              "contractInventoryRef": {"type": "string"},
+              "formalizationRef": {"type": "string"},
+              "nodeDirectory": {"type": "string"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "schemas": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "instances": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "leanProject": {
+          "type": "object",
+          "required": ["rootModule", "toolchainRef", "lakefileRef", "bindingCheckRef"],
+          "properties": {
+            "rootModule": {"type": "string"},
+            "toolchainRef": {"type": "string"},
+            "lakefileRef": {"type": "string"},
+            "bindingCheckRef": {"type": "string"}
+          },
+          "additionalProperties": false
+        },
+        "generatedArtifacts": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

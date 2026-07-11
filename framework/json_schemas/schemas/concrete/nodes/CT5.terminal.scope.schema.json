@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT5.terminal.scope.schema.json",
+  "title": "CT5.terminal.scope completed discharge record — Missing-local-witness scope terminal",
+  "description": "Concrete completed-discharge schema for semantic CT5-v1 node CT5.terminal.scope.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT5.terminal.scope.",
+          "const": "CT5"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for Missing-local-witness scope terminal.",
+          "const": "CT5.terminal.scope"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT5.terminal.scope.",
+          "const": 3
+        },
+        "status": {
+          "description": "Required typed scope-candidate completion state.",
+          "const": "scope_candidate"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT5.terminal.scope.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required A-Scope evidence.",
+                "const": "A-Scope"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT5.terminal.scope.",
+          "type": "array",
+          "minItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required A-Scope discriminator.",
+                    "const": "A-Scope"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT5.terminal.scope.O1",
+    "modality": "audit",
+    "statement": {
+      "informal": "Execute the proof-carrying missing-local-witness scope terminal contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "A-Scope"
+    ],
+    "dependencies": [
+      "CT5.decide.scope"
+    ],
+    "dischargeCriteria": "The terminal index, incoming edge, raw outcome, and certified outcome agree definitionally."
+  }
+}

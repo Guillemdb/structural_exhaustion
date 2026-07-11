@@ -1,0 +1,81 @@
+\subsection{CT10 --- Default refinement}\label{ct:10}\label{the-default-refinement}
+\ctsignature{\(P_{\ast\to10}\to \ctcert{C5};\ \ctint{P_{10\to3},P_{10\to7},P_{10\to15}};\ \ctrec{\ctnone}\).}
+
+CT10 is an exact machine for promoting a finite missing datum to the next
+branch invariant.  Its entry interface fixes the residual class, extracted
+datum, finite alphabet, class table, finite-scope predicate, and C5 claim.  The
+executable framework adds label-class exhaustion, finite exchange support,
+direct classification, missing-datum extraction, promotion certification, and
+the exact CT3, CT7, and CT15 entry contracts.
+
+The core plan has six fields: \texttt{scope}, \texttt{labels},
+\texttt{classification}, \texttt{direct}, \texttt{promotion}, and
+\texttt{promotedRouting}.  The scope node produces a typed scope terminal or
+a \texttt{ScopedState}.  The labels node has one successor and constructs a
+\texttt{LabelState} containing both the proof that label classes exhaust the
+residual class and the proof that supported exchanges are finite within each
+class.
+
+The classification node returns a C5 certificate, a
+\texttt{DirectState}, or a \texttt{MissingState}.  Direct routing constructs
+an exact CT3 response input or an exact CT7 class-exchange input.  A missing
+state cannot route directly.  It must first pass through the one-successor
+promotion node, which proves that the datum was extracted from the failed
+classification and records it as a new invariant.  The promoted routing node
+then constructs a provenance-tagged CT3 input or an exact CT15 rank input.
+
+CT10 has two semantically distinct routes to the same CT3 terminal.  The
+inductive \texttt{CT3Payload} records whether the input came directly from a
+classified label class or only after promotion.  Each constructor retains the
+corresponding predecessor state, so the consumer cannot erase this provenance.
+The dependent path type permits both incoming edges while keeping every
+individual execution linear.
+
+\begin{itemize}
+\tightlist
+\item \textbf{S-Def} fixes the residual, promoted datum, alphabet, and class table; promotion is separately certified.
+\item \textbf{S-Dich} is the exhaustive class-level classification.
+\item \textbf{S-Comp} is carried by class exhaustion and the C5 certificate.
+\item \textbf{S-Rout} and \textbf{S-Trig} are carried by exact CT3 and CT7 inputs and the indexed CT15 datum.
+\end{itemize}
+
+An infinite adequate refinement alphabet is the typed scope terminal.  Failure
+to extract the promoted datum is not a runtime loop or unnamed residual: no
+\texttt{PromotedState} can be constructed, so the tactic must be redesigned at
+that node boundary.
+
+\begin{figure}[p]
+\centering
+\vspace*{-1.80cm}
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\scriptsize}]
+\node[bcwide] (entry) at (0,0) {{\tiny\ttfamily CT10.entry}\\\textbf{Validated residual, datum, alphabet, table}};
+\node[bcdec,bclemma,text width=3.45cm,minimum width=4.20cm] (scope) at (0,-2.30) {{\tiny\ttfamily CT10.decide.scope}\\\textbf{Finite refinement alphabet?}};
+\node[bcscopefail,text width=3.10cm,minimum width=3.10cm] (scopeout) at (7.30,-2.30) {{\tiny\ttfamily CT10.terminal.scope}\\\textbf{Scope exit}};
+\node[bcwide,bclemma] (labels) at (0,-4.70) {{\tiny\ttfamily CT10.certify.labels}\\\textbf{Exhaustion and finite-support certificate}};
+\node[bcroutechoice,bctheorem,text width=3.30cm,minimum width=4.25cm] (classification) at (0,-7.25) {{\tiny\ttfamily CT10.decide.classification}\\\textbf{Closed, direct, or missing datum?}};
+\node[bcclosed] (c5) at (-7.50,-7.25) {{\tiny\ttfamily CT10.terminal.c5}\\\textbf{C5}};
+\node[bcroutechoice,bctheorem,text width=3.25cm,minimum width=4.10cm] (direct) at (-4.70,-10.20) {{\tiny\ttfamily CT10.decide.direct}\\\textbf{Route direct class result}};
+\node[bcwide,bclemma,text width=3.55cm,minimum width=3.55cm] (promotion) at (4.70,-10.20) {{\tiny\ttfamily CT10.certify.promotion}\\\textbf{Promote extracted datum}};
+\node[bcroutechoice,bctheorem,text width=3.35cm,minimum width=4.30cm] (promoted) at (4.70,-13.00) {{\tiny\ttfamily CT10.decide.promotedRouting}\\\textbf{Route promoted invariant}};
+\node[bcroute,bcrouteneutral,bcoutputroute,text width=3.05cm,minimum width=3.05cm] (ct3) at (-4.70,-16.20) {{\tiny\ttfamily CT10.terminal.ct3}\\\textbf{CT 3 exit}};
+\node[bcroute,bcrouteneutral,bcoutputroute,text width=3.05cm,minimum width=3.05cm] (ct7) at (-10.00,-13.00) {{\tiny\ttfamily CT10.terminal.ct7}\\\textbf{CT 7 exit}};
+\node[bcroute,bcrouteneutral,bcoutputroute,text width=3.05cm,minimum width=3.05cm] (ct15) at (10.00,-16.20) {{\tiny\ttfamily CT10.terminal.ct15}\\\textbf{CT 15 exit}};
+\draw[bcarr] (entry)--(scope);
+\draw[bcscopearr] (scope)--node[bclabel,above]{exit}(scopeout);
+\draw[bcarr] (scope)--node[bclabel,right]{ready}(labels);
+\draw[bcarr] (labels)--node[bclabel,right]{certified}(classification);
+\draw[bcarr] (classification)--node[bclabel,above]{exhausted}(c5);
+\draw[bcarr] (classification)--node[bclabel,above,sloped]{direct}(direct);
+\draw[bcarr] (classification)--node[bclabel,above,sloped]{missing}(promotion);
+\draw[bchandoff] (direct)--node[bclabel,above,sloped]{response}(ct3);
+\draw[bchandoff] (direct)--node[bclabel,above,sloped]{exchange}(ct7);
+\draw[bcarr] (promotion)--node[bclabel,right]{certified}(promoted);
+\draw[bchandoff] (promoted)--node[bclabel,above,sloped]{response}(ct3);
+\draw[bchandoff] (promoted)--node[bclabel,above,sloped]{rank datum}(ct15);
+\end{tikzpicture}%
+}
+\caption[Closure-tactic 10: exact refinement machine]{Closure-tactic 10 as an exact sequential machine.  Label exhaustion and datum promotion are separate one-successor certificates.  The two CT3 edges converge at one terminal but carry different constructors of \texttt{CT3Payload}, preserving direct versus promoted provenance.}
+\label{fig:ct10-default-refinement}
+\end{figure}
+\FloatBarrier

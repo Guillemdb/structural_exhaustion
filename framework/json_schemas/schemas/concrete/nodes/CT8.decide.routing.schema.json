@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT8.decide.routing.schema.json",
+  "title": "CT8.decide.routing completed discharge record — Separating-witness routing",
+  "description": "Concrete completed-discharge schema for semantic CT8-v1 node CT8.decide.routing.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT8.decide.routing.",
+          "const": "CT8"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for Separating-witness routing.",
+          "const": "CT8.decide.routing"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT8.decide.routing.",
+          "const": 10
+        },
+        "status": {
+          "description": "Required successful proof state for this executable machine node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT8.decide.routing.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Rout evidence.",
+                "const": "S-Rout"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT8.decide.routing.",
+          "type": "array",
+          "minItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Rout discriminator.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT8.decide.routing.O1",
+    "modality": "decide",
+    "statement": {
+      "informal": "Execute the proof-carrying separating-witness routing contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Rout"
+    ],
+    "dependencies": [
+      "CT8.decide.response"
+    ],
+    "dischargeCriteria": "The node implementation constructs its indexed output contract without inspecting any later node."
+  }
+}

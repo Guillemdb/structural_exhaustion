@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT3.decide.table.schema.json",
+  "title": "CT3.decide.table completed discharge record — Finite-table classification",
+  "description": "Concrete completed-discharge schema for semantic CT3-v1 node CT3.decide.table.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT3.decide.table.",
+          "const": "CT3"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for Finite-table classification.",
+          "const": "CT3.decide.table"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT3.decide.table.",
+          "const": 11
+        },
+        "status": {
+          "description": "Required successful proof state for this executable machine node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT3.decide.table.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 3,
+          "maxItems": 3,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Dich evidence.",
+                "const": "S-Dich"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required S-Pers evidence.",
+                "const": "S-Pers"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required S-Comp evidence.",
+                "const": "S-Comp"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT3.decide.table.",
+          "type": "array",
+          "minItems": 3,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Dich discriminator.",
+                    "const": "S-Dich"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Pers discriminator.",
+                    "const": "S-Pers"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Comp discriminator.",
+                    "const": "S-Comp"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT3.decide.table.O1",
+    "modality": "decide",
+    "statement": {
+      "informal": "Execute the proof-carrying finite-table classification contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Dich",
+      "S-Pers",
+      "S-Comp"
+    ],
+    "dependencies": [
+      "CT3.decide.defect"
+    ],
+    "dischargeCriteria": "The node implementation constructs its indexed output contract without inspecting any later node."
+  }
+}

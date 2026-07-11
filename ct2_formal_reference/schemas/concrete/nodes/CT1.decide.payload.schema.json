@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/ct1/nodes/CT1.decide.payload.schema.json",
+  "allOf": [
+    {
+      "$ref": "../../formalization.bundle.schema.json#/$defs/formalNodeSpec"
+    },
+    {
+      "properties": {
+        "nodeId": {
+          "const": "CT1.decide.payload"
+        },
+        "nodeKind": {
+          "const": "decision"
+        }
+      },
+      "required": [
+        "nodeId",
+        "nodeKind"
+      ]
+    }
+  ]
+}

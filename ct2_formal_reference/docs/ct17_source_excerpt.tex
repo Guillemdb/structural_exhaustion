@@ -1,0 +1,64 @@
+\subsection{CT17 --- Target thickening}\label{ct:17}\label{target-thickening-bounded-offsets-against-sparse-targets}
+\ctsignature{\(\begin{array}{@{}l@{}}P_{1\to17}\to \ctcert{C1,C5};\\
+\ctint{P_{17\to8},P_{17\to14}};\\
+\ctrec{P_{17\to3},P_{17\to10}}.\end{array}\)}
+
+CT17 thickens a sparse target by offsets realized in one branch state.  Its
+entry fixes the target set, offset family, completion classes, arithmetic
+datum, branch state, and C1 and C5 claims.  Scope certifies that a bounded
+offset family with finite arithmetic leverage is available.
+
+Compatibility is tested before block construction.  Incompatible offsets
+enter a separation node and construct an exact CT3 type input or CT10 label
+input; they cannot be pooled in a target block.  Compatible offsets pass
+through the one-successor block certificate and then the scale decision.  A
+finite-range state enters the survivor decision, which closes by C5 or
+constructs an exact CT8 input.  A repeated-increment state enters the
+arithmetic decision, which closes by C1 or constructs an exact CT14 input.
+
+The two scale branches have different indexed states and different consumer
+payloads.  Consequently a finite survivor list cannot be used as aggregate
+mass, and a large-scale arithmetic residual cannot be presented to the
+finite-state pumping tactic.
+
+\begin{itemize}
+\tightlist
+\item \textbf{S-Def} fixes target, offsets, completion classes, and arithmetic data.
+\item \textbf{S-Dich} is split among compatibility, scale, survivor, and arithmetic decisions.
+\item \textbf{S-Comp} is carried by block construction and the C1/C5 certificates.
+\item \textbf{S-Rout} and \textbf{S-Trig} are exact CT3, CT8, CT10, and CT14 inputs.
+\end{itemize}
+
+\begin{figure}[p]
+\centering
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\scriptsize}]
+\node[bcwide] (entry) at (0,0) {{\tiny\ttfamily CT17.entry}\\\textbf{Validated sparse target and offsets}};
+\node[bcdec,bclemma] (scope) at (0,-2.1) {{\tiny\ttfamily CT17.decide.scope}\\\textbf{Bounded arithmetic family?}};
+\node[bcscopefail] (scopeout) at (-7.2,-2.1) {{\tiny\ttfamily CT17.terminal.scope}\\\textbf{Scope exit}};
+\node[bcdec,bclemma] (compat) at (0,-4.4) {{\tiny\ttfamily CT17.decide.\allowbreak compatibility}\\\textbf{One branch state?}};
+\node[bcroutechoice,bctheorem] (separate) at (-6.0,-6.9) {{\tiny\ttfamily CT17.decide.separation}\\\textbf{Type or label separation}};
+\node[bcroute,bcrouteneutral] (ct3) at (-9.0,-9.5) {{\tiny\ttfamily CT17.terminal.ct3}\\\textbf{CT 3 exit}};
+\node[bcroute,bcrouteneutral] (ct10) at (-3.0,-9.5) {{\tiny\ttfamily CT17.terminal.ct10}\\\textbf{CT 10 exit}};
+\node[bcwide,bclemma] (block) at (4.8,-6.9) {{\tiny\ttfamily CT17.certify.block}\\\textbf{Target-thickened block}};
+\node[bcdec,bclemma] (scale) at (4.8,-9.5) {{\tiny\ttfamily CT17.decide.scale}\\\textbf{Finite or repeated?}};
+\node[bcdec,bclemma] (survivors) at (1.6,-12.1) {{\tiny\ttfamily CT17.decide.survivors}\\\textbf{Finite survivors empty?}};
+\node[bcclosed] (c5) at (-0.7,-14.7) {{\tiny\ttfamily CT17.terminal.c5}\\\textbf{C5}};
+\node[bcroute,bcrouteneutral] (ct8) at (3.9,-14.7) {{\tiny\ttfamily CT17.terminal.ct8}\\\textbf{CT 8 exit}};
+\node[bcdec,bclemma] (arith) at (8.0,-12.1) {{\tiny\ttfamily CT17.decide.arithmetic}\\\textbf{All blocks hit?}};
+\node[bcclosed] (c1) at (6.0,-14.7) {{\tiny\ttfamily CT17.terminal.c1}\\\textbf{C1}};
+\node[bcroute,bcrouteneutral] (ct14) at (10.0,-14.7) {{\tiny\ttfamily CT17.terminal.ct14}\\\textbf{CT 14 exit}};
+\draw[bcarr] (entry)--(scope); \draw[bcscopearr] (scope)--(scopeout); \draw[bcarr] (scope)--(compat);
+\draw[bcarr] (compat)--node[bclabel,above,sloped]{incompatible}(separate);
+\draw[bchandoff] (separate)--(ct3); \draw[bchandoff] (separate)--(ct10);
+\draw[bcarr] (compat)--node[bclabel,above,sloped]{compatible}(block); \draw[bcarr] (block)--(scale);
+\draw[bcarr] (scale)--node[bclabel,above,sloped]{finite}(survivors);
+\draw[bcarr] (survivors)--(c5); \draw[bchandoff] (survivors)--(ct8);
+\draw[bcarr] (scale)--node[bclabel,above,sloped]{repeated}(arith);
+\draw[bcarr] (arith)--(c1); \draw[bchandoff] (arith)--(ct14);
+\end{tikzpicture}%
+}
+\caption[Closure-tactic 17: exact target-thickening machine]{Compatibility precedes block construction; finite and repeated scales retain distinct states and exits.}
+\label{fig:ct17-target-thickening}
+\end{figure}
+\FloatBarrier

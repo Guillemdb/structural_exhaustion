@@ -1,0 +1,155 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT2-v2",
+  "nodeId": "CT2.terminal.c2.replacement",
+  "nodeKind": "terminal",
+  "title": "C2 replacement terminal",
+  "human": {
+    "informal": "A smaller candidate with its candidate-specific context certificate yields replacement C2.",
+    "latex": "",
+    "whyNeeded": "The terminal cannot be constructed from size comparison alone; it retains the context certificate.",
+    "failureMeaning": "The invocation cannot take this transition without the typed evidence carried by its result constructor.",
+    "proofHints": [
+      "Construct the declared proof-carrying result; do not encode a branch as an unchecked Boolean."
+    ]
+  },
+  "contracts": [
+    "S-Comp",
+    "S-Equiv",
+    "A-Cert"
+  ],
+  "formalContract": {
+    "contractId": "CT2.terminal.c2.replacement.contract",
+    "executionMode": "proof_only",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT2",
+      "declaration": "StructuralExhaustion.CT2.RawOutcome",
+      "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "inputs": [
+      {
+        "slotId": "framework",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT2.Framework"
+      },
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT2.Input framework"
+      },
+      {
+        "slotId": "candidate",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT2.CandidateState framework input"
+      },
+      {
+        "slotId": "certificate",
+        "valueKind": "certificate",
+        "typeExpression": "StructuralExhaustion.CT2.CandidateContextCertificate framework input candidate"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "rawOutcome",
+        "valueKind": "certificate",
+        "typeExpression": "StructuralExhaustion.CT2.RawOutcome framework input .replacementC2"
+      }
+    ],
+    "dischargeCondition": "The referenced Lean contract and every branch constructor resolve, and each outgoing transition carries the evidence required by its target state."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT2.Graph",
+    "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+    "requiredRoles": [
+      "state",
+      "constructor"
+    ],
+    "declarations": [
+      {
+        "role": "state",
+        "localName": "Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Graph",
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal",
+          "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "replacementC2",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Graph",
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal.replacementC2",
+          "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "replacementC2Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Graph",
+          "declaration": "StructuralExhaustion.CT2.Graph.NodeId.replacementC2Terminal",
+          "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "replacementC2",
+        "ref": {
+          "module": "StructuralExhaustion.CT2",
+          "declaration": "StructuralExhaustion.CT2.RawOutcome.replacementC2",
+          "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "replacementC2",
+        "ref": {
+          "module": "StructuralExhaustion.CT2",
+          "declaration": "StructuralExhaustion.CT2.Outcome.replacementC2",
+          "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    ]
+  },
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT2 — Minimality and replacement",
+    "diagramKey": "c2Replacement"
+  },
+  "terminal": {
+    "terminalCase": "c2.replacement",
+    "terminalConstructorRef": {
+      "module": "StructuralExhaustion.CT2.Graph",
+      "declaration": "StructuralExhaustion.CT2.Graph.Terminal.replacementC2",
+      "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+      "declarationKind": "constructor"
+    },
+    "outcomeConstructorRef": {
+      "module": "StructuralExhaustion.CT2",
+      "declaration": "StructuralExhaustion.CT2.Outcome.replacementC2",
+      "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
+      "declarationKind": "constructor"
+    },
+    "claimTypeExpression": "False",
+    "evidenceSlots": [
+      {
+        "slotId": "candidate",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT2.CandidateState framework input"
+      },
+      {
+        "slotId": "certificate",
+        "valueKind": "certificate",
+        "typeExpression": "StructuralExhaustion.CT2.CandidateContextCertificate framework input candidate"
+      }
+    ]
+  }
+}

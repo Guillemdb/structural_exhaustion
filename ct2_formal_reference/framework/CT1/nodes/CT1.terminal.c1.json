@@ -1,0 +1,144 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT1-v1",
+  "nodeId": "CT1.terminal.c1",
+  "nodeKind": "terminal",
+  "title": "c1 terminal",
+  "human": {
+    "informal": "The semantic run ends at the exact c1 outcome.",
+    "latex": "",
+    "whyNeeded": "The terminal index prevents a payload or certificate from being attached to another route.",
+    "failureMeaning": "The terminal is unavailable unless its predecessor evidence has been constructed.",
+    "proofHints": [
+      "Use the indexed RawOutcome and Outcome constructors."
+    ]
+  },
+  "contracts": [
+    "S-Equiv",
+    "A-Cert"
+  ],
+  "formalContract": {
+    "contractId": "CT1.terminal.c1.contract",
+    "executionMode": "proof_only",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT1",
+      "declaration": "StructuralExhaustion.CT1.RawOutcome",
+      "sourceFile": "StructuralExhaustion/CT1/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "inputs": [
+      {
+        "slotId": "framework",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT1.Framework"
+      },
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT1.Input framework"
+      },
+      {
+        "slotId": "certificate",
+        "valueKind": "certificate",
+        "typeExpression": "StructuralExhaustion.CT1.C1Certificate framework input"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "rawOutcome",
+        "valueKind": "payload",
+        "typeExpression": "StructuralExhaustion.CT1.RawOutcome framework input .c1"
+      }
+    ],
+    "dischargeCondition": "The terminal constructor, raw outcome, certified outcome, and incoming typed edge all resolve."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT1.Graph",
+    "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+    "requiredRoles": [
+      "state",
+      "constructor"
+    ],
+    "declarations": [
+      {
+        "role": "state",
+        "localName": "Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT1.Graph",
+          "declaration": "StructuralExhaustion.CT1.Graph.Terminal",
+          "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "c1",
+        "ref": {
+          "module": "StructuralExhaustion.CT1.Graph",
+          "declaration": "StructuralExhaustion.CT1.Graph.Terminal.c1",
+          "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "c1Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT1.Graph",
+          "declaration": "StructuralExhaustion.CT1.Graph.NodeId.c1Terminal",
+          "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "c1",
+        "ref": {
+          "module": "StructuralExhaustion.CT1",
+          "declaration": "StructuralExhaustion.CT1.RawOutcome.c1",
+          "sourceFile": "StructuralExhaustion/CT1/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "c1",
+        "ref": {
+          "module": "StructuralExhaustion.CT1",
+          "declaration": "StructuralExhaustion.CT1.Outcome.c1",
+          "sourceFile": "StructuralExhaustion/CT1/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    ]
+  },
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT1 — Target-test alignment and first closure",
+    "diagramKey": "c1"
+  },
+  "terminal": {
+    "terminalCase": "c1",
+    "terminalConstructorRef": {
+      "module": "StructuralExhaustion.CT1.Graph",
+      "declaration": "StructuralExhaustion.CT1.Graph.Terminal.c1",
+      "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+      "declarationKind": "constructor"
+    },
+    "outcomeConstructorRef": {
+      "module": "StructuralExhaustion.CT1",
+      "declaration": "StructuralExhaustion.CT1.Outcome.c1",
+      "sourceFile": "StructuralExhaustion/CT1/Execution.lean",
+      "declarationKind": "constructor"
+    },
+    "claimTypeExpression": "framework.ct2.Target input.G",
+    "evidenceSlots": [
+      {
+        "slotId": "certificate",
+        "valueKind": "certificate",
+        "typeExpression": "StructuralExhaustion.CT1.C1Certificate framework input"
+      }
+    ]
+  }
+}

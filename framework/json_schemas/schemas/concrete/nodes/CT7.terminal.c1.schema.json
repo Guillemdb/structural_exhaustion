@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT7.terminal.c1.schema.json",
+  "title": "CT7.terminal.c1 completed discharge record — C1 target realization terminal",
+  "description": "Concrete completed-discharge schema for semantic CT7-v1 node CT7.terminal.c1.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT7.terminal.c1.",
+          "const": "CT7"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for C1 target realization terminal.",
+          "const": "CT7.terminal.c1"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT7.terminal.c1.",
+          "const": 6
+        },
+        "status": {
+          "description": "Required successful validation state for this entry or terminal node.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT7.terminal.c1.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required A-Cert evidence.",
+                "const": "A-Cert"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT7.terminal.c1.",
+          "type": "array",
+          "minItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required A-Cert discriminator.",
+                    "const": "A-Cert"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT7.terminal.c1.O1",
+    "modality": "validate",
+    "statement": {
+      "informal": "Execute the proof-carrying c1 target realization terminal contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "A-Cert"
+    ],
+    "dependencies": [
+      "CT7.decide.realization"
+    ],
+    "dischargeCriteria": "The terminal index, incoming edge, raw outcome, and certified outcome agree definitionally."
+  }
+}

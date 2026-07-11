@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT2.terminal.scope.schema.json",
+  "title": "CT2.terminal.scope completed discharge record — Scope terminal — interface boundedness refuted",
+  "description": "Concrete completed-discharge schema for semantic CT2-v2 node CT2.terminal.scope. It fixes the runtime identity, presentation order, successful status, and exact contract evidence without converting the semantic ID back to a numbered obligation ID.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT2.terminal.scope; it must be CT2.",
+          "const": "CT2"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for Scope terminal — interface boundedness refuted.",
+          "const": "CT2.terminal.scope"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation-order index for CT2.terminal.scope; it is not part of the semantic identity.",
+          "const": 3
+        },
+        "status": {
+          "description": "Required completion state for CT2.terminal.scope; scope_candidate records the typed bounded-interface obstruction for the global audit.",
+          "enum": [
+            "scope_candidate"
+          ]
+        },
+        "dischargedContracts": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 1,
+          "description": "Exact contract families discharged at CT2.terminal.scope: A-Scope.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires A-Scope, which records the bounded-interface refutation for scope audit.",
+                "const": "A-Scope"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Typed contract instances for CT2.terminal.scope; one A-Scope record is required for each declared family.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Discriminator for the A-Scope evidence at CT2.terminal.scope; this instance records the bounded-interface refutation for scope audit.",
+                    "const": "A-Scope"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT2.terminal.scope.O1",
+    "modality": "audit",
+    "statement": {
+      "informal": "Scope terminal — interface boundedness refuted.",
+      "latex": "\\textbf{Scope exit}\\\\unbounded interface\\\\\\scoperef"
+    },
+    "contractSchemas": [
+      "A-Scope"
+    ],
+    "dependencies": [
+      "CT2.decide.interface"
+    ],
+    "dischargeCriteria": "Supply the declared proof-carrying state, decision, certificate, or payload. Every outgoing edge is available only through its named typed constructor and evidence slots."
+  }
+}

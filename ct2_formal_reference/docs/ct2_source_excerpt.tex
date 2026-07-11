@@ -1,0 +1,188 @@
+\subsection{CT2 --- Minimality and replacement}\label{ct:2}\label{minimal-counterexample}
+\ctsignature{\(P_{1\to2}\to \ctcert{C2};\ \ctint{\ctnone};\ \ctrec{P_{2\to3},P_{2\to10}}\).}
+
+You typically reach CT2 from CT1 after target avoidance exposes a proper
+piece that may be deleted or replaced.  The tactic is the disciplined use
+of minimality: it closes legal reductions and routes the survivor when
+minimality leaves a target-uncompressible object.
+
+\ctpar{Fires when}
+The entry state contains a minimal counterexample, a proper admissible
+piece with interface data, and a declared size order.  These data form a
+single typed invocation.  Interface boundedness is the first machine
+decision; it is not part of the entry hypothesis.
+
+\ctpar{You supply}
+You supply the size order, the admissibility class, and the replacement
+family.  These come from the resource inventory and from the interface
+vocabulary data; the replacement family must be compatible with the
+recorded outside contexts.  You also supply five independent node
+interfaces: the interface audit, deletion analysis, replacement-candidate
+search, candidate-specific context certification, and survivor
+classification.  Consumer adapters certify the two outgoing payload types
+separately from these core decisions.
+
+\ctpar{Execution}
+The machine is sequential.  First audit the interface.  An unbounded
+interface produces the scope exit; a bounded interface enables deletion
+analysis.  A legal smaller deletion closes by C2, while its exhaustive
+refutation produces the deletion-critical state.  Replacement-candidate
+search then returns either one concrete smaller compatible candidate or an
+exhaustive proof that no such candidate exists.  Exhaustive absence produces
+the target-uncompressible state and enables the final survivor classifier.
+A concrete candidate instead enters its own context-certification node,
+which returns either the complete context-safe replacement certificate or
+an explicit separating context.  The certified alternative closes by C2;
+the separating alternative produces the CT3 context-residual exit.  The
+survivor classifier returns either the CT10 criticality-refinement exit or
+the CT3 response-defect exit.
+
+Replacement certification is candidate-specific.  The search result carries
+the concrete replacement, its local legality and interface conditions, and
+strict decrease.  The following node alone is responsible for certifying
+the reverse response-profile implication and preservation of counterexample
+status.  Its residual alternative records an actual compatible outside
+context and the response discrepancy that refutes context safety.  Static
+definitions such as the response profile are resources of these interfaces
+rather than runtime states.
+
+\ctpar{Formal machine interface}
+The Lean reference assigns one independently compiled module to each
+decision.  \texttt{Interface.Decision} returns a \texttt{ScopeCandidate}
+or \texttt{BoundedState}; \texttt{Deletion.Decision} returns a
+\texttt{DeletionWitness} or \texttt{DeletionCritical\allowbreak{}State};
+\texttt{ReplacementCandidate.\allowbreak{}Decision} returns a \texttt{CandidateState}
+or \texttt{SurvivorState}; \texttt{Context.Decision} returns a
+\texttt{CandidateContext\allowbreak{}Certificate} or \texttt{ContextCT3\allowbreak{}Payload}; and
+\texttt{Survivor.Decision} returns a \texttt{CriticalityCT10\allowbreak{}Payload} or
+\texttt{ResponseCT3\allowbreak{}Payload}.  The entry module has only the validated
+\texttt{Input} contract and its identity runner.  A \texttt{CorePlan}
+contains exactly the five decision plans.  The downstream \texttt{Port}
+and \texttt{HandoffPlan} are separate, so consumer acceptance cannot enter
+a core node contract.
+
+Each constructor of \texttt{Graph.Edge} stores the evidence returned by its
+source node, and the indices of \texttt{Graph.Path} enforce exact edge
+composition.  \texttt{runCore} returns a terminal-indexed
+\texttt{RawOutcome}; \texttt{certify} adds only the appropriate handoff
+proof; and \texttt{runTraced} returns an \texttt{ExecutionResult} whose
+path and \texttt{Outcome} share the same terminal index.  The two C2
+origins are distinct constructors of \texttt{C2Certificate}.  The term
+form \texttt{ct2\_execute} invokes this interpreter, while the
+goal-closing tactics \texttt{ct2} and \texttt{ct2\_total} apply
+\texttt{run\_verified} and \texttt{run\_total}.  Here totality is relative
+to the supplied proof-producing node plans; it is not a claim that the
+required witnesses can always be synthesized automatically.
+
+\ctpar{Soundness obligations}
+\begin{itemize}
+\tightlist
+\item \textbf{S-Def} is instantiated with the proper piece \(X\), its interface \(\iota_X\), the admissibility class, and the minimality order \(\prec\).
+\item \textbf{S-Dich} is instantiated node by node: bounded versus scope, deletion witness versus deletion-critical state, candidate versus exhaustive absence, certified candidate versus separating context, and criticality datum versus response defect.
+\item \textbf{S-Comp} is instantiated with the proof that every legal deletion or replacement produces an object strictly smaller in the order \(\prec\).
+\item \textbf{S-Equiv} is instantiated candidate by candidate: a replacement closes only after its interface compatibility and context safety have been certified; failure returns an explicit separating context.
+\item \textbf{S-Rout} is instantiated with the context-residual and survivor-response variants of \(P_{2\to3}\), and with \(P_{2\to10}\) for a survivor carrying criticality-refinement data.
+\item \textbf{S-Trig} is instantiated with the two corresponding CT3 triggers and the CT10 criticality trigger.
+\end{itemize}
+
+\ctpar{Routing}
+Legal deletion or replacement closes by C2.  A context-dependent
+response emits \(P_{2\to3}\) to CT3.  A target-uncompressible survivor
+with criticality-refinement data emits \(P_{2\to10}\) to CT10; a
+surviving response defect emits \(P_{2\to3}\) to CT3.  Each handoff is a
+normal typed terminal result and carries its consumer-admission proof.
+
+\ctpar{Limit}
+CT2 produces a scope result when the required interface is unbounded.  A
+replacement can reach C2 only through the candidate-specific context
+certificate.  Missing interface data is a CT2/S-Def defect; a candidate
+without the required context certificate is a CT2/S-Equiv defect.
+
+\begin{figure}[p]
+\centering
+\vspace*{-2.20cm}
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+x=1cm,
+y=1cm,
+every node/.style={font=\scriptsize}
+]
+\node[bcwide] (entry) at (0,0) {{\tiny\ttfamily CT2.entry}\\\textbf{Typed entry}\\minimal counterexample \(G\); proper admissible piece \(X\)};
+\node[bcaudit,text width=3.45cm,minimum width=4.25cm] (interface) at (0,-2.45) {{\tiny\ttfamily CT2.decide.interface}\\\textbf{Interface audit}\\is \(\iota_X\) bounded?};
+\node[bcscopefail,text width=3.05cm,minimum width=3.05cm] (scopebad) at (6.65,-2.45) {{\tiny\ttfamily CT2.terminal.scope}\\\textbf{Scope exit}\\unbounded interface\\\scoperef};
+\node[bcdec,bclemma,text width=3.45cm,minimum width=4.25cm] (delete) at (0,-5.45) {{\tiny\ttfamily CT2.decide.deletion}\\\textbf{Deletion analysis}\\legal smaller counterexample or exhaustive refutation};
+\node[bcclosed] (delout) at (6.65,-5.45) {{\tiny\ttfamily CT2.terminal.c2.deletion}\\\textbf{C2}\\deletion certificate};
+\node[bcdec,bclemma,text width=3.55cm,minimum width=4.35cm] (candidate) at (0,-8.55) {{\tiny\ttfamily CT2.decide.replacementCandidate}\\\textbf{Replacement-candidate search}\\smaller compatible candidate or exhaustive absence};
+\node[bcaudit,text width=3.55cm,minimum width=4.35cm] (context) at (0,-11.65) {{\tiny\ttfamily CT2.decide.context}\\\textbf{Candidate certification}\\context-safe or explicit separating context};
+\node[bcclosed] (repout) at (6.65,-11.65) {{\tiny\ttfamily CT2.terminal.c2.\allowbreak{}replacement}\\\textbf{C2}\\replacement certificate};
+\node[bcroute,bcrouteneutral,bcdesign,text width=3.35cm,minimum width=3.35cm] (ctxroute) at (-6.65,-11.65) {{\tiny\ttfamily CT2.terminal.ct3.context}\\\textbf{CT 3 exit}\\context residual};
+\node[bcroutechoice,bctheorem,bcdesign,text width=3.55cm,minimum width=4.35cm] (route) at (0,-14.75) {{\tiny\ttfamily CT2.decide.survivor}\\\textbf{Survivor classifier}\\criticality refinement or response defect};
+\node[bcroute,bcrouteneutral,bcdesign,text width=3.45cm,minimum width=3.45cm] (next) at (-4.55,-17.75) {{\tiny\ttfamily CT2.terminal.ct10.criticality}\\\textbf{CT 10 exit}\\criticality refinement};
+\node[bcroute,bcrouteneutral,bcdesign,text width=3.45cm,minimum width=3.45cm] (typeroute) at (4.55,-17.75) {{\tiny\ttfamily CT2.terminal.ct3.response}\\\textbf{CT 3 exit}\\response defect};
+\node[bcbox,bcdefinition,text width=3.65cm,minimum width=3.65cm] (resources) at (-7.10,-5.65) {\textbf{Static resources}\\order; admissibility; interface and response profile; replacement family};
+
+\draw[bcarr] (entry)--(interface);
+\draw[bcscopearr] (interface)--node[bclabel,above,pos=.43]{unbounded proof}(scopebad);
+\draw[bcarr] (interface)--node[bclabel,right]{bounded state}(delete);
+\draw[bcarr] (delete)--node[bclabel,above,pos=.43]{deletion witness}(delout);
+\draw[bcarr] (delete)--node[bclabel,right]{deletion-critical state}(candidate);
+\draw[bcarr] (candidate)--node[bclabel,right]{candidate found}(context);
+\draw[bcarr] (candidate.east)
+  -- node[bclabel,above,midway,text width=1.65cm,align=center]{absent: survivor state} ++(6.80,0)
+  |- (route.east);
+\draw[bcarr] (context)--node[bclabel,above,pos=.43]{safe smaller candidate}(repout);
+\draw[bchandoff] (context)--node[bclabel,above,pos=.43]{separating context}(ctxroute);
+\draw[bchandoff] (route)--node[bclabel,above,sloped]{criticality datum}(next);
+\draw[bchandoff] (route)--node[bclabel,above,sloped]{response defect}(typeroute);
+\draw[bccheckarr] (resources)--(delete);
+\draw[bccheckarr] (resources)--(candidate);
+\draw[bccheckarr] (resources)--(context);
+\end{tikzpicture}%
+}
+\caption[Closure-tactic 2: minimality and replacement]{Closure-tactic 2 (minimality and replacement) as an exact sequential machine.  The monospaced labels are the stable semantic identifiers shared by the JSON graph and Lean's \texttt{Graph.NodeId}.  The entry state packages the minimal counterexample and admissible piece.  Each decision consumes one typed predecessor state and returns evidence for exactly one outgoing edge.  Candidate-specific replacement certification either closes by minimality or produces an explicit separating context for CT3; exhaustive absence produces the target-uncompressible state consumed by the survivor classifier.  The CT3 and CT10 handoffs are ordinary certified terminal results.  Static definitions and proof resources are displayed separately because they are not runtime states.  An unbounded interface produces the scope result referred to the global audit in \secref{the-scope-condition-locally-testable-targets}.}
+\label{fig:ct2-minimality-replacement}
+\end{figure}
+\FloatBarrier
+
+\subsection*{Minimality and replacement in practice}
+
+Assume a \textbf{minimal counterexample} \(G\), ordered by a
+lexicographic size parameter
+
+\[
+(|G|,\ \text{secondary complexity},\ \ldots).
+\]
+
+Minimality supplies two families of tools.
+
+\emph{Deletion/criticality tools:}
+
+\[
+\begin{gathered}
+\text{if deleting or simplifying } X \text{ preserves the hypotheses}\\
+\text{and avoids the target, contradiction.}
+\end{gathered}
+\]
+
+\emph{Replacement/compression tools:}
+
+\[
+\begin{gathered}
+\text{if a proper piece } X \text{ admits a smaller}\\
+\text{target-equivalent representative, contradiction.}
+\end{gathered}
+\]
+
+The second family is the engine behind every ``periodicity implies
+reducibility'' step. A periodic structure contributes to the proof when
+it yields a smaller representative that is target-equivalent against
+\emph{all} compatible outside contexts. Here an \textbf{outside context}
+is any completion of the rest of \(G\) that is compatible with the
+interface data of the piece under discussion. This is the same
+conceptual role played by representative replacement in the
+finite-integer-index and protrusion-replacement literature
+\citep{bodlaender-etal-2009-meta-kernelization, kim-etal-2012-protrusion, garnero-etal-2013-explicit-kernels, jansen-wulms-2016-lower-bounds}.
+
+The low-level diagram for CT2 is Fig.~\ref{fig:ct2-minimality-replacement};
+it records the deletion, replacement, context-validity, and residual
+routing obligations used by the minimal-counterexample argument.

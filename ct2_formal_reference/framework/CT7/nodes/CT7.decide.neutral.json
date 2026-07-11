@@ -1,0 +1,159 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT7-v1",
+  "nodeId": "CT7.decide.neutral",
+  "nodeKind": "decision",
+  "title": "Neutral compression routing",
+  "human": {
+    "informal": "Execute the proof-carrying neutral compression routing contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Comp",
+    "S-Rout"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT7 — Exchange trichotomy",
+    "diagramKey": "neutral"
+  },
+  "formalContract": {
+    "contractId": "CT7.decide.neutral.contract",
+    "executionMode": "computable",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT7.Nodes.Neutral",
+      "declaration": "StructuralExhaustion.CT7.Nodes.Neutral.Contract",
+      "sourceFile": "StructuralExhaustion/CT7/Nodes/Neutral.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT7.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT7.Nodes.Neutral.Contract framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node.",
+    "branches": [
+      {
+        "branchTag": "close",
+        "meaning": "Return the proof-carrying close constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Neutral",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Neutral.Decision.close",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Neutral.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "certificate",
+            "valueKind": "certificate",
+            "typeExpression": "StructuralExhaustion.CT7.C2Certificate framework input neutral"
+          }
+        ],
+        "transitionId": "CT7.edge.neutral.c2"
+      },
+      {
+        "branchTag": "toCT10",
+        "meaning": "Return the proof-carrying toCT10 constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Neutral",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Neutral.Decision.toCT10",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Neutral.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT7.CT10Payload framework input neutral"
+          }
+        ],
+        "transitionId": "CT7.edge.neutral.ct10"
+      },
+      {
+        "branchTag": "toCT16",
+        "meaning": "Return the proof-carrying toCT16 constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT7.Nodes.Neutral",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Neutral.Decision.toCT16",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Neutral.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT7.CT16Payload framework input neutral"
+          }
+        ],
+        "transitionId": "CT7.edge.neutral.ct16"
+      }
+    ]
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT7.Nodes.Neutral",
+    "sourceFile": "StructuralExhaustion/CT7/Nodes/Neutral.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT7.Nodes.Neutral",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Neutral.Contract",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Neutral.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT7.Nodes.Neutral",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Neutral.Decision",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Neutral.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT7.Nodes.Neutral",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Neutral.Plan",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Neutral.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT7.Nodes.Neutral",
+          "declaration": "StructuralExhaustion.CT7.Nodes.Neutral.run",
+          "sourceFile": "StructuralExhaustion/CT7/Nodes/Neutral.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

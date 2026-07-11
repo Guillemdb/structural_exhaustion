@@ -1,0 +1,328 @@
+{
+  "tacticId": "CT12",
+  "graphVersion": "CT12-v1",
+  "entryNodeId": "CT12.entry",
+  "nodes": [
+    {
+      "data": {
+        "id": "CT12.entry",
+        "label": "Validated CT12 routed-load entry",
+        "nodeKind": "entry",
+        "terminalCase": null,
+        "contracts": [
+          "S-Def"
+        ],
+        "leanContract": "StructuralExhaustion.CT12.Nodes.Entry.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.decide.scope",
+        "label": "Recorded natural-valued load scope",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Meas",
+          "A-Scope"
+        ],
+        "leanContract": "StructuralExhaustion.CT12.Nodes.Scope.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.terminal.scope",
+        "label": "Unmeasurable-load scope terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "scope",
+        "contracts": [
+          "A-Scope"
+        ],
+        "leanContract": "StructuralExhaustion.CT12.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.certify.measure",
+        "label": "Initial loop-measure certification",
+        "nodeKind": "certification",
+        "terminalCase": null,
+        "contracts": [
+          "S-Meas"
+        ],
+        "leanContract": "StructuralExhaustion.CT12.Nodes.Measure.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.decide.saturation",
+        "label": "Unsaturated/peelable decision",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Dich"
+        ],
+        "leanContract": "StructuralExhaustion.CT12.Nodes.Saturation.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.terminal.c4",
+        "label": "C4 unsaturated discharge terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "c4",
+        "contracts": [
+          "S-Comp",
+          "A-Cert"
+        ],
+        "leanContract": "StructuralExhaustion.CT12.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.certify.peel",
+        "label": "Canonical single-unit peel certification",
+        "nodeKind": "certification",
+        "terminalCase": null,
+        "contracts": [
+          "S-Det"
+        ],
+        "leanContract": "StructuralExhaustion.CT12.Nodes.Peel.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.decide.restoration",
+        "label": "Invariant-restoration decision",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Rest",
+          "S-Rout"
+        ],
+        "leanContract": "StructuralExhaustion.CT12.Nodes.Restoration.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.terminal.ct4",
+        "label": "CT4 ordinary-demand handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct4",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT12.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.terminal.ct13",
+        "label": "CT13 tier-interaction handoff",
+        "nodeKind": "terminal",
+        "terminalCase": "ct13",
+        "contracts": [
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT12.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.certify.decrease",
+        "label": "Strict loop-measure decrease certification",
+        "nodeKind": "certification",
+        "terminalCase": null,
+        "contracts": [
+          "S-Meas"
+        ],
+        "leanContract": "StructuralExhaustion.CT12.Nodes.Decrease.Contract"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "id": "CT12.edge.begin",
+        "source": "CT12.entry",
+        "target": "CT12.decide.scope",
+        "kind": "advance",
+        "branchTag": "begin",
+        "transitionConstructor": "StructuralExhaustion.CT12.Graph.Edge.beginScope",
+        "resultConstructor": null,
+        "evidence": []
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.edge.scope.exit",
+        "source": "CT12.decide.scope",
+        "target": "CT12.terminal.scope",
+        "kind": "scope",
+        "branchTag": "exit",
+        "transitionConstructor": "StructuralExhaustion.CT12.Graph.Edge.scopeExit",
+        "resultConstructor": "StructuralExhaustion.CT12.Nodes.Scope.Decision.exit",
+        "evidence": [
+          {
+            "slotId": "candidate",
+            "typeExpression": "StructuralExhaustion.CT12.ScopeCandidate framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.edge.scope.ready",
+        "source": "CT12.decide.scope",
+        "target": "CT12.certify.measure",
+        "kind": "advance",
+        "branchTag": "ready",
+        "transitionConstructor": "StructuralExhaustion.CT12.Graph.Edge.scopeReady",
+        "resultConstructor": "StructuralExhaustion.CT12.Nodes.Scope.Decision.ready",
+        "evidence": [
+          {
+            "slotId": "scope",
+            "typeExpression": "StructuralExhaustion.CT12.ScopedState framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.edge.measure.certified",
+        "source": "CT12.certify.measure",
+        "target": "CT12.decide.saturation",
+        "kind": "advance",
+        "branchTag": "certified",
+        "transitionConstructor": "StructuralExhaustion.CT12.Graph.Edge.measureCertified",
+        "resultConstructor": null,
+        "evidence": [
+          {
+            "slotId": "state",
+            "typeExpression": "StructuralExhaustion.CT12.LoopState framework input input.load"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.edge.saturation.close",
+        "source": "CT12.decide.saturation",
+        "target": "CT12.terminal.c4",
+        "kind": "close",
+        "branchTag": "close",
+        "transitionConstructor": "StructuralExhaustion.CT12.Graph.Edge.saturationClose",
+        "resultConstructor": "StructuralExhaustion.CT12.Nodes.Saturation.Decision.close",
+        "evidence": [
+          {
+            "slotId": "certificate",
+            "typeExpression": "StructuralExhaustion.CT12.C4Certificate framework input state"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.edge.saturation.peel",
+        "source": "CT12.decide.saturation",
+        "target": "CT12.certify.peel",
+        "kind": "advance",
+        "branchTag": "peel",
+        "transitionConstructor": "StructuralExhaustion.CT12.Graph.Edge.saturationPeel",
+        "resultConstructor": "StructuralExhaustion.CT12.Nodes.Saturation.Decision.peel",
+        "evidence": [
+          {
+            "slotId": "peelable",
+            "typeExpression": "StructuralExhaustion.CT12.PeelableState framework input state"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.edge.peel.certified",
+        "source": "CT12.certify.peel",
+        "target": "CT12.decide.restoration",
+        "kind": "advance",
+        "branchTag": "certified",
+        "transitionConstructor": "StructuralExhaustion.CT12.Graph.Edge.peelCertified",
+        "resultConstructor": null,
+        "evidence": [
+          {
+            "slotId": "peeled",
+            "typeExpression": "StructuralExhaustion.CT12.PeeledState framework input peelable"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.edge.restoration.ct4",
+        "source": "CT12.decide.restoration",
+        "target": "CT12.terminal.ct4",
+        "kind": "handoff",
+        "branchTag": "toCT4",
+        "transitionConstructor": "StructuralExhaustion.CT12.Graph.Edge.restorationToCT4",
+        "resultConstructor": "StructuralExhaustion.CT12.Nodes.Restoration.Decision.toCT4",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT12.CT4Payload framework input peeled"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.edge.restoration.ct13",
+        "source": "CT12.decide.restoration",
+        "target": "CT12.terminal.ct13",
+        "kind": "handoff",
+        "branchTag": "toCT13",
+        "transitionConstructor": "StructuralExhaustion.CT12.Graph.Edge.restorationToCT13",
+        "resultConstructor": "StructuralExhaustion.CT12.Nodes.Restoration.Decision.toCT13",
+        "evidence": [
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT12.CT13Payload framework input peeled"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.edge.restoration.continue",
+        "source": "CT12.decide.restoration",
+        "target": "CT12.certify.decrease",
+        "kind": "advance",
+        "branchTag": "continue",
+        "transitionConstructor": "StructuralExhaustion.CT12.Graph.Edge.restorationContinue",
+        "resultConstructor": "StructuralExhaustion.CT12.Nodes.Restoration.Decision.continue",
+        "evidence": [
+          {
+            "slotId": "restored",
+            "typeExpression": "StructuralExhaustion.CT12.RestoredState framework input peeled next"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT12.edge.decrease.loop",
+        "source": "CT12.certify.decrease",
+        "target": "CT12.decide.saturation",
+        "kind": "advance",
+        "branchTag": "repeat",
+        "transitionConstructor": "StructuralExhaustion.CT12.Graph.Edge.decreaseLoop",
+        "resultConstructor": null,
+        "evidence": [
+          {
+            "slotId": "decreased",
+            "typeExpression": "StructuralExhaustion.CT12.DecreasedState framework input restored"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT3.decide.defect.schema.json",
+  "title": "CT3.decide.defect completed discharge record — External-type defect classification",
+  "description": "Concrete completed-discharge schema for semantic CT3-v1 node CT3.decide.defect.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT3.decide.defect.",
+          "const": "CT3"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for External-type defect classification.",
+          "const": "CT3.decide.defect"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT3.decide.defect.",
+          "const": 7
+        },
+        "status": {
+          "description": "Required successful proof state for this executable machine node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT3.decide.defect.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 3,
+          "maxItems": 3,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Dich evidence.",
+                "const": "S-Dich"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required S-Pers evidence.",
+                "const": "S-Pers"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required S-Rout evidence.",
+                "const": "S-Rout"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT3.decide.defect.",
+          "type": "array",
+          "minItems": 3,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Dich discriminator.",
+                    "const": "S-Dich"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Pers discriminator.",
+                    "const": "S-Pers"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Rout discriminator.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT3.decide.defect.O1",
+    "modality": "decide",
+    "statement": {
+      "informal": "Execute the proof-carrying external-type defect classification contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Dich",
+      "S-Pers",
+      "S-Rout"
+    ],
+    "dependencies": [
+      "CT3.decide.compression"
+    ],
+    "dischargeCriteria": "The node implementation constructs its indexed output contract without inspecting any later node."
+  }
+}

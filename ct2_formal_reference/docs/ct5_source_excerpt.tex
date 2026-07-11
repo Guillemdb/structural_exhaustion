@@ -1,0 +1,81 @@
+\subsection{CT5 --- Local-to-global bookkeeping}\label{ct:5}\label{the-local-versus-global-rationale}
+\ctsignature{\(P_{1\to5}\to \ctcert{C4};\ \ctint{P_{5\to4},P_{5\to11},P_{5\to14}};\ \ctrec{\ctnone}\).}
+
+CT5 is an exact sequential machine for converting a local witness family into
+a global comparison.  Its \texttt{Framework} contains the complete CT4
+framework together with dependent site and local-witness types, the witness
+extractor predicates, locality, ledger readiness, summation, and the CT11 and
+CT14 datum types.  A validated \texttt{Input} contains
+\(\langle G,\mathfrak B,w\rangle\), where \(w\) is the explicit dependent
+witness extractor.  The CT4 framework is embedded so that the CT5--CT4
+handoff has a definitionally fixed consumer vocabulary.
+
+The core plan has five independent fields:
+\texttt{scope}, \texttt{locality}, \texttt{deficit},
+\texttt{summation}, and \texttt{comparison}.  Scope admission returns either a
+typed obstruction or \texttt{ScopedState}.  The locality node is a
+single-successor certification boundary: \texttt{LocalityCertificate} proves
+that the global estimates are supported by the declared local extractor.
+The deficit node then returns a CT11 additive-deficit payload or
+\texttt{LocalLedgerState}.  Only a local ledger reaches the summation node,
+which certifies \texttt{SummationState} before the global comparison is
+classified.
+
+The comparison node returns exactly one of a C4 certificate, a CT4 charge
+ledger, or a CT14 aggregate residual.  \texttt{CT4Payload} contains only the
+assignment, capacity, and lower-bound fields that CT4 still needs to certify.
+Its \texttt{toInput} adapter fixes \texttt{G} and \texttt{branch}
+definitionally.  The theorems \texttt{ct4\_payload\_same\_ambient} and
+\texttt{ct4\_payload\_same\_branch} therefore hold by reflexivity.  This
+prevents the handoff from changing the object or branch state during ledger
+assembly.
+
+Every terminal result retains the exact locality, ledger, and summation
+indices that justify it.  \texttt{Port} and \texttt{HandoffPlan} certify only
+consumer acceptance.  Theorems \texttt{run\_verified}, \texttt{run\_total},
+and \texttt{run\_trace\_valid} establish terminal soundness, relative
+totality, and trace validity.
+
+The soundness contracts are assigned as follows.
+\begin{itemize}
+\tightlist
+\item \textbf{S-Def} fixes the sites, extractor, witness relation, and downstream vocabulary.
+\item \textbf{S-Equiv} is the locality certification that connects each global estimate to its local witness data.
+\item \textbf{S-Dich} is discharged by the scope, deficit, and comparison constructors.
+\item \textbf{S-Comp} is discharged by \texttt{SummationState} and the final comparison result.
+\item \textbf{S-Pers} is enforced by the dependent indices carried through the ledger, summation, and terminals.
+\item \textbf{S-Rout} and \textbf{S-Trig} are discharged by the CT4, CT11, and CT14 payload constructors and the separate handoff plan.
+\end{itemize}
+
+\begin{figure}[p]
+\centering
+\vspace*{-1.70cm}
+\resizebox{0.96\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\scriptsize}]
+\node[bcwide] (entry) at (0,0) {{\tiny\ttfamily CT5.entry}\\\textbf{Validated local family}\\\((G,\mathfrak B,w)\)};
+\node[bcdec,bclemma,text width=3.45cm,minimum width=4.15cm] (scope) at (0,-2.35) {{\tiny\ttfamily CT5.decide.scope}\\\textbf{Bounded witnesses available?}};
+\node[bcscopefail,text width=3.25cm,minimum width=3.25cm] (scopeout) at (7.35,-2.35) {{\tiny\ttfamily CT5.terminal.scope}\\\textbf{Scope exit}};
+\node[bcwide,bclemma] (locality) at (0,-4.80) {{\tiny\ttfamily CT5.certify.locality}\\\textbf{Locality certificate}\\each estimate has declared witness support};
+\node[bcroutechoice,bctheorem,text width=3.25cm,minimum width=4.10cm] (deficit) at (0,-7.35) {{\tiny\ttfamily CT5.decide.deficit}\\\textbf{Local ledger or additive deficit?}};
+\node[bcroute,bcrouteneutral,bcoutputroute,text width=3.25cm,minimum width=3.25cm] (ct11) at (-7.00,-7.35) {{\tiny\ttfamily CT5.terminal.ct11}\\\textbf{CT 11 exit}\\additive deficit};
+\node[bcwide,bclemma] (summation) at (0,-10.05) {{\tiny\ttfamily CT5.certify.summation}\\\textbf{S-Comp certificate}\\local inequalities sum globally};
+\node[bcroutechoice,bctheorem,text width=3.25cm,minimum width=4.10cm] (comparison) at (0,-12.75) {{\tiny\ttfamily CT5.decide.comparison}\\\textbf{Classify global comparison}};
+\node[bcclosed,text width=2.90cm,minimum width=2.90cm] (c4) at (-6.60,-15.85) {{\tiny\ttfamily CT5.terminal.c4}\\\textbf{C4}};
+\node[bcroute,bcrouteneutral,bcoutputroute,text width=3.25cm,minimum width=3.25cm] (ct4) at (0,-15.85) {{\tiny\ttfamily CT5.terminal.ct4}\\\textbf{CT 4 exit}\\exact ledger};
+\node[bcroute,bcrouteneutral,bcoutputroute,text width=3.25cm,minimum width=3.25cm] (ct14) at (6.60,-15.85) {{\tiny\ttfamily CT5.terminal.ct14}\\\textbf{CT 14 exit}\\aggregate residual};
+\draw[bcarr] (entry)--(scope);
+\draw[bcscopearr] (scope)--node[bclabel,above]{exit}(scopeout);
+\draw[bcarr] (scope)--node[bclabel,right]{ready}(locality);
+\draw[bcarr] (locality)--node[bclabel,right]{certified}(deficit);
+\draw[bchandoff] (deficit)--node[bclabel,above]{\(P_{5\to11}\)}(ct11);
+\draw[bcarr] (deficit)--node[bclabel,right]{local ledger}(summation);
+\draw[bcarr] (summation)--node[bclabel,right]{summed}(comparison);
+\draw[bcarr] (comparison)--node[bclabel,above,sloped]{capacity gap}(c4);
+\draw[bchandoff] (comparison)--node[bclabel,right]{\(P_{5\to4}\)}(ct4);
+\draw[bchandoff] (comparison)--node[bclabel,above,sloped]{\(P_{5\to14}\)}(ct14);
+\end{tikzpicture}%
+}
+\caption[Closure-tactic 5: exact local-to-global machine]{Closure-tactic 5 as an exact sequential machine.  Locality and summation are one-successor certification boundaries.  The comparison node can close at C4 or emit one indexed payload.  The CT4 payload converts to the exact downstream \texttt{CT4.Input} while preserving the ambient object and branch state definitionally.  Monospaced identifiers are shared by Lean, JSON, and executable traces.}
+\label{fig:ct5-local-global-bookkeeping}
+\end{figure}
+\FloatBarrier

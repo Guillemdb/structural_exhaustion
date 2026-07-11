@@ -1,0 +1,137 @@
+{
+  "artifactType": "tacticFormalizationIndex",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT14-v1",
+  "tacticId": "CT14",
+  "toolchain": "leanprover/lean4:v4.31.0",
+  "rootModule": "StructuralExhaustion",
+  "nodeBindings": [
+    {
+      "nodeId": "CT14.entry",
+      "nodeSpecRef": "nodes/CT14.entry.json",
+      "contractDeclaration": "StructuralExhaustion.CT14.Nodes.Entry.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT14.Nodes.Entry.Contract",
+        "StructuralExhaustion.CT14.Nodes.Entry.run"
+      ]
+    },
+    {
+      "nodeId": "CT14.decide.scope",
+      "nodeSpecRef": "nodes/CT14.decide.scope.json",
+      "contractDeclaration": "StructuralExhaustion.CT14.Nodes.Scope.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT14.Nodes.Scope.Contract",
+        "StructuralExhaustion.CT14.Nodes.Scope.Decision",
+        "StructuralExhaustion.CT14.Nodes.Scope.Plan",
+        "StructuralExhaustion.CT14.Nodes.Scope.run"
+      ]
+    },
+    {
+      "nodeId": "CT14.terminal.scope",
+      "nodeSpecRef": "nodes/CT14.terminal.scope.json",
+      "contractDeclaration": "StructuralExhaustion.CT14.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT14.Graph.Terminal",
+        "StructuralExhaustion.CT14.Graph.Terminal.scope",
+        "StructuralExhaustion.CT14.Graph.NodeId.scopeTerminal",
+        "StructuralExhaustion.CT14.RawOutcome.scope",
+        "StructuralExhaustion.CT14.Outcome.scope"
+      ]
+    },
+    {
+      "nodeId": "CT14.certify.bounds",
+      "nodeSpecRef": "nodes/CT14.certify.bounds.json",
+      "contractDeclaration": "StructuralExhaustion.CT14.Nodes.Bounds.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT14.Nodes.Bounds.Contract",
+        "StructuralExhaustion.CT14.Nodes.Bounds.Plan",
+        "StructuralExhaustion.CT14.Nodes.Bounds.run"
+      ]
+    },
+    {
+      "nodeId": "CT14.decide.multiplicity",
+      "nodeSpecRef": "nodes/CT14.decide.multiplicity.json",
+      "contractDeclaration": "StructuralExhaustion.CT14.Nodes.Multiplicity.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT14.Nodes.Multiplicity.Contract",
+        "StructuralExhaustion.CT14.Nodes.Multiplicity.Decision",
+        "StructuralExhaustion.CT14.Nodes.Multiplicity.Plan",
+        "StructuralExhaustion.CT14.Nodes.Multiplicity.run"
+      ]
+    },
+    {
+      "nodeId": "CT14.terminal.ct9",
+      "nodeSpecRef": "nodes/CT14.terminal.ct9.json",
+      "contractDeclaration": "StructuralExhaustion.CT14.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT14.Graph.Terminal",
+        "StructuralExhaustion.CT14.Graph.Terminal.ct9",
+        "StructuralExhaustion.CT14.Graph.NodeId.ct9Terminal",
+        "StructuralExhaustion.CT14.RawOutcome.ct9",
+        "StructuralExhaustion.CT14.Outcome.ct9"
+      ]
+    },
+    {
+      "nodeId": "CT14.terminal.ct10",
+      "nodeSpecRef": "nodes/CT14.terminal.ct10.json",
+      "contractDeclaration": "StructuralExhaustion.CT14.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT14.Graph.Terminal",
+        "StructuralExhaustion.CT14.Graph.Terminal.ct10",
+        "StructuralExhaustion.CT14.Graph.NodeId.ct10Terminal",
+        "StructuralExhaustion.CT14.RawOutcome.ct10",
+        "StructuralExhaustion.CT14.Outcome.ct10"
+      ]
+    },
+    {
+      "nodeId": "CT14.certify.comparison",
+      "nodeSpecRef": "nodes/CT14.certify.comparison.json",
+      "contractDeclaration": "StructuralExhaustion.CT14.Nodes.Comparison.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT14.Nodes.Comparison.Contract",
+        "StructuralExhaustion.CT14.Nodes.Comparison.Plan",
+        "StructuralExhaustion.CT14.Nodes.Comparison.run"
+      ]
+    },
+    {
+      "nodeId": "CT14.terminal.c4",
+      "nodeSpecRef": "nodes/CT14.terminal.c4.json",
+      "contractDeclaration": "StructuralExhaustion.CT14.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT14.Graph.Terminal",
+        "StructuralExhaustion.CT14.Graph.Terminal.c4",
+        "StructuralExhaustion.CT14.Graph.NodeId.c4Terminal",
+        "StructuralExhaustion.CT14.RawOutcome.c4",
+        "StructuralExhaustion.CT14.Outcome.c4"
+      ]
+    }
+  ],
+  "aggregateDeclarations": {
+    "framework": "StructuralExhaustion.CT14.Framework",
+    "input": "StructuralExhaustion.CT14.Input",
+    "port": "StructuralExhaustion.CT14.Port",
+    "handoffPlan": "StructuralExhaustion.CT14.HandoffPlan",
+    "nodeId": "StructuralExhaustion.CT14.Graph.NodeId",
+    "terminal": "StructuralExhaustion.CT14.Graph.Terminal",
+    "edge": "StructuralExhaustion.CT14.Graph.Edge",
+    "path": "StructuralExhaustion.CT14.Graph.Path",
+    "validTrace": "StructuralExhaustion.CT14.Graph.ValidTrace",
+    "corePlan": "StructuralExhaustion.CT14.CorePlan",
+    "rawOutcome": "StructuralExhaustion.CT14.RawOutcome",
+    "coreResult": "StructuralExhaustion.CT14.CoreResult",
+    "runCore": "StructuralExhaustion.CT14.runCore",
+    "outcome": "StructuralExhaustion.CT14.Outcome",
+    "outcomeClaim": "StructuralExhaustion.CT14.OutcomeClaim",
+    "executionResult": "StructuralExhaustion.CT14.ExecutionResult",
+    "run": "StructuralExhaustion.CT14.run",
+    "runTraced": "StructuralExhaustion.CT14.runTraced",
+    "soundness": "StructuralExhaustion.CT14.run_verified",
+    "totality": "StructuralExhaustion.CT14.run_total",
+    "traceValidity": "StructuralExhaustion.CT14.run_trace_valid",
+    "exhaustiveness": "StructuralExhaustion.CT14.outcome_exhaustive",
+    "boundsState": "StructuralExhaustion.CT14.BoundsState",
+    "multiplicityState": "StructuralExhaustion.CT14.MultiplicityState",
+    "c4Certificate": "StructuralExhaustion.CT14.C4Certificate"
+  },
+  "generatedBindingCheck": "StructuralExhaustion/Generated/BindingCheck.lean"
+}

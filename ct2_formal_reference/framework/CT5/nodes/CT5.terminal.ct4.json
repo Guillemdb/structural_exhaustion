@@ -1,0 +1,145 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT5-v1",
+  "nodeId": "CT5.terminal.ct4",
+  "nodeKind": "terminal",
+  "title": "CT4 ledger handoff",
+  "human": {
+    "informal": "Execute the proof-carrying ct4 ledger handoff contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Pers",
+    "S-Rout",
+    "S-Trig"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT5 — Local-to-global bookkeeping",
+    "diagramKey": "ct4"
+  },
+  "formalContract": {
+    "contractId": "CT5.terminal.ct4.contract",
+    "executionMode": "proof_only",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT5",
+      "declaration": "StructuralExhaustion.CT5.RawOutcome",
+      "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "inputs": [
+      {
+        "slotId": "framework",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT5.Framework"
+      },
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT5.Input framework"
+      },
+      {
+        "slotId": "payload",
+        "valueKind": "payload",
+        "typeExpression": "StructuralExhaustion.CT5.CT4Payload framework input summation"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "rawOutcome",
+        "valueKind": "payload",
+        "typeExpression": "StructuralExhaustion.CT5.RawOutcome framework input .ct4"
+      }
+    ],
+    "dischargeCondition": "The terminal index, incoming edge, raw outcome, and certified outcome agree definitionally."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT5.Graph",
+    "sourceFile": "StructuralExhaustion/CT5/Graph.lean",
+    "requiredRoles": [
+      "state",
+      "constructor"
+    ],
+    "declarations": [
+      {
+        "role": "state",
+        "localName": "Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT5.Graph",
+          "declaration": "StructuralExhaustion.CT5.Graph.Terminal",
+          "sourceFile": "StructuralExhaustion/CT5/Graph.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "ct4",
+        "ref": {
+          "module": "StructuralExhaustion.CT5.Graph",
+          "declaration": "StructuralExhaustion.CT5.Graph.Terminal.ct4",
+          "sourceFile": "StructuralExhaustion/CT5/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "ct4Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT5.Graph",
+          "declaration": "StructuralExhaustion.CT5.Graph.NodeId.ct4Terminal",
+          "sourceFile": "StructuralExhaustion/CT5/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "ct4",
+        "ref": {
+          "module": "StructuralExhaustion.CT5",
+          "declaration": "StructuralExhaustion.CT5.RawOutcome.ct4",
+          "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "ct4",
+        "ref": {
+          "module": "StructuralExhaustion.CT5",
+          "declaration": "StructuralExhaustion.CT5.Outcome.ct4",
+          "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    ]
+  },
+  "terminal": {
+    "terminalCase": "ct4",
+    "terminalConstructorRef": {
+      "module": "StructuralExhaustion.CT5.Graph",
+      "declaration": "StructuralExhaustion.CT5.Graph.Terminal.ct4",
+      "sourceFile": "StructuralExhaustion/CT5/Graph.lean",
+      "declarationKind": "constructor"
+    },
+    "outcomeConstructorRef": {
+      "module": "StructuralExhaustion.CT5",
+      "declaration": "StructuralExhaustion.CT5.Outcome.ct4",
+      "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
+      "declarationKind": "constructor"
+    },
+    "claimTypeExpression": "port.accepts (.ct4 payload)",
+    "evidenceSlots": [
+      {
+        "slotId": "payload",
+        "valueKind": "payload",
+        "typeExpression": "StructuralExhaustion.CT5.CT4Payload framework input summation"
+      }
+    ]
+  }
+}

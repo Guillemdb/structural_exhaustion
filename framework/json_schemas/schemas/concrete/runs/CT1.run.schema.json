@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/runs/CT1.run.schema.json",
+  "title": "CT1-v1 legal semantic-machine run",
+  "description": "A CT1-v1 path begins at CT1.entry, follows typed edges, and ends at one exact terminal.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT1 run discriminator.",
+          "const": "CT1"
+        },
+        "visitedNodeIds": {
+          "description": "Execution-order path using only CT1-v1 semantic node IDs.",
+          "type": "array",
+          "items": {
+            "enum": [
+              "CT1.entry",
+              "CT1.decide.scope",
+              "CT1.terminal.scope",
+              "CT1.certify.equivalence",
+              "CT1.decide.realization",
+              "CT1.terminal.c1",
+              "CT1.decide.payload",
+              "CT1.terminal.ct2",
+              "CT1.terminal.ct3",
+              "CT1.terminal.ct4",
+              "CT1.terminal.ct5",
+              "CT1.terminal.ct6",
+              "CT1.terminal.ct17"
+            ]
+          },
+          "minItems": 2
+        },
+        "nodeRecords": {
+          "description": "Proof records aligned one-for-one with the visited semantic path.",
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "../nodes/CT1.entry.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.decide.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.terminal.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.certify.equivalence.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.decide.realization.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.terminal.c1.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.decide.payload.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.terminal.ct2.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.terminal.ct3.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.terminal.ct4.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.terminal.ct5.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.terminal.ct6.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT1.terminal.ct17.schema.json"
+              }
+            ]
+          },
+          "minItems": 2
+        },
+        "outcome": {
+          "description": "Exact terminal result of the CT1-v1 run.",
+          "properties": {
+            "terminalCase": {
+              "description": "One of the eight exact CT1-v1 terminal cases.",
+              "enum": [
+                "scope",
+                "c1",
+                "ct2",
+                "ct3",
+                "ct4",
+                "ct5",
+                "ct6",
+                "ct17"
+              ]
+            }
+          },
+          "required": [
+            "terminalCase"
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "visitedNodeIds",
+        "nodeRecords",
+        "outcome"
+      ]
+    }
+  ],
+  "x-semanticValidationRules": [
+    "validate visitedNodeIds as a path in the CT1-v1 semantic transition graph",
+    "require outcome.terminalCase to equal the final terminal node's terminalCase"
+  ]
+}

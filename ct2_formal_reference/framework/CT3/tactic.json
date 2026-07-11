@@ -1,0 +1,600 @@
+{
+  "artifactType": "formalTacticSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT3-v1",
+  "tacticId": "CT3",
+  "name": "External-type compression",
+  "signature": {
+    "input": "validated_typed_state",
+    "close": [
+      "C2",
+      "C3",
+      "C5"
+    ],
+    "handoff": [
+      "P_3_to_7",
+      "P_3_to_12",
+      "P_3_to_8"
+    ],
+    "scope": [
+      "typed_scope_exit"
+    ]
+  },
+  "entryNodeId": "CT3.entry",
+  "nodeRefs": [
+    "nodes/CT3.entry.json",
+    "nodes/CT3.decide.scope.json",
+    "nodes/CT3.terminal.scope.json",
+    "nodes/CT3.certify.equivalence.json",
+    "nodes/CT3.decide.compression.json",
+    "nodes/CT3.terminal.c2.json",
+    "nodes/CT3.decide.defect.json",
+    "nodes/CT3.terminal.c3.json",
+    "nodes/CT3.terminal.ct7.json",
+    "nodes/CT3.terminal.ct12.json",
+    "nodes/CT3.decide.table.json",
+    "nodes/CT3.terminal.c5.json",
+    "nodes/CT3.terminal.ct8.json"
+  ],
+  "transitions": [
+    {
+      "transitionId": "CT3.edge.begin",
+      "fromNodeId": "CT3.entry",
+      "toNodeId": "CT3.decide.scope",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT3.Graph",
+        "declaration": "StructuralExhaustion.CT3.Graph.Edge.beginScope",
+        "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "unconditional",
+        "branchTag": "begin",
+        "evidenceSlots": []
+      }
+    },
+    {
+      "transitionId": "CT3.edge.scope.exit",
+      "fromNodeId": "CT3.decide.scope",
+      "toNodeId": "CT3.terminal.scope",
+      "kind": "scope",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT3.Graph",
+        "declaration": "StructuralExhaustion.CT3.Graph.Edge.scopeExit",
+        "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "exit",
+        "evidenceSlots": [
+          {
+            "slotId": "candidate",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT3.ScopeCandidate framework input"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT3.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Scope.Decision.exit",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Scope.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT3.edge.scope.ready",
+      "fromNodeId": "CT3.decide.scope",
+      "toNodeId": "CT3.certify.equivalence",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT3.Graph",
+        "declaration": "StructuralExhaustion.CT3.Graph.Edge.scopeReady",
+        "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "ready",
+        "evidenceSlots": [
+          {
+            "slotId": "scopeState",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT3.ScopedState framework input"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT3.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Scope.Decision.ready",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Scope.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT3.edge.equivalence.certified",
+      "fromNodeId": "CT3.certify.equivalence",
+      "toNodeId": "CT3.decide.compression",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT3.Graph",
+        "declaration": "StructuralExhaustion.CT3.Graph.Edge.equivalenceCertified",
+        "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "unconditional",
+        "branchTag": "certified",
+        "evidenceSlots": [
+          {
+            "slotId": "equivalence",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT3.EquivalenceState framework input"
+          }
+        ]
+      }
+    },
+    {
+      "transitionId": "CT3.edge.compression.close",
+      "fromNodeId": "CT3.decide.compression",
+      "toNodeId": "CT3.terminal.c2",
+      "kind": "close",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT3.Graph",
+        "declaration": "StructuralExhaustion.CT3.Graph.Edge.compressionClose",
+        "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "close",
+        "evidenceSlots": [
+          {
+            "slotId": "certificate",
+            "valueKind": "certificate",
+            "typeExpression": "StructuralExhaustion.CT3.C2Certificate framework input equivalence"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT3.Nodes.Compression",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Compression.Decision.close",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Compression.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT3.edge.compression.residual",
+      "fromNodeId": "CT3.decide.compression",
+      "toNodeId": "CT3.decide.defect",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT3.Graph",
+        "declaration": "StructuralExhaustion.CT3.Graph.Edge.compressionResidual",
+        "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "residual",
+        "evidenceSlots": [
+          {
+            "slotId": "state",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT3.UncompressibleState framework input equivalence"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT3.Nodes.Compression",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Compression.Decision.residual",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Compression.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT3.edge.defect.close",
+      "fromNodeId": "CT3.decide.defect",
+      "toNodeId": "CT3.terminal.c3",
+      "kind": "close",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT3.Graph",
+        "declaration": "StructuralExhaustion.CT3.Graph.Edge.defectClose",
+        "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "close",
+        "evidenceSlots": [
+          {
+            "slotId": "certificate",
+            "valueKind": "certificate",
+            "typeExpression": "StructuralExhaustion.CT3.C3Certificate framework input state"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT3.Nodes.Defect",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Defect.Decision.close",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Defect.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT3.edge.defect.ct7",
+      "fromNodeId": "CT3.decide.defect",
+      "toNodeId": "CT3.terminal.ct7",
+      "kind": "handoff",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT3.Graph",
+        "declaration": "StructuralExhaustion.CT3.Graph.Edge.defectToCT7",
+        "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "toCT7",
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT3.CT7Payload framework input state"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT3.Nodes.Defect",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Defect.Decision.toCT7",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Defect.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT3.edge.defect.ct12",
+      "fromNodeId": "CT3.decide.defect",
+      "toNodeId": "CT3.terminal.ct12",
+      "kind": "handoff",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT3.Graph",
+        "declaration": "StructuralExhaustion.CT3.Graph.Edge.defectToCT12",
+        "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "toCT12",
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT3.CT12Payload framework input state"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT3.Nodes.Defect",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Defect.Decision.toCT12",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Defect.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT3.edge.defect.persistent",
+      "fromNodeId": "CT3.decide.defect",
+      "toNodeId": "CT3.decide.table",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT3.Graph",
+        "declaration": "StructuralExhaustion.CT3.Graph.Edge.defectPersistent",
+        "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "persistent",
+        "evidenceSlots": [
+          {
+            "slotId": "persistent",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT3.PersistentState framework input state"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT3.Nodes.Defect",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Defect.Decision.persistent",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Defect.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT3.edge.table.close",
+      "fromNodeId": "CT3.decide.table",
+      "toNodeId": "CT3.terminal.c5",
+      "kind": "close",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT3.Graph",
+        "declaration": "StructuralExhaustion.CT3.Graph.Edge.tableClose",
+        "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "close",
+        "evidenceSlots": [
+          {
+            "slotId": "certificate",
+            "valueKind": "certificate",
+            "typeExpression": "StructuralExhaustion.CT3.C5Certificate framework input persistent"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT3.Nodes.Table",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Table.Decision.close",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Table.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT3.edge.table.ct8",
+      "fromNodeId": "CT3.decide.table",
+      "toNodeId": "CT3.terminal.ct8",
+      "kind": "handoff",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT3.Graph",
+        "declaration": "StructuralExhaustion.CT3.Graph.Edge.tableToCT8",
+        "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "toCT8",
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT3.CT8Payload framework input persistent"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT3.Nodes.Table",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Table.Decision.toCT8",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Table.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    }
+  ],
+  "terminalCases": [
+    "scope",
+    "c2",
+    "c3",
+    "ct7",
+    "ct12",
+    "c5",
+    "ct8"
+  ],
+  "terminalCoverage": [
+    {
+      "terminalCase": "scope",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct3/toy-scope.json"
+    },
+    {
+      "terminalCase": "c2",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct3/toy-c2.json"
+    },
+    {
+      "terminalCase": "c3",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct3/toy-c3.json"
+    },
+    {
+      "terminalCase": "ct7",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct3/toy-ct7.json"
+    },
+    {
+      "terminalCase": "ct12",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct3/toy-ct12.json"
+    },
+    {
+      "terminalCase": "c5",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct3/toy-c5.json"
+    },
+    {
+      "terminalCase": "ct8",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct3/toy-ct8.json"
+    }
+  ],
+  "formalApi": {
+    "framework": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.Framework",
+      "sourceFile": "StructuralExhaustion/CT3/Types.lean",
+      "declarationKind": "structure"
+    },
+    "input": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.Input",
+      "sourceFile": "StructuralExhaustion/CT3/Types.lean",
+      "declarationKind": "structure"
+    },
+    "port": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.Port",
+      "sourceFile": "StructuralExhaustion/CT3/Types.lean",
+      "declarationKind": "structure"
+    },
+    "handoffPlan": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.HandoffPlan",
+      "sourceFile": "StructuralExhaustion/CT3/Types.lean",
+      "declarationKind": "structure"
+    },
+    "nodeId": {
+      "module": "StructuralExhaustion.CT3.Graph",
+      "declaration": "StructuralExhaustion.CT3.Graph.NodeId",
+      "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "terminal": {
+      "module": "StructuralExhaustion.CT3.Graph",
+      "declaration": "StructuralExhaustion.CT3.Graph.Terminal",
+      "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "edge": {
+      "module": "StructuralExhaustion.CT3.Graph",
+      "declaration": "StructuralExhaustion.CT3.Graph.Edge",
+      "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "path": {
+      "module": "StructuralExhaustion.CT3.Graph",
+      "declaration": "StructuralExhaustion.CT3.Graph.Path",
+      "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "validTrace": {
+      "module": "StructuralExhaustion.CT3.Graph",
+      "declaration": "StructuralExhaustion.CT3.Graph.ValidTrace",
+      "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+      "declarationKind": "definition"
+    },
+    "corePlan": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.CorePlan",
+      "sourceFile": "StructuralExhaustion/CT3/Execution.lean",
+      "declarationKind": "structure"
+    },
+    "rawOutcome": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.RawOutcome",
+      "sourceFile": "StructuralExhaustion/CT3/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "coreResult": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.CoreResult",
+      "sourceFile": "StructuralExhaustion/CT3/Execution.lean",
+      "declarationKind": "structure"
+    },
+    "runCore": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.runCore",
+      "sourceFile": "StructuralExhaustion/CT3/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "outcome": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.Outcome",
+      "sourceFile": "StructuralExhaustion/CT3/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "outcomeClaim": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.OutcomeClaim",
+      "sourceFile": "StructuralExhaustion/CT3/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "executionResult": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.ExecutionResult",
+      "sourceFile": "StructuralExhaustion/CT3/Execution.lean",
+      "declarationKind": "structure"
+    },
+    "run": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.run",
+      "sourceFile": "StructuralExhaustion/CT3/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "runTraced": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.runTraced",
+      "sourceFile": "StructuralExhaustion/CT3/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "soundness": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.run_verified",
+      "sourceFile": "StructuralExhaustion/CT3/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "totality": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.run_total",
+      "sourceFile": "StructuralExhaustion/CT3/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "traceValidity": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.run_trace_valid",
+      "sourceFile": "StructuralExhaustion/CT3/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "exhaustiveness": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.outcome_exhaustive",
+      "sourceFile": "StructuralExhaustion/CT3/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "equivalenceState": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.EquivalenceState",
+      "sourceFile": "StructuralExhaustion/CT3/Types.lean",
+      "declarationKind": "structure"
+    },
+    "uncompressibleState": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.UncompressibleState",
+      "sourceFile": "StructuralExhaustion/CT3/Types.lean",
+      "declarationKind": "structure"
+    },
+    "persistentState": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.PersistentState",
+      "sourceFile": "StructuralExhaustion/CT3/Types.lean",
+      "declarationKind": "structure"
+    },
+    "c2Certificate": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.C2Certificate",
+      "sourceFile": "StructuralExhaustion/CT3/Types.lean",
+      "declarationKind": "structure"
+    },
+    "c3Certificate": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.C3Certificate",
+      "sourceFile": "StructuralExhaustion/CT3/Types.lean",
+      "declarationKind": "structure"
+    },
+    "c5Certificate": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.C5Certificate",
+      "sourceFile": "StructuralExhaustion/CT3/Types.lean",
+      "declarationKind": "structure"
+    }
+  },
+  "totalityPolicy": {
+    "allNodesBound": true,
+    "allTransitionsDeclared": true,
+    "allDecisionBranchesMapped": true,
+    "allTracesKernelCertified": true,
+    "allTerminalOutcomesTyped": true,
+    "allConsumerTriggersCarried": true
+  },
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT3 — External-type compression"
+  },
+  "contractInventoryRef": "contracts.json"
+}

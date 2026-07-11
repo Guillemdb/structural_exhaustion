@@ -1,0 +1,156 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT2-v2",
+  "nodeId": "CT2.decide.deletion",
+  "nodeKind": "decision",
+  "title": "Deletion search",
+  "human": {
+    "informal": "Search for a legal strictly smaller deletion, otherwise retain deletion-criticality.",
+    "latex": "",
+    "whyNeeded": "Both constructors carry the exact evidence needed by the closing or continuation edge.",
+    "failureMeaning": "The invocation cannot take this transition without the typed evidence carried by its result constructor.",
+    "proofHints": [
+      "Construct the declared proof-carrying result; do not encode a branch as an unchecked Boolean."
+    ]
+  },
+  "contracts": [
+    "S-Dich",
+    "S-Comp"
+  ],
+  "formalContract": {
+    "contractId": "CT2.decide.deletion.contract",
+    "executionMode": "computable",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT2.Nodes.Deletion",
+      "declaration": "StructuralExhaustion.CT2.Nodes.Deletion.Contract",
+      "sourceFile": "StructuralExhaustion/CT2/Nodes/Deletion.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "framework",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT2.Framework"
+      },
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT2.Input framework"
+      },
+      {
+        "slotId": "plan",
+        "valueKind": "algorithm",
+        "typeExpression": "StructuralExhaustion.CT2.Nodes.Deletion.Plan framework input"
+      },
+      {
+        "slotId": "bounded",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT2.BoundedState framework input"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT2.Nodes.Deletion.Contract framework input bounded"
+      }
+    ],
+    "dischargeCondition": "The referenced Lean contract and every branch constructor resolve, and each outgoing transition carries the evidence required by its target state.",
+    "branches": [
+      {
+        "branchTag": "closes",
+        "meaning": "A legal strict deletion is available.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT2.Nodes.Deletion",
+          "declaration": "StructuralExhaustion.CT2.Nodes.Deletion.Decision.closes",
+          "sourceFile": "StructuralExhaustion/CT2/Nodes/Deletion.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "witness",
+            "valueKind": "certificate",
+            "typeExpression": "StructuralExhaustion.CT2.DeletionWitness framework input"
+          }
+        ],
+        "transitionId": "CT2.edge.deletion.closes"
+      },
+      {
+        "branchTag": "critical",
+        "meaning": "The full deletion-critical state is available.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT2.Nodes.Deletion",
+          "declaration": "StructuralExhaustion.CT2.Nodes.Deletion.Decision.critical",
+          "sourceFile": "StructuralExhaustion/CT2/Nodes/Deletion.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "critical",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT2.DeletionCriticalState framework input"
+          }
+        ],
+        "transitionId": "CT2.edge.deletion.critical"
+      }
+    ]
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT2.Nodes.Deletion",
+    "sourceFile": "StructuralExhaustion/CT2/Nodes/Deletion.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "plan",
+      "implementation"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Nodes.Deletion",
+          "declaration": "StructuralExhaustion.CT2.Nodes.Deletion.Contract",
+          "sourceFile": "StructuralExhaustion/CT2/Nodes/Deletion.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Nodes.Deletion",
+          "declaration": "StructuralExhaustion.CT2.Nodes.Deletion.Decision",
+          "sourceFile": "StructuralExhaustion/CT2/Nodes/Deletion.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Nodes.Deletion",
+          "declaration": "StructuralExhaustion.CT2.Nodes.Deletion.Plan",
+          "sourceFile": "StructuralExhaustion/CT2/Nodes/Deletion.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Nodes.Deletion",
+          "declaration": "StructuralExhaustion.CT2.Nodes.Deletion.run",
+          "sourceFile": "StructuralExhaustion/CT2/Nodes/Deletion.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  },
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT2 — Minimality and replacement",
+    "diagramKey": "deletion"
+  }
+}

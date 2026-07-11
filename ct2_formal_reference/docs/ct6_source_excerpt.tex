@@ -1,0 +1,86 @@
+\subsection{CT6 --- Active/dormant dichotomy}\label{ct:6}\label{the-activedormant-dichotomy}
+\ctsignature{\(P_{1\to6}\to \ctcert{C1};\ \ctint{P_{6\to4},P_{6\to3},P_{6\to7},P_{6\to9}};\ \ctrec{P_{6\to10}}\).}
+
+CT6 is an exact sequential machine for the active/dormant split.  Its stable
+entry interface fixes the ambient object, branch state, monitored family,
+activity threshold, first-failure order, first-failure witness type, scope
+predicate, and C1 claim.  A validated \texttt{Input} contains the monitor,
+threshold, and order.  The executable \texttt{Framework} adds the predicates
+certified by the machine and the exact entry contracts of CT3, CT4, CT7, CT9,
+and CT10.
+
+The entry contract is kept in \texttt{CT6.Interface}, independently of the
+machine implementation.  This separation is necessary because the tactic
+graph contains cycles, while Lean imports must be acyclic.  A producer may
+therefore construct an exact \texttt{CT6.Interface.Input} without importing
+CT6's nodes or any tactic to which CT6 routes.  The same interface layer is
+used for CT7--CT10.
+
+The core plan has five independent fields: \texttt{scope},
+\texttt{definition}, \texttt{activity}, \texttt{activeLedger}, and
+\texttt{dormant}.  The scope node returns a typed \texttt{ScopeCandidate} or
+\texttt{ScopedState}.  The definition node has one successor and certifies
+the activity predicate, threshold, order, and first-failure extractor.  The
+activity node returns either an indexed \texttt{ActiveState} or an indexed
+\texttt{DormantState}.  A dormant state contains the actual first-failure
+witness and its structural proof.
+
+The active branch has no further classification choice: the
+\texttt{activeLedger} certification node constructs the exact CT4 input and
+its alignment proof.  The dormant node returns exactly one of C1, CT3, CT7,
+CT9, or CT10.  Each payload is indexed by the dormant state that licensed it
+and contains the consumer's validated input.  \texttt{Port} and
+\texttt{HandoffPlan} certify consumer acceptance after \texttt{runCore}; they
+cannot change the route selected by a core node.
+
+The soundness contracts occur at the following machine boundaries.
+\begin{itemize}
+\tightlist
+\item \textbf{S-Def} fixes the monitor and first-failure vocabulary in the entry interface and is certified before the activity decision.
+\item \textbf{S-Dich} is the exhaustive active/dormant decision and the exhaustive dormant routing decision.
+\item \textbf{S-Equiv} is carried by the structural first-failure certificate used on the dormant branch.
+\item \textbf{S-Rout} and \textbf{S-Trig} are carried by the exact CT3, CT4, CT7, CT9, and CT10 inputs and their alignment proofs.
+\end{itemize}
+
+Failure to define activity or to prove the first-failure extractor structural
+is a pre-admission defect: no \texttt{DefinitionState}, and hence no admitted
+\texttt{CorePlan}, exists.  Absence of any bounded first-failure interface is
+the typed scope terminal.  It is not conflated with the CT10 recovery, which
+requires a concrete bounded witness and an exact refinement input.
+
+\begin{figure}[p]
+\centering
+\vspace*{-1.70cm}
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\scriptsize}]
+\node[bcwide] (entry) at (0,0) {{\tiny\ttfamily CT6.entry}\\\textbf{Validated monitor}\\threshold and first-failure order};
+\node[bcdec,bclemma,text width=3.45cm,minimum width=4.20cm] (scope) at (0,-2.25) {{\tiny\ttfamily CT6.decide.scope}\\\textbf{Bounded first-failure interface?}};
+\node[bcscopefail,text width=3.15cm,minimum width=3.15cm] (scopeout) at (7.10,-2.25) {{\tiny\ttfamily CT6.terminal.scope}\\\textbf{Scope exit}};
+\node[bcwide,bclemma] (definition) at (0,-4.55) {{\tiny\ttfamily CT6.certify.definition}\\\textbf{S-Def/S-Equiv certificate}\\activity and first-failure data};
+\node[bcdec,bclemma,text width=3.45cm,minimum width=4.20cm] (activity) at (0,-6.95) {{\tiny\ttfamily CT6.decide.activity}\\\textbf{Active or dormant?}};
+\node[bcwide,bclemma,text width=3.55cm,minimum width=3.55cm] (ledger) at (7.10,-6.95) {{\tiny\ttfamily CT6.certify.activeLedger}\\\textbf{Construct active ledger}};
+\node[bcroute,bcrouteneutral,bcoutputroute,text width=3.05cm,minimum width=3.05cm] (ct4) at (7.10,-9.55) {{\tiny\ttfamily CT6.terminal.ct4}\\\textbf{CT 4 exit}};
+\node[bcroutechoice,bctheorem,text width=3.30cm,minimum width=4.20cm] (dormant) at (0,-9.75) {{\tiny\ttfamily CT6.decide.dormant}\\\textbf{Classify structural first failure}};
+\node[bcclosed,text width=2.80cm,minimum width=2.80cm] (c1) at (-9.20,-13.00) {{\tiny\ttfamily CT6.terminal.c1}\\\textbf{C1}};
+\node[bcroute,bcrouteneutral,bcoutputroute,text width=2.85cm,minimum width=2.85cm] (ct3) at (-4.65,-13.00) {{\tiny\ttfamily CT6.terminal.ct3}\\\textbf{CT 3 exit}};
+\node[bcroute,bcrouteneutral,bcoutputroute,text width=2.85cm,minimum width=2.85cm] (ct7) at (0,-13.00) {{\tiny\ttfamily CT6.terminal.ct7}\\\textbf{CT 7 exit}};
+\node[bcroute,bcrouteneutral,bcoutputroute,text width=2.85cm,minimum width=2.85cm] (ct9) at (4.65,-13.00) {{\tiny\ttfamily CT6.terminal.ct9}\\\textbf{CT 9 exit}};
+\node[bcroute,bcrouteneutral,bcdesign,text width=2.95cm,minimum width=2.95cm] (ct10) at (9.30,-13.00) {{\tiny\ttfamily CT6.terminal.ct10}\\\textbf{CT 10 exit}};
+\draw[bcarr] (entry)--(scope);
+\draw[bcscopearr] (scope)--node[bclabel,above]{exit}(scopeout);
+\draw[bcarr] (scope)--node[bclabel,right]{ready}(definition);
+\draw[bcarr] (definition)--node[bclabel,right]{certified}(activity);
+\draw[bcarr] (activity)--node[bclabel,above]{active}(ledger);
+\draw[bchandoff] (ledger)--node[bclabel,right]{\(P_{6\to4}\)}(ct4);
+\draw[bcarr] (activity)--node[bclabel,right]{dormant}(dormant);
+\draw[bcarr] (dormant)--node[bclabel,above,sloped]{target hit}(c1);
+\draw[bchandoff] (dormant)--node[bclabel,above,sloped]{\(P_{6\to3}\)}(ct3);
+\draw[bchandoff] (dormant)--node[bclabel,right]{\(P_{6\to7}\)}(ct7);
+\draw[bchandoff] (dormant)--node[bclabel,above,sloped]{\(P_{6\to9}\)}(ct9);
+\draw[bcrecoverarr] (dormant)--node[bclabel,above,sloped]{\(P_{6\to10}\)}(ct10);
+\end{tikzpicture}%
+}
+\caption[Closure-tactic 6: exact active/dormant machine]{Closure-tactic 6 as an exact sequential machine.  Monospaced labels are shared by Lean's \texttt{Graph.NodeId}, the JSON graph, and executable traces.  Certification nodes have one successor.  The active ledger is an exact CT4 input; every dormant exit retains the first-failure state and the exact consumer input.}
+\label{fig:ct6-active-dormant}
+\end{figure}
+\FloatBarrier

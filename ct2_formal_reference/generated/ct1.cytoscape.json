@@ -1,0 +1,406 @@
+{
+  "tacticId": "CT1",
+  "graphVersion": "CT1-v1",
+  "entryNodeId": "CT1.entry",
+  "nodes": [
+    {
+      "data": {
+        "id": "CT1.entry",
+        "label": "Validated CT1 entry",
+        "nodeKind": "entry",
+        "terminalCase": null,
+        "contracts": [
+          "S-Def"
+        ],
+        "leanContract": "StructuralExhaustion.CT1.Nodes.Entry.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.decide.scope",
+        "label": "Scope admission",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Dich",
+          "A-Scope"
+        ],
+        "leanContract": "StructuralExhaustion.CT1.Nodes.Scope.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.terminal.scope",
+        "label": "scope terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "scope",
+        "contracts": [
+          "A-Scope"
+        ],
+        "leanContract": "StructuralExhaustion.CT1.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.certify.equivalence",
+        "label": "Target-test equivalence certification",
+        "nodeKind": "certification",
+        "terminalCase": null,
+        "contracts": [
+          "S-Equiv"
+        ],
+        "leanContract": "StructuralExhaustion.CT1.Nodes.Equivalence.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.decide.realization",
+        "label": "Realization decision",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Dich",
+          "S-Equiv",
+          "S-Pers"
+        ],
+        "leanContract": "StructuralExhaustion.CT1.Nodes.Realization.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.terminal.c1",
+        "label": "c1 terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "c1",
+        "contracts": [
+          "S-Equiv",
+          "A-Cert"
+        ],
+        "leanContract": "StructuralExhaustion.CT1.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.decide.payload",
+        "label": "Payload classification",
+        "nodeKind": "decision",
+        "terminalCase": null,
+        "contracts": [
+          "S-Dich",
+          "S-Pers",
+          "S-Rout"
+        ],
+        "leanContract": "StructuralExhaustion.CT1.Nodes.Payload.Contract"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.terminal.ct2",
+        "label": "ct2 terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "ct2",
+        "contracts": [
+          "S-Pers",
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT1.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.terminal.ct3",
+        "label": "ct3 terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "ct3",
+        "contracts": [
+          "S-Pers",
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT1.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.terminal.ct4",
+        "label": "ct4 terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "ct4",
+        "contracts": [
+          "S-Pers",
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT1.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.terminal.ct5",
+        "label": "ct5 terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "ct5",
+        "contracts": [
+          "S-Pers",
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT1.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.terminal.ct6",
+        "label": "ct6 terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "ct6",
+        "contracts": [
+          "S-Pers",
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT1.RawOutcome"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.terminal.ct17",
+        "label": "ct17 terminal",
+        "nodeKind": "terminal",
+        "terminalCase": "ct17",
+        "contracts": [
+          "S-Pers",
+          "S-Rout",
+          "S-Trig"
+        ],
+        "leanContract": "StructuralExhaustion.CT1.RawOutcome"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "id": "CT1.edge.begin",
+        "source": "CT1.entry",
+        "target": "CT1.decide.scope",
+        "kind": "advance",
+        "branchTag": "begin",
+        "transitionConstructor": "StructuralExhaustion.CT1.Graph.Edge.beginScope",
+        "resultConstructor": null,
+        "evidence": []
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.edge.scope.exit",
+        "source": "CT1.decide.scope",
+        "target": "CT1.terminal.scope",
+        "kind": "scope",
+        "branchTag": "exit",
+        "transitionConstructor": "StructuralExhaustion.CT1.Graph.Edge.scopeExit",
+        "resultConstructor": "StructuralExhaustion.CT1.Nodes.Scope.Decision.exit",
+        "evidence": [
+          {
+            "slotId": "candidate",
+            "typeExpression": "StructuralExhaustion.CT1.ScopeCandidate framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.edge.scope.ready",
+        "source": "CT1.decide.scope",
+        "target": "CT1.certify.equivalence",
+        "kind": "advance",
+        "branchTag": "ready",
+        "transitionConstructor": "StructuralExhaustion.CT1.Graph.Edge.scopeReady",
+        "resultConstructor": "StructuralExhaustion.CT1.Nodes.Scope.Decision.ready",
+        "evidence": [
+          {
+            "slotId": "scopeState",
+            "typeExpression": "StructuralExhaustion.CT1.ScopedState framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.edge.equivalence.certified",
+        "source": "CT1.certify.equivalence",
+        "target": "CT1.decide.realization",
+        "kind": "advance",
+        "branchTag": "certified",
+        "transitionConstructor": "StructuralExhaustion.CT1.Graph.Edge.equivalenceCertified",
+        "resultConstructor": null,
+        "evidence": [
+          {
+            "slotId": "equivalence",
+            "typeExpression": "StructuralExhaustion.CT1.EquivalenceState framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.edge.realization.hit",
+        "source": "CT1.decide.realization",
+        "target": "CT1.terminal.c1",
+        "kind": "close",
+        "branchTag": "hit",
+        "transitionConstructor": "StructuralExhaustion.CT1.Graph.Edge.realizationHit",
+        "resultConstructor": "StructuralExhaustion.CT1.Nodes.Realization.Decision.hit",
+        "evidence": [
+          {
+            "slotId": "certificate",
+            "typeExpression": "StructuralExhaustion.CT1.C1Certificate framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.edge.realization.avoiding",
+        "source": "CT1.decide.realization",
+        "target": "CT1.decide.payload",
+        "kind": "advance",
+        "branchTag": "avoiding",
+        "transitionConstructor": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+        "resultConstructor": "StructuralExhaustion.CT1.Nodes.Realization.Decision.avoiding",
+        "evidence": [
+          {
+            "slotId": "avoiding",
+            "typeExpression": "StructuralExhaustion.CT1.AvoidingState framework input"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.edge.payload.ct2",
+        "source": "CT1.decide.payload",
+        "target": "CT1.terminal.ct2",
+        "kind": "handoff",
+        "branchTag": "toCT2",
+        "transitionConstructor": "StructuralExhaustion.CT1.Graph.Edge.payloadToCT2",
+        "resultConstructor": "StructuralExhaustion.CT1.Nodes.Payload.Decision.toCT2",
+        "evidence": [
+          {
+            "slotId": "avoiding",
+            "typeExpression": "StructuralExhaustion.CT1.AvoidingState framework input"
+          },
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT1.CT2Payload framework input avoiding"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.edge.payload.ct3",
+        "source": "CT1.decide.payload",
+        "target": "CT1.terminal.ct3",
+        "kind": "handoff",
+        "branchTag": "toCT3",
+        "transitionConstructor": "StructuralExhaustion.CT1.Graph.Edge.payloadToCT3",
+        "resultConstructor": "StructuralExhaustion.CT1.Nodes.Payload.Decision.toCT3",
+        "evidence": [
+          {
+            "slotId": "avoiding",
+            "typeExpression": "StructuralExhaustion.CT1.AvoidingState framework input"
+          },
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT1.CT3Payload framework input avoiding"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.edge.payload.ct4",
+        "source": "CT1.decide.payload",
+        "target": "CT1.terminal.ct4",
+        "kind": "handoff",
+        "branchTag": "toCT4",
+        "transitionConstructor": "StructuralExhaustion.CT1.Graph.Edge.payloadToCT4",
+        "resultConstructor": "StructuralExhaustion.CT1.Nodes.Payload.Decision.toCT4",
+        "evidence": [
+          {
+            "slotId": "avoiding",
+            "typeExpression": "StructuralExhaustion.CT1.AvoidingState framework input"
+          },
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT1.CT4Payload framework input avoiding"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.edge.payload.ct5",
+        "source": "CT1.decide.payload",
+        "target": "CT1.terminal.ct5",
+        "kind": "handoff",
+        "branchTag": "toCT5",
+        "transitionConstructor": "StructuralExhaustion.CT1.Graph.Edge.payloadToCT5",
+        "resultConstructor": "StructuralExhaustion.CT1.Nodes.Payload.Decision.toCT5",
+        "evidence": [
+          {
+            "slotId": "avoiding",
+            "typeExpression": "StructuralExhaustion.CT1.AvoidingState framework input"
+          },
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT1.CT5Payload framework input avoiding"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.edge.payload.ct6",
+        "source": "CT1.decide.payload",
+        "target": "CT1.terminal.ct6",
+        "kind": "handoff",
+        "branchTag": "toCT6",
+        "transitionConstructor": "StructuralExhaustion.CT1.Graph.Edge.payloadToCT6",
+        "resultConstructor": "StructuralExhaustion.CT1.Nodes.Payload.Decision.toCT6",
+        "evidence": [
+          {
+            "slotId": "avoiding",
+            "typeExpression": "StructuralExhaustion.CT1.AvoidingState framework input"
+          },
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT1.CT6Payload framework input avoiding"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.edge.payload.ct17",
+        "source": "CT1.decide.payload",
+        "target": "CT1.terminal.ct17",
+        "kind": "handoff",
+        "branchTag": "toCT17",
+        "transitionConstructor": "StructuralExhaustion.CT1.Graph.Edge.payloadToCT17",
+        "resultConstructor": "StructuralExhaustion.CT1.Nodes.Payload.Decision.toCT17",
+        "evidence": [
+          {
+            "slotId": "avoiding",
+            "typeExpression": "StructuralExhaustion.CT1.AvoidingState framework input"
+          },
+          {
+            "slotId": "payload",
+            "typeExpression": "StructuralExhaustion.CT1.CT17Payload framework input avoiding"
+          }
+        ]
+      }
+    }
+  ]
+}

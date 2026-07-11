@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/runs/CT4.run.schema.json",
+  "title": "CT4-v1 legal semantic-machine run",
+  "description": "A legal path begins at CT4.entry, follows typed edges, and ends at one exact terminal.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT4 run discriminator.",
+          "const": "CT4"
+        },
+        "visitedNodeIds": {
+          "description": "Execution path using only CT4-v1 semantic IDs.",
+          "type": "array",
+          "items": {
+            "enum": [
+              "CT4.entry",
+              "CT4.decide.scope",
+              "CT4.terminal.scope",
+              "CT4.certify.assignment",
+              "CT4.decide.availability",
+              "CT4.terminal.ct13",
+              "CT4.decide.fibres",
+              "CT4.terminal.ct9",
+              "CT4.decide.comparison",
+              "CT4.terminal.c4",
+              "CT4.terminal.ct14"
+            ]
+          },
+          "minItems": 2
+        },
+        "nodeRecords": {
+          "description": "Proof records aligned with the visited path.",
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "../nodes/CT4.entry.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT4.decide.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT4.terminal.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT4.certify.assignment.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT4.decide.availability.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT4.terminal.ct13.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT4.decide.fibres.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT4.terminal.ct9.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT4.decide.comparison.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT4.terminal.c4.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT4.terminal.ct14.schema.json"
+              }
+            ]
+          },
+          "minItems": 2
+        },
+        "outcome": {
+          "description": "Exact terminal result of the CT4-v1 run.",
+          "properties": {
+            "terminalCase": {
+              "description": "Exact terminal-case discriminator.",
+              "enum": [
+                "scope",
+                "ct13",
+                "ct9",
+                "c4",
+                "ct14"
+              ]
+            }
+          },
+          "required": [
+            "terminalCase"
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "visitedNodeIds",
+        "nodeRecords",
+        "outcome"
+      ]
+    }
+  ],
+  "x-semanticValidationRules": [
+    "validate visitedNodeIds against the semantic transition graph",
+    "require the final node and outcome terminalCase to agree"
+  ]
+}

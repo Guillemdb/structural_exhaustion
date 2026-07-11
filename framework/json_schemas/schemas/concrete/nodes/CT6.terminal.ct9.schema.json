@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT6.terminal.ct9.schema.json",
+  "title": "CT6.terminal.ct9 completed discharge record — CT9 saturation handoff",
+  "description": "Concrete completed-discharge schema for semantic CT6-v1 node CT6.terminal.ct9.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT6.terminal.ct9.",
+          "const": "CT6"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for CT9 saturation handoff.",
+          "const": "CT6.terminal.ct9"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT6.terminal.ct9.",
+          "const": 12
+        },
+        "status": {
+          "description": "Required successful validation state for this entry or terminal node.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT6.terminal.ct9.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 2,
+          "maxItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Rout evidence.",
+                "const": "S-Rout"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required S-Trig evidence.",
+                "const": "S-Trig"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT6.terminal.ct9.",
+          "type": "array",
+          "minItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Rout discriminator.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Trig discriminator.",
+                    "const": "S-Trig"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT6.terminal.ct9.O1",
+    "modality": "construct",
+    "statement": {
+      "informal": "Execute the proof-carrying ct9 saturation handoff contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Rout",
+      "S-Trig"
+    ],
+    "dependencies": [
+      "CT6.decide.dormant"
+    ],
+    "dischargeCriteria": "The terminal index, incoming edge, raw outcome, and certified outcome agree definitionally."
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/verifications/CT16.verification.schema.json",
+  "title": "CT16-v1 structural all-node verification",
+  "description": "Requires structural coverage of all 9 semantic states; it does not claim automatic witness search.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticVerification"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT16 verification discriminator.",
+          "const": "CT16"
+        },
+        "nodeRecords": {
+          "description": "Exactly one completed record for each CT16-v1 node.",
+          "type": "array",
+          "prefixItems": [
+            {
+              "$ref": "../nodes/CT16.entry.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT16.decide.support.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT16.terminal.ct3.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT16.decide.scope.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT16.terminal.scope.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT16.certify.closedType.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT16.decide.equality.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT16.terminal.c2.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT16.terminal.ct10.schema.json"
+            }
+          ],
+          "items": false,
+          "minItems": 9,
+          "maxItems": 9
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeRecords"
+      ]
+    }
+  ]
+}

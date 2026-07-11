@@ -1,0 +1,146 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT1-v1",
+  "nodeId": "CT1.decide.scope",
+  "nodeKind": "decision",
+  "title": "Scope admission",
+  "human": {
+    "informal": "Decide between a typed scope exit and a scope-ready state.",
+    "latex": "",
+    "whyNeeded": "Its indexed result is the complete input contract for the selected successor.",
+    "failureMeaning": "No edge can be selected without constructing its declared evidence.",
+    "proofHints": [
+      "Construct a decision constructor; do not return an unchecked tag."
+    ]
+  },
+  "contracts": [
+    "S-Dich",
+    "A-Scope"
+  ],
+  "formalContract": {
+    "contractId": "CT1.decide.scope.contract",
+    "executionMode": "computable",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT1.Nodes.Scope",
+      "declaration": "StructuralExhaustion.CT1.Nodes.Scope.Contract",
+      "sourceFile": "StructuralExhaustion/CT1/Nodes/Scope.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT1.Input framework"
+      },
+      {
+        "slotId": "plan",
+        "valueKind": "algorithm",
+        "typeExpression": "StructuralExhaustion.CT1.Nodes.Scope.Plan framework input"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT1.Nodes.Scope.Contract framework input"
+      }
+    ],
+    "branches": [
+      {
+        "branchTag": "exit",
+        "meaning": "The node returns the proof-carrying exit constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT1.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT1.Nodes.Scope.Decision.exit",
+          "sourceFile": "StructuralExhaustion/CT1/Nodes/Scope.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "candidate",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT1.ScopeCandidate framework input"
+          }
+        ],
+        "transitionId": "CT1.edge.scope.exit"
+      },
+      {
+        "branchTag": "ready",
+        "meaning": "The node returns the proof-carrying ready constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT1.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT1.Nodes.Scope.Decision.ready",
+          "sourceFile": "StructuralExhaustion/CT1/Nodes/Scope.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "scopeState",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT1.ScopedState framework input"
+          }
+        ],
+        "transitionId": "CT1.edge.scope.ready"
+      }
+    ],
+    "dischargeCondition": "The Lean contract resolves and its constructors match the outgoing typed edges exactly."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT1.Nodes.Scope",
+    "sourceFile": "StructuralExhaustion/CT1/Nodes/Scope.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT1.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT1.Nodes.Scope.Contract",
+          "sourceFile": "StructuralExhaustion/CT1/Nodes/Scope.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT1.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT1.Nodes.Scope.Decision",
+          "sourceFile": "StructuralExhaustion/CT1/Nodes/Scope.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT1.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT1.Nodes.Scope.Plan",
+          "sourceFile": "StructuralExhaustion/CT1/Nodes/Scope.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT1.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT1.Nodes.Scope.run",
+          "sourceFile": "StructuralExhaustion/CT1/Nodes/Scope.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  },
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT1 — Target-test alignment and first closure",
+    "diagramKey": "scope"
+  }
+}

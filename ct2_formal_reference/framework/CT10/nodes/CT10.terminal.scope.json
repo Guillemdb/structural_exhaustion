@@ -1,0 +1,143 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT10-v1",
+  "nodeId": "CT10.terminal.scope",
+  "nodeKind": "terminal",
+  "title": "Infinite-alphabet scope terminal",
+  "human": {
+    "informal": "Execute the proof-carrying infinite-alphabet scope terminal contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "A-Scope"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT10 — Default refinement",
+    "diagramKey": "scope"
+  },
+  "formalContract": {
+    "contractId": "CT10.terminal.scope.contract",
+    "executionMode": "proof_only",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT10",
+      "declaration": "StructuralExhaustion.CT10.RawOutcome",
+      "sourceFile": "StructuralExhaustion/CT10/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "inputs": [
+      {
+        "slotId": "framework",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT10.Framework"
+      },
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT10.Input framework"
+      },
+      {
+        "slotId": "candidate",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT10.ScopeCandidate framework input"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "rawOutcome",
+        "valueKind": "payload",
+        "typeExpression": "StructuralExhaustion.CT10.RawOutcome framework input .scope"
+      }
+    ],
+    "dischargeCondition": "The terminal index, incoming edge, raw outcome, and certified outcome agree definitionally."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT10.Graph",
+    "sourceFile": "StructuralExhaustion/CT10/Graph.lean",
+    "requiredRoles": [
+      "state",
+      "constructor"
+    ],
+    "declarations": [
+      {
+        "role": "state",
+        "localName": "Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT10.Graph",
+          "declaration": "StructuralExhaustion.CT10.Graph.Terminal",
+          "sourceFile": "StructuralExhaustion/CT10/Graph.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "scope",
+        "ref": {
+          "module": "StructuralExhaustion.CT10.Graph",
+          "declaration": "StructuralExhaustion.CT10.Graph.Terminal.scope",
+          "sourceFile": "StructuralExhaustion/CT10/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "scopeTerminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT10.Graph",
+          "declaration": "StructuralExhaustion.CT10.Graph.NodeId.scopeTerminal",
+          "sourceFile": "StructuralExhaustion/CT10/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "scope",
+        "ref": {
+          "module": "StructuralExhaustion.CT10",
+          "declaration": "StructuralExhaustion.CT10.RawOutcome.scope",
+          "sourceFile": "StructuralExhaustion/CT10/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "scope",
+        "ref": {
+          "module": "StructuralExhaustion.CT10",
+          "declaration": "StructuralExhaustion.CT10.Outcome.scope",
+          "sourceFile": "StructuralExhaustion/CT10/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    ]
+  },
+  "terminal": {
+    "terminalCase": "scope",
+    "terminalConstructorRef": {
+      "module": "StructuralExhaustion.CT10.Graph",
+      "declaration": "StructuralExhaustion.CT10.Graph.Terminal.scope",
+      "sourceFile": "StructuralExhaustion/CT10/Graph.lean",
+      "declarationKind": "constructor"
+    },
+    "outcomeConstructorRef": {
+      "module": "StructuralExhaustion.CT10",
+      "declaration": "StructuralExhaustion.CT10.Outcome.scope",
+      "sourceFile": "StructuralExhaustion/CT10/Execution.lean",
+      "declarationKind": "constructor"
+    },
+    "claimTypeExpression": "¬ StructuralExhaustion.CT10.ScopeReadyAt framework input",
+    "evidenceSlots": [
+      {
+        "slotId": "candidate",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT10.ScopeCandidate framework input"
+      }
+    ]
+  }
+}

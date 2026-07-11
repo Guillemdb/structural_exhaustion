@@ -1,0 +1,140 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT13-v1",
+  "nodeId": "CT13.decide.availability",
+  "nodeKind": "decision",
+  "title": "Tier-one availability decision",
+  "human": {
+    "informal": "Execute the proof-carrying tier-one availability decision contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Dich"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT13 — Tiered charging",
+    "diagramKey": "availability"
+  },
+  "formalContract": {
+    "contractId": "CT13.decide.availability.contract",
+    "executionMode": "computable",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT13.Nodes.Availability",
+      "declaration": "StructuralExhaustion.CT13.Nodes.Availability.Contract",
+      "sourceFile": "StructuralExhaustion/CT13/Nodes/Availability.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT13.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT13.Nodes.Availability.Contract framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node.",
+    "branches": [
+      {
+        "branchTag": "available",
+        "meaning": "Return the proof-carrying available constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT13.Nodes.Availability",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Availability.Decision.available",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Availability.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "available",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT13.AvailableState framework input scope"
+          }
+        ],
+        "transitionId": "CT13.edge.availability.yes"
+      },
+      {
+        "branchTag": "unavailable",
+        "meaning": "Return the proof-carrying unavailable constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT13.Nodes.Availability",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Availability.Decision.unavailable",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Availability.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "unavailable",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT13.UnavailableState framework input scope"
+          }
+        ],
+        "transitionId": "CT13.edge.availability.no"
+      }
+    ]
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT13.Nodes.Availability",
+    "sourceFile": "StructuralExhaustion/CT13/Nodes/Availability.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT13.Nodes.Availability",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Availability.Contract",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Availability.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT13.Nodes.Availability",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Availability.Decision",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Availability.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT13.Nodes.Availability",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Availability.Plan",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Availability.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT13.Nodes.Availability",
+          "declaration": "StructuralExhaustion.CT13.Nodes.Availability.run",
+          "sourceFile": "StructuralExhaustion/CT13/Nodes/Availability.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+graph_order,node_id,node_kind,title,terminal_case,contracts,lean_contract,source_file
+1,CT15.entry,entry,Validated CT15 rank-data entry,,S-Def,StructuralExhaustion.CT15.Nodes.Entry.Contract,StructuralExhaustion/CT15/Nodes/Entry.lean
+2,CT15.decide.scope,decision,Finite target-relative-rank scope,,A-Scope,StructuralExhaustion.CT15.Nodes.Scope.Contract,StructuralExhaustion/CT15/Nodes/Scope.lean
+3,CT15.terminal.scope,terminal,Missing finite-rank scope terminal,scope,A-Scope,StructuralExhaustion.CT15.RawOutcome,StructuralExhaustion/CT15/Execution.lean
+4,CT15.certify.rank,certification,Target-relative rank certification,,S-Def,StructuralExhaustion.CT15.Nodes.Rank.Contract,StructuralExhaustion/CT15/Nodes/Rank.lean
+5,CT15.decide.rankDrop,decision,Rank-drop decision,,S-Dich,StructuralExhaustion.CT15.Nodes.RankDrop.Contract,StructuralExhaustion/CT15/Nodes/RankDrop.lean
+6,CT15.decide.dependenceRouting,decision,Structural-dependence routing,,S-Rout,StructuralExhaustion.CT15.Nodes.DependenceRouting.Contract,StructuralExhaustion/CT15/Nodes/DependenceRouting.lean
+7,CT15.terminal.ct3,terminal,CT3 rank-defect handoff,ct3,S-Rout|S-Trig,StructuralExhaustion.CT15.RawOutcome,StructuralExhaustion/CT15/Execution.lean
+8,CT15.terminal.ct7,terminal,CT7 rank-exchange handoff,ct7,S-Rout|S-Trig,StructuralExhaustion.CT15.RawOutcome,StructuralExhaustion/CT15/Execution.lean
+9,CT15.terminal.ct16,terminal,CT16 rank-delocalization handoff,ct16,S-Rout|S-Trig,StructuralExhaustion.CT15.RawOutcome,StructuralExhaustion/CT15/Execution.lean
+10,CT15.certify.ledger,certification,Full-rank ledger certification,,S-Comp,StructuralExhaustion.CT15.Nodes.Ledger.Contract,StructuralExhaustion/CT15/Nodes/Ledger.lean
+11,CT15.decide.comparison,decision,Rank-budget comparison,,S-Dich|S-Comp|S-Rout,StructuralExhaustion.CT15.Nodes.Comparison.Contract,StructuralExhaustion/CT15/Nodes/Comparison.lean
+12,CT15.terminal.c4,terminal,C4 rank-budget terminal,c4,A-Cert,StructuralExhaustion.CT15.RawOutcome,StructuralExhaustion/CT15/Execution.lean
+13,CT15.terminal.ct4,terminal,CT4 rank-ledger handoff,ct4,S-Rout|S-Trig,StructuralExhaustion.CT15.RawOutcome,StructuralExhaustion/CT15/Execution.lean

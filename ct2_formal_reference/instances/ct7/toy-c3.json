@@ -1,0 +1,90 @@
+{
+  "artifactType": "tacticInstantiation",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT7-v1",
+  "instanceId": "toy-c3",
+  "tacticId": "CT7",
+  "bindings": [
+    {
+      "slotId": "framework",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT7Toy",
+        "declaration": "StructuralExhaustion.Examples.CT7Toy.framework",
+        "sourceFile": "StructuralExhaustion/Examples/CT7Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "input",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT7Toy",
+        "declaration": "StructuralExhaustion.Examples.CT7Toy.input",
+        "sourceFile": "StructuralExhaustion/Examples/CT7Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "corePlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT7Toy",
+        "declaration": "StructuralExhaustion.Examples.CT7Toy.c3Plan",
+        "sourceFile": "StructuralExhaustion/Examples/CT7Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "port",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT7Toy",
+        "declaration": "StructuralExhaustion.Examples.CT7Toy.port",
+        "sourceFile": "StructuralExhaustion/Examples/CT7Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "handoffPlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT7Toy",
+        "declaration": "StructuralExhaustion.Examples.CT7Toy.handoff",
+        "sourceFile": "StructuralExhaustion/Examples/CT7Toy.lean",
+        "declarationKind": "definition"
+      }
+    }
+  ],
+  "expectedTerminalCase": "c3",
+  "expectedNodePath": [
+    "CT7.entry",
+    "CT7.decide.scope",
+    "CT7.certify.context",
+    "CT7.decide.realization",
+    "CT7.decide.distinction",
+    "CT7.decide.defect",
+    "CT7.terminal.c3"
+  ],
+  "expectedEdgePath": [
+    "CT7.edge.begin",
+    "CT7.edge.scope.ready",
+    "CT7.edge.context.certified",
+    "CT7.edge.realization.none",
+    "CT7.edge.distinction.defect",
+    "CT7.edge.defect.c3"
+  ],
+  "executionResultRef": {
+    "module": "StructuralExhaustion.Examples.CT7Toy",
+    "declaration": "StructuralExhaustion.Examples.CT7Toy.c3Result",
+    "sourceFile": "StructuralExhaustion/Examples/CT7Toy.lean",
+    "declarationKind": "definition"
+  },
+  "terminalTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT7Toy",
+    "declaration": "StructuralExhaustion.Examples.CT7Toy.c3_terminal",
+    "sourceFile": "StructuralExhaustion/Examples/CT7Toy.lean",
+    "declarationKind": "theorem"
+  },
+  "traceTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT7Toy",
+    "declaration": "StructuralExhaustion.Examples.CT7Toy.c3_trace",
+    "sourceFile": "StructuralExhaustion/Examples/CT7Toy.lean",
+    "declarationKind": "theorem"
+  }
+}

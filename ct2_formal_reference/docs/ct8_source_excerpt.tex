@@ -1,0 +1,73 @@
+\subsection{CT8 --- Finite-state pumping}\label{ct:8}\label{the-finite-state-pumping-principle}
+\ctsignature{\(P_{\ast\to8}\to \ctcert{C2,C5};\ \ctint{P_{8\to3},P_{8\to7}};\ \ctrec{P_{8\to10}}\).}
+
+CT8 is an exact sequential machine for finite-state pumping.  Its entry
+interface fixes a bounded-width sequence, a type system, a numeric threshold,
+the finite-scope predicate, and the C2 and C5 claims.  The executable framework
+adds exact-type equality, shortness, repetition, contextual equivalence, and
+separation predicates, together with exact CT3, CT7, and CT10 entry contracts.
+
+The scope node has three proof-carrying constructors.  \texttt{exit} proves
+that no finite type space is admitted.  \texttt{refine} carries a proof that a
+finite label system is too coarse and an exact CT10 input.  \texttt{ready}
+produces a \texttt{ScopedState} for an exact finite type system.  These cases
+are semantically different and cannot be represented by a shared failure tag.
+
+The remaining core plan fields are \texttt{equivalence},
+\texttt{repetition}, \texttt{response}, and \texttt{routing}.  The
+equivalence node has one successor and certifies the exact equality test before
+pigeonhole reasoning.  The repetition node returns a C5 finite-enumeration
+certificate or a \texttt{RepeatedState}.  The response node returns a C2
+certificate for contextually equal repeated types or a
+\texttt{SeparatingState}.  Only that separating state reaches the final node,
+which constructs an exact CT3 or CT7 input.
+
+\begin{itemize}
+\tightlist
+\item \textbf{S-Def} is fixed by the sequence, exact-type system, equality test, and explicit threshold.
+\item \textbf{S-Dich} is split between scope admission, repetition, and contextual response.
+\item \textbf{S-Equiv} is a one-successor certificate required before repeated states may be compared.
+\item \textbf{S-Comp} is carried by the short enumeration and repeated-type compression certificates.
+\item \textbf{S-Rout} and \textbf{S-Trig} are carried by exact CT3, CT7, and CT10 validated inputs.
+\end{itemize}
+
+Informal periodicity is not an executable outcome.  If the exact response
+certificate cannot be constructed, the node plan is incomplete.  Theorems
+\texttt{run\_verified}, \texttt{run\_total}, and
+\texttt{run\_trace\_valid} establish soundness, plan-relative totality, and
+validity of the evidence-indexed trace.
+
+\begin{figure}[p]
+\centering
+\vspace*{-1.75cm}
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\scriptsize}]
+\node[bcwide] (entry) at (0,0) {{\tiny\ttfamily CT8.entry}\\\textbf{Validated sequence and exact-type slot}};
+\node[bcdec,bclemma,text width=3.55cm,minimum width=4.30cm] (scope) at (0,-2.30) {{\tiny\ttfamily CT8.decide.scope}\\\textbf{Scope, refine, or exact finite types?}};
+\node[bcscopefail,text width=3.05cm,minimum width=3.05cm] (scopeout) at (7.30,-2.30) {{\tiny\ttfamily CT8.terminal.scope}\\\textbf{Scope exit}};
+\node[bcroute,bcrouteneutral,bcdesign,text width=3.05cm,minimum width=3.05cm] (ct10) at (-7.30,-2.30) {{\tiny\ttfamily CT8.terminal.ct10}\\\textbf{CT 10 exit}};
+\node[bcwide,bclemma] (equiv) at (0,-4.75) {{\tiny\ttfamily CT8.certify.equivalence}\\\textbf{Exact response-equivalence certificate}};
+\node[bcdec,bclemma,text width=3.45cm,minimum width=4.20cm] (repetition) at (0,-7.15) {{\tiny\ttfamily CT8.decide.repetition}\\\textbf{Short or repeated exact type?}};
+\node[bcclosed] (c5) at (7.30,-7.15) {{\tiny\ttfamily CT8.terminal.c5}\\\textbf{C5}};
+\node[bcdec,bclemma,text width=3.45cm,minimum width=4.20cm] (response) at (0,-9.65) {{\tiny\ttfamily CT8.decide.response}\\\textbf{Equal in every context?}};
+\node[bcclosed] (c2) at (-7.30,-9.65) {{\tiny\ttfamily CT8.terminal.c2}\\\textbf{C2}};
+\node[bcroutechoice,bctheorem,text width=3.25cm,minimum width=4.10cm] (routing) at (0,-12.15) {{\tiny\ttfamily CT8.decide.routing}\\\textbf{Route separating witness}};
+\node[bcroute,bcrouteneutral,bcoutputroute,text width=3.05cm,minimum width=3.05cm] (ct3) at (-3.20,-15.20) {{\tiny\ttfamily CT8.terminal.ct3}\\\textbf{CT 3 exit}};
+\node[bcroute,bcrouteneutral,bcoutputroute,text width=3.05cm,minimum width=3.05cm] (ct7) at (3.20,-15.20) {{\tiny\ttfamily CT8.terminal.ct7}\\\textbf{CT 7 exit}};
+\draw[bcarr] (entry)--(scope);
+\draw[bcscopearr] (scope)--node[bclabel,above]{no finite types}(scopeout);
+\draw[bcrecoverarr] (scope)--node[bclabel,above]{coarse labels}(ct10);
+\draw[bcarr] (scope)--node[bclabel,right]{ready}(equiv);
+\draw[bcarr] (equiv)--node[bclabel,right]{certified}(repetition);
+\draw[bcarr] (repetition)--node[bclabel,above]{short}(c5);
+\draw[bcarr] (repetition)--node[bclabel,right]{repeated}(response);
+\draw[bcarr] (response)--node[bclabel,above]{equivalent}(c2);
+\draw[bcarr] (response)--node[bclabel,right]{separating}(routing);
+\draw[bchandoff] (routing)--node[bclabel,above,sloped]{\(P_{8\to3}\)}(ct3);
+\draw[bchandoff] (routing)--node[bclabel,above,sloped]{\(P_{8\to7}\)}(ct7);
+\end{tikzpicture}%
+}
+\caption[Closure-tactic 8: exact finite-state machine]{Closure-tactic 8 as an exact sequential machine.  Scope failure and a finite-but-coarse label design are distinct typed terminals.  Exact equivalence is certified before repetition, and every later branch retains that certificate through its state index.}
+\label{fig:ct8-finite-state-pumping}
+\end{figure}
+\FloatBarrier

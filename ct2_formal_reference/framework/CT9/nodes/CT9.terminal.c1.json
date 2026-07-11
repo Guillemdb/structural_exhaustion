@@ -1,0 +1,143 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT9-v1",
+  "nodeId": "CT9.terminal.c1",
+  "nodeKind": "terminal",
+  "title": "C1 overload target terminal",
+  "human": {
+    "informal": "Execute the proof-carrying c1 overload target terminal contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "A-Cert"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT9 — Overload exhaustion",
+    "diagramKey": "c1"
+  },
+  "formalContract": {
+    "contractId": "CT9.terminal.c1.contract",
+    "executionMode": "proof_only",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT9",
+      "declaration": "StructuralExhaustion.CT9.RawOutcome",
+      "sourceFile": "StructuralExhaustion/CT9/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "inputs": [
+      {
+        "slotId": "framework",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT9.Framework"
+      },
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT9.Input framework"
+      },
+      {
+        "slotId": "certificate",
+        "valueKind": "certificate",
+        "typeExpression": "StructuralExhaustion.CT9.C1Certificate framework input extraction"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "rawOutcome",
+        "valueKind": "payload",
+        "typeExpression": "StructuralExhaustion.CT9.RawOutcome framework input .c1"
+      }
+    ],
+    "dischargeCondition": "The terminal index, incoming edge, raw outcome, and certified outcome agree definitionally."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT9.Graph",
+    "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+    "requiredRoles": [
+      "state",
+      "constructor"
+    ],
+    "declarations": [
+      {
+        "role": "state",
+        "localName": "Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT9.Graph",
+          "declaration": "StructuralExhaustion.CT9.Graph.Terminal",
+          "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "c1",
+        "ref": {
+          "module": "StructuralExhaustion.CT9.Graph",
+          "declaration": "StructuralExhaustion.CT9.Graph.Terminal.c1",
+          "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "c1Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT9.Graph",
+          "declaration": "StructuralExhaustion.CT9.Graph.NodeId.c1Terminal",
+          "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "c1",
+        "ref": {
+          "module": "StructuralExhaustion.CT9",
+          "declaration": "StructuralExhaustion.CT9.RawOutcome.c1",
+          "sourceFile": "StructuralExhaustion/CT9/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "c1",
+        "ref": {
+          "module": "StructuralExhaustion.CT9",
+          "declaration": "StructuralExhaustion.CT9.Outcome.c1",
+          "sourceFile": "StructuralExhaustion/CT9/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    ]
+  },
+  "terminal": {
+    "terminalCase": "c1",
+    "terminalConstructorRef": {
+      "module": "StructuralExhaustion.CT9.Graph",
+      "declaration": "StructuralExhaustion.CT9.Graph.Terminal.c1",
+      "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+      "declarationKind": "constructor"
+    },
+    "outcomeConstructorRef": {
+      "module": "StructuralExhaustion.CT9",
+      "declaration": "StructuralExhaustion.CT9.Outcome.c1",
+      "sourceFile": "StructuralExhaustion/CT9/Execution.lean",
+      "declarationKind": "constructor"
+    },
+    "claimTypeExpression": "framework.entry.C1Claim input.G input.branch",
+    "evidenceSlots": [
+      {
+        "slotId": "certificate",
+        "valueKind": "certificate",
+        "typeExpression": "StructuralExhaustion.CT9.C1Certificate framework input extraction"
+      }
+    ]
+  }
+}

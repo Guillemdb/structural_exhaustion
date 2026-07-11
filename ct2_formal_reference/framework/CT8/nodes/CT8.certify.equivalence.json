@@ -1,0 +1,91 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT8-v1",
+  "nodeId": "CT8.certify.equivalence",
+  "nodeKind": "certification",
+  "title": "Exact-type equivalence certification",
+  "human": {
+    "informal": "Execute the proof-carrying exact-type equivalence certification contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Equiv"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT8 — Finite-state pumping",
+    "diagramKey": "equivalence"
+  },
+  "formalContract": {
+    "contractId": "CT8.certify.equivalence.contract",
+    "executionMode": "external_certificate",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT8.Nodes.Equivalence",
+      "declaration": "StructuralExhaustion.CT8.Nodes.Equivalence.Contract",
+      "sourceFile": "StructuralExhaustion/CT8/Nodes/Equivalence.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT8.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "equality",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT8.EqualityState framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT8.Nodes.Equivalence",
+    "sourceFile": "StructuralExhaustion/CT8/Nodes/Equivalence.lean",
+    "requiredRoles": [
+      "contract",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT8.Nodes.Equivalence",
+          "declaration": "StructuralExhaustion.CT8.Nodes.Equivalence.Contract",
+          "sourceFile": "StructuralExhaustion/CT8/Nodes/Equivalence.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT8.Nodes.Equivalence",
+          "declaration": "StructuralExhaustion.CT8.Nodes.Equivalence.Plan",
+          "sourceFile": "StructuralExhaustion/CT8/Nodes/Equivalence.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT8.Nodes.Equivalence",
+          "declaration": "StructuralExhaustion.CT8.Nodes.Equivalence.run",
+          "sourceFile": "StructuralExhaustion/CT8/Nodes/Equivalence.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "artifactType": "tacticInstantiation",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT17-v1",
+  "instanceId": "toy-ct8",
+  "tacticId": "CT17",
+  "bindings": [
+    {
+      "slotId": "framework",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT17Toy",
+        "declaration": "StructuralExhaustion.Examples.CT17Toy.framework",
+        "sourceFile": "StructuralExhaustion/Examples/CT17Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "input",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT17Toy",
+        "declaration": "StructuralExhaustion.Examples.CT17Toy.input",
+        "sourceFile": "StructuralExhaustion/Examples/CT17Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "corePlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT17Toy",
+        "declaration": "StructuralExhaustion.Examples.CT17Toy.ct8Plan",
+        "sourceFile": "StructuralExhaustion/Examples/CT17Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "port",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT17Toy",
+        "declaration": "StructuralExhaustion.Examples.CT17Toy.port",
+        "sourceFile": "StructuralExhaustion/Examples/CT17Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "handoffPlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT17Toy",
+        "declaration": "StructuralExhaustion.Examples.CT17Toy.handoff",
+        "sourceFile": "StructuralExhaustion/Examples/CT17Toy.lean",
+        "declarationKind": "definition"
+      }
+    }
+  ],
+  "expectedTerminalCase": "ct8",
+  "expectedNodePath": [
+    "CT17.entry",
+    "CT17.decide.scope",
+    "CT17.decide.compatibility",
+    "CT17.certify.block",
+    "CT17.decide.scale",
+    "CT17.decide.survivors",
+    "CT17.terminal.ct8"
+  ],
+  "expectedEdgePath": [
+    "CT17.edge.begin",
+    "CT17.edge.scope.ready",
+    "CT17.edge.compatibility.yes",
+    "CT17.edge.block.certified",
+    "CT17.edge.scale.finite",
+    "CT17.edge.survivors.ct8"
+  ],
+  "executionResultRef": {
+    "module": "StructuralExhaustion.Examples.CT17Toy",
+    "declaration": "StructuralExhaustion.Examples.CT17Toy.ct8Result",
+    "sourceFile": "StructuralExhaustion/Examples/CT17Toy.lean",
+    "declarationKind": "definition"
+  },
+  "terminalTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT17Toy",
+    "declaration": "StructuralExhaustion.Examples.CT17Toy.ct8_terminal",
+    "sourceFile": "StructuralExhaustion/Examples/CT17Toy.lean",
+    "declarationKind": "theorem"
+  },
+  "traceTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT17Toy",
+    "declaration": "StructuralExhaustion.Examples.CT17Toy.ct8_trace",
+    "sourceFile": "StructuralExhaustion/Examples/CT17Toy.lean",
+    "declarationKind": "theorem"
+  }
+}

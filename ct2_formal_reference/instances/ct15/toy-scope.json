@@ -1,0 +1,82 @@
+{
+  "artifactType": "tacticInstantiation",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT15-v1",
+  "instanceId": "toy-scope",
+  "tacticId": "CT15",
+  "bindings": [
+    {
+      "slotId": "framework",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT15Toy",
+        "declaration": "StructuralExhaustion.Examples.CT15Toy.scopeFramework",
+        "sourceFile": "StructuralExhaustion/Examples/CT15Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "input",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT15Toy",
+        "declaration": "StructuralExhaustion.Examples.CT15Toy.scopeInput",
+        "sourceFile": "StructuralExhaustion/Examples/CT15Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "corePlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT15Toy",
+        "declaration": "StructuralExhaustion.Examples.CT15Toy.scopePlan",
+        "sourceFile": "StructuralExhaustion/Examples/CT15Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "port",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT15Toy",
+        "declaration": "StructuralExhaustion.Examples.CT15Toy.scopePort",
+        "sourceFile": "StructuralExhaustion/Examples/CT15Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "handoffPlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT15Toy",
+        "declaration": "StructuralExhaustion.Examples.CT15Toy.scopeHandoff",
+        "sourceFile": "StructuralExhaustion/Examples/CT15Toy.lean",
+        "declarationKind": "definition"
+      }
+    }
+  ],
+  "expectedTerminalCase": "scope",
+  "expectedNodePath": [
+    "CT15.entry",
+    "CT15.decide.scope",
+    "CT15.terminal.scope"
+  ],
+  "expectedEdgePath": [
+    "CT15.edge.begin",
+    "CT15.edge.scope.exit"
+  ],
+  "executionResultRef": {
+    "module": "StructuralExhaustion.Examples.CT15Toy",
+    "declaration": "StructuralExhaustion.Examples.CT15Toy.scopeResult",
+    "sourceFile": "StructuralExhaustion/Examples/CT15Toy.lean",
+    "declarationKind": "definition"
+  },
+  "terminalTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT15Toy",
+    "declaration": "StructuralExhaustion.Examples.CT15Toy.scope_terminal",
+    "sourceFile": "StructuralExhaustion/Examples/CT15Toy.lean",
+    "declarationKind": "theorem"
+  },
+  "traceTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT15Toy",
+    "declaration": "StructuralExhaustion.Examples.CT15Toy.scope_trace",
+    "sourceFile": "StructuralExhaustion/Examples/CT15Toy.lean",
+    "declarationKind": "theorem"
+  }
+}

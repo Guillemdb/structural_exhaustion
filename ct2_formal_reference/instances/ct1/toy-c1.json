@@ -1,0 +1,86 @@
+{
+  "artifactType": "tacticInstantiation",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT1-v1",
+  "instanceId": "toy-c1",
+  "tacticId": "CT1",
+  "bindings": [
+    {
+      "slotId": "framework",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT1Toy",
+        "declaration": "StructuralExhaustion.Examples.CT1Toy.hitFramework",
+        "sourceFile": "StructuralExhaustion/Examples/CT1Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "input",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT1Toy",
+        "declaration": "StructuralExhaustion.Examples.CT1Toy.hitInput",
+        "sourceFile": "StructuralExhaustion/Examples/CT1Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "corePlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT1Toy",
+        "declaration": "StructuralExhaustion.Examples.CT1Toy.hitPlan",
+        "sourceFile": "StructuralExhaustion/Examples/CT1Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "port",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT1Toy",
+        "declaration": "StructuralExhaustion.Examples.CT1Toy.hitPort",
+        "sourceFile": "StructuralExhaustion/Examples/CT1Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "handoffPlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT1Toy",
+        "declaration": "StructuralExhaustion.Examples.CT1Toy.hitHandoff",
+        "sourceFile": "StructuralExhaustion/Examples/CT1Toy.lean",
+        "declarationKind": "definition"
+      }
+    }
+  ],
+  "expectedTerminalCase": "c1",
+  "expectedNodePath": [
+    "CT1.entry",
+    "CT1.decide.scope",
+    "CT1.certify.equivalence",
+    "CT1.decide.realization",
+    "CT1.terminal.c1"
+  ],
+  "expectedEdgePath": [
+    "CT1.edge.begin",
+    "CT1.edge.scope.ready",
+    "CT1.edge.equivalence.certified",
+    "CT1.edge.realization.hit"
+  ],
+  "executionResultRef": {
+    "module": "StructuralExhaustion.Examples.CT1Toy",
+    "declaration": "StructuralExhaustion.Examples.CT1Toy.hitResult",
+    "sourceFile": "StructuralExhaustion/Examples/CT1Toy.lean",
+    "declarationKind": "definition"
+  },
+  "terminalTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT1Toy",
+    "declaration": "StructuralExhaustion.Examples.CT1Toy.hit_terminal",
+    "sourceFile": "StructuralExhaustion/Examples/CT1Toy.lean",
+    "declarationKind": "theorem"
+  },
+  "traceTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT1Toy",
+    "declaration": "StructuralExhaustion.Examples.CT1Toy.hit_trace",
+    "sourceFile": "StructuralExhaustion/Examples/CT1Toy.lean",
+    "declarationKind": "theorem"
+  }
+}

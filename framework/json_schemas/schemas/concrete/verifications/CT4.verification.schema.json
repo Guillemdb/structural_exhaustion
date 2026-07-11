@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/verifications/CT4.verification.schema.json",
+  "title": "CT4-v1 structural all-node verification",
+  "description": "Requires structural coverage of all 11 semantic states; it does not claim automatic witness search.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticVerification"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT4 verification discriminator.",
+          "const": "CT4"
+        },
+        "nodeRecords": {
+          "description": "Exactly one completed record for each CT4-v1 node.",
+          "type": "array",
+          "prefixItems": [
+            {
+              "$ref": "../nodes/CT4.entry.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT4.decide.scope.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT4.terminal.scope.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT4.certify.assignment.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT4.decide.availability.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT4.terminal.ct13.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT4.decide.fibres.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT4.terminal.ct9.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT4.decide.comparison.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT4.terminal.c4.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT4.terminal.ct14.schema.json"
+            }
+          ],
+          "items": false,
+          "minItems": 11,
+          "maxItems": 11
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeRecords"
+      ]
+    }
+  ]
+}

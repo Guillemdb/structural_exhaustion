@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT6.terminal.c1.schema.json",
+  "title": "CT6.terminal.c1 completed discharge record — C1 first-failure target terminal",
+  "description": "Concrete completed-discharge schema for semantic CT6-v1 node CT6.terminal.c1.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT6.terminal.c1.",
+          "const": "CT6"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for C1 first-failure target terminal.",
+          "const": "CT6.terminal.c1"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT6.terminal.c1.",
+          "const": 9
+        },
+        "status": {
+          "description": "Required successful validation state for this entry or terminal node.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT6.terminal.c1.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 2,
+          "maxItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Equiv evidence.",
+                "const": "S-Equiv"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required A-Cert evidence.",
+                "const": "A-Cert"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT6.terminal.c1.",
+          "type": "array",
+          "minItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Equiv discriminator.",
+                    "const": "S-Equiv"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required A-Cert discriminator.",
+                    "const": "A-Cert"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT6.terminal.c1.O1",
+    "modality": "validate",
+    "statement": {
+      "informal": "Execute the proof-carrying c1 first-failure target terminal contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Equiv",
+      "A-Cert"
+    ],
+    "dependencies": [
+      "CT6.decide.dormant"
+    ],
+    "dischargeCriteria": "The terminal index, incoming edge, raw outcome, and certified outcome agree definitionally."
+  }
+}

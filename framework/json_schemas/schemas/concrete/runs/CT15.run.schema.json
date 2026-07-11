@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/runs/CT15.run.schema.json",
+  "title": "CT15-v1 legal semantic-machine run",
+  "description": "A legal path begins at CT15.entry, follows typed edges, and ends at one exact terminal.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT15 run discriminator.",
+          "const": "CT15"
+        },
+        "visitedNodeIds": {
+          "description": "Execution path using only CT15-v1 semantic IDs.",
+          "type": "array",
+          "items": {
+            "enum": [
+              "CT15.entry",
+              "CT15.decide.scope",
+              "CT15.terminal.scope",
+              "CT15.certify.rank",
+              "CT15.decide.rankDrop",
+              "CT15.decide.dependenceRouting",
+              "CT15.terminal.ct3",
+              "CT15.terminal.ct7",
+              "CT15.terminal.ct16",
+              "CT15.certify.ledger",
+              "CT15.decide.comparison",
+              "CT15.terminal.c4",
+              "CT15.terminal.ct4"
+            ]
+          },
+          "minItems": 2
+        },
+        "nodeRecords": {
+          "description": "Proof records aligned with the visited path.",
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "../nodes/CT15.entry.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT15.decide.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT15.terminal.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT15.certify.rank.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT15.decide.rankDrop.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT15.decide.dependenceRouting.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT15.terminal.ct3.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT15.terminal.ct7.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT15.terminal.ct16.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT15.certify.ledger.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT15.decide.comparison.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT15.terminal.c4.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT15.terminal.ct4.schema.json"
+              }
+            ]
+          },
+          "minItems": 2
+        },
+        "outcome": {
+          "description": "Exact terminal result of the CT15-v1 run.",
+          "properties": {
+            "terminalCase": {
+              "description": "Exact terminal-case discriminator.",
+              "enum": [
+                "scope",
+                "ct3",
+                "ct7",
+                "ct16",
+                "c4",
+                "ct4"
+              ]
+            }
+          },
+          "required": [
+            "terminalCase"
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "visitedNodeIds",
+        "nodeRecords",
+        "outcome"
+      ]
+    }
+  ],
+  "x-semanticValidationRules": [
+    "validate visitedNodeIds against the semantic transition graph",
+    "require the final node and outcome terminalCase to agree"
+  ]
+}

@@ -1,0 +1,13 @@
+graph_order,node_id,node_kind,title,terminal_case,contracts,lean_contract,source_file
+1,CT10.entry,entry,Validated CT10 residual-class entry,,S-Def,StructuralExhaustion.CT10.Nodes.Entry.Contract,StructuralExhaustion/CT10/Nodes/Entry.lean
+2,CT10.decide.scope,decision,Finite refinement-alphabet scope,,S-Dich|A-Scope,StructuralExhaustion.CT10.Nodes.Scope.Contract,StructuralExhaustion/CT10/Nodes/Scope.lean
+3,CT10.terminal.scope,terminal,Infinite-alphabet scope terminal,scope,A-Scope,StructuralExhaustion.CT10.RawOutcome,StructuralExhaustion/CT10/Execution.lean
+4,CT10.certify.labels,certification,Label-class exhaustion certification,,S-Def|S-Comp,StructuralExhaustion.CT10.Nodes.Labels.Contract,StructuralExhaustion/CT10/Nodes/Labels.lean
+5,CT10.decide.classification,decision,Refined-class classification,,S-Dich|S-Comp|S-Rout,StructuralExhaustion.CT10.Nodes.Classification.Contract,StructuralExhaustion/CT10/Nodes/Classification.lean
+6,CT10.terminal.c5,terminal,C5 finite-class exhaustion terminal,c5,S-Comp|A-Cert,StructuralExhaustion.CT10.RawOutcome,StructuralExhaustion/CT10/Execution.lean
+7,CT10.decide.direct,decision,Direct class-result routing,,S-Rout,StructuralExhaustion.CT10.Nodes.Direct.Contract,StructuralExhaustion/CT10/Nodes/Direct.lean
+8,CT10.terminal.ct3,terminal,CT3 promoted-response handoff,ct3,S-Rout|S-Trig,StructuralExhaustion.CT10.RawOutcome,StructuralExhaustion/CT10/Execution.lean
+9,CT10.terminal.ct7,terminal,CT7 class-exchange handoff,ct7,S-Rout|S-Trig,StructuralExhaustion.CT10.RawOutcome,StructuralExhaustion/CT10/Execution.lean
+10,CT10.certify.promotion,certification,Missing-datum promotion certification,,S-Def,StructuralExhaustion.CT10.Nodes.Promotion.Contract,StructuralExhaustion/CT10/Nodes/Promotion.lean
+11,CT10.decide.promotedRouting,decision,Promoted-invariant routing,,S-Rout,StructuralExhaustion.CT10.Nodes.PromotedRouting.Contract,StructuralExhaustion/CT10/Nodes/PromotedRouting.lean
+12,CT10.terminal.ct15,terminal,CT15 rank-datum handoff,ct15,S-Rout|S-Trig,StructuralExhaustion.CT10.RawOutcome,StructuralExhaustion/CT10/Execution.lean

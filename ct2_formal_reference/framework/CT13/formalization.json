@@ -1,0 +1,195 @@
+{
+  "artifactType": "tacticFormalizationIndex",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT13-v1",
+  "tacticId": "CT13",
+  "toolchain": "leanprover/lean4:v4.31.0",
+  "rootModule": "StructuralExhaustion",
+  "nodeBindings": [
+    {
+      "nodeId": "CT13.entry",
+      "nodeSpecRef": "nodes/CT13.entry.json",
+      "contractDeclaration": "StructuralExhaustion.CT13.Nodes.Entry.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT13.Nodes.Entry.Contract",
+        "StructuralExhaustion.CT13.Nodes.Entry.run"
+      ]
+    },
+    {
+      "nodeId": "CT13.decide.scope",
+      "nodeSpecRef": "nodes/CT13.decide.scope.json",
+      "contractDeclaration": "StructuralExhaustion.CT13.Nodes.Scope.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT13.Nodes.Scope.Contract",
+        "StructuralExhaustion.CT13.Nodes.Scope.Decision",
+        "StructuralExhaustion.CT13.Nodes.Scope.Plan",
+        "StructuralExhaustion.CT13.Nodes.Scope.run"
+      ]
+    },
+    {
+      "nodeId": "CT13.terminal.scope",
+      "nodeSpecRef": "nodes/CT13.terminal.scope.json",
+      "contractDeclaration": "StructuralExhaustion.CT13.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT13.Graph.Terminal",
+        "StructuralExhaustion.CT13.Graph.Terminal.scope",
+        "StructuralExhaustion.CT13.Graph.NodeId.scopeTerminal",
+        "StructuralExhaustion.CT13.RawOutcome.scope",
+        "StructuralExhaustion.CT13.Outcome.scope"
+      ]
+    },
+    {
+      "nodeId": "CT13.decide.availability",
+      "nodeSpecRef": "nodes/CT13.decide.availability.json",
+      "contractDeclaration": "StructuralExhaustion.CT13.Nodes.Availability.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT13.Nodes.Availability.Contract",
+        "StructuralExhaustion.CT13.Nodes.Availability.Decision",
+        "StructuralExhaustion.CT13.Nodes.Availability.Plan",
+        "StructuralExhaustion.CT13.Nodes.Availability.run"
+      ]
+    },
+    {
+      "nodeId": "CT13.certify.tierOne",
+      "nodeSpecRef": "nodes/CT13.certify.tierOne.json",
+      "contractDeclaration": "StructuralExhaustion.CT13.Nodes.TierOne.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT13.Nodes.TierOne.Contract",
+        "StructuralExhaustion.CT13.Nodes.TierOne.Plan",
+        "StructuralExhaustion.CT13.Nodes.TierOne.run"
+      ]
+    },
+    {
+      "nodeId": "CT13.certify.tierOneRouting",
+      "nodeSpecRef": "nodes/CT13.certify.tierOneRouting.json",
+      "contractDeclaration": "StructuralExhaustion.CT13.Nodes.TierOneRouting.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT13.Nodes.TierOneRouting.Contract",
+        "StructuralExhaustion.CT13.Nodes.TierOneRouting.Plan",
+        "StructuralExhaustion.CT13.Nodes.TierOneRouting.run"
+      ]
+    },
+    {
+      "nodeId": "CT13.terminal.ct4",
+      "nodeSpecRef": "nodes/CT13.terminal.ct4.json",
+      "contractDeclaration": "StructuralExhaustion.CT13.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT13.Graph.Terminal",
+        "StructuralExhaustion.CT13.Graph.Terminal.ct4",
+        "StructuralExhaustion.CT13.Graph.NodeId.ct4Terminal",
+        "StructuralExhaustion.CT13.RawOutcome.ct4",
+        "StructuralExhaustion.CT13.Outcome.ct4"
+      ]
+    },
+    {
+      "nodeId": "CT13.certify.fallback",
+      "nodeSpecRef": "nodes/CT13.certify.fallback.json",
+      "contractDeclaration": "StructuralExhaustion.CT13.Nodes.Fallback.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT13.Nodes.Fallback.Contract",
+        "StructuralExhaustion.CT13.Nodes.Fallback.Plan",
+        "StructuralExhaustion.CT13.Nodes.Fallback.run"
+      ]
+    },
+    {
+      "nodeId": "CT13.decide.reconciliation",
+      "nodeSpecRef": "nodes/CT13.decide.reconciliation.json",
+      "contractDeclaration": "StructuralExhaustion.CT13.Nodes.Reconciliation.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT13.Nodes.Reconciliation.Contract",
+        "StructuralExhaustion.CT13.Nodes.Reconciliation.Decision",
+        "StructuralExhaustion.CT13.Nodes.Reconciliation.Plan",
+        "StructuralExhaustion.CT13.Nodes.Reconciliation.run"
+      ]
+    },
+    {
+      "nodeId": "CT13.certify.comparison",
+      "nodeSpecRef": "nodes/CT13.certify.comparison.json",
+      "contractDeclaration": "StructuralExhaustion.CT13.Nodes.Comparison.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT13.Nodes.Comparison.Contract",
+        "StructuralExhaustion.CT13.Nodes.Comparison.Plan",
+        "StructuralExhaustion.CT13.Nodes.Comparison.run"
+      ]
+    },
+    {
+      "nodeId": "CT13.terminal.c4",
+      "nodeSpecRef": "nodes/CT13.terminal.c4.json",
+      "contractDeclaration": "StructuralExhaustion.CT13.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT13.Graph.Terminal",
+        "StructuralExhaustion.CT13.Graph.Terminal.c4",
+        "StructuralExhaustion.CT13.Graph.NodeId.c4Terminal",
+        "StructuralExhaustion.CT13.RawOutcome.c4",
+        "StructuralExhaustion.CT13.Outcome.c4"
+      ]
+    },
+    {
+      "nodeId": "CT13.decide.overlapRouting",
+      "nodeSpecRef": "nodes/CT13.decide.overlapRouting.json",
+      "contractDeclaration": "StructuralExhaustion.CT13.Nodes.Routing.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT13.Nodes.Routing.Contract",
+        "StructuralExhaustion.CT13.Nodes.Routing.Decision",
+        "StructuralExhaustion.CT13.Nodes.Routing.Plan",
+        "StructuralExhaustion.CT13.Nodes.Routing.run"
+      ]
+    },
+    {
+      "nodeId": "CT13.terminal.ct9",
+      "nodeSpecRef": "nodes/CT13.terminal.ct9.json",
+      "contractDeclaration": "StructuralExhaustion.CT13.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT13.Graph.Terminal",
+        "StructuralExhaustion.CT13.Graph.Terminal.ct9",
+        "StructuralExhaustion.CT13.Graph.NodeId.ct9Terminal",
+        "StructuralExhaustion.CT13.RawOutcome.ct9",
+        "StructuralExhaustion.CT13.Outcome.ct9"
+      ]
+    },
+    {
+      "nodeId": "CT13.terminal.ct14",
+      "nodeSpecRef": "nodes/CT13.terminal.ct14.json",
+      "contractDeclaration": "StructuralExhaustion.CT13.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT13.Graph.Terminal",
+        "StructuralExhaustion.CT13.Graph.Terminal.ct14",
+        "StructuralExhaustion.CT13.Graph.NodeId.ct14Terminal",
+        "StructuralExhaustion.CT13.RawOutcome.ct14",
+        "StructuralExhaustion.CT13.Outcome.ct14"
+      ]
+    }
+  ],
+  "aggregateDeclarations": {
+    "framework": "StructuralExhaustion.CT13.Framework",
+    "input": "StructuralExhaustion.CT13.Input",
+    "port": "StructuralExhaustion.CT13.Port",
+    "handoffPlan": "StructuralExhaustion.CT13.HandoffPlan",
+    "nodeId": "StructuralExhaustion.CT13.Graph.NodeId",
+    "terminal": "StructuralExhaustion.CT13.Graph.Terminal",
+    "edge": "StructuralExhaustion.CT13.Graph.Edge",
+    "path": "StructuralExhaustion.CT13.Graph.Path",
+    "validTrace": "StructuralExhaustion.CT13.Graph.ValidTrace",
+    "corePlan": "StructuralExhaustion.CT13.CorePlan",
+    "rawOutcome": "StructuralExhaustion.CT13.RawOutcome",
+    "coreResult": "StructuralExhaustion.CT13.CoreResult",
+    "runCore": "StructuralExhaustion.CT13.runCore",
+    "outcome": "StructuralExhaustion.CT13.Outcome",
+    "outcomeClaim": "StructuralExhaustion.CT13.OutcomeClaim",
+    "executionResult": "StructuralExhaustion.CT13.ExecutionResult",
+    "run": "StructuralExhaustion.CT13.run",
+    "runTraced": "StructuralExhaustion.CT13.runTraced",
+    "soundness": "StructuralExhaustion.CT13.run_verified",
+    "totality": "StructuralExhaustion.CT13.run_total",
+    "traceValidity": "StructuralExhaustion.CT13.run_trace_valid",
+    "exhaustiveness": "StructuralExhaustion.CT13.outcome_exhaustive",
+    "availableState": "StructuralExhaustion.CT13.AvailableState",
+    "unavailableState": "StructuralExhaustion.CT13.UnavailableState",
+    "tierOneState": "StructuralExhaustion.CT13.TierOneState",
+    "fallbackState": "StructuralExhaustion.CT13.FallbackState",
+    "reconciledState": "StructuralExhaustion.CT13.ReconciledState",
+    "overlapState": "StructuralExhaustion.CT13.OverlapState",
+    "c4Certificate": "StructuralExhaustion.CT13.C4Certificate"
+  },
+  "generatedBindingCheck": "StructuralExhaustion/Generated/BindingCheck.lean"
+}

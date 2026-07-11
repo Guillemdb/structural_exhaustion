@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT2.terminal.ct3.context.schema.json",
+  "title": "CT2.terminal.ct3.context completed discharge record — CT3 terminal — context residual",
+  "description": "Concrete completed-discharge schema for semantic CT2-v2 node CT2.terminal.ct3.context. It fixes the runtime identity, presentation order, successful status, and exact contract evidence without converting the semantic ID back to a numbered obligation ID.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT2.terminal.ct3.context; it must be CT2.",
+          "const": "CT2"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for CT3 terminal — context residual.",
+          "const": "CT2.terminal.ct3.context"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation-order index for CT2.terminal.ct3.context; it is not part of the semantic identity.",
+          "const": 9
+        },
+        "status": {
+          "description": "Required successful completion state for CT2.terminal.ct3.context, matching its terminal runtime role.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "Exact contract families discharged at CT2.terminal.ct3.context: S-Equiv, S-Rout, S-Trig.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires S-Equiv, which certifies the selected replacement candidate or records a separating context.",
+                "const": "S-Equiv"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires S-Rout, which constructs the declared typed CT3 or CT10 payload.",
+                "const": "S-Rout"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires S-Trig, which certifies that the selected consumer accepts the routed payload.",
+                "const": "S-Trig"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "type": "array",
+          "minItems": 3,
+          "description": "Typed contract instances for CT2.terminal.ct3.context; one S-Equiv, S-Rout, S-Trig record is required for each declared family.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Discriminator for the S-Equiv evidence at CT2.terminal.ct3.context; this instance certifies the selected replacement candidate or records a separating context.",
+                    "const": "S-Equiv"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Discriminator for the S-Rout evidence at CT2.terminal.ct3.context; this instance constructs the declared typed CT3 or CT10 payload.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Discriminator for the S-Trig evidence at CT2.terminal.ct3.context; this instance certifies that the selected consumer accepts the routed payload.",
+                    "const": "S-Trig"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    },
+    {
+      "properties": {
+        "producedPayloads": {
+          "description": "Payload family delivered by CT2.terminal.ct3.context to CT3.",
+          "type": "array",
+          "contains": {
+            "const": "P_2_to_3"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "producedPayloads"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT2.terminal.ct3.context.O1",
+    "modality": "construct",
+    "statement": {
+      "informal": "CT3 terminal — context residual.",
+      "latex": "\\textbf{CT 3 exit}\\\\context residual"
+    },
+    "contractSchemas": [
+      "S-Equiv",
+      "S-Rout",
+      "S-Trig"
+    ],
+    "dependencies": [
+      "CT2.decide.context"
+    ],
+    "dischargeCriteria": "Supply the declared proof-carrying state, decision, certificate, or payload. Every outgoing edge is available only through its named typed constructor and evidence slots."
+  }
+}

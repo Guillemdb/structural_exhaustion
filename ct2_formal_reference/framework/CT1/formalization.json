@@ -1,0 +1,201 @@
+{
+  "artifactType": "tacticFormalizationIndex",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT1-v1",
+  "tacticId": "CT1",
+  "toolchain": "leanprover/lean4:v4.31.0",
+  "rootModule": "StructuralExhaustion",
+  "nodeBindings": [
+    {
+      "nodeId": "CT1.entry",
+      "nodeSpecRef": "nodes/CT1.entry.json",
+      "contractDeclaration": "StructuralExhaustion.CT1.Nodes.Entry.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT1.Nodes.Entry.Contract",
+        "StructuralExhaustion.CT1.Nodes.Entry.run"
+      ]
+    },
+    {
+      "nodeId": "CT1.decide.scope",
+      "nodeSpecRef": "nodes/CT1.decide.scope.json",
+      "contractDeclaration": "StructuralExhaustion.CT1.Nodes.Scope.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT1.Nodes.Scope.Contract",
+        "StructuralExhaustion.CT1.Nodes.Scope.Decision",
+        "StructuralExhaustion.CT1.Nodes.Scope.Plan",
+        "StructuralExhaustion.CT1.Nodes.Scope.run"
+      ]
+    },
+    {
+      "nodeId": "CT1.terminal.scope",
+      "nodeSpecRef": "nodes/CT1.terminal.scope.json",
+      "contractDeclaration": "StructuralExhaustion.CT1.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT1.Graph.Terminal",
+        "StructuralExhaustion.CT1.Graph.Terminal.scope",
+        "StructuralExhaustion.CT1.Graph.NodeId.scopeTerminal",
+        "StructuralExhaustion.CT1.RawOutcome.scope",
+        "StructuralExhaustion.CT1.Outcome.scope"
+      ]
+    },
+    {
+      "nodeId": "CT1.certify.equivalence",
+      "nodeSpecRef": "nodes/CT1.certify.equivalence.json",
+      "contractDeclaration": "StructuralExhaustion.CT1.Nodes.Equivalence.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT1.Nodes.Equivalence.Contract",
+        "StructuralExhaustion.CT1.Nodes.Equivalence.Plan",
+        "StructuralExhaustion.CT1.Nodes.Equivalence.run"
+      ]
+    },
+    {
+      "nodeId": "CT1.decide.realization",
+      "nodeSpecRef": "nodes/CT1.decide.realization.json",
+      "contractDeclaration": "StructuralExhaustion.CT1.Nodes.Realization.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT1.Nodes.Realization.Contract",
+        "StructuralExhaustion.CT1.Nodes.Realization.Decision",
+        "StructuralExhaustion.CT1.Nodes.Realization.Plan",
+        "StructuralExhaustion.CT1.Nodes.Realization.run"
+      ]
+    },
+    {
+      "nodeId": "CT1.terminal.c1",
+      "nodeSpecRef": "nodes/CT1.terminal.c1.json",
+      "contractDeclaration": "StructuralExhaustion.CT1.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT1.Graph.Terminal",
+        "StructuralExhaustion.CT1.Graph.Terminal.c1",
+        "StructuralExhaustion.CT1.Graph.NodeId.c1Terminal",
+        "StructuralExhaustion.CT1.RawOutcome.c1",
+        "StructuralExhaustion.CT1.Outcome.c1"
+      ]
+    },
+    {
+      "nodeId": "CT1.decide.payload",
+      "nodeSpecRef": "nodes/CT1.decide.payload.json",
+      "contractDeclaration": "StructuralExhaustion.CT1.Nodes.Payload.Contract",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT1.Nodes.Payload.Contract",
+        "StructuralExhaustion.CT1.Nodes.Payload.Decision",
+        "StructuralExhaustion.CT1.Nodes.Payload.Plan",
+        "StructuralExhaustion.CT1.Nodes.Payload.run"
+      ]
+    },
+    {
+      "nodeId": "CT1.terminal.ct2",
+      "nodeSpecRef": "nodes/CT1.terminal.ct2.json",
+      "contractDeclaration": "StructuralExhaustion.CT1.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT1.Graph.Terminal",
+        "StructuralExhaustion.CT1.Graph.Terminal.ct2",
+        "StructuralExhaustion.CT1.Graph.NodeId.ct2Terminal",
+        "StructuralExhaustion.CT1.RawOutcome.ct2",
+        "StructuralExhaustion.CT1.Outcome.ct2"
+      ]
+    },
+    {
+      "nodeId": "CT1.terminal.ct3",
+      "nodeSpecRef": "nodes/CT1.terminal.ct3.json",
+      "contractDeclaration": "StructuralExhaustion.CT1.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT1.Graph.Terminal",
+        "StructuralExhaustion.CT1.Graph.Terminal.ct3",
+        "StructuralExhaustion.CT1.Graph.NodeId.ct3Terminal",
+        "StructuralExhaustion.CT1.RawOutcome.ct3",
+        "StructuralExhaustion.CT1.Outcome.ct3"
+      ]
+    },
+    {
+      "nodeId": "CT1.terminal.ct4",
+      "nodeSpecRef": "nodes/CT1.terminal.ct4.json",
+      "contractDeclaration": "StructuralExhaustion.CT1.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT1.Graph.Terminal",
+        "StructuralExhaustion.CT1.Graph.Terminal.ct4",
+        "StructuralExhaustion.CT1.Graph.NodeId.ct4Terminal",
+        "StructuralExhaustion.CT1.RawOutcome.ct4",
+        "StructuralExhaustion.CT1.Outcome.ct4"
+      ]
+    },
+    {
+      "nodeId": "CT1.terminal.ct5",
+      "nodeSpecRef": "nodes/CT1.terminal.ct5.json",
+      "contractDeclaration": "StructuralExhaustion.CT1.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT1.Graph.Terminal",
+        "StructuralExhaustion.CT1.Graph.Terminal.ct5",
+        "StructuralExhaustion.CT1.Graph.NodeId.ct5Terminal",
+        "StructuralExhaustion.CT1.RawOutcome.ct5",
+        "StructuralExhaustion.CT1.Outcome.ct5"
+      ]
+    },
+    {
+      "nodeId": "CT1.terminal.ct6",
+      "nodeSpecRef": "nodes/CT1.terminal.ct6.json",
+      "contractDeclaration": "StructuralExhaustion.CT1.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT1.Graph.Terminal",
+        "StructuralExhaustion.CT1.Graph.Terminal.ct6",
+        "StructuralExhaustion.CT1.Graph.NodeId.ct6Terminal",
+        "StructuralExhaustion.CT1.RawOutcome.ct6",
+        "StructuralExhaustion.CT1.Outcome.ct6"
+      ]
+    },
+    {
+      "nodeId": "CT1.terminal.ct17",
+      "nodeSpecRef": "nodes/CT1.terminal.ct17.json",
+      "contractDeclaration": "StructuralExhaustion.CT1.RawOutcome",
+      "requiredDeclarations": [
+        "StructuralExhaustion.CT1.Graph.Terminal",
+        "StructuralExhaustion.CT1.Graph.Terminal.ct17",
+        "StructuralExhaustion.CT1.Graph.NodeId.ct17Terminal",
+        "StructuralExhaustion.CT1.RawOutcome.ct17",
+        "StructuralExhaustion.CT1.Outcome.ct17"
+      ]
+    }
+  ],
+  "aggregateDeclarations": {
+    "framework": "StructuralExhaustion.CT1.Framework",
+    "input": "StructuralExhaustion.CT1.Input",
+    "testRealization": "StructuralExhaustion.CT1.TestRealization",
+    "scopeReadyAt": "StructuralExhaustion.CT1.ScopeReadyAt",
+    "scopedState": "StructuralExhaustion.CT1.ScopedState",
+    "equivalenceCertificate": "StructuralExhaustion.CT1.EquivalenceCertificate",
+    "equivalenceState": "StructuralExhaustion.CT1.EquivalenceState",
+    "avoidingState": "StructuralExhaustion.CT1.AvoidingState",
+    "c1Certificate": "StructuralExhaustion.CT1.C1Certificate",
+    "ct2Payload": "StructuralExhaustion.CT1.CT2Payload",
+    "ct2Adapter": "StructuralExhaustion.CT1.CT2Payload.toInput",
+    "ct3Adapter": "StructuralExhaustion.CT1.CT3Payload.toInput",
+    "ct4Adapter": "StructuralExhaustion.CT1.CT4Payload.toInput",
+    "ct5Adapter": "StructuralExhaustion.CT1.CT5Payload.toInput",
+    "handoffPayload": "StructuralExhaustion.CT1.HandoffPayload",
+    "port": "StructuralExhaustion.CT1.Port",
+    "handoffPlan": "StructuralExhaustion.CT1.HandoffPlan",
+    "nodeId": "StructuralExhaustion.CT1.Graph.NodeId",
+    "terminal": "StructuralExhaustion.CT1.Graph.Terminal",
+    "edge": "StructuralExhaustion.CT1.Graph.Edge",
+    "path": "StructuralExhaustion.CT1.Graph.Path",
+    "validTrace": "StructuralExhaustion.CT1.Graph.ValidTrace",
+    "corePlan": "StructuralExhaustion.CT1.CorePlan",
+    "rawOutcome": "StructuralExhaustion.CT1.RawOutcome",
+    "coreResult": "StructuralExhaustion.CT1.CoreResult",
+    "runCore": "StructuralExhaustion.CT1.runCore",
+    "outcome": "StructuralExhaustion.CT1.Outcome",
+    "outcomeClaim": "StructuralExhaustion.CT1.OutcomeClaim",
+    "executionResult": "StructuralExhaustion.CT1.ExecutionResult",
+    "run": "StructuralExhaustion.CT1.run",
+    "runTraced": "StructuralExhaustion.CT1.runTraced",
+    "soundness": "StructuralExhaustion.CT1.run_verified",
+    "totality": "StructuralExhaustion.CT1.run_total",
+    "traceValidity": "StructuralExhaustion.CT1.run_trace_valid",
+    "c1Coverage": "StructuralExhaustion.CT1.c1_terminal_covered",
+    "c1Closure": "StructuralExhaustion.CT1.c1_terminal_closes",
+    "adapterAmbient": "StructuralExhaustion.CT1.ct2_payload_same_ambient",
+    "ct3Alignment": "StructuralExhaustion.CT1.ct3_payload_aligned",
+    "ct4Alignment": "StructuralExhaustion.CT1.ct4_payload_aligned",
+    "ct5Alignment": "StructuralExhaustion.CT1.ct5_payload_aligned"
+  },
+  "generatedBindingCheck": "StructuralExhaustion/Generated/BindingCheck.lean"
+}

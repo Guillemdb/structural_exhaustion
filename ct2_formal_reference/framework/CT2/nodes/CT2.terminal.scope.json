@@ -1,0 +1,143 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT2-v2",
+  "nodeId": "CT2.terminal.scope",
+  "nodeKind": "terminal",
+  "title": "Scope terminal",
+  "human": {
+    "informal": "CT2 stops with a proof that bounded-interface admission failed.",
+    "latex": "",
+    "whyNeeded": "Scope failure is a typed terminal outcome, not an unchecked execution error.",
+    "failureMeaning": "The invocation cannot take this transition without the typed evidence carried by its result constructor.",
+    "proofHints": [
+      "Construct the declared proof-carrying result; do not encode a branch as an unchecked Boolean."
+    ]
+  },
+  "contracts": [
+    "A-Scope"
+  ],
+  "formalContract": {
+    "contractId": "CT2.terminal.scope.contract",
+    "executionMode": "proof_only",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT2",
+      "declaration": "StructuralExhaustion.CT2.RawOutcome",
+      "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "inputs": [
+      {
+        "slotId": "framework",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT2.Framework"
+      },
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT2.Input framework"
+      },
+      {
+        "slotId": "candidate",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT2.ScopeCandidate framework input"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "rawOutcome",
+        "valueKind": "payload",
+        "typeExpression": "StructuralExhaustion.CT2.RawOutcome framework input .scope"
+      }
+    ],
+    "dischargeCondition": "The referenced Lean contract and every branch constructor resolve, and each outgoing transition carries the evidence required by its target state."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT2.Graph",
+    "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+    "requiredRoles": [
+      "state",
+      "constructor"
+    ],
+    "declarations": [
+      {
+        "role": "state",
+        "localName": "Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Graph",
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal",
+          "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "scope",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Graph",
+          "declaration": "StructuralExhaustion.CT2.Graph.Terminal.scope",
+          "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "scopeTerminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT2.Graph",
+          "declaration": "StructuralExhaustion.CT2.Graph.NodeId.scopeTerminal",
+          "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "scope",
+        "ref": {
+          "module": "StructuralExhaustion.CT2",
+          "declaration": "StructuralExhaustion.CT2.RawOutcome.scope",
+          "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "scope",
+        "ref": {
+          "module": "StructuralExhaustion.CT2",
+          "declaration": "StructuralExhaustion.CT2.Outcome.scope",
+          "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    ]
+  },
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT2 — Minimality and replacement",
+    "diagramKey": "scope"
+  },
+  "terminal": {
+    "terminalCase": "scope",
+    "terminalConstructorRef": {
+      "module": "StructuralExhaustion.CT2.Graph",
+      "declaration": "StructuralExhaustion.CT2.Graph.Terminal.scope",
+      "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+      "declarationKind": "constructor"
+    },
+    "outcomeConstructorRef": {
+      "module": "StructuralExhaustion.CT2",
+      "declaration": "StructuralExhaustion.CT2.Outcome.scope",
+      "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
+      "declarationKind": "constructor"
+    },
+    "claimTypeExpression": "¬ StructuralExhaustion.CT2.InterfaceBoundedAt framework input",
+    "evidenceSlots": [
+      {
+        "slotId": "candidate",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT2.ScopeCandidate framework input"
+      }
+    ]
+  }
+}

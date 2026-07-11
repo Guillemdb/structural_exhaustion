@@ -1,0 +1,548 @@
+{
+  "artifactType": "formalTacticSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT12-v1",
+  "tacticId": "CT12",
+  "name": "Well-founded peeling",
+  "signature": {
+    "input": "validated_typed_state",
+    "close": [
+      "C4"
+    ],
+    "handoff": [
+      "P_12_to_4",
+      "P_12_to_13"
+    ],
+    "scope": [
+      "typed_scope_exit"
+    ]
+  },
+  "entryNodeId": "CT12.entry",
+  "nodeRefs": [
+    "nodes/CT12.entry.json",
+    "nodes/CT12.decide.scope.json",
+    "nodes/CT12.terminal.scope.json",
+    "nodes/CT12.certify.measure.json",
+    "nodes/CT12.decide.saturation.json",
+    "nodes/CT12.terminal.c4.json",
+    "nodes/CT12.certify.peel.json",
+    "nodes/CT12.decide.restoration.json",
+    "nodes/CT12.terminal.ct4.json",
+    "nodes/CT12.terminal.ct13.json",
+    "nodes/CT12.certify.decrease.json"
+  ],
+  "transitions": [
+    {
+      "transitionId": "CT12.edge.begin",
+      "fromNodeId": "CT12.entry",
+      "toNodeId": "CT12.decide.scope",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT12.Graph",
+        "declaration": "StructuralExhaustion.CT12.Graph.Edge.beginScope",
+        "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "unconditional",
+        "branchTag": "begin",
+        "evidenceSlots": []
+      }
+    },
+    {
+      "transitionId": "CT12.edge.scope.exit",
+      "fromNodeId": "CT12.decide.scope",
+      "toNodeId": "CT12.terminal.scope",
+      "kind": "scope",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT12.Graph",
+        "declaration": "StructuralExhaustion.CT12.Graph.Edge.scopeExit",
+        "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "exit",
+        "evidenceSlots": [
+          {
+            "slotId": "candidate",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT12.ScopeCandidate framework input"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT12.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Scope.Decision.exit",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Scope.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT12.edge.scope.ready",
+      "fromNodeId": "CT12.decide.scope",
+      "toNodeId": "CT12.certify.measure",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT12.Graph",
+        "declaration": "StructuralExhaustion.CT12.Graph.Edge.scopeReady",
+        "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "ready",
+        "evidenceSlots": [
+          {
+            "slotId": "scope",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT12.ScopedState framework input"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT12.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Scope.Decision.ready",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Scope.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT12.edge.measure.certified",
+      "fromNodeId": "CT12.certify.measure",
+      "toNodeId": "CT12.decide.saturation",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT12.Graph",
+        "declaration": "StructuralExhaustion.CT12.Graph.Edge.measureCertified",
+        "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "unconditional",
+        "branchTag": "certified",
+        "evidenceSlots": [
+          {
+            "slotId": "state",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT12.LoopState framework input input.load"
+          }
+        ]
+      }
+    },
+    {
+      "transitionId": "CT12.edge.saturation.close",
+      "fromNodeId": "CT12.decide.saturation",
+      "toNodeId": "CT12.terminal.c4",
+      "kind": "close",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT12.Graph",
+        "declaration": "StructuralExhaustion.CT12.Graph.Edge.saturationClose",
+        "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "close",
+        "evidenceSlots": [
+          {
+            "slotId": "certificate",
+            "valueKind": "certificate",
+            "typeExpression": "StructuralExhaustion.CT12.C4Certificate framework input state"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT12.Nodes.Saturation",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Saturation.Decision.close",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Saturation.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT12.edge.saturation.peel",
+      "fromNodeId": "CT12.decide.saturation",
+      "toNodeId": "CT12.certify.peel",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT12.Graph",
+        "declaration": "StructuralExhaustion.CT12.Graph.Edge.saturationPeel",
+        "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "peel",
+        "evidenceSlots": [
+          {
+            "slotId": "peelable",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT12.PeelableState framework input state"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT12.Nodes.Saturation",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Saturation.Decision.peel",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Saturation.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT12.edge.peel.certified",
+      "fromNodeId": "CT12.certify.peel",
+      "toNodeId": "CT12.decide.restoration",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT12.Graph",
+        "declaration": "StructuralExhaustion.CT12.Graph.Edge.peelCertified",
+        "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "unconditional",
+        "branchTag": "certified",
+        "evidenceSlots": [
+          {
+            "slotId": "peeled",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT12.PeeledState framework input peelable"
+          }
+        ]
+      }
+    },
+    {
+      "transitionId": "CT12.edge.restoration.ct4",
+      "fromNodeId": "CT12.decide.restoration",
+      "toNodeId": "CT12.terminal.ct4",
+      "kind": "handoff",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT12.Graph",
+        "declaration": "StructuralExhaustion.CT12.Graph.Edge.restorationToCT4",
+        "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "toCT4",
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT12.CT4Payload framework input peeled"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT12.Nodes.Restoration",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Restoration.Decision.toCT4",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Restoration.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT12.edge.restoration.ct13",
+      "fromNodeId": "CT12.decide.restoration",
+      "toNodeId": "CT12.terminal.ct13",
+      "kind": "handoff",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT12.Graph",
+        "declaration": "StructuralExhaustion.CT12.Graph.Edge.restorationToCT13",
+        "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "toCT13",
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT12.CT13Payload framework input peeled"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT12.Nodes.Restoration",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Restoration.Decision.toCT13",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Restoration.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT12.edge.restoration.continue",
+      "fromNodeId": "CT12.decide.restoration",
+      "toNodeId": "CT12.certify.decrease",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT12.Graph",
+        "declaration": "StructuralExhaustion.CT12.Graph.Edge.restorationContinue",
+        "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "branch",
+        "branchTag": "continue",
+        "evidenceSlots": [
+          {
+            "slotId": "restored",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT12.RestoredState framework input peeled next"
+          }
+        ],
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT12.Nodes.Restoration",
+          "declaration": "StructuralExhaustion.CT12.Nodes.Restoration.Decision.continue",
+          "sourceFile": "StructuralExhaustion/CT12/Nodes/Restoration.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    },
+    {
+      "transitionId": "CT12.edge.decrease.loop",
+      "fromNodeId": "CT12.certify.decrease",
+      "toNodeId": "CT12.decide.saturation",
+      "kind": "advance",
+      "transitionConstructorRef": {
+        "module": "StructuralExhaustion.CT12.Graph",
+        "declaration": "StructuralExhaustion.CT12.Graph.Edge.decreaseLoop",
+        "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+        "declarationKind": "constructor"
+      },
+      "guard": {
+        "kind": "unconditional",
+        "branchTag": "repeat",
+        "evidenceSlots": [
+          {
+            "slotId": "decreased",
+            "valueKind": "certificate",
+            "typeExpression": "StructuralExhaustion.CT12.DecreasedState framework input restored"
+          }
+        ]
+      }
+    }
+  ],
+  "terminalCases": [
+    "scope",
+    "c4",
+    "ct4",
+    "ct13"
+  ],
+  "terminalCoverage": [
+    {
+      "terminalCase": "scope",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct12/toy-scope.json"
+    },
+    {
+      "terminalCase": "c4",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct12/toy-c4.json"
+    },
+    {
+      "terminalCase": "ct4",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct12/toy-ct4.json"
+    },
+    {
+      "terminalCase": "ct13",
+      "mode": "executable_instance",
+      "instanceRef": "instances/ct12/toy-ct13.json"
+    }
+  ],
+  "formalApi": {
+    "framework": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.Framework",
+      "sourceFile": "StructuralExhaustion/CT12/Types.lean",
+      "declarationKind": "structure"
+    },
+    "input": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.Input",
+      "sourceFile": "StructuralExhaustion/CT12/Types.lean",
+      "declarationKind": "structure"
+    },
+    "port": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.Port",
+      "sourceFile": "StructuralExhaustion/CT12/Types.lean",
+      "declarationKind": "structure"
+    },
+    "handoffPlan": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.HandoffPlan",
+      "sourceFile": "StructuralExhaustion/CT12/Types.lean",
+      "declarationKind": "structure"
+    },
+    "nodeId": {
+      "module": "StructuralExhaustion.CT12.Graph",
+      "declaration": "StructuralExhaustion.CT12.Graph.NodeId",
+      "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "terminal": {
+      "module": "StructuralExhaustion.CT12.Graph",
+      "declaration": "StructuralExhaustion.CT12.Graph.Terminal",
+      "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "edge": {
+      "module": "StructuralExhaustion.CT12.Graph",
+      "declaration": "StructuralExhaustion.CT12.Graph.Edge",
+      "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "path": {
+      "module": "StructuralExhaustion.CT12.Graph",
+      "declaration": "StructuralExhaustion.CT12.Graph.Path",
+      "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+      "declarationKind": "inductive"
+    },
+    "validTrace": {
+      "module": "StructuralExhaustion.CT12.Graph",
+      "declaration": "StructuralExhaustion.CT12.Graph.ValidTrace",
+      "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+      "declarationKind": "definition"
+    },
+    "corePlan": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.CorePlan",
+      "sourceFile": "StructuralExhaustion/CT12/Execution.lean",
+      "declarationKind": "structure"
+    },
+    "rawOutcome": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.RawOutcome",
+      "sourceFile": "StructuralExhaustion/CT12/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "coreResult": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.CoreResult",
+      "sourceFile": "StructuralExhaustion/CT12/Execution.lean",
+      "declarationKind": "structure"
+    },
+    "runCore": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.runCore",
+      "sourceFile": "StructuralExhaustion/CT12/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "outcome": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.Outcome",
+      "sourceFile": "StructuralExhaustion/CT12/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "outcomeClaim": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.OutcomeClaim",
+      "sourceFile": "StructuralExhaustion/CT12/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "executionResult": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.ExecutionResult",
+      "sourceFile": "StructuralExhaustion/CT12/Execution.lean",
+      "declarationKind": "structure"
+    },
+    "run": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.run",
+      "sourceFile": "StructuralExhaustion/CT12/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "runTraced": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.runTraced",
+      "sourceFile": "StructuralExhaustion/CT12/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "soundness": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.run_verified",
+      "sourceFile": "StructuralExhaustion/CT12/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "totality": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.run_total",
+      "sourceFile": "StructuralExhaustion/CT12/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "traceValidity": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.run_trace_valid",
+      "sourceFile": "StructuralExhaustion/CT12/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "exhaustiveness": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.outcome_exhaustive",
+      "sourceFile": "StructuralExhaustion/CT12/Theorems.lean",
+      "declarationKind": "theorem"
+    },
+    "loopState": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.LoopState",
+      "sourceFile": "StructuralExhaustion/CT12/Types.lean",
+      "declarationKind": "structure"
+    },
+    "peelableState": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.PeelableState",
+      "sourceFile": "StructuralExhaustion/CT12/Types.lean",
+      "declarationKind": "structure"
+    },
+    "peeledState": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.PeeledState",
+      "sourceFile": "StructuralExhaustion/CT12/Types.lean",
+      "declarationKind": "structure"
+    },
+    "restoredState": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.RestoredState",
+      "sourceFile": "StructuralExhaustion/CT12/Types.lean",
+      "declarationKind": "structure"
+    },
+    "decreasedState": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.DecreasedState",
+      "sourceFile": "StructuralExhaustion/CT12/Types.lean",
+      "declarationKind": "structure"
+    },
+    "c4Certificate": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.C4Certificate",
+      "sourceFile": "StructuralExhaustion/CT12/Types.lean",
+      "declarationKind": "structure"
+    },
+    "runLoop": {
+      "module": "StructuralExhaustion.CT12",
+      "declaration": "StructuralExhaustion.CT12.runLoop",
+      "sourceFile": "StructuralExhaustion/CT12/Execution.lean",
+      "declarationKind": "definition"
+    },
+    "loopDecrease": {
+      "module": "StructuralExhaustion.CT12.Graph.Edge",
+      "declaration": "StructuralExhaustion.CT12.Graph.Edge.loop_decreases",
+      "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+      "declarationKind": "theorem"
+    }
+  },
+  "totalityPolicy": {
+    "allNodesBound": true,
+    "allTransitionsDeclared": true,
+    "allDecisionBranchesMapped": true,
+    "allTracesKernelCertified": true,
+    "allTerminalOutcomesTyped": true,
+    "allConsumerTriggersCarried": true
+  },
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT12 — Peeling loop"
+  },
+  "contractInventoryRef": "contracts.json"
+}

@@ -1,0 +1,3 @@
+import StructuralExhaustion.Examples.CT3Toy
+import StructuralExhaustion.Examples.CT4Toy
+import StructuralExhaustion.Examples.CT6CT10Interfaces

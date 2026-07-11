@@ -1,0 +1,55 @@
+\subsection{CT15 --- Rank forcing}\label{ct:15}\label{rank-forcing-charge-only-independent-coordinates}
+\ctsignature{\(P_{\ast\to15}\to \ctcert{C4};\ \ctint{P_{15\to3},P_{15\to7},P_{15\to16},P_{15\to4}};\ \ctrec{\ctnone}.\)}
+
+CT15 is a target-relative rank firewall.  Its entry contract fixes the test
+family, rank map, target datum, capacity datum, branch state, and C4 claim.
+The executable framework separately states that the rank is target-relative,
+that a drop yields structural dependence, that full rank yields independent
+coordinates, that the ledger is certified, and that rank demand exceeds
+capacity.
+
+The rank certificate has one successor.  The rank-drop decision then produces
+either a \texttt{DependenceState} or a \texttt{FullRankState}.  Structural
+dependence enters a dedicated routing node and constructs an exact CT3, CT7,
+or CT16 input.  Full rank enters a dedicated ledger certificate; the comparison
+node then closes by C4 or constructs an exact CT4 input.  No ledger can be
+constructed on the dependence branch, so incidental rank cannot consume
+capacity.
+
+\begin{itemize}
+\tightlist
+\item \textbf{S-Def} is the target-relative rank certificate.
+\item \textbf{S-Dich} is the rank-drop decision.
+\item \textbf{S-Comp} is the independent-coordinate ledger and comparison.
+\item \textbf{S-Rout} and \textbf{S-Trig} are exact CT3, CT4, CT7, and CT16 inputs.
+\end{itemize}
+
+\begin{figure}[p]
+\centering
+\resizebox{0.98\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\scriptsize}]
+\node[bcwide] (entry) at (0,0) {{\tiny\ttfamily CT15.entry}\\\textbf{Validated rank datum}};
+\node[bcdec,bclemma] (scope) at (0,-2.1) {{\tiny\ttfamily CT15.decide.scope}\\\textbf{Finite target-relative rank?}};
+\node[bcscopefail] (scopeout) at (-7.4,-2.1) {{\tiny\ttfamily CT15.terminal.scope}\\\textbf{Scope exit}};
+\node[bcwide,bclemma] (rank) at (0,-4.4) {{\tiny\ttfamily CT15.certify.rank}\\\textbf{Target meaning of rank}};
+\node[bcdec,bclemma] (drop) at (0,-6.8) {{\tiny\ttfamily CT15.decide.rankDrop}\\\textbf{Dependence or full rank?}};
+\node[bcroutechoice,bctheorem] (route) at (-5.6,-9.3) {{\tiny\ttfamily CT15.decide.\allowbreak dependenceRouting}\\\textbf{Classify dependence}};
+\node[bcroute,bcrouteneutral] (ct3) at (-10.0,-12.0) {{\tiny\ttfamily CT15.terminal.ct3}\\\textbf{CT 3 exit}};
+\node[bcroute,bcrouteneutral] (ct7) at (-5.6,-12.0) {{\tiny\ttfamily CT15.terminal.ct7}\\\textbf{CT 7 exit}};
+\node[bcroute,bcrouteneutral] (ct16) at (-1.2,-12.0) {{\tiny\ttfamily CT15.terminal.ct16}\\\textbf{CT 16 exit}};
+\node[bcwide,bclemma] (ledger) at (5.6,-9.3) {{\tiny\ttfamily CT15.certify.ledger}\\\textbf{Independent-coordinate ledger}};
+\node[bcdec,bclemma] (compare) at (5.6,-12.0) {{\tiny\ttfamily CT15.decide.comparison}\\\textbf{Demand exceeds capacity?}};
+\node[bcclosed] (c4) at (3.2,-14.6) {{\tiny\ttfamily CT15.terminal.c4}\\\textbf{C4}};
+\node[bcroute,bcrouteneutral] (ct4) at (8.0,-14.6) {{\tiny\ttfamily CT15.terminal.ct4}\\\textbf{CT 4 exit}};
+\draw[bcarr] (entry)--(scope); \draw[bcscopearr] (scope)--(scopeout);
+\draw[bcarr] (scope)--(rank); \draw[bcarr] (rank)--(drop);
+\draw[bcarr] (drop)--node[bclabel,above,sloped]{dependent}(route);
+\draw[bchandoff] (route)--(ct3); \draw[bchandoff] (route)--(ct7); \draw[bchandoff] (route)--(ct16);
+\draw[bcarr] (drop)--node[bclabel,above,sloped]{full rank}(ledger); \draw[bcarr] (ledger)--(compare);
+\draw[bcarr] (compare)--(c4); \draw[bchandoff] (compare)--(ct4);
+\end{tikzpicture}%
+}
+\caption[Closure-tactic 15: exact rank-forcing machine]{CT15 makes the dependence and full-rank branches disjoint at the type level; only full rank can reach ledger certification.}
+\label{fig:ct15-rank-forcing}
+\end{figure}
+\FloatBarrier

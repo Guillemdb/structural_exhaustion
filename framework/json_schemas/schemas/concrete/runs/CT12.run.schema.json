@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/runs/CT12.run.schema.json",
+  "title": "CT12-v1 legal semantic-machine run",
+  "description": "A legal path begins at CT12.entry, follows typed edges, and ends at one exact terminal.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT12 run discriminator.",
+          "const": "CT12"
+        },
+        "visitedNodeIds": {
+          "description": "Execution path using only CT12-v1 semantic IDs.",
+          "type": "array",
+          "items": {
+            "enum": [
+              "CT12.entry",
+              "CT12.decide.scope",
+              "CT12.terminal.scope",
+              "CT12.certify.measure",
+              "CT12.decide.saturation",
+              "CT12.terminal.c4",
+              "CT12.certify.peel",
+              "CT12.decide.restoration",
+              "CT12.terminal.ct4",
+              "CT12.terminal.ct13",
+              "CT12.certify.decrease"
+            ]
+          },
+          "minItems": 2
+        },
+        "nodeRecords": {
+          "description": "Proof records aligned with the visited path.",
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "../nodes/CT12.entry.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT12.decide.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT12.terminal.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT12.certify.measure.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT12.decide.saturation.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT12.terminal.c4.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT12.certify.peel.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT12.decide.restoration.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT12.terminal.ct4.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT12.terminal.ct13.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT12.certify.decrease.schema.json"
+              }
+            ]
+          },
+          "minItems": 2
+        },
+        "outcome": {
+          "description": "Exact terminal result of the CT12-v1 run.",
+          "properties": {
+            "terminalCase": {
+              "description": "Exact terminal-case discriminator.",
+              "enum": [
+                "scope",
+                "c4",
+                "ct4",
+                "ct13"
+              ]
+            }
+          },
+          "required": [
+            "terminalCase"
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "visitedNodeIds",
+        "nodeRecords",
+        "outcome"
+      ]
+    }
+  ],
+  "x-semanticValidationRules": [
+    "validate visitedNodeIds against the semantic transition graph",
+    "require the final node and outcome terminalCase to agree"
+  ]
+}

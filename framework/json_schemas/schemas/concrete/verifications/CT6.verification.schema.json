@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/verifications/CT6.verification.schema.json",
+  "title": "CT6-v1 structural all-node verification",
+  "description": "Requires structural coverage of all 13 semantic states; it does not claim automatic witness search.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticVerification"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT6 verification discriminator.",
+          "const": "CT6"
+        },
+        "nodeRecords": {
+          "description": "Exactly one completed record for each CT6-v1 node.",
+          "type": "array",
+          "prefixItems": [
+            {
+              "$ref": "../nodes/CT6.entry.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT6.decide.scope.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT6.terminal.scope.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT6.certify.definition.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT6.decide.activity.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT6.certify.activeLedger.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT6.terminal.ct4.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT6.decide.dormant.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT6.terminal.c1.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT6.terminal.ct3.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT6.terminal.ct7.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT6.terminal.ct9.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT6.terminal.ct10.schema.json"
+            }
+          ],
+          "items": false,
+          "minItems": 13,
+          "maxItems": 13
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeRecords"
+      ]
+    }
+  ]
+}

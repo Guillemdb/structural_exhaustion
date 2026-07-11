@@ -1,0 +1,229 @@
+{
+  "artifactType": "tacticContractInventory",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT4-v1",
+  "tacticId": "CT4",
+  "contracts": [
+    {
+      "contractInstanceId": "CT4.S-Def.1",
+      "contractSchema": "S-Def",
+      "statement": {
+        "informal": "S-Def is discharged by the indexed states and typed edges of CT4.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT4.entry"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT4.Graph",
+          "declaration": "StructuralExhaustion.CT4.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT4/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT4",
+          "declaration": "StructuralExhaustion.CT4.run_verified",
+          "sourceFile": "StructuralExhaustion/CT4/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT4.S-Dich.1",
+      "contractSchema": "S-Dich",
+      "statement": {
+        "informal": "S-Dich is discharged by the indexed states and typed edges of CT4.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT4.decide.scope",
+        "CT4.decide.availability",
+        "CT4.decide.fibres",
+        "CT4.decide.comparison"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT4.Graph",
+          "declaration": "StructuralExhaustion.CT4.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT4/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT4",
+          "declaration": "StructuralExhaustion.CT4.run_verified",
+          "sourceFile": "StructuralExhaustion/CT4/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT4.A-Scope.1",
+      "contractSchema": "A-Scope",
+      "statement": {
+        "informal": "A-Scope is discharged by the indexed states and typed edges of CT4.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT4.decide.scope",
+        "CT4.terminal.scope"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT4.Graph",
+          "declaration": "StructuralExhaustion.CT4.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT4/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT4",
+          "declaration": "StructuralExhaustion.CT4.run_verified",
+          "sourceFile": "StructuralExhaustion/CT4/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT4.S-Det.1",
+      "contractSchema": "S-Det",
+      "statement": {
+        "informal": "S-Det is discharged by the indexed states and typed edges of CT4.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT4.certify.assignment",
+        "CT4.decide.availability"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT4.Graph",
+          "declaration": "StructuralExhaustion.CT4.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT4/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT4",
+          "declaration": "StructuralExhaustion.CT4.run_verified",
+          "sourceFile": "StructuralExhaustion/CT4/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT4.S-Rout.1",
+      "contractSchema": "S-Rout",
+      "statement": {
+        "informal": "S-Rout is discharged by the indexed states and typed edges of CT4.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT4.decide.availability",
+        "CT4.terminal.ct13",
+        "CT4.decide.fibres",
+        "CT4.terminal.ct9",
+        "CT4.terminal.ct14"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT4.Graph",
+          "declaration": "StructuralExhaustion.CT4.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT4/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT4",
+          "declaration": "StructuralExhaustion.CT4.run_verified",
+          "sourceFile": "StructuralExhaustion/CT4/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT4.S-Trig.1",
+      "contractSchema": "S-Trig",
+      "statement": {
+        "informal": "S-Trig is discharged by the indexed states and typed edges of CT4.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT4.terminal.ct13",
+        "CT4.terminal.ct9",
+        "CT4.terminal.ct14"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT4.Graph",
+          "declaration": "StructuralExhaustion.CT4.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT4/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT4",
+          "declaration": "StructuralExhaustion.CT4.run_verified",
+          "sourceFile": "StructuralExhaustion/CT4/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT4.S-Comp.1",
+      "contractSchema": "S-Comp",
+      "statement": {
+        "informal": "S-Comp is discharged by the indexed states and typed edges of CT4.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT4.decide.fibres",
+        "CT4.decide.comparison",
+        "CT4.terminal.c4"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT4.Graph",
+          "declaration": "StructuralExhaustion.CT4.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT4/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT4",
+          "declaration": "StructuralExhaustion.CT4.run_verified",
+          "sourceFile": "StructuralExhaustion/CT4/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT4.A-Cert.1",
+      "contractSchema": "A-Cert",
+      "statement": {
+        "informal": "A-Cert is discharged by the indexed states and typed edges of CT4.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT4.terminal.c4"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT4.Graph",
+          "declaration": "StructuralExhaustion.CT4.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT4/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT4",
+          "declaration": "StructuralExhaustion.CT4.run_verified",
+          "sourceFile": "StructuralExhaustion/CT4/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    }
+  ]
+}

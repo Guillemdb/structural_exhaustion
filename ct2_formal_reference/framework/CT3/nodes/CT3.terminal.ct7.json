@@ -1,0 +1,145 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT3-v1",
+  "nodeId": "CT3.terminal.ct7",
+  "nodeKind": "terminal",
+  "title": "CT7 exchange handoff",
+  "human": {
+    "informal": "Execute the proof-carrying ct7 exchange handoff contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Pers",
+    "S-Rout",
+    "S-Trig"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT3 — External-type compression",
+    "diagramKey": "ct7"
+  },
+  "formalContract": {
+    "contractId": "CT3.terminal.ct7.contract",
+    "executionMode": "proof_only",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.RawOutcome",
+      "sourceFile": "StructuralExhaustion/CT3/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "inputs": [
+      {
+        "slotId": "framework",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT3.Framework"
+      },
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT3.Input framework"
+      },
+      {
+        "slotId": "payload",
+        "valueKind": "payload",
+        "typeExpression": "StructuralExhaustion.CT3.CT7Payload framework input state"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "rawOutcome",
+        "valueKind": "payload",
+        "typeExpression": "StructuralExhaustion.CT3.RawOutcome framework input .ct7"
+      }
+    ],
+    "dischargeCondition": "The terminal index, incoming edge, raw outcome, and certified outcome agree definitionally."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT3.Graph",
+    "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+    "requiredRoles": [
+      "state",
+      "constructor"
+    ],
+    "declarations": [
+      {
+        "role": "state",
+        "localName": "Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT3.Graph",
+          "declaration": "StructuralExhaustion.CT3.Graph.Terminal",
+          "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "ct7",
+        "ref": {
+          "module": "StructuralExhaustion.CT3.Graph",
+          "declaration": "StructuralExhaustion.CT3.Graph.Terminal.ct7",
+          "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "ct7Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT3.Graph",
+          "declaration": "StructuralExhaustion.CT3.Graph.NodeId.ct7Terminal",
+          "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "ct7",
+        "ref": {
+          "module": "StructuralExhaustion.CT3",
+          "declaration": "StructuralExhaustion.CT3.RawOutcome.ct7",
+          "sourceFile": "StructuralExhaustion/CT3/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "ct7",
+        "ref": {
+          "module": "StructuralExhaustion.CT3",
+          "declaration": "StructuralExhaustion.CT3.Outcome.ct7",
+          "sourceFile": "StructuralExhaustion/CT3/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    ]
+  },
+  "terminal": {
+    "terminalCase": "ct7",
+    "terminalConstructorRef": {
+      "module": "StructuralExhaustion.CT3.Graph",
+      "declaration": "StructuralExhaustion.CT3.Graph.Terminal.ct7",
+      "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+      "declarationKind": "constructor"
+    },
+    "outcomeConstructorRef": {
+      "module": "StructuralExhaustion.CT3",
+      "declaration": "StructuralExhaustion.CT3.Outcome.ct7",
+      "sourceFile": "StructuralExhaustion/CT3/Execution.lean",
+      "declarationKind": "constructor"
+    },
+    "claimTypeExpression": "port.accepts (.ct7 payload)",
+    "evidenceSlots": [
+      {
+        "slotId": "payload",
+        "valueKind": "payload",
+        "typeExpression": "StructuralExhaustion.CT3.CT7Payload framework input state"
+      }
+    ]
+  }
+}

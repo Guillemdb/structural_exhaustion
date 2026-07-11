@@ -1,0 +1,91 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT16-v1",
+  "nodeId": "CT16.certify.closedType",
+  "nodeKind": "certification",
+  "title": "Exact closed-type certification",
+  "human": {
+    "informal": "Execute the proof-carrying exact closed-type certification contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Equiv"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT16 — Whole-object exact types",
+    "diagramKey": "closedType"
+  },
+  "formalContract": {
+    "contractId": "CT16.certify.closedType.contract",
+    "executionMode": "external_certificate",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT16.Nodes.ClosedType",
+      "declaration": "StructuralExhaustion.CT16.Nodes.ClosedType.Contract",
+      "sourceFile": "StructuralExhaustion/CT16/Nodes/ClosedType.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT16.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "closed",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT16.ClosedTypeState framework input scope"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT16.Nodes.ClosedType",
+    "sourceFile": "StructuralExhaustion/CT16/Nodes/ClosedType.lean",
+    "requiredRoles": [
+      "contract",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT16.Nodes.ClosedType",
+          "declaration": "StructuralExhaustion.CT16.Nodes.ClosedType.Contract",
+          "sourceFile": "StructuralExhaustion/CT16/Nodes/ClosedType.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT16.Nodes.ClosedType",
+          "declaration": "StructuralExhaustion.CT16.Nodes.ClosedType.Plan",
+          "sourceFile": "StructuralExhaustion/CT16/Nodes/ClosedType.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT16.Nodes.ClosedType",
+          "declaration": "StructuralExhaustion.CT16.Nodes.ClosedType.run",
+          "sourceFile": "StructuralExhaustion/CT16/Nodes/ClosedType.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

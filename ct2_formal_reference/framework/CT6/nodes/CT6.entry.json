@@ -1,0 +1,80 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT6-v1",
+  "nodeId": "CT6.entry",
+  "nodeKind": "entry",
+  "title": "Validated CT6 monitored-family entry",
+  "human": {
+    "informal": "Execute the proof-carrying validated ct6 monitored-family entry contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Def"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT6 — Active/dormant dichotomy",
+    "diagramKey": "entry"
+  },
+  "formalContract": {
+    "contractId": "CT6.entry.contract",
+    "executionMode": "declarative",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT6.Nodes.Entry",
+      "declaration": "StructuralExhaustion.CT6.Nodes.Entry.Contract",
+      "sourceFile": "StructuralExhaustion/CT6/Nodes/Entry.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT6.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "entry",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT6.Input framework"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT6.Nodes.Entry",
+    "sourceFile": "StructuralExhaustion/CT6/Nodes/Entry.lean",
+    "requiredRoles": [
+      "contract",
+      "implementation"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT6.Nodes.Entry",
+          "declaration": "StructuralExhaustion.CT6.Nodes.Entry.Contract",
+          "sourceFile": "StructuralExhaustion/CT6/Nodes/Entry.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT6.Nodes.Entry",
+          "declaration": "StructuralExhaustion.CT6.Nodes.Entry.run",
+          "sourceFile": "StructuralExhaustion/CT6/Nodes/Entry.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

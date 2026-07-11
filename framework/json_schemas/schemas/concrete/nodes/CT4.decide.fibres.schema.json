@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT4.decide.fibres.schema.json",
+  "title": "CT4.decide.fibres completed discharge record — Fibre-capacity decision",
+  "description": "Concrete completed-discharge schema for semantic CT4-v1 node CT4.decide.fibres.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT4.decide.fibres.",
+          "const": "CT4"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for Fibre-capacity decision.",
+          "const": "CT4.decide.fibres"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT4.decide.fibres.",
+          "const": 7
+        },
+        "status": {
+          "description": "Required successful proof state for this executable machine node.",
+          "const": "proved"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT4.decide.fibres.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 3,
+          "maxItems": 3,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Dich evidence.",
+                "const": "S-Dich"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required S-Comp evidence.",
+                "const": "S-Comp"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required S-Rout evidence.",
+                "const": "S-Rout"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT4.decide.fibres.",
+          "type": "array",
+          "minItems": 3,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Dich discriminator.",
+                    "const": "S-Dich"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Comp discriminator.",
+                    "const": "S-Comp"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Rout discriminator.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT4.decide.fibres.O1",
+    "modality": "decide",
+    "statement": {
+      "informal": "Execute the proof-carrying fibre-capacity decision contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Dich",
+      "S-Comp",
+      "S-Rout"
+    ],
+    "dependencies": [
+      "CT4.decide.availability"
+    ],
+    "dischargeCriteria": "The node implementation constructs its indexed output contract without inspecting any later node."
+  }
+}

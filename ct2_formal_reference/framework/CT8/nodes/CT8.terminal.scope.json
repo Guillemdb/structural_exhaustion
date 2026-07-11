@@ -1,0 +1,143 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT8-v1",
+  "nodeId": "CT8.terminal.scope",
+  "nodeKind": "terminal",
+  "title": "Missing finite-type scope terminal",
+  "human": {
+    "informal": "Execute the proof-carrying missing finite-type scope terminal contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "A-Scope"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT8 — Finite-state pumping",
+    "diagramKey": "scope"
+  },
+  "formalContract": {
+    "contractId": "CT8.terminal.scope.contract",
+    "executionMode": "proof_only",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT8",
+      "declaration": "StructuralExhaustion.CT8.RawOutcome",
+      "sourceFile": "StructuralExhaustion/CT8/Execution.lean",
+      "declarationKind": "inductive"
+    },
+    "inputs": [
+      {
+        "slotId": "framework",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT8.Framework"
+      },
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT8.Input framework"
+      },
+      {
+        "slotId": "candidate",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT8.ScopeCandidate framework input"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "rawOutcome",
+        "valueKind": "payload",
+        "typeExpression": "StructuralExhaustion.CT8.RawOutcome framework input .scope"
+      }
+    ],
+    "dischargeCondition": "The terminal index, incoming edge, raw outcome, and certified outcome agree definitionally."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT8.Graph",
+    "sourceFile": "StructuralExhaustion/CT8/Graph.lean",
+    "requiredRoles": [
+      "state",
+      "constructor"
+    ],
+    "declarations": [
+      {
+        "role": "state",
+        "localName": "Terminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT8.Graph",
+          "declaration": "StructuralExhaustion.CT8.Graph.Terminal",
+          "sourceFile": "StructuralExhaustion/CT8/Graph.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "scope",
+        "ref": {
+          "module": "StructuralExhaustion.CT8.Graph",
+          "declaration": "StructuralExhaustion.CT8.Graph.Terminal.scope",
+          "sourceFile": "StructuralExhaustion/CT8/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "scopeTerminal",
+        "ref": {
+          "module": "StructuralExhaustion.CT8.Graph",
+          "declaration": "StructuralExhaustion.CT8.Graph.NodeId.scopeTerminal",
+          "sourceFile": "StructuralExhaustion/CT8/Graph.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "scope",
+        "ref": {
+          "module": "StructuralExhaustion.CT8",
+          "declaration": "StructuralExhaustion.CT8.RawOutcome.scope",
+          "sourceFile": "StructuralExhaustion/CT8/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      },
+      {
+        "role": "constructor",
+        "localName": "scope",
+        "ref": {
+          "module": "StructuralExhaustion.CT8",
+          "declaration": "StructuralExhaustion.CT8.Outcome.scope",
+          "sourceFile": "StructuralExhaustion/CT8/Execution.lean",
+          "declarationKind": "constructor"
+        }
+      }
+    ]
+  },
+  "terminal": {
+    "terminalCase": "scope",
+    "terminalConstructorRef": {
+      "module": "StructuralExhaustion.CT8.Graph",
+      "declaration": "StructuralExhaustion.CT8.Graph.Terminal.scope",
+      "sourceFile": "StructuralExhaustion/CT8/Graph.lean",
+      "declarationKind": "constructor"
+    },
+    "outcomeConstructorRef": {
+      "module": "StructuralExhaustion.CT8",
+      "declaration": "StructuralExhaustion.CT8.Outcome.scope",
+      "sourceFile": "StructuralExhaustion/CT8/Execution.lean",
+      "declarationKind": "constructor"
+    },
+    "claimTypeExpression": "¬ StructuralExhaustion.CT8.ScopeReadyAt framework input",
+    "evidenceSlots": [
+      {
+        "slotId": "candidate",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT8.ScopeCandidate framework input"
+      }
+    ]
+  }
+}

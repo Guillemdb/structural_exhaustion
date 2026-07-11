@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT1.terminal.ct4.schema.json",
+  "title": "CT1.terminal.ct4 completed discharge record — ct4 terminal",
+  "description": "Concrete completed-discharge schema for semantic CT1-v1 node CT1.terminal.ct4.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT1.terminal.ct4; it must be CT1.",
+          "const": "CT1"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for ct4 terminal.",
+          "const": "CT1.terminal.ct4"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation-order index for CT1.terminal.ct4.",
+          "const": 10
+        },
+        "status": {
+          "description": "Required successful validation state for this entry or terminal node.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "Exact contract families discharged at CT1.terminal.ct4: S-Pers, S-Rout, S-Trig.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires S-Pers, which retains the exact target-avoiding predecessor state.",
+                "const": "S-Pers"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires S-Rout, which constructs the indexed downstream route.",
+                "const": "S-Rout"
+              }
+            },
+            {
+              "contains": {
+                "description": "Requires S-Trig, which proves the selected consumer accepts the payload.",
+                "const": "S-Trig"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "type": "array",
+          "minItems": 3,
+          "description": "Typed contract instances for CT1.terminal.ct4; every declared family is required.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Discriminator for S-Pers evidence at CT1.terminal.ct4; it retains the exact target-avoiding predecessor state.",
+                    "const": "S-Pers"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Discriminator for S-Rout evidence at CT1.terminal.ct4; it constructs the indexed downstream route.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Discriminator for S-Trig evidence at CT1.terminal.ct4; it proves the selected consumer accepts the payload.",
+                    "const": "S-Trig"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT1.terminal.ct4.O1",
+    "modality": "construct",
+    "statement": {
+      "informal": "The semantic run ends at the exact ct4 outcome.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Pers",
+      "S-Rout",
+      "S-Trig"
+    ],
+    "dependencies": [
+      "CT1.decide.payload"
+    ],
+    "dischargeCriteria": "The terminal constructor, raw outcome, certified outcome, and incoming typed edge all resolve."
+  }
+}

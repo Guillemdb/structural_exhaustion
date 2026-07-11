@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT7.entry.schema.json",
+  "title": "CT7.entry completed discharge record — Validated CT7 exchange entry",
+  "description": "Concrete completed-discharge schema for semantic CT7-v1 node CT7.entry.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT7.entry.",
+          "const": "CT7"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for Validated CT7 exchange entry.",
+          "const": "CT7.entry"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT7.entry.",
+          "const": 1
+        },
+        "status": {
+          "description": "Required successful validation state for this entry or terminal node.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT7.entry.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Def evidence.",
+                "const": "S-Def"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT7.entry.",
+          "type": "array",
+          "minItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Def discriminator.",
+                    "const": "S-Def"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT7.entry.O1",
+    "modality": "validate",
+    "statement": {
+      "informal": "Execute the proof-carrying validated ct7 exchange entry contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Def"
+    ],
+    "dependencies": [],
+    "dischargeCriteria": "The node implementation constructs its indexed output contract without inspecting any later node."
+  }
+}

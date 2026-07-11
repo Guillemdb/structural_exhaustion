@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT1.entry.schema.json",
+  "title": "CT1.entry completed discharge record — Validated CT1 entry",
+  "description": "Concrete completed-discharge schema for semantic CT1-v1 node CT1.entry.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT1.entry; it must be CT1.",
+          "const": "CT1"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for Validated CT1 entry.",
+          "const": "CT1.entry"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation-order index for CT1.entry.",
+          "const": 1
+        },
+        "status": {
+          "description": "Required successful validation state for this entry or terminal node.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 1,
+          "description": "Exact contract families discharged at CT1.entry: S-Def.",
+          "allOf": [
+            {
+              "contains": {
+                "description": "Requires S-Def, which defines the validated typed state and its exact fields.",
+                "const": "S-Def"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Typed contract instances for CT1.entry; every declared family is required.",
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Discriminator for S-Def evidence at CT1.entry; it defines the validated typed state and its exact fields.",
+                    "const": "S-Def"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT1.entry.O1",
+    "modality": "validate",
+    "statement": {
+      "informal": "Admit the ambient object, branch state, and baseline proof without mixing in node implementations.",
+      "latex": "(G, B, \\operatorname{Baseline}(G))"
+    },
+    "contractSchemas": [
+      "S-Def"
+    ],
+    "dependencies": [],
+    "dischargeCriteria": "Entry.run preserves the validated Input definitionally."
+  }
+}

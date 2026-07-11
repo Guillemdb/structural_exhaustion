@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/runs/CT10.run.schema.json",
+  "title": "CT10-v1 legal semantic-machine run",
+  "description": "A legal path begins at CT10.entry, follows typed edges, and ends at one exact terminal.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT10 run discriminator.",
+          "const": "CT10"
+        },
+        "visitedNodeIds": {
+          "description": "Execution path using only CT10-v1 semantic IDs.",
+          "type": "array",
+          "items": {
+            "enum": [
+              "CT10.entry",
+              "CT10.decide.scope",
+              "CT10.terminal.scope",
+              "CT10.certify.labels",
+              "CT10.decide.classification",
+              "CT10.terminal.c5",
+              "CT10.decide.direct",
+              "CT10.terminal.ct3",
+              "CT10.terminal.ct7",
+              "CT10.certify.promotion",
+              "CT10.decide.promotedRouting",
+              "CT10.terminal.ct15"
+            ]
+          },
+          "minItems": 2
+        },
+        "nodeRecords": {
+          "description": "Proof records aligned with the visited path.",
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "../nodes/CT10.entry.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT10.decide.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT10.terminal.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT10.certify.labels.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT10.decide.classification.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT10.terminal.c5.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT10.decide.direct.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT10.terminal.ct3.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT10.terminal.ct7.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT10.certify.promotion.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT10.decide.promotedRouting.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT10.terminal.ct15.schema.json"
+              }
+            ]
+          },
+          "minItems": 2
+        },
+        "outcome": {
+          "description": "Exact terminal result of the CT10-v1 run.",
+          "properties": {
+            "terminalCase": {
+              "description": "Exact terminal-case discriminator.",
+              "enum": [
+                "scope",
+                "c5",
+                "ct3",
+                "ct7",
+                "ct15"
+              ]
+            }
+          },
+          "required": [
+            "terminalCase"
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "visitedNodeIds",
+        "nodeRecords",
+        "outcome"
+      ]
+    }
+  ],
+  "x-semanticValidationRules": [
+    "validate visitedNodeIds against the semantic transition graph",
+    "require the final node and outcome terminalCase to agree"
+  ]
+}

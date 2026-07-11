@@ -1,0 +1,92 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT10-v1",
+  "nodeId": "CT10.certify.labels",
+  "nodeKind": "certification",
+  "title": "Label-class exhaustion certification",
+  "human": {
+    "informal": "Execute the proof-carrying label-class exhaustion certification contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Def",
+    "S-Comp"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT10 — Default refinement",
+    "diagramKey": "labels"
+  },
+  "formalContract": {
+    "contractId": "CT10.certify.labels.contract",
+    "executionMode": "external_certificate",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT10.Nodes.Labels",
+      "declaration": "StructuralExhaustion.CT10.Nodes.Labels.Contract",
+      "sourceFile": "StructuralExhaustion/CT10/Nodes/Labels.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT10.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "labels",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT10.LabelState framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT10.Nodes.Labels",
+    "sourceFile": "StructuralExhaustion/CT10/Nodes/Labels.lean",
+    "requiredRoles": [
+      "contract",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT10.Nodes.Labels",
+          "declaration": "StructuralExhaustion.CT10.Nodes.Labels.Contract",
+          "sourceFile": "StructuralExhaustion/CT10/Nodes/Labels.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT10.Nodes.Labels",
+          "declaration": "StructuralExhaustion.CT10.Nodes.Labels.Plan",
+          "sourceFile": "StructuralExhaustion/CT10/Nodes/Labels.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT10.Nodes.Labels",
+          "declaration": "StructuralExhaustion.CT10.Nodes.Labels.run",
+          "sourceFile": "StructuralExhaustion/CT10/Nodes/Labels.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

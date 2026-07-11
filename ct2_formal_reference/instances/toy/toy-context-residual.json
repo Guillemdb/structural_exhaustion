@@ -1,0 +1,88 @@
+{
+  "artifactType": "tacticInstantiation",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT2-v2",
+  "instanceId": "toy-context-residual",
+  "tacticId": "CT2",
+  "bindings": [
+    {
+      "slotId": "framework",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT2Toy",
+        "declaration": "StructuralExhaustion.Examples.CT2Toy.contextFramework",
+        "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "input",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT2Toy",
+        "declaration": "StructuralExhaustion.Examples.CT2Toy.contextInput",
+        "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "corePlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT2Toy",
+        "declaration": "StructuralExhaustion.Examples.CT2Toy.contextPlan",
+        "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "port",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT2Toy",
+        "declaration": "StructuralExhaustion.Examples.CT2Toy.contextPort",
+        "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "handoffPlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT2Toy",
+        "declaration": "StructuralExhaustion.Examples.CT2Toy.contextHandoff",
+        "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+        "declarationKind": "definition"
+      }
+    }
+  ],
+  "expectedTerminalCase": "ct3.context",
+  "expectedNodePath": [
+    "CT2.entry",
+    "CT2.decide.interface",
+    "CT2.decide.deletion",
+    "CT2.decide.replacementCandidate",
+    "CT2.decide.context",
+    "CT2.terminal.ct3.context"
+  ],
+  "expectedEdgePath": [
+    "CT2.edge.begin",
+    "CT2.edge.interface.bounded",
+    "CT2.edge.deletion.critical",
+    "CT2.edge.replacementCandidate.found",
+    "CT2.edge.context.residual"
+  ],
+  "executionResultRef": {
+    "module": "StructuralExhaustion.Examples.CT2Toy",
+    "declaration": "StructuralExhaustion.Examples.CT2Toy.contextResult",
+    "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+    "declarationKind": "definition"
+  },
+  "terminalTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT2Toy",
+    "declaration": "StructuralExhaustion.Examples.CT2Toy.context_terminal",
+    "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+    "declarationKind": "theorem"
+  },
+  "traceTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT2Toy",
+    "declaration": "StructuralExhaustion.Examples.CT2Toy.context_trace",
+    "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+    "declarationKind": "theorem"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "artifactType": "tacticInstantiation",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT2-v2",
+  "instanceId": "toy-route-ct10",
+  "tacticId": "CT2",
+  "bindings": [
+    {
+      "slotId": "framework",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT2Toy",
+        "declaration": "StructuralExhaustion.Examples.CT2Toy.framework",
+        "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "input",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT2Toy",
+        "declaration": "StructuralExhaustion.Examples.CT2Toy.input",
+        "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "corePlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT2Toy",
+        "declaration": "StructuralExhaustion.Examples.CT2Toy.criticalityPlan",
+        "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "port",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT2Toy",
+        "declaration": "StructuralExhaustion.Examples.CT2Toy.port",
+        "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "handoffPlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT2Toy",
+        "declaration": "StructuralExhaustion.Examples.CT2Toy.handoff",
+        "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+        "declarationKind": "definition"
+      }
+    }
+  ],
+  "expectedTerminalCase": "ct10.criticality",
+  "expectedNodePath": [
+    "CT2.entry",
+    "CT2.decide.interface",
+    "CT2.decide.deletion",
+    "CT2.decide.replacementCandidate",
+    "CT2.decide.survivor",
+    "CT2.terminal.ct10.criticality"
+  ],
+  "expectedEdgePath": [
+    "CT2.edge.begin",
+    "CT2.edge.interface.bounded",
+    "CT2.edge.deletion.critical",
+    "CT2.edge.replacementCandidate.absent",
+    "CT2.edge.survivor.criticality"
+  ],
+  "executionResultRef": {
+    "module": "StructuralExhaustion.Examples.CT2Toy",
+    "declaration": "StructuralExhaustion.Examples.CT2Toy.criticalityResult",
+    "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+    "declarationKind": "definition"
+  },
+  "terminalTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT2Toy",
+    "declaration": "StructuralExhaustion.Examples.CT2Toy.criticality_terminal",
+    "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+    "declarationKind": "theorem"
+  },
+  "traceTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT2Toy",
+    "declaration": "StructuralExhaustion.Examples.CT2Toy.criticality_trace",
+    "sourceFile": "StructuralExhaustion/Examples/CT2Toy.lean",
+    "declarationKind": "theorem"
+  }
+}

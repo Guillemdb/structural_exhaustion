@@ -1,0 +1,140 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT8-v1",
+  "nodeId": "CT8.decide.routing",
+  "nodeKind": "decision",
+  "title": "Separating-witness routing",
+  "human": {
+    "informal": "Execute the proof-carrying separating-witness routing contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Rout"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT8 — Finite-state pumping",
+    "diagramKey": "routing"
+  },
+  "formalContract": {
+    "contractId": "CT8.decide.routing.contract",
+    "executionMode": "computable",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT8.Nodes.Routing",
+      "declaration": "StructuralExhaustion.CT8.Nodes.Routing.Contract",
+      "sourceFile": "StructuralExhaustion/CT8/Nodes/Routing.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT8.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT8.Nodes.Routing.Contract framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node.",
+    "branches": [
+      {
+        "branchTag": "toCT3",
+        "meaning": "Return the proof-carrying toCT3 constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT8.Nodes.Routing",
+          "declaration": "StructuralExhaustion.CT8.Nodes.Routing.Decision.toCT3",
+          "sourceFile": "StructuralExhaustion/CT8/Nodes/Routing.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT8.CT3Payload framework input separating"
+          }
+        ],
+        "transitionId": "CT8.edge.routing.ct3"
+      },
+      {
+        "branchTag": "toCT7",
+        "meaning": "Return the proof-carrying toCT7 constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT8.Nodes.Routing",
+          "declaration": "StructuralExhaustion.CT8.Nodes.Routing.Decision.toCT7",
+          "sourceFile": "StructuralExhaustion/CT8/Nodes/Routing.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT8.CT7Payload framework input separating"
+          }
+        ],
+        "transitionId": "CT8.edge.routing.ct7"
+      }
+    ]
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT8.Nodes.Routing",
+    "sourceFile": "StructuralExhaustion/CT8/Nodes/Routing.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT8.Nodes.Routing",
+          "declaration": "StructuralExhaustion.CT8.Nodes.Routing.Contract",
+          "sourceFile": "StructuralExhaustion/CT8/Nodes/Routing.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT8.Nodes.Routing",
+          "declaration": "StructuralExhaustion.CT8.Nodes.Routing.Decision",
+          "sourceFile": "StructuralExhaustion/CT8/Nodes/Routing.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT8.Nodes.Routing",
+          "declaration": "StructuralExhaustion.CT8.Nodes.Routing.Plan",
+          "sourceFile": "StructuralExhaustion/CT8/Nodes/Routing.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT8.Nodes.Routing",
+          "declaration": "StructuralExhaustion.CT8.Nodes.Routing.run",
+          "sourceFile": "StructuralExhaustion/CT8/Nodes/Routing.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

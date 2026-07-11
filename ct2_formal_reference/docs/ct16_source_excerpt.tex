@@ -1,0 +1,46 @@
+\subsection{CT16 --- Whole-object exact types}\label{ct:16}\label{the-whole-object-piece-exact-types-under-context-degeneracy}
+\ctsignature{\(P_{\ast\to16}\to \ctcert{C2};\ \ctint{P_{16\to3},P_{16\to10}};\ \ctrec{\ctnone}.\)}
+
+CT16 handles the degenerate outside context of a whole-object datum.  Its
+first runtime node tests support before asking for a finite closed type.  A
+proper piece therefore routes directly to an exact CT3 input and does not
+inherit a whole-object computability requirement.
+
+On the whole-support branch, the scope node either records that no finite
+closed type is available or produces a scoped whole-object state.  The
+one-successor closed-type node proves both computation and the
+no-silent-identification rule.  Literal equality then closes by C2; distinct
+closed data constructs an exact CT10 input.  In particular, absence of a
+nonempty outside context is never treated as evidence of equality.
+
+\begin{itemize}
+\tightlist
+\item \textbf{S-Dich} is split between proper/whole support and literal equality.
+\item \textbf{S-Equiv} is the exact closed-type computation and no-silent-identification certificate.
+\item \textbf{S-Rout} and \textbf{S-Trig} are exact CT3 and CT10 inputs.
+\end{itemize}
+
+\begin{figure}[p]
+\centering
+\resizebox{0.88\textwidth}{!}{%
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\scriptsize}]
+\node[bcwide] (entry) at (0,0) {{\tiny\ttfamily CT16.entry}\\\textbf{Validated support and closed datum}};
+\node[bcdec,bclemma] (support) at (0,-2.3) {{\tiny\ttfamily CT16.decide.support}\\\textbf{Proper piece or whole object?}};
+\node[bcroute,bcrouteneutral] (ct3) at (-6.4,-4.8) {{\tiny\ttfamily CT16.terminal.ct3}\\\textbf{CT 3 exit}};
+\node[bcdec,bclemma] (scope) at (3.6,-4.8) {{\tiny\ttfamily CT16.decide.scope}\\\textbf{Finite closed type?}};
+\node[bcscopefail] (scopeout) at (9.4,-4.8) {{\tiny\ttfamily CT16.terminal.scope}\\\textbf{Scope exit}};
+\node[bcwide,bclemma] (closed) at (3.6,-7.3) {{\tiny\ttfamily CT16.certify.closedType}\\\textbf{Computed exact closed type}};
+\node[bcdec,bclemma] (equality) at (3.6,-9.8) {{\tiny\ttfamily CT16.decide.equality}\\\textbf{Literally equal?}};
+\node[bcclosed] (c2) at (0.8,-12.4) {{\tiny\ttfamily CT16.terminal.c2}\\\textbf{C2}};
+\node[bcroute,bcrouteneutral] (ct10) at (6.4,-12.4) {{\tiny\ttfamily CT16.terminal.ct10}\\\textbf{CT 10 exit}};
+\draw[bcarr] (entry)--(support); \draw[bchandoff] (support)--node[bclabel,above,sloped]{proper}(ct3);
+\draw[bcarr] (support)--node[bclabel,above,sloped]{whole}(scope); \draw[bcscopearr] (scope)--(scopeout);
+\draw[bcarr] (scope)--(closed); \draw[bcarr] (closed)--(equality);
+\draw[bcarr] (equality)--node[bclabel,above,sloped]{equal}(c2);
+\draw[bchandoff] (equality)--node[bclabel,above,sloped]{distinct}(ct10);
+\end{tikzpicture}%
+}
+\caption[Closure-tactic 16: exact whole-object machine]{The proper-support route precedes whole-object scope and closed-type computation.}
+\label{fig:ct16-whole-object-types}
+\end{figure}
+\FloatBarrier

@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT12.entry.schema.json",
+  "title": "CT12.entry completed discharge record — Validated CT12 routed-load entry",
+  "description": "Concrete completed-discharge schema for semantic CT12-v1 node CT12.entry.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT12.entry.",
+          "const": "CT12"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for Validated CT12 routed-load entry.",
+          "const": "CT12.entry"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT12.entry.",
+          "const": 1
+        },
+        "status": {
+          "description": "Required successful validation state for this entry or terminal node.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT12.entry.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Def evidence.",
+                "const": "S-Def"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT12.entry.",
+          "type": "array",
+          "minItems": 1,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Def discriminator.",
+                    "const": "S-Def"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT12.entry.O1",
+    "modality": "validate",
+    "statement": {
+      "informal": "Execute the proof-carrying validated ct12 routed-load entry contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Def"
+    ],
+    "dependencies": [],
+    "dischargeCriteria": "The node implementation constructs its indexed output contract without inspecting any later node."
+  }
+}

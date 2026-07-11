@@ -1,0 +1,92 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT6-v1",
+  "nodeId": "CT6.certify.definition",
+  "nodeKind": "certification",
+  "title": "Activity and first-failure definition certification",
+  "human": {
+    "informal": "Execute the proof-carrying activity and first-failure definition certification contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Def",
+    "S-Equiv"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT6 — Active/dormant dichotomy",
+    "diagramKey": "definition"
+  },
+  "formalContract": {
+    "contractId": "CT6.certify.definition.contract",
+    "executionMode": "external_certificate",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT6.Nodes.Definition",
+      "declaration": "StructuralExhaustion.CT6.Nodes.Definition.Contract",
+      "sourceFile": "StructuralExhaustion/CT6/Nodes/Definition.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT6.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "definition",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT6.DefinitionState framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT6.Nodes.Definition",
+    "sourceFile": "StructuralExhaustion/CT6/Nodes/Definition.lean",
+    "requiredRoles": [
+      "contract",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT6.Nodes.Definition",
+          "declaration": "StructuralExhaustion.CT6.Nodes.Definition.Contract",
+          "sourceFile": "StructuralExhaustion/CT6/Nodes/Definition.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT6.Nodes.Definition",
+          "declaration": "StructuralExhaustion.CT6.Nodes.Definition.Plan",
+          "sourceFile": "StructuralExhaustion/CT6/Nodes/Definition.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT6.Nodes.Definition",
+          "declaration": "StructuralExhaustion.CT6.Nodes.Definition.run",
+          "sourceFile": "StructuralExhaustion/CT6/Nodes/Definition.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT16-v1",
+  "nodeId": "CT16.decide.support",
+  "nodeKind": "decision",
+  "title": "Proper/whole support decision",
+  "human": {
+    "informal": "Execute the proof-carrying proper/whole support decision contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Dich",
+    "S-Rout"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT16 — Whole-object exact types",
+    "diagramKey": "support"
+  },
+  "formalContract": {
+    "contractId": "CT16.decide.support.contract",
+    "executionMode": "computable",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT16.Nodes.Support",
+      "declaration": "StructuralExhaustion.CT16.Nodes.Support.Contract",
+      "sourceFile": "StructuralExhaustion/CT16/Nodes/Support.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT16.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT16.Nodes.Support.Contract framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node.",
+    "branches": [
+      {
+        "branchTag": "proper",
+        "meaning": "Return the proof-carrying proper constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT16.Nodes.Support",
+          "declaration": "StructuralExhaustion.CT16.Nodes.Support.Decision.proper",
+          "sourceFile": "StructuralExhaustion/CT16/Nodes/Support.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT16.CT3Payload framework input proper"
+          }
+        ],
+        "transitionId": "CT16.edge.support.proper"
+      },
+      {
+        "branchTag": "whole",
+        "meaning": "Return the proof-carrying whole constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT16.Nodes.Support",
+          "declaration": "StructuralExhaustion.CT16.Nodes.Support.Decision.whole",
+          "sourceFile": "StructuralExhaustion/CT16/Nodes/Support.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "whole",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT16.WholeState framework input"
+          }
+        ],
+        "transitionId": "CT16.edge.support.whole"
+      }
+    ]
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT16.Nodes.Support",
+    "sourceFile": "StructuralExhaustion/CT16/Nodes/Support.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT16.Nodes.Support",
+          "declaration": "StructuralExhaustion.CT16.Nodes.Support.Contract",
+          "sourceFile": "StructuralExhaustion/CT16/Nodes/Support.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT16.Nodes.Support",
+          "declaration": "StructuralExhaustion.CT16.Nodes.Support.Decision",
+          "sourceFile": "StructuralExhaustion/CT16/Nodes/Support.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT16.Nodes.Support",
+          "declaration": "StructuralExhaustion.CT16.Nodes.Support.Plan",
+          "sourceFile": "StructuralExhaustion/CT16/Nodes/Support.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT16.Nodes.Support",
+          "declaration": "StructuralExhaustion.CT16.Nodes.Support.run",
+          "sourceFile": "StructuralExhaustion/CT16/Nodes/Support.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

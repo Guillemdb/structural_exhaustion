@@ -1,0 +1,90 @@
+{
+  "artifactType": "tacticInstantiation",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT4-v1",
+  "instanceId": "toy-ct14",
+  "tacticId": "CT4",
+  "bindings": [
+    {
+      "slotId": "framework",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT4Toy",
+        "declaration": "StructuralExhaustion.Examples.CT4Toy.framework",
+        "sourceFile": "StructuralExhaustion/Examples/CT4Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "input",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT4Toy",
+        "declaration": "StructuralExhaustion.Examples.CT4Toy.input",
+        "sourceFile": "StructuralExhaustion/Examples/CT4Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "corePlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT4Toy",
+        "declaration": "StructuralExhaustion.Examples.CT4Toy.ct14Plan",
+        "sourceFile": "StructuralExhaustion/Examples/CT4Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "port",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT4Toy",
+        "declaration": "StructuralExhaustion.Examples.CT4Toy.port",
+        "sourceFile": "StructuralExhaustion/Examples/CT4Toy.lean",
+        "declarationKind": "definition"
+      }
+    },
+    {
+      "slotId": "handoffPlan",
+      "leanRef": {
+        "module": "StructuralExhaustion.Examples.CT4Toy",
+        "declaration": "StructuralExhaustion.Examples.CT4Toy.handoff",
+        "sourceFile": "StructuralExhaustion/Examples/CT4Toy.lean",
+        "declarationKind": "definition"
+      }
+    }
+  ],
+  "expectedTerminalCase": "ct14",
+  "expectedNodePath": [
+    "CT4.entry",
+    "CT4.decide.scope",
+    "CT4.certify.assignment",
+    "CT4.decide.availability",
+    "CT4.decide.fibres",
+    "CT4.decide.comparison",
+    "CT4.terminal.ct14"
+  ],
+  "expectedEdgePath": [
+    "CT4.edge.begin",
+    "CT4.edge.scope.ready",
+    "CT4.edge.assignment.certified",
+    "CT4.edge.availability.total",
+    "CT4.edge.fibres.bounded",
+    "CT4.edge.comparison.residual"
+  ],
+  "executionResultRef": {
+    "module": "StructuralExhaustion.Examples.CT4Toy",
+    "declaration": "StructuralExhaustion.Examples.CT4Toy.ct14Result",
+    "sourceFile": "StructuralExhaustion/Examples/CT4Toy.lean",
+    "declarationKind": "definition"
+  },
+  "terminalTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT4Toy",
+    "declaration": "StructuralExhaustion.Examples.CT4Toy.ct14_terminal",
+    "sourceFile": "StructuralExhaustion/Examples/CT4Toy.lean",
+    "declarationKind": "theorem"
+  },
+  "traceTheoremRef": {
+    "module": "StructuralExhaustion.Examples.CT4Toy",
+    "declaration": "StructuralExhaustion.Examples.CT4Toy.ct14_trace",
+    "sourceFile": "StructuralExhaustion/Examples/CT4Toy.lean",
+    "declarationKind": "theorem"
+  }
+}

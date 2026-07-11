@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT16.terminal.ct3.schema.json",
+  "title": "CT16.terminal.ct3 completed discharge record — CT3 proper-piece handoff",
+  "description": "Concrete completed-discharge schema for semantic CT16-v1 node CT16.terminal.ct3.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT16.terminal.ct3.",
+          "const": "CT16"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for CT3 proper-piece handoff.",
+          "const": "CT16.terminal.ct3"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT16.terminal.ct3.",
+          "const": 3
+        },
+        "status": {
+          "description": "Required successful validation state for this entry or terminal node.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT16.terminal.ct3.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 2,
+          "maxItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Rout evidence.",
+                "const": "S-Rout"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required S-Trig evidence.",
+                "const": "S-Trig"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT16.terminal.ct3.",
+          "type": "array",
+          "minItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Rout discriminator.",
+                    "const": "S-Rout"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Trig discriminator.",
+                    "const": "S-Trig"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT16.terminal.ct3.O1",
+    "modality": "construct",
+    "statement": {
+      "informal": "Execute the proof-carrying ct3 proper-piece handoff contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Rout",
+      "S-Trig"
+    ],
+    "dependencies": [
+      "CT16.decide.support"
+    ],
+    "dischargeCriteria": "The terminal index, incoming edge, raw outcome, and certified outcome agree definitionally."
+  }
+}

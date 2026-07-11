@@ -1,0 +1,91 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT9-v1",
+  "nodeId": "CT9.certify.fibre",
+  "nodeKind": "certification",
+  "title": "Payer-fibre certification",
+  "human": {
+    "informal": "Execute the proof-carrying payer-fibre certification contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Def"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT9 — Overload exhaustion",
+    "diagramKey": "fibre"
+  },
+  "formalContract": {
+    "contractId": "CT9.certify.fibre.contract",
+    "executionMode": "external_certificate",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT9.Nodes.Fibre",
+      "declaration": "StructuralExhaustion.CT9.Nodes.Fibre.Contract",
+      "sourceFile": "StructuralExhaustion/CT9/Nodes/Fibre.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT9.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "fibre",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT9.FibreState framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT9.Nodes.Fibre",
+    "sourceFile": "StructuralExhaustion/CT9/Nodes/Fibre.lean",
+    "requiredRoles": [
+      "contract",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT9.Nodes.Fibre",
+          "declaration": "StructuralExhaustion.CT9.Nodes.Fibre.Contract",
+          "sourceFile": "StructuralExhaustion/CT9/Nodes/Fibre.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT9.Nodes.Fibre",
+          "declaration": "StructuralExhaustion.CT9.Nodes.Fibre.Plan",
+          "sourceFile": "StructuralExhaustion/CT9/Nodes/Fibre.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT9.Nodes.Fibre",
+          "declaration": "StructuralExhaustion.CT9.Nodes.Fibre.run",
+          "sourceFile": "StructuralExhaustion/CT9/Nodes/Fibre.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

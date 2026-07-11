@@ -1,0 +1,10 @@
+graph_order,node_id,node_kind,title,terminal_case,contracts,lean_contract,source_file
+1,CT14.entry,entry,Validated CT14 residual-class entry,,S-Def,StructuralExhaustion.CT14.Nodes.Entry.Contract,StructuralExhaustion/CT14/Nodes/Entry.lean
+2,CT14.decide.scope,decision,Finite capacity-description scope,,A-Scope,StructuralExhaustion.CT14.Nodes.Scope.Contract,StructuralExhaustion/CT14/Nodes/Scope.lean
+3,CT14.terminal.scope,terminal,Missing capacity-description scope terminal,scope,A-Scope,StructuralExhaustion.CT14.RawOutcome,StructuralExhaustion/CT14/Execution.lean
+4,CT14.certify.bounds,certification,Lower and upper aggregate-bound certification,,S-Comp,StructuralExhaustion.CT14.Nodes.Bounds.Contract,StructuralExhaustion/CT14/Nodes/Bounds.lean
+5,CT14.decide.multiplicity,decision,Carried-charge multiplicity decision,,S-Dich|S-Comp|S-Rout,StructuralExhaustion.CT14.Nodes.Multiplicity.Contract,StructuralExhaustion/CT14/Nodes/Multiplicity.lean
+6,CT14.terminal.ct9,terminal,CT9 unbounded-member handoff,ct9,S-Rout|S-Trig,StructuralExhaustion.CT14.RawOutcome,StructuralExhaustion/CT14/Execution.lean
+7,CT14.terminal.ct10,terminal,CT10 missing-capacity-label handoff,ct10,S-Rout|S-Trig,StructuralExhaustion.CT14.RawOutcome,StructuralExhaustion/CT14/Execution.lean
+8,CT14.certify.comparison,certification,Aggregate comparison certification,,S-Comp,StructuralExhaustion.CT14.Nodes.Comparison.Contract,StructuralExhaustion/CT14/Nodes/Comparison.lean
+9,CT14.terminal.c4,terminal,C4 aggregate-capacity terminal,c4,A-Cert,StructuralExhaustion.CT14.RawOutcome,StructuralExhaustion/CT14/Execution.lean

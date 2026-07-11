@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/runs/CT8.run.schema.json",
+  "title": "CT8-v1 legal semantic-machine run",
+  "description": "A legal path begins at CT8.entry, follows typed edges, and ends at one exact terminal.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT8 run discriminator.",
+          "const": "CT8"
+        },
+        "visitedNodeIds": {
+          "description": "Execution path using only CT8-v1 semantic IDs.",
+          "type": "array",
+          "items": {
+            "enum": [
+              "CT8.entry",
+              "CT8.decide.scope",
+              "CT8.terminal.scope",
+              "CT8.terminal.ct10",
+              "CT8.certify.equivalence",
+              "CT8.decide.repetition",
+              "CT8.terminal.c5",
+              "CT8.decide.response",
+              "CT8.terminal.c2",
+              "CT8.decide.routing",
+              "CT8.terminal.ct3",
+              "CT8.terminal.ct7"
+            ]
+          },
+          "minItems": 2
+        },
+        "nodeRecords": {
+          "description": "Proof records aligned with the visited path.",
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "../nodes/CT8.entry.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT8.decide.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT8.terminal.scope.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT8.terminal.ct10.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT8.certify.equivalence.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT8.decide.repetition.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT8.terminal.c5.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT8.decide.response.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT8.terminal.c2.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT8.decide.routing.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT8.terminal.ct3.schema.json"
+              },
+              {
+                "$ref": "../nodes/CT8.terminal.ct7.schema.json"
+              }
+            ]
+          },
+          "minItems": 2
+        },
+        "outcome": {
+          "description": "Exact terminal result of the CT8-v1 run.",
+          "properties": {
+            "terminalCase": {
+              "description": "Exact terminal-case discriminator.",
+              "enum": [
+                "scope",
+                "ct10",
+                "c5",
+                "c2",
+                "ct3",
+                "ct7"
+              ]
+            }
+          },
+          "required": [
+            "terminalCase"
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "visitedNodeIds",
+        "nodeRecords",
+        "outcome"
+      ]
+    }
+  ],
+  "x-semanticValidationRules": [
+    "validate visitedNodeIds against the semantic transition graph",
+    "require the final node and outcome terminalCase to agree"
+  ]
+}

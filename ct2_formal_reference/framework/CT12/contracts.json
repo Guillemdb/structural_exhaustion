@@ -1,0 +1,274 @@
+{
+  "artifactType": "tacticContractInventory",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT12-v1",
+  "tacticId": "CT12",
+  "contracts": [
+    {
+      "contractInstanceId": "CT12.S-Def.1",
+      "contractSchema": "S-Def",
+      "statement": {
+        "informal": "S-Def is discharged by the indexed states and typed edges of CT12.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT12.entry"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT12.Graph",
+          "declaration": "StructuralExhaustion.CT12.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT12",
+          "declaration": "StructuralExhaustion.CT12.run_verified",
+          "sourceFile": "StructuralExhaustion/CT12/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT12.S-Meas.1",
+      "contractSchema": "S-Meas",
+      "statement": {
+        "informal": "S-Meas is discharged by the indexed states and typed edges of CT12.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT12.decide.scope",
+        "CT12.certify.measure",
+        "CT12.certify.decrease"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT12.Graph",
+          "declaration": "StructuralExhaustion.CT12.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT12",
+          "declaration": "StructuralExhaustion.CT12.run_verified",
+          "sourceFile": "StructuralExhaustion/CT12/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT12.A-Scope.1",
+      "contractSchema": "A-Scope",
+      "statement": {
+        "informal": "A-Scope is discharged by the indexed states and typed edges of CT12.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT12.decide.scope",
+        "CT12.terminal.scope"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT12.Graph",
+          "declaration": "StructuralExhaustion.CT12.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT12",
+          "declaration": "StructuralExhaustion.CT12.run_verified",
+          "sourceFile": "StructuralExhaustion/CT12/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT12.S-Dich.1",
+      "contractSchema": "S-Dich",
+      "statement": {
+        "informal": "S-Dich is discharged by the indexed states and typed edges of CT12.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT12.decide.saturation"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT12.Graph",
+          "declaration": "StructuralExhaustion.CT12.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT12",
+          "declaration": "StructuralExhaustion.CT12.run_verified",
+          "sourceFile": "StructuralExhaustion/CT12/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT12.S-Comp.1",
+      "contractSchema": "S-Comp",
+      "statement": {
+        "informal": "S-Comp is discharged by the indexed states and typed edges of CT12.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT12.terminal.c4"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT12.Graph",
+          "declaration": "StructuralExhaustion.CT12.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT12",
+          "declaration": "StructuralExhaustion.CT12.run_verified",
+          "sourceFile": "StructuralExhaustion/CT12/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT12.A-Cert.1",
+      "contractSchema": "A-Cert",
+      "statement": {
+        "informal": "A-Cert is discharged by the indexed states and typed edges of CT12.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT12.terminal.c4"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT12.Graph",
+          "declaration": "StructuralExhaustion.CT12.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT12",
+          "declaration": "StructuralExhaustion.CT12.run_verified",
+          "sourceFile": "StructuralExhaustion/CT12/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT12.S-Det.1",
+      "contractSchema": "S-Det",
+      "statement": {
+        "informal": "S-Det is discharged by the indexed states and typed edges of CT12.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT12.certify.peel"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT12.Graph",
+          "declaration": "StructuralExhaustion.CT12.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT12",
+          "declaration": "StructuralExhaustion.CT12.run_verified",
+          "sourceFile": "StructuralExhaustion/CT12/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT12.S-Rest.1",
+      "contractSchema": "S-Rest",
+      "statement": {
+        "informal": "S-Rest is discharged by the indexed states and typed edges of CT12.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT12.decide.restoration"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT12.Graph",
+          "declaration": "StructuralExhaustion.CT12.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT12",
+          "declaration": "StructuralExhaustion.CT12.run_verified",
+          "sourceFile": "StructuralExhaustion/CT12/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT12.S-Rout.1",
+      "contractSchema": "S-Rout",
+      "statement": {
+        "informal": "S-Rout is discharged by the indexed states and typed edges of CT12.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT12.decide.restoration",
+        "CT12.terminal.ct4",
+        "CT12.terminal.ct13"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT12.Graph",
+          "declaration": "StructuralExhaustion.CT12.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT12",
+          "declaration": "StructuralExhaustion.CT12.run_verified",
+          "sourceFile": "StructuralExhaustion/CT12/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    },
+    {
+      "contractInstanceId": "CT12.S-Trig.1",
+      "contractSchema": "S-Trig",
+      "statement": {
+        "informal": "S-Trig is discharged by the indexed states and typed edges of CT12.",
+        "latex": ""
+      },
+      "nodeIds": [
+        "CT12.terminal.ct4",
+        "CT12.terminal.ct13"
+      ],
+      "leanEvidence": [
+        {
+          "module": "StructuralExhaustion.CT12.Graph",
+          "declaration": "StructuralExhaustion.CT12.Graph.Edge",
+          "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+          "declarationKind": "inductive"
+        },
+        {
+          "module": "StructuralExhaustion.CT12",
+          "declaration": "StructuralExhaustion.CT12.run_verified",
+          "sourceFile": "StructuralExhaustion/CT12/Theorems.lean",
+          "declarationKind": "theorem"
+        }
+      ],
+      "dischargePolicy": "Lean checks the declaration types; repository validation checks exact node membership and edge coverage."
+    }
+  ]
+}

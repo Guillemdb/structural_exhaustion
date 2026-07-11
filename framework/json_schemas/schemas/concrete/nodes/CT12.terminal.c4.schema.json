@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/nodes/CT12.terminal.c4.schema.json",
+  "title": "CT12.terminal.c4 completed discharge record — C4 unsaturated discharge terminal",
+  "description": "Concrete completed-discharge schema for semantic CT12-v1 node CT12.terminal.c4.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Owning tactic discriminator for CT12.terminal.c4.",
+          "const": "CT12"
+        },
+        "nodeId": {
+          "description": "Stable semantic runtime identifier for C4 unsaturated discharge terminal.",
+          "const": "CT12.terminal.c4"
+        },
+        "nodeNumber": {
+          "description": "One-based presentation index for CT12.terminal.c4.",
+          "const": 6
+        },
+        "status": {
+          "description": "Required successful validation state for this entry or terminal node.",
+          "const": "validated"
+        },
+        "dischargedContracts": {
+          "description": "Exact contract families discharged at CT12.terminal.c4.",
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 2,
+          "maxItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "description": "Required S-Comp evidence.",
+                "const": "S-Comp"
+              }
+            },
+            {
+              "contains": {
+                "description": "Required A-Cert evidence.",
+                "const": "A-Cert"
+              }
+            }
+          ]
+        },
+        "contractInstances": {
+          "description": "Typed contract instances for every family declared at CT12.terminal.c4.",
+          "type": "array",
+          "minItems": 2,
+          "allOf": [
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required S-Comp discriminator.",
+                    "const": "S-Comp"
+                  }
+                }
+              }
+            },
+            {
+              "contains": {
+                "required": [
+                  "schema"
+                ],
+                "properties": {
+                  "schema": {
+                    "description": "Required A-Cert discriminator.",
+                    "const": "A-Cert"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeId",
+        "nodeNumber",
+        "status",
+        "dischargedContracts",
+        "contractInstances"
+      ]
+    }
+  ],
+  "x-obligation": {
+    "obligationId": "CT12.terminal.c4.O1",
+    "modality": "validate",
+    "statement": {
+      "informal": "Execute the proof-carrying c4 unsaturated discharge terminal contract.",
+      "latex": ""
+    },
+    "contractSchemas": [
+      "S-Comp",
+      "A-Cert"
+    ],
+    "dependencies": [
+      "CT12.decide.saturation"
+    ],
+    "dischargeCriteria": "The terminal index, incoming edge, raw outcome, and certified outcome agree definitionally."
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT3-v1",
+  "nodeId": "CT3.decide.scope",
+  "nodeKind": "decision",
+  "title": "Finite external-type scope",
+  "human": {
+    "informal": "Execute the proof-carrying finite external-type scope contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Dich",
+    "A-Scope"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT3 — External-type compression",
+    "diagramKey": "scope"
+  },
+  "formalContract": {
+    "contractId": "CT3.decide.scope.contract",
+    "executionMode": "computable",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT3.Nodes.Scope",
+      "declaration": "StructuralExhaustion.CT3.Nodes.Scope.Contract",
+      "sourceFile": "StructuralExhaustion/CT3/Nodes/Scope.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT3.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT3.Nodes.Scope.Contract framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node.",
+    "branches": [
+      {
+        "branchTag": "exit",
+        "meaning": "Return the proof-carrying exit constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT3.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Scope.Decision.exit",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Scope.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "candidate",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT3.ScopeCandidate framework input"
+          }
+        ],
+        "transitionId": "CT3.edge.scope.exit"
+      },
+      {
+        "branchTag": "ready",
+        "meaning": "Return the proof-carrying ready constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT3.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Scope.Decision.ready",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Scope.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "scopeState",
+            "valueKind": "state",
+            "typeExpression": "StructuralExhaustion.CT3.ScopedState framework input"
+          }
+        ],
+        "transitionId": "CT3.edge.scope.ready"
+      }
+    ]
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT3.Nodes.Scope",
+    "sourceFile": "StructuralExhaustion/CT3/Nodes/Scope.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT3.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Scope.Contract",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Scope.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT3.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Scope.Decision",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Scope.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT3.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Scope.Plan",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Scope.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT3.Nodes.Scope",
+          "declaration": "StructuralExhaustion.CT3.Nodes.Scope.run",
+          "sourceFile": "StructuralExhaustion/CT3/Nodes/Scope.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

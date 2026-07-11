@@ -1,0 +1,158 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT15-v1",
+  "nodeId": "CT15.decide.dependenceRouting",
+  "nodeKind": "decision",
+  "title": "Structural-dependence routing",
+  "human": {
+    "informal": "Execute the proof-carrying structural-dependence routing contract.",
+    "latex": "",
+    "whyNeeded": "The successor receives exactly the evidence produced at this boundary.",
+    "failureMeaning": "The machine cannot cross this boundary without constructing the declared indexed result.",
+    "proofHints": [
+      "Implement this node using only its immediate typed predecessor state."
+    ]
+  },
+  "contracts": [
+    "S-Rout"
+  ],
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT15 — Rank forcing",
+    "diagramKey": "dependenceRouting"
+  },
+  "formalContract": {
+    "contractId": "CT15.decide.dependenceRouting.contract",
+    "executionMode": "computable",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT15.Nodes.DependenceRouting",
+      "declaration": "StructuralExhaustion.CT15.Nodes.DependenceRouting.Contract",
+      "sourceFile": "StructuralExhaustion/CT15/Nodes/DependenceRouting.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "input",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT15.Input framework"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "decision",
+        "valueKind": "data",
+        "typeExpression": "StructuralExhaustion.CT15.Nodes.DependenceRouting.Contract framework input"
+      }
+    ],
+    "dischargeCondition": "The node implementation constructs its indexed output contract without inspecting any later node.",
+    "branches": [
+      {
+        "branchTag": "toCT3",
+        "meaning": "Return the proof-carrying toCT3 constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT15.Nodes.DependenceRouting",
+          "declaration": "StructuralExhaustion.CT15.Nodes.DependenceRouting.Decision.toCT3",
+          "sourceFile": "StructuralExhaustion/CT15/Nodes/DependenceRouting.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT15.CT3Payload framework input dependence"
+          }
+        ],
+        "transitionId": "CT15.edge.dependence.ct3"
+      },
+      {
+        "branchTag": "toCT7",
+        "meaning": "Return the proof-carrying toCT7 constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT15.Nodes.DependenceRouting",
+          "declaration": "StructuralExhaustion.CT15.Nodes.DependenceRouting.Decision.toCT7",
+          "sourceFile": "StructuralExhaustion/CT15/Nodes/DependenceRouting.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT15.CT7Payload framework input dependence"
+          }
+        ],
+        "transitionId": "CT15.edge.dependence.ct7"
+      },
+      {
+        "branchTag": "toCT16",
+        "meaning": "Return the proof-carrying toCT16 constructor.",
+        "resultConstructorRef": {
+          "module": "StructuralExhaustion.CT15.Nodes.DependenceRouting",
+          "declaration": "StructuralExhaustion.CT15.Nodes.DependenceRouting.Decision.toCT16",
+          "sourceFile": "StructuralExhaustion/CT15/Nodes/DependenceRouting.lean",
+          "declarationKind": "constructor"
+        },
+        "evidenceSlots": [
+          {
+            "slotId": "payload",
+            "valueKind": "payload",
+            "typeExpression": "StructuralExhaustion.CT15.CT16Payload framework input dependence"
+          }
+        ],
+        "transitionId": "CT15.edge.dependence.ct16"
+      }
+    ]
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT15.Nodes.DependenceRouting",
+    "sourceFile": "StructuralExhaustion/CT15/Nodes/DependenceRouting.lean",
+    "requiredRoles": [
+      "contract",
+      "decision",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT15.Nodes.DependenceRouting",
+          "declaration": "StructuralExhaustion.CT15.Nodes.DependenceRouting.Contract",
+          "sourceFile": "StructuralExhaustion/CT15/Nodes/DependenceRouting.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "decision",
+        "localName": "Decision",
+        "ref": {
+          "module": "StructuralExhaustion.CT15.Nodes.DependenceRouting",
+          "declaration": "StructuralExhaustion.CT15.Nodes.DependenceRouting.Decision",
+          "sourceFile": "StructuralExhaustion/CT15/Nodes/DependenceRouting.lean",
+          "declarationKind": "inductive"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT15.Nodes.DependenceRouting",
+          "declaration": "StructuralExhaustion.CT15.Nodes.DependenceRouting.Plan",
+          "sourceFile": "StructuralExhaustion/CT15/Nodes/DependenceRouting.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT15.Nodes.DependenceRouting",
+          "declaration": "StructuralExhaustion.CT15.Nodes.DependenceRouting.run",
+          "sourceFile": "StructuralExhaustion/CT15/Nodes/DependenceRouting.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  }
+}

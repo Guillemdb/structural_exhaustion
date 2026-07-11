@@ -1,0 +1,96 @@
+{
+  "artifactType": "formalNodeSpec",
+  "schemaVersion": "2.0.0",
+  "graphVersion": "CT1-v1",
+  "nodeId": "CT1.certify.equivalence",
+  "nodeKind": "certification",
+  "title": "Target-test equivalence certification",
+  "human": {
+    "informal": "Certify both directions between target membership and realization of the declared test family.",
+    "latex": "\\operatorname{Target}(G)\\leftrightarrow\\exists i,w,\\operatorname{Realizes}(i,w)",
+    "whyNeeded": "A negative realization decision implies target avoidance only through this certificate.",
+    "failureMeaning": "Failure is a design-time repair obligation; no CorePlan exists until certification is supplied.",
+    "proofHints": [
+      "Keep both implications explicit in EquivalenceCertificate."
+    ]
+  },
+  "contracts": [
+    "S-Equiv"
+  ],
+  "formalContract": {
+    "contractId": "CT1.certify.equivalence.contract",
+    "executionMode": "external_certificate",
+    "leanContractRef": {
+      "module": "StructuralExhaustion.CT1.Nodes.Equivalence",
+      "declaration": "StructuralExhaustion.CT1.Nodes.Equivalence.Contract",
+      "sourceFile": "StructuralExhaustion/CT1/Nodes/Equivalence.lean",
+      "declarationKind": "abbrev"
+    },
+    "inputs": [
+      {
+        "slotId": "scopeState",
+        "valueKind": "state",
+        "typeExpression": "StructuralExhaustion.CT1.ScopedState framework input"
+      },
+      {
+        "slotId": "plan",
+        "valueKind": "algorithm",
+        "typeExpression": "StructuralExhaustion.CT1.Nodes.Equivalence.Plan framework input"
+      }
+    ],
+    "outputs": [
+      {
+        "slotId": "equivalence",
+        "valueKind": "certificate",
+        "typeExpression": "StructuralExhaustion.CT1.EquivalenceState framework input"
+      }
+    ],
+    "dischargeCondition": "The plan constructs an EquivalenceState before realization is inspected."
+  },
+  "leanImplementation": {
+    "namespace": "StructuralExhaustion.CT1.Nodes.Equivalence",
+    "sourceFile": "StructuralExhaustion/CT1/Nodes/Equivalence.lean",
+    "requiredRoles": [
+      "contract",
+      "implementation",
+      "plan"
+    ],
+    "declarations": [
+      {
+        "role": "contract",
+        "localName": "Contract",
+        "ref": {
+          "module": "StructuralExhaustion.CT1.Nodes.Equivalence",
+          "declaration": "StructuralExhaustion.CT1.Nodes.Equivalence.Contract",
+          "sourceFile": "StructuralExhaustion/CT1/Nodes/Equivalence.lean",
+          "declarationKind": "abbrev"
+        }
+      },
+      {
+        "role": "plan",
+        "localName": "Plan",
+        "ref": {
+          "module": "StructuralExhaustion.CT1.Nodes.Equivalence",
+          "declaration": "StructuralExhaustion.CT1.Nodes.Equivalence.Plan",
+          "sourceFile": "StructuralExhaustion/CT1/Nodes/Equivalence.lean",
+          "declarationKind": "structure"
+        }
+      },
+      {
+        "role": "implementation",
+        "localName": "run",
+        "ref": {
+          "module": "StructuralExhaustion.CT1.Nodes.Equivalence",
+          "declaration": "StructuralExhaustion.CT1.Nodes.Equivalence.run",
+          "sourceFile": "StructuralExhaustion/CT1/Nodes/Equivalence.lean",
+          "declarationKind": "definition"
+        }
+      }
+    ]
+  },
+  "source": {
+    "document": "branch_closure_methodology_extended.tex",
+    "section": "CT1 — Target-test alignment and first closure",
+    "diagramKey": "equivalence"
+  }
+}

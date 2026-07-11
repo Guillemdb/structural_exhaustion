@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/structural-exhaustion/concrete/verifications/CT8.verification.schema.json",
+  "title": "CT8-v1 structural all-node verification",
+  "description": "Requires structural coverage of all 12 semantic states; it does not claim automatic witness search.",
+  "allOf": [
+    {
+      "$ref": "../../structural-exhaustion.bundle.schema.json#/$defs/tacticVerification"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "description": "Required CT8 verification discriminator.",
+          "const": "CT8"
+        },
+        "nodeRecords": {
+          "description": "Exactly one completed record for each CT8-v1 node.",
+          "type": "array",
+          "prefixItems": [
+            {
+              "$ref": "../nodes/CT8.entry.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT8.decide.scope.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT8.terminal.scope.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT8.terminal.ct10.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT8.certify.equivalence.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT8.decide.repetition.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT8.terminal.c5.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT8.decide.response.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT8.terminal.c2.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT8.decide.routing.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT8.terminal.ct3.schema.json"
+            },
+            {
+              "$ref": "../nodes/CT8.terminal.ct7.schema.json"
+            }
+          ],
+          "items": false,
+          "minItems": 12,
+          "maxItems": 12
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeRecords"
+      ]
+    }
+  ]
+}
