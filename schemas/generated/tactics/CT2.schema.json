@@ -833,47 +833,58 @@
             "requiredDefinitions": [
               {
                 "ref": "StructuralExhaustion.CT2.PieceSystem.Piece",
-                "provision": "user_definition"
+                "provision": "user_definition",
+                "conceptId": "CT2.pieces.piece"
               },
               {
                 "ref": "StructuralExhaustion.CT2.PieceSystem.pieces",
-                "provision": "user_finite_enumeration"
+                "provision": "user_finite_enumeration",
+                "conceptId": "CT2.pieces.enumeration"
               },
               {
                 "ref": "StructuralExhaustion.CT2.PieceSystem.Proper",
-                "provision": "user_definition"
+                "provision": "user_definition",
+                "conceptId": "CT2.pieces.proper"
               },
               {
                 "ref": "StructuralExhaustion.CT2.PieceSystem.Admissible",
-                "provision": "user_definition"
+                "provision": "user_definition",
+                "conceptId": "CT2.pieces.admissible"
               },
               {
                 "ref": "StructuralExhaustion.CT2.PieceSystem.properDecidable",
-                "provision": "instance_bridge"
+                "provision": "instance_bridge",
+                "conceptId": "CT2.pieces.properDecidable"
               },
               {
                 "ref": "StructuralExhaustion.CT2.PieceSystem.admissibleDecidable",
-                "provision": "instance_bridge"
+                "provision": "instance_bridge",
+                "conceptId": "CT2.pieces.admissibleDecidable"
               },
               {
                 "ref": "StructuralExhaustion.CT2.Observable.baselineDecidable",
-                "provision": "instance_bridge"
+                "provision": "instance_bridge",
+                "conceptId": "CT2.observable.baselineDecidable"
               },
               {
                 "ref": "StructuralExhaustion.CT2.Observable.targetDecidable",
-                "provision": "instance_bridge"
+                "provision": "instance_bridge",
+                "conceptId": "CT2.observable.targetDecidable"
               },
               {
                 "ref": "StructuralExhaustion.CT2.ReductionOps.delete",
-                "provision": "user_operator"
+                "provision": "user_operator",
+                "conceptId": "CT2.reduction.delete"
               },
               {
                 "ref": "StructuralExhaustion.CT2.DeletionClosureRule.preservesBaseline",
-                "provision": "instance_bridge"
+                "provision": "instance_bridge",
+                "conceptId": "CT2.deletionClosure.preservesBaseline"
               },
               {
                 "ref": "StructuralExhaustion.CT2.DeletionClosureRule.targetMonotone",
-                "provision": "instance_bridge"
+                "provision": "instance_bridge",
+                "conceptId": "CT2.deletionClosure.targetMonotone"
               }
             ],
             "derivedOperations": [
@@ -915,6 +926,578 @@
               }
             ],
             "capabilityId": "StructuralExhaustion.CT2.profile.deletionOnly"
+          },
+          {
+            "tacticId": "CT2",
+            "requiredInstances": [
+              {
+                "ref": "StructuralExhaustion.CT2.PieceSystem.properDecidable",
+                "provision": "typeclass_inferred"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.PieceSystem.admissibleDecidable",
+                "provision": "typeclass_inferred"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.preservesBaseline",
+                "provision": "typeclass_inferred"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.targetMonotone",
+                "provision": "typeclass_inferred"
+              }
+            ],
+            "requiredDefinitions": [
+              {
+                "ref": "StructuralExhaustion.CT2.PieceSystem.Piece",
+                "provision": "user_definition",
+                "conceptId": "CT2.pieces.piece"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.PieceSystem.pieces",
+                "provision": "user_finite_enumeration",
+                "conceptId": "CT2.pieces.enumeration"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.PieceSystem.Proper",
+                "provision": "user_definition",
+                "conceptId": "CT2.pieces.proper"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.PieceSystem.Admissible",
+                "provision": "user_definition",
+                "conceptId": "CT2.pieces.admissible"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.PieceSystem.properDecidable",
+                "provision": "instance_bridge",
+                "conceptId": "CT2.pieces.properDecidable"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.PieceSystem.admissibleDecidable",
+                "provision": "instance_bridge",
+                "conceptId": "CT2.pieces.admissibleDecidable"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.ReductionOps.delete",
+                "provision": "user_operator",
+                "conceptId": "CT2.reduction.delete"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.preservesBaseline",
+                "provision": "instance_bridge",
+                "conceptId": "CT2.localDeletion.preservesBaseline"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.targetMonotone",
+                "provision": "instance_bridge",
+                "conceptId": "CT2.localDeletion.targetMonotone"
+              }
+            ],
+            "derivedOperations": [
+              {
+                "ref": "StructuralExhaustion.CT2.LocalDeletionCapability.tacticInterface",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.LocalDeletionCapability.discover",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.witness",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.run",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.notProper",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.localDeletionBudget",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.rule",
+                "provision": "framework_constant"
+              }
+            ],
+            "capabilityId": "StructuralExhaustion.CT2.profile.localDeletion"
+          },
+          {
+            "tacticId": "CT2",
+            "requiredInstances": [
+              {
+                "ref": "StructuralExhaustion.CT2.CertifiedReductionInput.reducedBaseline",
+                "provision": "typeclass_inferred"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.CertifiedReductionInput.targetMonotone",
+                "provision": "typeclass_inferred"
+              }
+            ],
+            "requiredDefinitions": [
+              {
+                "ref": "StructuralExhaustion.CT2.CertifiedReductionInput.reduction",
+                "provision": "user_operator",
+                "conceptId": "CT2.certifiedReduction.reduction"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.CertifiedReductionInput.reducedBaseline",
+                "provision": "instance_bridge",
+                "conceptId": "CT2.certifiedReduction.reducedBaseline"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.CertifiedReductionInput.targetMonotone",
+                "provision": "instance_bridge",
+                "conceptId": "CT2.certifiedReduction.targetMonotone"
+              }
+            ],
+            "derivedOperations": [
+              {
+                "ref": "StructuralExhaustion.CT2.certifiedReductionTacticInterface",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.CertifiedReductionInput.witness",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.runCertifiedReduction",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.runCertifiedReduction_terminal",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.runCertifiedReduction_trace",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.runCertifiedReduction_total",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.CertifiedReductionRun.verified",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT2.certifiedReductionBudget",
+                "provision": "framework_constant"
+              }
+            ],
+            "capabilityId": "StructuralExhaustion.CT2.profile.certifiedReduction"
+          }
+        ],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "StructuralExhaustion.CT2.PieceSystem.Piece",
+            "presentation": {
+              "plainExplanation": "The type of local structures in G that CT2 may delete or replace.",
+              "mathematicalDefinition": "\\mathcal{P}(G)",
+              "label": "Local piece"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT2.PieceSystem P → P.Ambient → Type uPiece",
+              "name": "StructuralExhaustion.CT2.PieceSystem.Piece",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.pieces.piece"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.PieceSystem.pieces",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of all local pieces in G.",
+              "mathematicalDefinition": "\\operatorname{pieces}(G)=\\mathcal{P}(G)",
+              "label": "Finite piece enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT2.PieceSystem P) → (G : P.Ambient) → FinEnum (self.Piece G)",
+              "name": "StructuralExhaustion.CT2.PieceSystem.pieces",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.pieces.enumeration"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.PieceSystem.Proper",
+            "presentation": {
+              "plainExplanation": "The application-defined proposition marking p as a genuine reduction candidate.",
+              "mathematicalDefinition": "\\operatorname{Proper}(p)",
+              "label": "Proper-piece predicate"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT2.PieceSystem P) → {G : P.Ambient} → self.Piece G → Prop",
+              "name": "StructuralExhaustion.CT2.PieceSystem.Proper",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.pieces.proper"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.PieceSystem.Admissible",
+            "presentation": {
+              "plainExplanation": "The proposition that piece p may be reduced in the current branch state s.",
+              "mathematicalDefinition": "\\operatorname{Admissible}(s,p)",
+              "label": "Admissibility predicate"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT2.PieceSystem P) → {G : P.Ambient} → P.BranchState G → self.Piece G → Prop",
+              "name": "StructuralExhaustion.CT2.PieceSystem.Admissible",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.pieces.admissible"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.PieceSystem.properDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding whether a piece is proper.",
+              "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Proper}(p)\\right)",
+              "label": "Properness decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  (self : CT2.PieceSystem P) → {G : P.Ambient} → (piece : self.Piece G) → Decidable (self.Proper piece)",
+              "name": "StructuralExhaustion.CT2.PieceSystem.properDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.pieces.properDecidable"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.PieceSystem.admissibleDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding whether a piece is admissible in a branch.",
+              "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Admissible}(s,p)\\right)",
+              "label": "Admissibility decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  (self : CT2.PieceSystem P) →\n    {G : P.Ambient} → (branch : P.BranchState G) → (piece : self.Piece G) → Decidable (self.Admissible branch piece)",
+              "name": "StructuralExhaustion.CT2.PieceSystem.admissibleDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.pieces.admissibleDecidable"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.InterfaceSystem.Interface",
+            "presentation": {
+              "plainExplanation": "The type of boundary signatures through which pieces interact with their surroundings.",
+              "mathematicalDefinition": "\\mathcal{I}",
+              "label": "Boundary interface"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {pieces : CT2.PieceSystem P} → CT2.InterfaceSystem pieces → Type uInterface",
+              "name": "StructuralExhaustion.CT2.InterfaceSystem.Interface",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.interfaces.interfaceType"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.InterfaceSystem.interface",
+            "presentation": {
+              "plainExplanation": "Assigns to each local piece its exact boundary interface.",
+              "mathematicalDefinition": "\\partial p\\in\\mathcal{I}",
+              "label": "Piece interface"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} → (self : CT2.InterfaceSystem pieces) → {G : P.Ambient} → pieces.Piece G → self.Interface",
+              "name": "StructuralExhaustion.CT2.InterfaceSystem.interface",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.interfaces.ofPiece"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.ContextSystem.AbstractPiece",
+            "presentation": {
+              "plainExplanation": "The type of replaceable abstract interiors compatible with interface iota.",
+              "mathematicalDefinition": "\\mathcal{A}(\\iota)",
+              "label": "Abstract piece"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} → CT2.ContextSystem interfaces → interfaces.Interface → Type uAbstract",
+              "name": "StructuralExhaustion.CT2.ContextSystem.AbstractPiece",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.contexts.abstractPiece"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.ContextSystem.Context",
+            "presentation": {
+              "plainExplanation": "The type of outside environments having boundary interface iota.",
+              "mathematicalDefinition": "\\mathcal{K}(\\iota)",
+              "label": "Outside context"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} → CT2.ContextSystem interfaces → interfaces.Interface → Type uContext",
+              "name": "StructuralExhaustion.CT2.ContextSystem.Context",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.contexts.contextType"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.ContextSystem.contexts",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of the outside contexts for each interface.",
+              "mathematicalDefinition": "\\operatorname{contexts}(\\iota)=\\mathcal{K}(\\iota)",
+              "label": "Finite context enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} →\n      (self : CT2.ContextSystem interfaces) → (interface : interfaces.Interface) → FinEnum (self.Context interface)",
+              "name": "StructuralExhaustion.CT2.ContextSystem.contexts",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.contexts.enumeration"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.ContextSystem.glue",
+            "presentation": {
+              "plainExplanation": "Reconstructs an ambient object by placing an abstract piece into an outside context.",
+              "mathematicalDefinition": "\\operatorname{glue}_{\\iota}:\\mathcal{K}(\\iota)\\times\\mathcal{A}(\\iota)\\to\\mathcal{G}",
+              "label": "Gluing operation"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} →\n      (self : CT2.ContextSystem interfaces) →\n        {interface : interfaces.Interface} → self.Context interface → self.AbstractPiece interface → P.Ambient",
+              "name": "StructuralExhaustion.CT2.ContextSystem.glue",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.contexts.glue"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.ContextSystem.abstract",
+            "presentation": {
+              "plainExplanation": "Extracts the abstract interior represented by a concrete piece.",
+              "mathematicalDefinition": "\\operatorname{abstract}(p)\\in\\mathcal{A}(\\partial p)",
+              "label": "Piece abstraction"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} →\n      (self : CT2.ContextSystem interfaces) →\n        {G : P.Ambient} → (piece : pieces.Piece G) → self.AbstractPiece (interfaces.interface piece)",
+              "name": "StructuralExhaustion.CT2.ContextSystem.abstract",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.contexts.abstract"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.ContextSystem.currentContext",
+            "presentation": {
+              "plainExplanation": "Extracts the outside environment surrounding the concrete piece in G.",
+              "mathematicalDefinition": "\\operatorname{currentContext}(p)\\in\\mathcal{K}(\\partial p)",
+              "label": "Current outside context"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} →\n      (self : CT2.ContextSystem interfaces) →\n        {G : P.Ambient} → (piece : pieces.Piece G) → self.Context (interfaces.interface piece)",
+              "name": "StructuralExhaustion.CT2.ContextSystem.currentContext",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.contexts.currentContext"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.ContextSystem.reconstruct",
+            "presentation": {
+              "plainExplanation": "A proof that the context and abstraction recover the original ambient object exactly.",
+              "mathematicalDefinition": "\\operatorname{glue}(\\operatorname{currentContext}(p),\\operatorname{abstract}(p))=G",
+              "label": "Reconstruction law"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} {pieces : CT2.PieceSystem P} {interfaces : CT2.InterfaceSystem pieces}\n  (self : CT2.ContextSystem interfaces) {G : P.Ambient} (piece : pieces.Piece G),\n  self.glue (self.currentContext piece) (self.abstract piece) = G",
+              "name": "StructuralExhaustion.CT2.ContextSystem.reconstruct",
+              "kind": "theorem"
+            },
+            "conceptId": "CT2.contexts.reconstruct"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.Observable.baselineDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding the problem's baseline property on an ambient object.",
+              "mathematicalDefinition": "\\operatorname{decide}\\!\\left(B(G)\\right)",
+              "label": "Baseline decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {Target : P.Ambient → Prop} → CT2.Observable P Target → (G : P.Ambient) → Decidable (P.Baseline G)",
+              "name": "StructuralExhaustion.CT2.Observable.baselineDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.observable.baselineDecidable"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.Observable.targetDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding the target property on an ambient object.",
+              "mathematicalDefinition": "\\operatorname{decide}\\!\\left(T(G)\\right)",
+              "label": "Target decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {Target : P.Ambient → Prop} → CT2.Observable P Target → (G : P.Ambient) → Decidable (Target G)",
+              "name": "StructuralExhaustion.CT2.Observable.targetDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.observable.targetDecidable"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.ReductionOps.delete",
+            "presentation": {
+              "plainExplanation": "Constructs the certified smaller ambient object obtained by deleting p.",
+              "mathematicalDefinition": "G\\setminus p\\prec G",
+              "label": "Deletion operation"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} → CT2.ReductionOps pieces → {G : P.Ambient} → pieces.Piece G → Core.SmallerObject P G",
+              "name": "StructuralExhaustion.CT2.ReductionOps.delete",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.reduction.delete"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.ReplacementSystem.Candidate",
+            "presentation": {
+              "plainExplanation": "The type of candidate replacements available for a concrete piece p.",
+              "mathematicalDefinition": "\\mathcal{R}(p)",
+              "label": "Replacement candidate"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} →\n      {contexts : CT2.ContextSystem interfaces} →\n        CT2.ReplacementSystem contexts → {G : P.Ambient} → pieces.Piece G → Type uCandidate",
+              "name": "StructuralExhaustion.CT2.ReplacementSystem.Candidate",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.replacements.candidate"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.ReplacementSystem.candidates",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of candidate replacements for p.",
+              "mathematicalDefinition": "\\operatorname{candidates}(p)=\\mathcal{R}(p)",
+              "label": "Finite replacement enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} →\n      {contexts : CT2.ContextSystem interfaces} →\n        (self : CT2.ReplacementSystem contexts) →\n          {G : P.Ambient} → (piece : pieces.Piece G) → FinEnum (self.Candidate piece)",
+              "name": "StructuralExhaustion.CT2.ReplacementSystem.candidates",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.replacements.enumeration"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.ReplacementSystem.replacement",
+            "presentation": {
+              "plainExplanation": "Interprets candidate r as an abstract piece with the same interface as p.",
+              "mathematicalDefinition": "\\operatorname{replacement}(p,r)\\in\\mathcal{A}(\\partial p)",
+              "label": "Replacement interpretation"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} →\n      {contexts : CT2.ContextSystem interfaces} →\n        (self : CT2.ReplacementSystem contexts) →\n          {G : P.Ambient} →\n            (piece : pieces.Piece G) → self.Candidate piece → contexts.AbstractPiece (interfaces.interface piece)",
+              "name": "StructuralExhaustion.CT2.ReplacementSystem.replacement",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.replacements.replacement"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.ReplacementSystem.decreases",
+            "presentation": {
+              "plainExplanation": "A proof that every enumerated replacement produces a strictly smaller ambient object.",
+              "mathematicalDefinition": "\\rho\\!\\left(\\operatorname{glue}(K_p,\\operatorname{replacement}(p,r))\\right)<\\rho(G)",
+              "label": "Replacement decrease proof"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} {pieces : CT2.PieceSystem P} {interfaces : CT2.InterfaceSystem pieces}\n  {contexts : CT2.ContextSystem interfaces} (self : CT2.ReplacementSystem contexts) {G : P.Ambient}\n  (piece : pieces.Piece G) (candidate : self.Candidate piece),\n  P.rank (contexts.glue (contexts.currentContext piece) (self.replacement piece candidate)) < P.rank G",
+              "name": "StructuralExhaustion.CT2.ReplacementSystem.decreases",
+              "kind": "theorem"
+            },
+            "conceptId": "CT2.replacements.decreases"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.DeletionClosureRule.preservesBaseline",
+            "presentation": {
+              "plainExplanation": "The deletion-only profile's proof that an eligible deletion preserves the baseline property.",
+              "mathematicalDefinition": "B(G)\\land\\operatorname{Eligible}(s,p)\\Rightarrow B(G\\setminus p)",
+              "label": "Deletion preserves baseline"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} {Target : P.Ambient → Prop} {capability : CT2.Capability P Target},\n  CT2.DeletionClosureRule capability →\n    ∀ {G : P.Ambient} (state : P.BranchState G) (piece : capability.pieces.Piece G),\n      capability.pieces.Proper piece →\n        capability.pieces.Admissible state piece → P.Baseline G → P.Baseline (capability.reductions.delete piece).value",
+              "name": "StructuralExhaustion.CT2.DeletionClosureRule.preservesBaseline",
+              "kind": "theorem"
+            },
+            "conceptId": "CT2.deletionClosure.preservesBaseline"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.DeletionClosureRule.targetMonotone",
+            "presentation": {
+              "plainExplanation": "The deletion-only profile's proof that a target in the reduced object lifts to the original object.",
+              "mathematicalDefinition": "B(G)\\land\\operatorname{Eligible}(s,p)\\land T(G\\setminus p)\\Rightarrow T(G)",
+              "label": "Deletion target monotonicity"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} {Target : P.Ambient → Prop} {capability : CT2.Capability P Target},\n  CT2.DeletionClosureRule capability →\n    ∀ {G : P.Ambient} (state : P.BranchState G) (piece : capability.pieces.Piece G),\n      capability.pieces.Proper piece →\n        capability.pieces.Admissible state piece →\n          P.Baseline G → Target (capability.reductions.delete piece).value → Target G",
+              "name": "StructuralExhaustion.CT2.DeletionClosureRule.targetMonotone",
+              "kind": "theorem"
+            },
+            "conceptId": "CT2.deletionClosure.targetMonotone"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.LocalDeletionClosureRule.preservesBaseline",
+            "presentation": {
+              "plainExplanation": "The local-deletion profile's proof that an eligible deletion preserves the baseline property.",
+              "mathematicalDefinition": "B(G)\\land\\operatorname{Eligible}(s,p)\\Rightarrow B(G\\setminus p)",
+              "label": "Local deletion preserves baseline"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} {Target : P.Ambient → Prop} {capability : CT2.LocalDeletionCapability P},\n  CT2.LocalDeletionClosureRule capability →\n    ∀ {G : P.Ambient} (state : P.BranchState G) (piece : capability.pieces.Piece G),\n      capability.pieces.Proper piece →\n        capability.pieces.Admissible state piece → P.Baseline G → P.Baseline (capability.reductions.delete piece).value",
+              "name": "StructuralExhaustion.CT2.LocalDeletionClosureRule.preservesBaseline",
+              "kind": "theorem"
+            },
+            "conceptId": "CT2.localDeletion.preservesBaseline"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.LocalDeletionClosureRule.targetMonotone",
+            "presentation": {
+              "plainExplanation": "The local-deletion profile's proof that a target in the reduced object lifts to the original object.",
+              "mathematicalDefinition": "B(G)\\land\\operatorname{Eligible}(s,p)\\land T(G\\setminus p)\\Rightarrow T(G)",
+              "label": "Local deletion target monotonicity"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} {Target : P.Ambient → Prop} {capability : CT2.LocalDeletionCapability P},\n  CT2.LocalDeletionClosureRule capability →\n    ∀ {G : P.Ambient} (state : P.BranchState G) (piece : capability.pieces.Piece G),\n      capability.pieces.Proper piece →\n        capability.pieces.Admissible state piece →\n          P.Baseline G → Target (capability.reductions.delete piece).value → Target G",
+              "name": "StructuralExhaustion.CT2.LocalDeletionClosureRule.targetMonotone",
+              "kind": "theorem"
+            },
+            "conceptId": "CT2.localDeletion.targetMonotone"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.CertifiedReductionInput.reduction",
+            "presentation": {
+              "plainExplanation": "The explicitly supplied local reduction together with its strict rank decrease.",
+              "mathematicalDefinition": "H\\prec G",
+              "label": "Certified smaller object"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {ctx : Core.MinimalCounterexampleContext P Target} → CT2.CertifiedReductionInput ctx → Core.SmallerObject P ctx.G",
+              "name": "StructuralExhaustion.CT2.CertifiedReductionInput.reduction",
+              "kind": "definition"
+            },
+            "conceptId": "CT2.certifiedReduction.reduction"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.CertifiedReductionInput.reducedBaseline",
+            "presentation": {
+              "plainExplanation": "A proof that the supplied smaller object retains the problem baseline.",
+              "mathematicalDefinition": "B(H)",
+              "label": "Reduced baseline"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} {Target : P.Ambient → Prop} {ctx : Core.MinimalCounterexampleContext P Target}\n  (self : CT2.CertifiedReductionInput ctx), P.Baseline self.reduction.value",
+              "name": "StructuralExhaustion.CT2.CertifiedReductionInput.reducedBaseline",
+              "kind": "theorem"
+            },
+            "conceptId": "CT2.certifiedReduction.reducedBaseline"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT2.CertifiedReductionInput.targetMonotone",
+            "presentation": {
+              "plainExplanation": "A proof that every target certificate in the supplied smaller object transports to the source object.",
+              "mathematicalDefinition": "T(H)\\Rightarrow T(G)",
+              "label": "Certified target transport"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} {Target : P.Ambient → Prop} {ctx : Core.MinimalCounterexampleContext P Target}\n  (self : CT2.CertifiedReductionInput ctx), Target self.reduction.value → Target ctx.G",
+              "name": "StructuralExhaustion.CT2.CertifiedReductionInput.targetMonotone",
+              "kind": "theorem"
+            },
+            "conceptId": "CT2.certifiedReduction.targetMonotone"
           }
         ],
         "capability": {
@@ -948,91 +1531,113 @@
           "requiredDefinitions": [
             {
               "ref": "StructuralExhaustion.CT2.PieceSystem.Piece",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT2.pieces.piece"
             },
             {
               "ref": "StructuralExhaustion.CT2.PieceSystem.pieces",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT2.pieces.enumeration"
             },
             {
               "ref": "StructuralExhaustion.CT2.PieceSystem.Proper",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT2.pieces.proper"
             },
             {
               "ref": "StructuralExhaustion.CT2.PieceSystem.Admissible",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT2.pieces.admissible"
             },
             {
               "ref": "StructuralExhaustion.CT2.PieceSystem.properDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT2.pieces.properDecidable"
             },
             {
               "ref": "StructuralExhaustion.CT2.PieceSystem.admissibleDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT2.pieces.admissibleDecidable"
             },
             {
               "ref": "StructuralExhaustion.CT2.InterfaceSystem.Interface",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT2.interfaces.interfaceType"
             },
             {
               "ref": "StructuralExhaustion.CT2.InterfaceSystem.interface",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT2.interfaces.ofPiece"
             },
             {
               "ref": "StructuralExhaustion.CT2.ContextSystem.AbstractPiece",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT2.contexts.abstractPiece"
             },
             {
               "ref": "StructuralExhaustion.CT2.ContextSystem.Context",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT2.contexts.contextType"
             },
             {
               "ref": "StructuralExhaustion.CT2.ContextSystem.contexts",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT2.contexts.enumeration"
             },
             {
               "ref": "StructuralExhaustion.CT2.ContextSystem.glue",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT2.contexts.glue"
             },
             {
               "ref": "StructuralExhaustion.CT2.ContextSystem.abstract",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT2.contexts.abstract"
             },
             {
               "ref": "StructuralExhaustion.CT2.ContextSystem.currentContext",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT2.contexts.currentContext"
             },
             {
               "ref": "StructuralExhaustion.CT2.ContextSystem.reconstruct",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT2.contexts.reconstruct"
             },
             {
               "ref": "StructuralExhaustion.CT2.Observable.baselineDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT2.observable.baselineDecidable"
             },
             {
               "ref": "StructuralExhaustion.CT2.Observable.targetDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT2.observable.targetDecidable"
             },
             {
               "ref": "StructuralExhaustion.CT2.ReductionOps.delete",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT2.reduction.delete"
             },
             {
               "ref": "StructuralExhaustion.CT2.ReplacementSystem.Candidate",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT2.replacements.candidate"
             },
             {
               "ref": "StructuralExhaustion.CT2.ReplacementSystem.candidates",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT2.replacements.enumeration"
             },
             {
               "ref": "StructuralExhaustion.CT2.ReplacementSystem.replacement",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT2.replacements.replacement"
             },
             {
               "ref": "StructuralExhaustion.CT2.ReplacementSystem.decreases",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT2.replacements.decreases"
             }
           ],
           "derivedOperations": [
@@ -1139,7 +1744,7 @@
           ],
           "capabilityId": "StructuralExhaustion.CT2.reference"
         },
-        "apiVersion": "CT2-v6",
+        "apiVersion": "CT2-v8",
         "apiDeclarations": [
           {
             "type": "Type",
@@ -1254,7 +1859,7 @@
     "kind": "compiledLeanEnvironment",
     "catalog": "generated/lean-machines.json",
     "tacticId": "CT2",
-    "apiVersion": "CT2-v6",
+    "apiVersion": "CT2-v8",
     "namespace": "StructuralExhaustion.CT2"
   },
   "x-capability": {
@@ -1288,91 +1893,113 @@
     "requiredDefinitions": [
       {
         "ref": "StructuralExhaustion.CT2.PieceSystem.Piece",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT2.pieces.piece"
       },
       {
         "ref": "StructuralExhaustion.CT2.PieceSystem.pieces",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT2.pieces.enumeration"
       },
       {
         "ref": "StructuralExhaustion.CT2.PieceSystem.Proper",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT2.pieces.proper"
       },
       {
         "ref": "StructuralExhaustion.CT2.PieceSystem.Admissible",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT2.pieces.admissible"
       },
       {
         "ref": "StructuralExhaustion.CT2.PieceSystem.properDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT2.pieces.properDecidable"
       },
       {
         "ref": "StructuralExhaustion.CT2.PieceSystem.admissibleDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT2.pieces.admissibleDecidable"
       },
       {
         "ref": "StructuralExhaustion.CT2.InterfaceSystem.Interface",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT2.interfaces.interfaceType"
       },
       {
         "ref": "StructuralExhaustion.CT2.InterfaceSystem.interface",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT2.interfaces.ofPiece"
       },
       {
         "ref": "StructuralExhaustion.CT2.ContextSystem.AbstractPiece",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT2.contexts.abstractPiece"
       },
       {
         "ref": "StructuralExhaustion.CT2.ContextSystem.Context",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT2.contexts.contextType"
       },
       {
         "ref": "StructuralExhaustion.CT2.ContextSystem.contexts",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT2.contexts.enumeration"
       },
       {
         "ref": "StructuralExhaustion.CT2.ContextSystem.glue",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT2.contexts.glue"
       },
       {
         "ref": "StructuralExhaustion.CT2.ContextSystem.abstract",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT2.contexts.abstract"
       },
       {
         "ref": "StructuralExhaustion.CT2.ContextSystem.currentContext",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT2.contexts.currentContext"
       },
       {
         "ref": "StructuralExhaustion.CT2.ContextSystem.reconstruct",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT2.contexts.reconstruct"
       },
       {
         "ref": "StructuralExhaustion.CT2.Observable.baselineDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT2.observable.baselineDecidable"
       },
       {
         "ref": "StructuralExhaustion.CT2.Observable.targetDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT2.observable.targetDecidable"
       },
       {
         "ref": "StructuralExhaustion.CT2.ReductionOps.delete",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT2.reduction.delete"
       },
       {
         "ref": "StructuralExhaustion.CT2.ReplacementSystem.Candidate",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT2.replacements.candidate"
       },
       {
         "ref": "StructuralExhaustion.CT2.ReplacementSystem.candidates",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT2.replacements.enumeration"
       },
       {
         "ref": "StructuralExhaustion.CT2.ReplacementSystem.replacement",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT2.replacements.replacement"
       },
       {
         "ref": "StructuralExhaustion.CT2.ReplacementSystem.decreases",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT2.replacements.decreases"
       }
     ],
     "derivedOperations": [
@@ -1511,47 +2138,58 @@
       "requiredDefinitions": [
         {
           "ref": "StructuralExhaustion.CT2.PieceSystem.Piece",
-          "provision": "user_definition"
+          "provision": "user_definition",
+          "conceptId": "CT2.pieces.piece"
         },
         {
           "ref": "StructuralExhaustion.CT2.PieceSystem.pieces",
-          "provision": "user_finite_enumeration"
+          "provision": "user_finite_enumeration",
+          "conceptId": "CT2.pieces.enumeration"
         },
         {
           "ref": "StructuralExhaustion.CT2.PieceSystem.Proper",
-          "provision": "user_definition"
+          "provision": "user_definition",
+          "conceptId": "CT2.pieces.proper"
         },
         {
           "ref": "StructuralExhaustion.CT2.PieceSystem.Admissible",
-          "provision": "user_definition"
+          "provision": "user_definition",
+          "conceptId": "CT2.pieces.admissible"
         },
         {
           "ref": "StructuralExhaustion.CT2.PieceSystem.properDecidable",
-          "provision": "instance_bridge"
+          "provision": "instance_bridge",
+          "conceptId": "CT2.pieces.properDecidable"
         },
         {
           "ref": "StructuralExhaustion.CT2.PieceSystem.admissibleDecidable",
-          "provision": "instance_bridge"
+          "provision": "instance_bridge",
+          "conceptId": "CT2.pieces.admissibleDecidable"
         },
         {
           "ref": "StructuralExhaustion.CT2.Observable.baselineDecidable",
-          "provision": "instance_bridge"
+          "provision": "instance_bridge",
+          "conceptId": "CT2.observable.baselineDecidable"
         },
         {
           "ref": "StructuralExhaustion.CT2.Observable.targetDecidable",
-          "provision": "instance_bridge"
+          "provision": "instance_bridge",
+          "conceptId": "CT2.observable.targetDecidable"
         },
         {
           "ref": "StructuralExhaustion.CT2.ReductionOps.delete",
-          "provision": "user_operator"
+          "provision": "user_operator",
+          "conceptId": "CT2.reduction.delete"
         },
         {
           "ref": "StructuralExhaustion.CT2.DeletionClosureRule.preservesBaseline",
-          "provision": "instance_bridge"
+          "provision": "instance_bridge",
+          "conceptId": "CT2.deletionClosure.preservesBaseline"
         },
         {
           "ref": "StructuralExhaustion.CT2.DeletionClosureRule.targetMonotone",
-          "provision": "instance_bridge"
+          "provision": "instance_bridge",
+          "conceptId": "CT2.deletionClosure.targetMonotone"
         }
       ],
       "derivedOperations": [
@@ -1593,6 +2231,578 @@
         }
       ],
       "capabilityId": "StructuralExhaustion.CT2.profile.deletionOnly"
+    },
+    {
+      "tacticId": "CT2",
+      "requiredInstances": [
+        {
+          "ref": "StructuralExhaustion.CT2.PieceSystem.properDecidable",
+          "provision": "typeclass_inferred"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.PieceSystem.admissibleDecidable",
+          "provision": "typeclass_inferred"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.preservesBaseline",
+          "provision": "typeclass_inferred"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.targetMonotone",
+          "provision": "typeclass_inferred"
+        }
+      ],
+      "requiredDefinitions": [
+        {
+          "ref": "StructuralExhaustion.CT2.PieceSystem.Piece",
+          "provision": "user_definition",
+          "conceptId": "CT2.pieces.piece"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.PieceSystem.pieces",
+          "provision": "user_finite_enumeration",
+          "conceptId": "CT2.pieces.enumeration"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.PieceSystem.Proper",
+          "provision": "user_definition",
+          "conceptId": "CT2.pieces.proper"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.PieceSystem.Admissible",
+          "provision": "user_definition",
+          "conceptId": "CT2.pieces.admissible"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.PieceSystem.properDecidable",
+          "provision": "instance_bridge",
+          "conceptId": "CT2.pieces.properDecidable"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.PieceSystem.admissibleDecidable",
+          "provision": "instance_bridge",
+          "conceptId": "CT2.pieces.admissibleDecidable"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.ReductionOps.delete",
+          "provision": "user_operator",
+          "conceptId": "CT2.reduction.delete"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.preservesBaseline",
+          "provision": "instance_bridge",
+          "conceptId": "CT2.localDeletion.preservesBaseline"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.targetMonotone",
+          "provision": "instance_bridge",
+          "conceptId": "CT2.localDeletion.targetMonotone"
+        }
+      ],
+      "derivedOperations": [
+        {
+          "ref": "StructuralExhaustion.CT2.LocalDeletionCapability.tacticInterface",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.LocalDeletionCapability.discover",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.witness",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.run",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.notProper",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.localDeletionBudget",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.rule",
+          "provision": "framework_constant"
+        }
+      ],
+      "capabilityId": "StructuralExhaustion.CT2.profile.localDeletion"
+    },
+    {
+      "tacticId": "CT2",
+      "requiredInstances": [
+        {
+          "ref": "StructuralExhaustion.CT2.CertifiedReductionInput.reducedBaseline",
+          "provision": "typeclass_inferred"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.CertifiedReductionInput.targetMonotone",
+          "provision": "typeclass_inferred"
+        }
+      ],
+      "requiredDefinitions": [
+        {
+          "ref": "StructuralExhaustion.CT2.CertifiedReductionInput.reduction",
+          "provision": "user_operator",
+          "conceptId": "CT2.certifiedReduction.reduction"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.CertifiedReductionInput.reducedBaseline",
+          "provision": "instance_bridge",
+          "conceptId": "CT2.certifiedReduction.reducedBaseline"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.CertifiedReductionInput.targetMonotone",
+          "provision": "instance_bridge",
+          "conceptId": "CT2.certifiedReduction.targetMonotone"
+        }
+      ],
+      "derivedOperations": [
+        {
+          "ref": "StructuralExhaustion.CT2.certifiedReductionTacticInterface",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.CertifiedReductionInput.witness",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.runCertifiedReduction",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.runCertifiedReduction_terminal",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.runCertifiedReduction_trace",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.runCertifiedReduction_total",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.CertifiedReductionRun.verified",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT2.certifiedReductionBudget",
+          "provision": "framework_constant"
+        }
+      ],
+      "capabilityId": "StructuralExhaustion.CT2.profile.certifiedReduction"
+    }
+  ],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "StructuralExhaustion.CT2.PieceSystem.Piece",
+      "presentation": {
+        "plainExplanation": "The type of local structures in G that CT2 may delete or replace.",
+        "mathematicalDefinition": "\\mathcal{P}(G)",
+        "label": "Local piece"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT2.PieceSystem P → P.Ambient → Type uPiece",
+        "name": "StructuralExhaustion.CT2.PieceSystem.Piece",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.pieces.piece"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.PieceSystem.pieces",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of all local pieces in G.",
+        "mathematicalDefinition": "\\operatorname{pieces}(G)=\\mathcal{P}(G)",
+        "label": "Finite piece enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT2.PieceSystem P) → (G : P.Ambient) → FinEnum (self.Piece G)",
+        "name": "StructuralExhaustion.CT2.PieceSystem.pieces",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.pieces.enumeration"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.PieceSystem.Proper",
+      "presentation": {
+        "plainExplanation": "The application-defined proposition marking p as a genuine reduction candidate.",
+        "mathematicalDefinition": "\\operatorname{Proper}(p)",
+        "label": "Proper-piece predicate"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT2.PieceSystem P) → {G : P.Ambient} → self.Piece G → Prop",
+        "name": "StructuralExhaustion.CT2.PieceSystem.Proper",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.pieces.proper"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.PieceSystem.Admissible",
+      "presentation": {
+        "plainExplanation": "The proposition that piece p may be reduced in the current branch state s.",
+        "mathematicalDefinition": "\\operatorname{Admissible}(s,p)",
+        "label": "Admissibility predicate"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT2.PieceSystem P) → {G : P.Ambient} → P.BranchState G → self.Piece G → Prop",
+        "name": "StructuralExhaustion.CT2.PieceSystem.Admissible",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.pieces.admissible"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.PieceSystem.properDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding whether a piece is proper.",
+        "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Proper}(p)\\right)",
+        "label": "Properness decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  (self : CT2.PieceSystem P) → {G : P.Ambient} → (piece : self.Piece G) → Decidable (self.Proper piece)",
+        "name": "StructuralExhaustion.CT2.PieceSystem.properDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.pieces.properDecidable"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.PieceSystem.admissibleDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding whether a piece is admissible in a branch.",
+        "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Admissible}(s,p)\\right)",
+        "label": "Admissibility decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  (self : CT2.PieceSystem P) →\n    {G : P.Ambient} → (branch : P.BranchState G) → (piece : self.Piece G) → Decidable (self.Admissible branch piece)",
+        "name": "StructuralExhaustion.CT2.PieceSystem.admissibleDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.pieces.admissibleDecidable"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.InterfaceSystem.Interface",
+      "presentation": {
+        "plainExplanation": "The type of boundary signatures through which pieces interact with their surroundings.",
+        "mathematicalDefinition": "\\mathcal{I}",
+        "label": "Boundary interface"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {pieces : CT2.PieceSystem P} → CT2.InterfaceSystem pieces → Type uInterface",
+        "name": "StructuralExhaustion.CT2.InterfaceSystem.Interface",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.interfaces.interfaceType"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.InterfaceSystem.interface",
+      "presentation": {
+        "plainExplanation": "Assigns to each local piece its exact boundary interface.",
+        "mathematicalDefinition": "\\partial p\\in\\mathcal{I}",
+        "label": "Piece interface"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} → (self : CT2.InterfaceSystem pieces) → {G : P.Ambient} → pieces.Piece G → self.Interface",
+        "name": "StructuralExhaustion.CT2.InterfaceSystem.interface",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.interfaces.ofPiece"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.ContextSystem.AbstractPiece",
+      "presentation": {
+        "plainExplanation": "The type of replaceable abstract interiors compatible with interface iota.",
+        "mathematicalDefinition": "\\mathcal{A}(\\iota)",
+        "label": "Abstract piece"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} → CT2.ContextSystem interfaces → interfaces.Interface → Type uAbstract",
+        "name": "StructuralExhaustion.CT2.ContextSystem.AbstractPiece",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.contexts.abstractPiece"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.ContextSystem.Context",
+      "presentation": {
+        "plainExplanation": "The type of outside environments having boundary interface iota.",
+        "mathematicalDefinition": "\\mathcal{K}(\\iota)",
+        "label": "Outside context"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} → CT2.ContextSystem interfaces → interfaces.Interface → Type uContext",
+        "name": "StructuralExhaustion.CT2.ContextSystem.Context",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.contexts.contextType"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.ContextSystem.contexts",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of the outside contexts for each interface.",
+        "mathematicalDefinition": "\\operatorname{contexts}(\\iota)=\\mathcal{K}(\\iota)",
+        "label": "Finite context enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} →\n      (self : CT2.ContextSystem interfaces) → (interface : interfaces.Interface) → FinEnum (self.Context interface)",
+        "name": "StructuralExhaustion.CT2.ContextSystem.contexts",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.contexts.enumeration"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.ContextSystem.glue",
+      "presentation": {
+        "plainExplanation": "Reconstructs an ambient object by placing an abstract piece into an outside context.",
+        "mathematicalDefinition": "\\operatorname{glue}_{\\iota}:\\mathcal{K}(\\iota)\\times\\mathcal{A}(\\iota)\\to\\mathcal{G}",
+        "label": "Gluing operation"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} →\n      (self : CT2.ContextSystem interfaces) →\n        {interface : interfaces.Interface} → self.Context interface → self.AbstractPiece interface → P.Ambient",
+        "name": "StructuralExhaustion.CT2.ContextSystem.glue",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.contexts.glue"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.ContextSystem.abstract",
+      "presentation": {
+        "plainExplanation": "Extracts the abstract interior represented by a concrete piece.",
+        "mathematicalDefinition": "\\operatorname{abstract}(p)\\in\\mathcal{A}(\\partial p)",
+        "label": "Piece abstraction"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} →\n      (self : CT2.ContextSystem interfaces) →\n        {G : P.Ambient} → (piece : pieces.Piece G) → self.AbstractPiece (interfaces.interface piece)",
+        "name": "StructuralExhaustion.CT2.ContextSystem.abstract",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.contexts.abstract"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.ContextSystem.currentContext",
+      "presentation": {
+        "plainExplanation": "Extracts the outside environment surrounding the concrete piece in G.",
+        "mathematicalDefinition": "\\operatorname{currentContext}(p)\\in\\mathcal{K}(\\partial p)",
+        "label": "Current outside context"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} →\n      (self : CT2.ContextSystem interfaces) →\n        {G : P.Ambient} → (piece : pieces.Piece G) → self.Context (interfaces.interface piece)",
+        "name": "StructuralExhaustion.CT2.ContextSystem.currentContext",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.contexts.currentContext"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.ContextSystem.reconstruct",
+      "presentation": {
+        "plainExplanation": "A proof that the context and abstraction recover the original ambient object exactly.",
+        "mathematicalDefinition": "\\operatorname{glue}(\\operatorname{currentContext}(p),\\operatorname{abstract}(p))=G",
+        "label": "Reconstruction law"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} {pieces : CT2.PieceSystem P} {interfaces : CT2.InterfaceSystem pieces}\n  (self : CT2.ContextSystem interfaces) {G : P.Ambient} (piece : pieces.Piece G),\n  self.glue (self.currentContext piece) (self.abstract piece) = G",
+        "name": "StructuralExhaustion.CT2.ContextSystem.reconstruct",
+        "kind": "theorem"
+      },
+      "conceptId": "CT2.contexts.reconstruct"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.Observable.baselineDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding the problem's baseline property on an ambient object.",
+        "mathematicalDefinition": "\\operatorname{decide}\\!\\left(B(G)\\right)",
+        "label": "Baseline decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {Target : P.Ambient → Prop} → CT2.Observable P Target → (G : P.Ambient) → Decidable (P.Baseline G)",
+        "name": "StructuralExhaustion.CT2.Observable.baselineDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.observable.baselineDecidable"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.Observable.targetDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding the target property on an ambient object.",
+        "mathematicalDefinition": "\\operatorname{decide}\\!\\left(T(G)\\right)",
+        "label": "Target decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {Target : P.Ambient → Prop} → CT2.Observable P Target → (G : P.Ambient) → Decidable (Target G)",
+        "name": "StructuralExhaustion.CT2.Observable.targetDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.observable.targetDecidable"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.ReductionOps.delete",
+      "presentation": {
+        "plainExplanation": "Constructs the certified smaller ambient object obtained by deleting p.",
+        "mathematicalDefinition": "G\\setminus p\\prec G",
+        "label": "Deletion operation"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} → CT2.ReductionOps pieces → {G : P.Ambient} → pieces.Piece G → Core.SmallerObject P G",
+        "name": "StructuralExhaustion.CT2.ReductionOps.delete",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.reduction.delete"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.ReplacementSystem.Candidate",
+      "presentation": {
+        "plainExplanation": "The type of candidate replacements available for a concrete piece p.",
+        "mathematicalDefinition": "\\mathcal{R}(p)",
+        "label": "Replacement candidate"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} →\n      {contexts : CT2.ContextSystem interfaces} →\n        CT2.ReplacementSystem contexts → {G : P.Ambient} → pieces.Piece G → Type uCandidate",
+        "name": "StructuralExhaustion.CT2.ReplacementSystem.Candidate",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.replacements.candidate"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.ReplacementSystem.candidates",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of candidate replacements for p.",
+        "mathematicalDefinition": "\\operatorname{candidates}(p)=\\mathcal{R}(p)",
+        "label": "Finite replacement enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} →\n      {contexts : CT2.ContextSystem interfaces} →\n        (self : CT2.ReplacementSystem contexts) →\n          {G : P.Ambient} → (piece : pieces.Piece G) → FinEnum (self.Candidate piece)",
+        "name": "StructuralExhaustion.CT2.ReplacementSystem.candidates",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.replacements.enumeration"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.ReplacementSystem.replacement",
+      "presentation": {
+        "plainExplanation": "Interprets candidate r as an abstract piece with the same interface as p.",
+        "mathematicalDefinition": "\\operatorname{replacement}(p,r)\\in\\mathcal{A}(\\partial p)",
+        "label": "Replacement interpretation"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {pieces : CT2.PieceSystem P} →\n    {interfaces : CT2.InterfaceSystem pieces} →\n      {contexts : CT2.ContextSystem interfaces} →\n        (self : CT2.ReplacementSystem contexts) →\n          {G : P.Ambient} →\n            (piece : pieces.Piece G) → self.Candidate piece → contexts.AbstractPiece (interfaces.interface piece)",
+        "name": "StructuralExhaustion.CT2.ReplacementSystem.replacement",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.replacements.replacement"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.ReplacementSystem.decreases",
+      "presentation": {
+        "plainExplanation": "A proof that every enumerated replacement produces a strictly smaller ambient object.",
+        "mathematicalDefinition": "\\rho\\!\\left(\\operatorname{glue}(K_p,\\operatorname{replacement}(p,r))\\right)<\\rho(G)",
+        "label": "Replacement decrease proof"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} {pieces : CT2.PieceSystem P} {interfaces : CT2.InterfaceSystem pieces}\n  {contexts : CT2.ContextSystem interfaces} (self : CT2.ReplacementSystem contexts) {G : P.Ambient}\n  (piece : pieces.Piece G) (candidate : self.Candidate piece),\n  P.rank (contexts.glue (contexts.currentContext piece) (self.replacement piece candidate)) < P.rank G",
+        "name": "StructuralExhaustion.CT2.ReplacementSystem.decreases",
+        "kind": "theorem"
+      },
+      "conceptId": "CT2.replacements.decreases"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.DeletionClosureRule.preservesBaseline",
+      "presentation": {
+        "plainExplanation": "The deletion-only profile's proof that an eligible deletion preserves the baseline property.",
+        "mathematicalDefinition": "B(G)\\land\\operatorname{Eligible}(s,p)\\Rightarrow B(G\\setminus p)",
+        "label": "Deletion preserves baseline"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} {Target : P.Ambient → Prop} {capability : CT2.Capability P Target},\n  CT2.DeletionClosureRule capability →\n    ∀ {G : P.Ambient} (state : P.BranchState G) (piece : capability.pieces.Piece G),\n      capability.pieces.Proper piece →\n        capability.pieces.Admissible state piece → P.Baseline G → P.Baseline (capability.reductions.delete piece).value",
+        "name": "StructuralExhaustion.CT2.DeletionClosureRule.preservesBaseline",
+        "kind": "theorem"
+      },
+      "conceptId": "CT2.deletionClosure.preservesBaseline"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.DeletionClosureRule.targetMonotone",
+      "presentation": {
+        "plainExplanation": "The deletion-only profile's proof that a target in the reduced object lifts to the original object.",
+        "mathematicalDefinition": "B(G)\\land\\operatorname{Eligible}(s,p)\\land T(G\\setminus p)\\Rightarrow T(G)",
+        "label": "Deletion target monotonicity"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} {Target : P.Ambient → Prop} {capability : CT2.Capability P Target},\n  CT2.DeletionClosureRule capability →\n    ∀ {G : P.Ambient} (state : P.BranchState G) (piece : capability.pieces.Piece G),\n      capability.pieces.Proper piece →\n        capability.pieces.Admissible state piece →\n          P.Baseline G → Target (capability.reductions.delete piece).value → Target G",
+        "name": "StructuralExhaustion.CT2.DeletionClosureRule.targetMonotone",
+        "kind": "theorem"
+      },
+      "conceptId": "CT2.deletionClosure.targetMonotone"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.LocalDeletionClosureRule.preservesBaseline",
+      "presentation": {
+        "plainExplanation": "The local-deletion profile's proof that an eligible deletion preserves the baseline property.",
+        "mathematicalDefinition": "B(G)\\land\\operatorname{Eligible}(s,p)\\Rightarrow B(G\\setminus p)",
+        "label": "Local deletion preserves baseline"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} {Target : P.Ambient → Prop} {capability : CT2.LocalDeletionCapability P},\n  CT2.LocalDeletionClosureRule capability →\n    ∀ {G : P.Ambient} (state : P.BranchState G) (piece : capability.pieces.Piece G),\n      capability.pieces.Proper piece →\n        capability.pieces.Admissible state piece → P.Baseline G → P.Baseline (capability.reductions.delete piece).value",
+        "name": "StructuralExhaustion.CT2.LocalDeletionClosureRule.preservesBaseline",
+        "kind": "theorem"
+      },
+      "conceptId": "CT2.localDeletion.preservesBaseline"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.LocalDeletionClosureRule.targetMonotone",
+      "presentation": {
+        "plainExplanation": "The local-deletion profile's proof that a target in the reduced object lifts to the original object.",
+        "mathematicalDefinition": "B(G)\\land\\operatorname{Eligible}(s,p)\\land T(G\\setminus p)\\Rightarrow T(G)",
+        "label": "Local deletion target monotonicity"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} {Target : P.Ambient → Prop} {capability : CT2.LocalDeletionCapability P},\n  CT2.LocalDeletionClosureRule capability →\n    ∀ {G : P.Ambient} (state : P.BranchState G) (piece : capability.pieces.Piece G),\n      capability.pieces.Proper piece →\n        capability.pieces.Admissible state piece →\n          P.Baseline G → Target (capability.reductions.delete piece).value → Target G",
+        "name": "StructuralExhaustion.CT2.LocalDeletionClosureRule.targetMonotone",
+        "kind": "theorem"
+      },
+      "conceptId": "CT2.localDeletion.targetMonotone"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.CertifiedReductionInput.reduction",
+      "presentation": {
+        "plainExplanation": "The explicitly supplied local reduction together with its strict rank decrease.",
+        "mathematicalDefinition": "H\\prec G",
+        "label": "Certified smaller object"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {ctx : Core.MinimalCounterexampleContext P Target} → CT2.CertifiedReductionInput ctx → Core.SmallerObject P ctx.G",
+        "name": "StructuralExhaustion.CT2.CertifiedReductionInput.reduction",
+        "kind": "definition"
+      },
+      "conceptId": "CT2.certifiedReduction.reduction"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.CertifiedReductionInput.reducedBaseline",
+      "presentation": {
+        "plainExplanation": "A proof that the supplied smaller object retains the problem baseline.",
+        "mathematicalDefinition": "B(H)",
+        "label": "Reduced baseline"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} {Target : P.Ambient → Prop} {ctx : Core.MinimalCounterexampleContext P Target}\n  (self : CT2.CertifiedReductionInput ctx), P.Baseline self.reduction.value",
+        "name": "StructuralExhaustion.CT2.CertifiedReductionInput.reducedBaseline",
+        "kind": "theorem"
+      },
+      "conceptId": "CT2.certifiedReduction.reducedBaseline"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT2.CertifiedReductionInput.targetMonotone",
+      "presentation": {
+        "plainExplanation": "A proof that every target certificate in the supplied smaller object transports to the source object.",
+        "mathematicalDefinition": "T(H)\\Rightarrow T(G)",
+        "label": "Certified target transport"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} {Target : P.Ambient → Prop} {ctx : Core.MinimalCounterexampleContext P Target}\n  (self : CT2.CertifiedReductionInput ctx), Target self.reduction.value → Target ctx.G",
+        "name": "StructuralExhaustion.CT2.CertifiedReductionInput.targetMonotone",
+        "kind": "theorem"
+      },
+      "conceptId": "CT2.certifiedReduction.targetMonotone"
     }
   ]
 }

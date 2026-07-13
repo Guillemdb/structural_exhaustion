@@ -1,6 +1,6 @@
 {
   "artifactType": "structuralExhaustionExample",
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "sourceOfTruth": {
     "rootModule": "MantelExample",
     "kind": "compiledLeanEnvironment",
@@ -267,6 +267,7 @@
       "frameworkDeclarationId": "StructuralExhaustion.CT11.run"
     }
   ],
+  "manuscript": null,
   "declarations": [
     {
       "declarationId": "MantelExample.ConcreteC5.edgeCount_exact",

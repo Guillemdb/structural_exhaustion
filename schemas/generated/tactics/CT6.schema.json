@@ -390,6 +390,106 @@
         "namespace": "StructuralExhaustion.CT6",
         "loopDecrease": null,
         "capabilityProfiles": [],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "Spec.Index",
+            "presentation": {
+              "plainExplanation": "The type of local checks inspected in a fixed order.",
+              "mathematicalDefinition": "\\mathcal{I}",
+              "label": "Activity index"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT6.Spec P → Type uIndex",
+              "name": "StructuralExhaustion.CT6.Spec.Index",
+              "kind": "definition"
+            },
+            "conceptId": "CT6.spec.index"
+          },
+          {
+            "requirementRef": "Spec.FailureData",
+            "presentation": {
+              "plainExplanation": "The type of application-specific data extracted from a local failure.",
+              "mathematicalDefinition": "\\mathcal{F}",
+              "label": "Failure payload"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT6.Spec P → Type uData",
+              "name": "StructuralExhaustion.CT6.Spec.FailureData",
+              "kind": "definition"
+            },
+            "conceptId": "CT6.spec.failureData"
+          },
+          {
+            "requirementRef": "Spec.Failure",
+            "presentation": {
+              "plainExplanation": "The proposition that local activity fails at index i in branch x.",
+              "mathematicalDefinition": "\\operatorname{Failure}(x,i)",
+              "label": "Failure predicate"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT6.Spec P) → Core.BranchContext P → self.Index → Prop",
+              "name": "StructuralExhaustion.CT6.Spec.Failure",
+              "kind": "definition"
+            },
+            "conceptId": "CT6.spec.failure"
+          },
+          {
+            "requirementRef": "Spec.failureData",
+            "presentation": {
+              "plainExplanation": "Converts proof of a local failure into its typed application-specific payload.",
+              "mathematicalDefinition": "\\operatorname{failureData}_x(i):\\operatorname{Failure}(x,i)\\to\\mathcal{F}",
+              "label": "Failure-data extractor"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  (self : CT6.Spec P) → (ctx : Core.BranchContext P) → (index : self.Index) → self.Failure ctx index → self.FailureData",
+              "name": "StructuralExhaustion.CT6.Spec.failureData",
+              "kind": "definition"
+            },
+            "conceptId": "CT6.spec.failureDataFunction"
+          },
+          {
+            "requirementRef": "Spec.contribution",
+            "presentation": {
+              "plainExplanation": "Assigns the contribution recorded for each nonfailing activity index.",
+              "mathematicalDefinition": "c_x:\\mathcal{I}\\to\\mathbb{N}",
+              "label": "Index contribution"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT6.Spec P) → Core.BranchContext P → self.Index → ℕ",
+              "name": "StructuralExhaustion.CT6.Spec.contribution",
+              "kind": "definition"
+            },
+            "conceptId": "CT6.spec.contribution"
+          },
+          {
+            "requirementRef": "Capability.failureOrder",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration determining the first-failure search order.",
+              "mathematicalDefinition": "(i_1,\\ldots,i_m)",
+              "label": "Finite failure order"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT6.Spec P} → CT6.Capability S → FinEnum S.Index",
+              "name": "StructuralExhaustion.CT6.Capability.failureOrder",
+              "kind": "definition"
+            },
+            "conceptId": "CT6.capability.failureOrder"
+          },
+          {
+            "requirementRef": "Capability.failureDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding whether activity fails at an index.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Failure}(x,i))",
+              "label": "Failure decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    CT6.Capability S → (ctx : Core.BranchContext P) → (index : S.Index) → Decidable (S.Failure ctx index)",
+              "name": "StructuralExhaustion.CT6.Capability.failureDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT6.capability.failureDecidable"
+          }
+        ],
         "capability": {
           "tacticId": "CT6",
           "requiredInstances": [
@@ -401,31 +501,38 @@
           "requiredDefinitions": [
             {
               "ref": "Spec.Index",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT6.spec.index"
             },
             {
               "ref": "Spec.FailureData",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT6.spec.failureData"
             },
             {
               "ref": "Spec.Failure",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT6.spec.failure"
             },
             {
               "ref": "Spec.failureData",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT6.spec.failureDataFunction"
             },
             {
               "ref": "Spec.contribution",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT6.spec.contribution"
             },
             {
               "ref": "Capability.failureOrder",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT6.capability.failureOrder"
             },
             {
               "ref": "Capability.failureDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT6.capability.failureDecidable"
             }
           ],
           "derivedOperations": [
@@ -617,31 +724,38 @@
     "requiredDefinitions": [
       {
         "ref": "Spec.Index",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT6.spec.index"
       },
       {
         "ref": "Spec.FailureData",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT6.spec.failureData"
       },
       {
         "ref": "Spec.Failure",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT6.spec.failure"
       },
       {
         "ref": "Spec.failureData",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT6.spec.failureDataFunction"
       },
       {
         "ref": "Spec.contribution",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT6.spec.contribution"
       },
       {
         "ref": "Capability.failureOrder",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT6.capability.failureOrder"
       },
       {
         "ref": "Capability.failureDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT6.capability.failureDecidable"
       }
     ],
     "derivedOperations": [
@@ -704,5 +818,105 @@
     ],
     "capabilityId": "StructuralExhaustion.CT6.reference"
   },
-  "x-capabilityProfiles": []
+  "x-capabilityProfiles": [],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "Spec.Index",
+      "presentation": {
+        "plainExplanation": "The type of local checks inspected in a fixed order.",
+        "mathematicalDefinition": "\\mathcal{I}",
+        "label": "Activity index"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT6.Spec P → Type uIndex",
+        "name": "StructuralExhaustion.CT6.Spec.Index",
+        "kind": "definition"
+      },
+      "conceptId": "CT6.spec.index"
+    },
+    {
+      "requirementRef": "Spec.FailureData",
+      "presentation": {
+        "plainExplanation": "The type of application-specific data extracted from a local failure.",
+        "mathematicalDefinition": "\\mathcal{F}",
+        "label": "Failure payload"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT6.Spec P → Type uData",
+        "name": "StructuralExhaustion.CT6.Spec.FailureData",
+        "kind": "definition"
+      },
+      "conceptId": "CT6.spec.failureData"
+    },
+    {
+      "requirementRef": "Spec.Failure",
+      "presentation": {
+        "plainExplanation": "The proposition that local activity fails at index i in branch x.",
+        "mathematicalDefinition": "\\operatorname{Failure}(x,i)",
+        "label": "Failure predicate"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT6.Spec P) → Core.BranchContext P → self.Index → Prop",
+        "name": "StructuralExhaustion.CT6.Spec.Failure",
+        "kind": "definition"
+      },
+      "conceptId": "CT6.spec.failure"
+    },
+    {
+      "requirementRef": "Spec.failureData",
+      "presentation": {
+        "plainExplanation": "Converts proof of a local failure into its typed application-specific payload.",
+        "mathematicalDefinition": "\\operatorname{failureData}_x(i):\\operatorname{Failure}(x,i)\\to\\mathcal{F}",
+        "label": "Failure-data extractor"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  (self : CT6.Spec P) → (ctx : Core.BranchContext P) → (index : self.Index) → self.Failure ctx index → self.FailureData",
+        "name": "StructuralExhaustion.CT6.Spec.failureData",
+        "kind": "definition"
+      },
+      "conceptId": "CT6.spec.failureDataFunction"
+    },
+    {
+      "requirementRef": "Spec.contribution",
+      "presentation": {
+        "plainExplanation": "Assigns the contribution recorded for each nonfailing activity index.",
+        "mathematicalDefinition": "c_x:\\mathcal{I}\\to\\mathbb{N}",
+        "label": "Index contribution"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT6.Spec P) → Core.BranchContext P → self.Index → ℕ",
+        "name": "StructuralExhaustion.CT6.Spec.contribution",
+        "kind": "definition"
+      },
+      "conceptId": "CT6.spec.contribution"
+    },
+    {
+      "requirementRef": "Capability.failureOrder",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration determining the first-failure search order.",
+        "mathematicalDefinition": "(i_1,\\ldots,i_m)",
+        "label": "Finite failure order"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT6.Spec P} → CT6.Capability S → FinEnum S.Index",
+        "name": "StructuralExhaustion.CT6.Capability.failureOrder",
+        "kind": "definition"
+      },
+      "conceptId": "CT6.capability.failureOrder"
+    },
+    {
+      "requirementRef": "Capability.failureDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding whether activity fails at an index.",
+        "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Failure}(x,i))",
+        "label": "Failure decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    CT6.Capability S → (ctx : Core.BranchContext P) → (index : S.Index) → Decidable (S.Failure ctx index)",
+        "name": "StructuralExhaustion.CT6.Capability.failureDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT6.capability.failureDecidable"
+    }
+  ]
 }

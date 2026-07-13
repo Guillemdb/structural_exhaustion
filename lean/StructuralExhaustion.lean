@@ -2,10 +2,12 @@ import StructuralExhaustion.Core.AutomationFirst
 import StructuralExhaustion.Core.EnumerationCombinators
 import StructuralExhaustion.Core.EnumerationArithmetic
 import StructuralExhaustion.Core.FiniteSaturation
+import StructuralExhaustion.Core.FiniteDisjointPacking
 import StructuralExhaustion.Core.ListPosition
 import StructuralExhaustion.Core.Parity
 import StructuralExhaustion.CT4.Cardinality
 import StructuralExhaustion.CT12.ListPeeling
+import StructuralExhaustion.CT12.DisjointPacking
 import StructuralExhaustion.Graph
 import StructuralExhaustion.CT1.Automation
 import StructuralExhaustion.CT1.TargetEncoding
@@ -13,6 +15,7 @@ import StructuralExhaustion.CT2.Automation
 import StructuralExhaustion.CT2.LocalDeletion
 import StructuralExhaustion.CT3.Automation
 import StructuralExhaustion.CT3.TargetCompression
+import StructuralExhaustion.CT3.CertifiedCompression
 import StructuralExhaustion.CT4.Automation
 import StructuralExhaustion.CT5.Automation
 import StructuralExhaustion.CT6.Automation
@@ -20,6 +23,7 @@ import StructuralExhaustion.CT7.Automation
 import StructuralExhaustion.CT8.Automation
 import StructuralExhaustion.CT9.Automation
 import StructuralExhaustion.CT10.Automation
+import StructuralExhaustion.CT10.ExhaustiveClassification
 import StructuralExhaustion.CT11.Automation
 import StructuralExhaustion.CT11.NegativeBudget
 import StructuralExhaustion.CT12.Automation
@@ -37,9 +41,11 @@ import StructuralExhaustion.Core.AutomationFirstExamples
 import StructuralExhaustion.Examples.EnumerationCombinators
 import StructuralExhaustion.Examples.FiniteSaturation
 import StructuralExhaustion.Examples.CT1AutomationFirst
+import StructuralExhaustion.Examples.CT1InducedPath
 import StructuralExhaustion.Examples.AutomationFirstCoreAndCT1Tests
 import StructuralExhaustion.Examples.CT2AutomationFirst
 import StructuralExhaustion.Examples.CT2DeletionClosure
+import StructuralExhaustion.Examples.CT2CertifiedReduction
 import StructuralExhaustion.Examples.CT1ToCT2AutomationFirst
 import StructuralExhaustion.Examples.CT2ToCT3AutomationFirst
 import StructuralExhaustion.Examples.CT2ToCT10AutomationFirst
@@ -54,6 +60,7 @@ import StructuralExhaustion.Examples.CT9AutomationFirst
 import StructuralExhaustion.Examples.CT10AutomationFirst
 import StructuralExhaustion.Examples.CT11AutomationFirst
 import StructuralExhaustion.Examples.CT12AutomationFirst
+import StructuralExhaustion.Examples.CT12DisjointPacking
 import StructuralExhaustion.Examples.CT13AutomationFirst
 import StructuralExhaustion.Examples.CT14AutomationFirst
 import StructuralExhaustion.Examples.CT15AutomationFirst

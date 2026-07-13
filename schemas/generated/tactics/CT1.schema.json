@@ -537,43 +537,53 @@
             "requiredDefinitions": [
               {
                 "ref": "StructuralExhaustion.CT1.TargetEncoding.Code",
-                "provision": "user_definition"
+                "provision": "user_definition",
+                "conceptId": "CT1.targetEncoding.code"
               },
               {
                 "ref": "StructuralExhaustion.CT1.TargetEncoding.codes",
-                "provision": "user_finite_enumeration"
+                "provision": "user_finite_enumeration",
+                "conceptId": "CT1.targetEncoding.codes"
               },
               {
                 "ref": "StructuralExhaustion.CT1.TargetEncoding.Accepts",
-                "provision": "user_definition"
+                "provision": "user_definition",
+                "conceptId": "CT1.targetEncoding.accepts"
               },
               {
                 "ref": "StructuralExhaustion.CT1.TargetEncoding.acceptsDecidable",
-                "provision": "instance_bridge"
+                "provision": "instance_bridge",
+                "conceptId": "CT1.targetEncoding.acceptsDecidable"
               },
               {
                 "ref": "StructuralExhaustion.CT1.TargetEncoding.inputSize",
-                "provision": "user_operator"
+                "provision": "user_operator",
+                "conceptId": "CT1.targetEncoding.inputSize"
               },
               {
                 "ref": "StructuralExhaustion.CT1.TargetEncoding.workCoefficient",
-                "provision": "user_definition"
+                "provision": "user_definition",
+                "conceptId": "CT1.targetEncoding.workCoefficient"
               },
               {
                 "ref": "StructuralExhaustion.CT1.TargetEncoding.workDegree",
-                "provision": "user_definition"
+                "provision": "user_definition",
+                "conceptId": "CT1.targetEncoding.workDegree"
               },
               {
                 "ref": "StructuralExhaustion.CT1.TargetEncoding.workBound",
-                "provision": "user_definition"
+                "provision": "user_definition",
+                "conceptId": "CT1.targetEncoding.workBound"
               },
               {
                 "ref": "StructuralExhaustion.CT1.TargetEncoding.encode",
-                "provision": "user_operator"
+                "provision": "user_operator",
+                "conceptId": "CT1.targetEncoding.encode"
               },
               {
                 "ref": "StructuralExhaustion.CT1.TargetEncoding.decode",
-                "provision": "user_operator"
+                "provision": "user_operator",
+                "conceptId": "CT1.targetEncoding.decode"
               }
             ],
             "derivedOperations": [
@@ -595,6 +605,405 @@
               }
             ],
             "capabilityId": "StructuralExhaustion.CT1.profile.targetEncoding"
+          },
+          {
+            "tacticId": "CT1",
+            "requiredInstances": [],
+            "requiredDefinitions": [
+              {
+                "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.Code",
+                "provision": "user_definition",
+                "conceptId": "CT1.targetCertificate.code"
+              },
+              {
+                "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.Accepts",
+                "provision": "user_definition",
+                "conceptId": "CT1.targetCertificate.accepts"
+              },
+              {
+                "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.encode",
+                "provision": "user_operator",
+                "conceptId": "CT1.targetCertificate.encode"
+              },
+              {
+                "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.decode",
+                "provision": "user_operator",
+                "conceptId": "CT1.targetCertificate.decode"
+              }
+            ],
+            "derivedOperations": [
+              {
+                "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.spec",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.bridge",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.run",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.runAvoiding",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT1.executionOfRealization",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT1.executionOfNoRealization",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT1.certifiedC1Budget",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT1.certifiedAvoidingBudget",
+                "provision": "framework_constant"
+              }
+            ],
+            "capabilityId": "StructuralExhaustion.CT1.profile.targetCertificate"
+          }
+        ],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "StructuralExhaustion.CT1.Spec.TestIndex",
+            "presentation": {
+              "plainExplanation": "The finite family of target tests that CT1 must consider.",
+              "mathematicalDefinition": "\\mathcal{I}",
+              "label": "Test index"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT1.Spec P → Type uI",
+              "name": "StructuralExhaustion.CT1.Spec.TestIndex",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.spec.testIndex"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.Spec.Witness",
+            "presentation": {
+              "plainExplanation": "The type of certificates that may realize test i in the ambient object G.",
+              "mathematicalDefinition": "\\mathcal{W}(G,i)",
+              "label": "Realization witness"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT1.Spec P) → P.Ambient → self.TestIndex → Type uW",
+              "name": "StructuralExhaustion.CT1.Spec.Witness",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.spec.witness"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.Spec.Realizes",
+            "presentation": {
+              "plainExplanation": "The proposition saying that witness w realizes test i in G.",
+              "mathematicalDefinition": "\\operatorname{Realizes}(G,i,w)",
+              "label": "Realization predicate"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT1.Spec P) → (G : P.Ambient) → (index : self.TestIndex) → self.Witness G index → Prop",
+              "name": "StructuralExhaustion.CT1.Spec.Realizes",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.spec.realizes"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.Capability.tests",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of all test indices.",
+              "mathematicalDefinition": "\\operatorname{tests}=\\{i_1,\\ldots,i_m\\}=\\mathcal{I}",
+              "label": "Finite test enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT1.Spec P} → CT1.Capability S → FinEnum S.TestIndex",
+              "name": "StructuralExhaustion.CT1.Capability.tests",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.capability.tests"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.Capability.witnesses",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of the witnesses for each object and test.",
+              "mathematicalDefinition": "\\operatorname{witnesses}(G,i)=\\mathcal{W}(G,i)",
+              "label": "Finite witness enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} → CT1.Capability S → (G : P.Ambient) → (index : S.TestIndex) → FinEnum (S.Witness G index)",
+              "name": "StructuralExhaustion.CT1.Capability.witnesses",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.capability.witnesses"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.Capability.realizesDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding whether a proposed witness realizes a test.",
+              "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Realizes}(G,i,w)\\right)",
+              "label": "Realization decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    CT1.Capability S →\n      (G : P.Ambient) → (index : S.TestIndex) → (witness : S.Witness G index) → Decidable (S.Realizes G index witness)",
+              "name": "StructuralExhaustion.CT1.Capability.realizesDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.capability.realizesDecidable"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.Capability.inputSize",
+            "presentation": {
+              "plainExplanation": "The application-specific size measure used in CT1's complexity certificate.",
+              "mathematicalDefinition": "n(G)\\in\\mathbb{N}",
+              "label": "Input size"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT1.Spec P} → CT1.Capability S → P.Ambient → ℕ",
+              "name": "StructuralExhaustion.CT1.Capability.inputSize",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.capability.inputSize"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.Capability.workCoefficient",
+            "presentation": {
+              "plainExplanation": "The coefficient in the certified polynomial bound on exhaustive checks.",
+              "mathematicalDefinition": "c\\in\\mathbb{N}",
+              "label": "Work coefficient"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT1.Spec P} → CT1.Capability S → ℕ",
+              "name": "StructuralExhaustion.CT1.Capability.workCoefficient",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.capability.workCoefficient"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.Capability.workDegree",
+            "presentation": {
+              "plainExplanation": "The degree in the certified polynomial bound on exhaustive checks.",
+              "mathematicalDefinition": "d\\in\\mathbb{N}",
+              "label": "Work degree"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT1.Spec P} → CT1.Capability S → ℕ",
+              "name": "StructuralExhaustion.CT1.Capability.workDegree",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.capability.workDegree"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.Capability.workBound",
+            "presentation": {
+              "plainExplanation": "A proof that the complete CT1 search schedule satisfies the declared polynomial bound.",
+              "mathematicalDefinition": "\\operatorname{checks}(G)\\le c\\,(n(G)+1)^d",
+              "label": "Polynomial work bound"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} {S : CT1.Spec P} (self : CT1.Capability S) (G : P.Ambient),\n  CT1.searchCheckBound S self.tests self.witnesses G ≤ self.workCoefficient * (self.inputSize G + 1) ^ self.workDegree",
+              "name": "StructuralExhaustion.CT1.Capability.workBound",
+              "kind": "theorem"
+            },
+            "conceptId": "CT1.capability.workBound"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.Code",
+            "presentation": {
+              "plainExplanation": "The profile's finite code type for witnesses of the public target on G.",
+              "mathematicalDefinition": "\\mathcal{C}(G)",
+              "label": "Target code"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {PublicTarget : P.Ambient → Prop} → CT1.TargetEncoding PublicTarget → P.Ambient → Type uCode",
+              "name": "StructuralExhaustion.CT1.TargetEncoding.Code",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.targetEncoding.code"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.codes",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of the target codes for G.",
+              "mathematicalDefinition": "\\operatorname{codes}(G)=\\mathcal{C}(G)",
+              "label": "Finite code enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {PublicTarget : P.Ambient → Prop} → (self : CT1.TargetEncoding PublicTarget) → (G : P.Ambient) → FinEnum (self.Code G)",
+              "name": "StructuralExhaustion.CT1.TargetEncoding.codes",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.targetEncoding.codes"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.Accepts",
+            "presentation": {
+              "plainExplanation": "The proposition saying that code c is a valid target certificate for G.",
+              "mathematicalDefinition": "\\operatorname{Accepts}(G,c)",
+              "label": "Code acceptance"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {PublicTarget : P.Ambient → Prop} → (self : CT1.TargetEncoding PublicTarget) → (G : P.Ambient) → self.Code G → Prop",
+              "name": "StructuralExhaustion.CT1.TargetEncoding.Accepts",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.targetEncoding.accepts"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.acceptsDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding whether a target code is accepted.",
+              "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Accepts}(G,c)\\right)",
+              "label": "Acceptance decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {PublicTarget : P.Ambient → Prop} →\n    (self : CT1.TargetEncoding PublicTarget) → (G : P.Ambient) → (code : self.Code G) → Decidable (self.Accepts G code)",
+              "name": "StructuralExhaustion.CT1.TargetEncoding.acceptsDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.targetEncoding.acceptsDecidable"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.inputSize",
+            "presentation": {
+              "plainExplanation": "The public-target profile's size measure for G.",
+              "mathematicalDefinition": "n(G)\\in\\mathbb{N}",
+              "label": "Encoded input size"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {PublicTarget : P.Ambient → Prop} → CT1.TargetEncoding PublicTarget → P.Ambient → ℕ",
+              "name": "StructuralExhaustion.CT1.TargetEncoding.inputSize",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.targetEncoding.inputSize"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.workCoefficient",
+            "presentation": {
+              "plainExplanation": "The coefficient bounding the target-code enumeration.",
+              "mathematicalDefinition": "c\\in\\mathbb{N}",
+              "label": "Encoded work coefficient"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {PublicTarget : P.Ambient → Prop} → CT1.TargetEncoding PublicTarget → ℕ",
+              "name": "StructuralExhaustion.CT1.TargetEncoding.workCoefficient",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.targetEncoding.workCoefficient"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.workDegree",
+            "presentation": {
+              "plainExplanation": "The polynomial degree bounding the target-code enumeration.",
+              "mathematicalDefinition": "d\\in\\mathbb{N}",
+              "label": "Encoded work degree"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {PublicTarget : P.Ambient → Prop} → CT1.TargetEncoding PublicTarget → ℕ",
+              "name": "StructuralExhaustion.CT1.TargetEncoding.workDegree",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.targetEncoding.workDegree"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.workBound",
+            "presentation": {
+              "plainExplanation": "A proof that enumerating all target codes meets the profile's polynomial bound.",
+              "mathematicalDefinition": "|\\operatorname{codes}(G)|\\le c\\,(n(G)+1)^d",
+              "label": "Encoded work bound"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} {PublicTarget : P.Ambient → Prop} (self : CT1.TargetEncoding PublicTarget) (G : P.Ambient),\n  (self.codes G).orderedValues.length ≤ self.workCoefficient * (self.inputSize G + 1) ^ self.workDegree",
+              "name": "StructuralExhaustion.CT1.TargetEncoding.workBound",
+              "kind": "theorem"
+            },
+            "conceptId": "CT1.targetEncoding.workBound"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.encode",
+            "presentation": {
+              "plainExplanation": "A proof that every public-target witness yields an accepted finite code.",
+              "mathematicalDefinition": "T(G)\\Rightarrow\\exists c\\in\\mathcal{C}(G),\\;\\operatorname{Accepts}(G,c)",
+              "label": "Target encoder"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} {PublicTarget : P.Ambient → Prop} (self : CT1.TargetEncoding PublicTarget) {G : P.Ambient},\n  PublicTarget G → ∃ code, self.Accepts G code",
+              "name": "StructuralExhaustion.CT1.TargetEncoding.encode",
+              "kind": "theorem"
+            },
+            "conceptId": "CT1.targetEncoding.encode"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.decode",
+            "presentation": {
+              "plainExplanation": "A proof that every accepted code establishes the public mathematical target.",
+              "mathematicalDefinition": "\\operatorname{Accepts}(G,c)\\Rightarrow T(G)",
+              "label": "Target decoder"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} {PublicTarget : P.Ambient → Prop} (self : CT1.TargetEncoding PublicTarget) {G : P.Ambient}\n  {code : self.Code G}, self.Accepts G code → PublicTarget G",
+              "name": "StructuralExhaustion.CT1.TargetEncoding.decode",
+              "kind": "theorem"
+            },
+            "conceptId": "CT1.targetEncoding.decode"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.TargetCertificateEncoding.Code",
+            "presentation": {
+              "plainExplanation": "The proof-carrying target code supplied directly to a local CT1 execution.",
+              "mathematicalDefinition": "\\mathcal{C}(G)",
+              "label": "Certificate code"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {PublicTarget : P.Ambient → Prop} → CT1.TargetCertificateEncoding PublicTarget → P.Ambient → Type uCode",
+              "name": "StructuralExhaustion.CT1.TargetCertificateEncoding.Code",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.targetCertificate.code"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.TargetCertificateEncoding.Accepts",
+            "presentation": {
+              "plainExplanation": "The proposition certifying that a supplied local code realizes the public target.",
+              "mathematicalDefinition": "\\operatorname{Accepts}(G,c)",
+              "label": "Certificate acceptance"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {PublicTarget : P.Ambient → Prop} →\n    (self : CT1.TargetCertificateEncoding PublicTarget) → (G : P.Ambient) → self.Code G → Prop",
+              "name": "StructuralExhaustion.CT1.TargetCertificateEncoding.Accepts",
+              "kind": "definition"
+            },
+            "conceptId": "CT1.targetCertificate.accepts"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.TargetCertificateEncoding.encode",
+            "presentation": {
+              "plainExplanation": "A proof that every public target has a corresponding local certificate code.",
+              "mathematicalDefinition": "T(G)\\Rightarrow\\exists c,\\operatorname{Accepts}(G,c)",
+              "label": "Certificate encoder"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} {PublicTarget : P.Ambient → Prop} (self : CT1.TargetCertificateEncoding PublicTarget)\n  {G : P.Ambient}, PublicTarget G → ∃ code, self.Accepts G code",
+              "name": "StructuralExhaustion.CT1.TargetCertificateEncoding.encode",
+              "kind": "theorem"
+            },
+            "conceptId": "CT1.targetCertificate.encode"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT1.TargetCertificateEncoding.decode",
+            "presentation": {
+              "plainExplanation": "A proof that each accepted local certificate establishes the public target.",
+              "mathematicalDefinition": "\\operatorname{Accepts}(G,c)\\Rightarrow T(G)",
+              "label": "Certificate decoder"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} {PublicTarget : P.Ambient → Prop} (self : CT1.TargetCertificateEncoding PublicTarget)\n  {G : P.Ambient} {code : self.Code G}, self.Accepts G code → PublicTarget G",
+              "name": "StructuralExhaustion.CT1.TargetCertificateEncoding.decode",
+              "kind": "theorem"
+            },
+            "conceptId": "CT1.targetCertificate.decode"
           }
         ],
         "capability": {
@@ -608,43 +1017,53 @@
           "requiredDefinitions": [
             {
               "ref": "StructuralExhaustion.CT1.Spec.TestIndex",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT1.spec.testIndex"
             },
             {
               "ref": "StructuralExhaustion.CT1.Spec.Witness",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT1.spec.witness"
             },
             {
               "ref": "StructuralExhaustion.CT1.Spec.Realizes",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT1.spec.realizes"
             },
             {
               "ref": "StructuralExhaustion.CT1.Capability.tests",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT1.capability.tests"
             },
             {
               "ref": "StructuralExhaustion.CT1.Capability.witnesses",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT1.capability.witnesses"
             },
             {
               "ref": "StructuralExhaustion.CT1.Capability.realizesDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT1.capability.realizesDecidable"
             },
             {
               "ref": "StructuralExhaustion.CT1.Capability.inputSize",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT1.capability.inputSize"
             },
             {
               "ref": "StructuralExhaustion.CT1.Capability.workCoefficient",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT1.capability.workCoefficient"
             },
             {
               "ref": "StructuralExhaustion.CT1.Capability.workDegree",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT1.capability.workDegree"
             },
             {
               "ref": "StructuralExhaustion.CT1.Capability.workBound",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT1.capability.workBound"
             }
           ],
           "derivedOperations": [
@@ -747,7 +1166,7 @@
           ],
           "capabilityId": "StructuralExhaustion.CT1.reference"
         },
-        "apiVersion": "CT1-v5",
+        "apiVersion": "CT1-v6",
         "apiDeclarations": [
           {
             "type": "Type",
@@ -862,7 +1281,7 @@
     "kind": "compiledLeanEnvironment",
     "catalog": "generated/lean-machines.json",
     "tacticId": "CT1",
-    "apiVersion": "CT1-v5",
+    "apiVersion": "CT1-v6",
     "namespace": "StructuralExhaustion.CT1"
   },
   "x-capability": {
@@ -876,43 +1295,53 @@
     "requiredDefinitions": [
       {
         "ref": "StructuralExhaustion.CT1.Spec.TestIndex",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT1.spec.testIndex"
       },
       {
         "ref": "StructuralExhaustion.CT1.Spec.Witness",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT1.spec.witness"
       },
       {
         "ref": "StructuralExhaustion.CT1.Spec.Realizes",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT1.spec.realizes"
       },
       {
         "ref": "StructuralExhaustion.CT1.Capability.tests",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT1.capability.tests"
       },
       {
         "ref": "StructuralExhaustion.CT1.Capability.witnesses",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT1.capability.witnesses"
       },
       {
         "ref": "StructuralExhaustion.CT1.Capability.realizesDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT1.capability.realizesDecidable"
       },
       {
         "ref": "StructuralExhaustion.CT1.Capability.inputSize",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT1.capability.inputSize"
       },
       {
         "ref": "StructuralExhaustion.CT1.Capability.workCoefficient",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT1.capability.workCoefficient"
       },
       {
         "ref": "StructuralExhaustion.CT1.Capability.workDegree",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT1.capability.workDegree"
       },
       {
         "ref": "StructuralExhaustion.CT1.Capability.workBound",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT1.capability.workBound"
       }
     ],
     "derivedOperations": [
@@ -1027,43 +1456,53 @@
       "requiredDefinitions": [
         {
           "ref": "StructuralExhaustion.CT1.TargetEncoding.Code",
-          "provision": "user_definition"
+          "provision": "user_definition",
+          "conceptId": "CT1.targetEncoding.code"
         },
         {
           "ref": "StructuralExhaustion.CT1.TargetEncoding.codes",
-          "provision": "user_finite_enumeration"
+          "provision": "user_finite_enumeration",
+          "conceptId": "CT1.targetEncoding.codes"
         },
         {
           "ref": "StructuralExhaustion.CT1.TargetEncoding.Accepts",
-          "provision": "user_definition"
+          "provision": "user_definition",
+          "conceptId": "CT1.targetEncoding.accepts"
         },
         {
           "ref": "StructuralExhaustion.CT1.TargetEncoding.acceptsDecidable",
-          "provision": "instance_bridge"
+          "provision": "instance_bridge",
+          "conceptId": "CT1.targetEncoding.acceptsDecidable"
         },
         {
           "ref": "StructuralExhaustion.CT1.TargetEncoding.inputSize",
-          "provision": "user_operator"
+          "provision": "user_operator",
+          "conceptId": "CT1.targetEncoding.inputSize"
         },
         {
           "ref": "StructuralExhaustion.CT1.TargetEncoding.workCoefficient",
-          "provision": "user_definition"
+          "provision": "user_definition",
+          "conceptId": "CT1.targetEncoding.workCoefficient"
         },
         {
           "ref": "StructuralExhaustion.CT1.TargetEncoding.workDegree",
-          "provision": "user_definition"
+          "provision": "user_definition",
+          "conceptId": "CT1.targetEncoding.workDegree"
         },
         {
           "ref": "StructuralExhaustion.CT1.TargetEncoding.workBound",
-          "provision": "user_definition"
+          "provision": "user_definition",
+          "conceptId": "CT1.targetEncoding.workBound"
         },
         {
           "ref": "StructuralExhaustion.CT1.TargetEncoding.encode",
-          "provision": "user_operator"
+          "provision": "user_operator",
+          "conceptId": "CT1.targetEncoding.encode"
         },
         {
           "ref": "StructuralExhaustion.CT1.TargetEncoding.decode",
-          "provision": "user_operator"
+          "provision": "user_operator",
+          "conceptId": "CT1.targetEncoding.decode"
         }
       ],
       "derivedOperations": [
@@ -1085,6 +1524,405 @@
         }
       ],
       "capabilityId": "StructuralExhaustion.CT1.profile.targetEncoding"
+    },
+    {
+      "tacticId": "CT1",
+      "requiredInstances": [],
+      "requiredDefinitions": [
+        {
+          "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.Code",
+          "provision": "user_definition",
+          "conceptId": "CT1.targetCertificate.code"
+        },
+        {
+          "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.Accepts",
+          "provision": "user_definition",
+          "conceptId": "CT1.targetCertificate.accepts"
+        },
+        {
+          "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.encode",
+          "provision": "user_operator",
+          "conceptId": "CT1.targetCertificate.encode"
+        },
+        {
+          "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.decode",
+          "provision": "user_operator",
+          "conceptId": "CT1.targetCertificate.decode"
+        }
+      ],
+      "derivedOperations": [
+        {
+          "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.spec",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.bridge",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.run",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT1.TargetCertificateEncoding.runAvoiding",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT1.executionOfRealization",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT1.executionOfNoRealization",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT1.certifiedC1Budget",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT1.certifiedAvoidingBudget",
+          "provision": "framework_constant"
+        }
+      ],
+      "capabilityId": "StructuralExhaustion.CT1.profile.targetCertificate"
+    }
+  ],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "StructuralExhaustion.CT1.Spec.TestIndex",
+      "presentation": {
+        "plainExplanation": "The finite family of target tests that CT1 must consider.",
+        "mathematicalDefinition": "\\mathcal{I}",
+        "label": "Test index"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT1.Spec P → Type uI",
+        "name": "StructuralExhaustion.CT1.Spec.TestIndex",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.spec.testIndex"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.Spec.Witness",
+      "presentation": {
+        "plainExplanation": "The type of certificates that may realize test i in the ambient object G.",
+        "mathematicalDefinition": "\\mathcal{W}(G,i)",
+        "label": "Realization witness"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT1.Spec P) → P.Ambient → self.TestIndex → Type uW",
+        "name": "StructuralExhaustion.CT1.Spec.Witness",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.spec.witness"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.Spec.Realizes",
+      "presentation": {
+        "plainExplanation": "The proposition saying that witness w realizes test i in G.",
+        "mathematicalDefinition": "\\operatorname{Realizes}(G,i,w)",
+        "label": "Realization predicate"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT1.Spec P) → (G : P.Ambient) → (index : self.TestIndex) → self.Witness G index → Prop",
+        "name": "StructuralExhaustion.CT1.Spec.Realizes",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.spec.realizes"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.Capability.tests",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of all test indices.",
+        "mathematicalDefinition": "\\operatorname{tests}=\\{i_1,\\ldots,i_m\\}=\\mathcal{I}",
+        "label": "Finite test enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT1.Spec P} → CT1.Capability S → FinEnum S.TestIndex",
+        "name": "StructuralExhaustion.CT1.Capability.tests",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.capability.tests"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.Capability.witnesses",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of the witnesses for each object and test.",
+        "mathematicalDefinition": "\\operatorname{witnesses}(G,i)=\\mathcal{W}(G,i)",
+        "label": "Finite witness enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} → CT1.Capability S → (G : P.Ambient) → (index : S.TestIndex) → FinEnum (S.Witness G index)",
+        "name": "StructuralExhaustion.CT1.Capability.witnesses",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.capability.witnesses"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.Capability.realizesDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding whether a proposed witness realizes a test.",
+        "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Realizes}(G,i,w)\\right)",
+        "label": "Realization decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    CT1.Capability S →\n      (G : P.Ambient) → (index : S.TestIndex) → (witness : S.Witness G index) → Decidable (S.Realizes G index witness)",
+        "name": "StructuralExhaustion.CT1.Capability.realizesDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.capability.realizesDecidable"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.Capability.inputSize",
+      "presentation": {
+        "plainExplanation": "The application-specific size measure used in CT1's complexity certificate.",
+        "mathematicalDefinition": "n(G)\\in\\mathbb{N}",
+        "label": "Input size"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT1.Spec P} → CT1.Capability S → P.Ambient → ℕ",
+        "name": "StructuralExhaustion.CT1.Capability.inputSize",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.capability.inputSize"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.Capability.workCoefficient",
+      "presentation": {
+        "plainExplanation": "The coefficient in the certified polynomial bound on exhaustive checks.",
+        "mathematicalDefinition": "c\\in\\mathbb{N}",
+        "label": "Work coefficient"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT1.Spec P} → CT1.Capability S → ℕ",
+        "name": "StructuralExhaustion.CT1.Capability.workCoefficient",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.capability.workCoefficient"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.Capability.workDegree",
+      "presentation": {
+        "plainExplanation": "The degree in the certified polynomial bound on exhaustive checks.",
+        "mathematicalDefinition": "d\\in\\mathbb{N}",
+        "label": "Work degree"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT1.Spec P} → CT1.Capability S → ℕ",
+        "name": "StructuralExhaustion.CT1.Capability.workDegree",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.capability.workDegree"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.Capability.workBound",
+      "presentation": {
+        "plainExplanation": "A proof that the complete CT1 search schedule satisfies the declared polynomial bound.",
+        "mathematicalDefinition": "\\operatorname{checks}(G)\\le c\\,(n(G)+1)^d",
+        "label": "Polynomial work bound"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} {S : CT1.Spec P} (self : CT1.Capability S) (G : P.Ambient),\n  CT1.searchCheckBound S self.tests self.witnesses G ≤ self.workCoefficient * (self.inputSize G + 1) ^ self.workDegree",
+        "name": "StructuralExhaustion.CT1.Capability.workBound",
+        "kind": "theorem"
+      },
+      "conceptId": "CT1.capability.workBound"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.Code",
+      "presentation": {
+        "plainExplanation": "The profile's finite code type for witnesses of the public target on G.",
+        "mathematicalDefinition": "\\mathcal{C}(G)",
+        "label": "Target code"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {PublicTarget : P.Ambient → Prop} → CT1.TargetEncoding PublicTarget → P.Ambient → Type uCode",
+        "name": "StructuralExhaustion.CT1.TargetEncoding.Code",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.targetEncoding.code"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.codes",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of the target codes for G.",
+        "mathematicalDefinition": "\\operatorname{codes}(G)=\\mathcal{C}(G)",
+        "label": "Finite code enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {PublicTarget : P.Ambient → Prop} → (self : CT1.TargetEncoding PublicTarget) → (G : P.Ambient) → FinEnum (self.Code G)",
+        "name": "StructuralExhaustion.CT1.TargetEncoding.codes",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.targetEncoding.codes"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.Accepts",
+      "presentation": {
+        "plainExplanation": "The proposition saying that code c is a valid target certificate for G.",
+        "mathematicalDefinition": "\\operatorname{Accepts}(G,c)",
+        "label": "Code acceptance"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {PublicTarget : P.Ambient → Prop} → (self : CT1.TargetEncoding PublicTarget) → (G : P.Ambient) → self.Code G → Prop",
+        "name": "StructuralExhaustion.CT1.TargetEncoding.Accepts",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.targetEncoding.accepts"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.acceptsDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding whether a target code is accepted.",
+        "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Accepts}(G,c)\\right)",
+        "label": "Acceptance decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {PublicTarget : P.Ambient → Prop} →\n    (self : CT1.TargetEncoding PublicTarget) → (G : P.Ambient) → (code : self.Code G) → Decidable (self.Accepts G code)",
+        "name": "StructuralExhaustion.CT1.TargetEncoding.acceptsDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.targetEncoding.acceptsDecidable"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.inputSize",
+      "presentation": {
+        "plainExplanation": "The public-target profile's size measure for G.",
+        "mathematicalDefinition": "n(G)\\in\\mathbb{N}",
+        "label": "Encoded input size"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {PublicTarget : P.Ambient → Prop} → CT1.TargetEncoding PublicTarget → P.Ambient → ℕ",
+        "name": "StructuralExhaustion.CT1.TargetEncoding.inputSize",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.targetEncoding.inputSize"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.workCoefficient",
+      "presentation": {
+        "plainExplanation": "The coefficient bounding the target-code enumeration.",
+        "mathematicalDefinition": "c\\in\\mathbb{N}",
+        "label": "Encoded work coefficient"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {PublicTarget : P.Ambient → Prop} → CT1.TargetEncoding PublicTarget → ℕ",
+        "name": "StructuralExhaustion.CT1.TargetEncoding.workCoefficient",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.targetEncoding.workCoefficient"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.workDegree",
+      "presentation": {
+        "plainExplanation": "The polynomial degree bounding the target-code enumeration.",
+        "mathematicalDefinition": "d\\in\\mathbb{N}",
+        "label": "Encoded work degree"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {PublicTarget : P.Ambient → Prop} → CT1.TargetEncoding PublicTarget → ℕ",
+        "name": "StructuralExhaustion.CT1.TargetEncoding.workDegree",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.targetEncoding.workDegree"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.workBound",
+      "presentation": {
+        "plainExplanation": "A proof that enumerating all target codes meets the profile's polynomial bound.",
+        "mathematicalDefinition": "|\\operatorname{codes}(G)|\\le c\\,(n(G)+1)^d",
+        "label": "Encoded work bound"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} {PublicTarget : P.Ambient → Prop} (self : CT1.TargetEncoding PublicTarget) (G : P.Ambient),\n  (self.codes G).orderedValues.length ≤ self.workCoefficient * (self.inputSize G + 1) ^ self.workDegree",
+        "name": "StructuralExhaustion.CT1.TargetEncoding.workBound",
+        "kind": "theorem"
+      },
+      "conceptId": "CT1.targetEncoding.workBound"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.encode",
+      "presentation": {
+        "plainExplanation": "A proof that every public-target witness yields an accepted finite code.",
+        "mathematicalDefinition": "T(G)\\Rightarrow\\exists c\\in\\mathcal{C}(G),\\;\\operatorname{Accepts}(G,c)",
+        "label": "Target encoder"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} {PublicTarget : P.Ambient → Prop} (self : CT1.TargetEncoding PublicTarget) {G : P.Ambient},\n  PublicTarget G → ∃ code, self.Accepts G code",
+        "name": "StructuralExhaustion.CT1.TargetEncoding.encode",
+        "kind": "theorem"
+      },
+      "conceptId": "CT1.targetEncoding.encode"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.TargetEncoding.decode",
+      "presentation": {
+        "plainExplanation": "A proof that every accepted code establishes the public mathematical target.",
+        "mathematicalDefinition": "\\operatorname{Accepts}(G,c)\\Rightarrow T(G)",
+        "label": "Target decoder"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} {PublicTarget : P.Ambient → Prop} (self : CT1.TargetEncoding PublicTarget) {G : P.Ambient}\n  {code : self.Code G}, self.Accepts G code → PublicTarget G",
+        "name": "StructuralExhaustion.CT1.TargetEncoding.decode",
+        "kind": "theorem"
+      },
+      "conceptId": "CT1.targetEncoding.decode"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.TargetCertificateEncoding.Code",
+      "presentation": {
+        "plainExplanation": "The proof-carrying target code supplied directly to a local CT1 execution.",
+        "mathematicalDefinition": "\\mathcal{C}(G)",
+        "label": "Certificate code"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {PublicTarget : P.Ambient → Prop} → CT1.TargetCertificateEncoding PublicTarget → P.Ambient → Type uCode",
+        "name": "StructuralExhaustion.CT1.TargetCertificateEncoding.Code",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.targetCertificate.code"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.TargetCertificateEncoding.Accepts",
+      "presentation": {
+        "plainExplanation": "The proposition certifying that a supplied local code realizes the public target.",
+        "mathematicalDefinition": "\\operatorname{Accepts}(G,c)",
+        "label": "Certificate acceptance"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {PublicTarget : P.Ambient → Prop} →\n    (self : CT1.TargetCertificateEncoding PublicTarget) → (G : P.Ambient) → self.Code G → Prop",
+        "name": "StructuralExhaustion.CT1.TargetCertificateEncoding.Accepts",
+        "kind": "definition"
+      },
+      "conceptId": "CT1.targetCertificate.accepts"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.TargetCertificateEncoding.encode",
+      "presentation": {
+        "plainExplanation": "A proof that every public target has a corresponding local certificate code.",
+        "mathematicalDefinition": "T(G)\\Rightarrow\\exists c,\\operatorname{Accepts}(G,c)",
+        "label": "Certificate encoder"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} {PublicTarget : P.Ambient → Prop} (self : CT1.TargetCertificateEncoding PublicTarget)\n  {G : P.Ambient}, PublicTarget G → ∃ code, self.Accepts G code",
+        "name": "StructuralExhaustion.CT1.TargetCertificateEncoding.encode",
+        "kind": "theorem"
+      },
+      "conceptId": "CT1.targetCertificate.encode"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT1.TargetCertificateEncoding.decode",
+      "presentation": {
+        "plainExplanation": "A proof that each accepted local certificate establishes the public target.",
+        "mathematicalDefinition": "\\operatorname{Accepts}(G,c)\\Rightarrow T(G)",
+        "label": "Certificate decoder"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} {PublicTarget : P.Ambient → Prop} (self : CT1.TargetCertificateEncoding PublicTarget)\n  {G : P.Ambient} {code : self.Code G}, self.Accepts G code → PublicTarget G",
+        "name": "StructuralExhaustion.CT1.TargetCertificateEncoding.decode",
+        "kind": "theorem"
+      },
+      "conceptId": "CT1.targetCertificate.decode"
     }
   ]
 }

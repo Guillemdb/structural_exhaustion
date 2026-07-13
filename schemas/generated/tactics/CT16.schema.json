@@ -626,6 +626,120 @@
         "namespace": "StructuralExhaustion.CT16",
         "loopDecrease": null,
         "capabilityProfiles": [],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "Capability.Coordinate",
+            "presentation": {
+              "plainExplanation": "The finite type of coordinates that make up the relevant support.",
+              "mathematicalDefinition": "\\mathcal{C}",
+              "label": "Support coordinate"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT16.Capability P → Type uCoordinate",
+              "name": "StructuralExhaustion.CT16.Capability.Coordinate",
+              "kind": "definition"
+            },
+            "conceptId": "CT16.capability.coordinate"
+          },
+          {
+            "requirementRef": "Capability.ClosedCode",
+            "presentation": {
+              "plainExplanation": "The type of exact codes classifying a whole-support closed object.",
+              "mathematicalDefinition": "\\mathcal{Z}",
+              "label": "Closed-type code"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT16.Capability P → Type uCode",
+              "name": "StructuralExhaustion.CT16.Capability.ClosedCode",
+              "kind": "definition"
+            },
+            "conceptId": "CT16.capability.closedCode"
+          },
+          {
+            "requirementRef": "Capability.coordinates",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of every support coordinate.",
+              "mathematicalDefinition": "\\operatorname{coordinates}=\\mathcal{C}",
+              "label": "Finite support coordinates"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT16.Capability P) → FinEnum self.Coordinate",
+              "name": "StructuralExhaustion.CT16.Capability.coordinates",
+              "kind": "definition"
+            },
+            "conceptId": "CT16.capability.coordinates"
+          },
+          {
+            "requirementRef": "Capability.InSupport",
+            "presentation": {
+              "plainExplanation": "The proposition that coordinate c belongs to the support of G.",
+              "mathematicalDefinition": "c\\in\\operatorname{supp}(G)",
+              "label": "Support-membership predicate"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT16.Capability P) → P.Ambient → self.Coordinate → Prop",
+              "name": "StructuralExhaustion.CT16.Capability.InSupport",
+              "kind": "definition"
+            },
+            "conceptId": "CT16.capability.inSupport"
+          },
+          {
+            "requirementRef": "Capability.inSupportDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding whether a coordinate lies in the support.",
+              "mathematicalDefinition": "\\operatorname{decide}(c\\in\\operatorname{supp}(G))",
+              "label": "Support-membership decision"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  (self : CT16.Capability P) →\n    (G : P.Ambient) → (coordinate : self.Coordinate) → Decidable (self.InSupport G coordinate)",
+              "name": "StructuralExhaustion.CT16.Capability.inSupportDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT16.capability.inSupportDecidable"
+          },
+          {
+            "requirementRef": "Capability.closedCode",
+            "presentation": {
+              "plainExplanation": "Computes the exact closed-type code of an ambient object after whole support is established.",
+              "mathematicalDefinition": "z:\\mathcal{G}\\to\\mathcal{Z}",
+              "label": "Computed closed code"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT16.Capability P) → P.Ambient → self.ClosedCode",
+              "name": "StructuralExhaustion.CT16.Capability.closedCode",
+              "kind": "definition"
+            },
+            "conceptId": "CT16.capability.closedCodeFunction"
+          },
+          {
+            "requirementRef": "Capability.targetCode",
+            "presentation": {
+              "plainExplanation": "The distinguished closed-type code that certifies the target case.",
+              "mathematicalDefinition": "z_\\star\\in\\mathcal{Z}",
+              "label": "Target closed code"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT16.Capability P) → self.ClosedCode",
+              "name": "StructuralExhaustion.CT16.Capability.targetCode",
+              "kind": "definition"
+            },
+            "conceptId": "CT16.capability.targetCode"
+          },
+          {
+            "requirementRef": "Capability.codeDecidableEq",
+            "presentation": {
+              "plainExplanation": "Executable equality on closed codes, used for the final exact comparison.",
+              "mathematicalDefinition": "\\operatorname{decide}(z=z_\\star)",
+              "label": "Code equality decision"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT16.Capability P) → DecidableEq self.ClosedCode",
+              "name": "StructuralExhaustion.CT16.Capability.codeDecidableEq",
+              "kind": "definition"
+            },
+            "conceptId": "CT16.capability.codeDecidableEq"
+          }
+        ],
         "capability": {
           "tacticId": "CT16",
           "requiredInstances": [
@@ -641,35 +755,43 @@
           "requiredDefinitions": [
             {
               "ref": "Capability.Coordinate",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT16.capability.coordinate"
             },
             {
               "ref": "Capability.ClosedCode",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT16.capability.closedCode"
             },
             {
               "ref": "Capability.coordinates",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT16.capability.coordinates"
             },
             {
               "ref": "Capability.InSupport",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT16.capability.inSupport"
             },
             {
               "ref": "Capability.inSupportDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT16.capability.inSupportDecidable"
             },
             {
               "ref": "Capability.closedCode",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT16.capability.closedCodeFunction"
             },
             {
               "ref": "Capability.targetCode",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT16.capability.targetCode"
             },
             {
               "ref": "Capability.codeDecidableEq",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT16.capability.codeDecidableEq"
             }
           ],
           "derivedOperations": [
@@ -817,35 +939,43 @@
     "requiredDefinitions": [
       {
         "ref": "Capability.Coordinate",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT16.capability.coordinate"
       },
       {
         "ref": "Capability.ClosedCode",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT16.capability.closedCode"
       },
       {
         "ref": "Capability.coordinates",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT16.capability.coordinates"
       },
       {
         "ref": "Capability.InSupport",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT16.capability.inSupport"
       },
       {
         "ref": "Capability.inSupportDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT16.capability.inSupportDecidable"
       },
       {
         "ref": "Capability.closedCode",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT16.capability.closedCodeFunction"
       },
       {
         "ref": "Capability.targetCode",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT16.capability.targetCode"
       },
       {
         "ref": "Capability.codeDecidableEq",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT16.capability.codeDecidableEq"
       }
     ],
     "derivedOperations": [
@@ -860,5 +990,119 @@
     ],
     "capabilityId": "CT16.reference"
   },
-  "x-capabilityProfiles": []
+  "x-capabilityProfiles": [],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "Capability.Coordinate",
+      "presentation": {
+        "plainExplanation": "The finite type of coordinates that make up the relevant support.",
+        "mathematicalDefinition": "\\mathcal{C}",
+        "label": "Support coordinate"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT16.Capability P → Type uCoordinate",
+        "name": "StructuralExhaustion.CT16.Capability.Coordinate",
+        "kind": "definition"
+      },
+      "conceptId": "CT16.capability.coordinate"
+    },
+    {
+      "requirementRef": "Capability.ClosedCode",
+      "presentation": {
+        "plainExplanation": "The type of exact codes classifying a whole-support closed object.",
+        "mathematicalDefinition": "\\mathcal{Z}",
+        "label": "Closed-type code"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT16.Capability P → Type uCode",
+        "name": "StructuralExhaustion.CT16.Capability.ClosedCode",
+        "kind": "definition"
+      },
+      "conceptId": "CT16.capability.closedCode"
+    },
+    {
+      "requirementRef": "Capability.coordinates",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of every support coordinate.",
+        "mathematicalDefinition": "\\operatorname{coordinates}=\\mathcal{C}",
+        "label": "Finite support coordinates"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT16.Capability P) → FinEnum self.Coordinate",
+        "name": "StructuralExhaustion.CT16.Capability.coordinates",
+        "kind": "definition"
+      },
+      "conceptId": "CT16.capability.coordinates"
+    },
+    {
+      "requirementRef": "Capability.InSupport",
+      "presentation": {
+        "plainExplanation": "The proposition that coordinate c belongs to the support of G.",
+        "mathematicalDefinition": "c\\in\\operatorname{supp}(G)",
+        "label": "Support-membership predicate"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT16.Capability P) → P.Ambient → self.Coordinate → Prop",
+        "name": "StructuralExhaustion.CT16.Capability.InSupport",
+        "kind": "definition"
+      },
+      "conceptId": "CT16.capability.inSupport"
+    },
+    {
+      "requirementRef": "Capability.inSupportDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding whether a coordinate lies in the support.",
+        "mathematicalDefinition": "\\operatorname{decide}(c\\in\\operatorname{supp}(G))",
+        "label": "Support-membership decision"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  (self : CT16.Capability P) →\n    (G : P.Ambient) → (coordinate : self.Coordinate) → Decidable (self.InSupport G coordinate)",
+        "name": "StructuralExhaustion.CT16.Capability.inSupportDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT16.capability.inSupportDecidable"
+    },
+    {
+      "requirementRef": "Capability.closedCode",
+      "presentation": {
+        "plainExplanation": "Computes the exact closed-type code of an ambient object after whole support is established.",
+        "mathematicalDefinition": "z:\\mathcal{G}\\to\\mathcal{Z}",
+        "label": "Computed closed code"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT16.Capability P) → P.Ambient → self.ClosedCode",
+        "name": "StructuralExhaustion.CT16.Capability.closedCode",
+        "kind": "definition"
+      },
+      "conceptId": "CT16.capability.closedCodeFunction"
+    },
+    {
+      "requirementRef": "Capability.targetCode",
+      "presentation": {
+        "plainExplanation": "The distinguished closed-type code that certifies the target case.",
+        "mathematicalDefinition": "z_\\star\\in\\mathcal{Z}",
+        "label": "Target closed code"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT16.Capability P) → self.ClosedCode",
+        "name": "StructuralExhaustion.CT16.Capability.targetCode",
+        "kind": "definition"
+      },
+      "conceptId": "CT16.capability.targetCode"
+    },
+    {
+      "requirementRef": "Capability.codeDecidableEq",
+      "presentation": {
+        "plainExplanation": "Executable equality on closed codes, used for the final exact comparison.",
+        "mathematicalDefinition": "\\operatorname{decide}(z=z_\\star)",
+        "label": "Code equality decision"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT16.Capability P) → DecidableEq self.ClosedCode",
+        "name": "StructuralExhaustion.CT16.Capability.codeDecidableEq",
+        "kind": "definition"
+      },
+      "conceptId": "CT16.capability.codeDecidableEq"
+    }
+  ]
 }

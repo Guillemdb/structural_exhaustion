@@ -810,6 +810,162 @@
         "namespace": "StructuralExhaustion.CT5",
         "loopDecrease": null,
         "capabilityProfiles": [],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "Spec.Site",
+            "presentation": {
+              "plainExplanation": "The type of local positions at which CT5 searches for supporting witnesses.",
+              "mathematicalDefinition": "\\mathcal{S}",
+              "label": "Local site"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT5.Spec P → Type uSite",
+              "name": "StructuralExhaustion.CT5.Spec.Site",
+              "kind": "definition"
+            },
+            "conceptId": "CT5.spec.site"
+          },
+          {
+            "requirementRef": "Spec.Witness",
+            "presentation": {
+              "plainExplanation": "The dependent type of witnesses available at site s.",
+              "mathematicalDefinition": "\\mathcal{W}(s)",
+              "label": "Site witness"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT5.Spec P) → self.Site → Type uWitness",
+              "name": "StructuralExhaustion.CT5.Spec.Witness",
+              "kind": "definition"
+            },
+            "conceptId": "CT5.spec.witness"
+          },
+          {
+            "requirementRef": "Spec.Active",
+            "presentation": {
+              "plainExplanation": "The proposition that site s is active in branch context x.",
+              "mathematicalDefinition": "\\operatorname{Active}(x,s)",
+              "label": "Activity predicate"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT5.Spec P) → Core.BranchContext P → self.Site → Prop",
+              "name": "StructuralExhaustion.CT5.Spec.Active",
+              "kind": "definition"
+            },
+            "conceptId": "CT5.spec.active"
+          },
+          {
+            "requirementRef": "Spec.Supports",
+            "presentation": {
+              "plainExplanation": "The proposition that witness w supplies valid support at site s.",
+              "mathematicalDefinition": "\\operatorname{Supports}(x,s,w)",
+              "label": "Support predicate"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT5.Spec P) → Core.BranchContext P → (site : self.Site) → self.Witness site → Prop",
+              "name": "StructuralExhaustion.CT5.Spec.Supports",
+              "kind": "definition"
+            },
+            "conceptId": "CT5.spec.supports"
+          },
+          {
+            "requirementRef": "Spec.contribution",
+            "presentation": {
+              "plainExplanation": "Assigns the amount contributed by a supporting witness.",
+              "mathematicalDefinition": "c_x(s,w)\\in\\mathbb{N}",
+              "label": "Witness contribution"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT5.Spec P) → Core.BranchContext P → (site : self.Site) → self.Witness site → ℕ",
+              "name": "StructuralExhaustion.CT5.Spec.contribution",
+              "kind": "definition"
+            },
+            "conceptId": "CT5.spec.contribution"
+          },
+          {
+            "requirementRef": "Capability.sites",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of all local sites.",
+              "mathematicalDefinition": "\\operatorname{sites}=\\mathcal{S}",
+              "label": "Finite site enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT5.Spec P} → CT5.Capability S → FinEnum S.Site",
+              "name": "StructuralExhaustion.CT5.Capability.sites",
+              "kind": "definition"
+            },
+            "conceptId": "CT5.capability.sites"
+          },
+          {
+            "requirementRef": "Capability.witnesses",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of the witnesses for each site.",
+              "mathematicalDefinition": "\\operatorname{witnesses}(s)=\\mathcal{W}(s)",
+              "label": "Finite witness enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT5.Spec P} → CT5.Capability S → (site : S.Site) → FinEnum (S.Witness site)",
+              "name": "StructuralExhaustion.CT5.Capability.witnesses",
+              "kind": "definition"
+            },
+            "conceptId": "CT5.capability.witnesses"
+          },
+          {
+            "requirementRef": "Capability.activeDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding whether a site is active.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Active}(x,s))",
+              "label": "Activity decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {S : CT5.Spec P} → CT5.Capability S → (ctx : Core.BranchContext P) → (site : S.Site) → Decidable (S.Active ctx site)",
+              "name": "StructuralExhaustion.CT5.Capability.activeDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT5.capability.activeDecidable"
+          },
+          {
+            "requirementRef": "Capability.supportsDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding whether a witness supports a site.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Supports}(x,s,w))",
+              "label": "Support decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    CT5.Capability S →\n      (ctx : Core.BranchContext P) →\n        (site : S.Site) → (witness : S.Witness site) → Decidable (S.Supports ctx site witness)",
+              "name": "StructuralExhaustion.CT5.Capability.supportsDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT5.capability.supportsDecidable"
+          },
+          {
+            "requirementRef": "Capability.required",
+            "presentation": {
+              "plainExplanation": "The total contribution required in the current branch.",
+              "mathematicalDefinition": "R(x)\\in\\mathbb{N}",
+              "label": "Required contribution"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT5.Spec P} → CT5.Capability S → Core.BranchContext P → ℕ",
+              "name": "StructuralExhaustion.CT5.Capability.required",
+              "kind": "definition"
+            },
+            "conceptId": "CT5.capability.required"
+          },
+          {
+            "requirementRef": "Capability.capacity",
+            "presentation": {
+              "plainExplanation": "The total contribution capacity available in the current branch.",
+              "mathematicalDefinition": "K(x)\\in\\mathbb{N}",
+              "label": "Available capacity"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT5.Spec P} → CT5.Capability S → Core.BranchContext P → ℕ",
+              "name": "StructuralExhaustion.CT5.Capability.capacity",
+              "kind": "definition"
+            },
+            "conceptId": "CT5.capability.capacity"
+          }
+        ],
         "capability": {
           "tacticId": "CT5",
           "requiredInstances": [
@@ -825,47 +981,58 @@
           "requiredDefinitions": [
             {
               "ref": "Spec.Site",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT5.spec.site"
             },
             {
               "ref": "Spec.Witness",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT5.spec.witness"
             },
             {
               "ref": "Spec.Active",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT5.spec.active"
             },
             {
               "ref": "Spec.Supports",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT5.spec.supports"
             },
             {
               "ref": "Spec.contribution",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT5.spec.contribution"
             },
             {
               "ref": "Capability.sites",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT5.capability.sites"
             },
             {
               "ref": "Capability.witnesses",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT5.capability.witnesses"
             },
             {
               "ref": "Capability.activeDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT5.capability.activeDecidable"
             },
             {
               "ref": "Capability.supportsDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT5.capability.supportsDecidable"
             },
             {
               "ref": "Capability.required",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT5.capability.required"
             },
             {
               "ref": "Capability.capacity",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT5.capability.capacity"
             }
           ],
           "derivedOperations": [
@@ -1037,47 +1204,58 @@
     "requiredDefinitions": [
       {
         "ref": "Spec.Site",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT5.spec.site"
       },
       {
         "ref": "Spec.Witness",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT5.spec.witness"
       },
       {
         "ref": "Spec.Active",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT5.spec.active"
       },
       {
         "ref": "Spec.Supports",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT5.spec.supports"
       },
       {
         "ref": "Spec.contribution",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT5.spec.contribution"
       },
       {
         "ref": "Capability.sites",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT5.capability.sites"
       },
       {
         "ref": "Capability.witnesses",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT5.capability.witnesses"
       },
       {
         "ref": "Capability.activeDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT5.capability.activeDecidable"
       },
       {
         "ref": "Capability.supportsDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT5.capability.supportsDecidable"
       },
       {
         "ref": "Capability.required",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT5.capability.required"
       },
       {
         "ref": "Capability.capacity",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT5.capability.capacity"
       }
     ],
     "derivedOperations": [
@@ -1116,5 +1294,161 @@
     ],
     "capabilityId": "StructuralExhaustion.CT5.reference"
   },
-  "x-capabilityProfiles": []
+  "x-capabilityProfiles": [],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "Spec.Site",
+      "presentation": {
+        "plainExplanation": "The type of local positions at which CT5 searches for supporting witnesses.",
+        "mathematicalDefinition": "\\mathcal{S}",
+        "label": "Local site"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT5.Spec P → Type uSite",
+        "name": "StructuralExhaustion.CT5.Spec.Site",
+        "kind": "definition"
+      },
+      "conceptId": "CT5.spec.site"
+    },
+    {
+      "requirementRef": "Spec.Witness",
+      "presentation": {
+        "plainExplanation": "The dependent type of witnesses available at site s.",
+        "mathematicalDefinition": "\\mathcal{W}(s)",
+        "label": "Site witness"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT5.Spec P) → self.Site → Type uWitness",
+        "name": "StructuralExhaustion.CT5.Spec.Witness",
+        "kind": "definition"
+      },
+      "conceptId": "CT5.spec.witness"
+    },
+    {
+      "requirementRef": "Spec.Active",
+      "presentation": {
+        "plainExplanation": "The proposition that site s is active in branch context x.",
+        "mathematicalDefinition": "\\operatorname{Active}(x,s)",
+        "label": "Activity predicate"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT5.Spec P) → Core.BranchContext P → self.Site → Prop",
+        "name": "StructuralExhaustion.CT5.Spec.Active",
+        "kind": "definition"
+      },
+      "conceptId": "CT5.spec.active"
+    },
+    {
+      "requirementRef": "Spec.Supports",
+      "presentation": {
+        "plainExplanation": "The proposition that witness w supplies valid support at site s.",
+        "mathematicalDefinition": "\\operatorname{Supports}(x,s,w)",
+        "label": "Support predicate"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT5.Spec P) → Core.BranchContext P → (site : self.Site) → self.Witness site → Prop",
+        "name": "StructuralExhaustion.CT5.Spec.Supports",
+        "kind": "definition"
+      },
+      "conceptId": "CT5.spec.supports"
+    },
+    {
+      "requirementRef": "Spec.contribution",
+      "presentation": {
+        "plainExplanation": "Assigns the amount contributed by a supporting witness.",
+        "mathematicalDefinition": "c_x(s,w)\\in\\mathbb{N}",
+        "label": "Witness contribution"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT5.Spec P) → Core.BranchContext P → (site : self.Site) → self.Witness site → ℕ",
+        "name": "StructuralExhaustion.CT5.Spec.contribution",
+        "kind": "definition"
+      },
+      "conceptId": "CT5.spec.contribution"
+    },
+    {
+      "requirementRef": "Capability.sites",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of all local sites.",
+        "mathematicalDefinition": "\\operatorname{sites}=\\mathcal{S}",
+        "label": "Finite site enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT5.Spec P} → CT5.Capability S → FinEnum S.Site",
+        "name": "StructuralExhaustion.CT5.Capability.sites",
+        "kind": "definition"
+      },
+      "conceptId": "CT5.capability.sites"
+    },
+    {
+      "requirementRef": "Capability.witnesses",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of the witnesses for each site.",
+        "mathematicalDefinition": "\\operatorname{witnesses}(s)=\\mathcal{W}(s)",
+        "label": "Finite witness enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT5.Spec P} → CT5.Capability S → (site : S.Site) → FinEnum (S.Witness site)",
+        "name": "StructuralExhaustion.CT5.Capability.witnesses",
+        "kind": "definition"
+      },
+      "conceptId": "CT5.capability.witnesses"
+    },
+    {
+      "requirementRef": "Capability.activeDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding whether a site is active.",
+        "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Active}(x,s))",
+        "label": "Activity decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {S : CT5.Spec P} → CT5.Capability S → (ctx : Core.BranchContext P) → (site : S.Site) → Decidable (S.Active ctx site)",
+        "name": "StructuralExhaustion.CT5.Capability.activeDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT5.capability.activeDecidable"
+    },
+    {
+      "requirementRef": "Capability.supportsDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding whether a witness supports a site.",
+        "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Supports}(x,s,w))",
+        "label": "Support decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    CT5.Capability S →\n      (ctx : Core.BranchContext P) →\n        (site : S.Site) → (witness : S.Witness site) → Decidable (S.Supports ctx site witness)",
+        "name": "StructuralExhaustion.CT5.Capability.supportsDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT5.capability.supportsDecidable"
+    },
+    {
+      "requirementRef": "Capability.required",
+      "presentation": {
+        "plainExplanation": "The total contribution required in the current branch.",
+        "mathematicalDefinition": "R(x)\\in\\mathbb{N}",
+        "label": "Required contribution"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT5.Spec P} → CT5.Capability S → Core.BranchContext P → ℕ",
+        "name": "StructuralExhaustion.CT5.Capability.required",
+        "kind": "definition"
+      },
+      "conceptId": "CT5.capability.required"
+    },
+    {
+      "requirementRef": "Capability.capacity",
+      "presentation": {
+        "plainExplanation": "The total contribution capacity available in the current branch.",
+        "mathematicalDefinition": "K(x)\\in\\mathbb{N}",
+        "label": "Available capacity"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT5.Spec P} → CT5.Capability S → Core.BranchContext P → ℕ",
+        "name": "StructuralExhaustion.CT5.Capability.capacity",
+        "kind": "definition"
+      },
+      "conceptId": "CT5.capability.capacity"
+    }
+  ]
 }

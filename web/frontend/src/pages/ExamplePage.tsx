@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { fetchExample } from "../api";
@@ -7,6 +7,7 @@ import { ExampleInspector } from "../components/ExampleInspector";
 import { GraphCanvas } from "../components/GraphCanvas";
 import { LeanSourceViewer } from "../components/LeanSourceViewer";
 import { ErrorState, LoadingState } from "../components/LoadState";
+import { ProofRoadmap } from "../components/ProofRoadmap";
 import { exampleGraphElements } from "../graph-data";
 import type {
   ExampleLink,
@@ -48,27 +49,48 @@ function firstDeclarationForSelection(
 
 function ExampleWorkspace({ response }: { response: ExampleResponse }) {
   const { example } = response;
+  const pendingNavigation = useRef<{
+    stageId: string;
+    declarationId: string | null;
+    proofStepId: string;
+  } | null>(null);
   const [activeWorkflowId, setActiveWorkflowId] = useState(example.workflows[0]?.workflowId ?? "");
   const [selected, setSelected] = useState<SelectedGraphElement | null>(null);
   const [activeDeclarationId, setActiveDeclarationId] = useState<string | null>(null);
+  const [activeProofStepId, setActiveProofStepId] = useState<string | null>(null);
   const workflow = example.workflows.find(
     (candidate) => candidate.workflowId === activeWorkflowId,
   ) ?? example.workflows[0];
 
   useEffect(() => {
     if (!workflow) return;
-    const initial = workflow.stages[0]
+    const pending = pendingNavigation.current;
+    const targetStage = pending
+      ? workflow.stages.find((stage) => stage.stageId === pending.stageId)
+      : undefined;
+    const initialStage = targetStage ?? workflow.stages[0];
+    const initial = initialStage
       ? {
-          id: workflow.stages[0].stageId,
+          id: initialStage.stageId,
           group: "node" as const,
-          data: { id: workflow.stages[0].stageId },
+          data: { id: initialStage.stageId },
         }
       : null;
     setSelected(initial);
     setActiveDeclarationId(
-      firstDeclarationForSelection(workflow, initial, example.interfaceBindings),
+      targetStage && pending?.declarationId
+        ? pending.declarationId
+        : firstDeclarationForSelection(workflow, initial, example.interfaceBindings),
     );
-  }, [activeWorkflowId, example.interfaceBindings, workflow]);
+    setActiveProofStepId(
+      targetStage && pending
+        ? pending.proofStepId
+        : example.manuscript?.proofSteps.find(
+            (step) => step.stageId === initialStage?.stageId,
+          )?.stepId ?? null,
+    );
+    pendingNavigation.current = null;
+  }, [activeWorkflowId, example.interfaceBindings, example.manuscript, workflow]);
 
   const elements = useMemo(
     () => workflow ? exampleGraphElements(workflow) : [],
@@ -85,15 +107,90 @@ function ExampleWorkspace({ response }: { response: ExampleResponse }) {
   const selectedLink: ExampleLink | undefined = selected?.group === "edge"
     ? workflow.links.find((candidate) => candidate.linkId === selected.id)
     : undefined;
+  const activeProofStep = example.manuscript?.proofSteps.find(
+    (step) => step.stepId === activeProofStepId,
+  );
 
   const handleGraphSelect = (next: SelectedGraphElement | null) => {
     setSelected(next);
+    setActiveProofStepId(
+      next?.group === "node"
+        ? example.manuscript?.proofSteps.find((step) => step.stageId === next.id)?.stepId ?? null
+        : null,
+    );
     const declarationId = firstDeclarationForSelection(
       workflow,
       next,
       example.interfaceBindings,
     );
     if (declarationId) setActiveDeclarationId(declarationId);
+  };
+
+  const handleProofStepSelect = (stepId: string) => {
+    const step = example.manuscript?.proofSteps.find((candidate) => candidate.stepId === stepId);
+    if (!step) return;
+    setActiveProofStepId(stepId);
+    if (!step.stageId) {
+      setSelected(null);
+      setActiveDeclarationId(null);
+      return;
+    }
+    const owner = example.workflows.find((candidate) =>
+      candidate.stages.some((stage) => stage.stageId === step.stageId));
+    if (owner && owner.workflowId !== workflow.workflowId) {
+      const ownerStage = owner.stages.find((stage) => stage.stageId === step.stageId);
+      pendingNavigation.current = {
+        stageId: step.stageId,
+        declarationId: ownerStage
+          ? firstDeclarationForSelection(owner, {
+              id: ownerStage.stageId,
+              group: "node",
+              data: { id: ownerStage.stageId },
+            }, example.interfaceBindings)
+          : null,
+        proofStepId: step.stepId,
+      };
+      setActiveWorkflowId(owner.workflowId);
+      return;
+    }
+    const stage = workflow.stages.find((candidate) => candidate.stageId === step.stageId);
+    if (!stage) return;
+    const next = {
+      id: stage.stageId,
+      group: "node" as const,
+      data: { id: stage.stageId },
+    };
+    setSelected(next);
+    setActiveDeclarationId(
+      firstDeclarationForSelection(workflow, next, example.interfaceBindings),
+    );
+  };
+
+  const handleDeclarationSelect = (declarationId: string | null) => {
+    setActiveDeclarationId(declarationId);
+    if (!declarationId || !example.manuscript) return;
+    const step = example.manuscript.proofSteps.find((candidate) =>
+      candidate.declarationGroups.some((group) =>
+        group.declarationIds.includes(declarationId)));
+    if (!step) return;
+    setActiveProofStepId(step.stepId);
+    if (!step.stageId) return;
+    const owner = example.workflows.find((candidate) =>
+      candidate.stages.some((stage) => stage.stageId === step.stageId));
+    if (owner && owner.workflowId !== workflow.workflowId) {
+      pendingNavigation.current = {
+        stageId: step.stageId,
+        declarationId,
+        proofStepId: step.stepId,
+      };
+      setActiveWorkflowId(owner.workflowId);
+      return;
+    }
+    setSelected({
+      id: step.stageId,
+      group: "node",
+      data: { id: step.stageId },
+    });
   };
 
   return (
@@ -150,6 +247,13 @@ function ExampleWorkspace({ response }: { response: ExampleResponse }) {
             <span className="eyebrow">Purpose</span>
             <p>{workflow.purpose}</p>
           </div>
+          {example.manuscript ? (
+            <ProofRoadmap
+              manuscript={example.manuscript}
+              activeStepId={activeProofStepId}
+              onSelect={handleProofStepSelect}
+            />
+          ) : null}
         </aside>
 
         <section className="example-diagram-panel">
@@ -176,7 +280,9 @@ function ExampleWorkspace({ response }: { response: ExampleResponse }) {
             link={selectedLink}
             bindings={example.interfaceBindings}
             declarations={example.declarations}
-            onDeclarationSelect={setActiveDeclarationId}
+            proofStep={activeProofStep}
+            activeDeclarationId={activeDeclarationId}
+            onDeclarationSelect={handleDeclarationSelect}
           />
         </section>
 
@@ -184,7 +290,7 @@ function ExampleWorkspace({ response }: { response: ExampleResponse }) {
           sources={example.sources}
           declarations={example.declarations}
           activeDeclarationId={activeDeclarationId}
-          onDeclarationSelect={setActiveDeclarationId}
+          onDeclarationSelect={handleDeclarationSelect}
         />
       </main>
     </div>

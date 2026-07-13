@@ -959,7 +959,576 @@
         ],
         "namespace": "StructuralExhaustion.CT3",
         "loopDecrease": null,
-        "capabilityProfiles": [],
+        "capabilityProfiles": [
+          {
+            "tacticId": "CT3",
+            "requiredInstances": [
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.Context.noBoundaryEdge",
+                "provision": "typeclass_inferred"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.reconstruct",
+                "provision": "typeclass_inferred"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.connected",
+                "provision": "typeclass_inferred"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.proper",
+                "provision": "typeclass_inferred"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.boundaryDegree_eq",
+                "provision": "typeclass_inferred"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.obstructionIncluded",
+                "provision": "typeclass_inferred"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalTargetFree",
+                "provision": "typeclass_inferred"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalBaseline",
+                "provision": "typeclass_inferred"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.locallySmaller",
+                "provision": "typeclass_inferred"
+              }
+            ],
+            "requiredDefinitions": [
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.glue",
+                "provision": "user_operator",
+                "conceptId": "CT3.literal.glue"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.Context.noBoundaryEdge",
+                "provision": "instance_bridge",
+                "conceptId": "CT3.literal.contextOwnership"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.reconstruct",
+                "provision": "instance_bridge",
+                "conceptId": "CT3.literal.reconstruct"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.connected",
+                "provision": "instance_bridge",
+                "conceptId": "CT3.literal.connected"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.proper",
+                "provision": "instance_bridge",
+                "conceptId": "CT3.literal.proper"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.boundaryDegree_eq",
+                "provision": "instance_bridge",
+                "conceptId": "CT3.literal.boundaryDegreeEq"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.obstructionIncluded",
+                "provision": "instance_bridge",
+                "conceptId": "CT3.literal.obstructionIncluded"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalTargetFree",
+                "provision": "instance_bridge",
+                "conceptId": "CT3.literal.internalTargetFree"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalBaseline",
+                "provision": "instance_bridge",
+                "conceptId": "CT3.literal.internalBaseline"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.locallySmaller",
+                "provision": "instance_bridge",
+                "conceptId": "CT3.literal.locallySmaller"
+              }
+            ],
+            "derivedOperations": [
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.glue_vertexCount",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.glue_edgeCount",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.glue_lexRank_lt",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.glue_preserves_minDegree",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.minDegree_iff_of_iso",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.lexRank_eq_of_iso",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.hasCycleWithLength_iff_of_iso",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.certifiedInput",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT3.runCertifiedCompression",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT3.runCertifiedCompression_terminal",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT3.runCertifiedCompression_trace",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT3.runCertifiedCompression_total",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT3.certifiedCompressionBudget",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.impossible",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.run_polynomial",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.verifiedStage",
+                "provision": "framework_constant"
+              }
+            ],
+            "capabilityId": "StructuralExhaustion.CT3.profile.literalPackedReplacement"
+          }
+        ],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "Spec.Piece",
+            "presentation": {
+              "plainExplanation": "The type of local pieces whose external responses CT3 compares.",
+              "mathematicalDefinition": "\\mathcal{P}",
+              "label": "Boundaried piece"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT3.Spec P → Type uPiece",
+              "name": "StructuralExhaustion.CT3.Spec.Piece",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.spec.piece"
+          },
+          {
+            "requirementRef": "Spec.Context",
+            "presentation": {
+              "plainExplanation": "The type of outside contexts used as exact response coordinates.",
+              "mathematicalDefinition": "\\mathcal{K}",
+              "label": "Response context"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT3.Spec P → Type uContext",
+              "name": "StructuralExhaustion.CT3.Spec.Context",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.spec.context"
+          },
+          {
+            "requirementRef": "Spec.Candidate",
+            "presentation": {
+              "plainExplanation": "The type of proposed representatives that may replace a source piece.",
+              "mathematicalDefinition": "\\mathcal{C}",
+              "label": "Compression candidate"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT3.Spec P → Type uCandidate",
+              "name": "StructuralExhaustion.CT3.Spec.Candidate",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.spec.candidate"
+          },
+          {
+            "requirementRef": "Spec.Row",
+            "presentation": {
+              "plainExplanation": "The type of predeclared response rows used to classify a source piece.",
+              "mathematicalDefinition": "\\mathcal{L}",
+              "label": "Known response row"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT3.Spec P → Type uRow",
+              "name": "StructuralExhaustion.CT3.Spec.Row",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.spec.row"
+          },
+          {
+            "requirementRef": "Spec.response",
+            "presentation": {
+              "plainExplanation": "Computes the exact Boolean behavior of a piece in an outside context.",
+              "mathematicalDefinition": "R:\\mathcal{P}\\times\\mathcal{K}\\to\\{0,1\\}",
+              "label": "Exact response"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT3.Spec P) → self.Piece → self.Context → Bool",
+              "name": "StructuralExhaustion.CT3.Spec.response",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.spec.response"
+          },
+          {
+            "requirementRef": "Spec.candidatePiece",
+            "presentation": {
+              "plainExplanation": "Interprets a compression candidate as the piece it represents.",
+              "mathematicalDefinition": "\\operatorname{piece}:\\mathcal{C}\\to\\mathcal{P}",
+              "label": "Candidate interpretation"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT3.Spec P) → self.Candidate → self.Piece",
+              "name": "StructuralExhaustion.CT3.Spec.candidatePiece",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.spec.candidatePiece"
+          },
+          {
+            "requirementRef": "Spec.Admissible",
+            "presentation": {
+              "plainExplanation": "The proposition that candidate c is allowed to replace source piece p in G.",
+              "mathematicalDefinition": "\\operatorname{Admissible}(G,p,c)",
+              "label": "Candidate admissibility"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT3.Spec P) → P.Ambient → self.Piece → self.Candidate → Prop",
+              "name": "StructuralExhaustion.CT3.Spec.Admissible",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.spec.admissible"
+          },
+          {
+            "requirementRef": "Spec.Smaller",
+            "presentation": {
+              "plainExplanation": "The proposition that candidate c gives a genuine size reduction for p in G.",
+              "mathematicalDefinition": "\\operatorname{Smaller}(G,p,c)",
+              "label": "Strictly smaller candidate"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT3.Spec P) → P.Ambient → self.Piece → self.Candidate → Prop",
+              "name": "StructuralExhaustion.CT3.Spec.Smaller",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.spec.smaller"
+          },
+          {
+            "requirementRef": "Spec.rowPiece",
+            "presentation": {
+              "plainExplanation": "Selects the canonical piece represented by a known response row.",
+              "mathematicalDefinition": "\\operatorname{rowPiece}:\\mathcal{L}\\to\\mathcal{P}",
+              "label": "Row representative"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT3.Spec P) → self.Row → self.Piece",
+              "name": "StructuralExhaustion.CT3.Spec.rowPiece",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.spec.rowPiece"
+          },
+          {
+            "requirementRef": "Spec.rowResponse",
+            "presentation": {
+              "plainExplanation": "Gives the declared exact response vector associated with a known row.",
+              "mathematicalDefinition": "R_{\\ell}:\\mathcal{K}\\to\\{0,1\\}",
+              "label": "Row response"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT3.Spec P) → self.Row → self.Context → Bool",
+              "name": "StructuralExhaustion.CT3.Spec.rowResponse",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.spec.rowResponse"
+          },
+          {
+            "requirementRef": "Capability.contexts",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of every response coordinate.",
+              "mathematicalDefinition": "\\operatorname{contexts}=\\mathcal{K}",
+              "label": "Finite context enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT3.Spec P} → CT3.Capability S → FinEnum S.Context",
+              "name": "StructuralExhaustion.CT3.Capability.contexts",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.capability.contexts"
+          },
+          {
+            "requirementRef": "Capability.candidates",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of all compression candidates.",
+              "mathematicalDefinition": "\\operatorname{candidates}=\\mathcal{C}",
+              "label": "Finite candidate enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT3.Spec P} → CT3.Capability S → FinEnum S.Candidate",
+              "name": "StructuralExhaustion.CT3.Capability.candidates",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.capability.candidates"
+          },
+          {
+            "requirementRef": "Capability.rows",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of all known response rows.",
+              "mathematicalDefinition": "\\operatorname{rows}=\\mathcal{L}",
+              "label": "Finite row enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT3.Spec P} → CT3.Capability S → FinEnum S.Row",
+              "name": "StructuralExhaustion.CT3.Capability.rows",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.capability.rows"
+          },
+          {
+            "requirementRef": "Capability.admissibleDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding whether a candidate is admissible.",
+              "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Admissible}(G,p,c)\\right)",
+              "label": "Admissibility decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    CT3.Capability S →\n      (G : P.Ambient) → (source : S.Piece) → (candidate : S.Candidate) → Decidable (S.Admissible G source candidate)",
+              "name": "StructuralExhaustion.CT3.Capability.admissibleDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.capability.admissibleDecidable"
+          },
+          {
+            "requirementRef": "Capability.smallerDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding whether a candidate is strictly smaller.",
+              "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Smaller}(G,p,c)\\right)",
+              "label": "Decrease decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    CT3.Capability S →\n      (G : P.Ambient) → (source : S.Piece) → (candidate : S.Candidate) → Decidable (S.Smaller G source candidate)",
+              "name": "StructuralExhaustion.CT3.Capability.smallerDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.capability.smallerDecidable"
+          },
+          {
+            "requirementRef": "Capability.inputSize",
+            "presentation": {
+              "plainExplanation": "The application-specific size measure used in CT3's complexity certificate.",
+              "mathematicalDefinition": "n(G)\\in\\mathbb{N}",
+              "label": "Input size"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT3.Spec P} → CT3.Capability S → P.Ambient → ℕ",
+              "name": "StructuralExhaustion.CT3.Capability.inputSize",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.capability.inputSize"
+          },
+          {
+            "requirementRef": "Capability.workCoefficient",
+            "presentation": {
+              "plainExplanation": "The coefficient in the certified polynomial bound on CT3 checks.",
+              "mathematicalDefinition": "c\\in\\mathbb{N}",
+              "label": "Work coefficient"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT3.Spec P} → CT3.Capability S → ℕ",
+              "name": "StructuralExhaustion.CT3.Capability.workCoefficient",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.capability.workCoefficient"
+          },
+          {
+            "requirementRef": "Capability.workDegree",
+            "presentation": {
+              "plainExplanation": "The degree in the certified polynomial bound on CT3 checks.",
+              "mathematicalDefinition": "d\\in\\mathbb{N}",
+              "label": "Work degree"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT3.Spec P} → CT3.Capability S → ℕ",
+              "name": "StructuralExhaustion.CT3.Capability.workDegree",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.capability.workDegree"
+          },
+          {
+            "requirementRef": "Capability.workBound",
+            "presentation": {
+              "plainExplanation": "A proof that the full context, candidate, and row schedule satisfies the declared bound.",
+              "mathematicalDefinition": "\\operatorname{checks}\\le c\\,(n(G)+1)^d",
+              "label": "Polynomial work bound"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} {S : CT3.Spec P} (self : CT3.Capability S) (G : P.Ambient),\n  CT3.localCheckBound self.contexts self.candidates self.rows ≤\n    self.workCoefficient * (self.inputSize G + 1) ^ self.workDegree",
+              "name": "StructuralExhaustion.CT3.Capability.workBound",
+              "kind": "theorem"
+            },
+            "conceptId": "CT3.capability.workBound"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.glue",
+            "presentation": {
+              "plainExplanation": "The union of the mapped atom-side and outside-context edge sets.",
+              "mathematicalDefinition": "X\\oplus_TY",
+              "label": "Literal graph gluing"
+            },
+            "formalDeclaration": {
+              "type": "{T : Type u} →\n  FinEnum T → Graph.PackedBoundariedGluing.Piece T → Graph.PackedBoundariedGluing.Context T → Graph.PackedFiniteObject",
+              "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.glue",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.literal.glue"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.Context.noBoundaryEdge",
+            "presentation": {
+              "plainExplanation": "The normalized outside context owns no boundary--boundary edge; the atom side owns those edges.",
+              "mathematicalDefinition": "E(Y[T])=\\varnothing",
+              "label": "Boundary-edge ownership"
+            },
+            "formalDeclaration": {
+              "type": "∀ {T : Type u} (self : Graph.PackedBoundariedGluing.Context T) (left right : T),\n  ¬self.graph.Adj (Sum.inl left) (Sum.inl right)",
+              "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.Context.noBoundaryEdge",
+              "kind": "theorem"
+            },
+            "conceptId": "CT3.literal.contextOwnership"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.reconstruct",
+            "presentation": {
+              "plainExplanation": "A graph isomorphism identifying the literal gluing with the selected ambient graph.",
+              "mathematicalDefinition": "X\\oplus_TY\\cong G",
+              "label": "Graph reconstruction"
+            },
+            "formalDeclaration": {
+              "type": "{input : Graph.PackedMinimumDegreeCycle.StaticInput} →\n  {T : Type u} →\n    {boundaries : FinEnum T} →\n      {ctx : Core.MinimalCounterexampleContext input.problem input.Target} →\n        (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx) →\n          (Graph.PackedBoundariedGluing.glue boundaries self.source self.outside).object.graph ≃g ctx.G.object.graph",
+              "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.reconstruct",
+              "kind": "definition"
+            },
+            "conceptId": "CT3.literal.reconstruct"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.connected",
+            "presentation": {
+              "plainExplanation": "The literal atom-side graph is connected.",
+              "mathematicalDefinition": "\\operatorname{Connected}(X)",
+              "label": "Connected atom"
+            },
+            "formalDeclaration": {
+              "type": "∀ {input : Graph.PackedMinimumDegreeCycle.StaticInput} {T : Type u} {boundaries : FinEnum T}\n  {ctx : Core.MinimalCounterexampleContext input.problem input.Target}\n  (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx),\n  self.source.graph.Connected",
+              "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.connected",
+              "kind": "theorem"
+            },
+            "conceptId": "CT3.literal.connected"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.proper",
+            "presentation": {
+              "plainExplanation": "The reconstructed atom is a proper local support of the ambient graph.",
+              "mathematicalDefinition": "\\rho(X)<\\rho(G)",
+              "label": "Proper atom"
+            },
+            "formalDeclaration": {
+              "type": "∀ {input : Graph.PackedMinimumDegreeCycle.StaticInput} {T : Type u} {boundaries : FinEnum T}\n  {ctx : Core.MinimalCounterexampleContext input.problem input.Target}\n  (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx),\n  (Graph.PackedBoundariedGluing.Piece.pack boundaries self.source).lexRank < Graph.PackedFiniteObject.lexRank ctx.G",
+              "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.proper",
+              "kind": "theorem"
+            },
+            "conceptId": "CT3.literal.proper"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.boundaryDegree_eq",
+            "presentation": {
+              "plainExplanation": "The replacement and source lie in the same boundary-degree fibre.",
+              "mathematicalDefinition": "\\mathbf d_\\partial(X')=\\mathbf d_\\partial(X)",
+              "label": "Boundary-degree equality"
+            },
+            "formalDeclaration": {
+              "type": "∀ {input : Graph.PackedMinimumDegreeCycle.StaticInput} {T : Type u} {boundaries : FinEnum T}\n  {ctx : Core.MinimalCounterexampleContext input.problem input.Target}\n  {atom : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx}\n  (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression input boundaries atom) (boundary : T),\n  Graph.PackedBoundariedGluing.Piece.boundaryDegree boundaries self.piece boundary =\n    Graph.PackedBoundariedGluing.Piece.boundaryDegree boundaries atom.source boundary",
+              "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.boundaryDegree_eq",
+              "kind": "theorem"
+            },
+            "conceptId": "CT3.literal.boundaryDegreeEq"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.obstructionIncluded",
+            "presentation": {
+              "plainExplanation": "Every replacement target response in an outside context transports to the source; two-way equivalence is not assumed.",
+              "mathematicalDefinition": "\\profile_T(X')\\subseteq\\profile_T(X)",
+              "label": "Obstruction inclusion"
+            },
+            "formalDeclaration": {
+              "type": "∀ {input : Graph.PackedMinimumDegreeCycle.StaticInput} {T : Type u} {boundaries : FinEnum T}\n  {ctx : Core.MinimalCounterexampleContext input.problem input.Target}\n  {atom : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx}\n  (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression input boundaries atom)\n  (outside : Graph.PackedBoundariedGluing.Context T),\n  input.Target (Graph.PackedBoundariedGluing.glue boundaries self.piece outside) →\n    input.Target (Graph.PackedBoundariedGluing.glue boundaries atom.source outside)",
+              "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.obstructionIncluded",
+              "kind": "theorem"
+            },
+            "conceptId": "CT3.literal.obstructionIncluded"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalTargetFree",
+            "presentation": {
+              "plainExplanation": "The replacement piece alone contains no selected target cycle.",
+              "mathematicalDefinition": "\\neg\\operatorname{Target}(X')",
+              "label": "Internal target avoidance"
+            },
+            "formalDeclaration": {
+              "type": "∀ {input : Graph.PackedMinimumDegreeCycle.StaticInput} {T : Type u} {boundaries : FinEnum T}\n  {ctx : Core.MinimalCounterexampleContext input.problem input.Target}\n  {atom : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx}\n  (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression input boundaries atom),\n  ¬input.Target (Graph.PackedBoundariedGluing.Piece.pack boundaries self.piece)",
+              "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalTargetFree",
+              "kind": "theorem"
+            },
+            "conceptId": "CT3.literal.internalTargetFree"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalBaseline",
+            "presentation": {
+              "plainExplanation": "Every internal replacement vertex meets the minimum-degree threshold.",
+              "mathematicalDefinition": "\\delta_{\\mathrm{int}}(X')\\ge d",
+              "label": "Replacement internal degree"
+            },
+            "formalDeclaration": {
+              "type": "∀ {input : Graph.PackedMinimumDegreeCycle.StaticInput} {T : Type u} {boundaries : FinEnum T}\n  {ctx : Core.MinimalCounterexampleContext input.problem input.Target}\n  {atom : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx}\n  (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression input boundaries atom),\n  Graph.PackedBoundariedGluing.Piece.InternalBaseline boundaries input.minimumDegree self.piece",
+              "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalBaseline",
+              "kind": "theorem"
+            },
+            "conceptId": "CT3.literal.internalBaseline"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.locallySmaller",
+            "presentation": {
+              "plainExplanation": "Only the replacement piece is assumed smaller; whole-graph decrease is derived.",
+              "mathematicalDefinition": "(|V_{\\mathrm{int}}(X')|,|E(X')|)<_{\\rm lex}(|V_{\\mathrm{int}}(X)|,|E(X)|)",
+              "label": "Local lexicographic decrease"
+            },
+            "formalDeclaration": {
+              "type": "∀ {input : Graph.PackedMinimumDegreeCycle.StaticInput} {T : Type u} {boundaries : FinEnum T}\n  {ctx : Core.MinimalCounterexampleContext input.problem input.Target}\n  {atom : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx}\n  (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression input boundaries atom),\n  self.piece.LexSmaller atom.source",
+              "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.locallySmaller",
+              "kind": "theorem"
+            },
+            "conceptId": "CT3.literal.locallySmaller"
+          }
+        ],
         "capability": {
           "tacticId": "CT3",
           "requiredInstances": [
@@ -975,79 +1544,98 @@
           "requiredDefinitions": [
             {
               "ref": "Spec.Piece",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT3.spec.piece"
             },
             {
               "ref": "Spec.Context",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT3.spec.context"
             },
             {
               "ref": "Spec.Candidate",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT3.spec.candidate"
             },
             {
               "ref": "Spec.Row",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT3.spec.row"
             },
             {
               "ref": "Spec.response",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT3.spec.response"
             },
             {
               "ref": "Spec.candidatePiece",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT3.spec.candidatePiece"
             },
             {
               "ref": "Spec.Admissible",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT3.spec.admissible"
             },
             {
               "ref": "Spec.Smaller",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT3.spec.smaller"
             },
             {
               "ref": "Spec.rowPiece",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT3.spec.rowPiece"
             },
             {
               "ref": "Spec.rowResponse",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT3.spec.rowResponse"
             },
             {
               "ref": "Capability.contexts",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT3.capability.contexts"
             },
             {
               "ref": "Capability.candidates",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT3.capability.candidates"
             },
             {
               "ref": "Capability.rows",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT3.capability.rows"
             },
             {
               "ref": "Capability.admissibleDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT3.capability.admissibleDecidable"
             },
             {
               "ref": "Capability.smallerDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT3.capability.smallerDecidable"
             },
             {
               "ref": "Capability.inputSize",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT3.capability.inputSize"
             },
             {
               "ref": "Capability.workCoefficient",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT3.capability.workCoefficient"
             },
             {
               "ref": "Capability.workDegree",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT3.capability.workDegree"
             },
             {
               "ref": "Capability.workBound",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT3.capability.workBound"
             }
           ],
           "derivedOperations": [
@@ -1082,7 +1670,7 @@
           ],
           "capabilityId": "CT3.reference"
         },
-        "apiVersion": "CT3-v3",
+        "apiVersion": "CT3-v4",
         "apiDeclarations": [
           {
             "type": "Type",
@@ -1197,7 +1785,7 @@
     "kind": "compiledLeanEnvironment",
     "catalog": "generated/lean-machines.json",
     "tacticId": "CT3",
-    "apiVersion": "CT3-v3",
+    "apiVersion": "CT3-v4",
     "namespace": "StructuralExhaustion.CT3"
   },
   "x-capability": {
@@ -1215,79 +1803,98 @@
     "requiredDefinitions": [
       {
         "ref": "Spec.Piece",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT3.spec.piece"
       },
       {
         "ref": "Spec.Context",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT3.spec.context"
       },
       {
         "ref": "Spec.Candidate",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT3.spec.candidate"
       },
       {
         "ref": "Spec.Row",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT3.spec.row"
       },
       {
         "ref": "Spec.response",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT3.spec.response"
       },
       {
         "ref": "Spec.candidatePiece",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT3.spec.candidatePiece"
       },
       {
         "ref": "Spec.Admissible",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT3.spec.admissible"
       },
       {
         "ref": "Spec.Smaller",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT3.spec.smaller"
       },
       {
         "ref": "Spec.rowPiece",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT3.spec.rowPiece"
       },
       {
         "ref": "Spec.rowResponse",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT3.spec.rowResponse"
       },
       {
         "ref": "Capability.contexts",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT3.capability.contexts"
       },
       {
         "ref": "Capability.candidates",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT3.capability.candidates"
       },
       {
         "ref": "Capability.rows",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT3.capability.rows"
       },
       {
         "ref": "Capability.admissibleDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT3.capability.admissibleDecidable"
       },
       {
         "ref": "Capability.smallerDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT3.capability.smallerDecidable"
       },
       {
         "ref": "Capability.inputSize",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT3.capability.inputSize"
       },
       {
         "ref": "Capability.workCoefficient",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT3.capability.workCoefficient"
       },
       {
         "ref": "Capability.workDegree",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT3.capability.workDegree"
       },
       {
         "ref": "Capability.workBound",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT3.capability.workBound"
       }
     ],
     "derivedOperations": [
@@ -1322,5 +1929,574 @@
     ],
     "capabilityId": "CT3.reference"
   },
-  "x-capabilityProfiles": []
+  "x-capabilityProfiles": [
+    {
+      "tacticId": "CT3",
+      "requiredInstances": [
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.Context.noBoundaryEdge",
+          "provision": "typeclass_inferred"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.reconstruct",
+          "provision": "typeclass_inferred"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.connected",
+          "provision": "typeclass_inferred"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.proper",
+          "provision": "typeclass_inferred"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.boundaryDegree_eq",
+          "provision": "typeclass_inferred"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.obstructionIncluded",
+          "provision": "typeclass_inferred"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalTargetFree",
+          "provision": "typeclass_inferred"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalBaseline",
+          "provision": "typeclass_inferred"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.locallySmaller",
+          "provision": "typeclass_inferred"
+        }
+      ],
+      "requiredDefinitions": [
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.glue",
+          "provision": "user_operator",
+          "conceptId": "CT3.literal.glue"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.Context.noBoundaryEdge",
+          "provision": "instance_bridge",
+          "conceptId": "CT3.literal.contextOwnership"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.reconstruct",
+          "provision": "instance_bridge",
+          "conceptId": "CT3.literal.reconstruct"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.connected",
+          "provision": "instance_bridge",
+          "conceptId": "CT3.literal.connected"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.proper",
+          "provision": "instance_bridge",
+          "conceptId": "CT3.literal.proper"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.boundaryDegree_eq",
+          "provision": "instance_bridge",
+          "conceptId": "CT3.literal.boundaryDegreeEq"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.obstructionIncluded",
+          "provision": "instance_bridge",
+          "conceptId": "CT3.literal.obstructionIncluded"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalTargetFree",
+          "provision": "instance_bridge",
+          "conceptId": "CT3.literal.internalTargetFree"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalBaseline",
+          "provision": "instance_bridge",
+          "conceptId": "CT3.literal.internalBaseline"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.locallySmaller",
+          "provision": "instance_bridge",
+          "conceptId": "CT3.literal.locallySmaller"
+        }
+      ],
+      "derivedOperations": [
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.glue_vertexCount",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.glue_edgeCount",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.glue_lexRank_lt",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.glue_preserves_minDegree",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.minDegree_iff_of_iso",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.lexRank_eq_of_iso",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.hasCycleWithLength_iff_of_iso",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.certifiedInput",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT3.runCertifiedCompression",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT3.runCertifiedCompression_terminal",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT3.runCertifiedCompression_trace",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT3.runCertifiedCompression_total",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT3.certifiedCompressionBudget",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.impossible",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.run_polynomial",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.verifiedStage",
+          "provision": "framework_constant"
+        }
+      ],
+      "capabilityId": "StructuralExhaustion.CT3.profile.literalPackedReplacement"
+    }
+  ],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "Spec.Piece",
+      "presentation": {
+        "plainExplanation": "The type of local pieces whose external responses CT3 compares.",
+        "mathematicalDefinition": "\\mathcal{P}",
+        "label": "Boundaried piece"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT3.Spec P → Type uPiece",
+        "name": "StructuralExhaustion.CT3.Spec.Piece",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.spec.piece"
+    },
+    {
+      "requirementRef": "Spec.Context",
+      "presentation": {
+        "plainExplanation": "The type of outside contexts used as exact response coordinates.",
+        "mathematicalDefinition": "\\mathcal{K}",
+        "label": "Response context"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT3.Spec P → Type uContext",
+        "name": "StructuralExhaustion.CT3.Spec.Context",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.spec.context"
+    },
+    {
+      "requirementRef": "Spec.Candidate",
+      "presentation": {
+        "plainExplanation": "The type of proposed representatives that may replace a source piece.",
+        "mathematicalDefinition": "\\mathcal{C}",
+        "label": "Compression candidate"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT3.Spec P → Type uCandidate",
+        "name": "StructuralExhaustion.CT3.Spec.Candidate",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.spec.candidate"
+    },
+    {
+      "requirementRef": "Spec.Row",
+      "presentation": {
+        "plainExplanation": "The type of predeclared response rows used to classify a source piece.",
+        "mathematicalDefinition": "\\mathcal{L}",
+        "label": "Known response row"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT3.Spec P → Type uRow",
+        "name": "StructuralExhaustion.CT3.Spec.Row",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.spec.row"
+    },
+    {
+      "requirementRef": "Spec.response",
+      "presentation": {
+        "plainExplanation": "Computes the exact Boolean behavior of a piece in an outside context.",
+        "mathematicalDefinition": "R:\\mathcal{P}\\times\\mathcal{K}\\to\\{0,1\\}",
+        "label": "Exact response"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT3.Spec P) → self.Piece → self.Context → Bool",
+        "name": "StructuralExhaustion.CT3.Spec.response",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.spec.response"
+    },
+    {
+      "requirementRef": "Spec.candidatePiece",
+      "presentation": {
+        "plainExplanation": "Interprets a compression candidate as the piece it represents.",
+        "mathematicalDefinition": "\\operatorname{piece}:\\mathcal{C}\\to\\mathcal{P}",
+        "label": "Candidate interpretation"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT3.Spec P) → self.Candidate → self.Piece",
+        "name": "StructuralExhaustion.CT3.Spec.candidatePiece",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.spec.candidatePiece"
+    },
+    {
+      "requirementRef": "Spec.Admissible",
+      "presentation": {
+        "plainExplanation": "The proposition that candidate c is allowed to replace source piece p in G.",
+        "mathematicalDefinition": "\\operatorname{Admissible}(G,p,c)",
+        "label": "Candidate admissibility"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT3.Spec P) → P.Ambient → self.Piece → self.Candidate → Prop",
+        "name": "StructuralExhaustion.CT3.Spec.Admissible",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.spec.admissible"
+    },
+    {
+      "requirementRef": "Spec.Smaller",
+      "presentation": {
+        "plainExplanation": "The proposition that candidate c gives a genuine size reduction for p in G.",
+        "mathematicalDefinition": "\\operatorname{Smaller}(G,p,c)",
+        "label": "Strictly smaller candidate"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT3.Spec P) → P.Ambient → self.Piece → self.Candidate → Prop",
+        "name": "StructuralExhaustion.CT3.Spec.Smaller",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.spec.smaller"
+    },
+    {
+      "requirementRef": "Spec.rowPiece",
+      "presentation": {
+        "plainExplanation": "Selects the canonical piece represented by a known response row.",
+        "mathematicalDefinition": "\\operatorname{rowPiece}:\\mathcal{L}\\to\\mathcal{P}",
+        "label": "Row representative"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT3.Spec P) → self.Row → self.Piece",
+        "name": "StructuralExhaustion.CT3.Spec.rowPiece",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.spec.rowPiece"
+    },
+    {
+      "requirementRef": "Spec.rowResponse",
+      "presentation": {
+        "plainExplanation": "Gives the declared exact response vector associated with a known row.",
+        "mathematicalDefinition": "R_{\\ell}:\\mathcal{K}\\to\\{0,1\\}",
+        "label": "Row response"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT3.Spec P) → self.Row → self.Context → Bool",
+        "name": "StructuralExhaustion.CT3.Spec.rowResponse",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.spec.rowResponse"
+    },
+    {
+      "requirementRef": "Capability.contexts",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of every response coordinate.",
+        "mathematicalDefinition": "\\operatorname{contexts}=\\mathcal{K}",
+        "label": "Finite context enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT3.Spec P} → CT3.Capability S → FinEnum S.Context",
+        "name": "StructuralExhaustion.CT3.Capability.contexts",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.capability.contexts"
+    },
+    {
+      "requirementRef": "Capability.candidates",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of all compression candidates.",
+        "mathematicalDefinition": "\\operatorname{candidates}=\\mathcal{C}",
+        "label": "Finite candidate enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT3.Spec P} → CT3.Capability S → FinEnum S.Candidate",
+        "name": "StructuralExhaustion.CT3.Capability.candidates",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.capability.candidates"
+    },
+    {
+      "requirementRef": "Capability.rows",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of all known response rows.",
+        "mathematicalDefinition": "\\operatorname{rows}=\\mathcal{L}",
+        "label": "Finite row enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT3.Spec P} → CT3.Capability S → FinEnum S.Row",
+        "name": "StructuralExhaustion.CT3.Capability.rows",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.capability.rows"
+    },
+    {
+      "requirementRef": "Capability.admissibleDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding whether a candidate is admissible.",
+        "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Admissible}(G,p,c)\\right)",
+        "label": "Admissibility decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    CT3.Capability S →\n      (G : P.Ambient) → (source : S.Piece) → (candidate : S.Candidate) → Decidable (S.Admissible G source candidate)",
+        "name": "StructuralExhaustion.CT3.Capability.admissibleDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.capability.admissibleDecidable"
+    },
+    {
+      "requirementRef": "Capability.smallerDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding whether a candidate is strictly smaller.",
+        "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Smaller}(G,p,c)\\right)",
+        "label": "Decrease decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    CT3.Capability S →\n      (G : P.Ambient) → (source : S.Piece) → (candidate : S.Candidate) → Decidable (S.Smaller G source candidate)",
+        "name": "StructuralExhaustion.CT3.Capability.smallerDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.capability.smallerDecidable"
+    },
+    {
+      "requirementRef": "Capability.inputSize",
+      "presentation": {
+        "plainExplanation": "The application-specific size measure used in CT3's complexity certificate.",
+        "mathematicalDefinition": "n(G)\\in\\mathbb{N}",
+        "label": "Input size"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT3.Spec P} → CT3.Capability S → P.Ambient → ℕ",
+        "name": "StructuralExhaustion.CT3.Capability.inputSize",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.capability.inputSize"
+    },
+    {
+      "requirementRef": "Capability.workCoefficient",
+      "presentation": {
+        "plainExplanation": "The coefficient in the certified polynomial bound on CT3 checks.",
+        "mathematicalDefinition": "c\\in\\mathbb{N}",
+        "label": "Work coefficient"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT3.Spec P} → CT3.Capability S → ℕ",
+        "name": "StructuralExhaustion.CT3.Capability.workCoefficient",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.capability.workCoefficient"
+    },
+    {
+      "requirementRef": "Capability.workDegree",
+      "presentation": {
+        "plainExplanation": "The degree in the certified polynomial bound on CT3 checks.",
+        "mathematicalDefinition": "d\\in\\mathbb{N}",
+        "label": "Work degree"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT3.Spec P} → CT3.Capability S → ℕ",
+        "name": "StructuralExhaustion.CT3.Capability.workDegree",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.capability.workDegree"
+    },
+    {
+      "requirementRef": "Capability.workBound",
+      "presentation": {
+        "plainExplanation": "A proof that the full context, candidate, and row schedule satisfies the declared bound.",
+        "mathematicalDefinition": "\\operatorname{checks}\\le c\\,(n(G)+1)^d",
+        "label": "Polynomial work bound"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} {S : CT3.Spec P} (self : CT3.Capability S) (G : P.Ambient),\n  CT3.localCheckBound self.contexts self.candidates self.rows ≤\n    self.workCoefficient * (self.inputSize G + 1) ^ self.workDegree",
+        "name": "StructuralExhaustion.CT3.Capability.workBound",
+        "kind": "theorem"
+      },
+      "conceptId": "CT3.capability.workBound"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.glue",
+      "presentation": {
+        "plainExplanation": "The union of the mapped atom-side and outside-context edge sets.",
+        "mathematicalDefinition": "X\\oplus_TY",
+        "label": "Literal graph gluing"
+      },
+      "formalDeclaration": {
+        "type": "{T : Type u} →\n  FinEnum T → Graph.PackedBoundariedGluing.Piece T → Graph.PackedBoundariedGluing.Context T → Graph.PackedFiniteObject",
+        "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.glue",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.literal.glue"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.Context.noBoundaryEdge",
+      "presentation": {
+        "plainExplanation": "The normalized outside context owns no boundary--boundary edge; the atom side owns those edges.",
+        "mathematicalDefinition": "E(Y[T])=\\varnothing",
+        "label": "Boundary-edge ownership"
+      },
+      "formalDeclaration": {
+        "type": "∀ {T : Type u} (self : Graph.PackedBoundariedGluing.Context T) (left right : T),\n  ¬self.graph.Adj (Sum.inl left) (Sum.inl right)",
+        "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.Context.noBoundaryEdge",
+        "kind": "theorem"
+      },
+      "conceptId": "CT3.literal.contextOwnership"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.reconstruct",
+      "presentation": {
+        "plainExplanation": "A graph isomorphism identifying the literal gluing with the selected ambient graph.",
+        "mathematicalDefinition": "X\\oplus_TY\\cong G",
+        "label": "Graph reconstruction"
+      },
+      "formalDeclaration": {
+        "type": "{input : Graph.PackedMinimumDegreeCycle.StaticInput} →\n  {T : Type u} →\n    {boundaries : FinEnum T} →\n      {ctx : Core.MinimalCounterexampleContext input.problem input.Target} →\n        (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx) →\n          (Graph.PackedBoundariedGluing.glue boundaries self.source self.outside).object.graph ≃g ctx.G.object.graph",
+        "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.reconstruct",
+        "kind": "definition"
+      },
+      "conceptId": "CT3.literal.reconstruct"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.connected",
+      "presentation": {
+        "plainExplanation": "The literal atom-side graph is connected.",
+        "mathematicalDefinition": "\\operatorname{Connected}(X)",
+        "label": "Connected atom"
+      },
+      "formalDeclaration": {
+        "type": "∀ {input : Graph.PackedMinimumDegreeCycle.StaticInput} {T : Type u} {boundaries : FinEnum T}\n  {ctx : Core.MinimalCounterexampleContext input.problem input.Target}\n  (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx),\n  self.source.graph.Connected",
+        "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.connected",
+        "kind": "theorem"
+      },
+      "conceptId": "CT3.literal.connected"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.proper",
+      "presentation": {
+        "plainExplanation": "The reconstructed atom is a proper local support of the ambient graph.",
+        "mathematicalDefinition": "\\rho(X)<\\rho(G)",
+        "label": "Proper atom"
+      },
+      "formalDeclaration": {
+        "type": "∀ {input : Graph.PackedMinimumDegreeCycle.StaticInput} {T : Type u} {boundaries : FinEnum T}\n  {ctx : Core.MinimalCounterexampleContext input.problem input.Target}\n  (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx),\n  (Graph.PackedBoundariedGluing.Piece.pack boundaries self.source).lexRank < Graph.PackedFiniteObject.lexRank ctx.G",
+        "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.proper",
+        "kind": "theorem"
+      },
+      "conceptId": "CT3.literal.proper"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.boundaryDegree_eq",
+      "presentation": {
+        "plainExplanation": "The replacement and source lie in the same boundary-degree fibre.",
+        "mathematicalDefinition": "\\mathbf d_\\partial(X')=\\mathbf d_\\partial(X)",
+        "label": "Boundary-degree equality"
+      },
+      "formalDeclaration": {
+        "type": "∀ {input : Graph.PackedMinimumDegreeCycle.StaticInput} {T : Type u} {boundaries : FinEnum T}\n  {ctx : Core.MinimalCounterexampleContext input.problem input.Target}\n  {atom : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx}\n  (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression input boundaries atom) (boundary : T),\n  Graph.PackedBoundariedGluing.Piece.boundaryDegree boundaries self.piece boundary =\n    Graph.PackedBoundariedGluing.Piece.boundaryDegree boundaries atom.source boundary",
+        "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.boundaryDegree_eq",
+        "kind": "theorem"
+      },
+      "conceptId": "CT3.literal.boundaryDegreeEq"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.obstructionIncluded",
+      "presentation": {
+        "plainExplanation": "Every replacement target response in an outside context transports to the source; two-way equivalence is not assumed.",
+        "mathematicalDefinition": "\\profile_T(X')\\subseteq\\profile_T(X)",
+        "label": "Obstruction inclusion"
+      },
+      "formalDeclaration": {
+        "type": "∀ {input : Graph.PackedMinimumDegreeCycle.StaticInput} {T : Type u} {boundaries : FinEnum T}\n  {ctx : Core.MinimalCounterexampleContext input.problem input.Target}\n  {atom : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx}\n  (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression input boundaries atom)\n  (outside : Graph.PackedBoundariedGluing.Context T),\n  input.Target (Graph.PackedBoundariedGluing.glue boundaries self.piece outside) →\n    input.Target (Graph.PackedBoundariedGluing.glue boundaries atom.source outside)",
+        "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.obstructionIncluded",
+        "kind": "theorem"
+      },
+      "conceptId": "CT3.literal.obstructionIncluded"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalTargetFree",
+      "presentation": {
+        "plainExplanation": "The replacement piece alone contains no selected target cycle.",
+        "mathematicalDefinition": "\\neg\\operatorname{Target}(X')",
+        "label": "Internal target avoidance"
+      },
+      "formalDeclaration": {
+        "type": "∀ {input : Graph.PackedMinimumDegreeCycle.StaticInput} {T : Type u} {boundaries : FinEnum T}\n  {ctx : Core.MinimalCounterexampleContext input.problem input.Target}\n  {atom : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx}\n  (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression input boundaries atom),\n  ¬input.Target (Graph.PackedBoundariedGluing.Piece.pack boundaries self.piece)",
+        "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalTargetFree",
+        "kind": "theorem"
+      },
+      "conceptId": "CT3.literal.internalTargetFree"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalBaseline",
+      "presentation": {
+        "plainExplanation": "Every internal replacement vertex meets the minimum-degree threshold.",
+        "mathematicalDefinition": "\\delta_{\\mathrm{int}}(X')\\ge d",
+        "label": "Replacement internal degree"
+      },
+      "formalDeclaration": {
+        "type": "∀ {input : Graph.PackedMinimumDegreeCycle.StaticInput} {T : Type u} {boundaries : FinEnum T}\n  {ctx : Core.MinimalCounterexampleContext input.problem input.Target}\n  {atom : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx}\n  (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression input boundaries atom),\n  Graph.PackedBoundariedGluing.Piece.InternalBaseline boundaries input.minimumDegree self.piece",
+        "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalBaseline",
+        "kind": "theorem"
+      },
+      "conceptId": "CT3.literal.internalBaseline"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.locallySmaller",
+      "presentation": {
+        "plainExplanation": "Only the replacement piece is assumed smaller; whole-graph decrease is derived.",
+        "mathematicalDefinition": "(|V_{\\mathrm{int}}(X')|,|E(X')|)<_{\\rm lex}(|V_{\\mathrm{int}}(X)|,|E(X)|)",
+        "label": "Local lexicographic decrease"
+      },
+      "formalDeclaration": {
+        "type": "∀ {input : Graph.PackedMinimumDegreeCycle.StaticInput} {T : Type u} {boundaries : FinEnum T}\n  {ctx : Core.MinimalCounterexampleContext input.problem input.Target}\n  {atom : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom input boundaries ctx}\n  (self : Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression input boundaries atom),\n  self.piece.LexSmaller atom.source",
+        "name": "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.locallySmaller",
+        "kind": "theorem"
+      },
+      "conceptId": "CT3.literal.locallySmaller"
+    }
+  ]
 }

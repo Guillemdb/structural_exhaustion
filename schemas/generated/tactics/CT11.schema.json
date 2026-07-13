@@ -564,11 +564,13 @@
             "requiredDefinitions": [
               {
                 "ref": "StructuralExhaustion.CT11.NegativeBudgetProfile.Cell",
-                "provision": "user_definition"
+                "provision": "user_definition",
+                "conceptId": "CT11.negativeBudget.cell"
               },
               {
                 "ref": "StructuralExhaustion.CT11.NegativeBudgetProfile.localBudget",
-                "provision": "user_operator"
+                "provision": "user_operator",
+                "conceptId": "CT11.negativeBudget.localBudget"
               }
             ],
             "derivedOperations": [
@@ -596,6 +598,92 @@
             "capabilityId": "StructuralExhaustion.CT11.profile.negativeBudget"
           }
         ],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "Capability.Cell",
+            "presentation": {
+              "plainExplanation": "The type of local cells whose integer budgets form the global sum.",
+              "mathematicalDefinition": "\\mathcal{C}",
+              "label": "Budget cell"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT11.Capability P → Type uCell",
+              "name": "StructuralExhaustion.CT11.Capability.Cell",
+              "kind": "definition"
+            },
+            "conceptId": "CT11.capability.cell"
+          },
+          {
+            "requirementRef": "Capability.Admissible",
+            "presentation": {
+              "plainExplanation": "The proposition that a cell participates validly in the localization argument.",
+              "mathematicalDefinition": "\\operatorname{Admissible}(x,c)",
+              "label": "Cell admissibility"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT11.Capability P) → Core.BranchContext P → self.Cell → Prop",
+              "name": "StructuralExhaustion.CT11.Capability.Admissible",
+              "kind": "definition"
+            },
+            "conceptId": "CT11.capability.admissible"
+          },
+          {
+            "requirementRef": "Capability.admissibleDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding whether a cell is admissible.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Admissible}(x,c))",
+              "label": "Admissibility decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  (self : CT11.Capability P) → (ctx : Core.BranchContext P) → (cell : self.Cell) → Decidable (self.Admissible ctx cell)",
+              "name": "StructuralExhaustion.CT11.Capability.admissibleDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT11.capability.admissibleDecidable"
+          },
+          {
+            "requirementRef": "Capability.localBudget",
+            "presentation": {
+              "plainExplanation": "Assigns the signed local contribution whose negative total is localized.",
+              "mathematicalDefinition": "b_x:\\mathcal{C}\\to\\mathbb{Z}",
+              "label": "Local integer budget"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT11.Capability P) → Core.BranchContext P → self.Cell → ℤ",
+              "name": "StructuralExhaustion.CT11.Capability.localBudget",
+              "kind": "definition"
+            },
+            "conceptId": "CT11.capability.localBudget"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT11.NegativeBudgetProfile.Cell",
+            "presentation": {
+              "plainExplanation": "The cell type for the everywhere-admissible negative-budget specialization.",
+              "mathematicalDefinition": "\\mathcal{C}",
+              "label": "Negative-budget cell"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT11.NegativeBudgetProfile P → Type uCell",
+              "name": "StructuralExhaustion.CT11.NegativeBudgetProfile.Cell",
+              "kind": "definition"
+            },
+            "conceptId": "CT11.negativeBudget.cell"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT11.NegativeBudgetProfile.localBudget",
+            "presentation": {
+              "plainExplanation": "The profile's signed local budget; a negative total forces a negative cell.",
+              "mathematicalDefinition": "b_x:\\mathcal{C}\\to\\mathbb{Z}",
+              "label": "Negative local budget"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT11.NegativeBudgetProfile P) → Core.BranchContext P → self.Cell → ℤ",
+              "name": "StructuralExhaustion.CT11.NegativeBudgetProfile.localBudget",
+              "kind": "definition"
+            },
+            "conceptId": "CT11.negativeBudget.localBudget"
+          }
+        ],
         "capability": {
           "tacticId": "CT11",
           "requiredInstances": [
@@ -607,19 +695,23 @@
           "requiredDefinitions": [
             {
               "ref": "Capability.Cell",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT11.capability.cell"
             },
             {
               "ref": "Capability.Admissible",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT11.capability.admissible"
             },
             {
               "ref": "Capability.admissibleDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT11.capability.admissibleDecidable"
             },
             {
               "ref": "Capability.localBudget",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT11.capability.localBudget"
             }
           ],
           "derivedOperations": [
@@ -775,19 +867,23 @@
     "requiredDefinitions": [
       {
         "ref": "Capability.Cell",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT11.capability.cell"
       },
       {
         "ref": "Capability.Admissible",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT11.capability.admissible"
       },
       {
         "ref": "Capability.admissibleDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT11.capability.admissibleDecidable"
       },
       {
         "ref": "Capability.localBudget",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT11.capability.localBudget"
       }
     ],
     "derivedOperations": [
@@ -821,11 +917,13 @@
       "requiredDefinitions": [
         {
           "ref": "StructuralExhaustion.CT11.NegativeBudgetProfile.Cell",
-          "provision": "user_definition"
+          "provision": "user_definition",
+          "conceptId": "CT11.negativeBudget.cell"
         },
         {
           "ref": "StructuralExhaustion.CT11.NegativeBudgetProfile.localBudget",
-          "provision": "user_operator"
+          "provision": "user_operator",
+          "conceptId": "CT11.negativeBudget.localBudget"
         }
       ],
       "derivedOperations": [
@@ -851,6 +949,92 @@
         }
       ],
       "capabilityId": "StructuralExhaustion.CT11.profile.negativeBudget"
+    }
+  ],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "Capability.Cell",
+      "presentation": {
+        "plainExplanation": "The type of local cells whose integer budgets form the global sum.",
+        "mathematicalDefinition": "\\mathcal{C}",
+        "label": "Budget cell"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT11.Capability P → Type uCell",
+        "name": "StructuralExhaustion.CT11.Capability.Cell",
+        "kind": "definition"
+      },
+      "conceptId": "CT11.capability.cell"
+    },
+    {
+      "requirementRef": "Capability.Admissible",
+      "presentation": {
+        "plainExplanation": "The proposition that a cell participates validly in the localization argument.",
+        "mathematicalDefinition": "\\operatorname{Admissible}(x,c)",
+        "label": "Cell admissibility"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT11.Capability P) → Core.BranchContext P → self.Cell → Prop",
+        "name": "StructuralExhaustion.CT11.Capability.Admissible",
+        "kind": "definition"
+      },
+      "conceptId": "CT11.capability.admissible"
+    },
+    {
+      "requirementRef": "Capability.admissibleDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding whether a cell is admissible.",
+        "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Admissible}(x,c))",
+        "label": "Admissibility decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  (self : CT11.Capability P) → (ctx : Core.BranchContext P) → (cell : self.Cell) → Decidable (self.Admissible ctx cell)",
+        "name": "StructuralExhaustion.CT11.Capability.admissibleDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT11.capability.admissibleDecidable"
+    },
+    {
+      "requirementRef": "Capability.localBudget",
+      "presentation": {
+        "plainExplanation": "Assigns the signed local contribution whose negative total is localized.",
+        "mathematicalDefinition": "b_x:\\mathcal{C}\\to\\mathbb{Z}",
+        "label": "Local integer budget"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT11.Capability P) → Core.BranchContext P → self.Cell → ℤ",
+        "name": "StructuralExhaustion.CT11.Capability.localBudget",
+        "kind": "definition"
+      },
+      "conceptId": "CT11.capability.localBudget"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT11.NegativeBudgetProfile.Cell",
+      "presentation": {
+        "plainExplanation": "The cell type for the everywhere-admissible negative-budget specialization.",
+        "mathematicalDefinition": "\\mathcal{C}",
+        "label": "Negative-budget cell"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT11.NegativeBudgetProfile P → Type uCell",
+        "name": "StructuralExhaustion.CT11.NegativeBudgetProfile.Cell",
+        "kind": "definition"
+      },
+      "conceptId": "CT11.negativeBudget.cell"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT11.NegativeBudgetProfile.localBudget",
+      "presentation": {
+        "plainExplanation": "The profile's signed local budget; a negative total forces a negative cell.",
+        "mathematicalDefinition": "b_x:\\mathcal{C}\\to\\mathbb{Z}",
+        "label": "Negative local budget"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT11.NegativeBudgetProfile P) → Core.BranchContext P → self.Cell → ℤ",
+        "name": "StructuralExhaustion.CT11.NegativeBudgetProfile.localBudget",
+        "kind": "definition"
+      },
+      "conceptId": "CT11.negativeBudget.localBudget"
     }
   ]
 }

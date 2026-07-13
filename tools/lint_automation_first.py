@@ -23,8 +23,16 @@ LEGACY_PATTERNS = {
     "runtime scope classifier": re.compile(r"\b(?:ScopeReady|ScopeCandidate|scopeDecidable)\b"),
 }
 ADMISSION_PATTERN = re.compile(
-    r"^\s*(?:sorry|admit|axiom|unsafe)\b", re.MULTILINE
+    r"^\s*(?P<kind>sorry|admit|axiom|unsafe)\b", re.MULTILINE
 )
+AXIOM_DECLARATION_PATTERN = re.compile(
+    r"^\s*axiom\s+(?P<name>[A-Za-z_][A-Za-z0-9_']*)\b", re.MULTILINE
+)
+TRUSTED_EXTERNAL_AXIOMS = {
+    Path("lean/StructuralExhaustion/Graph/External/HegdeSandeepShashank.lean"): {
+        "p13Free_hasPowerOfTwoCycle"
+    }
+}
 CLASSICAL_NAMESPACE_PATTERN = re.compile(
     r"^\s*(?:open\s+Classical\b|local\s+open\s+Classical\b)",
     re.MULTILINE,
@@ -90,10 +98,38 @@ def ct_number(path: Path) -> int | None:
     return None
 
 
+def untrusted_admissions(relative: Path, text: str) -> list[str]:
+    """Return authored admissions not in the exact external-theorem allowlist."""
+    allowed_axioms = TRUSTED_EXTERNAL_AXIOMS.get(relative, set())
+    violations: list[str] = []
+    for match in ADMISSION_PATTERN.finditer(text):
+        kind = match.group("kind")
+        if kind == "axiom":
+            declaration = AXIOM_DECLARATION_PATTERN.match(text, match.start())
+            if declaration and declaration.group("name") in allowed_axioms:
+                continue
+        violations.append(kind)
+    return violations
+
+
 def lint(root: Path) -> list[str]:
     errors: list[str] = []
     source_root = root / "lean/StructuralExhaustion"
     example_modules = external_example_modules(root)
+
+    for relative, expected in TRUSTED_EXTERNAL_AXIOMS.items():
+        path = root / relative
+        if not path.is_file():
+            errors.append(f"{relative}: trusted external theorem module is missing")
+            continue
+        found = AXIOM_DECLARATION_PATTERN.findall(
+            path.read_text(encoding="utf-8")
+        )
+        if len(found) != len(expected) or set(found) != expected:
+            errors.append(
+                f"{relative}: expected exactly the trusted external axioms "
+                f"{sorted(expected)}, found {found}"
+            )
 
     for relative in RETIRED_SURFACES:
         if (root / relative).exists():
@@ -131,7 +167,7 @@ def lint(root: Path) -> list[str]:
         text = path.read_text(encoding="utf-8")
         number = ct_number(path)
 
-        if ADMISSION_PATTERN.search(text):
+        if untrusted_admissions(relative, text):
             errors.append(f"{relative}: contains an admission or unsafe declaration")
         if CLASSICAL_NAMESPACE_PATTERN.search(text):
             errors.append(f"{relative}: opens the forbidden Classical namespace")
@@ -171,7 +207,7 @@ def lint(root: Path) -> list[str]:
     for path in external_example_files(root):
         relative = path.relative_to(root)
         text = path.read_text(encoding="utf-8")
-        if ADMISSION_PATTERN.search(text):
+        if untrusted_admissions(relative, text):
             errors.append(f"{relative}: contains an admission or unsafe declaration")
         if CLASSICAL_NAMESPACE_PATTERN.search(text):
             errors.append(f"{relative}: opens the forbidden Classical namespace")

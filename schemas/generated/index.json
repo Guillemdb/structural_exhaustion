@@ -4,6 +4,7 @@
   "canonicalCatalog": "generated/lean-machines.json",
   "genericSchemas": [
     "schemas/automation-profile.schema.json",
+    "schemas/capability-concept.schema.json",
     "schemas/capability-spec.schema.json",
     "schemas/example-catalog-raw.schema.json",
     "schemas/example-detail.schema.json",
@@ -23,7 +24,7 @@
   "tactics": [
     {
       "tacticId": "CT1",
-      "apiVersion": "CT1-v5",
+      "apiVersion": "CT1-v6",
       "tacticSchema": "schemas/generated/tactics/CT1.schema.json",
       "runSchema": "schemas/generated/runs/CT1.run.schema.json",
       "verificationSchema": "schemas/generated/verifications/CT1.verification.schema.json",
@@ -40,7 +41,7 @@
     },
     {
       "tacticId": "CT2",
-      "apiVersion": "CT2-v6",
+      "apiVersion": "CT2-v8",
       "tacticSchema": "schemas/generated/tactics/CT2.schema.json",
       "runSchema": "schemas/generated/runs/CT2.run.schema.json",
       "verificationSchema": "schemas/generated/verifications/CT2.verification.schema.json",
@@ -60,7 +61,7 @@
     },
     {
       "tacticId": "CT3",
-      "apiVersion": "CT3-v3",
+      "apiVersion": "CT3-v4",
       "tacticSchema": "schemas/generated/tactics/CT3.schema.json",
       "runSchema": "schemas/generated/runs/CT3.run.schema.json",
       "verificationSchema": "schemas/generated/verifications/CT3.verification.schema.json",
@@ -238,7 +239,7 @@
     },
     {
       "tacticId": "CT12",
-      "apiVersion": "CT12-v4",
+      "apiVersion": "CT12-v5",
       "tacticSchema": "schemas/generated/tactics/CT12.schema.json",
       "runSchema": "schemas/generated/runs/CT12.run.schema.json",
       "verificationSchema": "schemas/generated/verifications/CT12.verification.schema.json",
@@ -371,6 +372,7 @@
   ],
   "routes": [
     "schemas/generated/routes/CT1.residual.avoiding-_CT2.schema.json",
+    "schemas/generated/routes/CT1.residual.avoiding-_CT2.localDeletion.schema.json",
     "schemas/generated/routes/CT2.residual.separatingContext-_CT3.schema.json",
     "schemas/generated/routes/CT2.residual.criticality-_CT10.schema.json",
     "schemas/generated/routes/CT6.residual.activeLedger-_CT9.schema.json"

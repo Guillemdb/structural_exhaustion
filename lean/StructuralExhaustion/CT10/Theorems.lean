@@ -48,4 +48,39 @@ theorem outcome_exhaustive (result : ExecutionResult capability input) :
       | promoted _ => exact Or.inr (Or.inl rfl)
       | exhaustive _ => exact Or.inr (Or.inr rfl)
 
+/-- A complete class table with no direct exception reaches CT10's
+exhaustive certificate terminal. -/
+theorem run_terminal_exhaustive_of_noDirect_of_populated
+    (noDirect : ∀ cls : capability.Class, ¬ capability.Direct cls)
+    (populated : ∀ cls : capability.Class,
+      ∃ datum : capability.Datum, datum ∈ row capability input cls) :
+    (run capability input).terminal = .exhaustive := by
+  unfold run runReference
+  cases directEquation : analyzeDirect capability with
+  | found residual => exact (noDirect residual.cls residual.direct).elim
+  | absent directAbsent =>
+      cases missingEquation : analyzeMissing capability input directAbsent with
+      | promoted residual =>
+          obtain ⟨datum, member⟩ := populated residual.missing.cls
+          rw [residual.missing.empty] at member
+          exact (List.not_mem_nil member).elim
+      | exhaustive certificate =>
+        simp only [missingEquation]
+
+/-- Exact canonical trace of the complete-table CT10 execution. -/
+theorem run_trace_exhaustive_of_noDirect_of_populated
+    (noDirect : ∀ cls : capability.Class, ¬ capability.Direct cls)
+    (populated : ∀ cls : capability.Class,
+      ∃ datum : capability.Datum, datum ∈ row capability input cls) :
+    (run capability input).trace =
+      [.entry, .table, .direct, .missing, .exhaustiveTerminal] := by
+  have terminal := run_terminal_exhaustive_of_noDirect_of_populated
+    capability input noDirect populated
+  generalize resultEquation : run capability input = result at terminal ⊢
+  cases result with
+  | mk resultTerminal path outcome =>
+      dsimp only at terminal
+      subst resultTerminal
+      exact Graph.trace_eq_of_path_to_exhaustive capability input path
+
 end StructuralExhaustion.CT10

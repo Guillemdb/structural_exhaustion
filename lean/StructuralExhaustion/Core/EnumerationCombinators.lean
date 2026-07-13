@@ -125,10 +125,29 @@ the values for which the predicate is false. -/
 def subtype {α : Type u} (enumeration : FinEnum α)
     (predicate : α → Prop)
     (decidePredicate : ∀ value, Decidable (predicate value)) :
-    FinEnum {value // predicate value} := by
-  letI : FinEnum α := enumeration
-  letI : DecidablePred predicate := decidePredicate
-  exact inferInstance
+    FinEnum {value // predicate value} :=
+  let accepted : List {value // predicate value} :=
+    enumeration.orderedValues.filterMap fun value =>
+      if accepted : predicate value then some ⟨value, accepted⟩ else none
+  @FinEnum.ofNodupList {value // predicate value}
+    (by
+      letI : DecidableEq α := enumeration.decEq
+      infer_instance)
+    accepted
+    (by
+      rintro ⟨value, acceptedValue⟩
+      simp [accepted, acceptedValue])
+    (by
+      apply enumeration.nodup_orderedValues.filterMap
+      intro left right output leftOutput rightOutput
+      by_cases leftAccepted : predicate left
+      · simp [leftAccepted] at leftOutput
+        by_cases rightAccepted : predicate right
+        · simp [rightAccepted] at rightOutput
+          exact congrArg Subtype.val
+            (leftOutput.trans rightOutput.symm)
+        · simp [rightAccepted] at rightOutput
+      · simp [leftAccepted] at leftOutput)
 
 /-- Exact ordered enumeration of all lists of length at most `bound`. -/
 @[implicit_reducible]

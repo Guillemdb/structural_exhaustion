@@ -46,6 +46,10 @@ ROUTE_FRAMEWORK_RESPONSIBILITIES = [
 ]
 ROUTE_EXPECTED_PROBLEM_INPUTS = {
     "CT1.residual.avoiding->CT2": ["targetCapability", "minimalityKernel"],
+    "CT1.residual.avoiding->CT2.localDeletion": [
+        "targetCapability",
+        "minimalityKernel",
+    ],
     "CT2.residual.separatingContext->CT3": [
         "targetCapability",
         "semanticDiscoveryAdapter",
@@ -251,6 +255,47 @@ def validate_tactic(errors: list[str], tactic: dict) -> None:
         if not profile["derivedOperations"]:
             errors.append(f"{tactic_id}: profile {profile_id} has no derived operations")
 
+    capabilities = [capability, *tactic.get("capabilityProfiles", [])]
+    requirement_refs = {
+        item["ref"]
+        for current_capability in capabilities
+        for item in current_capability["requiredDefinitions"]
+    }
+    concepts = tactic.get("capabilityConcepts", [])
+    concept_ids = [concept["conceptId"] for concept in concepts]
+    concept_refs = [concept["requirementRef"] for concept in concepts]
+    declaration_names = [
+        concept["formalDeclaration"]["name"] for concept in concepts
+    ]
+    if len(concept_ids) != len(set(concept_ids)):
+        errors.append(f"{tactic_id}: duplicate capability concept identifiers")
+    if len(concept_refs) != len(set(concept_refs)):
+        errors.append(f"{tactic_id}: duplicate capability concept requirement references")
+    if len(declaration_names) != len(set(declaration_names)):
+        errors.append(f"{tactic_id}: duplicate capability concept declarations")
+    if set(concept_refs) != requirement_refs:
+        missing = sorted(requirement_refs - set(concept_refs))
+        orphaned = sorted(set(concept_refs) - requirement_refs)
+        if missing:
+            errors.append(
+                f"{tactic_id}: capability concepts omit requirements {missing}"
+            )
+        if orphaned:
+            errors.append(
+                f"{tactic_id}: orphaned capability concepts for {orphaned}"
+            )
+    concept_id_by_ref = {
+        concept["requirementRef"]: concept["conceptId"] for concept in concepts
+    }
+    for current_capability in capabilities:
+        for item in current_capability["requiredDefinitions"]:
+            expected_concept_id = concept_id_by_ref.get(item["ref"])
+            if item.get("conceptId") != expected_concept_id:
+                errors.append(
+                    f"{tactic_id}: requirement {item['ref']} has conceptId "
+                    f"{item.get('conceptId')!r}, expected {expected_concept_id!r}"
+                )
+
     for node in nodes:
         node_id = node["nodeId"]
         automation = node["automation"]
@@ -356,13 +401,16 @@ def validate_routes(errors: list[str], catalog: dict) -> None:
                 errors.append(
                     f"{route_id}: capability-discovery input boundary is inconsistent"
                 )
-            expected_discovery = (
-                f"StructuralExhaustion.{route['targetTacticId']}.Capability.discover"
+            discovery_prefix = (
+                f"StructuralExhaustion.{route['targetTacticId']}."
             )
-            if route["discovery"] != expected_discovery:
+            if not (
+                route["discovery"].startswith(discovery_prefix)
+                and route["discovery"].endswith("Capability.discover")
+            ):
                 errors.append(
-                    f"{route_id}: capability discovery does not use "
-                    f"{expected_discovery}"
+                    f"{route_id}: capability discovery does not use a "
+                    f"{route['targetTacticId']} capability profile"
                 )
         elif discovery_kind == "problemSemanticAdapter":
             if not isinstance(problem_inputs, list) or (
@@ -396,6 +444,7 @@ def validate_routes(errors: list[str], catalog: dict) -> None:
 
     required_routes = {
         "CT1.residual.avoiding->CT2",
+        "CT1.residual.avoiding->CT2.localDeletion",
         "CT2.residual.separatingContext->CT3",
         "CT2.residual.criticality->CT10",
         "CT6.residual.activeLedger->CT9",

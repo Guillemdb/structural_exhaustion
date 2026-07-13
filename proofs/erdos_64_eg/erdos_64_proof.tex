@@ -1660,7 +1660,7 @@ If invariant $k$ needs revision, these results are affected; diagram-node number
 \paragraph{Fast gap-check usage.}
 To check the proof, confirm for each result that every invariant in its \textbf{Requires} cell is established at an earlier-or-equal node; a required invariant introduced at a strictly later node is a forward-reference gap.  For the contradiction-producing results \cref{lem:typeA-exclusion}, \cref{lem:typeB-exclusion}, and \cref{thm:branch-kill}, confirm the chain inv~8 $\leftarrow$ \cref{cor:uncompressible} $\leftarrow$ \cref{lem:replacement} is intact and not circular with the result invoking it.  The two-sided squeeze lives in exactly two cells: \textbf{demand} is \cref{lem:wedge-lower} (invariant 28) and \textbf{supply} is \cref{lem:stub-positive} / \cref{prop:two-budget} (invariants 24, 29); on the derived spine branch, any repair to a curvature estimate must keep demand $>$ supply, i.e.\ $2.543>0.611$ per $|R|$ (sharper high-entropy demand $2.574$), or in the net-charge form $0.25>0.2282$.
 
-\section{Target cycles as Mersenne returns}
+\section{Target cycles as Mersenne returns}\label{sec:target-mersenne}
 
 \begin{definition}[Mersenne return set]\label[definition]{def:mersenne-return-set}
 Let $G$ be a finite simple graph and let $e=uv$ be an oriented edge.  Define
@@ -1800,7 +1800,7 @@ This is the standing branch of \cref{def:counterexample}.
 \bottomrule
 \end{longtable}
 
-\section{Minimality and replacement}
+\section{Minimality and replacement}\label{sec:minimality-replacement}
 
 \begin{lemma}[No proper core]\label[lemma]{lem:no-proper-core}
 Every proper subgraph $H\subsetneq G$ satisfies $\delta(H)\le2$.
@@ -6077,7 +6077,7 @@ Closed or routed by \cref{prop:nonnear-cubic-sharp-overload-routing}.
 \bottomrule
 \end{longtable}
 
-\section{Induced \texorpdfstring{$P_{13}$}{P13} windows}
+\section{Induced \texorpdfstring{$P_{13}$}{P13} windows}\label{sec:induced-p13}
 
 We use the following external theorem.
 
@@ -6097,10 +6097,12 @@ The minimal counterexample $G$ contains an induced $P_{13}$.
 If $G$ were $P_{13}$-free, then since $\delta(G)\ge3$, \cref{thm:p13free} would give a power-of-two cycle in $G$, contradicting that $G$ is a counterexample.
 \end{proof}
 
+\begin{definition}[Maximum induced-$P_{13}$ packing]\label[definition]{def:p13-packing}
 Let $p_{13}$ be the maximum size of a vertex-disjoint family of induced copies of $P_{13}$ in $G$, and put
 \[
 \theta=\frac{p_{13}}{n}.
 \]
+\end{definition}
 
 \paragraph{Framework branch table.}
 The induced-window section contributes the external \(P_{13}\)-free input and
@@ -6148,7 +6150,7 @@ Supplies \(\theta=p_{13}/n\) for \cref{prop:p13-density} and the remainder analy
 \bottomrule
 \end{longtable}
 
-\section{The \texorpdfstring{$P_{13}$}{P13} curvature algebra}
+\section{The \texorpdfstring{$P_{13}$}{P13} curvature algebra}\label{sec:p13-curvature-algebra}
 
 Let
 \[
@@ -6185,6 +6187,7 @@ for sizes $1,2,3,4,5,6,7$, respectively.
 This is a direct enumeration of nonempty subsets of $\{0,\ldots,12\}$ avoiding pairwise differences $2$ and $6$.  The verification code in \cref{app:curv-code} computes the stated values.
 \end{proof}
 
+\begin{definition}[$P_{13}$ safety and two-step curvature]\label[definition]{def:p13-curvature-relations}
 For $s\ge0$, define a safety relation $C_s$ on legal labels by
 \[
 C_s(S,T)=1
@@ -6201,6 +6204,7 @@ Define the two-step curvature tensor
 \Omega_2(S,A,T)=C_1(S,A)C_1(A,T)(1-C_2(S,T)).
 \]
 So $\Omega_2=1$ means two individually safe outside edges compose into an unsafe outside path of length $2$.
+\end{definition}
 
 \begin{figure}[t]
 \centering

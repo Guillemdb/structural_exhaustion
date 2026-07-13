@@ -48,6 +48,25 @@ export interface ProvisionedRef {
   provision: string;
 }
 
+export interface CapabilityRequirement extends ProvisionedRef {
+  conceptId: string;
+}
+
+export interface CapabilityConcept {
+  conceptId: string;
+  requirementRef: string;
+  formalDeclaration: {
+    name: string;
+    kind: string;
+    type: string;
+  };
+  presentation: {
+    label: string;
+    mathematicalDefinition: string;
+    plainExplanation: string;
+  };
+}
+
 export interface FormalEdge {
   edgeId: string;
   constructor: string;
@@ -115,7 +134,7 @@ export interface ResidualKind {
 export interface CapabilityRecord {
   tacticId: string;
   capabilityId: string;
-  requiredDefinitions: ProvisionedRef[];
+  requiredDefinitions: CapabilityRequirement[];
   requiredInstances: ProvisionedRef[];
   derivedOperations: ProvisionedRef[];
 }
@@ -127,6 +146,7 @@ export interface TacticRecord {
   namespace: string;
   capability: CapabilityRecord;
   capabilityProfiles: CapabilityRecord[];
+  capabilityConcepts: CapabilityConcept[];
   nodes: NodeRecord[];
   transitions: TransitionRecord[];
   terminals: TerminalRecord[];
@@ -288,6 +308,69 @@ export interface ExampleInterfaceBinding {
   frameworkDeclarationId: string;
 }
 
+export type ExampleCorrespondenceKind =
+  | "exact"
+  | "equivalentEncoding"
+  | "specialization"
+  | "composite"
+  | "support"
+  | "partial";
+
+export type ExampleImplementationStatus = "implemented" | "next" | "notStarted";
+
+export type ExampleDeclarationRole =
+  | "mathematicalDefinition"
+  | "semanticTheorem"
+  | "encodingBridge"
+  | "tacticExecution"
+  | "executionAudit"
+  | "soundnessTotality"
+  | "workBound"
+  | "compositionProvenance"
+  | "frameworkInterface"
+  | "externalTheorem"
+  | "fixture";
+
+export interface ExampleManuscriptReference {
+  label: string;
+  title: string;
+  nodeIds: number[];
+}
+
+export interface ExampleDeclarationGroup {
+  groupId: string;
+  title: string;
+  role: ExampleDeclarationRole;
+  explanation: string;
+  declarationIds: string[];
+}
+
+export interface ExampleProofStep {
+  stepId: string;
+  stageId?: string;
+  title: string;
+  plainExplanation: string;
+  formalStatement: string;
+  status: ExampleImplementationStatus;
+  correspondence: ExampleCorrespondenceKind;
+  manuscriptRefs: ExampleManuscriptReference[];
+  declarationGroups: ExampleDeclarationGroup[];
+  scopeNotes: string;
+  workBound: string;
+}
+
+export interface ExampleManuscript {
+  title: string;
+  path: string;
+  proofSteps: ExampleProofStep[];
+  coverage: {
+    implementedSteps: number;
+    totalSteps: number;
+    explainedDeclarations: number;
+    displayedDeclarations: number;
+  };
+}
+
 export interface ExampleDeclaration {
   declarationId: string;
   name: string;
@@ -314,7 +397,7 @@ export interface ExampleSource {
 
 export interface ExampleDetail {
   artifactType: "structuralExhaustionExample";
-  schemaVersion: "1.0.0";
+  schemaVersion: "1.1.0";
   sourceOfTruth: {
     kind: "compiledLeanEnvironment";
     rootModule: string;
@@ -327,6 +410,7 @@ export interface ExampleDetail {
   tacticIds: string[];
   workflows: ExampleWorkflow[];
   interfaceBindings: ExampleInterfaceBinding[];
+  manuscript: ExampleManuscript | null;
   declarations: ExampleDeclaration[];
   sources: ExampleSource[];
 }

@@ -1,6 +1,7 @@
 import Mathlib.Combinatorics.SimpleGraph.Hamiltonian
 import Mathlib.Combinatorics.SimpleGraph.Matching
 import Mathlib.Combinatorics.SimpleGraph.Circulant
+import Mathlib.Combinatorics.SimpleGraph.Clique
 
 namespace StructuralExhaustion.Graph
 
@@ -28,6 +29,20 @@ lengths. -/
 def HasCycleWithLength {V : Type u} (G : SimpleGraph V)
     (LengthOK : Nat → Prop) : Prop :=
   Nonempty (CycleWithLength G LengthOK)
+
+/-- Exact length predicate for triangles. -/
+def TriangleLength (length : Nat) : Prop := length = 3
+
+/-- Triangle-freeness excludes exactly the length-three cycle target. -/
+theorem not_hasCycleWithTriangleLength_of_cliqueFree
+    {V : Type u} {G : SimpleGraph V} (triangleFree : G.CliqueFree 3) :
+    ¬HasCycleWithLength G TriangleLength := by
+  rintro ⟨cycle⟩
+  have triangle : ∃ label : Finset V, G.IsNClique 3 label :=
+    (SimpleGraph.is3Clique_iff_exists_cycle_length_three (G := G)).2
+      ⟨cycle.vertex, cycle.walk, cycle.isCycle, cycle.length_ok⟩
+  obtain ⟨label, clique⟩ := triangle
+  exact triangleFree label clique
 
 namespace CycleWithLength
 
@@ -61,6 +76,19 @@ def mapLe (included : G ≤ H) (cycle : CycleWithLength G LengthOK) :
     rw [SimpleGraph.Walk.length_map]
     exact cycle.length_ok
 
+/-- Transport a cycle certificate through an injective graph homomorphism,
+preserving its exact Mathlib walk length. -/
+def mapHom {W : Type*} {K : SimpleGraph W}
+    (hom : G →g K) (injective : Function.Injective hom)
+    (cycle : CycleWithLength G LengthOK) :
+    CycleWithLength K LengthOK where
+  vertex := hom cycle.vertex
+  walk := cycle.walk.map hom
+  isCycle := cycle.isCycle.map injective
+  length_ok := by
+    rw [SimpleGraph.Walk.length_map]
+    exact cycle.length_ok
+
 end CycleWithLength
 
 /-- Cycle-length existence is monotone under standard graph inclusion. -/
@@ -69,6 +97,15 @@ theorem hasCycleWithLength_mono {V : Type u} {G H : SimpleGraph V}
     HasCycleWithLength G LengthOK → HasCycleWithLength H LengthOK := by
   rintro ⟨cycle⟩
   exact ⟨cycle.mapLe included⟩
+
+/-- Cycle-length existence is monotone through injective graph
+homomorphisms. -/
+theorem hasCycleWithLength_mapHom {V : Type u} {W : Type*}
+    {G : SimpleGraph V} {H : SimpleGraph W} {LengthOK : Nat → Prop}
+    (hom : G →g H) (injective : Function.Injective hom) :
+    HasCycleWithLength G LengthOK → HasCycleWithLength H LengthOK := by
+  rintro ⟨cycle⟩
+  exact ⟨cycle.mapHom hom injective⟩
 
 /-- In a finite graph whose non-isolated components are cycles, every simple
 cycle visits its entire connected component. -/
@@ -147,6 +184,29 @@ theorem cycle_length_eq_card_of_connected_isCycles
       SimpleGraph.ConnectedComponent.mem_supp_iff]
     exact SimpleGraph.ConnectedComponent.sound (connected w vertex)
   rw [componentUniv, Set.ncard_univ, Nat.card_eq_fintype_card]
+
+/-- A canonical cycle graph realizes a selected length predicate exactly
+when that predicate accepts its full cycle length. -/
+theorem hasCycleWithLength_cycleGraph_iff
+    (LengthOK : Nat → Prop) (offset : Nat) :
+    HasCycleWithLength (SimpleGraph.cycleGraph (offset + 3)) LengthOK ↔
+      LengthOK (offset + 3) := by
+  constructor
+  · rintro ⟨cycle⟩
+    have lengthEq : cycle.walk.length = offset + 3 := by
+      have exactCard := cycle_length_eq_card_of_connected_isCycles
+        (SimpleGraph.cycleGraph_connected (n := offset + 2))
+        (cycleGraph_isCycles offset) cycle.walk cycle.isCycle
+      simp only [Fintype.card_fin] at exactCard
+      omega
+    simpa [lengthEq] using cycle.length_ok
+  · intro accepted
+    exact ⟨{
+      vertex := 0
+      walk := SimpleGraph.cycleGraph.cycle offset
+      isCycle := SimpleGraph.cycleGraph.isCycle_cycle
+      length_ok := by simpa using accepted
+    }⟩
 
 variable {V : Type u} {G : SimpleGraph V} {vertex : V}
 

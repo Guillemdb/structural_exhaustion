@@ -52,6 +52,32 @@ Reusable profiles remove graph-problem boilerplate:
 - `Graph.MinimumDegreeCycle.StaticInput` generates the shared problem, target,
   CT1 encoding, deletion-only CT2 machine, closure proof, and endpoint
   criticality theorem.
+- `Graph.PackedMinimumDegreeCycle` selects finite graphs by lexicographic
+  vertex/edge rank and executes CT2 on one explicit proper-subgraph
+  certificate, with cycle transport, typed trace, totality, and a constant
+  work bound supplied by the framework. Its composed prefix retains those
+  outputs and adds CT3 boundaried replacement/uncompressibility on the same
+  selected graph. It can then retain an induced-path CT1 stage on that same
+  packed branch. The concrete piece stores an actual packed Mathlib graph and
+  injective finite boundary labelling; boundary degrees are computed directly
+  from that graph.
+- `Graph.InducedPath.Profile` takes a Mathlib induced graph embedding as its
+  proof-carrying CT1 code. It provides exact positive and avoiding traces,
+  semantic reflection, totality, and constant work bounds without tuple or
+  subgraph enumeration.
+- `Core.FiniteDisjointPacking` and `CT12.DisjointPacking` select a maximum
+  family of pairwise-disjoint nonempty supports at proof level, derive
+  maximal saturation, and run CT12 exactly once per selected item with a
+  host-vertex bound. `Graph.InducedPathPacking` adds exact support/remainder
+  cardinalities and hereditary induced-path-freeness.
+- `CT10.ExhaustiveClassification` constructs an exact accepted-subtype table
+  from an explicit finite candidate universe and proves the exhaustive
+  terminal, trace, validity, totality, and quadratic work bound.
+  `Graph.InducedPathAttachment` adds compact label codes, symbolic no-gap
+  semantics, `C`/`omegaTwo`, and literal attachment-cycle certificates.
+- `Graph.FiniteObject.InternalSubgraph` packages arbitrary finite subgraphs on
+  explicit supports and proves that passing to the induced graph on the same
+  support cannot lower minimum degree.
 - `Graph.EndpointParityCycle.Profile` generates the maximal-path CT6 run,
   typed CT6-to-CT9 route, parity CT9 run, chord-cycle theorem, target proof,
   and final CT1 validation.
@@ -63,10 +89,18 @@ Reusable profiles remove graph-problem boilerplate:
 
 The generic CT3 layer accepts application-defined pieces, contexts,
 candidates, rows, finite enumerations, and primitive deciders through
-`CT3.Spec` and `CT3.Capability`. Applications supply their theorem-specific
-boundaried universes at this interface. The external even-cycle, Erdős 64,
+`CT3.Spec` and `CT3.Capability`. `Graph.PackedBoundariedGluing` is the
+airtight graph replacement profile: it owns literal gluing, exact size and
+degree transport, locally derived whole-graph decrease, target transport,
+the typed compression run, totality, and constant budget. Applications supply
+only their target predicate, threshold, and local replacement data. The external even-cycle, Erdős 64,
 greedy-coloring, and Mantel packages are living consumers of these interfaces,
 and graph-support modules remain application-independent.
+
+`Graph.External.HegdeSandeepShashank` contains the sole trusted external
+theorem declaration used by the Erdős example. Its exact path and declaration
+name are allowlisted by repository tooling; all other axioms, admissions, and
+unsafe declarations are rejected.
 
 ## Canonical tactic layers
 

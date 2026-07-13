@@ -546,6 +546,92 @@
         "namespace": "StructuralExhaustion.CT7",
         "loopDecrease": null,
         "capabilityProfiles": [],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "Spec.Object",
+            "presentation": {
+              "plainExplanation": "The type of objects whose context behavior CT7 compares.",
+              "mathematicalDefinition": "\\mathcal{O}",
+              "label": "Compared object"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT7.Spec P → Type uObject",
+              "name": "StructuralExhaustion.CT7.Spec.Object",
+              "kind": "definition"
+            },
+            "conceptId": "CT7.spec.object"
+          },
+          {
+            "requirementRef": "Spec.Context",
+            "presentation": {
+              "plainExplanation": "The type of finite contexts capable of distinguishing two objects.",
+              "mathematicalDefinition": "\\mathcal{K}",
+              "label": "Realization context"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT7.Spec P → Type uContext",
+              "name": "StructuralExhaustion.CT7.Spec.Context",
+              "kind": "definition"
+            },
+            "conceptId": "CT7.spec.context"
+          },
+          {
+            "requirementRef": "Spec.Realizes",
+            "presentation": {
+              "plainExplanation": "The proposition that object o realizes the target behavior in context k.",
+              "mathematicalDefinition": "\\operatorname{Realizes}(x,o,k)",
+              "label": "Realization predicate"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT7.Spec P) → Core.BranchContext P → self.Object → self.Context → Prop",
+              "name": "StructuralExhaustion.CT7.Spec.Realizes",
+              "kind": "definition"
+            },
+            "conceptId": "CT7.spec.realizes"
+          },
+          {
+            "requirementRef": "Spec.response",
+            "presentation": {
+              "plainExplanation": "The Boolean response assigned to an object-context pair.",
+              "mathematicalDefinition": "R_x:\\mathcal{O}\\times\\mathcal{K}\\to\\{0,1\\}",
+              "label": "Declared response"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT7.Spec P) → Core.BranchContext P → self.Object → self.Context → Bool",
+              "name": "StructuralExhaustion.CT7.Spec.response",
+              "kind": "definition"
+            },
+            "conceptId": "CT7.spec.response"
+          },
+          {
+            "requirementRef": "Capability.contexts",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered context enumeration specialized to the branch and object pair.",
+              "mathematicalDefinition": "\\mathcal{K}_x(a,b)",
+              "label": "Finite comparison contexts"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {S : CT7.Spec P} → CT7.Capability S → Core.BranchContext P → S.Object → S.Object → FinEnum S.Context",
+              "name": "StructuralExhaustion.CT7.Capability.contexts",
+              "kind": "definition"
+            },
+            "conceptId": "CT7.capability.contexts"
+          },
+          {
+            "requirementRef": "Capability.realizesDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding the exact realization predicate.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Realizes}(x,o,k))",
+              "label": "Realization decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    CT7.Capability S →\n      (ctx : Core.BranchContext P) →\n        (object : S.Object) → (context : S.Context) → Decidable (S.Realizes ctx object context)",
+              "name": "StructuralExhaustion.CT7.Capability.realizesDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT7.capability.realizesDecidable"
+          }
+        ],
         "capability": {
           "tacticId": "CT7",
           "requiredInstances": [
@@ -557,27 +643,33 @@
           "requiredDefinitions": [
             {
               "ref": "Spec.Object",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT7.spec.object"
             },
             {
               "ref": "Spec.Context",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT7.spec.context"
             },
             {
               "ref": "Spec.Realizes",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT7.spec.realizes"
             },
             {
               "ref": "Spec.response",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT7.spec.response"
             },
             {
               "ref": "Capability.contexts",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT7.capability.contexts"
             },
             {
               "ref": "Capability.realizesDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT7.capability.realizesDecidable"
             }
           ],
           "derivedOperations": [
@@ -729,27 +821,33 @@
     "requiredDefinitions": [
       {
         "ref": "Spec.Object",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT7.spec.object"
       },
       {
         "ref": "Spec.Context",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT7.spec.context"
       },
       {
         "ref": "Spec.Realizes",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT7.spec.realizes"
       },
       {
         "ref": "Spec.response",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT7.spec.response"
       },
       {
         "ref": "Capability.contexts",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT7.capability.contexts"
       },
       {
         "ref": "Capability.realizesDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT7.capability.realizesDecidable"
       }
     ],
     "derivedOperations": [
@@ -772,5 +870,91 @@
     ],
     "capabilityId": "StructuralExhaustion.CT7.reference"
   },
-  "x-capabilityProfiles": []
+  "x-capabilityProfiles": [],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "Spec.Object",
+      "presentation": {
+        "plainExplanation": "The type of objects whose context behavior CT7 compares.",
+        "mathematicalDefinition": "\\mathcal{O}",
+        "label": "Compared object"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT7.Spec P → Type uObject",
+        "name": "StructuralExhaustion.CT7.Spec.Object",
+        "kind": "definition"
+      },
+      "conceptId": "CT7.spec.object"
+    },
+    {
+      "requirementRef": "Spec.Context",
+      "presentation": {
+        "plainExplanation": "The type of finite contexts capable of distinguishing two objects.",
+        "mathematicalDefinition": "\\mathcal{K}",
+        "label": "Realization context"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT7.Spec P → Type uContext",
+        "name": "StructuralExhaustion.CT7.Spec.Context",
+        "kind": "definition"
+      },
+      "conceptId": "CT7.spec.context"
+    },
+    {
+      "requirementRef": "Spec.Realizes",
+      "presentation": {
+        "plainExplanation": "The proposition that object o realizes the target behavior in context k.",
+        "mathematicalDefinition": "\\operatorname{Realizes}(x,o,k)",
+        "label": "Realization predicate"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT7.Spec P) → Core.BranchContext P → self.Object → self.Context → Prop",
+        "name": "StructuralExhaustion.CT7.Spec.Realizes",
+        "kind": "definition"
+      },
+      "conceptId": "CT7.spec.realizes"
+    },
+    {
+      "requirementRef": "Spec.response",
+      "presentation": {
+        "plainExplanation": "The Boolean response assigned to an object-context pair.",
+        "mathematicalDefinition": "R_x:\\mathcal{O}\\times\\mathcal{K}\\to\\{0,1\\}",
+        "label": "Declared response"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT7.Spec P) → Core.BranchContext P → self.Object → self.Context → Bool",
+        "name": "StructuralExhaustion.CT7.Spec.response",
+        "kind": "definition"
+      },
+      "conceptId": "CT7.spec.response"
+    },
+    {
+      "requirementRef": "Capability.contexts",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered context enumeration specialized to the branch and object pair.",
+        "mathematicalDefinition": "\\mathcal{K}_x(a,b)",
+        "label": "Finite comparison contexts"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {S : CT7.Spec P} → CT7.Capability S → Core.BranchContext P → S.Object → S.Object → FinEnum S.Context",
+        "name": "StructuralExhaustion.CT7.Capability.contexts",
+        "kind": "definition"
+      },
+      "conceptId": "CT7.capability.contexts"
+    },
+    {
+      "requirementRef": "Capability.realizesDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding the exact realization predicate.",
+        "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Realizes}(x,o,k))",
+        "label": "Realization decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    CT7.Capability S →\n      (ctx : Core.BranchContext P) →\n        (object : S.Object) → (context : S.Context) → Decidable (S.Realizes ctx object context)",
+        "name": "StructuralExhaustion.CT7.Capability.realizesDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT7.capability.realizesDecidable"
+    }
+  ]
 }

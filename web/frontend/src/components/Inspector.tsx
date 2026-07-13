@@ -1,12 +1,15 @@
 import { useState } from "react";
 
 import type {
+  CapabilityConcept,
+  CapabilityRequirement,
   NodeRecord,
   ProvisionedRef,
   RouteRecord,
   TacticRecord,
   TransitionRecord,
 } from "../types";
+import { MathFormula } from "./MathFormula";
 import { RouteList } from "./RouteList";
 
 type TabName = "overview" | "contract" | "formal";
@@ -31,6 +34,81 @@ function ContractSection({ title, values }: { title: string; values: Provisioned
       <h4>{title}</h4>
       <RefList values={values} />
     </section>
+  );
+}
+
+function CapabilityDefinitions({
+  values,
+  concepts,
+  reusedConceptIds = new Set<string>(),
+}: {
+  values: CapabilityRequirement[];
+  concepts: CapabilityConcept[];
+  reusedConceptIds?: ReadonlySet<string>;
+}) {
+  if (!values.length) return <p className="empty-copy">None</p>;
+  const conceptsById = new Map(concepts.map((concept) => [concept.conceptId, concept]));
+
+  return (
+    <div className="capability-definition-list">
+      {values.map((value) => {
+        const concept = conceptsById.get(value.conceptId);
+        if (!concept) {
+          return (
+            <div className="capability-definition capability-definition--unresolved" key={value.conceptId}>
+              <code>{value.ref}</code>
+              <span className="provision-badge">{value.provision.replaceAll("_", " ")}</span>
+            </div>
+          );
+        }
+        const conceptAnchor = `capability-concept-${concept.conceptId.replaceAll(/[^a-zA-Z0-9_-]/g, "-")}`;
+        if (reusedConceptIds.has(concept.conceptId)) {
+          return (
+            <div className="capability-definition capability-definition--reused" key={concept.conceptId}>
+              <span className="capability-definition__summary">
+                <strong>{concept.presentation.label}</strong>
+                <code>{concept.formalDeclaration.name}</code>
+              </span>
+              <span className="provision-badge">{value.provision.replaceAll("_", " ")}</span>
+              <a href={`#${conceptAnchor}`}>Shared with base capability</a>
+            </div>
+          );
+        }
+        return (
+          <details className="capability-definition" id={conceptAnchor} key={concept.conceptId}>
+            <summary>
+              <span className="capability-definition__summary">
+                <strong>{concept.presentation.label}</strong>
+                <code>{concept.formalDeclaration.name}</code>
+              </span>
+              <span className="provision-badge">{value.provision.replaceAll("_", " ")}</span>
+            </summary>
+            <div className="capability-definition__body">
+              <section>
+                <h5>Mathematical definition</h5>
+                <MathFormula
+                  value={concept.presentation.mathematicalDefinition}
+                  label={`Mathematical definition of ${concept.presentation.label}`}
+                />
+              </section>
+              <section>
+                <h5>In plain words</h5>
+                <p>{concept.presentation.plainExplanation}</p>
+              </section>
+              <section>
+                <h5>Lean declaration</h5>
+                <dl className="capability-definition__metadata">
+                  <div><dt>Exact name</dt><dd><code>{concept.formalDeclaration.name}</code></dd></div>
+                  <div><dt>Kind</dt><dd>{concept.formalDeclaration.kind}</dd></div>
+                  <div><dt>Provision</dt><dd>{value.provision.replaceAll("_", " ")}</dd></div>
+                </dl>
+                <pre>{concept.formalDeclaration.type}</pre>
+              </section>
+            </div>
+          </details>
+        );
+      })}
+    </div>
   );
 }
 
@@ -159,6 +237,21 @@ function TacticInspector({
   inbound: RouteRecord[];
   outbound: RouteRecord[];
 }) {
+  const describedConceptIds = new Set(
+    tactic.capability.requiredDefinitions.map((requirement) => requirement.conceptId),
+  );
+  const capabilityProfiles = tactic.capabilityProfiles.map((profile) => {
+    const reusedConceptIds = new Set(
+      profile.requiredDefinitions
+        .map((requirement) => requirement.conceptId)
+        .filter((conceptId) => describedConceptIds.has(conceptId)),
+    );
+    profile.requiredDefinitions.forEach((requirement) => {
+      describedConceptIds.add(requirement.conceptId);
+    });
+    return { profile, reusedConceptIds };
+  });
+
   return (
     <>
       <div className="inspector-heading">
@@ -173,7 +266,35 @@ function TacticInspector({
           <div><dt>Terminals</dt><dd>{tactic.terminals.length}</dd></div>
           <div><dt>Residual kinds</dt><dd>{tactic.residualKinds.length}</dd></div>
         </dl>
-        <ContractSection title="Required definitions" values={tactic.capability.requiredDefinitions} />
+        <section className="inspector-section">
+          <h4>Required definitions</h4>
+          <CapabilityDefinitions
+            values={tactic.capability.requiredDefinitions}
+            concepts={tactic.capabilityConcepts}
+          />
+        </section>
+        {capabilityProfiles.length ? (
+          <section className="inspector-section">
+            <h4>Capability profiles</h4>
+            <div className="capability-profile-list">
+              {capabilityProfiles.map(({ profile, reusedConceptIds }) => (
+                <details className="capability-profile" key={profile.capabilityId}>
+                  <summary>
+                    <code>{profile.capabilityId}</code>
+                    <span>{profile.requiredDefinitions.length} definitions</span>
+                  </summary>
+                  <div className="capability-profile__body">
+                    <CapabilityDefinitions
+                      values={profile.requiredDefinitions}
+                      concepts={tactic.capabilityConcepts}
+                      reusedConceptIds={reusedConceptIds}
+                    />
+                  </div>
+                </details>
+              ))}
+            </div>
+          </section>
+        ) : null}
         <ContractSection title="Required instances" values={tactic.capability.requiredInstances} />
         <section className="inspector-section">
           <h4>Semantic residuals</h4>

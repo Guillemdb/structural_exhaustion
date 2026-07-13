@@ -1,6 +1,6 @@
 {
   "artifactType": "structuralExhaustionExample",
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "sourceOfTruth": {
     "rootModule": "GreedyColoringExample",
     "kind": "compiledLeanEnvironment",
@@ -190,6 +190,7 @@
       "frameworkDeclarationId": "StructuralExhaustion.CT1.run"
     }
   ],
+  "manuscript": null,
   "declarations": [
     {
       "declarationId": "GreedyColoringExample.ConcreteK4.coloring_is_proper",

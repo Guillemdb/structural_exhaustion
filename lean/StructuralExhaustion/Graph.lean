@@ -5,8 +5,16 @@ import StructuralExhaustion.Graph.ChordCycle
 import StructuralExhaustion.Graph.EdgeDeletion
 import StructuralExhaustion.Graph.FiniteObject
 import StructuralExhaustion.Graph.CycleCertificate
+import StructuralExhaustion.Graph.InducedPath
+import StructuralExhaustion.Graph.InducedPathAttachment
+import StructuralExhaustion.Graph.InducedSubgraph
+import StructuralExhaustion.Graph.InducedPathPacking
+import StructuralExhaustion.Graph.MaximumMatching
 import StructuralExhaustion.Graph.EdgeRootedReturn
 import StructuralExhaustion.Graph.MinimumDegreeCycle
+import StructuralExhaustion.Graph.MinimumDegreeCycleRouted
+import StructuralExhaustion.Graph.PackedMinimumDegreeCycle
+import StructuralExhaustion.Graph.PackedBoundariedGluing
 import StructuralExhaustion.Graph.MaximalPath
 import StructuralExhaustion.Graph.EndpointParityCycle
 import StructuralExhaustion.Graph.Coloring

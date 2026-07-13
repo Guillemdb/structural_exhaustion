@@ -46,6 +46,7 @@ be checked with:
 lake env lean EvenCycleExample/Run.lean
 lake env lean EvenCycleExample/Concrete.lean
 lake env lean EvenCycleExample/CT2Audit.lean
+lake env lean EvenCycleExample/CT12MaximalMatching.lean
 ```
 
 ## API boundary
@@ -59,8 +60,20 @@ lake env lean EvenCycleExample/CT2Audit.lean
   for the generated greedy path, CT6 active ledger, typed CT6→CT9 route,
   parity overload, endpoint positions, and Mathlib chord-cycle certificate.
 - `Run.lean` exposes the theorem and the final CT1 validation run.
-- `CT2Audit.lean` aliases the generated dart-deletion CT2 capability and
-  exposes the derived degree-three endpoint invariant.
+- `CT2Audit.lean` instantiates the packed proper-subgraph CT2 profile and the
+  dart-deletion CT2 capability, exposing the no-proper-core theorem, exact
+  constant-work trace, and degree-three endpoint invariant.
+- `CT3SeriesReduction.lean` implements the textbook Duffin parity-series
+  response table and independently instantiates the certificate-driven
+  boundaried replacement profile, including its compression terminal, typed
+  trace, minimality contradiction, totality, and one-check work bound.
+- `CT1InducedEdge.lean` is the external `K₄` fixture for the graph layer's
+  reusable induced-edge CT1 profile, pinning its terminal, exact trace, and
+  constant work count.
+- `CT12MaximalMatching.lean` is the external `K₄` fixture for
+  `Graph.MaximumMatching`, whose graph-owned implementation specializes the
+  induced-path packing profile to order two and proves the maximum, partition,
+  CT12 audit, and edgeless-remainder results.
 - `Concrete.lean` runs the pipeline on Mathlib's complete graph on four
   explicitly scheduled vertices and checks the exact terminals, traces,
   maximal path, and cycle.

@@ -175,6 +175,100 @@ private def validateBinding
   validateDeclaration env binding.problemDeclaration
   validateDeclaration env binding.frameworkDeclaration
 
+private def stageDeclarations
+    (description : ExampleDescriptor) (stage : ExampleStageDescriptor) : List Name :=
+  let bindingDeclarations := description.interfaceBindings
+    |>.filter (·.stageId == stage.stageId)
+    |>.flatMap fun binding => [binding.problemDeclaration, binding.frameworkDeclaration]
+  let inboundLinkDeclarations := allLinks description
+    |>.filter (·.targetStageId == stage.stageId)
+    |>.flatMap (·.evidenceDeclarations)
+  stage.primaryDeclaration ::
+    stage.evidenceDeclarations ++ bindingDeclarations ++ inboundLinkDeclarations
+
+private def validateDeclarationGroup
+    (env : Environment) (step : ExampleProofStepDescriptor)
+    (group : ExampleDeclarationGroup) : CommandElabM Unit := do
+  ensureNonempty s!"proof step {step.stepId} groupId" group.groupId
+  ensureNonempty s!"proof step {step.stepId} group {group.groupId} title" group.title
+  ensureNonempty
+    s!"proof step {step.stepId} group {group.groupId} explanation" group.explanation
+  if group.declarations.isEmpty then
+    throwError
+      "example export: proof step {step.stepId} group {group.groupId} has no declarations"
+  for declaration in group.declarations do validateDeclaration env declaration
+
+private def validateProofStep
+    (env : Environment) (description : ExampleDescriptor)
+    (step : ExampleProofStepDescriptor) : CommandElabM Unit := do
+  ensureNonempty "proof stepId" step.stepId
+  ensureNonempty s!"proof step {step.stepId} title" step.title
+  ensureNonempty s!"proof step {step.stepId} plainExplanation" step.plainExplanation
+  ensureNonempty s!"proof step {step.stepId} formalStatement" step.formalStatement
+  ensureNonempty s!"proof step {step.stepId} scopeNotes" step.scopeNotes
+  ensureNonempty s!"proof step {step.stepId} workBound" step.workBound
+  if let some duplicate := duplicate? (step.declarationGroups.map (·.groupId)) then
+    throwError
+      "example export: proof step {step.stepId} duplicates group id {duplicate}"
+  for reference in step.manuscriptRefs do
+    ensureNonempty s!"proof step {step.stepId} manuscript label" reference.label
+    ensureNonempty s!"proof step {step.stepId} manuscript title" reference.title
+  for group in step.declarationGroups do validateDeclarationGroup env step group
+  let grouped := step.declarationGroups.flatMap (·.declarations)
+  if let some duplicate := duplicate? (grouped.map (·.toString)) then
+    throwError
+      "example export: proof step {step.stepId} classifies declaration {duplicate} twice"
+  match step.status, step.stageId? with
+  | .implemented, none =>
+      throwError "example export: implemented proof step {step.stepId} has no stage"
+  | .implemented, some stageId =>
+      let some stage := findExampleStage? description stageId
+        | throwError
+            "example export: proof step {step.stepId} references unknown stage {stageId}"
+      let expected := stageDeclarations description stage
+      for declaration in expected do
+        unless grouped.contains declaration do
+          throwError
+            "example export: proof step {step.stepId} does not explain displayed declaration {declaration}"
+      for declaration in grouped do
+        unless expected.contains declaration do
+          throwError
+            "example export: proof step {step.stepId} explains unrelated declaration {declaration}"
+  | .next, some stageId =>
+      throwError
+        "example export: unimplemented proof step {step.stepId} unexpectedly names stage {stageId}"
+  | .notStarted, some stageId =>
+      throwError
+        "example export: unimplemented proof step {step.stepId} unexpectedly names stage {stageId}"
+  | .next, none =>
+      unless step.declarationGroups.isEmpty do
+        throwError
+          "example export: unimplemented proof step {step.stepId} has declaration groups"
+  | .notStarted, none =>
+      unless step.declarationGroups.isEmpty do
+        throwError
+          "example export: unimplemented proof step {step.stepId} has declaration groups"
+
+private def validateManuscript
+    (env : Environment) (description : ExampleDescriptor)
+    (manuscript : ExampleManuscriptDescriptor) : CommandElabM Unit := do
+  ensureNonempty "manuscript title" manuscript.title
+  ensureNonempty "manuscript path" manuscript.path
+  if manuscript.path.startsWith "/" || (manuscript.path.splitOn "/").contains ".." ||
+      !manuscript.path.endsWith ".tex" then
+    throwError "example export: manuscript path must be a safe repository-relative .tex path"
+  if manuscript.proofSteps.isEmpty then
+    throwError "example export: manuscript has no proof steps"
+  if let some duplicate := duplicate? (manuscript.proofSteps.map (·.stepId)) then
+    throwError "example export: duplicate proof step id {duplicate}"
+  let mappedStageIds := manuscript.proofSteps.filterMap (·.stageId?)
+  if let some duplicate := duplicate? mappedStageIds then
+    throwError "example export: manuscript maps stage {duplicate} more than once"
+  for stage in allStages description do
+    unless mappedStageIds.contains stage.stageId do
+      throwError "example export: manuscript does not map displayed stage {stage.stageId}"
+  for step in manuscript.proofSteps do validateProofStep env description step
+
 private def validateExample
     (env : Environment) (description : ExampleDescriptor) : CommandElabM Unit := do
   ensureNonempty "exampleId" description.exampleId
@@ -196,6 +290,8 @@ private def validateExample
       "example export: complete example {description.exampleId} contains a partial workflow"
   for workflow in description.workflows do validateWorkflow env workflow
   for binding in description.interfaceBindings do validateBinding env description binding
+  if let some manuscript := description.manuscript? then
+    validateManuscript env description manuscript
 
 private def stageJson
     (env : Environment) (stage : ExampleStageDescriptor) : CommandElabM Json := do
@@ -249,6 +345,52 @@ private def bindingJson
     ("frameworkDeclaration", ← declarationJson env binding.frameworkDeclaration)
   ]
 
+private def manuscriptReferenceJson (reference : ExampleManuscriptReference) : Json :=
+  Json.mkObj [
+    ("label", toJson reference.label),
+    ("title", toJson reference.title),
+    ("nodeIds", toJson reference.nodeIds)
+  ]
+
+private def declarationGroupJson
+    (env : Environment) (group : ExampleDeclarationGroup) : CommandElabM Json := do
+  pure <| Json.mkObj [
+    ("groupId", toJson group.groupId),
+    ("title", toJson group.title),
+    ("role", toJson group.role.key),
+    ("explanation", toJson group.explanation),
+    ("declarations", ← declarationsJson env group.declarations)
+  ]
+
+private def proofStepJson
+    (env : Environment) (step : ExampleProofStepDescriptor) : CommandElabM Json := do
+  pure <| Json.mkObj [
+    ("stepId", toJson step.stepId),
+    ("stageId", match step.stageId? with
+      | none => Json.null
+      | some stageId => toJson stageId),
+    ("title", toJson step.title),
+    ("plainExplanation", toJson step.plainExplanation),
+    ("formalStatement", toJson step.formalStatement),
+    ("status", toJson step.status.key),
+    ("correspondence", toJson step.correspondence.key),
+    ("manuscriptRefs", Json.arr
+      (step.manuscriptRefs.map manuscriptReferenceJson).toArray),
+    ("declarationGroups", Json.arr
+      (← step.declarationGroups.mapM (declarationGroupJson env)).toArray),
+    ("scopeNotes", toJson step.scopeNotes),
+    ("workBound", toJson step.workBound)
+  ]
+
+private def manuscriptJson
+    (env : Environment) (manuscript : ExampleManuscriptDescriptor) : CommandElabM Json := do
+  pure <| Json.mkObj [
+    ("title", toJson manuscript.title),
+    ("path", toJson manuscript.path),
+    ("proofSteps", Json.arr
+      (← manuscript.proofSteps.mapM (proofStepJson env)).toArray)
+  ]
+
 /-- Validate and export one package-local example descriptor as raw JSON. -/
 def exportExample
     (rootModule descriptorDeclaration : Name)
@@ -260,9 +402,12 @@ def exportExample
     throwError
       "example export: descriptor declaration {descriptorDeclaration} is missing"
   validateExample env description
+  let manuscriptValue ← match description.manuscript? with
+    | none => pure Json.null
+    | some manuscript => manuscriptJson env manuscript
   let catalog := Json.mkObj [
     ("artifactType", toJson "structuralExhaustionExample"),
-    ("schemaVersion", toJson "1.0.0"),
+    ("schemaVersion", toJson "1.1.0"),
     ("sourceOfTruth", Json.mkObj [
       ("kind", toJson "compiledLeanEnvironment"),
       ("rootModule", toJson rootModule.toString),
@@ -275,7 +420,8 @@ def exportExample
       ("proofStatus", toJson description.proofStatus.key),
       ("workflows", Json.arr (← description.workflows.mapM (workflowJson env)).toArray),
       ("interfaceBindings", Json.arr
-        (← description.interfaceBindings.mapM (bindingJson env)).toArray)
+        (← description.interfaceBindings.mapM (bindingJson env)).toArray),
+      ("manuscript", manuscriptValue)
     ])
   ]
   let output := (← IO.getEnv "STRUCTURAL_EXHAUSTION_EXAMPLE_EXPORT").getD

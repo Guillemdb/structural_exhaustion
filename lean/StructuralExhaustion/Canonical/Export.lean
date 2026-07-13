@@ -72,6 +72,45 @@ private def provisionedRefJson (reference : Core.ProvisionedRef) : Json :=
 private def provisionedRefsJson (references : List Core.ProvisionedRef) : Json :=
   Json.arr (references.map provisionedRefJson).toArray
 
+private def duplicate? (values : List String) : Option String :=
+  match values with
+  | [] => none
+  | value :: rest =>
+      if rest.contains value then some value else duplicate? rest
+
+private def distinctStrings (values : List String) : List String :=
+  values.foldl (fun result value =>
+    if result.contains value then result else result ++ [value]) []
+
+private def capabilityRequirementJson
+    (concepts : List CapabilityConcept)
+    (reference : Core.ProvisionedRef) : CommandElabM Json := do
+  let some concept := concepts.find? fun concept =>
+      concept.requirementRef == reference.ref
+    | throwError
+        "automation-first export: no capability concept for requirement {reference.ref}"
+  pure <| Json.mkObj [
+    ("ref", toJson reference.ref),
+    ("provision", toJson reference.provision.key),
+    ("conceptId", toJson concept.conceptId)
+  ]
+
+private def capabilityConceptJson
+    (env : Environment) (concept : CapabilityConcept) : CommandElabM Json := do
+  let formalDeclaration ← declarationJson env concept.declarationName
+  let presentation := Json.mkObj [
+    ("label", toJson concept.presentation.label),
+    ("mathematicalDefinition",
+      toJson concept.presentation.mathematicalDefinition),
+    ("plainExplanation", toJson concept.presentation.plainExplanation)
+  ]
+  pure <| Json.mkObj [
+    ("conceptId", toJson concept.conceptId),
+    ("requirementRef", toJson concept.requirementRef),
+    ("formalDeclaration", formalDeclaration),
+    ("presentation", presentation)
+  ]
+
 private def theoremRefs (names : List String) : List Core.ProvisionedRef :=
   names.map fun name => ⟨name, .derivedByGenericTheorem⟩
 
@@ -94,15 +133,19 @@ private def automationJson (contract : Core.NodeAutomationContract) : Json :=
     ("manualObligations", Json.arr (contract.manualObligations.map toJson).toArray)
   ]
 
-private def capabilityJson (contract : Core.CapabilityContract) : Json :=
+private def capabilityJson
+    (concepts : List CapabilityConcept)
+    (contract : Core.CapabilityContract) : CommandElabM Json := do
   let requiredInstances := contract.requiredInstances.map fun reference =>
     Core.ProvisionedRef.mk reference .typeclassInferred
   let derivedOperations := contract.derivedOperations.map fun reference =>
     Core.ProvisionedRef.mk reference .frameworkConstant
-  Json.mkObj [
+  let requiredDefinitions ← contract.requiredDefinitions.mapM
+    (capabilityRequirementJson concepts)
+  pure <| Json.mkObj [
     ("capabilityId", toJson contract.capabilityId),
     ("tacticId", toJson contract.tacticId),
-    ("requiredDefinitions", provisionedRefsJson contract.requiredDefinitions),
+    ("requiredDefinitions", Json.arr requiredDefinitions.toArray),
     ("requiredInstances", provisionedRefsJson requiredInstances),
     ("derivedOperations", provisionedRefsJson derivedOperations)
   ]
@@ -166,6 +209,223 @@ private def dottedName (reference : String) : Name :=
 
 private def sourcePath (namespaceName : Name) : String :=
   String.intercalate "/" (namespaceName.toString.splitOn ".") ++ ".lean"
+
+private def prefixedName (namePrefix : Name) (reference : String) : Name :=
+  (reference.splitOn ".").foldl (fun name component => name.str component) namePrefix
+
+private def projectName (name : Name) : Bool :=
+  (`StructuralExhaustion).isPrefixOf name
+
+private def distinctNames (names : List Name) : List Name :=
+  names.foldl (fun result name =>
+    if result.contains name then result else result ++ [name]) []
+
+private def sortedNames (names : List Name) : List Name :=
+  distinctNames names |>.mergeSort fun first second =>
+    first.toString < second.toString
+
+private def typeDependencies (info : ConstantInfo) : List Name :=
+  sortedNames info.type.getUsedConstants.toList
+
+private def valueDependencies : ConstantInfo → List Name
+  | .defnInfo info => sortedNames info.value.getUsedConstants.toList
+  | .thmInfo info => sortedNames info.value.getUsedConstants.toList
+  | .opaqueInfo info => sortedNames info.value.getUsedConstants.toList
+  | .inductInfo info => sortedNames info.ctors
+  | _ => []
+
+private def hasBody : ConstantInfo → Bool
+  | .defnInfo _ | .thmInfo _ | .opaqueInfo _ => true
+  | _ => false
+
+private def directProjectDependencies
+    (env : Environment) (name : Name) : List Name :=
+  match env.find? name with
+  | none => []
+  | some info =>
+      sortedNames <| (typeDependencies info ++ valueDependencies info).filter fun dependency =>
+        projectName dependency && dependency != name
+
+private partial def projectDeclarationClosure
+    (env : Environment) (pending seen : List Name) : List Name :=
+  match pending with
+  | [] => seen.reverse
+  | name :: rest =>
+      if seen.contains name then projectDeclarationClosure env rest seen
+      else
+        projectDeclarationClosure env
+          (rest ++ directProjectDependencies env name) (name :: seen)
+
+private def referenceCandidates
+    (tactic : TacticDescriptor) (reference : String) : List Name :=
+  distinctNames [
+    dottedName reference,
+    prefixedName `StructuralExhaustion reference,
+    prefixedName tactic.namespaceName reference,
+    prefixedName `StructuralExhaustion.Core reference
+  ]
+
+private def resolveReference?
+    (env : Environment) (tactic : TacticDescriptor) (reference : String) : Option Name :=
+  (referenceCandidates tactic reference).find? fun candidate =>
+    env.find? candidate |>.isSome
+
+private def positionJson (position : Position) : Json :=
+  Json.mkObj [
+    ("line", toJson position.line),
+    ("column", toJson position.column)
+  ]
+
+private def rangeJson (range : DeclarationRange) : Json :=
+  Json.mkObj [
+    ("start", positionJson range.pos),
+    ("end", positionJson range.endPos)
+  ]
+
+private def declarationModule?
+    (env : Environment) (name : Name) : Option Name := do
+  let moduleIdx ← env.getModuleIdxFor? name
+  pure env.header.moduleNames[moduleIdx.toNat]!
+
+private def internalDeclarationJson
+    (env : Environment) (name : Name) : CommandElabM Json := do
+  let some info := env.find? name
+    | throwError "automation-first export: missing internal declaration {name}"
+  let typeDeps := typeDependencies info |>.filter (· != name)
+  let bodyDeps := valueDependencies info |>.filter fun dependency =>
+    dependency != name && !typeDeps.contains dependency
+  let ranges? ← findDeclarationRanges? name
+  let rangeValue := match ranges? with
+    | none => Json.null
+    | some ranges => rangeJson ranges.range
+  let selectionRangeValue := match ranges? with
+    | none => Json.null
+    | some ranges => rangeJson ranges.selectionRange
+  let moduleValue := match declarationModule? env name with
+    | none => Json.null
+    | some moduleName => toJson moduleName.toString
+  let sourceValue := match declarationModule? env name with
+    | none => Json.null
+    | some moduleName => toJson (sourcePath moduleName)
+  let docValue := match ← findDocString? env name with
+    | none => Json.null
+    | some doc => toJson doc
+  pure <| Json.mkObj [
+    ("declarationId", toJson name.toString),
+    ("name", toJson name.toString),
+    ("kind", toJson (declarationKind info)),
+    ("type", toJson (← declarationType info)),
+    ("docString", docValue),
+    ("module", moduleValue),
+    ("sourceFile", sourceValue),
+    ("range", rangeValue),
+    ("selectionRange", selectionRangeValue),
+    ("bodyAvailable", toJson (hasBody info)),
+    ("typeDependencies", toJson (typeDeps.map (·.toString))),
+    ("bodyDependencies", toJson (bodyDeps.map (·.toString)))
+  ]
+
+private def genericStepExplanation
+    (step : NodeInternalStepDescriptor) : String :=
+  match step.role with
+  | .authorObject =>
+      s!"Application-supplied mathematical data or operation used by this node: {step.reference.ref}."
+  | .inferredInstance =>
+      s!"Executable instance inferred by Lean for this node: {step.reference.ref}."
+  | .predecessorState =>
+      s!"Typed state inherited from the immediately preceding CT node: {step.reference.ref}."
+  | .operation =>
+      s!"Framework-owned operation executed inside this node: {step.reference.ref}."
+  | .theorem =>
+      s!"Framework theorem certifying the semantic correctness of this node: {step.reference.ref}."
+  | .output =>
+      s!"State, decision, certificate, or residual produced by this node: {step.reference.ref}."
+
+private def internalStepJson
+    (env : Environment) (tactic : TacticDescriptor)
+    (step : NodeInternalStepDescriptor) : CommandElabM Json := do
+  let concept? := tactic.capabilityConcepts.find? fun concept =>
+    concept.requirementRef == step.reference.ref
+  let declaration? := match concept? with
+    | some concept => some concept.declarationName
+    | none => resolveReference? env tactic step.reference.ref
+  let label := match concept? with
+    | some concept => concept.presentation.label
+    | none => step.reference.ref
+  let explanation ← match concept?, declaration? with
+    | some concept, _ => pure concept.presentation.plainExplanation
+    | none, some declaration => do
+        let doc? ← findDocString? env declaration
+        pure (doc?.getD (genericStepExplanation step))
+    | none, none => pure (genericStepExplanation step)
+  let mathematicalDefinition := match concept? with
+    | some concept => toJson concept.presentation.mathematicalDefinition
+    | none => Json.null
+  pure <| Json.mkObj [
+    ("stepId", toJson step.stepId),
+    ("label", toJson label),
+    ("role", toJson step.role.key),
+    ("reference", provisionedRefJson step.reference),
+    ("declarationId", match declaration? with
+      | none => Json.null
+      | some declaration => toJson declaration.toString),
+    ("plainExplanation", toJson explanation),
+    ("mathematicalDefinition", mathematicalDefinition)
+  ]
+
+private def internalEdgeJson (edge : NodeInternalEdgeDescriptor) : Json :=
+  Json.mkObj [
+    ("edgeId", toJson edge.edgeId),
+    ("sourceStepId", toJson edge.sourceStepId),
+    ("targetStepId", toJson edge.targetStepId),
+    ("relation", toJson edge.relation.key)
+  ]
+
+private def internalFlowJson
+    (env : Environment) (tactic : TacticDescriptor)
+    (flow : NodeInternalFlowDescriptor) : CommandElabM Json := do
+  pure <| Json.mkObj [
+    ("nodeId", toJson flow.nodeId),
+    ("steps", Json.arr (← flow.steps.mapM (internalStepJson env tactic)).toArray),
+    ("edges", Json.arr (flow.edges.map internalEdgeJson).toArray)
+  ]
+
+private def contractReferences
+    (contract : Core.NodeAutomationContract) : List String :=
+  (contract.authorInputs ++ contract.derivedInputs ++
+    contract.frameworkTheorems.map fun name =>
+      Core.ProvisionedRef.mk name .derivedByGenericTheorem ++
+    contract.generatedOutputs).map (·.ref)
+
+private def validateInternalFlow
+    (contract : Core.NodeAutomationContract)
+    (flow : NodeInternalFlowDescriptor) : CommandElabM Unit := do
+  unless flow.nodeId == contract.nodeId do
+    throwError
+      "automation-first export: internal flow {flow.nodeId} does not match {contract.nodeId}"
+  let stepIds := flow.steps.map (·.stepId)
+  let edgeIds := flow.edges.map (·.edgeId)
+  if let some duplicate := duplicate? stepIds then
+    throwError "automation-first export: {flow.nodeId} repeats internal step {duplicate}"
+  if let some duplicate := duplicate? edgeIds then
+    throwError "automation-first export: {flow.nodeId} repeats internal edge {duplicate}"
+  for edge in flow.edges do
+    unless stepIds.contains edge.sourceStepId && stepIds.contains edge.targetStepId do
+      throwError
+        "automation-first export: {flow.nodeId} internal edge {edge.edgeId} has an unknown endpoint"
+  let expected := contractReferences contract
+  let actual := flow.steps.map (·.reference.ref)
+  if let some duplicate := duplicate? actual then
+    throwError
+      "automation-first export: {flow.nodeId} classifies internal reference {duplicate} twice"
+  for reference in expected do
+    unless actual.contains reference do
+      throwError
+        "automation-first export: {flow.nodeId} does not expose internal reference {reference}"
+  for reference in actual do
+    unless expected.contains reference do
+      throwError
+        "automation-first export: {flow.nodeId} exposes unrelated internal reference {reference}"
 
 private def hasFragment (value fragment : String) : Bool :=
   (value.splitOn fragment).length > 1
@@ -251,26 +511,70 @@ def json (terminal : TerminalSnapshot) : Json :=
 
 end TerminalSnapshot
 
-private def terminalAutomationJson
+private def terminalAutomationContract
     (tactic : TacticDescriptor) (code : String)
-    (incoming : Array TransitionSnapshot) : Json :=
+    (incoming : Array TransitionSnapshot) : Core.NodeAutomationContract :=
   let predecessor := incoming.toList.map fun edge =>
     Core.ProvisionedRef.mk edge.constructor.toString .derivedFromPredecessor
   let theoremName := tactic.namespaceName.toString ++ ".run_trace_valid"
-  let theorems := [Core.ProvisionedRef.mk theoremName .derivedByGenericTheorem]
   let output := Core.ProvisionedRef.mk
     (tactic.namespaceName.toString ++ ".ExecutionResult@" ++ code) .generatedAudit
-  Json.mkObj [
-    ("executionClass", toJson Core.ExecutionClass.genericTheorem.key),
-    ("authorInputs", Json.arr #[]),
-    ("inferredInputs", Json.arr #[]),
-    ("predecessorInputs", provisionedRefsJson predecessor),
-    ("derivedInputs", Json.arr #[]),
-    ("transitiveDependencies", provisionedRefsJson (predecessor ++ theorems)),
-    ("frameworkTheorems", provisionedRefsJson theorems),
-    ("generatedOutputs", provisionedRefsJson [output]),
-    ("manualObligations", Json.arr #[])
-  ]
+  {
+    nodeId := code
+    executionClass := .genericTheorem
+    authorInputs := []
+    derivedInputs := predecessor
+    frameworkTheorems := [theoremName]
+    generatedOutputs := [output]
+    manualObligations := []
+  }
+
+private def validateCapabilityConcepts
+    (env : Environment) (tactic : TacticDescriptor) : CommandElabM Unit := do
+  let requirements := distinctStrings <|
+    (tactic.capabilityContract.requiredDefinitions ++
+      tactic.capabilityProfiles.flatMap (·.requiredDefinitions)).map (·.ref)
+  let conceptIds := tactic.capabilityConcepts.map (·.conceptId)
+  let conceptRefs := tactic.capabilityConcepts.map (·.requirementRef)
+  let declarationNames := tactic.capabilityConcepts.map
+    (·.declarationName.toString)
+  if let some duplicate := duplicate? conceptIds then
+    throwError
+      "automation-first export: {tactic.tacticId} duplicates capability concept id {duplicate}"
+  if let some duplicate := duplicate? conceptRefs then
+    throwError
+      "automation-first export: {tactic.tacticId} duplicates concept requirement {duplicate}"
+  if let some duplicate := duplicate? declarationNames then
+    throwError
+      "automation-first export: {tactic.tacticId} maps multiple concepts to declaration {duplicate}"
+  for requirement in requirements do
+    unless conceptRefs.contains requirement do
+      throwError
+        "automation-first export: {tactic.tacticId} requirement {requirement} has no capability concept"
+  for concept in tactic.capabilityConcepts do
+    unless requirements.contains concept.requirementRef do
+      throwError
+        "automation-first export: {tactic.tacticId} capability concept {concept.conceptId} is orphaned from {concept.requirementRef}"
+    let expectedDeclaration :=
+      if concept.requirementRef.startsWith "StructuralExhaustion." then
+        dottedName concept.requirementRef
+      else
+        (concept.requirementRef.splitOn ".").foldl
+          (fun name component => name.str component) tactic.namespaceName
+    unless concept.declarationName == expectedDeclaration do
+      throwError
+        "automation-first export: capability concept {concept.conceptId} binds {concept.requirementRef} to {concept.declarationName}, expected {expectedDeclaration}"
+    if concept.conceptId.isEmpty then
+      throwError
+        "automation-first export: {tactic.tacticId} has an empty capability concept id"
+    if concept.presentation.label.isEmpty ||
+        concept.presentation.mathematicalDefinition.isEmpty ||
+        concept.presentation.plainExplanation.isEmpty then
+      throwError
+        "automation-first export: capability concept {concept.conceptId} has incomplete presentation metadata"
+    unless env.find? concept.declarationName |>.isSome do
+      throwError
+        "automation-first export: capability concept {concept.conceptId} has unknown declaration {concept.declarationName}"
 
 private def tacticJson
     (env : Environment) (tactic : TacticDescriptor) : CommandElabM Json := do
@@ -281,6 +585,7 @@ private def tacticJson
     unless profile.tacticId == tactic.tacticId do
       throwError
         "automation-first export: {profile.capabilityId} has tacticId {profile.tacticId}, expected {tactic.tacticId}"
+  validateCapabilityConcepts env tactic
 
   let graphNamespace := tactic.namespaceName.str "Graph"
   let nodeType := graphNamespace.str "NodeId"
@@ -423,15 +728,21 @@ private def tacticJson
   let decreaseDeclarations ← decreaseCandidates.filterMapM
     (optionalDeclarationJson env)
   let loopDecrease := decreaseDeclarations.head?.getD Json.null
+  let capability ← capabilityJson tactic.capabilityConcepts
+    tactic.capabilityContract
+  let capabilityProfiles ← tactic.capabilityProfiles.mapM
+    (capabilityJson tactic.capabilityConcepts)
+  let capabilityConcepts ← tactic.capabilityConcepts.mapM
+    (capabilityConceptJson env)
 
   pure <| Json.mkObj [
     ("tacticId", toJson tactic.tacticId),
     ("title", toJson tactic.title),
     ("apiVersion", toJson tactic.apiVersion),
     ("namespace", toJson tactic.namespaceName.toString),
-    ("capability", capabilityJson tactic.capabilityContract),
-    ("capabilityProfiles", Json.arr
-      (tactic.capabilityProfiles.map capabilityJson).toArray),
+    ("capability", capability),
+    ("capabilityProfiles", Json.arr capabilityProfiles.toArray),
+    ("capabilityConcepts", Json.arr capabilityConcepts.toArray),
     ("nodes", Json.arr nodes),
     ("transitions", Json.arr (transitions.map TransitionSnapshot.json)),
     ("terminals", Json.arr (terminals.map TerminalSnapshot.json)),
@@ -441,17 +752,15 @@ private def tacticJson
     ("loopDecrease", loopDecrease)
   ]
 
-private def duplicate? (values : List String) : Option String :=
-  match values with
-  | [] => none
-  | value :: rest =>
-      if rest.contains value then some value else duplicate? rest
-
 private def exportCatalog : CommandElabM Unit := do
   let env ← getEnv
   let tacticIds := Canonical.tactics.toList.map (·.tacticId)
   if let some duplicate := duplicate? tacticIds then
     throwError "automation-first export: duplicate tactic id {duplicate}"
+  let conceptIds := Canonical.tactics.toList.flatMap fun tactic =>
+    tactic.capabilityConcepts.map (·.conceptId)
+  if let some duplicate := duplicate? conceptIds then
+    throwError "automation-first export: duplicate capability concept id {duplicate}"
   let residualIds := Canonical.tactics.toList.flatMap fun tactic =>
     tactic.residualKindContracts.map (·.residualKindId)
   if let some duplicate := duplicate? residualIds then
@@ -479,11 +788,12 @@ private def exportCatalog : CommandElabM Unit := do
         if problemInputs.contains .semanticDiscoveryAdapter then
           throwError
             "automation-first export: capability-discovery route {route.routeId} lists an adapter input"
-        let expectedDiscovery :=
-          s!"StructuralExhaustion.{route.targetTacticId}.Capability.discover"
-        unless route.discovery == expectedDiscovery do
+        let discoveryPrefix :=
+          s!"StructuralExhaustion.{route.targetTacticId}."
+        unless route.discovery.startsWith discoveryPrefix &&
+            route.discovery.endsWith "Capability.discover" do
           throwError
-            "automation-first export: capability-discovery route {route.routeId} must use {expectedDiscovery}"
+            "automation-first export: capability-discovery route {route.routeId} must use a {route.targetTacticId} capability profile"
     | .problemSemanticAdapter adapterType =>
         if adapterType.isEmpty then
           throwError
@@ -507,7 +817,7 @@ private def exportCatalog : CommandElabM Unit := do
   let tactics ← Canonical.tactics.mapM (tacticJson env)
   let catalog := Json.mkObj [
     ("artifactType", toJson "automationFirstLeanCatalog"),
-    ("schemaVersion", toJson "6.0.0"),
+    ("schemaVersion", toJson "7.0.0"),
     ("sourceOfTruth", Json.mkObj [
       ("kind", toJson "compiledLeanEnvironment"),
       ("rootModule", toJson "StructuralExhaustion"),

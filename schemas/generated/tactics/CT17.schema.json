@@ -1041,6 +1041,204 @@
         "namespace": "StructuralExhaustion.CT17",
         "loopDecrease": null,
         "capabilityProfiles": [],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "Spec.Target",
+            "presentation": {
+              "plainExplanation": "The finite type of target patterns considered by the thickening search.",
+              "mathematicalDefinition": "\\mathcal{T}",
+              "label": "Thickening target"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT17.Spec P → Type uTarget",
+              "name": "StructuralExhaustion.CT17.Spec.Target",
+              "kind": "definition"
+            },
+            "conceptId": "CT17.spec.target"
+          },
+          {
+            "requirementRef": "Spec.Offset",
+            "presentation": {
+              "plainExplanation": "The finite type of offsets used to place or compare target patterns.",
+              "mathematicalDefinition": "\\mathcal{O}",
+              "label": "Target offset"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT17.Spec P → Type uOffset",
+              "name": "StructuralExhaustion.CT17.Spec.Offset",
+              "kind": "definition"
+            },
+            "conceptId": "CT17.spec.offset"
+          },
+          {
+            "requirementRef": "Spec.Position",
+            "presentation": {
+              "plainExplanation": "The scale-indexed type of positions examined inside a finite block.",
+              "mathematicalDefinition": "\\mathcal{P}_s",
+              "label": "Scale position"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT17.Spec P → ℕ → Type uPosition",
+              "name": "StructuralExhaustion.CT17.Spec.Position",
+              "kind": "definition"
+            },
+            "conceptId": "CT17.spec.position"
+          },
+          {
+            "requirementRef": "Spec.Value",
+            "presentation": {
+              "plainExplanation": "The type of exact values compared across targets, blocks, and orbits.",
+              "mathematicalDefinition": "\\mathcal{V}",
+              "label": "Comparison value"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT17.Spec P → Type uValue",
+              "name": "StructuralExhaustion.CT17.Spec.Value",
+              "kind": "definition"
+            },
+            "conceptId": "CT17.spec.value"
+          },
+          {
+            "requirementRef": "Spec.targetValue",
+            "presentation": {
+              "plainExplanation": "Assigns the exact comparison value required by each target.",
+              "mathematicalDefinition": "v_T:\\mathcal{T}\\to\\mathcal{V}",
+              "label": "Target value"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT17.Spec P) → self.Target → self.Value",
+              "name": "StructuralExhaustion.CT17.Spec.targetValue",
+              "kind": "definition"
+            },
+            "conceptId": "CT17.spec.targetValue"
+          },
+          {
+            "requirementRef": "Spec.blockValue",
+            "presentation": {
+              "plainExplanation": "Computes the value observed at a scale-indexed block position and offset.",
+              "mathematicalDefinition": "v_B(x,p,o)\\in\\mathcal{V}",
+              "label": "Block value"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  (self : CT17.Spec P) → Core.BranchContext P → {scale : ℕ} → self.Position scale → self.Offset → self.Value",
+              "name": "StructuralExhaustion.CT17.Spec.blockValue",
+              "kind": "definition"
+            },
+            "conceptId": "CT17.spec.blockValue"
+          },
+          {
+            "requirementRef": "Spec.orbitValue",
+            "presentation": {
+              "plainExplanation": "Computes the orbit-side comparison value at scale n and offset o.",
+              "mathematicalDefinition": "v_O(x,n,o)\\in\\mathcal{V}",
+              "label": "Orbit value"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT17.Spec P) → Core.BranchContext P → ℕ → self.Offset → self.Value",
+              "name": "StructuralExhaustion.CT17.Spec.orbitValue",
+              "kind": "definition"
+            },
+            "conceptId": "CT17.spec.orbitValue"
+          },
+          {
+            "requirementRef": "Spec.Compatible",
+            "presentation": {
+              "plainExplanation": "The proposition that offset o is admissible for target t in branch x.",
+              "mathematicalDefinition": "\\operatorname{Compatible}(x,t,o)",
+              "label": "Target-offset compatibility"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT17.Spec P) → Core.BranchContext P → self.Target → self.Offset → Prop",
+              "name": "StructuralExhaustion.CT17.Spec.Compatible",
+              "kind": "definition"
+            },
+            "conceptId": "CT17.spec.compatible"
+          },
+          {
+            "requirementRef": "Capability.targets",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of all thickening targets.",
+              "mathematicalDefinition": "\\operatorname{targets}=\\mathcal{T}",
+              "label": "Finite target enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT17.Spec P} → CT17.Capability S → FinEnum S.Target",
+              "name": "StructuralExhaustion.CT17.Capability.targets",
+              "kind": "definition"
+            },
+            "conceptId": "CT17.capability.targets"
+          },
+          {
+            "requirementRef": "Capability.offsets",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of all target offsets.",
+              "mathematicalDefinition": "\\operatorname{offsets}=\\mathcal{O}",
+              "label": "Finite offset enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT17.Spec P} → CT17.Capability S → FinEnum S.Offset",
+              "name": "StructuralExhaustion.CT17.Capability.offsets",
+              "kind": "definition"
+            },
+            "conceptId": "CT17.capability.offsets"
+          },
+          {
+            "requirementRef": "Capability.positions",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of the positions available at every scale.",
+              "mathematicalDefinition": "\\operatorname{positions}(s)=\\mathcal{P}_s",
+              "label": "Finite scale positions"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT17.Spec P} → CT17.Capability S → (scale : ℕ) → FinEnum (S.Position scale)",
+              "name": "StructuralExhaustion.CT17.Capability.positions",
+              "kind": "definition"
+            },
+            "conceptId": "CT17.capability.positions"
+          },
+          {
+            "requirementRef": "Capability.compatibleDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding whether a target-offset pair is compatible.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Compatible}(x,t,o))",
+              "label": "Compatibility decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    CT17.Capability S →\n      (ctx : Core.BranchContext P) →\n        (target : S.Target) → (offset : S.Offset) → Decidable (S.Compatible ctx target offset)",
+              "name": "StructuralExhaustion.CT17.Capability.compatibleDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT17.capability.compatibleDecidable"
+          },
+          {
+            "requirementRef": "Capability.valueDecidableEq",
+            "presentation": {
+              "plainExplanation": "Executable equality on comparison values, used to certify target hits and mismatches.",
+              "mathematicalDefinition": "\\operatorname{decide}(v_1=v_2)",
+              "label": "Value equality decision"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT17.Spec P} → CT17.Capability S → DecidableEq S.Value",
+              "name": "StructuralExhaustion.CT17.Capability.valueDecidableEq",
+              "kind": "definition"
+            },
+            "conceptId": "CT17.capability.valueDecidableEq"
+          },
+          {
+            "requirementRef": "Capability.finiteScaleLimit",
+            "presentation": {
+              "plainExplanation": "The declared bound separating exhaustive finite-scale analysis from survivor arithmetic.",
+              "mathematicalDefinition": "s_{\\max}\\in\\mathbb{N}",
+              "label": "Finite scale limit"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT17.Spec P} → CT17.Capability S → ℕ",
+              "name": "StructuralExhaustion.CT17.Capability.finiteScaleLimit",
+              "kind": "definition"
+            },
+            "conceptId": "CT17.capability.finiteScaleLimit"
+          }
+        ],
         "capability": {
           "tacticId": "CT17",
           "requiredInstances": [
@@ -1056,59 +1254,73 @@
           "requiredDefinitions": [
             {
               "ref": "Spec.Target",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT17.spec.target"
             },
             {
               "ref": "Spec.Offset",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT17.spec.offset"
             },
             {
               "ref": "Spec.Position",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT17.spec.position"
             },
             {
               "ref": "Spec.Value",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT17.spec.value"
             },
             {
               "ref": "Spec.targetValue",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT17.spec.targetValue"
             },
             {
               "ref": "Spec.blockValue",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT17.spec.blockValue"
             },
             {
               "ref": "Spec.orbitValue",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT17.spec.orbitValue"
             },
             {
               "ref": "Spec.Compatible",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT17.spec.compatible"
             },
             {
               "ref": "Capability.targets",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT17.capability.targets"
             },
             {
               "ref": "Capability.offsets",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT17.capability.offsets"
             },
             {
               "ref": "Capability.positions",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT17.capability.positions"
             },
             {
               "ref": "Capability.compatibleDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT17.capability.compatibleDecidable"
             },
             {
               "ref": "Capability.valueDecidableEq",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT17.capability.valueDecidableEq"
             },
             {
               "ref": "Capability.finiteScaleLimit",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT17.capability.finiteScaleLimit"
             }
           ],
           "derivedOperations": [
@@ -1280,59 +1492,73 @@
     "requiredDefinitions": [
       {
         "ref": "Spec.Target",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT17.spec.target"
       },
       {
         "ref": "Spec.Offset",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT17.spec.offset"
       },
       {
         "ref": "Spec.Position",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT17.spec.position"
       },
       {
         "ref": "Spec.Value",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT17.spec.value"
       },
       {
         "ref": "Spec.targetValue",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT17.spec.targetValue"
       },
       {
         "ref": "Spec.blockValue",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT17.spec.blockValue"
       },
       {
         "ref": "Spec.orbitValue",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT17.spec.orbitValue"
       },
       {
         "ref": "Spec.Compatible",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT17.spec.compatible"
       },
       {
         "ref": "Capability.targets",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT17.capability.targets"
       },
       {
         "ref": "Capability.offsets",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT17.capability.offsets"
       },
       {
         "ref": "Capability.positions",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT17.capability.positions"
       },
       {
         "ref": "Capability.compatibleDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT17.capability.compatibleDecidable"
       },
       {
         "ref": "Capability.valueDecidableEq",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT17.capability.valueDecidableEq"
       },
       {
         "ref": "Capability.finiteScaleLimit",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT17.capability.finiteScaleLimit"
       }
     ],
     "derivedOperations": [
@@ -1371,5 +1597,203 @@
     ],
     "capabilityId": "StructuralExhaustion.CT17.reference"
   },
-  "x-capabilityProfiles": []
+  "x-capabilityProfiles": [],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "Spec.Target",
+      "presentation": {
+        "plainExplanation": "The finite type of target patterns considered by the thickening search.",
+        "mathematicalDefinition": "\\mathcal{T}",
+        "label": "Thickening target"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT17.Spec P → Type uTarget",
+        "name": "StructuralExhaustion.CT17.Spec.Target",
+        "kind": "definition"
+      },
+      "conceptId": "CT17.spec.target"
+    },
+    {
+      "requirementRef": "Spec.Offset",
+      "presentation": {
+        "plainExplanation": "The finite type of offsets used to place or compare target patterns.",
+        "mathematicalDefinition": "\\mathcal{O}",
+        "label": "Target offset"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT17.Spec P → Type uOffset",
+        "name": "StructuralExhaustion.CT17.Spec.Offset",
+        "kind": "definition"
+      },
+      "conceptId": "CT17.spec.offset"
+    },
+    {
+      "requirementRef": "Spec.Position",
+      "presentation": {
+        "plainExplanation": "The scale-indexed type of positions examined inside a finite block.",
+        "mathematicalDefinition": "\\mathcal{P}_s",
+        "label": "Scale position"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT17.Spec P → ℕ → Type uPosition",
+        "name": "StructuralExhaustion.CT17.Spec.Position",
+        "kind": "definition"
+      },
+      "conceptId": "CT17.spec.position"
+    },
+    {
+      "requirementRef": "Spec.Value",
+      "presentation": {
+        "plainExplanation": "The type of exact values compared across targets, blocks, and orbits.",
+        "mathematicalDefinition": "\\mathcal{V}",
+        "label": "Comparison value"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT17.Spec P → Type uValue",
+        "name": "StructuralExhaustion.CT17.Spec.Value",
+        "kind": "definition"
+      },
+      "conceptId": "CT17.spec.value"
+    },
+    {
+      "requirementRef": "Spec.targetValue",
+      "presentation": {
+        "plainExplanation": "Assigns the exact comparison value required by each target.",
+        "mathematicalDefinition": "v_T:\\mathcal{T}\\to\\mathcal{V}",
+        "label": "Target value"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT17.Spec P) → self.Target → self.Value",
+        "name": "StructuralExhaustion.CT17.Spec.targetValue",
+        "kind": "definition"
+      },
+      "conceptId": "CT17.spec.targetValue"
+    },
+    {
+      "requirementRef": "Spec.blockValue",
+      "presentation": {
+        "plainExplanation": "Computes the value observed at a scale-indexed block position and offset.",
+        "mathematicalDefinition": "v_B(x,p,o)\\in\\mathcal{V}",
+        "label": "Block value"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  (self : CT17.Spec P) → Core.BranchContext P → {scale : ℕ} → self.Position scale → self.Offset → self.Value",
+        "name": "StructuralExhaustion.CT17.Spec.blockValue",
+        "kind": "definition"
+      },
+      "conceptId": "CT17.spec.blockValue"
+    },
+    {
+      "requirementRef": "Spec.orbitValue",
+      "presentation": {
+        "plainExplanation": "Computes the orbit-side comparison value at scale n and offset o.",
+        "mathematicalDefinition": "v_O(x,n,o)\\in\\mathcal{V}",
+        "label": "Orbit value"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT17.Spec P) → Core.BranchContext P → ℕ → self.Offset → self.Value",
+        "name": "StructuralExhaustion.CT17.Spec.orbitValue",
+        "kind": "definition"
+      },
+      "conceptId": "CT17.spec.orbitValue"
+    },
+    {
+      "requirementRef": "Spec.Compatible",
+      "presentation": {
+        "plainExplanation": "The proposition that offset o is admissible for target t in branch x.",
+        "mathematicalDefinition": "\\operatorname{Compatible}(x,t,o)",
+        "label": "Target-offset compatibility"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT17.Spec P) → Core.BranchContext P → self.Target → self.Offset → Prop",
+        "name": "StructuralExhaustion.CT17.Spec.Compatible",
+        "kind": "definition"
+      },
+      "conceptId": "CT17.spec.compatible"
+    },
+    {
+      "requirementRef": "Capability.targets",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of all thickening targets.",
+        "mathematicalDefinition": "\\operatorname{targets}=\\mathcal{T}",
+        "label": "Finite target enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT17.Spec P} → CT17.Capability S → FinEnum S.Target",
+        "name": "StructuralExhaustion.CT17.Capability.targets",
+        "kind": "definition"
+      },
+      "conceptId": "CT17.capability.targets"
+    },
+    {
+      "requirementRef": "Capability.offsets",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of all target offsets.",
+        "mathematicalDefinition": "\\operatorname{offsets}=\\mathcal{O}",
+        "label": "Finite offset enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT17.Spec P} → CT17.Capability S → FinEnum S.Offset",
+        "name": "StructuralExhaustion.CT17.Capability.offsets",
+        "kind": "definition"
+      },
+      "conceptId": "CT17.capability.offsets"
+    },
+    {
+      "requirementRef": "Capability.positions",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of the positions available at every scale.",
+        "mathematicalDefinition": "\\operatorname{positions}(s)=\\mathcal{P}_s",
+        "label": "Finite scale positions"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT17.Spec P} → CT17.Capability S → (scale : ℕ) → FinEnum (S.Position scale)",
+        "name": "StructuralExhaustion.CT17.Capability.positions",
+        "kind": "definition"
+      },
+      "conceptId": "CT17.capability.positions"
+    },
+    {
+      "requirementRef": "Capability.compatibleDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding whether a target-offset pair is compatible.",
+        "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Compatible}(x,t,o))",
+        "label": "Compatibility decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    CT17.Capability S →\n      (ctx : Core.BranchContext P) →\n        (target : S.Target) → (offset : S.Offset) → Decidable (S.Compatible ctx target offset)",
+        "name": "StructuralExhaustion.CT17.Capability.compatibleDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT17.capability.compatibleDecidable"
+    },
+    {
+      "requirementRef": "Capability.valueDecidableEq",
+      "presentation": {
+        "plainExplanation": "Executable equality on comparison values, used to certify target hits and mismatches.",
+        "mathematicalDefinition": "\\operatorname{decide}(v_1=v_2)",
+        "label": "Value equality decision"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT17.Spec P} → CT17.Capability S → DecidableEq S.Value",
+        "name": "StructuralExhaustion.CT17.Capability.valueDecidableEq",
+        "kind": "definition"
+      },
+      "conceptId": "CT17.capability.valueDecidableEq"
+    },
+    {
+      "requirementRef": "Capability.finiteScaleLimit",
+      "presentation": {
+        "plainExplanation": "The declared bound separating exhaustive finite-scale analysis from survivor arithmetic.",
+        "mathematicalDefinition": "s_{\\max}\\in\\mathbb{N}",
+        "label": "Finite scale limit"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT17.Spec P} → CT17.Capability S → ℕ",
+        "name": "StructuralExhaustion.CT17.Capability.finiteScaleLimit",
+        "kind": "definition"
+      },
+      "conceptId": "CT17.capability.finiteScaleLimit"
+    }
+  ]
 }

@@ -92,4 +92,25 @@ theorem run_terminal_exhausted {P : Core.Problem.{uAmbient, uBranch}}
     (run context values).terminal = .exhausted := by
   exact runLoop_terminal_exhausted values.length (initialState values)
 
+private theorem runLoop_iterations_eq_length
+    {P : Core.Problem.{uAmbient, uBranch}}
+    (load : Nat) (state : State Value load) :
+    (CT12.runLoop (capability P Value) load state).iterations = load := by
+  induction load using Nat.strong_induction_on with
+  | h load ih =>
+      cases load with
+      | zero => simp [CT12.runLoop]
+      | succ n =>
+          simp only [CT12.runLoop, capability]
+          change Nat.succ
+            ((CT12.runLoop (capability P Value) n
+              (peel state).tail).iterations) = n + 1
+          rw [ih n (Nat.lt_succ_self n) (peel state).tail]
+
+/-- Canonical list peeling performs exactly one iteration per list element. -/
+theorem run_iterations_eq_length {P : Core.Problem.{uAmbient, uBranch}}
+    (context : Core.BranchContext P) (values : List Value) :
+    (run context values).iterations = values.length := by
+  exact runLoop_iterations_eq_length values.length (initialState values)
+
 end StructuralExhaustion.CT12.ListPeeling

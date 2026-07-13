@@ -836,6 +836,106 @@
         "namespace": "StructuralExhaustion.CT14",
         "loopDecrease": null,
         "capabilityProfiles": [],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "StructuralExhaustion.CT14.Capability.Member",
+            "presentation": {
+              "plainExplanation": "The type of members whose lower masses, capacities, and labels are aggregated.",
+              "mathematicalDefinition": "\\mathcal{M}",
+              "label": "Aggregate member"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT14.Capability P → Type uMember",
+              "name": "StructuralExhaustion.CT14.Capability.Member",
+              "kind": "definition"
+            },
+            "conceptId": "CT14.capability.member"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT14.Capability.members",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of all aggregate members.",
+              "mathematicalDefinition": "\\operatorname{members}=\\mathcal{M}",
+              "label": "Finite member enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT14.Capability P) → FinEnum self.Member",
+              "name": "StructuralExhaustion.CT14.Capability.members",
+              "kind": "definition"
+            },
+            "conceptId": "CT14.capability.members"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT14.Capability.Label",
+            "presentation": {
+              "plainExplanation": "The type of labels whose occurrence multiplicities CT14 records.",
+              "mathematicalDefinition": "\\mathcal{L}",
+              "label": "Multiplicity label"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT14.Capability P → Type uLabel",
+              "name": "StructuralExhaustion.CT14.Capability.Label",
+              "kind": "definition"
+            },
+            "conceptId": "CT14.capability.label"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT14.Capability.labelDecidableEq",
+            "presentation": {
+              "plainExplanation": "Executable equality on labels, used to compute exact multiplicities.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\ell_1=\\ell_2)",
+              "label": "Label equality decision"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT14.Capability P) → DecidableEq self.Label",
+              "name": "StructuralExhaustion.CT14.Capability.labelDecidableEq",
+              "kind": "definition"
+            },
+            "conceptId": "CT14.capability.labelDecidableEq"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT14.Capability.memberLowerMass",
+            "presentation": {
+              "plainExplanation": "Assigns the certified lower mass contributed by each member.",
+              "mathematicalDefinition": "m_x^-:\\mathcal{M}\\to\\mathbb{N}",
+              "label": "Member lower mass"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT14.Capability P) → Core.BranchContext P → self.Member → ℕ",
+              "name": "StructuralExhaustion.CT14.Capability.memberLowerMass",
+              "kind": "definition"
+            },
+            "conceptId": "CT14.capability.memberLowerMass"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT14.Capability.memberCapacity",
+            "presentation": {
+              "plainExplanation": "Returns a member's upper capacity, or none when no finite capacity is available.",
+              "mathematicalDefinition": "\\kappa_x:\\mathcal{M}\\to\\mathbb{N}\\cup\\{\\bot\\}",
+              "label": "Optional member capacity"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT14.Capability P) → Core.BranchContext P → self.Member → Option ℕ",
+              "name": "StructuralExhaustion.CT14.Capability.memberCapacity",
+              "kind": "definition"
+            },
+            "conceptId": "CT14.capability.memberCapacity"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT14.Capability.memberLabel",
+            "presentation": {
+              "plainExplanation": "Returns the label counted for a member, or none when the label is missing.",
+              "mathematicalDefinition": "\\lambda_x:\\mathcal{M}\\to\\mathcal{L}\\cup\\{\\bot\\}",
+              "label": "Optional member label"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT14.Capability P) → Core.BranchContext P → self.Member → Option self.Label",
+              "name": "StructuralExhaustion.CT14.Capability.memberLabel",
+              "kind": "definition"
+            },
+            "conceptId": "CT14.capability.memberLabel"
+          }
+        ],
         "capability": {
           "tacticId": "CT14",
           "requiredInstances": [
@@ -847,31 +947,38 @@
           "requiredDefinitions": [
             {
               "ref": "StructuralExhaustion.CT14.Capability.Member",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT14.capability.member"
             },
             {
               "ref": "StructuralExhaustion.CT14.Capability.members",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT14.capability.members"
             },
             {
               "ref": "StructuralExhaustion.CT14.Capability.Label",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT14.capability.label"
             },
             {
               "ref": "StructuralExhaustion.CT14.Capability.labelDecidableEq",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT14.capability.labelDecidableEq"
             },
             {
               "ref": "StructuralExhaustion.CT14.Capability.memberLowerMass",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT14.capability.memberLowerMass"
             },
             {
               "ref": "StructuralExhaustion.CT14.Capability.memberCapacity",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT14.capability.memberCapacity"
             },
             {
               "ref": "StructuralExhaustion.CT14.Capability.memberLabel",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT14.capability.memberLabel"
             }
           ],
           "derivedOperations": [
@@ -1027,31 +1134,38 @@
     "requiredDefinitions": [
       {
         "ref": "StructuralExhaustion.CT14.Capability.Member",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT14.capability.member"
       },
       {
         "ref": "StructuralExhaustion.CT14.Capability.members",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT14.capability.members"
       },
       {
         "ref": "StructuralExhaustion.CT14.Capability.Label",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT14.capability.label"
       },
       {
         "ref": "StructuralExhaustion.CT14.Capability.labelDecidableEq",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT14.capability.labelDecidableEq"
       },
       {
         "ref": "StructuralExhaustion.CT14.Capability.memberLowerMass",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT14.capability.memberLowerMass"
       },
       {
         "ref": "StructuralExhaustion.CT14.Capability.memberCapacity",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT14.capability.memberCapacity"
       },
       {
         "ref": "StructuralExhaustion.CT14.Capability.memberLabel",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT14.capability.memberLabel"
       }
     ],
     "derivedOperations": [
@@ -1078,5 +1192,105 @@
     ],
     "capabilityId": "StructuralExhaustion.CT14.reference"
   },
-  "x-capabilityProfiles": []
+  "x-capabilityProfiles": [],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "StructuralExhaustion.CT14.Capability.Member",
+      "presentation": {
+        "plainExplanation": "The type of members whose lower masses, capacities, and labels are aggregated.",
+        "mathematicalDefinition": "\\mathcal{M}",
+        "label": "Aggregate member"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT14.Capability P → Type uMember",
+        "name": "StructuralExhaustion.CT14.Capability.Member",
+        "kind": "definition"
+      },
+      "conceptId": "CT14.capability.member"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT14.Capability.members",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of all aggregate members.",
+        "mathematicalDefinition": "\\operatorname{members}=\\mathcal{M}",
+        "label": "Finite member enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT14.Capability P) → FinEnum self.Member",
+        "name": "StructuralExhaustion.CT14.Capability.members",
+        "kind": "definition"
+      },
+      "conceptId": "CT14.capability.members"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT14.Capability.Label",
+      "presentation": {
+        "plainExplanation": "The type of labels whose occurrence multiplicities CT14 records.",
+        "mathematicalDefinition": "\\mathcal{L}",
+        "label": "Multiplicity label"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT14.Capability P → Type uLabel",
+        "name": "StructuralExhaustion.CT14.Capability.Label",
+        "kind": "definition"
+      },
+      "conceptId": "CT14.capability.label"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT14.Capability.labelDecidableEq",
+      "presentation": {
+        "plainExplanation": "Executable equality on labels, used to compute exact multiplicities.",
+        "mathematicalDefinition": "\\operatorname{decide}(\\ell_1=\\ell_2)",
+        "label": "Label equality decision"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT14.Capability P) → DecidableEq self.Label",
+        "name": "StructuralExhaustion.CT14.Capability.labelDecidableEq",
+        "kind": "definition"
+      },
+      "conceptId": "CT14.capability.labelDecidableEq"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT14.Capability.memberLowerMass",
+      "presentation": {
+        "plainExplanation": "Assigns the certified lower mass contributed by each member.",
+        "mathematicalDefinition": "m_x^-:\\mathcal{M}\\to\\mathbb{N}",
+        "label": "Member lower mass"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT14.Capability P) → Core.BranchContext P → self.Member → ℕ",
+        "name": "StructuralExhaustion.CT14.Capability.memberLowerMass",
+        "kind": "definition"
+      },
+      "conceptId": "CT14.capability.memberLowerMass"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT14.Capability.memberCapacity",
+      "presentation": {
+        "plainExplanation": "Returns a member's upper capacity, or none when no finite capacity is available.",
+        "mathematicalDefinition": "\\kappa_x:\\mathcal{M}\\to\\mathbb{N}\\cup\\{\\bot\\}",
+        "label": "Optional member capacity"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT14.Capability P) → Core.BranchContext P → self.Member → Option ℕ",
+        "name": "StructuralExhaustion.CT14.Capability.memberCapacity",
+        "kind": "definition"
+      },
+      "conceptId": "CT14.capability.memberCapacity"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT14.Capability.memberLabel",
+      "presentation": {
+        "plainExplanation": "Returns the label counted for a member, or none when the label is missing.",
+        "mathematicalDefinition": "\\lambda_x:\\mathcal{M}\\to\\mathcal{L}\\cup\\{\\bot\\}",
+        "label": "Optional member label"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT14.Capability P) → Core.BranchContext P → self.Member → Option self.Label",
+        "name": "StructuralExhaustion.CT14.Capability.memberLabel",
+        "kind": "definition"
+      },
+      "conceptId": "CT14.capability.memberLabel"
+    }
+  ]
 }

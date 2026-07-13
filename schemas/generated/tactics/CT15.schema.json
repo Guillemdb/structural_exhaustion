@@ -770,6 +770,92 @@
         "namespace": "StructuralExhaustion.CT15",
         "loopDecrease": null,
         "capabilityProfiles": [],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "Spec.Coordinate",
+            "presentation": {
+              "plainExplanation": "The finite type of coordinates in the target-relative rank ledger.",
+              "mathematicalDefinition": "\\mathcal{C}",
+              "label": "Rank coordinate"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT15.Spec P → Type uCoordinate",
+              "name": "StructuralExhaustion.CT15.Spec.Coordinate",
+              "kind": "definition"
+            },
+            "conceptId": "CT15.spec.coordinate"
+          },
+          {
+            "requirementRef": "Spec.TargetDependent",
+            "presentation": {
+              "plainExplanation": "The proposition that coordinate c depends on the target in branch x.",
+              "mathematicalDefinition": "\\operatorname{TargetDependent}(x,c)",
+              "label": "Target-dependent coordinate"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT15.Spec P) → Core.BranchContext P → self.Coordinate → Prop",
+              "name": "StructuralExhaustion.CT15.Spec.TargetDependent",
+              "kind": "definition"
+            },
+            "conceptId": "CT15.spec.targetDependent"
+          },
+          {
+            "requirementRef": "Spec.charge",
+            "presentation": {
+              "plainExplanation": "Assigns the ledger charge contributed by each rank coordinate.",
+              "mathematicalDefinition": "q_x:\\mathcal{C}\\to\\mathbb{N}",
+              "label": "Coordinate charge"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT15.Spec P) → Core.BranchContext P → self.Coordinate → ℕ",
+              "name": "StructuralExhaustion.CT15.Spec.charge",
+              "kind": "definition"
+            },
+            "conceptId": "CT15.spec.charge"
+          },
+          {
+            "requirementRef": "Spec.capacity",
+            "presentation": {
+              "plainExplanation": "The total capacity against which the full-rank charge ledger is compared.",
+              "mathematicalDefinition": "K(x)\\in\\mathbb{N}",
+              "label": "Rank capacity"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT15.Spec P → Core.BranchContext P → ℕ",
+              "name": "StructuralExhaustion.CT15.Spec.capacity",
+              "kind": "definition"
+            },
+            "conceptId": "CT15.spec.capacity"
+          },
+          {
+            "requirementRef": "Capability.coordinates",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of all rank coordinates.",
+              "mathematicalDefinition": "\\operatorname{coordinates}=\\mathcal{C}",
+              "label": "Finite coordinate enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT15.Spec P} → CT15.Capability S → FinEnum S.Coordinate",
+              "name": "StructuralExhaustion.CT15.Capability.coordinates",
+              "kind": "definition"
+            },
+            "conceptId": "CT15.capability.coordinates"
+          },
+          {
+            "requirementRef": "Capability.targetDependentDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding whether a coordinate is target-dependent.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{TargetDependent}(x,c))",
+              "label": "Target-dependence decision"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    CT15.Capability S →\n      (ctx : Core.BranchContext P) → (coordinate : S.Coordinate) → Decidable (S.TargetDependent ctx coordinate)",
+              "name": "StructuralExhaustion.CT15.Capability.targetDependentDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT15.capability.targetDependentDecidable"
+          }
+        ],
         "capability": {
           "tacticId": "CT15",
           "requiredInstances": [
@@ -781,27 +867,33 @@
           "requiredDefinitions": [
             {
               "ref": "Spec.Coordinate",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT15.spec.coordinate"
             },
             {
               "ref": "Spec.TargetDependent",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT15.spec.targetDependent"
             },
             {
               "ref": "Spec.charge",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT15.spec.charge"
             },
             {
               "ref": "Spec.capacity",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT15.spec.capacity"
             },
             {
               "ref": "Capability.coordinates",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT15.capability.coordinates"
             },
             {
               "ref": "Capability.targetDependentDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT15.capability.targetDependentDecidable"
             }
           ],
           "derivedOperations": [
@@ -969,27 +1061,33 @@
     "requiredDefinitions": [
       {
         "ref": "Spec.Coordinate",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT15.spec.coordinate"
       },
       {
         "ref": "Spec.TargetDependent",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT15.spec.targetDependent"
       },
       {
         "ref": "Spec.charge",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT15.spec.charge"
       },
       {
         "ref": "Spec.capacity",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT15.spec.capacity"
       },
       {
         "ref": "Capability.coordinates",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT15.capability.coordinates"
       },
       {
         "ref": "Capability.targetDependentDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT15.capability.targetDependentDecidable"
       }
     ],
     "derivedOperations": [
@@ -1028,5 +1126,91 @@
     ],
     "capabilityId": "StructuralExhaustion.CT15.reference"
   },
-  "x-capabilityProfiles": []
+  "x-capabilityProfiles": [],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "Spec.Coordinate",
+      "presentation": {
+        "plainExplanation": "The finite type of coordinates in the target-relative rank ledger.",
+        "mathematicalDefinition": "\\mathcal{C}",
+        "label": "Rank coordinate"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT15.Spec P → Type uCoordinate",
+        "name": "StructuralExhaustion.CT15.Spec.Coordinate",
+        "kind": "definition"
+      },
+      "conceptId": "CT15.spec.coordinate"
+    },
+    {
+      "requirementRef": "Spec.TargetDependent",
+      "presentation": {
+        "plainExplanation": "The proposition that coordinate c depends on the target in branch x.",
+        "mathematicalDefinition": "\\operatorname{TargetDependent}(x,c)",
+        "label": "Target-dependent coordinate"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT15.Spec P) → Core.BranchContext P → self.Coordinate → Prop",
+        "name": "StructuralExhaustion.CT15.Spec.TargetDependent",
+        "kind": "definition"
+      },
+      "conceptId": "CT15.spec.targetDependent"
+    },
+    {
+      "requirementRef": "Spec.charge",
+      "presentation": {
+        "plainExplanation": "Assigns the ledger charge contributed by each rank coordinate.",
+        "mathematicalDefinition": "q_x:\\mathcal{C}\\to\\mathbb{N}",
+        "label": "Coordinate charge"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT15.Spec P) → Core.BranchContext P → self.Coordinate → ℕ",
+        "name": "StructuralExhaustion.CT15.Spec.charge",
+        "kind": "definition"
+      },
+      "conceptId": "CT15.spec.charge"
+    },
+    {
+      "requirementRef": "Spec.capacity",
+      "presentation": {
+        "plainExplanation": "The total capacity against which the full-rank charge ledger is compared.",
+        "mathematicalDefinition": "K(x)\\in\\mathbb{N}",
+        "label": "Rank capacity"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT15.Spec P → Core.BranchContext P → ℕ",
+        "name": "StructuralExhaustion.CT15.Spec.capacity",
+        "kind": "definition"
+      },
+      "conceptId": "CT15.spec.capacity"
+    },
+    {
+      "requirementRef": "Capability.coordinates",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of all rank coordinates.",
+        "mathematicalDefinition": "\\operatorname{coordinates}=\\mathcal{C}",
+        "label": "Finite coordinate enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT15.Spec P} → CT15.Capability S → FinEnum S.Coordinate",
+        "name": "StructuralExhaustion.CT15.Capability.coordinates",
+        "kind": "definition"
+      },
+      "conceptId": "CT15.capability.coordinates"
+    },
+    {
+      "requirementRef": "Capability.targetDependentDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding whether a coordinate is target-dependent.",
+        "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{TargetDependent}(x,c))",
+        "label": "Target-dependence decision"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    CT15.Capability S →\n      (ctx : Core.BranchContext P) → (coordinate : S.Coordinate) → Decidable (S.TargetDependent ctx coordinate)",
+        "name": "StructuralExhaustion.CT15.Capability.targetDependentDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT15.capability.targetDependentDecidable"
+    }
+  ]
 }

@@ -48,6 +48,9 @@ example : profileValid CT1.targetEncodingCapabilityProfile = true := by
 example : profileValid CT2.deletionOnlyCapabilityProfile = true := by
   native_decide
 
+example : profileValid CT3.literalPackedReplacementCapabilityProfile = true := by
+  native_decide
+
 example : profileValid CT9.parityCapacityOneCapabilityProfile = true := by
   native_decide
 

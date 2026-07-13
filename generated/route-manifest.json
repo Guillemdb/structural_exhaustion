@@ -32,6 +32,35 @@
       }
     },
     {
+      "triggerConstructor": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.buildTrigger",
+      "targetTacticId": "CT2",
+      "sourceResidualKind": "CT1.residual.avoiding",
+      "soundnessTheorem": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.enabled_sound",
+      "selectionClass": "priority",
+      "routeId": "CT1.residual.avoiding->CT2.localDeletion",
+      "provenanceTheorem": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.generated_route_id",
+      "discovery": "StructuralExhaustion.CT2.LocalDeletionCapability.discover",
+      "contextPreservationTheorem": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.branchContext_preserved",
+      "authoringBoundary": {
+        "semanticDiscovery": {
+          "kind": "capabilityDiscovery",
+          "adapterType": null
+        },
+        "problemSpecificInputs": [
+          "targetCapability",
+          "minimalityKernel"
+        ],
+        "frameworkOwnedResponsibilities": [
+          "routeRuleConstruction",
+          "targetContextConstruction",
+          "triggerConstruction",
+          "soundnessProof",
+          "contextPreservationProof",
+          "provenanceProof"
+        ]
+      }
+    },
+    {
       "triggerConstructor": "StructuralExhaustion.Routes.CT2ToCT3.buildTrigger",
       "targetTacticId": "CT3",
       "sourceResidualKind": "CT2.residual.separatingContext",

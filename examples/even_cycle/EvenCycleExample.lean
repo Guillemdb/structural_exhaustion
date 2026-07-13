@@ -1,5 +1,7 @@
 import EvenCycleExample.Run
 import EvenCycleExample.Concrete
+import EvenCycleExample.CT1InducedEdge
+import EvenCycleExample.CT12MaximalMatching
 import EvenCycleExample.CT2Audit
 import EvenCycleExample.CT3SeriesReduction
 

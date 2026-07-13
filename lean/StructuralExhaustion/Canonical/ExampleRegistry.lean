@@ -74,6 +74,114 @@ def key : ExampleLinkKind → String
 
 end ExampleLinkKind
 
+/-- How a Lean proof step relates to the mathematical manuscript. -/
+inductive ExampleCorrespondenceKind where
+  | exact
+  | equivalentEncoding
+  | specialization
+  | composite
+  | support
+  | partialCoverage
+  deriving Repr, DecidableEq
+
+namespace ExampleCorrespondenceKind
+
+def key : ExampleCorrespondenceKind → String
+  | .exact => "exact"
+  | .equivalentEncoding => "equivalentEncoding"
+  | .specialization => "specialization"
+  | .composite => "composite"
+  | .support => "support"
+  | .partialCoverage => "partial"
+
+end ExampleCorrespondenceKind
+
+/-- Implementation state of one manuscript-facing proof step. -/
+inductive ExampleImplementationStatus where
+  | implemented
+  | next
+  | notStarted
+  deriving Repr, DecidableEq
+
+namespace ExampleImplementationStatus
+
+def key : ExampleImplementationStatus → String
+  | .implemented => "implemented"
+  | .next => "next"
+  | .notStarted => "notStarted"
+
+end ExampleImplementationStatus
+
+/-- The mathematical or verification role shared by a group of declarations. -/
+inductive ExampleDeclarationRole where
+  | mathematicalDefinition
+  | semanticTheorem
+  | encodingBridge
+  | tacticExecution
+  | executionAudit
+  | soundnessTotality
+  | workBound
+  | compositionProvenance
+  | frameworkInterface
+  | externalTheorem
+  | fixture
+  deriving Repr, DecidableEq
+
+namespace ExampleDeclarationRole
+
+def key : ExampleDeclarationRole → String
+  | .mathematicalDefinition => "mathematicalDefinition"
+  | .semanticTheorem => "semanticTheorem"
+  | .encodingBridge => "encodingBridge"
+  | .tacticExecution => "tacticExecution"
+  | .executionAudit => "executionAudit"
+  | .soundnessTotality => "soundnessTotality"
+  | .workBound => "workBound"
+  | .compositionProvenance => "compositionProvenance"
+  | .frameworkInterface => "frameworkInterface"
+  | .externalTheorem => "externalTheorem"
+  | .fixture => "fixture"
+
+end ExampleDeclarationRole
+
+/-- Stable semantic reference into a mathematical manuscript. -/
+structure ExampleManuscriptReference where
+  label : String
+  title : String
+  nodeIds : List Nat := []
+  deriving Repr, DecidableEq
+
+/-- A set of Lean declarations serving one precisely described proof role. -/
+structure ExampleDeclarationGroup where
+  groupId : String
+  title : String
+  role : ExampleDeclarationRole
+  explanation : String
+  declarations : List Lean.Name
+  deriving Repr, DecidableEq
+
+/-- One manuscript-facing proof step and its complete displayed Lean evidence. -/
+structure ExampleProofStepDescriptor where
+  stepId : String
+  stageId? : Option String := none
+  title : String
+  plainExplanation : String
+  formalStatement : String
+  status : ExampleImplementationStatus
+  correspondence : ExampleCorrespondenceKind
+  manuscriptRefs : List ExampleManuscriptReference := []
+  declarationGroups : List ExampleDeclarationGroup := []
+  scopeNotes : String
+  workBound : String
+  deriving Repr, DecidableEq
+
+/-- Manuscript and proof-step metadata used by the example theorem companion. -/
+structure ExampleManuscriptDescriptor where
+  title : String
+  path : String
+  proofSteps : List ExampleProofStepDescriptor
+  deriving Repr, DecidableEq
+
 /-- One inspectable unit in a workflow. -/
 structure ExampleStageDescriptor where
   stageId : String
@@ -126,6 +234,7 @@ structure ExampleDescriptor where
   proofStatus : ExampleCompletion
   workflows : List ExampleWorkflowDescriptor
   interfaceBindings : List ExampleInterfaceBinding
+  manuscript? : Option ExampleManuscriptDescriptor := none
   deriving Repr, DecidableEq
 
 end StructuralExhaustion.Canonical

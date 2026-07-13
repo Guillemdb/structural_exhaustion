@@ -51,11 +51,14 @@ Prefer one CT that exactly matches the prose over several CTs that simulate it i
 
 Search for an existing constructor before defining a raw capability. In particular, inspect:
 
-- `Graph.MinimumDegreeCycle.StaticInput` for graph targets with deletion criticality;
+- `Graph.MinimumDegreeCycle.StaticInput` and
+  `Graph.MinimumDegreeCycleRouted` for cycle targets, edge-rooted CT1,
+  local-deletion routing, rank-minimal selection, and deletion criticality;
 - `Graph.EndpointParityCycle.Profile` for the maximal-path CT6-to-CT9 cycle pipeline;
 - `Graph.GreedyColoring` for CT12 peeling, CT4 color choice, and CT1 validation;
 - `CT1.TargetCertificateEncoding` and `CT1.TargetEncoding`;
-- `CT2.LocalDeletionCapability` and `CT2.Capability.deletionOnly`;
+- `CT2.LocalDeletionCapability`, `CT2.Capability.deletionOnly`, and
+  `Routes.CT1ToCT2.LocalDeletion.CertificateProfile`;
 - `CT3.TargetCompressionContract`;
 - `CT4.FunctionalCardinalityProfile`;
 - `CT9.ParityCapacityOneSpec`;

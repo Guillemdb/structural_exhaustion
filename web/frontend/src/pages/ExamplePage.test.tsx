@@ -86,7 +86,7 @@ const response: ExampleResponse = {
   tactics: [],
   example: {
     artifactType: "structuralExhaustionExample",
-    schemaVersion: "1.0.0",
+    schemaVersion: "1.1.0",
     sourceOfTruth: {
       kind: "compiledLeanEnvironment",
       rootModule: "Examples.EvenCycle",
@@ -169,6 +169,81 @@ const response: ExampleResponse = {
         frameworkDeclarationId: "ct6-run",
       },
     ],
+    manuscript: {
+      title: "Synthetic proof",
+      path: "proofs/synthetic.tex",
+      coverage: {
+        implementedSteps: 3,
+        totalSteps: 3,
+        explainedDeclarations: 5,
+        displayedDeclarations: 5,
+      },
+      proofSteps: [
+        {
+          stepId: "proof.activity",
+          stageId: "ct6-stage",
+          title: "Activity theorem",
+          plainExplanation: "The activity search constructs the exact active ledger.",
+          formalStatement: "A = A",
+          status: "implemented",
+          correspondence: "exact",
+          manuscriptRefs: [{ label: "lem:activity", title: "Activity", nodeIds: [1] }],
+          declarationGroups: [
+            {
+              groupId: "activity-declarations",
+              title: "Activity declarations",
+              role: "tacticExecution",
+              explanation: "These declarations run CT6 and prove its trace.",
+              declarationIds: ["problem", "ct6-run", "ct6-trace"],
+            },
+          ],
+          scopeNotes: "This exactly covers the synthetic activity lemma.",
+          workBound: "One finite scan.",
+        },
+        {
+          stepId: "proof.overload",
+          stageId: "ct9-stage",
+          title: "Overload theorem",
+          plainExplanation: "The overload stage consumes the active ledger.",
+          formalStatement: "B = B",
+          status: "implemented",
+          correspondence: "composite",
+          manuscriptRefs: [{ label: "lem:overload", title: "Overload", nodeIds: [2] }],
+          declarationGroups: [
+            {
+              groupId: "overload-declarations",
+              title: "Overload declarations",
+              role: "semanticTheorem",
+              explanation: "The CT6 trace is the displayed evidence for this fixture stage.",
+              declarationIds: ["ct6-trace"],
+            },
+          ],
+          scopeNotes: "Synthetic composite correspondence.",
+          workBound: "No additional scan.",
+        },
+        {
+          stepId: "proof.audit",
+          stageId: "ct2-stage",
+          title: "Deletion theorem",
+          plainExplanation: "The audit verifies deletion criticality.",
+          formalStatement: "C = C",
+          status: "implemented",
+          correspondence: "support",
+          manuscriptRefs: [],
+          declarationGroups: [
+            {
+              groupId: "audit-declarations",
+              title: "Audit declarations",
+              role: "executionAudit",
+              explanation: "These declarations run and audit the independent CT2 execution.",
+              declarationIds: ["ct2-run", "audit-trace"],
+            },
+          ],
+          scopeNotes: "Implementation support only.",
+          workBound: "One audit.",
+        },
+      ],
+    },
     declarations: [
       declaration("problem", "Example.problem", 2),
       declaration("ct6-run", "Example.ct6Run", 4),
@@ -198,6 +273,9 @@ describe("ExamplePage", () => {
     );
 
     expect(await screen.findByRole("heading", { name: "Activity search" })).toBeVisible();
+    expect(screen.getByText("The activity search constructs the exact active ledger.")).toBeVisible();
+    expect(screen.getByText("Tactic execution")).toBeVisible();
+    expect(screen.getByText("5/5 displayed declarations explained")).toBeVisible();
     expect(screen.getByRole("link", { name: /Open CT6 machine/ })).toHaveAttribute("href", "/ct/CT6");
     expect(screen.getAllByText("Example.ct6Run").length).toBeGreaterThan(0);
     expect(document.querySelector('[data-line="4"]')).toHaveClass("source-line--highlighted");
@@ -211,6 +289,16 @@ describe("ExamplePage", () => {
     expect(screen.getByRole("heading", { name: "Active-ledger route" })).toBeVisible();
     expect(screen.getByText(/route registered and checked/)).toBeVisible();
     expect(screen.getByText("CT6.residual.activeLedger->CT9")).toBeVisible();
+
+    fireEvent.click(screen.getByRole("button", { name: /Deletion theorem/ }));
+    expect(await screen.findByRole("heading", { name: "Deletion audit" })).toBeVisible();
+    expect(screen.getByText("The audit verifies deletion criticality.")).toBeVisible();
+    await waitFor(() => {
+      expect(document.querySelector('[data-line="8"]')).toHaveClass("source-line--highlighted");
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /Main proof/ }));
+    expect(await screen.findByRole("heading", { name: "Activity search" })).toBeVisible();
 
     fireEvent.click(screen.getByRole("button", { name: /Audit track/ }));
     expect(await screen.findByRole("heading", { name: "Deletion audit" })).toBeVisible();

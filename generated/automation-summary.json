@@ -8,7 +8,8 @@
       "inferredInstances": 1,
       "derivedOperations": 24,
       "capabilityProfiles": [
-        "StructuralExhaustion.CT1.profile.targetEncoding"
+        "StructuralExhaustion.CT1.profile.targetEncoding",
+        "StructuralExhaustion.CT1.profile.targetCertificate"
       ],
       "manualObligations": 0
     },
@@ -18,7 +19,9 @@
       "inferredInstances": 6,
       "derivedOperations": 25,
       "capabilityProfiles": [
-        "StructuralExhaustion.CT2.profile.deletionOnly"
+        "StructuralExhaustion.CT2.profile.deletionOnly",
+        "StructuralExhaustion.CT2.profile.localDeletion",
+        "StructuralExhaustion.CT2.profile.certifiedReduction"
       ],
       "manualObligations": 0
     },
@@ -27,7 +30,10 @@
       "authorDefinitions": 19,
       "inferredInstances": 2,
       "derivedOperations": 7,
-      "capabilityProfiles": [],
+      "capabilityProfiles": [
+        "StructuralExhaustion.CT3.profile.boundariedReplacement",
+        "StructuralExhaustion.CT3.profile.literalPackedReplacement"
+      ],
       "manualObligations": 0
     },
     {
@@ -106,7 +112,8 @@
       "inferredInstances": 0,
       "derivedOperations": 6,
       "capabilityProfiles": [
-        "StructuralExhaustion.CT12.profile.listPeeling"
+        "StructuralExhaustion.CT12.profile.listPeeling",
+        "StructuralExhaustion.CT12.profile.disjointPacking"
       ],
       "manualObligations": 0
     },

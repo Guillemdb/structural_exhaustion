@@ -183,6 +183,7 @@ theorem local_ct2_trace :
       [.entry, .deletionDecision, .deletionC2Terminal] :=
   rfl
 
+include closure in
 theorem local_ct2_closes : False :=
   (localCT2Run closure).verified
 
@@ -284,6 +285,74 @@ def disabledLocalAttempt := disabledLocalRule.attempt disabledSource
 
 theorem disabled_local_generates_no_route :
     disabledLocalAttempt.generated? = none :=
+  rfl
+
+/-! ## Certificate-target composition profile -/
+
+/-- A public target with no realizations, used to exercise the reusable
+certificate-CT1-to-local-deletion-CT2 composition independently of graphs. -/
+def neverTarget (_value : Object) : Prop := False
+
+def neverTargetEncoding : CT1.TargetCertificateEncoding
+    (P := problem) neverTarget where
+  Code := fun _value => Unit
+  Accepts := fun _value _code => False
+  encode := by
+    intro value target
+    exact target.elim
+  decode := by
+    intro value code accepts
+    exact accepts.elim
+
+def neverTargetContext :
+    Core.MinimalCounterexampleContext problem neverTarget where
+  toAvoidingContext := {
+    toBranchContext := {
+      G := .small
+      baseline := trivial
+      state := ()
+    }
+    avoids := by simp [neverTarget]
+  }
+  minimal := by
+    intro value smaller _baseline
+    cases value <;> simp [rank] at smaller
+
+def neverTargetClosure : CT2.LocalDeletionClosureRule
+    (Target := neverTarget) localCapability where
+  preservesBaseline := by
+    intro object state piece proper admissible baseline
+    trivial
+  targetMonotone := by
+    intro object state piece proper admissible baseline reducedTarget
+    exact reducedTarget.elim
+
+def certificateRouteProfile :
+    LocalDeletion.CertificateProfile (P := problem) neverTarget where
+  encoding := neverTargetEncoding
+  capability := localCapability
+  closure := neverTargetClosure
+
+abbrev certificateProfileInput :=
+  certificateRouteProfile.input neverTargetContext
+
+abbrev certificateProfileRun :=
+  certificateRouteProfile.runAvoiding neverTargetContext
+
+theorem certificate_profile_reaches_avoiding :
+    certificateProfileRun.result.terminal = .avoiding :=
+  certificateProfileRun.terminal_eq
+
+theorem certificate_profile_route_disabled :
+    ∃ reject,
+      (certificateRouteProfile.route neverTargetContext).discover
+          (certificateRouteProfile.avoidingSource neverTargetContext) =
+        .disabled reject :=
+  certificateRouteProfile.discover_disabled neverTargetContext
+
+theorem certificate_profile_route_id :
+    (certificateRouteProfile.route neverTargetContext).routeId =
+      "CT1.residual.avoiding->CT2.localDeletion" :=
   rfl
 
 end StructuralExhaustion.Examples.CT1ToCT2AutomationFirst

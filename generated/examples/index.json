@@ -30,38 +30,41 @@
     {
       "exampleId": "erdos-64",
       "title": "Erdős Problem 64",
-      "summary": "A partial proof slice with a faithful official-statement bridge, one concrete CT1 validation, CT2 deletion criticality, and a conditional CT3 compression interface.",
+      "summary": "A partial proof with exact Mersenne returns, lexicographic minimal selection, CT2 criticality, CT3 boundaried uncompressibility, an HSS-forced induced-P13 CT1 stage, a maximum-packing CT12 remainder stage, and the complete CT10 P13 attachment-label algebra.",
       "proofStatus": "partial",
       "tacticIds": [
         "CT1",
         "CT2",
-        "CT3"
+        "CT3",
+        "CT10",
+        "CT12"
       ],
       "workflowCount": 1,
       "workflows": [
         {
           "workflowId": "proof-slice",
-          "title": "Current Erdős 64 proof slice",
-          "purpose": "Inspect the faithful statement boundary and the parallel CT1, CT2, and CT3 interfaces without implying a completed global proof.",
+          "title": "Verified Erdős 64 prefix",
+          "purpose": "Inspect the exact Mersenne target algebra, lexicographic minimal selection, CT2 criticality, boundaried replacement, the HSS-forced induced-P13 CT1 stage, the maximum-packing CT12 remainder stage, and the exhaustive CT10 P13 attachment-label algebra.",
           "completion": "partial"
         }
       ],
       "detailFile": "erdos-64.json",
-      "detailHash": "9dd6ee7bef62d2a6fe5118e64a83231c8dda87371ee84396f29f4b1c127649ea"
+      "detailHash": "63728e24841defd29756f93c5787d6a10d11ca819bd4c2e77951542a09c4472c"
     },
     {
       "exampleId": "even-cycle",
       "title": "Even cycle",
-      "summary": "A complete minimum-degree-three proof with a registered CT6→CT9 route, CT1 validation, and separate CT2 and CT3 auxiliary workflows.",
+      "summary": "A complete minimum-degree-three proof with a registered CT6→CT9 route, CT1 validation, and separate CT2, CT3, induced-path CT1, and maximum-packing CT12 reuse workflows.",
       "proofStatus": "complete",
       "tacticIds": [
         "CT1",
         "CT2",
         "CT3",
         "CT6",
-        "CT9"
+        "CT9",
+        "CT12"
       ],
-      "workflowCount": 3,
+      "workflowCount": 5,
       "workflows": [
         {
           "workflowId": "main",
@@ -72,7 +75,7 @@
         {
           "workflowId": "ct2-audit",
           "title": "Deletion-critical CT2 audit",
-          "purpose": "Inspect the separate deletion-only audit that derives the heavy-edge invariant in a hypothetical minimal counterexample.",
+          "purpose": "Inspect the proper-subgraph and single-edge CT2 audits in a hypothetical lexicographically minimal counterexample.",
           "completion": "complete"
         },
         {
@@ -80,10 +83,22 @@
           "title": "Parity-series CT3 compression",
           "purpose": "Inspect the independent Duffin-style series reduction and its four exact response coordinates.",
           "completion": "complete"
+        },
+        {
+          "workflowId": "ct1-induced-edge",
+          "title": "Every edge is an induced P₂",
+          "purpose": "Validate the textbook induced-edge fact through the same certificate-driven induced-path CT1 profile used by the Erdős P₁₃ stage.",
+          "completion": "complete"
+        },
+        {
+          "workflowId": "ct12-maximal-matching",
+          "title": "Maximum matching by induced-P₂ packing",
+          "purpose": "Instantiate the reusable maximum disjoint-packing CT12 profile on the textbook family of graph edges.",
+          "completion": "complete"
         }
       ],
       "detailFile": "even-cycle.json",
-      "detailHash": "a3d15042045f76bcec53191b81b185cbdf40ea91a734de80a85b66cc37e4675d"
+      "detailHash": "f1825324850471f9d77607014db6140a0316d9f577fc523868ba35e1da303fa3"
     },
     {
       "exampleId": "greedy-coloring",
@@ -105,7 +120,7 @@
         }
       ],
       "detailFile": "greedy-coloring.json",
-      "detailHash": "efcc1657bf3ead0cfe67e1e18b45402dbf5355bbcb7a8d3ea6a9ac14d81013e2"
+      "detailHash": "6f3b93945eacfcbccfc307431a71e3880f8ba4350426ed81544210170362b5e5"
     },
     {
       "exampleId": "mantel",
@@ -137,7 +152,7 @@
         }
       ],
       "detailFile": "mantel.json",
-      "detailHash": "b56cbecdc1c9451753768bb78973589bb98ed69aba460be87faabf8fdcd5f665"
+      "detailHash": "5f57446e8b4bd5784adca447a13feeb226d3a3524b92cf7d7df4f04b91c44633"
     }
   ]
 }

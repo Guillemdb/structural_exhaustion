@@ -1,8 +1,75 @@
+import Mathlib.Combinatorics.SimpleGraph.Acyclic
+import Mathlib.Combinatorics.SimpleGraph.Finite
+import Mathlib.Combinatorics.SimpleGraph.Hasse
 import Mathlib.Combinatorics.SimpleGraph.Paths
 
 namespace StructuralExhaustion.Graph
 
 universe u
+
+/-! ## Canonical path graphs -/
+
+/-- Computable adjacency for Mathlib's canonical finite path graph. -/
+@[reducible]
+def pathGraphAdjDecidable (order : Nat) :
+    DecidableRel (SimpleGraph.pathGraph order).Adj := fun left right =>
+  decidable_of_iff
+    (left.val + 1 = right.val ∨ right.val + 1 = left.val)
+    SimpleGraph.pathGraph_adj.symm
+
+/-- The canonical path graphs used by the finite parity-series fixture are
+acyclic graph facts, independent of that application. -/
+theorem pathGraph_two_isAcyclic :
+    (SimpleGraph.pathGraph 2).IsAcyclic := by
+  letI : DecidableRel (SimpleGraph.pathGraph 2).Adj :=
+    pathGraphAdjDecidable 2
+  letI : Fintype (SimpleGraph.pathGraph 2).edgeSet := inferInstance
+  exact (SimpleGraph.isTree_iff_connected_and_card.mpr
+    ⟨SimpleGraph.pathGraph_connected 1, by
+      have edgeCard : Nat.card (SimpleGraph.pathGraph 2).edgeSet =
+          (SimpleGraph.pathGraph 2).edgeFinset.card := by
+        rw [Nat.card_eq_fintype_card, SimpleGraph.edgeFinset_card]
+      rw [edgeCard, Nat.card_eq_fintype_card]
+      native_decide⟩).isAcyclic
+
+theorem pathGraph_three_isAcyclic :
+    (SimpleGraph.pathGraph 3).IsAcyclic := by
+  letI : DecidableRel (SimpleGraph.pathGraph 3).Adj :=
+    pathGraphAdjDecidable 3
+  letI : Fintype (SimpleGraph.pathGraph 3).edgeSet := inferInstance
+  exact (SimpleGraph.isTree_iff_connected_and_card.mpr
+    ⟨SimpleGraph.pathGraph_connected 2, by
+      have edgeCard : Nat.card (SimpleGraph.pathGraph 3).edgeSet =
+          (SimpleGraph.pathGraph 3).edgeFinset.card := by
+        rw [Nat.card_eq_fintype_card, SimpleGraph.edgeFinset_card]
+      rw [edgeCard, Nat.card_eq_fintype_card]
+      native_decide⟩).isAcyclic
+
+theorem pathGraph_four_isAcyclic :
+    (SimpleGraph.pathGraph 4).IsAcyclic := by
+  letI : DecidableRel (SimpleGraph.pathGraph 4).Adj :=
+    pathGraphAdjDecidable 4
+  letI : Fintype (SimpleGraph.pathGraph 4).edgeSet := inferInstance
+  exact (SimpleGraph.isTree_iff_connected_and_card.mpr
+    ⟨SimpleGraph.pathGraph_connected 3, by
+      have edgeCard : Nat.card (SimpleGraph.pathGraph 4).edgeSet =
+          (SimpleGraph.pathGraph 4).edgeFinset.card := by
+        rw [Nat.card_eq_fintype_card, SimpleGraph.edgeFinset_card]
+      rw [edgeCard, Nat.card_eq_fintype_card]
+      native_decide⟩).isAcyclic
+
+theorem pathGraph_five_isAcyclic :
+    (SimpleGraph.pathGraph 5).IsAcyclic := by
+  letI : DecidableRel (SimpleGraph.pathGraph 5).Adj :=
+    pathGraphAdjDecidable 5
+  letI : Fintype (SimpleGraph.pathGraph 5).edgeSet := inferInstance
+  exact (SimpleGraph.isTree_iff_connected_and_card.mpr
+    ⟨SimpleGraph.pathGraph_connected 4, by
+      have edgeCard : Nat.card (SimpleGraph.pathGraph 5).edgeSet =
+          (SimpleGraph.pathGraph 5).edgeFinset.card := by
+        rw [Nat.card_eq_fintype_card, SimpleGraph.edgeFinset_card]
+      rw [edgeCard, Nat.card_eq_fintype_card]
+      native_decide⟩).isAcyclic
 
 /-!
 # Rooted paths for sequential machines

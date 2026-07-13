@@ -91,7 +91,7 @@
     "kind": "compiledLeanEnvironment",
     "catalog": "generated/lean-machines.json",
     "tacticId": "CT3",
-    "apiVersion": "CT3-v3",
+    "apiVersion": "CT3-v4",
     "namespace": "StructuralExhaustion.CT3"
   },
   "x-automationContract": {

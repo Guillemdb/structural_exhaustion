@@ -170,6 +170,62 @@ class ExampleInterfaceBindingRecord(ApiModel):
     frameworkDeclarationId: str
 
 
+class ExampleManuscriptReferenceRecord(ApiModel):
+    label: str
+    title: str
+    nodeIds: list[int]
+
+
+class ExampleDeclarationGroupRecord(ApiModel):
+    groupId: str
+    title: str
+    role: Literal[
+        "mathematicalDefinition",
+        "semanticTheorem",
+        "encodingBridge",
+        "tacticExecution",
+        "executionAudit",
+        "soundnessTotality",
+        "workBound",
+        "compositionProvenance",
+        "frameworkInterface",
+        "externalTheorem",
+        "fixture",
+    ]
+    explanation: str
+    declarationIds: list[str]
+
+
+class ExampleProofStepRecord(ApiModel):
+    stepId: str
+    stageId: str | None = None
+    title: str
+    plainExplanation: str
+    formalStatement: str
+    status: Literal["implemented", "next", "notStarted"]
+    correspondence: Literal[
+        "exact", "equivalentEncoding", "specialization", "composite", "support", "partial"
+    ]
+    manuscriptRefs: list[ExampleManuscriptReferenceRecord]
+    declarationGroups: list[ExampleDeclarationGroupRecord]
+    scopeNotes: str
+    workBound: str
+
+
+class ExampleManuscriptCoverageRecord(ApiModel):
+    implementedSteps: int
+    totalSteps: int
+    explainedDeclarations: int
+    displayedDeclarations: int
+
+
+class ExampleManuscriptRecord(ApiModel):
+    title: str
+    path: str
+    proofSteps: list[ExampleProofStepRecord]
+    coverage: ExampleManuscriptCoverageRecord
+
+
 class ExampleDeclarationRecord(ApiModel):
     declarationId: str
     name: str
@@ -196,7 +252,7 @@ class ExampleSourceRecord(ApiModel):
 
 class ExampleDetail(ApiModel):
     artifactType: Literal["structuralExhaustionExample"]
-    schemaVersion: Literal["1.0.0"]
+    schemaVersion: Literal["1.1.0"]
     sourceOfTruth: ExampleSourceOfTruth
     exampleId: str
     title: str
@@ -205,6 +261,7 @@ class ExampleDetail(ApiModel):
     tacticIds: list[str]
     workflows: list[ExampleWorkflowRecord]
     interfaceBindings: list[ExampleInterfaceBindingRecord]
+    manuscript: ExampleManuscriptRecord | None
     declarations: list[ExampleDeclarationRecord]
     sources: list[ExampleSourceRecord]
 

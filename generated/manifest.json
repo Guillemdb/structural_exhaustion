@@ -7,21 +7,21 @@
   "tactics": [
     {
       "tacticId": "CT1",
-      "apiVersion": "CT1-v5",
+      "apiVersion": "CT1-v6",
       "mermaid": "generated/mermaid/CT1.mmd",
       "cytoscape": "generated/cytoscape/CT1.json",
       "manuscriptFigure": "framework/generated/ct/CT1.tex"
     },
     {
       "tacticId": "CT2",
-      "apiVersion": "CT2-v6",
+      "apiVersion": "CT2-v8",
       "mermaid": "generated/mermaid/CT2.mmd",
       "cytoscape": "generated/cytoscape/CT2.json",
       "manuscriptFigure": "framework/generated/ct/CT2.tex"
     },
     {
       "tacticId": "CT3",
-      "apiVersion": "CT3-v3",
+      "apiVersion": "CT3-v4",
       "mermaid": "generated/mermaid/CT3.mmd",
       "cytoscape": "generated/cytoscape/CT3.json",
       "manuscriptFigure": "framework/generated/ct/CT3.tex"
@@ -84,7 +84,7 @@
     },
     {
       "tacticId": "CT12",
-      "apiVersion": "CT12-v4",
+      "apiVersion": "CT12-v5",
       "mermaid": "generated/mermaid/CT12.mmd",
       "cytoscape": "generated/cytoscape/CT12.json",
       "manuscriptFigure": "framework/generated/ct/CT12.tex"
@@ -136,6 +136,35 @@
       "provenanceTheorem": "StructuralExhaustion.Routes.CT1ToCT2.generated_route_id",
       "discovery": "StructuralExhaustion.CT2.Capability.discover",
       "contextPreservationTheorem": "StructuralExhaustion.Routes.CT1ToCT2.branchContext_preserved",
+      "authoringBoundary": {
+        "semanticDiscovery": {
+          "kind": "capabilityDiscovery",
+          "adapterType": null
+        },
+        "problemSpecificInputs": [
+          "targetCapability",
+          "minimalityKernel"
+        ],
+        "frameworkOwnedResponsibilities": [
+          "routeRuleConstruction",
+          "targetContextConstruction",
+          "triggerConstruction",
+          "soundnessProof",
+          "contextPreservationProof",
+          "provenanceProof"
+        ]
+      }
+    },
+    {
+      "triggerConstructor": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.buildTrigger",
+      "targetTacticId": "CT2",
+      "sourceResidualKind": "CT1.residual.avoiding",
+      "soundnessTheorem": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.enabled_sound",
+      "selectionClass": "priority",
+      "routeId": "CT1.residual.avoiding->CT2.localDeletion",
+      "provenanceTheorem": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.generated_route_id",
+      "discovery": "StructuralExhaustion.CT2.LocalDeletionCapability.discover",
+      "contextPreservationTheorem": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.branchContext_preserved",
       "authoringBoundary": {
         "semanticDiscovery": {
           "kind": "capabilityDiscovery",

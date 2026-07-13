@@ -1,5 +1,6 @@
 import StructuralExhaustion.CT2.DeletionClosure
 import StructuralExhaustion.CT2.LocalDeletion
+import StructuralExhaustion.CT2.CertifiedReduction
 
 namespace StructuralExhaustion.CT2
 
@@ -147,6 +148,36 @@ def localDeletionCapabilityProfile : Core.CapabilityProfile where
     "StructuralExhaustion.CT2.LocalDeletionClosureRule.notProper",
     "StructuralExhaustion.CT2.localDeletionBudget",
     "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.rule"
+  ]
+
+/-- Minimal author contract for a proof-specified smaller object.  The
+framework owns the canonical CT2 deletion path, semantic contradiction,
+totality theorem, and constant work certificate; no piece or ambient-object
+enumeration is requested. -/
+def certifiedReductionCapabilityProfile : Core.CapabilityProfile where
+  capabilityId := "StructuralExhaustion.CT2.profile.certifiedReduction"
+  tacticId := "CT2"
+  requiredDefinitions := [
+    ⟨"StructuralExhaustion.CT2.CertifiedReductionInput.reduction",
+      .userOperator⟩,
+    ⟨"StructuralExhaustion.CT2.CertifiedReductionInput.reducedBaseline",
+      .instanceBridge⟩,
+    ⟨"StructuralExhaustion.CT2.CertifiedReductionInput.targetMonotone",
+      .instanceBridge⟩
+  ]
+  requiredInstances := [
+    "StructuralExhaustion.CT2.CertifiedReductionInput.reducedBaseline",
+    "StructuralExhaustion.CT2.CertifiedReductionInput.targetMonotone"
+  ]
+  derivedOperations := [
+    "StructuralExhaustion.CT2.certifiedReductionTacticInterface",
+    "StructuralExhaustion.CT2.CertifiedReductionInput.witness",
+    "StructuralExhaustion.CT2.runCertifiedReduction",
+    "StructuralExhaustion.CT2.runCertifiedReduction_terminal",
+    "StructuralExhaustion.CT2.runCertifiedReduction_trace",
+    "StructuralExhaustion.CT2.runCertifiedReduction_total",
+    "StructuralExhaustion.CT2.CertifiedReductionRun.verified",
+    "StructuralExhaustion.CT2.certifiedReductionBudget"
   ]
 
 /-- Router-visible CT2 residuals.  Neither residual contains a destination

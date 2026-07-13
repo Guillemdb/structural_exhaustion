@@ -37,9 +37,18 @@ make example-build
   Mathlib `SimpleGraph` statement from Google DeepMind's formal-conjectures
   source, pinned at commit `bcaee6031a085e19432540650e1039b7fd1cea36`.
   The package instantiates the minimum-degree cycle profile with the official
-  power-of-two length predicate, implements its CT1/CT2 reductions, and maps
-  the manuscript's boundaried-compression interface into generic CT3 with
-  verified soundness, typed traces, and totality.
+  power-of-two length predicate and reuses the graph layer's edge-rooted CT1,
+  lexicographic proper-subgraph CT2 profile, rank-minimal CT1-to-local-CT2
+  route, no-proper-core theorem, deletion-criticality theorem, and verified
+  CT3 boundaried-replacement/uncompressibility prefix. Its next CT1 stage
+  spans manuscript nodes `[15]`--`[16]`: literal induced-`P₁₃`-freeness is
+  closed by the isolated Hegde--Sandeep--Shashank external theorem, and the
+  forced induced embedding is retained through an exact C1 execution.
+  Its generated web descriptor also carries a manuscript roadmap through the
+  current node `[18]` endpoint: every displayed declaration is assigned to an
+  explained mathematical, execution, complexity, provenance, interface,
+  fixture, or external-theorem group, with validated LaTeX labels and diagram
+  nodes and an explicit node `[19]`--`[20]` frontier.
 - [`examples/greedy_coloring`](examples/greedy_coloring) completely proves the
   Mathlib-native theorem `G.Colorable (G.maxDegree + 1)`. The graph layer
   generates a bounded elimination order, runs CT12's canonical list-peeling
@@ -112,17 +121,17 @@ only the data that cannot be derived generically. CT1 follows the same
 | Tactic | Problem-specific primitives |
 |---|---|
 | CT1 | Test-index type, dependent witnesses, realization predicate, explicit finite enumerators, and a realization decider. |
-| CT2 | Enumerated pieces with properness/admissibility; a piece-to-interface map; enumerated compatible contexts, gluing, reconstruction; baseline/target deciders; deletion; enumerated replacements and strict decrease. |
-| CT3 | Pieces, contexts, candidates and table rows; exact responses; admissibility/smaller predicates; explicit context/candidate/row enumerators and their deciders. |
+| CT2 | Full replacement profile: enumerated pieces, contexts, and replacements with their local operators and deciders. Local profiles: either one finite piece schedule and deletion closure, or one explicitly certified smaller object with its reduced baseline and target transport. |
+| CT3 | Finite-table profile: pieces, contexts, candidates, rows, exact responses, enumerators, and deciders. Boundaried-replacement profile: one finite boundary-label set, gluing semantics, boundary degrees, one proper atom, and one proof-specified replacement certificate. |
 | CT4 | Demands and payers; eligibility, demand weights and capacities; explicit finite enumerators, eligibility decider, and required bound. |
 | CT5 | Sites and dependent witnesses; active/support predicates, contributions, finite enumerators, deciders, required amount and capacity. |
 | CT6 | Ordered indices, failure predicate/data, contribution, explicit finite failure order, and failure decider. |
 | CT7 | Objects and contexts; realization and exact response functions; finite comparison enumerators and realization decider. |
 | CT8 | Exact-type and response-context enumerators, exact-type/response operators, and the problem-specific removal operation. |
 | CT9 | Item and label types, explicit label enumerator, label map, and capacity. |
-| CT10 | Explicit class enumerator, class observation, direct-case predicate, and promotion operator. |
+| CT10 | General API: explicit class enumerator, class observation, direct-case predicate, and promotion operator. Exact-classification profile: an explicit candidate enumerator plus one decidable acceptance predicate. |
 | CT11 | General API: cell type, admissibility predicate/decider and local budget; each invocation supplies its finite cell collection and negative-total proof. For universally admissible decompositions, `NegativeBudgetProfile` reduces the static API to the cell type and local budget. |
-| CT12 | Indexed state and peeled-object types, peel operation, and a nonempty restoration operator whose recursive branch carries strict decrease. |
+| CT12 | General API: indexed state and peeled-object types, peel operation, and a nonempty restoration operator whose recursive branch carries strict decrease. Disjoint-packing profile: finite items, finite nonempty supports, and one representative host vertex per support. |
 | CT13 | Enumerated payers and obstructions, eligibility, fallback/cost data, ordered tier-two resources, charge and demand, with required deciders. |
 | CT14 | Enumerated members, per-member lower mass, optional capacity and label, and label equality. |
 | CT15 | Coordinates, target-dependence predicate/decider, charge, and capacity. |
@@ -170,11 +179,25 @@ shapes:
 - `CT1.TargetEncoding` generates a one-test spec, capability, and public-target
   bridge from a finite code checker and encode/decode maps;
   `CT1.runC1OfPublicTarget` packages the exact C1 run.
+- `Graph.InducedPath.Profile` uses a Mathlib induced graph embedding as a
+  proof-carrying CT1 code. It supplies positive and avoiding executions,
+  semantic reflection, exact traces, totality, and degree-zero work bounds
+  without enumerating vertex tuples or subgraphs.
 - `CT2.Capability.deletionOnly` generates unit interfaces, identity contexts,
   and an empty replacement universe; `CT2.DeletionClosureRule` derives the
   deletion witness, closing analysis equality, exact deletion-C2 run,
   contradiction, disabled discovery, and non-properness conclusion from
   baseline preservation and target monotonicity.
+- `CT2.CertifiedReductionInput` accepts one proof-specified smaller object,
+  its inherited baseline, and target monotonicity. The framework generates the
+  canonical deletion-C2 terminal, typed trace, contradiction, totality proof,
+  and constant degree-zero work certificate without enumerating pieces or
+  ambient objects.
+- `Graph.PackedBoundariedGluing` formalizes finite boundary labels, literal
+  graph gluing, obstruction profiles, boundary-degree fibres, exact rank and
+  degree transport, and universal context response. Its verified stage invokes
+  `CT3.runCertifiedCompression` only after deriving the genuine smaller
+  counterexample, with a one-check degree-zero budget.
 - `CT6.ActiveLedgerRun` and `CT9.OverloadedRun` keep the actual execution,
   residual, terminal, and trace aligned. `CT9.parityCapacityOne` additionally
   generates the two-label capacity-one pigeonhole machine from a rank map.
@@ -184,10 +207,42 @@ shapes:
 - `CT12.ListPeeling` generates indexed states, head/tail decompositions,
   strictly decreasing restoration steps, the exact run, and its exhaustion
   theorem for any list-valued schedule.
+- `Core.FiniteDisjointPacking` proof-selects a maximum family of pairwise
+  disjoint nonempty supports and proves maximal saturation without executable
+  powerset enumeration. `CT12.DisjointPacking` audits exactly the selected
+  list, proves one iteration per selected item, and gives iteration and trace
+  bounds linear in the host vertex count.
+- `Graph.InducedPathPacking` instantiates that profile with literal Mathlib
+  induced embeddings. It supplies exact packed/remainder cardinalities and an
+  induced-path-free remainder. `Graph.MaximumMatching` specializes it to
+  induced paths of order two and owns the maximum-matching partition,
+  selected-list CT12 audit, and edgeless unmatched remainder; the even-cycle
+  package is only an external fixture for that API.
+- `CT10.ExhaustiveClassification` turns a finite accepted-candidate predicate
+  into the exact class table, exhaustive execution, typed trace, totality,
+  and a quadratic candidate/class work ledger. `Graph.InducedPathAttachment`
+  supplies compact label codes, symbolic gap semantics, compatibility
+  relations, and actual attachment-cycle certificates; the Erdős `P₁₃`
+  table and Mantel edge table share these APIs.
+- `Graph.FiniteObject.InternalSubgraph` represents an arbitrary finite graph
+  supported inside a finite host. Its generic minimum-degree monotonicity
+  theorem upgrades induced-core exclusions to ordinary-subgraph exclusions.
 - `Graph.MinimumDegreeCycle.StaticInput` generates a Mathlib finite-graph
   problem, cycle target, complete CT1 encoding, deletion-only CT2 capability,
   closure rule, and tight-endpoint theorem from a branch-state family, a
   degree threshold, and a decidable cycle-length predicate.
+- `Graph.MinimumDegreeCycleRouted` adds the reusable edge-rooted CT1 target,
+  proof-carrying positive and avoiding runs, certificate-to-local-deletion
+  route composition, rank-minimal prefix selection, tight-endpoint
+  criticality, and high-degree independence.  Both the Erdős and even-cycle
+  packages instantiate these declarations.
+- `Graph.PackedMinimumDegreeCycle` hides each finite graph's vertex type,
+  encodes lexicographic `(vertices, edges)` order as a natural-number rank,
+  transports cycles through injective Mathlib graph homomorphisms, and runs
+  certificate-driven CT2 on one proper subgraph. Its combined output retains
+  the existing edge-rooted CT1 and local-deletion CT2 prefix on the selected
+  graph, extends it with the verified CT3 boundaried-replacement stage, and
+  can retain a subsequent induced-path CT1 stage on the same packed context.
 - `Graph.EndpointParityCycle.Profile` generates the greedy maximal path, CT6
   closure, typed CT6-to-CT9 route, parity overload, path-position
   localization, chord cycle, target theorem, and exact CT1 run. Its
@@ -452,8 +507,7 @@ jq '{
 - `examples/even_cycle/`: independent Lake package containing the complete
   worked theorem instantiation and executable end-to-end fixture.
 - `examples/erdos_64_eg/`: independent Lake package containing the official
-  Erdős 64 boundary, the current CT1/CT2 instantiation, and the next CT3 author
-  contract.
+  Erdős 64 boundary and its current theorem-specific CT1/CT2 instantiation.
 - `examples/greedy_coloring/`: independent Lake package containing the complete
   CT12/CT4/CT1 greedy-coloring theorem and executable `K₄` fixture.
 - `examples/mantel/`: independent Lake package containing the complete

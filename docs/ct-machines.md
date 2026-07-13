@@ -204,6 +204,7 @@ Generated from the compiled `StructuralExhaustion.Canonical` registry.
 | Route | Semantic discovery | Problem-specific inputs | Adapter type |
 |---|---|---|---|
 | `CT1.residual.avoiding->CT2` | `capabilityDiscovery` | targetCapability, minimalityKernel | `—` |
+| `CT1.residual.avoiding->CT2.localDeletion` | `capabilityDiscovery` | targetCapability, minimalityKernel | `—` |
 | `CT2.residual.separatingContext->CT3` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT2ToCT3.PieceDiscovery` |
 | `CT2.residual.criticality->CT10` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery` |
 | `CT6.residual.activeLedger->CT9` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter` |

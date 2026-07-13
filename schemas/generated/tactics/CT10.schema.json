@@ -716,6 +716,120 @@
         "namespace": "StructuralExhaustion.CT10",
         "loopDecrease": null,
         "capabilityProfiles": [],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "Capability.Datum",
+            "presentation": {
+              "plainExplanation": "The type of local data records classified by CT10.",
+              "mathematicalDefinition": "\\mathcal{D}",
+              "label": "Local datum"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT10.Capability P → Type uDatum",
+              "name": "StructuralExhaustion.CT10.Capability.Datum",
+              "kind": "definition"
+            },
+            "conceptId": "CT10.capability.datum"
+          },
+          {
+            "requirementRef": "Capability.Class",
+            "presentation": {
+              "plainExplanation": "The finite type of classes used to partition local data.",
+              "mathematicalDefinition": "\\mathcal{C}",
+              "label": "Refinement class"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT10.Capability P → Type uClass",
+              "name": "StructuralExhaustion.CT10.Capability.Class",
+              "kind": "definition"
+            },
+            "conceptId": "CT10.capability.class"
+          },
+          {
+            "requirementRef": "Capability.Promotion",
+            "presentation": {
+              "plainExplanation": "The type of application-specific residuals produced from a missing class.",
+              "mathematicalDefinition": "\\mathcal{P}",
+              "label": "Promotion payload"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT10.Capability P → Type uPromotion",
+              "name": "StructuralExhaustion.CT10.Capability.Promotion",
+              "kind": "definition"
+            },
+            "conceptId": "CT10.capability.promotion"
+          },
+          {
+            "requirementRef": "Capability.classes",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of all refinement classes.",
+              "mathematicalDefinition": "\\operatorname{classes}=\\mathcal{C}",
+              "label": "Finite class enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT10.Capability P) → FinEnum self.Class",
+              "name": "StructuralExhaustion.CT10.Capability.classes",
+              "kind": "definition"
+            },
+            "conceptId": "CT10.capability.classes"
+          },
+          {
+            "requirementRef": "Capability.classOf",
+            "presentation": {
+              "plainExplanation": "Assigns each local datum to its exact refinement class.",
+              "mathematicalDefinition": "\\chi:\\mathcal{D}\\to\\mathcal{C}",
+              "label": "Datum classifier"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT10.Capability P) → self.Datum → self.Class",
+              "name": "StructuralExhaustion.CT10.Capability.classOf",
+              "kind": "definition"
+            },
+            "conceptId": "CT10.capability.classOf"
+          },
+          {
+            "requirementRef": "Capability.Direct",
+            "presentation": {
+              "plainExplanation": "The proposition that class c closes the branch without promotion.",
+              "mathematicalDefinition": "\\operatorname{Direct}(c)",
+              "label": "Directly closing class"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT10.Capability P) → self.Class → Prop",
+              "name": "StructuralExhaustion.CT10.Capability.Direct",
+              "kind": "definition"
+            },
+            "conceptId": "CT10.capability.direct"
+          },
+          {
+            "requirementRef": "Capability.directDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding whether a refinement class closes directly.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Direct}(c))",
+              "label": "Directness decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT10.Capability P) → (cls : self.Class) → Decidable (self.Direct cls)",
+              "name": "StructuralExhaustion.CT10.Capability.directDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT10.capability.directDecidable"
+          },
+          {
+            "requirementRef": "Capability.promote",
+            "presentation": {
+              "plainExplanation": "Converts the first missing nondirect class into its downstream promotion payload.",
+              "mathematicalDefinition": "\\pi:\\mathcal{C}\\to\\mathcal{P}",
+              "label": "Class promotion"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT10.Capability P) → self.Class → self.Promotion",
+              "name": "StructuralExhaustion.CT10.Capability.promote",
+              "kind": "definition"
+            },
+            "conceptId": "CT10.capability.promote"
+          }
+        ],
         "capability": {
           "tacticId": "CT10",
           "requiredInstances": [
@@ -727,35 +841,43 @@
           "requiredDefinitions": [
             {
               "ref": "Capability.Datum",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT10.capability.datum"
             },
             {
               "ref": "Capability.Class",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT10.capability.class"
             },
             {
               "ref": "Capability.Promotion",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT10.capability.promotion"
             },
             {
               "ref": "Capability.classes",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT10.capability.classes"
             },
             {
               "ref": "Capability.classOf",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT10.capability.classOf"
             },
             {
               "ref": "Capability.Direct",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT10.capability.direct"
             },
             {
               "ref": "Capability.directDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT10.capability.directDecidable"
             },
             {
               "ref": "Capability.promote",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT10.capability.promote"
             }
           ],
           "derivedOperations": [
@@ -915,35 +1037,43 @@
     "requiredDefinitions": [
       {
         "ref": "Capability.Datum",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT10.capability.datum"
       },
       {
         "ref": "Capability.Class",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT10.capability.class"
       },
       {
         "ref": "Capability.Promotion",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT10.capability.promotion"
       },
       {
         "ref": "Capability.classes",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT10.capability.classes"
       },
       {
         "ref": "Capability.classOf",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT10.capability.classOf"
       },
       {
         "ref": "Capability.Direct",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT10.capability.direct"
       },
       {
         "ref": "Capability.directDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT10.capability.directDecidable"
       },
       {
         "ref": "Capability.promote",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT10.capability.promote"
       }
     ],
     "derivedOperations": [
@@ -974,5 +1104,119 @@
     ],
     "capabilityId": "StructuralExhaustion.CT10.reference"
   },
-  "x-capabilityProfiles": []
+  "x-capabilityProfiles": [],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "Capability.Datum",
+      "presentation": {
+        "plainExplanation": "The type of local data records classified by CT10.",
+        "mathematicalDefinition": "\\mathcal{D}",
+        "label": "Local datum"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT10.Capability P → Type uDatum",
+        "name": "StructuralExhaustion.CT10.Capability.Datum",
+        "kind": "definition"
+      },
+      "conceptId": "CT10.capability.datum"
+    },
+    {
+      "requirementRef": "Capability.Class",
+      "presentation": {
+        "plainExplanation": "The finite type of classes used to partition local data.",
+        "mathematicalDefinition": "\\mathcal{C}",
+        "label": "Refinement class"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT10.Capability P → Type uClass",
+        "name": "StructuralExhaustion.CT10.Capability.Class",
+        "kind": "definition"
+      },
+      "conceptId": "CT10.capability.class"
+    },
+    {
+      "requirementRef": "Capability.Promotion",
+      "presentation": {
+        "plainExplanation": "The type of application-specific residuals produced from a missing class.",
+        "mathematicalDefinition": "\\mathcal{P}",
+        "label": "Promotion payload"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT10.Capability P → Type uPromotion",
+        "name": "StructuralExhaustion.CT10.Capability.Promotion",
+        "kind": "definition"
+      },
+      "conceptId": "CT10.capability.promotion"
+    },
+    {
+      "requirementRef": "Capability.classes",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of all refinement classes.",
+        "mathematicalDefinition": "\\operatorname{classes}=\\mathcal{C}",
+        "label": "Finite class enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT10.Capability P) → FinEnum self.Class",
+        "name": "StructuralExhaustion.CT10.Capability.classes",
+        "kind": "definition"
+      },
+      "conceptId": "CT10.capability.classes"
+    },
+    {
+      "requirementRef": "Capability.classOf",
+      "presentation": {
+        "plainExplanation": "Assigns each local datum to its exact refinement class.",
+        "mathematicalDefinition": "\\chi:\\mathcal{D}\\to\\mathcal{C}",
+        "label": "Datum classifier"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT10.Capability P) → self.Datum → self.Class",
+        "name": "StructuralExhaustion.CT10.Capability.classOf",
+        "kind": "definition"
+      },
+      "conceptId": "CT10.capability.classOf"
+    },
+    {
+      "requirementRef": "Capability.Direct",
+      "presentation": {
+        "plainExplanation": "The proposition that class c closes the branch without promotion.",
+        "mathematicalDefinition": "\\operatorname{Direct}(c)",
+        "label": "Directly closing class"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT10.Capability P) → self.Class → Prop",
+        "name": "StructuralExhaustion.CT10.Capability.Direct",
+        "kind": "definition"
+      },
+      "conceptId": "CT10.capability.direct"
+    },
+    {
+      "requirementRef": "Capability.directDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding whether a refinement class closes directly.",
+        "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Direct}(c))",
+        "label": "Directness decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT10.Capability P) → (cls : self.Class) → Decidable (self.Direct cls)",
+        "name": "StructuralExhaustion.CT10.Capability.directDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT10.capability.directDecidable"
+    },
+    {
+      "requirementRef": "Capability.promote",
+      "presentation": {
+        "plainExplanation": "Converts the first missing nondirect class into its downstream promotion payload.",
+        "mathematicalDefinition": "\\pi:\\mathcal{C}\\to\\mathcal{P}",
+        "label": "Class promotion"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT10.Capability P) → self.Class → self.Promotion",
+        "name": "StructuralExhaustion.CT10.Capability.promote",
+        "kind": "definition"
+      },
+      "conceptId": "CT10.capability.promote"
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-import StructuralExhaustion.CT12.ListPeeling
+import StructuralExhaustion.CT12.DisjointPacking
 
 namespace StructuralExhaustion.CT12
 
@@ -49,7 +49,35 @@ def listPeelingCapabilityProfile : Core.CapabilityProfile where
     "StructuralExhaustion.CT12.ListPeeling.capability",
     "StructuralExhaustion.CT12.ListPeeling.initialState",
     "StructuralExhaustion.CT12.ListPeeling.run",
-    "StructuralExhaustion.CT12.ListPeeling.run_terminal_exhausted"]
+    "StructuralExhaustion.CT12.ListPeeling.run_terminal_exhausted",
+    "StructuralExhaustion.CT12.ListPeeling.run_iterations_eq_length"]
+
+/-- Maximum finite disjoint packing followed by a vertex-linearly bounded
+list-peeling execution. -/
+def disjointPackingCapabilityProfile : Core.CapabilityProfile where
+  capabilityId := "StructuralExhaustion.CT12.profile.disjointPacking"
+  tacticId := "CT12"
+  requiredDefinitions := [
+    ⟨"StructuralExhaustion.Core.FiniteDisjointPacking.Profile.vertices",
+      .userDefinition⟩,
+    ⟨"StructuralExhaustion.Core.FiniteDisjointPacking.Profile.finiteItems",
+      .userDefinition⟩,
+    ⟨"StructuralExhaustion.Core.FiniteDisjointPacking.Profile.support",
+      .userOperator⟩,
+    ⟨"StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative",
+      .userOperator⟩,
+    ⟨"StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative_mem",
+      .userDefinition⟩]
+  requiredInstances := []
+  derivedOperations := [
+    "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.maximum",
+    "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.maximum_spec",
+    "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.maximum_saturated",
+    "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.values_length_le_vertices",
+    "StructuralExhaustion.CT12.DisjointPacking.Profile.run",
+    "StructuralExhaustion.CT12.DisjointPacking.Profile.run_iterations_eq_values",
+    "StructuralExhaustion.CT12.DisjointPacking.Profile.verifiedStage",
+    "StructuralExhaustion.CT12.DisjointPacking.Profile.run_total"]
 
 def nodeAutomationContracts : List Core.NodeAutomationContract := [
   ⟨"CT12.entry", .definitional, [],

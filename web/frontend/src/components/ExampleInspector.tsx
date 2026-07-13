@@ -2,11 +2,14 @@ import { Link } from "react-router-dom";
 
 import type {
   ExampleDeclaration,
+  ExampleDeclarationRole,
   ExampleInterfaceBinding,
   ExampleLink,
+  ExampleProofStep,
   ExampleStage,
   ExampleWorkflow,
 } from "../types";
+import { MathFormula } from "./MathFormula";
 
 const relationDescriptions: Record<ExampleLink["kind"], string> = {
   registeredRoute: "A route registered and checked by the structural-exhaustion framework.",
@@ -16,6 +19,107 @@ const relationDescriptions: Record<ExampleLink["kind"], string> = {
   scheduleAudit: "This execution audits a schedule; it is not itself consumed as proof data.",
   sharedProblem: "These stages share a problem or profile without forming an execution pipeline.",
 };
+
+const roleLabels: Record<ExampleDeclarationRole, string> = {
+  mathematicalDefinition: "Mathematical definition",
+  semanticTheorem: "Semantic theorem",
+  encodingBridge: "Encoding bridge",
+  tacticExecution: "Tactic execution",
+  executionAudit: "Execution audit",
+  soundnessTotality: "Soundness / totality",
+  workBound: "Work bound",
+  compositionProvenance: "Composition / provenance",
+  frameworkInterface: "Framework interface",
+  externalTheorem: "External theorem",
+  fixture: "Fixture",
+};
+
+const correspondenceLabels: Record<ExampleProofStep["correspondence"], string> = {
+  exact: "Exact",
+  equivalentEncoding: "Equivalent encoding",
+  specialization: "Reusable specialization",
+  composite: "Composite correspondence",
+  support: "Implementation support",
+  partial: "Partial / future",
+};
+
+function ProofStepCompanion({
+  step,
+  activeDeclaration,
+}: {
+  step: ExampleProofStep;
+  activeDeclaration?: ExampleDeclaration;
+}) {
+  const group = activeDeclaration
+    ? step.declarationGroups.find((candidate) =>
+        candidate.declarationIds.includes(activeDeclaration.declarationId))
+    : undefined;
+
+  return (
+    <div className="proof-companion">
+      <div className="proof-companion__status">
+        <span className={`implementation-status implementation-status--${step.status}`}>
+          {step.status === "notStarted" ? "not started" : step.status}
+        </span>
+        <span className={`correspondence-chip correspondence-chip--${step.correspondence}`}>
+          {correspondenceLabels[step.correspondence]}
+        </span>
+      </div>
+      <section>
+        <h3>Plain language</h3>
+        <p>{step.plainExplanation}</p>
+      </section>
+      <section>
+        <h3>Formal mathematics</h3>
+        <MathFormula value={step.formalStatement} label={`${step.title} mathematical statement`} />
+      </section>
+      <section>
+        <h3>Paper correspondence</h3>
+        {step.manuscriptRefs.length ? (
+          <ul className="manuscript-ref-list">
+            {step.manuscriptRefs.map((reference) => (
+              <li key={reference.label}>
+                <code>{reference.label}</code>
+                <span>{reference.title}</span>
+                {reference.nodeIds.length ? (
+                  <small>nodes {reference.nodeIds.map((node) => `[${node}]`).join(", ")}</small>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="empty-copy">Implementation support; no manuscript claim is assigned.</p>
+        )}
+      </section>
+      {activeDeclaration && group ? (
+        <section className="active-declaration-explanation">
+          <div>
+            <h3>Selected Lean declaration</h3>
+            <span className={`declaration-role declaration-role--${group.role}`}>
+              {roleLabels[group.role]}
+            </span>
+          </div>
+          <code>{activeDeclaration.name}</code>
+          <p>{group.explanation}</p>
+          <details>
+            <summary>Exact kernel-checked type</summary>
+            <pre>{activeDeclaration.type}</pre>
+          </details>
+        </section>
+      ) : null}
+      <section className="proof-companion__audit">
+        <div>
+          <h3>Faithfulness and scope</h3>
+          <p>{step.scopeNotes}</p>
+        </div>
+        <div>
+          <h3>Finite work audit</h3>
+          <p>{step.workBound}</p>
+        </div>
+      </section>
+    </div>
+  );
+}
 
 function DeclarationButtons({
   declarationIds,
@@ -52,6 +156,8 @@ export function ExampleInspector({
   link,
   bindings,
   declarations,
+  proofStep,
+  activeDeclarationId,
   onDeclarationSelect,
 }: {
   workflow: ExampleWorkflow;
@@ -59,8 +165,14 @@ export function ExampleInspector({
   link?: ExampleLink;
   bindings: ExampleInterfaceBinding[];
   declarations: ExampleDeclaration[];
+  proofStep?: ExampleProofStep;
+  activeDeclarationId: string | null;
   onDeclarationSelect: (declarationId: string) => void;
 }) {
+  const activeDeclaration = declarations.find(
+    (declaration) => declaration.declarationId === activeDeclarationId,
+  );
+
   if (stage) {
     const stageBindings = bindings.filter(
       (binding) =>
@@ -89,6 +201,9 @@ export function ExampleInspector({
             </Link>
           ) : null}
         </div>
+        {proofStep ? (
+          <ProofStepCompanion step={proofStep} activeDeclaration={activeDeclaration} />
+        ) : null}
         <section>
           <h3>Problem ↔ framework interface</h3>
           {stageBindings.length ? (
@@ -120,6 +235,18 @@ export function ExampleInspector({
             onSelect={onDeclarationSelect}
           />
         </section>
+      </article>
+    );
+  }
+
+  if (proofStep) {
+    return (
+      <article className="example-inspector" aria-live="polite">
+        <div className="example-inspector__heading">
+          <span className="eyebrow">Proof roadmap</span>
+          <h2>{proofStep.title}</h2>
+        </div>
+        <ProofStepCompanion step={proofStep} activeDeclaration={activeDeclaration} />
       </article>
     );
   }

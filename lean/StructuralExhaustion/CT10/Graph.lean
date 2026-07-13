@@ -58,4 +58,41 @@ end Path
 def ValidTrace (nodes : List NodeId) : Prop := ∃ terminal : Terminal,
   ∃ path : Path capability input .entry terminal.nodeId, path.trace = nodes
 
+/-- The CT10 graph has a unique node trace from entry to the exhaustive
+terminal; proof payloads on its edges do not affect that trace. -/
+theorem trace_eq_of_path_to_exhaustive
+    (path : Path capability input .entry .exhaustiveTerminal) :
+    path.trace =
+      [.entry, .table, .direct, .missing, .exhaustiveTerminal] := by
+  cases path with
+  | cons first rest =>
+      cases first with
+      | begin =>
+          cases rest with
+          | cons second rest =>
+              cases second with
+              | tableBuilt =>
+                  cases rest with
+                  | cons third rest =>
+                      cases third with
+                      | directFound residual =>
+                          cases rest with
+                          | cons impossible tail => cases impossible
+                      | directAbsent directAbsent =>
+                          cases rest with
+                          | cons fourth rest =>
+                              cases fourth with
+                              | missingFound residual =>
+                                  cases rest with
+                                  | cons promoted rest =>
+                                      cases promoted with
+                                      | promoted residual =>
+                                          cases rest with
+                                          | cons impossible tail =>
+                                              cases impossible
+                              | exhaustive certificate =>
+                                  cases rest with
+                                  | nil => rfl
+                                  | cons impossible tail => cases impossible
+
 end StructuralExhaustion.CT10.Graph

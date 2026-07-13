@@ -883,31 +883,38 @@
             "requiredDefinitions": [
               {
                 "ref": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Demand",
-                "provision": "user_definition"
+                "provision": "user_definition",
+                "conceptId": "CT4.functional.demand"
               },
               {
                 "ref": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Payer",
-                "provision": "user_definition"
+                "provision": "user_definition",
+                "conceptId": "CT4.functional.payer"
               },
               {
                 "ref": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Eligible",
-                "provision": "user_definition"
+                "provision": "user_definition",
+                "conceptId": "CT4.functional.eligible"
               },
               {
                 "ref": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.demands",
-                "provision": "user_finite_enumeration"
+                "provision": "user_finite_enumeration",
+                "conceptId": "CT4.functional.demands"
               },
               {
                 "ref": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.payers",
-                "provision": "user_finite_enumeration"
+                "provision": "user_finite_enumeration",
+                "conceptId": "CT4.functional.payers"
               },
               {
                 "ref": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.eligibleDecidable",
-                "provision": "instance_bridge"
+                "provision": "instance_bridge",
+                "conceptId": "CT4.functional.eligibleDecidable"
               },
               {
                 "ref": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.functional",
-                "provision": "user_operator"
+                "provision": "user_operator",
+                "conceptId": "CT4.functional.functional"
               }
             ],
             "derivedOperations": [
@@ -935,6 +942,232 @@
             "capabilityId": "StructuralExhaustion.CT4.profile.functionalCardinality"
           }
         ],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "Spec.Demand",
+            "presentation": {
+              "plainExplanation": "The type of obligations that must each be assigned an eligible payer.",
+              "mathematicalDefinition": "\\mathcal{D}",
+              "label": "Demand"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT4.Spec P → Type uDemand",
+              "name": "StructuralExhaustion.CT4.Spec.Demand",
+              "kind": "definition"
+            },
+            "conceptId": "CT4.spec.demand"
+          },
+          {
+            "requirementRef": "Spec.Payer",
+            "presentation": {
+              "plainExplanation": "The type of resources that may pay for demands.",
+              "mathematicalDefinition": "\\mathcal{Q}",
+              "label": "Payer"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT4.Spec P → Type uPayer",
+              "name": "StructuralExhaustion.CT4.Spec.Payer",
+              "kind": "definition"
+            },
+            "conceptId": "CT4.spec.payer"
+          },
+          {
+            "requirementRef": "Spec.Eligible",
+            "presentation": {
+              "plainExplanation": "The proposition that payer q is allowed to serve demand d in branch context x.",
+              "mathematicalDefinition": "q\\sim_{x}d",
+              "label": "Eligibility relation"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT4.Spec P) → Core.BranchContext P → self.Demand → self.Payer → Prop",
+              "name": "StructuralExhaustion.CT4.Spec.Eligible",
+              "kind": "definition"
+            },
+            "conceptId": "CT4.spec.eligible"
+          },
+          {
+            "requirementRef": "Spec.demandWeight",
+            "presentation": {
+              "plainExplanation": "Assigns the amount charged by each demand in a branch context.",
+              "mathematicalDefinition": "w_x:\\mathcal{D}\\to\\mathbb{N}",
+              "label": "Demand weight"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT4.Spec P) → Core.BranchContext P → self.Demand → ℕ",
+              "name": "StructuralExhaustion.CT4.Spec.demandWeight",
+              "kind": "definition"
+            },
+            "conceptId": "CT4.spec.demandWeight"
+          },
+          {
+            "requirementRef": "Spec.capacity",
+            "presentation": {
+              "plainExplanation": "Assigns the maximum permitted load to each payer in a branch context.",
+              "mathematicalDefinition": "\\kappa_x:\\mathcal{Q}\\to\\mathbb{N}",
+              "label": "Payer capacity"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT4.Spec P) → Core.BranchContext P → self.Payer → ℕ",
+              "name": "StructuralExhaustion.CT4.Spec.capacity",
+              "kind": "definition"
+            },
+            "conceptId": "CT4.spec.capacity"
+          },
+          {
+            "requirementRef": "Capability.demands",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of all demands.",
+              "mathematicalDefinition": "\\operatorname{demands}=\\mathcal{D}",
+              "label": "Finite demand enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT4.Spec P} → CT4.Capability S → FinEnum S.Demand",
+              "name": "StructuralExhaustion.CT4.Capability.demands",
+              "kind": "definition"
+            },
+            "conceptId": "CT4.capability.demands"
+          },
+          {
+            "requirementRef": "Capability.payers",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of all possible payers.",
+              "mathematicalDefinition": "\\operatorname{payers}=\\mathcal{Q}",
+              "label": "Finite payer enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT4.Spec P} → CT4.Capability S → FinEnum S.Payer",
+              "name": "StructuralExhaustion.CT4.Capability.payers",
+              "kind": "definition"
+            },
+            "conceptId": "CT4.capability.payers"
+          },
+          {
+            "requirementRef": "Capability.eligibleDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding whether a payer is eligible for a demand.",
+              "mathematicalDefinition": "\\operatorname{decide}(q\\sim_x d)",
+              "label": "Eligibility decision procedure"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    CT4.Capability S →\n      (ctx : Core.BranchContext P) → (demand : S.Demand) → (payer : S.Payer) → Decidable (S.Eligible ctx demand payer)",
+              "name": "StructuralExhaustion.CT4.Capability.eligibleDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT4.capability.eligibleDecidable"
+          },
+          {
+            "requirementRef": "Capability.required",
+            "presentation": {
+              "plainExplanation": "The branch-specific aggregate amount against which the computed charge is compared.",
+              "mathematicalDefinition": "R(x)\\in\\mathbb{N}",
+              "label": "Required total"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → {S : CT4.Spec P} → CT4.Capability S → Core.BranchContext P → ℕ",
+              "name": "StructuralExhaustion.CT4.Capability.required",
+              "kind": "definition"
+            },
+            "conceptId": "CT4.capability.required"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Demand",
+            "presentation": {
+              "plainExplanation": "The finite demand type in the functional strict-cardinality specialization.",
+              "mathematicalDefinition": "\\mathcal{D}",
+              "label": "Functional-profile demand"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT4.FunctionalCardinalityProfile P → Type",
+              "name": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Demand",
+              "kind": "definition"
+            },
+            "conceptId": "CT4.functional.demand"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Payer",
+            "presentation": {
+              "plainExplanation": "The finite payer type in the functional strict-cardinality specialization.",
+              "mathematicalDefinition": "\\mathcal{Q}",
+              "label": "Functional-profile payer"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT4.FunctionalCardinalityProfile P → Type",
+              "name": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Payer",
+              "kind": "definition"
+            },
+            "conceptId": "CT4.functional.payer"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Eligible",
+            "presentation": {
+              "plainExplanation": "The profile's relation specifying which payer can serve each demand.",
+              "mathematicalDefinition": "q\\sim_x d",
+              "label": "Functional eligibility"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT4.FunctionalCardinalityProfile P) → CT4.Input P → self.Demand → self.Payer → Prop",
+              "name": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Eligible",
+              "kind": "definition"
+            },
+            "conceptId": "CT4.functional.eligible"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.demands",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of the profile's demands.",
+              "mathematicalDefinition": "\\operatorname{demands}=\\mathcal{D}",
+              "label": "Functional demand enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT4.FunctionalCardinalityProfile P) → FinEnum self.Demand",
+              "name": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.demands",
+              "kind": "definition"
+            },
+            "conceptId": "CT4.functional.demands"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.payers",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of the profile's payers.",
+              "mathematicalDefinition": "\\operatorname{payers}=\\mathcal{Q}",
+              "label": "Functional payer enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT4.FunctionalCardinalityProfile P) → FinEnum self.Payer",
+              "name": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.payers",
+              "kind": "definition"
+            },
+            "conceptId": "CT4.functional.payers"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.eligibleDecidable",
+            "presentation": {
+              "plainExplanation": "Executable evidence deciding the profile's eligibility relation.",
+              "mathematicalDefinition": "\\operatorname{decide}(q\\sim_x d)",
+              "label": "Functional eligibility decision"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  (self : CT4.FunctionalCardinalityProfile P) →\n    (input : CT4.Input P) → (demand : self.Demand) → (payer : self.Payer) → Decidable (self.Eligible input demand payer)",
+              "name": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.eligibleDecidable",
+              "kind": "definition"
+            },
+            "conceptId": "CT4.functional.eligibleDecidable"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.functional",
+            "presentation": {
+              "plainExplanation": "A proof that one payer cannot serve two distinct demands, making any total assignment injective.",
+              "mathematicalDefinition": "(q\\sim_x d_1\\land q\\sim_x d_2)\\Rightarrow d_1=d_2",
+              "label": "Functional payer law"
+            },
+            "formalDeclaration": {
+              "type": "∀ {P : Core.Problem} (self : CT4.FunctionalCardinalityProfile P) (input : CT4.Input P) (payer : self.Payer)\n  (demand₁ demand₂ : self.Demand),\n  self.Eligible input demand₁ payer → self.Eligible input demand₂ payer → demand₁ = demand₂",
+              "name": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.functional",
+              "kind": "theorem"
+            },
+            "conceptId": "CT4.functional.functional"
+          }
+        ],
         "capability": {
           "tacticId": "CT4",
           "requiredInstances": [
@@ -946,39 +1179,48 @@
           "requiredDefinitions": [
             {
               "ref": "Spec.Demand",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT4.spec.demand"
             },
             {
               "ref": "Spec.Payer",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT4.spec.payer"
             },
             {
               "ref": "Spec.Eligible",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT4.spec.eligible"
             },
             {
               "ref": "Spec.demandWeight",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT4.spec.demandWeight"
             },
             {
               "ref": "Spec.capacity",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT4.spec.capacity"
             },
             {
               "ref": "Capability.demands",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT4.capability.demands"
             },
             {
               "ref": "Capability.payers",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT4.capability.payers"
             },
             {
               "ref": "Capability.eligibleDecidable",
-              "provision": "instance_bridge"
+              "provision": "instance_bridge",
+              "conceptId": "CT4.capability.eligibleDecidable"
             },
             {
               "ref": "Capability.required",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT4.capability.required"
             }
           ],
           "derivedOperations": [
@@ -1146,39 +1388,48 @@
     "requiredDefinitions": [
       {
         "ref": "Spec.Demand",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT4.spec.demand"
       },
       {
         "ref": "Spec.Payer",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT4.spec.payer"
       },
       {
         "ref": "Spec.Eligible",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT4.spec.eligible"
       },
       {
         "ref": "Spec.demandWeight",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT4.spec.demandWeight"
       },
       {
         "ref": "Spec.capacity",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT4.spec.capacity"
       },
       {
         "ref": "Capability.demands",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT4.capability.demands"
       },
       {
         "ref": "Capability.payers",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT4.capability.payers"
       },
       {
         "ref": "Capability.eligibleDecidable",
-        "provision": "instance_bridge"
+        "provision": "instance_bridge",
+        "conceptId": "CT4.capability.eligibleDecidable"
       },
       {
         "ref": "Capability.required",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT4.capability.required"
       }
     ],
     "derivedOperations": [
@@ -1229,31 +1480,38 @@
       "requiredDefinitions": [
         {
           "ref": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Demand",
-          "provision": "user_definition"
+          "provision": "user_definition",
+          "conceptId": "CT4.functional.demand"
         },
         {
           "ref": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Payer",
-          "provision": "user_definition"
+          "provision": "user_definition",
+          "conceptId": "CT4.functional.payer"
         },
         {
           "ref": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Eligible",
-          "provision": "user_definition"
+          "provision": "user_definition",
+          "conceptId": "CT4.functional.eligible"
         },
         {
           "ref": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.demands",
-          "provision": "user_finite_enumeration"
+          "provision": "user_finite_enumeration",
+          "conceptId": "CT4.functional.demands"
         },
         {
           "ref": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.payers",
-          "provision": "user_finite_enumeration"
+          "provision": "user_finite_enumeration",
+          "conceptId": "CT4.functional.payers"
         },
         {
           "ref": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.eligibleDecidable",
-          "provision": "instance_bridge"
+          "provision": "instance_bridge",
+          "conceptId": "CT4.functional.eligibleDecidable"
         },
         {
           "ref": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.functional",
-          "provision": "user_operator"
+          "provision": "user_operator",
+          "conceptId": "CT4.functional.functional"
         }
       ],
       "derivedOperations": [
@@ -1279,6 +1537,232 @@
         }
       ],
       "capabilityId": "StructuralExhaustion.CT4.profile.functionalCardinality"
+    }
+  ],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "Spec.Demand",
+      "presentation": {
+        "plainExplanation": "The type of obligations that must each be assigned an eligible payer.",
+        "mathematicalDefinition": "\\mathcal{D}",
+        "label": "Demand"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT4.Spec P → Type uDemand",
+        "name": "StructuralExhaustion.CT4.Spec.Demand",
+        "kind": "definition"
+      },
+      "conceptId": "CT4.spec.demand"
+    },
+    {
+      "requirementRef": "Spec.Payer",
+      "presentation": {
+        "plainExplanation": "The type of resources that may pay for demands.",
+        "mathematicalDefinition": "\\mathcal{Q}",
+        "label": "Payer"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT4.Spec P → Type uPayer",
+        "name": "StructuralExhaustion.CT4.Spec.Payer",
+        "kind": "definition"
+      },
+      "conceptId": "CT4.spec.payer"
+    },
+    {
+      "requirementRef": "Spec.Eligible",
+      "presentation": {
+        "plainExplanation": "The proposition that payer q is allowed to serve demand d in branch context x.",
+        "mathematicalDefinition": "q\\sim_{x}d",
+        "label": "Eligibility relation"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT4.Spec P) → Core.BranchContext P → self.Demand → self.Payer → Prop",
+        "name": "StructuralExhaustion.CT4.Spec.Eligible",
+        "kind": "definition"
+      },
+      "conceptId": "CT4.spec.eligible"
+    },
+    {
+      "requirementRef": "Spec.demandWeight",
+      "presentation": {
+        "plainExplanation": "Assigns the amount charged by each demand in a branch context.",
+        "mathematicalDefinition": "w_x:\\mathcal{D}\\to\\mathbb{N}",
+        "label": "Demand weight"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT4.Spec P) → Core.BranchContext P → self.Demand → ℕ",
+        "name": "StructuralExhaustion.CT4.Spec.demandWeight",
+        "kind": "definition"
+      },
+      "conceptId": "CT4.spec.demandWeight"
+    },
+    {
+      "requirementRef": "Spec.capacity",
+      "presentation": {
+        "plainExplanation": "Assigns the maximum permitted load to each payer in a branch context.",
+        "mathematicalDefinition": "\\kappa_x:\\mathcal{Q}\\to\\mathbb{N}",
+        "label": "Payer capacity"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT4.Spec P) → Core.BranchContext P → self.Payer → ℕ",
+        "name": "StructuralExhaustion.CT4.Spec.capacity",
+        "kind": "definition"
+      },
+      "conceptId": "CT4.spec.capacity"
+    },
+    {
+      "requirementRef": "Capability.demands",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of all demands.",
+        "mathematicalDefinition": "\\operatorname{demands}=\\mathcal{D}",
+        "label": "Finite demand enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT4.Spec P} → CT4.Capability S → FinEnum S.Demand",
+        "name": "StructuralExhaustion.CT4.Capability.demands",
+        "kind": "definition"
+      },
+      "conceptId": "CT4.capability.demands"
+    },
+    {
+      "requirementRef": "Capability.payers",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of all possible payers.",
+        "mathematicalDefinition": "\\operatorname{payers}=\\mathcal{Q}",
+        "label": "Finite payer enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT4.Spec P} → CT4.Capability S → FinEnum S.Payer",
+        "name": "StructuralExhaustion.CT4.Capability.payers",
+        "kind": "definition"
+      },
+      "conceptId": "CT4.capability.payers"
+    },
+    {
+      "requirementRef": "Capability.eligibleDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding whether a payer is eligible for a demand.",
+        "mathematicalDefinition": "\\operatorname{decide}(q\\sim_x d)",
+        "label": "Eligibility decision procedure"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    CT4.Capability S →\n      (ctx : Core.BranchContext P) → (demand : S.Demand) → (payer : S.Payer) → Decidable (S.Eligible ctx demand payer)",
+        "name": "StructuralExhaustion.CT4.Capability.eligibleDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT4.capability.eligibleDecidable"
+    },
+    {
+      "requirementRef": "Capability.required",
+      "presentation": {
+        "plainExplanation": "The branch-specific aggregate amount against which the computed charge is compared.",
+        "mathematicalDefinition": "R(x)\\in\\mathbb{N}",
+        "label": "Required total"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → {S : CT4.Spec P} → CT4.Capability S → Core.BranchContext P → ℕ",
+        "name": "StructuralExhaustion.CT4.Capability.required",
+        "kind": "definition"
+      },
+      "conceptId": "CT4.capability.required"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Demand",
+      "presentation": {
+        "plainExplanation": "The finite demand type in the functional strict-cardinality specialization.",
+        "mathematicalDefinition": "\\mathcal{D}",
+        "label": "Functional-profile demand"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT4.FunctionalCardinalityProfile P → Type",
+        "name": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Demand",
+        "kind": "definition"
+      },
+      "conceptId": "CT4.functional.demand"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Payer",
+      "presentation": {
+        "plainExplanation": "The finite payer type in the functional strict-cardinality specialization.",
+        "mathematicalDefinition": "\\mathcal{Q}",
+        "label": "Functional-profile payer"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT4.FunctionalCardinalityProfile P → Type",
+        "name": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Payer",
+        "kind": "definition"
+      },
+      "conceptId": "CT4.functional.payer"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Eligible",
+      "presentation": {
+        "plainExplanation": "The profile's relation specifying which payer can serve each demand.",
+        "mathematicalDefinition": "q\\sim_x d",
+        "label": "Functional eligibility"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT4.FunctionalCardinalityProfile P) → CT4.Input P → self.Demand → self.Payer → Prop",
+        "name": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.Eligible",
+        "kind": "definition"
+      },
+      "conceptId": "CT4.functional.eligible"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.demands",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of the profile's demands.",
+        "mathematicalDefinition": "\\operatorname{demands}=\\mathcal{D}",
+        "label": "Functional demand enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT4.FunctionalCardinalityProfile P) → FinEnum self.Demand",
+        "name": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.demands",
+        "kind": "definition"
+      },
+      "conceptId": "CT4.functional.demands"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.payers",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of the profile's payers.",
+        "mathematicalDefinition": "\\operatorname{payers}=\\mathcal{Q}",
+        "label": "Functional payer enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT4.FunctionalCardinalityProfile P) → FinEnum self.Payer",
+        "name": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.payers",
+        "kind": "definition"
+      },
+      "conceptId": "CT4.functional.payers"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.eligibleDecidable",
+      "presentation": {
+        "plainExplanation": "Executable evidence deciding the profile's eligibility relation.",
+        "mathematicalDefinition": "\\operatorname{decide}(q\\sim_x d)",
+        "label": "Functional eligibility decision"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  (self : CT4.FunctionalCardinalityProfile P) →\n    (input : CT4.Input P) → (demand : self.Demand) → (payer : self.Payer) → Decidable (self.Eligible input demand payer)",
+        "name": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.eligibleDecidable",
+        "kind": "definition"
+      },
+      "conceptId": "CT4.functional.eligibleDecidable"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.functional",
+      "presentation": {
+        "plainExplanation": "A proof that one payer cannot serve two distinct demands, making any total assignment injective.",
+        "mathematicalDefinition": "(q\\sim_x d_1\\land q\\sim_x d_2)\\Rightarrow d_1=d_2",
+        "label": "Functional payer law"
+      },
+      "formalDeclaration": {
+        "type": "∀ {P : Core.Problem} (self : CT4.FunctionalCardinalityProfile P) (input : CT4.Input P) (payer : self.Payer)\n  (demand₁ demand₂ : self.Demand),\n  self.Eligible input demand₁ payer → self.Eligible input demand₂ payer → demand₁ = demand₂",
+        "name": "StructuralExhaustion.CT4.FunctionalCardinalityProfile.functional",
+        "kind": "theorem"
+      },
+      "conceptId": "CT4.functional.functional"
     }
   ]
 }

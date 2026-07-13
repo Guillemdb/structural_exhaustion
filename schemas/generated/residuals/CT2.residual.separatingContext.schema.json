@@ -40,7 +40,7 @@
     "kind": "compiledLeanEnvironment",
     "catalog": "generated/lean-machines.json",
     "tacticId": "CT2",
-    "apiVersion": "CT2-v6",
+    "apiVersion": "CT2-v8",
     "namespace": "StructuralExhaustion.CT2"
   }
 }

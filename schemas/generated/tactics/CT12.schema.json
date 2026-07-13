@@ -720,7 +720,8 @@
             "requiredDefinitions": [
               {
                 "ref": "StructuralExhaustion.CT12.ListPeeling.Profile.Value",
-                "provision": "user_definition"
+                "provision": "user_definition",
+                "conceptId": "CT12.listPeeling.value"
               }
             ],
             "derivedOperations": [
@@ -747,9 +748,249 @@
               {
                 "ref": "StructuralExhaustion.CT12.ListPeeling.run_terminal_exhausted",
                 "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT12.ListPeeling.run_iterations_eq_length",
+                "provision": "framework_constant"
               }
             ],
             "capabilityId": "StructuralExhaustion.CT12.profile.listPeeling"
+          },
+          {
+            "tacticId": "CT12",
+            "requiredInstances": [],
+            "requiredDefinitions": [
+              {
+                "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.vertices",
+                "provision": "user_definition",
+                "conceptId": "CT12.disjointPacking.vertices"
+              },
+              {
+                "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.finiteItems",
+                "provision": "user_definition",
+                "conceptId": "CT12.disjointPacking.finiteItems"
+              },
+              {
+                "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.support",
+                "provision": "user_operator",
+                "conceptId": "CT12.disjointPacking.support"
+              },
+              {
+                "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative",
+                "provision": "user_operator",
+                "conceptId": "CT12.disjointPacking.representative"
+              },
+              {
+                "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative_mem",
+                "provision": "user_definition",
+                "conceptId": "CT12.disjointPacking.representativeMem"
+              }
+            ],
+            "derivedOperations": [
+              {
+                "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.maximum",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.maximum_spec",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.maximum_saturated",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.values_length_le_vertices",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.run",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.run_iterations_eq_values",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.verifiedStage",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.run_total",
+                "provision": "framework_constant"
+              }
+            ],
+            "capabilityId": "StructuralExhaustion.CT12.profile.disjointPacking"
+          }
+        ],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "Capability.State",
+            "presentation": {
+              "plainExplanation": "The type of loop states indexed by their well-founded natural load n.",
+              "mathematicalDefinition": "\\mathcal{S}_n",
+              "label": "Load-indexed state"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT12.Capability P → ℕ → Type uState",
+              "name": "StructuralExhaustion.CT12.Capability.State",
+              "kind": "definition"
+            },
+            "conceptId": "CT12.capability.state"
+          },
+          {
+            "requirementRef": "Capability.DemandResidual",
+            "presentation": {
+              "plainExplanation": "The type of semantic demand failures that may terminate peeling.",
+              "mathematicalDefinition": "\\mathcal{D}",
+              "label": "Demand residual"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT12.Capability P → Type uDemand",
+              "name": "StructuralExhaustion.CT12.Capability.DemandResidual",
+              "kind": "definition"
+            },
+            "conceptId": "CT12.capability.demandResidual"
+          },
+          {
+            "requirementRef": "Capability.TierResidual",
+            "presentation": {
+              "plainExplanation": "The type of semantic tier failures that may terminate peeling.",
+              "mathematicalDefinition": "\\mathcal{T}",
+              "label": "Tier residual"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT12.Capability P → Type uTier",
+              "name": "StructuralExhaustion.CT12.Capability.TierResidual",
+              "kind": "definition"
+            },
+            "conceptId": "CT12.capability.tierResidual"
+          },
+          {
+            "requirementRef": "Capability.Peeled",
+            "presentation": {
+              "plainExplanation": "The dependent type of exact structural decompositions of a positive-load state.",
+              "mathematicalDefinition": "\\mathcal{P}(s),\\quad s\\in\\mathcal{S}_{n+1}",
+              "label": "Peeling result"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT12.Capability P) → {n : ℕ} → self.State (n + 1) → Type uPeeled",
+              "name": "StructuralExhaustion.CT12.Capability.Peeled",
+              "kind": "definition"
+            },
+            "conceptId": "CT12.capability.peeled"
+          },
+          {
+            "requirementRef": "Capability.peel",
+            "presentation": {
+              "plainExplanation": "Computes the exact peeled decomposition of a positive-load state.",
+              "mathematicalDefinition": "\\operatorname{peel}:\\mathcal{S}_{n+1}\\to\\mathcal{P}(s)",
+              "label": "Peeling operation"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT12.Capability P) → {n : ℕ} → (state : self.State (n + 1)) → self.Peeled state",
+              "name": "StructuralExhaustion.CT12.Capability.peel",
+              "kind": "definition"
+            },
+            "conceptId": "CT12.capability.peel"
+          },
+          {
+            "requirementRef": "Capability.restorations",
+            "presentation": {
+              "plainExplanation": "Produces nonempty finite choices: a strictly smaller continuation or a demand/tier residual.",
+              "mathematicalDefinition": "\\operatorname{restorations}(p)\\in\\operatorname{NonemptyList}(\\mathcal{R}_{n+1})",
+              "label": "Restoration options"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  (self : CT12.Capability P) →\n    {n : ℕ} →\n      {state : self.State (n + 1)} →\n        self.Peeled state → CT12.RestorationOptions self.State self.DemandResidual self.TierResidual (n + 1)",
+              "name": "StructuralExhaustion.CT12.Capability.restorations",
+              "kind": "definition"
+            },
+            "conceptId": "CT12.capability.restorations"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT12.ListPeeling.Profile.Value",
+            "presentation": {
+              "plainExplanation": "The sole authored type in the canonical profile that repeatedly removes a list head.",
+              "mathematicalDefinition": "V",
+              "label": "List element"
+            },
+            "formalDeclaration": {
+              "type": "CT12.ListPeeling.Profile → Type uValue",
+              "name": "StructuralExhaustion.CT12.ListPeeling.Profile.Value",
+              "kind": "definition"
+            },
+            "conceptId": "CT12.listPeeling.value"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.vertices",
+            "presentation": {
+              "plainExplanation": "The exact finite host-vertex schedule used to bound the selected packing.",
+              "mathematicalDefinition": "V(G)",
+              "label": "Host vertices"
+            },
+            "formalDeclaration": {
+              "type": "{Vertex : Type uVertex} → {Item : Type uItem} → Core.FiniteDisjointPacking.Profile Vertex Item → FinEnum Vertex",
+              "name": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.vertices",
+              "kind": "definition"
+            },
+            "conceptId": "CT12.disjointPacking.vertices"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.finiteItems",
+            "presentation": {
+              "plainExplanation": "Finiteness used only to prove existence of a maximum disjoint family.",
+              "mathematicalDefinition": "|\\mathcal I|<\\infty",
+              "label": "Finite item family"
+            },
+            "formalDeclaration": {
+              "type": "∀ {Vertex : Type uVertex} {Item : Type uItem} (self : Core.FiniteDisjointPacking.Profile Vertex Item), Finite Item",
+              "name": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.finiteItems",
+              "kind": "theorem"
+            },
+            "conceptId": "CT12.disjointPacking.finiteItems"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.support",
+            "presentation": {
+              "plainExplanation": "The finite host-vertex support occupied by one packing item.",
+              "mathematicalDefinition": "S(i)\\subseteq V(G)",
+              "label": "Item support"
+            },
+            "formalDeclaration": {
+              "type": "{Vertex : Type uVertex} → {Item : Type uItem} → Core.FiniteDisjointPacking.Profile Vertex Item → Item → Finset Vertex",
+              "name": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.support",
+              "kind": "definition"
+            },
+            "conceptId": "CT12.disjointPacking.support"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative",
+            "presentation": {
+              "plainExplanation": "One host vertex chosen from each support for the linear packing bound.",
+              "mathematicalDefinition": "r(i)\\in V(G)",
+              "label": "Support representative"
+            },
+            "formalDeclaration": {
+              "type": "{Vertex : Type uVertex} → {Item : Type uItem} → Core.FiniteDisjointPacking.Profile Vertex Item → Item → Vertex",
+              "name": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative",
+              "kind": "definition"
+            },
+            "conceptId": "CT12.disjointPacking.representative"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative_mem",
+            "presentation": {
+              "plainExplanation": "Proof that every item support is nonempty at its declared representative.",
+              "mathematicalDefinition": "r(i)\\in S(i)",
+              "label": "Representative membership"
+            },
+            "formalDeclaration": {
+              "type": "∀ {Vertex : Type uVertex} {Item : Type uItem} (self : Core.FiniteDisjointPacking.Profile Vertex Item) (item : Item),\n  self.representative item ∈ self.support item",
+              "name": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative_mem",
+              "kind": "theorem"
+            },
+            "conceptId": "CT12.disjointPacking.representativeMem"
           }
         ],
         "capability": {
@@ -758,27 +999,33 @@
           "requiredDefinitions": [
             {
               "ref": "Capability.State",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT12.capability.state"
             },
             {
               "ref": "Capability.DemandResidual",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT12.capability.demandResidual"
             },
             {
               "ref": "Capability.TierResidual",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT12.capability.tierResidual"
             },
             {
               "ref": "Capability.Peeled",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT12.capability.peeled"
             },
             {
               "ref": "Capability.peel",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT12.capability.peel"
             },
             {
               "ref": "Capability.restorations",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT12.capability.restorations"
             }
           ],
           "derivedOperations": [
@@ -809,7 +1056,7 @@
           ],
           "capabilityId": "StructuralExhaustion.CT12.reference"
         },
-        "apiVersion": "CT12-v4",
+        "apiVersion": "CT12-v5",
         "apiDeclarations": [
           {
             "type": "Type",
@@ -924,7 +1171,7 @@
     "kind": "compiledLeanEnvironment",
     "catalog": "generated/lean-machines.json",
     "tacticId": "CT12",
-    "apiVersion": "CT12-v4",
+    "apiVersion": "CT12-v5",
     "namespace": "StructuralExhaustion.CT12"
   },
   "x-capability": {
@@ -933,27 +1180,33 @@
     "requiredDefinitions": [
       {
         "ref": "Capability.State",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT12.capability.state"
       },
       {
         "ref": "Capability.DemandResidual",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT12.capability.demandResidual"
       },
       {
         "ref": "Capability.TierResidual",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT12.capability.tierResidual"
       },
       {
         "ref": "Capability.Peeled",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT12.capability.peeled"
       },
       {
         "ref": "Capability.peel",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT12.capability.peel"
       },
       {
         "ref": "Capability.restorations",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT12.capability.restorations"
       }
     ],
     "derivedOperations": [
@@ -991,7 +1244,8 @@
       "requiredDefinitions": [
         {
           "ref": "StructuralExhaustion.CT12.ListPeeling.Profile.Value",
-          "provision": "user_definition"
+          "provision": "user_definition",
+          "conceptId": "CT12.listPeeling.value"
         }
       ],
       "derivedOperations": [
@@ -1018,9 +1272,249 @@
         {
           "ref": "StructuralExhaustion.CT12.ListPeeling.run_terminal_exhausted",
           "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT12.ListPeeling.run_iterations_eq_length",
+          "provision": "framework_constant"
         }
       ],
       "capabilityId": "StructuralExhaustion.CT12.profile.listPeeling"
+    },
+    {
+      "tacticId": "CT12",
+      "requiredInstances": [],
+      "requiredDefinitions": [
+        {
+          "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.vertices",
+          "provision": "user_definition",
+          "conceptId": "CT12.disjointPacking.vertices"
+        },
+        {
+          "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.finiteItems",
+          "provision": "user_definition",
+          "conceptId": "CT12.disjointPacking.finiteItems"
+        },
+        {
+          "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.support",
+          "provision": "user_operator",
+          "conceptId": "CT12.disjointPacking.support"
+        },
+        {
+          "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative",
+          "provision": "user_operator",
+          "conceptId": "CT12.disjointPacking.representative"
+        },
+        {
+          "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative_mem",
+          "provision": "user_definition",
+          "conceptId": "CT12.disjointPacking.representativeMem"
+        }
+      ],
+      "derivedOperations": [
+        {
+          "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.maximum",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.maximum_spec",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.maximum_saturated",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.values_length_le_vertices",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.run",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.run_iterations_eq_values",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.verifiedStage",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.run_total",
+          "provision": "framework_constant"
+        }
+      ],
+      "capabilityId": "StructuralExhaustion.CT12.profile.disjointPacking"
+    }
+  ],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "Capability.State",
+      "presentation": {
+        "plainExplanation": "The type of loop states indexed by their well-founded natural load n.",
+        "mathematicalDefinition": "\\mathcal{S}_n",
+        "label": "Load-indexed state"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT12.Capability P → ℕ → Type uState",
+        "name": "StructuralExhaustion.CT12.Capability.State",
+        "kind": "definition"
+      },
+      "conceptId": "CT12.capability.state"
+    },
+    {
+      "requirementRef": "Capability.DemandResidual",
+      "presentation": {
+        "plainExplanation": "The type of semantic demand failures that may terminate peeling.",
+        "mathematicalDefinition": "\\mathcal{D}",
+        "label": "Demand residual"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT12.Capability P → Type uDemand",
+        "name": "StructuralExhaustion.CT12.Capability.DemandResidual",
+        "kind": "definition"
+      },
+      "conceptId": "CT12.capability.demandResidual"
+    },
+    {
+      "requirementRef": "Capability.TierResidual",
+      "presentation": {
+        "plainExplanation": "The type of semantic tier failures that may terminate peeling.",
+        "mathematicalDefinition": "\\mathcal{T}",
+        "label": "Tier residual"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT12.Capability P → Type uTier",
+        "name": "StructuralExhaustion.CT12.Capability.TierResidual",
+        "kind": "definition"
+      },
+      "conceptId": "CT12.capability.tierResidual"
+    },
+    {
+      "requirementRef": "Capability.Peeled",
+      "presentation": {
+        "plainExplanation": "The dependent type of exact structural decompositions of a positive-load state.",
+        "mathematicalDefinition": "\\mathcal{P}(s),\\quad s\\in\\mathcal{S}_{n+1}",
+        "label": "Peeling result"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT12.Capability P) → {n : ℕ} → self.State (n + 1) → Type uPeeled",
+        "name": "StructuralExhaustion.CT12.Capability.Peeled",
+        "kind": "definition"
+      },
+      "conceptId": "CT12.capability.peeled"
+    },
+    {
+      "requirementRef": "Capability.peel",
+      "presentation": {
+        "plainExplanation": "Computes the exact peeled decomposition of a positive-load state.",
+        "mathematicalDefinition": "\\operatorname{peel}:\\mathcal{S}_{n+1}\\to\\mathcal{P}(s)",
+        "label": "Peeling operation"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT12.Capability P) → {n : ℕ} → (state : self.State (n + 1)) → self.Peeled state",
+        "name": "StructuralExhaustion.CT12.Capability.peel",
+        "kind": "definition"
+      },
+      "conceptId": "CT12.capability.peel"
+    },
+    {
+      "requirementRef": "Capability.restorations",
+      "presentation": {
+        "plainExplanation": "Produces nonempty finite choices: a strictly smaller continuation or a demand/tier residual.",
+        "mathematicalDefinition": "\\operatorname{restorations}(p)\\in\\operatorname{NonemptyList}(\\mathcal{R}_{n+1})",
+        "label": "Restoration options"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  (self : CT12.Capability P) →\n    {n : ℕ} →\n      {state : self.State (n + 1)} →\n        self.Peeled state → CT12.RestorationOptions self.State self.DemandResidual self.TierResidual (n + 1)",
+        "name": "StructuralExhaustion.CT12.Capability.restorations",
+        "kind": "definition"
+      },
+      "conceptId": "CT12.capability.restorations"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT12.ListPeeling.Profile.Value",
+      "presentation": {
+        "plainExplanation": "The sole authored type in the canonical profile that repeatedly removes a list head.",
+        "mathematicalDefinition": "V",
+        "label": "List element"
+      },
+      "formalDeclaration": {
+        "type": "CT12.ListPeeling.Profile → Type uValue",
+        "name": "StructuralExhaustion.CT12.ListPeeling.Profile.Value",
+        "kind": "definition"
+      },
+      "conceptId": "CT12.listPeeling.value"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.vertices",
+      "presentation": {
+        "plainExplanation": "The exact finite host-vertex schedule used to bound the selected packing.",
+        "mathematicalDefinition": "V(G)",
+        "label": "Host vertices"
+      },
+      "formalDeclaration": {
+        "type": "{Vertex : Type uVertex} → {Item : Type uItem} → Core.FiniteDisjointPacking.Profile Vertex Item → FinEnum Vertex",
+        "name": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.vertices",
+        "kind": "definition"
+      },
+      "conceptId": "CT12.disjointPacking.vertices"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.finiteItems",
+      "presentation": {
+        "plainExplanation": "Finiteness used only to prove existence of a maximum disjoint family.",
+        "mathematicalDefinition": "|\\mathcal I|<\\infty",
+        "label": "Finite item family"
+      },
+      "formalDeclaration": {
+        "type": "∀ {Vertex : Type uVertex} {Item : Type uItem} (self : Core.FiniteDisjointPacking.Profile Vertex Item), Finite Item",
+        "name": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.finiteItems",
+        "kind": "theorem"
+      },
+      "conceptId": "CT12.disjointPacking.finiteItems"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.support",
+      "presentation": {
+        "plainExplanation": "The finite host-vertex support occupied by one packing item.",
+        "mathematicalDefinition": "S(i)\\subseteq V(G)",
+        "label": "Item support"
+      },
+      "formalDeclaration": {
+        "type": "{Vertex : Type uVertex} → {Item : Type uItem} → Core.FiniteDisjointPacking.Profile Vertex Item → Item → Finset Vertex",
+        "name": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.support",
+        "kind": "definition"
+      },
+      "conceptId": "CT12.disjointPacking.support"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative",
+      "presentation": {
+        "plainExplanation": "One host vertex chosen from each support for the linear packing bound.",
+        "mathematicalDefinition": "r(i)\\in V(G)",
+        "label": "Support representative"
+      },
+      "formalDeclaration": {
+        "type": "{Vertex : Type uVertex} → {Item : Type uItem} → Core.FiniteDisjointPacking.Profile Vertex Item → Item → Vertex",
+        "name": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative",
+        "kind": "definition"
+      },
+      "conceptId": "CT12.disjointPacking.representative"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative_mem",
+      "presentation": {
+        "plainExplanation": "Proof that every item support is nonempty at its declared representative.",
+        "mathematicalDefinition": "r(i)\\in S(i)",
+        "label": "Representative membership"
+      },
+      "formalDeclaration": {
+        "type": "∀ {Vertex : Type uVertex} {Item : Type uItem} (self : Core.FiniteDisjointPacking.Profile Vertex Item) (item : Item),\n  self.representative item ∈ self.support item",
+        "name": "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative_mem",
+        "kind": "theorem"
+      },
+      "conceptId": "CT12.disjointPacking.representativeMem"
     }
   ]
 }

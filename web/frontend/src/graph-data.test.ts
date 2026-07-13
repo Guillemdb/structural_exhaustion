@@ -55,6 +55,82 @@ describe("graph projections", () => {
     ]);
   });
 
+  it("optionally connects residual terminals to deduplicated destination CT nodes", () => {
+    const response = {
+      tactic: {
+        nodes: [
+          { nodeId: "CT1.entry", nodeKind: "entry" },
+          { nodeId: "CT1.terminal.avoiding", nodeKind: "residual" },
+        ],
+      },
+      graph: {
+        tacticId: "CT1",
+        elements: [
+          { data: { id: "CT1.entry", kind: "entry" } },
+          { data: { id: "CT1.terminal.avoiding", kind: "residual" } },
+        ],
+      },
+      outboundRoutes: [
+        {
+          routeId: "CT1.residual.avoiding->CT2",
+          sourceTacticId: "CT1",
+          sourceResidualKind: "CT1.residual.avoiding",
+          targetTacticId: "CT2",
+        },
+        {
+          routeId: "CT1.residual.avoiding->CT2.localDeletion",
+          sourceTacticId: "CT1",
+          sourceResidualKind: "CT1.residual.avoiding",
+          targetTacticId: "CT2",
+        },
+      ],
+    } as TacticResponse;
+
+    const elements = machineGraphElements(response, {
+      includeOutboundRoutes: true,
+      targetTactics: [
+        {
+          tacticId: "CT2",
+          title: "Minimal deletion",
+          apiVersion: "1.0.0",
+          namespace: "StructuralExhaustion.CT2",
+          nodeCount: 6,
+          transitionCount: 5,
+          terminalCount: 4,
+          residualCount: 2,
+          manualObligationCount: 0,
+        },
+      ],
+    }).map((element) => element.data);
+
+    expect(elements).toEqual([
+      { id: "CT1.entry", kind: "entry" },
+      { id: "CT1.terminal.avoiding", kind: "residual" },
+      {
+        id: "route-target:CT2",
+        label: "CT2\nMinimal deletion",
+        kind: "routedTactic",
+        tacticId: "CT2",
+      },
+      {
+        id: "CT1.residual.avoiding->CT2",
+        source: "CT1.terminal.avoiding",
+        target: "route-target:CT2",
+        label: "avoiding",
+        kind: "route",
+        routeId: "CT1.residual.avoiding->CT2",
+      },
+      {
+        id: "CT1.residual.avoiding->CT2.localDeletion",
+        source: "CT1.terminal.avoiding",
+        target: "route-target:CT2",
+        label: "avoiding · localDeletion",
+        kind: "route",
+        routeId: "CT1.residual.avoiding->CT2.localDeletion",
+      },
+    ]);
+  });
+
   it("projects example stages and typed relationships without inventing composition", () => {
     const workflow = {
       workflowId: "main",

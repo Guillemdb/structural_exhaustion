@@ -46,7 +46,7 @@ def declaration(module: str, name: str | None = None) -> dict:
 def raw_example(root_module: str, example_id: str) -> dict:
     return {
         "artifactType": "structuralExhaustionExample",
-        "schemaVersion": "1.0.0",
+        "schemaVersion": "1.1.0",
         "sourceOfTruth": {
             "kind": "compiledLeanEnvironment",
             "rootModule": root_module,
@@ -78,6 +78,7 @@ def raw_example(root_module: str, example_id: str) -> dict:
                 }
             ],
             "interfaceBindings": [],
+            "manuscript": None,
         },
     }
 
@@ -175,6 +176,65 @@ def test_renderer_checks_registered_route_tactic_endpoints() -> None:
         }
     ]
     with pytest.raises(ExampleCatalogError, match="expects CT6 -> CT9"):
+        hydrate_example(raw, ROOT, CATALOG)
+
+
+def manuscript_for_single_stage(raw: dict) -> dict:
+    stage = raw["example"]["workflows"][0]["stages"][0]
+    return {
+        "title": "Synthetic manuscript mapping",
+        "path": "proofs/erdos_64_eg/erdos_64_proof.tex",
+        "proofSteps": [
+            {
+                "stepId": "main.statement",
+                "stageId": stage["stageId"],
+                "title": "Statement",
+                "plainExplanation": "Explains the synthetic statement.",
+                "formalStatement": "P \\Longrightarrow P",
+                "status": "implemented",
+                "correspondence": "support",
+                "manuscriptRefs": [
+                    {"label": "thm:main", "title": "Main closure", "nodeIds": [1]}
+                ],
+                "declarationGroups": [
+                    {
+                        "groupId": "statement",
+                        "title": "Statement declaration",
+                        "role": "mathematicalDefinition",
+                        "explanation": "The displayed declaration states the proposition.",
+                        "declarations": [stage["primaryDeclaration"]],
+                    }
+                ],
+                "scopeNotes": "Synthetic support mapping.",
+                "workBound": "No computation.",
+            }
+        ],
+    }
+
+
+def test_renderer_validates_manuscript_labels_nodes_and_complete_coverage() -> None:
+    raw = raw_example("EvenCycleExample", "even-cycle")
+    raw["example"]["manuscript"] = manuscript_for_single_stage(raw)
+    detail = hydrate_example(raw, ROOT, CATALOG)
+    assert detail["manuscript"]["coverage"] == {
+        "implementedSteps": 1,
+        "totalSteps": 1,
+        "explainedDeclarations": 1,
+        "displayedDeclarations": 1,
+    }
+
+    raw["example"]["manuscript"]["proofSteps"][0]["manuscriptRefs"][0][
+        "label"
+    ] = "lem:does-not-exist"
+    with pytest.raises(ExampleCatalogError, match="unknown manuscript label"):
+        hydrate_example(raw, ROOT, CATALOG)
+
+
+def test_renderer_rejects_unexplained_displayed_declarations() -> None:
+    raw = raw_example("EvenCycleExample", "even-cycle")
+    raw["example"]["manuscript"] = manuscript_for_single_stage(raw)
+    raw["example"]["manuscript"]["proofSteps"][0]["declarationGroups"] = []
+    with pytest.raises(ExampleCatalogError, match="declaration coverage mismatch"):
         hydrate_example(raw, ROOT, CATALOG)
 
 

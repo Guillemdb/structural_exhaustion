@@ -76,6 +76,33 @@ def targetEncodingCapabilityProfile : Core.CapabilityProfile where
     "StructuralExhaustion.CT1.runC1OfPublicTarget"
   ]
 
+/-- Minimal author contract for proof-carrying positive and negative target
+execution without enumerating a code universe. -/
+def targetCertificateCapabilityProfile : Core.CapabilityProfile where
+  capabilityId := "StructuralExhaustion.CT1.profile.targetCertificate"
+  tacticId := "CT1"
+  requiredDefinitions := [
+    ⟨"StructuralExhaustion.CT1.TargetCertificateEncoding.Code",
+      .userDefinition⟩,
+    ⟨"StructuralExhaustion.CT1.TargetCertificateEncoding.Accepts",
+      .userDefinition⟩,
+    ⟨"StructuralExhaustion.CT1.TargetCertificateEncoding.encode",
+      .userOperator⟩,
+    ⟨"StructuralExhaustion.CT1.TargetCertificateEncoding.decode",
+      .userOperator⟩
+  ]
+  requiredInstances := []
+  derivedOperations := [
+    "StructuralExhaustion.CT1.TargetCertificateEncoding.spec",
+    "StructuralExhaustion.CT1.TargetCertificateEncoding.bridge",
+    "StructuralExhaustion.CT1.TargetCertificateEncoding.run",
+    "StructuralExhaustion.CT1.TargetCertificateEncoding.runAvoiding",
+    "StructuralExhaustion.CT1.executionOfRealization",
+    "StructuralExhaustion.CT1.executionOfNoRealization",
+    "StructuralExhaustion.CT1.certifiedC1Budget",
+    "StructuralExhaustion.CT1.certifiedAvoidingBudget"
+  ]
+
 /-- CT1 exports only semantic avoidance; downstream triggers are route-owned. -/
 def residualKindContracts : List Core.ResidualKindContract := [
   {

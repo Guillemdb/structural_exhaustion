@@ -191,7 +191,7 @@ end StructuralExhaustion.Routes.CT1ToCT2
 
 namespace StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion
 
-universe uAmbient uBranch uIndex uWitness uPiece
+universe uAmbient uBranch uIndex uWitness uPiece uCode
 
 open StructuralExhaustion.Routes.CT1ToCT2
 
@@ -334,6 +334,115 @@ theorem discover_disabled_of_closure
       exact (closure.run (CT1ToCT2.targetContext minimality source)
         (buildTrigger capability minimality source trigger)).verified.elim
   | disabled reject => exact ⟨reject, rfl⟩
+
+/-! ## Certificate-target composition profile -/
+
+/-- Reusable data for routing the avoiding residual of any proof-carrying CT1
+target encoding into a target-decision-free local CT2 deletion capability.
+The public-target closure rule is transported through the CT1 bridge by the
+framework. -/
+structure CertificateProfile
+    {P : Core.Problem.{uAmbient, uBranch}}
+    (PublicTarget : P.Ambient → Prop) where
+  encoding :
+    CT1.TargetCertificateEncoding.{uAmbient, uBranch, uCode} PublicTarget
+  capability : CT2.LocalDeletionCapability.{uAmbient, uBranch, uPiece} P
+  closure : CT2.LocalDeletionClosureRule (Target := PublicTarget) capability
+
+namespace CertificateProfile
+
+/-- The CT1 input is the exact branch inherited from the public minimal
+counterexample context. -/
+def input
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (_profile : CertificateProfile.{uAmbient, uBranch, uPiece, uCode}
+      PublicTarget)
+    (ctx : Core.MinimalCounterexampleContext P PublicTarget) : CT1.Input P :=
+  ⟨ctx.toBranchContext⟩
+
+/-- Execute the proof-carrying CT1 avoiding branch selected by the public
+minimal-counterexample context. -/
+def runAvoiding
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (profile : CertificateProfile.{uAmbient, uBranch, uPiece, uCode}
+      PublicTarget)
+    (ctx : Core.MinimalCounterexampleContext P PublicTarget) :=
+  profile.encoding.runAvoiding (profile.input ctx) ctx.avoids
+
+/-- Extract the actual terminal-indexed avoiding residual from CT1. -/
+def avoidingSource
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (profile : CertificateProfile.{uAmbient, uBranch, uPiece, uCode}
+      PublicTarget)
+    (ctx : Core.MinimalCounterexampleContext P PublicTarget) :
+    PackedAvoiding profile.encoding.spec (profile.input ctx) :=
+  PackedAvoiding.ofResult (profile.runAvoiding ctx).result
+    (profile.runAvoiding ctx).terminal_eq
+
+/-- Transport public-target minimality through the exact CT1 target bridge. -/
+def targetMinimality
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (profile : CertificateProfile.{uAmbient, uBranch, uPiece, uCode}
+      PublicTarget)
+    (ctx : Core.MinimalCounterexampleContext P PublicTarget) :
+    Core.MinimalityKernel P (CT1.Target profile.encoding.spec)
+      (profile.input ctx).context := by
+  intro object smaller baseline
+  exact profile.encoding.bridge.target_of_publicTarget
+    (ctx.minimal object smaller baseline)
+
+/-- Transport the public local-deletion closure through the same CT1 bridge. -/
+def routedClosure
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (profile : CertificateProfile.{uAmbient, uBranch, uPiece, uCode}
+      PublicTarget) :
+    CT2.LocalDeletionClosureRule
+      (Target := CT1.Target profile.encoding.spec) profile.capability where
+  preservesBaseline := profile.closure.preservesBaseline
+  targetMonotone := by
+    intro object state piece proper admissible baseline reducedTarget
+    apply profile.encoding.bridge.target_of_publicTarget
+    apply profile.closure.targetMonotone state piece proper admissible baseline
+    exact profile.encoding.bridge.publicTarget_of_target reducedTarget
+
+/-- The framework-owned local route for the profile's actual CT1 residual. -/
+abbrev route
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (profile : CertificateProfile.{uAmbient, uBranch, uPiece, uCode}
+      PublicTarget)
+    (ctx : Core.MinimalCounterexampleContext P PublicTarget) :=
+  rule profile.capability (profile.targetMinimality ctx)
+
+/-- The context presented to CT2, definitionally inherited from CT1. -/
+abbrev routedContext
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (profile : CertificateProfile.{uAmbient, uBranch, uPiece, uCode}
+      PublicTarget)
+    (ctx : Core.MinimalCounterexampleContext P PublicTarget) :=
+  CT1ToCT2.targetContext (profile.targetMinimality ctx)
+    (profile.avoidingSource ctx)
+
+/-- Every valid certificate-target/local-deletion profile produces an exact
+disabled route result on a minimal counterexample. -/
+theorem discover_disabled
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (profile : CertificateProfile.{uAmbient, uBranch, uPiece, uCode}
+      PublicTarget)
+    (ctx : Core.MinimalCounterexampleContext P PublicTarget) :
+    ∃ reject, (profile.route ctx).discover (profile.avoidingSource ctx) =
+      .disabled reject :=
+  discover_disabled_of_closure (profile.targetMinimality ctx)
+    (profile.avoidingSource ctx) profile.routedClosure
+
+end CertificateProfile
 
 /-- Stable provenance of every enabled generated route. -/
 theorem generated_route_id

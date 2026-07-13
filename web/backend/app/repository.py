@@ -250,6 +250,7 @@ class ArtifactRepository:
         declarations = detail.get("declarations")
         sources = detail.get("sources")
         bindings = detail.get("interfaceBindings", [])
+        manuscript = detail.get("manuscript")
         if not isinstance(tactic_ids, list) or not all(
             isinstance(item, str) and item in self.tactics for item in tactic_ids
         ):
@@ -369,6 +370,65 @@ class ArtifactRepository:
             }
             if not refs.issubset(declaration_ids):
                 raise ArtifactError(f"example {example_id} binding has invalid declarations")
+
+        if manuscript is not None:
+            if not isinstance(manuscript, dict) or not isinstance(
+                manuscript.get("proofSteps"), list
+            ):
+                raise ArtifactError(f"example {example_id} has a malformed manuscript")
+            proof_step_ids: set[str] = set()
+            mapped_stage_ids: set[str] = set()
+            explained_declarations: set[str] = set()
+            for step in manuscript["proofSteps"]:
+                if not isinstance(step, dict):
+                    raise ArtifactError(f"example {example_id} has a malformed proof step")
+                step_id = step.get("stepId")
+                if not isinstance(step_id, str) or step_id in proof_step_ids:
+                    raise ArtifactError(f"example {example_id} repeats proof step {step_id}")
+                stage_id = step.get("stageId")
+                status = step.get("status")
+                if status == "implemented":
+                    if stage_id not in stage_ids or stage_id in mapped_stage_ids:
+                        raise ArtifactError(
+                            f"example {example_id} proof step has invalid stage"
+                        )
+                    mapped_stage_ids.add(stage_id)
+                elif stage_id is not None:
+                    raise ArtifactError(
+                        f"example {example_id} unimplemented proof step has a stage"
+                    )
+                groups = step.get("declarationGroups")
+                if not isinstance(groups, list):
+                    raise ArtifactError(
+                        f"example {example_id} proof step has malformed groups"
+                    )
+                local_declarations: set[str] = set()
+                for group in groups:
+                    ids = group.get("declarationIds") if isinstance(group, dict) else None
+                    if not isinstance(ids, list) or not set(ids).issubset(declaration_ids):
+                        raise ArtifactError(
+                            f"example {example_id} proof step has invalid declarations"
+                        )
+                    if local_declarations.intersection(ids):
+                        raise ArtifactError(
+                            f"example {example_id} classifies a declaration twice"
+                        )
+                    local_declarations.update(ids)
+                explained_declarations.update(local_declarations)
+                proof_step_ids.add(step_id)
+            if mapped_stage_ids != stage_ids:
+                raise ArtifactError(
+                    f"example {example_id} manuscript does not cover every stage"
+                )
+            coverage = manuscript.get("coverage")
+            if not isinstance(coverage, dict) or coverage.get(
+                "explainedDeclarations"
+            ) != len(explained_declarations):
+                raise ArtifactError(f"example {example_id} manuscript coverage is stale")
+            if explained_declarations != declaration_ids:
+                raise ArtifactError(
+                    f"example {example_id} manuscript leaves declarations unexplained"
+                )
 
     @property
     def catalog_view(self) -> dict[str, Any]:

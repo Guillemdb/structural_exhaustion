@@ -57,13 +57,65 @@ capability fields, and obsolete compatibility files.
 `SimpleGraph` paired with the explicit execution order and adjacency decision
 procedure required by deterministic search.
 `MinimumDegreeCycle.StaticInput` generates CT1 and CT2 from the
-minimum-degree/cycle contract. The generic CT3 layer receives
-application-defined pieces, contexts, candidates, table rows, finite
-enumerations, and decision procedures through its ordinary specification and
-capability interfaces. `EndpointParityCycle.Profile` builds the reusable maximal-path, CT6,
+minimum-degree/cycle contract. `MinimumDegreeCycleRouted` generates the
+edge-rooted CT1 encoding, certificate-to-local-deletion route composition,
+rank-minimal prefix, deletion criticality, and high-degree independence.
+`PackedMinimumDegreeCycle` supplies varying-vertex finite graph objects, a
+natural-number encoding of lexicographic vertex/edge rank, injective cycle
+transport, and the certificate-driven CT2 proper-subgraph closure. Its runner
+checks one supplied subgraph and never enumerates graphs or subgraphs. Its
+combined prefix also retains a certificate-driven CT3 stage for boundary
+degree fibres, universal context response, replacement, and hereditary
+uncompressibility. Its boundaried piece is an actual packed Mathlib graph with
+an injective finite boundary labelling; a compatible context carries its
+outside boundaried graph, gluing operation, and the local degree-preservation
+theorem.
+Applications retain only their cycle-length arithmetic and public-statement
+bridges. The generic CT3 coordinate machine still receives finite local data
+through its ordinary specification and capability interfaces. For literal
+graph replacement, `Graph.PackedBoundariedGluing` derives the whole-object
+decrease, baseline, and target transport from local graph data before calling
+`runCertifiedCompression`; no context or graph universe is generated.
+`EndpointParityCycle.Profile` builds the reusable maximal-path, CT6,
 CT6-to-CT9, CT9, chord-cycle, and CT1-validation pipeline on top. External
 applications select these profiles and retain only their genuinely
 theorem-specific predicates and fixtures.
+
+`Graph.InducedPath.Profile` represents an induced path by Mathlib's literal
+embedding `pathGraph k ↪g G`. The embedding itself certifies injectivity and
+adjacency reflection, so certificate-driven CT1 validates one local witness
+in constant work and its avoiding path is exactly induced-`P_k`-freeness.
+`PackedMinimumDegreeCycle` can append this stage to its existing CT1/CT2/CT3
+prefix without changing the selected context.
+
+`CT10.ExhaustiveClassification.Profile` handles exact finite class tables:
+the application supplies an explicit candidate universe and decidable
+acceptance predicate, while the profile constructs the accepted subtype,
+executes CT10 to the exhaustive terminal, and proves its typed trace,
+semantic validity, totality, and quadratic work ledger. For induced-path
+labels, `Graph.InducedPathAttachment` owns the compact code equivalence,
+symbolic gap test, compatibility algebra, and actual cycle certificates.
+
+`Core.FiniteDisjointPacking` separates finite maximum existence from runtime
+inspection. It proof-selects a maximum pairwise-disjoint support family and
+proves saturation; it does not expose an executable universe of items or
+packings. `CT12.DisjointPacking` sends only the selected list through the
+well-founded list-peeling runner, proves one iteration per selected item, and
+bounds execution by the host vertex count. `Graph.InducedPathPacking`
+specializes supports to ranges of Mathlib
+embeddings, constructs the induced complement, and proves the complement and
+all its induced subgraphs are induced-path-free.
+
+`Graph.FiniteObject.InternalSubgraph` is the graph-level contract for an
+arbitrary finite subgraph on an explicit host support. The reusable
+minimum-degree monotonicity bridge proves that its induced closure has at
+least the same minimum degree, without enumerating subgraphs.
+
+The repository has one explicitly trusted external theorem declaration:
+`Graph.External.HegdeSandeepShashank.p13Free_hasPowerOfTwoCycle`. It records
+the cited finite `P₁₃`-free minimum-degree-three theorem exactly. The linter,
+kernel verifier, and repository tests use an exact path-and-name allowlist;
+every other `axiom`, admission, or unsafe declaration remains forbidden.
 
 ## Node contract
 
@@ -126,3 +178,23 @@ Repository verification checks:
 - every generated schema and diagram is a fresh projection of the catalog;
 - every registered route has discovery, trigger, soundness, context
   preservation, provenance, and an explicit semantic-discovery authoring mode.
+
+## Worked-example manuscript traceability
+
+Worked examples may attach an `ExampleManuscriptDescriptor` to their compiled
+`ExampleDescriptor`. A proof step records its stable LaTeX labels and diagram
+nodes, plain-language explanation, rendered mathematical statement,
+correspondence class, scope limit, local work bound, and declaration groups.
+Declaration groups distinguish mathematical definitions and semantic theorems
+from encoding bridges, tactic executions, trace/totality audits, complexity
+bounds, reusable interfaces, provenance theorems, fixtures, and external
+theorems.
+
+For every implemented step, the Lean exporter requires the declaration groups
+to cover exactly every declaration displayed by the corresponding stage and
+its problem/framework bindings. The example renderer independently verifies
+that the manuscript path is repository-relative, every referenced LaTeX label
+exists uniquely, every diagram-node number exists, and the compiled source
+ranges still match the embedded Lean sources. The hydrated coverage counts are
+therefore audit data, not a UI estimate. Mathematical explanation strings are
+inspection prose; the compiled declaration types remain the formal authority.

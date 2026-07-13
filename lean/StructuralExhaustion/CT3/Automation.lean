@@ -1,6 +1,66 @@
 import StructuralExhaustion.CT3.Theorems
+import StructuralExhaustion.Graph.PackedBoundariedGluing
 
 namespace StructuralExhaustion.CT3
+
+/-- Literal packed-graph replacement profile.  Its required data are local;
+the derived operations prove gluing arithmetic, whole-rank decrease, baseline
+preservation, and target transport before entering the CT3 reduction kernel. -/
+def literalPackedReplacementCapabilityProfile : Core.CapabilityProfile where
+  capabilityId :=
+    "StructuralExhaustion.CT3.profile.literalPackedReplacement"
+  tacticId := "CT3"
+  requiredDefinitions := [
+    ⟨"StructuralExhaustion.Graph.PackedBoundariedGluing.glue",
+      .userOperator⟩,
+    ⟨"StructuralExhaustion.Graph.PackedBoundariedGluing.Context.noBoundaryEdge",
+      .instanceBridge⟩,
+    ⟨"StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.reconstruct",
+      .instanceBridge⟩,
+    ⟨"StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.connected",
+      .instanceBridge⟩,
+    ⟨"StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.proper",
+      .instanceBridge⟩,
+    ⟨"StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.boundaryDegree_eq",
+      .instanceBridge⟩,
+    ⟨"StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.obstructionIncluded",
+      .instanceBridge⟩,
+    ⟨"StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalTargetFree",
+      .instanceBridge⟩,
+    ⟨"StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalBaseline",
+      .instanceBridge⟩,
+    ⟨"StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.locallySmaller",
+      .instanceBridge⟩
+  ]
+  requiredInstances := [
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.Context.noBoundaryEdge",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.reconstruct",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.connected",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom.proper",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.boundaryDegree_eq",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.obstructionIncluded",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalTargetFree",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.internalBaseline",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.locallySmaller"
+  ]
+  derivedOperations := [
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.glue_vertexCount",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.glue_edgeCount",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.glue_lexRank_lt",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.glue_preserves_minDegree",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.minDegree_iff_of_iso",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.lexRank_eq_of_iso",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.hasCycleWithLength_iff_of_iso",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.certifiedInput",
+    "StructuralExhaustion.CT3.runCertifiedCompression",
+    "StructuralExhaustion.CT3.runCertifiedCompression_terminal",
+    "StructuralExhaustion.CT3.runCertifiedCompression_trace",
+    "StructuralExhaustion.CT3.runCertifiedCompression_total",
+    "StructuralExhaustion.CT3.certifiedCompressionBudget",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.impossible",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.run_polynomial",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.verifiedStage"
+  ]
 
 /-- Complete router-facing contracts for CT3's semantic residuals. -/
 def residualKindContracts : List Core.ResidualKindContract := [

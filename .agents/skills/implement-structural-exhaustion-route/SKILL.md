@@ -20,6 +20,7 @@ Then read the selected module under `lean/StructuralExhaustion/Routes` and its m
 | Route | Problem input | Example |
 |---|---|---|
 | CT1 avoidance to CT2 | target capability and `MinimalityKernel`; no residual adapter | `Examples/CT1ToCT2AutomationFirst.lean` |
+| CT1 avoidance to local-deletion CT2 | `LocalDeletionCapability` and `MinimalityKernel`; no target decider or residual adapter | `Examples/CT1ToCT2AutomationFirst.lean`, `examples/even_cycle/EvenCycleExample/CT2Audit.lean` |
 | CT2 separating context to CT3 | target capability and `PieceDiscovery` | `Examples/CT2ToCT3AutomationFirst.lean` |
 | CT2 criticality to CT10 | target capability and `DataDiscovery` | `Examples/CT2ToCT10AutomationFirst.lean` |
 | CT6 active ledger to CT9 | target capability and `ItemCollectionAdapter` | `Examples/CT6ToCT9AutomationFirst.lean` |
@@ -36,6 +37,21 @@ Treat the route's dependent source residual and target context as fixed inputs.
    - `ItemCollectionAdapter` maps CT6's active ledger to CT9's duplicate-free local items.
 4. Make enabled discovery return a proof-carrying local seed. Make disabled discovery prove that no seed exists.
 5. Let the framework construct the `RouteRule`, target context, trigger, and consumer input.
+
+For the local-deletion CT2 profile, let
+`LocalDeletionCapability.discover` scan only its declared piece enumeration.
+Use `discover_disabled_of_closure` to turn an enabled deletion-C2
+contradiction into the exact disabled certificate; never add a global target
+decider merely to use the full CT2 route.
+
+When CT1 is supplied by `CT1.TargetCertificateEncoding`, instantiate
+`LocalDeletion.CertificateProfile` with that encoding, the local capability,
+and the public-target closure rule.  Its `runAvoiding`, `avoidingSource`,
+`targetMinimality`, `routedClosure`, `route`, and `discover_disabled` methods
+own the entire composition.  For minimum-degree cycle targets, use
+`Graph.MinimumDegreeCycle.StaticInput.certificateDeletionProfile`,
+`cycleDeletionProfile`, or `edgeRootedDeletionProfile` instead of rebuilding
+the bridge in an application package.
 
 Do not add target tactic state, a selected terminal, a completed consumer result, or arbitrary closure evidence to an adapter.
 

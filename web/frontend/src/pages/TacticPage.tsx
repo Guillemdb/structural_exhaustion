@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { fetchFramework, fetchTactic } from "../api";
 import { AppHeader } from "../components/AppHeader";
@@ -16,9 +16,11 @@ import type {
 
 export function TacticPage() {
   const { tacticId = "" } = useParams();
+  const navigate = useNavigate();
   const [response, setResponse] = useState<TacticResponse | null>(null);
   const [framework, setFramework] = useState<FrameworkResponse | null>(null);
   const [selected, setSelected] = useState<SelectedGraphElement | null>(null);
+  const [showOutboundRoutes, setShowOutboundRoutes] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -42,10 +44,32 @@ export function TacticPage() {
     return () => controller.abort();
   }, [tacticId]);
 
+  useEffect(() => {
+    if (response && response.outboundRoutes.length === 0) {
+      setShowOutboundRoutes(false);
+    }
+  }, [response]);
+
   const elements = useMemo(
-    () => (response ? machineGraphElements(response) : []),
-    [response],
+    () => response
+      ? machineGraphElements(response, {
+          includeOutboundRoutes: showOutboundRoutes,
+          targetTactics: framework?.tactics,
+        })
+      : [],
+    [framework, response, showOutboundRoutes],
   );
+
+  const handleGraphSelect = (next: SelectedGraphElement | null) => {
+    const nextTactic = next?.group === "node" && next.data.kind === "routedTactic"
+      ? next.data.tacticId
+      : undefined;
+    if (typeof nextTactic === "string") {
+      navigate(`/ct/${nextTactic}`);
+      return;
+    }
+    setSelected(next);
+  };
 
   if (error) return <main className="standalone-state"><ErrorState message={error} /></main>;
   if (!response || !framework) {
@@ -107,11 +131,30 @@ export function TacticPage() {
               <span className="eyebrow">Typed execution graph</span>
               <strong>{selected ? selected.id : "Select a node or edge to inspect it"}</strong>
             </div>
-            <div className="legend" aria-label="Node legend">
-              <span><i className="legend__entry" /> entry</span>
-              <span><i className="legend__compute" /> computation</span>
-              <span><i className="legend__residual" /> residual</span>
-              <span><i className="legend__certificate" /> certificate</span>
+            <div className="machine-view-controls">
+              <label className="route-toggle">
+                <input
+                  type="checkbox"
+                  checked={showOutboundRoutes}
+                  disabled={response.outboundRoutes.length === 0}
+                  onChange={(event) => {
+                    setShowOutboundRoutes(event.currentTarget.checked);
+                    setSelected(null);
+                  }}
+                />
+                <span>
+                  {response.outboundRoutes.length === 0
+                    ? "No outbound CT routes"
+                    : "Show routes to other CTs"}
+                </span>
+              </label>
+              <div className="legend" aria-label="Node legend">
+                <span><i className="legend__entry" /> entry</span>
+                <span><i className="legend__compute" /> computation</span>
+                <span><i className="legend__residual" /> residual</span>
+                <span><i className="legend__certificate" /> certificate</span>
+                {showOutboundRoutes ? <span><i className="legend__route" /> CT route</span> : null}
+              </div>
             </div>
           </div>
           <GraphCanvas
@@ -119,7 +162,7 @@ export function TacticPage() {
             elements={elements}
             entryId={entry}
             selectedId={selected?.id}
-            onSelect={setSelected}
+            onSelect={handleGraphSelect}
           />
           <div className="machine-routes">
             <span className="eyebrow">Cross-CT routes</span>

@@ -165,9 +165,14 @@ def test_route_skill_covers_every_registered_authoring_boundary() -> None:
     catalog = json.loads(
         (ROOT / "generated/lean-machines.json").read_text(encoding="utf-8")
     )
-    assert len(catalog["routes"]) == 4
+    assert len(catalog["routes"]) == 5
     for route_phrase, adapter, example in (
         ("CT1 avoidance to CT2", "MinimalityKernel", "CT1ToCT2AutomationFirst.lean"),
+        (
+            "CT1 avoidance to local-deletion CT2",
+            "LocalDeletionCapability",
+            "CT1ToCT2AutomationFirst.lean",
+        ),
         ("CT2 separating context to CT3", "PieceDiscovery", "CT2ToCT3AutomationFirst.lean"),
         ("CT2 criticality to CT10", "DataDiscovery", "CT2ToCT10AutomationFirst.lean"),
         ("CT6 active ledger to CT9", "ItemCollectionAdapter", "CT6ToCT9AutomationFirst.lean"),
@@ -211,6 +216,33 @@ def test_erdos_next_ct_skill_advances_one_unconditional_stage() -> None:
         "Core.PolynomialCheckBudget",
     ):
         assert rigorous_output in skill
+
+
+def test_erdos_next_ct_skill_keeps_tex_lean_and_web_bidirectionally_indexed() -> None:
+    skill = read_skill(ERDOS_NEXT_CT)
+    normalized = " ".join(skill.split())
+
+    for authority in (
+        "Erdos64EG/WebExport.lean",
+        "generated/examples/erdos-64.json",
+        "ExampleProofStepDescriptor",
+        "ExampleDeclarationGroup",
+        "erdosManuscript",
+    ):
+        assert authority in skill
+
+    for invariant in (
+        "Maintain the bidirectional TeX--Lean--web index",
+        "never put Lean declaration names or implementation status in a LaTeX label",
+        "The union of `p`'s declaration groups must equal `D(s)`",
+        "Every displayed stage must map to exactly one proof step",
+        "TeX label or diagram node -> proof step -> workflow stage",
+        "selected Lean declaration -> declaration group and role",
+        "explainedDeclarations == displayedDeclarations",
+        "instead of hand-editing generated JSON",
+        "recorded in TeX, Lean, and the generated web projection",
+    ):
+        assert invariant in normalized
 
 
 def test_erdos_next_ct_skill_requires_transfer_and_current_state_log() -> None:

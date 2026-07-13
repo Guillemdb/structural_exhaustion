@@ -66,6 +66,7 @@ def tactic_schema(tactic: dict) -> dict:
         "x-leanSourceOfTruth": source_annotation(tactic),
         "x-capability": tactic["capability"],
         "x-capabilityProfiles": tactic["capabilityProfiles"],
+        "x-capabilityConcepts": tactic["capabilityConcepts"],
     }
 
 

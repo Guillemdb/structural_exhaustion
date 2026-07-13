@@ -446,11 +446,13 @@
             "requiredDefinitions": [
               {
                 "ref": "StructuralExhaustion.CT9.ParityCapacityOneSpec.Item",
-                "provision": "user_definition"
+                "provision": "user_definition",
+                "conceptId": "CT9.parity.item"
               },
               {
                 "ref": "StructuralExhaustion.CT9.ParityCapacityOneSpec.rank",
-                "provision": "user_operator"
+                "provision": "user_operator",
+                "conceptId": "CT9.parity.rank"
               }
             ],
             "derivedOperations": [
@@ -478,29 +480,134 @@
             "capabilityId": "StructuralExhaustion.CT9.profile.parityCapacityOne"
           }
         ],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "Capability.Item",
+            "presentation": {
+              "plainExplanation": "The type of active items partitioned into label fibres.",
+              "mathematicalDefinition": "\\mathcal{X}",
+              "label": "Active item"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT9.Capability P → Type uItem",
+              "name": "StructuralExhaustion.CT9.Capability.Item",
+              "kind": "definition"
+            },
+            "conceptId": "CT9.capability.item"
+          },
+          {
+            "requirementRef": "Capability.Label",
+            "presentation": {
+              "plainExplanation": "The finite type of labels indexing the partition fibres.",
+              "mathematicalDefinition": "\\mathcal{L}",
+              "label": "Fibre label"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT9.Capability P → Type uLabel",
+              "name": "StructuralExhaustion.CT9.Capability.Label",
+              "kind": "definition"
+            },
+            "conceptId": "CT9.capability.labelType"
+          },
+          {
+            "requirementRef": "Capability.labels",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of all fibre labels.",
+              "mathematicalDefinition": "\\operatorname{labels}=\\mathcal{L}",
+              "label": "Finite label enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT9.Capability P) → FinEnum self.Label",
+              "name": "StructuralExhaustion.CT9.Capability.labels",
+              "kind": "definition"
+            },
+            "conceptId": "CT9.capability.labels"
+          },
+          {
+            "requirementRef": "Capability.label",
+            "presentation": {
+              "plainExplanation": "Assigns each active item to exactly one label fibre.",
+              "mathematicalDefinition": "\\lambda:\\mathcal{X}\\to\\mathcal{L}",
+              "label": "Item labelling"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT9.Capability P) → self.Item → self.Label",
+              "name": "StructuralExhaustion.CT9.Capability.label",
+              "kind": "definition"
+            },
+            "conceptId": "CT9.capability.labelFunction"
+          },
+          {
+            "requirementRef": "Capability.capacity",
+            "presentation": {
+              "plainExplanation": "Assigns the permitted size of each label fibre.",
+              "mathematicalDefinition": "\\kappa:\\mathcal{L}\\to\\mathbb{N}",
+              "label": "Fibre capacity"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT9.Capability P) → self.Label → ℕ",
+              "name": "StructuralExhaustion.CT9.Capability.capacity",
+              "kind": "definition"
+            },
+            "conceptId": "CT9.capability.capacity"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT9.ParityCapacityOneSpec.Item",
+            "presentation": {
+              "plainExplanation": "The item type used by the two-parity, capacity-one specialization.",
+              "mathematicalDefinition": "\\mathcal{X}",
+              "label": "Parity-profile item"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT9.ParityCapacityOneSpec P → Type uItem",
+              "name": "StructuralExhaustion.CT9.ParityCapacityOneSpec.Item",
+              "kind": "definition"
+            },
+            "conceptId": "CT9.parity.item"
+          },
+          {
+            "requirementRef": "StructuralExhaustion.CT9.ParityCapacityOneSpec.rank",
+            "presentation": {
+              "plainExplanation": "Assigns each item the natural number whose parity becomes its canonical label.",
+              "mathematicalDefinition": "r:\\mathcal{X}\\to\\mathbb{N}",
+              "label": "Parity rank"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT9.ParityCapacityOneSpec P) → self.Item → ℕ",
+              "name": "StructuralExhaustion.CT9.ParityCapacityOneSpec.rank",
+              "kind": "definition"
+            },
+            "conceptId": "CT9.parity.rank"
+          }
+        ],
         "capability": {
           "tacticId": "CT9",
           "requiredInstances": [],
           "requiredDefinitions": [
             {
               "ref": "Capability.Item",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT9.capability.item"
             },
             {
               "ref": "Capability.Label",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT9.capability.labelType"
             },
             {
               "ref": "Capability.labels",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT9.capability.labels"
             },
             {
               "ref": "Capability.label",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT9.capability.labelFunction"
             },
             {
               "ref": "Capability.capacity",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT9.capability.capacity"
             }
           ],
           "derivedOperations": [
@@ -719,23 +826,28 @@
     "requiredDefinitions": [
       {
         "ref": "Capability.Item",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT9.capability.item"
       },
       {
         "ref": "Capability.Label",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT9.capability.labelType"
       },
       {
         "ref": "Capability.labels",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT9.capability.labels"
       },
       {
         "ref": "Capability.label",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT9.capability.labelFunction"
       },
       {
         "ref": "Capability.capacity",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT9.capability.capacity"
       }
     ],
     "derivedOperations": [
@@ -837,11 +949,13 @@
       "requiredDefinitions": [
         {
           "ref": "StructuralExhaustion.CT9.ParityCapacityOneSpec.Item",
-          "provision": "user_definition"
+          "provision": "user_definition",
+          "conceptId": "CT9.parity.item"
         },
         {
           "ref": "StructuralExhaustion.CT9.ParityCapacityOneSpec.rank",
-          "provision": "user_operator"
+          "provision": "user_operator",
+          "conceptId": "CT9.parity.rank"
         }
       ],
       "derivedOperations": [
@@ -867,6 +981,106 @@
         }
       ],
       "capabilityId": "StructuralExhaustion.CT9.profile.parityCapacityOne"
+    }
+  ],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "Capability.Item",
+      "presentation": {
+        "plainExplanation": "The type of active items partitioned into label fibres.",
+        "mathematicalDefinition": "\\mathcal{X}",
+        "label": "Active item"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT9.Capability P → Type uItem",
+        "name": "StructuralExhaustion.CT9.Capability.Item",
+        "kind": "definition"
+      },
+      "conceptId": "CT9.capability.item"
+    },
+    {
+      "requirementRef": "Capability.Label",
+      "presentation": {
+        "plainExplanation": "The finite type of labels indexing the partition fibres.",
+        "mathematicalDefinition": "\\mathcal{L}",
+        "label": "Fibre label"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT9.Capability P → Type uLabel",
+        "name": "StructuralExhaustion.CT9.Capability.Label",
+        "kind": "definition"
+      },
+      "conceptId": "CT9.capability.labelType"
+    },
+    {
+      "requirementRef": "Capability.labels",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of all fibre labels.",
+        "mathematicalDefinition": "\\operatorname{labels}=\\mathcal{L}",
+        "label": "Finite label enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT9.Capability P) → FinEnum self.Label",
+        "name": "StructuralExhaustion.CT9.Capability.labels",
+        "kind": "definition"
+      },
+      "conceptId": "CT9.capability.labels"
+    },
+    {
+      "requirementRef": "Capability.label",
+      "presentation": {
+        "plainExplanation": "Assigns each active item to exactly one label fibre.",
+        "mathematicalDefinition": "\\lambda:\\mathcal{X}\\to\\mathcal{L}",
+        "label": "Item labelling"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT9.Capability P) → self.Item → self.Label",
+        "name": "StructuralExhaustion.CT9.Capability.label",
+        "kind": "definition"
+      },
+      "conceptId": "CT9.capability.labelFunction"
+    },
+    {
+      "requirementRef": "Capability.capacity",
+      "presentation": {
+        "plainExplanation": "Assigns the permitted size of each label fibre.",
+        "mathematicalDefinition": "\\kappa:\\mathcal{L}\\to\\mathbb{N}",
+        "label": "Fibre capacity"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT9.Capability P) → self.Label → ℕ",
+        "name": "StructuralExhaustion.CT9.Capability.capacity",
+        "kind": "definition"
+      },
+      "conceptId": "CT9.capability.capacity"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT9.ParityCapacityOneSpec.Item",
+      "presentation": {
+        "plainExplanation": "The item type used by the two-parity, capacity-one specialization.",
+        "mathematicalDefinition": "\\mathcal{X}",
+        "label": "Parity-profile item"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT9.ParityCapacityOneSpec P → Type uItem",
+        "name": "StructuralExhaustion.CT9.ParityCapacityOneSpec.Item",
+        "kind": "definition"
+      },
+      "conceptId": "CT9.parity.item"
+    },
+    {
+      "requirementRef": "StructuralExhaustion.CT9.ParityCapacityOneSpec.rank",
+      "presentation": {
+        "plainExplanation": "Assigns each item the natural number whose parity becomes its canonical label.",
+        "mathematicalDefinition": "r:\\mathcal{X}\\to\\mathbb{N}",
+        "label": "Parity rank"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT9.ParityCapacityOneSpec P) → self.Item → ℕ",
+        "name": "StructuralExhaustion.CT9.ParityCapacityOneSpec.rank",
+        "kind": "definition"
+      },
+      "conceptId": "CT9.parity.rank"
     }
   ]
 }

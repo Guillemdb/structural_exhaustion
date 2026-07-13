@@ -2,8 +2,8 @@
   "artifactType": "leanKernelVerification",
   "schemaVersion": "2.0.0",
   "status": "kernel_checked",
-  "catalogHash": "6311efe9fd2bc81eca09e454b7b85aeb92252c0d3c16e733189c19d26e275bb3",
-  "exampleCatalogHash": "6b3750241952d0b460bfe31bc1cba2aba819ba44a9052c74ec426cd0fd6a2ba9",
+  "catalogHash": "2483d2ff3ac75af6e4e2b9db82b760e78c06b4ae7da1953943b6a95ee1a8c62e",
+  "exampleCatalogHash": "ec6fcc14fa6f816bd125d8802df6bd5e1c144158ee41e737fa136030e8d2d4cf",
   "toolchain": {
     "pinned": "leanprover/lean4:v4.31.0",
     "observed": "Lean (version 4.31.0, x86_64-unknown-linux-gnu, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)"

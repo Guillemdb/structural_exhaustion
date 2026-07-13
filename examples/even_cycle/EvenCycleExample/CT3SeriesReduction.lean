@@ -1,6 +1,6 @@
 import EvenCycleExample.CT1Instance
 import StructuralExhaustion.CT3.TargetCompression
-import Mathlib.Combinatorics.SimpleGraph.Acyclic
+import StructuralExhaustion.Graph.PackedBoundariedGluing
 
 namespace EvenCycleExample.SeriesReduction
 
@@ -81,24 +81,16 @@ def seriesProblem : Core.Problem where
   rank := fun object => object.1
   BranchState := fun _ => Unit
 
-/-- Computable adjacency for Mathlib's canonical path graph. -/
-@[reducible]
-def pathGraphAdjDecidable (order : Nat) :
-    DecidableRel (SimpleGraph.pathGraph order).Adj := fun left right =>
-  decidable_of_iff
-    (left.val + 1 = right.val ∨ right.val + 1 = left.val)
-    SimpleGraph.pathGraph_adj.symm
-
 local instance (order : Nat) :
     DecidableRel (SimpleGraph.pathGraph order).Adj :=
-  pathGraphAdjDecidable order
+  Graph.pathGraphAdjDecidable order
 
 def pathObject (edges : Nat) : SeriesObject :=
   ⟨edges + 1, {
     graph := SimpleGraph.pathGraph (edges + 1)
     input := {
       vertices := inferInstance
-      decideAdj := pathGraphAdjDecidable (edges + 1)
+      decideAdj := Graph.pathGraphAdjDecidable (edges + 1)
     }
   }⟩
 
@@ -120,88 +112,24 @@ def glue : Piece → Context → SeriesObject
   | piece, .oddReturn => cycleObject (piece.length + 3 - 3)
   | _piece, .targetPresent => cycleObject 1
 
-private theorem pathGraphTwo_isAcyclic :
-    (SimpleGraph.pathGraph 2).IsAcyclic := by
-  letI : Fintype (SimpleGraph.pathGraph 2).edgeSet := inferInstance
-  exact (SimpleGraph.isTree_iff_connected_and_card.mpr
-    ⟨SimpleGraph.pathGraph_connected 1, by
-      have edgeCard : Nat.card (SimpleGraph.pathGraph 2).edgeSet =
-          (SimpleGraph.pathGraph 2).edgeFinset.card := by
-        rw [Nat.card_eq_fintype_card, SimpleGraph.edgeFinset_card]
-      rw [edgeCard, Nat.card_eq_fintype_card]
-      native_decide⟩).isAcyclic
-
-private theorem pathGraphThree_isAcyclic :
-    (SimpleGraph.pathGraph 3).IsAcyclic := by
-  letI : Fintype (SimpleGraph.pathGraph 3).edgeSet := inferInstance
-  exact (SimpleGraph.isTree_iff_connected_and_card.mpr
-    ⟨SimpleGraph.pathGraph_connected 2, by
-      have edgeCard : Nat.card (SimpleGraph.pathGraph 3).edgeSet =
-          (SimpleGraph.pathGraph 3).edgeFinset.card := by
-        rw [Nat.card_eq_fintype_card, SimpleGraph.edgeFinset_card]
-      rw [edgeCard, Nat.card_eq_fintype_card]
-      native_decide⟩).isAcyclic
-
-private theorem pathGraphFour_isAcyclic :
-    (SimpleGraph.pathGraph 4).IsAcyclic := by
-  letI : Fintype (SimpleGraph.pathGraph 4).edgeSet := inferInstance
-  exact (SimpleGraph.isTree_iff_connected_and_card.mpr
-    ⟨SimpleGraph.pathGraph_connected 3, by
-      have edgeCard : Nat.card (SimpleGraph.pathGraph 4).edgeSet =
-          (SimpleGraph.pathGraph 4).edgeFinset.card := by
-        rw [Nat.card_eq_fintype_card, SimpleGraph.edgeFinset_card]
-      rw [edgeCard, Nat.card_eq_fintype_card]
-      native_decide⟩).isAcyclic
-
-private theorem pathGraphFive_isAcyclic :
-    (SimpleGraph.pathGraph 5).IsAcyclic := by
-  letI : Fintype (SimpleGraph.pathGraph 5).edgeSet := inferInstance
-  exact (SimpleGraph.isTree_iff_connected_and_card.mpr
-    ⟨SimpleGraph.pathGraph_connected 4, by
-      have edgeCard : Nat.card (SimpleGraph.pathGraph 5).edgeSet =
-          (SimpleGraph.pathGraph 5).edgeFinset.card := by
-        rw [Nat.card_eq_fintype_card, SimpleGraph.edgeFinset_card]
-      rw [edgeCard, Nat.card_eq_fintype_card]
-      native_decide⟩).isAcyclic
-
 theorem pathObject_piece_hasNoEvenCycle (piece : Piece) :
     ¬ SeriesHasEvenCycle (pathObject piece.length) := by
   rintro ⟨cycle⟩
   cases piece with
   | evenCanonical =>
-      exact pathGraphThree_isAcyclic cycle.walk cycle.isCycle
+      exact Graph.pathGraph_three_isAcyclic cycle.walk cycle.isCycle
   | oddCanonical =>
-      exact pathGraphTwo_isAcyclic cycle.walk cycle.isCycle
+      exact Graph.pathGraph_two_isAcyclic cycle.walk cycle.isCycle
   | evenLong =>
-      exact pathGraphFive_isAcyclic cycle.walk cycle.isCycle
+      exact Graph.pathGraph_five_isAcyclic cycle.walk cycle.isCycle
   | oddLong =>
-      exact pathGraphFour_isAcyclic cycle.walk cycle.isCycle
+      exact Graph.pathGraph_four_isAcyclic cycle.walk cycle.isCycle
 
 /-- Exact parity theorem for a canonical cycle component. -/
 theorem cycleObject_hasEvenCycle_iff (offset : Nat) :
     SeriesHasEvenCycle (cycleObject offset) ↔
       (offset + 3) % 2 = 0 := by
-  change Graph.HasCycleWithLength
-    (SimpleGraph.cycleGraph (offset + 3)) EvenLength ↔ _
-  constructor
-  · rintro ⟨cycle⟩
-    have lengthEq : cycle.walk.length = offset + 3 := by
-      have exactCard := Graph.cycle_length_eq_card_of_connected_isCycles
-        (SimpleGraph.cycleGraph_connected (n := offset + 2))
-        (Graph.cycleGraph_isCycles offset) cycle.walk cycle.isCycle
-      simp only [Fintype.card_fin] at exactCard
-      omega
-    have lengthEven := cycle.length_ok
-    rw [lengthEq] at lengthEven
-    exact lengthEven
-  · intro even
-    exact ⟨{
-      vertex := 0
-      walk := SimpleGraph.cycleGraph.cycle offset
-      isCycle := SimpleGraph.cycleGraph.isCycle_cycle
-      length_ok := by
-        simpa [EvenLength] using even
-    }⟩
+  exact Graph.hasCycleWithLength_cycleGraph_iff EvenLength offset
 
 /-! ## Four exact local response coordinates -/
 
@@ -374,5 +302,47 @@ theorem run_total (piece : Piece) :
         @CT3.Graph.ValidTrace seriesProblem ct3Spec ct3Capability
           (ct3Input piece) result.trace :=
   contract.run_total branch piece
+
+/-! ## Transfer of the literal packed-graph replacement profile -/
+
+/-- The same even-cycle length predicate instantiated in the reusable packed
+minimum-degree graph problem.  Threshold zero supplies a harmless finite
+target-avoiding seed for the independent CT3 transfer audit. -/
+def concretePackedInput : Graph.PackedMinimumDegreeCycle.StaticInput where
+  minimumDegree := 0
+  LengthOK := EvenLength
+
+private def concreteSeedObject : Graph.PackedFiniteObject :=
+  Graph.PackedFiniteObject.pack (pathObject Piece.oddCanonical.length).2
+
+private theorem concreteSeed_avoids :
+    ¬ concretePackedInput.Target concreteSeedObject := by
+  simpa [concreteSeedObject, concretePackedInput,
+    Graph.PackedMinimumDegreeCycle.StaticInput.Target,
+    Graph.PackedFiniteObject.pack, SeriesHasEvenCycle, Piece.length] using
+      pathObject_piece_hasNoEvenCycle Piece.oddCanonical
+
+private def concreteAvoidingContext :
+    Core.AvoidingContext concretePackedInput.problem concretePackedInput.Target :=
+  Core.AvoidingContext.ofBranch {
+    G := concreteSeedObject
+    baseline := Nat.zero_le _
+    state := ()
+  } concreteSeed_avoids
+
+/-- Independent textbook transfer: the even-cycle package constructs the
+exact literal-gluing CT3 stage used by the Erdős implementation. -/
+theorem exists_duffinConcreteBoundariedReplacementStage :
+    ∃ ctx : Core.MinimalCounterexampleContext
+        concretePackedInput.problem concretePackedInput.Target,
+      concretePackedInput.problem.rank ctx.G ≤
+          concretePackedInput.problem.rank concreteSeedObject ∧
+        Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.VerifiedStage
+          concretePackedInput (inferInstance : FinEnum (Fin 2)) ctx := by
+  obtain ⟨ctx, rankLe⟩ :=
+    concreteAvoidingContext.exists_minimalCounterexample (fun _object => ())
+  exact ⟨ctx, rankLe,
+    Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.verifiedStage
+      concretePackedInput (inferInstance : FinEnum (Fin 2)) ctx⟩
 
 end EvenCycleExample.SeriesReduction

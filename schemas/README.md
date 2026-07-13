@@ -24,6 +24,8 @@ The catalog records, for every tactic:
 - its namespace and API version;
 - minimal capability definitions, inferred instances, and framework-derived
   operations;
+- Lean-owned semantic concepts for every required definition, including its
+  compiled declaration, LaTeX mathematical notation, and plain explanation;
 - every compiled node constructor and its ordinal;
 - every typed `Graph.Edge` constructor and exact source/target indices;
 - terminal constructors and mappings;
@@ -64,6 +66,8 @@ the generic artifact model changes:
   boundary.
 - `capability-spec.schema.json`: the minimal proof-instance capability
   manifest.
+- `capability-concept.schema.json`: one documented capability requirement,
+  anchored to its resolved compiled Lean declaration.
 - `automation-profile.schema.json`: one node's author/framework provenance and
   generated-output contract.
 - `provisioned-ref.schema.json`: a Lean reference paired with its provenance
@@ -79,6 +83,11 @@ the generic artifact model changes:
 - `lean-derived-manifest.schema.json` and
   `lean-derived-schema-index.schema.json`: generated artifact and concrete
   schema indexes.
+- `example-catalog-raw.schema.json`, `example-detail.schema.json`, and
+  `example-index.schema.json`: compiled worked-example workflows, hydrated Lean
+  sources, and optional manuscript correspondence catalogs. Manuscript proof
+  steps classify every displayed declaration by mathematical or verification
+  role and carry validated LaTeX-label/diagram-node references.
 
 All schemas use JSON Schema Draft 2020-12.
 
@@ -137,6 +146,7 @@ python3 tools/render_schemas.py \
 Repository validation resolves cross-file `$ref` values offline, validates the
 catalog and concrete schemas against Draft 2020-12, checks exact node/edge/
 terminal projections, verifies capability coverage and provenance tags,
+requires a unique non-orphaned concept for every general/profile definition,
 rejects empty generated-output contracts or manual node obligations, checks
 residual and route registration, and enforces graph reachability and cycle
 decrease requirements.

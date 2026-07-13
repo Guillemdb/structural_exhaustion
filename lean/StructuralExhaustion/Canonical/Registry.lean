@@ -16,6 +16,8 @@ import StructuralExhaustion.CT14.Automation
 import StructuralExhaustion.CT15.Automation
 import StructuralExhaustion.CT16.Automation
 import StructuralExhaustion.CT17.Automation
+import StructuralExhaustion.Canonical.CapabilityConcepts
+import StructuralExhaustion.Canonical.NodeInternalMetadata
 import StructuralExhaustion.Routes.CT1ToCT2
 import StructuralExhaustion.Routes.CT2ToCT3
 import StructuralExhaustion.Routes.CT2ToCT10
@@ -31,7 +33,9 @@ structure TacticDescriptor where
   namespaceName : Lean.Name
   capabilityContract : Core.CapabilityContract
   capabilityProfiles : List Core.CapabilityProfile
+  capabilityConcepts : List CapabilityConcept
   nodeAutomationContracts : List Core.NodeAutomationContract
+  nodeInternalFlows : List NodeInternalFlowDescriptor
   residualKindContracts : List Core.ResidualKindContract
   deriving Repr, DecidableEq
 
@@ -48,24 +52,30 @@ private def descriptor
   namespaceName := namespaceName
   capabilityContract := capabilityContract
   capabilityProfiles := capabilityProfiles
+  capabilityConcepts := CapabilityConcepts.forTactic tacticId
   nodeAutomationContracts := nodeAutomationContracts
+  nodeInternalFlows := nodeAutomationContracts.map
+    NodeInternalFlowDescriptor.ofContract
   residualKindContracts := residualKindContracts
 }
 
 /-- Ordered stable registry.  The remaining CT rows are added only after their
 automation-first implementations satisfy the same compiled contract. -/
 def tactics : Array TacticDescriptor := #[
-  descriptor "CT1" "Finite target realization" "CT1-v5"
+  descriptor "CT1" "Finite target realization" "CT1-v6"
     `StructuralExhaustion.CT1 CT1.capabilityContract
     CT1.nodeAutomationContracts CT1.residualKindContracts
-    [CT1.targetEncodingCapabilityProfile],
-  descriptor "CT2" "Minimal deletion and exhaustive replacement" "CT2-v6"
+    [CT1.targetEncodingCapabilityProfile,
+      CT1.targetCertificateCapabilityProfile],
+  descriptor "CT2" "Minimal deletion and exhaustive replacement" "CT2-v8"
     `StructuralExhaustion.CT2 CT2.capabilityContract
     CT2.nodeAutomationContracts CT2.residualKindContracts
-    [CT2.deletionOnlyCapabilityProfile, CT2.localDeletionCapabilityProfile],
-  descriptor "CT3" "Exact external-response compression" "CT3-v3"
+    [CT2.deletionOnlyCapabilityProfile, CT2.localDeletionCapabilityProfile,
+      CT2.certifiedReductionCapabilityProfile],
+  descriptor "CT3" "Exact external-response compression" "CT3-v4"
     `StructuralExhaustion.CT3 CT3.capabilityContract
-    CT3.nodeAutomationContracts CT3.residualKindContracts,
+    CT3.nodeAutomationContracts CT3.residualKindContracts
+    [CT3.literalPackedReplacementCapabilityProfile],
   descriptor "CT4" "Deterministic charging and capacity" "CT4-v4"
     `StructuralExhaustion.CT4 CT4.capabilityContract
     CT4.nodeAutomationContracts CT4.residualKindContracts
@@ -93,10 +103,11 @@ def tactics : Array TacticDescriptor := #[
     `StructuralExhaustion.CT11 CT11.capabilityContract
     CT11.nodeAutomationContracts CT11.residualKindContracts
     [CT11.negativeBudgetCapabilityProfile],
-  descriptor "CT12" "Well-founded structural peeling" "CT12-v4"
+  descriptor "CT12" "Well-founded structural peeling" "CT12-v5"
     `StructuralExhaustion.CT12 CT12.capabilityContract
     CT12.nodeAutomationContracts CT12.residualKindContracts
-    [CT12.listPeelingCapabilityProfile],
+    [CT12.listPeelingCapabilityProfile,
+      CT12.disjointPackingCapabilityProfile],
   descriptor "CT13" "Tier availability and canonical fallback" "CT13-v3"
     `StructuralExhaustion.CT13 CT13.capabilityContract
     CT13.nodeAutomationContracts CT13.residualKindContracts,

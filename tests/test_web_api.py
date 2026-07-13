@@ -26,7 +26,7 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         "transitions": 108,
         "terminals": 55,
         "residualKinds": 36,
-        "routes": 4,
+        "routes": 5,
         "manualObligations": 0,
     }
     assert [item["tacticId"] for item in response["tactics"]] == [
@@ -124,7 +124,7 @@ def test_api_and_spa_are_served_from_one_application(tmp_path: Path) -> None:
 
             framework = await get("/api/v1/framework")
             assert framework.status_code == 200
-            assert framework.json()["totals"]["routes"] == 4
+            assert framework.json()["totals"]["routes"] == 5
 
             tactic = await get("/api/v1/tactics/ct6")
             assert tactic.status_code == 200

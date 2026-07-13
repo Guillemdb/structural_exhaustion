@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -172,6 +173,31 @@ def validate_declaration_range(
         <= raw_position_key(declaration_range["end"])
     ):
         raise ExampleCatalogError(f"{name}: selectionRange is outside declaration range")
+
+
+def manuscript_index(path: str, source_root: Path) -> tuple[set[str], set[int]]:
+    relative = Path(path)
+    if relative.is_absolute() or ".." in relative.parts or relative.suffix != ".tex":
+        raise ExampleCatalogError(
+            f"manuscript path must be a safe repository-relative .tex file: {path}"
+        )
+    root = source_root.resolve()
+    try:
+        manuscript_path = (root / relative).resolve(strict=True)
+        manuscript_path.relative_to(root)
+    except (OSError, ValueError) as error:
+        raise ExampleCatalogError(f"manuscript is unavailable or escapes the repository: {path}") from error
+    try:
+        content = manuscript_path.read_text(encoding="utf-8")
+    except (OSError, UnicodeDecodeError) as error:
+        raise ExampleCatalogError(f"cannot read manuscript {path}: {error}") from error
+    labels = re.findall(r"\\label(?:\[[^\]]+\])?\{([^}]+)\}", content)
+    unique(labels, f"LaTeX labels in {path}")
+    nodes = {
+        int(value)
+        for value in re.findall(r"\\textbf\{\[([0-9]+)\]\}", content)
+    }
+    return set(labels), nodes
 
 
 class DetailBuilder:
@@ -400,9 +426,147 @@ def hydrate_example(
             }
         )
 
+    raw_manuscript = raw["manuscript"]
+    manuscript: dict[str, Any] | None = None
+    if raw_manuscript is not None:
+        known_labels, known_nodes = manuscript_index(
+            raw_manuscript["path"], source_root
+        )
+        proof_steps = raw_manuscript["proofSteps"]
+        unique([step["stepId"] for step in proof_steps], "proof step IDs")
+        mapped_stage_ids = [
+            step["stageId"] for step in proof_steps if step["stageId"] is not None
+        ]
+        unique(mapped_stage_ids, "proof-step stage IDs")
+        if set(mapped_stage_ids) != set(stages_by_id):
+            missing = sorted(set(stages_by_id) - set(mapped_stage_ids))
+            extra = sorted(set(mapped_stage_ids) - set(stages_by_id))
+            raise ExampleCatalogError(
+                f"manuscript stage coverage mismatch; missing={missing}, extra={extra}"
+            )
+
+        bindings_by_stage: dict[str, list[dict[str, Any]]] = {}
+        for binding in bindings:
+            bindings_by_stage.setdefault(binding["stageId"], []).append(binding)
+        inbound_link_evidence: dict[str, set[str]] = {}
+        for workflow in workflow_values:
+            for link in workflow["links"]:
+                inbound_link_evidence.setdefault(link["targetStageId"], set()).update(
+                    link["evidenceDeclarationIds"]
+                )
+
+        normalized_steps: list[dict[str, Any]] = []
+        explained_declarations: set[str] = set()
+        displayed_declarations: set[str] = set()
+        for step in proof_steps:
+            stage_id = step["stageId"]
+            if step["status"] == "implemented" and stage_id is None:
+                raise ExampleCatalogError(
+                    f"implemented proof step {step['stepId']} has no stage"
+                )
+            if step["status"] != "implemented" and stage_id is not None:
+                raise ExampleCatalogError(
+                    f"unimplemented proof step {step['stepId']} names stage {stage_id}"
+                )
+
+            references: list[dict[str, Any]] = []
+            for reference in step["manuscriptRefs"]:
+                if reference["label"] not in known_labels:
+                    raise ExampleCatalogError(
+                        f"proof step {step['stepId']}: unknown manuscript label "
+                        f"{reference['label']}"
+                    )
+                unknown_nodes = set(reference["nodeIds"]) - known_nodes
+                if unknown_nodes:
+                    raise ExampleCatalogError(
+                        f"proof step {step['stepId']}: unknown diagram nodes "
+                        f"{sorted(unknown_nodes)}"
+                    )
+                references.append(
+                    {
+                        "label": reference["label"],
+                        "title": reference["title"],
+                        "nodeIds": reference["nodeIds"],
+                    }
+                )
+
+            unique(
+                [group["groupId"] for group in step["declarationGroups"]],
+                f"declaration group IDs in {step['stepId']}",
+            )
+            groups: list[dict[str, Any]] = []
+            grouped_ids: list[str] = []
+            for group in step["declarationGroups"]:
+                declaration_ids = builder.declaration_ids(group["declarations"])
+                grouped_ids.extend(declaration_ids)
+                groups.append(
+                    {
+                        "groupId": group["groupId"],
+                        "title": group["title"],
+                        "role": group["role"],
+                        "explanation": group["explanation"],
+                        "declarationIds": declaration_ids,
+                    }
+                )
+            unique(grouped_ids, f"classified declarations in {step['stepId']}")
+
+            if stage_id is None:
+                if grouped_ids:
+                    raise ExampleCatalogError(
+                        f"unimplemented proof step {step['stepId']} classifies declarations"
+                    )
+            else:
+                _, stage = stages_by_id[stage_id]
+                expected_ids = {
+                    stage["primaryDeclarationId"],
+                    *stage["evidenceDeclarationIds"],
+                }
+                for binding in bindings_by_stage.get(stage_id, []):
+                    expected_ids.add(binding["problemDeclarationId"])
+                    expected_ids.add(binding["frameworkDeclarationId"])
+                expected_ids.update(inbound_link_evidence.get(stage_id, set()))
+                if set(grouped_ids) != expected_ids:
+                    raise ExampleCatalogError(
+                        f"proof step {step['stepId']} declaration coverage mismatch; "
+                        f"missing={sorted(expected_ids - set(grouped_ids))}, "
+                        f"extra={sorted(set(grouped_ids) - expected_ids)}"
+                    )
+                displayed_declarations.update(expected_ids)
+                explained_declarations.update(grouped_ids)
+
+            normalized_step = {
+                "stepId": step["stepId"],
+                "title": step["title"],
+                "plainExplanation": step["plainExplanation"],
+                "formalStatement": step["formalStatement"],
+                "status": step["status"],
+                "correspondence": step["correspondence"],
+                "manuscriptRefs": references,
+                "declarationGroups": groups,
+                "scopeNotes": step["scopeNotes"],
+                "workBound": step["workBound"],
+            }
+            if stage_id is not None:
+                normalized_step["stageId"] = stage_id
+            normalized_steps.append(normalized_step)
+
+        manuscript = {
+            "title": raw_manuscript["title"],
+            "path": raw_manuscript["path"],
+            "proofSteps": normalized_steps,
+            "coverage": {
+                "implementedSteps": sum(
+                    step["status"] == "implemented" for step in normalized_steps
+                ),
+                "totalSteps": len(normalized_steps),
+                "explainedDeclarations": len(explained_declarations),
+                "displayedDeclarations": len(displayed_declarations),
+            },
+        }
+
     detail = {
         "artifactType": "structuralExhaustionExample",
-        "schemaVersion": "1.0.0",
+        "schemaVersion": "1.1.0",
         "sourceOfTruth": raw_artifact["sourceOfTruth"],
         "exampleId": raw["exampleId"],
         "title": raw["title"],
@@ -411,6 +575,7 @@ def hydrate_example(
         "tacticIds": sorted(referenced_tactics, key=tactic_sort_key),
         "workflows": workflow_values,
         "interfaceBindings": bindings,
+        "manuscript": manuscript,
         "declarations": [builder.declarations[key] for key in sorted(builder.declarations)],
         "sources": [builder.sources[key] for key in sorted(builder.sources)],
     }
@@ -445,6 +610,23 @@ def validate_detail_semantics(detail: dict[str, Any]) -> None:
         if not refs <= declaration_set:
             raise ExampleCatalogError(
                 f"binding {binding['bindingId']}: dangling declaration"
+            )
+    manuscript = detail["manuscript"]
+    if manuscript is not None:
+        explained: set[str] = set()
+        for step in manuscript["proofSteps"]:
+            for group in step["declarationGroups"]:
+                if not set(group["declarationIds"]) <= declaration_set:
+                    raise ExampleCatalogError(
+                        f"declaration group {group['groupId']}: dangling declaration"
+                    )
+                explained.update(group["declarationIds"])
+        coverage = manuscript["coverage"]
+        if coverage["explainedDeclarations"] != len(explained):
+            raise ExampleCatalogError("manuscript explained-declaration coverage is stale")
+        if explained != declaration_set:
+            raise ExampleCatalogError(
+                "manuscript does not explain every declaration exposed by the example"
             )
 
 

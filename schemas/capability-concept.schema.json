@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/capability-concept.schema.json",
+  "title": "Lean-owned capability concept metadata",
+  "$ref": "lean-machine-catalog.schema.json#/$defs/capabilityConcept"
+}

@@ -66,6 +66,23 @@ abbrev problem (V : Type u) := (staticInput V).problem
 abbrev Baseline {V : Type u} := (staticInput V).problem.Baseline
 abbrev Target {V : Type u} := (staticInput V).Target
 
+/-- Convert the ordinary unbounded exponent formulation into the executable
+bounded target predicate used by the internal framework boundary. -/
+theorem target_of_unboundedPowerOfTwoCycle {V : Type u}
+    (object : Object V)
+    (cycle : HasCycleWithLength object.graph (fun length =>
+      ∃ exponent : Nat, 2 ≤ exponent ∧ length = 2 ^ exponent)) :
+    Target object := by
+  rcases cycle with ⟨certificate⟩
+  exact ⟨{
+    vertex := certificate.vertex
+    walk := certificate.walk
+    isCycle := certificate.isCycle
+    length_ok :=
+      (powerOfTwoLength_iff certificate.walk.length).mpr
+        certificate.length_ok
+  }⟩
+
 /-- The internal target is definitionally faithful to the exact conclusion
 of the pinned official formulation. -/
 theorem target_iff_official_conclusion {V : Type u} (object : Object V) :

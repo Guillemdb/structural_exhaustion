@@ -7,7 +7,7 @@
   "required": ["artifactType", "schemaVersion", "sourceOfTruth", "example"],
   "properties": {
     "artifactType": {"const": "structuralExhaustionExample"},
-    "schemaVersion": {"const": "1.0.0"},
+    "schemaVersion": {"const": "1.1.0"},
     "sourceOfTruth": {"$ref": "#/$defs/sourceOfTruth"},
     "example": {"$ref": "#/$defs/example"}
   },
@@ -157,12 +157,101 @@
         "frameworkDeclaration": {"$ref": "#/$defs/declaration"}
       }
     },
+    "manuscriptReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "title", "nodeIds"],
+      "properties": {
+        "label": {"$ref": "#/$defs/nonemptyString"},
+        "title": {"$ref": "#/$defs/nonemptyString"},
+        "nodeIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "declarationGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["groupId", "title", "role", "explanation", "declarations"],
+      "properties": {
+        "groupId": {"$ref": "#/$defs/identifier"},
+        "title": {"$ref": "#/$defs/nonemptyString"},
+        "role": {
+          "enum": [
+            "mathematicalDefinition", "semanticTheorem", "encodingBridge",
+            "tacticExecution", "executionAudit", "soundnessTotality",
+            "workBound", "compositionProvenance", "frameworkInterface",
+            "externalTheorem", "fixture"
+          ]
+        },
+        "explanation": {"$ref": "#/$defs/nonemptyString"},
+        "declarations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/declaration"}
+        }
+      }
+    },
+    "proofStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stepId", "stageId", "title", "plainExplanation", "formalStatement",
+        "status", "correspondence", "manuscriptRefs", "declarationGroups",
+        "scopeNotes", "workBound"
+      ],
+      "properties": {
+        "stepId": {"$ref": "#/$defs/identifier"},
+        "stageId": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/identifier"}
+          ]
+        },
+        "title": {"$ref": "#/$defs/nonemptyString"},
+        "plainExplanation": {"$ref": "#/$defs/nonemptyString"},
+        "formalStatement": {"$ref": "#/$defs/nonemptyString"},
+        "status": {"enum": ["implemented", "next", "notStarted"]},
+        "correspondence": {
+          "enum": ["exact", "equivalentEncoding", "specialization", "composite", "support", "partial"]
+        },
+        "manuscriptRefs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/manuscriptReference"}
+        },
+        "declarationGroups": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/declarationGroup"}
+        },
+        "scopeNotes": {"$ref": "#/$defs/nonemptyString"},
+        "workBound": {"$ref": "#/$defs/nonemptyString"}
+      }
+    },
+    "manuscript": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "path", "proofSteps"],
+      "properties": {
+        "title": {"$ref": "#/$defs/nonemptyString"},
+        "path": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+\\.tex$"
+        },
+        "proofSteps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/proofStep"}
+        }
+      }
+    },
     "example": {
       "type": "object",
       "additionalProperties": false,
       "required": [
         "exampleId", "title", "summary", "proofStatus", "workflows",
-        "interfaceBindings"
+        "interfaceBindings", "manuscript"
       ],
       "properties": {
         "exampleId": {
@@ -180,6 +269,12 @@
         "interfaceBindings": {
           "type": "array",
           "items": {"$ref": "#/$defs/interfaceBinding"}
+        },
+        "manuscript": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/manuscript"}
+          ]
         }
       }
     }

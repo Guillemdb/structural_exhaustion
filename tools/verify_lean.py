@@ -16,10 +16,16 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 
 try:
-    from lint_automation_first import lint as lint_lean_sources
+    from lint_automation_first import (
+        lint as lint_lean_sources,
+        untrusted_admissions,
+    )
     from validate_repository import validate_routes, validate_tactic
 except ImportError:  # imported as tools.verify_lean
-    from tools.lint_automation_first import lint as lint_lean_sources
+    from tools.lint_automation_first import (
+        lint as lint_lean_sources,
+        untrusted_admissions,
+    )
     from tools.validate_repository import validate_routes, validate_tactic
 
 
@@ -85,7 +91,8 @@ def authored_admissions() -> list[str]:
             if "Generated" in path.parts or ".lake" in path.parts:
                 continue
             source = strip_lean_comments_and_strings(path.read_text(encoding="utf-8"))
-            if re.search(r"\b(?:sorry|admit|axiom)\b", source):
+            relative = path.relative_to(ROOT)
+            if untrusted_admissions(relative, source):
                 offenders.append(path.relative_to(ROOT).as_posix())
     return offenders
 
@@ -132,6 +139,10 @@ def binding_check(catalog: dict) -> str:
     declarations: list[str] = []
     for tactic in catalog["tactics"]:
         declarations.extend(item["name"] for item in tactic["apiDeclarations"])
+        declarations.extend(
+            concept["formalDeclaration"]["name"]
+            for concept in tactic["capabilityConcepts"]
+        )
         declarations.extend(edge["constructor"] for edge in tactic["transitions"])
         declarations.extend(terminal["constructor"] for terminal in tactic["terminals"])
         for profile in tactic.get("capabilityProfiles", []):

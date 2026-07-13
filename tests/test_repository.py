@@ -8,7 +8,11 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
-from tools.lint_automation_first import lint as lint_lean_sources
+from tools.lint_automation_first import (
+    AXIOM_DECLARATION_PATTERN,
+    TRUSTED_EXTERNAL_AXIOMS,
+    lint as lint_lean_sources,
+)
 from tools.render_artifacts import catalog_status_tex
 from tools.render_schemas import render_schemas
 from tools.validate_machine_run import validate_record
@@ -31,6 +35,36 @@ MATHLIB_COMMIT = "fabf563a7c95a166b8d7b6efca11c8b4dc9d911f"
 
 def load(relative: str) -> dict:
     return json.loads((ROOT / relative).read_text(encoding="utf-8"))
+
+
+def test_hss_is_the_only_trusted_external_axiom() -> None:
+    assert TRUSTED_EXTERNAL_AXIOMS == {
+        Path(
+            "lean/StructuralExhaustion/Graph/External/"
+            "HegdeSandeepShashank.lean"
+        ): {"p13Free_hasPowerOfTwoCycle"}
+    }
+    authored_axioms: list[tuple[Path, str]] = []
+    source_roots = [ROOT / "lean/StructuralExhaustion", ROOT / "examples"]
+    for source_root in source_roots:
+        for path in source_root.rglob("*.lean"):
+            if ".lake" in path.parts:
+                continue
+            authored_axioms.extend(
+                (path.relative_to(ROOT), name)
+                for name in AXIOM_DECLARATION_PATTERN.findall(
+                    path.read_text(encoding="utf-8")
+                )
+            )
+    assert authored_axioms == [
+        (
+            Path(
+                "lean/StructuralExhaustion/Graph/External/"
+                "HegdeSandeepShashank.lean"
+            ),
+            "p13Free_hasPowerOfTwoCycle",
+        )
+    ]
 
 
 def tactic_ids() -> list[str]:
@@ -112,12 +146,12 @@ def first_terminal_path(tactic: dict) -> tuple[list[dict], dict]:
     raise AssertionError(f"{tactic['tacticId']} has no reachable terminal")
 
 
-def test_catalog_is_the_compiled_schema_v6_ct1_to_ct17_registry() -> None:
+def test_catalog_is_the_compiled_schema_v7_ct1_to_ct17_registry() -> None:
     catalog = load("generated/lean-machines.json")
     schema = load("schemas/lean-machine-catalog.schema.json")
     assert list(Draft202012Validator(schema).iter_errors(catalog)) == []
     assert catalog["artifactType"] == "automationFirstLeanCatalog"
-    assert catalog["schemaVersion"] == "6.0.0"
+    assert catalog["schemaVersion"] == "7.0.0"
     assert catalog["sourceOfTruth"] == {
         "kind": "compiledLeanEnvironment",
         "rootModule": "StructuralExhaustion",
@@ -132,6 +166,20 @@ def test_catalog_is_the_compiled_schema_v6_ct1_to_ct17_registry() -> None:
         assert all(
             profile["tacticId"] == tactic["tacticId"]
             for profile in tactic["capabilityProfiles"]
+        )
+        concepts = tactic["capabilityConcepts"]
+        requirement_refs = {
+            item["ref"]
+            for capability in [tactic["capability"], *tactic["capabilityProfiles"]]
+            for item in capability["requiredDefinitions"]
+        }
+        assert {concept["requirementRef"] for concept in concepts} == requirement_refs
+        assert len({concept["conceptId"] for concept in concepts}) == len(concepts)
+        concept_ids = {concept["conceptId"] for concept in concepts}
+        assert all(
+            item["conceptId"] in concept_ids
+            for capability in [tactic["capability"], *tactic["capabilityProfiles"]]
+            for item in capability["requiredDefinitions"]
         )
         run_declaration = next(
             declaration
@@ -244,6 +292,9 @@ def test_mathlib_graph_profiles_are_framework_owned_and_reused() -> None:
     minimum_degree = (graph_root / "MinimumDegreeCycle.lean").read_text(
         encoding="utf-8"
     )
+    minimum_degree_routed = (
+        graph_root / "MinimumDegreeCycleRouted.lean"
+    ).read_text(encoding="utf-8")
     endpoint_parity = (graph_root / "EndpointParityCycle.lean").read_text(
         encoding="utf-8"
     )
@@ -263,6 +314,14 @@ def test_mathlib_graph_profiles_are_framework_owned_and_reused() -> None:
         "theorem dart_has_tight_endpoint",
     ):
         assert declaration in minimum_degree
+    for declaration in (
+        "def edgeRootedEncoding",
+        "def edgeRootedDeletionProfile",
+        "theorem routedDart_has_tight_endpoint",
+        "structure EdgeRootedDeletionPrefix",
+        "theorem exists_edgeRootedDeletionPrefix",
+    ):
+        assert declaration in minimum_degree_routed
     for declaration in (
         "structure Profile",
         "def ct6Run",
@@ -295,6 +354,10 @@ def test_mathlib_graph_profiles_are_framework_owned_and_reused() -> None:
         assert declaration in mantel
 
     assert "import StructuralExhaustion.Graph.MinimumDegreeCycle" in graph_umbrella
+    assert (
+        "import StructuralExhaustion.Graph.MinimumDegreeCycleRouted"
+        in graph_umbrella
+    )
     assert "import StructuralExhaustion.Graph.EndpointParityCycle" in graph_umbrella
     assert "import StructuralExhaustion.Graph.GreedyColoring" in graph_umbrella
     assert "import StructuralExhaustion.Graph.Mantel" in graph_umbrella
@@ -307,6 +370,22 @@ def test_mathlib_graph_profiles_are_framework_owned_and_reused() -> None:
     ).read_text(encoding="utf-8")
     assert "EndpointParityCycle.Profile.evenCycle" in even_problem
     assert "MinimumDegreeCycle.StaticInput" in erdos_problem
+
+    even_deletion = (
+        ROOT / "examples/even_cycle/EvenCycleExample/CT2Audit.lean"
+    ).read_text(encoding="utf-8")
+    erdos_ct1 = (
+        ROOT / "examples/erdos_64_eg/Erdos64EG/CT1.lean"
+    ).read_text(encoding="utf-8")
+    erdos_ct2 = (
+        ROOT / "examples/erdos_64_eg/Erdos64EG/CT2.lean"
+    ).read_text(encoding="utf-8")
+    assert "(staticInput V).cycleDeletionProfile" in even_deletion
+    assert "(staticInput V).edgeRootedEncoding" in erdos_ct1
+    assert "(staticInput V).edgeRootedDeletionProfile" in erdos_ct2
+    assert "TargetCertificateEncoding (P := problem V)" not in erdos_ct1
+    assert "structure VerifiedCT1CT2Prefix" not in erdos_ct2
+    assert "discover_disabled_of_closure" not in erdos_ct2
 
 
 def test_greedy_coloring_example_is_thin_and_complete() -> None:
@@ -368,7 +447,10 @@ def test_even_cycle_example_exposes_the_complete_run_surface() -> None:
         example_root / "EvenCycleExample/CT2Audit.lean"
     ).read_text(encoding="utf-8")
     assert "(staticInput V).ct2DeletionRule" in deletion_audit
-    assert ".dart_has_tight_endpoint" in deletion_audit
+    assert "localRoute_disabled" in deletion_audit
+    assert "MinimumDegreeCycleRouted" in deletion_audit
+    assert "(staticInput V).cycleDeletionProfile" in deletion_audit
+    assert "Routes.CT1ToCT2.LocalDeletion.rule" not in deletion_audit
     assert "heavyDartRun" in deletion_audit
     concrete = (example_root / "EvenCycleExample/Concrete.lean").read_text(
         encoding="utf-8"
@@ -486,12 +568,17 @@ def test_residual_registry_and_routes_are_explicit_and_framework_owned() -> None
     assert all(residual["semanticFields"] for residual in residuals)
     assert {route["routeId"] for route in catalog["routes"]} == {
         "CT1.residual.avoiding->CT2",
+        "CT1.residual.avoiding->CT2.localDeletion",
         "CT2.residual.separatingContext->CT3",
         "CT2.residual.criticality->CT10",
         "CT6.residual.activeLedger->CT9",
     }
     expected_semantic_discovery = {
         "CT1.residual.avoiding->CT2": {
+            "kind": "capabilityDiscovery",
+            "adapterType": None,
+        },
+        "CT1.residual.avoiding->CT2.localDeletion": {
             "kind": "capabilityDiscovery",
             "adapterType": None,
         },
@@ -554,6 +641,7 @@ def test_generated_schemas_are_exact_catalog_residual_and_route_projections() ->
         assert tactic_schema["allOf"][1]["const"] == tactic
         assert tactic_schema["x-capability"] == tactic["capability"]
         assert tactic_schema["x-capabilityProfiles"] == tactic["capabilityProfiles"]
+        assert tactic_schema["x-capabilityConcepts"] == tactic["capabilityConcepts"]
 
         nodes = {node["nodeId"]: node for node in tactic["nodes"]}
         for relative in item["nodeSchemas"]:
@@ -720,6 +808,20 @@ def test_repository_validator_accepts_and_rejects_contract_corruption() -> None:
     validate_tactic(errors, broken_tactic)
     assert any("generated output contract is empty" in error for error in errors)
 
+    broken_concepts = deepcopy(catalog["tactics"][0])
+    broken_concepts["capabilityConcepts"].pop()
+    errors = []
+    validate_tactic(errors, broken_concepts)
+    assert any("capability concepts omit requirements" in error for error in errors)
+
+    wrong_concept_link = deepcopy(catalog["tactics"][0])
+    wrong_concept_link["capability"]["requiredDefinitions"][0][
+        "conceptId"
+    ] = "CT1.capability.wrong"
+    errors = []
+    validate_tactic(errors, wrong_concept_link)
+    assert any("has conceptId" in error for error in errors)
+
     broken_routes = deepcopy(catalog)
     broken_routes["routes"][0]["sourceResidualKind"] = "CT1.residual.unknown"
     errors = []
@@ -727,9 +829,14 @@ def test_repository_validator_accepts_and_rejects_contract_corruption() -> None:
     assert any("source residual kind is not registered" in error for error in errors)
 
     broken_authoring = deepcopy(catalog)
-    broken_authoring["routes"][1]["authoringBoundary"]["semanticDiscovery"][
-        "adapterType"
-    ] = "StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery"
+    separating_route = next(
+        route
+        for route in broken_authoring["routes"]
+        if route["routeId"] == "CT2.residual.separatingContext->CT3"
+    )
+    separating_route["authoringBoundary"]["semanticDiscovery"]["adapterType"] = (
+        "StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery"
+    )
     errors = []
     validate_routes(errors, broken_authoring)
     assert any("not the semantic adapter projection" in error for error in errors)

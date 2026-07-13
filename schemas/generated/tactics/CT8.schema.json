@@ -571,41 +571,163 @@
         "namespace": "StructuralExhaustion.CT8",
         "loopDecrease": null,
         "capabilityProfiles": [],
+        "capabilityConcepts": [
+          {
+            "requirementRef": "Capability.State",
+            "presentation": {
+              "plainExplanation": "The type of local states appearing in the finite sequence analyzed by CT8.",
+              "mathematicalDefinition": "\\mathcal{S}",
+              "label": "Sequence state"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT8.Capability P → Type uState",
+              "name": "StructuralExhaustion.CT8.Capability.State",
+              "kind": "definition"
+            },
+            "conceptId": "CT8.capability.state"
+          },
+          {
+            "requirementRef": "Capability.ExactType",
+            "presentation": {
+              "plainExplanation": "The type of exact classifications used to detect repeated local states.",
+              "mathematicalDefinition": "\\mathcal{T}",
+              "label": "Exact state type"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT8.Capability P → Type uType",
+              "name": "StructuralExhaustion.CT8.Capability.ExactType",
+              "kind": "definition"
+            },
+            "conceptId": "CT8.capability.exactType"
+          },
+          {
+            "requirementRef": "Capability.ResponseContext",
+            "presentation": {
+              "plainExplanation": "The type of external tests used to compare two repeated states.",
+              "mathematicalDefinition": "\\mathcal{K}",
+              "label": "Response context"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → CT8.Capability P → Type uResponseContext",
+              "name": "StructuralExhaustion.CT8.Capability.ResponseContext",
+              "kind": "definition"
+            },
+            "conceptId": "CT8.capability.responseContext"
+          },
+          {
+            "requirementRef": "Capability.exactTypes",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of all exact state types.",
+              "mathematicalDefinition": "\\operatorname{exactTypes}=\\mathcal{T}",
+              "label": "Finite exact-type enumeration"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT8.Capability P) → FinEnum self.ExactType",
+              "name": "StructuralExhaustion.CT8.Capability.exactTypes",
+              "kind": "definition"
+            },
+            "conceptId": "CT8.capability.exactTypes"
+          },
+          {
+            "requirementRef": "Capability.responseContexts",
+            "presentation": {
+              "plainExplanation": "An exhaustive ordered enumeration of all external response tests.",
+              "mathematicalDefinition": "\\operatorname{responseContexts}=\\mathcal{K}",
+              "label": "Finite response contexts"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT8.Capability P) → FinEnum self.ResponseContext",
+              "name": "StructuralExhaustion.CT8.Capability.responseContexts",
+              "kind": "definition"
+            },
+            "conceptId": "CT8.capability.responseContexts"
+          },
+          {
+            "requirementRef": "Capability.exactType",
+            "presentation": {
+              "plainExplanation": "Assigns the exact finite type used to detect repetitions.",
+              "mathematicalDefinition": "\\tau:\\mathcal{S}\\to\\mathcal{T}",
+              "label": "Exact-type classifier"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT8.Capability P) → self.State → self.ExactType",
+              "name": "StructuralExhaustion.CT8.Capability.exactType",
+              "kind": "definition"
+            },
+            "conceptId": "CT8.capability.exactTypeFunction"
+          },
+          {
+            "requirementRef": "Capability.response",
+            "presentation": {
+              "plainExplanation": "Computes a state's exact Boolean response in an external context.",
+              "mathematicalDefinition": "R:\\mathcal{S}\\times\\mathcal{K}\\to\\{0,1\\}",
+              "label": "State response"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} → (self : CT8.Capability P) → self.State → self.ResponseContext → Bool",
+              "name": "StructuralExhaustion.CT8.Capability.response",
+              "kind": "definition"
+            },
+            "conceptId": "CT8.capability.response"
+          },
+          {
+            "requirementRef": "Input.remove",
+            "presentation": {
+              "plainExplanation": "Constructs a certified smaller ambient object from a chosen pair of repeated states.",
+              "mathematicalDefinition": "\\operatorname{remove}(s_1,s_2)\\prec G",
+              "label": "Repeated-state removal"
+            },
+            "formalDeclaration": {
+              "type": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT8.Input capability ctx → capability.State → capability.State → Core.SmallerObject P ctx.G",
+              "name": "StructuralExhaustion.CT8.Input.remove",
+              "kind": "definition"
+            },
+            "conceptId": "CT8.input.remove"
+          }
+        ],
         "capability": {
           "tacticId": "CT8",
           "requiredInstances": [],
           "requiredDefinitions": [
             {
               "ref": "Capability.State",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT8.capability.state"
             },
             {
               "ref": "Capability.ExactType",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT8.capability.exactType"
             },
             {
               "ref": "Capability.ResponseContext",
-              "provision": "user_definition"
+              "provision": "user_definition",
+              "conceptId": "CT8.capability.responseContext"
             },
             {
               "ref": "Capability.exactTypes",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT8.capability.exactTypes"
             },
             {
               "ref": "Capability.responseContexts",
-              "provision": "user_finite_enumeration"
+              "provision": "user_finite_enumeration",
+              "conceptId": "CT8.capability.responseContexts"
             },
             {
               "ref": "Capability.exactType",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT8.capability.exactTypeFunction"
             },
             {
               "ref": "Capability.response",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT8.capability.response"
             },
             {
               "ref": "Input.remove",
-              "provision": "user_operator"
+              "provision": "user_operator",
+              "conceptId": "CT8.input.remove"
             }
           ],
           "derivedOperations": [
@@ -756,35 +878,43 @@
     "requiredDefinitions": [
       {
         "ref": "Capability.State",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT8.capability.state"
       },
       {
         "ref": "Capability.ExactType",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT8.capability.exactType"
       },
       {
         "ref": "Capability.ResponseContext",
-        "provision": "user_definition"
+        "provision": "user_definition",
+        "conceptId": "CT8.capability.responseContext"
       },
       {
         "ref": "Capability.exactTypes",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT8.capability.exactTypes"
       },
       {
         "ref": "Capability.responseContexts",
-        "provision": "user_finite_enumeration"
+        "provision": "user_finite_enumeration",
+        "conceptId": "CT8.capability.responseContexts"
       },
       {
         "ref": "Capability.exactType",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT8.capability.exactTypeFunction"
       },
       {
         "ref": "Capability.response",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT8.capability.response"
       },
       {
         "ref": "Input.remove",
-        "provision": "user_operator"
+        "provision": "user_operator",
+        "conceptId": "CT8.input.remove"
       }
     ],
     "derivedOperations": [
@@ -811,5 +941,119 @@
     ],
     "capabilityId": "StructuralExhaustion.CT8.reference"
   },
-  "x-capabilityProfiles": []
+  "x-capabilityProfiles": [],
+  "x-capabilityConcepts": [
+    {
+      "requirementRef": "Capability.State",
+      "presentation": {
+        "plainExplanation": "The type of local states appearing in the finite sequence analyzed by CT8.",
+        "mathematicalDefinition": "\\mathcal{S}",
+        "label": "Sequence state"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT8.Capability P → Type uState",
+        "name": "StructuralExhaustion.CT8.Capability.State",
+        "kind": "definition"
+      },
+      "conceptId": "CT8.capability.state"
+    },
+    {
+      "requirementRef": "Capability.ExactType",
+      "presentation": {
+        "plainExplanation": "The type of exact classifications used to detect repeated local states.",
+        "mathematicalDefinition": "\\mathcal{T}",
+        "label": "Exact state type"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT8.Capability P → Type uType",
+        "name": "StructuralExhaustion.CT8.Capability.ExactType",
+        "kind": "definition"
+      },
+      "conceptId": "CT8.capability.exactType"
+    },
+    {
+      "requirementRef": "Capability.ResponseContext",
+      "presentation": {
+        "plainExplanation": "The type of external tests used to compare two repeated states.",
+        "mathematicalDefinition": "\\mathcal{K}",
+        "label": "Response context"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → CT8.Capability P → Type uResponseContext",
+        "name": "StructuralExhaustion.CT8.Capability.ResponseContext",
+        "kind": "definition"
+      },
+      "conceptId": "CT8.capability.responseContext"
+    },
+    {
+      "requirementRef": "Capability.exactTypes",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of all exact state types.",
+        "mathematicalDefinition": "\\operatorname{exactTypes}=\\mathcal{T}",
+        "label": "Finite exact-type enumeration"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT8.Capability P) → FinEnum self.ExactType",
+        "name": "StructuralExhaustion.CT8.Capability.exactTypes",
+        "kind": "definition"
+      },
+      "conceptId": "CT8.capability.exactTypes"
+    },
+    {
+      "requirementRef": "Capability.responseContexts",
+      "presentation": {
+        "plainExplanation": "An exhaustive ordered enumeration of all external response tests.",
+        "mathematicalDefinition": "\\operatorname{responseContexts}=\\mathcal{K}",
+        "label": "Finite response contexts"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT8.Capability P) → FinEnum self.ResponseContext",
+        "name": "StructuralExhaustion.CT8.Capability.responseContexts",
+        "kind": "definition"
+      },
+      "conceptId": "CT8.capability.responseContexts"
+    },
+    {
+      "requirementRef": "Capability.exactType",
+      "presentation": {
+        "plainExplanation": "Assigns the exact finite type used to detect repetitions.",
+        "mathematicalDefinition": "\\tau:\\mathcal{S}\\to\\mathcal{T}",
+        "label": "Exact-type classifier"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT8.Capability P) → self.State → self.ExactType",
+        "name": "StructuralExhaustion.CT8.Capability.exactType",
+        "kind": "definition"
+      },
+      "conceptId": "CT8.capability.exactTypeFunction"
+    },
+    {
+      "requirementRef": "Capability.response",
+      "presentation": {
+        "plainExplanation": "Computes a state's exact Boolean response in an external context.",
+        "mathematicalDefinition": "R:\\mathcal{S}\\times\\mathcal{K}\\to\\{0,1\\}",
+        "label": "State response"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} → (self : CT8.Capability P) → self.State → self.ResponseContext → Bool",
+        "name": "StructuralExhaustion.CT8.Capability.response",
+        "kind": "definition"
+      },
+      "conceptId": "CT8.capability.response"
+    },
+    {
+      "requirementRef": "Input.remove",
+      "presentation": {
+        "plainExplanation": "Constructs a certified smaller ambient object from a chosen pair of repeated states.",
+        "mathematicalDefinition": "\\operatorname{remove}(s_1,s_2)\\prec G",
+        "label": "Repeated-state removal"
+      },
+      "formalDeclaration": {
+        "type": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT8.Input capability ctx → capability.State → capability.State → Core.SmallerObject P ctx.G",
+        "name": "StructuralExhaustion.CT8.Input.remove",
+        "kind": "definition"
+      },
+      "conceptId": "CT8.input.remove"
+    }
+  ]
 }

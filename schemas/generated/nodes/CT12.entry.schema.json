@@ -73,7 +73,7 @@
     "kind": "compiledLeanEnvironment",
     "catalog": "generated/lean-machines.json",
     "tacticId": "CT12",
-    "apiVersion": "CT12-v4",
+    "apiVersion": "CT12-v5",
     "namespace": "StructuralExhaustion.CT12"
   },
   "x-automationContract": {

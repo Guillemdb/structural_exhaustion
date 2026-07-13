@@ -1,5 +1,5 @@
 import Erdos64EG.InternalProblem
-import StructuralExhaustion.Graph.EdgeRootedReturn
+import StructuralExhaustion.Graph.MinimumDegreeCycleRouted
 
 namespace Erdos64EG.Internal
 
@@ -91,8 +91,10 @@ theorem hasPowerCycle_iff_hasRootedReturn
 /-- A power-of-two target cycle is equivalent to one edge-rooted Mersenne
 return. -/
 theorem target_iff_hasMersenneReturn {V : Type u} (object : Object V) :
-    Target object ↔ HasMersenneReturn object.graph :=
-  hasCycleWithLength_iff_hasEdgeRootedReturn object.graph PowerOfTwoLength
+    Target object ↔ HasMersenneReturn object.graph := by
+  change (staticInput V).Target object ↔
+    HasEdgeRootedReturn object.graph (staticInput V).ReturnLengthOK
+  exact (staticInput V).target_iff_hasRootedReturn object
 
 /-- Exact counterexample form of the target algebra: every oriented return
 set is disjoint from the Mersenne set. -/
@@ -101,8 +103,10 @@ theorem not_target_iff_returnSets_disjoint {V : Type u}
     ¬ Target object ↔
       ∀ dart : object.graph.Dart,
         Disjoint (returnSet object.graph dart) MersenneSet := by
-  simpa [Target, staticInput, MinimumDegreeCycle.StaticInput.Target,
-    returnSet, MersenneSet, MersenneLength] using
-    (noCycleWithLength_iff_returnSets_disjoint object.graph PowerOfTwoLength)
+  change ¬(staticInput V).Target object ↔
+    ∀ dart : object.graph.Dart,
+      Disjoint (edgeReturnSet object.graph dart)
+        {length | (staticInput V).ReturnLengthOK length}
+  exact (staticInput V).not_target_iff_returnSets_disjoint object
 
 end Erdos64EG.Internal
