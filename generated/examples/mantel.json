@@ -1,0 +1,669 @@
+{
+  "artifactType": "structuralExhaustionExample",
+  "schemaVersion": "1.0.0",
+  "sourceOfTruth": {
+    "rootModule": "MantelExample",
+    "kind": "compiledLeanEnvironment",
+    "descriptor": "MantelExample.WebExport.descriptor"
+  },
+  "exampleId": "mantel",
+  "title": "Mantel's theorem",
+  "summary": "A complete CT11 localization proof, with K₄ isolated as a machine-only violating fixture and C₅ as a genuine triangle-free theorem instance.",
+  "proofStatus": "complete",
+  "tacticIds": [
+    "CT11"
+  ],
+  "workflows": [
+    {
+      "workflowId": "proof",
+      "title": "Mantel bound by CT11 localization",
+      "summary": "Follow the contradiction proof from a failed numerical bound through CT11 localization to the triangle-free degree bound.",
+      "purpose": "Follow the contradiction proof from a failed numerical bound through CT11 localization to the triangle-free degree bound.",
+      "completion": "complete",
+      "stages": [
+        {
+          "stageId": "proof.problem",
+          "title": "Triangle-free Mantel target",
+          "summary": "The external problem supplies a finite graph, a triangle-free hypothesis, and the standard quarter-square edge bound.",
+          "kind": "problem",
+          "primaryDeclarationId": "MantelExample.Target",
+          "evidenceDeclarationIds": [
+            "StructuralExhaustion.Graph.Mantel.degree_add_degree_le_card_of_triangleFree"
+          ]
+        },
+        {
+          "stageId": "proof.budget",
+          "title": "Negative global dart budget",
+          "summary": "Negating the Mantel inequality makes the exact sum of local endpoint-degree budgets strictly negative.",
+          "kind": "adapter",
+          "primaryDeclarationId": "StructuralExhaustion.Graph.Mantel.deficit_of_mantel_violation",
+          "evidenceDeclarationIds": [
+            "StructuralExhaustion.Graph.Mantel.sum_localBudget_eq",
+            "StructuralExhaustion.Graph.Mantel.four_mul_edgeCount_sq_le_card_mul_degreeSquareSum"
+          ]
+        },
+        {
+          "stageId": "proof.ct11",
+          "title": "CT11 deficit localization",
+          "summary": "CT11 chooses an oriented edge whose local endpoint-degree budget is negative.",
+          "kind": "tactic",
+          "primaryDeclarationId": "MantelExample.ct11Run",
+          "evidenceDeclarationIds": [
+            "StructuralExhaustion.Graph.Mantel.run_terminal_localized"
+          ],
+          "tacticId": "CT11"
+        },
+        {
+          "stageId": "proof.residual",
+          "title": "Offending dart residual",
+          "summary": "The localized residual states that the selected edge's endpoint degrees sum to more than the vertex count.",
+          "kind": "certificate",
+          "primaryDeclarationId": "StructuralExhaustion.Graph.Mantel.offendingResidual",
+          "evidenceDeclarationIds": [
+            "StructuralExhaustion.Graph.Mantel.offending_degree_sum_gt"
+          ]
+        },
+        {
+          "stageId": "proof.theorem",
+          "title": "Mantel theorem",
+          "summary": "Triangle-freeness bounds the same endpoint-degree sum from above, contradicting the CT11 residual.",
+          "kind": "theorem",
+          "primaryDeclarationId": "MantelExample.mantel",
+          "evidenceDeclarationIds": [
+            "StructuralExhaustion.Graph.Mantel.four_mul_edgeCount_le_card_sq_of_triangleFree",
+            "StructuralExhaustion.Graph.Mantel.edgeCount_le_card_sq_div_four_of_triangleFree"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "linkId": "proof.problem-budget",
+          "sourceStageId": "proof.problem",
+          "targetStageId": "proof.budget",
+          "kind": "proofData",
+          "label": "negate target",
+          "summary": "A hypothetical failure of the target is converted, using the degree-sum identity and Cauchy–Schwarz, into a negative total budget.",
+          "evidenceDeclarationIds": [
+            "StructuralExhaustion.Graph.Mantel.deficit_of_mantel_violation"
+          ]
+        },
+        {
+          "linkId": "proof.budget-ct11",
+          "sourceStageId": "proof.budget",
+          "targetStageId": "proof.ct11",
+          "kind": "frameworkComposition",
+          "label": "instantiate CT11",
+          "summary": "The graph-specific profile supplies dart cells and local budgets to the generic CT11 negative-budget runner.",
+          "evidenceDeclarationIds": []
+        },
+        {
+          "linkId": "proof.ct11-residual",
+          "sourceStageId": "proof.ct11",
+          "targetStageId": "proof.residual",
+          "kind": "proofData",
+          "label": "localized deficit",
+          "summary": "CT11's localized terminal exposes the canonical dart and its certified negative local budget.",
+          "evidenceDeclarationIds": [
+            "StructuralExhaustion.Graph.Mantel.offending_degree_sum_gt"
+          ]
+        },
+        {
+          "linkId": "proof.residual-theorem",
+          "sourceStageId": "proof.residual",
+          "targetStageId": "proof.theorem",
+          "kind": "proofData",
+          "label": "contradicts triangle-freeness",
+          "summary": "The residual's strict lower bound contradicts the neighborhood-disjointness upper bound forced by triangle-freeness.",
+          "evidenceDeclarationIds": [
+            "StructuralExhaustion.Graph.Mantel.degree_add_degree_le_card_of_triangleFree"
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "k4-localization",
+      "title": "K₄ CT11 localization fixture",
+      "summary": "Execute and pin CT11 on a graph that violates the numerical bound; K₄ is intentionally not a Mantel-theorem instance.",
+      "purpose": "Execute and pin CT11 on a graph that violates the numerical bound; K₄ is intentionally not a Mantel-theorem instance.",
+      "completion": "complete",
+      "stages": [
+        {
+          "stageId": "k4-localization.fixture",
+          "title": "K₄ violating fixture",
+          "summary": "K₄ supplies a closed proof that the multiplication-form Mantel bound is violated.",
+          "kind": "fixture",
+          "primaryDeclarationId": "MantelExample.ConcreteK4.object",
+          "evidenceDeclarationIds": [
+            "MantelExample.ConcreteK4.violation"
+          ]
+        },
+        {
+          "stageId": "k4-localization.ct11",
+          "title": "Concrete CT11 execution",
+          "summary": "The exact run localizes the first offending dart in the declared finite order.",
+          "kind": "tactic",
+          "primaryDeclarationId": "MantelExample.ConcreteK4.execution",
+          "evidenceDeclarationIds": [
+            "MantelExample.ConcreteK4.terminal_localized",
+            "MantelExample.ConcreteK4.trace_exact",
+            "MantelExample.ConcreteK4.selected_dart_exact"
+          ],
+          "tacticId": "CT11"
+        },
+        {
+          "stageId": "k4-localization.audit",
+          "title": "Localized-run audit",
+          "summary": "The fixture records the localized terminal, full trace, and selected oriented edge.",
+          "kind": "certificate",
+          "primaryDeclarationId": "MantelExample.ConcreteK4.selected_dart_exact",
+          "evidenceDeclarationIds": [
+            "MantelExample.ConcreteK4.terminal_localized",
+            "MantelExample.ConcreteK4.trace_exact"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "linkId": "k4-localization.fixture-ct11",
+          "sourceStageId": "k4-localization.fixture",
+          "targetStageId": "k4-localization.ct11",
+          "kind": "frameworkComposition",
+          "label": "run violating input",
+          "summary": "The concrete violation is converted to a negative budget and passed to CT11.",
+          "evidenceDeclarationIds": []
+        },
+        {
+          "linkId": "k4-localization.ct11-audit",
+          "sourceStageId": "k4-localization.ct11",
+          "targetStageId": "k4-localization.audit",
+          "kind": "proofData",
+          "label": "pins execution",
+          "summary": "Kernel-checked equalities pin the exact terminal, trace, and selected dart.",
+          "evidenceDeclarationIds": [
+            "MantelExample.ConcreteK4.trace_exact"
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "c5-theorem",
+      "title": "C₅ Mantel-theorem fixture",
+      "summary": "Apply the completed theorem to a concrete non-bipartite triangle-free graph, separately from the K₄ machine fixture.",
+      "purpose": "Apply the completed theorem to a concrete non-bipartite triangle-free graph, separately from the K₄ machine fixture.",
+      "completion": "complete",
+      "stages": [
+        {
+          "stageId": "c5-theorem.fixture",
+          "title": "C₅ finite graph",
+          "summary": "The five-cycle is represented with Mathlib's canonical cycle graph and explicit finite input.",
+          "kind": "fixture",
+          "primaryDeclarationId": "MantelExample.ConcreteC5.object",
+          "evidenceDeclarationIds": [
+            "MantelExample.ConcreteC5.edgeCount_exact"
+          ]
+        },
+        {
+          "stageId": "c5-theorem.triangle-free",
+          "title": "Triangle-free certificate",
+          "summary": "A closed finite computation certifies that C₅ contains no three-clique.",
+          "kind": "certificate",
+          "primaryDeclarationId": "MantelExample.ConcreteC5.triangleFree",
+          "evidenceDeclarationIds": []
+        },
+        {
+          "stageId": "c5-theorem.bound",
+          "title": "Concrete Mantel bound",
+          "summary": "The public Mantel theorem consumes the triangle-free certificate and proves the target for C₅.",
+          "kind": "theorem",
+          "primaryDeclarationId": "MantelExample.ConcreteC5.mantel_bound",
+          "evidenceDeclarationIds": [
+            "MantelExample.mantel"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "linkId": "c5-theorem.fixture-certificate",
+          "sourceStageId": "c5-theorem.fixture",
+          "targetStageId": "c5-theorem.triangle-free",
+          "kind": "proofData",
+          "label": "finite check",
+          "summary": "The concrete adjacency decision procedure proves the required triangle-free hypothesis.",
+          "evidenceDeclarationIds": []
+        },
+        {
+          "linkId": "c5-theorem.certificate-bound",
+          "sourceStageId": "c5-theorem.triangle-free",
+          "targetStageId": "c5-theorem.bound",
+          "kind": "proofData",
+          "label": "invoke theorem",
+          "summary": "The C₅ certificate instantiates the hypothesis of the completed generic Mantel theorem.",
+          "evidenceDeclarationIds": [
+            "MantelExample.ConcreteC5.mantel_bound"
+          ]
+        }
+      ]
+    }
+  ],
+  "interfaceBindings": [
+    {
+      "bindingId": "proof.ct11-profile",
+      "workflowId": "proof",
+      "stageId": "proof.ct11",
+      "tacticId": "CT11",
+      "role": "negative-budget profile",
+      "summary": "The Mantel profile chooses graph darts as cells and endpoint-degree deficit as the local CT11 budget.",
+      "problemDeclarationId": "StructuralExhaustion.Graph.Mantel.profile",
+      "frameworkDeclarationId": "StructuralExhaustion.CT11.run"
+    },
+    {
+      "bindingId": "k4-localization.ct11-profile",
+      "workflowId": "k4-localization",
+      "stageId": "k4-localization.ct11",
+      "tacticId": "CT11",
+      "role": "concrete negative-budget input",
+      "summary": "The K₄ numerical violation instantiates the same graph-specific CT11 profile without claiming triangle-freeness.",
+      "problemDeclarationId": "MantelExample.ConcreteK4.execution",
+      "frameworkDeclarationId": "StructuralExhaustion.CT11.run"
+    }
+  ],
+  "declarations": [
+    {
+      "declarationId": "MantelExample.ConcreteC5.edgeCount_exact",
+      "name": "MantelExample.ConcreteC5.edgeCount_exact",
+      "kind": "theorem",
+      "type": "ConcreteC5.object.edgeCount = 5",
+      "sourceId": "MantelExample.Concrete",
+      "startLine": 68,
+      "startColumn": 1,
+      "endLine": 69,
+      "endColumn": 16,
+      "selectionStartLine": 68,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 68,
+      "selectionEndColumn": 24
+    },
+    {
+      "declarationId": "MantelExample.ConcreteC5.mantel_bound",
+      "name": "MantelExample.ConcreteC5.mantel_bound",
+      "kind": "theorem",
+      "type": "Target ConcreteC5.object",
+      "sourceId": "MantelExample.Concrete",
+      "startLine": 71,
+      "startColumn": 1,
+      "endLine": 71,
+      "endColumn": 67,
+      "selectionStartLine": 71,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 71,
+      "selectionEndColumn": 21
+    },
+    {
+      "declarationId": "MantelExample.ConcreteC5.object",
+      "name": "MantelExample.ConcreteC5.object",
+      "kind": "definition",
+      "type": "StructuralExhaustion.Graph.FiniteObject ConcreteC5.Vertex",
+      "sourceId": "MantelExample.Concrete",
+      "startLine": 60,
+      "startColumn": 1,
+      "endLine": 60,
+      "endColumn": 57,
+      "selectionStartLine": 60,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 60,
+      "selectionEndColumn": 11
+    },
+    {
+      "declarationId": "MantelExample.ConcreteC5.triangleFree",
+      "name": "MantelExample.ConcreteC5.triangleFree",
+      "kind": "theorem",
+      "type": "ConcreteC5.object.graph.CliqueFree 3",
+      "sourceId": "MantelExample.Concrete",
+      "startLine": 62,
+      "startColumn": 1,
+      "endLine": 66,
+      "endColumn": 16,
+      "selectionStartLine": 62,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 62,
+      "selectionEndColumn": 21
+    },
+    {
+      "declarationId": "MantelExample.ConcreteK4.execution",
+      "name": "MantelExample.ConcreteK4.execution",
+      "kind": "definition",
+      "type": "StructuralExhaustion.CT11.ExecutionResult (StructuralExhaustion.Graph.Mantel.profile ConcreteK4.object).capability\n  ((StructuralExhaustion.Graph.Mantel.profile ConcreteK4.object).input ConcreteK4.object.context\n    (StructuralExhaustion.Graph.Mantel.dartCells ConcreteK4.object) ⋯)",
+      "sourceId": "MantelExample.Concrete",
+      "startLine": 29,
+      "startColumn": 1,
+      "endLine": 29,
+      "endColumn": 42,
+      "selectionStartLine": 29,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 29,
+      "selectionEndColumn": 14
+    },
+    {
+      "declarationId": "MantelExample.ConcreteK4.object",
+      "name": "MantelExample.ConcreteK4.object",
+      "kind": "definition",
+      "type": "StructuralExhaustion.Graph.FiniteObject ConcreteK4.Vertex",
+      "sourceId": "MantelExample.Concrete",
+      "startLine": 24,
+      "startColumn": 1,
+      "endLine": 24,
+      "endColumn": 57,
+      "selectionStartLine": 24,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 24,
+      "selectionEndColumn": 11
+    },
+    {
+      "declarationId": "MantelExample.ConcreteK4.selected_dart_exact",
+      "name": "MantelExample.ConcreteK4.selected_dart_exact",
+      "kind": "theorem",
+      "type": "(StructuralExhaustion.Graph.Mantel.offendingResidual ConcreteK4.object ConcreteK4.violation).cell.toProd = (0, 1)",
+      "sourceId": "MantelExample.Concrete",
+      "startLine": 39,
+      "startColumn": 1,
+      "endLine": 41,
+      "endColumn": 16,
+      "selectionStartLine": 39,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 39,
+      "selectionEndColumn": 28
+    },
+    {
+      "declarationId": "MantelExample.ConcreteK4.terminal_localized",
+      "name": "MantelExample.ConcreteK4.terminal_localized",
+      "kind": "theorem",
+      "type": "ConcreteK4.execution.terminal = StructuralExhaustion.CT11.Graph.Terminal.localized",
+      "sourceId": "MantelExample.Concrete",
+      "startLine": 31,
+      "startColumn": 1,
+      "endLine": 32,
+      "endColumn": 55,
+      "selectionStartLine": 31,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 31,
+      "selectionEndColumn": 27
+    },
+    {
+      "declarationId": "MantelExample.ConcreteK4.trace_exact",
+      "name": "MantelExample.ConcreteK4.trace_exact",
+      "kind": "theorem",
+      "type": "StructuralExhaustion.CT11.ExecutionResult.trace (StructuralExhaustion.Graph.Mantel.profile ConcreteK4.object).capability\n    ((StructuralExhaustion.Graph.Mantel.profile ConcreteK4.object).input ConcreteK4.object.context\n      (StructuralExhaustion.Graph.Mantel.dartCells ConcreteK4.object) ⋯)\n    ConcreteK4.execution =\n  [StructuralExhaustion.CT11.Graph.NodeId.entry, StructuralExhaustion.CT11.Graph.NodeId.decomposition,\n    StructuralExhaustion.CT11.Graph.NodeId.admissibility, StructuralExhaustion.CT11.Graph.NodeId.localization,\n    StructuralExhaustion.CT11.Graph.NodeId.localizedTerminal]",
+      "sourceId": "MantelExample.Concrete",
+      "startLine": 34,
+      "startColumn": 1,
+      "endLine": 37,
+      "endColumn": 16,
+      "selectionStartLine": 34,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 34,
+      "selectionEndColumn": 20
+    },
+    {
+      "declarationId": "MantelExample.ConcreteK4.violation",
+      "name": "MantelExample.ConcreteK4.violation",
+      "kind": "theorem",
+      "type": "FinEnum.card ConcreteK4.Vertex ^ 2 < 4 * ConcreteK4.object.edgeCount",
+      "sourceId": "MantelExample.Concrete",
+      "startLine": 26,
+      "startColumn": 1,
+      "endLine": 27,
+      "endColumn": 16,
+      "selectionStartLine": 26,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 26,
+      "selectionEndColumn": 18
+    },
+    {
+      "declarationId": "MantelExample.Target",
+      "name": "MantelExample.Target",
+      "kind": "definition",
+      "type": "{V : Type u} → StructuralExhaustion.Graph.FiniteObject V → Prop",
+      "sourceId": "MantelExample.Problem",
+      "startLine": 9,
+      "startColumn": 1,
+      "endLine": 11,
+      "endColumn": 56,
+      "selectionStartLine": 10,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 10,
+      "selectionEndColumn": 14
+    },
+    {
+      "declarationId": "MantelExample.ct11Run",
+      "name": "MantelExample.ct11Run",
+      "kind": "definition",
+      "type": "{V : Type u} →\n  (object : StructuralExhaustion.Graph.FiniteObject V) →\n    (violation : FinEnum.card V ^ 2 < 4 * object.edgeCount) →\n      StructuralExhaustion.CT11.ExecutionResult (StructuralExhaustion.Graph.Mantel.profile object).capability\n        ((StructuralExhaustion.Graph.Mantel.profile object).input object.context\n          (StructuralExhaustion.Graph.Mantel.dartCells object) ⋯)",
+      "sourceId": "MantelExample.Run",
+      "startLine": 16,
+      "startColumn": 1,
+      "endLine": 20,
+      "endColumn": 36,
+      "selectionStartLine": 18,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 18,
+      "selectionEndColumn": 15
+    },
+    {
+      "declarationId": "MantelExample.mantel",
+      "name": "MantelExample.mantel",
+      "kind": "theorem",
+      "type": "∀ {V : Type u} (object : StructuralExhaustion.Graph.FiniteObject V), object.graph.CliqueFree 3 → Target object",
+      "sourceId": "MantelExample.Run",
+      "startLine": 9,
+      "startColumn": 1,
+      "endLine": 14,
+      "endColumn": 81,
+      "selectionStartLine": 12,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 12,
+      "selectionEndColumn": 15
+    },
+    {
+      "declarationId": "StructuralExhaustion.CT11.run",
+      "name": "StructuralExhaustion.CT11.run",
+      "kind": "definition",
+      "type": "{P : StructuralExhaustion.Core.Problem} →\n  (capability : StructuralExhaustion.CT11.Capability P) →\n    (input : StructuralExhaustion.CT11.Input capability) → StructuralExhaustion.CT11.ExecutionResult capability input",
+      "sourceId": "StructuralExhaustion.CT11.Execution",
+      "startLine": 35,
+      "startColumn": 1,
+      "endLine": 35,
+      "endColumn": 76,
+      "selectionStartLine": 35,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 35,
+      "selectionEndColumn": 8
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.Mantel.deficit_of_mantel_violation",
+      "name": "StructuralExhaustion.Graph.Mantel.deficit_of_mantel_violation",
+      "kind": "theorem",
+      "type": "∀ {V : Type u_1} (object : StructuralExhaustion.Graph.FiniteObject V),\n  FinEnum.card V ^ 2 < 4 * object.edgeCount →\n    (List.map (StructuralExhaustion.Graph.Mantel.localBudget object)\n          (StructuralExhaustion.Graph.Mantel.dartCells object).values).sum <\n      0",
+      "sourceId": "StructuralExhaustion.Graph.Mantel",
+      "startLine": 164,
+      "startColumn": 1,
+      "endLine": 177,
+      "endColumn": 35,
+      "selectionStartLine": 166,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 166,
+      "selectionEndColumn": 36
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.Mantel.degree_add_degree_le_card_of_triangleFree",
+      "name": "StructuralExhaustion.Graph.Mantel.degree_add_degree_le_card_of_triangleFree",
+      "kind": "theorem",
+      "type": "∀ {V : Type u_1} (object : StructuralExhaustion.Graph.FiniteObject V),\n  object.graph.CliqueFree 3 →\n    ∀ (dart : object.graph.Dart), object.degree dart.toProd.1 + object.degree dart.toProd.2 ≤ FinEnum.card V",
+      "sourceId": "StructuralExhaustion.Graph.Mantel",
+      "startLine": 81,
+      "startColumn": 1,
+      "endLine": 112,
+      "endColumn": 71,
+      "selectionStartLine": 83,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 83,
+      "selectionEndColumn": 50
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.Mantel.edgeCount_le_card_sq_div_four_of_triangleFree",
+      "name": "StructuralExhaustion.Graph.Mantel.edgeCount_le_card_sq_div_four_of_triangleFree",
+      "kind": "theorem",
+      "type": "∀ {V : Type u_1} (object : StructuralExhaustion.Graph.FiniteObject V),\n  object.graph.CliqueFree 3 → object.edgeCount ≤ FinEnum.card V ^ 2 / 4",
+      "sourceId": "StructuralExhaustion.Graph.Mantel",
+      "startLine": 229,
+      "startColumn": 1,
+      "endLine": 235,
+      "endColumn": 74,
+      "selectionStartLine": 230,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 230,
+      "selectionEndColumn": 54
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.Mantel.four_mul_edgeCount_le_card_sq_of_triangleFree",
+      "name": "StructuralExhaustion.Graph.Mantel.four_mul_edgeCount_le_card_sq_of_triangleFree",
+      "kind": "theorem",
+      "type": "∀ {V : Type u_1} (object : StructuralExhaustion.Graph.FiniteObject V),\n  object.graph.CliqueFree 3 → 4 * object.edgeCount ≤ FinEnum.card V ^ 2",
+      "sourceId": "StructuralExhaustion.Graph.Mantel",
+      "startLine": 217,
+      "startColumn": 1,
+      "endLine": 227,
+      "endColumn": 8,
+      "selectionStartLine": 218,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 218,
+      "selectionEndColumn": 54
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.Mantel.four_mul_edgeCount_sq_le_card_mul_degreeSquareSum",
+      "name": "StructuralExhaustion.Graph.Mantel.four_mul_edgeCount_sq_le_card_mul_degreeSquareSum",
+      "kind": "theorem",
+      "type": "∀ {V : Type u_1} (object : StructuralExhaustion.Graph.FiniteObject V),\n  (2 * object.edgeCount) ^ 2 ≤ FinEnum.card V * StructuralExhaustion.Graph.Mantel.degreeSquareSum object",
+      "sourceId": "StructuralExhaustion.Graph.Mantel",
+      "startLine": 146,
+      "startColumn": 1,
+      "endLine": 162,
+      "endColumn": 46,
+      "selectionStartLine": 148,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 148,
+      "selectionEndColumn": 58
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.Mantel.offendingResidual",
+      "name": "StructuralExhaustion.Graph.Mantel.offendingResidual",
+      "kind": "definition",
+      "type": "{V : Type u_1} →\n  (object : StructuralExhaustion.Graph.FiniteObject V) →\n    (violation : FinEnum.card V ^ 2 < 4 * object.edgeCount) →\n      StructuralExhaustion.CT11.LocalizedDeficitResidual (StructuralExhaustion.Graph.Mantel.profile object).capability\n        ((StructuralExhaustion.Graph.Mantel.profile object).input object.context\n          (StructuralExhaustion.Graph.Mantel.dartCells object) ⋯)",
+      "sourceId": "StructuralExhaustion.Graph.Mantel",
+      "startLine": 198,
+      "startColumn": 1,
+      "endLine": 202,
+      "endColumn": 51,
+      "selectionStartLine": 199,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 199,
+      "selectionEndColumn": 22
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.Mantel.offending_degree_sum_gt",
+      "name": "StructuralExhaustion.Graph.Mantel.offending_degree_sum_gt",
+      "kind": "theorem",
+      "type": "∀ {V : Type u_1} (object : StructuralExhaustion.Graph.FiniteObject V)\n  (violation : FinEnum.card V ^ 2 < 4 * object.edgeCount),\n  FinEnum.card V <\n    object.degree (StructuralExhaustion.Graph.Mantel.offendingResidual object violation).cell.toProd.1 +\n      object.degree (StructuralExhaustion.Graph.Mantel.offendingResidual object violation).cell.toProd.2",
+      "sourceId": "StructuralExhaustion.Graph.Mantel",
+      "startLine": 204,
+      "startColumn": 1,
+      "endLine": 215,
+      "endColumn": 8,
+      "selectionStartLine": 206,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 206,
+      "selectionEndColumn": 32
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.Mantel.profile",
+      "name": "StructuralExhaustion.Graph.Mantel.profile",
+      "kind": "definition",
+      "type": "{V : Type u_1} →\n  StructuralExhaustion.Graph.FiniteObject V →\n    StructuralExhaustion.CT11.NegativeBudgetProfile (StructuralExhaustion.Graph.FiniteObject.problem V)",
+      "sourceId": "StructuralExhaustion.Graph.Mantel",
+      "startLine": 33,
+      "startColumn": 1,
+      "endLine": 37,
+      "endColumn": 52,
+      "selectionStartLine": 34,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 34,
+      "selectionEndColumn": 12
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.Mantel.run_terminal_localized",
+      "name": "StructuralExhaustion.Graph.Mantel.run_terminal_localized",
+      "kind": "theorem",
+      "type": "∀ {V : Type u_1} (object : StructuralExhaustion.Graph.FiniteObject V)\n  (violation : FinEnum.card V ^ 2 < 4 * object.edgeCount),\n  (StructuralExhaustion.Graph.Mantel.run object violation).terminal = StructuralExhaustion.CT11.Graph.Terminal.localized",
+      "sourceId": "StructuralExhaustion.Graph.Mantel",
+      "startLine": 191,
+      "startColumn": 1,
+      "endLine": 196,
+      "endColumn": 70,
+      "selectionStartLine": 192,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 192,
+      "selectionEndColumn": 31
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.Mantel.sum_localBudget_eq",
+      "name": "StructuralExhaustion.Graph.Mantel.sum_localBudget_eq",
+      "kind": "theorem",
+      "type": "∀ {V : Type u_1} (object : StructuralExhaustion.Graph.FiniteObject V),\n  (List.map (StructuralExhaustion.Graph.Mantel.localBudget object)\n        (StructuralExhaustion.Graph.Mantel.dartCells object).values).sum =\n    2 * ↑object.edgeCount * ↑(FinEnum.card V) - 2 * ↑(StructuralExhaustion.Graph.Mantel.degreeSquareSum object)",
+      "sourceId": "StructuralExhaustion.Graph.Mantel",
+      "startLine": 114,
+      "startColumn": 1,
+      "endLine": 144,
+      "endColumn": 7,
+      "selectionStartLine": 116,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 116,
+      "selectionEndColumn": 27
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "MantelExample.Concrete",
+      "moduleName": "MantelExample.Concrete",
+      "path": "examples/mantel/MantelExample/Concrete.lean",
+      "sha256": "a33eeb2aab4e59019d4e3c3e8b89ee6587a227c8db3ec7cab675c2a5f7fedc7f",
+      "content": "import Mathlib.Combinatorics.SimpleGraph.Circulant\nimport MantelExample.Run\n\nnamespace MantelExample\n\nopen StructuralExhaustion\n\nnamespace ConcreteK4\n\n/-! `K₄` violates the numerical Mantel bound.  It is intentionally not\ntriangle-free: this fixture executes and pins the CT11 localization machine\nindependently of the final graph-theoretic contradiction. -/\n\nabbrev Vertex := Fin 4\n\ndef graph : SimpleGraph Vertex := ⊤\n\ndef input : Graph.FiniteInput graph where\n  vertices := inferInstance\n  decideAdj := by\n    change DecidableRel fun left right : Vertex => left ≠ right\n    infer_instance\n\ndef object : Graph.FiniteObject Vertex := ⟨graph, input⟩\n\ntheorem violation : object.input.vertices.card ^ 2 < 4 * object.edgeCount := by\n  native_decide\n\ndef execution := ct11Run object violation\n\ntheorem terminal_localized : execution.terminal = .localized :=\n  Graph.Mantel.run_terminal_localized object violation\n\ntheorem trace_exact : execution.trace =\n    [.entry, .decomposition, .admissibility, .localization,\n      .localizedTerminal] := by\n  native_decide\n\ntheorem selected_dart_exact :\n    (Graph.Mantel.offendingResidual object violation).cell.toProd = (0, 1) := by\n  native_decide\n\nend ConcreteK4\n\nnamespace ConcreteC5\n\n/-! `C₅` is a non-bipartite triangle-free graph.  The external package only\nchecks its concrete input properties and invokes the framework theorem. -/\n\nabbrev Vertex := Fin 5\n\ndef graph : SimpleGraph Vertex := SimpleGraph.cycleGraph 5\n\ndef input : Graph.FiniteInput graph where\n  vertices := inferInstance\n  decideAdj := by\n    change DecidableRel (SimpleGraph.cycleGraph 5).Adj\n    infer_instance\n\ndef object : Graph.FiniteObject Vertex := ⟨graph, input⟩\n\ntheorem triangleFree : object.graph.CliqueFree 3 := by\n  letI : FinEnum Vertex := object.input.vertices\n  letI : DecidableRel object.graph.Adj := object.input.decideAdj\n  rw [← SimpleGraph.cliqueFinset_eq_empty_iff]\n  native_decide\n\ntheorem edgeCount_exact : object.edgeCount = 5 := by\n  native_decide\n\ntheorem mantel_bound : Target object := mantel object triangleFree\n\nend ConcreteC5\n\nend MantelExample\n"
+    },
+    {
+      "sourceId": "MantelExample.Problem",
+      "moduleName": "MantelExample.Problem",
+      "path": "examples/mantel/MantelExample/Problem.lean",
+      "sha256": "ef5e9ce608e38d3cf6822a24c90335f2f91dae70926c808dd01cebb3ddcf4708",
+      "content": "import StructuralExhaustion.Graph.Mantel\n\nnamespace MantelExample\n\nopen StructuralExhaustion\n\nuniverse u\n\n/-- Public Mantel target for an explicitly finite Mathlib graph. -/\nabbrev Target {V : Type u} (object : Graph.FiniteObject V) : Prop :=\n  object.edgeCount ≤ object.input.vertices.card ^ 2 / 4\n\nend MantelExample\n"
+    },
+    {
+      "sourceId": "MantelExample.Run",
+      "moduleName": "MantelExample.Run",
+      "path": "examples/mantel/MantelExample/Run.lean",
+      "sha256": "adf9320fbd7dbe71f461415225d91d15b194fb8b14ec25774708592e118ab7f3",
+      "content": "import MantelExample.Problem\n\nnamespace MantelExample\n\nopen StructuralExhaustion\n\nuniverse u\n\n/-- Mantel's theorem.  The problem package supplies only triangle-freeness;\nall finite summation, localization, and contradiction steps are reusable\nframework code. -/\ntheorem mantel {V : Type u} (object : Graph.FiniteObject V)\n    (triangleFree : object.graph.CliqueFree 3) : Target object :=\n  Graph.Mantel.edgeCount_le_card_sq_div_four_of_triangleFree object triangleFree\n\n/-- Expose the exact CT11 execution used when the numerical target is\nnegated.  This is useful for executable fixtures and trace auditing. -/\nabbrev ct11Run {V : Type u} (object : Graph.FiniteObject V)\n    (violation : object.input.vertices.card ^ 2 < 4 * object.edgeCount) :=\n  Graph.Mantel.run object violation\n\nend MantelExample\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion.CT11.Execution",
+      "moduleName": "StructuralExhaustion.CT11.Execution",
+      "path": "lean/StructuralExhaustion/CT11/Execution.lean",
+      "sha256": "3a371cd9ec1f889f5220389e78e13de59130f8be68805730a32d1d23aff57111",
+      "content": "import StructuralExhaustion.CT11.Graph\n\nnamespace StructuralExhaustion.CT11\n\nuniverse uAmbient uBranch uCell\nvariable {P : Core.Problem.{uAmbient, uBranch}}\nvariable (capability : Capability.{uAmbient, uBranch, uCell} P)\nvariable (input : Input capability)\n\ninductive Outcome : Graph.Terminal → Type _ where\n  | gap (r : AdmissibilityGapResidual capability input) : Outcome .gap\n  | localized (r : LocalizedDeficitResidual capability input) : Outcome .localized\n\nstructure ExecutionResult where\n  terminal : Graph.Terminal\n  path : Graph.Path capability input .entry terminal.nodeId\n  outcome : Outcome capability input terminal\n\nnamespace ExecutionResult\ndef trace (r : ExecutionResult capability input) := r.path.trace\nend ExecutionResult\n\ndef runReference : ExecutionResult capability input :=\n  match analyzeAdmissibility capability input with\n  | .gap residual => ⟨.gap,\n      .cons .begin (.cons .decomposed\n        (.cons (.gap residual) (.nil .gapTerminal))), .gap residual⟩\n  | .closed admissible =>\n      let residual := localize capability input admissible\n      ⟨.localized, .cons .begin (.cons .decomposed\n        (.cons (.closed admissible)\n          (.cons (.localized residual) (.nil .localizedTerminal)))),\n        .localized residual⟩\n\ndef run : ExecutionResult capability input := runReference capability input\n\nend StructuralExhaustion.CT11\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion.Graph.Mantel",
+      "moduleName": "StructuralExhaustion.Graph.Mantel",
+      "path": "lean/StructuralExhaustion/Graph/Mantel.lean",
+      "sha256": "761e7ecb542971bc0fbd7263082760a3d73d92c90bb00078f6b4185a28d45b9b",
+      "content": "import Mathlib.Algebra.Order.Chebyshev\nimport Mathlib.Combinatorics.SimpleGraph.Clique\nimport Mathlib.Combinatorics.SimpleGraph.DegreeSum\nimport Mathlib.Tactic\nimport StructuralExhaustion.CT11.Automation\nimport StructuralExhaustion.Graph.FiniteObject\n\nnamespace StructuralExhaustion.Graph.Mantel\n\nopen StructuralExhaustion\nopen scoped BigOperators\n\nuniverse u\n\n/-- CT11 cells are the existing exact dart enumeration of the finite graph. -/\ndef dartCells (object : FiniteObject V) :\n    Core.OrderedCollection object.graph.Dart :=\n  object.input.darts.toOrderedCollection\n\n/-- The local Mantel budget at an oriented edge.  Each undirected edge occurs\ntwice, but the sign and the selected contradiction are orientation-invariant. -/\ndef localBudget (object : FiniteObject V) (dart : object.graph.Dart) : Int :=\n  (object.input.vertices.card : Int) - object.degree dart.fst -\n    object.degree dart.snd\n\n/-- Sum of squared Mathlib degrees using the finite instances carried by the\ngraph object. -/\ndef degreeSquareSum (object : FiniteObject V) : Nat := by\n  letI : FinEnum V := object.input.vertices\n  letI : DecidableRel object.graph.Adj := object.input.decideAdj\n  exact ∑ vertex : V, (object.graph.degree vertex) ^ 2\n\n/-- The minimal CT11 profile for Mantel localization. -/\ndef profile (object : FiniteObject V) :\n    CT11.NegativeBudgetProfile (FiniteObject.problem V) where\n  Cell := object.graph.Dart\n  localBudget := fun _context => localBudget object\n\nprivate theorem sum_degrees_fst_darts (object : FiniteObject V) :\n    letI : FinEnum V := object.input.vertices\n    letI : DecidableRel object.graph.Adj := object.input.decideAdj\n    (∑ dart : object.graph.Dart, object.graph.degree dart.fst) =\n      degreeSquareSum object := by\n  letI : FinEnum V := object.input.vertices\n  letI : DecidableRel object.graph.Adj := object.input.decideAdj\n  classical\n  change (∑ dart : object.graph.Dart, object.graph.degree dart.fst) =\n    ∑ vertex : V, (object.graph.degree vertex) ^ 2\n  rw [← Finset.sum_fiberwise (Finset.univ : Finset object.graph.Dart)\n    (fun dart => dart.fst) (fun dart => object.graph.degree dart.fst)]\n  apply Finset.sum_congr rfl\n  intro vertex _member\n  rw [Finset.sum_eq_card_nsmul (b := object.graph.degree vertex) (by\n    intro dart member\n    have equal : dart.fst = vertex := by simpa using member\n    cases equal\n    rfl)]\n  change ({dart : object.graph.Dart | dart.fst = vertex} : Finset _).card *\n      object.graph.degree vertex = object.graph.degree vertex ^ 2\n  rw [object.graph.dart_fst_fiber_card_eq_degree vertex]\n  simp [pow_two]\n\nprivate theorem sum_degrees_snd_darts (object : FiniteObject V) :\n    letI : FinEnum V := object.input.vertices\n    letI : DecidableRel object.graph.Adj := object.input.decideAdj\n    (∑ dart : object.graph.Dart, object.graph.degree dart.snd) =\n      degreeSquareSum object := by\n  letI : FinEnum V := object.input.vertices\n  letI : DecidableRel object.graph.Adj := object.input.decideAdj\n  classical\n  calc\n    (∑ dart : object.graph.Dart, object.graph.degree dart.snd) =\n        ∑ dart : object.graph.Dart, object.graph.degree dart.fst := by\n      apply Fintype.sum_bijective SimpleGraph.Dart.symm\n        SimpleGraph.Dart.symm_involutive.bijective\n      intro dart\n      rfl\n    _ = degreeSquareSum object :=\n      sum_degrees_fst_darts object\n\n/-- In a triangle-free graph, the endpoint neighbourhoods of an edge are\ndisjoint, so the two endpoint degrees sum to at most the vertex count. -/\ntheorem degree_add_degree_le_card_of_triangleFree\n    (object : FiniteObject V) (triangleFree : object.graph.CliqueFree 3)\n    (dart : object.graph.Dart) :\n    object.degree dart.fst + object.degree dart.snd ≤\n      object.input.vertices.card := by\n  letI : FinEnum V := object.input.vertices\n  letI : DecidableRel object.graph.Adj := object.input.decideAdj\n  letI : DecidableEq V := object.input.vertices.decEq\n  have independent :=\n    object.graph.isIndepSet_neighborSet_of_triangleFree triangleFree dart.fst\n  have neighborhoodsDisjoint : Disjoint\n      (object.graph.neighborFinset dart.fst)\n      (object.graph.neighborFinset dart.snd) := by\n    rw [Finset.disjoint_left]\n    intro vertex firstNeighbor secondNeighbor\n    have firstAdjacent : object.graph.Adj dart.fst vertex := by\n      simpa using firstNeighbor\n    have secondAdjacent : object.graph.Adj dart.snd vertex := by\n      simpa using secondNeighbor\n    exact independent dart.adj firstAdjacent secondAdjacent.ne secondAdjacent\n  calc\n    object.degree dart.fst + object.degree dart.snd =\n        (object.graph.neighborFinset dart.fst).card +\n          (object.graph.neighborFinset dart.snd).card := rfl\n    _ = ((object.graph.neighborFinset dart.fst) ∪\n          (object.graph.neighborFinset dart.snd)).card :=\n      (Finset.card_union_of_disjoint neighborhoodsDisjoint).symm\n    _ ≤ (Finset.univ : Finset V).card :=\n      Finset.card_le_card (by simp)\n    _ = object.input.vertices.card := FinEnum.card_eq_fintypeCard.symm\n\n/-- Exact global budget identity.  The two dart orientations account for the\nfactor two on both the edge-count term and the squared-degree term. -/\ntheorem sum_localBudget_eq (object : FiniteObject V) :\n    ((dartCells object).values.map (localBudget object)).sum =\n      2 * (object.edgeCount : Int) * object.input.vertices.card -\n        2 * (degreeSquareSum object : Int) := by\n  letI : FinEnum V := object.input.vertices\n  letI : DecidableRel object.graph.Adj := object.input.decideAdj\n  rw [Core.OrderedCollection.sum_values_eq_sum_toFinset]\n  have cellsUniv : (dartCells object).toFinset =\n      (Finset.univ : Finset object.graph.Dart) := by\n    ext dart\n    rw [Core.OrderedCollection.mem_toFinset]\n    simp only [Finset.mem_univ, iff_true]\n    exact object.input.darts.mem_orderedValues dart\n  rw [cellsUniv]\n  simp only [localBudget, FiniteObject.degree]\n  rw [Finset.sum_sub_distrib, Finset.sum_sub_distrib]\n  simp only [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]\n  have fstSum := congrArg (fun value : Nat => (value : Int))\n    (sum_degrees_fst_darts object)\n  have sndSum := congrArg (fun value : Nat => (value : Int))\n    (sum_degrees_snd_darts object)\n  push_cast at fstSum sndSum\n  rw [fstSum, sndSum]\n  have dartCount := congrArg (fun value : Nat => (value : Int))\n    object.graph.dart_card_eq_twice_card_edges\n  push_cast at dartCount\n  rw [dartCount]\n  simp only [FiniteObject.edgeCount]\n  ring\n\n/-- Cauchy--Schwarz combined with Mathlib's degree-sum formula, expressed\nentirely through the finite graph object's computed invariants. -/\ntheorem four_mul_edgeCount_sq_le_card_mul_degreeSquareSum\n    (object : FiniteObject V) :\n    (2 * object.edgeCount) ^ 2 ≤\n      object.input.vertices.card * degreeSquareSum object := by\n  letI : FinEnum V := object.input.vertices\n  letI : DecidableRel object.graph.Adj := object.input.decideAdj\n  have cauchy := sq_sum_le_card_mul_sum_sq\n    (s := (Finset.univ : Finset V)) (f := fun v => object.graph.degree v)\n  rw [object.graph.sum_degrees_eq_twice_card_edges] at cauchy\n  change (2 * object.graph.edgeFinset.card) ^ 2 ≤\n    Fintype.card V * ∑ vertex : V, object.graph.degree vertex ^ 2 at cauchy\n  change (2 * object.edgeCount) ^ 2 ≤\n    object.input.vertices.card * degreeSquareSum object\n  simpa only [degreeSquareSum, FiniteObject.edgeCount,\n    FinEnum.card_eq_fintypeCard] using cauchy\n\n/-- A counterexample to the numerical Mantel bound makes the exact dart\nbudget strictly negative. -/\ntheorem deficit_of_mantel_violation (object : FiniteObject V)\n    (violation : object.input.vertices.card ^ 2 < 4 * object.edgeCount) :\n    ((dartCells object).values.map (localBudget object)).sum < 0 := by\n  have cauchy :=\n    four_mul_edgeCount_sq_le_card_mul_degreeSquareSum object\n  have squareSumLarge :\n      object.input.vertices.card * object.edgeCount < degreeSquareSum object := by\n    nlinarith\n  rw [sum_localBudget_eq]\n  exact sub_neg.mpr (by exact_mod_cast (by nlinarith :\n    2 * object.edgeCount * object.input.vertices.card <\n      2 * degreeSquareSum object))\n\n/-- Exact CT11 input generated from a failed Mantel inequality. -/\ndef input (object : FiniteObject V)\n    (violation : object.input.vertices.card ^ 2 < 4 * object.edgeCount) :=\n  (profile object).input (FiniteObject.context object) (dartCells object)\n    (deficit_of_mantel_violation object violation)\n\n/-- Exact CT11 execution generated from a failed Mantel inequality. -/\ndef run (object : FiniteObject V)\n    (violation : object.input.vertices.card ^ 2 < 4 * object.edgeCount) :=\n  (profile object).run (FiniteObject.context object) (dartCells object)\n    (deficit_of_mantel_violation object violation)\n\n/-- The failed-bound execution reaches CT11's localized-deficit terminal. -/\ntheorem run_terminal_localized (object : FiniteObject V)\n    (violation : object.input.vertices.card ^ 2 < 4 * object.edgeCount) :\n    (run object violation).terminal = .localized :=\n  (profile object).run_terminal_localized (FiniteObject.context object)\n    (dartCells object) (deficit_of_mantel_violation object violation)\n\n/-- The canonical dart selected by CT11 from a failed Mantel bound. -/\ndef offendingResidual (object : FiniteObject V)\n    (violation : object.input.vertices.card ^ 2 < 4 * object.edgeCount) :=\n  (profile object).residual (FiniteObject.context object) (dartCells object)\n    (deficit_of_mantel_violation object violation)\n\n/-- CT11's residual states that the selected dart has endpoint-degree sum\nstrictly larger than the vertex count. -/\ntheorem offending_degree_sum_gt (object : FiniteObject V)\n    (violation : object.input.vertices.card ^ 2 < 4 * object.edgeCount) :\n    object.input.vertices.card <\n      object.degree (offendingResidual object violation).cell.fst +\n        object.degree (offendingResidual object violation).cell.snd := by\n  have negative := (offendingResidual object violation).negative\n  change (object.input.vertices.card : Int) -\n      object.degree (offendingResidual object violation).cell.fst -\n      object.degree (offendingResidual object violation).cell.snd < 0 at negative\n  omega\n\n/-- Mantel's theorem in multiplication form, proved by CT11 localization. -/\ntheorem four_mul_edgeCount_le_card_sq_of_triangleFree\n    (object : FiniteObject V) (triangleFree : object.graph.CliqueFree 3) :\n    4 * object.edgeCount ≤ object.input.vertices.card ^ 2 := by\n  by_contra notBounded\n  have violation : object.input.vertices.card ^ 2 < 4 * object.edgeCount :=\n    Nat.lt_of_not_ge notBounded\n  have localized := offending_degree_sum_gt object violation\n  have triangleBound := degree_add_degree_le_card_of_triangleFree object\n    triangleFree (offendingResidual object violation).cell\n  omega\n\n/-- Standard floor-division form of Mantel's theorem. -/\ntheorem edgeCount_le_card_sq_div_four_of_triangleFree\n    (object : FiniteObject V) (triangleFree : object.graph.CliqueFree 3) :\n    object.edgeCount ≤ object.input.vertices.card ^ 2 / 4 := by\n  apply (Nat.le_div_iff_mul_le (by omega : 0 < 4)).2\n  rw [Nat.mul_comm]\n  exact four_mul_edgeCount_le_card_sq_of_triangleFree object triangleFree\n\nend StructuralExhaustion.Graph.Mantel\n"
+    }
+  ]
+}

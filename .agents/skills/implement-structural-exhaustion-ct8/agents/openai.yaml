@@ -1,0 +1,4 @@
+interface:
+  display_name: "Structural Exhaustion CT8"
+  short_description: "Implement repetition and response checks"
+  default_prompt: "Use $implement-structural-exhaustion-ct8 to implement the CT8 repetition and response contract for this proof step."

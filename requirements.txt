@@ -1,2 +1,5 @@
 jsonschema>=4.22,<5
 pytest>=8,<10
+fastapi>=0.116,<1
+httpx2>=2,<3
+uvicorn>=0.35,<1

@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/example-detail.schema.json",
+  "title": "Hydrated structural-exhaustion example",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifactType", "schemaVersion", "sourceOfTruth", "exampleId", "title",
+    "summary", "proofStatus", "tacticIds", "workflows", "interfaceBindings",
+    "declarations", "sources"
+  ],
+  "properties": {
+    "artifactType": {"const": "structuralExhaustionExample"},
+    "schemaVersion": {"const": "1.0.0"},
+    "sourceOfTruth": {"$ref": "#/$defs/sourceOfTruth"},
+    "exampleId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+    "title": {"$ref": "#/$defs/nonemptyString"},
+    "summary": {"$ref": "#/$defs/nonemptyString"},
+    "proofStatus": {"enum": ["complete", "partial"]},
+    "tacticIds": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^CT[0-9]+$"}
+    },
+    "workflows": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/workflow"}
+    },
+    "interfaceBindings": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/interfaceBinding"}
+    },
+    "declarations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/declaration"}
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/source"}
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "nonemptyString": {"type": "string", "minLength": 1},
+    "sourceOfTruth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "rootModule", "descriptor"],
+      "properties": {
+        "kind": {"const": "compiledLeanEnvironment"},
+        "rootModule": {"$ref": "#/$defs/nonemptyString"},
+        "descriptor": {"$ref": "#/$defs/nonemptyString"}
+      }
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stageId", "title", "summary", "kind", "primaryDeclarationId",
+        "evidenceDeclarationIds"
+      ],
+      "properties": {
+        "stageId": {"$ref": "#/$defs/identifier"},
+        "title": {"$ref": "#/$defs/nonemptyString"},
+        "summary": {"$ref": "#/$defs/nonemptyString"},
+        "kind": {
+          "enum": ["problem", "tactic", "adapter", "certificate", "theorem", "fixture"]
+        },
+        "tacticId": {"type": "string", "pattern": "^CT[0-9]+$"},
+        "primaryDeclarationId": {"$ref": "#/$defs/nonemptyString"},
+        "evidenceDeclarationIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonemptyString"}
+        }
+      }
+    },
+    "link": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "linkId", "sourceStageId", "targetStageId", "kind", "label",
+        "summary", "evidenceDeclarationIds"
+      ],
+      "properties": {
+        "linkId": {"$ref": "#/$defs/identifier"},
+        "sourceStageId": {"$ref": "#/$defs/identifier"},
+        "targetStageId": {"$ref": "#/$defs/identifier"},
+        "kind": {
+          "enum": [
+            "registeredRoute", "frameworkComposition", "proofData", "validation",
+            "scheduleAudit", "sharedProblem"
+          ]
+        },
+        "label": {"$ref": "#/$defs/nonemptyString"},
+        "summary": {"$ref": "#/$defs/nonemptyString"},
+        "routeId": {"$ref": "#/$defs/nonemptyString"},
+        "evidenceDeclarationIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonemptyString"}
+        }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workflowId", "title", "summary", "purpose", "completion", "stages", "links"
+      ],
+      "properties": {
+        "workflowId": {"$ref": "#/$defs/identifier"},
+        "title": {"$ref": "#/$defs/nonemptyString"},
+        "summary": {"$ref": "#/$defs/nonemptyString"},
+        "purpose": {"$ref": "#/$defs/nonemptyString"},
+        "completion": {"enum": ["complete", "partial"]},
+        "stages": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/stage"}
+        },
+        "links": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/link"}
+        }
+      }
+    },
+    "interfaceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bindingId", "workflowId", "stageId", "tacticId", "role", "summary",
+        "problemDeclarationId", "frameworkDeclarationId"
+      ],
+      "properties": {
+        "bindingId": {"$ref": "#/$defs/identifier"},
+        "workflowId": {"$ref": "#/$defs/identifier"},
+        "stageId": {"$ref": "#/$defs/identifier"},
+        "tacticId": {"type": "string", "pattern": "^CT[0-9]+$"},
+        "role": {"$ref": "#/$defs/nonemptyString"},
+        "summary": {"$ref": "#/$defs/nonemptyString"},
+        "problemDeclarationId": {"$ref": "#/$defs/nonemptyString"},
+        "frameworkDeclarationId": {"$ref": "#/$defs/nonemptyString"}
+      }
+    },
+    "declaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "declarationId", "name", "kind", "type", "sourceId", "startLine",
+        "startColumn", "endLine", "endColumn", "selectionStartLine",
+        "selectionStartColumn", "selectionEndLine", "selectionEndColumn"
+      ],
+      "properties": {
+        "declarationId": {"$ref": "#/$defs/nonemptyString"},
+        "name": {"$ref": "#/$defs/nonemptyString"},
+        "kind": {"$ref": "#/$defs/nonemptyString"},
+        "type": {"$ref": "#/$defs/nonemptyString"},
+        "sourceId": {"$ref": "#/$defs/nonemptyString"},
+        "startLine": {"type": "integer", "minimum": 1},
+        "startColumn": {"type": "integer", "minimum": 1},
+        "endLine": {"type": "integer", "minimum": 1},
+        "endColumn": {"type": "integer", "minimum": 1},
+        "selectionStartLine": {"type": "integer", "minimum": 1},
+        "selectionStartColumn": {"type": "integer", "minimum": 1},
+        "selectionEndLine": {"type": "integer", "minimum": 1},
+        "selectionEndColumn": {"type": "integer", "minimum": 1}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceId", "moduleName", "path", "sha256", "content"],
+      "properties": {
+        "sourceId": {"$ref": "#/$defs/nonemptyString"},
+        "moduleName": {"$ref": "#/$defs/nonemptyString"},
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+\\.lean$"
+        },
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "content": {"type": "string"}
+      }
+    }
+  }
+}

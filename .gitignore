@@ -9,6 +9,7 @@ examples/*/.lake/
 *.ilean
 
 build/
+web/frontend/node_modules/
 framework/*.aux
 framework/*.fdb_latexmk
 framework/*.fls

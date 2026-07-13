@@ -1,0 +1,4 @@
+interface:
+  display_name: "Structural Exhaustion CT4"
+  short_description: "Implement charging and capacity checks"
+  default_prompt: "Use $implement-structural-exhaustion-ct4 to implement the CT4 charging and capacity contract for this proof step."

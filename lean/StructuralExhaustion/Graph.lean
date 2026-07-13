@@ -5,6 +5,7 @@ import StructuralExhaustion.Graph.ChordCycle
 import StructuralExhaustion.Graph.EdgeDeletion
 import StructuralExhaustion.Graph.FiniteObject
 import StructuralExhaustion.Graph.CycleCertificate
+import StructuralExhaustion.Graph.EdgeRootedReturn
 import StructuralExhaustion.Graph.MinimumDegreeCycle
 import StructuralExhaustion.Graph.MaximalPath
 import StructuralExhaustion.Graph.EndpointParityCycle

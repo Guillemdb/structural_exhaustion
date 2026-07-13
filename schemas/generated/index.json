@@ -5,6 +5,9 @@
   "genericSchemas": [
     "schemas/automation-profile.schema.json",
     "schemas/capability-spec.schema.json",
+    "schemas/example-catalog-raw.schema.json",
+    "schemas/example-detail.schema.json",
+    "schemas/example-index.schema.json",
     "schemas/kernel-verification.schema.json",
     "schemas/lean-derived-manifest.schema.json",
     "schemas/lean-derived-schema-index.schema.json",

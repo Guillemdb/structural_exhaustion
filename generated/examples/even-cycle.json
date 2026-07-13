@@ -1,0 +1,1203 @@
+{
+  "artifactType": "structuralExhaustionExample",
+  "schemaVersion": "1.0.0",
+  "sourceOfTruth": {
+    "rootModule": "EvenCycleExample",
+    "kind": "compiledLeanEnvironment",
+    "descriptor": "EvenCycleExample.WebExport.descriptor"
+  },
+  "exampleId": "even-cycle",
+  "title": "Even cycle",
+  "summary": "A complete minimum-degree-three proof with a registered CT6→CT9 route, CT1 validation, and separate CT2 and CT3 auxiliary workflows.",
+  "proofStatus": "complete",
+  "tacticIds": [
+    "CT1",
+    "CT2",
+    "CT3",
+    "CT6",
+    "CT9"
+  ],
+  "workflows": [
+    {
+      "workflowId": "main",
+      "title": "Minimum degree three gives an even cycle",
+      "summary": "Follow the complete CT6→CT9 construction, its cycle certificate, and the independent CT1 validation lane.",
+      "purpose": "Follow the complete CT6→CT9 construction, its cycle certificate, and the independent CT1 validation lane.",
+      "completion": "complete",
+      "stages": [
+        {
+          "stageId": "main.problem",
+          "title": "Endpoint-parity problem",
+          "summary": "The graph profile supplies the minimum-degree baseline and even-cycle target used by every downstream stage.",
+          "kind": "problem",
+          "primaryDeclarationId": "EvenCycleExample.endpointParityProfile",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.Baseline",
+            "EvenCycleExample.HasEvenCycle"
+          ]
+        },
+        {
+          "stageId": "main.ct6",
+          "title": "CT6 maximal-path ledger",
+          "summary": "CT6 searches the chosen maximal path and returns the active-ledger residual at its endpoint.",
+          "kind": "tactic",
+          "primaryDeclarationId": "EvenCycleExample.ct6Run",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.ct6_no_failure",
+            "EvenCycleExample.ct6_endpoint_closed",
+            "EvenCycleExample.ConcreteK4.ct6_terminal_activeLedger",
+            "EvenCycleExample.ConcreteK4.ct6_trace_exact"
+          ],
+          "tacticId": "CT6"
+        },
+        {
+          "stageId": "main.ct9",
+          "title": "CT9 parity overload",
+          "summary": "The registered route converts endpoint-neighbor positions into a capacity-one parity instance for CT9.",
+          "kind": "tactic",
+          "primaryDeclarationId": "EvenCycleExample.ct9Run",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.ct6ToCT9ItemAdapter",
+            "EvenCycleExample.ct9_three_le_item_cardinality",
+            "EvenCycleExample.ConcreteK4.ct9_terminal_overloaded",
+            "EvenCycleExample.ConcreteK4.ct9_trace_exact"
+          ],
+          "tacticId": "CT9"
+        },
+        {
+          "stageId": "main.certificate",
+          "title": "Even-cycle certificate",
+          "summary": "Equal-parity endpoint positions determine a chord cycle with certified even length.",
+          "kind": "certificate",
+          "primaryDeclarationId": "EvenCycleExample.evenCycleCertificate",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.ConcreteK4.extracted_even_cycle_support",
+            "EvenCycleExample.ConcreteK4.extracted_even_cycle_length"
+          ]
+        },
+        {
+          "stageId": "main.ct1",
+          "title": "CT1 certificate validation",
+          "summary": "CT1 validates the already constructed cycle against the finite target encoding.",
+          "kind": "tactic",
+          "primaryDeclarationId": "EvenCycleExample.finalCT1Run",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.ConcreteK4.ct1_terminal_c1",
+            "EvenCycleExample.ConcreteK4.ct1_trace_exact"
+          ],
+          "tacticId": "CT1"
+        },
+        {
+          "stageId": "main.theorem",
+          "title": "Even-cycle theorem",
+          "summary": "The public theorem concludes that every finite graph of minimum degree at least three has an even simple cycle.",
+          "kind": "theorem",
+          "primaryDeclarationId": "EvenCycleExample.minimumDegreeThree_hasEvenCycle",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.hasEvenCycle_of_minDegree_three"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "linkId": "main.problem-ct6",
+          "sourceStageId": "main.problem",
+          "targetStageId": "main.ct6",
+          "kind": "sharedProblem",
+          "label": "instantiates CT6",
+          "summary": "The endpoint-parity profile generates the CT6 specification, capability, and maximal-path input.",
+          "evidenceDeclarationIds": []
+        },
+        {
+          "linkId": "main.ct6-ct9",
+          "sourceStageId": "main.ct6",
+          "targetStageId": "main.ct9",
+          "kind": "registeredRoute",
+          "label": "active-ledger route",
+          "summary": "The framework-registered CT6 active-ledger residual route constructs the CT9 input through the problem adapter.",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.ct6ToCT9ItemAdapter"
+          ],
+          "routeId": "CT6.residual.activeLedger->CT9"
+        },
+        {
+          "linkId": "main.ct9-certificate",
+          "sourceStageId": "main.ct9",
+          "targetStageId": "main.certificate",
+          "kind": "proofData",
+          "label": "overloaded parity fibre",
+          "summary": "CT9's overloaded fibre supplies two endpoint-neighbor positions of the same parity.",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.sameParityEndpointPositions"
+          ]
+        },
+        {
+          "linkId": "main.certificate-theorem",
+          "sourceStageId": "main.certificate",
+          "targetStageId": "main.theorem",
+          "kind": "proofData",
+          "label": "witnesses target",
+          "summary": "The certified chord cycle is the witness consumed by the target theorem.",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.hasEvenCycle_of_minDegree_three"
+          ]
+        },
+        {
+          "linkId": "main.certificate-ct1",
+          "sourceStageId": "main.certificate",
+          "targetStageId": "main.ct1",
+          "kind": "validation",
+          "label": "validated by CT1",
+          "summary": "CT1 checks the public certificate; it does not create the CT6→CT9 witness.",
+          "evidenceDeclarationIds": []
+        },
+        {
+          "linkId": "main.ct1-theorem",
+          "sourceStageId": "main.ct1",
+          "targetStageId": "main.theorem",
+          "kind": "validation",
+          "label": "target confirmed",
+          "summary": "The successful CT1 run independently confirms that the constructed witness realizes the target.",
+          "evidenceDeclarationIds": []
+        }
+      ]
+    },
+    {
+      "workflowId": "ct2-audit",
+      "title": "Deletion-critical CT2 audit",
+      "summary": "Inspect the separate deletion-only audit that derives the heavy-edge invariant in a hypothetical minimal counterexample.",
+      "purpose": "Inspect the separate deletion-only audit that derives the heavy-edge invariant in a hypothetical minimal counterexample.",
+      "completion": "complete",
+      "stages": [
+        {
+          "stageId": "ct2-audit.problem",
+          "title": "Minimal-counterexample context",
+          "summary": "The same even-cycle problem is viewed through its generated deletion-only CT2 profile.",
+          "kind": "problem",
+          "primaryDeclarationId": "EvenCycleExample.CT2Audit.deletionClosureRule",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.CT2Audit.pieces"
+          ]
+        },
+        {
+          "stageId": "ct2-audit.ct2",
+          "title": "CT2 heavy-dart run",
+          "summary": "CT2 exhausts deletion and replacement for an explicitly exhibited heavy dart.",
+          "kind": "tactic",
+          "primaryDeclarationId": "EvenCycleExample.CT2Audit.heavyDartRun",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.CT2Audit.degree_three_endpoint",
+            "EvenCycleExample.CT2Audit.invariant_I1"
+          ],
+          "tacticId": "CT2"
+        },
+        {
+          "stageId": "ct2-audit.invariant",
+          "title": "Heavy-edge invariant",
+          "summary": "Every edge has an endpoint of degree exactly three in the audited minimal-counterexample context.",
+          "kind": "theorem",
+          "primaryDeclarationId": "EvenCycleExample.CT2Audit.invariant_I1",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.CT2Audit.degree_three_endpoint"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "linkId": "ct2-audit.problem-ct2",
+          "sourceStageId": "ct2-audit.problem",
+          "targetStageId": "ct2-audit.ct2",
+          "kind": "sharedProblem",
+          "label": "generated CT2 profile",
+          "summary": "The graph support layer generates the deletion pieces, capability, and closure rule.",
+          "evidenceDeclarationIds": []
+        },
+        {
+          "linkId": "ct2-audit.ct2-invariant",
+          "sourceStageId": "ct2-audit.ct2",
+          "targetStageId": "ct2-audit.invariant",
+          "kind": "proofData",
+          "label": "derives invariant",
+          "summary": "The deletion-critical result rules out a dart with both endpoints heavier than degree three.",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.CT2Audit.degree_three_endpoint"
+          ]
+        }
+      ]
+    },
+    {
+      "workflowId": "ct3-series",
+      "title": "Parity-series CT3 compression",
+      "summary": "Inspect the independent Duffin-style series reduction and its four exact response coordinates.",
+      "purpose": "Inspect the independent Duffin-style series reduction and its four exact response coordinates.",
+      "completion": "complete",
+      "stages": [
+        {
+          "stageId": "ct3-series.problem",
+          "title": "Two-terminal series problem",
+          "summary": "Canonical path pieces are classified by their response to four finite gluing contexts.",
+          "kind": "problem",
+          "primaryDeclarationId": "EvenCycleExample.SeriesReduction.seriesProblem",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.SeriesReduction.glue",
+            "EvenCycleExample.SeriesReduction.response"
+          ]
+        },
+        {
+          "stageId": "ct3-series.ct3",
+          "title": "CT3 response compression",
+          "summary": "CT3 computes the exact response vector and replaces a long path with its parity representative.",
+          "kind": "tactic",
+          "primaryDeclarationId": "EvenCycleExample.SeriesReduction.run",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.SeriesReduction.evenLong_terminal",
+            "EvenCycleExample.SeriesReduction.oddLong_terminal",
+            "EvenCycleExample.SeriesReduction.evenLong_trace",
+            "EvenCycleExample.SeriesReduction.oddCanonical_trace",
+            "EvenCycleExample.SeriesReduction.run_traceValid",
+            "EvenCycleExample.SeriesReduction.run_total"
+          ],
+          "tacticId": "CT3"
+        },
+        {
+          "stageId": "ct3-series.replacement",
+          "title": "Target-preserving replacement",
+          "summary": "Equal response rows preserve the existence of an even cycle in every compatible context.",
+          "kind": "theorem",
+          "primaryDeclarationId": "EvenCycleExample.SeriesReduction.sameResponse_preserves_target",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.SeriesReduction.even_series_sameResponse",
+            "EvenCycleExample.SeriesReduction.odd_series_sameResponse",
+            "EvenCycleExample.SeriesReduction.run_verified"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "linkId": "ct3-series.problem-ct3",
+          "sourceStageId": "ct3-series.problem",
+          "targetStageId": "ct3-series.ct3",
+          "kind": "sharedProblem",
+          "label": "instantiates CT3",
+          "summary": "The series contract supplies CT3's pieces, contexts, rows, response function, and work bound.",
+          "evidenceDeclarationIds": []
+        },
+        {
+          "linkId": "ct3-series.ct3-replacement",
+          "sourceStageId": "ct3-series.ct3",
+          "targetStageId": "ct3-series.replacement",
+          "kind": "proofData",
+          "label": "certified same response",
+          "summary": "The CT3 outcome exposes a response-equivalent representative used by the replacement theorem.",
+          "evidenceDeclarationIds": [
+            "EvenCycleExample.SeriesReduction.run_verified"
+          ]
+        }
+      ]
+    }
+  ],
+  "interfaceBindings": [
+    {
+      "bindingId": "main.ct6-capability",
+      "workflowId": "main",
+      "stageId": "main.ct6",
+      "tacticId": "CT6",
+      "role": "capability",
+      "summary": "The endpoint-parity profile supplies the problem-specific CT6 failure predicate and branch enumeration.",
+      "problemDeclarationId": "EvenCycleExample.ct6Capability",
+      "frameworkDeclarationId": "StructuralExhaustion.CT6.run"
+    },
+    {
+      "bindingId": "main.ct9-adapter",
+      "workflowId": "main",
+      "stageId": "main.ct9",
+      "tacticId": "CT9",
+      "role": "route adapter",
+      "summary": "The item adapter gives the registered route the graph-specific endpoint-neighbor semantics required by CT9.",
+      "problemDeclarationId": "EvenCycleExample.ct6ToCT9ItemAdapter",
+      "frameworkDeclarationId": "StructuralExhaustion.Routes.CT6ToCT9.routeContract"
+    },
+    {
+      "bindingId": "main.ct1-target",
+      "workflowId": "main",
+      "stageId": "main.ct1",
+      "tacticId": "CT1",
+      "role": "target encoding",
+      "summary": "The graph target encoding turns an even-cycle certificate into CT1's finite realization interface.",
+      "problemDeclarationId": "EvenCycleExample.ct1TargetBridge",
+      "frameworkDeclarationId": "StructuralExhaustion.CT1.run"
+    },
+    {
+      "bindingId": "ct2-audit.capability",
+      "workflowId": "ct2-audit",
+      "stageId": "ct2-audit.ct2",
+      "tacticId": "CT2",
+      "role": "deletion capability",
+      "summary": "The generated deletion-only capability connects graph edge deletion to the generic CT2 runner.",
+      "problemDeclarationId": "EvenCycleExample.CT2Audit.capability",
+      "frameworkDeclarationId": "StructuralExhaustion.CT2.run"
+    },
+    {
+      "bindingId": "ct3-series.contract",
+      "workflowId": "ct3-series",
+      "stageId": "ct3-series.ct3",
+      "tacticId": "CT3",
+      "role": "target-compression contract",
+      "summary": "The series contract provides every problem-specific coordinate, response, admissibility, and complexity field consumed by CT3.",
+      "problemDeclarationId": "EvenCycleExample.SeriesReduction.contract",
+      "frameworkDeclarationId": "StructuralExhaustion.CT3.run"
+    }
+  ],
+  "declarations": [
+    {
+      "declarationId": "EvenCycleExample.Baseline",
+      "name": "EvenCycleExample.Baseline",
+      "kind": "definition",
+      "type": "{V : Type u} → StructuralExhaustion.Graph.FiniteObject V → Prop",
+      "sourceId": "EvenCycleExample.Problem",
+      "startLine": 32,
+      "startColumn": 1,
+      "endLine": 33,
+      "endColumn": 42,
+      "selectionStartLine": 32,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 32,
+      "selectionEndColumn": 16
+    },
+    {
+      "declarationId": "EvenCycleExample.CT2Audit.capability",
+      "name": "EvenCycleExample.CT2Audit.capability",
+      "kind": "definition",
+      "type": "(V : Type u) → StructuralExhaustion.CT2.LocalDeletionCapability (staticInput V).problem",
+      "sourceId": "EvenCycleExample.CT2Audit",
+      "startLine": 14,
+      "startColumn": 1,
+      "endLine": 14,
+      "endColumn": 64,
+      "selectionStartLine": 14,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 14,
+      "selectionEndColumn": 18
+    },
+    {
+      "declarationId": "EvenCycleExample.CT2Audit.degree_three_endpoint",
+      "name": "EvenCycleExample.CT2Audit.degree_three_endpoint",
+      "kind": "theorem",
+      "type": "∀ {V : Type u} (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext (problem V) HasEvenCycle)\n  (dart : ctx.G.graph.Dart),\n  StructuralExhaustion.Graph.FiniteObject.degree ctx.G dart.toProd.1 = 3 ∨\n    StructuralExhaustion.Graph.FiniteObject.degree ctx.G dart.toProd.2 = 3",
+      "sourceId": "EvenCycleExample.CT2Audit",
+      "startLine": 19,
+      "startColumn": 1,
+      "endLine": 25,
+      "endColumn": 77,
+      "selectionStartLine": 20,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 20,
+      "selectionEndColumn": 30
+    },
+    {
+      "declarationId": "EvenCycleExample.CT2Audit.deletionClosureRule",
+      "name": "EvenCycleExample.CT2Audit.deletionClosureRule",
+      "kind": "definition",
+      "type": "∀ (V : Type u), StructuralExhaustion.CT2.LocalDeletionClosureRule (staticInput V).ct2Capability",
+      "sourceId": "EvenCycleExample.CT2Audit",
+      "startLine": 16,
+      "startColumn": 1,
+      "endLine": 17,
+      "endColumn": 34,
+      "selectionStartLine": 16,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 16,
+      "selectionEndColumn": 27
+    },
+    {
+      "declarationId": "EvenCycleExample.CT2Audit.heavyDartRun",
+      "name": "EvenCycleExample.CT2Audit.heavyDartRun",
+      "kind": "definition",
+      "type": "{V : Type u} →\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext (problem V) HasEvenCycle) →\n    (dart : ctx.G.graph.Dart) →\n      (heavy :\n          4 ≤ StructuralExhaustion.Graph.FiniteObject.degree ctx.G dart.toProd.1 ∧\n            4 ≤ StructuralExhaustion.Graph.FiniteObject.degree ctx.G dart.toProd.2) →\n        StructuralExhaustion.CT2.LocalDeletionRun (staticInput V).ct2Capability ctx\n          { seed := { piece := dart, proper := heavy, admissible := trivial } }",
+      "sourceId": "EvenCycleExample.CT2Audit",
+      "startLine": 35,
+      "startColumn": 1,
+      "endLine": 42,
+      "endColumn": 46,
+      "selectionStartLine": 36,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 36,
+      "selectionEndColumn": 20
+    },
+    {
+      "declarationId": "EvenCycleExample.CT2Audit.invariant_I1",
+      "name": "EvenCycleExample.CT2Audit.invariant_I1",
+      "kind": "theorem",
+      "type": "∀ {V : Type u} (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext (problem V) HasEvenCycle)\n  {source target : V},\n  ctx.G.graph.Adj source target →\n    StructuralExhaustion.Graph.FiniteObject.degree ctx.G source = 3 ∨\n      StructuralExhaustion.Graph.FiniteObject.degree ctx.G target = 3",
+      "sourceId": "EvenCycleExample.CT2Audit",
+      "startLine": 27,
+      "startColumn": 1,
+      "endLine": 33,
+      "endColumn": 57,
+      "selectionStartLine": 28,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 28,
+      "selectionEndColumn": 21
+    },
+    {
+      "declarationId": "EvenCycleExample.CT2Audit.pieces",
+      "name": "EvenCycleExample.CT2Audit.pieces",
+      "kind": "definition",
+      "type": "(V : Type u) → StructuralExhaustion.CT2.PieceSystem (staticInput V).problem",
+      "sourceId": "EvenCycleExample.CT2Audit",
+      "startLine": 12,
+      "startColumn": 1,
+      "endLine": 12,
+      "endColumn": 56,
+      "selectionStartLine": 12,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 12,
+      "selectionEndColumn": 14
+    },
+    {
+      "declarationId": "EvenCycleExample.ConcreteK4.ct1_terminal_c1",
+      "name": "EvenCycleExample.ConcreteK4.ct1_terminal_c1",
+      "kind": "theorem",
+      "type": "ConcreteK4.ct1Run.result.terminal = StructuralExhaustion.CT1.Graph.Terminal.c1",
+      "sourceId": "EvenCycleExample.Concrete",
+      "startLine": 84,
+      "startColumn": 1,
+      "endLine": 86,
+      "endColumn": 21,
+      "selectionStartLine": 84,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 84,
+      "selectionEndColumn": 24
+    },
+    {
+      "declarationId": "EvenCycleExample.ConcreteK4.ct1_trace_exact",
+      "name": "EvenCycleExample.ConcreteK4.ct1_trace_exact",
+      "kind": "theorem",
+      "type": "ConcreteK4.ct1Run.result.trace =\n  [StructuralExhaustion.CT1.Graph.NodeId.entry, StructuralExhaustion.CT1.Graph.NodeId.equivalenceCertification,\n    StructuralExhaustion.CT1.Graph.NodeId.realizationDecision, StructuralExhaustion.CT1.Graph.NodeId.c1Terminal]",
+      "sourceId": "EvenCycleExample.Concrete",
+      "startLine": 88,
+      "startColumn": 1,
+      "endLine": 91,
+      "endColumn": 18,
+      "selectionStartLine": 88,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 88,
+      "selectionEndColumn": 24
+    },
+    {
+      "declarationId": "EvenCycleExample.ConcreteK4.ct6_terminal_activeLedger",
+      "name": "EvenCycleExample.ConcreteK4.ct6_terminal_activeLedger",
+      "kind": "theorem",
+      "type": "ConcreteK4.ct6Execution.terminal = StructuralExhaustion.CT6.Graph.Terminal.activeLedger",
+      "sourceId": "EvenCycleExample.Concrete",
+      "startLine": 66,
+      "startColumn": 1,
+      "endLine": 68,
+      "endColumn": 49,
+      "selectionStartLine": 66,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 66,
+      "selectionEndColumn": 34
+    },
+    {
+      "declarationId": "EvenCycleExample.ConcreteK4.ct6_trace_exact",
+      "name": "EvenCycleExample.ConcreteK4.ct6_trace_exact",
+      "kind": "theorem",
+      "type": "StructuralExhaustion.CT6.ExecutionResult.trace (endpointParityProfile ConcreteK4.Vertex).ct6Spec\n    ((endpointParityProfile ConcreteK4.Vertex).ct6Capability ConcreteK4.object)\n    ((endpointParityProfile ConcreteK4.Vertex).branchContext ConcreteK4.object ConcreteK4.minimumDegreeThree)\n    ConcreteK4.ct6Execution =\n  [StructuralExhaustion.CT6.Graph.NodeId.entry, StructuralExhaustion.CT6.Graph.NodeId.firstFailureSearch,\n    StructuralExhaustion.CT6.Graph.NodeId.activeLedgerTerminal]",
+      "sourceId": "EvenCycleExample.Concrete",
+      "startLine": 70,
+      "startColumn": 1,
+      "endLine": 73,
+      "endColumn": 46,
+      "selectionStartLine": 70,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 70,
+      "selectionEndColumn": 24
+    },
+    {
+      "declarationId": "EvenCycleExample.ConcreteK4.ct9_terminal_overloaded",
+      "name": "EvenCycleExample.ConcreteK4.ct9_terminal_overloaded",
+      "kind": "theorem",
+      "type": "ConcreteK4.ct9Execution.terminal = StructuralExhaustion.CT9.Graph.Terminal.overloaded",
+      "sourceId": "EvenCycleExample.Concrete",
+      "startLine": 75,
+      "startColumn": 1,
+      "endLine": 77,
+      "endColumn": 49,
+      "selectionStartLine": 75,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 75,
+      "selectionEndColumn": 32
+    },
+    {
+      "declarationId": "EvenCycleExample.ConcreteK4.ct9_trace_exact",
+      "name": "EvenCycleExample.ConcreteK4.ct9_trace_exact",
+      "kind": "theorem",
+      "type": "StructuralExhaustion.CT9.ExecutionResult.trace\n    (StructuralExhaustion.CT9.parityCapacityOne (endpointParityProfile ConcreteK4.Vertex).base.problem ConcreteK4.Vertex\n      ((endpointParityProfile ConcreteK4.Vertex).endpointRank ConcreteK4.object ConcreteK4.minimumDegreeThree))\n    ((endpointParityProfile ConcreteK4.Vertex).ct9Input ConcreteK4.object ConcreteK4.minimumDegreeThree)\n    ConcreteK4.ct9Execution =\n  [StructuralExhaustion.CT9.Graph.NodeId.entry, StructuralExhaustion.CT9.Graph.NodeId.partition,\n    StructuralExhaustion.CT9.Graph.NodeId.overload, StructuralExhaustion.CT9.Graph.NodeId.overloadedTerminal]",
+      "sourceId": "EvenCycleExample.Concrete",
+      "startLine": 79,
+      "startColumn": 1,
+      "endLine": 82,
+      "endColumn": 46,
+      "selectionStartLine": 79,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 79,
+      "selectionEndColumn": 24
+    },
+    {
+      "declarationId": "EvenCycleExample.ConcreteK4.extracted_even_cycle_length",
+      "name": "EvenCycleExample.ConcreteK4.extracted_even_cycle_length",
+      "kind": "theorem",
+      "type": "ConcreteK4.evenCycle.walk.length = 4",
+      "sourceId": "EvenCycleExample.Concrete",
+      "startLine": 61,
+      "startColumn": 1,
+      "endLine": 62,
+      "endColumn": 16,
+      "selectionStartLine": 61,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 61,
+      "selectionEndColumn": 36
+    },
+    {
+      "declarationId": "EvenCycleExample.ConcreteK4.extracted_even_cycle_support",
+      "name": "EvenCycleExample.ConcreteK4.extracted_even_cycle_support",
+      "kind": "theorem",
+      "type": "ConcreteK4.evenCycle.walk.support =\n  [ConcreteK4.Vertex.v3, ConcreteK4.Vertex.v2, ConcreteK4.Vertex.v1, ConcreteK4.Vertex.v0, ConcreteK4.Vertex.v3]",
+      "sourceId": "EvenCycleExample.Concrete",
+      "startLine": 57,
+      "startColumn": 1,
+      "endLine": 59,
+      "endColumn": 16,
+      "selectionStartLine": 57,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 57,
+      "selectionEndColumn": 37
+    },
+    {
+      "declarationId": "EvenCycleExample.HasEvenCycle",
+      "name": "EvenCycleExample.HasEvenCycle",
+      "kind": "definition",
+      "type": "{V : Type u} → StructuralExhaustion.Graph.FiniteObject V → Prop",
+      "sourceId": "EvenCycleExample.Problem",
+      "startLine": 35,
+      "startColumn": 1,
+      "endLine": 36,
+      "endColumn": 32,
+      "selectionStartLine": 35,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 35,
+      "selectionEndColumn": 20
+    },
+    {
+      "declarationId": "EvenCycleExample.SeriesReduction.contract",
+      "name": "EvenCycleExample.SeriesReduction.contract",
+      "kind": "definition",
+      "type": "StructuralExhaustion.CT3.TargetCompressionContract SeriesReduction.seriesProblem SeriesReduction.SeriesHasEvenCycle",
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "startLine": 238,
+      "startColumn": 1,
+      "endLine": 267,
+      "endColumn": 28,
+      "selectionStartLine": 239,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 239,
+      "selectionEndColumn": 13
+    },
+    {
+      "declarationId": "EvenCycleExample.SeriesReduction.evenLong_terminal",
+      "name": "EvenCycleExample.SeriesReduction.evenLong_terminal",
+      "kind": "theorem",
+      "type": "SeriesReduction.evenLongRun.terminal = StructuralExhaustion.CT3.Graph.Terminal.compression",
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "startLine": 325,
+      "startColumn": 1,
+      "endLine": 326,
+      "endColumn": 16,
+      "selectionStartLine": 325,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 325,
+      "selectionEndColumn": 26
+    },
+    {
+      "declarationId": "EvenCycleExample.SeriesReduction.evenLong_trace",
+      "name": "EvenCycleExample.SeriesReduction.evenLong_trace",
+      "kind": "theorem",
+      "type": "SeriesReduction.evenLongRun.trace =\n  [StructuralExhaustion.CT3.Graph.NodeId.entry, StructuralExhaustion.CT3.Graph.NodeId.vectorComputation,\n    StructuralExhaustion.CT3.Graph.NodeId.compressionSearch, StructuralExhaustion.CT3.Graph.NodeId.compressionTerminal]",
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "startLine": 337,
+      "startColumn": 1,
+      "endLine": 340,
+      "endColumn": 16,
+      "selectionStartLine": 337,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 337,
+      "selectionEndColumn": 23
+    },
+    {
+      "declarationId": "EvenCycleExample.SeriesReduction.even_series_sameResponse",
+      "name": "EvenCycleExample.SeriesReduction.even_series_sameResponse",
+      "kind": "theorem",
+      "type": "StructuralExhaustion.CT3.SameResponse SeriesReduction.ct3Spec SeriesReduction.Piece.evenCanonical\n  SeriesReduction.Piece.evenLong",
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "startLine": 304,
+      "startColumn": 1,
+      "endLine": 307,
+      "endColumn": 24,
+      "selectionStartLine": 304,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 304,
+      "selectionEndColumn": 33
+    },
+    {
+      "declarationId": "EvenCycleExample.SeriesReduction.glue",
+      "name": "EvenCycleExample.SeriesReduction.glue",
+      "kind": "definition",
+      "type": "SeriesReduction.Piece → SeriesReduction.Context → SeriesReduction.SeriesObject",
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "startLine": 115,
+      "startColumn": 1,
+      "endLine": 121,
+      "endColumn": 44,
+      "selectionStartLine": 117,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 117,
+      "selectionEndColumn": 9
+    },
+    {
+      "declarationId": "EvenCycleExample.SeriesReduction.oddCanonical_trace",
+      "name": "EvenCycleExample.SeriesReduction.oddCanonical_trace",
+      "kind": "theorem",
+      "type": "SeriesReduction.oddCanonicalRun.trace =\n  [StructuralExhaustion.CT3.Graph.NodeId.entry, StructuralExhaustion.CT3.Graph.NodeId.vectorComputation,\n    StructuralExhaustion.CT3.Graph.NodeId.compressionSearch, StructuralExhaustion.CT3.Graph.NodeId.tableValidation,\n    StructuralExhaustion.CT3.Graph.NodeId.rowLookup, StructuralExhaustion.CT3.Graph.NodeId.knownRowTerminal]",
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "startLine": 342,
+      "startColumn": 1,
+      "endLine": 345,
+      "endColumn": 16,
+      "selectionStartLine": 342,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 342,
+      "selectionEndColumn": 27
+    },
+    {
+      "declarationId": "EvenCycleExample.SeriesReduction.oddLong_terminal",
+      "name": "EvenCycleExample.SeriesReduction.oddLong_terminal",
+      "kind": "theorem",
+      "type": "SeriesReduction.oddLongRun.terminal = StructuralExhaustion.CT3.Graph.Terminal.compression",
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "startLine": 328,
+      "startColumn": 1,
+      "endLine": 329,
+      "endColumn": 16,
+      "selectionStartLine": 328,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 328,
+      "selectionEndColumn": 25
+    },
+    {
+      "declarationId": "EvenCycleExample.SeriesReduction.odd_series_sameResponse",
+      "name": "EvenCycleExample.SeriesReduction.odd_series_sameResponse",
+      "kind": "theorem",
+      "type": "StructuralExhaustion.CT3.SameResponse SeriesReduction.ct3Spec SeriesReduction.Piece.oddCanonical\n  SeriesReduction.Piece.oddLong",
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "startLine": 309,
+      "startColumn": 1,
+      "endLine": 312,
+      "endColumn": 24,
+      "selectionStartLine": 309,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 309,
+      "selectionEndColumn": 32
+    },
+    {
+      "declarationId": "EvenCycleExample.SeriesReduction.response",
+      "name": "EvenCycleExample.SeriesReduction.response",
+      "kind": "definition",
+      "type": "SeriesReduction.Piece → SeriesReduction.Context → Bool",
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "startLine": 208,
+      "startColumn": 1,
+      "endLine": 214,
+      "endColumn": 30,
+      "selectionStartLine": 208,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 208,
+      "selectionEndColumn": 13
+    },
+    {
+      "declarationId": "EvenCycleExample.SeriesReduction.run",
+      "name": "EvenCycleExample.SeriesReduction.run",
+      "kind": "definition",
+      "type": "(piece : SeriesReduction.Piece) → SeriesReduction.contract.AuditedRun SeriesReduction.branch piece",
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "startLine": 282,
+      "startColumn": 1,
+      "endLine": 282,
+      "endColumn": 53,
+      "selectionStartLine": 282,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 282,
+      "selectionEndColumn": 8
+    },
+    {
+      "declarationId": "EvenCycleExample.SeriesReduction.run_total",
+      "name": "EvenCycleExample.SeriesReduction.run_total",
+      "kind": "theorem",
+      "type": "∀ (piece : SeriesReduction.Piece),\n  ∃ result,\n    StructuralExhaustion.CT3.OutcomeClaim result.outcome ∧ StructuralExhaustion.CT3.Graph.ValidTrace result.trace",
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "startLine": 371,
+      "startColumn": 1,
+      "endLine": 376,
+      "endColumn": 34,
+      "selectionStartLine": 371,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 371,
+      "selectionEndColumn": 18
+    },
+    {
+      "declarationId": "EvenCycleExample.SeriesReduction.run_traceValid",
+      "name": "EvenCycleExample.SeriesReduction.run_traceValid",
+      "kind": "theorem",
+      "type": "∀ (piece : SeriesReduction.Piece), StructuralExhaustion.CT3.Graph.ValidTrace (SeriesReduction.run piece).trace",
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "startLine": 366,
+      "startColumn": 1,
+      "endLine": 369,
+      "endColumn": 39,
+      "selectionStartLine": 366,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 366,
+      "selectionEndColumn": 23
+    },
+    {
+      "declarationId": "EvenCycleExample.SeriesReduction.run_verified",
+      "name": "EvenCycleExample.SeriesReduction.run_verified",
+      "kind": "theorem",
+      "type": "∀ (piece : SeriesReduction.Piece), StructuralExhaustion.CT3.OutcomeClaim (SeriesReduction.run piece).outcome",
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "startLine": 362,
+      "startColumn": 1,
+      "endLine": 364,
+      "endColumn": 37,
+      "selectionStartLine": 362,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 362,
+      "selectionEndColumn": 21
+    },
+    {
+      "declarationId": "EvenCycleExample.SeriesReduction.sameResponse_preserves_target",
+      "name": "EvenCycleExample.SeriesReduction.sameResponse_preserves_target",
+      "kind": "theorem",
+      "type": "∀ {left right : SeriesReduction.Piece},\n  StructuralExhaustion.CT3.SameResponse SeriesReduction.ct3Spec left right →\n    ∀ (context : SeriesReduction.Context),\n      SeriesReduction.SeriesHasEvenCycle (SeriesReduction.glue left context) ↔\n        SeriesReduction.SeriesHasEvenCycle (SeriesReduction.glue right context)",
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "startLine": 355,
+      "startColumn": 1,
+      "endLine": 360,
+      "endColumn": 48,
+      "selectionStartLine": 355,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 355,
+      "selectionEndColumn": 38
+    },
+    {
+      "declarationId": "EvenCycleExample.SeriesReduction.seriesProblem",
+      "name": "EvenCycleExample.SeriesReduction.seriesProblem",
+      "kind": "definition",
+      "type": "StructuralExhaustion.Core.Problem",
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "startLine": 78,
+      "startColumn": 1,
+      "endLine": 82,
+      "endColumn": 31,
+      "selectionStartLine": 78,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 78,
+      "selectionEndColumn": 18
+    },
+    {
+      "declarationId": "EvenCycleExample.ct1TargetBridge",
+      "name": "EvenCycleExample.ct1TargetBridge",
+      "kind": "definition",
+      "type": "∀ (V : Type u), StructuralExhaustion.CT1.TargetBridge (staticInput V).targetEncoding.spec (staticInput V).Target",
+      "sourceId": "EvenCycleExample.CT1Instance",
+      "startLine": 18,
+      "startColumn": 1,
+      "endLine": 18,
+      "endColumn": 71,
+      "selectionStartLine": 18,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 18,
+      "selectionEndColumn": 23
+    },
+    {
+      "declarationId": "EvenCycleExample.ct6Capability",
+      "name": "EvenCycleExample.ct6Capability",
+      "kind": "definition",
+      "type": "{V : Type u} →\n  StructuralExhaustion.Graph.FiniteObject V → StructuralExhaustion.CT6.Capability (endpointParityProfile V).ct6Spec",
+      "sourceId": "EvenCycleExample.CT6Instance",
+      "startLine": 23,
+      "startColumn": 1,
+      "endLine": 24,
+      "endColumn": 49,
+      "selectionStartLine": 23,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 23,
+      "selectionEndColumn": 21
+    },
+    {
+      "declarationId": "EvenCycleExample.ct6Run",
+      "name": "EvenCycleExample.ct6Run",
+      "kind": "definition",
+      "type": "∀ {V : Type u} (object : StructuralExhaustion.Graph.FiniteObject V) (baseline : Baseline object),\n  StructuralExhaustion.CT6.ActiveLedgerRun (endpointParityProfile V).ct6Spec\n    ((endpointParityProfile V).ct6Capability object) ((endpointParityProfile V).branchContext object baseline)",
+      "sourceId": "EvenCycleExample.CT6Instance",
+      "startLine": 31,
+      "startColumn": 1,
+      "endLine": 32,
+      "endColumn": 51,
+      "selectionStartLine": 31,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 31,
+      "selectionEndColumn": 14
+    },
+    {
+      "declarationId": "EvenCycleExample.ct6ToCT9ItemAdapter",
+      "name": "EvenCycleExample.ct6ToCT9ItemAdapter",
+      "kind": "definition",
+      "type": "{V : Type u} →\n  (object : StructuralExhaustion.Graph.FiniteObject V) →\n    (baseline : Baseline object) →\n      StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter\n        (StructuralExhaustion.CT6.ActiveLedgerResidual (endpointParityProfile V).ct6Spec\n          ((endpointParityProfile V).ct6Capability object) ((endpointParityProfile V).branchContext object baseline))\n        ((endpointParityProfile V).ct9Capability object baseline).Item",
+      "sourceId": "EvenCycleExample.CT9Instance",
+      "startLine": 29,
+      "startColumn": 1,
+      "endLine": 31,
+      "endColumn": 64,
+      "selectionStartLine": 29,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 29,
+      "selectionEndColumn": 27
+    },
+    {
+      "declarationId": "EvenCycleExample.ct6_endpoint_closed",
+      "name": "EvenCycleExample.ct6_endpoint_closed",
+      "kind": "theorem",
+      "type": "∀ {V : Type u} (object : StructuralExhaustion.Graph.FiniteObject V) (baseline : Baseline object) (vertex : V),\n  object.graph.Adj (chosenMaximalPath object baseline).snd.path.endpoint vertex →\n    vertex ∈ (chosenMaximalPath object baseline).snd.path.vertices",
+      "sourceId": "EvenCycleExample.CT6Instance",
+      "startLine": 34,
+      "startColumn": 1,
+      "endLine": 40,
+      "endColumn": 64,
+      "selectionStartLine": 34,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 34,
+      "selectionEndColumn": 28
+    },
+    {
+      "declarationId": "EvenCycleExample.ct6_no_failure",
+      "name": "EvenCycleExample.ct6_no_failure",
+      "kind": "theorem",
+      "type": "∀ {V : Type u} (object : StructuralExhaustion.Graph.FiniteObject V) (baseline : Baseline object) (vertex : V),\n  ¬(ct6Spec V).Failure (branchContext object baseline) vertex",
+      "sourceId": "EvenCycleExample.CT6Instance",
+      "startLine": 26,
+      "startColumn": 1,
+      "endLine": 29,
+      "endColumn": 66,
+      "selectionStartLine": 26,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 26,
+      "selectionEndColumn": 23
+    },
+    {
+      "declarationId": "EvenCycleExample.ct9Run",
+      "name": "EvenCycleExample.ct9Run",
+      "kind": "definition",
+      "type": "∀ {V : Type u} (object : StructuralExhaustion.Graph.FiniteObject V) (baseline : Baseline object),\n  StructuralExhaustion.CT9.ParityCapacityOneRun ((endpointParityProfile V).endpointRank object baseline)\n    ((endpointParityProfile V).ct9Input object baseline)",
+      "sourceId": "EvenCycleExample.CT9Instance",
+      "startLine": 42,
+      "startColumn": 1,
+      "endLine": 43,
+      "endColumn": 51,
+      "selectionStartLine": 42,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 42,
+      "selectionEndColumn": 14
+    },
+    {
+      "declarationId": "EvenCycleExample.ct9_three_le_item_cardinality",
+      "name": "EvenCycleExample.ct9_three_le_item_cardinality",
+      "kind": "theorem",
+      "type": "∀ {V : Type u} (object : StructuralExhaustion.Graph.FiniteObject V) (baseline : Baseline object),\n  3 ≤ (ct9Input object baseline).items.values.length",
+      "sourceId": "EvenCycleExample.CT9Instance",
+      "startLine": 37,
+      "startColumn": 1,
+      "endLine": 40,
+      "endColumn": 74,
+      "selectionStartLine": 37,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 37,
+      "selectionEndColumn": 38
+    },
+    {
+      "declarationId": "EvenCycleExample.endpointParityProfile",
+      "name": "EvenCycleExample.endpointParityProfile",
+      "kind": "definition",
+      "type": "(V : Type u) → StructuralExhaustion.Graph.EndpointParityCycle.Profile V",
+      "sourceId": "EvenCycleExample.Problem",
+      "startLine": 20,
+      "startColumn": 1,
+      "endLine": 25,
+      "endColumn": 48,
+      "selectionStartLine": 23,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 23,
+      "selectionEndColumn": 29
+    },
+    {
+      "declarationId": "EvenCycleExample.evenCycleCertificate",
+      "name": "EvenCycleExample.evenCycleCertificate",
+      "kind": "definition",
+      "type": "{V : Type u} →\n  (object : StructuralExhaustion.Graph.FiniteObject V) →\n    Baseline object → StructuralExhaustion.Graph.CycleWithLength object.graph fun length => length % 2 = 0",
+      "sourceId": "EvenCycleExample.CT6CT9",
+      "startLine": 13,
+      "startColumn": 1,
+      "endLine": 15,
+      "endColumn": 65,
+      "selectionStartLine": 13,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 13,
+      "selectionEndColumn": 28
+    },
+    {
+      "declarationId": "EvenCycleExample.finalCT1Run",
+      "name": "EvenCycleExample.finalCT1Run",
+      "kind": "definition",
+      "type": "{V : Type u} →\n  (object : StructuralExhaustion.Graph.FiniteObject V) →\n    (baseline : Baseline object) →\n      StructuralExhaustion.CT1.CertifiedC1Run (endpointParityProfile V).base.ct1Spec\n        ((endpointParityProfile V).ct1Input object baseline)",
+      "sourceId": "EvenCycleExample.Run",
+      "startLine": 14,
+      "startColumn": 1,
+      "endLine": 17,
+      "endColumn": 51,
+      "selectionStartLine": 15,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 15,
+      "selectionEndColumn": 19
+    },
+    {
+      "declarationId": "EvenCycleExample.hasEvenCycle_of_minDegree_three",
+      "name": "EvenCycleExample.hasEvenCycle_of_minDegree_three",
+      "kind": "theorem",
+      "type": "∀ {V : Type u} (object : StructuralExhaustion.Graph.FiniteObject V), Baseline object → HasEvenCycle object",
+      "sourceId": "EvenCycleExample.CT6CT9",
+      "startLine": 17,
+      "startColumn": 1,
+      "endLine": 19,
+      "endColumn": 63,
+      "selectionStartLine": 17,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 17,
+      "selectionEndColumn": 40
+    },
+    {
+      "declarationId": "EvenCycleExample.minimumDegreeThree_hasEvenCycle",
+      "name": "EvenCycleExample.minimumDegreeThree_hasEvenCycle",
+      "kind": "theorem",
+      "type": "∀ {V : Type u} (object : StructuralExhaustion.Graph.FiniteObject V), Baseline object → HasEvenCycle object",
+      "sourceId": "EvenCycleExample.Run",
+      "startLine": 19,
+      "startColumn": 1,
+      "endLine": 24,
+      "endColumn": 63,
+      "selectionStartLine": 21,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 21,
+      "selectionEndColumn": 40
+    },
+    {
+      "declarationId": "EvenCycleExample.sameParityEndpointPositions",
+      "name": "EvenCycleExample.sameParityEndpointPositions",
+      "kind": "definition",
+      "type": "{V : Type u} →\n  (object : StructuralExhaustion.Graph.FiniteObject V) →\n    (baseline : Baseline object) →\n      StructuralExhaustion.Graph.EndpointParityCycle.SameParityEndpointPositions\n        ((endpointParityProfile V).activePath object baseline)",
+      "sourceId": "EvenCycleExample.CT9Instance",
+      "startLine": 49,
+      "startColumn": 1,
+      "endLine": 51,
+      "endColumn": 72,
+      "selectionStartLine": 49,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 49,
+      "selectionEndColumn": 35
+    },
+    {
+      "declarationId": "StructuralExhaustion.CT1.run",
+      "name": "StructuralExhaustion.CT1.run",
+      "kind": "definition",
+      "type": "{P : StructuralExhaustion.Core.Problem} →\n  (S : StructuralExhaustion.CT1.Spec P) →\n    StructuralExhaustion.CT1.Capability S →\n      (input : StructuralExhaustion.CT1.Input P) → StructuralExhaustion.CT1.ExecutionResult S input",
+      "sourceId": "StructuralExhaustion.CT1.Execution",
+      "startLine": 59,
+      "startColumn": 1,
+      "endLine": 65,
+      "endColumn": 34,
+      "selectionStartLine": 62,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 62,
+      "selectionEndColumn": 8
+    },
+    {
+      "declarationId": "StructuralExhaustion.CT2.run",
+      "name": "StructuralExhaustion.CT2.run",
+      "kind": "definition",
+      "type": "{P : StructuralExhaustion.Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    (capability : StructuralExhaustion.CT2.Capability P Target) →\n      (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext P Target) →\n        (input : StructuralExhaustion.CT2.Input capability ctx) →\n          StructuralExhaustion.CT2.ExecutionResult capability ctx input",
+      "sourceId": "StructuralExhaustion.CT2.Execution",
+      "startLine": 76,
+      "startColumn": 1,
+      "endLine": 78,
+      "endColumn": 36,
+      "selectionStartLine": 77,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 77,
+      "selectionEndColumn": 8
+    },
+    {
+      "declarationId": "StructuralExhaustion.CT3.run",
+      "name": "StructuralExhaustion.CT3.run",
+      "kind": "definition",
+      "type": "{P : StructuralExhaustion.Core.Problem} →\n  (S : StructuralExhaustion.CT3.Spec P) →\n    (C : StructuralExhaustion.CT3.Capability S) →\n      (input : StructuralExhaustion.CT3.Input S) → StructuralExhaustion.CT3.ExecutionResult S C input",
+      "sourceId": "StructuralExhaustion.CT3.Execution",
+      "startLine": 95,
+      "startColumn": 1,
+      "endLine": 100,
+      "endColumn": 25,
+      "selectionStartLine": 97,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 97,
+      "selectionEndColumn": 8
+    },
+    {
+      "declarationId": "StructuralExhaustion.CT6.run",
+      "name": "StructuralExhaustion.CT6.run",
+      "kind": "definition",
+      "type": "{P : StructuralExhaustion.Core.Problem} →\n  (S : StructuralExhaustion.CT6.Spec P) →\n    (capability : StructuralExhaustion.CT6.Capability S) →\n      (input : StructuralExhaustion.CT6.Input P) → StructuralExhaustion.CT6.ExecutionResult S capability input",
+      "sourceId": "StructuralExhaustion.CT6.Execution",
+      "startLine": 37,
+      "startColumn": 1,
+      "endLine": 37,
+      "endColumn": 43,
+      "selectionStartLine": 37,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 37,
+      "selectionEndColumn": 8
+    },
+    {
+      "declarationId": "StructuralExhaustion.Routes.CT6ToCT9.routeContract",
+      "name": "StructuralExhaustion.Routes.CT6ToCT9.routeContract",
+      "kind": "definition",
+      "type": "StructuralExhaustion.Core.RouteContract",
+      "sourceId": "StructuralExhaustion.Routes.CT6ToCT9",
+      "startLine": 214,
+      "startColumn": 1,
+      "endLine": 230,
+      "endColumn": 74,
+      "selectionStartLine": 215,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 215,
+      "selectionEndColumn": 18
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "EvenCycleExample.CT1Instance",
+      "moduleName": "EvenCycleExample.CT1Instance",
+      "path": "examples/even_cycle/EvenCycleExample/CT1Instance.lean",
+      "sha256": "6658de0f41d98d617a824353c5e7fcb933609daa5a91d78b77b6d7a6957ad640",
+      "content": "import EvenCycleExample.Problem\n\nnamespace EvenCycleExample\n\nopen StructuralExhaustion\n\nuniverse u\n\n/-!\nCT1 is entirely generated by the reusable graph cycle-target adapter.  The\nexample contributes only the even-length predicate.\n-/\n\nabbrev evenCycleEncoding (V : Type u) := (staticInput V).targetEncoding\n\nabbrev ct1Spec (V : Type u) := (staticInput V).ct1Spec\n\nabbrev ct1TargetBridge (V : Type u) := (staticInput V).ct1TargetBridge\n\nend EvenCycleExample\n"
+    },
+    {
+      "sourceId": "EvenCycleExample.CT2Audit",
+      "moduleName": "EvenCycleExample.CT2Audit",
+      "path": "examples/even_cycle/EvenCycleExample/CT2Audit.lean",
+      "sha256": "584e6b5b90d9b3a033b4699627453fcb825e89e7c3a511714e8ee9a75b0f1441",
+      "content": "import EvenCycleExample.CT1Instance\n\nnamespace EvenCycleExample.CT2Audit\n\nopen StructuralExhaustion\n\nuniverse u\n\n\n/-! The graph profile generates the complete deletion-only CT2 API. -/\n\nabbrev pieces (V : Type u) := (staticInput V).ct2Pieces\n\nabbrev capability (V : Type u) := (staticInput V).ct2Capability\n\nabbrev deletionClosureRule (V : Type u) :=\n  (staticInput V).ct2DeletionRule\n\n/-- CT2 derives the heavy-edge invariant; it is not an authored obligation. -/\ntheorem degree_three_endpoint {V : Type u}\n    (ctx : Core.MinimalCounterexampleContext\n      (problem V) (HasEvenCycle (V := V)))\n    (dart : ctx.G.graph.Dart) :\n    ctx.G.degree dart.fst = 3 ∨ ctx.G.degree dart.snd = 3 := by\n  simpa [staticInput] using (staticInput V).dart_has_tight_endpoint ctx dart\n\n/-- Adjacency-facing form of the same CT2 invariant. -/\ntheorem invariant_I1 {V : Type u}\n    (ctx : Core.MinimalCounterexampleContext\n      (problem V) (HasEvenCycle (V := V)))\n    {source target : V} (adjacent : ctx.G.graph.Adj source target) :\n    ctx.G.degree source = 3 ∨ ctx.G.degree target = 3 :=\n  degree_three_endpoint ctx ⟨(source, target), adjacent⟩\n\n/-- Exact deletion-C2 run for any explicitly exhibited heavy dart. -/\nabbrev heavyDartRun {V : Type u}\n    (ctx : Core.MinimalCounterexampleContext\n      (problem V) (HasEvenCycle (V := V)))\n    (dart : ctx.G.graph.Dart)\n    (heavy : 4 ≤ ctx.G.degree dart.fst ∧\n      4 ≤ ctx.G.degree dart.snd) :=\n  (staticInput V).heavyDartRun ctx dart heavy\n\nend EvenCycleExample.CT2Audit\n"
+    },
+    {
+      "sourceId": "EvenCycleExample.CT3SeriesReduction",
+      "moduleName": "EvenCycleExample.CT3SeriesReduction",
+      "path": "examples/even_cycle/EvenCycleExample/CT3SeriesReduction.lean",
+      "sha256": "243af04b3a55e011dfe72ec86572770cbf59f4dcedeb3a66596d37cd4a40544a",
+      "content": "import EvenCycleExample.CT1Instance\nimport StructuralExhaustion.CT3.TargetCompression\nimport Mathlib.Combinatorics.SimpleGraph.Acyclic\n\nnamespace EvenCycleExample.SeriesReduction\n\nopen StructuralExhaustion\n\n/-!\n# Duffin parity-series reduction\n\nTwo-terminal paths are represented canonically by their length.  Gluing a\nnonempty return path produces the corresponding cycle graph, while the empty\ncontext leaves a path graph.  CT3 sees only the four local response\ncoordinates below.  Their correctness is proved structurally from acyclicity\nof paths and rigidity of connected 2-regular graphs; no cycle universe is\ngenerated.\n-/\n\ninductive Piece where\n  | evenCanonical\n  | oddCanonical\n  | evenLong\n  | oddLong\n  deriving Repr, DecidableEq\n\ninductive Context where\n  | empty\n  | evenReturn\n  | oddReturn\n  | targetPresent\n  deriving Repr, DecidableEq\n\ninductive Parity where\n  | even\n  | odd\n  deriving Repr, DecidableEq\n\nabbrev Candidate := Parity\nabbrev Row := Parity\n\n@[implicit_reducible]\ndef contexts : FinEnum Context :=\n  FinEnum.ofNodupList\n    [.empty, .evenReturn, .oddReturn, .targetPresent]\n    (by intro context; cases context <;> simp) (by decide)\n\n@[implicit_reducible]\ndef parities : FinEnum Parity :=\n  FinEnum.ofNodupList [.even, .odd]\n    (by intro parity; cases parity <;> simp) (by decide)\n\n/-- Edge length of each two-terminal path. -/\ndef Piece.length : Piece → Nat\n  | .evenCanonical => 2\n  | .oddCanonical => 1\n  | .evenLong => 4\n  | .oddLong => 3\n\ndef Piece.parity : Piece → Parity\n  | .evenCanonical | .evenLong => .even\n  | .oddCanonical | .oddLong => .odd\n\ndef canonicalPiece : Parity → Piece\n  | .even => .evenCanonical\n  | .odd => .oddCanonical\n\n/-! ## Canonical finite graph semantics -/\n\n/-- A finite graph whose vertex order is part of the ambient value. -/\nabbrev SeriesObject := Σ order : Nat, Graph.FiniteObject (Fin order)\n\ndef EvenLength (length : Nat) : Prop := length % 2 = 0\n\ndef SeriesHasEvenCycle (object : SeriesObject) : Prop :=\n  Graph.HasCycleWithLength object.2.graph EvenLength\n\ndef seriesProblem : Core.Problem where\n  Ambient := SeriesObject\n  Baseline := fun _ => True\n  rank := fun object => object.1\n  BranchState := fun _ => Unit\n\n/-- Computable adjacency for Mathlib's canonical path graph. -/\n@[reducible]\ndef pathGraphAdjDecidable (order : Nat) :\n    DecidableRel (SimpleGraph.pathGraph order).Adj := fun left right =>\n  decidable_of_iff\n    (left.val + 1 = right.val ∨ right.val + 1 = left.val)\n    SimpleGraph.pathGraph_adj.symm\n\nlocal instance (order : Nat) :\n    DecidableRel (SimpleGraph.pathGraph order).Adj :=\n  pathGraphAdjDecidable order\n\ndef pathObject (edges : Nat) : SeriesObject :=\n  ⟨edges + 1, {\n    graph := SimpleGraph.pathGraph (edges + 1)\n    input := {\n      vertices := inferInstance\n      decideAdj := pathGraphAdjDecidable (edges + 1)\n    }\n  }⟩\n\n/-- `cycleObject offset` is the canonical cycle of length `offset + 3`. -/\ndef cycleObject (offset : Nat) : SeriesObject :=\n  ⟨offset + 3, {\n    graph := SimpleGraph.cycleGraph (offset + 3)\n    input := {\n      vertices := inferInstance\n      decideAdj := inferInstance\n    }\n  }⟩\n\n/-- Canonical series gluing.  The two nonempty return coordinates close a\ncycle whose length is the sum of the two path lengths. -/\ndef glue : Piece → Context → SeriesObject\n  | piece, .empty => pathObject piece.length\n  | piece, .evenReturn => cycleObject (piece.length + 2 - 3)\n  | piece, .oddReturn => cycleObject (piece.length + 3 - 3)\n  | _piece, .targetPresent => cycleObject 1\n\nprivate theorem pathGraphTwo_isAcyclic :\n    (SimpleGraph.pathGraph 2).IsAcyclic := by\n  letI : Fintype (SimpleGraph.pathGraph 2).edgeSet := inferInstance\n  exact (SimpleGraph.isTree_iff_connected_and_card.mpr\n    ⟨SimpleGraph.pathGraph_connected 1, by\n      have edgeCard : Nat.card (SimpleGraph.pathGraph 2).edgeSet =\n          (SimpleGraph.pathGraph 2).edgeFinset.card := by\n        rw [Nat.card_eq_fintype_card, SimpleGraph.edgeFinset_card]\n      rw [edgeCard, Nat.card_eq_fintype_card]\n      native_decide⟩).isAcyclic\n\nprivate theorem pathGraphThree_isAcyclic :\n    (SimpleGraph.pathGraph 3).IsAcyclic := by\n  letI : Fintype (SimpleGraph.pathGraph 3).edgeSet := inferInstance\n  exact (SimpleGraph.isTree_iff_connected_and_card.mpr\n    ⟨SimpleGraph.pathGraph_connected 2, by\n      have edgeCard : Nat.card (SimpleGraph.pathGraph 3).edgeSet =\n          (SimpleGraph.pathGraph 3).edgeFinset.card := by\n        rw [Nat.card_eq_fintype_card, SimpleGraph.edgeFinset_card]\n      rw [edgeCard, Nat.card_eq_fintype_card]\n      native_decide⟩).isAcyclic\n\nprivate theorem pathGraphFour_isAcyclic :\n    (SimpleGraph.pathGraph 4).IsAcyclic := by\n  letI : Fintype (SimpleGraph.pathGraph 4).edgeSet := inferInstance\n  exact (SimpleGraph.isTree_iff_connected_and_card.mpr\n    ⟨SimpleGraph.pathGraph_connected 3, by\n      have edgeCard : Nat.card (SimpleGraph.pathGraph 4).edgeSet =\n          (SimpleGraph.pathGraph 4).edgeFinset.card := by\n        rw [Nat.card_eq_fintype_card, SimpleGraph.edgeFinset_card]\n      rw [edgeCard, Nat.card_eq_fintype_card]\n      native_decide⟩).isAcyclic\n\nprivate theorem pathGraphFive_isAcyclic :\n    (SimpleGraph.pathGraph 5).IsAcyclic := by\n  letI : Fintype (SimpleGraph.pathGraph 5).edgeSet := inferInstance\n  exact (SimpleGraph.isTree_iff_connected_and_card.mpr\n    ⟨SimpleGraph.pathGraph_connected 4, by\n      have edgeCard : Nat.card (SimpleGraph.pathGraph 5).edgeSet =\n          (SimpleGraph.pathGraph 5).edgeFinset.card := by\n        rw [Nat.card_eq_fintype_card, SimpleGraph.edgeFinset_card]\n      rw [edgeCard, Nat.card_eq_fintype_card]\n      native_decide⟩).isAcyclic\n\ntheorem pathObject_piece_hasNoEvenCycle (piece : Piece) :\n    ¬ SeriesHasEvenCycle (pathObject piece.length) := by\n  rintro ⟨cycle⟩\n  cases piece with\n  | evenCanonical =>\n      exact pathGraphThree_isAcyclic cycle.walk cycle.isCycle\n  | oddCanonical =>\n      exact pathGraphTwo_isAcyclic cycle.walk cycle.isCycle\n  | evenLong =>\n      exact pathGraphFive_isAcyclic cycle.walk cycle.isCycle\n  | oddLong =>\n      exact pathGraphFour_isAcyclic cycle.walk cycle.isCycle\n\n/-- Exact parity theorem for a canonical cycle component. -/\ntheorem cycleObject_hasEvenCycle_iff (offset : Nat) :\n    SeriesHasEvenCycle (cycleObject offset) ↔\n      (offset + 3) % 2 = 0 := by\n  change Graph.HasCycleWithLength\n    (SimpleGraph.cycleGraph (offset + 3)) EvenLength ↔ _\n  constructor\n  · rintro ⟨cycle⟩\n    have lengthEq : cycle.walk.length = offset + 3 := by\n      have exactCard := Graph.cycle_length_eq_card_of_connected_isCycles\n        (SimpleGraph.cycleGraph_connected (n := offset + 2))\n        (Graph.cycleGraph_isCycles offset) cycle.walk cycle.isCycle\n      simp only [Fintype.card_fin] at exactCard\n      omega\n    have lengthEven := cycle.length_ok\n    rw [lengthEq] at lengthEven\n    exact lengthEven\n  · intro even\n    exact ⟨{\n      vertex := 0\n      walk := SimpleGraph.cycleGraph.cycle offset\n      isCycle := SimpleGraph.cycleGraph.isCycle_cycle\n      length_ok := by\n        simpa [EvenLength] using even\n    }⟩\n\n/-! ## Four exact local response coordinates -/\n\ndef response : Piece → Context → Bool\n  | _, .empty => false\n  | .evenCanonical, .evenReturn | .evenLong, .evenReturn => true\n  | .oddCanonical, .evenReturn | .oddLong, .evenReturn => false\n  | .evenCanonical, .oddReturn | .evenLong, .oddReturn => false\n  | .oddCanonical, .oddReturn | .oddLong, .oddReturn => true\n  | _, .targetPresent => true\n\ndef storedResponse (row : Row) (context : Context) : Bool :=\n  response (canonicalPiece row) context\n\nprivate theorem response_correct (piece : Piece) (context : Context) :\n    response piece context = true ↔ SeriesHasEvenCycle (glue piece context) := by\n  cases context with\n  | empty =>\n      simpa [response, glue] using pathObject_piece_hasNoEvenCycle piece\n  | evenReturn =>\n      cases piece <;>\n        simp [response, glue, Piece.length, cycleObject_hasEvenCycle_iff]\n  | oddReturn =>\n      cases piece <;>\n        simp [response, glue, Piece.length, cycleObject_hasEvenCycle_iff]\n  | targetPresent =>\n      cases piece <;>\n        simp [response, glue, cycleObject_hasEvenCycle_iff]\n\nprivate theorem contractWorkBound :\n    CT3.localCheckBound contexts parities parities ≤ 28 := by\n  native_decide\n\n/-- Complete local-coordinate instantiation of the generic CT3 engine. -/\ndef contract :\n    CT3.TargetCompressionContract seriesProblem SeriesHasEvenCycle where\n  Piece := Piece\n  CompatibleContext := Context\n  Coordinate := Context\n  Candidate := Candidate\n  Row := Row\n  glue := glue\n  classify := id\n  response := response\n  response_correct := response_correct\n  candidatePiece := canonicalPiece\n  AdmissibleReplacement := fun _object _source _candidate => True\n  StrictlySmaller := fun _object source candidate =>\n    (canonicalPiece candidate).length < source.length\n  rowPiece := canonicalPiece\n  rowResponse := storedResponse\n  coordinates := contexts\n  candidates := parities\n  rows := parities\n  admissibleDecidable := fun _object _source _candidate => .isTrue trivial\n  smallerDecidable := fun _object _source _candidate => inferInstance\n  inputSize := fun object => object.1\n  workCoefficient := 28\n  workDegree := 0\n  workBound := by\n    intro object\n    change CT3.localCheckBound contexts parities parities ≤ 28\n    exact contractWorkBound\n\nabbrev ct3Spec := contract.spec\nabbrev ct3Capability := contract.capability\n\ndef ambient : SeriesObject := cycleObject 1\n\ndef branch : Core.BranchContext seriesProblem where\n  G := ambient\n  baseline := trivial\n  state := ()\n\ndef ct3Input (piece : Piece) : CT3.Input ct3Spec :=\n  contract.input branch piece\n\ndef run (piece : Piece) := contract.run branch piece\n\n/-- Computed response vector in the declared coordinate order. -/\ndef responseVector (piece : Piece) : List Bool :=\n  contexts.orderedValues.map (response piece)\n\ntheorem evenCanonical_response :\n    responseVector .evenCanonical = [false, true, false, true] := by\n  native_decide\n\ntheorem evenLong_response :\n    responseVector .evenLong = [false, true, false, true] := by\n  native_decide\n\ntheorem oddCanonical_response :\n    responseVector .oddCanonical = [false, false, true, true] := by\n  native_decide\n\ntheorem oddLong_response :\n    responseVector .oddLong = [false, false, true, true] := by\n  native_decide\n\ntheorem even_series_sameResponse :\n    CT3.SameResponse ct3Spec .evenCanonical .evenLong := by\n  intro context\n  cases context <;> rfl\n\ntheorem odd_series_sameResponse :\n    CT3.SameResponse ct3Spec .oddCanonical .oddLong := by\n  intro context\n  cases context <;> rfl\n\ntheorem parity_rows_distinct :\n    ¬ CT3.SameResponse ct3Spec .evenCanonical .oddCanonical := by\n  intro same\n  have differs := same Context.evenReturn\n  contradiction\n\ndef evenLongRun := run .evenLong\ndef oddLongRun := run .oddLong\ndef evenCanonicalRun := run .evenCanonical\ndef oddCanonicalRun := run .oddCanonical\n\ntheorem evenLong_terminal : evenLongRun.terminal = .compression := by\n  native_decide\n\ntheorem oddLong_terminal : oddLongRun.terminal = .compression := by\n  native_decide\n\ntheorem evenCanonical_terminal : evenCanonicalRun.terminal = .knownRow := by\n  native_decide\n\ntheorem oddCanonical_terminal : oddCanonicalRun.terminal = .knownRow := by\n  native_decide\n\ntheorem evenLong_trace : evenLongRun.trace =\n    [.entry, .vectorComputation, .compressionSearch,\n      .compressionTerminal] := by\n  native_decide\n\ntheorem oddCanonical_trace : oddCanonicalRun.trace =\n    [.entry, .vectorComputation, .compressionSearch,\n      .tableValidation, .rowLookup, .knownRowTerminal] := by\n  native_decide\n\ntheorem run_checkLimit (piece : Piece) : (run piece).checkLimit = 28 := by\n  cases piece <;> native_decide\n\ntheorem run_checkLimit_polynomial (piece : Piece) :\n    (run piece).checkLimit ≤ contract.workCoefficient *\n      (contract.inputSize branch.G + 1) ^ contract.workDegree :=\n  contract.run_checkLimit_polynomial branch piece\n\ntheorem sameResponse_preserves_target\n    {left right : Piece}\n    (same : CT3.SameResponse ct3Spec left right) (context : Context) :\n    SeriesHasEvenCycle (glue left context) ↔\n      SeriesHasEvenCycle (glue right context) :=\n  contract.sameResponse_target_iff same context\n\ntheorem run_verified (piece : Piece) :\n    CT3.OutcomeClaim (run piece).outcome :=\n  contract.run_verified branch piece\n\ntheorem run_traceValid (piece : Piece) :\n    @CT3.Graph.ValidTrace seriesProblem ct3Spec ct3Capability\n      (ct3Input piece) (run piece).trace :=\n  contract.run_traceValid branch piece\n\ntheorem run_total (piece : Piece) :\n    ∃ result : CT3.ExecutionResult ct3Spec ct3Capability (ct3Input piece),\n      CT3.OutcomeClaim result.outcome ∧\n        @CT3.Graph.ValidTrace seriesProblem ct3Spec ct3Capability\n          (ct3Input piece) result.trace :=\n  contract.run_total branch piece\n\nend EvenCycleExample.SeriesReduction\n"
+    },
+    {
+      "sourceId": "EvenCycleExample.CT6CT9",
+      "moduleName": "EvenCycleExample.CT6CT9",
+      "path": "examples/even_cycle/EvenCycleExample/CT6CT9.lean",
+      "sha256": "ec48a8bce5b9ab71cb1950a41b0d047e58897252ca8673f7737fd98254bc5e07",
+      "content": "import EvenCycleExample.CT9Instance\n\nnamespace EvenCycleExample\n\nopen StructuralExhaustion\n\nuniverse u\n\nvariable {V : Type u}\n\n/-! Public names for the graph layer's generated chord-cycle conclusion. -/\n\nabbrev evenCycleCertificate (object : Graph.FiniteObject V)\n    (baseline : Baseline object) :=\n  (endpointParityProfile V).evenCycleCertificate object baseline\n\ntheorem hasEvenCycle_of_minDegree_three (object : Graph.FiniteObject V)\n    (baseline : Baseline object) : HasEvenCycle object :=\n  (endpointParityProfile V).target_of_baseline object baseline\n\nend EvenCycleExample\n"
+    },
+    {
+      "sourceId": "EvenCycleExample.CT6Instance",
+      "moduleName": "EvenCycleExample.CT6Instance",
+      "path": "examples/even_cycle/EvenCycleExample/CT6Instance.lean",
+      "sha256": "3709277e3d8e92fa64fc8571f813e3e9f988b2fbf1abf06bf7fbd730bb76eec7",
+      "content": "import EvenCycleExample.Problem\n\nnamespace EvenCycleExample\n\nopen StructuralExhaustion\n\nuniverse u\n\nvariable {V : Type u}\n\n/-! Public names for the graph layer's generated CT6 endpoint-path API. -/\n\nabbrev chosenMaximalPath (object : Graph.FiniteObject V)\n    (baseline : Baseline object) :=\n  (endpointParityProfile V).chosenMaximalPath object baseline\n\nabbrev branchContext (object : Graph.FiniteObject V)\n    (baseline : Baseline object) :=\n  (endpointParityProfile V).branchContext object baseline\n\nabbrev ct6Spec (V : Type u) := (endpointParityProfile V).ct6Spec\n\nabbrev ct6Capability (object : Graph.FiniteObject V) :=\n  (endpointParityProfile V).ct6Capability object\n\ntheorem ct6_no_failure (object : Graph.FiniteObject V)\n    (baseline : Baseline object) (vertex : V) :\n    ¬(ct6Spec V).Failure (branchContext object baseline) vertex :=\n  (endpointParityProfile V).ct6_no_failure object baseline vertex\n\nabbrev ct6Run (object : Graph.FiniteObject V) (baseline : Baseline object) :=\n  (endpointParityProfile V).ct6Run object baseline\n\ntheorem ct6_endpoint_closed (object : Graph.FiniteObject V)\n    (baseline : Baseline object) :\n    ∀ vertex,\n      object.graph.Adj\n        (chosenMaximalPath object baseline).2.path.endpoint vertex →\n      vertex ∈ (chosenMaximalPath object baseline).2.path.vertices :=\n  (endpointParityProfile V).ct6_endpoint_closed object baseline\n\nend EvenCycleExample\n"
+    },
+    {
+      "sourceId": "EvenCycleExample.CT9Instance",
+      "moduleName": "EvenCycleExample.CT9Instance",
+      "path": "examples/even_cycle/EvenCycleExample/CT9Instance.lean",
+      "sha256": "3a23e8d58671e58e27d66ff8c2661ea0154208e59e0abdabeffb645cfcf4a7e0",
+      "content": "import EvenCycleExample.CT6Instance\n\nnamespace EvenCycleExample\n\nopen StructuralExhaustion\n\nuniverse u\n\nvariable {V : Type u}\n\n/-! Public names for the graph layer's generated CT6→CT9 parity route. -/\n\nabbrev endpointRank (object : Graph.FiniteObject V)\n    (baseline : Baseline object) :=\n  (endpointParityProfile V).endpointRank object baseline\n\nabbrev ct9ParityProfile (object : Graph.FiniteObject V)\n    (baseline : Baseline object) :=\n  (endpointParityProfile V).ct9ParityProfile object baseline\n\nabbrev ct9Capability (object : Graph.FiniteObject V)\n    (baseline : Baseline object) :=\n  (endpointParityProfile V).ct9Capability object baseline\n\nabbrev endpointNeighborItems (object : Graph.FiniteObject V)\n    (baseline : Baseline object) :=\n  (endpointParityProfile V).endpointNeighborItems object baseline\n\nabbrev ct6ToCT9ItemAdapter (object : Graph.FiniteObject V)\n    (baseline : Baseline object) :=\n  (endpointParityProfile V).ct6ToCT9ItemAdapter object baseline\n\nabbrev ct9Input (object : Graph.FiniteObject V)\n    (baseline : Baseline object) :=\n  (endpointParityProfile V).ct9Input object baseline\n\ntheorem ct9_three_le_item_cardinality (object : Graph.FiniteObject V)\n    (baseline : Baseline object) :\n    3 ≤ (ct9Input object baseline).items.values.length :=\n  (endpointParityProfile V).ct9_three_le_item_cardinality object baseline\n\nabbrev ct9Run (object : Graph.FiniteObject V) (baseline : Baseline object) :=\n  (endpointParityProfile V).ct9Run object baseline\n\nabbrev SameParityEndpointPositions {object : Graph.FiniteObject V}\n    {root : V} (path : Graph.RootedPath object.graph root) :=\n  Graph.EndpointParityCycle.SameParityEndpointPositions path\n\nabbrev sameParityEndpointPositions (object : Graph.FiniteObject V)\n    (baseline : Baseline object) :=\n  (endpointParityProfile V).sameParityEndpointPositions object baseline\n\nend EvenCycleExample\n"
+    },
+    {
+      "sourceId": "EvenCycleExample.Concrete",
+      "moduleName": "EvenCycleExample.Concrete",
+      "path": "examples/even_cycle/EvenCycleExample/Concrete.lean",
+      "sha256": "9821783f8b0614fcb356a557fec50748806fda86881958ced47c199d136415f6",
+      "content": "import EvenCycleExample.Run\n\nnamespace EvenCycleExample.ConcreteK4\n\nopen StructuralExhaustion\n\n/-! Closed executable fixture for the complete CT6→CT9→CT1 pipeline. -/\n\ninductive Vertex where\n  | v0 | v1 | v2 | v3\n  deriving Repr, DecidableEq\n\n/-- The machine schedule is explicit and independent of Mathlib's unordered\nfinite-set views. -/\n@[implicit_reducible]\ndef vertices : FinEnum Vertex :=\n  FinEnum.ofNodupList [.v0, .v1, .v2, .v3]\n    (by intro vertex; cases vertex <;> simp) (by decide)\n\ndef graph : SimpleGraph Vertex := ⊤\n\ndef input : Graph.FiniteInput graph where\n  vertices := vertices\n  decideAdj := by\n    change DecidableRel fun left right : Vertex => left ≠ right\n    infer_instance\n\ndef object : Graph.FiniteObject Vertex := ⟨graph, input⟩\n\ntheorem minimumDegreeThree : Baseline object := by\n  change 3 ≤ object.minDegree\n  native_decide\n\n/-! ## Materialized tactic executions -/\n\ndef path := (chosenMaximalPath object minimumDegreeThree).2.path\n\ndef ct6Execution := (ct6Run object minimumDegreeThree).execution\n\ndef ct9Execution := (ct9Run object minimumDegreeThree).execution\n\ndef evenCycle := evenCycleCertificate object minimumDegreeThree\n\ndef ct1Run := finalCT1Run object minimumDegreeThree\n\n/-! ## Closed computational observations -/\n\ntheorem chosen_path_vertices :\n    path.vertices = [.v3, .v2, .v1, .v0] := by\n  native_decide\n\ntheorem endpoint_neighbor_items_exact :\n    (endpointNeighborItems object minimumDegreeThree).values =\n      [.v0, .v1, .v2] := by\n  native_decide\n\ntheorem extracted_even_cycle_support :\n    evenCycle.walk.support = [.v3, .v2, .v1, .v0, .v3] := by\n  native_decide\n\ntheorem extracted_even_cycle_length : evenCycle.walk.length = 4 := by\n  native_decide\n\n/-! ## Exact terminals and traces -/\n\ntheorem ct6_terminal_activeLedger :\n    ct6Execution.terminal = .activeLedger :=\n  (ct6Run object minimumDegreeThree).terminal_eq\n\ntheorem ct6_trace_exact :\n    ct6Execution.trace =\n      [.entry, .firstFailureSearch, .activeLedgerTerminal] :=\n  (ct6Run object minimumDegreeThree).trace_eq\n\ntheorem ct9_terminal_overloaded :\n    ct9Execution.terminal = .overloaded :=\n  (ct9Run object minimumDegreeThree).terminal_eq\n\ntheorem ct9_trace_exact :\n    ct9Execution.trace =\n      [.entry, .partition, .overload, .overloadedTerminal] :=\n  (ct9Run object minimumDegreeThree).trace_eq\n\ntheorem ct1_terminal_c1 :\n    ct1Run.result.terminal = .c1 :=\n  ct1Run.terminal_eq\n\ntheorem ct1_trace_exact :\n    ct1Run.result.trace =\n      [.entry, .equivalenceCertification, .realizationDecision, .c1Terminal] :=\n  ct1Run.trace_eq\n\nend EvenCycleExample.ConcreteK4\n"
+    },
+    {
+      "sourceId": "EvenCycleExample.Problem",
+      "moduleName": "EvenCycleExample.Problem",
+      "path": "examples/even_cycle/EvenCycleExample/Problem.lean",
+      "sha256": "a39fe60faa3096ce9f8602c531d131222e0ed0bb40802af8b557a235e7fb9f8a",
+      "content": "import StructuralExhaustion.Graph.EndpointParityCycle\n\nnamespace EvenCycleExample\n\nopen StructuralExhaustion\n\nuniverse u\n\n/-!\nThe problem layer contains only the data that varies between graph problems.\nThe graph, degree, path, cycle, and deletion notions are all the Mathlib-native\nones exported by `StructuralExhaustion.Graph`.\n-/\n\n/-- The branch state remembers the root index required by Mathlib's dependent\npath type together with the current rooted path. -/\nabbrev PathState {V : Type u} :=\n  Graph.EndpointParityCycle.PathState (V := V)\n\n/-- The complete problem-specific API: one threshold and one decidable cycle-\nlength predicate.  Problem, target, CT1, and deletion-only CT2 are generated\nfrom this record by the graph support layer. -/\nabbrev endpointParityProfile (V : Type u) :\n    Graph.EndpointParityCycle.Profile V :=\n  Graph.EndpointParityCycle.Profile.evenCycle V\n\nabbrev staticInput (V : Type u) := (endpointParityProfile V).base\n\nabbrev problem (V : Type u) : Core.Problem.{u, u} :=\n  (staticInput V).problem\n\nabbrev Baseline {V : Type u} (object : Graph.FiniteObject V) : Prop :=\n  (staticInput V).problem.Baseline object\n\nabbrev HasEvenCycle {V : Type u} (object : Graph.FiniteObject V) : Prop :=\n  (staticInput V).Target object\n\nend EvenCycleExample\n"
+    },
+    {
+      "sourceId": "EvenCycleExample.Run",
+      "moduleName": "EvenCycleExample.Run",
+      "path": "examples/even_cycle/EvenCycleExample/Run.lean",
+      "sha256": "1a8dcd9207f727bbb57dda924ae6849c806a464a2cbee6d21a6f230861db616c",
+      "content": "import EvenCycleExample.CT6CT9\nimport EvenCycleExample.CT1Instance\n\nnamespace EvenCycleExample\n\nopen StructuralExhaustion\n\nuniverse u\n\nabbrev finalCT1Input {V : Type u} (object : Graph.FiniteObject V)\n    (baseline : Baseline object) :=\n  (endpointParityProfile V).ct1Input object baseline\n\n/-- CT1 validates the public certificate produced by the CT6→CT9 route. -/\nabbrev finalCT1Run {V : Type u} (object : Graph.FiniteObject V)\n    (baseline : Baseline object) :=\n  (endpointParityProfile V).ct1Run object baseline\n\n/-- A finite Mathlib graph of minimum degree at least three has an even\nsimple cycle. -/\ntheorem minimumDegreeThree_hasEvenCycle {V : Type u}\n    (object : Graph.FiniteObject V) (baseline : Baseline object) :\n    HasEvenCycle object :=\n  (endpointParityProfile V).target_of_baseline object baseline\n\nend EvenCycleExample\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion.CT1.Execution",
+      "moduleName": "StructuralExhaustion.CT1.Execution",
+      "path": "lean/StructuralExhaustion/CT1/Execution.lean",
+      "sha256": "7d26e31cad81423c23e5494b29158dfb50221f7e48a6628d6b8b9dd0d64b26e6",
+      "content": "import StructuralExhaustion.CT1.Graph\nimport StructuralExhaustion.CT1.Search\n\nnamespace StructuralExhaustion.CT1\n\nuniverse uAmbient uBranch uIndex uWitness\n\n/-- Semantic terminal evidence, indexed by the exact CT1 terminal. -/\ninductive RawOutcome {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P) (input : Input P) :\n    Graph.Terminal → Type (max (uIndex + 1) (uWitness + 1)) where\n  | c1 {equivalence : EquivalenceState S input}\n      (certificate : C1Certificate S input equivalence) :\n      RawOutcome S input .c1\n  | avoiding {equivalence : EquivalenceState S input}\n      (state : AvoidingState S input equivalence) :\n      RawOutcome S input .avoiding\n\n/-- A CT1 result bundles one semantic terminal, the kernel-typed path reaching\nit, and terminal evidence carrying the same index. -/\nstructure ExecutionResult {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P)\n    (input : Input P) : Type (max (uIndex + 1) (uWitness + 1)) where\n  terminal : Graph.Terminal\n  path : Graph.Path S input .entry terminal.nodeId\n  outcome : RawOutcome S input terminal\n\nnamespace ExecutionResult\n\ndef trace {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec.{uIndex, uWitness} P} {input : Input P}\n    (result : ExecutionResult S input) : List Graph.NodeId :=\n  result.path.trace\n\nend ExecutionResult\n\n/-- The framework executes every CT1 node and constructs the exact path from\nthe capability primitives; the caller supplies no completed node decision. -/\ndef runReference {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P) (capability : Capability S)\n    (input : Input P) : ExecutionResult S input :=\n  let equivalence := certifyEquivalence S input\n  match findRealization S capability input equivalence with\n  | .hit certificate => {\n      terminal := .c1\n      path := .cons .beginEquivalence\n        (.cons (.equivalenceCertified equivalence)\n          (.cons (.realizationHit certificate) (.nil .c1Terminal)))\n      outcome := .c1 certificate\n    }\n  | .avoiding state => {\n      terminal := .avoiding\n      path := .cons .beginEquivalence\n        (.cons (.equivalenceCertified equivalence)\n          (.cons (.realizationAvoiding state) (.nil .avoidingTerminal)))\n      outcome := .avoiding state\n    }\n\n/-- Public CT1 execution returns the exact path and matching terminal\nevidence. Consumers can project `terminal` or `outcome` when they do not need\nthe trace. -/\ndef run {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P) (capability : Capability S)\n    (input : Input P) : ExecutionResult S input :=\n  runReference S capability input\n\n/-- Proposition established at each semantic terminal. -/\ndef OutcomeClaim {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec.{uIndex, uWitness} P} {input : Input P}\n    {terminal : Graph.Terminal} : RawOutcome S input terminal → Prop\n  | .c1 _ => Target S input.context.G\n  | .avoiding _ => ¬ Target S input.context.G\n\nend StructuralExhaustion.CT1\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion.CT2.Execution",
+      "moduleName": "StructuralExhaustion.CT2.Execution",
+      "path": "lean/StructuralExhaustion/CT2/Execution.lean",
+      "sha256": "e5a2fa070d87de2339f909a09613353c22dd74ecbdbd6e7d1ef83e9b34b8f382",
+      "content": "import StructuralExhaustion.CT2.Graph\n\nnamespace StructuralExhaustion.CT2\n\nuniverse uAmbient uBranch uPiece uInterface uAbstract uContext uCandidate\n\nvariable {P : Core.Problem.{uAmbient, uBranch}}\nvariable {Target : P.Ambient → Prop}\nvariable (capability : Capability.{uAmbient, uBranch, uPiece, uInterface,\n  uAbstract, uContext, uCandidate} P Target)\nvariable (ctx : Core.MinimalCounterexampleContext P Target)\nvariable (input : Input capability ctx)\n\n/-! Pure reference execution.  The framework, not a proof instance, constructs\nevery node result, graph edge, and trace. -/\n\ninductive RawOutcome : Graph.Terminal → Type _ where\n  | deletionC2\n      (witness : DeletionWitness capability ctx input) :\n      RawOutcome .deletionC2\n  | replacementC2\n      (witness : ReplacementWitness capability ctx input) :\n      RawOutcome .replacementC2\n  | separating\n      (residual : SeparatingContextResidual capability ctx input) :\n      RawOutcome .separating\n  | criticality\n      (residual : CriticalityResidual capability ctx input) :\n      RawOutcome .criticality\n\nstructure ExecutionResult where\n  terminal : Graph.Terminal\n  path : Graph.Path capability ctx input .entry terminal.nodeId\n  outcome : RawOutcome capability ctx input terminal\n\nnamespace ExecutionResult\n\ndef trace (result : ExecutionResult capability ctx input) : List Graph.NodeId :=\n  result.path.trace\n\nend ExecutionResult\n\n/-- The canonical exhaustive CT2 interpreter. -/\ndef runReference : ExecutionResult capability ctx input :=\n  match analyzeDeletion capability ctx input with\n  | .closes witness => {\n      terminal := .deletionC2\n      path := .cons .beginDeletion\n        (.cons (.deletionCloses witness) (.nil .deletionC2Terminal))\n      outcome := .deletionC2 witness\n    }\n  | .critical deletionCritical =>\n      match analyzeReplacements capability ctx input deletionCritical with\n      | .closes witness => {\n          terminal := .replacementC2\n          path := .cons .beginDeletion\n            (.cons (.deletionCritical deletionCritical)\n              (.cons (.replacementCloses witness) (.nil .replacementC2Terminal)))\n          outcome := .replacementC2 witness\n        }\n      | .separating residual => {\n          terminal := .separating\n          path := .cons .beginDeletion\n            (.cons (.deletionCritical deletionCritical)\n              (.cons (.replacementSeparating residual) (.nil .separatingTerminal)))\n          outcome := .separating residual\n        }\n      | .critical residual => {\n          terminal := .criticality\n          path := .cons .beginDeletion\n            (.cons (.deletionCritical deletionCritical)\n              (.cons (.replacementCritical residual) (.nil .criticalityTerminal)))\n          outcome := .criticality residual\n        }\n\n/-- The public runner is the audited reference semantics. -/\ndef run : ExecutionResult capability ctx input :=\n  runReference capability ctx input\n\nend StructuralExhaustion.CT2\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion.CT3.Execution",
+      "moduleName": "StructuralExhaustion.CT3.Execution",
+      "path": "lean/StructuralExhaustion/CT3/Execution.lean",
+      "sha256": "76cf0392c9dd5e94b39da15517465492bfc93a2b09b80e3a1935ba999c95bfd2",
+      "content": "import StructuralExhaustion.CT3.Graph\nimport StructuralExhaustion.CT3.Nodes\n\nnamespace StructuralExhaustion.CT3\n\nuniverse uAmbient uBranch uPiece uContext uCandidate uRow\n\n/-- Semantic terminal evidence indexed by the exact terminal reached. -/\ninductive RawOutcome {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec P)\n    (C : Capability S) (input : Input S) :\n    Graph.Terminal → Type _ where\n  | compression {vector : ExactVectorState S input}\n      (certificate : CompressionCertificate S C input vector) :\n      RawOutcome S C input .compression\n  | distinguishing\n      (residual : DistinguishingContextResidual S C input) :\n      RawOutcome S C input .distinguishing\n  | knownRow {table : ExactTableState S C}\n      (certificate : KnownRowCertificate S C input table) :\n      RawOutcome S C input .knownRow\n  | novelRow {table : ExactTableState S C}\n      (residual : NovelExternalTypeResidual S C input table) :\n      RawOutcome S C input .novelRow\n\n/-- A result contains a kernel-typed path and evidence indexed by its final\nnode. -/\nstructure ExecutionResult {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec P)\n    (C : Capability S) (input : Input S) :\n    Type _ where\n  terminal : Graph.Terminal\n  path : Graph.Path S C input .entry terminal.nodeId\n  outcome : RawOutcome S C input terminal\n\nnamespace ExecutionResult\n\ndef trace {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec P}\n    {C : Capability S} {input : Input S}\n    (result : ExecutionResult S C input) : List Graph.NodeId :=\n  result.path.trace\n\nend ExecutionResult\n\n/-- Execute all CT3 decisions from mathematical capability data alone. -/\ndef runReference {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec P)\n    (C : Capability S) (input : Input S) : ExecutionResult S C input :=\n  let _entry := Nodes.Entry.run input\n  let vector := Nodes.Vector.run S input\n  match Nodes.Compression.run S C input vector with\n  | .compressed certificate => {\n      terminal := .compression\n      path := .cons .beginVector\n        (.cons (.vectorReady vector)\n          (.cons (.compressionFound certificate)\n            (.nil .compressionTerminal)))\n      outcome := .compression certificate\n    }\n  | .uncompressible uncompressible =>\n      match Nodes.TableValidation.run S C uncompressible with\n      | .defect residual => {\n          terminal := .distinguishing\n          path := .cons .beginVector\n            (.cons (.vectorReady vector)\n              (.cons (.compressionAbsent uncompressible)\n                (.cons (.tableDefect residual)\n                  (.nil .distinguishingTerminal))))\n          outcome := .distinguishing residual\n        }\n      | .exact table =>\n          match Nodes.Lookup.run S C input table with\n          | .known certificate => {\n              terminal := .knownRow\n              path := .cons .beginVector\n                (.cons (.vectorReady vector)\n                  (.cons (.compressionAbsent uncompressible)\n                    (.cons (.tableExact table)\n                      (.cons (.rowKnown certificate)\n                        (.nil .knownRowTerminal)))))\n              outcome := .knownRow certificate\n            }\n          | .novel residual => {\n              terminal := .novelRow\n              path := .cons .beginVector\n                (.cons (.vectorReady vector)\n                  (.cons (.compressionAbsent uncompressible)\n                    (.cons (.tableExact table)\n                      (.cons (.rowNovel residual)\n                        (.nil .novelRowTerminal)))))\n              outcome := .novelRow residual\n            }\n\n/-- Public CT3 execution preserves the typed path and terminal-indexed\nevidence.  No outcome-erasing compatibility facade is exposed. -/\ndef run {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec P)\n    (C : Capability S) (input : Input S) : ExecutionResult S C input :=\n  runReference S C input\n\n/-- Structural fact established by terminal evidence. -/\ndef OutcomeClaim {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec P}\n    {C : Capability S} {input : Input S} {terminal : Graph.Terminal} :\n    RawOutcome S C input terminal → Prop\n  | .compression certificate =>\n      Compresses S input certificate.candidate\n  | .distinguishing residual =>\n      S.response (S.rowPiece residual.row) residual.context ≠\n        S.rowResponse residual.row residual.context\n  | .knownRow certificate =>\n      RowMatches S input certificate.row\n  | .novelRow residual =>\n      ∀ row, ¬ RowMatches S input row\n\nend StructuralExhaustion.CT3\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion.CT6.Execution",
+      "moduleName": "StructuralExhaustion.CT6.Execution",
+      "path": "lean/StructuralExhaustion/CT6/Execution.lean",
+      "sha256": "4570fb744f0b00bf03c0209a42c29faa6391cfcdf2e9e36dc00c72a3ea4542bc",
+      "content": "import StructuralExhaustion.CT6.Graph\n\nnamespace StructuralExhaustion.CT6\n\nvariable {P : Core.Problem} (S : Spec P) (capability : Capability S)\nvariable (input : Input P)\n\ninductive RawOutcome : Graph.Terminal → Type _ where\n  | firstFailure (residual : FirstFailureResidual S capability input) :\n      RawOutcome .firstFailure\n  | activeLedger (residual : ActiveLedgerResidual S capability input) :\n      RawOutcome .activeLedger\n\nstructure ExecutionResult where\n  terminal : Graph.Terminal\n  path : Graph.Path S capability input .entry terminal.nodeId\n  outcome : RawOutcome S capability input terminal\nnamespace ExecutionResult\ndef trace (result : ExecutionResult S capability input) := result.path.trace\nend ExecutionResult\n\ndef runReference : ExecutionResult S capability input :=\n  match analyzeActivity S capability input with\n  | .firstFailure residual => {\n      terminal := .firstFailure\n      path := .cons .beginSearch\n        (.cons (.failure residual) (.nil .firstFailureTerminal))\n      outcome := .firstFailure residual\n    }\n  | .active residual => {\n      terminal := .activeLedger\n      path := .cons .beginSearch\n        (.cons (.active residual) (.nil .activeLedgerTerminal))\n      outcome := .activeLedger residual\n    }\n\ndef run := runReference S capability input\n\nend StructuralExhaustion.CT6\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion.Routes.CT6ToCT9",
+      "moduleName": "StructuralExhaustion.Routes.CT6ToCT9",
+      "path": "lean/StructuralExhaustion/Routes/CT6ToCT9.lean",
+      "sha256": "1c268fdce2de1c041dd31e1867de340a4e9707d29bf3fca282793dc63e8aa776",
+      "content": "import StructuralExhaustion.CT6.State\nimport StructuralExhaustion.CT9.Capability\n\nnamespace StructuralExhaustion.Routes.CT6ToCT9\n\nuniverse uResidual uItem\nuniverse uAmbient uBranch uIndex uData uLabel\n\n/-!\nCanonical typed routing from a CT6 active-ledger residual to CT9.\n\nCT6 proves that every monitored failure is absent and retains the inherited\nbranch context.  The only cross-tactic semantic choice is which declared finite\ncollection CT9 should partition.  A problem instance supplies that collection\nthrough `ItemCollectionAdapter`; the framework owns discovery, context and\ntrigger construction, input materialization, and route provenance.\n-/\n\n/-- Problem-specific interpretation of a predecessor residual as CT9's\ndeclared item collection.  Duplicate-freedom and decidable equality are part\nof `Core.OrderedCollection`; any stronger semantic meaning of the items remains\nan application theorem. -/\nstructure ItemCollectionAdapter (Residual : Type uResidual)\n    (Item : Type uItem) where\n  items : Residual → Core.OrderedCollection Item\n\nnamespace ItemCollectionAdapter\n\n/-- Ignore residual payload fields when the target collection is already\nfixed by the inherited branch state.  This is the canonical adapter for a\nconstant exact collection; applications need not repeat a one-field lambda. -/\ndef constant {Residual : Type uResidual} {Item : Type uItem}\n    (items : Core.OrderedCollection Item) :\n    ItemCollectionAdapter Residual Item where\n  items := fun _source => items\n\n@[simp] theorem constant_items\n    {Residual : Type uResidual} {Item : Type uItem}\n    (items : Core.OrderedCollection Item) (source : Residual) :\n    (constant (Residual := Residual) items).items source = items :=\n  rfl\n\n/-- A total item adapter makes the CT6→CT9 route constructively enabled.\nDiscovery is framework-owned; the problem author supplies only `items`. -/\ndef discover {Residual : Type uResidual} {Item : Type uItem}\n    (_adapter : ItemCollectionAdapter Residual Item)\n    (_source : Residual) : Core.Routing.Discovery Unit :=\n  .enabled ()\n\nend ItemCollectionAdapter\n\n/-- CT6 and CT9 share the complete branch context definitionally. -/\ndef targetContext\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {S : CT6.Spec.{uIndex, uData} P}\n    {sourceCapability : CT6.Capability S}\n    {input : CT6.Input P}\n    (_source : CT6.ActiveLedgerResidual S sourceCapability input) :\n    Core.BranchContext P :=\n  input\n\n/-- Framework route rule.  `Unit` is the seed because a total item adapter\nhas no further invocation-specific discovery obligation. -/\ndef rule\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {S : CT6.Spec.{uIndex, uData} P}\n    {sourceCapability : CT6.Capability S}\n    {input : CT6.Input P}\n    (targetCapability : CT9.Capability.{uAmbient, uBranch, uItem, uLabel} P)\n    (adapter : ItemCollectionAdapter\n      (CT6.ActiveLedgerResidual S sourceCapability input)\n      targetCapability.Item) :\n    Core.Routing.RouteRule\n      (CT6.ActiveLedgerResidual S sourceCapability input)\n      (CT9.tacticInterface targetCapability) where\n  routeId := \"CT6.residual.activeLedger->CT9\"\n  targetContext := targetContext\n  Seed := fun _source => Unit\n  discover := adapter.discover\n  buildTrigger := fun source _seed => ⟨adapter.items source⟩\n\n/-- Public trigger constructor.  Its dependent result fixes the exact branch\ncontext inherited from CT6. -/\ndef buildTrigger\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {S : CT6.Spec.{uIndex, uData} P}\n    {sourceCapability : CT6.Capability S}\n    {input : CT6.Input P}\n    (targetCapability : CT9.Capability.{uAmbient, uBranch, uItem, uLabel} P)\n    (adapter : ItemCollectionAdapter\n      (CT6.ActiveLedgerResidual S sourceCapability input)\n      targetCapability.Item)\n    (source : CT6.ActiveLedgerResidual S sourceCapability input) :\n    CT9.Trigger targetCapability (targetContext source) :=\n  (rule targetCapability adapter).buildTrigger source ()\n\n/-- Materialize the ordinary CT9 runner input from the generated trigger. -/\ndef buildInput\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {S : CT6.Spec.{uIndex, uData} P}\n    {sourceCapability : CT6.Capability S}\n    {input : CT6.Input P}\n    (targetCapability : CT9.Capability.{uAmbient, uBranch, uItem, uLabel} P)\n    (adapter : ItemCollectionAdapter\n      (CT6.ActiveLedgerResidual S sourceCapability input)\n      targetCapability.Item)\n    (source : CT6.ActiveLedgerResidual S sourceCapability input) :\n    CT9.Input targetCapability :=\n  CT9.Input.ofTrigger (targetContext source)\n    (buildTrigger targetCapability adapter source)\n\ntheorem branchContext_preserved\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {S : CT6.Spec.{uIndex, uData} P}\n    {sourceCapability : CT6.Capability S}\n    {input : CT6.Input P}\n    (source : CT6.ActiveLedgerResidual S sourceCapability input) :\n    targetContext source = input :=\n  rfl\n\ntheorem ambient_preserved\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {S : CT6.Spec.{uIndex, uData} P}\n    {sourceCapability : CT6.Capability S}\n    {input : CT6.Input P}\n    (source : CT6.ActiveLedgerResidual S sourceCapability input) :\n    (targetContext source).G = input.G :=\n  rfl\n\ntheorem baseline_preserved\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {S : CT6.Spec.{uIndex, uData} P}\n    {sourceCapability : CT6.Capability S}\n    {input : CT6.Input P}\n    (source : CT6.ActiveLedgerResidual S sourceCapability input) :\n    (targetContext source).baseline = input.baseline :=\n  rfl\n\ntheorem state_preserved\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {S : CT6.Spec.{uIndex, uData} P}\n    {sourceCapability : CT6.Capability S}\n    {input : CT6.Input P}\n    (source : CT6.ActiveLedgerResidual S sourceCapability input) :\n    (targetContext source).state = input.state :=\n  rfl\n\ntheorem input_context_preserved\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {S : CT6.Spec.{uIndex, uData} P}\n    {sourceCapability : CT6.Capability S}\n    {input : CT6.Input P}\n    (targetCapability : CT9.Capability.{uAmbient, uBranch, uItem, uLabel} P)\n    (adapter : ItemCollectionAdapter\n      (CT6.ActiveLedgerResidual S sourceCapability input)\n      targetCapability.Item)\n    (source : CT6.ActiveLedgerResidual S sourceCapability input) :\n    (buildInput targetCapability adapter source).context = input :=\n  rfl\n\ntheorem input_items_are_adapted\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {S : CT6.Spec.{uIndex, uData} P}\n    {sourceCapability : CT6.Capability S}\n    {input : CT6.Input P}\n    (targetCapability : CT9.Capability.{uAmbient, uBranch, uItem, uLabel} P)\n    (adapter : ItemCollectionAdapter\n      (CT6.ActiveLedgerResidual S sourceCapability input)\n      targetCapability.Item)\n    (source : CT6.ActiveLedgerResidual S sourceCapability input) :\n    (buildInput targetCapability adapter source).items = adapter.items source :=\n  rfl\n\n/-- The predecessor's exhaustive activity theorem remains available after\ninput materialization; routing does not weaken or reconstruct it. -/\ntheorem active_evidence_preserved\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {S : CT6.Spec.{uIndex, uData} P}\n    {sourceCapability : CT6.Capability S}\n    {input : CT6.Input P}\n    (source : CT6.ActiveLedgerResidual S sourceCapability input) :\n    ∀ index, ¬ S.Failure input index :=\n  source.noFailure\n\n/-- The total adapter always produces the unique enabled route attempt. -/\ntheorem enabled_generates\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {S : CT6.Spec.{uIndex, uData} P}\n    {sourceCapability : CT6.Capability S}\n    {input : CT6.Input P}\n    (targetCapability : CT9.Capability.{uAmbient, uBranch, uItem, uLabel} P)\n    (adapter : ItemCollectionAdapter\n      (CT6.ActiveLedgerResidual S sourceCapability input)\n      targetCapability.Item)\n    (source : CT6.ActiveLedgerResidual S sourceCapability input) :\n    ((rule targetCapability adapter).attempt source).generated? =\n      some ((rule targetCapability adapter).generate source ()) := by\n  rfl\n\ntheorem generated_route_id\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {S : CT6.Spec.{uIndex, uData} P}\n    {sourceCapability : CT6.Capability S}\n    {input : CT6.Input P}\n    (targetCapability : CT9.Capability.{uAmbient, uBranch, uItem, uLabel} P)\n    (adapter : ItemCollectionAdapter\n      (CT6.ActiveLedgerResidual S sourceCapability input)\n      targetCapability.Item)\n    (source : CT6.ActiveLedgerResidual S sourceCapability input) :\n    ((rule targetCapability adapter).generate source ()).routeId =\n      \"CT6.residual.activeLedger->CT9\" :=\n  rfl\n\n/-- Machine-readable authoring boundary for the framework-owned route. -/\ndef routeContract : Core.RouteContract where\n  routeId := \"CT6.residual.activeLedger->CT9\"\n  sourceResidualKind := \"CT6.residual.activeLedger\"\n  targetTacticId := \"CT9\"\n  discovery :=\n    \"StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter.discover\"\n  triggerConstructor := \"StructuralExhaustion.Routes.CT6ToCT9.buildTrigger\"\n  soundnessTheorem := \"StructuralExhaustion.Routes.CT6ToCT9.enabled_generates\"\n  contextPreservationTheorem :=\n    \"StructuralExhaustion.Routes.CT6ToCT9.branchContext_preserved\"\n  provenanceTheorem :=\n    \"StructuralExhaustion.Routes.CT6ToCT9.generated_route_id\"\n  selectionClass := .forced\n  semanticDiscovery := .problemSemanticAdapter\n    \"StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter\"\n  problemSpecificInputs := [.targetCapability, .semanticDiscoveryAdapter]\n\nend StructuralExhaustion.Routes.CT6ToCT9\n"
+    }
+  ]
+}

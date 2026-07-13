@@ -8,7 +8,17 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "SHA256SUMS"
-EXCLUDED_PARTS = {".git", ".lake", "build", "__pycache__", ".pytest_cache", ".venv"}
+EXCLUDED_PARTS = {
+    ".agents",
+    ".git",
+    ".lake",
+    ".ruff_cache",
+    "build",
+    "node_modules",
+    "__pycache__",
+    ".pytest_cache",
+    ".venv",
+}
 EXCLUDED_SUFFIXES = {".aux", ".fdb_latexmk", ".fls", ".log", ".out", ".pdf", ".toc"}
 EXCLUDED_FILES = {OUTPUT}
 

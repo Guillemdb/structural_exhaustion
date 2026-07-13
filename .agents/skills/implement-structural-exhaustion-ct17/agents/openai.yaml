@@ -1,0 +1,4 @@
+interface:
+  display_name: "Structural Exhaustion CT17"
+  short_description: "Implement bounded survivor arithmetic"
+  default_prompt: "Use $implement-structural-exhaustion-ct17 to implement the CT17 bounded survivor-arithmetic contract for this proof step."

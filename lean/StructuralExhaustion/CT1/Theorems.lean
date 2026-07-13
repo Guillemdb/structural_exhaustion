@@ -174,6 +174,51 @@ def runC1OfRealization {P : Core.Problem} (S : Spec P)
   trace_eq := rfl
   checks_eq := rfl
 
+/-! ## Proof-carrying local avoidance execution -/
+
+/-- An avoiding CT1 execution constructed from the exact absence of every
+realization.  It follows the ordinary typed avoiding path and performs no
+enumeration of a witness universe. -/
+def executionOfNoRealization {P : Core.Problem} (S : Spec P)
+    (input : Input P)
+    (noRealization : ∀ index witness,
+      ¬ S.Realizes input.context.G index witness) :
+    ExecutionResult S input :=
+  let equivalence := certifyEquivalence S input
+  let state : AvoidingState S input equivalence :=
+    AvoidingState.ofNoRealization equivalence noRealization
+  {
+    terminal := .avoiding
+    path := .cons .beginEquivalence
+      (.cons (.equivalenceCertified equivalence)
+        (.cons (.realizationAvoiding state) (.nil .avoidingTerminal)))
+    outcome := .avoiding state
+  }
+
+/-- Audited local avoiding run.  The caller supplies a theorem excluding all
+realizations, so no primitive candidate check is performed. -/
+structure CertifiedAvoidingRun {P : Core.Problem} (S : Spec P)
+    (input : Input P) where
+  result : ExecutionResult S input
+  checks : Nat
+  terminal_eq : result.terminal = .avoiding
+  trace_eq : result.trace =
+    [.entry, .equivalenceCertification, .realizationDecision,
+      .avoidingTerminal]
+  checks_eq : checks = 0
+
+/-- Construct the local avoiding run from exact realization absence. -/
+def runAvoidingOfNoRealization {P : Core.Problem} (S : Spec P)
+    (input : Input P)
+    (noRealization : ∀ index witness,
+      ¬ S.Realizes input.context.G index witness) :
+    CertifiedAvoidingRun S input where
+  result := executionOfNoRealization S input noRealization
+  checks := 0
+  terminal_eq := rfl
+  trace_eq := rfl
+  checks_eq := rfl
+
 theorem certifiedC1Run_verified {P : Core.Problem} {S : Spec P}
     {input : Input P} (result : CertifiedC1Run S input) :
     OutcomeClaim result.result.outcome :=
@@ -184,10 +229,25 @@ theorem certifiedC1Run_checks_le {P : Core.Problem} {S : Spec P}
     result.checks ≤ 1 := by
   simp [result.checks_eq]
 
+theorem certifiedAvoidingRun_verified {P : Core.Problem} {S : Spec P}
+    {input : Input P} (run : CertifiedAvoidingRun S input) :
+    OutcomeClaim run.result.outcome :=
+  run.result.verified
+
+theorem certifiedAvoidingRun_checks_eq_zero
+    {P : Core.Problem} {S : Spec P} {input : Input P}
+    (run : CertifiedAvoidingRun S input) : run.checks = 0 :=
+  run.checks_eq
+
 /-- Certificate-driven CT1 has a uniform degree-zero work budget. -/
 def certifiedC1Budget {P : Core.Problem} (_S : Spec P) :
     Core.PolynomialCheckBudget (Input P) :=
   Core.PolynomialCheckBudget.constant (fun _ => 1) 1
+
+/-- Proof-carrying avoidance has a uniform zero-check work budget. -/
+def certifiedAvoidingBudget {P : Core.Problem} (_S : Spec P) :
+    Core.PolynomialCheckBudget (Input P) :=
+  Core.PolynomialCheckBudget.constant (fun _ => 1) 0
 
 /-- If CT1's canonical target already holds, completeness of the exact finite
 search forces the reference runner to terminate at C1. -/

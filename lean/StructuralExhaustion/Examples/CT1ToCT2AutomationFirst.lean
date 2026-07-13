@@ -123,6 +123,71 @@ theorem ct2_trace :
 theorem ct2_result_sound : ct2Result.outcome.Valid :=
   CT2.run_verified capability routedContext routedTrigger
 
+/-! ## Target-decision-free local-deletion route -/
+
+abbrev localCapability : CT2.LocalDeletionCapability problem where
+  pieces := pieces
+  reductions := reductions
+
+abbrev localRouteRule :=
+  LocalDeletion.rule localCapability minimality
+
+def localDiscoveredTrigger :
+    CT2.LocalDeletionInput localCapability routedContext where
+  seed := {
+    piece := .large
+    proper := trivial
+    admissible := trivial
+  }
+
+theorem local_route_is_enabled :
+    localRouteRule.discover avoidingSource =
+      .enabled localDiscoveredTrigger :=
+  rfl
+
+def localRoutedTrigger :
+    CT2.LocalDeletionInput localCapability routedContext :=
+  LocalDeletion.buildTrigger localCapability minimality avoidingSource
+    localDiscoveredTrigger
+
+def localGeneratedRoute :=
+  localRouteRule.generate avoidingSource localDiscoveredTrigger
+
+theorem local_route_provenance :
+    localGeneratedRoute.routeId =
+      "CT1.residual.avoiding->CT2.localDeletion" :=
+  LocalDeletion.generated_route_id localCapability minimality avoidingSource
+    localDiscoveredTrigger
+
+theorem local_route_preserves_branch :
+    routedContext.toBranchContext = ct1Input.context :=
+  LocalDeletion.branchContext_preserved minimality avoidingSource
+
+/- Any semantic closure rule for an enabled local trigger is accepted by the
+local CT2 runner and follows its exact deletion-C2 trace. -/
+section LocalConsumer
+
+variable (closure : CT2.LocalDeletionClosureRule
+  (Target := CT1.Target targetSpec) localCapability)
+
+def localCT2Run :
+    CT2.LocalDeletionRun localCapability routedContext localRoutedTrigger :=
+  closure.run routedContext localRoutedTrigger
+
+theorem local_ct2_terminal :
+    (localCT2Run closure).terminal = .deletionC2 :=
+  rfl
+
+theorem local_ct2_trace :
+    (localCT2Run closure).trace =
+      [.entry, .deletionDecision, .deletionC2Terminal] :=
+  rfl
+
+theorem local_ct2_closes : False :=
+  (localCT2Run closure).verified
+
+end LocalConsumer
+
 /-! ## Disabled CT2 discovery -/
 
 def disabledSpec : CT1.Spec problem where
@@ -197,6 +262,28 @@ theorem disabled_has_no_eligible_piece :
 def disabledAttempt := disabledRule.attempt disabledSource
 
 theorem disabled_generates_no_route : disabledAttempt.generated? = none :=
+  rfl
+
+abbrev disabledLocalRule :=
+  LocalDeletion.rule localCapability disabledMinimality
+
+def disabledLocalReject :
+    disabledLocalRule.Seed disabledSource → False :=
+  fun trigger => nomatch trigger.seed.piece
+
+theorem local_route_is_disabled :
+    disabledLocalRule.discover disabledSource =
+      .disabled disabledLocalReject := by
+  cases discovery : disabledLocalRule.discover disabledSource with
+  | enabled trigger => exact nomatch trigger.seed.piece
+  | disabled reject =>
+      exact congrArg Core.Routing.Discovery.disabled
+        (Subsingleton.elim reject disabledLocalReject)
+
+def disabledLocalAttempt := disabledLocalRule.attempt disabledSource
+
+theorem disabled_local_generates_no_route :
+    disabledLocalAttempt.generated? = none :=
   rfl
 
 end StructuralExhaustion.Examples.CT1ToCT2AutomationFirst

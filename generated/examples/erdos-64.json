@@ -1,0 +1,630 @@
+{
+  "artifactType": "structuralExhaustionExample",
+  "schemaVersion": "1.0.0",
+  "sourceOfTruth": {
+    "rootModule": "Erdos64EG",
+    "kind": "compiledLeanEnvironment",
+    "descriptor": "Erdos64EG.WebExport.descriptor"
+  },
+  "exampleId": "erdos-64",
+  "title": "Erdős Problem 64",
+  "summary": "A partial proof slice with a faithful official-statement bridge, one concrete CT1 validation, CT2 deletion criticality, and a conditional CT3 compression interface.",
+  "proofStatus": "partial",
+  "tacticIds": [
+    "CT1",
+    "CT2",
+    "CT3"
+  ],
+  "workflows": [
+    {
+      "workflowId": "proof-slice",
+      "title": "Current Erdős 64 proof slice",
+      "summary": "Inspect the faithful statement boundary and the parallel CT1, CT2, and CT3 interfaces without implying a completed global proof.",
+      "purpose": "Inspect the faithful statement boundary and the parallel CT1, CT2, and CT3 interfaces without implying a completed global proof.",
+      "completion": "partial",
+      "stages": [
+        {
+          "stageId": "proof-slice.official",
+          "title": "Official Erdős 64 statement",
+          "summary": "The pinned public boundary asks for a power-of-two cycle in every finite graph of minimum degree at least three.",
+          "kind": "problem",
+          "primaryDeclarationId": "Erdos64EG.OfficialStatement",
+          "evidenceDeclarationIds": []
+        },
+        {
+          "stageId": "proof-slice.internal",
+          "title": "Executable internal problem",
+          "summary": "The same Mathlib graph is paired with an explicit finite inspection order and an executable but equivalent length predicate.",
+          "kind": "adapter",
+          "primaryDeclarationId": "Erdos64EG.Internal.staticInput",
+          "evidenceDeclarationIds": [
+            "Erdos64EG.Internal.powerOfTwoLength_iff",
+            "Erdos64EG.Internal.target_iff_official_conclusion"
+          ]
+        },
+        {
+          "stageId": "proof-slice.k4-fixture",
+          "title": "K₄ power-of-two certificate",
+          "summary": "The only closed fixture supplies an explicit four-cycle and verifies the minimum-degree baseline.",
+          "kind": "fixture",
+          "primaryDeclarationId": "Erdos64EG.Tests.k4Cycle",
+          "evidenceDeclarationIds": [
+            "Erdos64EG.Tests.k4_baseline",
+            "Erdos64EG.Tests.fourCycleWalk_isCycle",
+            "Erdos64EG.Tests.fourCycleWalk_powerOfTwo"
+          ]
+        },
+        {
+          "stageId": "proof-slice.ct1",
+          "title": "CT1 local certificate validation",
+          "summary": "Given an explicit power-of-two cycle, CT1 reaches its certified success result without enumerating walks.",
+          "kind": "tactic",
+          "primaryDeclarationId": "Erdos64EG.Internal.runCT1",
+          "evidenceDeclarationIds": [
+            "Erdos64EG.Tests.k4CT1Run"
+          ],
+          "tacticId": "CT1"
+        },
+        {
+          "stageId": "proof-slice.ct2",
+          "title": "CT2 deletion criticality",
+          "summary": "In a hypothetical minimal counterexample, deletion-only CT2 forces every edge to have a degree-three endpoint.",
+          "kind": "tactic",
+          "primaryDeclarationId": "Erdos64EG.Internal.heavyDartRun",
+          "evidenceDeclarationIds": [
+            "Erdos64EG.Internal.deletionCriticality"
+          ],
+          "tacticId": "CT2"
+        },
+        {
+          "stageId": "proof-slice.ct3",
+          "title": "CT3 boundaried compression interface",
+          "summary": "A manuscript-supplied finite response contract can be executed and audited by CT3, but no concrete global contract is supplied here.",
+          "kind": "tactic",
+          "primaryDeclarationId": "Erdos64EG.Internal.runCT3",
+          "evidenceDeclarationIds": [
+            "Erdos64EG.Internal.targetResponse_eq_true_iff",
+            "Erdos64EG.Internal.sameResponse_target_iff",
+            "Erdos64EG.Internal.runCT3_checkLimit",
+            "Erdos64EG.Internal.runCT3_verified",
+            "Erdos64EG.Internal.runCT3_traceValid",
+            "Erdos64EG.Internal.runCT3_total"
+          ],
+          "tacticId": "CT3"
+        }
+      ],
+      "links": [
+        {
+          "linkId": "proof-slice.official-internal",
+          "sourceStageId": "proof-slice.official",
+          "targetStageId": "proof-slice.internal",
+          "kind": "frameworkComposition",
+          "label": "faithful executable boundary",
+          "summary": "The internal target is proved equivalent to the exact conclusion of the official formulation; this is not a proof of that conclusion.",
+          "evidenceDeclarationIds": [
+            "Erdos64EG.Internal.target_iff_official_conclusion"
+          ]
+        },
+        {
+          "linkId": "proof-slice.internal-fixture",
+          "sourceStageId": "proof-slice.internal",
+          "targetStageId": "proof-slice.k4-fixture",
+          "kind": "sharedProblem",
+          "label": "closed smoke fixture",
+          "summary": "K₄ instantiates the internal finite-object interface and carries one explicit accepted cycle.",
+          "evidenceDeclarationIds": []
+        },
+        {
+          "linkId": "proof-slice.fixture-ct1",
+          "sourceStageId": "proof-slice.k4-fixture",
+          "targetStageId": "proof-slice.ct1",
+          "kind": "validation",
+          "label": "validate explicit cycle",
+          "summary": "CT1 validates the supplied K₄ certificate only; it does not discover a cycle in arbitrary graphs.",
+          "evidenceDeclarationIds": []
+        },
+        {
+          "linkId": "proof-slice.internal-ct2",
+          "sourceStageId": "proof-slice.internal",
+          "targetStageId": "proof-slice.ct2",
+          "kind": "sharedProblem",
+          "label": "deletion-critical surface",
+          "summary": "The internal profile generates CT2's deletion capability for a hypothetical minimal counterexample.",
+          "evidenceDeclarationIds": []
+        },
+        {
+          "linkId": "proof-slice.internal-ct3",
+          "sourceStageId": "proof-slice.internal",
+          "targetStageId": "proof-slice.ct3",
+          "kind": "sharedProblem",
+          "label": "compression surface",
+          "summary": "CT3 shares the internal target but remains conditional on a concrete boundaried response contract.",
+          "evidenceDeclarationIds": []
+        },
+        {
+          "linkId": "proof-slice.ct2-ct3",
+          "sourceStageId": "proof-slice.ct2",
+          "targetStageId": "proof-slice.ct3",
+          "kind": "sharedProblem",
+          "label": "parallel proof slices",
+          "summary": "CT2 and CT3 expose compatible problem surfaces; no registered route or composed execution between them is claimed.",
+          "evidenceDeclarationIds": []
+        }
+      ]
+    }
+  ],
+  "interfaceBindings": [
+    {
+      "bindingId": "proof-slice.ct1-target",
+      "workflowId": "proof-slice",
+      "stageId": "proof-slice.ct1",
+      "tacticId": "CT1",
+      "role": "power-of-two target encoding",
+      "summary": "The minimum-degree-cycle profile translates an explicit power-of-two cycle into CT1's target realization interface.",
+      "problemDeclarationId": "Erdos64EG.Internal.ct1TargetBridge",
+      "frameworkDeclarationId": "StructuralExhaustion.CT1.run"
+    },
+    {
+      "bindingId": "proof-slice.ct2-deletion",
+      "workflowId": "proof-slice",
+      "stageId": "proof-slice.ct2",
+      "tacticId": "CT2",
+      "role": "single-dart deletion capability",
+      "summary": "The generated capability supplies graph deletion, rank decrease, baseline preservation, and target transport to CT2.",
+      "problemDeclarationId": "Erdos64EG.Internal.ct2Capability",
+      "frameworkDeclarationId": "StructuralExhaustion.CT2.run"
+    },
+    {
+      "bindingId": "proof-slice.ct3-contract",
+      "workflowId": "proof-slice",
+      "stageId": "proof-slice.ct3",
+      "tacticId": "CT3",
+      "role": "boundaried response contract",
+      "summary": "A concrete proof must instantiate the piece, context, response, replacement, and polynomial-work fields consumed by CT3.",
+      "problemDeclarationId": "Erdos64EG.Internal.BoundariedCompressionContract",
+      "frameworkDeclarationId": "StructuralExhaustion.CT3.run"
+    }
+  ],
+  "declarations": [
+    {
+      "declarationId": "Erdos64EG.Internal.BoundariedCompressionContract",
+      "name": "Erdos64EG.Internal.BoundariedCompressionContract",
+      "kind": "definition",
+      "type": "Type uVertex → Type (max (max (max (max (max uVertex (u_1 + 1)) (u_2 + 1)) (u_3 + 1)) (u_4 + 1)) (u_5 + 1))",
+      "sourceId": "Erdos64EG.CT3",
+      "startLine": 23,
+      "startColumn": 1,
+      "endLine": 28,
+      "endColumn": 56,
+      "selectionStartLine": 27,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 27,
+      "selectionEndColumn": 37
+    },
+    {
+      "declarationId": "Erdos64EG.Internal.ct1TargetBridge",
+      "name": "Erdos64EG.Internal.ct1TargetBridge",
+      "kind": "definition",
+      "type": "∀ (V : Type u),\n  StructuralExhaustion.CT1.TargetBridge (Internal.staticInput V).targetEncoding.spec (Internal.staticInput V).Target",
+      "sourceId": "Erdos64EG.CT1",
+      "startLine": 18,
+      "startColumn": 1,
+      "endLine": 18,
+      "endColumn": 71,
+      "selectionStartLine": 18,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 18,
+      "selectionEndColumn": 23
+    },
+    {
+      "declarationId": "Erdos64EG.Internal.ct2Capability",
+      "name": "Erdos64EG.Internal.ct2Capability",
+      "kind": "definition",
+      "type": "(V : Type u) → StructuralExhaustion.CT2.LocalDeletionCapability (Internal.staticInput V).problem",
+      "sourceId": "Erdos64EG.CT2",
+      "startLine": 18,
+      "startColumn": 1,
+      "endLine": 18,
+      "endColumn": 67,
+      "selectionStartLine": 18,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 18,
+      "selectionEndColumn": 21
+    },
+    {
+      "declarationId": "Erdos64EG.Internal.deletionCriticality",
+      "name": "Erdos64EG.Internal.deletionCriticality",
+      "kind": "theorem",
+      "type": "∀ {V : Type u} (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext (Internal.problem V) Internal.Target)\n  (dart : ctx.G.graph.Dart),\n  StructuralExhaustion.Graph.FiniteObject.degree ctx.G dart.toProd.1 = 3 ∨\n    StructuralExhaustion.Graph.FiniteObject.degree ctx.G dart.toProd.2 = 3",
+      "sourceId": "Erdos64EG.CT2",
+      "startLine": 21,
+      "startColumn": 1,
+      "endLine": 27,
+      "endColumn": 51,
+      "selectionStartLine": 23,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 23,
+      "selectionEndColumn": 28
+    },
+    {
+      "declarationId": "Erdos64EG.Internal.heavyDartRun",
+      "name": "Erdos64EG.Internal.heavyDartRun",
+      "kind": "definition",
+      "type": "{V : Type u} →\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext (Internal.problem V) Internal.Target) →\n    (dart : ctx.G.graph.Dart) →\n      (heavy :\n          4 ≤ StructuralExhaustion.Graph.FiniteObject.degree ctx.G dart.toProd.1 ∧\n            4 ≤ StructuralExhaustion.Graph.FiniteObject.degree ctx.G dart.toProd.2) →\n        StructuralExhaustion.CT2.LocalDeletionRun (Internal.ct2Capability V) ctx\n          { seed := { piece := dart, proper := heavy, admissible := trivial } }",
+      "sourceId": "Erdos64EG.CT2",
+      "startLine": 29,
+      "startColumn": 1,
+      "endLine": 37,
+      "endColumn": 46,
+      "selectionStartLine": 30,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 30,
+      "selectionEndColumn": 17
+    },
+    {
+      "declarationId": "Erdos64EG.Internal.powerOfTwoLength_iff",
+      "name": "Erdos64EG.Internal.powerOfTwoLength_iff",
+      "kind": "theorem",
+      "type": "∀ (length : ℕ), Internal.PowerOfTwoLength length ↔ ∃ exponent, 2 ≤ exponent ∧ length = 2 ^ exponent",
+      "sourceId": "Erdos64EG.InternalProblem",
+      "startLine": 42,
+      "startColumn": 1,
+      "endLine": 54,
+      "endColumn": 47,
+      "selectionStartLine": 44,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 44,
+      "selectionEndColumn": 29
+    },
+    {
+      "declarationId": "Erdos64EG.Internal.runCT1",
+      "name": "Erdos64EG.Internal.runCT1",
+      "kind": "definition",
+      "type": "{V : Type u} →\n  (object : Internal.Object V) →\n    (baseline : Internal.Baseline object) →\n      StructuralExhaustion.Graph.CycleWithLength object.graph Internal.PowerOfTwoLength →\n        StructuralExhaustion.CT1.CertifiedC1Run (Internal.ct1Spec V) (Internal.ct1Input object baseline)",
+      "sourceId": "Erdos64EG.CT1",
+      "startLine": 28,
+      "startColumn": 1,
+      "endLine": 33,
+      "endColumn": 78,
+      "selectionStartLine": 29,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 29,
+      "selectionEndColumn": 11
+    },
+    {
+      "declarationId": "Erdos64EG.Internal.runCT3",
+      "name": "Erdos64EG.Internal.runCT3",
+      "kind": "definition",
+      "type": "{V : Type uVertex} →\n  (contract : Internal.BoundariedCompressionContract V) →\n    (branch : StructuralExhaustion.Core.BranchContext (Internal.problem V)) →\n      (piece : contract.Piece) → StructuralExhaustion.CT3.TargetCompressionContract.AuditedRun contract branch piece",
+      "sourceId": "Erdos64EG.CT3",
+      "startLine": 56,
+      "startColumn": 1,
+      "endLine": 62,
+      "endColumn": 28,
+      "selectionStartLine": 58,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 58,
+      "selectionEndColumn": 11
+    },
+    {
+      "declarationId": "Erdos64EG.Internal.runCT3_checkLimit",
+      "name": "Erdos64EG.Internal.runCT3_checkLimit",
+      "kind": "theorem",
+      "type": "∀ {V : Type uVertex} (contract : Internal.BoundariedCompressionContract V)\n  (branch : StructuralExhaustion.Core.BranchContext (Internal.problem V)) (piece : contract.Piece),\n  (Internal.runCT3 contract branch piece).checkLimit ≤\n    contract.workCoefficient * (contract.inputSize branch.G + 1) ^ contract.workDegree",
+      "sourceId": "Erdos64EG.CT3",
+      "startLine": 96,
+      "startColumn": 1,
+      "endLine": 104,
+      "endColumn": 50,
+      "selectionStartLine": 98,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 98,
+      "selectionEndColumn": 26
+    },
+    {
+      "declarationId": "Erdos64EG.Internal.runCT3_total",
+      "name": "Erdos64EG.Internal.runCT3_total",
+      "kind": "theorem",
+      "type": "∀ {V : Type uVertex} (contract : Internal.BoundariedCompressionContract V)\n  (branch : StructuralExhaustion.Core.BranchContext (Internal.problem V)) (piece : contract.Piece),\n  ∃ result,\n    StructuralExhaustion.CT3.OutcomeClaim result.outcome ∧ StructuralExhaustion.CT3.Graph.ValidTrace result.trace",
+      "sourceId": "Erdos64EG.CT3",
+      "startLine": 126,
+      "startColumn": 1,
+      "endLine": 138,
+      "endColumn": 34,
+      "selectionStartLine": 128,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 128,
+      "selectionEndColumn": 21
+    },
+    {
+      "declarationId": "Erdos64EG.Internal.runCT3_traceValid",
+      "name": "Erdos64EG.Internal.runCT3_traceValid",
+      "kind": "theorem",
+      "type": "∀ {V : Type uVertex} (contract : Internal.BoundariedCompressionContract V)\n  (branch : StructuralExhaustion.Core.BranchContext (Internal.problem V)) (piece : contract.Piece),\n  StructuralExhaustion.CT3.Graph.ValidTrace (Internal.runCT3 contract branch piece).trace",
+      "sourceId": "Erdos64EG.CT3",
+      "startLine": 115,
+      "startColumn": 1,
+      "endLine": 124,
+      "endColumn": 39,
+      "selectionStartLine": 117,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 117,
+      "selectionEndColumn": 26
+    },
+    {
+      "declarationId": "Erdos64EG.Internal.runCT3_verified",
+      "name": "Erdos64EG.Internal.runCT3_verified",
+      "kind": "theorem",
+      "type": "∀ {V : Type uVertex} (contract : Internal.BoundariedCompressionContract V)\n  (branch : StructuralExhaustion.Core.BranchContext (Internal.problem V)) (piece : contract.Piece),\n  StructuralExhaustion.CT3.OutcomeClaim (Internal.runCT3 contract branch piece).outcome",
+      "sourceId": "Erdos64EG.CT3",
+      "startLine": 106,
+      "startColumn": 1,
+      "endLine": 113,
+      "endColumn": 37,
+      "selectionStartLine": 108,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 108,
+      "selectionEndColumn": 24
+    },
+    {
+      "declarationId": "Erdos64EG.Internal.sameResponse_target_iff",
+      "name": "Erdos64EG.Internal.sameResponse_target_iff",
+      "kind": "theorem",
+      "type": "∀ {V : Type uVertex} (contract : Internal.BoundariedCompressionContract V) {left right : contract.Piece},\n  StructuralExhaustion.CT3.SameResponse (Internal.ct3Spec contract) left right →\n    ∀ (context : contract.CompatibleContext),\n      Internal.Target (contract.glue left context) ↔ Internal.Target (contract.glue right context)",
+      "sourceId": "Erdos64EG.CT3",
+      "startLine": 73,
+      "startColumn": 1,
+      "endLine": 83,
+      "endColumn": 48,
+      "selectionStartLine": 76,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 76,
+      "selectionEndColumn": 32
+    },
+    {
+      "declarationId": "Erdos64EG.Internal.staticInput",
+      "name": "Erdos64EG.Internal.staticInput",
+      "kind": "definition",
+      "type": "(V : Type u) → StructuralExhaustion.Graph.MinimumDegreeCycle.StaticInput V fun _object => Unit",
+      "sourceId": "Erdos64EG.InternalProblem",
+      "startLine": 56,
+      "startColumn": 1,
+      "endLine": 62,
+      "endColumn": 31,
+      "selectionStartLine": 59,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 59,
+      "selectionEndColumn": 16
+    },
+    {
+      "declarationId": "Erdos64EG.Internal.targetResponse_eq_true_iff",
+      "name": "Erdos64EG.Internal.targetResponse_eq_true_iff",
+      "kind": "theorem",
+      "type": "∀ {V : Type uVertex} (contract : Internal.BoundariedCompressionContract V) (piece : contract.Piece)\n  (context : contract.CompatibleContext),\n  Internal.targetResponse contract piece (contract.classify context) = true ↔\n    Internal.Target (contract.glue piece context)",
+      "sourceId": "Erdos64EG.CT3",
+      "startLine": 64,
+      "startColumn": 1,
+      "endLine": 71,
+      "endColumn": 46,
+      "selectionStartLine": 66,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 66,
+      "selectionEndColumn": 35
+    },
+    {
+      "declarationId": "Erdos64EG.Internal.target_iff_official_conclusion",
+      "name": "Erdos64EG.Internal.target_iff_official_conclusion",
+      "kind": "theorem",
+      "type": "∀ {V : Type u} (object : Internal.Object V),\n  Internal.Target object ↔ ∃ exponent vertex cycle, exponent ≥ 2 ∧ cycle.IsCycle ∧ cycle.length = 2 ^ exponent",
+      "sourceId": "Erdos64EG.InternalProblem",
+      "startLine": 69,
+      "startColumn": 1,
+      "endLine": 91,
+      "endColumn": 7,
+      "selectionStartLine": 71,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 71,
+      "selectionEndColumn": 39
+    },
+    {
+      "declarationId": "Erdos64EG.OfficialStatement",
+      "name": "Erdos64EG.OfficialStatement",
+      "kind": "definition",
+      "type": "Prop",
+      "sourceId": "Erdos64EG.OfficialStatement",
+      "startLine": 19,
+      "startColumn": 1,
+      "endLine": 24,
+      "endColumn": 45,
+      "selectionStartLine": 20,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 20,
+      "selectionEndColumn": 22
+    },
+    {
+      "declarationId": "Erdos64EG.Tests.fourCycleWalk_isCycle",
+      "name": "Erdos64EG.Tests.fourCycleWalk_isCycle",
+      "kind": "theorem",
+      "type": "Tests.fourCycleWalk.IsCycle",
+      "sourceId": "Erdos64EG.Tests",
+      "startLine": 32,
+      "startColumn": 1,
+      "endLine": 37,
+      "endColumn": 11,
+      "selectionStartLine": 32,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 32,
+      "selectionEndColumn": 30
+    },
+    {
+      "declarationId": "Erdos64EG.Tests.fourCycleWalk_powerOfTwo",
+      "name": "Erdos64EG.Tests.fourCycleWalk_powerOfTwo",
+      "kind": "theorem",
+      "type": "Internal.PowerOfTwoLength Tests.fourCycleWalk.length",
+      "sourceId": "Erdos64EG.Tests",
+      "startLine": 39,
+      "startColumn": 1,
+      "endLine": 42,
+      "endColumn": 41,
+      "selectionStartLine": 39,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 39,
+      "selectionEndColumn": 33
+    },
+    {
+      "declarationId": "Erdos64EG.Tests.k4CT1Run",
+      "name": "Erdos64EG.Tests.k4CT1Run",
+      "kind": "definition",
+      "type": "StructuralExhaustion.CT1.CertifiedC1Run (Internal.ct1Spec (Fin 4)) (Internal.ct1Input Tests.k4 Tests.k4_baseline)",
+      "sourceId": "Erdos64EG.Tests",
+      "startLine": 54,
+      "startColumn": 1,
+      "endLine": 58,
+      "endColumn": 32,
+      "selectionStartLine": 55,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 55,
+      "selectionEndColumn": 13
+    },
+    {
+      "declarationId": "Erdos64EG.Tests.k4Cycle",
+      "name": "Erdos64EG.Tests.k4Cycle",
+      "kind": "definition",
+      "type": "StructuralExhaustion.Graph.CycleWithLength Tests.k4.graph Internal.PowerOfTwoLength",
+      "sourceId": "Erdos64EG.Tests",
+      "startLine": 44,
+      "startColumn": 1,
+      "endLine": 50,
+      "endColumn": 4,
+      "selectionStartLine": 44,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 44,
+      "selectionEndColumn": 12
+    },
+    {
+      "declarationId": "Erdos64EG.Tests.k4_baseline",
+      "name": "Erdos64EG.Tests.k4_baseline",
+      "kind": "theorem",
+      "type": "Internal.Baseline Tests.k4",
+      "sourceId": "Erdos64EG.Tests",
+      "startLine": 21,
+      "startColumn": 1,
+      "endLine": 23,
+      "endColumn": 7,
+      "selectionStartLine": 21,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 21,
+      "selectionEndColumn": 20
+    },
+    {
+      "declarationId": "StructuralExhaustion.CT1.run",
+      "name": "StructuralExhaustion.CT1.run",
+      "kind": "definition",
+      "type": "{P : StructuralExhaustion.Core.Problem} →\n  (S : StructuralExhaustion.CT1.Spec P) →\n    StructuralExhaustion.CT1.Capability S →\n      (input : StructuralExhaustion.CT1.Input P) → StructuralExhaustion.CT1.ExecutionResult S input",
+      "sourceId": "StructuralExhaustion.CT1.Execution",
+      "startLine": 59,
+      "startColumn": 1,
+      "endLine": 65,
+      "endColumn": 34,
+      "selectionStartLine": 62,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 62,
+      "selectionEndColumn": 8
+    },
+    {
+      "declarationId": "StructuralExhaustion.CT2.run",
+      "name": "StructuralExhaustion.CT2.run",
+      "kind": "definition",
+      "type": "{P : StructuralExhaustion.Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    (capability : StructuralExhaustion.CT2.Capability P Target) →\n      (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext P Target) →\n        (input : StructuralExhaustion.CT2.Input capability ctx) →\n          StructuralExhaustion.CT2.ExecutionResult capability ctx input",
+      "sourceId": "StructuralExhaustion.CT2.Execution",
+      "startLine": 76,
+      "startColumn": 1,
+      "endLine": 78,
+      "endColumn": 36,
+      "selectionStartLine": 77,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 77,
+      "selectionEndColumn": 8
+    },
+    {
+      "declarationId": "StructuralExhaustion.CT3.run",
+      "name": "StructuralExhaustion.CT3.run",
+      "kind": "definition",
+      "type": "{P : StructuralExhaustion.Core.Problem} →\n  (S : StructuralExhaustion.CT3.Spec P) →\n    (C : StructuralExhaustion.CT3.Capability S) →\n      (input : StructuralExhaustion.CT3.Input S) → StructuralExhaustion.CT3.ExecutionResult S C input",
+      "sourceId": "StructuralExhaustion.CT3.Execution",
+      "startLine": 95,
+      "startColumn": 1,
+      "endLine": 100,
+      "endColumn": 25,
+      "selectionStartLine": 97,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 97,
+      "selectionEndColumn": 8
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "Erdos64EG.CT1",
+      "moduleName": "Erdos64EG.CT1",
+      "path": "examples/erdos_64_eg/Erdos64EG/CT1.lean",
+      "sha256": "a09ca36bccdeab80546d546096500844291b51e9ccf44fbd9b3be99e323960e0",
+      "content": "import Erdos64EG.InternalProblem\n\nnamespace Erdos64EG.Internal\n\nopen StructuralExhaustion\nopen StructuralExhaustion.Graph\n\nuniverse u\n\n/-!\n# CT1: local target-certificate validation\n\nThe graph layer consumes one explicit Mathlib cycle certificate and constructs\nthe typed C1 execution directly.  No walk or graph universe is enumerated.\n-/\n\nabbrev ct1Spec (V : Type u) := (staticInput V).ct1Spec\nabbrev ct1TargetBridge (V : Type u) := (staticInput V).ct1TargetBridge\n\ndef ct1Input {V : Type u} (object : Object V)\n    (baseline : Baseline object) : CT1.Input (problem V) where\n  context := {\n    G := object\n    baseline := baseline\n    state := ()\n  }\n\n/-- Exact successful CT1 run from an explicit power-of-two cycle. -/\ndef runCT1 {V : Type u} (object : Object V)\n    (baseline : Baseline object)\n    (cycle : CycleWithLength object.graph PowerOfTwoLength) :\n    CT1.CertifiedC1Run (ct1Spec V) (ct1Input object baseline) :=\n  (staticInput V).targetEncoding.run (ct1Input object baseline) cycle trivial\n\nend Erdos64EG.Internal\n"
+    },
+    {
+      "sourceId": "Erdos64EG.CT2",
+      "moduleName": "Erdos64EG.CT2",
+      "path": "examples/erdos_64_eg/Erdos64EG/CT2.lean",
+      "sha256": "a654d48b1abd72129e1c6c53b756f14889890d72a8ee8f5a4ef8b5e1da4b63bb",
+      "content": "import Erdos64EG.CT1\n\nnamespace Erdos64EG.Internal\n\nopen StructuralExhaustion\n\nuniverse u\n\n/-!\n# CT2: single-dart deletion criticality\n\nThe Mathlib graph profile owns dart enumeration, endpoint-slack testing,\nsingle-edge deletion, exact rank decrease, baseline preservation, target\ntransport, and the deletion-only CT2 runner.  This file only exposes the\nproblem-named projections used by later EG stages.\n-/\n\nabbrev ct2Capability (V : Type u) := (staticInput V).ct2Capability\nabbrev ct2DeletionRule (V : Type u) := (staticInput V).ct2DeletionRule\n\n/-- In a minimal counterexample, every actual edge has a degree-three\nendpoint. -/\ntheorem deletionCriticality {V : Type u}\n    (ctx : Core.MinimalCounterexampleContext (problem V) (@Target V))\n    (dart : ctx.G.graph.Dart) :\n    ctx.G.degree dart.fst = 3 ∨ ctx.G.degree dart.snd = 3 :=\n  (staticInput V).dart_has_tight_endpoint ctx dart\n\n/-- Exact deletion-C2 execution for an explicitly supplied heavy dart. -/\ndef heavyDartRun {V : Type u}\n    (ctx : Core.MinimalCounterexampleContext (problem V) (@Target V))\n    (dart : ctx.G.graph.Dart)\n    (heavy : 4 ≤ ctx.G.degree dart.fst ∧\n      4 ≤ ctx.G.degree dart.snd) :\n    CT2.LocalDeletionRun (ct2Capability V) ctx\n      ⟨⟨dart, heavy, trivial⟩⟩ :=\n  (staticInput V).heavyDartRun ctx dart heavy\n\nend Erdos64EG.Internal\n"
+    },
+    {
+      "sourceId": "Erdos64EG.CT3",
+      "moduleName": "Erdos64EG.CT3",
+      "path": "examples/erdos_64_eg/Erdos64EG/CT3.lean",
+      "sha256": "1139d46ba3b1833fc7a1ef6fd6f6b485c8625e4ce52b613385c7f6a45d262055",
+      "content": "import Erdos64EG.CT2\nimport StructuralExhaustion.CT3.TargetCompression\n\nnamespace Erdos64EG.Internal\n\nopen StructuralExhaustion\n\nuniverse uVertex uPiece uCompatible uCoordinate uCandidate uRow\n\n/-!\n# CT3: boundaried target-response compression\n\nThis file specializes the manuscript's boundaried response contract to the\npower-of-two-cycle target.  Compatible contexts are classified into certified\nfinite response coordinates.  The generic CT3 engine compares those local\nvectors, searches the finite replacement schedule, validates the table, and\nperforms row lookup.\n\nStructural admissibility and the manuscript's strict lexicographic decrease\nare executable fields of the problem-specific contract.\n-/\n\n/-- The Erdős--Gyárfás specialization of the reusable target-compression\ncontract.  `glue piece context` is the manuscript operation `X ⊕_T Y`;\nthe remaining fields carry structural admissibility, strict lexicographic\ndecrease, finite schedules, and primitive deciders. -/\nabbrev BoundariedCompressionContract (V : Type uVertex) :=\n  CT3.TargetCompressionContract (problem V) (@Target V)\n\n/-- The exact Boolean entry of the manuscript response vector. -/\ndef targetResponse {V : Type uVertex}\n    (contract : BoundariedCompressionContract V)\n    (piece : contract.Piece) (coordinate : contract.Coordinate) : Bool :=\n  contract.response piece coordinate\n\n/-- Translate the problem-specific manuscript vocabulary into CT3's\nproblem-independent specification. -/\ndef ct3Spec {V : Type uVertex}\n    (contract : BoundariedCompressionContract V) : CT3.Spec (problem V) :=\n  contract.spec\n\n/-- The finite domains and decision procedures required by the generic CT3\nrunner are exactly those supplied by the manuscript contract. -/\ndef ct3Capability {V : Type uVertex}\n    (contract : BoundariedCompressionContract V) :\n    CT3.Capability (ct3Spec contract) :=\n  contract.capability\n\n/-- Materialize a CT3 input without changing the shared branch context. -/\ndef ct3Input {V : Type uVertex}\n    (contract : BoundariedCompressionContract V)\n    (branch : Core.BranchContext (problem V))\n    (piece : contract.Piece) : CT3.Input (ct3Spec contract) :=\n  contract.input branch piece\n\n/-- Run the framework on a problem-specific boundaried compression\ncontract. -/\ndef runCT3 {V : Type uVertex}\n    (contract : BoundariedCompressionContract V)\n    (branch : Core.BranchContext (problem V))\n    (piece : contract.Piece) :=\n  contract.run branch piece\n\n/-- A response bit is true exactly when the corresponding glued graph has\nthe public power-of-two-cycle target. -/\ntheorem targetResponse_eq_true_iff {V : Type uVertex}\n    (contract : BoundariedCompressionContract V)\n    (piece : contract.Piece) (context : contract.CompatibleContext) :\n    targetResponse contract piece (contract.classify context) = true ↔\n      Target (contract.glue piece context) :=\n  contract.response_eq_true_iff piece context\n\n/-- CT3's exact response equality is precisely the manuscript statement that\nthe two pieces have the same target answer in every declared compatible\ncontext. -/\ntheorem sameResponse_target_iff {V : Type uVertex}\n    (contract : BoundariedCompressionContract V)\n    {left right : contract.Piece}\n    (same : CT3.SameResponse (ct3Spec contract) left right)\n    (context : contract.CompatibleContext) :\n    Target (contract.glue left context) ↔\n      Target (contract.glue right context) :=\n  contract.sameResponse_target_iff same context\n\n/-- The generic inclusion theorem gives the one-way replacement implication\nused by the proof whenever exact response equality has been certified. -/\ntheorem sameResponse_targetIncluded {V : Type uVertex}\n    (contract : BoundariedCompressionContract V)\n    {left right : contract.Piece}\n    (same : CT3.SameResponse (ct3Spec contract) left right)\n    (context : contract.CompatibleContext) :\n    Target (contract.glue left context) →\n      Target (contract.glue right context) :=\n  contract.sameResponse_targetIncluded same context\n\n/-- The complete local CT3 schedule is bounded by the polynomial certificate\ncarried by the manuscript contract. -/\ntheorem runCT3_checkLimit {V : Type uVertex}\n    (contract : BoundariedCompressionContract V)\n    (branch : Core.BranchContext (problem V))\n    (piece : contract.Piece) :\n    (runCT3 contract branch piece).checkLimit ≤ contract.workCoefficient *\n      (contract.inputSize branch.G + 1) ^ contract.workDegree :=\n  contract.run_checkLimit_polynomial branch piece\n\n/-- Every problem-specific CT3 execution proves the structural claim carried\nby the terminal it reaches. -/\ntheorem runCT3_verified {V : Type uVertex}\n    (contract : BoundariedCompressionContract V)\n    (branch : Core.BranchContext (problem V))\n    (piece : contract.Piece) :\n    CT3.OutcomeClaim (runCT3 contract branch piece).outcome :=\n  contract.run_verified branch piece\n\n/-- Every problem-specific CT3 execution carries a kernel-typed path whose\nerased node list is exactly its reported trace. -/\ntheorem runCT3_traceValid {V : Type uVertex}\n    (contract : BoundariedCompressionContract V)\n    (branch : Core.BranchContext (problem V))\n    (piece : contract.Piece) :\n    @CT3.Graph.ValidTrace (problem V) (ct3Spec contract)\n      (ct3Capability contract) (ct3Input contract branch piece)\n      (runCT3 contract branch piece).trace :=\n  contract.run_traceValid branch piece\n\n/-- Finite manuscript data determine a verified CT3 result and a valid typed\ntrace. -/\ntheorem runCT3_total {V : Type uVertex}\n    (contract : BoundariedCompressionContract V)\n    (branch : Core.BranchContext (problem V))\n    (piece : contract.Piece) :\n    ∃ result : CT3.ExecutionResult (ct3Spec contract)\n        (ct3Capability contract) (ct3Input contract branch piece),\n      CT3.OutcomeClaim result.outcome ∧\n        @CT3.Graph.ValidTrace (problem V) (ct3Spec contract)\n          (ct3Capability contract) (ct3Input contract branch piece)\n          result.trace :=\n  contract.run_total branch piece\n\nend Erdos64EG.Internal\n"
+    },
+    {
+      "sourceId": "Erdos64EG.InternalProblem",
+      "moduleName": "Erdos64EG.InternalProblem",
+      "path": "examples/erdos_64_eg/Erdos64EG/InternalProblem.lean",
+      "sha256": "9f8210f912649fc08d37c5f8f8d561608521879e50d6b86b4633feaf66e0a308",
+      "content": "import StructuralExhaustion.Graph.MinimumDegreeCycle\n\nnamespace Erdos64EG.Internal\n\nopen StructuralExhaustion\nopen StructuralExhaustion.Graph\n\nuniverse u\n\n/-!\nThe official statement quantifies over a Mathlib `SimpleGraph` and supplies\ntypeclass-based finite data.  The exact CT machines additionally need a\ndeclared inspection order.  `Object` therefore pairs the same mathematical\ngraph with the framework's explicit `FiniteInput`; it does not introduce a\nsecond graph representation.\n-/\n\n/-- A cycle length accepted by the official Erdős 64 conclusion.\n\nThe exponent is represented by a finite search space whose completeness is\nproved below.  This makes the predicate directly executable without changing\nits mathematical meaning.\n-/\ndef PowerOfTwoLength (length : Nat) : Prop :=\n  ∃ exponent : Fin (length + 1),\n    2 ≤ exponent.1 ∧ length = 2 ^ exponent.1\n\ninstance powerOfTwoLengthDecidable (length : Nat) :\n    Decidable (PowerOfTwoLength length) := by\n  unfold PowerOfTwoLength\n  infer_instance\n\nprivate theorem exponent_le_two_pow (exponent : Nat) :\n    exponent ≤ 2 ^ exponent := by\n  induction exponent with\n  | zero => simp\n  | succ exponent inductionHypothesis =>\n      rw [pow_succ]\n      have positive : 0 < 2 ^ exponent := pow_pos (by decide) exponent\n      omega\n\n/-- The bounded executable predicate is exactly the unbounded predicate in\nthe official source. -/\ntheorem powerOfTwoLength_iff (length : Nat) :\n    PowerOfTwoLength length ↔\n      ∃ exponent : Nat, 2 ≤ exponent ∧ length = 2 ^ exponent := by\n  constructor\n  · rintro ⟨exponent, lower, equality⟩\n    exact ⟨exponent.1, lower, equality⟩\n  · rintro ⟨exponent, lower, equality⟩\n    have bound : exponent < length + 1 := by\n      rw [equality]\n      exact Nat.lt_succ_of_le (exponent_le_two_pow exponent)\n    exact ⟨⟨exponent, bound⟩, lower, equality⟩\n\n/-- EG's entire problem-specific CT API: one threshold, one length predicate,\nand its decision procedure.  Problems, searches, reductions, and closure\nproofs are generated by the framework graph profile. -/\ndef staticInput (V : Type u) :\n    MinimumDegreeCycle.StaticInput V (fun _object => Unit) where\n  minimumDegree := 3\n  LengthOK := PowerOfTwoLength\n\nabbrev Object (V : Type u) := FiniteObject V\nabbrev problem (V : Type u) := (staticInput V).problem\nabbrev Baseline {V : Type u} := (staticInput V).problem.Baseline\nabbrev Target {V : Type u} := (staticInput V).Target\n\n/-- The internal target is definitionally faithful to the exact conclusion\nof the pinned official formulation. -/\ntheorem target_iff_official_conclusion {V : Type u} (object : Object V) :\n    Target object ↔\n      ∃ (exponent : Nat) (vertex : V)\n        (cycle : object.graph.Walk vertex vertex),\n        exponent ≥ 2 ∧ cycle.IsCycle ∧\n          cycle.length = 2 ^ exponent := by\n  constructor\n  · rintro ⟨certificate⟩\n    obtain ⟨exponent, lower, lengthEq⟩ :=\n      (powerOfTwoLength_iff certificate.walk.length).mp\n        certificate.length_ok\n    exact ⟨exponent, certificate.vertex, certificate.walk,\n      lower, certificate.isCycle, lengthEq⟩\n  · rintro ⟨exponent, vertex, cycle, lower, isCycle, lengthEq⟩\n    exact ⟨{\n      vertex := vertex\n      walk := cycle\n      isCycle := isCycle\n      length_ok := (powerOfTwoLength_iff cycle.length).mpr\n        ⟨exponent, lower, lengthEq⟩\n    }⟩\n\nend Erdos64EG.Internal\n"
+    },
+    {
+      "sourceId": "Erdos64EG.OfficialStatement",
+      "moduleName": "Erdos64EG.OfficialStatement",
+      "path": "examples/erdos_64_eg/Erdos64EG/OfficialStatement.lean",
+      "sha256": "36d0504c8874da9bd5e5f7ae0bf487df8c968c779d2b2140a6908d38f9129d84",
+      "content": "import Mathlib.Combinatorics.SimpleGraph.Finite\nimport Mathlib.Combinatorics.SimpleGraph.Paths\n\nnamespace Erdos64EG\n\n/-!\nExact right-hand side of `Erdos64.erdos_64` from Google DeepMind's\n`formal-conjectures`, pinned at commit\n`bcaee6031a085e19432540650e1039b7fd1cea36`.\n\nThe pinned source file has SHA-256\n`8c06a914de2b5904420a1aff861dd0a6db4abef7a52e6a6a3fcbd8b1784265b2`.\n\nThe upstream statement is intentionally kept in Mathlib's `SimpleGraph`\nvocabulary.  The structural-exhaustion implementation is required to bridge\nto this declaration rather than replacing it with a nearby custom theorem.\n-/\n\n/-- Official mathematical proposition for Erdős Problem 64. -/\ndef OfficialStatement : Prop :=\n  ∀ (V : Type*) (G : SimpleGraph V) [Fintype V] [DecidableRel G.Adj],\n    G.minDegree ≥ 3 →\n      ∃ (k : Nat) (v : V) (c : G.Walk v v),\n        k ≥ 2 ∧ c.IsCycle ∧ c.length = 2 ^ k\n\nend Erdos64EG\n"
+    },
+    {
+      "sourceId": "Erdos64EG.Tests",
+      "moduleName": "Erdos64EG.Tests",
+      "path": "examples/erdos_64_eg/Erdos64EG/Tests.lean",
+      "sha256": "8cec9365c1d7ea08f33e5c996dccad000337f953c99882e92075e47af10cf0ce",
+      "content": "import Erdos64EG.CT1\n\nnamespace Erdos64EG.Tests\n\nopen StructuralExhaustion.Graph\nopen Erdos64EG.Internal\n\n/-!\nSmall executable smoke fixture for the first slice.  `K₄` satisfies the\nofficial baseline and contains the explicitly certified four-cycle below, so\nthe generated CT1 machine is forced to its C1 terminal.\n-/\n\ndef k4 : Object (Fin 4) where\n  graph := ⊤\n  input := {\n    vertices := inferInstance\n    decideAdj := inferInstance\n  }\n\ntheorem k4_baseline : Baseline k4 := by\n  change 3 ≤ (⊤ : SimpleGraph (Fin 4)).minDegree\n  simp\n\ndef fourCycleWalk : k4.graph.Walk (0 : Fin 4) 0 :=\n  letI : DecidableRel k4.graph.Adj := k4.input.decideAdj\n  .cons (show k4.graph.Adj 0 1 by decide) <|\n    .cons (show k4.graph.Adj 1 2 by decide) <|\n      .cons (show k4.graph.Adj 2 3 by decide) <|\n        .cons (show k4.graph.Adj 3 0 by decide) .nil\n\ntheorem fourCycleWalk_isCycle : fourCycleWalk.IsCycle := by\n  rw [SimpleGraph.Walk.isCycle_iff_isPath_tail_and_le_length]\n  constructor\n  · rw [SimpleGraph.Walk.isPath_def]\n    decide\n  · decide\n\ntheorem fourCycleWalk_powerOfTwo :\n    PowerOfTwoLength fourCycleWalk.length := by\n  change PowerOfTwoLength 4\n  exact ⟨⟨2, by decide⟩, by decide, rfl⟩\n\ndef k4Cycle : CycleWithLength k4.graph PowerOfTwoLength :=\n  {\n    vertex := 0\n    walk := fourCycleWalk\n    isCycle := fourCycleWalk_isCycle\n    length_ok := fourCycleWalk_powerOfTwo\n  }\n\ndef k4Target : Target k4 := ⟨k4Cycle⟩\n\n/-- End-to-end local validation of the explicit cycle certificate. -/\ndef k4CT1Run :\n    StructuralExhaustion.CT1.CertifiedC1Run\n      (ct1Spec (Fin 4)) (ct1Input k4 k4_baseline) :=\n  runCT1 k4 k4_baseline k4Cycle\n\nend Erdos64EG.Tests\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion.CT1.Execution",
+      "moduleName": "StructuralExhaustion.CT1.Execution",
+      "path": "lean/StructuralExhaustion/CT1/Execution.lean",
+      "sha256": "7d26e31cad81423c23e5494b29158dfb50221f7e48a6628d6b8b9dd0d64b26e6",
+      "content": "import StructuralExhaustion.CT1.Graph\nimport StructuralExhaustion.CT1.Search\n\nnamespace StructuralExhaustion.CT1\n\nuniverse uAmbient uBranch uIndex uWitness\n\n/-- Semantic terminal evidence, indexed by the exact CT1 terminal. -/\ninductive RawOutcome {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P) (input : Input P) :\n    Graph.Terminal → Type (max (uIndex + 1) (uWitness + 1)) where\n  | c1 {equivalence : EquivalenceState S input}\n      (certificate : C1Certificate S input equivalence) :\n      RawOutcome S input .c1\n  | avoiding {equivalence : EquivalenceState S input}\n      (state : AvoidingState S input equivalence) :\n      RawOutcome S input .avoiding\n\n/-- A CT1 result bundles one semantic terminal, the kernel-typed path reaching\nit, and terminal evidence carrying the same index. -/\nstructure ExecutionResult {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P)\n    (input : Input P) : Type (max (uIndex + 1) (uWitness + 1)) where\n  terminal : Graph.Terminal\n  path : Graph.Path S input .entry terminal.nodeId\n  outcome : RawOutcome S input terminal\n\nnamespace ExecutionResult\n\ndef trace {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec.{uIndex, uWitness} P} {input : Input P}\n    (result : ExecutionResult S input) : List Graph.NodeId :=\n  result.path.trace\n\nend ExecutionResult\n\n/-- The framework executes every CT1 node and constructs the exact path from\nthe capability primitives; the caller supplies no completed node decision. -/\ndef runReference {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P) (capability : Capability S)\n    (input : Input P) : ExecutionResult S input :=\n  let equivalence := certifyEquivalence S input\n  match findRealization S capability input equivalence with\n  | .hit certificate => {\n      terminal := .c1\n      path := .cons .beginEquivalence\n        (.cons (.equivalenceCertified equivalence)\n          (.cons (.realizationHit certificate) (.nil .c1Terminal)))\n      outcome := .c1 certificate\n    }\n  | .avoiding state => {\n      terminal := .avoiding\n      path := .cons .beginEquivalence\n        (.cons (.equivalenceCertified equivalence)\n          (.cons (.realizationAvoiding state) (.nil .avoidingTerminal)))\n      outcome := .avoiding state\n    }\n\n/-- Public CT1 execution returns the exact path and matching terminal\nevidence. Consumers can project `terminal` or `outcome` when they do not need\nthe trace. -/\ndef run {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P) (capability : Capability S)\n    (input : Input P) : ExecutionResult S input :=\n  runReference S capability input\n\n/-- Proposition established at each semantic terminal. -/\ndef OutcomeClaim {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec.{uIndex, uWitness} P} {input : Input P}\n    {terminal : Graph.Terminal} : RawOutcome S input terminal → Prop\n  | .c1 _ => Target S input.context.G\n  | .avoiding _ => ¬ Target S input.context.G\n\nend StructuralExhaustion.CT1\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion.CT2.Execution",
+      "moduleName": "StructuralExhaustion.CT2.Execution",
+      "path": "lean/StructuralExhaustion/CT2/Execution.lean",
+      "sha256": "e5a2fa070d87de2339f909a09613353c22dd74ecbdbd6e7d1ef83e9b34b8f382",
+      "content": "import StructuralExhaustion.CT2.Graph\n\nnamespace StructuralExhaustion.CT2\n\nuniverse uAmbient uBranch uPiece uInterface uAbstract uContext uCandidate\n\nvariable {P : Core.Problem.{uAmbient, uBranch}}\nvariable {Target : P.Ambient → Prop}\nvariable (capability : Capability.{uAmbient, uBranch, uPiece, uInterface,\n  uAbstract, uContext, uCandidate} P Target)\nvariable (ctx : Core.MinimalCounterexampleContext P Target)\nvariable (input : Input capability ctx)\n\n/-! Pure reference execution.  The framework, not a proof instance, constructs\nevery node result, graph edge, and trace. -/\n\ninductive RawOutcome : Graph.Terminal → Type _ where\n  | deletionC2\n      (witness : DeletionWitness capability ctx input) :\n      RawOutcome .deletionC2\n  | replacementC2\n      (witness : ReplacementWitness capability ctx input) :\n      RawOutcome .replacementC2\n  | separating\n      (residual : SeparatingContextResidual capability ctx input) :\n      RawOutcome .separating\n  | criticality\n      (residual : CriticalityResidual capability ctx input) :\n      RawOutcome .criticality\n\nstructure ExecutionResult where\n  terminal : Graph.Terminal\n  path : Graph.Path capability ctx input .entry terminal.nodeId\n  outcome : RawOutcome capability ctx input terminal\n\nnamespace ExecutionResult\n\ndef trace (result : ExecutionResult capability ctx input) : List Graph.NodeId :=\n  result.path.trace\n\nend ExecutionResult\n\n/-- The canonical exhaustive CT2 interpreter. -/\ndef runReference : ExecutionResult capability ctx input :=\n  match analyzeDeletion capability ctx input with\n  | .closes witness => {\n      terminal := .deletionC2\n      path := .cons .beginDeletion\n        (.cons (.deletionCloses witness) (.nil .deletionC2Terminal))\n      outcome := .deletionC2 witness\n    }\n  | .critical deletionCritical =>\n      match analyzeReplacements capability ctx input deletionCritical with\n      | .closes witness => {\n          terminal := .replacementC2\n          path := .cons .beginDeletion\n            (.cons (.deletionCritical deletionCritical)\n              (.cons (.replacementCloses witness) (.nil .replacementC2Terminal)))\n          outcome := .replacementC2 witness\n        }\n      | .separating residual => {\n          terminal := .separating\n          path := .cons .beginDeletion\n            (.cons (.deletionCritical deletionCritical)\n              (.cons (.replacementSeparating residual) (.nil .separatingTerminal)))\n          outcome := .separating residual\n        }\n      | .critical residual => {\n          terminal := .criticality\n          path := .cons .beginDeletion\n            (.cons (.deletionCritical deletionCritical)\n              (.cons (.replacementCritical residual) (.nil .criticalityTerminal)))\n          outcome := .criticality residual\n        }\n\n/-- The public runner is the audited reference semantics. -/\ndef run : ExecutionResult capability ctx input :=\n  runReference capability ctx input\n\nend StructuralExhaustion.CT2\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion.CT3.Execution",
+      "moduleName": "StructuralExhaustion.CT3.Execution",
+      "path": "lean/StructuralExhaustion/CT3/Execution.lean",
+      "sha256": "76cf0392c9dd5e94b39da15517465492bfc93a2b09b80e3a1935ba999c95bfd2",
+      "content": "import StructuralExhaustion.CT3.Graph\nimport StructuralExhaustion.CT3.Nodes\n\nnamespace StructuralExhaustion.CT3\n\nuniverse uAmbient uBranch uPiece uContext uCandidate uRow\n\n/-- Semantic terminal evidence indexed by the exact terminal reached. -/\ninductive RawOutcome {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec P)\n    (C : Capability S) (input : Input S) :\n    Graph.Terminal → Type _ where\n  | compression {vector : ExactVectorState S input}\n      (certificate : CompressionCertificate S C input vector) :\n      RawOutcome S C input .compression\n  | distinguishing\n      (residual : DistinguishingContextResidual S C input) :\n      RawOutcome S C input .distinguishing\n  | knownRow {table : ExactTableState S C}\n      (certificate : KnownRowCertificate S C input table) :\n      RawOutcome S C input .knownRow\n  | novelRow {table : ExactTableState S C}\n      (residual : NovelExternalTypeResidual S C input table) :\n      RawOutcome S C input .novelRow\n\n/-- A result contains a kernel-typed path and evidence indexed by its final\nnode. -/\nstructure ExecutionResult {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec P)\n    (C : Capability S) (input : Input S) :\n    Type _ where\n  terminal : Graph.Terminal\n  path : Graph.Path S C input .entry terminal.nodeId\n  outcome : RawOutcome S C input terminal\n\nnamespace ExecutionResult\n\ndef trace {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec P}\n    {C : Capability S} {input : Input S}\n    (result : ExecutionResult S C input) : List Graph.NodeId :=\n  result.path.trace\n\nend ExecutionResult\n\n/-- Execute all CT3 decisions from mathematical capability data alone. -/\ndef runReference {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec P)\n    (C : Capability S) (input : Input S) : ExecutionResult S C input :=\n  let _entry := Nodes.Entry.run input\n  let vector := Nodes.Vector.run S input\n  match Nodes.Compression.run S C input vector with\n  | .compressed certificate => {\n      terminal := .compression\n      path := .cons .beginVector\n        (.cons (.vectorReady vector)\n          (.cons (.compressionFound certificate)\n            (.nil .compressionTerminal)))\n      outcome := .compression certificate\n    }\n  | .uncompressible uncompressible =>\n      match Nodes.TableValidation.run S C uncompressible with\n      | .defect residual => {\n          terminal := .distinguishing\n          path := .cons .beginVector\n            (.cons (.vectorReady vector)\n              (.cons (.compressionAbsent uncompressible)\n                (.cons (.tableDefect residual)\n                  (.nil .distinguishingTerminal))))\n          outcome := .distinguishing residual\n        }\n      | .exact table =>\n          match Nodes.Lookup.run S C input table with\n          | .known certificate => {\n              terminal := .knownRow\n              path := .cons .beginVector\n                (.cons (.vectorReady vector)\n                  (.cons (.compressionAbsent uncompressible)\n                    (.cons (.tableExact table)\n                      (.cons (.rowKnown certificate)\n                        (.nil .knownRowTerminal)))))\n              outcome := .knownRow certificate\n            }\n          | .novel residual => {\n              terminal := .novelRow\n              path := .cons .beginVector\n                (.cons (.vectorReady vector)\n                  (.cons (.compressionAbsent uncompressible)\n                    (.cons (.tableExact table)\n                      (.cons (.rowNovel residual)\n                        (.nil .novelRowTerminal)))))\n              outcome := .novelRow residual\n            }\n\n/-- Public CT3 execution preserves the typed path and terminal-indexed\nevidence.  No outcome-erasing compatibility facade is exposed. -/\ndef run {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec P)\n    (C : Capability S) (input : Input S) : ExecutionResult S C input :=\n  runReference S C input\n\n/-- Structural fact established by terminal evidence. -/\ndef OutcomeClaim {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec P}\n    {C : Capability S} {input : Input S} {terminal : Graph.Terminal} :\n    RawOutcome S C input terminal → Prop\n  | .compression certificate =>\n      Compresses S input certificate.candidate\n  | .distinguishing residual =>\n      S.response (S.rowPiece residual.row) residual.context ≠\n        S.rowResponse residual.row residual.context\n  | .knownRow certificate =>\n      RowMatches S input certificate.row\n  | .novelRow residual =>\n      ∀ row, ¬ RowMatches S input row\n\nend StructuralExhaustion.CT3\n"
+    }
+  ]
+}

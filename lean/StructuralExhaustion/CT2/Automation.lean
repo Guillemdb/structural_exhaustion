@@ -1,4 +1,5 @@
 import StructuralExhaustion.CT2.DeletionClosure
+import StructuralExhaustion.CT2.LocalDeletion
 
 namespace StructuralExhaustion.CT2
 
@@ -110,6 +111,42 @@ def deletionOnlyCapabilityProfile : Core.CapabilityProfile where
     "StructuralExhaustion.CT2.DeletionClosureRule.run_closes",
     "StructuralExhaustion.CT2.DeletionClosureRule.discover_disabled",
     "StructuralExhaustion.CT2.DeletionClosureRule.notProper"
+  ]
+
+/-- Minimal author contract for target-decision-free local deletion.  The
+framework owns eligible-piece discovery, the typed deletion path, its
+constant check budget, and the CT1-avoidance route. -/
+def localDeletionCapabilityProfile : Core.CapabilityProfile where
+  capabilityId := "StructuralExhaustion.CT2.profile.localDeletion"
+  tacticId := "CT2"
+  requiredDefinitions := [
+    ⟨"StructuralExhaustion.CT2.PieceSystem.Piece", .userDefinition⟩,
+    ⟨"StructuralExhaustion.CT2.PieceSystem.pieces", .userFiniteEnumeration⟩,
+    ⟨"StructuralExhaustion.CT2.PieceSystem.Proper", .userDefinition⟩,
+    ⟨"StructuralExhaustion.CT2.PieceSystem.Admissible", .userDefinition⟩,
+    ⟨"StructuralExhaustion.CT2.PieceSystem.properDecidable", .instanceBridge⟩,
+    ⟨"StructuralExhaustion.CT2.PieceSystem.admissibleDecidable",
+      .instanceBridge⟩,
+    ⟨"StructuralExhaustion.CT2.ReductionOps.delete", .userOperator⟩,
+    ⟨"StructuralExhaustion.CT2.LocalDeletionClosureRule.preservesBaseline",
+      .instanceBridge⟩,
+    ⟨"StructuralExhaustion.CT2.LocalDeletionClosureRule.targetMonotone",
+      .instanceBridge⟩
+  ]
+  requiredInstances := [
+    "StructuralExhaustion.CT2.PieceSystem.properDecidable",
+    "StructuralExhaustion.CT2.PieceSystem.admissibleDecidable",
+    "StructuralExhaustion.CT2.LocalDeletionClosureRule.preservesBaseline",
+    "StructuralExhaustion.CT2.LocalDeletionClosureRule.targetMonotone"
+  ]
+  derivedOperations := [
+    "StructuralExhaustion.CT2.LocalDeletionCapability.tacticInterface",
+    "StructuralExhaustion.CT2.LocalDeletionCapability.discover",
+    "StructuralExhaustion.CT2.LocalDeletionClosureRule.witness",
+    "StructuralExhaustion.CT2.LocalDeletionClosureRule.run",
+    "StructuralExhaustion.CT2.LocalDeletionClosureRule.notProper",
+    "StructuralExhaustion.CT2.localDeletionBudget",
+    "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.rule"
   ]
 
 /-- Router-visible CT2 residuals.  Neither residual contains a destination

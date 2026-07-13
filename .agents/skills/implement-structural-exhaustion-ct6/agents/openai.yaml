@@ -1,0 +1,4 @@
+interface:
+  display_name: "Structural Exhaustion CT6"
+  short_description: "Implement ordered activity failure"
+  default_prompt: "Use $implement-structural-exhaustion-ct6 to implement the CT6 ordered activity-failure contract for this proof step."

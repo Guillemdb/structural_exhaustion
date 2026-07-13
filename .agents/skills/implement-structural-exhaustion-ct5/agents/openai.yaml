@@ -1,0 +1,4 @@
+interface:
+  display_name: "Structural Exhaustion CT5"
+  short_description: "Implement local witness aggregation"
+  default_prompt: "Use $implement-structural-exhaustion-ct5 to implement the CT5 local witness aggregation contract for this proof step."

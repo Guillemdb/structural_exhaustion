@@ -26,6 +26,32 @@ structure LocalDeletionInput
     (ctx : Core.MinimalCounterexampleContext P Target) where
   seed : Seed capability.pieces ctx
 
+namespace LocalDeletionCapability
+
+/-- Route-facing interface for the local deletion profile.  Unlike the full
+CT2 capability, this interface does not require a target decision procedure. -/
+def tacticInterface
+    {P : Core.Problem.{uAmbient, uBranch}}
+    (Target : P.Ambient → Prop)
+    (capability : LocalDeletionCapability.{uAmbient, uBranch, uPiece} P) :
+    Core.Routing.TacticInterface where
+  Context := Core.MinimalCounterexampleContext P Target
+  Trigger := LocalDeletionInput capability
+
+/-- Discover the first proper admissible local deletion piece using only the
+declared finite piece schedule and its two primitive deciders. -/
+def discover
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {Target : P.Ambient → Prop}
+    (capability : LocalDeletionCapability.{uAmbient, uBranch, uPiece} P)
+    (ctx : Core.MinimalCounterexampleContext P Target) :
+    Core.Routing.Discovery (LocalDeletionInput capability ctx) :=
+  match capability.pieces.discover ctx with
+  | .enabled seed => .enabled ⟨seed⟩
+  | .disabled reject => .disabled fun input => reject input.seed
+
+end LocalDeletionCapability
+
 /-- Semantic rule establishing that deletion preserves the counterexample
 conditions whenever the supplied piece is proper and admissible. -/
 structure LocalDeletionClosureRule

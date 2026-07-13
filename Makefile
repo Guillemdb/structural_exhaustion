@@ -1,14 +1,22 @@
-.PHONY: help lint build framework-build example-build even-cycle-example-build erdos-example-build greedy-coloring-example-build mantel-example-build mathlib-cache export schemas generate validate kernel verify test manuscript checksums
+.PHONY: help lint build framework-build example-build even-cycle-example-build erdos-example-build greedy-coloring-example-build mantel-example-build mathlib-cache export example-export schemas generate validate kernel verify test manuscript checksums web web-build web-test web-frontend-test
 
 .DEFAULT_GOAL := build
 
 PYTHON ?= python3
+UV ?= uv
+NPM ?= npm
+UV_CACHE_DIR ?= /tmp/uv-cache
 LEAN_DIR := lean
 EVEN_CYCLE_EXAMPLE_DIR := examples/even_cycle
 ERDOS_EXAMPLE_DIR := examples/erdos_64_eg
 GREEDY_COLORING_EXAMPLE_DIR := examples/greedy_coloring
 MANTEL_EXAMPLE_DIR := examples/mantel
 CATALOG := generated/lean-machines.json
+EXAMPLE_EXPORT_DIR := build/example-exports
+WEB_FRONTEND_DIR := web/frontend
+WEB_NODE_STAMP := $(WEB_FRONTEND_DIR)/node_modules/.package-lock.json
+WEB_HOST ?= 127.0.0.1
+WEB_PORT ?= 8000
 
 help:
 	@printf '%s\n' \
@@ -23,13 +31,15 @@ help:
 	  '  make mantel-example-build  Compile the external Mantel/CT11 example' \
 	  '  make example-build    Compile all external graph-problem example packages' \
 	  '  make build       Compile the framework and all external examples' \
-	  '  make export      Build Lean and export the canonical compiled machine catalog' \
+	  '  make export      Build Lean and export the compiled machine and example catalogs' \
 	  '  make schemas     Export Lean and regenerate all concrete JSON Schemas' \
 	  '  make generate    Export Lean and regenerate every schema, diagram, index, and binding check' \
 	  '  make validate    Validate the current catalog, contracts, routes, schemas, and graph invariants' \
 	  '  make kernel      Regenerate and kernel-check bindings, freshness, and absence of admissions' \
 	  '  make verify      Run the complete linter, generation, kernel, validation, and checksum chain' \
-	  '  make test        Run make verify followed by the Python regression suite' \
+	  '  make test        Run make verify plus Python and web regression checks' \
+	  '  make web         Build and serve the framework explorer on one local URL' \
+	  '  make web-test    Run backend/frontend explorer tests and production build' \
 	  '  make manuscript  Regenerate CT figures and compile the PDF manuscript'
 
 lint:
@@ -61,8 +71,17 @@ mathlib-cache:
 
 build: framework-build example-build
 
-export: build
+example-export: build
+	mkdir -p $(EXAMPLE_EXPORT_DIR)
+	rm -f $(EXAMPLE_EXPORT_DIR)/*.json
+	cd $(EVEN_CYCLE_EXAMPLE_DIR) && STRUCTURAL_EXHAUSTION_EXAMPLE_EXPORT=../../$(EXAMPLE_EXPORT_DIR)/even-cycle.raw.json lake env lean EvenCycleExample/WebExport.lean
+	cd $(ERDOS_EXAMPLE_DIR) && STRUCTURAL_EXHAUSTION_EXAMPLE_EXPORT=../../$(EXAMPLE_EXPORT_DIR)/erdos-64.raw.json lake env lean Erdos64EG/WebExport.lean
+	cd $(GREEDY_COLORING_EXAMPLE_DIR) && STRUCTURAL_EXHAUSTION_EXAMPLE_EXPORT=../../$(EXAMPLE_EXPORT_DIR)/greedy-coloring.raw.json lake env lean GreedyColoringExample/WebExport.lean
+	cd $(MANTEL_EXAMPLE_DIR) && STRUCTURAL_EXHAUSTION_EXAMPLE_EXPORT=../../$(EXAMPLE_EXPORT_DIR)/mantel.raw.json lake env lean MantelExample/WebExport.lean
+
+export: build example-export
 	cd $(LEAN_DIR) && STRUCTURAL_EXHAUSTION_EXPORT=../$(CATALOG) lake env lean StructuralExhaustion/Canonical/Export.lean
+	$(PYTHON) tools/render_example_catalog.py --raw-root $(EXAMPLE_EXPORT_DIR) --root . --source-root . --catalog $(CATALOG)
 
 schemas: export
 	$(PYTHON) tools/render_schemas.py
@@ -85,6 +104,25 @@ verify: lint kernel
 
 test: verify
 	$(PYTHON) -m pytest -q
+	$(MAKE) web-frontend-test
+
+$(WEB_NODE_STAMP): $(WEB_FRONTEND_DIR)/package.json $(WEB_FRONTEND_DIR)/package-lock.json
+	cd $(WEB_FRONTEND_DIR) && $(NPM) ci
+
+web-build: $(WEB_NODE_STAMP)
+	cd $(WEB_FRONTEND_DIR) && $(NPM) run build
+
+web-frontend-test: $(WEB_NODE_STAMP)
+	cd $(WEB_FRONTEND_DIR) && $(NPM) run test
+	cd $(WEB_FRONTEND_DIR) && $(NPM) run typecheck
+	cd $(WEB_FRONTEND_DIR) && $(NPM) run build
+
+web-test: $(WEB_NODE_STAMP)
+	UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run --with-requirements requirements.txt python -m pytest -q tests/test_web_api.py
+	$(MAKE) web-frontend-test
+
+web: web-build
+	UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run --with-requirements requirements.txt uvicorn web.backend.app.main:app --host $(WEB_HOST) --port $(WEB_PORT)
 
 manuscript: generate
 	mkdir -p build/framework

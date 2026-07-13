@@ -4,12 +4,13 @@
   "title": "Deterministic Lean kernel verification result",
   "type": "object",
   "additionalProperties": false,
-  "required": ["artifactType", "schemaVersion", "status", "catalogHash", "toolchain", "aggregate", "tactics"],
+  "required": ["artifactType", "schemaVersion", "status", "catalogHash", "exampleCatalogHash", "toolchain", "aggregate", "tactics"],
   "properties": {
     "artifactType": {"const": "leanKernelVerification"},
-    "schemaVersion": {"const": "1.0.0"},
+    "schemaVersion": {"const": "2.0.0"},
     "status": {"enum": ["kernel_checked", "failed"]},
     "catalogHash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "exampleCatalogHash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "toolchain": {
       "type": "object",
       "additionalProperties": false,
@@ -22,7 +23,7 @@
     "aggregate": {
       "type": "object",
       "additionalProperties": {"enum": ["passed", "failed"]},
-      "required": ["build", "catalogFreshness", "bindingResolution", "noAdmissions"]
+      "required": ["build", "catalogFreshness", "exampleCatalogFreshness", "bindingResolution", "noAdmissions"]
     },
     "tactics": {
       "type": "array",

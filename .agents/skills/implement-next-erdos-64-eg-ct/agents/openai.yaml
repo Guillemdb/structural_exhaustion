@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implement Next Erdős 64 CT"
+  short_description: "Advance the Erdős 64 proof by one verified CT"
+  default_prompt: "Use $implement-next-erdos-64-eg-ct to implement the next manuscript-selected CT in the Erdős 64 Lean proof."

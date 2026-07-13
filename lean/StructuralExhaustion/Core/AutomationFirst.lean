@@ -1,5 +1,6 @@
 import StructuralExhaustion.Core.Problem
 import StructuralExhaustion.Core.Context
+import StructuralExhaustion.Core.MinimalSelection
 import StructuralExhaustion.Core.Enumeration
 import StructuralExhaustion.Core.FiniteSearch
 import StructuralExhaustion.Core.ExactObservation

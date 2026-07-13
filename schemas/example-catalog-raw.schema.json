@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/example-catalog-raw.schema.json",
+  "title": "Compiled Lean example descriptor export",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["artifactType", "schemaVersion", "sourceOfTruth", "example"],
+  "properties": {
+    "artifactType": {"const": "structuralExhaustionExample"},
+    "schemaVersion": {"const": "1.0.0"},
+    "sourceOfTruth": {"$ref": "#/$defs/sourceOfTruth"},
+    "example": {"$ref": "#/$defs/example"}
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"
+    },
+    "nonemptyString": {"type": "string", "minLength": 1},
+    "sourceOfTruth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "rootModule", "descriptor"],
+      "properties": {
+        "kind": {"const": "compiledLeanEnvironment"},
+        "rootModule": {"$ref": "#/$defs/nonemptyString"},
+        "descriptor": {"$ref": "#/$defs/nonemptyString"}
+      }
+    },
+    "position": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["line", "column"],
+      "properties": {
+        "line": {"type": "integer", "minimum": 1},
+        "column": {"type": "integer", "minimum": 0}
+      }
+    },
+    "range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end"],
+      "properties": {
+        "start": {"$ref": "#/$defs/position"},
+        "end": {"$ref": "#/$defs/position"}
+      }
+    },
+    "declaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name", "kind", "type", "module", "sourceFile", "range",
+        "selectionRange"
+      ],
+      "properties": {
+        "name": {"$ref": "#/$defs/nonemptyString"},
+        "kind": {"$ref": "#/$defs/nonemptyString"},
+        "type": {"$ref": "#/$defs/nonemptyString"},
+        "module": {"$ref": "#/$defs/nonemptyString"},
+        "sourceFile": {"$ref": "#/$defs/nonemptyString"},
+        "range": {"$ref": "#/$defs/range"},
+        "selectionRange": {"$ref": "#/$defs/range"}
+      }
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stageId", "title", "summary", "kind", "tacticId",
+        "primaryDeclaration", "evidenceDeclarations"
+      ],
+      "properties": {
+        "stageId": {"$ref": "#/$defs/identifier"},
+        "title": {"$ref": "#/$defs/nonemptyString"},
+        "summary": {"$ref": "#/$defs/nonemptyString"},
+        "kind": {
+          "enum": ["problem", "tactic", "adapter", "certificate", "theorem", "fixture"]
+        },
+        "tacticId": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "pattern": "^CT[0-9]+$"}
+          ]
+        },
+        "primaryDeclaration": {"$ref": "#/$defs/declaration"},
+        "evidenceDeclarations": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/declaration"}
+        }
+      }
+    },
+    "link": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "linkId", "sourceStageId", "targetStageId", "kind", "label",
+        "description", "routeId", "evidenceDeclarations"
+      ],
+      "properties": {
+        "linkId": {"$ref": "#/$defs/identifier"},
+        "sourceStageId": {"$ref": "#/$defs/identifier"},
+        "targetStageId": {"$ref": "#/$defs/identifier"},
+        "kind": {
+          "enum": [
+            "registeredRoute", "frameworkComposition", "proofData", "validation",
+            "scheduleAudit", "sharedProblem"
+          ]
+        },
+        "label": {"$ref": "#/$defs/nonemptyString"},
+        "description": {"$ref": "#/$defs/nonemptyString"},
+        "routeId": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/nonemptyString"}
+          ]
+        },
+        "evidenceDeclarations": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/declaration"}
+        }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workflowId", "title", "purpose", "completion", "stages", "links"],
+      "properties": {
+        "workflowId": {"$ref": "#/$defs/identifier"},
+        "title": {"$ref": "#/$defs/nonemptyString"},
+        "purpose": {"$ref": "#/$defs/nonemptyString"},
+        "completion": {"enum": ["complete", "partial"]},
+        "stages": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/stage"}
+        },
+        "links": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/link"}
+        }
+      }
+    },
+    "interfaceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bindingId", "stageId", "tacticId", "role", "description",
+        "problemDeclaration", "frameworkDeclaration"
+      ],
+      "properties": {
+        "bindingId": {"$ref": "#/$defs/identifier"},
+        "stageId": {"$ref": "#/$defs/identifier"},
+        "tacticId": {"type": "string", "pattern": "^CT[0-9]+$"},
+        "role": {"$ref": "#/$defs/nonemptyString"},
+        "description": {"$ref": "#/$defs/nonemptyString"},
+        "problemDeclaration": {"$ref": "#/$defs/declaration"},
+        "frameworkDeclaration": {"$ref": "#/$defs/declaration"}
+      }
+    },
+    "example": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exampleId", "title", "summary", "proofStatus", "workflows",
+        "interfaceBindings"
+      ],
+      "properties": {
+        "exampleId": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "title": {"$ref": "#/$defs/nonemptyString"},
+        "summary": {"$ref": "#/$defs/nonemptyString"},
+        "proofStatus": {"enum": ["complete", "partial"]},
+        "workflows": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/workflow"}
+        },
+        "interfaceBindings": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/interfaceBinding"}
+        }
+      }
+    }
+  }
+}

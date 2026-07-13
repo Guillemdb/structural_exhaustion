@@ -305,6 +305,44 @@ Inspect the exact route boundary after export with:
 jq '.routes[] | {routeId, authoringBoundary}' generated/lean-machines.json
 ```
 
+## Interactive framework explorer
+
+The read-only FastAPI and React application visualizes all seventeen compiled
+CT machines, their typed edges, automation contracts, residuals, terminals,
+and registered cross-CT routes. Its Examples section also exposes the four
+external graph applications, their accurately typed proof-composition flows,
+problem/framework interfaces, kernel evidence, and focused or full Lean
+source. Erdős 64 is explicitly marked as a partial proof slice, and conceptual
+composition is kept distinct from a registered residual route.
+
+Both sections consume only immutable files under `generated/`. Example
+descriptors are exported from each compiled external Lake package; source text
+is copied from the exporter-selected modules with declaration ranges and
+SHA-256 hashes. The web layer does not discover source paths or maintain a
+second mathematical catalog.
+
+Start the explorer from a fresh checkout with one command:
+
+```bash
+make web
+```
+
+The first run resolves the pinned npm lockfile and the Python requirements,
+builds the React application, and serves the API and browser application
+together at `http://127.0.0.1:8000`. This command requires `uv`, Node.js 20.19
+or newer, and npm. Override the bind address or port with:
+
+```bash
+make web WEB_HOST=0.0.0.0 WEB_PORT=8080
+```
+
+`make web` uses the currently committed generated artifacts; it does not
+compile Lean. The header reports framework and example freshness independently
+whenever either catalog hash differs from `generated/kernel-verification.json`.
+Use `make verify` when the generated projections need to be refreshed.
+
+Run the focused backend and frontend checks with `make web-test`.
+
 ## Build, generate, verify, and test
 
 Prerequisites:
@@ -359,8 +397,8 @@ The targets have the following contracts:
 - `make schemas` exports Lean and regenerates only the concrete JSON Schema
   family and its index.
 - `make generate` exports Lean and regenerates all schemas, Mermaid/Cytoscape
-  graphs, manuscript CT fragments, indexes, manifests, and the Lean binding
-  check.
+  graphs, example catalogs and source projections, manuscript CT fragments,
+  indexes, manifests, and the Lean binding check.
 - `make validate` validates the current generated tree. It does not first make
   stale artifacts current; use `make verify` for that.
 - `make kernel` regenerates artifacts, builds Lean, compiles the generated
@@ -368,7 +406,10 @@ The targets have the following contracts:
   pinned toolchain, and rejects authored admissions.
 - `make verify` runs the linter, full generation, kernel verification,
   repository/schema/route validation, and checksum refresh.
-- `make test` runs `make verify` followed by the Python regression suite.
+- `make test` runs `make verify`, the Python regression suite, and the web
+  frontend tests, type-check, and production build.
+- `make web` builds and serves the generated-artifact framework explorer.
+- `make web-test` runs the focused web API and frontend checks.
 - `make manuscript` regenerates the CT fragments and compiles
   `build/framework/branch_closure_methodology_extended.pdf`.
 

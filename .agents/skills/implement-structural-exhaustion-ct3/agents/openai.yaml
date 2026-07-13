@@ -1,0 +1,4 @@
+interface:
+  display_name: "Structural Exhaustion CT3"
+  short_description: "Implement local response compression"
+  default_prompt: "Use $implement-structural-exhaustion-ct3 to implement the CT3 local-coordinate compression contract for this proof step."

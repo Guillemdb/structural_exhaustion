@@ -1,8 +1,9 @@
 {
   "artifactType": "leanKernelVerification",
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "2.0.0",
   "status": "kernel_checked",
   "catalogHash": "6311efe9fd2bc81eca09e454b7b85aeb92252c0d3c16e733189c19d26e275bb3",
+  "exampleCatalogHash": "6b3750241952d0b460bfe31bc1cba2aba819ba44a9052c74ec426cd0fd6a2ba9",
   "toolchain": {
     "pinned": "leanprover/lean4:v4.31.0",
     "observed": "Lean (version 4.31.0, x86_64-unknown-linux-gnu, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)"
@@ -16,6 +17,7 @@
     "mantelExampleBuild": "passed",
     "toolchainAlignment": "passed",
     "catalogFreshness": "passed",
+    "exampleCatalogFreshness": "passed",
     "bindingResolution": "passed",
     "noAdmissions": "passed",
     "catalogSchema": "passed",

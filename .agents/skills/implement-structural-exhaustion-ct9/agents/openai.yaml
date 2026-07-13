@@ -1,0 +1,4 @@
+interface:
+  display_name: "Structural Exhaustion CT9"
+  short_description: "Implement finite label-fibre overload"
+  default_prompt: "Use $implement-structural-exhaustion-ct9 to implement the CT9 label-fibre overload contract for this proof step."

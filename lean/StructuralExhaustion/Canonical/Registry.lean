@@ -62,7 +62,7 @@ def tactics : Array TacticDescriptor := #[
   descriptor "CT2" "Minimal deletion and exhaustive replacement" "CT2-v6"
     `StructuralExhaustion.CT2 CT2.capabilityContract
     CT2.nodeAutomationContracts CT2.residualKindContracts
-    [CT2.deletionOnlyCapabilityProfile],
+    [CT2.deletionOnlyCapabilityProfile, CT2.localDeletionCapabilityProfile],
   descriptor "CT3" "Exact external-response compression" "CT3-v3"
     `StructuralExhaustion.CT3 CT3.capabilityContract
     CT3.nodeAutomationContracts CT3.residualKindContracts,
@@ -117,6 +117,7 @@ def tactics : Array TacticDescriptor := #[
 /-- Framework-generated routes currently proved in Lean. -/
 def routes : List Core.RouteContract := [
   Routes.CT1ToCT2.contract,
+  Routes.CT1ToCT2.LocalDeletion.contract,
   Routes.CT2ToCT3.routeContract,
   Routes.CT2ToCT10.routeContract,
   Routes.CT6ToCT9.routeContract

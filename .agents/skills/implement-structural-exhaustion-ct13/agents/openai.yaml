@@ -1,0 +1,4 @@
+interface:
+  display_name: "Structural Exhaustion CT13"
+  short_description: "Implement tiered fallback reconciliation"
+  default_prompt: "Use $implement-structural-exhaustion-ct13 to implement the CT13 tiered fallback contract for this proof step."

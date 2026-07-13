@@ -1,0 +1,636 @@
+{
+  "artifactType": "structuralExhaustionExample",
+  "schemaVersion": "1.0.0",
+  "sourceOfTruth": {
+    "rootModule": "GreedyColoringExample",
+    "kind": "compiledLeanEnvironment",
+    "descriptor": "GreedyColoringExample.WebExport.descriptor"
+  },
+  "exampleId": "greedy-coloring",
+  "title": "Greedy coloring",
+  "summary": "A complete maximum-degree coloring construction combining a CT12 schedule audit, repeated CT4 choices, and CT1 certificate validation.",
+  "proofStatus": "complete",
+  "tacticIds": [
+    "CT1",
+    "CT4",
+    "CT12"
+  ],
+  "workflows": [
+    {
+      "workflowId": "coloring",
+      "title": "Deterministic greedy coloring",
+      "summary": "Expose the CT12 schedule audit, repeated CT4 color selection, constructed coloring, and final CT1 validation.",
+      "purpose": "Expose the CT12 schedule audit, repeated CT4 color selection, constructed coloring, and final CT1 validation.",
+      "completion": "complete",
+      "stages": [
+        {
+          "stageId": "coloring.problem",
+          "title": "Maximum-degree coloring target",
+          "summary": "The target uses Mathlib's graph-coloring API with exactly maximum degree plus one available colors.",
+          "kind": "problem",
+          "primaryDeclarationId": "GreedyColoringExample.Target",
+          "evidenceDeclarationIds": [
+            "GreedyColoringExample.coloring"
+          ]
+        },
+        {
+          "stageId": "coloring.ct12",
+          "title": "CT12 vertex-peeling audit",
+          "summary": "CT12 certifies that the declared finite vertex order is peeled to exhaustion.",
+          "kind": "tactic",
+          "primaryDeclarationId": "GreedyColoringExample.ct12Run",
+          "evidenceDeclarationIds": [
+            "GreedyColoringExample.ConcreteK4.ct12_terminal_exhausted",
+            "GreedyColoringExample.ConcreteK4.ct12_iterations_exact"
+          ],
+          "tacticId": "CT12"
+        },
+        {
+          "stageId": "coloring.ct4",
+          "title": "CT4 missing-color steps",
+          "summary": "Each reverse-fold step uses CT4 functional cardinality to choose a color absent from all later neighbors.",
+          "kind": "tactic",
+          "primaryDeclarationId": "StructuralExhaustion.Graph.GreedyColoring.stepRun",
+          "evidenceDeclarationIds": [
+            "StructuralExhaustion.Graph.GreedyColoring.step_terminal_missing",
+            "StructuralExhaustion.Graph.GreedyColoring.selectedColor_available",
+            "GreedyColoringExample.ConcreteK4.ct4_terminal_missing",
+            "GreedyColoringExample.ConcreteK4.ct4_trace_exact"
+          ],
+          "tacticId": "CT4"
+        },
+        {
+          "stageId": "coloring.certificate",
+          "title": "Greedy coloring certificate",
+          "summary": "The reverse fold assembles all CT4 choices into a complete proper Mathlib coloring.",
+          "kind": "certificate",
+          "primaryDeclarationId": "GreedyColoringExample.coloring",
+          "evidenceDeclarationIds": [
+            "StructuralExhaustion.Graph.GreedyColoring.maxDegreeColoring",
+            "GreedyColoringExample.ConcreteK4.coloring_values",
+            "GreedyColoringExample.ConcreteK4.coloring_is_proper"
+          ]
+        },
+        {
+          "stageId": "coloring.ct1",
+          "title": "CT1 coloring validation",
+          "summary": "CT1 validates the completed proper coloring against the finite target encoding.",
+          "kind": "tactic",
+          "primaryDeclarationId": "GreedyColoringExample.ct1Run",
+          "evidenceDeclarationIds": [
+            "GreedyColoringExample.ConcreteK4.ct1_terminal_c1",
+            "GreedyColoringExample.ConcreteK4.ct1_trace_exact"
+          ],
+          "tacticId": "CT1"
+        },
+        {
+          "stageId": "coloring.theorem",
+          "title": "Maximum-degree coloring theorem",
+          "summary": "Every explicitly finite simple graph is colorable with one more color than its maximum degree.",
+          "kind": "theorem",
+          "primaryDeclarationId": "GreedyColoringExample.maxDegreeSucc_colorable",
+          "evidenceDeclarationIds": [
+            "StructuralExhaustion.Graph.GreedyColoring.colorable_maxDegree_succ"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "linkId": "coloring.problem-ct12",
+          "sourceStageId": "coloring.problem",
+          "targetStageId": "coloring.ct12",
+          "kind": "sharedProblem",
+          "label": "audits vertex order",
+          "summary": "The finite graph's declared vertex enumeration is the schedule inspected by CT12.",
+          "evidenceDeclarationIds": []
+        },
+        {
+          "linkId": "coloring.ct12-ct4",
+          "sourceStageId": "coloring.ct12",
+          "targetStageId": "coloring.ct4",
+          "kind": "scheduleAudit",
+          "label": "certifies schedule",
+          "summary": "CT12 audits the same vertex order used by the fold; this is orchestration, not a registered residual route.",
+          "evidenceDeclarationIds": [
+            "StructuralExhaustion.Graph.GreedyColoring.peeling_terminal_exhausted"
+          ]
+        },
+        {
+          "linkId": "coloring.ct4-certificate",
+          "sourceStageId": "coloring.ct4",
+          "targetStageId": "coloring.certificate",
+          "kind": "frameworkComposition",
+          "label": "repeated reverse fold",
+          "summary": "Problem-specific recursion repeatedly invokes CT4 and inserts each selected color into the partial coloring.",
+          "evidenceDeclarationIds": [
+            "StructuralExhaustion.Graph.GreedyColoring.colorOrder"
+          ]
+        },
+        {
+          "linkId": "coloring.certificate-ct1",
+          "sourceStageId": "coloring.certificate",
+          "targetStageId": "coloring.ct1",
+          "kind": "validation",
+          "label": "validated by CT1",
+          "summary": "CT1 checks the proper coloring after it has been constructed by the CT4 fold.",
+          "evidenceDeclarationIds": []
+        },
+        {
+          "linkId": "coloring.certificate-theorem",
+          "sourceStageId": "coloring.certificate",
+          "targetStageId": "coloring.theorem",
+          "kind": "proofData",
+          "label": "witnesses colorability",
+          "summary": "The complete coloring is the witness required by Mathlib's Colorable predicate.",
+          "evidenceDeclarationIds": [
+            "StructuralExhaustion.Graph.GreedyColoring.colorable_maxDegree_succ"
+          ]
+        },
+        {
+          "linkId": "coloring.ct1-theorem",
+          "sourceStageId": "coloring.ct1",
+          "targetStageId": "coloring.theorem",
+          "kind": "validation",
+          "label": "target confirmed",
+          "summary": "The CT1 success run independently confirms the generated certificate realizes the target.",
+          "evidenceDeclarationIds": []
+        }
+      ]
+    }
+  ],
+  "interfaceBindings": [
+    {
+      "bindingId": "coloring.ct12-list",
+      "workflowId": "coloring",
+      "stageId": "coloring.ct12",
+      "tacticId": "CT12",
+      "role": "peeling schedule",
+      "summary": "The graph's ordered vertex list is passed to the reusable list-peeling CT12 profile.",
+      "problemDeclarationId": "StructuralExhaustion.Graph.GreedyColoring.peelingRun",
+      "frameworkDeclarationId": "StructuralExhaustion.CT12.run"
+    },
+    {
+      "bindingId": "coloring.ct4-profile",
+      "workflowId": "coloring",
+      "stageId": "coloring.ct4",
+      "tacticId": "CT4",
+      "role": "functional-cardinality profile",
+      "summary": "The step profile maps used colors to later-neighbor payer slots and supplies CT4's functional witness.",
+      "problemDeclarationId": "StructuralExhaustion.Graph.GreedyColoring.stepProfile",
+      "frameworkDeclarationId": "StructuralExhaustion.CT4.run"
+    },
+    {
+      "bindingId": "coloring.ct1-encoding",
+      "workflowId": "coloring",
+      "stageId": "coloring.ct1",
+      "tacticId": "CT1",
+      "role": "target encoding",
+      "summary": "The coloring target encoding exposes the generated coloring and properness proof to CT1.",
+      "problemDeclarationId": "StructuralExhaustion.Graph.GreedyColoring.ct1Encoding",
+      "frameworkDeclarationId": "StructuralExhaustion.CT1.run"
+    }
+  ],
+  "declarations": [
+    {
+      "declarationId": "GreedyColoringExample.ConcreteK4.coloring_is_proper",
+      "name": "GreedyColoringExample.ConcreteK4.coloring_is_proper",
+      "kind": "theorem",
+      "type": "∀ {left right : ConcreteK4.Vertex},\n  ConcreteK4.graph.Adj left right → ConcreteK4.generatedColoring left ≠ ConcreteK4.generatedColoring right",
+      "sourceId": "GreedyColoringExample.Concrete",
+      "startLine": 48,
+      "startColumn": 1,
+      "endLine": 51,
+      "endColumn": 35,
+      "selectionStartLine": 48,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 48,
+      "selectionEndColumn": 27
+    },
+    {
+      "declarationId": "GreedyColoringExample.ConcreteK4.coloring_values",
+      "name": "GreedyColoringExample.ConcreteK4.coloring_values",
+      "kind": "theorem",
+      "type": "[ConcreteK4.generatedColoring 0, ConcreteK4.generatedColoring 1, ConcreteK4.generatedColoring 2,\n    ConcreteK4.generatedColoring 3] =\n  [3, 2, 1, 0]",
+      "sourceId": "GreedyColoringExample.Concrete",
+      "startLine": 43,
+      "startColumn": 1,
+      "endLine": 46,
+      "endColumn": 16,
+      "selectionStartLine": 43,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 43,
+      "selectionEndColumn": 24
+    },
+    {
+      "declarationId": "GreedyColoringExample.ConcreteK4.ct12_iterations_exact",
+      "name": "GreedyColoringExample.ConcreteK4.ct12_iterations_exact",
+      "kind": "theorem",
+      "type": "ConcreteK4.peelingExecution.iterations = 4",
+      "sourceId": "GreedyColoringExample.Concrete",
+      "startLine": 57,
+      "startColumn": 1,
+      "endLine": 58,
+      "endColumn": 16,
+      "selectionStartLine": 57,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 57,
+      "selectionEndColumn": 30
+    },
+    {
+      "declarationId": "GreedyColoringExample.ConcreteK4.ct12_terminal_exhausted",
+      "name": "GreedyColoringExample.ConcreteK4.ct12_terminal_exhausted",
+      "kind": "theorem",
+      "type": "ConcreteK4.peelingExecution.terminal = StructuralExhaustion.CT12.Graph.Terminal.exhausted",
+      "sourceId": "GreedyColoringExample.Concrete",
+      "startLine": 53,
+      "startColumn": 1,
+      "endLine": 55,
+      "endColumn": 57,
+      "selectionStartLine": 53,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 53,
+      "selectionEndColumn": 32
+    },
+    {
+      "declarationId": "GreedyColoringExample.ConcreteK4.ct1_terminal_c1",
+      "name": "GreedyColoringExample.ConcreteK4.ct1_terminal_c1",
+      "kind": "theorem",
+      "type": "ConcreteK4.validationRun.result.terminal = StructuralExhaustion.CT1.Graph.Terminal.c1",
+      "sourceId": "GreedyColoringExample.Concrete",
+      "startLine": 69,
+      "startColumn": 1,
+      "endLine": 70,
+      "endColumn": 28,
+      "selectionStartLine": 69,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 69,
+      "selectionEndColumn": 24
+    },
+    {
+      "declarationId": "GreedyColoringExample.ConcreteK4.ct1_trace_exact",
+      "name": "GreedyColoringExample.ConcreteK4.ct1_trace_exact",
+      "kind": "theorem",
+      "type": "ConcreteK4.validationRun.result.trace =\n  [StructuralExhaustion.CT1.Graph.NodeId.entry, StructuralExhaustion.CT1.Graph.NodeId.equivalenceCertification,\n    StructuralExhaustion.CT1.Graph.NodeId.realizationDecision, StructuralExhaustion.CT1.Graph.NodeId.c1Terminal]",
+      "sourceId": "GreedyColoringExample.Concrete",
+      "startLine": 72,
+      "startColumn": 1,
+      "endLine": 75,
+      "endColumn": 25,
+      "selectionStartLine": 72,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 72,
+      "selectionEndColumn": 24
+    },
+    {
+      "declarationId": "GreedyColoringExample.ConcreteK4.ct4_terminal_missing",
+      "name": "GreedyColoringExample.ConcreteK4.ct4_terminal_missing",
+      "kind": "theorem",
+      "type": "ConcreteK4.finalStepExecution.terminal = StructuralExhaustion.CT4.Graph.Terminal.missing",
+      "sourceId": "GreedyColoringExample.Concrete",
+      "startLine": 60,
+      "startColumn": 1,
+      "endLine": 62,
+      "endColumn": 29,
+      "selectionStartLine": 60,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 60,
+      "selectionEndColumn": 29
+    },
+    {
+      "declarationId": "GreedyColoringExample.ConcreteK4.ct4_trace_exact",
+      "name": "GreedyColoringExample.ConcreteK4.ct4_trace_exact",
+      "kind": "theorem",
+      "type": "StructuralExhaustion.CT4.ExecutionResult.trace\n    (StructuralExhaustion.Graph.GreedyColoring.stepProfile ConcreteK4.object 3 3 [] ConcreteK4.emptyPartial).spec\n    (StructuralExhaustion.Graph.GreedyColoring.stepProfile ConcreteK4.object 3 3 [] ConcreteK4.emptyPartial).capability\n    (StructuralExhaustion.Graph.Coloring.context ConcreteK4.object) ConcreteK4.finalStepExecution =\n  [StructuralExhaustion.CT4.Graph.NodeId.entry, StructuralExhaustion.CT4.Graph.NodeId.assignment,\n    StructuralExhaustion.CT4.Graph.NodeId.availability, StructuralExhaustion.CT4.Graph.NodeId.missingTerminal]",
+      "sourceId": "GreedyColoringExample.Concrete",
+      "startLine": 64,
+      "startColumn": 1,
+      "endLine": 67,
+      "endColumn": 16,
+      "selectionStartLine": 64,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 64,
+      "selectionEndColumn": 24
+    },
+    {
+      "declarationId": "GreedyColoringExample.Target",
+      "name": "GreedyColoringExample.Target",
+      "kind": "definition",
+      "type": "{V : Type u} → StructuralExhaustion.Graph.FiniteObject V → Prop",
+      "sourceId": "GreedyColoringExample.Problem",
+      "startLine": 9,
+      "startColumn": 1,
+      "endLine": 11,
+      "endColumn": 48,
+      "selectionStartLine": 10,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 10,
+      "selectionEndColumn": 14
+    },
+    {
+      "declarationId": "GreedyColoringExample.coloring",
+      "name": "GreedyColoringExample.coloring",
+      "kind": "definition",
+      "type": "{V : Type u} → (object : StructuralExhaustion.Graph.FiniteObject V) → object.graph.Coloring (Fin (object.maxDegree + 1))",
+      "sourceId": "GreedyColoringExample.Problem",
+      "startLine": 13,
+      "startColumn": 1,
+      "endLine": 15,
+      "endColumn": 48,
+      "selectionStartLine": 14,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 14,
+      "selectionEndColumn": 16
+    },
+    {
+      "declarationId": "GreedyColoringExample.ct12Run",
+      "name": "GreedyColoringExample.ct12Run",
+      "kind": "definition",
+      "type": "{V : Type u} →\n  (object : StructuralExhaustion.Graph.FiniteObject V) →\n    StructuralExhaustion.CT12.ExecutionResult\n      (StructuralExhaustion.CT12.ListPeeling.capability (StructuralExhaustion.Graph.Coloring.problem V) V)\n      { context := StructuralExhaustion.Graph.Coloring.context object,\n        load := object.input.vertices.orderedValues.length,\n        state := StructuralExhaustion.CT12.ListPeeling.initialState object.input.vertices.orderedValues }",
+      "sourceId": "GreedyColoringExample.Run",
+      "startLine": 16,
+      "startColumn": 1,
+      "endLine": 18,
+      "endColumn": 41,
+      "selectionStartLine": 17,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 17,
+      "selectionEndColumn": 15
+    },
+    {
+      "declarationId": "GreedyColoringExample.ct1Run",
+      "name": "GreedyColoringExample.ct1Run",
+      "kind": "definition",
+      "type": "{V : Type u} →\n  (object : StructuralExhaustion.Graph.FiniteObject V) →\n    StructuralExhaustion.CT1.CertifiedC1Run\n      (StructuralExhaustion.Graph.GreedyColoring.ct1Encoding V (object.maxDegree + 1)).spec\n      (StructuralExhaustion.Graph.GreedyColoring.ct1Input object)",
+      "sourceId": "GreedyColoringExample.Run",
+      "startLine": 20,
+      "startColumn": 1,
+      "endLine": 22,
+      "endColumn": 37,
+      "selectionStartLine": 21,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 21,
+      "selectionEndColumn": 14
+    },
+    {
+      "declarationId": "GreedyColoringExample.maxDegreeSucc_colorable",
+      "name": "GreedyColoringExample.maxDegreeSucc_colorable",
+      "kind": "theorem",
+      "type": "∀ {V : Type u} (object : StructuralExhaustion.Graph.FiniteObject V), Target object",
+      "sourceId": "GreedyColoringExample.Run",
+      "startLine": 9,
+      "startColumn": 1,
+      "endLine": 14,
+      "endColumn": 55,
+      "selectionStartLine": 12,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 12,
+      "selectionEndColumn": 32
+    },
+    {
+      "declarationId": "StructuralExhaustion.CT1.run",
+      "name": "StructuralExhaustion.CT1.run",
+      "kind": "definition",
+      "type": "{P : StructuralExhaustion.Core.Problem} →\n  (S : StructuralExhaustion.CT1.Spec P) →\n    StructuralExhaustion.CT1.Capability S →\n      (input : StructuralExhaustion.CT1.Input P) → StructuralExhaustion.CT1.ExecutionResult S input",
+      "sourceId": "StructuralExhaustion.CT1.Execution",
+      "startLine": 59,
+      "startColumn": 1,
+      "endLine": 65,
+      "endColumn": 34,
+      "selectionStartLine": 62,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 62,
+      "selectionEndColumn": 8
+    },
+    {
+      "declarationId": "StructuralExhaustion.CT12.run",
+      "name": "StructuralExhaustion.CT12.run",
+      "kind": "definition",
+      "type": "{P : StructuralExhaustion.Core.Problem} →\n  (capability : StructuralExhaustion.CT12.Capability P) →\n    (input : StructuralExhaustion.CT12.Input capability) → StructuralExhaustion.CT12.ExecutionResult capability input",
+      "sourceId": "StructuralExhaustion.CT12.Execution",
+      "startLine": 123,
+      "startColumn": 1,
+      "endLine": 124,
+      "endColumn": 32,
+      "selectionStartLine": 123,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 123,
+      "selectionEndColumn": 8
+    },
+    {
+      "declarationId": "StructuralExhaustion.CT4.run",
+      "name": "StructuralExhaustion.CT4.run",
+      "kind": "definition",
+      "type": "{P : StructuralExhaustion.Core.Problem} →\n  (S : StructuralExhaustion.CT4.Spec P) →\n    (capability : StructuralExhaustion.CT4.Capability S) →\n      (input : StructuralExhaustion.CT4.Input P) → StructuralExhaustion.CT4.ExecutionResult S capability input",
+      "sourceId": "StructuralExhaustion.CT4.Execution",
+      "startLine": 62,
+      "startColumn": 1,
+      "endLine": 62,
+      "endColumn": 43,
+      "selectionStartLine": 62,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 62,
+      "selectionEndColumn": 8
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.GreedyColoring.colorOrder",
+      "name": "StructuralExhaustion.Graph.GreedyColoring.colorOrder",
+      "kind": "definition",
+      "type": "{V : Type u_1} →\n  (object : StructuralExhaustion.Graph.FiniteObject V) →\n    (bound : ℕ) →\n      (values : List V) →\n        values.Nodup →\n          StructuralExhaustion.Graph.GreedyColoring.BoundedOrder object bound values →\n            StructuralExhaustion.Graph.Coloring.Partial object (bound + 1)\n              (StructuralExhaustion.Graph.GreedyColoring.verticesFinset object values)",
+      "sourceId": "StructuralExhaustion.Graph.GreedyColoring",
+      "startLine": 214,
+      "startColumn": 1,
+      "endLine": 229,
+      "endColumn": 84,
+      "selectionStartLine": 215,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 215,
+      "selectionEndColumn": 15
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.GreedyColoring.colorable_maxDegree_succ",
+      "name": "StructuralExhaustion.Graph.GreedyColoring.colorable_maxDegree_succ",
+      "kind": "theorem",
+      "type": "∀ {V : Type u_1} (object : StructuralExhaustion.Graph.FiniteObject V), object.graph.Colorable (object.maxDegree + 1)",
+      "sourceId": "StructuralExhaustion.Graph.GreedyColoring",
+      "startLine": 263,
+      "startColumn": 1,
+      "endLine": 266,
+      "endColumn": 29,
+      "selectionStartLine": 264,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 264,
+      "selectionEndColumn": 33
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.GreedyColoring.ct1Encoding",
+      "name": "StructuralExhaustion.Graph.GreedyColoring.ct1Encoding",
+      "kind": "definition",
+      "type": "(V : Type u) →\n  (colorCount : ℕ) → StructuralExhaustion.CT1.TargetCertificateEncoding fun object => object.graph.Colorable colorCount",
+      "sourceId": "StructuralExhaustion.Graph.GreedyColoring",
+      "startLine": 281,
+      "startColumn": 1,
+      "endLine": 282,
+      "endColumn": 39,
+      "selectionStartLine": 281,
+      "selectionStartColumn": 8,
+      "selectionEndLine": 281,
+      "selectionEndColumn": 19
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.GreedyColoring.maxDegreeColoring",
+      "name": "StructuralExhaustion.Graph.GreedyColoring.maxDegreeColoring",
+      "kind": "definition",
+      "type": "{V : Type u_1} →\n  (object : StructuralExhaustion.Graph.FiniteObject V) → object.graph.Coloring (Fin (object.maxDegree + 1))",
+      "sourceId": "StructuralExhaustion.Graph.GreedyColoring",
+      "startLine": 251,
+      "startColumn": 1,
+      "endLine": 261,
+      "endColumn": 49,
+      "selectionStartLine": 253,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 253,
+      "selectionEndColumn": 22
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.GreedyColoring.peelingRun",
+      "name": "StructuralExhaustion.Graph.GreedyColoring.peelingRun",
+      "kind": "definition",
+      "type": "{V : Type u_1} →\n  (object : StructuralExhaustion.Graph.FiniteObject V) →\n    StructuralExhaustion.CT12.ExecutionResult\n      (StructuralExhaustion.CT12.ListPeeling.capability (StructuralExhaustion.Graph.Coloring.problem V) V)\n      { context := StructuralExhaustion.Graph.Coloring.context object,\n        load := object.input.vertices.orderedValues.length,\n        state := StructuralExhaustion.CT12.ListPeeling.initialState object.input.vertices.orderedValues }",
+      "sourceId": "StructuralExhaustion.Graph.GreedyColoring",
+      "startLine": 268,
+      "startColumn": 1,
+      "endLine": 272,
+      "endColumn": 40,
+      "selectionStartLine": 270,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 270,
+      "selectionEndColumn": 15
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.GreedyColoring.peeling_terminal_exhausted",
+      "name": "StructuralExhaustion.Graph.GreedyColoring.peeling_terminal_exhausted",
+      "kind": "theorem",
+      "type": "∀ {V : Type u_1} (object : StructuralExhaustion.Graph.FiniteObject V),\n  (StructuralExhaustion.Graph.GreedyColoring.peelingRun object).terminal =\n    StructuralExhaustion.CT12.Graph.Terminal.exhausted",
+      "sourceId": "StructuralExhaustion.Graph.GreedyColoring",
+      "startLine": 274,
+      "startColumn": 1,
+      "endLine": 277,
+      "endColumn": 40,
+      "selectionStartLine": 274,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 274,
+      "selectionEndColumn": 35
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.GreedyColoring.selectedColor_available",
+      "name": "StructuralExhaustion.Graph.GreedyColoring.selectedColor_available",
+      "kind": "theorem",
+      "type": "∀ {V : Type u_1} (object : StructuralExhaustion.Graph.FiniteObject V) (bound : ℕ) (vertex : V) (tail : List V)\n  (tailColoring :\n    StructuralExhaustion.Graph.Coloring.Partial object (bound + 1)\n      (StructuralExhaustion.Graph.GreedyColoring.verticesFinset object tail))\n  (headBound : (StructuralExhaustion.Graph.GreedyColoring.laterNeighbors object vertex tail).length ≤ bound),\n  ∀ neighbor ∈ StructuralExhaustion.Graph.GreedyColoring.verticesFinset object tail,\n    object.graph.Adj vertex neighbor →\n      StructuralExhaustion.Graph.GreedyColoring.selectedColor object bound vertex tail tailColoring headBound ≠\n        tailColoring.color neighbor",
+      "sourceId": "StructuralExhaustion.Graph.GreedyColoring",
+      "startLine": 184,
+      "startColumn": 1,
+      "endLine": 212,
+      "endColumn": 38,
+      "selectionStartLine": 186,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 186,
+      "selectionEndColumn": 32
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.GreedyColoring.stepProfile",
+      "name": "StructuralExhaustion.Graph.GreedyColoring.stepProfile",
+      "kind": "definition",
+      "type": "{V : Type u_1} →\n  (object : StructuralExhaustion.Graph.FiniteObject V) →\n    (bound : ℕ) →\n      V →\n        (tail : List V) →\n          StructuralExhaustion.Graph.Coloring.Partial object (bound + 1)\n              (StructuralExhaustion.Graph.GreedyColoring.verticesFinset object tail) →\n            StructuralExhaustion.CT4.FunctionalCardinalityProfile (StructuralExhaustion.Graph.Coloring.problem V)",
+      "sourceId": "StructuralExhaustion.Graph.GreedyColoring",
+      "startLine": 90,
+      "startColumn": 1,
+      "endLine": 107,
+      "endColumn": 34,
+      "selectionStartLine": 93,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 93,
+      "selectionEndColumn": 16
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.GreedyColoring.stepRun",
+      "name": "StructuralExhaustion.Graph.GreedyColoring.stepRun",
+      "kind": "definition",
+      "type": "{V : Type u_1} →\n  (object : StructuralExhaustion.Graph.FiniteObject V) →\n    (bound : ℕ) →\n      (vertex : V) →\n        (tail : List V) →\n          (tailColoring :\n              StructuralExhaustion.Graph.Coloring.Partial object (bound + 1)\n                (StructuralExhaustion.Graph.GreedyColoring.verticesFinset object tail)) →\n            StructuralExhaustion.CT4.ExecutionResult\n              (StructuralExhaustion.Graph.GreedyColoring.stepProfile object bound vertex tail tailColoring).spec\n              (StructuralExhaustion.Graph.GreedyColoring.stepProfile object bound vertex tail tailColoring).capability\n              (StructuralExhaustion.Graph.Coloring.context object)",
+      "sourceId": "StructuralExhaustion.Graph.GreedyColoring",
+      "startLine": 137,
+      "startColumn": 1,
+      "endLine": 143,
+      "endColumn": 30,
+      "selectionStartLine": 138,
+      "selectionStartColumn": 5,
+      "selectionEndLine": 138,
+      "selectionEndColumn": 12
+    },
+    {
+      "declarationId": "StructuralExhaustion.Graph.GreedyColoring.step_terminal_missing",
+      "name": "StructuralExhaustion.Graph.GreedyColoring.step_terminal_missing",
+      "kind": "theorem",
+      "type": "∀ {V : Type u_1} (object : StructuralExhaustion.Graph.FiniteObject V) (bound : ℕ) (vertex : V) (tail : List V)\n  (tailColoring :\n    StructuralExhaustion.Graph.Coloring.Partial object (bound + 1)\n      (StructuralExhaustion.Graph.GreedyColoring.verticesFinset object tail)),\n  (StructuralExhaustion.Graph.GreedyColoring.laterNeighbors object vertex tail).length ≤ bound →\n    (StructuralExhaustion.Graph.GreedyColoring.stepRun object bound vertex tail tailColoring).terminal =\n      StructuralExhaustion.CT4.Graph.Terminal.missing",
+      "sourceId": "StructuralExhaustion.Graph.GreedyColoring",
+      "startLine": 145,
+      "startColumn": 1,
+      "endLine": 156,
+      "endColumn": 42,
+      "selectionStartLine": 147,
+      "selectionStartColumn": 9,
+      "selectionEndLine": 147,
+      "selectionEndColumn": 30
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "GreedyColoringExample.Concrete",
+      "moduleName": "GreedyColoringExample.Concrete",
+      "path": "examples/greedy_coloring/GreedyColoringExample/Concrete.lean",
+      "sha256": "4a4a128e3fafbc54c8023740ec762c578d7a0d4efbfd179eebb7998fe6425c67",
+      "content": "import GreedyColoringExample.Run\n\nnamespace GreedyColoringExample.ConcreteK4\n\nopen StructuralExhaustion\n\n/-! A tight fixture: `K₄` has maximum degree three, and the deterministic\nframework run uses all four colors. -/\n\nabbrev Vertex := Fin 4\n\n@[implicit_reducible]\ndef vertices : FinEnum Vertex := inferInstance\n\ndef graph : SimpleGraph Vertex := ⊤\n\ndef input : Graph.FiniteInput graph where\n  vertices := vertices\n  decideAdj := by\n    change DecidableRel fun left right : Vertex => left ≠ right\n    infer_instance\n\ndef object : Graph.FiniteObject Vertex := ⟨graph, input⟩\n\ndef generatedColoring := coloring object\n\ndef peelingExecution := ct12Run object\n\ndef validationRun := ct1Run object\n\n/-- The final one-vertex step exposes CT4 independently of the surrounding\nfold, so the fixture pins its exact terminal as well. -/\ndef emptyPartial : Graph.Coloring.Partial object 4\n    (Graph.GreedyColoring.verticesFinset object []) :=\n  Graph.Coloring.Partial.empty object 4 (by decide)\n\ndef finalStepExecution :=\n  Graph.GreedyColoring.stepRun object 3 (3 : Vertex) [] emptyPartial\n\ntheorem maxDegree_exact : object.maxDegree = 3 := by\n  native_decide\n\ntheorem coloring_values :\n    [generatedColoring 0, generatedColoring 1,\n      generatedColoring 2, generatedColoring 3] = [3, 2, 1, 0] := by\n  native_decide\n\ntheorem coloring_is_proper {left right : Vertex}\n    (adjacent : graph.Adj left right) :\n    generatedColoring left ≠ generatedColoring right :=\n  generatedColoring.valid adjacent\n\ntheorem ct12_terminal_exhausted :\n    peelingExecution.terminal = .exhausted :=\n  Graph.GreedyColoring.peeling_terminal_exhausted object\n\ntheorem ct12_iterations_exact : peelingExecution.iterations = 4 := by\n  native_decide\n\ntheorem ct4_terminal_missing : finalStepExecution.terminal = .missing :=\n  Graph.GreedyColoring.step_terminal_missing object 3 (3 : Vertex) []\n    emptyPartial (by decide)\n\ntheorem ct4_trace_exact :\n    finalStepExecution.trace =\n      [.entry, .assignment, .availability, .missingTerminal] := by\n  native_decide\n\ntheorem ct1_terminal_c1 : validationRun.result.terminal = .c1 :=\n  validationRun.terminal_eq\n\ntheorem ct1_trace_exact :\n    validationRun.result.trace =\n      [.entry, .equivalenceCertification, .realizationDecision, .c1Terminal] :=\n  validationRun.trace_eq\n\nend GreedyColoringExample.ConcreteK4\n"
+    },
+    {
+      "sourceId": "GreedyColoringExample.Problem",
+      "moduleName": "GreedyColoringExample.Problem",
+      "path": "examples/greedy_coloring/GreedyColoringExample/Problem.lean",
+      "sha256": "a833ded9103853df593469d111995c2a0dbc1601eff5c4eeb99fa99a39d9f9bc",
+      "content": "import StructuralExhaustion.Graph.GreedyColoring\n\nnamespace GreedyColoringExample\n\nopen StructuralExhaustion\n\nuniverse u\n\n/-- Public target, stated directly with Mathlib's coloring API. -/\nabbrev Target {V : Type u} (object : Graph.FiniteObject V) : Prop :=\n  object.graph.Colorable (object.maxDegree + 1)\n\n/-- The framework-generated deterministic coloring certificate. -/\nabbrev coloring {V : Type u} (object : Graph.FiniteObject V) :=\n  Graph.GreedyColoring.maxDegreeColoring object\n\nend GreedyColoringExample\n"
+    },
+    {
+      "sourceId": "GreedyColoringExample.Run",
+      "moduleName": "GreedyColoringExample.Run",
+      "path": "examples/greedy_coloring/GreedyColoringExample/Run.lean",
+      "sha256": "700246bc8b6e98e2fea62fb075bb0ae8e27cc4103eed0c3d540a6685c9ed55e0",
+      "content": "import GreedyColoringExample.Problem\n\nnamespace GreedyColoringExample\n\nopen StructuralExhaustion\n\nuniverse u\n\n/-- Every explicitly finite Mathlib simple graph is colorable with one more\ncolor than its maximum degree.  The external package supplies no proof\nobligation beyond the graph's machine input. -/\ntheorem maxDegreeSucc_colorable {V : Type u}\n    (object : Graph.FiniteObject V) : Target object :=\n  Graph.GreedyColoring.colorable_maxDegree_succ object\n\n/-- Exact CT12 run certifying the canonical vertex-peeling schedule. -/\nabbrev ct12Run {V : Type u} (object : Graph.FiniteObject V) :=\n  Graph.GreedyColoring.peelingRun object\n\n/-- Exact CT1 run validating the final Mathlib coloring certificate. -/\nabbrev ct1Run {V : Type u} (object : Graph.FiniteObject V) :=\n  Graph.GreedyColoring.ct1Run object\n\nend GreedyColoringExample\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion.CT1.Execution",
+      "moduleName": "StructuralExhaustion.CT1.Execution",
+      "path": "lean/StructuralExhaustion/CT1/Execution.lean",
+      "sha256": "7d26e31cad81423c23e5494b29158dfb50221f7e48a6628d6b8b9dd0d64b26e6",
+      "content": "import StructuralExhaustion.CT1.Graph\nimport StructuralExhaustion.CT1.Search\n\nnamespace StructuralExhaustion.CT1\n\nuniverse uAmbient uBranch uIndex uWitness\n\n/-- Semantic terminal evidence, indexed by the exact CT1 terminal. -/\ninductive RawOutcome {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P) (input : Input P) :\n    Graph.Terminal → Type (max (uIndex + 1) (uWitness + 1)) where\n  | c1 {equivalence : EquivalenceState S input}\n      (certificate : C1Certificate S input equivalence) :\n      RawOutcome S input .c1\n  | avoiding {equivalence : EquivalenceState S input}\n      (state : AvoidingState S input equivalence) :\n      RawOutcome S input .avoiding\n\n/-- A CT1 result bundles one semantic terminal, the kernel-typed path reaching\nit, and terminal evidence carrying the same index. -/\nstructure ExecutionResult {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P)\n    (input : Input P) : Type (max (uIndex + 1) (uWitness + 1)) where\n  terminal : Graph.Terminal\n  path : Graph.Path S input .entry terminal.nodeId\n  outcome : RawOutcome S input terminal\n\nnamespace ExecutionResult\n\ndef trace {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec.{uIndex, uWitness} P} {input : Input P}\n    (result : ExecutionResult S input) : List Graph.NodeId :=\n  result.path.trace\n\nend ExecutionResult\n\n/-- The framework executes every CT1 node and constructs the exact path from\nthe capability primitives; the caller supplies no completed node decision. -/\ndef runReference {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P) (capability : Capability S)\n    (input : Input P) : ExecutionResult S input :=\n  let equivalence := certifyEquivalence S input\n  match findRealization S capability input equivalence with\n  | .hit certificate => {\n      terminal := .c1\n      path := .cons .beginEquivalence\n        (.cons (.equivalenceCertified equivalence)\n          (.cons (.realizationHit certificate) (.nil .c1Terminal)))\n      outcome := .c1 certificate\n    }\n  | .avoiding state => {\n      terminal := .avoiding\n      path := .cons .beginEquivalence\n        (.cons (.equivalenceCertified equivalence)\n          (.cons (.realizationAvoiding state) (.nil .avoidingTerminal)))\n      outcome := .avoiding state\n    }\n\n/-- Public CT1 execution returns the exact path and matching terminal\nevidence. Consumers can project `terminal` or `outcome` when they do not need\nthe trace. -/\ndef run {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P) (capability : Capability S)\n    (input : Input P) : ExecutionResult S input :=\n  runReference S capability input\n\n/-- Proposition established at each semantic terminal. -/\ndef OutcomeClaim {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec.{uIndex, uWitness} P} {input : Input P}\n    {terminal : Graph.Terminal} : RawOutcome S input terminal → Prop\n  | .c1 _ => Target S input.context.G\n  | .avoiding _ => ¬ Target S input.context.G\n\nend StructuralExhaustion.CT1\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion.CT12.Execution",
+      "moduleName": "StructuralExhaustion.CT12.Execution",
+      "path": "lean/StructuralExhaustion/CT12/Execution.lean",
+      "sha256": "9f9a0127d77e27f570f0839125bb8bb2279b2246e7684c9d3e56e1a4f6933637",
+      "content": "import StructuralExhaustion.CT12.Graph\n\nnamespace StructuralExhaustion.CT12\n\nuniverse uAmbient uBranch uState uPeeled uDemand uTier\nvariable {P : Core.Problem.{uAmbient, uBranch}}\nvariable (capability : Capability.{uAmbient, uBranch, uState, uPeeled, uDemand, uTier} P)\n\ninductive Outcome : Graph.Terminal → Type _ where\n  | exhausted (certificate : ExhaustedCertificate capability) : Outcome .exhausted\n  | demand (residual : capability.DemandResidual) : Outcome .demand\n  | tier (residual : capability.TierResidual) : Outcome .tier\n\n/-- Result of the well-founded loop from one indexed state. -/\nstructure LoopResult (load : Nat) (_state : capability.State load) where\n  terminal : Graph.Terminal\n  path : Graph.Path capability .saturation terminal.nodeId\n  outcome : Outcome capability terminal\n  iterations : Nat\n  iterations_le_load : iterations ≤ load\n  trace_length_le : path.trace.length ≤ 4 * load + 2\n\n/-- Genuine well-founded recursion.  The only recursive call consumes the\nstrict inequality returned by `Restoration.continue`. -/\ndef runLoop : (load : Nat) → (state : capability.State load) →\n    LoopResult capability load state\n  | 0, state => {\n      terminal := .exhausted\n      path := .cons (.exhausted state) (.nil .exhaustedTerminal)\n      outcome := .exhausted ⟨state⟩\n      iterations := 0\n      iterations_le_load := by simp\n      trace_length_le := by simp [Graph.Path.trace]\n    }\n  | n + 1, state =>\n      let peeled := capability.peel state\n      let options := capability.restorations peeled\n      match options.first with\n        | .demand residual => {\n          terminal := .demand\n          path := .cons (.positive state)\n            (.cons (.peeled peeled)\n              (.cons (.demand peeled residual) (.nil .demandTerminal)))\n          outcome := .demand residual\n          iterations := 1\n          iterations_le_load := by simp\n          trace_length_le := by simp [Graph.Path.trace, Nat.mul_succ]\n        }\n        | .tier residual => {\n          terminal := .tier\n          path := .cons (.positive state)\n            (.cons (.peeled peeled)\n              (.cons (.tier peeled residual) (.nil .tierTerminal)))\n          outcome := .tier residual\n          iterations := 1\n          iterations_le_load := by simp\n          trace_length_le := by simp [Graph.Path.trace, Nat.mul_succ]\n        }\n        | .continue next nextState decreases =>\n          let recursive := runLoop next nextState\n          have nextLe : next ≤ n := Nat.le_of_lt_succ (by simpa using decreases)\n          have iterationsLe : Nat.succ recursive.iterations ≤ n + 1 :=\n            Nat.succ_le_succ (Nat.le_trans recursive.iterations_le_load nextLe)\n          have mulLe : 4 * next ≤ 4 * n := Nat.mul_le_mul_left 4 nextLe\n          have traceLe : 4 + recursive.path.trace.length ≤ 4 * (n + 1) + 2 := by\n            calc\n              4 + recursive.path.trace.length ≤ 4 + (4 * next + 2) :=\n                Nat.add_le_add_left recursive.trace_length_le 4\n              _ ≤ 4 + (4 * n + 2) :=\n                Nat.add_le_add_left (Nat.add_le_add_right mulLe 2) 4\n              _ = 4 * (n + 1) + 2 := by omega\n          {\n            terminal := recursive.terminal\n            path := .cons (.positive state)\n              (.cons (.peeled peeled)\n                (.cons (.continue peeled nextState decreases)\n                  (.cons (.loopBack peeled nextState decreases) recursive.path)))\n            outcome := recursive.outcome\n            iterations := Nat.succ recursive.iterations\n            iterations_le_load := iterationsLe\n            trace_length_le := by\n              have lengthEq :\n                  (Graph.Path.trace capability\n                    (.cons (.positive state)\n                      (.cons (.peeled peeled)\n                        (.cons (.continue peeled nextState decreases)\n                          (.cons (.loopBack peeled nextState decreases)\n                            recursive.path))))).length =\n                    4 + recursive.path.trace.length := by\n                simp only [Graph.Path.trace, List.length_cons]\n                omega\n              rw [lengthEq]\n              exact traceLe\n          }\ntermination_by load => load\n\nstructure ExecutionResult (input : Input capability) where\n  terminal : Graph.Terminal\n  path : Graph.Path capability .entry terminal.nodeId\n  outcome : Outcome capability terminal\n  iterations : Nat\n  iterations_le_load : iterations ≤ input.load\n  trace_length_le : path.trace.length ≤ 4 * input.load + 3\n\nnamespace ExecutionResult\ndef trace {input : Input capability} (result : ExecutionResult capability input) :=\n  result.path.trace\nend ExecutionResult\n\ndef runReference (input : Input capability) : ExecutionResult capability input :=\n  let loop := runLoop capability input.load input.state\n  {\n    terminal := loop.terminal\n    path := .cons .begin loop.path\n    outcome := loop.outcome\n    iterations := loop.iterations\n    iterations_le_load := loop.iterations_le_load\n    trace_length_le := by\n      simpa [Graph.Path.trace, Nat.add_assoc] using\n        Nat.add_le_add_left loop.trace_length_le 1\n  }\n\ndef run (input : Input capability) : ExecutionResult capability input :=\n  runReference capability input\n\nend StructuralExhaustion.CT12\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion.CT4.Execution",
+      "moduleName": "StructuralExhaustion.CT4.Execution",
+      "path": "lean/StructuralExhaustion/CT4/Execution.lean",
+      "sha256": "727d6fcdab246b1716a0d44768b371038a32877da4a3344d04d687b9cb4d46e4",
+      "content": "import StructuralExhaustion.CT4.Graph\n\nnamespace StructuralExhaustion.CT4\n\nvariable {P : Core.Problem} (S : Spec P) (capability : Capability S)\nvariable (input : Input P)\ninductive RawOutcome : Graph.Terminal → Type _ where\n  | missing (residual : MissingPayerResidual S input) : RawOutcome .missing\n  | overload (residual : OverloadedFibreResidual S capability input) :\n      RawOutcome .overload\n  | c4 (certificate : C4Certificate S capability input) : RawOutcome .c4\n  | capacity (residual : CapacityResidual S capability input) : RawOutcome .capacity\nstructure ExecutionResult where\n  terminal : Graph.Terminal\n  path : Graph.Path S capability input .entry terminal.nodeId\n  outcome : RawOutcome S capability input terminal\nnamespace ExecutionResult\ndef trace (result : ExecutionResult S capability input) := result.path.trace\nend ExecutionResult\n\ndef runReference : ExecutionResult S capability input :=\n  let assignment := assignmentState S capability input\n  match analyzeAvailability S capability input assignment with\n  | .missing residual => {\n      terminal := .missing\n      path := .cons .beginAssignment\n        (.cons (.assigned assignment)\n          (.cons (.missing residual) (.nil .missingTerminal)))\n      outcome := .missing residual\n    }\n  | .total total =>\n      match analyzeFibres S capability input total with\n      | .overloaded residual => {\n          terminal := .overload\n          path := .cons .beginAssignment\n            (.cons (.assigned assignment)\n              (.cons (.total total)\n                (.cons (.overloaded residual) (.nil .overloadTerminal))))\n          outcome := .overload residual\n        }\n      | .bounded bounded =>\n          match compareCapacity S capability input bounded with\n          | .closes certificate => {\n              terminal := .c4\n              path := .cons .beginAssignment\n                (.cons (.assigned assignment)\n                  (.cons (.total total)\n                    (.cons (.bounded bounded)\n                      (.cons (.c4 certificate) (.nil .c4Terminal)))))\n              outcome := .c4 certificate\n            }\n          | .residual residual => {\n              terminal := .capacity\n              path := .cons .beginAssignment\n                (.cons (.assigned assignment)\n                  (.cons (.total total)\n                    (.cons (.bounded bounded)\n                      (.cons (.capacity residual) (.nil .capacityTerminal)))))\n              outcome := .capacity residual\n            }\n\ndef run := runReference S capability input\n\nend StructuralExhaustion.CT4\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion.Graph.GreedyColoring",
+      "moduleName": "StructuralExhaustion.Graph.GreedyColoring",
+      "path": "lean/StructuralExhaustion/Graph/GreedyColoring.lean",
+      "sha256": "c933d490495dfed837676dc3988c63cf2ab8545116efab809c57795d70b11bdc",
+      "content": "import StructuralExhaustion.CT4.Automation\nimport StructuralExhaustion.CT12.Automation\nimport StructuralExhaustion.Graph.Coloring\n\nnamespace StructuralExhaustion.Graph.GreedyColoring\n\nopen StructuralExhaustion\n\nuniverse u\n\n/-- Unordered view of a scheduled vertex list using the object's declared\ndecidable equality. -/\ndef verticesFinset (object : FiniteObject V) (values : List V) : Finset V :=\n  @List.toFinset V object.input.vertices.decEq values\n\n@[simp]\ntheorem mem_verticesFinset_iff (object : FiniteObject V) (vertex : V)\n    (values : List V) :\n    vertex ∈ verticesFinset object values ↔ vertex ∈ values := by\n  letI : DecidableEq V := object.input.vertices.decEq\n  simp [verticesFinset]\n\n/-- Later neighbours of a vertex in a declared elimination order. -/\ndef laterNeighbors (object : FiniteObject V) (vertex : V)\n    (tail : List V) : List V :=\n  tail.filter fun neighbor =>\n    @decide (object.graph.Adj vertex neighbor)\n      (object.input.decideAdj vertex neighbor)\n\n@[simp]\ntheorem mem_laterNeighbors_iff (object : FiniteObject V) (vertex neighbor : V)\n    (tail : List V) :\n    neighbor ∈ laterNeighbors object vertex tail ↔\n      neighbor ∈ tail ∧ object.graph.Adj vertex neighbor := by\n  letI : DecidableRel object.graph.Adj := object.input.decideAdj\n  simp [laterNeighbors]\n\n/-- Machine-checkable elimination-order contract: each vertex has at most\n`bound` neighbours later in the order. -/\ninductive BoundedOrder (object : FiniteObject V) (bound : Nat) :\n    List V → Type u where\n  | nil : BoundedOrder object bound []\n  | cons {vertex : V} {tail : List V}\n      (headBound : (laterNeighbors object vertex tail).length ≤ bound)\n      (tailBound : BoundedOrder object bound tail) :\n      BoundedOrder object bound (vertex :: tail)\n\nnamespace BoundedOrder\n\n/-- A global degree bound generates a bounded elimination certificate for\nevery duplicate-free vertex schedule. -/\ndef of_degree_bound (object : FiniteObject V) (bound : Nat)\n    (degreeBound : ∀ vertex, object.degree vertex ≤ bound) :\n    ∀ values : List V, values.Nodup → BoundedOrder object bound values\n  | [], _nodup => .nil\n  | vertex :: tail, nodup => by\n      have laterNodup : (laterNeighbors object vertex tail).Nodup :=\n        nodup.tail.filter _\n      have laterSubset : laterNeighbors object vertex tail ⊆\n          (object.input.orderedNeighbors vertex).values := by\n        intro neighbor member\n        exact (object.input.mem_orderedNeighbors_iff vertex neighbor).2\n          ((mem_laterNeighbors_iff object vertex neighbor tail).1 member).2\n      letI : DecidableEq V := object.input.vertices.decEq\n      have finsetSubset :\n          (laterNeighbors object vertex tail).toFinset ⊆\n            (object.input.orderedNeighbors vertex).values.toFinset := by\n        intro neighbor member\n        simpa using laterSubset (by simpa using member)\n      have countLeOrdered : (laterNeighbors object vertex tail).length ≤\n          (object.input.orderedNeighbors vertex).values.length := by\n        rw [← List.toFinset_card_of_nodup laterNodup,\n          ← List.toFinset_card_of_nodup\n            (object.input.orderedNeighbors vertex).nodup]\n        exact Finset.card_le_card finsetSubset\n      have countLeDegree : (laterNeighbors object vertex tail).length ≤\n          object.degree vertex :=\n        countLeOrdered.trans_eq\n          (object.input.orderedNeighbors_length vertex)\n      exact .cons (countLeDegree.trans (degreeBound vertex))\n        (of_degree_bound object bound degreeBound tail nodup.tail)\n\nend BoundedOrder\n\n/-- The canonical later-neighbour represented by a CT4 payer index. -/\ndef payerVertex (object : FiniteObject V) (vertex : V) (tail : List V)\n    (payer : Fin (laterNeighbors object vertex tail).length) : V :=\n  (laterNeighbors object vertex tail)[payer.1]\n\n/-- Minimal CT4 functional-cardinality profile for choosing a color not used\nby later neighbours.  CT4 supplies all irrelevant charging fields and the\ncomplete missing-demand execution. -/\ndef stepProfile (object : FiniteObject V) (bound : Nat)\n    (vertex : V) (tail : List V)\n    (tailColoring : Coloring.Partial object (bound + 1)\n      (verticesFinset object tail)) :\n    CT4.FunctionalCardinalityProfile (Coloring.problem V) where\n  Demand := Fin (bound + 1)\n  Payer := Fin (laterNeighbors object vertex tail).length\n  Eligible := fun _context color payer =>\n    tailColoring.color (payerVertex object vertex tail payer) = color\n  demands := inferInstance\n  payers := inferInstance\n  eligibleDecidable := fun _context color payer => inferInstance\n  functional := by\n    intro _context payer color₁ color₂ first second\n    exact first.symm.trans second\n\n/-- CT4 specification generated by the minimal step profile. -/\nabbrev stepSpec (object : FiniteObject V) (bound : Nat)\n    (vertex : V) (tail : List V)\n    (tailColoring : Coloring.Partial object (bound + 1)\n      (verticesFinset object tail)) :=\n  (stepProfile object bound vertex tail tailColoring).spec\n\n/-- CT4 capability generated by the minimal step profile. -/\nabbrev stepCapability (object : FiniteObject V) (bound : Nat)\n    (vertex : V) (tail : List V)\n    (tailColoring : Coloring.Partial object (bound + 1)\n      (verticesFinset object tail)) :=\n  (stepProfile object bound vertex tail tailColoring).capability\n\n/-- One neighbour slot cannot witness two different colors. -/\ntheorem step_functional (object : FiniteObject V) (bound : Nat)\n    (vertex : V) (tail : List V)\n    (tailColoring : Coloring.Partial object (bound + 1)\n      (verticesFinset object tail)) :\n    ∀ payer color₁ color₂,\n      (stepSpec object bound vertex tail tailColoring).Eligible\n          (Coloring.context object) color₁ payer →\n      (stepSpec object bound vertex tail tailColoring).Eligible\n          (Coloring.context object) color₂ payer →\n      color₁ = color₂ := by\n  exact (stepProfile object bound vertex tail tailColoring).functional\n    (Coloring.context object)\n\n/-- Exact CT4 execution for one coloring step. -/\ndef stepRun (object : FiniteObject V) (bound : Nat)\n    (vertex : V) (tail : List V)\n    (tailColoring : Coloring.Partial object (bound + 1)\n      (verticesFinset object tail)) :=\n  (stepProfile object bound vertex tail tailColoring).run\n    (Coloring.context object)\n\n/-- A bounded later-neighbour set forces the exact CT4 run to the\nmissing-payer terminal. -/\ntheorem step_terminal_missing (object : FiniteObject V) (bound : Nat)\n    (vertex : V) (tail : List V)\n    (tailColoring : Coloring.Partial object (bound + 1)\n      (verticesFinset object tail))\n    (headBound : (laterNeighbors object vertex tail).length ≤ bound) :\n    (stepRun object bound vertex tail tailColoring).terminal = .missing := by\n  apply CT4.FunctionalCardinalityProfile.run_terminal_eq_missing\n  change FinEnum.card (Fin (laterNeighbors object vertex tail).length) <\n    FinEnum.card (Fin (bound + 1))\n  simpa using Nat.lt_succ_of_le headBound\n\n/-- Missing-color evidence selected by the exact CT4 execution. -/\ndef stepResidual (object : FiniteObject V) (bound : Nat)\n    (vertex : V) (tail : List V)\n    (tailColoring : Coloring.Partial object (bound + 1)\n      (verticesFinset object tail))\n    (headBound : (laterNeighbors object vertex tail).length ≤ bound) :\n    CT4.MissingPayerResidual\n      (stepSpec object bound vertex tail tailColoring)\n      (Coloring.context object) :=\n  CT4.FunctionalCardinalityProfile.missingResidual\n    (stepProfile object bound vertex tail tailColoring)\n    (Coloring.context object)\n    (by\n      change FinEnum.card (Fin (laterNeighbors object vertex tail).length) <\n        FinEnum.card (Fin (bound + 1))\n      simpa using Nat.lt_succ_of_le headBound)\n\n/-- Canonical first color unused by every later neighbour. -/\ndef selectedColor (object : FiniteObject V) (bound : Nat)\n    (vertex : V) (tail : List V)\n    (tailColoring : Coloring.Partial object (bound + 1)\n      (verticesFinset object tail))\n    (headBound : (laterNeighbors object vertex tail).length ≤ bound) :\n    Fin (bound + 1) :=\n  (stepResidual object bound vertex tail tailColoring headBound).demand\n\n/-- CT4's missing-payer residual means that the selected color is absent\nfrom every already-colored later neighbour. -/\ntheorem selectedColor_available (object : FiniteObject V) (bound : Nat)\n    (vertex : V) (tail : List V)\n    (tailColoring : Coloring.Partial object (bound + 1)\n      (verticesFinset object tail))\n    (headBound : (laterNeighbors object vertex tail).length ≤ bound) :\n    ∀ neighbor, neighbor ∈ verticesFinset object tail →\n      object.graph.Adj vertex neighbor →\n      selectedColor object bound vertex tail tailColoring headBound ≠\n        tailColoring.color neighbor := by\n  intro neighbor neighborMember adjacent equal\n  letI : DecidableEq V := object.input.vertices.decEq\n  have neighborInTail : neighbor ∈ tail := by\n    exact (mem_verticesFinset_iff object neighbor tail).1 neighborMember\n  have neighborInLater : neighbor ∈ laterNeighbors object vertex tail :=\n    (mem_laterNeighbors_iff object vertex neighbor tail).2\n      ⟨neighborInTail, adjacent⟩\n  let payer : Fin (laterNeighbors object vertex tail).length :=\n    ⟨(laterNeighbors object vertex tail).idxOf neighbor,\n      List.idxOf_lt_length_iff.mpr neighborInLater⟩\n  have payerValue : payerVertex object vertex tail payer = neighbor := by\n    exact List.getElem_idxOf (List.idxOf_lt_length_iff.mpr neighborInLater)\n  have noEligible :=\n    (stepResidual object bound vertex tail tailColoring headBound).noEligible payer\n  apply noEligible\n  change tailColoring.color (payerVertex object vertex tail payer) =\n    selectedColor object bound vertex tail tailColoring headBound\n  simpa [payerValue] using equal.symm\n\n/-- Deterministic reverse fold along a certified elimination order. -/\ndef colorOrder (object : FiniteObject V) (bound : Nat) :\n    (values : List V) → values.Nodup → BoundedOrder object bound values →\n      Coloring.Partial object (bound + 1) (verticesFinset object values)\n  | [], _nodup, .nil =>\n      Coloring.Partial.empty object (bound + 1) (Nat.succ_pos bound)\n  | vertex :: tail, nodup, .cons headBound tailBound => by\n      letI : DecidableEq V := object.input.vertices.decEq\n      let tailColoring := colorOrder object bound tail nodup.tail tailBound\n      have fresh : vertex ∉ verticesFinset object tail := by\n        rw [mem_verticesFinset_iff]\n        exact (List.nodup_cons.mp nodup).1\n      simpa [verticesFinset] using\n        Coloring.Partial.insert object tailColoring vertex fresh\n          (selectedColor object bound vertex tail tailColoring headBound)\n          (selectedColor_available object bound vertex tail tailColoring headBound)\n\n/-- Convert a complete certified elimination order into a Mathlib coloring. -/\ndef coloringOfOrder (object : FiniteObject V) (bound : Nat)\n    (values : List V) (nodup : values.Nodup)\n    (complete : ∀ vertex, vertex ∈ values)\n    (bounded : BoundedOrder object bound values) :\n    object.graph.Coloring (Fin (bound + 1)) := by\n  letI : DecidableEq V := object.input.vertices.decEq\n  exact Coloring.Partial.toColoring object\n    (colorOrder object bound values nodup bounded)\n    (fun vertex => by simpa using complete vertex)\n\n/-- Generic degeneracy-style theorem for any explicitly certified bounded\nelimination order. -/\ntheorem colorable_of_bounded_order (object : FiniteObject V) (bound : Nat)\n    (values : List V) (nodup : values.Nodup)\n    (complete : ∀ vertex, vertex ∈ values)\n    (bounded : BoundedOrder object bound values) :\n    object.graph.Colorable (bound + 1) :=\n  ⟨coloringOfOrder object bound values nodup complete bounded⟩\n\n/-- Canonical deterministic `(maxDegree + 1)` coloring in the object's\ndeclared vertex order. -/\ndef maxDegreeColoring (object : FiniteObject V) :\n    object.graph.Coloring (Fin (object.maxDegree + 1)) :=\n  coloringOfOrder object object.maxDegree\n    object.input.vertices.orderedValues\n    object.input.vertices.nodup_orderedValues\n    object.input.vertices.mem_orderedValues\n    (BoundedOrder.of_degree_bound object object.maxDegree\n      object.degree_le_maxDegree object.input.vertices.orderedValues\n      object.input.vertices.nodup_orderedValues)\n\n/-- The unconditional greedy-coloring theorem for a finite Mathlib graph. -/\ntheorem colorable_maxDegree_succ (object : FiniteObject V) :\n    object.graph.Colorable (object.maxDegree + 1) :=\n  ⟨maxDegreeColoring object⟩\n\n/-- CT12 execution that certifies the exact vertex-peeling schedule used by\nthe greedy coloring fold. -/\ndef peelingRun (object : FiniteObject V) :=\n  CT12.ListPeeling.run (Coloring.context object)\n    object.input.vertices.orderedValues\n\ntheorem peeling_terminal_exhausted (object : FiniteObject V) :\n    (peelingRun object).terminal = .exhausted :=\n  CT12.ListPeeling.run_terminal_exhausted (Coloring.context object)\n    object.input.vertices.orderedValues\n\n/-! ## CT1 validation of the generated coloring -/\n\nabbrev ct1Encoding (V : Type u) (colorCount : Nat) :=\n  Coloring.targetEncoding V colorCount\n\ndef ct1Input (object : FiniteObject V) :\n    CT1.Input (Coloring.problem V) where\n  context := Coloring.context object\n\n/-- Exact CT1 success run for the framework-generated greedy coloring. -/\ndef ct1Run (object : FiniteObject V) :=\n  (ct1Encoding V (object.maxDegree + 1)).run (ct1Input object)\n    (fun vertex => maxDegreeColoring object vertex)\n    (fun _left _right adjacent => (maxDegreeColoring object).valid adjacent)\n\nend StructuralExhaustion.Graph.GreedyColoring\n"
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/example-index.schema.json",
+  "title": "Structural-exhaustion example index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["artifactType", "schemaVersion", "sourceOfTruth", "examples"],
+  "properties": {
+    "artifactType": {"const": "structuralExhaustionExampleIndex"},
+    "schemaVersion": {"const": "1.0.0"},
+    "sourceOfTruth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "descriptors"],
+      "properties": {
+        "kind": {"const": "compiledLeanEnvironment"},
+        "descriptors": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["exampleId", "rootModule", "descriptor"],
+            "properties": {
+              "exampleId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+              "rootModule": {"type": "string", "minLength": 1},
+              "descriptor": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    "examples": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/exampleSummary"}
+    }
+  },
+  "$defs": {
+    "nonemptyString": {"type": "string", "minLength": 1},
+    "workflowSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workflowId", "title", "purpose", "completion"],
+      "properties": {
+        "workflowId": {"$ref": "#/$defs/nonemptyString"},
+        "title": {"$ref": "#/$defs/nonemptyString"},
+        "purpose": {"$ref": "#/$defs/nonemptyString"},
+        "completion": {"enum": ["complete", "partial"]}
+      }
+    },
+    "exampleSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exampleId", "title", "summary", "proofStatus", "tacticIds",
+        "workflowCount", "workflows", "detailFile", "detailHash"
+      ],
+      "properties": {
+        "exampleId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+        "title": {"$ref": "#/$defs/nonemptyString"},
+        "summary": {"$ref": "#/$defs/nonemptyString"},
+        "proofStatus": {"enum": ["complete", "partial"]},
+        "tacticIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^CT[0-9]+$"}
+        },
+        "workflowCount": {"type": "integer", "minimum": 1},
+        "workflows": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/workflowSummary"}
+        },
+        "detailFile": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*\\.json$"
+        },
+        "detailHash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Structural Exhaustion CT15"
+  short_description: "Implement target-relative rank checks"
+  default_prompt: "Use $implement-structural-exhaustion-ct15 to implement the CT15 target-relative rank contract for this proof step."

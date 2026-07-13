@@ -58,6 +58,20 @@ def run {P : Core.Problem.{uAmbient, uBranch}}
     CertifiedC1Run encoding.spec input :=
   runC1OfRealization encoding.spec input () code accepts
 
+/-- Execute the typed avoiding path from a proof that the public target is
+absent.  This is the negative counterpart of certificate-driven `run`; it
+does not materialize or scan the target-code universe. -/
+def runAvoiding {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (encoding : TargetCertificateEncoding.{uAmbient, uBranch, uCode}
+      PublicTarget)
+    (input : Input P) (avoids : ¬ PublicTarget input.context.G) :
+    CertifiedAvoidingRun encoding.spec input :=
+  runAvoidingOfNoRealization encoding.spec input <| by
+    intro index code accepts
+    cases index
+    exact avoids (encoding.decode accepts)
+
 theorem publicTarget_of_run {P : Core.Problem.{uAmbient, uBranch}}
     {PublicTarget : P.Ambient → Prop}
     (encoding : TargetCertificateEncoding.{uAmbient, uBranch, uCode}
@@ -66,6 +80,16 @@ theorem publicTarget_of_run {P : Core.Problem.{uAmbient, uBranch}}
     (accepts : encoding.Accepts input.context.G code) :
     PublicTarget input.context.G :=
   encoding.decode accepts
+
+theorem not_publicTarget_of_runAvoiding
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (encoding : TargetCertificateEncoding.{uAmbient, uBranch, uCode}
+      PublicTarget)
+    (input : Input P) (avoids : ¬ PublicTarget input.context.G) :
+    ¬ PublicTarget input.context.G :=
+  encoding.bridge.not_publicTarget_of_not_target
+    (encoding.runAvoiding input avoids).result.verified
 
 end TargetCertificateEncoding
 

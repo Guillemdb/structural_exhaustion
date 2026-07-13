@@ -36,6 +36,16 @@ CATALOG_PATH = ROOT / "generated/lean-machines.json"
 CATALOG_SCHEMA_PATH = ROOT / "schemas/lean-machine-catalog.schema.json"
 GENERATED_SCHEMA_ROOT = ROOT / "schemas/generated"
 RESULT_PATH = ROOT / "generated/kernel-verification.json"
+EXAMPLE_INDEX_PATH = ROOT / "generated/examples/index.json"
+EXAMPLE_EXPORTS = {
+    "evenCycleExample": ("EvenCycleExample/WebExport.lean", "even-cycle.raw.json"),
+    "erdos64Example": ("Erdos64EG/WebExport.lean", "erdos-64.raw.json"),
+    "greedyColoringExample": (
+        "GreedyColoringExample/WebExport.lean",
+        "greedy-coloring.raw.json",
+    ),
+    "mantelExample": ("MantelExample/WebExport.lean", "mantel.raw.json"),
+}
 
 
 def run(
@@ -245,6 +255,7 @@ def generated_artifacts_are_fresh(catalog_path: Path) -> tuple[bool, str]:
             for path in observed_root.rglob("*")
             if path.is_file()
             and path.name not in {"lean-machines.json", "kernel-verification.json"}
+            and path.relative_to(observed_root).parts[0] != "examples"
         }
         if expected == observed:
             return True, ""
@@ -260,6 +271,66 @@ def generated_artifacts_are_fresh(catalog_path: Path) -> tuple[bool, str]:
         )
 
 
+def example_catalog_is_fresh(
+    catalog_path: Path, temporary_root: Path
+) -> tuple[bool, str]:
+    """Fresh-export all package descriptors and compare hydrated bytes."""
+    raw_root = temporary_root / "raw-examples"
+    output_root = temporary_root / "rendered-examples"
+    raw_root.mkdir(parents=True, exist_ok=True)
+    failures: list[str] = []
+    for package_name, (module_path, filename) in EXAMPLE_EXPORTS.items():
+        environment = os.environ.copy()
+        environment["STRUCTURAL_EXHAUSTION_EXAMPLE_EXPORT"] = str(
+            raw_root / filename
+        )
+        exported = run(
+            ["lake", "env", "lean", module_path],
+            cwd=EXAMPLE_ROOTS[package_name],
+            env=environment,
+        )
+        if exported.returncode != 0:
+            failures.append(
+                f"[{package_name}]\n{(exported.stdout + exported.stderr).rstrip()}"
+            )
+    if failures:
+        return False, "\n".join(failures)
+
+    rendered = run(
+        [
+            sys.executable,
+            str(ROOT / "tools/render_example_catalog.py"),
+            "--raw-root",
+            str(raw_root),
+            "--root",
+            str(output_root),
+            "--source-root",
+            str(ROOT),
+            "--catalog",
+            str(catalog_path),
+        ],
+        cwd=ROOT,
+    )
+    if rendered.returncode != 0:
+        return False, rendered.stdout + rendered.stderr
+
+    expected = files_below(output_root / "generated/examples", "*")
+    observed = files_below(ROOT / "generated/examples", "*")
+    if expected == observed:
+        return True, ""
+    missing = sorted(set(expected) - set(observed))
+    stale = sorted(set(observed) - set(expected))
+    changed = sorted(
+        path
+        for path in set(expected) & set(observed)
+        if expected[path] != observed[path]
+    )
+    return False, (
+        f"generated example mismatch; missing={missing}, stale={stale}, "
+        f"changed={changed}"
+    )
+
+
 def write_result(
     catalog: dict,
     pinned: str,
@@ -269,9 +340,12 @@ def write_result(
     success = all(status == "passed" for status in aggregate.values())
     result = {
         "artifactType": "leanKernelVerification",
-        "schemaVersion": "1.0.0",
+        "schemaVersion": "2.0.0",
         "status": "kernel_checked" if success else "failed",
         "catalogHash": sha256(CATALOG_PATH),
+        "exampleCatalogHash": (
+            sha256(EXAMPLE_INDEX_PATH) if EXAMPLE_INDEX_PATH.is_file() else "0" * 64
+        ),
         "toolchain": {"pinned": pinned, "observed": observed},
         "aggregate": aggregate,
         "tactics": [
@@ -359,6 +433,12 @@ def main() -> int:
         artifacts_fresh, artifact_freshness_detail = generated_artifacts_are_fresh(
             CATALOG_PATH
         )
+        example_catalog_fresh, example_catalog_freshness_detail = (
+            example_catalog_is_fresh(
+                fresh_catalog if fresh_catalog.is_file() else CATALOG_PATH,
+                temporary,
+            )
+        )
 
     aggregate = {
         # These four names remain required by kernel-verification.schema.json.
@@ -380,6 +460,9 @@ def main() -> int:
         ),
         "toolchainAlignment": "passed" if version_ok else "failed",
         "catalogFreshness": "passed" if catalog_fresh else "failed",
+        "exampleCatalogFreshness": (
+            "passed" if example_catalog_fresh else "failed"
+        ),
         "bindingResolution": "passed" if binding.returncode == 0 else "failed",
         "noAdmissions": "passed" if not admissions else "failed",
         # Automation-first verification layers.
@@ -398,7 +481,8 @@ def main() -> int:
         print(
             f"Kernel checked {len(catalog['tactics'])} automation-first tactics, "
             f"{node_count} nodes, {edge_count} typed edges, "
-            f"{residual_count} residual kinds, and {len(catalog['routes'])} routes"
+            f"{residual_count} residual kinds, {len(catalog['routes'])} routes, "
+            f"and {len(EXAMPLE_EXPORTS)} compiled examples"
         )
         return 0
 
@@ -428,6 +512,8 @@ def main() -> int:
         print_failure("schemaFreshness", schema_freshness_detail)
     if not artifacts_fresh:
         print_failure("generatedArtifactFreshness", artifact_freshness_detail)
+    if not example_catalog_fresh:
+        print_failure("exampleCatalogFreshness", example_catalog_freshness_detail)
     if legacy_errors:
         print_failure("legacyAbsence", "\n".join(legacy_errors))
     return 1
