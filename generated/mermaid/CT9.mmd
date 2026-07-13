@@ -1,0 +1,10 @@
+flowchart LR
+  N1["CT9.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT9.compute.partition<br/>definitional<br/>author=0, generated=1"]
+  N3["CT9.search.firstOverload<br/>finiteSearch<br/>author=3, generated=3"]
+  N4["CT9.terminal.residual.overload<br/>genericTheorem<br/>author=0, generated=1"]
+  N5["CT9.terminal.certificate.bounded<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT9.edge.begin| N2
+  N2 -->|CT9.edge.partitioned| N3
+  N3 -->|CT9.edge.overloaded| N4
+  N3 -->|CT9.edge.bounded| N5

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/kernel-verification.schema.json",
+  "title": "Deterministic Lean kernel verification result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["artifactType", "schemaVersion", "status", "catalogHash", "toolchain", "aggregate", "tactics"],
+  "properties": {
+    "artifactType": {"const": "leanKernelVerification"},
+    "schemaVersion": {"const": "1.0.0"},
+    "status": {"enum": ["kernel_checked", "failed"]},
+    "catalogHash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "toolchain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pinned", "observed"],
+      "properties": {
+        "pinned": {"type": "string", "minLength": 1},
+        "observed": {"type": "string", "minLength": 1}
+      }
+    },
+    "aggregate": {
+      "type": "object",
+      "additionalProperties": {"enum": ["passed", "failed"]},
+      "required": ["build", "catalogFreshness", "bindingResolution", "noAdmissions"]
+    },
+    "tactics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["tacticId", "status", "nodeCount", "transitionCount", "terminalCount"],
+        "properties": {
+          "tacticId": {"type": "string", "pattern": "^CT[0-9]+$"},
+          "status": {"enum": ["kernel_checked", "failed"]},
+          "nodeCount": {"type": "integer", "minimum": 1},
+          "transitionCount": {"type": "integer", "minimum": 1},
+          "terminalCount": {"type": "integer", "minimum": 1}
+        }
+      }
+    }
+  }
+}

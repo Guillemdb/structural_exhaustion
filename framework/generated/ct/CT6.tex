@@ -1,0 +1,90 @@
+\subsection{CT6: Ordered activity failure}
+\label{sec:ct6-automation}
+
+CT6 performs one ordered first-failure search. A hit records the failing index, the clean prefix, and its structural failure datum; exhaustive absence records the no-failure theorem together with the computed active total. Both branches are semantic residuals with the original branch context.
+
+A theorem instantiation supplies the problem-specific static entries in the first table. The framework constructs every remaining node output, exhaustive decision, certificate, residual, edge, and trace theorem.
+
+\paragraph{Public automation surface.}
+\texttt{StructuralExhaustion.CT6.run} returns the evidence-carrying \texttt{ExecutionResult}. \texttt{ct6\_\allowbreak{}execute}, \texttt{ct6}, and \texttt{ct6\_\allowbreak{}total} expose execution, semantic soundness, and totality, respectively.
+
+\paragraph{General problem-specific capability.}
+\begingroup\small
+\begin{longtable}{@{}p{0.27\linewidth}p{0.15\linewidth}p{0.46\linewidth}@{}}
+\toprule
+Reference & Provision & Role \\
+\midrule
+\endhead
+\texttt{Spec.\allowbreak{}Index} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}Failure\allowbreak{}Data} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}Failure} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}failure\allowbreak{}Data} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}contribution} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}failure\allowbreak{}Order} & \texttt{user\_\allowbreak{}finite\_\allowbreak{}enumeration} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}failure\allowbreak{}Decidable} & \texttt{instance\_\allowbreak{}bridge} & problem-specific primitive \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\emph{Instance-bridge index.} \texttt{Capability.\allowbreak{}failure\allowbreak{}Decidable}. These references index explicit capability fields already listed above; they introduce no additional problem-specific inputs.
+
+\paragraph{Per-node dependency and output contracts.}
+The execution class appears beneath each node identifier. The displayed categories are exact catalog projections; every manual-obligation list is empty.
+\begingroup\scriptsize\sloppy
+\begin{longtable}{@{}p{0.13\linewidth}p{0.17\linewidth}p{0.17\linewidth}p{0.18\linewidth}p{0.18\linewidth}@{}}
+\toprule
+Node & Problem-specific static inputs & Predecessor and inferred inputs & Framework-derived & Generated outputs \\
+\midrule
+\endhead
+\texttt{CT6.\allowbreak{}entry}\\{\scriptsize definitional} & $\varnothing$ & $\varnothing$ & $\varnothing$ & \texttt{CT6.\allowbreak{}Input} {\scriptsize[derived\_\allowbreak{}definiti\allowbreak{}onally]} \\
+\texttt{CT6.\allowbreak{}search.\allowbreak{}first\allowbreak{}Failure}\\{\scriptsize finite\allowbreak{}Search} & \texttt{Capability.\allowbreak{}failure\allowbreak{}Order} {\scriptsize[user\_\allowbreak{}finite\_\allowbreak{}enumeration]}; \allowbreak \texttt{Spec.\allowbreak{}Failure} {\scriptsize[user\_\allowbreak{}definition]}; \allowbreak \texttt{Spec.\allowbreak{}failure\allowbreak{}Data} {\scriptsize[user\_\allowbreak{}operator]}; \allowbreak \texttt{Spec.\allowbreak{}contribution} {\scriptsize[user\_\allowbreak{}operator]}; \allowbreak \texttt{Capability.\allowbreak{}failure\allowbreak{}Decidable} {\scriptsize[instance\_\allowbreak{}bridge]} & $\varnothing$ & \texttt{First\allowbreak{}Hit.\allowbreak{}before\allowbreak{}Absent} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{Core.\allowbreak{}Finite\allowbreak{}Search.\allowbreak{}first\_\allowbreak{}hit\_\allowbreak{}no\_\allowbreak{}earlier} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{CT6.\allowbreak{}Activity\allowbreak{}Decision} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT6.\allowbreak{}First\allowbreak{}Failure\allowbreak{}Residual} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT6.\allowbreak{}Active\allowbreak{}Ledger\allowbreak{}Residual} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} \\
+\texttt{CT6.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}first\allowbreak{}Failure}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT6.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}failure} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT6.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT6.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT6.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}first\allowbreak{}Failure} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT6.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}active\allowbreak{}Ledger}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT6.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}active} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT6.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT6.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT6.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}active\allowbreak{}Ledger} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\begin{landscape}
+\begin{figure}[p]
+\centering
+\begin{adjustbox}{max totalsize={\linewidth}{0.72\textheight},center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[ctauthor] (a1) at (0,-0.00) {\textbf{Problem-specific static inputs}\\$\varnothing$};
+\node[ctpred] (p1) at (5.6,-0.00) {\textbf{Predecessor-derived}\\$\varnothing$};
+\node[ctderived] (d1) at (11.2,-0.00) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctentry] (n1) at (17.1,-0.00) {\textbf{CT6.\allowbreak{}entry}\\{\scriptsize definitional}\\[-0.2ex]{\tiny Outputs: \texttt{CT6.\allowbreak{}Input}\\[-0.2ex]{\tiny derived\_\allowbreak{}definiti\allowbreak{}onally}}};
+\draw[ctinputarrow] (a1.south) |- ([yshift=-5pt]n1.west);
+\draw[ctpredarrow] (p1.south) |- (n1.west);
+\draw[ctderivedarrow] (d1.south) |- ([yshift=5pt]n1.west);
+\node[ctauthor] (a2) at (0,-3.05) {\textbf{Problem-specific static inputs}\\\texttt{Capability.\allowbreak{}failure\allowbreak{}Order}\\[-0.2ex]{\tiny user\_\allowbreak{}finite\_\allowbreak{}enumeration}\\\texttt{Spec.\allowbreak{}Failure}\\[-0.2ex]{\tiny user\_\allowbreak{}definition}\\\texttt{Spec.\allowbreak{}failure\allowbreak{}Data}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}\\\texttt{Spec.\allowbreak{}contribution}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}\\\texttt{Capability.\allowbreak{}failure\allowbreak{}Decidable}\\[-0.2ex]{\tiny instance\_\allowbreak{}bridge}};
+\node[ctpred] (p2) at (5.6,-3.05) {\textbf{Predecessor-derived}\\$\varnothing$};
+\node[ctderived] (d2) at (11.2,-3.05) {\textbf{Framework-derived}\\\texttt{First\allowbreak{}Hit.\allowbreak{}before\allowbreak{}Absent}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{Core.\allowbreak{}Finite\allowbreak{}Search.\allowbreak{}first\_\allowbreak{}hit\_\allowbreak{}no\_\allowbreak{}earlier}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}};
+\node[ctnode] (n2) at (17.1,-3.05) {\textbf{CT6.\allowbreak{}search.\allowbreak{}first\allowbreak{}Failure}\\{\scriptsize finite\allowbreak{}Search}\\[-0.2ex]{\tiny Outputs: \texttt{CT6.\allowbreak{}Activity\allowbreak{}Decision}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT6.\allowbreak{}First\allowbreak{}Failure\allowbreak{}Residual}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT6.\allowbreak{}Active\allowbreak{}Ledger\allowbreak{}Residual}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}}};
+\draw[ctinputarrow] (a2.south) |- ([yshift=-5pt]n2.west);
+\draw[ctpredarrow] (p2.south) |- (n2.west);
+\draw[ctderivedarrow] (d2.south) |- ([yshift=5pt]n2.west);
+\node[ctresidual] (n3) at (23.4,-2.22) {\textbf{CT6.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}first\allowbreak{}Failure}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\node[ctresidual] (n4) at (23.4,-3.88) {\textbf{CT6.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}active\allowbreak{}Ledger}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\draw[ctedge] (n1.south east) to[bend left=15] node[ctedgelabel] {begin\allowbreak{}Search} (n2.north east);
+\draw[ctedge] (n2.east) to[bend left=10] node[ctedgelabel] {failure} (n3.west);
+\draw[ctedge] (n2.east) to[bend left=10] node[ctedgelabel] {active} (n4.west);
+\node[ctroute] (r1) at (3.30,-7.85) {\textbf{Typed route}\\\texttt{CT6.\allowbreak{}residual.\allowbreak{}active\allowbreak{}Ledger-\allowbreak{}>CT9}\\{\tiny forced; problem\allowbreak{}Semantic\allowbreak{}Adapter}\\{\tiny adapter: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT6\allowbreak{}To\allowbreak{}CT9.\allowbreak{}Item\allowbreak{}Collection\allowbreak{}Adapter}}};
+\draw[ctroutearrow] (n4.south)--(r1.north);
+\end{tikzpicture}%
+\end{adjustbox}
+\caption{Automation-first sequential machine for CT6. Each executable node has separate problem-specific static, predecessor, and framework-derived dependency boxes. Terminal nodes consume only incoming edge evidence. Route boxes are separate framework rules.}
+\label{fig:ct6-machine}
+\end{figure}
+\end{landscape}
+
+\begingroup\small\sloppy
+\paragraph{Residual contracts.}
+\begin{itemize}
+\item \texttt{CT6.\allowbreak{}residual.\allowbreak{}first\allowbreak{}Failure}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT6.\allowbreak{}First\allowbreak{}Failure\allowbreak{}Residual S capability input}; inherited context \texttt{branch}.
+\item \texttt{CT6.\allowbreak{}residual.\allowbreak{}active\allowbreak{}Ledger}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT6.\allowbreak{}Active\allowbreak{}Ledger\allowbreak{}Residual S capability input}; inherited context \texttt{branch}.
+\end{itemize}
+\paragraph{Registered routes.}
+\begin{itemize}
+\item \texttt{CT6.\allowbreak{}residual.\allowbreak{}active\allowbreak{}Ledger-\allowbreak{}>CT9}: \texttt{CT6.\allowbreak{}residual.\allowbreak{}active\allowbreak{}Ledger} $\to$ \texttt{CT9}; discovery \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT6\allowbreak{}To\allowbreak{}CT9.\allowbreak{}Item\allowbreak{}Collection\allowbreak{}Adapter.\allowbreak{}discover}; authoring mode \texttt{problem\allowbreak{}Semantic\allowbreak{}Adapter} with adapter \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT6\allowbreak{}To\allowbreak{}CT9.\allowbreak{}Item\allowbreak{}Collection\allowbreak{}Adapter}.
+\end{itemize}
+\endgroup

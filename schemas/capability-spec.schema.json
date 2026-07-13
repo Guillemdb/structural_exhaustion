@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/capability-spec.schema.json",
+  "title": "Minimal proof-instance capability contract",
+  "$ref": "lean-machine-catalog.schema.json#/$defs/capabilitySpec"
+}

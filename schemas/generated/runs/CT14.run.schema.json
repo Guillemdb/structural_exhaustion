@@ -1,0 +1,504 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/runs/CT14.run.schema.json",
+  "title": "CT14 exact sequential run",
+  "allOf": [
+    {
+      "$ref": "../../machine-artifacts.schema.json#/$defs/machineRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT14"
+        },
+        "apiVersion": {
+          "const": "CT14-v3"
+        },
+        "startNode": {
+          "const": "CT14.entry"
+        },
+        "executionRef": {
+          "enum": [
+            "StructuralExhaustion.CT14.run",
+            "StructuralExhaustion.CT14.runReference"
+          ]
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 1
+                  },
+                  "edgeId": {
+                    "const": "CT14.edge.begin"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT14.Graph.Edge.begin"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} → CT14.Graph.Edge C ctx CT14.Graph.NodeId.entry CT14.Graph.NodeId.lowerMass"
+                  },
+                  "sourceNode": {
+                    "const": "CT14.entry"
+                  },
+                  "targetNode": {
+                    "const": "CT14.compute.lower-mass"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 2
+                  },
+                  "edgeId": {
+                    "const": "CT14.edge.lower"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT14.Graph.Edge.lower"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LowerMassState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.lowerMass CT14.Graph.NodeId.memberScan"
+                  },
+                  "sourceNode": {
+                    "const": "CT14.compute.lower-mass"
+                  },
+                  "targetNode": {
+                    "const": "CT14.search.members"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 3
+                  },
+                  "edgeId": {
+                    "const": "CT14.edge.unbounded"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT14.Graph.Edge.unbounded"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.UnboundedMemberResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.unboundedTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT14.search.members"
+                  },
+                  "targetNode": {
+                    "const": "CT14.terminal.residual.unbounded-member"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 4
+                  },
+                  "edgeId": {
+                    "const": "CT14.edge.missingLabel"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT14.Graph.Edge.missingLabel"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.MissingLabelResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.missingLabelTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT14.search.members"
+                  },
+                  "targetNode": {
+                    "const": "CT14.terminal.residual.missing-label"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 5
+                  },
+                  "edgeId": {
+                    "const": "CT14.edge.complete"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT14.Graph.Edge.complete"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.MemberScanState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.upperCapacity"
+                  },
+                  "sourceNode": {
+                    "const": "CT14.search.members"
+                  },
+                  "targetNode": {
+                    "const": "CT14.compute.upper-capacity"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 6
+                  },
+                  "edgeId": {
+                    "const": "CT14.edge.upper"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT14.Graph.Edge.upper"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LedgerState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.upperCapacity CT14.Graph.NodeId.comparison"
+                  },
+                  "sourceNode": {
+                    "const": "CT14.compute.upper-capacity"
+                  },
+                  "targetNode": {
+                    "const": "CT14.decide.comparison"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 7
+                  },
+                  "edgeId": {
+                    "const": "CT14.edge.aggregate"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT14.Graph.Edge.aggregate"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.AggregateCertificate C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.aggregateTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT14.decide.comparison"
+                  },
+                  "targetNode": {
+                    "const": "CT14.terminal.certificate.aggregate"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 8
+                  },
+                  "edgeId": {
+                    "const": "CT14.edge.capacity"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT14.Graph.Edge.capacity"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.CapacityResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.capacityTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT14.decide.comparison"
+                  },
+                  "targetNode": {
+                    "const": "CT14.terminal.residual.capacity"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "terminal": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 1
+                },
+                "case": {
+                  "const": "residual.unbounded-member"
+                },
+                "nodeId": {
+                  "const": "CT14.terminal.residual.unbounded-member"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT14.Graph.Terminal.unbounded"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 2
+                },
+                "case": {
+                  "const": "residual.missing-label"
+                },
+                "nodeId": {
+                  "const": "CT14.terminal.residual.missing-label"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT14.Graph.Terminal.missingLabel"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 3
+                },
+                "case": {
+                  "const": "certificate.aggregate"
+                },
+                "nodeId": {
+                  "const": "CT14.terminal.certificate.aggregate"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT14.Graph.Terminal.aggregate"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 4
+                },
+                "case": {
+                  "const": "residual.capacity"
+                },
+                "nodeId": {
+                  "const": "CT14.terminal.residual.capacity"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT14.Graph.Terminal.capacity"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "apiVersion",
+        "startNode",
+        "executionRef",
+        "steps",
+        "terminal"
+      ]
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT14",
+    "apiVersion": "CT14-v3",
+    "namespace": "StructuralExhaustion.CT14"
+  }
+}

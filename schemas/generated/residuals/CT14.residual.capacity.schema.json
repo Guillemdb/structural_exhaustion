@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT14.residual.capacity.schema.json",
+  "title": "CT14.residual.capacity semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_by_computation",
+            "leanType": "Nat",
+            "fieldName": "lower"
+          },
+          {
+            "provision": "derived_by_computation",
+            "leanType": "Nat",
+            "fieldName": "upper"
+          },
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "lower = StructuralExhaustion.CT14.lowerMass C ctx",
+            "fieldName": "lowerExact"
+          },
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "upper = StructuralExhaustion.CT14.upperCapacity C ctx",
+            "fieldName": "upperExact"
+          },
+          {
+            "provision": "derived_by_computation",
+            "leanType": "lower ≤ upper",
+            "fieldName": "within"
+          }
+        ],
+        "residualKindId": "CT14.residual.capacity",
+        "leanType": "StructuralExhaustion.CT14.CapacityResidual",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT14",
+    "apiVersion": "CT14-v3",
+    "namespace": "StructuralExhaustion.CT14"
+  }
+}

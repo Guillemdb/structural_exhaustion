@@ -1,0 +1,1326 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/tactics/CT3.schema.json",
+  "title": "CT3 automation-first Lean tactic",
+  "description": "The complete compiled graph, general capability API, specialized capability profiles, node automation contracts, and semantic residual inventory for this tactic.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/tacticSpec"
+    },
+    {
+      "const": {
+        "transitions": [
+          {
+            "targetNode": "CT3.compute.exact-vector",
+            "sourceNode": "CT3.entry",
+            "provision": "generated_audit",
+            "ordinal": 1,
+            "edgeId": "CT3.edge.beginVector",
+            "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} → CT3.Graph.Edge S C input CT3.Graph.NodeId.entry CT3.Graph.NodeId.vectorComputation",
+            "constructor": "StructuralExhaustion.CT3.Graph.Edge.beginVector"
+          },
+          {
+            "targetNode": "CT3.search.compression",
+            "sourceNode": "CT3.compute.exact-vector",
+            "provision": "generated_audit",
+            "ordinal": 2,
+            "edgeId": "CT3.edge.vectorReady",
+            "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactVectorState S input →\n          CT3.Graph.Edge S C input CT3.Graph.NodeId.vectorComputation CT3.Graph.NodeId.compressionSearch",
+            "constructor": "StructuralExhaustion.CT3.Graph.Edge.vectorReady"
+          },
+          {
+            "targetNode": "CT3.terminal.compression",
+            "sourceNode": "CT3.search.compression",
+            "provision": "generated_audit",
+            "ordinal": 3,
+            "edgeId": "CT3.edge.compressionFound",
+            "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.CompressionCertificate S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.compressionTerminal",
+            "constructor": "StructuralExhaustion.CT3.Graph.Edge.compressionFound"
+          },
+          {
+            "targetNode": "CT3.validate.table",
+            "sourceNode": "CT3.search.compression",
+            "provision": "generated_audit",
+            "ordinal": 4,
+            "edgeId": "CT3.edge.compressionAbsent",
+            "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.UncompressibleExternalType S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.tableValidation",
+            "constructor": "StructuralExhaustion.CT3.Graph.Edge.compressionAbsent"
+          },
+          {
+            "targetNode": "CT3.terminal.distinguishing-context",
+            "sourceNode": "CT3.validate.table",
+            "provision": "generated_audit",
+            "ordinal": 5,
+            "edgeId": "CT3.edge.tableDefect",
+            "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.DistinguishingContextResidual S C input →\n          CT3.Graph.Edge S C input CT3.Graph.NodeId.tableValidation CT3.Graph.NodeId.distinguishingTerminal",
+            "constructor": "StructuralExhaustion.CT3.Graph.Edge.tableDefect"
+          },
+          {
+            "targetNode": "CT3.lookup.exact-row",
+            "sourceNode": "CT3.validate.table",
+            "provision": "generated_audit",
+            "ordinal": 6,
+            "edgeId": "CT3.edge.tableExact",
+            "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactTableState S C → CT3.Graph.Edge S C input CT3.Graph.NodeId.tableValidation CT3.Graph.NodeId.rowLookup",
+            "constructor": "StructuralExhaustion.CT3.Graph.Edge.tableExact"
+          },
+          {
+            "targetNode": "CT3.terminal.known-row",
+            "sourceNode": "CT3.lookup.exact-row",
+            "provision": "generated_audit",
+            "ordinal": 7,
+            "edgeId": "CT3.edge.rowKnown",
+            "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.KnownRowCertificate S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.knownRowTerminal",
+            "constructor": "StructuralExhaustion.CT3.Graph.Edge.rowKnown"
+          },
+          {
+            "targetNode": "CT3.terminal.novel-row",
+            "sourceNode": "CT3.lookup.exact-row",
+            "provision": "generated_audit",
+            "ordinal": 8,
+            "edgeId": "CT3.edge.rowNovel",
+            "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.NovelExternalTypeResidual S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.novelRowTerminal",
+            "constructor": "StructuralExhaustion.CT3.Graph.Edge.rowNovel"
+          }
+        ],
+        "title": "Exact external-response compression",
+        "terminals": [
+          {
+            "ordinal": 1,
+            "nodeId": "CT3.terminal.compression",
+            "constructor": "StructuralExhaustion.CT3.Graph.Terminal.compression",
+            "case": "compression"
+          },
+          {
+            "ordinal": 2,
+            "nodeId": "CT3.terminal.distinguishing-context",
+            "constructor": "StructuralExhaustion.CT3.Graph.Terminal.distinguishing",
+            "case": "distinguishing-context"
+          },
+          {
+            "ordinal": 3,
+            "nodeId": "CT3.terminal.known-row",
+            "constructor": "StructuralExhaustion.CT3.Graph.Terminal.knownRow",
+            "case": "known-row"
+          },
+          {
+            "ordinal": 4,
+            "nodeId": "CT3.terminal.novel-row",
+            "constructor": "StructuralExhaustion.CT3.Graph.Terminal.novelRow",
+            "case": "novel-row"
+          }
+        ],
+        "tacticId": "CT3",
+        "residualKinds": [
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_by_generic_search",
+                "leanType": "S.Row",
+                "fieldName": "row"
+              },
+              {
+                "provision": "derived_by_generic_theorem",
+                "leanType": "row ∈ C.rows.orderedValues",
+                "fieldName": "rowMember"
+              },
+              {
+                "provision": "derived_by_generic_search",
+                "leanType": "S.Context",
+                "fieldName": "context"
+              },
+              {
+                "provision": "derived_by_generic_theorem",
+                "leanType": "context ∈ C.contexts.orderedValues",
+                "fieldName": "contextMember"
+              },
+              {
+                "provision": "derived_by_generic_search",
+                "leanType": "S.response (S.rowPiece row) context ≠ S.rowResponse row context",
+                "fieldName": "differs"
+              }
+            ],
+            "residualKindId": "CT3.residual.distinguishingContext",
+            "leanType": "StructuralExhaustion.CT3.DistinguishingContextResidual S C input",
+            "inheritedContext": "branch"
+          },
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_by_generic_theorem",
+                "leanType": "∀ row, ¬ CT3.RowMatches S input row",
+                "fieldName": "novel"
+              }
+            ],
+            "residualKindId": "CT3.residual.novelExternalType",
+            "leanType": "StructuralExhaustion.CT3.NovelExternalTypeResidual S C input table",
+            "inheritedContext": "branch"
+          }
+        ],
+        "nodes": [
+          {
+            "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+            "semanticId": "CT3.entry",
+            "presentation": {
+              "summary": "Compiled entry node with an explicit automation contract.",
+              "label": "CT3.entry"
+            },
+            "ordinal": 1,
+            "nodeKind": "entry",
+            "nodeId": "CT3.entry",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT3.compute.exact-vector",
+                  "sourceNode": "CT3.entry",
+                  "edgeId": "CT3.edge.beginVector",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} → CT3.Graph.Edge S C input CT3.Graph.NodeId.entry CT3.Graph.NodeId.vectorComputation",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.beginVector"
+                }
+              ],
+              "incomingEdges": []
+            },
+            "constructor": "StructuralExhaustion.CT3.Graph.NodeId.entry",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Input.context",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "Input.piece",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "Input.context",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "Input.piece",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT3.Input",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "frameworkTheorems": [],
+              "executionClass": "definitional",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+            "semanticId": "CT3.compute.exact-vector",
+            "presentation": {
+              "summary": "Compiled computation node with an explicit automation contract.",
+              "label": "CT3.compute.exact-vector"
+            },
+            "ordinal": 2,
+            "nodeKind": "computation",
+            "nodeId": "CT3.compute.exact-vector",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT3.search.compression",
+                  "sourceNode": "CT3.compute.exact-vector",
+                  "edgeId": "CT3.edge.vectorReady",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactVectorState S input →\n          CT3.Graph.Edge S C input CT3.Graph.NodeId.vectorComputation CT3.Graph.NodeId.compressionSearch",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.vectorReady"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT3.compute.exact-vector",
+                  "sourceNode": "CT3.entry",
+                  "edgeId": "CT3.edge.beginVector",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} → CT3.Graph.Edge S C input CT3.Graph.NodeId.entry CT3.Graph.NodeId.vectorComputation",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.beginVector"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT3.Graph.NodeId.vectorComputation",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Spec.response",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "Input.piece",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "ExactVectorState.exact",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "Input.piece",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT3.ExactVectorState",
+                  "provision": "derived_by_computation"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "ExactVectorState.exact",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "definitional",
+              "derivedInputs": [],
+              "authorInputs": [
+                {
+                  "ref": "Spec.response",
+                  "provision": "user_operator"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+            "semanticId": "CT3.search.compression",
+            "presentation": {
+              "summary": "Compiled computation node with an explicit automation contract.",
+              "label": "CT3.search.compression"
+            },
+            "ordinal": 3,
+            "nodeKind": "computation",
+            "nodeId": "CT3.search.compression",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT3.terminal.compression",
+                  "sourceNode": "CT3.search.compression",
+                  "edgeId": "CT3.edge.compressionFound",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.CompressionCertificate S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.compressionTerminal",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.compressionFound"
+                },
+                {
+                  "targetNode": "CT3.validate.table",
+                  "sourceNode": "CT3.search.compression",
+                  "edgeId": "CT3.edge.compressionAbsent",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.UncompressibleExternalType S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.tableValidation",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.compressionAbsent"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT3.search.compression",
+                  "sourceNode": "CT3.compute.exact-vector",
+                  "edgeId": "CT3.edge.vectorReady",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactVectorState S input →\n          CT3.Graph.Edge S C input CT3.Graph.NodeId.vectorComputation CT3.Graph.NodeId.compressionSearch",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.vectorReady"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT3.Graph.NodeId.compressionSearch",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Capability.candidates",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Spec.candidatePiece",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "Spec.response",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "Spec.Admissible",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "Spec.Smaller",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "Capability.contexts",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Capability.admissibleDecidable",
+                  "provision": "instance_bridge"
+                },
+                {
+                  "ref": "Capability.smallerDecidable",
+                  "provision": "instance_bridge"
+                },
+                {
+                  "ref": "ExactVectorState",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "SameResponse",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "FiniteSearch.first_total",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "ResponseComparison.compare_total",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "ExactVectorState",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT3.CompressionDecision",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "CT3.CompressionCertificate",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "CT3.UncompressibleExternalType",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "FiniteSearch.first_total",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "ResponseComparison.compare_total",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "finiteSearch",
+              "derivedInputs": [
+                {
+                  "ref": "SameResponse",
+                  "provision": "derived_by_generic_search"
+                }
+              ],
+              "authorInputs": [
+                {
+                  "ref": "Capability.candidates",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Spec.candidatePiece",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "Spec.response",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "Spec.Admissible",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "Spec.Smaller",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "Capability.contexts",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Capability.admissibleDecidable",
+                  "provision": "instance_bridge"
+                },
+                {
+                  "ref": "Capability.smallerDecidable",
+                  "provision": "instance_bridge"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+            "semanticId": "CT3.validate.table",
+            "presentation": {
+              "summary": "Compiled definition node with an explicit automation contract.",
+              "label": "CT3.validate.table"
+            },
+            "ordinal": 4,
+            "nodeKind": "definition",
+            "nodeId": "CT3.validate.table",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT3.terminal.distinguishing-context",
+                  "sourceNode": "CT3.validate.table",
+                  "edgeId": "CT3.edge.tableDefect",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.DistinguishingContextResidual S C input →\n          CT3.Graph.Edge S C input CT3.Graph.NodeId.tableValidation CT3.Graph.NodeId.distinguishingTerminal",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.tableDefect"
+                },
+                {
+                  "targetNode": "CT3.lookup.exact-row",
+                  "sourceNode": "CT3.validate.table",
+                  "edgeId": "CT3.edge.tableExact",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactTableState S C → CT3.Graph.Edge S C input CT3.Graph.NodeId.tableValidation CT3.Graph.NodeId.rowLookup",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.tableExact"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT3.validate.table",
+                  "sourceNode": "CT3.search.compression",
+                  "edgeId": "CT3.edge.compressionAbsent",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.UncompressibleExternalType S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.tableValidation",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.compressionAbsent"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT3.Graph.NodeId.tableValidation",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Capability.rows",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Capability.contexts",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Spec.rowPiece",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "Spec.rowResponse",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "Spec.response",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "UncompressibleExternalType",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "FiniteSearch.dependentSearch_sound",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "UncompressibleExternalType",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT3.TableValidationDecision",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "CT3.DistinguishingContextResidual",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "CT3.ExactTableState",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "FiniteSearch.dependentSearch_sound",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "finiteSearch",
+              "derivedInputs": [],
+              "authorInputs": [
+                {
+                  "ref": "Capability.rows",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Capability.contexts",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Spec.rowPiece",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "Spec.rowResponse",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "Spec.response",
+                  "provision": "user_operator"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+            "semanticId": "CT3.lookup.exact-row",
+            "presentation": {
+              "summary": "Compiled definition node with an explicit automation contract.",
+              "label": "CT3.lookup.exact-row"
+            },
+            "ordinal": 5,
+            "nodeKind": "definition",
+            "nodeId": "CT3.lookup.exact-row",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT3.terminal.known-row",
+                  "sourceNode": "CT3.lookup.exact-row",
+                  "edgeId": "CT3.edge.rowKnown",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.KnownRowCertificate S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.knownRowTerminal",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.rowKnown"
+                },
+                {
+                  "targetNode": "CT3.terminal.novel-row",
+                  "sourceNode": "CT3.lookup.exact-row",
+                  "edgeId": "CT3.edge.rowNovel",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.NovelExternalTypeResidual S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.novelRowTerminal",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.rowNovel"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT3.lookup.exact-row",
+                  "sourceNode": "CT3.validate.table",
+                  "edgeId": "CT3.edge.tableExact",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactTableState S C → CT3.Graph.Edge S C input CT3.Graph.NodeId.tableValidation CT3.Graph.NodeId.rowLookup",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.tableExact"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT3.Graph.NodeId.rowLookup",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Capability.rows",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Capability.contexts",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Spec.response",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "Spec.rowResponse",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "ExactTableState",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "RowMatches",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "FiniteSearch.first_total",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "ResponseComparison.compare_total",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "ExactTableState",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT3.RowLookupDecision",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "CT3.KnownRowCertificate",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "CT3.NovelExternalTypeResidual",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "FiniteSearch.first_total",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "ResponseComparison.compare_total",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "finiteSearch",
+              "derivedInputs": [
+                {
+                  "ref": "RowMatches",
+                  "provision": "derived_by_generic_search"
+                }
+              ],
+              "authorInputs": [
+                {
+                  "ref": "Capability.rows",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Capability.contexts",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Spec.response",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "Spec.rowResponse",
+                  "provision": "user_operator"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+            "semanticId": "CT3.terminal.compression",
+            "presentation": {
+              "summary": "Compiled certificate node with an explicit automation contract.",
+              "label": "CT3.terminal.compression"
+            },
+            "ordinal": 6,
+            "nodeKind": "certificate",
+            "nodeId": "CT3.terminal.compression",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT3.terminal.compression",
+                  "sourceNode": "CT3.search.compression",
+                  "edgeId": "CT3.edge.compressionFound",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.CompressionCertificate S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.compressionTerminal",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.compressionFound"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT3.Graph.NodeId.compressionTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT3.Graph.Edge.compressionFound",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT3.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT3.Graph.Edge.compressionFound",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT3.ExecutionResult@CT3.terminal.compression",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT3.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+            "semanticId": "CT3.terminal.distinguishing-context",
+            "presentation": {
+              "summary": "Compiled residual node with an explicit automation contract.",
+              "label": "CT3.terminal.distinguishing-context"
+            },
+            "ordinal": 7,
+            "nodeKind": "residual",
+            "nodeId": "CT3.terminal.distinguishing-context",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT3.terminal.distinguishing-context",
+                  "sourceNode": "CT3.validate.table",
+                  "edgeId": "CT3.edge.tableDefect",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.DistinguishingContextResidual S C input →\n          CT3.Graph.Edge S C input CT3.Graph.NodeId.tableValidation CT3.Graph.NodeId.distinguishingTerminal",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.tableDefect"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT3.Graph.NodeId.distinguishingTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT3.Graph.Edge.tableDefect",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT3.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT3.Graph.Edge.tableDefect",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT3.ExecutionResult@CT3.terminal.distinguishing-context",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT3.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+            "semanticId": "CT3.terminal.known-row",
+            "presentation": {
+              "summary": "Compiled certificate node with an explicit automation contract.",
+              "label": "CT3.terminal.known-row"
+            },
+            "ordinal": 8,
+            "nodeKind": "certificate",
+            "nodeId": "CT3.terminal.known-row",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT3.terminal.known-row",
+                  "sourceNode": "CT3.lookup.exact-row",
+                  "edgeId": "CT3.edge.rowKnown",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.KnownRowCertificate S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.knownRowTerminal",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.rowKnown"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT3.Graph.NodeId.knownRowTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT3.Graph.Edge.rowKnown",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT3.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT3.Graph.Edge.rowKnown",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT3.ExecutionResult@CT3.terminal.known-row",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT3.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+            "semanticId": "CT3.terminal.novel-row",
+            "presentation": {
+              "summary": "Compiled residual node with an explicit automation contract.",
+              "label": "CT3.terminal.novel-row"
+            },
+            "ordinal": 9,
+            "nodeKind": "residual",
+            "nodeId": "CT3.terminal.novel-row",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT3.terminal.novel-row",
+                  "sourceNode": "CT3.lookup.exact-row",
+                  "edgeId": "CT3.edge.rowNovel",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.NovelExternalTypeResidual S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.novelRowTerminal",
+                  "constructor": "StructuralExhaustion.CT3.Graph.Edge.rowNovel"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT3.Graph.NodeId.novelRowTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT3.Graph.Edge.rowNovel",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT3.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT3.Graph.Edge.rowNovel",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT3.ExecutionResult@CT3.terminal.novel-row",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT3.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          }
+        ],
+        "namespace": "StructuralExhaustion.CT3",
+        "loopDecrease": null,
+        "capabilityProfiles": [],
+        "capability": {
+          "tacticId": "CT3",
+          "requiredInstances": [
+            {
+              "ref": "Capability.admissibleDecidable",
+              "provision": "typeclass_inferred"
+            },
+            {
+              "ref": "Capability.smallerDecidable",
+              "provision": "typeclass_inferred"
+            }
+          ],
+          "requiredDefinitions": [
+            {
+              "ref": "Spec.Piece",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Spec.Context",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Spec.Candidate",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Spec.Row",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Spec.response",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.candidatePiece",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.Admissible",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Spec.Smaller",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Spec.rowPiece",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.rowResponse",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.contexts",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.candidates",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.rows",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.admissibleDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "Capability.smallerDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "Capability.inputSize",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.workCoefficient",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.workDegree",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.workBound",
+              "provision": "user_definition"
+            }
+          ],
+          "derivedOperations": [
+            {
+              "ref": "CT3.computeExactVector",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT3.findCompression",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT3.validateTable",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT3.lookupRow",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT3.Capability.polynomialBudget",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT3.runReference",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT3.run",
+              "provision": "framework_constant"
+            }
+          ],
+          "capabilityId": "CT3.reference"
+        },
+        "apiVersion": "CT3-v3",
+        "apiDeclarations": [
+          {
+            "type": "Type",
+            "name": "StructuralExhaustion.CT3.Graph.NodeId",
+            "kind": "inductive"
+          },
+          {
+            "type": "CT3.Graph.NodeId → String",
+            "name": "StructuralExhaustion.CT3.Graph.NodeId.code",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  (S : CT3.Spec P) → CT3.Capability S → CT3.Input S → CT3.Graph.NodeId → CT3.Graph.NodeId → Type (max (max u_2 u_3) u_4)",
+            "name": "StructuralExhaustion.CT3.Graph.Edge",
+            "kind": "inductive"
+          },
+          {
+            "type": "Type",
+            "name": "StructuralExhaustion.CT3.Graph.Terminal",
+            "kind": "inductive"
+          },
+          {
+            "type": "CT3.Graph.Terminal → CT3.Graph.NodeId",
+            "name": "StructuralExhaustion.CT3.Graph.Terminal.nodeId",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  (S : CT3.Spec P) → CT3.Capability S → CT3.Input S → CT3.Graph.NodeId → CT3.Graph.NodeId → Type (max (max u_2 u_3) u_4)",
+            "name": "StructuralExhaustion.CT3.Graph.Path",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → {S : CT3.Spec P} → {C : CT3.Capability S} → {input : CT3.Input S} → List CT3.Graph.NodeId → Prop",
+            "name": "StructuralExhaustion.CT3.Graph.ValidTrace",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} → CT3.Spec P → Type (max (max (max (max uAmbient u_1) u_2) u_3) u_4)",
+            "name": "StructuralExhaustion.CT3.Capability",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → CT3.Spec P → Type (max (max uAmbient uBranch) u_1)",
+            "name": "StructuralExhaustion.CT3.Input",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → (S : CT3.Spec P) → CT3.Capability S → CT3.Input S → Type (max (max u_2 u_3) u_4)",
+            "name": "StructuralExhaustion.CT3.ExecutionResult",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  (S : CT3.Spec P) → CT3.Capability S → CT3.Input S → CT3.Graph.Terminal → Type (max (max u_2 u_3) u_4)",
+            "name": "StructuralExhaustion.CT3.RawOutcome",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → (S : CT3.Spec P) → (C : CT3.Capability S) → (input : CT3.Input S) → CT3.ExecutionResult S C input",
+            "name": "StructuralExhaustion.CT3.run",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} → (S : CT3.Spec P) → (C : CT3.Capability S) → (input : CT3.Input S) → CT3.ExecutionResult S C input",
+            "name": "StructuralExhaustion.CT3.runReference",
+            "kind": "definition"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (S : CT3.Spec P) (C : CT3.Capability S) (input : CT3.Input S),\n  CT3.OutcomeClaim (CT3.run S C input).outcome",
+            "name": "StructuralExhaustion.CT3.run_verified",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (S : CT3.Spec P) (C : CT3.Capability S) (input : CT3.Input S),\n  CT3.Graph.ValidTrace (CT3.run S C input).trace",
+            "name": "StructuralExhaustion.CT3.run_trace_valid",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (S : CT3.Spec P) (C : CT3.Capability S) (input : CT3.Input S),\n  ∃ result, CT3.OutcomeClaim result.outcome ∧ CT3.Graph.ValidTrace result.trace",
+            "name": "StructuralExhaustion.CT3.run_total",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (S : CT3.Spec P) (C : CT3.Capability S) (input : CT3.Input S)\n  (first second : CT3.ExecutionResult S C input),\n  first = CT3.run S C input → second = CT3.run S C input → first = second",
+            "name": "StructuralExhaustion.CT3.run_deterministic",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} {S : CT3.Spec P} {C : CT3.Capability S} {input : CT3.Input S}\n  (result : CT3.ExecutionResult S C input),\n  result.terminal = CT3.Graph.Terminal.compression ∨\n    result.terminal = CT3.Graph.Terminal.distinguishing ∨\n      result.terminal = CT3.Graph.Terminal.knownRow ∨ result.terminal = CT3.Graph.Terminal.novelRow",
+            "name": "StructuralExhaustion.CT3.outcome_exhaustive",
+            "kind": "theorem"
+          },
+          {
+            "type": "Core.CapabilityContract",
+            "name": "StructuralExhaustion.CT3.capabilityContract",
+            "kind": "definition"
+          },
+          {
+            "type": "List Core.NodeAutomationContract",
+            "name": "StructuralExhaustion.CT3.nodeAutomationContracts",
+            "kind": "definition"
+          },
+          {
+            "type": "List Core.ResidualKindContract",
+            "name": "StructuralExhaustion.CT3.residualKindContracts",
+            "kind": "definition"
+          }
+        ]
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT3",
+    "apiVersion": "CT3-v3",
+    "namespace": "StructuralExhaustion.CT3"
+  },
+  "x-capability": {
+    "tacticId": "CT3",
+    "requiredInstances": [
+      {
+        "ref": "Capability.admissibleDecidable",
+        "provision": "typeclass_inferred"
+      },
+      {
+        "ref": "Capability.smallerDecidable",
+        "provision": "typeclass_inferred"
+      }
+    ],
+    "requiredDefinitions": [
+      {
+        "ref": "Spec.Piece",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Spec.Context",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Spec.Candidate",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Spec.Row",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Spec.response",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Spec.candidatePiece",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Spec.Admissible",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Spec.Smaller",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Spec.rowPiece",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Spec.rowResponse",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.contexts",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.candidates",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.rows",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.admissibleDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "Capability.smallerDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "Capability.inputSize",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.workCoefficient",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.workDegree",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.workBound",
+        "provision": "user_definition"
+      }
+    ],
+    "derivedOperations": [
+      {
+        "ref": "CT3.computeExactVector",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT3.findCompression",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT3.validateTable",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT3.lookupRow",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT3.Capability.polynomialBudget",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT3.runReference",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT3.run",
+        "provision": "framework_constant"
+      }
+    ],
+    "capabilityId": "CT3.reference"
+  },
+  "x-capabilityProfiles": []
+}

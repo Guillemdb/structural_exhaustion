@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/routes/CT2.residual.separatingContext-_CT3.schema.json",
+  "title": "CT2.residual.separatingContext->CT3 generated route contract",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/routeRule"
+    },
+    {
+      "const": {
+        "triggerConstructor": "StructuralExhaustion.Routes.CT2ToCT3.buildTrigger",
+        "targetTacticId": "CT3",
+        "sourceResidualKind": "CT2.residual.separatingContext",
+        "soundnessTheorem": "StructuralExhaustion.Routes.CT2ToCT3.enabled_generates",
+        "selectionClass": "forced",
+        "routeId": "CT2.residual.separatingContext->CT3",
+        "provenanceTheorem": "StructuralExhaustion.Routes.CT2ToCT3.generated_route_id",
+        "discovery": "StructuralExhaustion.Routes.CT2ToCT3.PieceDiscovery.discover",
+        "contextPreservationTheorem": "StructuralExhaustion.Routes.CT2ToCT3.branchContext_preserved",
+        "authoringBoundary": {
+          "semanticDiscovery": {
+            "kind": "problemSemanticAdapter",
+            "adapterType": "StructuralExhaustion.Routes.CT2ToCT3.PieceDiscovery"
+          },
+          "problemSpecificInputs": [
+            "targetCapability",
+            "semanticDiscoveryAdapter"
+          ],
+          "frameworkOwnedResponsibilities": [
+            "routeRuleConstruction",
+            "targetContextConstruction",
+            "triggerConstruction",
+            "soundnessProof",
+            "contextPreservationProof",
+            "provenanceProof"
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "registry": "StructuralExhaustion.Canonical.routes"
+  }
+}

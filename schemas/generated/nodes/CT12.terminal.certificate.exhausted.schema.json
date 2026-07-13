@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT12.terminal.certificate.exhausted.schema.json",
+  "title": "CT12.terminal.certificate.exhausted automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+        "semanticId": "CT12.terminal.certificate.exhausted",
+        "presentation": {
+          "summary": "Compiled certificate node with an explicit automation contract.",
+          "label": "CT12.terminal.certificate.exhausted"
+        },
+        "ordinal": 6,
+        "nodeKind": "certificate",
+        "nodeId": "CT12.terminal.certificate.exhausted",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT12.terminal.certificate.exhausted",
+              "sourceNode": "CT12.decide.saturation",
+              "edgeId": "CT12.edge.exhausted",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    capability.State 0 → CT12.Graph.Edge capability CT12.Graph.NodeId.saturation CT12.Graph.NodeId.exhaustedTerminal",
+              "constructor": "StructuralExhaustion.CT12.Graph.Edge.exhausted"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT12.Graph.NodeId.exhaustedTerminal",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT12.Graph.Edge.exhausted",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT12.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT12.Graph.Edge.exhausted",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT12.ExecutionResult@CT12.terminal.certificate.exhausted",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT12.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT12",
+    "apiVersion": "CT12-v4",
+    "namespace": "StructuralExhaustion.CT12"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT12.Graph.Edge.exhausted",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "StructuralExhaustion.CT12.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT12.Graph.Edge.exhausted",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT12.ExecutionResult@CT12.terminal.certificate.exhausted",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "StructuralExhaustion.CT12.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "genericTheorem",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [],
+    "incomingEdges": [
+      {
+        "targetNode": "CT12.terminal.certificate.exhausted",
+        "sourceNode": "CT12.decide.saturation",
+        "edgeId": "CT12.edge.exhausted",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    capability.State 0 → CT12.Graph.Edge capability CT12.Graph.NodeId.saturation CT12.Graph.NodeId.exhaustedTerminal",
+        "constructor": "StructuralExhaustion.CT12.Graph.Edge.exhausted"
+      }
+    ]
+  }
+}

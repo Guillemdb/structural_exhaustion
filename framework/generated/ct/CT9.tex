@@ -1,0 +1,101 @@
+\subsection{CT9: Exact label-fibre overload}
+\label{sec:ct9-automation}
+
+CT9 records a nullary partition audit boundary and evaluates the exact label-fibre view from the original input during overload search. Labels are searched in enumeration order for the first capacity violation. The two terminals contain either the overload witness or a certificate that every label fibre is bounded.
+
+A theorem instantiation supplies the problem-specific static entries in the first table. The framework constructs every remaining node output, exhaustive decision, certificate, residual, edge, and trace theorem.
+
+\paragraph{Public automation surface.}
+\texttt{StructuralExhaustion.CT9.run} returns the evidence-carrying \texttt{ExecutionResult}. \texttt{ct9\_\allowbreak{}execute}, \texttt{ct9}, and \texttt{ct9\_\allowbreak{}total} expose execution, semantic soundness, and totality, respectively.
+
+\paragraph{General problem-specific capability.}
+\begingroup\small
+\begin{longtable}{@{}p{0.27\linewidth}p{0.15\linewidth}p{0.46\linewidth}@{}}
+\toprule
+Reference & Provision & Role \\
+\midrule
+\endhead
+\texttt{Capability.\allowbreak{}Item} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}Label} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}labels} & \texttt{user\_\allowbreak{}finite\_\allowbreak{}enumeration} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}label} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}capacity} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\paragraph{Generated capability profiles.}
+Each profile is a narrower authoring surface for a recurring structural shape. Its framework constructor fills the omitted fields of the general capability.
+\begingroup\small
+\begin{longtable}{@{}p{0.25\linewidth}p{0.31\linewidth}p{0.34\linewidth}@{}}
+\toprule
+Profile & Problem-specific inputs & Framework-generated operations \\
+\midrule
+\endhead
+\texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}profile.\allowbreak{}parity\allowbreak{}Capacity\allowbreak{}One} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}Parity\allowbreak{}Capacity\allowbreak{}One\allowbreak{}Spec.\allowbreak{}Item} {\scriptsize[user\_\allowbreak{}definition]}; \allowbreak \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}Parity\allowbreak{}Capacity\allowbreak{}One\allowbreak{}Spec.\allowbreak{}rank} {\scriptsize[user\_\allowbreak{}operator]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}Parity\allowbreak{}Capacity\allowbreak{}One\allowbreak{}Spec.\allowbreak{}capability} {\scriptsize[framework\_\allowbreak{}constant]}; \allowbreak \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}parity\allowbreak{}Capacity\allowbreak{}One} {\scriptsize[framework\_\allowbreak{}constant]}; \allowbreak \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}total\allowbreak{}Capacity\_\allowbreak{}parity\allowbreak{}Capacity\allowbreak{}One} {\scriptsize[framework\_\allowbreak{}constant]}; \allowbreak \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}run\allowbreak{}Parity\allowbreak{}Capacity\allowbreak{}One\allowbreak{}Of\allowbreak{}Three\allowbreak{}Le\allowbreak{}Cardinality} {\scriptsize[framework\_\allowbreak{}constant]}; \allowbreak \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}Parity\allowbreak{}Capacity\allowbreak{}One\allowbreak{}Run.\allowbreak{}pair} {\scriptsize[framework\_\allowbreak{}constant]} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\paragraph{Per-node dependency and output contracts.}
+The execution class appears beneath each node identifier. The displayed categories are exact catalog projections; every manual-obligation list is empty.
+\begingroup\scriptsize\sloppy
+\begin{longtable}{@{}p{0.13\linewidth}p{0.17\linewidth}p{0.17\linewidth}p{0.18\linewidth}p{0.18\linewidth}@{}}
+\toprule
+Node & Problem-specific static inputs & Predecessor and inferred inputs & Framework-derived & Generated outputs \\
+\midrule
+\endhead
+\texttt{CT9.\allowbreak{}entry}\\{\scriptsize definitional} & $\varnothing$ & \texttt{Input.\allowbreak{}context} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]}; \allowbreak \texttt{Input.\allowbreak{}items} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & $\varnothing$ & \texttt{CT9.\allowbreak{}Input} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} \\
+\texttt{CT9.\allowbreak{}compute.\allowbreak{}partition}\\{\scriptsize definitional} & $\varnothing$ & $\varnothing$ & $\varnothing$ & \texttt{CT9.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}partitioned} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT9.\allowbreak{}search.\allowbreak{}first\allowbreak{}Overload}\\{\scriptsize finite\allowbreak{}Search} & \texttt{Capability.\allowbreak{}capacity} {\scriptsize[user\_\allowbreak{}operator]}; \allowbreak \texttt{Capability.\allowbreak{}labels} {\scriptsize[user\_\allowbreak{}finite\_\allowbreak{}enumeration]}; \allowbreak \texttt{Capability.\allowbreak{}label} {\scriptsize[user\_\allowbreak{}operator]} & \texttt{Input.\allowbreak{}items} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{CT9.\allowbreak{}fibre} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}computation]}; \allowbreak \texttt{CT9.\allowbreak{}mem\_\allowbreak{}own\_\allowbreak{}fibre} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]}; \allowbreak \texttt{Core.\allowbreak{}Finite\allowbreak{}Search.\allowbreak{}search} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{CT9.\allowbreak{}Decision} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT9.\allowbreak{}Overload\allowbreak{}Residual} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT9.\allowbreak{}Bounded\allowbreak{}Certificate} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} \\
+\texttt{CT9.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}overload}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}overloaded} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT9.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}overload} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT9.\allowbreak{}terminal.\allowbreak{}certificate.\allowbreak{}bounded}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}bounded} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT9.\allowbreak{}terminal.\allowbreak{}certificate.\allowbreak{}bounded} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\begin{landscape}
+\begin{figure}[p]
+\centering
+\begin{adjustbox}{max totalsize={\linewidth}{0.72\textheight},center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[ctauthor] (a1) at (0,-0.00) {\textbf{Problem-specific static inputs}\\$\varnothing$};
+\node[ctpred] (p1) at (5.6,-0.00) {\textbf{Predecessor-derived}\\\texttt{Input.\allowbreak{}context}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}\\\texttt{Input.\allowbreak{}items}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d1) at (11.2,-0.00) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctentry] (n1) at (17.1,-0.00) {\textbf{CT9.\allowbreak{}entry}\\{\scriptsize definitional}\\[-0.2ex]{\tiny Outputs: \texttt{CT9.\allowbreak{}Input}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}}};
+\draw[ctinputarrow] (a1.south) |- ([yshift=-5pt]n1.west);
+\draw[ctpredarrow] (p1.south) |- (n1.west);
+\draw[ctderivedarrow] (d1.south) |- ([yshift=5pt]n1.west);
+\node[ctauthor] (a2) at (0,-3.05) {\textbf{Problem-specific static inputs}\\$\varnothing$};
+\node[ctpred] (p2) at (5.6,-3.05) {\textbf{Predecessor-derived}\\$\varnothing$};
+\node[ctderived] (d2) at (11.2,-3.05) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctnode] (n2) at (17.1,-3.05) {\textbf{CT9.\allowbreak{}compute.\allowbreak{}partition}\\{\scriptsize definitional}\\[-0.2ex]{\tiny Outputs: \texttt{CT9.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}partitioned}\\[-0.2ex]{\tiny generated\_\allowbreak{}audit}}};
+\draw[ctinputarrow] (a2.south) |- ([yshift=-5pt]n2.west);
+\draw[ctpredarrow] (p2.south) |- (n2.west);
+\draw[ctderivedarrow] (d2.south) |- ([yshift=5pt]n2.west);
+\node[ctauthor] (a3) at (0,-6.10) {\textbf{Problem-specific static inputs}\\\texttt{Capability.\allowbreak{}capacity}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}\\\texttt{Capability.\allowbreak{}labels}\\[-0.2ex]{\tiny user\_\allowbreak{}finite\_\allowbreak{}enumeration}\\\texttt{Capability.\allowbreak{}label}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}};
+\node[ctpred] (p3) at (5.6,-6.10) {\textbf{Predecessor-derived}\\\texttt{Input.\allowbreak{}items}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d3) at (11.2,-6.10) {\textbf{Framework-derived}\\\texttt{CT9.\allowbreak{}fibre}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}computation}\\\texttt{CT9.\allowbreak{}mem\_\allowbreak{}own\_\allowbreak{}fibre}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}\\\texttt{Core.\allowbreak{}Finite\allowbreak{}Search.\allowbreak{}search}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}};
+\node[ctnode] (n3) at (17.1,-6.10) {\textbf{CT9.\allowbreak{}search.\allowbreak{}first\allowbreak{}Overload}\\{\scriptsize finite\allowbreak{}Search}\\[-0.2ex]{\tiny Outputs: \texttt{CT9.\allowbreak{}Decision}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT9.\allowbreak{}Overload\allowbreak{}Residual}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT9.\allowbreak{}Bounded\allowbreak{}Certificate}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}}};
+\draw[ctinputarrow] (a3.south) |- ([yshift=-5pt]n3.west);
+\draw[ctpredarrow] (p3.south) |- (n3.west);
+\draw[ctderivedarrow] (d3.south) |- ([yshift=5pt]n3.west);
+\node[ctresidual] (n4) at (23.4,-5.27) {\textbf{CT9.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}overload}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\node[ctcertificate] (n5) at (23.4,-6.92) {\textbf{CT9.\allowbreak{}terminal.\allowbreak{}certificate.\allowbreak{}bounded}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\draw[ctedge] (n1.south east) to[bend left=15] node[ctedgelabel] {begin} (n2.north east);
+\draw[ctedge] (n2.south east) to[bend left=15] node[ctedgelabel] {partitioned} (n3.north east);
+\draw[ctedge] (n3.east) to[bend left=10] node[ctedgelabel] {overloaded} (n4.west);
+\draw[ctedge] (n3.east) to[bend left=10] node[ctedgelabel] {bounded} (n5.west);
+\end{tikzpicture}%
+\end{adjustbox}
+\caption{Automation-first sequential machine for CT9. Each executable node has separate problem-specific static, predecessor, and framework-derived dependency boxes. Terminal nodes consume only incoming edge evidence. Route boxes are separate framework rules.}
+\label{fig:ct9-machine}
+\end{figure}
+\end{landscape}
+
+\begingroup\small\sloppy
+\paragraph{Residual contracts.}
+\begin{itemize}
+\item \texttt{CT9.\allowbreak{}residual.\allowbreak{}overload}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}Overload\allowbreak{}Residual}; inherited context \texttt{branch}.
+\end{itemize}
+\endgroup

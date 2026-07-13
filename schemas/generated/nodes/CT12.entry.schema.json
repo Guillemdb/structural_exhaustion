@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT12.entry.schema.json",
+  "title": "CT12.entry automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+        "semanticId": "CT12.entry",
+        "presentation": {
+          "summary": "Compiled entry node with an explicit automation contract.",
+          "label": "CT12.entry"
+        },
+        "ordinal": 1,
+        "nodeKind": "entry",
+        "nodeId": "CT12.entry",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT12.decide.saturation",
+              "sourceNode": "CT12.entry",
+              "edgeId": "CT12.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} → CT12.Graph.Edge capability CT12.Graph.NodeId.entry CT12.Graph.NodeId.saturation",
+              "constructor": "StructuralExhaustion.CT12.Graph.Edge.begin"
+            }
+          ],
+          "incomingEdges": []
+        },
+        "constructor": "StructuralExhaustion.CT12.Graph.NodeId.entry",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Input.state",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.load",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "Input.state",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.load",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT12.Input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT12",
+    "apiVersion": "CT12-v4",
+    "namespace": "StructuralExhaustion.CT12"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Input.state",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Input.load",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "Input.state",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Input.load",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT12.Input",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "definitional",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT12.decide.saturation",
+        "sourceNode": "CT12.entry",
+        "edgeId": "CT12.edge.begin",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} → CT12.Graph.Edge capability CT12.Graph.NodeId.entry CT12.Graph.NodeId.saturation",
+        "constructor": "StructuralExhaustion.CT12.Graph.Edge.begin"
+      }
+    ],
+    "incomingEdges": []
+  }
+}

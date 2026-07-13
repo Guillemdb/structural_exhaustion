@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/provisioned-ref.schema.json",
+  "title": "Provision-tagged Lean reference",
+  "$ref": "lean-machine-catalog.schema.json#/$defs/provisionedRef"
+}

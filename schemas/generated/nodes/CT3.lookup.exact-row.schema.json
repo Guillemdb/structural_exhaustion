@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT3.lookup.exact-row.schema.json",
+  "title": "CT3.lookup.exact-row automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+        "semanticId": "CT3.lookup.exact-row",
+        "presentation": {
+          "summary": "Compiled definition node with an explicit automation contract.",
+          "label": "CT3.lookup.exact-row"
+        },
+        "ordinal": 5,
+        "nodeKind": "definition",
+        "nodeId": "CT3.lookup.exact-row",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT3.terminal.known-row",
+              "sourceNode": "CT3.lookup.exact-row",
+              "edgeId": "CT3.edge.rowKnown",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.KnownRowCertificate S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.knownRowTerminal",
+              "constructor": "StructuralExhaustion.CT3.Graph.Edge.rowKnown"
+            },
+            {
+              "targetNode": "CT3.terminal.novel-row",
+              "sourceNode": "CT3.lookup.exact-row",
+              "edgeId": "CT3.edge.rowNovel",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.NovelExternalTypeResidual S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.novelRowTerminal",
+              "constructor": "StructuralExhaustion.CT3.Graph.Edge.rowNovel"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT3.lookup.exact-row",
+              "sourceNode": "CT3.validate.table",
+              "edgeId": "CT3.edge.tableExact",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactTableState S C → CT3.Graph.Edge S C input CT3.Graph.NodeId.tableValidation CT3.Graph.NodeId.rowLookup",
+              "constructor": "StructuralExhaustion.CT3.Graph.Edge.tableExact"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT3.Graph.NodeId.rowLookup",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.rows",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.contexts",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Spec.response",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.rowResponse",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "ExactTableState",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "RowMatches",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "FiniteSearch.first_total",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "ResponseComparison.compare_total",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "ExactTableState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT3.RowLookupDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT3.KnownRowCertificate",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT3.NovelExternalTypeResidual",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "FiniteSearch.first_total",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "ResponseComparison.compare_total",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [
+            {
+              "ref": "RowMatches",
+              "provision": "derived_by_generic_search"
+            }
+          ],
+          "authorInputs": [
+            {
+              "ref": "Capability.rows",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.contexts",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Spec.response",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.rowResponse",
+              "provision": "user_operator"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT3",
+    "apiVersion": "CT3-v3",
+    "namespace": "StructuralExhaustion.CT3"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Capability.rows",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.contexts",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Spec.response",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Spec.rowResponse",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "ExactTableState",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "RowMatches",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "FiniteSearch.first_total",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "ResponseComparison.compare_total",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "ExactTableState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT3.RowLookupDecision",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT3.KnownRowCertificate",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT3.NovelExternalTypeResidual",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "FiniteSearch.first_total",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "ResponseComparison.compare_total",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "finiteSearch",
+    "derivedInputs": [
+      {
+        "ref": "RowMatches",
+        "provision": "derived_by_generic_search"
+      }
+    ],
+    "authorInputs": [
+      {
+        "ref": "Capability.rows",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.contexts",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Spec.response",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Spec.rowResponse",
+        "provision": "user_operator"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT3.terminal.known-row",
+        "sourceNode": "CT3.lookup.exact-row",
+        "edgeId": "CT3.edge.rowKnown",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.KnownRowCertificate S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.knownRowTerminal",
+        "constructor": "StructuralExhaustion.CT3.Graph.Edge.rowKnown"
+      },
+      {
+        "targetNode": "CT3.terminal.novel-row",
+        "sourceNode": "CT3.lookup.exact-row",
+        "edgeId": "CT3.edge.rowNovel",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.NovelExternalTypeResidual S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.novelRowTerminal",
+        "constructor": "StructuralExhaustion.CT3.Graph.Edge.rowNovel"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT3.lookup.exact-row",
+        "sourceNode": "CT3.validate.table",
+        "edgeId": "CT3.edge.tableExact",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactTableState S C → CT3.Graph.Edge S C input CT3.Graph.NodeId.tableValidation CT3.Graph.NodeId.rowLookup",
+        "constructor": "StructuralExhaustion.CT3.Graph.Edge.tableExact"
+      }
+    ]
+  }
+}

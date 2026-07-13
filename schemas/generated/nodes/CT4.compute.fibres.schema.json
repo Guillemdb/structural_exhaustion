@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT4.compute.fibres.schema.json",
+  "title": "CT4.compute.fibres automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT4/Graph.lean",
+        "semanticId": "CT4.compute.fibres",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT4.compute.fibres"
+        },
+        "ordinal": 4,
+        "nodeKind": "computation",
+        "nodeId": "CT4.compute.fibres",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT4.terminal.residual.overloadedFibre",
+              "sourceNode": "CT4.compute.fibres",
+              "edgeId": "CT4.edge.overloaded",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.OverloadedFibreResidual S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.fibres CT4.Graph.NodeId.overloadTerminal",
+              "constructor": "StructuralExhaustion.CT4.Graph.Edge.overloaded"
+            },
+            {
+              "targetNode": "CT4.decide.capacity",
+              "sourceNode": "CT4.compute.fibres",
+              "edgeId": "CT4.edge.bounded",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.BoundedFibreState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.fibres CT4.Graph.NodeId.comparison",
+              "constructor": "StructuralExhaustion.CT4.Graph.Edge.bounded"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT4.compute.fibres",
+              "sourceNode": "CT4.search.availability",
+              "edgeId": "CT4.edge.total",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.TotalAssignmentState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.availability CT4.Graph.NodeId.fibres",
+              "constructor": "StructuralExhaustion.CT4.Graph.Edge.total"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT4.Graph.NodeId.fibres",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Spec.demandWeight",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.capacity",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.demands",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.payers",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "CT4.TotalAssignmentState",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "fibre",
+              "provision": "derived_by_computation"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "CT4.TotalAssignmentState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT4.FibreDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT4.OverloadedFibreResidual",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT4.BoundedFibreState",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "verifiedComputation",
+          "derivedInputs": [
+            {
+              "ref": "fibre",
+              "provision": "derived_by_computation"
+            }
+          ],
+          "authorInputs": [
+            {
+              "ref": "Spec.demandWeight",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.capacity",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.demands",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.payers",
+              "provision": "user_finite_enumeration"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT4",
+    "apiVersion": "CT4-v4",
+    "namespace": "StructuralExhaustion.CT4"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Spec.demandWeight",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Spec.capacity",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.demands",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.payers",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "CT4.TotalAssignmentState",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "fibre",
+        "provision": "derived_by_computation"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "CT4.TotalAssignmentState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT4.FibreDecision",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT4.OverloadedFibreResidual",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT4.BoundedFibreState",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "verifiedComputation",
+    "derivedInputs": [
+      {
+        "ref": "fibre",
+        "provision": "derived_by_computation"
+      }
+    ],
+    "authorInputs": [
+      {
+        "ref": "Spec.demandWeight",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Spec.capacity",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.demands",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.payers",
+        "provision": "user_finite_enumeration"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT4.terminal.residual.overloadedFibre",
+        "sourceNode": "CT4.compute.fibres",
+        "edgeId": "CT4.edge.overloaded",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.OverloadedFibreResidual S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.fibres CT4.Graph.NodeId.overloadTerminal",
+        "constructor": "StructuralExhaustion.CT4.Graph.Edge.overloaded"
+      },
+      {
+        "targetNode": "CT4.decide.capacity",
+        "sourceNode": "CT4.compute.fibres",
+        "edgeId": "CT4.edge.bounded",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.BoundedFibreState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.fibres CT4.Graph.NodeId.comparison",
+        "constructor": "StructuralExhaustion.CT4.Graph.Edge.bounded"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT4.compute.fibres",
+        "sourceNode": "CT4.search.availability",
+        "edgeId": "CT4.edge.total",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.TotalAssignmentState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.availability CT4.Graph.NodeId.fibres",
+        "constructor": "StructuralExhaustion.CT4.Graph.Edge.total"
+      }
+    ]
+  }
+}

@@ -1,0 +1,280 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/runs/CT1.run.schema.json",
+  "title": "CT1 exact sequential run",
+  "allOf": [
+    {
+      "$ref": "../../machine-artifacts.schema.json#/$defs/machineRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT1"
+        },
+        "apiVersion": {
+          "const": "CT1-v5"
+        },
+        "startNode": {
+          "const": "CT1.entry"
+        },
+        "executionRef": {
+          "enum": [
+            "StructuralExhaustion.CT1.run",
+            "StructuralExhaustion.CT1.runReference"
+          ]
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 1
+                  },
+                  "edgeId": {
+                    "const": "CT1.edge.beginEquivalence"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT1.Graph.Edge.beginEquivalence"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} → CT1.Graph.Edge S input CT1.Graph.NodeId.entry CT1.Graph.NodeId.equivalenceCertification"
+                  },
+                  "sourceNode": {
+                    "const": "CT1.entry"
+                  },
+                  "targetNode": {
+                    "const": "CT1.certify.equivalence"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 2
+                  },
+                  "edgeId": {
+                    "const": "CT1.edge.equivalenceCertified"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT1.Graph.Edge.equivalenceCertified"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      CT1.EquivalenceState S input →\n        CT1.Graph.Edge S input CT1.Graph.NodeId.equivalenceCertification CT1.Graph.NodeId.realizationDecision"
+                  },
+                  "sourceNode": {
+                    "const": "CT1.certify.equivalence"
+                  },
+                  "targetNode": {
+                    "const": "CT1.decide.realization"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 3
+                  },
+                  "edgeId": {
+                    "const": "CT1.edge.realizationHit"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT1.Graph.Edge.realizationHit"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.C1Certificate S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.c1Terminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT1.decide.realization"
+                  },
+                  "targetNode": {
+                    "const": "CT1.terminal.c1"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 4
+                  },
+                  "edgeId": {
+                    "const": "CT1.edge.realizationAvoiding"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.AvoidingState S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.avoidingTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT1.decide.realization"
+                  },
+                  "targetNode": {
+                    "const": "CT1.terminal.avoiding"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "terminal": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 1
+                },
+                "case": {
+                  "const": "c1"
+                },
+                "nodeId": {
+                  "const": "CT1.terminal.c1"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT1.Graph.Terminal.c1"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 2
+                },
+                "case": {
+                  "const": "avoiding"
+                },
+                "nodeId": {
+                  "const": "CT1.terminal.avoiding"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT1.Graph.Terminal.avoiding"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "apiVersion",
+        "startNode",
+        "executionRef",
+        "steps",
+        "terminal"
+      ]
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT1",
+    "apiVersion": "CT1-v5",
+    "namespace": "StructuralExhaustion.CT1"
+  }
+}

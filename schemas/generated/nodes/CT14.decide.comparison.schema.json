@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT14.decide.comparison.schema.json",
+  "title": "CT14.decide.comparison automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT14/Graph.lean",
+        "semanticId": "CT14.decide.comparison",
+        "presentation": {
+          "summary": "Compiled decision node with an explicit automation contract.",
+          "label": "CT14.decide.comparison"
+        },
+        "ordinal": 5,
+        "nodeKind": "decision",
+        "nodeId": "CT14.decide.comparison",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT14.terminal.certificate.aggregate",
+              "sourceNode": "CT14.decide.comparison",
+              "edgeId": "CT14.edge.aggregate",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.AggregateCertificate C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.aggregateTerminal",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.aggregate"
+            },
+            {
+              "targetNode": "CT14.terminal.residual.capacity",
+              "sourceNode": "CT14.decide.comparison",
+              "edgeId": "CT14.edge.capacity",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.CapacityResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.capacityTerminal",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.capacity"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT14.decide.comparison",
+              "sourceNode": "CT14.compute.upper-capacity",
+              "edgeId": "CT14.edge.upper",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LedgerState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.upperCapacity CT14.Graph.NodeId.comparison",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.upper"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT14.Graph.NodeId.comparison",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT14.LedgerState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.LedgerState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.ComparisonDecision",
+              "provision": "derived_by_computation"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.AggregateCertificate",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.CapacityResidual",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "verifiedComputation",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT14",
+    "apiVersion": "CT14-v3",
+    "namespace": "StructuralExhaustion.CT14"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT14.LedgerState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT14.LedgerState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT14.ComparisonDecision",
+        "provision": "derived_by_computation"
+      },
+      {
+        "ref": "StructuralExhaustion.CT14.AggregateCertificate",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "StructuralExhaustion.CT14.CapacityResidual",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "verifiedComputation",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT14.terminal.certificate.aggregate",
+        "sourceNode": "CT14.decide.comparison",
+        "edgeId": "CT14.edge.aggregate",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.AggregateCertificate C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.aggregateTerminal",
+        "constructor": "StructuralExhaustion.CT14.Graph.Edge.aggregate"
+      },
+      {
+        "targetNode": "CT14.terminal.residual.capacity",
+        "sourceNode": "CT14.decide.comparison",
+        "edgeId": "CT14.edge.capacity",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.CapacityResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.capacityTerminal",
+        "constructor": "StructuralExhaustion.CT14.Graph.Edge.capacity"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT14.decide.comparison",
+        "sourceNode": "CT14.compute.upper-capacity",
+        "edgeId": "CT14.edge.upper",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LedgerState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.upperCapacity CT14.Graph.NodeId.comparison",
+        "constructor": "StructuralExhaustion.CT14.Graph.Edge.upper"
+      }
+    ]
+  }
+}

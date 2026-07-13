@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT2.entry.schema.json",
+  "title": "CT2.entry automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+        "semanticId": "CT2.entry",
+        "presentation": {
+          "summary": "Compiled entry node with an explicit automation contract.",
+          "label": "CT2.entry"
+        },
+        "ordinal": 1,
+        "nodeKind": "entry",
+        "nodeId": "CT2.entry",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT2.decide.deletion",
+              "sourceNode": "CT2.entry",
+              "edgeId": "CT2.edge.beginDeletion",
+              "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.entry CT2.Graph.NodeId.deletionDecision",
+              "constructor": "StructuralExhaustion.CT2.Graph.Edge.beginDeletion"
+            }
+          ],
+          "incomingEdges": []
+        },
+        "constructor": "StructuralExhaustion.CT2.Graph.NodeId.entry",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "input.seed",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "input.seed",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT2.Input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT2",
+    "apiVersion": "CT2-v6",
+    "namespace": "StructuralExhaustion.CT2"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "input.seed",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "input.seed",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT2.Input",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "definitional",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT2.decide.deletion",
+        "sourceNode": "CT2.entry",
+        "edgeId": "CT2.edge.beginDeletion",
+        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.entry CT2.Graph.NodeId.deletionDecision",
+        "constructor": "StructuralExhaustion.CT2.Graph.Edge.beginDeletion"
+      }
+    ],
+    "incomingEdges": []
+  }
+}

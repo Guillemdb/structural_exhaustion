@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT17.residual.incompatibility.schema.json",
+  "title": "CT17.residual.incompatibility semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "Spec.Target",
+            "fieldName": "target"
+          },
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "Spec.Offset",
+            "fieldName": "offset"
+          },
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "¬ Spec.Compatible context target offset",
+            "fieldName": "incompatible"
+          }
+        ],
+        "residualKindId": "CT17.residual.incompatibility",
+        "leanType": "StructuralExhaustion.CT17.IncompatibilityResidual",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT17",
+    "apiVersion": "CT17-v3",
+    "namespace": "StructuralExhaustion.CT17"
+  }
+}

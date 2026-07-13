@@ -1,0 +1,12 @@
+flowchart LR
+  N1["CT11.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT11.compute.decomposition<br/>definitional<br/>author=0, generated=1"]
+  N3["CT11.search.admissibilityGap<br/>finiteSearch<br/>author=2, generated=3"]
+  N4["CT11.search.localNegativeBudget<br/>finiteSearch<br/>author=1, generated=1"]
+  N5["CT11.terminal.residual.admissibilityGap<br/>genericTheorem<br/>author=0, generated=1"]
+  N6["CT11.terminal.residual.localizedDeficit<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT11.edge.begin| N2
+  N2 -->|CT11.edge.decomposed| N3
+  N3 -->|CT11.edge.gap| N5
+  N3 -->|CT11.edge.closed| N4
+  N4 -->|CT11.edge.localized| N6

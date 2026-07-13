@@ -1,0 +1,280 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/runs/CT9.run.schema.json",
+  "title": "CT9 exact sequential run",
+  "allOf": [
+    {
+      "$ref": "../../machine-artifacts.schema.json#/$defs/machineRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT9"
+        },
+        "apiVersion": {
+          "const": "CT9-v5"
+        },
+        "startNode": {
+          "const": "CT9.entry"
+        },
+        "executionRef": {
+          "enum": [
+            "StructuralExhaustion.CT9.run",
+            "StructuralExhaustion.CT9.runReference"
+          ]
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 1
+                  },
+                  "edgeId": {
+                    "const": "CT9.edge.begin"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT9.Graph.Edge.begin"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} → CT9.Graph.Edge capability input CT9.Graph.NodeId.entry CT9.Graph.NodeId.partition"
+                  },
+                  "sourceNode": {
+                    "const": "CT9.entry"
+                  },
+                  "targetNode": {
+                    "const": "CT9.compute.partition"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 2
+                  },
+                  "edgeId": {
+                    "const": "CT9.edge.partitioned"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT9.Graph.Edge.partitioned"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.Graph.Edge capability input CT9.Graph.NodeId.partition CT9.Graph.NodeId.overload"
+                  },
+                  "sourceNode": {
+                    "const": "CT9.compute.partition"
+                  },
+                  "targetNode": {
+                    "const": "CT9.search.firstOverload"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 3
+                  },
+                  "edgeId": {
+                    "const": "CT9.edge.overloaded"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT9.Graph.Edge.overloaded"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.OverloadResidual capability input →\n        CT9.Graph.Edge capability input CT9.Graph.NodeId.overload CT9.Graph.NodeId.overloadedTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT9.search.firstOverload"
+                  },
+                  "targetNode": {
+                    "const": "CT9.terminal.residual.overload"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 4
+                  },
+                  "edgeId": {
+                    "const": "CT9.edge.bounded"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT9.Graph.Edge.bounded"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.BoundedCertificate capability input →\n        CT9.Graph.Edge capability input CT9.Graph.NodeId.overload CT9.Graph.NodeId.boundedTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT9.search.firstOverload"
+                  },
+                  "targetNode": {
+                    "const": "CT9.terminal.certificate.bounded"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "terminal": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 1
+                },
+                "case": {
+                  "const": "residual.overload"
+                },
+                "nodeId": {
+                  "const": "CT9.terminal.residual.overload"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT9.Graph.Terminal.overloaded"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 2
+                },
+                "case": {
+                  "const": "certificate.bounded"
+                },
+                "nodeId": {
+                  "const": "CT9.terminal.certificate.bounded"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT9.Graph.Terminal.bounded"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "apiVersion",
+        "startNode",
+        "executionRef",
+        "steps",
+        "terminal"
+      ]
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT9",
+    "apiVersion": "CT9-v5",
+    "namespace": "StructuralExhaustion.CT9"
+  }
+}

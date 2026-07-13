@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT15.residual.rankDrop.schema.json",
+  "title": "CT15.residual.rankDrop semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_from_predecessor",
+            "leanType": "CT15.RankState S capability input",
+            "fieldName": "rank"
+          },
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "Core.FiniteSearch.FirstHit capability.coordinates.orderedValues (S.TargetDependent input)",
+            "fieldName": "hit"
+          }
+        ],
+        "residualKindId": "CT15.residual.rankDrop",
+        "leanType": "StructuralExhaustion.CT15.RankDropResidual S capability input rank",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT15",
+    "apiVersion": "CT15-v3",
+    "namespace": "StructuralExhaustion.CT15"
+  }
+}

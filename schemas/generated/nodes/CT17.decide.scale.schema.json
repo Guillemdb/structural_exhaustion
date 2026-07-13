@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT17.decide.scale.schema.json",
+  "title": "CT17.decide.scale automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT17/Graph.lean",
+        "semanticId": "CT17.decide.scale",
+        "presentation": {
+          "summary": "Compiled decision node with an explicit automation contract.",
+          "label": "CT17.decide.scale"
+        },
+        "ordinal": 3,
+        "nodeKind": "decision",
+        "nodeId": "CT17.decide.scale",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT17.enumerate.survivors",
+              "sourceNode": "CT17.decide.scale",
+              "edgeId": "CT17.edge.finite",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            CT17.FiniteScaleState S capability ctx input compatible →\n              CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.scale CT17.Graph.NodeId.survivors",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.finite"
+            },
+            {
+              "targetNode": "CT17.decide.arithmetic",
+              "sourceNode": "CT17.decide.scale",
+              "edgeId": "CT17.edge.orbitScale",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            CT17.OrbitScaleState S capability ctx input compatible →\n              CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.scale CT17.Graph.NodeId.arithmetic",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.orbitScale"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT17.decide.scale",
+              "sourceNode": "CT17.search.compatibility",
+              "edgeId": "CT17.edge.compatible",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.CompatibleState S capability ctx input →\n            CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.compatibility CT17.Graph.NodeId.scale",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.compatible"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT17.Graph.NodeId.scale",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.finiteScaleLimit",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "CompatibleState",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.scale",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "CT17.analyzeScale_sound",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "CompatibleState",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.scale",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT17.ScaleDecision",
+              "provision": "derived_by_computation"
+            },
+            {
+              "ref": "CT17.FiniteScaleState",
+              "provision": "derived_by_computation"
+            },
+            {
+              "ref": "CT17.OrbitScaleState",
+              "provision": "derived_by_computation"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "CT17.analyzeScale_sound",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "verifiedComputation",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.finiteScaleLimit",
+              "provision": "user_definition"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT17",
+    "apiVersion": "CT17-v3",
+    "namespace": "StructuralExhaustion.CT17"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Capability.finiteScaleLimit",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "CompatibleState",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Input.scale",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "CT17.analyzeScale_sound",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "CompatibleState",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Input.scale",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT17.ScaleDecision",
+        "provision": "derived_by_computation"
+      },
+      {
+        "ref": "CT17.FiniteScaleState",
+        "provision": "derived_by_computation"
+      },
+      {
+        "ref": "CT17.OrbitScaleState",
+        "provision": "derived_by_computation"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "CT17.analyzeScale_sound",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "verifiedComputation",
+    "derivedInputs": [],
+    "authorInputs": [
+      {
+        "ref": "Capability.finiteScaleLimit",
+        "provision": "user_definition"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT17.enumerate.survivors",
+        "sourceNode": "CT17.decide.scale",
+        "edgeId": "CT17.edge.finite",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            CT17.FiniteScaleState S capability ctx input compatible →\n              CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.scale CT17.Graph.NodeId.survivors",
+        "constructor": "StructuralExhaustion.CT17.Graph.Edge.finite"
+      },
+      {
+        "targetNode": "CT17.decide.arithmetic",
+        "sourceNode": "CT17.decide.scale",
+        "edgeId": "CT17.edge.orbitScale",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            CT17.OrbitScaleState S capability ctx input compatible →\n              CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.scale CT17.Graph.NodeId.arithmetic",
+        "constructor": "StructuralExhaustion.CT17.Graph.Edge.orbitScale"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT17.decide.scale",
+        "sourceNode": "CT17.search.compatibility",
+        "edgeId": "CT17.edge.compatible",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.CompatibleState S capability ctx input →\n            CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.compatibility CT17.Graph.NodeId.scale",
+        "constructor": "StructuralExhaustion.CT17.Graph.Edge.compatible"
+      }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT5.residual.chargeLedger.schema.json",
+  "title": "CT5.residual.chargeLedger semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_from_predecessor",
+            "leanType": "CT5.LocalLedgerState S capability input",
+            "fieldName": "ledger"
+          },
+          {
+            "provision": "derived_by_computation",
+            "leanType": "ledger.total ≤ capability.capacity input",
+            "fieldName": "total_le_capacity"
+          }
+        ],
+        "residualKindId": "CT5.residual.chargeLedger",
+        "leanType": "StructuralExhaustion.CT5.ChargeLedgerResidual S capability input",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT5",
+    "apiVersion": "CT5-v3",
+    "namespace": "StructuralExhaustion.CT5"
+  }
+}

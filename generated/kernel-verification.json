@@ -1,0 +1,148 @@
+{
+  "artifactType": "leanKernelVerification",
+  "schemaVersion": "1.0.0",
+  "status": "kernel_checked",
+  "catalogHash": "6311efe9fd2bc81eca09e454b7b85aeb92252c0d3c16e733189c19d26e275bb3",
+  "toolchain": {
+    "pinned": "leanprover/lean4:v4.31.0",
+    "observed": "Lean (version 4.31.0, x86_64-unknown-linux-gnu, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)"
+  },
+  "aggregate": {
+    "build": "passed",
+    "frameworkBuild": "passed",
+    "evenCycleExampleBuild": "passed",
+    "erdos64ExampleBuild": "passed",
+    "greedyColoringExampleBuild": "passed",
+    "mantelExampleBuild": "passed",
+    "toolchainAlignment": "passed",
+    "catalogFreshness": "passed",
+    "bindingResolution": "passed",
+    "noAdmissions": "passed",
+    "catalogSchema": "passed",
+    "automationGraphRoutes": "passed",
+    "schemaFreshness": "passed",
+    "generatedArtifactFreshness": "passed",
+    "legacyAbsence": "passed"
+  },
+  "tactics": [
+    {
+      "tacticId": "CT1",
+      "status": "kernel_checked",
+      "nodeCount": 5,
+      "transitionCount": 4,
+      "terminalCount": 2
+    },
+    {
+      "tacticId": "CT2",
+      "status": "kernel_checked",
+      "nodeCount": 7,
+      "transitionCount": 6,
+      "terminalCount": 4
+    },
+    {
+      "tacticId": "CT3",
+      "status": "kernel_checked",
+      "nodeCount": 9,
+      "transitionCount": 8,
+      "terminalCount": 4
+    },
+    {
+      "tacticId": "CT4",
+      "status": "kernel_checked",
+      "nodeCount": 9,
+      "transitionCount": 8,
+      "terminalCount": 4
+    },
+    {
+      "tacticId": "CT5",
+      "status": "kernel_checked",
+      "nodeCount": 8,
+      "transitionCount": 7,
+      "terminalCount": 4
+    },
+    {
+      "tacticId": "CT6",
+      "status": "kernel_checked",
+      "nodeCount": 4,
+      "transitionCount": 3,
+      "terminalCount": 2
+    },
+    {
+      "tacticId": "CT7",
+      "status": "kernel_checked",
+      "nodeCount": 6,
+      "transitionCount": 5,
+      "terminalCount": 3
+    },
+    {
+      "tacticId": "CT8",
+      "status": "kernel_checked",
+      "nodeCount": 6,
+      "transitionCount": 5,
+      "terminalCount": 3
+    },
+    {
+      "tacticId": "CT9",
+      "status": "kernel_checked",
+      "nodeCount": 5,
+      "transitionCount": 4,
+      "terminalCount": 2
+    },
+    {
+      "tacticId": "CT10",
+      "status": "kernel_checked",
+      "nodeCount": 8,
+      "transitionCount": 7,
+      "terminalCount": 3
+    },
+    {
+      "tacticId": "CT11",
+      "status": "kernel_checked",
+      "nodeCount": 6,
+      "transitionCount": 5,
+      "terminalCount": 2
+    },
+    {
+      "tacticId": "CT12",
+      "status": "kernel_checked",
+      "nodeCount": 8,
+      "transitionCount": 8,
+      "terminalCount": 3
+    },
+    {
+      "tacticId": "CT13",
+      "status": "kernel_checked",
+      "nodeCount": 9,
+      "transitionCount": 8,
+      "terminalCount": 4
+    },
+    {
+      "tacticId": "CT14",
+      "status": "kernel_checked",
+      "nodeCount": 9,
+      "transitionCount": 8,
+      "terminalCount": 4
+    },
+    {
+      "tacticId": "CT15",
+      "status": "kernel_checked",
+      "nodeCount": 8,
+      "transitionCount": 7,
+      "terminalCount": 3
+    },
+    {
+      "tacticId": "CT16",
+      "status": "kernel_checked",
+      "nodeCount": 7,
+      "transitionCount": 6,
+      "terminalCount": 3
+    },
+    {
+      "tacticId": "CT17",
+      "status": "kernel_checked",
+      "nodeCount": 10,
+      "transitionCount": 9,
+      "terminalCount": 5
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT13.decide.comparison.schema.json",
+  "title": "CT13.decide.comparison automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "semanticId": "CT13.decide.comparison",
+        "presentation": {
+          "summary": "Compiled decision node with an explicit automation contract.",
+          "label": "CT13.decide.comparison"
+        },
+        "ordinal": 5,
+        "nodeKind": "decision",
+        "nodeId": "CT13.decide.comparison",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT13.terminal.residual.deficit",
+              "sourceNode": "CT13.decide.comparison",
+              "edgeId": "CT13.edge.deficit",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.DeficitResidual C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.comparison CT13.Graph.NodeId.deficitTerminal",
+              "constructor": "StructuralExhaustion.CT13.Graph.Edge.deficit"
+            },
+            {
+              "targetNode": "CT13.terminal.certificate.reconciled",
+              "sourceNode": "CT13.decide.comparison",
+              "edgeId": "CT13.edge.reconciled",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.ReconciliationCertificate C ctx →\n        CT13.Graph.Edge C ctx CT13.Graph.NodeId.comparison CT13.Graph.NodeId.reconciledTerminal",
+              "constructor": "StructuralExhaustion.CT13.Graph.Edge.reconciled"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT13.decide.comparison",
+              "sourceNode": "CT13.compute.reconciliation",
+              "edgeId": "CT13.edge.clean",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.ReconciledState C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.reconciliation CT13.Graph.NodeId.comparison",
+              "constructor": "StructuralExhaustion.CT13.Graph.Edge.clean"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT13.Graph.NodeId.comparison",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.demand",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.ReconciledState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT13.ReconciledState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT13.ComparisonDecision",
+              "provision": "derived_by_computation"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.DeficitResidual",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.ReconciliationCertificate",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "verifiedComputation",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.demand",
+              "provision": "user_operator"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT13",
+    "apiVersion": "CT13-v3",
+    "namespace": "StructuralExhaustion.CT13"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.demand",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.ReconciledState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT13.ReconciledState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT13.ComparisonDecision",
+        "provision": "derived_by_computation"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.DeficitResidual",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.ReconciliationCertificate",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "verifiedComputation",
+    "derivedInputs": [],
+    "authorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.demand",
+        "provision": "user_operator"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT13.terminal.residual.deficit",
+        "sourceNode": "CT13.decide.comparison",
+        "edgeId": "CT13.edge.deficit",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.DeficitResidual C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.comparison CT13.Graph.NodeId.deficitTerminal",
+        "constructor": "StructuralExhaustion.CT13.Graph.Edge.deficit"
+      },
+      {
+        "targetNode": "CT13.terminal.certificate.reconciled",
+        "sourceNode": "CT13.decide.comparison",
+        "edgeId": "CT13.edge.reconciled",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.ReconciliationCertificate C ctx →\n        CT13.Graph.Edge C ctx CT13.Graph.NodeId.comparison CT13.Graph.NodeId.reconciledTerminal",
+        "constructor": "StructuralExhaustion.CT13.Graph.Edge.reconciled"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT13.decide.comparison",
+        "sourceNode": "CT13.compute.reconciliation",
+        "edgeId": "CT13.edge.clean",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.ReconciledState C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.reconciliation CT13.Graph.NodeId.comparison",
+        "constructor": "StructuralExhaustion.CT13.Graph.Edge.clean"
+      }
+    ]
+  }
+}

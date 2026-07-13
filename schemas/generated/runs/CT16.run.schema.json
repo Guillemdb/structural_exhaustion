@@ -1,0 +1,392 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/runs/CT16.run.schema.json",
+  "title": "CT16 exact sequential run",
+  "allOf": [
+    {
+      "$ref": "../../machine-artifacts.schema.json#/$defs/machineRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT16"
+        },
+        "apiVersion": {
+          "const": "CT16-v3"
+        },
+        "startNode": {
+          "const": "CT16.entry"
+        },
+        "executionRef": {
+          "enum": [
+            "StructuralExhaustion.CT16.run",
+            "StructuralExhaustion.CT16.runReference"
+          ]
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 1
+                  },
+                  "edgeId": {
+                    "const": "CT16.edge.begin"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT16.Graph.Edge.begin"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} → CT16.Graph.Edge C ctx CT16.Graph.NodeId.entry CT16.Graph.NodeId.supportScan"
+                  },
+                  "sourceNode": {
+                    "const": "CT16.entry"
+                  },
+                  "targetNode": {
+                    "const": "CT16.search.support"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 2
+                  },
+                  "edgeId": {
+                    "const": "CT16.edge.proper"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT16.Graph.Edge.proper"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ProperSupportResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.properTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT16.search.support"
+                  },
+                  "targetNode": {
+                    "const": "CT16.terminal.residual.proper-support"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 3
+                  },
+                  "edgeId": {
+                    "const": "CT16.edge.whole"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT16.Graph.Edge.whole"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.WholeSupportState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.codeComputation"
+                  },
+                  "sourceNode": {
+                    "const": "CT16.search.support"
+                  },
+                  "targetNode": {
+                    "const": "CT16.compute.closed-code"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 4
+                  },
+                  "edgeId": {
+                    "const": "CT16.edge.codeReady"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT16.Graph.Edge.codeReady"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedCodeState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComputation CT16.Graph.NodeId.codeComparison"
+                  },
+                  "sourceNode": {
+                    "const": "CT16.compute.closed-code"
+                  },
+                  "targetNode": {
+                    "const": "CT16.decide.closed-code"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 5
+                  },
+                  "edgeId": {
+                    "const": "CT16.edge.equal"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT16.Graph.Edge.equal"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ExactCodeCertificate C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.equalTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT16.decide.closed-code"
+                  },
+                  "targetNode": {
+                    "const": "CT16.terminal.certificate.exact-code"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 6
+                  },
+                  "edgeId": {
+                    "const": "CT16.edge.mismatch"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT16.Graph.Edge.mismatch"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedTypeMismatchResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.mismatchTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT16.decide.closed-code"
+                  },
+                  "targetNode": {
+                    "const": "CT16.terminal.residual.closed-type-mismatch"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "terminal": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 1
+                },
+                "case": {
+                  "const": "residual.proper-support"
+                },
+                "nodeId": {
+                  "const": "CT16.terminal.residual.proper-support"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT16.Graph.Terminal.proper"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 2
+                },
+                "case": {
+                  "const": "certificate.exact-code"
+                },
+                "nodeId": {
+                  "const": "CT16.terminal.certificate.exact-code"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT16.Graph.Terminal.equal"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 3
+                },
+                "case": {
+                  "const": "residual.closed-type-mismatch"
+                },
+                "nodeId": {
+                  "const": "CT16.terminal.residual.closed-type-mismatch"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT16.Graph.Terminal.mismatch"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "apiVersion",
+        "startNode",
+        "executionRef",
+        "steps",
+        "terminal"
+      ]
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT16",
+    "apiVersion": "CT16-v3",
+    "namespace": "StructuralExhaustion.CT16"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT14.residual.unboundedMember.schema.json",
+  "title": "CT14.residual.unboundedMember semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "Capability.Member",
+            "fieldName": "member"
+          },
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "Capability.memberCapacity ctx member = none",
+            "fieldName": "missing"
+          }
+        ],
+        "residualKindId": "CT14.residual.unboundedMember",
+        "leanType": "StructuralExhaustion.CT14.UnboundedMemberResidual",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT14",
+    "apiVersion": "CT14-v3",
+    "namespace": "StructuralExhaustion.CT14"
+  }
+}

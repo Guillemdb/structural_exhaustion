@@ -1,0 +1,246 @@
+{
+  "artifactType": "automationFirstDerivedManifest",
+  "schemaVersion": "3.0.0",
+  "canonicalSource": "lean/StructuralExhaustion",
+  "catalog": "generated/lean-machines.json",
+  "catalogStatus": "framework/generated/catalog-status.tex",
+  "tactics": [
+    {
+      "tacticId": "CT1",
+      "apiVersion": "CT1-v5",
+      "mermaid": "generated/mermaid/CT1.mmd",
+      "cytoscape": "generated/cytoscape/CT1.json",
+      "manuscriptFigure": "framework/generated/ct/CT1.tex"
+    },
+    {
+      "tacticId": "CT2",
+      "apiVersion": "CT2-v6",
+      "mermaid": "generated/mermaid/CT2.mmd",
+      "cytoscape": "generated/cytoscape/CT2.json",
+      "manuscriptFigure": "framework/generated/ct/CT2.tex"
+    },
+    {
+      "tacticId": "CT3",
+      "apiVersion": "CT3-v3",
+      "mermaid": "generated/mermaid/CT3.mmd",
+      "cytoscape": "generated/cytoscape/CT3.json",
+      "manuscriptFigure": "framework/generated/ct/CT3.tex"
+    },
+    {
+      "tacticId": "CT4",
+      "apiVersion": "CT4-v4",
+      "mermaid": "generated/mermaid/CT4.mmd",
+      "cytoscape": "generated/cytoscape/CT4.json",
+      "manuscriptFigure": "framework/generated/ct/CT4.tex"
+    },
+    {
+      "tacticId": "CT5",
+      "apiVersion": "CT5-v3",
+      "mermaid": "generated/mermaid/CT5.mmd",
+      "cytoscape": "generated/cytoscape/CT5.json",
+      "manuscriptFigure": "framework/generated/ct/CT5.tex"
+    },
+    {
+      "tacticId": "CT6",
+      "apiVersion": "CT6-v5",
+      "mermaid": "generated/mermaid/CT6.mmd",
+      "cytoscape": "generated/cytoscape/CT6.json",
+      "manuscriptFigure": "framework/generated/ct/CT6.tex"
+    },
+    {
+      "tacticId": "CT7",
+      "apiVersion": "CT7-v3",
+      "mermaid": "generated/mermaid/CT7.mmd",
+      "cytoscape": "generated/cytoscape/CT7.json",
+      "manuscriptFigure": "framework/generated/ct/CT7.tex"
+    },
+    {
+      "tacticId": "CT8",
+      "apiVersion": "CT8-v3",
+      "mermaid": "generated/mermaid/CT8.mmd",
+      "cytoscape": "generated/cytoscape/CT8.json",
+      "manuscriptFigure": "framework/generated/ct/CT8.tex"
+    },
+    {
+      "tacticId": "CT9",
+      "apiVersion": "CT9-v5",
+      "mermaid": "generated/mermaid/CT9.mmd",
+      "cytoscape": "generated/cytoscape/CT9.json",
+      "manuscriptFigure": "framework/generated/ct/CT9.tex"
+    },
+    {
+      "tacticId": "CT10",
+      "apiVersion": "CT10-v3",
+      "mermaid": "generated/mermaid/CT10.mmd",
+      "cytoscape": "generated/cytoscape/CT10.json",
+      "manuscriptFigure": "framework/generated/ct/CT10.tex"
+    },
+    {
+      "tacticId": "CT11",
+      "apiVersion": "CT11-v4",
+      "mermaid": "generated/mermaid/CT11.mmd",
+      "cytoscape": "generated/cytoscape/CT11.json",
+      "manuscriptFigure": "framework/generated/ct/CT11.tex"
+    },
+    {
+      "tacticId": "CT12",
+      "apiVersion": "CT12-v4",
+      "mermaid": "generated/mermaid/CT12.mmd",
+      "cytoscape": "generated/cytoscape/CT12.json",
+      "manuscriptFigure": "framework/generated/ct/CT12.tex"
+    },
+    {
+      "tacticId": "CT13",
+      "apiVersion": "CT13-v3",
+      "mermaid": "generated/mermaid/CT13.mmd",
+      "cytoscape": "generated/cytoscape/CT13.json",
+      "manuscriptFigure": "framework/generated/ct/CT13.tex"
+    },
+    {
+      "tacticId": "CT14",
+      "apiVersion": "CT14-v3",
+      "mermaid": "generated/mermaid/CT14.mmd",
+      "cytoscape": "generated/cytoscape/CT14.json",
+      "manuscriptFigure": "framework/generated/ct/CT14.tex"
+    },
+    {
+      "tacticId": "CT15",
+      "apiVersion": "CT15-v3",
+      "mermaid": "generated/mermaid/CT15.mmd",
+      "cytoscape": "generated/cytoscape/CT15.json",
+      "manuscriptFigure": "framework/generated/ct/CT15.tex"
+    },
+    {
+      "tacticId": "CT16",
+      "apiVersion": "CT16-v3",
+      "mermaid": "generated/mermaid/CT16.mmd",
+      "cytoscape": "generated/cytoscape/CT16.json",
+      "manuscriptFigure": "framework/generated/ct/CT16.tex"
+    },
+    {
+      "tacticId": "CT17",
+      "apiVersion": "CT17-v3",
+      "mermaid": "generated/mermaid/CT17.mmd",
+      "cytoscape": "generated/cytoscape/CT17.json",
+      "manuscriptFigure": "framework/generated/ct/CT17.tex"
+    }
+  ],
+  "routes": [
+    {
+      "triggerConstructor": "StructuralExhaustion.Routes.CT1ToCT2.buildTrigger",
+      "targetTacticId": "CT2",
+      "sourceResidualKind": "CT1.residual.avoiding",
+      "soundnessTheorem": "StructuralExhaustion.Routes.CT1ToCT2.enabled_sound",
+      "selectionClass": "priority",
+      "routeId": "CT1.residual.avoiding->CT2",
+      "provenanceTheorem": "StructuralExhaustion.Routes.CT1ToCT2.generated_route_id",
+      "discovery": "StructuralExhaustion.CT2.Capability.discover",
+      "contextPreservationTheorem": "StructuralExhaustion.Routes.CT1ToCT2.branchContext_preserved",
+      "authoringBoundary": {
+        "semanticDiscovery": {
+          "kind": "capabilityDiscovery",
+          "adapterType": null
+        },
+        "problemSpecificInputs": [
+          "targetCapability",
+          "minimalityKernel"
+        ],
+        "frameworkOwnedResponsibilities": [
+          "routeRuleConstruction",
+          "targetContextConstruction",
+          "triggerConstruction",
+          "soundnessProof",
+          "contextPreservationProof",
+          "provenanceProof"
+        ]
+      }
+    },
+    {
+      "triggerConstructor": "StructuralExhaustion.Routes.CT2ToCT3.buildTrigger",
+      "targetTacticId": "CT3",
+      "sourceResidualKind": "CT2.residual.separatingContext",
+      "soundnessTheorem": "StructuralExhaustion.Routes.CT2ToCT3.enabled_generates",
+      "selectionClass": "forced",
+      "routeId": "CT2.residual.separatingContext->CT3",
+      "provenanceTheorem": "StructuralExhaustion.Routes.CT2ToCT3.generated_route_id",
+      "discovery": "StructuralExhaustion.Routes.CT2ToCT3.PieceDiscovery.discover",
+      "contextPreservationTheorem": "StructuralExhaustion.Routes.CT2ToCT3.branchContext_preserved",
+      "authoringBoundary": {
+        "semanticDiscovery": {
+          "kind": "problemSemanticAdapter",
+          "adapterType": "StructuralExhaustion.Routes.CT2ToCT3.PieceDiscovery"
+        },
+        "problemSpecificInputs": [
+          "targetCapability",
+          "semanticDiscoveryAdapter"
+        ],
+        "frameworkOwnedResponsibilities": [
+          "routeRuleConstruction",
+          "targetContextConstruction",
+          "triggerConstruction",
+          "soundnessProof",
+          "contextPreservationProof",
+          "provenanceProof"
+        ]
+      }
+    },
+    {
+      "triggerConstructor": "StructuralExhaustion.Routes.CT2ToCT10.buildTrigger",
+      "targetTacticId": "CT10",
+      "sourceResidualKind": "CT2.residual.criticality",
+      "soundnessTheorem": "StructuralExhaustion.Routes.CT2ToCT10.enabled_generates",
+      "selectionClass": "forced",
+      "routeId": "CT2.residual.criticality->CT10",
+      "provenanceTheorem": "StructuralExhaustion.Routes.CT2ToCT10.generated_route_id",
+      "discovery": "StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery.discover",
+      "contextPreservationTheorem": "StructuralExhaustion.Routes.CT2ToCT10.branchContext_preserved",
+      "authoringBoundary": {
+        "semanticDiscovery": {
+          "kind": "problemSemanticAdapter",
+          "adapterType": "StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery"
+        },
+        "problemSpecificInputs": [
+          "targetCapability",
+          "semanticDiscoveryAdapter"
+        ],
+        "frameworkOwnedResponsibilities": [
+          "routeRuleConstruction",
+          "targetContextConstruction",
+          "triggerConstruction",
+          "soundnessProof",
+          "contextPreservationProof",
+          "provenanceProof"
+        ]
+      }
+    },
+    {
+      "triggerConstructor": "StructuralExhaustion.Routes.CT6ToCT9.buildTrigger",
+      "targetTacticId": "CT9",
+      "sourceResidualKind": "CT6.residual.activeLedger",
+      "soundnessTheorem": "StructuralExhaustion.Routes.CT6ToCT9.enabled_generates",
+      "selectionClass": "forced",
+      "routeId": "CT6.residual.activeLedger->CT9",
+      "provenanceTheorem": "StructuralExhaustion.Routes.CT6ToCT9.generated_route_id",
+      "discovery": "StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter.discover",
+      "contextPreservationTheorem": "StructuralExhaustion.Routes.CT6ToCT9.branchContext_preserved",
+      "authoringBoundary": {
+        "semanticDiscovery": {
+          "kind": "problemSemanticAdapter",
+          "adapterType": "StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter"
+        },
+        "problemSpecificInputs": [
+          "targetCapability",
+          "semanticDiscoveryAdapter"
+        ],
+        "frameworkOwnedResponsibilities": [
+          "routeRuleConstruction",
+          "targetContextConstruction",
+          "triggerConstruction",
+          "soundnessProof",
+          "contextPreservationProof",
+          "provenanceProof"
+        ]
+      }
+    }
+  ]
+}

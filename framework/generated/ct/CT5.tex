@@ -1,0 +1,113 @@
+\subsection{CT5: Local witness aggregation}
+\label{sec:ct5-automation}
+
+CT5 searches for an active site with no supporting witness. Exhaustive absence produces the deficit-free predecessor used to compute the local contribution ledger. The fixed-priority arithmetic comparison returns C4 when capacity is below the required amount, an aggregate residual when the computed total exceeds capacity, and otherwise a bounded charge ledger.
+
+A theorem instantiation supplies the problem-specific static entries in the first table. The framework constructs every remaining node output, exhaustive decision, certificate, residual, edge, and trace theorem.
+
+\paragraph{Public automation surface.}
+\texttt{StructuralExhaustion.CT5.run} returns the evidence-carrying \texttt{ExecutionResult}. \texttt{ct5\_\allowbreak{}execute}, \texttt{ct5}, and \texttt{ct5\_\allowbreak{}total} expose execution, semantic soundness, and totality, respectively.
+
+\paragraph{General problem-specific capability.}
+\begingroup\small
+\begin{longtable}{@{}p{0.27\linewidth}p{0.15\linewidth}p{0.46\linewidth}@{}}
+\toprule
+Reference & Provision & Role \\
+\midrule
+\endhead
+\texttt{Spec.\allowbreak{}Site} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}Witness} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}Active} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}Supports} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}contribution} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}sites} & \texttt{user\_\allowbreak{}finite\_\allowbreak{}enumeration} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}witnesses} & \texttt{user\_\allowbreak{}finite\_\allowbreak{}enumeration} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}active\allowbreak{}Decidable} & \texttt{instance\_\allowbreak{}bridge} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}supports\allowbreak{}Decidable} & \texttt{instance\_\allowbreak{}bridge} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}required} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}capacity} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\emph{Instance-bridge index.} \texttt{Capability.\allowbreak{}active\allowbreak{}Decidable}, \texttt{Capability.\allowbreak{}supports\allowbreak{}Decidable}. These references index explicit capability fields already listed above; they introduce no additional problem-specific inputs.
+
+\paragraph{Per-node dependency and output contracts.}
+The execution class appears beneath each node identifier. The displayed categories are exact catalog projections; every manual-obligation list is empty.
+\begingroup\scriptsize\sloppy
+\begin{longtable}{@{}p{0.13\linewidth}p{0.17\linewidth}p{0.17\linewidth}p{0.18\linewidth}p{0.18\linewidth}@{}}
+\toprule
+Node & Problem-specific static inputs & Predecessor and inferred inputs & Framework-derived & Generated outputs \\
+\midrule
+\endhead
+\texttt{CT5.\allowbreak{}entry}\\{\scriptsize definitional} & $\varnothing$ & $\varnothing$ & $\varnothing$ & \texttt{CT5.\allowbreak{}Input} {\scriptsize[derived\_\allowbreak{}definiti\allowbreak{}onally]} \\
+\texttt{CT5.\allowbreak{}search.\allowbreak{}deficit}\\{\scriptsize finite\allowbreak{}Search} & \texttt{Capability.\allowbreak{}sites} {\scriptsize[user\_\allowbreak{}finite\_\allowbreak{}enumeration]}; \allowbreak \texttt{Capability.\allowbreak{}witnesses} {\scriptsize[user\_\allowbreak{}finite\_\allowbreak{}enumeration]}; \allowbreak \texttt{Spec.\allowbreak{}Active} {\scriptsize[user\_\allowbreak{}definition]}; \allowbreak \texttt{Spec.\allowbreak{}Supports} {\scriptsize[user\_\allowbreak{}definition]}; \allowbreak \texttt{Capability.\allowbreak{}active\allowbreak{}Decidable} {\scriptsize[instance\_\allowbreak{}bridge]}; \allowbreak \texttt{Capability.\allowbreak{}supports\allowbreak{}Decidable} {\scriptsize[instance\_\allowbreak{}bridge]} & $\varnothing$ & \texttt{Finite\allowbreak{}Search.\allowbreak{}search} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{Core.\allowbreak{}Finite\allowbreak{}Search.\allowbreak{}search\_\allowbreak{}none\_\allowbreak{}iff} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{CT5.\allowbreak{}Deficit\allowbreak{}Decision} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT5.\allowbreak{}Local\allowbreak{}Deficit\allowbreak{}Residual} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT5.\allowbreak{}Deficit\allowbreak{}Free\allowbreak{}State} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} \\
+\texttt{CT5.\allowbreak{}compute.\allowbreak{}summation}\\{\scriptsize verified\allowbreak{}Computation} & \texttt{Spec.\allowbreak{}contribution} {\scriptsize[user\_\allowbreak{}operator]}; \allowbreak \texttt{Capability.\allowbreak{}sites} {\scriptsize[user\_\allowbreak{}finite\_\allowbreak{}enumeration]}; \allowbreak \texttt{Capability.\allowbreak{}witnesses} {\scriptsize[user\_\allowbreak{}finite\_\allowbreak{}enumeration]}; \allowbreak \texttt{Spec.\allowbreak{}Active} {\scriptsize[user\_\allowbreak{}definition]}; \allowbreak \texttt{Spec.\allowbreak{}Supports} {\scriptsize[user\_\allowbreak{}definition]}; \allowbreak \texttt{Capability.\allowbreak{}active\allowbreak{}Decidable} {\scriptsize[instance\_\allowbreak{}bridge]}; \allowbreak \texttt{Capability.\allowbreak{}supports\allowbreak{}Decidable} {\scriptsize[instance\_\allowbreak{}bridge]} & \texttt{CT5.\allowbreak{}Deficit\allowbreak{}Free\allowbreak{}State} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{ledger\allowbreak{}Total} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}computation]} & \texttt{CT5.\allowbreak{}Local\allowbreak{}Ledger\allowbreak{}State} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}computation]} \\
+\texttt{CT5.\allowbreak{}decide.\allowbreak{}comparison}\\{\scriptsize verified\allowbreak{}Computation} & \texttt{Capability.\allowbreak{}required} {\scriptsize[user\_\allowbreak{}operator]}; \allowbreak \texttt{Capability.\allowbreak{}capacity} {\scriptsize[user\_\allowbreak{}operator]} & \texttt{CT5.\allowbreak{}Local\allowbreak{}Ledger\allowbreak{}State} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & $\varnothing$ & \texttt{CT5.\allowbreak{}Comparison\allowbreak{}Decision} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}computation]}; \allowbreak \texttt{CT5.\allowbreak{}C4\allowbreak{}Certificate} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]}; \allowbreak \texttt{CT5.\allowbreak{}Charge\allowbreak{}Ledger\allowbreak{}Residual} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]}; \allowbreak \texttt{CT5.\allowbreak{}Aggregate\allowbreak{}Residual} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} \\
+\texttt{CT5.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}local\allowbreak{}Deficit}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}deficit\allowbreak{}Found} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT5.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}local\allowbreak{}Deficit} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT5.\allowbreak{}terminal.\allowbreak{}c4}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}comparison\allowbreak{}C4} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT5.\allowbreak{}terminal.\allowbreak{}c4} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT5.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}charge\allowbreak{}Ledger}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}comparison\allowbreak{}Charge} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT5.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}charge\allowbreak{}Ledger} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT5.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}aggregate}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}comparison\allowbreak{}Aggregate} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT5.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}aggregate} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\begin{landscape}
+\begin{figure}[p]
+\centering
+\begin{adjustbox}{max totalsize={\linewidth}{0.72\textheight},center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[ctauthor] (a1) at (0,-0.00) {\textbf{Problem-specific static inputs}\\$\varnothing$};
+\node[ctpred] (p1) at (5.6,-0.00) {\textbf{Predecessor-derived}\\$\varnothing$};
+\node[ctderived] (d1) at (11.2,-0.00) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctentry] (n1) at (17.1,-0.00) {\textbf{CT5.\allowbreak{}entry}\\{\scriptsize definitional}\\[-0.2ex]{\tiny Outputs: \texttt{CT5.\allowbreak{}Input}\\[-0.2ex]{\tiny derived\_\allowbreak{}definiti\allowbreak{}onally}}};
+\draw[ctinputarrow] (a1.south) |- ([yshift=-5pt]n1.west);
+\draw[ctpredarrow] (p1.south) |- (n1.west);
+\draw[ctderivedarrow] (d1.south) |- ([yshift=5pt]n1.west);
+\node[ctauthor] (a2) at (0,-3.05) {\textbf{Problem-specific static inputs}\\\texttt{Capability.\allowbreak{}sites}\\[-0.2ex]{\tiny user\_\allowbreak{}finite\_\allowbreak{}enumeration}\\\texttt{Capability.\allowbreak{}witnesses}\\[-0.2ex]{\tiny user\_\allowbreak{}finite\_\allowbreak{}enumeration}\\\texttt{Spec.\allowbreak{}Active}\\[-0.2ex]{\tiny user\_\allowbreak{}definition}\\\texttt{Spec.\allowbreak{}Supports}\\[-0.2ex]{\tiny user\_\allowbreak{}definition}\\\texttt{Capability.\allowbreak{}active\allowbreak{}Decidable}\\[-0.2ex]{\tiny instance\_\allowbreak{}bridge}\\\texttt{Capability.\allowbreak{}supports\allowbreak{}Decidable}\\[-0.2ex]{\tiny instance\_\allowbreak{}bridge}};
+\node[ctpred] (p2) at (5.6,-3.05) {\textbf{Predecessor-derived}\\$\varnothing$};
+\node[ctderived] (d2) at (11.2,-3.05) {\textbf{Framework-derived}\\\texttt{Finite\allowbreak{}Search.\allowbreak{}search}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{Core.\allowbreak{}Finite\allowbreak{}Search.\allowbreak{}search\_\allowbreak{}none\_\allowbreak{}iff}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}};
+\node[ctnode] (n2) at (17.1,-3.05) {\textbf{CT5.\allowbreak{}search.\allowbreak{}deficit}\\{\scriptsize finite\allowbreak{}Search}\\[-0.2ex]{\tiny Outputs: \texttt{CT5.\allowbreak{}Deficit\allowbreak{}Decision}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT5.\allowbreak{}Local\allowbreak{}Deficit\allowbreak{}Residual}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT5.\allowbreak{}Deficit\allowbreak{}Free\allowbreak{}State}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}}};
+\draw[ctinputarrow] (a2.south) |- ([yshift=-5pt]n2.west);
+\draw[ctpredarrow] (p2.south) |- (n2.west);
+\draw[ctderivedarrow] (d2.south) |- ([yshift=5pt]n2.west);
+\node[ctauthor] (a3) at (0,-7.90) {\textbf{Problem-specific static inputs}\\\texttt{Spec.\allowbreak{}contribution}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}\\\texttt{Capability.\allowbreak{}sites}\\[-0.2ex]{\tiny user\_\allowbreak{}finite\_\allowbreak{}enumeration}\\\texttt{Capability.\allowbreak{}witnesses}\\[-0.2ex]{\tiny user\_\allowbreak{}finite\_\allowbreak{}enumeration}\\\texttt{Spec.\allowbreak{}Active}\\[-0.2ex]{\tiny user\_\allowbreak{}definition}\\\texttt{Spec.\allowbreak{}Supports}\\[-0.2ex]{\tiny user\_\allowbreak{}definition}\\\texttt{Capability.\allowbreak{}active\allowbreak{}Decidable}\\[-0.2ex]{\tiny instance\_\allowbreak{}bridge}\\\texttt{Capability.\allowbreak{}supports\allowbreak{}Decidable}\\[-0.2ex]{\tiny instance\_\allowbreak{}bridge}};
+\node[ctpred] (p3) at (5.6,-7.90) {\textbf{Predecessor-derived}\\\texttt{CT5.\allowbreak{}Deficit\allowbreak{}Free\allowbreak{}State}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d3) at (11.2,-7.90) {\textbf{Framework-derived}\\\texttt{ledger\allowbreak{}Total}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}computation}};
+\node[ctnode] (n3) at (17.1,-7.90) {\textbf{CT5.\allowbreak{}compute.\allowbreak{}summation}\\{\scriptsize verified\allowbreak{}Computation}\\[-0.2ex]{\tiny Outputs: \texttt{CT5.\allowbreak{}Local\allowbreak{}Ledger\allowbreak{}State}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}computation}}};
+\draw[ctinputarrow] (a3.south) |- ([yshift=-5pt]n3.west);
+\draw[ctpredarrow] (p3.south) |- (n3.west);
+\draw[ctderivedarrow] (d3.south) |- ([yshift=5pt]n3.west);
+\node[ctauthor] (a4) at (0,-13.30) {\textbf{Problem-specific static inputs}\\\texttt{Capability.\allowbreak{}required}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}\\\texttt{Capability.\allowbreak{}capacity}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}};
+\node[ctpred] (p4) at (5.6,-13.30) {\textbf{Predecessor-derived}\\\texttt{CT5.\allowbreak{}Local\allowbreak{}Ledger\allowbreak{}State}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d4) at (11.2,-13.30) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctdecision] (n4) at (17.1,-13.30) {\textbf{CT5.\allowbreak{}decide.\allowbreak{}comparison}\\{\scriptsize verified\allowbreak{}Computation}\\[-0.2ex]{\tiny Outputs: \texttt{CT5.\allowbreak{}Comparison\allowbreak{}Decision}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}computation}\\\texttt{CT5.\allowbreak{}C4\allowbreak{}Certificate}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}\\\texttt{CT5.\allowbreak{}Charge\allowbreak{}Ledger\allowbreak{}Residual}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}\\\texttt{CT5.\allowbreak{}Aggregate\allowbreak{}Residual}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}}};
+\draw[ctinputarrow] (a4.south) |- ([yshift=-5pt]n4.west);
+\draw[ctpredarrow] (p4.south) |- (n4.west);
+\draw[ctderivedarrow] (d4.south) |- ([yshift=5pt]n4.west);
+\node[ctresidual] (n5) at (23.4,-3.05) {\textbf{CT5.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}local\allowbreak{}Deficit}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\node[ctcertificate] (n6) at (23.4,-11.65) {\textbf{CT5.\allowbreak{}terminal.\allowbreak{}c4}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\node[ctresidual] (n7) at (23.4,-13.30) {\textbf{CT5.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}charge\allowbreak{}Ledger}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\node[ctresidual] (n8) at (23.4,-14.95) {\textbf{CT5.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}aggregate}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\draw[ctedge] (n1.south east) to[bend left=15] node[ctedgelabel] {begin\allowbreak{}Deficit} (n2.north east);
+\draw[ctedge] (n2.east) to[bend left=10] node[ctedgelabel] {deficit\allowbreak{}Found} (n5.west);
+\draw[ctedge] (n2.south east) to[bend left=15] node[ctedgelabel] {deficit\allowbreak{}Absent} (n3.north east);
+\draw[ctedge] (n3.south east) to[bend left=15] node[ctedgelabel] {summed} (n4.north east);
+\draw[ctedge] (n4.east) to[bend left=10] node[ctedgelabel] {comparison\allowbreak{}C4} (n6.west);
+\draw[ctedge] (n4.east) to[bend left=10] node[ctedgelabel] {comparison\allowbreak{}Charge} (n7.west);
+\draw[ctedge] (n4.east) to[bend left=10] node[ctedgelabel] {comparison\allowbreak{}Aggregate} (n8.west);
+\end{tikzpicture}%
+\end{adjustbox}
+\caption{Automation-first sequential machine for CT5. Each executable node has separate problem-specific static, predecessor, and framework-derived dependency boxes. Terminal nodes consume only incoming edge evidence. Route boxes are separate framework rules.}
+\label{fig:ct5-machine}
+\end{figure}
+\end{landscape}
+
+\begingroup\small\sloppy
+\paragraph{Residual contracts.}
+\begin{itemize}
+\item \texttt{CT5.\allowbreak{}residual.\allowbreak{}local\allowbreak{}Deficit}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}Local\allowbreak{}Deficit\allowbreak{}Residual S input}; inherited context \texttt{branch}.
+\item \texttt{CT5.\allowbreak{}residual.\allowbreak{}charge\allowbreak{}Ledger}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}Charge\allowbreak{}Ledger\allowbreak{}Residual S capability input}; inherited context \texttt{branch}.
+\item \texttt{CT5.\allowbreak{}residual.\allowbreak{}aggregate}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}Aggregate\allowbreak{}Residual S capability input}; inherited context \texttt{branch}.
+\end{itemize}
+\endgroup

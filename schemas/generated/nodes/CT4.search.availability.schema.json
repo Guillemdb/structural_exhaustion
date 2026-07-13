@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT4.search.availability.schema.json",
+  "title": "CT4.search.availability automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT4/Graph.lean",
+        "semanticId": "CT4.search.availability",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT4.search.availability"
+        },
+        "ordinal": 3,
+        "nodeKind": "computation",
+        "nodeId": "CT4.search.availability",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT4.terminal.residual.missingPayer",
+              "sourceNode": "CT4.search.availability",
+              "edgeId": "CT4.edge.missing",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.MissingPayerResidual S input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.availability CT4.Graph.NodeId.missingTerminal",
+              "constructor": "StructuralExhaustion.CT4.Graph.Edge.missing"
+            },
+            {
+              "targetNode": "CT4.compute.fibres",
+              "sourceNode": "CT4.search.availability",
+              "edgeId": "CT4.edge.total",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.TotalAssignmentState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.availability CT4.Graph.NodeId.fibres",
+              "constructor": "StructuralExhaustion.CT4.Graph.Edge.total"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT4.search.availability",
+              "sourceNode": "CT4.compute.assignment",
+              "edgeId": "CT4.edge.assigned",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.AssignmentState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.assignment CT4.Graph.NodeId.availability",
+              "constructor": "StructuralExhaustion.CT4.Graph.Edge.assigned"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT4.Graph.NodeId.availability",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.demands",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "CT4.AssignmentState",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Core.FiniteSearch.search_none_iff",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "CT4.AssignmentState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT4.AvailabilityDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT4.MissingPayerResidual",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT4.TotalAssignmentState",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.search_none_iff",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.demands",
+              "provision": "user_finite_enumeration"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT4",
+    "apiVersion": "CT4-v4",
+    "namespace": "StructuralExhaustion.CT4"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Capability.demands",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "CT4.AssignmentState",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Core.FiniteSearch.search_none_iff",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "CT4.AssignmentState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT4.AvailabilityDecision",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT4.MissingPayerResidual",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT4.TotalAssignmentState",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "Core.FiniteSearch.search_none_iff",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "finiteSearch",
+    "derivedInputs": [],
+    "authorInputs": [
+      {
+        "ref": "Capability.demands",
+        "provision": "user_finite_enumeration"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT4.terminal.residual.missingPayer",
+        "sourceNode": "CT4.search.availability",
+        "edgeId": "CT4.edge.missing",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.MissingPayerResidual S input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.availability CT4.Graph.NodeId.missingTerminal",
+        "constructor": "StructuralExhaustion.CT4.Graph.Edge.missing"
+      },
+      {
+        "targetNode": "CT4.compute.fibres",
+        "sourceNode": "CT4.search.availability",
+        "edgeId": "CT4.edge.total",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.TotalAssignmentState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.availability CT4.Graph.NodeId.fibres",
+        "constructor": "StructuralExhaustion.CT4.Graph.Edge.total"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT4.search.availability",
+        "sourceNode": "CT4.compute.assignment",
+        "edgeId": "CT4.edge.assigned",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.AssignmentState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.assignment CT4.Graph.NodeId.availability",
+        "constructor": "StructuralExhaustion.CT4.Graph.Edge.assigned"
+      }
+    ]
+  }
+}

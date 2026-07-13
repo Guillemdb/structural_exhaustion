@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT8.search.orderedRepeatedType.schema.json",
+  "title": "CT8.search.orderedRepeatedType automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT8/Graph.lean",
+        "semanticId": "CT8.search.orderedRepeatedType",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT8.search.orderedRepeatedType"
+        },
+        "ordinal": 2,
+        "nodeKind": "computation",
+        "nodeId": "CT8.search.orderedRepeatedType",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT8.terminal.certificate.noRepetition",
+              "sourceNode": "CT8.search.orderedRepeatedType",
+              "edgeId": "CT8.edge.unique",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.NoRepetitionCertificate capability ctx input →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.repetition CT8.Graph.NodeId.noRepetitionTerminal",
+              "constructor": "StructuralExhaustion.CT8.Graph.Edge.unique"
+            },
+            {
+              "targetNode": "CT8.compare.responses",
+              "sourceNode": "CT8.search.orderedRepeatedType",
+              "edgeId": "CT8.edge.repeated",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.OrderedRepeatedPair capability input.sequence →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.repetition CT8.Graph.NodeId.response",
+              "constructor": "StructuralExhaustion.CT8.Graph.Edge.repeated"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT8.search.orderedRepeatedType",
+              "sourceNode": "CT8.entry",
+              "edgeId": "CT8.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.entry CT8.Graph.NodeId.repetition",
+              "constructor": "StructuralExhaustion.CT8.Graph.Edge.begin"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT8.Graph.NodeId.repetition",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.exactTypes",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.exactType",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Input.sequence",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Core.FiniteSearch.onList",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "Input.sequence",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT8.RepetitionDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT8.OrderedRepeatedPair",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT8.NoRepetitionCertificate",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.onList",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.exactTypes",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.exactType",
+              "provision": "user_operator"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT8",
+    "apiVersion": "CT8-v3",
+    "namespace": "StructuralExhaustion.CT8"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Capability.exactTypes",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.exactType",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Input.sequence",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Core.FiniteSearch.onList",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "Input.sequence",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT8.RepetitionDecision",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT8.OrderedRepeatedPair",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT8.NoRepetitionCertificate",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "Core.FiniteSearch.onList",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "finiteSearch",
+    "derivedInputs": [],
+    "authorInputs": [
+      {
+        "ref": "Capability.exactTypes",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.exactType",
+        "provision": "user_operator"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT8.terminal.certificate.noRepetition",
+        "sourceNode": "CT8.search.orderedRepeatedType",
+        "edgeId": "CT8.edge.unique",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.NoRepetitionCertificate capability ctx input →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.repetition CT8.Graph.NodeId.noRepetitionTerminal",
+        "constructor": "StructuralExhaustion.CT8.Graph.Edge.unique"
+      },
+      {
+        "targetNode": "CT8.compare.responses",
+        "sourceNode": "CT8.search.orderedRepeatedType",
+        "edgeId": "CT8.edge.repeated",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.OrderedRepeatedPair capability input.sequence →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.repetition CT8.Graph.NodeId.response",
+        "constructor": "StructuralExhaustion.CT8.Graph.Edge.repeated"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT8.search.orderedRepeatedType",
+        "sourceNode": "CT8.entry",
+        "edgeId": "CT8.edge.begin",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.entry CT8.Graph.NodeId.repetition",
+        "constructor": "StructuralExhaustion.CT8.Graph.Edge.begin"
+      }
+    ]
+  }
+}

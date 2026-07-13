@@ -1,0 +1,16 @@
+flowchart LR
+  N1["CT2.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT2.decide.deletion<br/>verifiedComputation<br/>author=3, generated=3"]
+  N3["CT2.search.replacements<br/>finiteSearch<br/>author=12, generated=5"]
+  N4["CT2.terminal.c2.deletion<br/>genericTheorem<br/>author=0, generated=1"]
+  N5["CT2.terminal.c2.replacement<br/>genericTheorem<br/>author=0, generated=1"]
+  N6["CT2.terminal.residual.separatingContext<br/>genericTheorem<br/>author=0, generated=1"]
+  N7["CT2.terminal.residual.criticality<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT2.edge.beginDeletion| N2
+  N2 -->|CT2.edge.deletionCloses| N4
+  N2 -->|CT2.edge.deletionCritical| N3
+  N3 -->|CT2.edge.replacementCloses| N5
+  N3 -->|CT2.edge.replacementSeparating| N6
+  N3 -->|CT2.edge.replacementCritical| N7
+  R1{"Router: CT2.residual.separatingContext->CT3<br/>forced<br/>problemSemanticAdapter: StructuralExhaustion.Routes.CT2ToCT3.PieceDiscovery"}
+  R2{"Router: CT2.residual.criticality->CT10<br/>forced<br/>problemSemanticAdapter: StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery"}

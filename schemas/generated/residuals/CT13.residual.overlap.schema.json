@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT13.residual.overlap.schema.json",
+  "title": "CT13.residual.overlap semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_from_predecessor",
+            "leanType": "StructuralExhaustion.CT13.FallbackState",
+            "fieldName": "fallback"
+          },
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "Capability.Payer",
+            "fieldName": "left"
+          },
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "Capability.Payer",
+            "fieldName": "right"
+          },
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "left ≠ right",
+            "fieldName": "different"
+          },
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "resource ctx left = resource ctx right",
+            "fieldName": "sameResource"
+          }
+        ],
+        "residualKindId": "CT13.residual.overlap",
+        "leanType": "StructuralExhaustion.CT13.OverlapResidual",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT13",
+    "apiVersion": "CT13-v3",
+    "namespace": "StructuralExhaustion.CT13"
+  }
+}

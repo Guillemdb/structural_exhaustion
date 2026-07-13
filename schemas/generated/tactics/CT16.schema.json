@@ -1,0 +1,864 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/tactics/CT16.schema.json",
+  "title": "CT16 automation-first Lean tactic",
+  "description": "The complete compiled graph, general capability API, specialized capability profiles, node automation contracts, and semantic residual inventory for this tactic.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/tacticSpec"
+    },
+    {
+      "const": {
+        "transitions": [
+          {
+            "targetNode": "CT16.search.support",
+            "sourceNode": "CT16.entry",
+            "provision": "generated_audit",
+            "ordinal": 1,
+            "edgeId": "CT16.edge.begin",
+            "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} → CT16.Graph.Edge C ctx CT16.Graph.NodeId.entry CT16.Graph.NodeId.supportScan",
+            "constructor": "StructuralExhaustion.CT16.Graph.Edge.begin"
+          },
+          {
+            "targetNode": "CT16.terminal.residual.proper-support",
+            "sourceNode": "CT16.search.support",
+            "provision": "generated_audit",
+            "ordinal": 2,
+            "edgeId": "CT16.edge.proper",
+            "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ProperSupportResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.properTerminal",
+            "constructor": "StructuralExhaustion.CT16.Graph.Edge.proper"
+          },
+          {
+            "targetNode": "CT16.compute.closed-code",
+            "sourceNode": "CT16.search.support",
+            "provision": "generated_audit",
+            "ordinal": 3,
+            "edgeId": "CT16.edge.whole",
+            "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.WholeSupportState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.codeComputation",
+            "constructor": "StructuralExhaustion.CT16.Graph.Edge.whole"
+          },
+          {
+            "targetNode": "CT16.decide.closed-code",
+            "sourceNode": "CT16.compute.closed-code",
+            "provision": "generated_audit",
+            "ordinal": 4,
+            "edgeId": "CT16.edge.codeReady",
+            "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedCodeState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComputation CT16.Graph.NodeId.codeComparison",
+            "constructor": "StructuralExhaustion.CT16.Graph.Edge.codeReady"
+          },
+          {
+            "targetNode": "CT16.terminal.certificate.exact-code",
+            "sourceNode": "CT16.decide.closed-code",
+            "provision": "generated_audit",
+            "ordinal": 5,
+            "edgeId": "CT16.edge.equal",
+            "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ExactCodeCertificate C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.equalTerminal",
+            "constructor": "StructuralExhaustion.CT16.Graph.Edge.equal"
+          },
+          {
+            "targetNode": "CT16.terminal.residual.closed-type-mismatch",
+            "sourceNode": "CT16.decide.closed-code",
+            "provision": "generated_audit",
+            "ordinal": 6,
+            "edgeId": "CT16.edge.mismatch",
+            "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedTypeMismatchResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.mismatchTerminal",
+            "constructor": "StructuralExhaustion.CT16.Graph.Edge.mismatch"
+          }
+        ],
+        "title": "Exact whole-support closed type",
+        "terminals": [
+          {
+            "ordinal": 1,
+            "nodeId": "CT16.terminal.residual.proper-support",
+            "constructor": "StructuralExhaustion.CT16.Graph.Terminal.proper",
+            "case": "residual.proper-support"
+          },
+          {
+            "ordinal": 2,
+            "nodeId": "CT16.terminal.certificate.exact-code",
+            "constructor": "StructuralExhaustion.CT16.Graph.Terminal.equal",
+            "case": "certificate.exact-code"
+          },
+          {
+            "ordinal": 3,
+            "nodeId": "CT16.terminal.residual.closed-type-mismatch",
+            "constructor": "StructuralExhaustion.CT16.Graph.Terminal.mismatch",
+            "case": "residual.closed-type-mismatch"
+          }
+        ],
+        "tacticId": "CT16",
+        "residualKinds": [
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_by_generic_search",
+                "leanType": "Capability.Coordinate",
+                "fieldName": "missing"
+              },
+              {
+                "provision": "derived_by_generic_theorem",
+                "leanType": "¬ InSupport context.G missing",
+                "fieldName": "absent"
+              }
+            ],
+            "residualKindId": "CT16.residual.properSupport",
+            "leanType": "StructuralExhaustion.CT16.ProperSupportResidual",
+            "inheritedContext": "branch"
+          },
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_from_predecessor",
+                "leanType": "ClosedCodeState",
+                "fieldName": "state"
+              },
+              {
+                "provision": "derived_by_computation",
+                "leanType": "closedCode context.G ≠ targetCode",
+                "fieldName": "notEqual"
+              }
+            ],
+            "residualKindId": "CT16.residual.closedTypeMismatch",
+            "leanType": "StructuralExhaustion.CT16.ClosedTypeMismatchResidual",
+            "inheritedContext": "branch"
+          }
+        ],
+        "nodes": [
+          {
+            "sourceFile": "StructuralExhaustion/CT16/Graph.lean",
+            "semanticId": "CT16.entry",
+            "presentation": {
+              "summary": "Compiled entry node with an explicit automation contract.",
+              "label": "CT16.entry"
+            },
+            "ordinal": 1,
+            "nodeKind": "entry",
+            "nodeId": "CT16.entry",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT16.search.support",
+                  "sourceNode": "CT16.entry",
+                  "edgeId": "CT16.edge.begin",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} → CT16.Graph.Edge C ctx CT16.Graph.NodeId.entry CT16.Graph.NodeId.supportScan",
+                  "constructor": "StructuralExhaustion.CT16.Graph.Edge.begin"
+                }
+              ],
+              "incomingEdges": []
+            },
+            "constructor": "StructuralExhaustion.CT16.Graph.NodeId.entry",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Input",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "Input",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT16.Input",
+                  "provision": "derived_definitionally"
+                }
+              ],
+              "frameworkTheorems": [],
+              "executionClass": "definitional",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT16/Graph.lean",
+            "semanticId": "CT16.search.support",
+            "presentation": {
+              "summary": "Compiled computation node with an explicit automation contract.",
+              "label": "CT16.search.support"
+            },
+            "ordinal": 2,
+            "nodeKind": "computation",
+            "nodeId": "CT16.search.support",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT16.terminal.residual.proper-support",
+                  "sourceNode": "CT16.search.support",
+                  "edgeId": "CT16.edge.proper",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ProperSupportResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.properTerminal",
+                  "constructor": "StructuralExhaustion.CT16.Graph.Edge.proper"
+                },
+                {
+                  "targetNode": "CT16.compute.closed-code",
+                  "sourceNode": "CT16.search.support",
+                  "edgeId": "CT16.edge.whole",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.WholeSupportState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.codeComputation",
+                  "constructor": "StructuralExhaustion.CT16.Graph.Edge.whole"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT16.search.support",
+                  "sourceNode": "CT16.entry",
+                  "edgeId": "CT16.edge.begin",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} → CT16.Graph.Edge C ctx CT16.Graph.NodeId.entry CT16.Graph.NodeId.supportScan",
+                  "constructor": "StructuralExhaustion.CT16.Graph.Edge.begin"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT16.Graph.NodeId.supportScan",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Capability.coordinates",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Capability.InSupport",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "Capability.inSupportDecidable",
+                  "provision": "instance_bridge"
+                },
+                {
+                  "ref": "context",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "Core.FiniteSearch.search",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "context",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT16.SupportDecision",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "CT16.ProperSupportResidual",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "CT16.WholeSupportState",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "Core.FiniteSearch.search",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "finiteSearch",
+              "derivedInputs": [],
+              "authorInputs": [
+                {
+                  "ref": "Capability.coordinates",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Capability.InSupport",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "Capability.inSupportDecidable",
+                  "provision": "instance_bridge"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT16/Graph.lean",
+            "semanticId": "CT16.compute.closed-code",
+            "presentation": {
+              "summary": "Compiled computation node with an explicit automation contract.",
+              "label": "CT16.compute.closed-code"
+            },
+            "ordinal": 3,
+            "nodeKind": "computation",
+            "nodeId": "CT16.compute.closed-code",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT16.decide.closed-code",
+                  "sourceNode": "CT16.compute.closed-code",
+                  "edgeId": "CT16.edge.codeReady",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedCodeState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComputation CT16.Graph.NodeId.codeComparison",
+                  "constructor": "StructuralExhaustion.CT16.Graph.Edge.codeReady"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT16.compute.closed-code",
+                  "sourceNode": "CT16.search.support",
+                  "edgeId": "CT16.edge.whole",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.WholeSupportState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.codeComputation",
+                  "constructor": "StructuralExhaustion.CT16.Graph.Edge.whole"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT16.Graph.NodeId.codeComputation",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Capability.closedCode",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "WholeSupportState",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "WholeSupportState",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT16.ClosedCodeState",
+                  "provision": "derived_by_computation"
+                }
+              ],
+              "frameworkTheorems": [],
+              "executionClass": "verifiedComputation",
+              "derivedInputs": [],
+              "authorInputs": [
+                {
+                  "ref": "Capability.closedCode",
+                  "provision": "user_operator"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT16/Graph.lean",
+            "semanticId": "CT16.decide.closed-code",
+            "presentation": {
+              "summary": "Compiled decision node with an explicit automation contract.",
+              "label": "CT16.decide.closed-code"
+            },
+            "ordinal": 4,
+            "nodeKind": "decision",
+            "nodeId": "CT16.decide.closed-code",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT16.terminal.certificate.exact-code",
+                  "sourceNode": "CT16.decide.closed-code",
+                  "edgeId": "CT16.edge.equal",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ExactCodeCertificate C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.equalTerminal",
+                  "constructor": "StructuralExhaustion.CT16.Graph.Edge.equal"
+                },
+                {
+                  "targetNode": "CT16.terminal.residual.closed-type-mismatch",
+                  "sourceNode": "CT16.decide.closed-code",
+                  "edgeId": "CT16.edge.mismatch",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedTypeMismatchResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.mismatchTerminal",
+                  "constructor": "StructuralExhaustion.CT16.Graph.Edge.mismatch"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT16.decide.closed-code",
+                  "sourceNode": "CT16.compute.closed-code",
+                  "edgeId": "CT16.edge.codeReady",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedCodeState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComputation CT16.Graph.NodeId.codeComparison",
+                  "constructor": "StructuralExhaustion.CT16.Graph.Edge.codeReady"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT16.Graph.NodeId.codeComparison",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Capability.targetCode",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "Capability.codeDecidableEq",
+                  "provision": "instance_bridge"
+                },
+                {
+                  "ref": "ClosedCodeState",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "ClosedCodeState",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT16.CodeDecision",
+                  "provision": "derived_by_computation"
+                },
+                {
+                  "ref": "CT16.ExactCodeCertificate",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "CT16.ClosedTypeMismatchResidual",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "frameworkTheorems": [],
+              "executionClass": "verifiedComputation",
+              "derivedInputs": [],
+              "authorInputs": [
+                {
+                  "ref": "Capability.targetCode",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "Capability.codeDecidableEq",
+                  "provision": "instance_bridge"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT16/Graph.lean",
+            "semanticId": "CT16.terminal.residual.proper-support",
+            "presentation": {
+              "summary": "Compiled residual node with an explicit automation contract.",
+              "label": "CT16.terminal.residual.proper-support"
+            },
+            "ordinal": 5,
+            "nodeKind": "residual",
+            "nodeId": "CT16.terminal.residual.proper-support",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT16.terminal.residual.proper-support",
+                  "sourceNode": "CT16.search.support",
+                  "edgeId": "CT16.edge.proper",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ProperSupportResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.properTerminal",
+                  "constructor": "StructuralExhaustion.CT16.Graph.Edge.proper"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT16.Graph.NodeId.properTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT16.Graph.Edge.proper",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT16.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT16.Graph.Edge.proper",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT16.ExecutionResult@CT16.terminal.residual.proper-support",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT16.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT16/Graph.lean",
+            "semanticId": "CT16.terminal.certificate.exact-code",
+            "presentation": {
+              "summary": "Compiled certificate node with an explicit automation contract.",
+              "label": "CT16.terminal.certificate.exact-code"
+            },
+            "ordinal": 6,
+            "nodeKind": "certificate",
+            "nodeId": "CT16.terminal.certificate.exact-code",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT16.terminal.certificate.exact-code",
+                  "sourceNode": "CT16.decide.closed-code",
+                  "edgeId": "CT16.edge.equal",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ExactCodeCertificate C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.equalTerminal",
+                  "constructor": "StructuralExhaustion.CT16.Graph.Edge.equal"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT16.Graph.NodeId.equalTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT16.Graph.Edge.equal",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT16.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT16.Graph.Edge.equal",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT16.ExecutionResult@CT16.terminal.certificate.exact-code",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT16.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT16/Graph.lean",
+            "semanticId": "CT16.terminal.residual.closed-type-mismatch",
+            "presentation": {
+              "summary": "Compiled residual node with an explicit automation contract.",
+              "label": "CT16.terminal.residual.closed-type-mismatch"
+            },
+            "ordinal": 7,
+            "nodeKind": "residual",
+            "nodeId": "CT16.terminal.residual.closed-type-mismatch",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT16.terminal.residual.closed-type-mismatch",
+                  "sourceNode": "CT16.decide.closed-code",
+                  "edgeId": "CT16.edge.mismatch",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedTypeMismatchResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.mismatchTerminal",
+                  "constructor": "StructuralExhaustion.CT16.Graph.Edge.mismatch"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT16.Graph.NodeId.mismatchTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT16.Graph.Edge.mismatch",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT16.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT16.Graph.Edge.mismatch",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT16.ExecutionResult@CT16.terminal.residual.closed-type-mismatch",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT16.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          }
+        ],
+        "namespace": "StructuralExhaustion.CT16",
+        "loopDecrease": null,
+        "capabilityProfiles": [],
+        "capability": {
+          "tacticId": "CT16",
+          "requiredInstances": [
+            {
+              "ref": "Capability.inSupportDecidable",
+              "provision": "typeclass_inferred"
+            },
+            {
+              "ref": "Capability.codeDecidableEq",
+              "provision": "typeclass_inferred"
+            }
+          ],
+          "requiredDefinitions": [
+            {
+              "ref": "Capability.Coordinate",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.ClosedCode",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.coordinates",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.InSupport",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.inSupportDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "Capability.closedCode",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.targetCode",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.codeDecidableEq",
+              "provision": "instance_bridge"
+            }
+          ],
+          "derivedOperations": [
+            {
+              "ref": "exhaustive support scan",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "literal closed-code comparison",
+              "provision": "framework_constant"
+            }
+          ],
+          "capabilityId": "CT16.reference"
+        },
+        "apiVersion": "CT16-v3",
+        "apiDeclarations": [
+          {
+            "type": "Type",
+            "name": "StructuralExhaustion.CT16.Graph.NodeId",
+            "kind": "inductive"
+          },
+          {
+            "type": "CT16.Graph.NodeId → String",
+            "name": "StructuralExhaustion.CT16.Graph.NodeId.code",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  CT16.Capability P → Core.BranchContext P → CT16.Graph.NodeId → CT16.Graph.NodeId → Type (max u_3 u_4)",
+            "name": "StructuralExhaustion.CT16.Graph.Edge",
+            "kind": "inductive"
+          },
+          {
+            "type": "Type",
+            "name": "StructuralExhaustion.CT16.Graph.Terminal",
+            "kind": "inductive"
+          },
+          {
+            "type": "CT16.Graph.Terminal → CT16.Graph.NodeId",
+            "name": "StructuralExhaustion.CT16.Graph.Terminal.nodeId",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  CT16.Capability P → Core.BranchContext P → CT16.Graph.NodeId → CT16.Graph.NodeId → Type (max u_3 u_4)",
+            "name": "StructuralExhaustion.CT16.Graph.Path",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → {C : CT16.Capability P} → {ctx : Core.BranchContext P} → List CT16.Graph.NodeId → Prop",
+            "name": "StructuralExhaustion.CT16.Graph.ValidTrace",
+            "kind": "definition"
+          },
+          {
+            "type": "Core.Problem → Type (max (max uAmbient (uCode + 1)) (uCoordinate + 1))",
+            "name": "StructuralExhaustion.CT16.Capability",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → CT16.Capability P → Core.BranchContext P → Type",
+            "name": "StructuralExhaustion.CT16.Input",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → CT16.Capability P → Core.BranchContext P → Type (max u_3 u_4)",
+            "name": "StructuralExhaustion.CT16.ExecutionResult",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → CT16.Capability P → Core.BranchContext P → CT16.Graph.Terminal → Type (max u_3 u_4)",
+            "name": "StructuralExhaustion.CT16.RawOutcome",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  (C : CT16.Capability P) → (ctx : Core.BranchContext P) → CT16.Input C ctx → CT16.ExecutionResult C ctx",
+            "name": "StructuralExhaustion.CT16.run",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  (C : CT16.Capability P) → (ctx : Core.BranchContext P) → CT16.Input C ctx → CT16.ExecutionResult C ctx",
+            "name": "StructuralExhaustion.CT16.runReference",
+            "kind": "definition"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (C : CT16.Capability P) (ctx : Core.BranchContext P) (input : CT16.Input C ctx),\n  (CT16.run C ctx input).outcome.Valid",
+            "name": "StructuralExhaustion.CT16.run_verified",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (C : CT16.Capability P) (ctx : Core.BranchContext P) (input : CT16.Input C ctx),\n  CT16.Graph.ValidTrace (CT16.run C ctx input).trace",
+            "name": "StructuralExhaustion.CT16.run_trace_valid",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (C : CT16.Capability P) (ctx : Core.BranchContext P) (input : CT16.Input C ctx),\n  ∃ r, r.outcome.Valid ∧ CT16.Graph.ValidTrace r.trace",
+            "name": "StructuralExhaustion.CT16.run_total",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (C : CT16.Capability P) (ctx : Core.BranchContext P) (input : CT16.Input C ctx)\n  (a b : CT16.ExecutionResult C ctx), a = CT16.run C ctx input → b = CT16.run C ctx input → a = b",
+            "name": "StructuralExhaustion.CT16.run_deterministic",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} {C : CT16.Capability P} {ctx : Core.BranchContext P} (r : CT16.ExecutionResult C ctx),\n  r.terminal = CT16.Graph.Terminal.proper ∨\n    r.terminal = CT16.Graph.Terminal.equal ∨ r.terminal = CT16.Graph.Terminal.mismatch",
+            "name": "StructuralExhaustion.CT16.outcome_exhaustive",
+            "kind": "theorem"
+          },
+          {
+            "type": "Core.CapabilityContract",
+            "name": "StructuralExhaustion.CT16.capabilityContract",
+            "kind": "definition"
+          },
+          {
+            "type": "List Core.NodeAutomationContract",
+            "name": "StructuralExhaustion.CT16.nodeAutomationContracts",
+            "kind": "definition"
+          },
+          {
+            "type": "List Core.ResidualKindContract",
+            "name": "StructuralExhaustion.CT16.residualKindContracts",
+            "kind": "definition"
+          }
+        ]
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT16",
+    "apiVersion": "CT16-v3",
+    "namespace": "StructuralExhaustion.CT16"
+  },
+  "x-capability": {
+    "tacticId": "CT16",
+    "requiredInstances": [
+      {
+        "ref": "Capability.inSupportDecidable",
+        "provision": "typeclass_inferred"
+      },
+      {
+        "ref": "Capability.codeDecidableEq",
+        "provision": "typeclass_inferred"
+      }
+    ],
+    "requiredDefinitions": [
+      {
+        "ref": "Capability.Coordinate",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.ClosedCode",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.coordinates",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.InSupport",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.inSupportDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "Capability.closedCode",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.targetCode",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.codeDecidableEq",
+        "provision": "instance_bridge"
+      }
+    ],
+    "derivedOperations": [
+      {
+        "ref": "exhaustive support scan",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "literal closed-code comparison",
+        "provision": "framework_constant"
+      }
+    ],
+    "capabilityId": "CT16.reference"
+  },
+  "x-capabilityProfiles": []
+}

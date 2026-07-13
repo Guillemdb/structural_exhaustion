@@ -1,0 +1,16 @@
+flowchart LR
+  N1["CT15.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT15.compute.targetRelativeRank<br/>verifiedComputation<br/>author=3, generated=1"]
+  N3["CT15.search.firstRankDrop<br/>finiteSearch<br/>author=3, generated=3"]
+  N4["CT15.compute.fullRankLedger<br/>verifiedComputation<br/>author=1, generated=1"]
+  N5["CT15.decide.ledgerCapacity<br/>verifiedComputation<br/>author=1, generated=3"]
+  N6["CT15.terminal.rankDrop<br/>genericTheorem<br/>author=0, generated=1"]
+  N7["CT15.terminal.c4<br/>genericTheorem<br/>author=0, generated=1"]
+  N8["CT15.terminal.fullRankLedger<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT15.edge.beginRank| N2
+  N2 -->|CT15.edge.rankComputed| N3
+  N3 -->|CT15.edge.rankDropped| N6
+  N3 -->|CT15.edge.rankFull| N4
+  N4 -->|CT15.edge.ledgerComputed| N5
+  N5 -->|CT15.edge.capacityExceeded| N7
+  N5 -->|CT15.edge.capacityAvailable| N8

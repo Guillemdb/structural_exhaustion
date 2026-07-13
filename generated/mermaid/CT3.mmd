@@ -1,0 +1,18 @@
+flowchart LR
+  N1["CT3.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT3.compute.exact-vector<br/>definitional<br/>author=1, generated=1"]
+  N3["CT3.search.compression<br/>finiteSearch<br/>author=8, generated=3"]
+  N4["CT3.validate.table<br/>finiteSearch<br/>author=5, generated=3"]
+  N5["CT3.lookup.exact-row<br/>finiteSearch<br/>author=4, generated=3"]
+  N6["CT3.terminal.compression<br/>genericTheorem<br/>author=0, generated=1"]
+  N7["CT3.terminal.distinguishing-context<br/>genericTheorem<br/>author=0, generated=1"]
+  N8["CT3.terminal.known-row<br/>genericTheorem<br/>author=0, generated=1"]
+  N9["CT3.terminal.novel-row<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT3.edge.beginVector| N2
+  N2 -->|CT3.edge.vectorReady| N3
+  N3 -->|CT3.edge.compressionFound| N6
+  N3 -->|CT3.edge.compressionAbsent| N4
+  N4 -->|CT3.edge.tableDefect| N7
+  N4 -->|CT3.edge.tableExact| N5
+  N5 -->|CT3.edge.rowKnown| N8
+  N5 -->|CT3.edge.rowNovel| N9

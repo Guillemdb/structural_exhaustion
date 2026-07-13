@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT8.terminal.certificate.noRepetition.schema.json",
+  "title": "CT8.terminal.certificate.noRepetition automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT8/Graph.lean",
+        "semanticId": "CT8.terminal.certificate.noRepetition",
+        "presentation": {
+          "summary": "Compiled certificate node with an explicit automation contract.",
+          "label": "CT8.terminal.certificate.noRepetition"
+        },
+        "ordinal": 4,
+        "nodeKind": "certificate",
+        "nodeId": "CT8.terminal.certificate.noRepetition",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT8.terminal.certificate.noRepetition",
+              "sourceNode": "CT8.search.orderedRepeatedType",
+              "edgeId": "CT8.edge.unique",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.NoRepetitionCertificate capability ctx input →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.repetition CT8.Graph.NodeId.noRepetitionTerminal",
+              "constructor": "StructuralExhaustion.CT8.Graph.Edge.unique"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT8.Graph.NodeId.noRepetitionTerminal",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT8.Graph.Edge.unique",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT8.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT8.Graph.Edge.unique",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT8.ExecutionResult@CT8.terminal.certificate.noRepetition",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT8.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT8",
+    "apiVersion": "CT8-v3",
+    "namespace": "StructuralExhaustion.CT8"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT8.Graph.Edge.unique",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "StructuralExhaustion.CT8.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT8.Graph.Edge.unique",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT8.ExecutionResult@CT8.terminal.certificate.noRepetition",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "StructuralExhaustion.CT8.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "genericTheorem",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [],
+    "incomingEdges": [
+      {
+        "targetNode": "CT8.terminal.certificate.noRepetition",
+        "sourceNode": "CT8.search.orderedRepeatedType",
+        "edgeId": "CT8.edge.unique",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.NoRepetitionCertificate capability ctx input →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.repetition CT8.Graph.NodeId.noRepetitionTerminal",
+        "constructor": "StructuralExhaustion.CT8.Graph.Edge.unique"
+      }
+    ]
+  }
+}

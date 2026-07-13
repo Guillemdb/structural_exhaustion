@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT12.verify.decrease.schema.json",
+  "title": "CT12.verify.decrease automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+        "semanticId": "CT12.verify.decrease",
+        "presentation": {
+          "summary": "Compiled certification node with an explicit automation contract.",
+          "label": "CT12.verify.decrease"
+        },
+        "ordinal": 5,
+        "nodeKind": "certification",
+        "nodeId": "CT12.verify.decrease",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT12.decide.saturation",
+              "sourceNode": "CT12.verify.decrease",
+              "edgeId": "CT12.edge.loopBack",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n next : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.State next →\n            next < n + 1 → CT12.Graph.Edge capability CT12.Graph.NodeId.decrease CT12.Graph.NodeId.saturation",
+              "constructor": "StructuralExhaustion.CT12.Graph.Edge.loopBack"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT12.verify.decrease",
+              "sourceNode": "CT12.compute.restoration",
+              "edgeId": "CT12.edge.continue",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n next : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.State next →\n            next < n + 1 → CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.decrease",
+              "constructor": "StructuralExhaustion.CT12.Graph.Edge.continue"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT12.Graph.NodeId.decrease",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.Peeled state",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "CT12.Restoration.continue.next",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "CT12.Restoration.continue.state",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "CT12.Restoration.continue.decreases",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "Capability.Peeled state",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "CT12.Restoration.continue.next",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "CT12.Restoration.continue.state",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "CT12.Restoration.continue.decreases",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT12.Graph.Edge.loopBack",
+              "provision": "generated_audit"
+            },
+            {
+              "ref": "CT12.Graph.Edge.loopBack_decreases",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT12",
+    "apiVersion": "CT12-v4",
+    "namespace": "StructuralExhaustion.CT12"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Capability.Peeled state",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "CT12.Restoration.continue.next",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "CT12.Restoration.continue.state",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "CT12.Restoration.continue.decreases",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "Capability.Peeled state",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "CT12.Restoration.continue.next",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "CT12.Restoration.continue.state",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "CT12.Restoration.continue.decreases",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT12.Graph.Edge.loopBack",
+        "provision": "generated_audit"
+      },
+      {
+        "ref": "CT12.Graph.Edge.loopBack_decreases",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "genericTheorem",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT12.decide.saturation",
+        "sourceNode": "CT12.verify.decrease",
+        "edgeId": "CT12.edge.loopBack",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n next : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.State next →\n            next < n + 1 → CT12.Graph.Edge capability CT12.Graph.NodeId.decrease CT12.Graph.NodeId.saturation",
+        "constructor": "StructuralExhaustion.CT12.Graph.Edge.loopBack"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT12.verify.decrease",
+        "sourceNode": "CT12.compute.restoration",
+        "edgeId": "CT12.edge.continue",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n next : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.State next →\n            next < n + 1 → CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.decrease",
+        "constructor": "StructuralExhaustion.CT12.Graph.Edge.continue"
+      }
+    ]
+  }
+}

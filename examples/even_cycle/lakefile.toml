@@ -1,0 +1,16 @@
+name = "even_cycle_example"
+version = "1.0.0"
+defaultTargets = ["EvenCycleExample"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+git = "https://github.com/leanprover-community/mathlib4"
+rev = "v4.31.0"
+
+[[require]]
+name = "structural_exhaustion"
+path = "../../lean"
+
+[[lean_lib]]
+name = "EvenCycleExample"

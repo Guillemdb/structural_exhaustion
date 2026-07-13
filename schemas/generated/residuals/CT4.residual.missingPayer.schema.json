@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT4.residual.missingPayer.schema.json",
+  "title": "CT4.residual.missingPayer semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "S.Demand",
+            "fieldName": "demand"
+          },
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "CT4.MissingAt S input demand",
+            "fieldName": "noEligible"
+          }
+        ],
+        "residualKindId": "CT4.residual.missingPayer",
+        "leanType": "StructuralExhaustion.CT4.MissingPayerResidual S input",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT4",
+    "apiVersion": "CT4-v4",
+    "namespace": "StructuralExhaustion.CT4"
+  }
+}

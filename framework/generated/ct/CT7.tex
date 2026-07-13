@@ -1,0 +1,94 @@
+\subsection{CT7: Exact context classification}
+\label{sec:ct7-automation}
+
+CT7 separates realization from response comparison. The first search either produces a realizing context for the left object or an exhaustive unrealized state. Only that state enables the second search, which returns a concrete response distinction or a neutrality certificate for every declared context.
+
+A theorem instantiation supplies the problem-specific static entries in the first table. The framework constructs every remaining node output, exhaustive decision, certificate, residual, edge, and trace theorem.
+
+\paragraph{Public automation surface.}
+\texttt{StructuralExhaustion.CT7.run} returns the evidence-carrying \texttt{ExecutionResult}. \texttt{ct7\_\allowbreak{}execute}, \texttt{ct7}, and \texttt{ct7\_\allowbreak{}total} expose execution, semantic soundness, and totality, respectively.
+
+\paragraph{General problem-specific capability.}
+\begingroup\small
+\begin{longtable}{@{}p{0.27\linewidth}p{0.15\linewidth}p{0.46\linewidth}@{}}
+\toprule
+Reference & Provision & Role \\
+\midrule
+\endhead
+\texttt{Spec.\allowbreak{}Object} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}Context} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}Realizes} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}response} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}contexts} & \texttt{user\_\allowbreak{}finite\_\allowbreak{}enumeration} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}realizes\allowbreak{}Decidable} & \texttt{instance\_\allowbreak{}bridge} & problem-specific primitive \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\emph{Instance-bridge index.} \texttt{Capability.\allowbreak{}realizes\allowbreak{}Decidable}. These references index explicit capability fields already listed above; they introduce no additional problem-specific inputs.
+
+\paragraph{Per-node dependency and output contracts.}
+The execution class appears beneath each node identifier. The displayed categories are exact catalog projections; every manual-obligation list is empty.
+\begingroup\scriptsize\sloppy
+\begin{longtable}{@{}p{0.13\linewidth}p{0.17\linewidth}p{0.17\linewidth}p{0.18\linewidth}p{0.18\linewidth}@{}}
+\toprule
+Node & Problem-specific static inputs & Predecessor and inferred inputs & Framework-derived & Generated outputs \\
+\midrule
+\endhead
+\texttt{CT7.\allowbreak{}entry}\\{\scriptsize definitional} & $\varnothing$ & \texttt{input} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & $\varnothing$ & \texttt{CT7.\allowbreak{}Input} {\scriptsize[derived\_\allowbreak{}definiti\allowbreak{}onally]} \\
+\texttt{CT7.\allowbreak{}search.\allowbreak{}realization}\\{\scriptsize finite\allowbreak{}Search} & \texttt{Spec.\allowbreak{}Realizes} {\scriptsize[user\_\allowbreak{}definition]}; \allowbreak \texttt{Capability.\allowbreak{}contexts} {\scriptsize[user\_\allowbreak{}finite\_\allowbreak{}enumeration]}; \allowbreak \texttt{Capability.\allowbreak{}realizes\allowbreak{}Decidable} {\scriptsize[instance\_\allowbreak{}bridge]} & \texttt{input} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Core.\allowbreak{}Finite\allowbreak{}Search.\allowbreak{}search\_\allowbreak{}none\_\allowbreak{}iff} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{CT7.\allowbreak{}Realization\allowbreak{}Decision} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT7.\allowbreak{}Realization\allowbreak{}Certificate} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT7.\allowbreak{}Unrealized\allowbreak{}State} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} \\
+\texttt{CT7.\allowbreak{}search.\allowbreak{}distinction}\\{\scriptsize finite\allowbreak{}Search} & \texttt{Spec.\allowbreak{}response} {\scriptsize[user\_\allowbreak{}operator]}; \allowbreak \texttt{Capability.\allowbreak{}contexts} {\scriptsize[user\_\allowbreak{}finite\_\allowbreak{}enumeration]} & \texttt{CT7.\allowbreak{}Unrealized\allowbreak{}State} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Core.\allowbreak{}Finite\allowbreak{}Search.\allowbreak{}search\_\allowbreak{}none\_\allowbreak{}iff} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{CT7.\allowbreak{}Distinction\allowbreak{}Decision} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT7.\allowbreak{}Distingui\allowbreak{}shing\allowbreak{}Residual} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT7.\allowbreak{}Neutrality\allowbreak{}Certificate} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} \\
+\texttt{CT7.\allowbreak{}terminal.\allowbreak{}certificate.\allowbreak{}realization}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT7.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}realized} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT7.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT7.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT7.\allowbreak{}terminal.\allowbreak{}certificate.\allowbreak{}realization} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT7.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}distingu\allowbreak{}ishing}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT7.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}distingu\allowbreak{}ished} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT7.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT7.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT7.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}distingu\allowbreak{}ishing} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT7.\allowbreak{}terminal.\allowbreak{}certificate.\allowbreak{}neutrality}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT7.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}neutral} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT7.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT7.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT7.\allowbreak{}terminal.\allowbreak{}certificate.\allowbreak{}neutrality} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\begin{landscape}
+\begin{figure}[p]
+\centering
+\begin{adjustbox}{max totalsize={\linewidth}{0.72\textheight},center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[ctauthor] (a1) at (0,-0.00) {\textbf{Problem-specific static inputs}\\$\varnothing$};
+\node[ctpred] (p1) at (5.6,-0.00) {\textbf{Predecessor-derived}\\\texttt{input}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d1) at (11.2,-0.00) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctentry] (n1) at (17.1,-0.00) {\textbf{CT7.\allowbreak{}entry}\\{\scriptsize definitional}\\[-0.2ex]{\tiny Outputs: \texttt{CT7.\allowbreak{}Input}\\[-0.2ex]{\tiny derived\_\allowbreak{}definiti\allowbreak{}onally}}};
+\draw[ctinputarrow] (a1.south) |- ([yshift=-5pt]n1.west);
+\draw[ctpredarrow] (p1.south) |- (n1.west);
+\draw[ctderivedarrow] (d1.south) |- ([yshift=5pt]n1.west);
+\node[ctauthor] (a2) at (0,-3.05) {\textbf{Problem-specific static inputs}\\\texttt{Spec.\allowbreak{}Realizes}\\[-0.2ex]{\tiny user\_\allowbreak{}definition}\\\texttt{Capability.\allowbreak{}contexts}\\[-0.2ex]{\tiny user\_\allowbreak{}finite\_\allowbreak{}enumeration}\\\texttt{Capability.\allowbreak{}realizes\allowbreak{}Decidable}\\[-0.2ex]{\tiny instance\_\allowbreak{}bridge}};
+\node[ctpred] (p2) at (5.6,-3.05) {\textbf{Predecessor-derived}\\\texttt{input}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d2) at (11.2,-3.05) {\textbf{Framework-derived}\\\texttt{Core.\allowbreak{}Finite\allowbreak{}Search.\allowbreak{}search\_\allowbreak{}none\_\allowbreak{}iff}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}};
+\node[ctnode] (n2) at (17.1,-3.05) {\textbf{CT7.\allowbreak{}search.\allowbreak{}realization}\\{\scriptsize finite\allowbreak{}Search}\\[-0.2ex]{\tiny Outputs: \texttt{CT7.\allowbreak{}Realization\allowbreak{}Decision}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT7.\allowbreak{}Realization\allowbreak{}Certificate}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT7.\allowbreak{}Unrealized\allowbreak{}State}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}}};
+\draw[ctinputarrow] (a2.south) |- ([yshift=-5pt]n2.west);
+\draw[ctpredarrow] (p2.south) |- (n2.west);
+\draw[ctderivedarrow] (d2.south) |- ([yshift=5pt]n2.west);
+\node[ctauthor] (a3) at (0,-6.25) {\textbf{Problem-specific static inputs}\\\texttt{Spec.\allowbreak{}response}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}\\\texttt{Capability.\allowbreak{}contexts}\\[-0.2ex]{\tiny user\_\allowbreak{}finite\_\allowbreak{}enumeration}};
+\node[ctpred] (p3) at (5.6,-6.25) {\textbf{Predecessor-derived}\\\texttt{CT7.\allowbreak{}Unrealized\allowbreak{}State}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d3) at (11.2,-6.25) {\textbf{Framework-derived}\\\texttt{Core.\allowbreak{}Finite\allowbreak{}Search.\allowbreak{}search\_\allowbreak{}none\_\allowbreak{}iff}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}};
+\node[ctnode] (n3) at (17.1,-6.25) {\textbf{CT7.\allowbreak{}search.\allowbreak{}distinction}\\{\scriptsize finite\allowbreak{}Search}\\[-0.2ex]{\tiny Outputs: \texttt{CT7.\allowbreak{}Distinction\allowbreak{}Decision}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT7.\allowbreak{}Distingui\allowbreak{}shing\allowbreak{}Residual}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT7.\allowbreak{}Neutrality\allowbreak{}Certificate}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}}};
+\draw[ctinputarrow] (a3.south) |- ([yshift=-5pt]n3.west);
+\draw[ctpredarrow] (p3.south) |- (n3.west);
+\draw[ctderivedarrow] (d3.south) |- ([yshift=5pt]n3.west);
+\node[ctcertificate] (n4) at (23.4,-3.05) {\textbf{CT7.\allowbreak{}terminal.\allowbreak{}certificate.\allowbreak{}realization}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\node[ctresidual] (n5) at (23.4,-5.42) {\textbf{CT7.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}distingu\allowbreak{}ishing}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\node[ctcertificate] (n6) at (23.4,-7.08) {\textbf{CT7.\allowbreak{}terminal.\allowbreak{}certificate.\allowbreak{}neutrality}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\draw[ctedge] (n1.south east) to[bend left=15] node[ctedgelabel] {begin\allowbreak{}Realization} (n2.north east);
+\draw[ctedge] (n2.east) to[bend left=10] node[ctedgelabel] {realized} (n4.west);
+\draw[ctedge] (n2.south east) to[bend left=15] node[ctedgelabel] {unrealized} (n3.north east);
+\draw[ctedge] (n3.east) to[bend left=10] node[ctedgelabel] {distingu\allowbreak{}ished} (n5.west);
+\draw[ctedge] (n3.east) to[bend left=10] node[ctedgelabel] {neutral} (n6.west);
+\end{tikzpicture}%
+\end{adjustbox}
+\caption{Automation-first sequential machine for CT7. Each executable node has separate problem-specific static, predecessor, and framework-derived dependency boxes. Terminal nodes consume only incoming edge evidence. Route boxes are separate framework rules.}
+\label{fig:ct7-machine}
+\end{figure}
+\end{landscape}
+
+\begingroup\small\sloppy
+\paragraph{Residual contracts.}
+\begin{itemize}
+\item \texttt{CT7.\allowbreak{}residual.\allowbreak{}distingu\allowbreak{}ishing\allowbreak{}Context}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT7.\allowbreak{}Distingui\allowbreak{}shing\allowbreak{}Residual S capability ctx input}; inherited context \texttt{branch}.
+\end{itemize}
+\endgroup

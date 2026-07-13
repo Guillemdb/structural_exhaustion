@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/verifications/CT7.verification.schema.json",
+  "title": "CT7 kernel-verification summary",
+  "allOf": [
+    {
+      "$ref": "../../machine-artifacts.schema.json#/$defs/tacticVerification"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT7"
+        },
+        "nodeCount": {
+          "const": 6
+        },
+        "transitionCount": {
+          "const": 5
+        },
+        "terminalCount": {
+          "const": 3
+        },
+        "manualObligationCount": {
+          "const": 0
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeCount",
+        "transitionCount",
+        "terminalCount",
+        "manualObligationCount"
+      ]
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT7",
+    "apiVersion": "CT7-v3",
+    "namespace": "StructuralExhaustion.CT7"
+  }
+}

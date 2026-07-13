@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT6.residual.activeLedger.schema.json",
+  "title": "CT6.residual.activeLedger semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "∀ index, ¬ S.Failure input index",
+            "fieldName": "noFailure"
+          },
+          {
+            "provision": "derived_by_computation",
+            "leanType": "Nat",
+            "fieldName": "total"
+          },
+          {
+            "provision": "derived_definitionally",
+            "leanType": "total = CT6.activeTotal S capability input",
+            "fieldName": "computed"
+          }
+        ],
+        "residualKindId": "CT6.residual.activeLedger",
+        "leanType": "StructuralExhaustion.CT6.ActiveLedgerResidual S capability input",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT6",
+    "apiVersion": "CT6-v5",
+    "namespace": "StructuralExhaustion.CT6"
+  }
+}

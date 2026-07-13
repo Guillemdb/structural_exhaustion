@@ -1,0 +1,348 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/runs/CT7.run.schema.json",
+  "title": "CT7 exact sequential run",
+  "allOf": [
+    {
+      "$ref": "../../machine-artifacts.schema.json#/$defs/machineRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT7"
+        },
+        "apiVersion": {
+          "const": "CT7-v3"
+        },
+        "startNode": {
+          "const": "CT7.entry"
+        },
+        "executionRef": {
+          "enum": [
+            "StructuralExhaustion.CT7.run",
+            "StructuralExhaustion.CT7.runReference"
+          ]
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 1
+                  },
+                  "edgeId": {
+                    "const": "CT7.edge.beginRealization"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT7.Graph.Edge.beginRealization"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.entry CT7.Graph.NodeId.realizationSearch"
+                  },
+                  "sourceNode": {
+                    "const": "CT7.entry"
+                  },
+                  "targetNode": {
+                    "const": "CT7.search.realization"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 2
+                  },
+                  "edgeId": {
+                    "const": "CT7.edge.realized"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT7.Graph.Edge.realized"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.RealizationCertificate S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch\n              CT7.Graph.NodeId.realizationTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT7.search.realization"
+                  },
+                  "targetNode": {
+                    "const": "CT7.terminal.certificate.realization"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 3
+                  },
+                  "edgeId": {
+                    "const": "CT7.edge.unrealized"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT7.Graph.Edge.unrealized"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.UnrealizedState S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch CT7.Graph.NodeId.distinctionSearch"
+                  },
+                  "sourceNode": {
+                    "const": "CT7.search.realization"
+                  },
+                  "targetNode": {
+                    "const": "CT7.search.distinction"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 4
+                  },
+                  "edgeId": {
+                    "const": "CT7.edge.distinguished"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT7.Graph.Edge.distinguished"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.DistinguishingResidual S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.distinctionSearch\n              CT7.Graph.NodeId.distinguishingTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT7.search.distinction"
+                  },
+                  "targetNode": {
+                    "const": "CT7.terminal.residual.distinguishing"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 5
+                  },
+                  "edgeId": {
+                    "const": "CT7.edge.neutral"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT7.Graph.Edge.neutral"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.NeutralityCertificate S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.distinctionSearch CT7.Graph.NodeId.neutralTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT7.search.distinction"
+                  },
+                  "targetNode": {
+                    "const": "CT7.terminal.certificate.neutrality"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "terminal": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 1
+                },
+                "case": {
+                  "const": "certificate.realization"
+                },
+                "nodeId": {
+                  "const": "CT7.terminal.certificate.realization"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT7.Graph.Terminal.realization"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 2
+                },
+                "case": {
+                  "const": "residual.distinguishing"
+                },
+                "nodeId": {
+                  "const": "CT7.terminal.residual.distinguishing"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT7.Graph.Terminal.distinguishing"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 3
+                },
+                "case": {
+                  "const": "certificate.neutrality"
+                },
+                "nodeId": {
+                  "const": "CT7.terminal.certificate.neutrality"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT7.Graph.Terminal.neutral"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "apiVersion",
+        "startNode",
+        "executionRef",
+        "steps",
+        "terminal"
+      ]
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT7",
+    "apiVersion": "CT7-v3",
+    "namespace": "StructuralExhaustion.CT7"
+  }
+}

@@ -1,0 +1,496 @@
+{
+  "tacticId": "CT1",
+  "elements": [
+    {
+      "data": {
+        "id": "CT1.entry",
+        "label": "CT1.entry",
+        "kind": "entry",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "input.context",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "input.context",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT1.Input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT1.certify.equivalence",
+              "sourceNode": "CT1.entry",
+              "edgeId": "CT1.edge.beginEquivalence",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} → CT1.Graph.Edge S input CT1.Graph.NodeId.entry CT1.Graph.NodeId.equivalenceCertification",
+              "constructor": "StructuralExhaustion.CT1.Graph.Edge.beginEquivalence"
+            }
+          ],
+          "incomingEdges": []
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.certify.equivalence",
+        "label": "CT1.certify.equivalence",
+        "kind": "certification",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.TestIndex",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.Witness",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.Realizes",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.target_iff_realization",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT1.EquivalenceState",
+              "provision": "derived_definitionally"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT1.target_iff_realization",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.TestIndex",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.Witness",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.Realizes",
+              "provision": "user_definition"
+            }
+          ]
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT1.decide.realization",
+              "sourceNode": "CT1.certify.equivalence",
+              "edgeId": "CT1.edge.equivalenceCertified",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      CT1.EquivalenceState S input →\n        CT1.Graph.Edge S input CT1.Graph.NodeId.equivalenceCertification CT1.Graph.NodeId.realizationDecision",
+              "constructor": "StructuralExhaustion.CT1.Graph.Edge.equivalenceCertified"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT1.certify.equivalence",
+              "sourceNode": "CT1.entry",
+              "edgeId": "CT1.edge.beginEquivalence",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} → CT1.Graph.Edge S input CT1.Graph.NodeId.entry CT1.Graph.NodeId.equivalenceCertification",
+              "constructor": "StructuralExhaustion.CT1.Graph.Edge.beginEquivalence"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.decide.realization",
+        "label": "CT1.decide.realization",
+        "kind": "decision",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.TestIndex",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.Witness",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.Realizes",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Capability.tests",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Capability.witnesses",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Capability.realizesDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Capability.inputSize",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Capability.workCoefficient",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Capability.workDegree",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Capability.workBound",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.EquivalenceState",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.Core.FiniteSearch.dependentSearch",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.AvoidingState.ofNoRealization",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_sound",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_complete",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT1.EquivalenceState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT1.RealizationDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.C1Certificate",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.AvoidingState",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_sound",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_complete",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [
+            {
+              "ref": "StructuralExhaustion.Core.FiniteSearch.dependentSearch",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.AvoidingState.ofNoRealization",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "authorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.TestIndex",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.Witness",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.Realizes",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Capability.tests",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Capability.witnesses",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Capability.realizesDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Capability.inputSize",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Capability.workCoefficient",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Capability.workDegree",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Capability.workBound",
+              "provision": "user_definition"
+            }
+          ]
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT1.terminal.c1",
+              "sourceNode": "CT1.decide.realization",
+              "edgeId": "CT1.edge.realizationHit",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.C1Certificate S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.c1Terminal",
+              "constructor": "StructuralExhaustion.CT1.Graph.Edge.realizationHit"
+            },
+            {
+              "targetNode": "CT1.terminal.avoiding",
+              "sourceNode": "CT1.decide.realization",
+              "edgeId": "CT1.edge.realizationAvoiding",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.AvoidingState S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.avoidingTerminal",
+              "constructor": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT1.decide.realization",
+              "sourceNode": "CT1.certify.equivalence",
+              "edgeId": "CT1.edge.equivalenceCertified",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      CT1.EquivalenceState S input →\n        CT1.Graph.Edge S input CT1.Graph.NodeId.equivalenceCertification CT1.Graph.NodeId.realizationDecision",
+              "constructor": "StructuralExhaustion.CT1.Graph.Edge.equivalenceCertified"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.terminal.c1",
+        "label": "CT1.terminal.c1",
+        "kind": "certificate",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT1.Graph.Edge.realizationHit",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT1.Graph.Edge.realizationHit",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.c1",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT1.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT1.terminal.c1",
+              "sourceNode": "CT1.decide.realization",
+              "edgeId": "CT1.edge.realizationHit",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.C1Certificate S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.c1Terminal",
+              "constructor": "StructuralExhaustion.CT1.Graph.Edge.realizationHit"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.terminal.avoiding",
+        "label": "CT1.terminal.avoiding",
+        "kind": "residual",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.avoiding",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT1.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT1.terminal.avoiding",
+              "sourceNode": "CT1.decide.realization",
+              "edgeId": "CT1.edge.realizationAvoiding",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.AvoidingState S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.avoidingTerminal",
+              "constructor": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.edge.beginEquivalence",
+        "source": "CT1.entry",
+        "target": "CT1.certify.equivalence",
+        "constructor": "StructuralExhaustion.CT1.Graph.Edge.beginEquivalence",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} → CT1.Graph.Edge S input CT1.Graph.NodeId.entry CT1.Graph.NodeId.equivalenceCertification"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.edge.equivalenceCertified",
+        "source": "CT1.certify.equivalence",
+        "target": "CT1.decide.realization",
+        "constructor": "StructuralExhaustion.CT1.Graph.Edge.equivalenceCertified",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      CT1.EquivalenceState S input →\n        CT1.Graph.Edge S input CT1.Graph.NodeId.equivalenceCertification CT1.Graph.NodeId.realizationDecision"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.edge.realizationHit",
+        "source": "CT1.decide.realization",
+        "target": "CT1.terminal.c1",
+        "constructor": "StructuralExhaustion.CT1.Graph.Edge.realizationHit",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.C1Certificate S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.c1Terminal"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.edge.realizationAvoiding",
+        "source": "CT1.decide.realization",
+        "target": "CT1.terminal.avoiding",
+        "constructor": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.AvoidingState S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.avoidingTerminal"
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.residual.avoiding->CT2",
+        "label": "CT1.residual.avoiding->CT2",
+        "kind": "generatedRoute",
+        "route": {
+          "triggerConstructor": "StructuralExhaustion.Routes.CT1ToCT2.buildTrigger",
+          "targetTacticId": "CT2",
+          "sourceResidualKind": "CT1.residual.avoiding",
+          "soundnessTheorem": "StructuralExhaustion.Routes.CT1ToCT2.enabled_sound",
+          "selectionClass": "priority",
+          "routeId": "CT1.residual.avoiding->CT2",
+          "provenanceTheorem": "StructuralExhaustion.Routes.CT1ToCT2.generated_route_id",
+          "discovery": "StructuralExhaustion.CT2.Capability.discover",
+          "contextPreservationTheorem": "StructuralExhaustion.Routes.CT1ToCT2.branchContext_preserved",
+          "authoringBoundary": {
+            "semanticDiscovery": {
+              "kind": "capabilityDiscovery",
+              "adapterType": null
+            },
+            "problemSpecificInputs": [
+              "targetCapability",
+              "minimalityKernel"
+            ],
+            "frameworkOwnedResponsibilities": [
+              "routeRuleConstruction",
+              "targetContextConstruction",
+              "triggerConstruction",
+              "soundnessProof",
+              "contextPreservationProof",
+              "provenanceProof"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

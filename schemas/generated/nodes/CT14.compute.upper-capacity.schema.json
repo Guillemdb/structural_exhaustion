@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT14.compute.upper-capacity.schema.json",
+  "title": "CT14.compute.upper-capacity automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT14/Graph.lean",
+        "semanticId": "CT14.compute.upper-capacity",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT14.compute.upper-capacity"
+        },
+        "ordinal": 4,
+        "nodeKind": "computation",
+        "nodeId": "CT14.compute.upper-capacity",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT14.decide.comparison",
+              "sourceNode": "CT14.compute.upper-capacity",
+              "edgeId": "CT14.edge.upper",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LedgerState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.upperCapacity CT14.Graph.NodeId.comparison",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.upper"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT14.compute.upper-capacity",
+              "sourceNode": "CT14.search.members",
+              "edgeId": "CT14.edge.complete",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.MemberScanState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.upperCapacity",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.complete"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT14.Graph.NodeId.upperCapacity",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.members",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.memberCapacity",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.memberLabel",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.labelDecidableEq",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.MemberScanState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.MemberScanState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.LedgerState",
+              "provision": "derived_by_computation"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "verifiedComputation",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.members",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.memberCapacity",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.memberLabel",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.labelDecidableEq",
+              "provision": "instance_bridge"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT14",
+    "apiVersion": "CT14-v3",
+    "namespace": "StructuralExhaustion.CT14"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT14.Capability.members",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "StructuralExhaustion.CT14.Capability.memberCapacity",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT14.Capability.memberLabel",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT14.Capability.labelDecidableEq",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "StructuralExhaustion.CT14.MemberScanState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT14.MemberScanState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT14.LedgerState",
+        "provision": "derived_by_computation"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "verifiedComputation",
+    "derivedInputs": [],
+    "authorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT14.Capability.members",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "StructuralExhaustion.CT14.Capability.memberCapacity",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT14.Capability.memberLabel",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT14.Capability.labelDecidableEq",
+        "provision": "instance_bridge"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT14.decide.comparison",
+        "sourceNode": "CT14.compute.upper-capacity",
+        "edgeId": "CT14.edge.upper",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LedgerState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.upperCapacity CT14.Graph.NodeId.comparison",
+        "constructor": "StructuralExhaustion.CT14.Graph.Edge.upper"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT14.compute.upper-capacity",
+        "sourceNode": "CT14.search.members",
+        "edgeId": "CT14.edge.complete",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.MemberScanState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.upperCapacity",
+        "constructor": "StructuralExhaustion.CT14.Graph.Edge.complete"
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+flowchart LR
+  N1["CT10.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT10.compute.classTable<br/>definitional<br/>author=0, generated=1"]
+  N3["CT10.search.direct<br/>finiteSearch<br/>author=3, generated=3"]
+  N4["CT10.search.firstMissing<br/>finiteSearch<br/>author=3, generated=3"]
+  N5["CT10.compute.promotion<br/>definitional<br/>author=0, generated=1"]
+  N6["CT10.terminal.residual.direct<br/>genericTheorem<br/>author=0, generated=1"]
+  N7["CT10.terminal.residual.promoted<br/>genericTheorem<br/>author=0, generated=1"]
+  N8["CT10.terminal.certificate.exhaustive<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT10.edge.begin| N2
+  N2 -->|CT10.edge.tableBuilt| N3
+  N3 -->|CT10.edge.directFound| N6
+  N3 -->|CT10.edge.directAbsent| N4
+  N4 -->|CT10.edge.missingFound| N5
+  N5 -->|CT10.edge.promoted| N7
+  N4 -->|CT10.edge.exhaustive| N8

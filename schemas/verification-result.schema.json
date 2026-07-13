@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/verification-result.schema.json",
+  "title": "Automation-first Lean verification result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "nodeId",
+    "status",
+    "automationClass",
+    "authorObligations",
+    "frameworkTheoremsUsed",
+    "generatedArtifacts"
+  ],
+  "properties": {
+    "nodeId": {"type": "string", "minLength": 1},
+    "status": {"const": "kernelChecked"},
+    "automationClass": {
+      "enum": [
+        "definitional",
+        "typeclass",
+        "finiteSearch",
+        "verifiedComputation",
+        "genericTheorem",
+        "instanceBridge",
+        "interactiveFallback"
+      ]
+    },
+    "authorObligations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "frameworkTheoremsUsed": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "generatedArtifacts": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT4.entry.schema.json",
+  "title": "CT4.entry automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT4/Graph.lean",
+        "semanticId": "CT4.entry",
+        "presentation": {
+          "summary": "Compiled entry node with an explicit automation contract.",
+          "label": "CT4.entry"
+        },
+        "ordinal": 1,
+        "nodeKind": "entry",
+        "nodeId": "CT4.entry",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT4.compute.assignment",
+              "sourceNode": "CT4.entry",
+              "edgeId": "CT4.edge.beginAssignment",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} → CT4.Graph.Edge S capability input CT4.Graph.NodeId.entry CT4.Graph.NodeId.assignment",
+              "constructor": "StructuralExhaustion.CT4.Graph.Edge.beginAssignment"
+            }
+          ],
+          "incomingEdges": []
+        },
+        "constructor": "StructuralExhaustion.CT4.Graph.NodeId.entry",
+        "automation": {
+          "transitiveDependencies": [],
+          "predecessorInputs": [],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT4.Input",
+              "provision": "derived_definitionally"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT4",
+    "apiVersion": "CT4-v4",
+    "namespace": "StructuralExhaustion.CT4"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [],
+    "predecessorInputs": [],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT4.Input",
+        "provision": "derived_definitionally"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "definitional",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT4.compute.assignment",
+        "sourceNode": "CT4.entry",
+        "edgeId": "CT4.edge.beginAssignment",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} → CT4.Graph.Edge S capability input CT4.Graph.NodeId.entry CT4.Graph.NodeId.assignment",
+        "constructor": "StructuralExhaustion.CT4.Graph.Edge.beginAssignment"
+      }
+    ],
+    "incomingEdges": []
+  }
+}

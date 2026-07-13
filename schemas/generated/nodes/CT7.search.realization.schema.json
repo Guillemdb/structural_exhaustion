@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT7.search.realization.schema.json",
+  "title": "CT7.search.realization automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT7/Graph.lean",
+        "semanticId": "CT7.search.realization",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT7.search.realization"
+        },
+        "ordinal": 2,
+        "nodeKind": "computation",
+        "nodeId": "CT7.search.realization",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT7.terminal.certificate.realization",
+              "sourceNode": "CT7.search.realization",
+              "edgeId": "CT7.edge.realized",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.RealizationCertificate S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch\n              CT7.Graph.NodeId.realizationTerminal",
+              "constructor": "StructuralExhaustion.CT7.Graph.Edge.realized"
+            },
+            {
+              "targetNode": "CT7.search.distinction",
+              "sourceNode": "CT7.search.realization",
+              "edgeId": "CT7.edge.unrealized",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.UnrealizedState S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch CT7.Graph.NodeId.distinctionSearch",
+              "constructor": "StructuralExhaustion.CT7.Graph.Edge.unrealized"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT7.search.realization",
+              "sourceNode": "CT7.entry",
+              "edgeId": "CT7.edge.beginRealization",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.entry CT7.Graph.NodeId.realizationSearch",
+              "constructor": "StructuralExhaustion.CT7.Graph.Edge.beginRealization"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT7.Graph.NodeId.realizationSearch",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Spec.Realizes",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.contexts",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.realizesDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "input",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Core.FiniteSearch.search_none_iff",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT7.RealizationDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT7.RealizationCertificate",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT7.UnrealizedState",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.search_none_iff",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Spec.Realizes",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.contexts",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.realizesDecidable",
+              "provision": "instance_bridge"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT7",
+    "apiVersion": "CT7-v3",
+    "namespace": "StructuralExhaustion.CT7"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Spec.Realizes",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.contexts",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.realizesDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "input",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Core.FiniteSearch.search_none_iff",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "input",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT7.RealizationDecision",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT7.RealizationCertificate",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT7.UnrealizedState",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "Core.FiniteSearch.search_none_iff",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "finiteSearch",
+    "derivedInputs": [],
+    "authorInputs": [
+      {
+        "ref": "Spec.Realizes",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.contexts",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.realizesDecidable",
+        "provision": "instance_bridge"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT7.terminal.certificate.realization",
+        "sourceNode": "CT7.search.realization",
+        "edgeId": "CT7.edge.realized",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.RealizationCertificate S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch\n              CT7.Graph.NodeId.realizationTerminal",
+        "constructor": "StructuralExhaustion.CT7.Graph.Edge.realized"
+      },
+      {
+        "targetNode": "CT7.search.distinction",
+        "sourceNode": "CT7.search.realization",
+        "edgeId": "CT7.edge.unrealized",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.UnrealizedState S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch CT7.Graph.NodeId.distinctionSearch",
+        "constructor": "StructuralExhaustion.CT7.Graph.Edge.unrealized"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT7.search.realization",
+        "sourceNode": "CT7.entry",
+        "edgeId": "CT7.edge.beginRealization",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.entry CT7.Graph.NodeId.realizationSearch",
+        "constructor": "StructuralExhaustion.CT7.Graph.Edge.beginRealization"
+      }
+    ]
+  }
+}

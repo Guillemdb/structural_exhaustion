@@ -1,0 +1,112 @@
+\subsection{CT11: Finite-sum localization}
+\label{sec:ct11-automation}
+
+CT11 treats the invocation's finite cell collection as predecessor data. After the decomposition audit edge, it searches for an inadmissible cell. When every cell is admissible, the negative-total hypothesis and the generic sum theorem force the second search to return a concrete negative-budget cell.
+
+A theorem instantiation supplies the problem-specific static entries in the first table. The framework constructs every remaining node output, exhaustive decision, certificate, residual, edge, and trace theorem.
+
+\paragraph{Public automation surface.}
+\texttt{StructuralExhaustion.CT11.run} returns the evidence-carrying \texttt{ExecutionResult}. \texttt{ct11\_\allowbreak{}execute}, \texttt{ct11}, and \texttt{ct11\_\allowbreak{}total} expose execution, semantic soundness, and totality, respectively.
+
+\paragraph{General problem-specific capability.}
+\begingroup\small
+\begin{longtable}{@{}p{0.27\linewidth}p{0.15\linewidth}p{0.46\linewidth}@{}}
+\toprule
+Reference & Provision & Role \\
+\midrule
+\endhead
+\texttt{Capability.\allowbreak{}Cell} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}Admissible} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}admissible\allowbreak{}Decidable} & \texttt{instance\_\allowbreak{}bridge} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}local\allowbreak{}Budget} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\emph{Instance-bridge index.} \texttt{Capability.\allowbreak{}admissible\allowbreak{}Decidable}. These references index explicit capability fields already listed above; they introduce no additional problem-specific inputs.
+
+\paragraph{Generated capability profiles.}
+Each profile is a narrower authoring surface for a recurring structural shape. Its framework constructor fills the omitted fields of the general capability.
+\begingroup\small
+\begin{longtable}{@{}p{0.25\linewidth}p{0.31\linewidth}p{0.34\linewidth}@{}}
+\toprule
+Profile & Problem-specific inputs & Framework-generated operations \\
+\midrule
+\endhead
+\texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}profile.\allowbreak{}negative\allowbreak{}Budget} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}Negative\allowbreak{}Budget\allowbreak{}Profile.\allowbreak{}Cell} {\scriptsize[user\_\allowbreak{}definition]}; \allowbreak \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}Negative\allowbreak{}Budget\allowbreak{}Profile.\allowbreak{}local\allowbreak{}Budget} {\scriptsize[user\_\allowbreak{}operator]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}Negative\allowbreak{}Budget\allowbreak{}Profile.\allowbreak{}capability} {\scriptsize[framework\_\allowbreak{}constant]}; \allowbreak \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}Negative\allowbreak{}Budget\allowbreak{}Profile.\allowbreak{}input} {\scriptsize[framework\_\allowbreak{}constant]}; \allowbreak \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}Negative\allowbreak{}Budget\allowbreak{}Profile.\allowbreak{}run} {\scriptsize[framework\_\allowbreak{}constant]}; \allowbreak \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}Negative\allowbreak{}Budget\allowbreak{}Profile.\allowbreak{}run\_\allowbreak{}terminal\_\allowbreak{}localized} {\scriptsize[framework\_\allowbreak{}constant]}; \allowbreak \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}Negative\allowbreak{}Budget\allowbreak{}Profile.\allowbreak{}residual} {\scriptsize[framework\_\allowbreak{}constant]} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\paragraph{Per-node dependency and output contracts.}
+The execution class appears beneath each node identifier. The displayed categories are exact catalog projections; every manual-obligation list is empty.
+\begingroup\scriptsize\sloppy
+\begin{longtable}{@{}p{0.13\linewidth}p{0.17\linewidth}p{0.17\linewidth}p{0.18\linewidth}p{0.18\linewidth}@{}}
+\toprule
+Node & Problem-specific static inputs & Predecessor and inferred inputs & Framework-derived & Generated outputs \\
+\midrule
+\endhead
+\texttt{CT11.\allowbreak{}entry}\\{\scriptsize definitional} & $\varnothing$ & \texttt{Input.\allowbreak{}context} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]}; \allowbreak \texttt{Input.\allowbreak{}cells} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]}; \allowbreak \texttt{Input.\allowbreak{}deficit} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & $\varnothing$ & \texttt{CT11.\allowbreak{}Input} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} \\
+\texttt{CT11.\allowbreak{}compute.\allowbreak{}decompos\allowbreak{}ition}\\{\scriptsize definitional} & $\varnothing$ & $\varnothing$ & $\varnothing$ & \texttt{CT11.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}decomposed} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT11.\allowbreak{}search.\allowbreak{}admissib\allowbreak{}ility\allowbreak{}Gap}\\{\scriptsize finite\allowbreak{}Search} & \texttt{Capability.\allowbreak{}Admissible} {\scriptsize[user\_\allowbreak{}definition]}; \allowbreak \texttt{Capability.\allowbreak{}admissible\allowbreak{}Decidable} {\scriptsize[instance\_\allowbreak{}bridge]} & \texttt{Input.\allowbreak{}context} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]}; \allowbreak \texttt{Input.\allowbreak{}cells} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Core.\allowbreak{}Finite\allowbreak{}Search.\allowbreak{}on\allowbreak{}List} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{CT11.\allowbreak{}Admissibility\allowbreak{}Decision} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT11.\allowbreak{}Admissibility\allowbreak{}Gap\allowbreak{}Residual} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT11.\allowbreak{}Admissible\allowbreak{}Decomposition} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} \\
+\texttt{CT11.\allowbreak{}search.\allowbreak{}local\allowbreak{}Negative\allowbreak{}Budget}\\{\scriptsize finite\allowbreak{}Search} & \texttt{Capability.\allowbreak{}local\allowbreak{}Budget} {\scriptsize[user\_\allowbreak{}operator]} & \texttt{CT11.\allowbreak{}Admissible\allowbreak{}Decomposition} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]}; \allowbreak \texttt{Input.\allowbreak{}context} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]}; \allowbreak \texttt{Input.\allowbreak{}cells} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]}; \allowbreak \texttt{Input.\allowbreak{}deficit} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{CT11.\allowbreak{}sum\_\allowbreak{}nonnegative} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{CT11.\allowbreak{}Localized\allowbreak{}Deficit\allowbreak{}Residual} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]} \\
+\texttt{CT11.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}admissib\allowbreak{}ility\allowbreak{}Gap}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}gap} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT11.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}admissib\allowbreak{}ility\allowbreak{}Gap} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT11.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}localized\allowbreak{}Deficit}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}localized} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT11.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}localized\allowbreak{}Deficit} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\begin{landscape}
+\begin{figure}[p]
+\centering
+\begin{adjustbox}{max totalsize={\linewidth}{0.72\textheight},center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[ctauthor] (a1) at (0,-0.00) {\textbf{Problem-specific static inputs}\\$\varnothing$};
+\node[ctpred] (p1) at (5.6,-0.00) {\textbf{Predecessor-derived}\\\texttt{Input.\allowbreak{}context}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}\\\texttt{Input.\allowbreak{}cells}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}\\\texttt{Input.\allowbreak{}deficit}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d1) at (11.2,-0.00) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctentry] (n1) at (17.1,-0.00) {\textbf{CT11.\allowbreak{}entry}\\{\scriptsize definitional}\\[-0.2ex]{\tiny Outputs: \texttt{CT11.\allowbreak{}Input}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}}};
+\draw[ctinputarrow] (a1.south) |- ([yshift=-5pt]n1.west);
+\draw[ctpredarrow] (p1.south) |- (n1.west);
+\draw[ctderivedarrow] (d1.south) |- ([yshift=5pt]n1.west);
+\node[ctauthor] (a2) at (0,-3.20) {\textbf{Problem-specific static inputs}\\$\varnothing$};
+\node[ctpred] (p2) at (5.6,-3.20) {\textbf{Predecessor-derived}\\$\varnothing$};
+\node[ctderived] (d2) at (11.2,-3.20) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctnode] (n2) at (17.1,-3.20) {\textbf{CT11.\allowbreak{}compute.\allowbreak{}decompos\allowbreak{}ition}\\{\scriptsize definitional}\\[-0.2ex]{\tiny Outputs: \texttt{CT11.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}decomposed}\\[-0.2ex]{\tiny generated\_\allowbreak{}audit}}};
+\draw[ctinputarrow] (a2.south) |- ([yshift=-5pt]n2.west);
+\draw[ctpredarrow] (p2.south) |- (n2.west);
+\draw[ctderivedarrow] (d2.south) |- ([yshift=5pt]n2.west);
+\node[ctauthor] (a3) at (0,-6.25) {\textbf{Problem-specific static inputs}\\\texttt{Capability.\allowbreak{}Admissible}\\[-0.2ex]{\tiny user\_\allowbreak{}definition}\\\texttt{Capability.\allowbreak{}admissible\allowbreak{}Decidable}\\[-0.2ex]{\tiny instance\_\allowbreak{}bridge}};
+\node[ctpred] (p3) at (5.6,-6.25) {\textbf{Predecessor-derived}\\\texttt{Input.\allowbreak{}context}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}\\\texttt{Input.\allowbreak{}cells}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d3) at (11.2,-6.25) {\textbf{Framework-derived}\\\texttt{Core.\allowbreak{}Finite\allowbreak{}Search.\allowbreak{}on\allowbreak{}List}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}};
+\node[ctnode] (n3) at (17.1,-6.25) {\textbf{CT11.\allowbreak{}search.\allowbreak{}admissib\allowbreak{}ility\allowbreak{}Gap}\\{\scriptsize finite\allowbreak{}Search}\\[-0.2ex]{\tiny Outputs: \texttt{CT11.\allowbreak{}Admissibility\allowbreak{}Decision}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT11.\allowbreak{}Admissibility\allowbreak{}Gap\allowbreak{}Residual}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT11.\allowbreak{}Admissible\allowbreak{}Decomposition}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}}};
+\draw[ctinputarrow] (a3.south) |- ([yshift=-5pt]n3.west);
+\draw[ctpredarrow] (p3.south) |- (n3.west);
+\draw[ctderivedarrow] (d3.south) |- ([yshift=5pt]n3.west);
+\node[ctauthor] (a4) at (0,-9.45) {\textbf{Problem-specific static inputs}\\\texttt{Capability.\allowbreak{}local\allowbreak{}Budget}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}};
+\node[ctpred] (p4) at (5.6,-9.45) {\textbf{Predecessor-derived}\\\texttt{CT11.\allowbreak{}Admissible\allowbreak{}Decomposition}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}\\\texttt{Input.\allowbreak{}context}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}\\\texttt{Input.\allowbreak{}cells}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}\\\texttt{Input.\allowbreak{}deficit}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d4) at (11.2,-9.45) {\textbf{Framework-derived}\\\texttt{CT11.\allowbreak{}sum\_\allowbreak{}nonnegative}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}};
+\node[ctnode] (n4) at (17.1,-9.45) {\textbf{CT11.\allowbreak{}search.\allowbreak{}local\allowbreak{}Negative\allowbreak{}Budget}\\{\scriptsize finite\allowbreak{}Search}\\[-0.2ex]{\tiny Outputs: \texttt{CT11.\allowbreak{}Localized\allowbreak{}Deficit\allowbreak{}Residual}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}}};
+\draw[ctinputarrow] (a4.south) |- ([yshift=-5pt]n4.west);
+\draw[ctpredarrow] (p4.south) |- (n4.west);
+\draw[ctderivedarrow] (d4.south) |- ([yshift=5pt]n4.west);
+\node[ctresidual] (n5) at (23.4,-6.25) {\textbf{CT11.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}admissib\allowbreak{}ility\allowbreak{}Gap}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\node[ctresidual] (n6) at (23.4,-9.45) {\textbf{CT11.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}localized\allowbreak{}Deficit}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\draw[ctedge] (n1.south east) to[bend left=15] node[ctedgelabel] {begin} (n2.north east);
+\draw[ctedge] (n2.south east) to[bend left=15] node[ctedgelabel] {decomposed} (n3.north east);
+\draw[ctedge] (n3.east) to[bend left=10] node[ctedgelabel] {gap} (n5.west);
+\draw[ctedge] (n3.south east) to[bend left=15] node[ctedgelabel] {closed} (n4.north east);
+\draw[ctedge] (n4.east) to[bend left=10] node[ctedgelabel] {localized} (n6.west);
+\end{tikzpicture}%
+\end{adjustbox}
+\caption{Automation-first sequential machine for CT11. Each executable node has separate problem-specific static, predecessor, and framework-derived dependency boxes. Terminal nodes consume only incoming edge evidence. Route boxes are separate framework rules.}
+\label{fig:ct11-machine}
+\end{figure}
+\end{landscape}
+
+\begingroup\small\sloppy
+\paragraph{Residual contracts.}
+\begin{itemize}
+\item \texttt{CT11.\allowbreak{}residual.\allowbreak{}admissib\allowbreak{}ility\allowbreak{}Gap}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}Admissibility\allowbreak{}Gap\allowbreak{}Residual}; inherited context \texttt{branch}.
+\item \texttt{CT11.\allowbreak{}residual.\allowbreak{}localized\allowbreak{}Deficit}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT11.\allowbreak{}Localized\allowbreak{}Deficit\allowbreak{}Residual}; inherited context \texttt{branch}.
+\end{itemize}
+\endgroup

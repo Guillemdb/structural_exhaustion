@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/route-rule.schema.json",
+  "title": "Typed residual-to-trigger route contract",
+  "$ref": "lean-machine-catalog.schema.json#/$defs/routeRule"
+}

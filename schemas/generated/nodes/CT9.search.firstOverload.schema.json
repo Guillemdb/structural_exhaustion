@@ -1,0 +1,258 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT9.search.firstOverload.schema.json",
+  "title": "CT9.search.firstOverload automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+        "semanticId": "CT9.search.firstOverload",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT9.search.firstOverload"
+        },
+        "ordinal": 3,
+        "nodeKind": "computation",
+        "nodeId": "CT9.search.firstOverload",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT9.terminal.residual.overload",
+              "sourceNode": "CT9.search.firstOverload",
+              "edgeId": "CT9.edge.overloaded",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.OverloadResidual capability input →\n        CT9.Graph.Edge capability input CT9.Graph.NodeId.overload CT9.Graph.NodeId.overloadedTerminal",
+              "constructor": "StructuralExhaustion.CT9.Graph.Edge.overloaded"
+            },
+            {
+              "targetNode": "CT9.terminal.certificate.bounded",
+              "sourceNode": "CT9.search.firstOverload",
+              "edgeId": "CT9.edge.bounded",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.BoundedCertificate capability input →\n        CT9.Graph.Edge capability input CT9.Graph.NodeId.overload CT9.Graph.NodeId.boundedTerminal",
+              "constructor": "StructuralExhaustion.CT9.Graph.Edge.bounded"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT9.search.firstOverload",
+              "sourceNode": "CT9.compute.partition",
+              "edgeId": "CT9.edge.partitioned",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.Graph.Edge capability input CT9.Graph.NodeId.partition CT9.Graph.NodeId.overload",
+              "constructor": "StructuralExhaustion.CT9.Graph.Edge.partitioned"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT9.Graph.NodeId.overload",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.capacity",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.labels",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.label",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Input.items",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "CT9.fibre",
+              "provision": "derived_by_computation"
+            },
+            {
+              "ref": "CT9.mem_own_fibre",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "Core.FiniteSearch.search",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "Input.items",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT9.Decision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT9.OverloadResidual",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT9.BoundedCertificate",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "CT9.mem_own_fibre",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "Core.FiniteSearch.search",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [
+            {
+              "ref": "CT9.fibre",
+              "provision": "derived_by_computation"
+            }
+          ],
+          "authorInputs": [
+            {
+              "ref": "Capability.capacity",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.labels",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.label",
+              "provision": "user_operator"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT9",
+    "apiVersion": "CT9-v5",
+    "namespace": "StructuralExhaustion.CT9"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Capability.capacity",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.labels",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.label",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Input.items",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "CT9.fibre",
+        "provision": "derived_by_computation"
+      },
+      {
+        "ref": "CT9.mem_own_fibre",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "Core.FiniteSearch.search",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "Input.items",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT9.Decision",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT9.OverloadResidual",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT9.BoundedCertificate",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "CT9.mem_own_fibre",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "Core.FiniteSearch.search",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "finiteSearch",
+    "derivedInputs": [
+      {
+        "ref": "CT9.fibre",
+        "provision": "derived_by_computation"
+      }
+    ],
+    "authorInputs": [
+      {
+        "ref": "Capability.capacity",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.labels",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.label",
+        "provision": "user_operator"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT9.terminal.residual.overload",
+        "sourceNode": "CT9.search.firstOverload",
+        "edgeId": "CT9.edge.overloaded",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.OverloadResidual capability input →\n        CT9.Graph.Edge capability input CT9.Graph.NodeId.overload CT9.Graph.NodeId.overloadedTerminal",
+        "constructor": "StructuralExhaustion.CT9.Graph.Edge.overloaded"
+      },
+      {
+        "targetNode": "CT9.terminal.certificate.bounded",
+        "sourceNode": "CT9.search.firstOverload",
+        "edgeId": "CT9.edge.bounded",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.BoundedCertificate capability input →\n        CT9.Graph.Edge capability input CT9.Graph.NodeId.overload CT9.Graph.NodeId.boundedTerminal",
+        "constructor": "StructuralExhaustion.CT9.Graph.Edge.bounded"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT9.search.firstOverload",
+        "sourceNode": "CT9.compute.partition",
+        "edgeId": "CT9.edge.partitioned",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.Graph.Edge capability input CT9.Graph.NodeId.partition CT9.Graph.NodeId.overload",
+        "constructor": "StructuralExhaustion.CT9.Graph.Edge.partitioned"
+      }
+    ]
+  }
+}

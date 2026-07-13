@@ -1,0 +1,375 @@
+{
+  "artifactType": "leanDerivedSchemaIndex",
+  "schemaVersion": "2.0.0",
+  "canonicalCatalog": "generated/lean-machines.json",
+  "genericSchemas": [
+    "schemas/automation-profile.schema.json",
+    "schemas/capability-spec.schema.json",
+    "schemas/kernel-verification.schema.json",
+    "schemas/lean-derived-manifest.schema.json",
+    "schemas/lean-derived-schema-index.schema.json",
+    "schemas/lean-machine-catalog.schema.json",
+    "schemas/machine-artifacts.schema.json",
+    "schemas/node-spec.schema.json",
+    "schemas/provisioned-ref.schema.json",
+    "schemas/residual-kind.schema.json",
+    "schemas/route-rule.schema.json",
+    "schemas/tactic-spec.schema.json",
+    "schemas/verification-result.schema.json"
+  ],
+  "tactics": [
+    {
+      "tacticId": "CT1",
+      "apiVersion": "CT1-v5",
+      "tacticSchema": "schemas/generated/tactics/CT1.schema.json",
+      "runSchema": "schemas/generated/runs/CT1.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT1.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT1.entry.schema.json",
+        "schemas/generated/nodes/CT1.certify.equivalence.schema.json",
+        "schemas/generated/nodes/CT1.decide.realization.schema.json",
+        "schemas/generated/nodes/CT1.terminal.c1.schema.json",
+        "schemas/generated/nodes/CT1.terminal.avoiding.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT1.residual.avoiding.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT2",
+      "apiVersion": "CT2-v6",
+      "tacticSchema": "schemas/generated/tactics/CT2.schema.json",
+      "runSchema": "schemas/generated/runs/CT2.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT2.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT2.entry.schema.json",
+        "schemas/generated/nodes/CT2.decide.deletion.schema.json",
+        "schemas/generated/nodes/CT2.search.replacements.schema.json",
+        "schemas/generated/nodes/CT2.terminal.c2.deletion.schema.json",
+        "schemas/generated/nodes/CT2.terminal.c2.replacement.schema.json",
+        "schemas/generated/nodes/CT2.terminal.residual.separatingContext.schema.json",
+        "schemas/generated/nodes/CT2.terminal.residual.criticality.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT2.residual.separatingContext.schema.json",
+        "schemas/generated/residuals/CT2.residual.criticality.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT3",
+      "apiVersion": "CT3-v3",
+      "tacticSchema": "schemas/generated/tactics/CT3.schema.json",
+      "runSchema": "schemas/generated/runs/CT3.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT3.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT3.entry.schema.json",
+        "schemas/generated/nodes/CT3.compute.exact-vector.schema.json",
+        "schemas/generated/nodes/CT3.search.compression.schema.json",
+        "schemas/generated/nodes/CT3.validate.table.schema.json",
+        "schemas/generated/nodes/CT3.lookup.exact-row.schema.json",
+        "schemas/generated/nodes/CT3.terminal.compression.schema.json",
+        "schemas/generated/nodes/CT3.terminal.distinguishing-context.schema.json",
+        "schemas/generated/nodes/CT3.terminal.known-row.schema.json",
+        "schemas/generated/nodes/CT3.terminal.novel-row.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT3.residual.distinguishingContext.schema.json",
+        "schemas/generated/residuals/CT3.residual.novelExternalType.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT4",
+      "apiVersion": "CT4-v4",
+      "tacticSchema": "schemas/generated/tactics/CT4.schema.json",
+      "runSchema": "schemas/generated/runs/CT4.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT4.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT4.entry.schema.json",
+        "schemas/generated/nodes/CT4.compute.assignment.schema.json",
+        "schemas/generated/nodes/CT4.search.availability.schema.json",
+        "schemas/generated/nodes/CT4.compute.fibres.schema.json",
+        "schemas/generated/nodes/CT4.decide.capacity.schema.json",
+        "schemas/generated/nodes/CT4.terminal.residual.missingPayer.schema.json",
+        "schemas/generated/nodes/CT4.terminal.residual.overloadedFibre.schema.json",
+        "schemas/generated/nodes/CT4.terminal.c4.schema.json",
+        "schemas/generated/nodes/CT4.terminal.residual.capacity.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT4.residual.missingPayer.schema.json",
+        "schemas/generated/residuals/CT4.residual.overloadedFibre.schema.json",
+        "schemas/generated/residuals/CT4.residual.capacity.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT5",
+      "apiVersion": "CT5-v3",
+      "tacticSchema": "schemas/generated/tactics/CT5.schema.json",
+      "runSchema": "schemas/generated/runs/CT5.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT5.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT5.entry.schema.json",
+        "schemas/generated/nodes/CT5.search.deficit.schema.json",
+        "schemas/generated/nodes/CT5.compute.summation.schema.json",
+        "schemas/generated/nodes/CT5.decide.comparison.schema.json",
+        "schemas/generated/nodes/CT5.terminal.residual.localDeficit.schema.json",
+        "schemas/generated/nodes/CT5.terminal.c4.schema.json",
+        "schemas/generated/nodes/CT5.terminal.residual.chargeLedger.schema.json",
+        "schemas/generated/nodes/CT5.terminal.residual.aggregate.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT5.residual.localDeficit.schema.json",
+        "schemas/generated/residuals/CT5.residual.chargeLedger.schema.json",
+        "schemas/generated/residuals/CT5.residual.aggregate.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT6",
+      "apiVersion": "CT6-v5",
+      "tacticSchema": "schemas/generated/tactics/CT6.schema.json",
+      "runSchema": "schemas/generated/runs/CT6.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT6.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT6.entry.schema.json",
+        "schemas/generated/nodes/CT6.search.firstFailure.schema.json",
+        "schemas/generated/nodes/CT6.terminal.residual.firstFailure.schema.json",
+        "schemas/generated/nodes/CT6.terminal.residual.activeLedger.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT6.residual.firstFailure.schema.json",
+        "schemas/generated/residuals/CT6.residual.activeLedger.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT7",
+      "apiVersion": "CT7-v3",
+      "tacticSchema": "schemas/generated/tactics/CT7.schema.json",
+      "runSchema": "schemas/generated/runs/CT7.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT7.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT7.entry.schema.json",
+        "schemas/generated/nodes/CT7.search.realization.schema.json",
+        "schemas/generated/nodes/CT7.search.distinction.schema.json",
+        "schemas/generated/nodes/CT7.terminal.certificate.realization.schema.json",
+        "schemas/generated/nodes/CT7.terminal.residual.distinguishing.schema.json",
+        "schemas/generated/nodes/CT7.terminal.certificate.neutrality.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT7.residual.distinguishingContext.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT8",
+      "apiVersion": "CT8-v3",
+      "tacticSchema": "schemas/generated/tactics/CT8.schema.json",
+      "runSchema": "schemas/generated/runs/CT8.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT8.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT8.entry.schema.json",
+        "schemas/generated/nodes/CT8.search.orderedRepeatedType.schema.json",
+        "schemas/generated/nodes/CT8.compare.responses.schema.json",
+        "schemas/generated/nodes/CT8.terminal.certificate.noRepetition.schema.json",
+        "schemas/generated/nodes/CT8.terminal.residual.removal.schema.json",
+        "schemas/generated/nodes/CT8.terminal.residual.responseSeparation.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT8.residual.removal.schema.json",
+        "schemas/generated/residuals/CT8.residual.responseSeparation.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT9",
+      "apiVersion": "CT9-v5",
+      "tacticSchema": "schemas/generated/tactics/CT9.schema.json",
+      "runSchema": "schemas/generated/runs/CT9.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT9.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT9.entry.schema.json",
+        "schemas/generated/nodes/CT9.compute.partition.schema.json",
+        "schemas/generated/nodes/CT9.search.firstOverload.schema.json",
+        "schemas/generated/nodes/CT9.terminal.residual.overload.schema.json",
+        "schemas/generated/nodes/CT9.terminal.certificate.bounded.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT9.residual.overload.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT10",
+      "apiVersion": "CT10-v3",
+      "tacticSchema": "schemas/generated/tactics/CT10.schema.json",
+      "runSchema": "schemas/generated/runs/CT10.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT10.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT10.entry.schema.json",
+        "schemas/generated/nodes/CT10.compute.classTable.schema.json",
+        "schemas/generated/nodes/CT10.search.direct.schema.json",
+        "schemas/generated/nodes/CT10.search.firstMissing.schema.json",
+        "schemas/generated/nodes/CT10.compute.promotion.schema.json",
+        "schemas/generated/nodes/CT10.terminal.residual.direct.schema.json",
+        "schemas/generated/nodes/CT10.terminal.residual.promoted.schema.json",
+        "schemas/generated/nodes/CT10.terminal.certificate.exhaustive.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT10.residual.direct.schema.json",
+        "schemas/generated/residuals/CT10.residual.promoted.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT11",
+      "apiVersion": "CT11-v4",
+      "tacticSchema": "schemas/generated/tactics/CT11.schema.json",
+      "runSchema": "schemas/generated/runs/CT11.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT11.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT11.entry.schema.json",
+        "schemas/generated/nodes/CT11.compute.decomposition.schema.json",
+        "schemas/generated/nodes/CT11.search.admissibilityGap.schema.json",
+        "schemas/generated/nodes/CT11.search.localNegativeBudget.schema.json",
+        "schemas/generated/nodes/CT11.terminal.residual.admissibilityGap.schema.json",
+        "schemas/generated/nodes/CT11.terminal.residual.localizedDeficit.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT11.residual.admissibilityGap.schema.json",
+        "schemas/generated/residuals/CT11.residual.localizedDeficit.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT12",
+      "apiVersion": "CT12-v4",
+      "tacticSchema": "schemas/generated/tactics/CT12.schema.json",
+      "runSchema": "schemas/generated/runs/CT12.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT12.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT12.entry.schema.json",
+        "schemas/generated/nodes/CT12.decide.saturation.schema.json",
+        "schemas/generated/nodes/CT12.compute.peel.schema.json",
+        "schemas/generated/nodes/CT12.compute.restoration.schema.json",
+        "schemas/generated/nodes/CT12.verify.decrease.schema.json",
+        "schemas/generated/nodes/CT12.terminal.certificate.exhausted.schema.json",
+        "schemas/generated/nodes/CT12.terminal.residual.demand.schema.json",
+        "schemas/generated/nodes/CT12.terminal.residual.tier.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT12.residual.demand.schema.json",
+        "schemas/generated/residuals/CT12.residual.tier.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT13",
+      "apiVersion": "CT13-v3",
+      "tacticSchema": "schemas/generated/tactics/CT13.schema.json",
+      "runSchema": "schemas/generated/runs/CT13.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT13.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT13.entry.schema.json",
+        "schemas/generated/nodes/CT13.search.tier-one.schema.json",
+        "schemas/generated/nodes/CT13.compute.fallback.schema.json",
+        "schemas/generated/nodes/CT13.compute.reconciliation.schema.json",
+        "schemas/generated/nodes/CT13.decide.comparison.schema.json",
+        "schemas/generated/nodes/CT13.terminal.residual.tier-one.schema.json",
+        "schemas/generated/nodes/CT13.terminal.residual.overlap.schema.json",
+        "schemas/generated/nodes/CT13.terminal.residual.deficit.schema.json",
+        "schemas/generated/nodes/CT13.terminal.certificate.reconciled.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT13.residual.tierOne.schema.json",
+        "schemas/generated/residuals/CT13.residual.overlap.schema.json",
+        "schemas/generated/residuals/CT13.residual.deficit.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT14",
+      "apiVersion": "CT14-v3",
+      "tacticSchema": "schemas/generated/tactics/CT14.schema.json",
+      "runSchema": "schemas/generated/runs/CT14.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT14.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT14.entry.schema.json",
+        "schemas/generated/nodes/CT14.compute.lower-mass.schema.json",
+        "schemas/generated/nodes/CT14.search.members.schema.json",
+        "schemas/generated/nodes/CT14.compute.upper-capacity.schema.json",
+        "schemas/generated/nodes/CT14.decide.comparison.schema.json",
+        "schemas/generated/nodes/CT14.terminal.residual.unbounded-member.schema.json",
+        "schemas/generated/nodes/CT14.terminal.residual.missing-label.schema.json",
+        "schemas/generated/nodes/CT14.terminal.certificate.aggregate.schema.json",
+        "schemas/generated/nodes/CT14.terminal.residual.capacity.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT14.residual.unboundedMember.schema.json",
+        "schemas/generated/residuals/CT14.residual.missingLabel.schema.json",
+        "schemas/generated/residuals/CT14.residual.capacity.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT15",
+      "apiVersion": "CT15-v3",
+      "tacticSchema": "schemas/generated/tactics/CT15.schema.json",
+      "runSchema": "schemas/generated/runs/CT15.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT15.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT15.entry.schema.json",
+        "schemas/generated/nodes/CT15.compute.targetRelativeRank.schema.json",
+        "schemas/generated/nodes/CT15.search.firstRankDrop.schema.json",
+        "schemas/generated/nodes/CT15.compute.fullRankLedger.schema.json",
+        "schemas/generated/nodes/CT15.decide.ledgerCapacity.schema.json",
+        "schemas/generated/nodes/CT15.terminal.rankDrop.schema.json",
+        "schemas/generated/nodes/CT15.terminal.c4.schema.json",
+        "schemas/generated/nodes/CT15.terminal.fullRankLedger.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT15.residual.rankDrop.schema.json",
+        "schemas/generated/residuals/CT15.residual.fullRankLedger.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT16",
+      "apiVersion": "CT16-v3",
+      "tacticSchema": "schemas/generated/tactics/CT16.schema.json",
+      "runSchema": "schemas/generated/runs/CT16.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT16.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT16.entry.schema.json",
+        "schemas/generated/nodes/CT16.search.support.schema.json",
+        "schemas/generated/nodes/CT16.compute.closed-code.schema.json",
+        "schemas/generated/nodes/CT16.decide.closed-code.schema.json",
+        "schemas/generated/nodes/CT16.terminal.residual.proper-support.schema.json",
+        "schemas/generated/nodes/CT16.terminal.certificate.exact-code.schema.json",
+        "schemas/generated/nodes/CT16.terminal.residual.closed-type-mismatch.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT16.residual.properSupport.schema.json",
+        "schemas/generated/residuals/CT16.residual.closedTypeMismatch.schema.json"
+      ]
+    },
+    {
+      "tacticId": "CT17",
+      "apiVersion": "CT17-v3",
+      "tacticSchema": "schemas/generated/tactics/CT17.schema.json",
+      "runSchema": "schemas/generated/runs/CT17.run.schema.json",
+      "verificationSchema": "schemas/generated/verifications/CT17.verification.schema.json",
+      "nodeSchemas": [
+        "schemas/generated/nodes/CT17.entry.schema.json",
+        "schemas/generated/nodes/CT17.search.compatibility.schema.json",
+        "schemas/generated/nodes/CT17.decide.scale.schema.json",
+        "schemas/generated/nodes/CT17.enumerate.survivors.schema.json",
+        "schemas/generated/nodes/CT17.decide.arithmetic.schema.json",
+        "schemas/generated/nodes/CT17.terminal.residual.incompatibility.schema.json",
+        "schemas/generated/nodes/CT17.terminal.certificate.exhausted.schema.json",
+        "schemas/generated/nodes/CT17.terminal.residual.survivors.schema.json",
+        "schemas/generated/nodes/CT17.terminal.certificate.target-hit.schema.json",
+        "schemas/generated/nodes/CT17.terminal.residual.orbit.schema.json"
+      ],
+      "residualSchemas": [
+        "schemas/generated/residuals/CT17.residual.incompatibility.schema.json",
+        "schemas/generated/residuals/CT17.residual.survivors.schema.json",
+        "schemas/generated/residuals/CT17.residual.orbit.schema.json"
+      ]
+    }
+  ],
+  "routes": [
+    "schemas/generated/routes/CT1.residual.avoiding-_CT2.schema.json",
+    "schemas/generated/routes/CT2.residual.separatingContext-_CT3.schema.json",
+    "schemas/generated/routes/CT2.residual.criticality-_CT10.schema.json",
+    "schemas/generated/routes/CT6.residual.activeLedger-_CT9.schema.json"
+  ]
+}

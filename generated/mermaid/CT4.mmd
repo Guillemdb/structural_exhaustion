@@ -1,0 +1,18 @@
+flowchart LR
+  N1["CT4.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT4.compute.assignment<br/>finiteSearch<br/>author=3, generated=1"]
+  N3["CT4.search.availability<br/>finiteSearch<br/>author=1, generated=3"]
+  N4["CT4.compute.fibres<br/>verifiedComputation<br/>author=4, generated=3"]
+  N5["CT4.decide.capacity<br/>verifiedComputation<br/>author=3, generated=3"]
+  N6["CT4.terminal.residual.missingPayer<br/>genericTheorem<br/>author=0, generated=1"]
+  N7["CT4.terminal.residual.overloadedFibre<br/>genericTheorem<br/>author=0, generated=1"]
+  N8["CT4.terminal.c4<br/>genericTheorem<br/>author=0, generated=1"]
+  N9["CT4.terminal.residual.capacity<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT4.edge.beginAssignment| N2
+  N2 -->|CT4.edge.assigned| N3
+  N3 -->|CT4.edge.missing| N6
+  N3 -->|CT4.edge.total| N4
+  N4 -->|CT4.edge.overloaded| N7
+  N4 -->|CT4.edge.bounded| N5
+  N5 -->|CT4.edge.c4| N8
+  N5 -->|CT4.edge.capacity| N9

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/lean-derived-schema-index.schema.json",
+  "title": "Index of concrete schemas generated from compiled Lean machines",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["artifactType", "schemaVersion", "canonicalCatalog", "genericSchemas", "tactics"],
+  "properties": {
+    "artifactType": {"const": "leanDerivedSchemaIndex"},
+    "schemaVersion": {"const": "1.0.0"},
+    "canonicalCatalog": {"const": "generated/lean-machines.json"},
+    "genericSchemas": {
+      "type": "array",
+      "minItems": 5,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^schemas/.+\\.schema\\.json$"}
+    },
+    "tactics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "tacticId",
+          "graphVersion",
+          "tacticSchema",
+          "runSchema",
+          "verificationSchema",
+          "nodeSchemas"
+        ],
+        "properties": {
+          "tacticId": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])$"},
+          "graphVersion": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])-v[0-9]+$"},
+          "tacticSchema": {"type": "string", "pattern": "^schemas/generated/tactics/CT[0-9]+\\.schema\\.json$"},
+          "runSchema": {"type": "string", "pattern": "^schemas/generated/runs/CT[0-9]+\\.run\\.schema\\.json$"},
+          "verificationSchema": {"type": "string", "pattern": "^schemas/generated/verifications/CT[0-9]+\\.verification\\.schema\\.json$"},
+          "nodeSchemas": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^schemas/generated/nodes/CT[0-9]+\\..+\\.schema\\.json$"}
+          }
+        }
+      }
+    }
+  }
+}

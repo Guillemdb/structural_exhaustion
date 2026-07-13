@@ -1,0 +1,416 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/runs/CT2.run.schema.json",
+  "title": "CT2 exact sequential run",
+  "allOf": [
+    {
+      "$ref": "../../machine-artifacts.schema.json#/$defs/machineRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT2"
+        },
+        "apiVersion": {
+          "const": "CT2-v6"
+        },
+        "startNode": {
+          "const": "CT2.entry"
+        },
+        "executionRef": {
+          "enum": [
+            "StructuralExhaustion.CT2.run",
+            "StructuralExhaustion.CT2.runReference"
+          ]
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 1
+                  },
+                  "edgeId": {
+                    "const": "CT2.edge.beginDeletion"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT2.Graph.Edge.beginDeletion"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.entry CT2.Graph.NodeId.deletionDecision"
+                  },
+                  "sourceNode": {
+                    "const": "CT2.entry"
+                  },
+                  "targetNode": {
+                    "const": "CT2.decide.deletion"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 2
+                  },
+                  "edgeId": {
+                    "const": "CT2.edge.deletionCloses"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT2.Graph.Edge.deletionCloses"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.DeletionWitness capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.deletionDecision CT2.Graph.NodeId.deletionC2Terminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT2.decide.deletion"
+                  },
+                  "targetNode": {
+                    "const": "CT2.terminal.c2.deletion"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 3
+                  },
+                  "edgeId": {
+                    "const": "CT2.edge.deletionCritical"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT2.Graph.Edge.deletionCritical"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.DeletionCriticalState capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.deletionDecision CT2.Graph.NodeId.replacementAnalysis"
+                  },
+                  "sourceNode": {
+                    "const": "CT2.decide.deletion"
+                  },
+                  "targetNode": {
+                    "const": "CT2.search.replacements"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 4
+                  },
+                  "edgeId": {
+                    "const": "CT2.edge.replacementCloses"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT2.Graph.Edge.replacementCloses"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.ReplacementWitness capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis\n              CT2.Graph.NodeId.replacementC2Terminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT2.search.replacements"
+                  },
+                  "targetNode": {
+                    "const": "CT2.terminal.c2.replacement"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 5
+                  },
+                  "edgeId": {
+                    "const": "CT2.edge.replacementSeparating"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT2.Graph.Edge.replacementSeparating"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.SeparatingContextResidual capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis CT2.Graph.NodeId.separatingTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT2.search.replacements"
+                  },
+                  "targetNode": {
+                    "const": "CT2.terminal.residual.separatingContext"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 6
+                  },
+                  "edgeId": {
+                    "const": "CT2.edge.replacementCritical"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT2.Graph.Edge.replacementCritical"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.CriticalityResidual capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis\n              CT2.Graph.NodeId.criticalityTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT2.search.replacements"
+                  },
+                  "targetNode": {
+                    "const": "CT2.terminal.residual.criticality"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "terminal": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 1
+                },
+                "case": {
+                  "const": "c2.deletion"
+                },
+                "nodeId": {
+                  "const": "CT2.terminal.c2.deletion"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT2.Graph.Terminal.deletionC2"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 2
+                },
+                "case": {
+                  "const": "c2.replacement"
+                },
+                "nodeId": {
+                  "const": "CT2.terminal.c2.replacement"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT2.Graph.Terminal.replacementC2"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 3
+                },
+                "case": {
+                  "const": "residual.separatingContext"
+                },
+                "nodeId": {
+                  "const": "CT2.terminal.residual.separatingContext"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT2.Graph.Terminal.separating"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 4
+                },
+                "case": {
+                  "const": "residual.criticality"
+                },
+                "nodeId": {
+                  "const": "CT2.terminal.residual.criticality"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT2.Graph.Terminal.criticality"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "apiVersion",
+        "startNode",
+        "executionRef",
+        "steps",
+        "terminal"
+      ]
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT2",
+    "apiVersion": "CT2-v6",
+    "namespace": "StructuralExhaustion.CT2"
+  }
+}

@@ -1,0 +1,504 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/runs/CT3.run.schema.json",
+  "title": "CT3 exact sequential run",
+  "allOf": [
+    {
+      "$ref": "../../machine-artifacts.schema.json#/$defs/machineRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT3"
+        },
+        "apiVersion": {
+          "const": "CT3-v3"
+        },
+        "startNode": {
+          "const": "CT3.entry"
+        },
+        "executionRef": {
+          "enum": [
+            "StructuralExhaustion.CT3.run",
+            "StructuralExhaustion.CT3.runReference"
+          ]
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 1
+                  },
+                  "edgeId": {
+                    "const": "CT3.edge.beginVector"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT3.Graph.Edge.beginVector"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} → CT3.Graph.Edge S C input CT3.Graph.NodeId.entry CT3.Graph.NodeId.vectorComputation"
+                  },
+                  "sourceNode": {
+                    "const": "CT3.entry"
+                  },
+                  "targetNode": {
+                    "const": "CT3.compute.exact-vector"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 2
+                  },
+                  "edgeId": {
+                    "const": "CT3.edge.vectorReady"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT3.Graph.Edge.vectorReady"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactVectorState S input →\n          CT3.Graph.Edge S C input CT3.Graph.NodeId.vectorComputation CT3.Graph.NodeId.compressionSearch"
+                  },
+                  "sourceNode": {
+                    "const": "CT3.compute.exact-vector"
+                  },
+                  "targetNode": {
+                    "const": "CT3.search.compression"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 3
+                  },
+                  "edgeId": {
+                    "const": "CT3.edge.compressionFound"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT3.Graph.Edge.compressionFound"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.CompressionCertificate S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.compressionTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT3.search.compression"
+                  },
+                  "targetNode": {
+                    "const": "CT3.terminal.compression"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 4
+                  },
+                  "edgeId": {
+                    "const": "CT3.edge.compressionAbsent"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT3.Graph.Edge.compressionAbsent"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.UncompressibleExternalType S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.tableValidation"
+                  },
+                  "sourceNode": {
+                    "const": "CT3.search.compression"
+                  },
+                  "targetNode": {
+                    "const": "CT3.validate.table"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 5
+                  },
+                  "edgeId": {
+                    "const": "CT3.edge.tableDefect"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT3.Graph.Edge.tableDefect"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.DistinguishingContextResidual S C input →\n          CT3.Graph.Edge S C input CT3.Graph.NodeId.tableValidation CT3.Graph.NodeId.distinguishingTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT3.validate.table"
+                  },
+                  "targetNode": {
+                    "const": "CT3.terminal.distinguishing-context"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 6
+                  },
+                  "edgeId": {
+                    "const": "CT3.edge.tableExact"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT3.Graph.Edge.tableExact"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactTableState S C → CT3.Graph.Edge S C input CT3.Graph.NodeId.tableValidation CT3.Graph.NodeId.rowLookup"
+                  },
+                  "sourceNode": {
+                    "const": "CT3.validate.table"
+                  },
+                  "targetNode": {
+                    "const": "CT3.lookup.exact-row"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 7
+                  },
+                  "edgeId": {
+                    "const": "CT3.edge.rowKnown"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT3.Graph.Edge.rowKnown"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.KnownRowCertificate S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.knownRowTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT3.lookup.exact-row"
+                  },
+                  "targetNode": {
+                    "const": "CT3.terminal.known-row"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 8
+                  },
+                  "edgeId": {
+                    "const": "CT3.edge.rowNovel"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT3.Graph.Edge.rowNovel"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.NovelExternalTypeResidual S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.novelRowTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT3.lookup.exact-row"
+                  },
+                  "targetNode": {
+                    "const": "CT3.terminal.novel-row"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "terminal": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 1
+                },
+                "case": {
+                  "const": "compression"
+                },
+                "nodeId": {
+                  "const": "CT3.terminal.compression"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT3.Graph.Terminal.compression"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 2
+                },
+                "case": {
+                  "const": "distinguishing-context"
+                },
+                "nodeId": {
+                  "const": "CT3.terminal.distinguishing-context"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT3.Graph.Terminal.distinguishing"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 3
+                },
+                "case": {
+                  "const": "known-row"
+                },
+                "nodeId": {
+                  "const": "CT3.terminal.known-row"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT3.Graph.Terminal.knownRow"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 4
+                },
+                "case": {
+                  "const": "novel-row"
+                },
+                "nodeId": {
+                  "const": "CT3.terminal.novel-row"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT3.Graph.Terminal.novelRow"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "apiVersion",
+        "startNode",
+        "executionRef",
+        "steps",
+        "terminal"
+      ]
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT3",
+    "apiVersion": "CT3-v3",
+    "namespace": "StructuralExhaustion.CT3"
+  }
+}

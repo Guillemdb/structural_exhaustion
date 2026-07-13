@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/verifications/CT9.verification.schema.json",
+  "title": "CT9 kernel-verification summary",
+  "allOf": [
+    {
+      "$ref": "../../machine-artifacts.schema.json#/$defs/tacticVerification"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT9"
+        },
+        "nodeCount": {
+          "const": 5
+        },
+        "transitionCount": {
+          "const": 4
+        },
+        "terminalCount": {
+          "const": 2
+        },
+        "manualObligationCount": {
+          "const": 0
+        }
+      },
+      "required": [
+        "tacticId",
+        "nodeCount",
+        "transitionCount",
+        "terminalCount",
+        "manualObligationCount"
+      ]
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT9",
+    "apiVersion": "CT9-v5",
+    "namespace": "StructuralExhaustion.CT9"
+  }
+}

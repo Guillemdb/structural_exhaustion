@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT8.terminal.residual.responseSeparation.schema.json",
+  "title": "CT8.terminal.residual.responseSeparation automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT8/Graph.lean",
+        "semanticId": "CT8.terminal.residual.responseSeparation",
+        "presentation": {
+          "summary": "Compiled residual node with an explicit automation contract.",
+          "label": "CT8.terminal.residual.responseSeparation"
+        },
+        "ordinal": 6,
+        "nodeKind": "residual",
+        "nodeId": "CT8.terminal.residual.responseSeparation",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT8.terminal.residual.responseSeparation",
+              "sourceNode": "CT8.compare.responses",
+              "edgeId": "CT8.edge.separating",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.SeparationResidual capability ctx input →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.response CT8.Graph.NodeId.separationTerminal",
+              "constructor": "StructuralExhaustion.CT8.Graph.Edge.separating"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT8.Graph.NodeId.separationTerminal",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT8.Graph.Edge.separating",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT8.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT8.Graph.Edge.separating",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT8.ExecutionResult@CT8.terminal.residual.responseSeparation",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT8.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT8",
+    "apiVersion": "CT8-v3",
+    "namespace": "StructuralExhaustion.CT8"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT8.Graph.Edge.separating",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "StructuralExhaustion.CT8.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT8.Graph.Edge.separating",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT8.ExecutionResult@CT8.terminal.residual.responseSeparation",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "StructuralExhaustion.CT8.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "genericTheorem",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [],
+    "incomingEdges": [
+      {
+        "targetNode": "CT8.terminal.residual.responseSeparation",
+        "sourceNode": "CT8.compare.responses",
+        "edgeId": "CT8.edge.separating",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.SeparationResidual capability ctx input →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.response CT8.Graph.NodeId.separationTerminal",
+        "constructor": "StructuralExhaustion.CT8.Graph.Edge.separating"
+      }
+    ]
+  }
+}

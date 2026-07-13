@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT4.compute.assignment.schema.json",
+  "title": "CT4.compute.assignment automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT4/Graph.lean",
+        "semanticId": "CT4.compute.assignment",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT4.compute.assignment"
+        },
+        "ordinal": 2,
+        "nodeKind": "computation",
+        "nodeId": "CT4.compute.assignment",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT4.search.availability",
+              "sourceNode": "CT4.compute.assignment",
+              "edgeId": "CT4.edge.assigned",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.AssignmentState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.assignment CT4.Graph.NodeId.availability",
+              "constructor": "StructuralExhaustion.CT4.Graph.Edge.assigned"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT4.compute.assignment",
+              "sourceNode": "CT4.entry",
+              "edgeId": "CT4.edge.beginAssignment",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} → CT4.Graph.Edge S capability input CT4.Graph.NodeId.entry CT4.Graph.NodeId.assignment",
+              "constructor": "StructuralExhaustion.CT4.Graph.Edge.beginAssignment"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT4.Graph.NodeId.assignment",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Spec.Eligible",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.payers",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.eligibleDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "input",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Core.FiniteSearch.search_sound",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "CT4.assignedPayer_sound",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT4.AssignmentState",
+              "provision": "derived_by_generic_search"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.search_sound",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "CT4.assignedPayer_sound",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Spec.Eligible",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.payers",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.eligibleDecidable",
+              "provision": "instance_bridge"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT4",
+    "apiVersion": "CT4-v4",
+    "namespace": "StructuralExhaustion.CT4"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Spec.Eligible",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.payers",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.eligibleDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "input",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Core.FiniteSearch.search_sound",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "CT4.assignedPayer_sound",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "input",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT4.AssignmentState",
+        "provision": "derived_by_generic_search"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "Core.FiniteSearch.search_sound",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "CT4.assignedPayer_sound",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "finiteSearch",
+    "derivedInputs": [],
+    "authorInputs": [
+      {
+        "ref": "Spec.Eligible",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.payers",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.eligibleDecidable",
+        "provision": "instance_bridge"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT4.search.availability",
+        "sourceNode": "CT4.compute.assignment",
+        "edgeId": "CT4.edge.assigned",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.AssignmentState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.assignment CT4.Graph.NodeId.availability",
+        "constructor": "StructuralExhaustion.CT4.Graph.Edge.assigned"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT4.compute.assignment",
+        "sourceNode": "CT4.entry",
+        "edgeId": "CT4.edge.beginAssignment",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} → CT4.Graph.Edge S capability input CT4.Graph.NodeId.entry CT4.Graph.NodeId.assignment",
+        "constructor": "StructuralExhaustion.CT4.Graph.Edge.beginAssignment"
+      }
+    ]
+  }
+}

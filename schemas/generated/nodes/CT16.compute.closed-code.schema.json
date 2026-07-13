@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT16.compute.closed-code.schema.json",
+  "title": "CT16.compute.closed-code automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT16/Graph.lean",
+        "semanticId": "CT16.compute.closed-code",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT16.compute.closed-code"
+        },
+        "ordinal": 3,
+        "nodeKind": "computation",
+        "nodeId": "CT16.compute.closed-code",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT16.decide.closed-code",
+              "sourceNode": "CT16.compute.closed-code",
+              "edgeId": "CT16.edge.codeReady",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedCodeState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComputation CT16.Graph.NodeId.codeComparison",
+              "constructor": "StructuralExhaustion.CT16.Graph.Edge.codeReady"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT16.compute.closed-code",
+              "sourceNode": "CT16.search.support",
+              "edgeId": "CT16.edge.whole",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.WholeSupportState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.codeComputation",
+              "constructor": "StructuralExhaustion.CT16.Graph.Edge.whole"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT16.Graph.NodeId.codeComputation",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.closedCode",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "WholeSupportState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "WholeSupportState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT16.ClosedCodeState",
+              "provision": "derived_by_computation"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "verifiedComputation",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.closedCode",
+              "provision": "user_operator"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT16",
+    "apiVersion": "CT16-v3",
+    "namespace": "StructuralExhaustion.CT16"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Capability.closedCode",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "WholeSupportState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "WholeSupportState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT16.ClosedCodeState",
+        "provision": "derived_by_computation"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "verifiedComputation",
+    "derivedInputs": [],
+    "authorInputs": [
+      {
+        "ref": "Capability.closedCode",
+        "provision": "user_operator"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT16.decide.closed-code",
+        "sourceNode": "CT16.compute.closed-code",
+        "edgeId": "CT16.edge.codeReady",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedCodeState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComputation CT16.Graph.NodeId.codeComparison",
+        "constructor": "StructuralExhaustion.CT16.Graph.Edge.codeReady"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT16.compute.closed-code",
+        "sourceNode": "CT16.search.support",
+        "edgeId": "CT16.edge.whole",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.WholeSupportState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.codeComputation",
+        "constructor": "StructuralExhaustion.CT16.Graph.Edge.whole"
+      }
+    ]
+  }
+}

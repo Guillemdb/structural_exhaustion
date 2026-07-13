@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT13.terminal.residual.overlap.schema.json",
+  "title": "CT13.terminal.residual.overlap automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "semanticId": "CT13.terminal.residual.overlap",
+        "presentation": {
+          "summary": "Compiled residual node with an explicit automation contract.",
+          "label": "CT13.terminal.residual.overlap"
+        },
+        "ordinal": 7,
+        "nodeKind": "residual",
+        "nodeId": "CT13.terminal.residual.overlap",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT13.terminal.residual.overlap",
+              "sourceNode": "CT13.compute.reconciliation",
+              "edgeId": "CT13.edge.overlap",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.OverlapResidual C ctx →\n        CT13.Graph.Edge C ctx CT13.Graph.NodeId.reconciliation CT13.Graph.NodeId.overlapTerminal",
+              "constructor": "StructuralExhaustion.CT13.Graph.Edge.overlap"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT13.Graph.NodeId.overlapTerminal",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT13.Graph.Edge.overlap",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT13.Graph.Edge.overlap",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT13.ExecutionResult@CT13.terminal.residual.overlap",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT13.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT13",
+    "apiVersion": "CT13-v3",
+    "namespace": "StructuralExhaustion.CT13"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT13.Graph.Edge.overlap",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT13.Graph.Edge.overlap",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT13.ExecutionResult@CT13.terminal.residual.overlap",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "StructuralExhaustion.CT13.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "genericTheorem",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [],
+    "incomingEdges": [
+      {
+        "targetNode": "CT13.terminal.residual.overlap",
+        "sourceNode": "CT13.compute.reconciliation",
+        "edgeId": "CT13.edge.overlap",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.OverlapResidual C ctx →\n        CT13.Graph.Edge C ctx CT13.Graph.NodeId.reconciliation CT13.Graph.NodeId.overlapTerminal",
+        "constructor": "StructuralExhaustion.CT13.Graph.Edge.overlap"
+      }
+    ]
+  }
+}

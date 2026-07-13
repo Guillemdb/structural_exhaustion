@@ -1,0 +1,20 @@
+flowchart LR
+  N1["CT17.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT17.search.compatibility<br/>finiteSearch<br/>author=4, generated=3"]
+  N3["CT17.decide.scale<br/>verifiedComputation<br/>author=1, generated=3"]
+  N4["CT17.enumerate.survivors<br/>finiteSearch<br/>author=6, generated=3"]
+  N5["CT17.decide.arithmetic<br/>finiteSearch<br/>author=5, generated=3"]
+  N6["CT17.terminal.residual.incompatibility<br/>genericTheorem<br/>author=0, generated=1"]
+  N7["CT17.terminal.certificate.exhausted<br/>genericTheorem<br/>author=0, generated=1"]
+  N8["CT17.terminal.residual.survivors<br/>genericTheorem<br/>author=0, generated=1"]
+  N9["CT17.terminal.certificate.target-hit<br/>genericTheorem<br/>author=0, generated=1"]
+  N10["CT17.terminal.residual.orbit<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT17.edge.begin| N2
+  N2 -->|CT17.edge.incompatible| N6
+  N2 -->|CT17.edge.compatible| N3
+  N3 -->|CT17.edge.finite| N4
+  N3 -->|CT17.edge.orbitScale| N5
+  N4 -->|CT17.edge.exhausted| N7
+  N4 -->|CT17.edge.survivors| N8
+  N5 -->|CT17.edge.targetHit| N9
+  N5 -->|CT17.edge.orbit| N10

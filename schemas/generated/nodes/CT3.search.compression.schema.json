@@ -1,0 +1,338 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT3.search.compression.schema.json",
+  "title": "CT3.search.compression automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+        "semanticId": "CT3.search.compression",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT3.search.compression"
+        },
+        "ordinal": 3,
+        "nodeKind": "computation",
+        "nodeId": "CT3.search.compression",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT3.terminal.compression",
+              "sourceNode": "CT3.search.compression",
+              "edgeId": "CT3.edge.compressionFound",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.CompressionCertificate S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.compressionTerminal",
+              "constructor": "StructuralExhaustion.CT3.Graph.Edge.compressionFound"
+            },
+            {
+              "targetNode": "CT3.validate.table",
+              "sourceNode": "CT3.search.compression",
+              "edgeId": "CT3.edge.compressionAbsent",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.UncompressibleExternalType S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.tableValidation",
+              "constructor": "StructuralExhaustion.CT3.Graph.Edge.compressionAbsent"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT3.search.compression",
+              "sourceNode": "CT3.compute.exact-vector",
+              "edgeId": "CT3.edge.vectorReady",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactVectorState S input →\n          CT3.Graph.Edge S C input CT3.Graph.NodeId.vectorComputation CT3.Graph.NodeId.compressionSearch",
+              "constructor": "StructuralExhaustion.CT3.Graph.Edge.vectorReady"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT3.Graph.NodeId.compressionSearch",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.candidates",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Spec.candidatePiece",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.response",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.Admissible",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Spec.Smaller",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.contexts",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.admissibleDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "Capability.smallerDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "ExactVectorState",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "SameResponse",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "FiniteSearch.first_total",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "ResponseComparison.compare_total",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "ExactVectorState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT3.CompressionDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT3.CompressionCertificate",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT3.UncompressibleExternalType",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "FiniteSearch.first_total",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "ResponseComparison.compare_total",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [
+            {
+              "ref": "SameResponse",
+              "provision": "derived_by_generic_search"
+            }
+          ],
+          "authorInputs": [
+            {
+              "ref": "Capability.candidates",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Spec.candidatePiece",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.response",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.Admissible",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Spec.Smaller",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.contexts",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.admissibleDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "Capability.smallerDecidable",
+              "provision": "instance_bridge"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT3",
+    "apiVersion": "CT3-v3",
+    "namespace": "StructuralExhaustion.CT3"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Capability.candidates",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Spec.candidatePiece",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Spec.response",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Spec.Admissible",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Spec.Smaller",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.contexts",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.admissibleDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "Capability.smallerDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "ExactVectorState",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "SameResponse",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "FiniteSearch.first_total",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "ResponseComparison.compare_total",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "ExactVectorState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT3.CompressionDecision",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT3.CompressionCertificate",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT3.UncompressibleExternalType",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "FiniteSearch.first_total",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "ResponseComparison.compare_total",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "finiteSearch",
+    "derivedInputs": [
+      {
+        "ref": "SameResponse",
+        "provision": "derived_by_generic_search"
+      }
+    ],
+    "authorInputs": [
+      {
+        "ref": "Capability.candidates",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Spec.candidatePiece",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Spec.response",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Spec.Admissible",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Spec.Smaller",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.contexts",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.admissibleDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "Capability.smallerDecidable",
+        "provision": "instance_bridge"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT3.terminal.compression",
+        "sourceNode": "CT3.search.compression",
+        "edgeId": "CT3.edge.compressionFound",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.CompressionCertificate S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.compressionTerminal",
+        "constructor": "StructuralExhaustion.CT3.Graph.Edge.compressionFound"
+      },
+      {
+        "targetNode": "CT3.validate.table",
+        "sourceNode": "CT3.search.compression",
+        "edgeId": "CT3.edge.compressionAbsent",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.UncompressibleExternalType S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.tableValidation",
+        "constructor": "StructuralExhaustion.CT3.Graph.Edge.compressionAbsent"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT3.search.compression",
+        "sourceNode": "CT3.compute.exact-vector",
+        "edgeId": "CT3.edge.vectorReady",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactVectorState S input →\n          CT3.Graph.Edge S C input CT3.Graph.NodeId.vectorComputation CT3.Graph.NodeId.compressionSearch",
+        "constructor": "StructuralExhaustion.CT3.Graph.Edge.vectorReady"
+      }
+    ]
+  }
+}

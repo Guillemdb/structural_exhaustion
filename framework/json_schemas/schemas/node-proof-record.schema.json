@@ -1,7 +1,0 @@
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.org/structural-exhaustion/node-proof-record.schema.json",
-  "title": "Structural-exhaustion node proof record",
-  "description": "Validates the evidence, contract discharges, and result for one numbered mathematical obligation of a structural exhaustion tactic, entering the framework's audit record so the result is available to later branches. Field meanings and content requirements are defined by the referenced nodeProofRecord schema.",
-  "$ref": "./structural-exhaustion.bundle.schema.json#/$defs/nodeProofRecord"
-}

@@ -1,0 +1,122 @@
+{
+  "artifactType": "generatedRouteManifest",
+  "schemaVersion": "2.0.0",
+  "routes": [
+    {
+      "triggerConstructor": "StructuralExhaustion.Routes.CT1ToCT2.buildTrigger",
+      "targetTacticId": "CT2",
+      "sourceResidualKind": "CT1.residual.avoiding",
+      "soundnessTheorem": "StructuralExhaustion.Routes.CT1ToCT2.enabled_sound",
+      "selectionClass": "priority",
+      "routeId": "CT1.residual.avoiding->CT2",
+      "provenanceTheorem": "StructuralExhaustion.Routes.CT1ToCT2.generated_route_id",
+      "discovery": "StructuralExhaustion.CT2.Capability.discover",
+      "contextPreservationTheorem": "StructuralExhaustion.Routes.CT1ToCT2.branchContext_preserved",
+      "authoringBoundary": {
+        "semanticDiscovery": {
+          "kind": "capabilityDiscovery",
+          "adapterType": null
+        },
+        "problemSpecificInputs": [
+          "targetCapability",
+          "minimalityKernel"
+        ],
+        "frameworkOwnedResponsibilities": [
+          "routeRuleConstruction",
+          "targetContextConstruction",
+          "triggerConstruction",
+          "soundnessProof",
+          "contextPreservationProof",
+          "provenanceProof"
+        ]
+      }
+    },
+    {
+      "triggerConstructor": "StructuralExhaustion.Routes.CT2ToCT3.buildTrigger",
+      "targetTacticId": "CT3",
+      "sourceResidualKind": "CT2.residual.separatingContext",
+      "soundnessTheorem": "StructuralExhaustion.Routes.CT2ToCT3.enabled_generates",
+      "selectionClass": "forced",
+      "routeId": "CT2.residual.separatingContext->CT3",
+      "provenanceTheorem": "StructuralExhaustion.Routes.CT2ToCT3.generated_route_id",
+      "discovery": "StructuralExhaustion.Routes.CT2ToCT3.PieceDiscovery.discover",
+      "contextPreservationTheorem": "StructuralExhaustion.Routes.CT2ToCT3.branchContext_preserved",
+      "authoringBoundary": {
+        "semanticDiscovery": {
+          "kind": "problemSemanticAdapter",
+          "adapterType": "StructuralExhaustion.Routes.CT2ToCT3.PieceDiscovery"
+        },
+        "problemSpecificInputs": [
+          "targetCapability",
+          "semanticDiscoveryAdapter"
+        ],
+        "frameworkOwnedResponsibilities": [
+          "routeRuleConstruction",
+          "targetContextConstruction",
+          "triggerConstruction",
+          "soundnessProof",
+          "contextPreservationProof",
+          "provenanceProof"
+        ]
+      }
+    },
+    {
+      "triggerConstructor": "StructuralExhaustion.Routes.CT2ToCT10.buildTrigger",
+      "targetTacticId": "CT10",
+      "sourceResidualKind": "CT2.residual.criticality",
+      "soundnessTheorem": "StructuralExhaustion.Routes.CT2ToCT10.enabled_generates",
+      "selectionClass": "forced",
+      "routeId": "CT2.residual.criticality->CT10",
+      "provenanceTheorem": "StructuralExhaustion.Routes.CT2ToCT10.generated_route_id",
+      "discovery": "StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery.discover",
+      "contextPreservationTheorem": "StructuralExhaustion.Routes.CT2ToCT10.branchContext_preserved",
+      "authoringBoundary": {
+        "semanticDiscovery": {
+          "kind": "problemSemanticAdapter",
+          "adapterType": "StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery"
+        },
+        "problemSpecificInputs": [
+          "targetCapability",
+          "semanticDiscoveryAdapter"
+        ],
+        "frameworkOwnedResponsibilities": [
+          "routeRuleConstruction",
+          "targetContextConstruction",
+          "triggerConstruction",
+          "soundnessProof",
+          "contextPreservationProof",
+          "provenanceProof"
+        ]
+      }
+    },
+    {
+      "triggerConstructor": "StructuralExhaustion.Routes.CT6ToCT9.buildTrigger",
+      "targetTacticId": "CT9",
+      "sourceResidualKind": "CT6.residual.activeLedger",
+      "soundnessTheorem": "StructuralExhaustion.Routes.CT6ToCT9.enabled_generates",
+      "selectionClass": "forced",
+      "routeId": "CT6.residual.activeLedger->CT9",
+      "provenanceTheorem": "StructuralExhaustion.Routes.CT6ToCT9.generated_route_id",
+      "discovery": "StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter.discover",
+      "contextPreservationTheorem": "StructuralExhaustion.Routes.CT6ToCT9.branchContext_preserved",
+      "authoringBoundary": {
+        "semanticDiscovery": {
+          "kind": "problemSemanticAdapter",
+          "adapterType": "StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter"
+        },
+        "problemSpecificInputs": [
+          "targetCapability",
+          "semanticDiscoveryAdapter"
+        ],
+        "frameworkOwnedResponsibilities": [
+          "routeRuleConstruction",
+          "targetContextConstruction",
+          "triggerConstruction",
+          "soundnessProof",
+          "contextPreservationProof",
+          "provenanceProof"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT16.entry.schema.json",
+  "title": "CT16.entry automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT16/Graph.lean",
+        "semanticId": "CT16.entry",
+        "presentation": {
+          "summary": "Compiled entry node with an explicit automation contract.",
+          "label": "CT16.entry"
+        },
+        "ordinal": 1,
+        "nodeKind": "entry",
+        "nodeId": "CT16.entry",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT16.search.support",
+              "sourceNode": "CT16.entry",
+              "edgeId": "CT16.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} → CT16.Graph.Edge C ctx CT16.Graph.NodeId.entry CT16.Graph.NodeId.supportScan",
+              "constructor": "StructuralExhaustion.CT16.Graph.Edge.begin"
+            }
+          ],
+          "incomingEdges": []
+        },
+        "constructor": "StructuralExhaustion.CT16.Graph.NodeId.entry",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "Input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT16.Input",
+              "provision": "derived_definitionally"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT16",
+    "apiVersion": "CT16-v3",
+    "namespace": "StructuralExhaustion.CT16"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Input",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "Input",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT16.Input",
+        "provision": "derived_definitionally"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "definitional",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT16.search.support",
+        "sourceNode": "CT16.entry",
+        "edgeId": "CT16.edge.begin",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} → CT16.Graph.Edge C ctx CT16.Graph.NodeId.entry CT16.Graph.NodeId.supportScan",
+        "constructor": "StructuralExhaustion.CT16.Graph.Edge.begin"
+      }
+    ],
+    "incomingEdges": []
+  }
+}

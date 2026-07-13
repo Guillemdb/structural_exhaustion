@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT13.terminal.residual.tier-one.schema.json",
+  "title": "CT13.terminal.residual.tier-one automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+        "semanticId": "CT13.terminal.residual.tier-one",
+        "presentation": {
+          "summary": "Compiled residual node with an explicit automation contract.",
+          "label": "CT13.terminal.residual.tier-one"
+        },
+        "ordinal": 6,
+        "nodeKind": "residual",
+        "nodeId": "CT13.terminal.residual.tier-one",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT13.terminal.residual.tier-one",
+              "sourceNode": "CT13.search.tier-one",
+              "edgeId": "CT13.edge.tierOne",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.TierOneResidual C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.tierOne CT13.Graph.NodeId.tierOneTerminal",
+              "constructor": "StructuralExhaustion.CT13.Graph.Edge.tierOne"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT13.Graph.NodeId.tierOneTerminal",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT13.Graph.Edge.tierOne",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT13.Graph.Edge.tierOne",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT13.ExecutionResult@CT13.terminal.residual.tier-one",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT13.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT13",
+    "apiVersion": "CT13-v3",
+    "namespace": "StructuralExhaustion.CT13"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT13.Graph.Edge.tierOne",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT13.Graph.Edge.tierOne",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT13.ExecutionResult@CT13.terminal.residual.tier-one",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "StructuralExhaustion.CT13.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "genericTheorem",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [],
+    "incomingEdges": [
+      {
+        "targetNode": "CT13.terminal.residual.tier-one",
+        "sourceNode": "CT13.search.tier-one",
+        "edgeId": "CT13.edge.tierOne",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.TierOneResidual C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.tierOne CT13.Graph.NodeId.tierOneTerminal",
+        "constructor": "StructuralExhaustion.CT13.Graph.Edge.tierOne"
+      }
+    ]
+  }
+}

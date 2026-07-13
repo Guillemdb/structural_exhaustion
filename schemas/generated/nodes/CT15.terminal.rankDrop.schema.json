@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT15.terminal.rankDrop.schema.json",
+  "title": "CT15.terminal.rankDrop automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+        "semanticId": "CT15.terminal.rankDrop",
+        "presentation": {
+          "summary": "Compiled residual node with an explicit automation contract.",
+          "label": "CT15.terminal.rankDrop"
+        },
+        "ordinal": 6,
+        "nodeKind": "residual",
+        "nodeId": "CT15.terminal.rankDrop",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT15.terminal.rankDrop",
+              "sourceNode": "CT15.search.firstRankDrop",
+              "edgeId": "CT15.edge.rankDropped",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          CT15.RankDropResidual S capability input rank →\n            CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankSplit CT15.Graph.NodeId.rankDropTerminal",
+              "constructor": "StructuralExhaustion.CT15.Graph.Edge.rankDropped"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT15.Graph.NodeId.rankDropTerminal",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT15.Graph.Edge.rankDropped",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT15.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT15.Graph.Edge.rankDropped",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT15.ExecutionResult@CT15.terminal.rankDrop",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT15.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT15",
+    "apiVersion": "CT15-v3",
+    "namespace": "StructuralExhaustion.CT15"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT15.Graph.Edge.rankDropped",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "StructuralExhaustion.CT15.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT15.Graph.Edge.rankDropped",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT15.ExecutionResult@CT15.terminal.rankDrop",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "StructuralExhaustion.CT15.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "genericTheorem",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [],
+    "incomingEdges": [
+      {
+        "targetNode": "CT15.terminal.rankDrop",
+        "sourceNode": "CT15.search.firstRankDrop",
+        "edgeId": "CT15.edge.rankDropped",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          CT15.RankDropResidual S capability input rank →\n            CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankSplit CT15.Graph.NodeId.rankDropTerminal",
+        "constructor": "StructuralExhaustion.CT15.Graph.Edge.rankDropped"
+      }
+    ]
+  }
+}

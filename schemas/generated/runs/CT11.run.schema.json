@@ -1,0 +1,324 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/runs/CT11.run.schema.json",
+  "title": "CT11 exact sequential run",
+  "allOf": [
+    {
+      "$ref": "../../machine-artifacts.schema.json#/$defs/machineRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT11"
+        },
+        "apiVersion": {
+          "const": "CT11-v4"
+        },
+        "startNode": {
+          "const": "CT11.entry"
+        },
+        "executionRef": {
+          "enum": [
+            "StructuralExhaustion.CT11.run",
+            "StructuralExhaustion.CT11.runReference"
+          ]
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 1
+                  },
+                  "edgeId": {
+                    "const": "CT11.edge.begin"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT11.Graph.Edge.begin"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.Graph.Edge capability input CT11.Graph.NodeId.entry CT11.Graph.NodeId.decomposition"
+                  },
+                  "sourceNode": {
+                    "const": "CT11.entry"
+                  },
+                  "targetNode": {
+                    "const": "CT11.compute.decomposition"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 2
+                  },
+                  "edgeId": {
+                    "const": "CT11.edge.decomposed"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT11.Graph.Edge.decomposed"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.Graph.Edge capability input CT11.Graph.NodeId.decomposition CT11.Graph.NodeId.admissibility"
+                  },
+                  "sourceNode": {
+                    "const": "CT11.compute.decomposition"
+                  },
+                  "targetNode": {
+                    "const": "CT11.search.admissibilityGap"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 3
+                  },
+                  "edgeId": {
+                    "const": "CT11.edge.gap"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT11.Graph.Edge.gap"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.AdmissibilityGapResidual capability input →\n        CT11.Graph.Edge capability input CT11.Graph.NodeId.admissibility CT11.Graph.NodeId.gapTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT11.search.admissibilityGap"
+                  },
+                  "targetNode": {
+                    "const": "CT11.terminal.residual.admissibilityGap"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 4
+                  },
+                  "edgeId": {
+                    "const": "CT11.edge.closed"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT11.Graph.Edge.closed"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.AdmissibleDecomposition capability input →\n        CT11.Graph.Edge capability input CT11.Graph.NodeId.admissibility CT11.Graph.NodeId.localization"
+                  },
+                  "sourceNode": {
+                    "const": "CT11.search.admissibilityGap"
+                  },
+                  "targetNode": {
+                    "const": "CT11.search.localNegativeBudget"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 5
+                  },
+                  "edgeId": {
+                    "const": "CT11.edge.localized"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT11.Graph.Edge.localized"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.LocalizedDeficitResidual capability input →\n        CT11.Graph.Edge capability input CT11.Graph.NodeId.localization CT11.Graph.NodeId.localizedTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT11.search.localNegativeBudget"
+                  },
+                  "targetNode": {
+                    "const": "CT11.terminal.residual.localizedDeficit"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "terminal": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 1
+                },
+                "case": {
+                  "const": "residual.admissibilityGap"
+                },
+                "nodeId": {
+                  "const": "CT11.terminal.residual.admissibilityGap"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT11.Graph.Terminal.gap"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 2
+                },
+                "case": {
+                  "const": "residual.localizedDeficit"
+                },
+                "nodeId": {
+                  "const": "CT11.terminal.residual.localizedDeficit"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT11.Graph.Terminal.localized"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "apiVersion",
+        "startNode",
+        "executionRef",
+        "steps",
+        "terminal"
+      ]
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT11",
+    "apiVersion": "CT11-v4",
+    "namespace": "StructuralExhaustion.CT11"
+  }
+}

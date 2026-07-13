@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT4.terminal.residual.capacity.schema.json",
+  "title": "CT4.terminal.residual.capacity automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT4/Graph.lean",
+        "semanticId": "CT4.terminal.residual.capacity",
+        "presentation": {
+          "summary": "Compiled residual node with an explicit automation contract.",
+          "label": "CT4.terminal.residual.capacity"
+        },
+        "ordinal": 9,
+        "nodeKind": "residual",
+        "nodeId": "CT4.terminal.residual.capacity",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT4.terminal.residual.capacity",
+              "sourceNode": "CT4.decide.capacity",
+              "edgeId": "CT4.edge.capacity",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.CapacityResidual S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.comparison CT4.Graph.NodeId.capacityTerminal",
+              "constructor": "StructuralExhaustion.CT4.Graph.Edge.capacity"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT4.Graph.NodeId.capacityTerminal",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT4.Graph.Edge.capacity",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT4.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT4.Graph.Edge.capacity",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT4.ExecutionResult@CT4.terminal.residual.capacity",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT4.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT4",
+    "apiVersion": "CT4-v4",
+    "namespace": "StructuralExhaustion.CT4"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT4.Graph.Edge.capacity",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "StructuralExhaustion.CT4.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT4.Graph.Edge.capacity",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT4.ExecutionResult@CT4.terminal.residual.capacity",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "StructuralExhaustion.CT4.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "genericTheorem",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [],
+    "incomingEdges": [
+      {
+        "targetNode": "CT4.terminal.residual.capacity",
+        "sourceNode": "CT4.decide.capacity",
+        "edgeId": "CT4.edge.capacity",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.CapacityResidual S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.comparison CT4.Graph.NodeId.capacityTerminal",
+        "constructor": "StructuralExhaustion.CT4.Graph.Edge.capacity"
+      }
+    ]
+  }
+}

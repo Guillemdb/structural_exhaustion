@@ -1,0 +1,154 @@
+{
+  "artifactType": "automationSummary",
+  "schemaVersion": "1.0.0",
+  "tactics": [
+    {
+      "tacticId": "CT1",
+      "authorDefinitions": 10,
+      "inferredInstances": 1,
+      "derivedOperations": 24,
+      "capabilityProfiles": [
+        "StructuralExhaustion.CT1.profile.targetEncoding"
+      ],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT2",
+      "authorDefinitions": 22,
+      "inferredInstances": 6,
+      "derivedOperations": 25,
+      "capabilityProfiles": [
+        "StructuralExhaustion.CT2.profile.deletionOnly"
+      ],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT3",
+      "authorDefinitions": 19,
+      "inferredInstances": 2,
+      "derivedOperations": 7,
+      "capabilityProfiles": [],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT4",
+      "authorDefinitions": 9,
+      "inferredInstances": 1,
+      "derivedOperations": 8,
+      "capabilityProfiles": [
+        "StructuralExhaustion.CT4.profile.functionalCardinality"
+      ],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT5",
+      "authorDefinitions": 11,
+      "inferredInstances": 2,
+      "derivedOperations": 8,
+      "capabilityProfiles": [],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT6",
+      "authorDefinitions": 7,
+      "inferredInstances": 1,
+      "derivedOperations": 14,
+      "capabilityProfiles": [],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT7",
+      "authorDefinitions": 6,
+      "inferredInstances": 1,
+      "derivedOperations": 4,
+      "capabilityProfiles": [],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT8",
+      "authorDefinitions": 8,
+      "inferredInstances": 0,
+      "derivedOperations": 5,
+      "capabilityProfiles": [],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT9",
+      "authorDefinitions": 5,
+      "inferredInstances": 0,
+      "derivedOperations": 22,
+      "capabilityProfiles": [
+        "StructuralExhaustion.CT9.profile.parityCapacityOne"
+      ],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT10",
+      "authorDefinitions": 8,
+      "inferredInstances": 1,
+      "derivedOperations": 6,
+      "capabilityProfiles": [],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT11",
+      "authorDefinitions": 4,
+      "inferredInstances": 1,
+      "derivedOperations": 5,
+      "capabilityProfiles": [
+        "StructuralExhaustion.CT11.profile.negativeBudget"
+      ],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT12",
+      "authorDefinitions": 6,
+      "inferredInstances": 0,
+      "derivedOperations": 6,
+      "capabilityProfiles": [
+        "StructuralExhaustion.CT12.profile.listPeeling"
+      ],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT13",
+      "authorDefinitions": 14,
+      "inferredInstances": 2,
+      "derivedOperations": 5,
+      "capabilityProfiles": [],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT14",
+      "authorDefinitions": 7,
+      "inferredInstances": 1,
+      "derivedOperations": 5,
+      "capabilityProfiles": [],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT15",
+      "authorDefinitions": 6,
+      "inferredInstances": 1,
+      "derivedOperations": 8,
+      "capabilityProfiles": [],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT16",
+      "authorDefinitions": 8,
+      "inferredInstances": 2,
+      "derivedOperations": 2,
+      "capabilityProfiles": [],
+      "manualObligations": 0
+    },
+    {
+      "tacticId": "CT17",
+      "authorDefinitions": 14,
+      "inferredInstances": 2,
+      "derivedOperations": 8,
+      "capabilityProfiles": [],
+      "manualObligations": 0
+    }
+  ]
+}

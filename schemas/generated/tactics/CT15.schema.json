@@ -1,0 +1,1032 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/tactics/CT15.schema.json",
+  "title": "CT15 automation-first Lean tactic",
+  "description": "The complete compiled graph, general capability API, specialized capability profiles, node automation contracts, and semantic residual inventory for this tactic.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/tacticSpec"
+    },
+    {
+      "const": {
+        "transitions": [
+          {
+            "targetNode": "CT15.compute.targetRelativeRank",
+            "sourceNode": "CT15.entry",
+            "provision": "generated_audit",
+            "ordinal": 1,
+            "edgeId": "CT15.edge.beginRank",
+            "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        CT15.Graph.Edge S capability input CT15.Graph.NodeId.entry CT15.Graph.NodeId.rankComputation",
+            "constructor": "StructuralExhaustion.CT15.Graph.Edge.beginRank"
+          },
+          {
+            "targetNode": "CT15.search.firstRankDrop",
+            "sourceNode": "CT15.compute.targetRelativeRank",
+            "provision": "generated_audit",
+            "ordinal": 2,
+            "edgeId": "CT15.edge.rankComputed",
+            "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        CT15.RankState S capability input →\n          CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankComputation CT15.Graph.NodeId.rankSplit",
+            "constructor": "StructuralExhaustion.CT15.Graph.Edge.rankComputed"
+          },
+          {
+            "targetNode": "CT15.terminal.rankDrop",
+            "sourceNode": "CT15.search.firstRankDrop",
+            "provision": "generated_audit",
+            "ordinal": 3,
+            "edgeId": "CT15.edge.rankDropped",
+            "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          CT15.RankDropResidual S capability input rank →\n            CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankSplit CT15.Graph.NodeId.rankDropTerminal",
+            "constructor": "StructuralExhaustion.CT15.Graph.Edge.rankDropped"
+          },
+          {
+            "targetNode": "CT15.compute.fullRankLedger",
+            "sourceNode": "CT15.search.firstRankDrop",
+            "provision": "generated_audit",
+            "ordinal": 4,
+            "edgeId": "CT15.edge.rankFull",
+            "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          CT15.FullRankState S capability input rank →\n            CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankSplit CT15.Graph.NodeId.ledgerComputation",
+            "constructor": "StructuralExhaustion.CT15.Graph.Edge.rankFull"
+          },
+          {
+            "targetNode": "CT15.decide.ledgerCapacity",
+            "sourceNode": "CT15.compute.fullRankLedger",
+            "provision": "generated_audit",
+            "ordinal": 5,
+            "edgeId": "CT15.edge.ledgerComputed",
+            "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            CT15.LedgerState S capability input full →\n              CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComputation CT15.Graph.NodeId.ledgerComparison",
+            "constructor": "StructuralExhaustion.CT15.Graph.Edge.ledgerComputed"
+          },
+          {
+            "targetNode": "CT15.terminal.c4",
+            "sourceNode": "CT15.decide.ledgerCapacity",
+            "provision": "generated_audit",
+            "ordinal": 6,
+            "edgeId": "CT15.edge.capacityExceeded",
+            "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            {ledger : CT15.LedgerState S capability input full} →\n              CT15.C4Certificate S capability input ledger →\n                CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComparison CT15.Graph.NodeId.c4Terminal",
+            "constructor": "StructuralExhaustion.CT15.Graph.Edge.capacityExceeded"
+          },
+          {
+            "targetNode": "CT15.terminal.fullRankLedger",
+            "sourceNode": "CT15.decide.ledgerCapacity",
+            "provision": "generated_audit",
+            "ordinal": 7,
+            "edgeId": "CT15.edge.capacityAvailable",
+            "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            {ledger : CT15.LedgerState S capability input full} →\n              CT15.FullRankLedgerResidual S capability input ledger →\n                CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComparison\n                  CT15.Graph.NodeId.fullRankLedgerTerminal",
+            "constructor": "StructuralExhaustion.CT15.Graph.Edge.capacityAvailable"
+          }
+        ],
+        "title": "Target-relative rank and full-rank ledger",
+        "terminals": [
+          {
+            "ordinal": 1,
+            "nodeId": "CT15.terminal.rankDrop",
+            "constructor": "StructuralExhaustion.CT15.Graph.Terminal.rankDrop",
+            "case": "rankDrop"
+          },
+          {
+            "ordinal": 2,
+            "nodeId": "CT15.terminal.c4",
+            "constructor": "StructuralExhaustion.CT15.Graph.Terminal.c4",
+            "case": "c4"
+          },
+          {
+            "ordinal": 3,
+            "nodeId": "CT15.terminal.fullRankLedger",
+            "constructor": "StructuralExhaustion.CT15.Graph.Terminal.fullRankLedger",
+            "case": "fullRankLedger"
+          }
+        ],
+        "tacticId": "CT15",
+        "residualKinds": [
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_from_predecessor",
+                "leanType": "CT15.RankState S capability input",
+                "fieldName": "rank"
+              },
+              {
+                "provision": "derived_by_generic_search",
+                "leanType": "Core.FiniteSearch.FirstHit capability.coordinates.orderedValues (S.TargetDependent input)",
+                "fieldName": "hit"
+              }
+            ],
+            "residualKindId": "CT15.residual.rankDrop",
+            "leanType": "StructuralExhaustion.CT15.RankDropResidual S capability input rank",
+            "inheritedContext": "branch"
+          },
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_from_predecessor",
+                "leanType": "CT15.LedgerState S capability input full",
+                "fieldName": "ledger"
+              },
+              {
+                "provision": "derived_by_computation",
+                "leanType": "ledger.total ≤ S.capacity input",
+                "fieldName": "total_le_capacity"
+              }
+            ],
+            "residualKindId": "CT15.residual.fullRankLedger",
+            "leanType": "StructuralExhaustion.CT15.FullRankLedgerResidual S capability input ledger",
+            "inheritedContext": "branch"
+          }
+        ],
+        "nodes": [
+          {
+            "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+            "semanticId": "CT15.entry",
+            "presentation": {
+              "summary": "Compiled entry node with an explicit automation contract.",
+              "label": "CT15.entry"
+            },
+            "ordinal": 1,
+            "nodeKind": "entry",
+            "nodeId": "CT15.entry",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT15.compute.targetRelativeRank",
+                  "sourceNode": "CT15.entry",
+                  "edgeId": "CT15.edge.beginRank",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        CT15.Graph.Edge S capability input CT15.Graph.NodeId.entry CT15.Graph.NodeId.rankComputation",
+                  "constructor": "StructuralExhaustion.CT15.Graph.Edge.beginRank"
+                }
+              ],
+              "incomingEdges": []
+            },
+            "constructor": "StructuralExhaustion.CT15.Graph.NodeId.entry",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "input",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "input",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT15.Input",
+                  "provision": "derived_definitionally"
+                }
+              ],
+              "frameworkTheorems": [],
+              "executionClass": "definitional",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+            "semanticId": "CT15.compute.targetRelativeRank",
+            "presentation": {
+              "summary": "Compiled computation node with an explicit automation contract.",
+              "label": "CT15.compute.targetRelativeRank"
+            },
+            "ordinal": 2,
+            "nodeKind": "computation",
+            "nodeId": "CT15.compute.targetRelativeRank",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT15.search.firstRankDrop",
+                  "sourceNode": "CT15.compute.targetRelativeRank",
+                  "edgeId": "CT15.edge.rankComputed",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        CT15.RankState S capability input →\n          CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankComputation CT15.Graph.NodeId.rankSplit",
+                  "constructor": "StructuralExhaustion.CT15.Graph.Edge.rankComputed"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT15.compute.targetRelativeRank",
+                  "sourceNode": "CT15.entry",
+                  "edgeId": "CT15.edge.beginRank",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        CT15.Graph.Edge S capability input CT15.Graph.NodeId.entry CT15.Graph.NodeId.rankComputation",
+                  "constructor": "StructuralExhaustion.CT15.Graph.Edge.beginRank"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT15.Graph.NodeId.rankComputation",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Spec.TargetDependent",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "Capability.coordinates",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Capability.targetDependentDecidable",
+                  "provision": "instance_bridge"
+                },
+                {
+                  "ref": "input",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "CT15.computeRank",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "input",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT15.RankState",
+                  "provision": "derived_by_computation"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "CT15.computeRank",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "verifiedComputation",
+              "derivedInputs": [],
+              "authorInputs": [
+                {
+                  "ref": "Spec.TargetDependent",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "Capability.coordinates",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Capability.targetDependentDecidable",
+                  "provision": "instance_bridge"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+            "semanticId": "CT15.search.firstRankDrop",
+            "presentation": {
+              "summary": "Compiled computation node with an explicit automation contract.",
+              "label": "CT15.search.firstRankDrop"
+            },
+            "ordinal": 3,
+            "nodeKind": "computation",
+            "nodeId": "CT15.search.firstRankDrop",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT15.terminal.rankDrop",
+                  "sourceNode": "CT15.search.firstRankDrop",
+                  "edgeId": "CT15.edge.rankDropped",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          CT15.RankDropResidual S capability input rank →\n            CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankSplit CT15.Graph.NodeId.rankDropTerminal",
+                  "constructor": "StructuralExhaustion.CT15.Graph.Edge.rankDropped"
+                },
+                {
+                  "targetNode": "CT15.compute.fullRankLedger",
+                  "sourceNode": "CT15.search.firstRankDrop",
+                  "edgeId": "CT15.edge.rankFull",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          CT15.FullRankState S capability input rank →\n            CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankSplit CT15.Graph.NodeId.ledgerComputation",
+                  "constructor": "StructuralExhaustion.CT15.Graph.Edge.rankFull"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT15.search.firstRankDrop",
+                  "sourceNode": "CT15.compute.targetRelativeRank",
+                  "edgeId": "CT15.edge.rankComputed",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        CT15.RankState S capability input →\n          CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankComputation CT15.Graph.NodeId.rankSplit",
+                  "constructor": "StructuralExhaustion.CT15.Graph.Edge.rankComputed"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT15.Graph.NodeId.rankSplit",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Spec.TargetDependent",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "Capability.coordinates",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Capability.targetDependentDecidable",
+                  "provision": "instance_bridge"
+                },
+                {
+                  "ref": "CT15.RankState",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "Core.FiniteSearch.first",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "CT15.computedRank_eq_targetRank",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "CT15.splitRank_sound",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "CT15.RankState",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT15.RankSplitDecision",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "CT15.RankDropResidual",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "CT15.FullRankState",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "Core.FiniteSearch.first",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "CT15.computedRank_eq_targetRank",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "CT15.splitRank_sound",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "finiteSearch",
+              "derivedInputs": [],
+              "authorInputs": [
+                {
+                  "ref": "Spec.TargetDependent",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "Capability.coordinates",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "Capability.targetDependentDecidable",
+                  "provision": "instance_bridge"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+            "semanticId": "CT15.compute.fullRankLedger",
+            "presentation": {
+              "summary": "Compiled computation node with an explicit automation contract.",
+              "label": "CT15.compute.fullRankLedger"
+            },
+            "ordinal": 4,
+            "nodeKind": "computation",
+            "nodeId": "CT15.compute.fullRankLedger",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT15.decide.ledgerCapacity",
+                  "sourceNode": "CT15.compute.fullRankLedger",
+                  "edgeId": "CT15.edge.ledgerComputed",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            CT15.LedgerState S capability input full →\n              CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComputation CT15.Graph.NodeId.ledgerComparison",
+                  "constructor": "StructuralExhaustion.CT15.Graph.Edge.ledgerComputed"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT15.compute.fullRankLedger",
+                  "sourceNode": "CT15.search.firstRankDrop",
+                  "edgeId": "CT15.edge.rankFull",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          CT15.FullRankState S capability input rank →\n            CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankSplit CT15.Graph.NodeId.ledgerComputation",
+                  "constructor": "StructuralExhaustion.CT15.Graph.Edge.rankFull"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT15.Graph.NodeId.ledgerComputation",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Spec.charge",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "CT15.FullRankState",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "CT15.buildLedger",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "CT15.ledger_exact",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "CT15.FullRankState",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT15.LedgerState",
+                  "provision": "derived_by_computation"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "CT15.buildLedger",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "CT15.ledger_exact",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "verifiedComputation",
+              "derivedInputs": [],
+              "authorInputs": [
+                {
+                  "ref": "Spec.charge",
+                  "provision": "user_operator"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+            "semanticId": "CT15.decide.ledgerCapacity",
+            "presentation": {
+              "summary": "Compiled decision node with an explicit automation contract.",
+              "label": "CT15.decide.ledgerCapacity"
+            },
+            "ordinal": 5,
+            "nodeKind": "decision",
+            "nodeId": "CT15.decide.ledgerCapacity",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT15.terminal.c4",
+                  "sourceNode": "CT15.decide.ledgerCapacity",
+                  "edgeId": "CT15.edge.capacityExceeded",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            {ledger : CT15.LedgerState S capability input full} →\n              CT15.C4Certificate S capability input ledger →\n                CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComparison CT15.Graph.NodeId.c4Terminal",
+                  "constructor": "StructuralExhaustion.CT15.Graph.Edge.capacityExceeded"
+                },
+                {
+                  "targetNode": "CT15.terminal.fullRankLedger",
+                  "sourceNode": "CT15.decide.ledgerCapacity",
+                  "edgeId": "CT15.edge.capacityAvailable",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            {ledger : CT15.LedgerState S capability input full} →\n              CT15.FullRankLedgerResidual S capability input ledger →\n                CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComparison\n                  CT15.Graph.NodeId.fullRankLedgerTerminal",
+                  "constructor": "StructuralExhaustion.CT15.Graph.Edge.capacityAvailable"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT15.decide.ledgerCapacity",
+                  "sourceNode": "CT15.compute.fullRankLedger",
+                  "edgeId": "CT15.edge.ledgerComputed",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            CT15.LedgerState S capability input full →\n              CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComputation CT15.Graph.NodeId.ledgerComparison",
+                  "constructor": "StructuralExhaustion.CT15.Graph.Edge.ledgerComputed"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT15.Graph.NodeId.ledgerComparison",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Spec.capacity",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "CT15.LedgerState",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "Nat.decLt",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "CT15.compareLedger",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "CT15.LedgerState",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT15.LedgerComparison",
+                  "provision": "derived_by_computation"
+                },
+                {
+                  "ref": "CT15.C4Certificate",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "CT15.FullRankLedgerResidual",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "Nat.decLt",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "CT15.compareLedger",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "verifiedComputation",
+              "derivedInputs": [],
+              "authorInputs": [
+                {
+                  "ref": "Spec.capacity",
+                  "provision": "user_operator"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+            "semanticId": "CT15.terminal.rankDrop",
+            "presentation": {
+              "summary": "Compiled residual node with an explicit automation contract.",
+              "label": "CT15.terminal.rankDrop"
+            },
+            "ordinal": 6,
+            "nodeKind": "residual",
+            "nodeId": "CT15.terminal.rankDrop",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT15.terminal.rankDrop",
+                  "sourceNode": "CT15.search.firstRankDrop",
+                  "edgeId": "CT15.edge.rankDropped",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          CT15.RankDropResidual S capability input rank →\n            CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankSplit CT15.Graph.NodeId.rankDropTerminal",
+                  "constructor": "StructuralExhaustion.CT15.Graph.Edge.rankDropped"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT15.Graph.NodeId.rankDropTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT15.Graph.Edge.rankDropped",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT15.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT15.Graph.Edge.rankDropped",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT15.ExecutionResult@CT15.terminal.rankDrop",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT15.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+            "semanticId": "CT15.terminal.c4",
+            "presentation": {
+              "summary": "Compiled certificate node with an explicit automation contract.",
+              "label": "CT15.terminal.c4"
+            },
+            "ordinal": 7,
+            "nodeKind": "certificate",
+            "nodeId": "CT15.terminal.c4",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT15.terminal.c4",
+                  "sourceNode": "CT15.decide.ledgerCapacity",
+                  "edgeId": "CT15.edge.capacityExceeded",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            {ledger : CT15.LedgerState S capability input full} →\n              CT15.C4Certificate S capability input ledger →\n                CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComparison CT15.Graph.NodeId.c4Terminal",
+                  "constructor": "StructuralExhaustion.CT15.Graph.Edge.capacityExceeded"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT15.Graph.NodeId.c4Terminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT15.Graph.Edge.capacityExceeded",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT15.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT15.Graph.Edge.capacityExceeded",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT15.ExecutionResult@CT15.terminal.c4",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT15.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT15/Graph.lean",
+            "semanticId": "CT15.terminal.fullRankLedger",
+            "presentation": {
+              "summary": "Compiled residual node with an explicit automation contract.",
+              "label": "CT15.terminal.fullRankLedger"
+            },
+            "ordinal": 8,
+            "nodeKind": "residual",
+            "nodeId": "CT15.terminal.fullRankLedger",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT15.terminal.fullRankLedger",
+                  "sourceNode": "CT15.decide.ledgerCapacity",
+                  "edgeId": "CT15.edge.capacityAvailable",
+                  "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            {ledger : CT15.LedgerState S capability input full} →\n              CT15.FullRankLedgerResidual S capability input ledger →\n                CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComparison\n                  CT15.Graph.NodeId.fullRankLedgerTerminal",
+                  "constructor": "StructuralExhaustion.CT15.Graph.Edge.capacityAvailable"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT15.Graph.NodeId.fullRankLedgerTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT15.Graph.Edge.capacityAvailable",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT15.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT15.Graph.Edge.capacityAvailable",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT15.ExecutionResult@CT15.terminal.fullRankLedger",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT15.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          }
+        ],
+        "namespace": "StructuralExhaustion.CT15",
+        "loopDecrease": null,
+        "capabilityProfiles": [],
+        "capability": {
+          "tacticId": "CT15",
+          "requiredInstances": [
+            {
+              "ref": "Capability.targetDependentDecidable",
+              "provision": "typeclass_inferred"
+            }
+          ],
+          "requiredDefinitions": [
+            {
+              "ref": "Spec.Coordinate",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Spec.TargetDependent",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Spec.charge",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.capacity",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.coordinates",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.targetDependentDecidable",
+              "provision": "instance_bridge"
+            }
+          ],
+          "derivedOperations": [
+            {
+              "ref": "CT15.rankContribution",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT15.computedRank",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT15.splitRank",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT15.ledgerEntries",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT15.ledgerTotal",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT15.buildLedger",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT15.compareLedger",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT15.runReference",
+              "provision": "framework_constant"
+            }
+          ],
+          "capabilityId": "StructuralExhaustion.CT15.reference"
+        },
+        "apiVersion": "CT15-v3",
+        "apiDeclarations": [
+          {
+            "type": "Type",
+            "name": "StructuralExhaustion.CT15.Graph.NodeId",
+            "kind": "inductive"
+          },
+          {
+            "type": "CT15.Graph.NodeId → String",
+            "name": "StructuralExhaustion.CT15.Graph.NodeId.code",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  (S : CT15.Spec P) → CT15.Capability S → CT15.Input P → CT15.Graph.NodeId → CT15.Graph.NodeId → Type uCoordinate",
+            "name": "StructuralExhaustion.CT15.Graph.Edge",
+            "kind": "inductive"
+          },
+          {
+            "type": "Type",
+            "name": "StructuralExhaustion.CT15.Graph.Terminal",
+            "kind": "inductive"
+          },
+          {
+            "type": "CT15.Graph.Terminal → CT15.Graph.NodeId",
+            "name": "StructuralExhaustion.CT15.Graph.Terminal.nodeId",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  (S : CT15.Spec P) → CT15.Capability S → CT15.Input P → CT15.Graph.NodeId → CT15.Graph.NodeId → Type uCoordinate",
+            "name": "StructuralExhaustion.CT15.Graph.Path",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  {S : CT15.Spec P} → {capability : CT15.Capability S} → {input : CT15.Input P} → List CT15.Graph.NodeId → Prop",
+            "name": "StructuralExhaustion.CT15.Graph.ValidTrace",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} → CT15.Spec P → Type (max (max uAmbient uBranch) u_1)",
+            "name": "StructuralExhaustion.CT15.Capability",
+            "kind": "inductive"
+          },
+          {
+            "type": "Core.Problem → Type (max uAmbient uBranch)",
+            "name": "StructuralExhaustion.CT15.Input",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} → (S : CT15.Spec P) → CT15.Capability S → CT15.Input P → Type uCoordinate",
+            "name": "StructuralExhaustion.CT15.ExecutionResult",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → (S : CT15.Spec P) → CT15.Capability S → CT15.Input P → CT15.Graph.Terminal → Type uCoordinate",
+            "name": "StructuralExhaustion.CT15.RawOutcome",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  (S : CT15.Spec P) →\n    (capability : CT15.Capability S) → (input : CT15.Input P) → CT15.ExecutionResult S capability input",
+            "name": "StructuralExhaustion.CT15.run",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  (S : CT15.Spec P) →\n    (capability : CT15.Capability S) → (input : CT15.Input P) → CT15.ExecutionResult S capability input",
+            "name": "StructuralExhaustion.CT15.runReference",
+            "kind": "definition"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (S : CT15.Spec P) (capability : CT15.Capability S) (input : CT15.Input P),\n  CT15.RawOutcome.Valid S capability input (CT15.run S capability input).outcome",
+            "name": "StructuralExhaustion.CT15.run_verified",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (S : CT15.Spec P) (capability : CT15.Capability S) (input : CT15.Input P),\n  CT15.Graph.ValidTrace (CT15.ExecutionResult.trace S capability input (CT15.run S capability input))",
+            "name": "StructuralExhaustion.CT15.run_trace_valid",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (S : CT15.Spec P) (capability : CT15.Capability S) (input : CT15.Input P),\n  ∃ result,\n    CT15.RawOutcome.Valid S capability input result.outcome ∧\n      CT15.Graph.ValidTrace (CT15.ExecutionResult.trace S capability input result)",
+            "name": "StructuralExhaustion.CT15.run_total",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (S : CT15.Spec P) (capability : CT15.Capability S) (input : CT15.Input P)\n  (left right : CT15.ExecutionResult S capability input),\n  left = CT15.run S capability input → right = CT15.run S capability input → left = right",
+            "name": "StructuralExhaustion.CT15.run_deterministic",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (S : CT15.Spec P) (capability : CT15.Capability S) (input : CT15.Input P)\n  (result : CT15.ExecutionResult S capability input),\n  result.terminal = CT15.Graph.Terminal.rankDrop ∨\n    result.terminal = CT15.Graph.Terminal.c4 ∨ result.terminal = CT15.Graph.Terminal.fullRankLedger",
+            "name": "StructuralExhaustion.CT15.outcome_exhaustive",
+            "kind": "theorem"
+          },
+          {
+            "type": "Core.CapabilityContract",
+            "name": "StructuralExhaustion.CT15.capabilityContract",
+            "kind": "definition"
+          },
+          {
+            "type": "List Core.NodeAutomationContract",
+            "name": "StructuralExhaustion.CT15.nodeAutomationContracts",
+            "kind": "definition"
+          },
+          {
+            "type": "List Core.ResidualKindContract",
+            "name": "StructuralExhaustion.CT15.residualKindContracts",
+            "kind": "definition"
+          }
+        ]
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT15",
+    "apiVersion": "CT15-v3",
+    "namespace": "StructuralExhaustion.CT15"
+  },
+  "x-capability": {
+    "tacticId": "CT15",
+    "requiredInstances": [
+      {
+        "ref": "Capability.targetDependentDecidable",
+        "provision": "typeclass_inferred"
+      }
+    ],
+    "requiredDefinitions": [
+      {
+        "ref": "Spec.Coordinate",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Spec.TargetDependent",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Spec.charge",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Spec.capacity",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.coordinates",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.targetDependentDecidable",
+        "provision": "instance_bridge"
+      }
+    ],
+    "derivedOperations": [
+      {
+        "ref": "CT15.rankContribution",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT15.computedRank",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT15.splitRank",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT15.ledgerEntries",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT15.ledgerTotal",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT15.buildLedger",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT15.compareLedger",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT15.runReference",
+        "provision": "framework_constant"
+      }
+    ],
+    "capabilityId": "StructuralExhaustion.CT15.reference"
+  },
+  "x-capabilityProfiles": []
+}

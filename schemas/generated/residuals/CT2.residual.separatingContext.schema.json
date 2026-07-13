@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT2.residual.separatingContext.schema.json",
+  "title": "CT2.residual.separatingContext semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_by_computation",
+            "leanType": "DeletionCriticalState",
+            "fieldName": "deletionCritical"
+          },
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "Candidate sourcePiece",
+            "fieldName": "candidate"
+          },
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "ContextSeparator candidate",
+            "fieldName": "separator"
+          },
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "ReplacementTable",
+            "fieldName": "replacementTable"
+          }
+        ],
+        "residualKindId": "CT2.residual.separatingContext",
+        "leanType": "StructuralExhaustion.CT2.SeparatingContextResidual",
+        "inheritedContext": "minimalCounterexampleBranch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT2",
+    "apiVersion": "CT2-v6",
+    "namespace": "StructuralExhaustion.CT2"
+  }
+}

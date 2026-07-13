@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT13.residual.deficit.schema.json",
+  "title": "CT13.residual.deficit semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_from_predecessor",
+            "leanType": "StructuralExhaustion.CT13.ReconciledState",
+            "fieldName": "state"
+          },
+          {
+            "provision": "derived_by_computation",
+            "leanType": "state.capacity < Capability.demand ctx",
+            "fieldName": "deficit"
+          }
+        ],
+        "residualKindId": "CT13.residual.deficit",
+        "leanType": "StructuralExhaustion.CT13.DeficitResidual",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT13",
+    "apiVersion": "CT13-v3",
+    "namespace": "StructuralExhaustion.CT13"
+  }
+}

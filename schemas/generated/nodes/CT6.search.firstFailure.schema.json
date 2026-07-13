@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT6.search.firstFailure.schema.json",
+  "title": "CT6.search.firstFailure automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+        "semanticId": "CT6.search.firstFailure",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT6.search.firstFailure"
+        },
+        "ordinal": 2,
+        "nodeKind": "computation",
+        "nodeId": "CT6.search.firstFailure",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT6.terminal.residual.firstFailure",
+              "sourceNode": "CT6.search.firstFailure",
+              "edgeId": "CT6.edge.failure",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.FirstFailureResidual S capability input →\n          CT6.Graph.Edge S capability input CT6.Graph.NodeId.firstFailureSearch CT6.Graph.NodeId.firstFailureTerminal",
+              "constructor": "StructuralExhaustion.CT6.Graph.Edge.failure"
+            },
+            {
+              "targetNode": "CT6.terminal.residual.activeLedger",
+              "sourceNode": "CT6.search.firstFailure",
+              "edgeId": "CT6.edge.active",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.ActiveLedgerResidual S capability input →\n          CT6.Graph.Edge S capability input CT6.Graph.NodeId.firstFailureSearch CT6.Graph.NodeId.activeLedgerTerminal",
+              "constructor": "StructuralExhaustion.CT6.Graph.Edge.active"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT6.search.firstFailure",
+              "sourceNode": "CT6.entry",
+              "edgeId": "CT6.edge.beginSearch",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.Graph.Edge S capability input CT6.Graph.NodeId.entry CT6.Graph.NodeId.firstFailureSearch",
+              "constructor": "StructuralExhaustion.CT6.Graph.Edge.beginSearch"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT6.Graph.NodeId.firstFailureSearch",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.failureOrder",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Spec.Failure",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Spec.failureData",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.contribution",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.failureDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "FirstHit.beforeAbsent",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "Core.FiniteSearch.first_hit_no_earlier",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT6.ActivityDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT6.FirstFailureResidual",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT6.ActiveLedgerResidual",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.first_hit_no_earlier",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [
+            {
+              "ref": "FirstHit.beforeAbsent",
+              "provision": "derived_by_generic_search"
+            }
+          ],
+          "authorInputs": [
+            {
+              "ref": "Capability.failureOrder",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Spec.Failure",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Spec.failureData",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.contribution",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.failureDecidable",
+              "provision": "instance_bridge"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT6",
+    "apiVersion": "CT6-v5",
+    "namespace": "StructuralExhaustion.CT6"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Capability.failureOrder",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Spec.Failure",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Spec.failureData",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Spec.contribution",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.failureDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "FirstHit.beforeAbsent",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "Core.FiniteSearch.first_hit_no_earlier",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT6.ActivityDecision",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT6.FirstFailureResidual",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT6.ActiveLedgerResidual",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "Core.FiniteSearch.first_hit_no_earlier",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "finiteSearch",
+    "derivedInputs": [
+      {
+        "ref": "FirstHit.beforeAbsent",
+        "provision": "derived_by_generic_search"
+      }
+    ],
+    "authorInputs": [
+      {
+        "ref": "Capability.failureOrder",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Spec.Failure",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Spec.failureData",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Spec.contribution",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.failureDecidable",
+        "provision": "instance_bridge"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT6.terminal.residual.firstFailure",
+        "sourceNode": "CT6.search.firstFailure",
+        "edgeId": "CT6.edge.failure",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.FirstFailureResidual S capability input →\n          CT6.Graph.Edge S capability input CT6.Graph.NodeId.firstFailureSearch CT6.Graph.NodeId.firstFailureTerminal",
+        "constructor": "StructuralExhaustion.CT6.Graph.Edge.failure"
+      },
+      {
+        "targetNode": "CT6.terminal.residual.activeLedger",
+        "sourceNode": "CT6.search.firstFailure",
+        "edgeId": "CT6.edge.active",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.ActiveLedgerResidual S capability input →\n          CT6.Graph.Edge S capability input CT6.Graph.NodeId.firstFailureSearch CT6.Graph.NodeId.activeLedgerTerminal",
+        "constructor": "StructuralExhaustion.CT6.Graph.Edge.active"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT6.search.firstFailure",
+        "sourceNode": "CT6.entry",
+        "edgeId": "CT6.edge.beginSearch",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.Graph.Edge S capability input CT6.Graph.NodeId.entry CT6.Graph.NodeId.firstFailureSearch",
+        "constructor": "StructuralExhaustion.CT6.Graph.Edge.beginSearch"
+      }
+    ]
+  }
+}

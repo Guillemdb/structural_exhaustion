@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT10.terminal.certificate.exhaustive.schema.json",
+  "title": "CT10.terminal.certificate.exhaustive automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT10/Graph.lean",
+        "semanticId": "CT10.terminal.certificate.exhaustive",
+        "presentation": {
+          "summary": "Compiled certificate node with an explicit automation contract.",
+          "label": "CT10.terminal.certificate.exhaustive"
+        },
+        "ordinal": 8,
+        "nodeKind": "certificate",
+        "nodeId": "CT10.terminal.certificate.exhaustive",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT10.terminal.certificate.exhaustive",
+              "sourceNode": "CT10.search.firstMissing",
+              "edgeId": "CT10.edge.exhaustive",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.ExhaustiveCertificate capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.missing CT10.Graph.NodeId.exhaustiveTerminal",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.exhaustive"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT10.Graph.NodeId.exhaustiveTerminal",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT10.Graph.Edge.exhaustive",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT10.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT10.Graph.Edge.exhaustive",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT10.ExecutionResult@CT10.terminal.certificate.exhaustive",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT10.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT10",
+    "apiVersion": "CT10-v3",
+    "namespace": "StructuralExhaustion.CT10"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT10.Graph.Edge.exhaustive",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "StructuralExhaustion.CT10.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT10.Graph.Edge.exhaustive",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT10.ExecutionResult@CT10.terminal.certificate.exhaustive",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "StructuralExhaustion.CT10.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "genericTheorem",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [],
+    "incomingEdges": [
+      {
+        "targetNode": "CT10.terminal.certificate.exhaustive",
+        "sourceNode": "CT10.search.firstMissing",
+        "edgeId": "CT10.edge.exhaustive",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.ExhaustiveCertificate capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.missing CT10.Graph.NodeId.exhaustiveTerminal",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.exhaustive"
+      }
+    ]
+  }
+}

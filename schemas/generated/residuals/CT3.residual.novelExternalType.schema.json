@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT3.residual.novelExternalType.schema.json",
+  "title": "CT3.residual.novelExternalType semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "∀ row, ¬ CT3.RowMatches S input row",
+            "fieldName": "novel"
+          }
+        ],
+        "residualKindId": "CT3.residual.novelExternalType",
+        "leanType": "StructuralExhaustion.CT3.NovelExternalTypeResidual S C input table",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT3",
+    "apiVersion": "CT3-v3",
+    "namespace": "StructuralExhaustion.CT3"
+  }
+}

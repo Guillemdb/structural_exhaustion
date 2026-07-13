@@ -1,0 +1,459 @@
+{
+  "tacticId": "CT7",
+  "elements": [
+    {
+      "data": {
+        "id": "CT7.entry",
+        "label": "CT7.entry",
+        "kind": "entry",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT7.Input",
+              "provision": "derived_definitionally"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT7.search.realization",
+              "sourceNode": "CT7.entry",
+              "edgeId": "CT7.edge.beginRealization",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.entry CT7.Graph.NodeId.realizationSearch",
+              "constructor": "StructuralExhaustion.CT7.Graph.Edge.beginRealization"
+            }
+          ],
+          "incomingEdges": []
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.search.realization",
+        "label": "CT7.search.realization",
+        "kind": "computation",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Spec.Realizes",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.contexts",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.realizesDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "input",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Core.FiniteSearch.search_none_iff",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT7.RealizationDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT7.RealizationCertificate",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT7.UnrealizedState",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.search_none_iff",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Spec.Realizes",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.contexts",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.realizesDecidable",
+              "provision": "instance_bridge"
+            }
+          ]
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT7.terminal.certificate.realization",
+              "sourceNode": "CT7.search.realization",
+              "edgeId": "CT7.edge.realized",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.RealizationCertificate S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch\n              CT7.Graph.NodeId.realizationTerminal",
+              "constructor": "StructuralExhaustion.CT7.Graph.Edge.realized"
+            },
+            {
+              "targetNode": "CT7.search.distinction",
+              "sourceNode": "CT7.search.realization",
+              "edgeId": "CT7.edge.unrealized",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.UnrealizedState S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch CT7.Graph.NodeId.distinctionSearch",
+              "constructor": "StructuralExhaustion.CT7.Graph.Edge.unrealized"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT7.search.realization",
+              "sourceNode": "CT7.entry",
+              "edgeId": "CT7.edge.beginRealization",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.entry CT7.Graph.NodeId.realizationSearch",
+              "constructor": "StructuralExhaustion.CT7.Graph.Edge.beginRealization"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.search.distinction",
+        "label": "CT7.search.distinction",
+        "kind": "computation",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Spec.response",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.contexts",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "CT7.UnrealizedState",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Core.FiniteSearch.search_none_iff",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "CT7.UnrealizedState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT7.DistinctionDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT7.DistinguishingResidual",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT7.NeutralityCertificate",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.search_none_iff",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Spec.response",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.contexts",
+              "provision": "user_finite_enumeration"
+            }
+          ]
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT7.terminal.residual.distinguishing",
+              "sourceNode": "CT7.search.distinction",
+              "edgeId": "CT7.edge.distinguished",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.DistinguishingResidual S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.distinctionSearch\n              CT7.Graph.NodeId.distinguishingTerminal",
+              "constructor": "StructuralExhaustion.CT7.Graph.Edge.distinguished"
+            },
+            {
+              "targetNode": "CT7.terminal.certificate.neutrality",
+              "sourceNode": "CT7.search.distinction",
+              "edgeId": "CT7.edge.neutral",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.NeutralityCertificate S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.distinctionSearch CT7.Graph.NodeId.neutralTerminal",
+              "constructor": "StructuralExhaustion.CT7.Graph.Edge.neutral"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT7.search.distinction",
+              "sourceNode": "CT7.search.realization",
+              "edgeId": "CT7.edge.unrealized",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.UnrealizedState S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch CT7.Graph.NodeId.distinctionSearch",
+              "constructor": "StructuralExhaustion.CT7.Graph.Edge.unrealized"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.terminal.certificate.realization",
+        "label": "CT7.terminal.certificate.realization",
+        "kind": "certificate",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT7.Graph.Edge.realized",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT7.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT7.Graph.Edge.realized",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT7.ExecutionResult@CT7.terminal.certificate.realization",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT7.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT7.terminal.certificate.realization",
+              "sourceNode": "CT7.search.realization",
+              "edgeId": "CT7.edge.realized",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.RealizationCertificate S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch\n              CT7.Graph.NodeId.realizationTerminal",
+              "constructor": "StructuralExhaustion.CT7.Graph.Edge.realized"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.terminal.residual.distinguishing",
+        "label": "CT7.terminal.residual.distinguishing",
+        "kind": "residual",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT7.Graph.Edge.distinguished",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT7.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT7.Graph.Edge.distinguished",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT7.ExecutionResult@CT7.terminal.residual.distinguishing",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT7.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT7.terminal.residual.distinguishing",
+              "sourceNode": "CT7.search.distinction",
+              "edgeId": "CT7.edge.distinguished",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.DistinguishingResidual S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.distinctionSearch\n              CT7.Graph.NodeId.distinguishingTerminal",
+              "constructor": "StructuralExhaustion.CT7.Graph.Edge.distinguished"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.terminal.certificate.neutrality",
+        "label": "CT7.terminal.certificate.neutrality",
+        "kind": "certificate",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT7.Graph.Edge.neutral",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT7.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT7.Graph.Edge.neutral",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT7.ExecutionResult@CT7.terminal.certificate.neutrality",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT7.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT7.terminal.certificate.neutrality",
+              "sourceNode": "CT7.search.distinction",
+              "edgeId": "CT7.edge.neutral",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.NeutralityCertificate S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.distinctionSearch CT7.Graph.NodeId.neutralTerminal",
+              "constructor": "StructuralExhaustion.CT7.Graph.Edge.neutral"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.beginRealization",
+        "source": "CT7.entry",
+        "target": "CT7.search.realization",
+        "constructor": "StructuralExhaustion.CT7.Graph.Edge.beginRealization",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.entry CT7.Graph.NodeId.realizationSearch"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.realized",
+        "source": "CT7.search.realization",
+        "target": "CT7.terminal.certificate.realization",
+        "constructor": "StructuralExhaustion.CT7.Graph.Edge.realized",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.RealizationCertificate S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch\n              CT7.Graph.NodeId.realizationTerminal"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.unrealized",
+        "source": "CT7.search.realization",
+        "target": "CT7.search.distinction",
+        "constructor": "StructuralExhaustion.CT7.Graph.Edge.unrealized",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.UnrealizedState S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch CT7.Graph.NodeId.distinctionSearch"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.distinguished",
+        "source": "CT7.search.distinction",
+        "target": "CT7.terminal.residual.distinguishing",
+        "constructor": "StructuralExhaustion.CT7.Graph.Edge.distinguished",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.DistinguishingResidual S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.distinctionSearch\n              CT7.Graph.NodeId.distinguishingTerminal"
+      }
+    },
+    {
+      "data": {
+        "id": "CT7.edge.neutral",
+        "source": "CT7.search.distinction",
+        "target": "CT7.terminal.certificate.neutrality",
+        "constructor": "StructuralExhaustion.CT7.Graph.Edge.neutral",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.NeutralityCertificate S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.distinctionSearch CT7.Graph.NodeId.neutralTerminal"
+      }
+    }
+  ]
+}

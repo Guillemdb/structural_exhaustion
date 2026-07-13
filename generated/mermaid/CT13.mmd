@@ -1,0 +1,18 @@
+flowchart LR
+  N1["CT13.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT13.search.tier-one<br/>finiteSearch<br/>author=3, generated=3"]
+  N3["CT13.compute.fallback<br/>verifiedComputation<br/>author=3, generated=1"]
+  N4["CT13.compute.reconciliation<br/>finiteSearch<br/>author=4, generated=3"]
+  N5["CT13.decide.comparison<br/>verifiedComputation<br/>author=1, generated=3"]
+  N6["CT13.terminal.residual.tier-one<br/>genericTheorem<br/>author=0, generated=1"]
+  N7["CT13.terminal.residual.overlap<br/>genericTheorem<br/>author=0, generated=1"]
+  N8["CT13.terminal.residual.deficit<br/>genericTheorem<br/>author=0, generated=1"]
+  N9["CT13.terminal.certificate.reconciled<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT13.edge.begin| N2
+  N2 -->|CT13.edge.tierOne| N6
+  N2 -->|CT13.edge.absent| N3
+  N3 -->|CT13.edge.fallback| N4
+  N4 -->|CT13.edge.overlap| N7
+  N4 -->|CT13.edge.clean| N5
+  N5 -->|CT13.edge.deficit| N8
+  N5 -->|CT13.edge.reconciled| N9

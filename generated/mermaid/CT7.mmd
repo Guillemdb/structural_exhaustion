@@ -1,0 +1,12 @@
+flowchart LR
+  N1["CT7.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT7.search.realization<br/>finiteSearch<br/>author=3, generated=3"]
+  N3["CT7.search.distinction<br/>finiteSearch<br/>author=2, generated=3"]
+  N4["CT7.terminal.certificate.realization<br/>genericTheorem<br/>author=0, generated=1"]
+  N5["CT7.terminal.residual.distinguishing<br/>genericTheorem<br/>author=0, generated=1"]
+  N6["CT7.terminal.certificate.neutrality<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT7.edge.beginRealization| N2
+  N2 -->|CT7.edge.realized| N4
+  N2 -->|CT7.edge.unrealized| N3
+  N3 -->|CT7.edge.distinguished| N5
+  N3 -->|CT7.edge.neutral| N6

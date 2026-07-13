@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT3.entry.schema.json",
+  "title": "CT3.entry automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT3/Graph.lean",
+        "semanticId": "CT3.entry",
+        "presentation": {
+          "summary": "Compiled entry node with an explicit automation contract.",
+          "label": "CT3.entry"
+        },
+        "ordinal": 1,
+        "nodeKind": "entry",
+        "nodeId": "CT3.entry",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT3.compute.exact-vector",
+              "sourceNode": "CT3.entry",
+              "edgeId": "CT3.edge.beginVector",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} → CT3.Graph.Edge S C input CT3.Graph.NodeId.entry CT3.Graph.NodeId.vectorComputation",
+              "constructor": "StructuralExhaustion.CT3.Graph.Edge.beginVector"
+            }
+          ],
+          "incomingEdges": []
+        },
+        "constructor": "StructuralExhaustion.CT3.Graph.NodeId.entry",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Input.context",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.piece",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "Input.context",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.piece",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT3.Input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT3",
+    "apiVersion": "CT3-v3",
+    "namespace": "StructuralExhaustion.CT3"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Input.context",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Input.piece",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "Input.context",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Input.piece",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT3.Input",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "definitional",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT3.compute.exact-vector",
+        "sourceNode": "CT3.entry",
+        "edgeId": "CT3.edge.beginVector",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} → CT3.Graph.Edge S C input CT3.Graph.NodeId.entry CT3.Graph.NodeId.vectorComputation",
+        "constructor": "StructuralExhaustion.CT3.Graph.Edge.beginVector"
+      }
+    ],
+    "incomingEdges": []
+  }
+}

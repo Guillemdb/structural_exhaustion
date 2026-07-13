@@ -1,7 +1,0 @@
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.org/structural-exhaustion/contract-instance.schema.json",
-  "title": "Structural-exhaustion contract instance",
-  "description": "Validates one fully populated S-* or A-* mathematical contract used to discharge a proof-flow node. The S-* variants type the lemma-schema alphabet of the structural exhaustion framework (branch_closure_methodology_extended.tex, 'Lemma schemas'); the A-* variants and S-Prove are package extensions for certificate validation, scope audit, admission, and displayed propositions. Field meanings and content requirements are defined on the referenced union and its variants.",
-  "$ref": "./structural-exhaustion.bundle.schema.json#/$defs/contractInstance"
-}

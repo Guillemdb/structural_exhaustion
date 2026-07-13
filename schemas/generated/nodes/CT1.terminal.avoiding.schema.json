@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT1.terminal.avoiding.schema.json",
+  "title": "CT1.terminal.avoiding automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+        "semanticId": "CT1.terminal.avoiding",
+        "presentation": {
+          "summary": "Compiled residual node with an explicit automation contract.",
+          "label": "CT1.terminal.avoiding"
+        },
+        "ordinal": 5,
+        "nodeKind": "residual",
+        "nodeId": "CT1.terminal.avoiding",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT1.terminal.avoiding",
+              "sourceNode": "CT1.decide.realization",
+              "edgeId": "CT1.edge.realizationAvoiding",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.AvoidingState S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.avoidingTerminal",
+              "constructor": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT1.Graph.NodeId.avoidingTerminal",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.avoiding",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT1.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT1",
+    "apiVersion": "CT1-v5",
+    "namespace": "StructuralExhaustion.CT1"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "StructuralExhaustion.CT1.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.avoiding",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "StructuralExhaustion.CT1.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "genericTheorem",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [],
+    "incomingEdges": [
+      {
+        "targetNode": "CT1.terminal.avoiding",
+        "sourceNode": "CT1.decide.realization",
+        "edgeId": "CT1.edge.realizationAvoiding",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.AvoidingState S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.avoidingTerminal",
+        "constructor": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding"
+      }
+    ]
+  }
+}

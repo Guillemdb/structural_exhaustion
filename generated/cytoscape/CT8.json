@@ -1,0 +1,467 @@
+{
+  "tacticId": "CT8",
+  "elements": [
+    {
+      "data": {
+        "id": "CT8.entry",
+        "label": "CT8.entry",
+        "kind": "entry",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "context",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.sequence",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "context",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.sequence",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT8.Input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT8.search.orderedRepeatedType",
+              "sourceNode": "CT8.entry",
+              "edgeId": "CT8.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.entry CT8.Graph.NodeId.repetition",
+              "constructor": "StructuralExhaustion.CT8.Graph.Edge.begin"
+            }
+          ],
+          "incomingEdges": []
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT8.search.orderedRepeatedType",
+        "label": "CT8.search.orderedRepeatedType",
+        "kind": "computation",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.exactTypes",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.exactType",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Input.sequence",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Core.FiniteSearch.onList",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "Input.sequence",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT8.RepetitionDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT8.OrderedRepeatedPair",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT8.NoRepetitionCertificate",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.onList",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.exactTypes",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.exactType",
+              "provision": "user_operator"
+            }
+          ]
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT8.terminal.certificate.noRepetition",
+              "sourceNode": "CT8.search.orderedRepeatedType",
+              "edgeId": "CT8.edge.unique",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.NoRepetitionCertificate capability ctx input →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.repetition CT8.Graph.NodeId.noRepetitionTerminal",
+              "constructor": "StructuralExhaustion.CT8.Graph.Edge.unique"
+            },
+            {
+              "targetNode": "CT8.compare.responses",
+              "sourceNode": "CT8.search.orderedRepeatedType",
+              "edgeId": "CT8.edge.repeated",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.OrderedRepeatedPair capability input.sequence →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.repetition CT8.Graph.NodeId.response",
+              "constructor": "StructuralExhaustion.CT8.Graph.Edge.repeated"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT8.search.orderedRepeatedType",
+              "sourceNode": "CT8.entry",
+              "edgeId": "CT8.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.entry CT8.Graph.NodeId.repetition",
+              "constructor": "StructuralExhaustion.CT8.Graph.Edge.begin"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT8.compare.responses",
+        "label": "CT8.compare.responses",
+        "kind": "decision",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.responseContexts",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.response",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Input.remove",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "CT8.OrderedRepeatedPair",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Core.FiniteSearch.search",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "CT8.OrderedRepeatedPair",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT8.ResponseDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT8.RemovalResidual",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "CT8.SeparationResidual",
+              "provision": "derived_by_generic_search"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.search",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.responseContexts",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.response",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Input.remove",
+              "provision": "user_operator"
+            }
+          ]
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT8.terminal.residual.removal",
+              "sourceNode": "CT8.compare.responses",
+              "edgeId": "CT8.edge.removable",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.RemovalResidual capability ctx input →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.response CT8.Graph.NodeId.removalTerminal",
+              "constructor": "StructuralExhaustion.CT8.Graph.Edge.removable"
+            },
+            {
+              "targetNode": "CT8.terminal.residual.responseSeparation",
+              "sourceNode": "CT8.compare.responses",
+              "edgeId": "CT8.edge.separating",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.SeparationResidual capability ctx input →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.response CT8.Graph.NodeId.separationTerminal",
+              "constructor": "StructuralExhaustion.CT8.Graph.Edge.separating"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT8.compare.responses",
+              "sourceNode": "CT8.search.orderedRepeatedType",
+              "edgeId": "CT8.edge.repeated",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.OrderedRepeatedPair capability input.sequence →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.repetition CT8.Graph.NodeId.response",
+              "constructor": "StructuralExhaustion.CT8.Graph.Edge.repeated"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT8.terminal.certificate.noRepetition",
+        "label": "CT8.terminal.certificate.noRepetition",
+        "kind": "certificate",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT8.Graph.Edge.unique",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT8.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT8.Graph.Edge.unique",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT8.ExecutionResult@CT8.terminal.certificate.noRepetition",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT8.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT8.terminal.certificate.noRepetition",
+              "sourceNode": "CT8.search.orderedRepeatedType",
+              "edgeId": "CT8.edge.unique",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.NoRepetitionCertificate capability ctx input →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.repetition CT8.Graph.NodeId.noRepetitionTerminal",
+              "constructor": "StructuralExhaustion.CT8.Graph.Edge.unique"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT8.terminal.residual.removal",
+        "label": "CT8.terminal.residual.removal",
+        "kind": "residual",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT8.Graph.Edge.removable",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT8.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT8.Graph.Edge.removable",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT8.ExecutionResult@CT8.terminal.residual.removal",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT8.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT8.terminal.residual.removal",
+              "sourceNode": "CT8.compare.responses",
+              "edgeId": "CT8.edge.removable",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.RemovalResidual capability ctx input →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.response CT8.Graph.NodeId.removalTerminal",
+              "constructor": "StructuralExhaustion.CT8.Graph.Edge.removable"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT8.terminal.residual.responseSeparation",
+        "label": "CT8.terminal.residual.responseSeparation",
+        "kind": "residual",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT8.Graph.Edge.separating",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT8.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT8.Graph.Edge.separating",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT8.ExecutionResult@CT8.terminal.residual.responseSeparation",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT8.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT8.terminal.residual.responseSeparation",
+              "sourceNode": "CT8.compare.responses",
+              "edgeId": "CT8.edge.separating",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.SeparationResidual capability ctx input →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.response CT8.Graph.NodeId.separationTerminal",
+              "constructor": "StructuralExhaustion.CT8.Graph.Edge.separating"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT8.edge.begin",
+        "source": "CT8.entry",
+        "target": "CT8.search.orderedRepeatedType",
+        "constructor": "StructuralExhaustion.CT8.Graph.Edge.begin",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.entry CT8.Graph.NodeId.repetition"
+      }
+    },
+    {
+      "data": {
+        "id": "CT8.edge.unique",
+        "source": "CT8.search.orderedRepeatedType",
+        "target": "CT8.terminal.certificate.noRepetition",
+        "constructor": "StructuralExhaustion.CT8.Graph.Edge.unique",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.NoRepetitionCertificate capability ctx input →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.repetition CT8.Graph.NodeId.noRepetitionTerminal"
+      }
+    },
+    {
+      "data": {
+        "id": "CT8.edge.repeated",
+        "source": "CT8.search.orderedRepeatedType",
+        "target": "CT8.compare.responses",
+        "constructor": "StructuralExhaustion.CT8.Graph.Edge.repeated",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.OrderedRepeatedPair capability input.sequence →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.repetition CT8.Graph.NodeId.response"
+      }
+    },
+    {
+      "data": {
+        "id": "CT8.edge.removable",
+        "source": "CT8.compare.responses",
+        "target": "CT8.terminal.residual.removal",
+        "constructor": "StructuralExhaustion.CT8.Graph.Edge.removable",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.RemovalResidual capability ctx input →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.response CT8.Graph.NodeId.removalTerminal"
+      }
+    },
+    {
+      "data": {
+        "id": "CT8.edge.separating",
+        "source": "CT8.compare.responses",
+        "target": "CT8.terminal.residual.responseSeparation",
+        "constructor": "StructuralExhaustion.CT8.Graph.Edge.separating",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT8.Capability P} →\n    {ctx : Core.BranchContext P} →\n      {input : CT8.Input capability ctx} →\n        CT8.SeparationResidual capability ctx input →\n          CT8.Graph.Edge capability ctx input CT8.Graph.NodeId.response CT8.Graph.NodeId.separationTerminal"
+      }
+    }
+  ]
+}

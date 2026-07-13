@@ -1,0 +1,1193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/tactics/CT13.schema.json",
+  "title": "CT13 automation-first Lean tactic",
+  "description": "The complete compiled graph, general capability API, specialized capability profiles, node automation contracts, and semantic residual inventory for this tactic.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/tacticSpec"
+    },
+    {
+      "const": {
+        "transitions": [
+          {
+            "targetNode": "CT13.search.tier-one",
+            "sourceNode": "CT13.entry",
+            "provision": "generated_audit",
+            "ordinal": 1,
+            "edgeId": "CT13.edge.begin",
+            "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} → CT13.Graph.Edge C ctx CT13.Graph.NodeId.entry CT13.Graph.NodeId.tierOne",
+            "constructor": "StructuralExhaustion.CT13.Graph.Edge.begin"
+          },
+          {
+            "targetNode": "CT13.terminal.residual.tier-one",
+            "sourceNode": "CT13.search.tier-one",
+            "provision": "generated_audit",
+            "ordinal": 2,
+            "edgeId": "CT13.edge.tierOne",
+            "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.TierOneResidual C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.tierOne CT13.Graph.NodeId.tierOneTerminal",
+            "constructor": "StructuralExhaustion.CT13.Graph.Edge.tierOne"
+          },
+          {
+            "targetNode": "CT13.compute.fallback",
+            "sourceNode": "CT13.search.tier-one",
+            "provision": "generated_audit",
+            "ordinal": 3,
+            "edgeId": "CT13.edge.absent",
+            "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.TierOneAbsenceState C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.tierOne CT13.Graph.NodeId.fallback",
+            "constructor": "StructuralExhaustion.CT13.Graph.Edge.absent"
+          },
+          {
+            "targetNode": "CT13.compute.reconciliation",
+            "sourceNode": "CT13.compute.fallback",
+            "provision": "generated_audit",
+            "ordinal": 4,
+            "edgeId": "CT13.edge.fallback",
+            "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.FallbackState C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.fallback CT13.Graph.NodeId.reconciliation",
+            "constructor": "StructuralExhaustion.CT13.Graph.Edge.fallback"
+          },
+          {
+            "targetNode": "CT13.terminal.residual.overlap",
+            "sourceNode": "CT13.compute.reconciliation",
+            "provision": "generated_audit",
+            "ordinal": 5,
+            "edgeId": "CT13.edge.overlap",
+            "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.OverlapResidual C ctx →\n        CT13.Graph.Edge C ctx CT13.Graph.NodeId.reconciliation CT13.Graph.NodeId.overlapTerminal",
+            "constructor": "StructuralExhaustion.CT13.Graph.Edge.overlap"
+          },
+          {
+            "targetNode": "CT13.decide.comparison",
+            "sourceNode": "CT13.compute.reconciliation",
+            "provision": "generated_audit",
+            "ordinal": 6,
+            "edgeId": "CT13.edge.clean",
+            "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.ReconciledState C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.reconciliation CT13.Graph.NodeId.comparison",
+            "constructor": "StructuralExhaustion.CT13.Graph.Edge.clean"
+          },
+          {
+            "targetNode": "CT13.terminal.residual.deficit",
+            "sourceNode": "CT13.decide.comparison",
+            "provision": "generated_audit",
+            "ordinal": 7,
+            "edgeId": "CT13.edge.deficit",
+            "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.DeficitResidual C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.comparison CT13.Graph.NodeId.deficitTerminal",
+            "constructor": "StructuralExhaustion.CT13.Graph.Edge.deficit"
+          },
+          {
+            "targetNode": "CT13.terminal.certificate.reconciled",
+            "sourceNode": "CT13.decide.comparison",
+            "provision": "generated_audit",
+            "ordinal": 8,
+            "edgeId": "CT13.edge.reconciled",
+            "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.ReconciliationCertificate C ctx →\n        CT13.Graph.Edge C ctx CT13.Graph.NodeId.comparison CT13.Graph.NodeId.reconciledTerminal",
+            "constructor": "StructuralExhaustion.CT13.Graph.Edge.reconciled"
+          }
+        ],
+        "title": "Tier availability and canonical fallback",
+        "terminals": [
+          {
+            "ordinal": 1,
+            "nodeId": "CT13.terminal.residual.tier-one",
+            "constructor": "StructuralExhaustion.CT13.Graph.Terminal.tierOne",
+            "case": "residual.tier-one"
+          },
+          {
+            "ordinal": 2,
+            "nodeId": "CT13.terminal.residual.overlap",
+            "constructor": "StructuralExhaustion.CT13.Graph.Terminal.overlap",
+            "case": "residual.overlap"
+          },
+          {
+            "ordinal": 3,
+            "nodeId": "CT13.terminal.residual.deficit",
+            "constructor": "StructuralExhaustion.CT13.Graph.Terminal.deficit",
+            "case": "residual.deficit"
+          },
+          {
+            "ordinal": 4,
+            "nodeId": "CT13.terminal.certificate.reconciled",
+            "constructor": "StructuralExhaustion.CT13.Graph.Terminal.reconciled",
+            "case": "certificate.reconciled"
+          }
+        ],
+        "tacticId": "CT13",
+        "residualKinds": [
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_by_generic_search",
+                "leanType": "Capability.Payer",
+                "fieldName": "payer"
+              },
+              {
+                "provision": "derived_by_generic_theorem",
+                "leanType": "Capability.Eligible ctx payer",
+                "fieldName": "eligible"
+              }
+            ],
+            "residualKindId": "CT13.residual.tierOne",
+            "leanType": "StructuralExhaustion.CT13.TierOneResidual",
+            "inheritedContext": "branch"
+          },
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_from_predecessor",
+                "leanType": "StructuralExhaustion.CT13.FallbackState",
+                "fieldName": "fallback"
+              },
+              {
+                "provision": "derived_by_generic_search",
+                "leanType": "Capability.Payer",
+                "fieldName": "left"
+              },
+              {
+                "provision": "derived_by_generic_search",
+                "leanType": "Capability.Payer",
+                "fieldName": "right"
+              },
+              {
+                "provision": "derived_by_generic_theorem",
+                "leanType": "left ≠ right",
+                "fieldName": "different"
+              },
+              {
+                "provision": "derived_by_generic_theorem",
+                "leanType": "resource ctx left = resource ctx right",
+                "fieldName": "sameResource"
+              }
+            ],
+            "residualKindId": "CT13.residual.overlap",
+            "leanType": "StructuralExhaustion.CT13.OverlapResidual",
+            "inheritedContext": "branch"
+          },
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_from_predecessor",
+                "leanType": "StructuralExhaustion.CT13.ReconciledState",
+                "fieldName": "state"
+              },
+              {
+                "provision": "derived_by_computation",
+                "leanType": "state.capacity < Capability.demand ctx",
+                "fieldName": "deficit"
+              }
+            ],
+            "residualKindId": "CT13.residual.deficit",
+            "leanType": "StructuralExhaustion.CT13.DeficitResidual",
+            "inheritedContext": "branch"
+          }
+        ],
+        "nodes": [
+          {
+            "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+            "semanticId": "CT13.entry",
+            "presentation": {
+              "summary": "Compiled entry node with an explicit automation contract.",
+              "label": "CT13.entry"
+            },
+            "ordinal": 1,
+            "nodeKind": "entry",
+            "nodeId": "CT13.entry",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT13.search.tier-one",
+                  "sourceNode": "CT13.entry",
+                  "edgeId": "CT13.edge.begin",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} → CT13.Graph.Edge C ctx CT13.Graph.NodeId.entry CT13.Graph.NodeId.tierOne",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.begin"
+                }
+              ],
+              "incomingEdges": []
+            },
+            "constructor": "StructuralExhaustion.CT13.Graph.NodeId.entry",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "context",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "context",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Input",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "frameworkTheorems": [],
+              "executionClass": "definitional",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+            "semanticId": "CT13.search.tier-one",
+            "presentation": {
+              "summary": "Compiled computation node with an explicit automation contract.",
+              "label": "CT13.search.tier-one"
+            },
+            "ordinal": 2,
+            "nodeKind": "computation",
+            "nodeId": "CT13.search.tier-one",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT13.terminal.residual.tier-one",
+                  "sourceNode": "CT13.search.tier-one",
+                  "edgeId": "CT13.edge.tierOne",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.TierOneResidual C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.tierOne CT13.Graph.NodeId.tierOneTerminal",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.tierOne"
+                },
+                {
+                  "targetNode": "CT13.compute.fallback",
+                  "sourceNode": "CT13.search.tier-one",
+                  "edgeId": "CT13.edge.absent",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.TierOneAbsenceState C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.tierOne CT13.Graph.NodeId.fallback",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.absent"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT13.search.tier-one",
+                  "sourceNode": "CT13.entry",
+                  "edgeId": "CT13.edge.begin",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} → CT13.Graph.Edge C ctx CT13.Graph.NodeId.entry CT13.Graph.NodeId.tierOne",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.begin"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT13.Graph.NodeId.tierOne",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.payers",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.Eligible",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.eligibleDecidable",
+                  "provision": "instance_bridge"
+                },
+                {
+                  "ref": "context",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.Core.FiniteSearch.first",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "context",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.TierOneDecision",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.TierOneResidual",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.TierOneAbsenceState",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.Core.FiniteSearch.first",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "finiteSearch",
+              "derivedInputs": [],
+              "authorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.payers",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.Eligible",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.eligibleDecidable",
+                  "provision": "instance_bridge"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+            "semanticId": "CT13.compute.fallback",
+            "presentation": {
+              "summary": "Compiled computation node with an explicit automation contract.",
+              "label": "CT13.compute.fallback"
+            },
+            "ordinal": 3,
+            "nodeKind": "computation",
+            "nodeId": "CT13.compute.fallback",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT13.compute.reconciliation",
+                  "sourceNode": "CT13.compute.fallback",
+                  "edgeId": "CT13.edge.fallback",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.FallbackState C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.fallback CT13.Graph.NodeId.reconciliation",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.fallback"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT13.compute.fallback",
+                  "sourceNode": "CT13.search.tier-one",
+                  "edgeId": "CT13.edge.absent",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.TierOneAbsenceState C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.tierOne CT13.Graph.NodeId.fallback",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.absent"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT13.Graph.NodeId.fallback",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.obstructions",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.fallbackDefault",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.obstructionCost",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.TierOneAbsenceState",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.selectMin",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.selectMin_le_of_mem",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.TierOneAbsenceState",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.FallbackState",
+                  "provision": "derived_by_computation"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT13.selectMin",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.selectMin_le_of_mem",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "verifiedComputation",
+              "derivedInputs": [],
+              "authorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.obstructions",
+                  "provision": "user_finite_enumeration"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.fallbackDefault",
+                  "provision": "user_definition"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.obstructionCost",
+                  "provision": "user_operator"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+            "semanticId": "CT13.compute.reconciliation",
+            "presentation": {
+              "summary": "Compiled computation node with an explicit automation contract.",
+              "label": "CT13.compute.reconciliation"
+            },
+            "ordinal": 4,
+            "nodeKind": "computation",
+            "nodeId": "CT13.compute.reconciliation",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT13.terminal.residual.overlap",
+                  "sourceNode": "CT13.compute.reconciliation",
+                  "edgeId": "CT13.edge.overlap",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.OverlapResidual C ctx →\n        CT13.Graph.Edge C ctx CT13.Graph.NodeId.reconciliation CT13.Graph.NodeId.overlapTerminal",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.overlap"
+                },
+                {
+                  "targetNode": "CT13.decide.comparison",
+                  "sourceNode": "CT13.compute.reconciliation",
+                  "edgeId": "CT13.edge.clean",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.ReconciledState C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.reconciliation CT13.Graph.NodeId.comparison",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.clean"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT13.compute.reconciliation",
+                  "sourceNode": "CT13.compute.fallback",
+                  "edgeId": "CT13.edge.fallback",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.FallbackState C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.fallback CT13.Graph.NodeId.reconciliation",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.fallback"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT13.Graph.NodeId.reconciliation",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.tierTwo",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.resource",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.resourceDecidableEq",
+                  "provision": "instance_bridge"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.charge",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.FallbackState",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.Core.FiniteSearch.onList",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.FallbackState",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.ReconciliationDecision",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.OverlapResidual",
+                  "provision": "derived_by_generic_search"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.ReconciledState",
+                  "provision": "derived_by_computation"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.Core.FiniteSearch.onList",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "finiteSearch",
+              "derivedInputs": [],
+              "authorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.tierTwo",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.resource",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.resourceDecidableEq",
+                  "provision": "instance_bridge"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.charge",
+                  "provision": "user_operator"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+            "semanticId": "CT13.decide.comparison",
+            "presentation": {
+              "summary": "Compiled decision node with an explicit automation contract.",
+              "label": "CT13.decide.comparison"
+            },
+            "ordinal": 5,
+            "nodeKind": "decision",
+            "nodeId": "CT13.decide.comparison",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT13.terminal.residual.deficit",
+                  "sourceNode": "CT13.decide.comparison",
+                  "edgeId": "CT13.edge.deficit",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.DeficitResidual C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.comparison CT13.Graph.NodeId.deficitTerminal",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.deficit"
+                },
+                {
+                  "targetNode": "CT13.terminal.certificate.reconciled",
+                  "sourceNode": "CT13.decide.comparison",
+                  "edgeId": "CT13.edge.reconciled",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.ReconciliationCertificate C ctx →\n        CT13.Graph.Edge C ctx CT13.Graph.NodeId.comparison CT13.Graph.NodeId.reconciledTerminal",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.reconciled"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT13.decide.comparison",
+                  "sourceNode": "CT13.compute.reconciliation",
+                  "edgeId": "CT13.edge.clean",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.ReconciledState C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.reconciliation CT13.Graph.NodeId.comparison",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.clean"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT13.Graph.NodeId.comparison",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.demand",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.ReconciledState",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.ReconciledState",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.ComparisonDecision",
+                  "provision": "derived_by_computation"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.DeficitResidual",
+                  "provision": "derived_by_generic_theorem"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.ReconciliationCertificate",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "frameworkTheorems": [],
+              "executionClass": "verifiedComputation",
+              "derivedInputs": [],
+              "authorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Capability.demand",
+                  "provision": "user_operator"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+            "semanticId": "CT13.terminal.residual.tier-one",
+            "presentation": {
+              "summary": "Compiled residual node with an explicit automation contract.",
+              "label": "CT13.terminal.residual.tier-one"
+            },
+            "ordinal": 6,
+            "nodeKind": "residual",
+            "nodeId": "CT13.terminal.residual.tier-one",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT13.terminal.residual.tier-one",
+                  "sourceNode": "CT13.search.tier-one",
+                  "edgeId": "CT13.edge.tierOne",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.TierOneResidual C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.tierOne CT13.Graph.NodeId.tierOneTerminal",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.tierOne"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT13.Graph.NodeId.tierOneTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Graph.Edge.tierOne",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Graph.Edge.tierOne",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.ExecutionResult@CT13.terminal.residual.tier-one",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT13.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+            "semanticId": "CT13.terminal.residual.overlap",
+            "presentation": {
+              "summary": "Compiled residual node with an explicit automation contract.",
+              "label": "CT13.terminal.residual.overlap"
+            },
+            "ordinal": 7,
+            "nodeKind": "residual",
+            "nodeId": "CT13.terminal.residual.overlap",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT13.terminal.residual.overlap",
+                  "sourceNode": "CT13.compute.reconciliation",
+                  "edgeId": "CT13.edge.overlap",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.OverlapResidual C ctx →\n        CT13.Graph.Edge C ctx CT13.Graph.NodeId.reconciliation CT13.Graph.NodeId.overlapTerminal",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.overlap"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT13.Graph.NodeId.overlapTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Graph.Edge.overlap",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Graph.Edge.overlap",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.ExecutionResult@CT13.terminal.residual.overlap",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT13.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+            "semanticId": "CT13.terminal.residual.deficit",
+            "presentation": {
+              "summary": "Compiled residual node with an explicit automation contract.",
+              "label": "CT13.terminal.residual.deficit"
+            },
+            "ordinal": 8,
+            "nodeKind": "residual",
+            "nodeId": "CT13.terminal.residual.deficit",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT13.terminal.residual.deficit",
+                  "sourceNode": "CT13.decide.comparison",
+                  "edgeId": "CT13.edge.deficit",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.DeficitResidual C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.comparison CT13.Graph.NodeId.deficitTerminal",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.deficit"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT13.Graph.NodeId.deficitTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Graph.Edge.deficit",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Graph.Edge.deficit",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.ExecutionResult@CT13.terminal.residual.deficit",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT13.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT13/Graph.lean",
+            "semanticId": "CT13.terminal.certificate.reconciled",
+            "presentation": {
+              "summary": "Compiled certificate node with an explicit automation contract.",
+              "label": "CT13.terminal.certificate.reconciled"
+            },
+            "ordinal": 9,
+            "nodeKind": "certificate",
+            "nodeId": "CT13.terminal.certificate.reconciled",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT13.terminal.certificate.reconciled",
+                  "sourceNode": "CT13.decide.comparison",
+                  "edgeId": "CT13.edge.reconciled",
+                  "constructorType": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.ReconciliationCertificate C ctx →\n        CT13.Graph.Edge C ctx CT13.Graph.NodeId.comparison CT13.Graph.NodeId.reconciledTerminal",
+                  "constructor": "StructuralExhaustion.CT13.Graph.Edge.reconciled"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT13.Graph.NodeId.reconciledTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Graph.Edge.reconciled",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT13.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.Graph.Edge.reconciled",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT13.ExecutionResult@CT13.terminal.certificate.reconciled",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT13.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          }
+        ],
+        "namespace": "StructuralExhaustion.CT13",
+        "loopDecrease": null,
+        "capabilityProfiles": [],
+        "capability": {
+          "tacticId": "CT13",
+          "requiredInstances": [
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.eligibleDecidable",
+              "provision": "typeclass_inferred"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.resourceDecidableEq",
+              "provision": "typeclass_inferred"
+            }
+          ],
+          "requiredDefinitions": [
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.Payer",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.payers",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.Eligible",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.eligibleDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.Obstruction",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.obstructions",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.fallbackDefault",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.obstructionCost",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.Resource",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.resourceDecidableEq",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.resource",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.tierTwo",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.charge",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.Capability.demand",
+              "provision": "user_operator"
+            }
+          ],
+          "derivedOperations": [
+            {
+              "ref": "StructuralExhaustion.CT13.selectTierOne",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.computeFallback",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.reconcile",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.compare",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "StructuralExhaustion.CT13.runReference",
+              "provision": "framework_constant"
+            }
+          ],
+          "capabilityId": "StructuralExhaustion.CT13.reference"
+        },
+        "apiVersion": "CT13-v3",
+        "apiDeclarations": [
+          {
+            "type": "Type",
+            "name": "StructuralExhaustion.CT13.Graph.NodeId",
+            "kind": "inductive"
+          },
+          {
+            "type": "CT13.Graph.NodeId → String",
+            "name": "StructuralExhaustion.CT13.Graph.NodeId.code",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  CT13.Capability P → Core.BranchContext P → CT13.Graph.NodeId → CT13.Graph.NodeId → Type (max u_3 u_4)",
+            "name": "StructuralExhaustion.CT13.Graph.Edge",
+            "kind": "inductive"
+          },
+          {
+            "type": "Type",
+            "name": "StructuralExhaustion.CT13.Graph.Terminal",
+            "kind": "inductive"
+          },
+          {
+            "type": "CT13.Graph.Terminal → CT13.Graph.NodeId",
+            "name": "StructuralExhaustion.CT13.Graph.Terminal.nodeId",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  CT13.Capability P → Core.BranchContext P → CT13.Graph.NodeId → CT13.Graph.NodeId → Type (max u_3 u_4)",
+            "name": "StructuralExhaustion.CT13.Graph.Path",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → {C : CT13.Capability P} → {ctx : Core.BranchContext P} → List CT13.Graph.NodeId → Prop",
+            "name": "StructuralExhaustion.CT13.Graph.ValidTrace",
+            "kind": "definition"
+          },
+          {
+            "type": "Core.Problem → Type (max (max (max (max (uObstruction + 1) (uPayer + 1)) (uResource + 1)) u_1) u_2)",
+            "name": "StructuralExhaustion.CT13.Capability",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → CT13.Capability P → Core.BranchContext P → Type",
+            "name": "StructuralExhaustion.CT13.Input",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → CT13.Capability P → Core.BranchContext P → Type (max u_3 u_4)",
+            "name": "StructuralExhaustion.CT13.ExecutionResult",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → CT13.Capability P → Core.BranchContext P → CT13.Graph.Terminal → Type (max u_3 u_4)",
+            "name": "StructuralExhaustion.CT13.RawOutcome",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  (C : CT13.Capability P) → (ctx : Core.BranchContext P) → CT13.Input C ctx → CT13.ExecutionResult C ctx",
+            "name": "StructuralExhaustion.CT13.run",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  (C : CT13.Capability P) → (ctx : Core.BranchContext P) → CT13.Input C ctx → CT13.ExecutionResult C ctx",
+            "name": "StructuralExhaustion.CT13.runReference",
+            "kind": "definition"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (C : CT13.Capability P) (ctx : Core.BranchContext P) (input : CT13.Input C ctx),\n  (CT13.run C ctx input).outcome.Valid",
+            "name": "StructuralExhaustion.CT13.run_verified",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (C : CT13.Capability P) (ctx : Core.BranchContext P) (input : CT13.Input C ctx),\n  CT13.Graph.ValidTrace (CT13.run C ctx input).trace",
+            "name": "StructuralExhaustion.CT13.run_trace_valid",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (C : CT13.Capability P) (ctx : Core.BranchContext P) (input : CT13.Input C ctx),\n  ∃ r, r.outcome.Valid ∧ CT13.Graph.ValidTrace r.trace",
+            "name": "StructuralExhaustion.CT13.run_total",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (C : CT13.Capability P) (ctx : Core.BranchContext P) (input : CT13.Input C ctx)\n  (a b : CT13.ExecutionResult C ctx), a = CT13.run C ctx input → b = CT13.run C ctx input → a = b",
+            "name": "StructuralExhaustion.CT13.run_deterministic",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} {C : CT13.Capability P} {ctx : Core.BranchContext P} (r : CT13.ExecutionResult C ctx),\n  r.terminal = CT13.Graph.Terminal.tierOne ∨\n    r.terminal = CT13.Graph.Terminal.overlap ∨\n      r.terminal = CT13.Graph.Terminal.deficit ∨ r.terminal = CT13.Graph.Terminal.reconciled",
+            "name": "StructuralExhaustion.CT13.outcome_exhaustive",
+            "kind": "theorem"
+          },
+          {
+            "type": "Core.CapabilityContract",
+            "name": "StructuralExhaustion.CT13.capabilityContract",
+            "kind": "definition"
+          },
+          {
+            "type": "List Core.NodeAutomationContract",
+            "name": "StructuralExhaustion.CT13.nodeAutomationContracts",
+            "kind": "definition"
+          },
+          {
+            "type": "List Core.ResidualKindContract",
+            "name": "StructuralExhaustion.CT13.residualKindContracts",
+            "kind": "definition"
+          }
+        ]
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT13",
+    "apiVersion": "CT13-v3",
+    "namespace": "StructuralExhaustion.CT13"
+  },
+  "x-capability": {
+    "tacticId": "CT13",
+    "requiredInstances": [
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.eligibleDecidable",
+        "provision": "typeclass_inferred"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.resourceDecidableEq",
+        "provision": "typeclass_inferred"
+      }
+    ],
+    "requiredDefinitions": [
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.Payer",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.payers",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.Eligible",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.eligibleDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.Obstruction",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.obstructions",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.fallbackDefault",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.obstructionCost",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.Resource",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.resourceDecidableEq",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.resource",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.tierTwo",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.charge",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.Capability.demand",
+        "provision": "user_operator"
+      }
+    ],
+    "derivedOperations": [
+      {
+        "ref": "StructuralExhaustion.CT13.selectTierOne",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.computeFallback",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.reconcile",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.compare",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "StructuralExhaustion.CT13.runReference",
+        "provision": "framework_constant"
+      }
+    ],
+    "capabilityId": "StructuralExhaustion.CT13.reference"
+  },
+  "x-capabilityProfiles": []
+}

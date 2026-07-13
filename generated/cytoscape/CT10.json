@@ -1,0 +1,607 @@
+{
+  "tacticId": "CT10",
+  "elements": [
+    {
+      "data": {
+        "id": "CT10.entry",
+        "label": "CT10.entry",
+        "kind": "entry",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Input.context",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.data",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "Input.context",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.data",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT10.Input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT10.compute.classTable",
+              "sourceNode": "CT10.entry",
+              "edgeId": "CT10.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.entry CT10.Graph.NodeId.table",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.begin"
+            }
+          ],
+          "incomingEdges": []
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.compute.classTable",
+        "label": "CT10.compute.classTable",
+        "kind": "computation",
+        "automation": {
+          "transitiveDependencies": [],
+          "predecessorInputs": [],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT10.Graph.Edge.tableBuilt",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT10.search.direct",
+              "sourceNode": "CT10.compute.classTable",
+              "edgeId": "CT10.edge.tableBuilt",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.table CT10.Graph.NodeId.direct",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.tableBuilt"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT10.compute.classTable",
+              "sourceNode": "CT10.entry",
+              "edgeId": "CT10.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.entry CT10.Graph.NodeId.table",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.begin"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.search.direct",
+        "label": "CT10.search.direct",
+        "kind": "computation",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.classes",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.Direct",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.directDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "Core.FiniteSearch.search",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT10.DirectDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT10.DirectResidual",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT10.DirectAbsent",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.search",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.classes",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.Direct",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.directDecidable",
+              "provision": "instance_bridge"
+            }
+          ]
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT10.terminal.residual.direct",
+              "sourceNode": "CT10.search.direct",
+              "edgeId": "CT10.edge.directFound",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectResidual capability →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.directTerminal",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.directFound"
+            },
+            {
+              "targetNode": "CT10.search.firstMissing",
+              "sourceNode": "CT10.search.direct",
+              "edgeId": "CT10.edge.directAbsent",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectAbsent capability → CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.missing",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.directAbsent"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT10.search.direct",
+              "sourceNode": "CT10.compute.classTable",
+              "edgeId": "CT10.edge.tableBuilt",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.table CT10.Graph.NodeId.direct",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.tableBuilt"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.search.firstMissing",
+        "label": "CT10.search.firstMissing",
+        "kind": "computation",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.classes",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.classOf",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.promote",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "CT10.DirectAbsent",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.data",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "CT10.row",
+              "provision": "derived_by_computation"
+            },
+            {
+              "ref": "CT10.datum_mem_own_row",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "Core.FiniteSearch.search",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "CT10.DirectAbsent",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.data",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT10.MissingDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT10.PromotedResidual",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT10.ExhaustiveCertificate",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "CT10.datum_mem_own_row",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "Core.FiniteSearch.search",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [
+            {
+              "ref": "CT10.row",
+              "provision": "derived_by_computation"
+            }
+          ],
+          "authorInputs": [
+            {
+              "ref": "Capability.classes",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.classOf",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.promote",
+              "provision": "user_operator"
+            }
+          ]
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT10.compute.promotion",
+              "sourceNode": "CT10.search.firstMissing",
+              "edgeId": "CT10.edge.missingFound",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.PromotedResidual capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.missing CT10.Graph.NodeId.promotion",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.missingFound"
+            },
+            {
+              "targetNode": "CT10.terminal.certificate.exhaustive",
+              "sourceNode": "CT10.search.firstMissing",
+              "edgeId": "CT10.edge.exhaustive",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.ExhaustiveCertificate capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.missing CT10.Graph.NodeId.exhaustiveTerminal",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.exhaustive"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT10.search.firstMissing",
+              "sourceNode": "CT10.search.direct",
+              "edgeId": "CT10.edge.directAbsent",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectAbsent capability → CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.missing",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.directAbsent"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.compute.promotion",
+        "label": "CT10.compute.promotion",
+        "kind": "computation",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "CT10.PromotedResidual",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "CT10.PromotedResidual",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT10.Graph.Edge.promoted",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT10.terminal.residual.promoted",
+              "sourceNode": "CT10.compute.promotion",
+              "edgeId": "CT10.edge.promoted",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.PromotedResidual capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.promotion CT10.Graph.NodeId.promotedTerminal",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.promoted"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT10.compute.promotion",
+              "sourceNode": "CT10.search.firstMissing",
+              "edgeId": "CT10.edge.missingFound",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.PromotedResidual capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.missing CT10.Graph.NodeId.promotion",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.missingFound"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.terminal.residual.direct",
+        "label": "CT10.terminal.residual.direct",
+        "kind": "residual",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT10.Graph.Edge.directFound",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT10.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT10.Graph.Edge.directFound",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT10.ExecutionResult@CT10.terminal.residual.direct",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT10.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT10.terminal.residual.direct",
+              "sourceNode": "CT10.search.direct",
+              "edgeId": "CT10.edge.directFound",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectResidual capability →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.directTerminal",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.directFound"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.terminal.residual.promoted",
+        "label": "CT10.terminal.residual.promoted",
+        "kind": "residual",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT10.Graph.Edge.promoted",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT10.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT10.Graph.Edge.promoted",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT10.ExecutionResult@CT10.terminal.residual.promoted",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT10.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT10.terminal.residual.promoted",
+              "sourceNode": "CT10.compute.promotion",
+              "edgeId": "CT10.edge.promoted",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.PromotedResidual capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.promotion CT10.Graph.NodeId.promotedTerminal",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.promoted"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.terminal.certificate.exhaustive",
+        "label": "CT10.terminal.certificate.exhaustive",
+        "kind": "certificate",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT10.Graph.Edge.exhaustive",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT10.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT10.Graph.Edge.exhaustive",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT10.ExecutionResult@CT10.terminal.certificate.exhaustive",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT10.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT10.terminal.certificate.exhaustive",
+              "sourceNode": "CT10.search.firstMissing",
+              "edgeId": "CT10.edge.exhaustive",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.ExhaustiveCertificate capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.missing CT10.Graph.NodeId.exhaustiveTerminal",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.exhaustive"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.begin",
+        "source": "CT10.entry",
+        "target": "CT10.compute.classTable",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.begin",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.entry CT10.Graph.NodeId.table"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.tableBuilt",
+        "source": "CT10.compute.classTable",
+        "target": "CT10.search.direct",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.tableBuilt",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.table CT10.Graph.NodeId.direct"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.directFound",
+        "source": "CT10.search.direct",
+        "target": "CT10.terminal.residual.direct",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.directFound",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectResidual capability →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.directTerminal"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.directAbsent",
+        "source": "CT10.search.direct",
+        "target": "CT10.search.firstMissing",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.directAbsent",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectAbsent capability → CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.missing"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.missingFound",
+        "source": "CT10.search.firstMissing",
+        "target": "CT10.compute.promotion",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.missingFound",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.PromotedResidual capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.missing CT10.Graph.NodeId.promotion"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.promoted",
+        "source": "CT10.compute.promotion",
+        "target": "CT10.terminal.residual.promoted",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.promoted",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.PromotedResidual capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.promotion CT10.Graph.NodeId.promotedTerminal"
+      }
+    },
+    {
+      "data": {
+        "id": "CT10.edge.exhaustive",
+        "source": "CT10.search.firstMissing",
+        "target": "CT10.terminal.certificate.exhaustive",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.exhaustive",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.ExhaustiveCertificate capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.missing CT10.Graph.NodeId.exhaustiveTerminal"
+      }
+    }
+  ]
+}

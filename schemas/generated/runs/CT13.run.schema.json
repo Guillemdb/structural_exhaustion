@@ -1,0 +1,504 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/runs/CT13.run.schema.json",
+  "title": "CT13 exact sequential run",
+  "allOf": [
+    {
+      "$ref": "../../machine-artifacts.schema.json#/$defs/machineRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT13"
+        },
+        "apiVersion": {
+          "const": "CT13-v3"
+        },
+        "startNode": {
+          "const": "CT13.entry"
+        },
+        "executionRef": {
+          "enum": [
+            "StructuralExhaustion.CT13.run",
+            "StructuralExhaustion.CT13.runReference"
+          ]
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 1
+                  },
+                  "edgeId": {
+                    "const": "CT13.edge.begin"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT13.Graph.Edge.begin"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} → CT13.Graph.Edge C ctx CT13.Graph.NodeId.entry CT13.Graph.NodeId.tierOne"
+                  },
+                  "sourceNode": {
+                    "const": "CT13.entry"
+                  },
+                  "targetNode": {
+                    "const": "CT13.search.tier-one"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 2
+                  },
+                  "edgeId": {
+                    "const": "CT13.edge.tierOne"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT13.Graph.Edge.tierOne"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.TierOneResidual C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.tierOne CT13.Graph.NodeId.tierOneTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT13.search.tier-one"
+                  },
+                  "targetNode": {
+                    "const": "CT13.terminal.residual.tier-one"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 3
+                  },
+                  "edgeId": {
+                    "const": "CT13.edge.absent"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT13.Graph.Edge.absent"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.TierOneAbsenceState C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.tierOne CT13.Graph.NodeId.fallback"
+                  },
+                  "sourceNode": {
+                    "const": "CT13.search.tier-one"
+                  },
+                  "targetNode": {
+                    "const": "CT13.compute.fallback"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 4
+                  },
+                  "edgeId": {
+                    "const": "CT13.edge.fallback"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT13.Graph.Edge.fallback"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.FallbackState C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.fallback CT13.Graph.NodeId.reconciliation"
+                  },
+                  "sourceNode": {
+                    "const": "CT13.compute.fallback"
+                  },
+                  "targetNode": {
+                    "const": "CT13.compute.reconciliation"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 5
+                  },
+                  "edgeId": {
+                    "const": "CT13.edge.overlap"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT13.Graph.Edge.overlap"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.OverlapResidual C ctx →\n        CT13.Graph.Edge C ctx CT13.Graph.NodeId.reconciliation CT13.Graph.NodeId.overlapTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT13.compute.reconciliation"
+                  },
+                  "targetNode": {
+                    "const": "CT13.terminal.residual.overlap"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 6
+                  },
+                  "edgeId": {
+                    "const": "CT13.edge.clean"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT13.Graph.Edge.clean"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.ReconciledState C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.reconciliation CT13.Graph.NodeId.comparison"
+                  },
+                  "sourceNode": {
+                    "const": "CT13.compute.reconciliation"
+                  },
+                  "targetNode": {
+                    "const": "CT13.decide.comparison"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 7
+                  },
+                  "edgeId": {
+                    "const": "CT13.edge.deficit"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT13.Graph.Edge.deficit"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.DeficitResidual C ctx → CT13.Graph.Edge C ctx CT13.Graph.NodeId.comparison CT13.Graph.NodeId.deficitTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT13.decide.comparison"
+                  },
+                  "targetNode": {
+                    "const": "CT13.terminal.residual.deficit"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 8
+                  },
+                  "edgeId": {
+                    "const": "CT13.edge.reconciled"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT13.Graph.Edge.reconciled"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {C : CT13.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT13.ReconciliationCertificate C ctx →\n        CT13.Graph.Edge C ctx CT13.Graph.NodeId.comparison CT13.Graph.NodeId.reconciledTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT13.decide.comparison"
+                  },
+                  "targetNode": {
+                    "const": "CT13.terminal.certificate.reconciled"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "terminal": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 1
+                },
+                "case": {
+                  "const": "residual.tier-one"
+                },
+                "nodeId": {
+                  "const": "CT13.terminal.residual.tier-one"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT13.Graph.Terminal.tierOne"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 2
+                },
+                "case": {
+                  "const": "residual.overlap"
+                },
+                "nodeId": {
+                  "const": "CT13.terminal.residual.overlap"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT13.Graph.Terminal.overlap"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 3
+                },
+                "case": {
+                  "const": "residual.deficit"
+                },
+                "nodeId": {
+                  "const": "CT13.terminal.residual.deficit"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT13.Graph.Terminal.deficit"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 4
+                },
+                "case": {
+                  "const": "certificate.reconciled"
+                },
+                "nodeId": {
+                  "const": "CT13.terminal.certificate.reconciled"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT13.Graph.Terminal.reconciled"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "apiVersion",
+        "startNode",
+        "executionRef",
+        "steps",
+        "terminal"
+      ]
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT13",
+    "apiVersion": "CT13-v3",
+    "namespace": "StructuralExhaustion.CT13"
+  }
+}

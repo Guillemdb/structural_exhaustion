@@ -1,0 +1,1026 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/tactics/CT12.schema.json",
+  "title": "CT12 automation-first Lean tactic",
+  "description": "The complete compiled graph, general capability API, specialized capability profiles, node automation contracts, and semantic residual inventory for this tactic.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/tacticSpec"
+    },
+    {
+      "const": {
+        "transitions": [
+          {
+            "targetNode": "CT12.decide.saturation",
+            "sourceNode": "CT12.entry",
+            "provision": "generated_audit",
+            "ordinal": 1,
+            "edgeId": "CT12.edge.begin",
+            "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} → CT12.Graph.Edge capability CT12.Graph.NodeId.entry CT12.Graph.NodeId.saturation",
+            "constructor": "StructuralExhaustion.CT12.Graph.Edge.begin"
+          },
+          {
+            "targetNode": "CT12.terminal.certificate.exhausted",
+            "sourceNode": "CT12.decide.saturation",
+            "provision": "generated_audit",
+            "ordinal": 2,
+            "edgeId": "CT12.edge.exhausted",
+            "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    capability.State 0 → CT12.Graph.Edge capability CT12.Graph.NodeId.saturation CT12.Graph.NodeId.exhaustedTerminal",
+            "constructor": "StructuralExhaustion.CT12.Graph.Edge.exhausted"
+          },
+          {
+            "targetNode": "CT12.compute.peel",
+            "sourceNode": "CT12.decide.saturation",
+            "provision": "generated_audit",
+            "ordinal": 3,
+            "edgeId": "CT12.edge.positive",
+            "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} → capability.State (n + 1) → CT12.Graph.Edge capability CT12.Graph.NodeId.saturation CT12.Graph.NodeId.peel",
+            "constructor": "StructuralExhaustion.CT12.Graph.Edge.positive"
+          },
+          {
+            "targetNode": "CT12.compute.restoration",
+            "sourceNode": "CT12.compute.peel",
+            "provision": "generated_audit",
+            "ordinal": 4,
+            "edgeId": "CT12.edge.peeled",
+            "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state → CT12.Graph.Edge capability CT12.Graph.NodeId.peel CT12.Graph.NodeId.restoration",
+            "constructor": "StructuralExhaustion.CT12.Graph.Edge.peeled"
+          },
+          {
+            "targetNode": "CT12.terminal.residual.demand",
+            "sourceNode": "CT12.compute.restoration",
+            "provision": "generated_audit",
+            "ordinal": 5,
+            "edgeId": "CT12.edge.demand",
+            "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.DemandResidual →\n            CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.demandTerminal",
+            "constructor": "StructuralExhaustion.CT12.Graph.Edge.demand"
+          },
+          {
+            "targetNode": "CT12.terminal.residual.tier",
+            "sourceNode": "CT12.compute.restoration",
+            "provision": "generated_audit",
+            "ordinal": 6,
+            "edgeId": "CT12.edge.tier",
+            "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.TierResidual →\n            CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.tierTerminal",
+            "constructor": "StructuralExhaustion.CT12.Graph.Edge.tier"
+          },
+          {
+            "targetNode": "CT12.verify.decrease",
+            "sourceNode": "CT12.compute.restoration",
+            "provision": "generated_audit",
+            "ordinal": 7,
+            "edgeId": "CT12.edge.continue",
+            "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n next : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.State next →\n            next < n + 1 → CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.decrease",
+            "constructor": "StructuralExhaustion.CT12.Graph.Edge.continue"
+          },
+          {
+            "targetNode": "CT12.decide.saturation",
+            "sourceNode": "CT12.verify.decrease",
+            "provision": "generated_audit",
+            "ordinal": 8,
+            "edgeId": "CT12.edge.loopBack",
+            "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n next : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.State next →\n            next < n + 1 → CT12.Graph.Edge capability CT12.Graph.NodeId.decrease CT12.Graph.NodeId.saturation",
+            "constructor": "StructuralExhaustion.CT12.Graph.Edge.loopBack"
+          }
+        ],
+        "title": "Well-founded structural peeling",
+        "terminals": [
+          {
+            "ordinal": 1,
+            "nodeId": "CT12.terminal.certificate.exhausted",
+            "constructor": "StructuralExhaustion.CT12.Graph.Terminal.exhausted",
+            "case": "certificate.exhausted"
+          },
+          {
+            "ordinal": 2,
+            "nodeId": "CT12.terminal.residual.demand",
+            "constructor": "StructuralExhaustion.CT12.Graph.Terminal.demand",
+            "case": "residual.demand"
+          },
+          {
+            "ordinal": 3,
+            "nodeId": "CT12.terminal.residual.tier",
+            "constructor": "StructuralExhaustion.CT12.Graph.Terminal.tier",
+            "case": "residual.tier"
+          }
+        ],
+        "tacticId": "CT12",
+        "residualKinds": [
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_by_computation",
+                "leanType": "Capability.DemandResidual",
+                "fieldName": "residual"
+              }
+            ],
+            "residualKindId": "CT12.residual.demand",
+            "leanType": "Capability.DemandResidual",
+            "inheritedContext": "loopState"
+          },
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_by_computation",
+                "leanType": "Capability.TierResidual",
+                "fieldName": "residual"
+              }
+            ],
+            "residualKindId": "CT12.residual.tier",
+            "leanType": "Capability.TierResidual",
+            "inheritedContext": "loopState"
+          }
+        ],
+        "nodes": [
+          {
+            "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+            "semanticId": "CT12.entry",
+            "presentation": {
+              "summary": "Compiled entry node with an explicit automation contract.",
+              "label": "CT12.entry"
+            },
+            "ordinal": 1,
+            "nodeKind": "entry",
+            "nodeId": "CT12.entry",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT12.decide.saturation",
+                  "sourceNode": "CT12.entry",
+                  "edgeId": "CT12.edge.begin",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} → CT12.Graph.Edge capability CT12.Graph.NodeId.entry CT12.Graph.NodeId.saturation",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.begin"
+                }
+              ],
+              "incomingEdges": []
+            },
+            "constructor": "StructuralExhaustion.CT12.Graph.NodeId.entry",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Input.state",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "Input.load",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "Input.state",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "Input.load",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT12.Input",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "frameworkTheorems": [],
+              "executionClass": "definitional",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+            "semanticId": "CT12.decide.saturation",
+            "presentation": {
+              "summary": "Compiled decision node with an explicit automation contract.",
+              "label": "CT12.decide.saturation"
+            },
+            "ordinal": 2,
+            "nodeKind": "decision",
+            "nodeId": "CT12.decide.saturation",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT12.terminal.certificate.exhausted",
+                  "sourceNode": "CT12.decide.saturation",
+                  "edgeId": "CT12.edge.exhausted",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    capability.State 0 → CT12.Graph.Edge capability CT12.Graph.NodeId.saturation CT12.Graph.NodeId.exhaustedTerminal",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.exhausted"
+                },
+                {
+                  "targetNode": "CT12.compute.peel",
+                  "sourceNode": "CT12.decide.saturation",
+                  "edgeId": "CT12.edge.positive",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} → capability.State (n + 1) → CT12.Graph.Edge capability CT12.Graph.NodeId.saturation CT12.Graph.NodeId.peel",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.positive"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT12.decide.saturation",
+                  "sourceNode": "CT12.entry",
+                  "edgeId": "CT12.edge.begin",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} → CT12.Graph.Edge capability CT12.Graph.NodeId.entry CT12.Graph.NodeId.saturation",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.begin"
+                },
+                {
+                  "targetNode": "CT12.decide.saturation",
+                  "sourceNode": "CT12.verify.decrease",
+                  "edgeId": "CT12.edge.loopBack",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n next : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.State next →\n            next < n + 1 → CT12.Graph.Edge capability CT12.Graph.NodeId.decrease CT12.Graph.NodeId.saturation",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.loopBack"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT12.Graph.NodeId.saturation",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "current.state",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "current.load",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "current.state",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "current.load",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "Capability.State 0",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "Capability.State (n + 1)",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "frameworkTheorems": [],
+              "executionClass": "verifiedComputation",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+            "semanticId": "CT12.compute.peel",
+            "presentation": {
+              "summary": "Compiled computation node with an explicit automation contract.",
+              "label": "CT12.compute.peel"
+            },
+            "ordinal": 3,
+            "nodeKind": "computation",
+            "nodeId": "CT12.compute.peel",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT12.compute.restoration",
+                  "sourceNode": "CT12.compute.peel",
+                  "edgeId": "CT12.edge.peeled",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state → CT12.Graph.Edge capability CT12.Graph.NodeId.peel CT12.Graph.NodeId.restoration",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.peeled"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT12.compute.peel",
+                  "sourceNode": "CT12.decide.saturation",
+                  "edgeId": "CT12.edge.positive",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} → capability.State (n + 1) → CT12.Graph.Edge capability CT12.Graph.NodeId.saturation CT12.Graph.NodeId.peel",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.positive"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT12.Graph.NodeId.peel",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Capability.peel",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "Capability.State (n + 1)",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "Capability.State (n + 1)",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "Capability.Peeled state",
+                  "provision": "derived_by_computation"
+                }
+              ],
+              "frameworkTheorems": [],
+              "executionClass": "verifiedComputation",
+              "derivedInputs": [],
+              "authorInputs": [
+                {
+                  "ref": "Capability.peel",
+                  "provision": "user_operator"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+            "semanticId": "CT12.compute.restoration",
+            "presentation": {
+              "summary": "Compiled computation node with an explicit automation contract.",
+              "label": "CT12.compute.restoration"
+            },
+            "ordinal": 4,
+            "nodeKind": "computation",
+            "nodeId": "CT12.compute.restoration",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT12.terminal.residual.demand",
+                  "sourceNode": "CT12.compute.restoration",
+                  "edgeId": "CT12.edge.demand",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.DemandResidual →\n            CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.demandTerminal",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.demand"
+                },
+                {
+                  "targetNode": "CT12.terminal.residual.tier",
+                  "sourceNode": "CT12.compute.restoration",
+                  "edgeId": "CT12.edge.tier",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.TierResidual →\n            CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.tierTerminal",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.tier"
+                },
+                {
+                  "targetNode": "CT12.verify.decrease",
+                  "sourceNode": "CT12.compute.restoration",
+                  "edgeId": "CT12.edge.continue",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n next : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.State next →\n            next < n + 1 → CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.decrease",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.continue"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT12.compute.restoration",
+                  "sourceNode": "CT12.compute.peel",
+                  "edgeId": "CT12.edge.peeled",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state → CT12.Graph.Edge capability CT12.Graph.NodeId.peel CT12.Graph.NodeId.restoration",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.peeled"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT12.Graph.NodeId.restoration",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Capability.restorations",
+                  "provision": "user_operator"
+                },
+                {
+                  "ref": "Capability.Peeled state",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "CT12.RestorationOptions.first_mem",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "Capability.Peeled state",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT12.RestorationOptions",
+                  "provision": "derived_by_computation"
+                },
+                {
+                  "ref": "CT12.Restoration",
+                  "provision": "policy_selected"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "CT12.RestorationOptions.first_mem",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "verifiedComputation",
+              "derivedInputs": [],
+              "authorInputs": [
+                {
+                  "ref": "Capability.restorations",
+                  "provision": "user_operator"
+                }
+              ]
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+            "semanticId": "CT12.verify.decrease",
+            "presentation": {
+              "summary": "Compiled certification node with an explicit automation contract.",
+              "label": "CT12.verify.decrease"
+            },
+            "ordinal": 5,
+            "nodeKind": "certification",
+            "nodeId": "CT12.verify.decrease",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [
+                {
+                  "targetNode": "CT12.decide.saturation",
+                  "sourceNode": "CT12.verify.decrease",
+                  "edgeId": "CT12.edge.loopBack",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n next : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.State next →\n            next < n + 1 → CT12.Graph.Edge capability CT12.Graph.NodeId.decrease CT12.Graph.NodeId.saturation",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.loopBack"
+                }
+              ],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT12.verify.decrease",
+                  "sourceNode": "CT12.compute.restoration",
+                  "edgeId": "CT12.edge.continue",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n next : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.State next →\n            next < n + 1 → CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.decrease",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.continue"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT12.Graph.NodeId.decrease",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "Capability.Peeled state",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "CT12.Restoration.continue.next",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "CT12.Restoration.continue.state",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "CT12.Restoration.continue.decreases",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "Capability.Peeled state",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "CT12.Restoration.continue.next",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "CT12.Restoration.continue.state",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "CT12.Restoration.continue.decreases",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "CT12.Graph.Edge.loopBack",
+                  "provision": "generated_audit"
+                },
+                {
+                  "ref": "CT12.Graph.Edge.loopBack_decreases",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "frameworkTheorems": [],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+            "semanticId": "CT12.terminal.certificate.exhausted",
+            "presentation": {
+              "summary": "Compiled certificate node with an explicit automation contract.",
+              "label": "CT12.terminal.certificate.exhausted"
+            },
+            "ordinal": 6,
+            "nodeKind": "certificate",
+            "nodeId": "CT12.terminal.certificate.exhausted",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT12.terminal.certificate.exhausted",
+                  "sourceNode": "CT12.decide.saturation",
+                  "edgeId": "CT12.edge.exhausted",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    capability.State 0 → CT12.Graph.Edge capability CT12.Graph.NodeId.saturation CT12.Graph.NodeId.exhaustedTerminal",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.exhausted"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT12.Graph.NodeId.exhaustedTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT12.Graph.Edge.exhausted",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT12.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT12.Graph.Edge.exhausted",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT12.ExecutionResult@CT12.terminal.certificate.exhausted",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT12.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+            "semanticId": "CT12.terminal.residual.demand",
+            "presentation": {
+              "summary": "Compiled residual node with an explicit automation contract.",
+              "label": "CT12.terminal.residual.demand"
+            },
+            "ordinal": 7,
+            "nodeKind": "residual",
+            "nodeId": "CT12.terminal.residual.demand",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT12.terminal.residual.demand",
+                  "sourceNode": "CT12.compute.restoration",
+                  "edgeId": "CT12.edge.demand",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.DemandResidual →\n            CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.demandTerminal",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.demand"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT12.Graph.NodeId.demandTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT12.Graph.Edge.demand",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT12.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT12.Graph.Edge.demand",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT12.ExecutionResult@CT12.terminal.residual.demand",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT12.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          },
+          {
+            "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+            "semanticId": "CT12.terminal.residual.tier",
+            "presentation": {
+              "summary": "Compiled residual node with an explicit automation contract.",
+              "label": "CT12.terminal.residual.tier"
+            },
+            "ordinal": 8,
+            "nodeKind": "residual",
+            "nodeId": "CT12.terminal.residual.tier",
+            "formalContract": {
+              "predecessorIndexed": true,
+              "outgoingEdges": [],
+              "incomingEdges": [
+                {
+                  "targetNode": "CT12.terminal.residual.tier",
+                  "sourceNode": "CT12.compute.restoration",
+                  "edgeId": "CT12.edge.tier",
+                  "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.TierResidual →\n            CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.tierTerminal",
+                  "constructor": "StructuralExhaustion.CT12.Graph.Edge.tier"
+                }
+              ]
+            },
+            "constructor": "StructuralExhaustion.CT12.Graph.NodeId.tierTerminal",
+            "automation": {
+              "transitiveDependencies": [
+                {
+                  "ref": "StructuralExhaustion.CT12.Graph.Edge.tier",
+                  "provision": "derived_from_predecessor"
+                },
+                {
+                  "ref": "StructuralExhaustion.CT12.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "predecessorInputs": [
+                {
+                  "ref": "StructuralExhaustion.CT12.Graph.Edge.tier",
+                  "provision": "derived_from_predecessor"
+                }
+              ],
+              "manualObligations": [],
+              "inferredInputs": [],
+              "generatedOutputs": [
+                {
+                  "ref": "StructuralExhaustion.CT12.ExecutionResult@CT12.terminal.residual.tier",
+                  "provision": "generated_audit"
+                }
+              ],
+              "frameworkTheorems": [
+                {
+                  "ref": "StructuralExhaustion.CT12.run_trace_valid",
+                  "provision": "derived_by_generic_theorem"
+                }
+              ],
+              "executionClass": "genericTheorem",
+              "derivedInputs": [],
+              "authorInputs": []
+            }
+          }
+        ],
+        "namespace": "StructuralExhaustion.CT12",
+        "loopDecrease": {
+          "type": "∀ {P : Core.Problem} (capability : CT12.Capability P)\n  (edge : CT12.Graph.Edge capability CT12.Graph.NodeId.decrease CT12.Graph.NodeId.saturation), ∃ load next, next < load",
+          "name": "StructuralExhaustion.CT12.Graph.Edge.loopBack_decreases",
+          "kind": "theorem"
+        },
+        "capabilityProfiles": [
+          {
+            "tacticId": "CT12",
+            "requiredInstances": [],
+            "requiredDefinitions": [
+              {
+                "ref": "StructuralExhaustion.CT12.ListPeeling.Profile.Value",
+                "provision": "user_definition"
+              }
+            ],
+            "derivedOperations": [
+              {
+                "ref": "StructuralExhaustion.CT12.ListPeeling.State",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT12.ListPeeling.Peeled",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT12.ListPeeling.capability",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT12.ListPeeling.initialState",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT12.ListPeeling.run",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT12.ListPeeling.run_terminal_exhausted",
+                "provision": "framework_constant"
+              }
+            ],
+            "capabilityId": "StructuralExhaustion.CT12.profile.listPeeling"
+          }
+        ],
+        "capability": {
+          "tacticId": "CT12",
+          "requiredInstances": [],
+          "requiredDefinitions": [
+            {
+              "ref": "Capability.State",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.DemandResidual",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.TierResidual",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.Peeled",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.peel",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.restorations",
+              "provision": "user_operator"
+            }
+          ],
+          "derivedOperations": [
+            {
+              "ref": "CT12.runLoop",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT12.runReference",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT12.run_iterations_bounded",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT12.run_trace_bounded",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT12.residual.demand",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT12.residual.tier",
+              "provision": "framework_constant"
+            }
+          ],
+          "capabilityId": "StructuralExhaustion.CT12.reference"
+        },
+        "apiVersion": "CT12-v4",
+        "apiDeclarations": [
+          {
+            "type": "Type",
+            "name": "StructuralExhaustion.CT12.Graph.NodeId",
+            "kind": "inductive"
+          },
+          {
+            "type": "CT12.Graph.NodeId → String",
+            "name": "StructuralExhaustion.CT12.Graph.NodeId.code",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  CT12.Capability P → CT12.Graph.NodeId → CT12.Graph.NodeId → Type (max (max (max uDemand uPeeled) uState) uTier)",
+            "name": "StructuralExhaustion.CT12.Graph.Edge",
+            "kind": "inductive"
+          },
+          {
+            "type": "Type",
+            "name": "StructuralExhaustion.CT12.Graph.Terminal",
+            "kind": "inductive"
+          },
+          {
+            "type": "CT12.Graph.Terminal → CT12.Graph.NodeId",
+            "name": "StructuralExhaustion.CT12.Graph.Terminal.nodeId",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  CT12.Capability P → CT12.Graph.NodeId → CT12.Graph.NodeId → Type (max (max (max uDemand uPeeled) uState) uTier)",
+            "name": "StructuralExhaustion.CT12.Graph.Path",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → CT12.Capability P → List CT12.Graph.NodeId → Prop",
+            "name": "StructuralExhaustion.CT12.Graph.ValidTrace",
+            "kind": "definition"
+          },
+          {
+            "type": "Core.Problem → Type (max (max (max (uDemand + 1) (uPeeled + 1)) (uState + 1)) (uTier + 1))",
+            "name": "StructuralExhaustion.CT12.Capability",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → CT12.Capability P → Type (max (max uAmbient uBranch) uState)",
+            "name": "StructuralExhaustion.CT12.Input",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  (capability : CT12.Capability P) → CT12.Input capability → Type (max (max (max uDemand uPeeled) uState) uTier)",
+            "name": "StructuralExhaustion.CT12.ExecutionResult",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} → CT12.Capability P → CT12.Graph.Terminal → Type (max (max uDemand uState) uTier)",
+            "name": "StructuralExhaustion.CT12.Outcome",
+            "kind": "inductive"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  (capability : CT12.Capability P) → (input : CT12.Input capability) → CT12.ExecutionResult capability input",
+            "name": "StructuralExhaustion.CT12.run",
+            "kind": "definition"
+          },
+          {
+            "type": "{P : Core.Problem} →\n  (capability : CT12.Capability P) → (input : CT12.Input capability) → CT12.ExecutionResult capability input",
+            "name": "StructuralExhaustion.CT12.runReference",
+            "kind": "definition"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (capability : CT12.Capability P) (input : CT12.Input capability),\n  CT12.Outcome.Valid capability (CT12.run capability input).outcome",
+            "name": "StructuralExhaustion.CT12.run_verified",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (capability : CT12.Capability P) (input : CT12.Input capability),\n  CT12.Graph.ValidTrace capability (CT12.ExecutionResult.trace capability (CT12.run capability input))",
+            "name": "StructuralExhaustion.CT12.run_trace_valid",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (capability : CT12.Capability P) (input : CT12.Input capability),\n  ∃ r,\n    CT12.Outcome.Valid capability r.outcome ∧\n      CT12.Graph.ValidTrace capability (CT12.ExecutionResult.trace capability r) ∧\n        r.iterations ≤ input.load ∧ (CT12.ExecutionResult.trace capability r).length ≤ 4 * input.load + 3",
+            "name": "StructuralExhaustion.CT12.run_total",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (capability : CT12.Capability P) {input : CT12.Input capability}\n  (l r : CT12.ExecutionResult capability input), l = CT12.run capability input → r = CT12.run capability input → l = r",
+            "name": "StructuralExhaustion.CT12.run_deterministic",
+            "kind": "theorem"
+          },
+          {
+            "type": "∀ {P : Core.Problem} (capability : CT12.Capability P) {input : CT12.Input capability}\n  (result : CT12.ExecutionResult capability input),\n  result.terminal = CT12.Graph.Terminal.exhausted ∨\n    result.terminal = CT12.Graph.Terminal.demand ∨ result.terminal = CT12.Graph.Terminal.tier",
+            "name": "StructuralExhaustion.CT12.outcome_exhaustive",
+            "kind": "theorem"
+          },
+          {
+            "type": "Core.CapabilityContract",
+            "name": "StructuralExhaustion.CT12.capabilityContract",
+            "kind": "definition"
+          },
+          {
+            "type": "List Core.NodeAutomationContract",
+            "name": "StructuralExhaustion.CT12.nodeAutomationContracts",
+            "kind": "definition"
+          },
+          {
+            "type": "List Core.ResidualKindContract",
+            "name": "StructuralExhaustion.CT12.residualKindContracts",
+            "kind": "definition"
+          }
+        ]
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT12",
+    "apiVersion": "CT12-v4",
+    "namespace": "StructuralExhaustion.CT12"
+  },
+  "x-capability": {
+    "tacticId": "CT12",
+    "requiredInstances": [],
+    "requiredDefinitions": [
+      {
+        "ref": "Capability.State",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.DemandResidual",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.TierResidual",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.Peeled",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.peel",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.restorations",
+        "provision": "user_operator"
+      }
+    ],
+    "derivedOperations": [
+      {
+        "ref": "CT12.runLoop",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT12.runReference",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT12.run_iterations_bounded",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT12.run_trace_bounded",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT12.residual.demand",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT12.residual.tier",
+        "provision": "framework_constant"
+      }
+    ],
+    "capabilityId": "StructuralExhaustion.CT12.reference"
+  },
+  "x-capabilityProfiles": [
+    {
+      "tacticId": "CT12",
+      "requiredInstances": [],
+      "requiredDefinitions": [
+        {
+          "ref": "StructuralExhaustion.CT12.ListPeeling.Profile.Value",
+          "provision": "user_definition"
+        }
+      ],
+      "derivedOperations": [
+        {
+          "ref": "StructuralExhaustion.CT12.ListPeeling.State",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT12.ListPeeling.Peeled",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT12.ListPeeling.capability",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT12.ListPeeling.initialState",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT12.ListPeeling.run",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT12.ListPeeling.run_terminal_exhausted",
+          "provision": "framework_constant"
+        }
+      ],
+      "capabilityId": "StructuralExhaustion.CT12.profile.listPeeling"
+    }
+  ]
+}

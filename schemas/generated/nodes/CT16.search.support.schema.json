@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT16.search.support.schema.json",
+  "title": "CT16.search.support automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT16/Graph.lean",
+        "semanticId": "CT16.search.support",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT16.search.support"
+        },
+        "ordinal": 2,
+        "nodeKind": "computation",
+        "nodeId": "CT16.search.support",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT16.terminal.residual.proper-support",
+              "sourceNode": "CT16.search.support",
+              "edgeId": "CT16.edge.proper",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ProperSupportResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.properTerminal",
+              "constructor": "StructuralExhaustion.CT16.Graph.Edge.proper"
+            },
+            {
+              "targetNode": "CT16.compute.closed-code",
+              "sourceNode": "CT16.search.support",
+              "edgeId": "CT16.edge.whole",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.WholeSupportState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.codeComputation",
+              "constructor": "StructuralExhaustion.CT16.Graph.Edge.whole"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT16.search.support",
+              "sourceNode": "CT16.entry",
+              "edgeId": "CT16.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} → CT16.Graph.Edge C ctx CT16.Graph.NodeId.entry CT16.Graph.NodeId.supportScan",
+              "constructor": "StructuralExhaustion.CT16.Graph.Edge.begin"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT16.Graph.NodeId.supportScan",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.coordinates",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.InSupport",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.inSupportDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "context",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Core.FiniteSearch.search",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "context",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT16.SupportDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT16.ProperSupportResidual",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT16.WholeSupportState",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.search",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.coordinates",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.InSupport",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.inSupportDecidable",
+              "provision": "instance_bridge"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT16",
+    "apiVersion": "CT16-v3",
+    "namespace": "StructuralExhaustion.CT16"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Capability.coordinates",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.InSupport",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.inSupportDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "context",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Core.FiniteSearch.search",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "context",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT16.SupportDecision",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT16.ProperSupportResidual",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT16.WholeSupportState",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "Core.FiniteSearch.search",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "finiteSearch",
+    "derivedInputs": [],
+    "authorInputs": [
+      {
+        "ref": "Capability.coordinates",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.InSupport",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.inSupportDecidable",
+        "provision": "instance_bridge"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT16.terminal.residual.proper-support",
+        "sourceNode": "CT16.search.support",
+        "edgeId": "CT16.edge.proper",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ProperSupportResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.properTerminal",
+        "constructor": "StructuralExhaustion.CT16.Graph.Edge.proper"
+      },
+      {
+        "targetNode": "CT16.compute.closed-code",
+        "sourceNode": "CT16.search.support",
+        "edgeId": "CT16.edge.whole",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.WholeSupportState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.codeComputation",
+        "constructor": "StructuralExhaustion.CT16.Graph.Edge.whole"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT16.search.support",
+        "sourceNode": "CT16.entry",
+        "edgeId": "CT16.edge.begin",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} → CT16.Graph.Edge C ctx CT16.Graph.NodeId.entry CT16.Graph.NodeId.supportScan",
+        "constructor": "StructuralExhaustion.CT16.Graph.Edge.begin"
+      }
+    ]
+  }
+}

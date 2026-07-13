@@ -1,0 +1,14 @@
+flowchart LR
+  N1["CT16.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT16.search.support<br/>finiteSearch<br/>author=3, generated=3"]
+  N3["CT16.compute.closed-code<br/>verifiedComputation<br/>author=1, generated=1"]
+  N4["CT16.decide.closed-code<br/>verifiedComputation<br/>author=2, generated=3"]
+  N5["CT16.terminal.residual.proper-support<br/>genericTheorem<br/>author=0, generated=1"]
+  N6["CT16.terminal.certificate.exact-code<br/>genericTheorem<br/>author=0, generated=1"]
+  N7["CT16.terminal.residual.closed-type-mismatch<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT16.edge.begin| N2
+  N2 -->|CT16.edge.proper| N5
+  N2 -->|CT16.edge.whole| N3
+  N3 -->|CT16.edge.codeReady| N4
+  N4 -->|CT16.edge.equal| N6
+  N4 -->|CT16.edge.mismatch| N7

@@ -1,0 +1,125 @@
+\subsection{CT12: Well-founded structural peeling}
+\label{sec:ct12-automation}
+
+CT12 is the unique cyclic machine. Load zero yields the exhausted certificate; positive load is peeled and the first declared restoration is selected. A demand or tier restoration terminates, while a continuation carries its own strict load decrease and is the only edge permitted to re-enter saturation. The result also records iteration and trace-length bounds.
+
+A theorem instantiation supplies the problem-specific static entries in the first table. The framework constructs every remaining node output, exhaustive decision, certificate, residual, edge, and trace theorem.
+
+\paragraph{Public automation surface.}
+\texttt{StructuralExhaustion.CT12.run} returns the evidence-carrying \texttt{ExecutionResult}. \texttt{ct12\_\allowbreak{}execute}, \texttt{ct12}, and \texttt{ct12\_\allowbreak{}total} expose execution, semantic soundness, and totality, respectively.
+
+\paragraph{General problem-specific capability.}
+\begingroup\small
+\begin{longtable}{@{}p{0.27\linewidth}p{0.15\linewidth}p{0.46\linewidth}@{}}
+\toprule
+Reference & Provision & Role \\
+\midrule
+\endhead
+\texttt{Capability.\allowbreak{}State} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}Demand\allowbreak{}Residual} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}Tier\allowbreak{}Residual} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}Peeled} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}peel} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}restorations} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\paragraph{Generated capability profiles.}
+Each profile is a narrower authoring surface for a recurring structural shape. Its framework constructor fills the omitted fields of the general capability.
+\begingroup\small
+\begin{longtable}{@{}p{0.25\linewidth}p{0.31\linewidth}p{0.34\linewidth}@{}}
+\toprule
+Profile & Problem-specific inputs & Framework-generated operations \\
+\midrule
+\endhead
+\texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}profile.\allowbreak{}list\allowbreak{}Peeling} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}List\allowbreak{}Peeling.\allowbreak{}Profile.\allowbreak{}Value} {\scriptsize[user\_\allowbreak{}definition]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}List\allowbreak{}Peeling.\allowbreak{}State} {\scriptsize[framework\_\allowbreak{}constant]}; \allowbreak \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}List\allowbreak{}Peeling.\allowbreak{}Peeled} {\scriptsize[framework\_\allowbreak{}constant]}; \allowbreak \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}List\allowbreak{}Peeling.\allowbreak{}capability} {\scriptsize[framework\_\allowbreak{}constant]}; \allowbreak \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}List\allowbreak{}Peeling.\allowbreak{}initial\allowbreak{}State} {\scriptsize[framework\_\allowbreak{}constant]}; \allowbreak \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}List\allowbreak{}Peeling.\allowbreak{}run} {\scriptsize[framework\_\allowbreak{}constant]}; \allowbreak \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}List\allowbreak{}Peeling.\allowbreak{}run\_\allowbreak{}terminal\_\allowbreak{}exhausted} {\scriptsize[framework\_\allowbreak{}constant]} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\paragraph{Per-node dependency and output contracts.}
+The execution class appears beneath each node identifier. The displayed categories are exact catalog projections; every manual-obligation list is empty.
+\begingroup\scriptsize\sloppy
+\begin{longtable}{@{}p{0.13\linewidth}p{0.17\linewidth}p{0.17\linewidth}p{0.18\linewidth}p{0.18\linewidth}@{}}
+\toprule
+Node & Problem-specific static inputs & Predecessor and inferred inputs & Framework-derived & Generated outputs \\
+\midrule
+\endhead
+\texttt{CT12.\allowbreak{}entry}\\{\scriptsize definitional} & $\varnothing$ & \texttt{Input.\allowbreak{}state} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]}; \allowbreak \texttt{Input.\allowbreak{}load} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & $\varnothing$ & \texttt{CT12.\allowbreak{}Input} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} \\
+\texttt{CT12.\allowbreak{}decide.\allowbreak{}saturation}\\{\scriptsize verified\allowbreak{}Computation} & $\varnothing$ & \texttt{current.\allowbreak{}state} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]}; \allowbreak \texttt{current.\allowbreak{}load} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & $\varnothing$ & \texttt{Capability.\allowbreak{}State 0} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]}; \allowbreak \texttt{Capability.\allowbreak{}State (n + 1)} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} \\
+\texttt{CT12.\allowbreak{}compute.\allowbreak{}peel}\\{\scriptsize verified\allowbreak{}Computation} & \texttt{Capability.\allowbreak{}peel} {\scriptsize[user\_\allowbreak{}operator]} & \texttt{Capability.\allowbreak{}State (n + 1)} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & $\varnothing$ & \texttt{Capability.\allowbreak{}Peeled state} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}computation]} \\
+\texttt{CT12.\allowbreak{}compute.\allowbreak{}restoration}\\{\scriptsize verified\allowbreak{}Computation} & \texttt{Capability.\allowbreak{}restorations} {\scriptsize[user\_\allowbreak{}operator]} & \texttt{Capability.\allowbreak{}Peeled state} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{CT12.\allowbreak{}Restoration\allowbreak{}Options.\allowbreak{}first\_\allowbreak{}mem} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{CT12.\allowbreak{}Restoration\allowbreak{}Options} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}computation]}; \allowbreak \texttt{CT12.\allowbreak{}Restoration} {\scriptsize[policy\_\allowbreak{}selected]} \\
+\texttt{CT12.\allowbreak{}verify.\allowbreak{}decrease}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Capability.\allowbreak{}Peeled state} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]}; \allowbreak \texttt{CT12.\allowbreak{}Restoration.\allowbreak{}continue.\allowbreak{}next} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]}; \allowbreak \texttt{CT12.\allowbreak{}Restoration.\allowbreak{}continue.\allowbreak{}state} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]}; \allowbreak \texttt{CT12.\allowbreak{}Restoration.\allowbreak{}continue.\allowbreak{}decreases} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & $\varnothing$ & \texttt{CT12.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}loop\allowbreak{}Back} {\scriptsize[generated\_\allowbreak{}audit]}; \allowbreak \texttt{CT12.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}loop\allowbreak{}Back\_\allowbreak{}decreases} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} \\
+\texttt{CT12.\allowbreak{}terminal.\allowbreak{}certificate.\allowbreak{}exhausted}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}exhausted} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT12.\allowbreak{}terminal.\allowbreak{}certificate.\allowbreak{}exhausted} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT12.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}demand}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}demand} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT12.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}demand} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT12.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}tier}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}tier} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT12.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT12.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}tier} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\begin{landscape}
+\begin{figure}[p]
+\centering
+\begin{adjustbox}{max totalsize={\linewidth}{0.72\textheight},center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[ctauthor] (a1) at (0,-0.00) {\textbf{Problem-specific static inputs}\\$\varnothing$};
+\node[ctpred] (p1) at (5.6,-0.00) {\textbf{Predecessor-derived}\\\texttt{Input.\allowbreak{}state}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}\\\texttt{Input.\allowbreak{}load}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d1) at (11.2,-0.00) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctentry] (n1) at (17.1,-0.00) {\textbf{CT12.\allowbreak{}entry}\\{\scriptsize definitional}\\[-0.2ex]{\tiny Outputs: \texttt{CT12.\allowbreak{}Input}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}}};
+\draw[ctinputarrow] (a1.south) |- ([yshift=-5pt]n1.west);
+\draw[ctpredarrow] (p1.south) |- (n1.west);
+\draw[ctderivedarrow] (d1.south) |- ([yshift=5pt]n1.west);
+\node[ctauthor] (a2) at (0,-3.05) {\textbf{Problem-specific static inputs}\\$\varnothing$};
+\node[ctpred] (p2) at (5.6,-3.05) {\textbf{Predecessor-derived}\\\texttt{current.\allowbreak{}state}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}\\\texttt{current.\allowbreak{}load}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d2) at (11.2,-3.05) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctdecision] (n2) at (17.1,-3.05) {\textbf{CT12.\allowbreak{}decide.\allowbreak{}saturation}\\{\scriptsize verified\allowbreak{}Computation}\\[-0.2ex]{\tiny Outputs: \texttt{Capability.\allowbreak{}State 0}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}\\\texttt{Capability.\allowbreak{}State (n + 1)}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}}};
+\draw[ctinputarrow] (a2.south) |- ([yshift=-5pt]n2.west);
+\draw[ctpredarrow] (p2.south) |- (n2.west);
+\draw[ctderivedarrow] (d2.south) |- ([yshift=5pt]n2.west);
+\node[ctauthor] (a3) at (0,-6.10) {\textbf{Problem-specific static inputs}\\\texttt{Capability.\allowbreak{}peel}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}};
+\node[ctpred] (p3) at (5.6,-6.10) {\textbf{Predecessor-derived}\\\texttt{Capability.\allowbreak{}State (n + 1)}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d3) at (11.2,-6.10) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctnode] (n3) at (17.1,-6.10) {\textbf{CT12.\allowbreak{}compute.\allowbreak{}peel}\\{\scriptsize verified\allowbreak{}Computation}\\[-0.2ex]{\tiny Outputs: \texttt{Capability.\allowbreak{}Peeled state}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}computation}}};
+\draw[ctinputarrow] (a3.south) |- ([yshift=-5pt]n3.west);
+\draw[ctpredarrow] (p3.south) |- (n3.west);
+\draw[ctderivedarrow] (d3.south) |- ([yshift=5pt]n3.west);
+\node[ctauthor] (a4) at (0,-9.15) {\textbf{Problem-specific static inputs}\\\texttt{Capability.\allowbreak{}restorations}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}};
+\node[ctpred] (p4) at (5.6,-9.15) {\textbf{Predecessor-derived}\\\texttt{Capability.\allowbreak{}Peeled state}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d4) at (11.2,-9.15) {\textbf{Framework-derived}\\\texttt{CT12.\allowbreak{}Restoration\allowbreak{}Options.\allowbreak{}first\_\allowbreak{}mem}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}};
+\node[ctnode] (n4) at (17.1,-9.15) {\textbf{CT12.\allowbreak{}compute.\allowbreak{}restoration}\\{\scriptsize verified\allowbreak{}Computation}\\[-0.2ex]{\tiny Outputs: \texttt{CT12.\allowbreak{}Restoration\allowbreak{}Options}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}computation}\\\texttt{CT12.\allowbreak{}Restoration}\\[-0.2ex]{\tiny policy\_\allowbreak{}selected}}};
+\draw[ctinputarrow] (a4.south) |- ([yshift=-5pt]n4.west);
+\draw[ctpredarrow] (p4.south) |- (n4.west);
+\draw[ctderivedarrow] (d4.south) |- ([yshift=5pt]n4.west);
+\node[ctauthor] (a5) at (0,-12.20) {\textbf{Problem-specific static inputs}\\$\varnothing$};
+\node[ctpred] (p5) at (5.6,-12.20) {\textbf{Predecessor-derived}\\\texttt{Capability.\allowbreak{}Peeled state}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}\\\texttt{CT12.\allowbreak{}Restoration.\allowbreak{}continue.\allowbreak{}next}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}\\\texttt{CT12.\allowbreak{}Restoration.\allowbreak{}continue.\allowbreak{}state}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}\\\texttt{CT12.\allowbreak{}Restoration.\allowbreak{}continue.\allowbreak{}decreases}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d5) at (11.2,-12.20) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctnode] (n5) at (17.1,-12.20) {\textbf{CT12.\allowbreak{}verify.\allowbreak{}decrease}\\{\scriptsize generic\allowbreak{}Theorem}\\[-0.2ex]{\tiny Outputs: \texttt{CT12.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}loop\allowbreak{}Back}\\[-0.2ex]{\tiny generated\_\allowbreak{}audit}\\\texttt{CT12.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}loop\allowbreak{}Back\_\allowbreak{}decreases}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}}};
+\draw[ctinputarrow] (a5.south) |- ([yshift=-5pt]n5.west);
+\draw[ctpredarrow] (p5.south) |- (n5.west);
+\draw[ctderivedarrow] (d5.south) |- ([yshift=5pt]n5.west);
+\node[ctcertificate] (n6) at (23.4,-3.05) {\textbf{CT12.\allowbreak{}terminal.\allowbreak{}certificate.\allowbreak{}exhausted}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\node[ctresidual] (n7) at (23.4,-8.32) {\textbf{CT12.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}demand}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\node[ctresidual] (n8) at (23.4,-9.97) {\textbf{CT12.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}tier}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\draw[ctedge] (n1.south east) to[bend left=15] node[ctedgelabel] {begin} (n2.north east);
+\draw[ctedge] (n2.east) to[bend left=10] node[ctedgelabel] {exhausted} (n6.west);
+\draw[ctedge] (n2.south east) to[bend left=15] node[ctedgelabel] {positive} (n3.north east);
+\draw[ctedge] (n3.south east) to[bend left=15] node[ctedgelabel] {peeled} (n4.north east);
+\draw[ctedge] (n4.east) to[bend left=10] node[ctedgelabel] {demand} (n7.west);
+\draw[ctedge] (n4.east) to[bend left=10] node[ctedgelabel] {tier} (n8.west);
+\draw[ctedge] (n4.south east) to[bend left=15] node[ctedgelabel] {continue} (n5.north east);
+\draw[ctloopedge] (n5.east) to[bend right=50] node[ctedgelabel] {loop\allowbreak{}Back} (n2.east);
+\end{tikzpicture}%
+\end{adjustbox}
+\caption{Automation-first sequential machine for CT12. Each executable node has separate problem-specific static, predecessor, and framework-derived dependency boxes. Terminal nodes consume only incoming edge evidence. Route boxes are separate framework rules.}
+\label{fig:ct12-machine}
+\end{figure}
+\end{landscape}
+
+\begingroup\small\sloppy
+\paragraph{Residual contracts.}
+\begin{itemize}
+\item \texttt{CT12.\allowbreak{}residual.\allowbreak{}demand}: \texttt{Capability.\allowbreak{}Demand\allowbreak{}Residual}; inherited context \texttt{loop\allowbreak{}State}.
+\item \texttt{CT12.\allowbreak{}residual.\allowbreak{}tier}: \texttt{Capability.\allowbreak{}Tier\allowbreak{}Residual}; inherited context \texttt{loop\allowbreak{}State}.
+\end{itemize}
+\endgroup

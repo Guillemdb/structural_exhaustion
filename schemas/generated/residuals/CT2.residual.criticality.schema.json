@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT2.residual.criticality.schema.json",
+  "title": "CT2.residual.criticality semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_by_computation",
+            "leanType": "DeletionCriticalState",
+            "fieldName": "deletionCritical"
+          },
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "ReplacementTable",
+            "fieldName": "replacementTable"
+          },
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "∀ candidate, False",
+            "fieldName": "noCandidate"
+          }
+        ],
+        "residualKindId": "CT2.residual.criticality",
+        "leanType": "StructuralExhaustion.CT2.CriticalityResidual",
+        "inheritedContext": "minimalCounterexampleBranch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT2",
+    "apiVersion": "CT2-v6",
+    "namespace": "StructuralExhaustion.CT2"
+  }
+}

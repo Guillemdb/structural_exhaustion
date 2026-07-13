@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT11.entry.schema.json",
+  "title": "CT11.entry automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT11/Graph.lean",
+        "semanticId": "CT11.entry",
+        "presentation": {
+          "summary": "Compiled entry node with an explicit automation contract.",
+          "label": "CT11.entry"
+        },
+        "ordinal": 1,
+        "nodeKind": "entry",
+        "nodeId": "CT11.entry",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT11.compute.decomposition",
+              "sourceNode": "CT11.entry",
+              "edgeId": "CT11.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.Graph.Edge capability input CT11.Graph.NodeId.entry CT11.Graph.NodeId.decomposition",
+              "constructor": "StructuralExhaustion.CT11.Graph.Edge.begin"
+            }
+          ],
+          "incomingEdges": []
+        },
+        "constructor": "StructuralExhaustion.CT11.Graph.NodeId.entry",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Input.context",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.cells",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.deficit",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "Input.context",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.cells",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.deficit",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT11.Input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT11",
+    "apiVersion": "CT11-v4",
+    "namespace": "StructuralExhaustion.CT11"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Input.context",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Input.cells",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Input.deficit",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "Input.context",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Input.cells",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Input.deficit",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT11.Input",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "definitional",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT11.compute.decomposition",
+        "sourceNode": "CT11.entry",
+        "edgeId": "CT11.edge.begin",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.Graph.Edge capability input CT11.Graph.NodeId.entry CT11.Graph.NodeId.decomposition",
+        "constructor": "StructuralExhaustion.CT11.Graph.Edge.begin"
+      }
+    ],
+    "incomingEdges": []
+  }
+}

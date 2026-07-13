@@ -1,0 +1,258 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT5.compute.summation.schema.json",
+  "title": "CT5.compute.summation automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT5/Graph.lean",
+        "semanticId": "CT5.compute.summation",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT5.compute.summation"
+        },
+        "ordinal": 3,
+        "nodeKind": "computation",
+        "nodeId": "CT5.compute.summation",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT5.decide.comparison",
+              "sourceNode": "CT5.compute.summation",
+              "edgeId": "CT5.edge.summed",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.LocalLedgerState S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.summation CT5.Graph.NodeId.comparison",
+              "constructor": "StructuralExhaustion.CT5.Graph.Edge.summed"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT5.compute.summation",
+              "sourceNode": "CT5.search.deficit",
+              "edgeId": "CT5.edge.deficitAbsent",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.DeficitFreeState S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.deficitSearch CT5.Graph.NodeId.summation",
+              "constructor": "StructuralExhaustion.CT5.Graph.Edge.deficitAbsent"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT5.Graph.NodeId.summation",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Spec.contribution",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.sites",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.witnesses",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Spec.Active",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Spec.Supports",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.activeDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "Capability.supportsDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "CT5.DeficitFreeState",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "ledgerTotal",
+              "provision": "derived_by_computation"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "CT5.DeficitFreeState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT5.LocalLedgerState",
+              "provision": "derived_by_computation"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "verifiedComputation",
+          "derivedInputs": [
+            {
+              "ref": "ledgerTotal",
+              "provision": "derived_by_computation"
+            }
+          ],
+          "authorInputs": [
+            {
+              "ref": "Spec.contribution",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.sites",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.witnesses",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Spec.Active",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Spec.Supports",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.activeDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "Capability.supportsDecidable",
+              "provision": "instance_bridge"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT5",
+    "apiVersion": "CT5-v3",
+    "namespace": "StructuralExhaustion.CT5"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Spec.contribution",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.sites",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.witnesses",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Spec.Active",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Spec.Supports",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.activeDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "Capability.supportsDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "CT5.DeficitFreeState",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "ledgerTotal",
+        "provision": "derived_by_computation"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "CT5.DeficitFreeState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT5.LocalLedgerState",
+        "provision": "derived_by_computation"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "verifiedComputation",
+    "derivedInputs": [
+      {
+        "ref": "ledgerTotal",
+        "provision": "derived_by_computation"
+      }
+    ],
+    "authorInputs": [
+      {
+        "ref": "Spec.contribution",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.sites",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.witnesses",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Spec.Active",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Spec.Supports",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.activeDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "Capability.supportsDecidable",
+        "provision": "instance_bridge"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT5.decide.comparison",
+        "sourceNode": "CT5.compute.summation",
+        "edgeId": "CT5.edge.summed",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.LocalLedgerState S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.summation CT5.Graph.NodeId.comparison",
+        "constructor": "StructuralExhaustion.CT5.Graph.Edge.summed"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT5.compute.summation",
+        "sourceNode": "CT5.search.deficit",
+        "edgeId": "CT5.edge.deficitAbsent",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.DeficitFreeState S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.deficitSearch CT5.Graph.NodeId.summation",
+        "constructor": "StructuralExhaustion.CT5.Graph.Edge.deficitAbsent"
+      }
+    ]
+  }
+}

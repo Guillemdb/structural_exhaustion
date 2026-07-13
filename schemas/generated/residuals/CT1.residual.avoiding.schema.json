@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT1.residual.avoiding.schema.json",
+  "title": "CT1.residual.avoiding semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "∀ index witness, ¬ Realizes G index witness",
+            "fieldName": "noRealization"
+          }
+        ],
+        "residualKindId": "CT1.residual.avoiding",
+        "leanType": "StructuralExhaustion.CT1.AvoidingState",
+        "inheritedContext": "avoidingBranch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT1",
+    "apiVersion": "CT1-v5",
+    "namespace": "StructuralExhaustion.CT1"
+  }
+}

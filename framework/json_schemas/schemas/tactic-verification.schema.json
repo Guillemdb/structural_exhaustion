@@ -1,7 +1,0 @@
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.org/structural-exhaustion/tactic-verification.schema.json",
-  "title": "Structural-exhaustion tactic verification",
-  "description": "Validates a complete all-branches proof package containing one successful discharge record for every node in a tactic, as required by the structural exhaustion framework before a tactic is admitted to the library.",
-  "$ref": "./structural-exhaustion.bundle.schema.json#/$defs/tacticVerification"
-}

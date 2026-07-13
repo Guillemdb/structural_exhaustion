@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT10.terminal.residual.direct.schema.json",
+  "title": "CT10.terminal.residual.direct automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT10/Graph.lean",
+        "semanticId": "CT10.terminal.residual.direct",
+        "presentation": {
+          "summary": "Compiled residual node with an explicit automation contract.",
+          "label": "CT10.terminal.residual.direct"
+        },
+        "ordinal": 6,
+        "nodeKind": "residual",
+        "nodeId": "CT10.terminal.residual.direct",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT10.terminal.residual.direct",
+              "sourceNode": "CT10.search.direct",
+              "edgeId": "CT10.edge.directFound",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectResidual capability →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.directTerminal",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.directFound"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT10.Graph.NodeId.directTerminal",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT10.Graph.Edge.directFound",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT10.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT10.Graph.Edge.directFound",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT10.ExecutionResult@CT10.terminal.residual.direct",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT10.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT10",
+    "apiVersion": "CT10-v3",
+    "namespace": "StructuralExhaustion.CT10"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT10.Graph.Edge.directFound",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "StructuralExhaustion.CT10.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT10.Graph.Edge.directFound",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT10.ExecutionResult@CT10.terminal.residual.direct",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "StructuralExhaustion.CT10.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "genericTheorem",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [],
+    "incomingEdges": [
+      {
+        "targetNode": "CT10.terminal.residual.direct",
+        "sourceNode": "CT10.search.direct",
+        "edgeId": "CT10.edge.directFound",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectResidual capability →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.directTerminal",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.directFound"
+      }
+    ]
+  }
+}

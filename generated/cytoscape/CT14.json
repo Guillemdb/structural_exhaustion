@@ -1,0 +1,684 @@
+{
+  "tacticId": "CT14",
+  "elements": [
+    {
+      "data": {
+        "id": "CT14.entry",
+        "label": "CT14.entry",
+        "kind": "entry",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "context",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "context",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.Input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT14.compute.lower-mass",
+              "sourceNode": "CT14.entry",
+              "edgeId": "CT14.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} → CT14.Graph.Edge C ctx CT14.Graph.NodeId.entry CT14.Graph.NodeId.lowerMass",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.begin"
+            }
+          ],
+          "incomingEdges": []
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.compute.lower-mass",
+        "label": "CT14.compute.lower-mass",
+        "kind": "computation",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.members",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.memberLowerMass",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "context",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "context",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.LowerMassState",
+              "provision": "derived_by_computation"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "verifiedComputation",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.members",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.memberLowerMass",
+              "provision": "user_operator"
+            }
+          ]
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT14.search.members",
+              "sourceNode": "CT14.compute.lower-mass",
+              "edgeId": "CT14.edge.lower",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LowerMassState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.lowerMass CT14.Graph.NodeId.memberScan",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.lower"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT14.compute.lower-mass",
+              "sourceNode": "CT14.entry",
+              "edgeId": "CT14.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} → CT14.Graph.Edge C ctx CT14.Graph.NodeId.entry CT14.Graph.NodeId.lowerMass",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.begin"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.search.members",
+        "label": "CT14.search.members",
+        "kind": "computation",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.members",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.memberCapacity",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.memberLabel",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.LowerMassState",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.Core.FiniteSearch.first",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.LowerMassState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.ScanDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.UnboundedMemberResidual",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.MissingLabelResidual",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.MemberScanState",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.Core.FiniteSearch.first",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.members",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.memberCapacity",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.memberLabel",
+              "provision": "user_operator"
+            }
+          ]
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT14.terminal.residual.unbounded-member",
+              "sourceNode": "CT14.search.members",
+              "edgeId": "CT14.edge.unbounded",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.UnboundedMemberResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.unboundedTerminal",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.unbounded"
+            },
+            {
+              "targetNode": "CT14.terminal.residual.missing-label",
+              "sourceNode": "CT14.search.members",
+              "edgeId": "CT14.edge.missingLabel",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.MissingLabelResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.missingLabelTerminal",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.missingLabel"
+            },
+            {
+              "targetNode": "CT14.compute.upper-capacity",
+              "sourceNode": "CT14.search.members",
+              "edgeId": "CT14.edge.complete",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.MemberScanState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.upperCapacity",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.complete"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT14.search.members",
+              "sourceNode": "CT14.compute.lower-mass",
+              "edgeId": "CT14.edge.lower",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LowerMassState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.lowerMass CT14.Graph.NodeId.memberScan",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.lower"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.compute.upper-capacity",
+        "label": "CT14.compute.upper-capacity",
+        "kind": "computation",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.members",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.memberCapacity",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.memberLabel",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.labelDecidableEq",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.MemberScanState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.MemberScanState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.LedgerState",
+              "provision": "derived_by_computation"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "verifiedComputation",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.members",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.memberCapacity",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.memberLabel",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.labelDecidableEq",
+              "provision": "instance_bridge"
+            }
+          ]
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT14.decide.comparison",
+              "sourceNode": "CT14.compute.upper-capacity",
+              "edgeId": "CT14.edge.upper",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LedgerState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.upperCapacity CT14.Graph.NodeId.comparison",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.upper"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT14.compute.upper-capacity",
+              "sourceNode": "CT14.search.members",
+              "edgeId": "CT14.edge.complete",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.MemberScanState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.upperCapacity",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.complete"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.decide.comparison",
+        "label": "CT14.decide.comparison",
+        "kind": "decision",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT14.LedgerState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.LedgerState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.ComparisonDecision",
+              "provision": "derived_by_computation"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.AggregateCertificate",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.CapacityResidual",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "verifiedComputation",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT14.terminal.certificate.aggregate",
+              "sourceNode": "CT14.decide.comparison",
+              "edgeId": "CT14.edge.aggregate",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.AggregateCertificate C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.aggregateTerminal",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.aggregate"
+            },
+            {
+              "targetNode": "CT14.terminal.residual.capacity",
+              "sourceNode": "CT14.decide.comparison",
+              "edgeId": "CT14.edge.capacity",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.CapacityResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.capacityTerminal",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.capacity"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT14.decide.comparison",
+              "sourceNode": "CT14.compute.upper-capacity",
+              "edgeId": "CT14.edge.upper",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LedgerState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.upperCapacity CT14.Graph.NodeId.comparison",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.upper"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.terminal.residual.unbounded-member",
+        "label": "CT14.terminal.residual.unbounded-member",
+        "kind": "residual",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT14.Graph.Edge.unbounded",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.Graph.Edge.unbounded",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.ExecutionResult@CT14.terminal.residual.unbounded-member",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT14.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT14.terminal.residual.unbounded-member",
+              "sourceNode": "CT14.search.members",
+              "edgeId": "CT14.edge.unbounded",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.UnboundedMemberResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.unboundedTerminal",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.unbounded"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.terminal.residual.missing-label",
+        "label": "CT14.terminal.residual.missing-label",
+        "kind": "residual",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT14.Graph.Edge.missingLabel",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.Graph.Edge.missingLabel",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.ExecutionResult@CT14.terminal.residual.missing-label",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT14.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT14.terminal.residual.missing-label",
+              "sourceNode": "CT14.search.members",
+              "edgeId": "CT14.edge.missingLabel",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.MissingLabelResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.missingLabelTerminal",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.missingLabel"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.terminal.certificate.aggregate",
+        "label": "CT14.terminal.certificate.aggregate",
+        "kind": "certificate",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT14.Graph.Edge.aggregate",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.Graph.Edge.aggregate",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.ExecutionResult@CT14.terminal.certificate.aggregate",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT14.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT14.terminal.certificate.aggregate",
+              "sourceNode": "CT14.decide.comparison",
+              "edgeId": "CT14.edge.aggregate",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.AggregateCertificate C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.aggregateTerminal",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.aggregate"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.terminal.residual.capacity",
+        "label": "CT14.terminal.residual.capacity",
+        "kind": "residual",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT14.Graph.Edge.capacity",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.Graph.Edge.capacity",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT14.ExecutionResult@CT14.terminal.residual.capacity",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT14.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT14.terminal.residual.capacity",
+              "sourceNode": "CT14.decide.comparison",
+              "edgeId": "CT14.edge.capacity",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.CapacityResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.capacityTerminal",
+              "constructor": "StructuralExhaustion.CT14.Graph.Edge.capacity"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.edge.begin",
+        "source": "CT14.entry",
+        "target": "CT14.compute.lower-mass",
+        "constructor": "StructuralExhaustion.CT14.Graph.Edge.begin",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} → CT14.Graph.Edge C ctx CT14.Graph.NodeId.entry CT14.Graph.NodeId.lowerMass"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.edge.lower",
+        "source": "CT14.compute.lower-mass",
+        "target": "CT14.search.members",
+        "constructor": "StructuralExhaustion.CT14.Graph.Edge.lower",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LowerMassState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.lowerMass CT14.Graph.NodeId.memberScan"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.edge.unbounded",
+        "source": "CT14.search.members",
+        "target": "CT14.terminal.residual.unbounded-member",
+        "constructor": "StructuralExhaustion.CT14.Graph.Edge.unbounded",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.UnboundedMemberResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.unboundedTerminal"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.edge.missingLabel",
+        "source": "CT14.search.members",
+        "target": "CT14.terminal.residual.missing-label",
+        "constructor": "StructuralExhaustion.CT14.Graph.Edge.missingLabel",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.MissingLabelResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.missingLabelTerminal"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.edge.complete",
+        "source": "CT14.search.members",
+        "target": "CT14.compute.upper-capacity",
+        "constructor": "StructuralExhaustion.CT14.Graph.Edge.complete",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.MemberScanState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.upperCapacity"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.edge.upper",
+        "source": "CT14.compute.upper-capacity",
+        "target": "CT14.decide.comparison",
+        "constructor": "StructuralExhaustion.CT14.Graph.Edge.upper",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LedgerState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.upperCapacity CT14.Graph.NodeId.comparison"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.edge.aggregate",
+        "source": "CT14.decide.comparison",
+        "target": "CT14.terminal.certificate.aggregate",
+        "constructor": "StructuralExhaustion.CT14.Graph.Edge.aggregate",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.AggregateCertificate C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.aggregateTerminal"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.edge.capacity",
+        "source": "CT14.decide.comparison",
+        "target": "CT14.terminal.residual.capacity",
+        "constructor": "StructuralExhaustion.CT14.Graph.Edge.capacity",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.CapacityResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.capacityTerminal"
+      }
+    }
+  ]
+}

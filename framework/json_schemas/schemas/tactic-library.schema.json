@@ -1,7 +1,0 @@
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.org/structural-exhaustion/tactic-library.schema.json",
-  "title": "Structural-exhaustion tactic library",
-  "description": "Validates a versioned collection of complete closure-tactic graphs forming a structural-exhaustion proof architecture, typing the tactic library of branch_closure_methodology_extended.tex.",
-  "$ref": "./structural-exhaustion.bundle.schema.json#/$defs/tacticLibrary"
-}

@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT10.search.direct.schema.json",
+  "title": "CT10.search.direct automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT10/Graph.lean",
+        "semanticId": "CT10.search.direct",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT10.search.direct"
+        },
+        "ordinal": 3,
+        "nodeKind": "computation",
+        "nodeId": "CT10.search.direct",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT10.terminal.residual.direct",
+              "sourceNode": "CT10.search.direct",
+              "edgeId": "CT10.edge.directFound",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectResidual capability →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.directTerminal",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.directFound"
+            },
+            {
+              "targetNode": "CT10.search.firstMissing",
+              "sourceNode": "CT10.search.direct",
+              "edgeId": "CT10.edge.directAbsent",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectAbsent capability → CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.missing",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.directAbsent"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT10.search.direct",
+              "sourceNode": "CT10.compute.classTable",
+              "edgeId": "CT10.edge.tableBuilt",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.table CT10.Graph.NodeId.direct",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.tableBuilt"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT10.Graph.NodeId.direct",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.classes",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.Direct",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.directDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "Core.FiniteSearch.search",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT10.DirectDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT10.DirectResidual",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT10.DirectAbsent",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.search",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.classes",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.Direct",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.directDecidable",
+              "provision": "instance_bridge"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT10",
+    "apiVersion": "CT10-v3",
+    "namespace": "StructuralExhaustion.CT10"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Capability.classes",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.Direct",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.directDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "Core.FiniteSearch.search",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT10.DirectDecision",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT10.DirectResidual",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT10.DirectAbsent",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "Core.FiniteSearch.search",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "finiteSearch",
+    "derivedInputs": [],
+    "authorInputs": [
+      {
+        "ref": "Capability.classes",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "Capability.Direct",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.directDecidable",
+        "provision": "instance_bridge"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT10.terminal.residual.direct",
+        "sourceNode": "CT10.search.direct",
+        "edgeId": "CT10.edge.directFound",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectResidual capability →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.directTerminal",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.directFound"
+      },
+      {
+        "targetNode": "CT10.search.firstMissing",
+        "sourceNode": "CT10.search.direct",
+        "edgeId": "CT10.edge.directAbsent",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectAbsent capability → CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.missing",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.directAbsent"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT10.search.direct",
+        "sourceNode": "CT10.compute.classTable",
+        "edgeId": "CT10.edge.tableBuilt",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.table CT10.Graph.NodeId.direct",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.tableBuilt"
+      }
+    ]
+  }
+}

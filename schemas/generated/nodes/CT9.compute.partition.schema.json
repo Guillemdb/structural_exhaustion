@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT9.compute.partition.schema.json",
+  "title": "CT9.compute.partition automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+        "semanticId": "CT9.compute.partition",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT9.compute.partition"
+        },
+        "ordinal": 2,
+        "nodeKind": "computation",
+        "nodeId": "CT9.compute.partition",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT9.search.firstOverload",
+              "sourceNode": "CT9.compute.partition",
+              "edgeId": "CT9.edge.partitioned",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.Graph.Edge capability input CT9.Graph.NodeId.partition CT9.Graph.NodeId.overload",
+              "constructor": "StructuralExhaustion.CT9.Graph.Edge.partitioned"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT9.compute.partition",
+              "sourceNode": "CT9.entry",
+              "edgeId": "CT9.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} → CT9.Graph.Edge capability input CT9.Graph.NodeId.entry CT9.Graph.NodeId.partition",
+              "constructor": "StructuralExhaustion.CT9.Graph.Edge.begin"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT9.Graph.NodeId.partition",
+        "automation": {
+          "transitiveDependencies": [],
+          "predecessorInputs": [],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT9.Graph.Edge.partitioned",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT9",
+    "apiVersion": "CT9-v5",
+    "namespace": "StructuralExhaustion.CT9"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [],
+    "predecessorInputs": [],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT9.Graph.Edge.partitioned",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "definitional",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT9.search.firstOverload",
+        "sourceNode": "CT9.compute.partition",
+        "edgeId": "CT9.edge.partitioned",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.Graph.Edge capability input CT9.Graph.NodeId.partition CT9.Graph.NodeId.overload",
+        "constructor": "StructuralExhaustion.CT9.Graph.Edge.partitioned"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT9.compute.partition",
+        "sourceNode": "CT9.entry",
+        "edgeId": "CT9.edge.begin",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} → CT9.Graph.Edge capability input CT9.Graph.NodeId.entry CT9.Graph.NodeId.partition",
+        "constructor": "StructuralExhaustion.CT9.Graph.Edge.begin"
+      }
+    ]
+  }
+}

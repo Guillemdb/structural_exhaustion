@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT5.residual.localDeficit.schema.json",
+  "title": "CT5.residual.localDeficit semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "S.Site",
+            "fieldName": "site"
+          },
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "S.Active input site",
+            "fieldName": "active"
+          },
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "CT5.NoSupportingWitness S input site",
+            "fieldName": "noWitness"
+          }
+        ],
+        "residualKindId": "CT5.residual.localDeficit",
+        "leanType": "StructuralExhaustion.CT5.LocalDeficitResidual S input",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT5",
+    "apiVersion": "CT5-v3",
+    "namespace": "StructuralExhaustion.CT5"
+  }
+}

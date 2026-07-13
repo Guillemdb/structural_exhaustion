@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/routes/CT6.residual.activeLedger-_CT9.schema.json",
+  "title": "CT6.residual.activeLedger->CT9 generated route contract",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/routeRule"
+    },
+    {
+      "const": {
+        "triggerConstructor": "StructuralExhaustion.Routes.CT6ToCT9.buildTrigger",
+        "targetTacticId": "CT9",
+        "sourceResidualKind": "CT6.residual.activeLedger",
+        "soundnessTheorem": "StructuralExhaustion.Routes.CT6ToCT9.enabled_generates",
+        "selectionClass": "forced",
+        "routeId": "CT6.residual.activeLedger->CT9",
+        "provenanceTheorem": "StructuralExhaustion.Routes.CT6ToCT9.generated_route_id",
+        "discovery": "StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter.discover",
+        "contextPreservationTheorem": "StructuralExhaustion.Routes.CT6ToCT9.branchContext_preserved",
+        "authoringBoundary": {
+          "semanticDiscovery": {
+            "kind": "problemSemanticAdapter",
+            "adapterType": "StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter"
+          },
+          "problemSpecificInputs": [
+            "targetCapability",
+            "semanticDiscoveryAdapter"
+          ],
+          "frameworkOwnedResponsibilities": [
+            "routeRuleConstruction",
+            "targetContextConstruction",
+            "triggerConstruction",
+            "soundnessProof",
+            "contextPreservationProof",
+            "provenanceProof"
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "registry": "StructuralExhaustion.Canonical.routes"
+  }
+}

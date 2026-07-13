@@ -1,0 +1,17 @@
+flowchart LR
+  N1["CT12.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT12.decide.saturation<br/>verifiedComputation<br/>author=0, generated=2"]
+  N3["CT12.compute.peel<br/>verifiedComputation<br/>author=1, generated=1"]
+  N4["CT12.compute.restoration<br/>verifiedComputation<br/>author=1, generated=2"]
+  N5["CT12.verify.decrease<br/>genericTheorem<br/>author=0, generated=2"]
+  N6["CT12.terminal.certificate.exhausted<br/>genericTheorem<br/>author=0, generated=1"]
+  N7["CT12.terminal.residual.demand<br/>genericTheorem<br/>author=0, generated=1"]
+  N8["CT12.terminal.residual.tier<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT12.edge.begin| N2
+  N2 -->|CT12.edge.exhausted| N6
+  N2 -->|CT12.edge.positive| N3
+  N3 -->|CT12.edge.peeled| N4
+  N4 -->|CT12.edge.demand| N7
+  N4 -->|CT12.edge.tier| N8
+  N4 -->|CT12.edge.continue| N5
+  N5 -->|CT12.edge.loopBack| N2

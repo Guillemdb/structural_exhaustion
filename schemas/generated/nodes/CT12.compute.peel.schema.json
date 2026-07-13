@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT12.compute.peel.schema.json",
+  "title": "CT12.compute.peel automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT12/Graph.lean",
+        "semanticId": "CT12.compute.peel",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT12.compute.peel"
+        },
+        "ordinal": 3,
+        "nodeKind": "computation",
+        "nodeId": "CT12.compute.peel",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT12.compute.restoration",
+              "sourceNode": "CT12.compute.peel",
+              "edgeId": "CT12.edge.peeled",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state → CT12.Graph.Edge capability CT12.Graph.NodeId.peel CT12.Graph.NodeId.restoration",
+              "constructor": "StructuralExhaustion.CT12.Graph.Edge.peeled"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT12.compute.peel",
+              "sourceNode": "CT12.decide.saturation",
+              "edgeId": "CT12.edge.positive",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} → capability.State (n + 1) → CT12.Graph.Edge capability CT12.Graph.NodeId.saturation CT12.Graph.NodeId.peel",
+              "constructor": "StructuralExhaustion.CT12.Graph.Edge.positive"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT12.Graph.NodeId.peel",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.peel",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.State (n + 1)",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "Capability.State (n + 1)",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "Capability.Peeled state",
+              "provision": "derived_by_computation"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "verifiedComputation",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.peel",
+              "provision": "user_operator"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT12",
+    "apiVersion": "CT12-v4",
+    "namespace": "StructuralExhaustion.CT12"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Capability.peel",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.State (n + 1)",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "Capability.State (n + 1)",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "Capability.Peeled state",
+        "provision": "derived_by_computation"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "verifiedComputation",
+    "derivedInputs": [],
+    "authorInputs": [
+      {
+        "ref": "Capability.peel",
+        "provision": "user_operator"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT12.compute.restoration",
+        "sourceNode": "CT12.compute.peel",
+        "edgeId": "CT12.edge.peeled",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state → CT12.Graph.Edge capability CT12.Graph.NodeId.peel CT12.Graph.NodeId.restoration",
+        "constructor": "StructuralExhaustion.CT12.Graph.Edge.peeled"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT12.compute.peel",
+        "sourceNode": "CT12.decide.saturation",
+        "edgeId": "CT12.edge.positive",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} → capability.State (n + 1) → CT12.Graph.Edge capability CT12.Graph.NodeId.saturation CT12.Graph.NodeId.peel",
+        "constructor": "StructuralExhaustion.CT12.Graph.Edge.positive"
+      }
+    ]
+  }
+}

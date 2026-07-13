@@ -1,0 +1,9 @@
+flowchart LR
+  N1["CT6.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT6.search.firstFailure<br/>finiteSearch<br/>author=5, generated=3"]
+  N3["CT6.terminal.residual.firstFailure<br/>genericTheorem<br/>author=0, generated=1"]
+  N4["CT6.terminal.residual.activeLedger<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT6.edge.beginSearch| N2
+  N2 -->|CT6.edge.failure| N3
+  N2 -->|CT6.edge.active| N4
+  R1{"Router: CT6.residual.activeLedger->CT9<br/>forced<br/>problemSemanticAdapter: StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter"}

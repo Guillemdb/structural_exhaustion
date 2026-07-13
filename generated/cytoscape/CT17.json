@@ -1,0 +1,883 @@
+{
+  "tacticId": "CT17",
+  "elements": [
+    {
+      "data": {
+        "id": "CT17.entry",
+        "label": "CT17.entry",
+        "kind": "entry",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "Input",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT17.Graph.Edge.begin",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT17.search.compatibility",
+              "sourceNode": "CT17.entry",
+              "edgeId": "CT17.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.entry CT17.Graph.NodeId.compatibility",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.begin"
+            }
+          ],
+          "incomingEdges": []
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.search.compatibility",
+        "label": "CT17.search.compatibility",
+        "kind": "computation",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.targets",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.offsets",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Spec.Compatible",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.compatibleDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "context",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Core.FiniteSearch.dependentSearch",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "CT17.analyzeCompatibility_sound",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "context",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT17.CompatibilityDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT17.IncompatibilityResidual",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT17.CompatibleState",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.dependentSearch",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "CT17.analyzeCompatibility_sound",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.targets",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.offsets",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Spec.Compatible",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.compatibleDecidable",
+              "provision": "instance_bridge"
+            }
+          ]
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT17.terminal.residual.incompatibility",
+              "sourceNode": "CT17.search.compatibility",
+              "edgeId": "CT17.edge.incompatible",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.IncompatibilityResidual S capability ctx input →\n            CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.compatibility\n              CT17.Graph.NodeId.incompatibilityTerminal",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.incompatible"
+            },
+            {
+              "targetNode": "CT17.decide.scale",
+              "sourceNode": "CT17.search.compatibility",
+              "edgeId": "CT17.edge.compatible",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.CompatibleState S capability ctx input →\n            CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.compatibility CT17.Graph.NodeId.scale",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.compatible"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT17.search.compatibility",
+              "sourceNode": "CT17.entry",
+              "edgeId": "CT17.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.entry CT17.Graph.NodeId.compatibility",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.begin"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.decide.scale",
+        "label": "CT17.decide.scale",
+        "kind": "decision",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.finiteScaleLimit",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "CompatibleState",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.scale",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "CT17.analyzeScale_sound",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "CompatibleState",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.scale",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT17.ScaleDecision",
+              "provision": "derived_by_computation"
+            },
+            {
+              "ref": "CT17.FiniteScaleState",
+              "provision": "derived_by_computation"
+            },
+            {
+              "ref": "CT17.OrbitScaleState",
+              "provision": "derived_by_computation"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "CT17.analyzeScale_sound",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "verifiedComputation",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.finiteScaleLimit",
+              "provision": "user_definition"
+            }
+          ]
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT17.enumerate.survivors",
+              "sourceNode": "CT17.decide.scale",
+              "edgeId": "CT17.edge.finite",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            CT17.FiniteScaleState S capability ctx input compatible →\n              CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.scale CT17.Graph.NodeId.survivors",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.finite"
+            },
+            {
+              "targetNode": "CT17.decide.arithmetic",
+              "sourceNode": "CT17.decide.scale",
+              "edgeId": "CT17.edge.orbitScale",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            CT17.OrbitScaleState S capability ctx input compatible →\n              CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.scale CT17.Graph.NodeId.arithmetic",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.orbitScale"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT17.decide.scale",
+              "sourceNode": "CT17.search.compatibility",
+              "edgeId": "CT17.edge.compatible",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.CompatibleState S capability ctx input →\n            CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.compatibility CT17.Graph.NodeId.scale",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.compatible"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.enumerate.survivors",
+        "label": "CT17.enumerate.survivors",
+        "kind": "definition",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.positions",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.targets",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.offsets",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Spec.blockValue",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.targetValue",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.valueDecidableEq",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "FiniteScaleState",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Core.FiniteSearch.dependentSearch",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "CT17.analyzeSurvivors_sound",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "FiniteScaleState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT17.SurvivorDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT17.ExhaustedCertificate",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "CT17.SurvivorResidual",
+              "provision": "derived_by_generic_search"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.dependentSearch",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "CT17.analyzeSurvivors_sound",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.positions",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.targets",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.offsets",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Spec.blockValue",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.targetValue",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.valueDecidableEq",
+              "provision": "instance_bridge"
+            }
+          ]
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT17.terminal.certificate.exhausted",
+              "sourceNode": "CT17.enumerate.survivors",
+              "edgeId": "CT17.edge.exhausted",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {finite : CT17.FiniteScaleState S capability ctx input compatible} →\n              CT17.ExhaustedCertificate S capability ctx input →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.survivors CT17.Graph.NodeId.exhaustedTerminal",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.exhausted"
+            },
+            {
+              "targetNode": "CT17.terminal.residual.survivors",
+              "sourceNode": "CT17.enumerate.survivors",
+              "edgeId": "CT17.edge.survivors",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {finite : CT17.FiniteScaleState S capability ctx input compatible} →\n              CT17.SurvivorResidual S capability ctx input →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.survivors CT17.Graph.NodeId.survivorTerminal",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.survivors"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT17.enumerate.survivors",
+              "sourceNode": "CT17.decide.scale",
+              "edgeId": "CT17.edge.finite",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            CT17.FiniteScaleState S capability ctx input compatible →\n              CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.scale CT17.Graph.NodeId.survivors",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.finite"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.decide.arithmetic",
+        "label": "CT17.decide.arithmetic",
+        "kind": "decision",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.targets",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.offsets",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Spec.orbitValue",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.targetValue",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.valueDecidableEq",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "OrbitScaleState",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Core.FiniteSearch.dependentSearch",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "CT17.analyzeArithmetic_sound",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "OrbitScaleState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT17.ArithmeticDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT17.TargetHitCertificate",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT17.OrbitResidual",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.dependentSearch",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "CT17.analyzeArithmetic_sound",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.targets",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Capability.offsets",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "Spec.orbitValue",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Spec.targetValue",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.valueDecidableEq",
+              "provision": "instance_bridge"
+            }
+          ]
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT17.terminal.certificate.target-hit",
+              "sourceNode": "CT17.decide.arithmetic",
+              "edgeId": "CT17.edge.targetHit",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {orbit : CT17.OrbitScaleState S capability ctx input compatible} →\n              CT17.TargetHitCertificate S capability ctx input orbit →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.arithmetic CT17.Graph.NodeId.targetHitTerminal",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.targetHit"
+            },
+            {
+              "targetNode": "CT17.terminal.residual.orbit",
+              "sourceNode": "CT17.decide.arithmetic",
+              "edgeId": "CT17.edge.orbit",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {orbitState : CT17.OrbitScaleState S capability ctx input compatible} →\n              CT17.OrbitResidual S capability ctx input orbitState →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.arithmetic CT17.Graph.NodeId.orbitTerminal",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.orbit"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT17.decide.arithmetic",
+              "sourceNode": "CT17.decide.scale",
+              "edgeId": "CT17.edge.orbitScale",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            CT17.OrbitScaleState S capability ctx input compatible →\n              CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.scale CT17.Graph.NodeId.arithmetic",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.orbitScale"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.terminal.residual.incompatibility",
+        "label": "CT17.terminal.residual.incompatibility",
+        "kind": "residual",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT17.Graph.Edge.incompatible",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT17.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT17.Graph.Edge.incompatible",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT17.ExecutionResult@CT17.terminal.residual.incompatibility",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT17.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT17.terminal.residual.incompatibility",
+              "sourceNode": "CT17.search.compatibility",
+              "edgeId": "CT17.edge.incompatible",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.IncompatibilityResidual S capability ctx input →\n            CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.compatibility\n              CT17.Graph.NodeId.incompatibilityTerminal",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.incompatible"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.terminal.certificate.exhausted",
+        "label": "CT17.terminal.certificate.exhausted",
+        "kind": "certificate",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT17.Graph.Edge.exhausted",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT17.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT17.Graph.Edge.exhausted",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT17.ExecutionResult@CT17.terminal.certificate.exhausted",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT17.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT17.terminal.certificate.exhausted",
+              "sourceNode": "CT17.enumerate.survivors",
+              "edgeId": "CT17.edge.exhausted",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {finite : CT17.FiniteScaleState S capability ctx input compatible} →\n              CT17.ExhaustedCertificate S capability ctx input →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.survivors CT17.Graph.NodeId.exhaustedTerminal",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.exhausted"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.terminal.residual.survivors",
+        "label": "CT17.terminal.residual.survivors",
+        "kind": "residual",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT17.Graph.Edge.survivors",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT17.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT17.Graph.Edge.survivors",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT17.ExecutionResult@CT17.terminal.residual.survivors",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT17.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT17.terminal.residual.survivors",
+              "sourceNode": "CT17.enumerate.survivors",
+              "edgeId": "CT17.edge.survivors",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {finite : CT17.FiniteScaleState S capability ctx input compatible} →\n              CT17.SurvivorResidual S capability ctx input →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.survivors CT17.Graph.NodeId.survivorTerminal",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.survivors"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.terminal.certificate.target-hit",
+        "label": "CT17.terminal.certificate.target-hit",
+        "kind": "certificate",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT17.Graph.Edge.targetHit",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT17.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT17.Graph.Edge.targetHit",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT17.ExecutionResult@CT17.terminal.certificate.target-hit",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT17.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT17.terminal.certificate.target-hit",
+              "sourceNode": "CT17.decide.arithmetic",
+              "edgeId": "CT17.edge.targetHit",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {orbit : CT17.OrbitScaleState S capability ctx input compatible} →\n              CT17.TargetHitCertificate S capability ctx input orbit →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.arithmetic CT17.Graph.NodeId.targetHitTerminal",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.targetHit"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.terminal.residual.orbit",
+        "label": "CT17.terminal.residual.orbit",
+        "kind": "residual",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT17.Graph.Edge.orbit",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT17.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT17.Graph.Edge.orbit",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT17.ExecutionResult@CT17.terminal.residual.orbit",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT17.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        },
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT17.terminal.residual.orbit",
+              "sourceNode": "CT17.decide.arithmetic",
+              "edgeId": "CT17.edge.orbit",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {orbitState : CT17.OrbitScaleState S capability ctx input compatible} →\n              CT17.OrbitResidual S capability ctx input orbitState →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.arithmetic CT17.Graph.NodeId.orbitTerminal",
+              "constructor": "StructuralExhaustion.CT17.Graph.Edge.orbit"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.edge.begin",
+        "source": "CT17.entry",
+        "target": "CT17.search.compatibility",
+        "constructor": "StructuralExhaustion.CT17.Graph.Edge.begin",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.entry CT17.Graph.NodeId.compatibility"
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.edge.incompatible",
+        "source": "CT17.search.compatibility",
+        "target": "CT17.terminal.residual.incompatibility",
+        "constructor": "StructuralExhaustion.CT17.Graph.Edge.incompatible",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.IncompatibilityResidual S capability ctx input →\n            CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.compatibility\n              CT17.Graph.NodeId.incompatibilityTerminal"
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.edge.compatible",
+        "source": "CT17.search.compatibility",
+        "target": "CT17.decide.scale",
+        "constructor": "StructuralExhaustion.CT17.Graph.Edge.compatible",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.CompatibleState S capability ctx input →\n            CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.compatibility CT17.Graph.NodeId.scale"
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.edge.finite",
+        "source": "CT17.decide.scale",
+        "target": "CT17.enumerate.survivors",
+        "constructor": "StructuralExhaustion.CT17.Graph.Edge.finite",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            CT17.FiniteScaleState S capability ctx input compatible →\n              CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.scale CT17.Graph.NodeId.survivors"
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.edge.orbitScale",
+        "source": "CT17.decide.scale",
+        "target": "CT17.decide.arithmetic",
+        "constructor": "StructuralExhaustion.CT17.Graph.Edge.orbitScale",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            CT17.OrbitScaleState S capability ctx input compatible →\n              CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.scale CT17.Graph.NodeId.arithmetic"
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.edge.exhausted",
+        "source": "CT17.enumerate.survivors",
+        "target": "CT17.terminal.certificate.exhausted",
+        "constructor": "StructuralExhaustion.CT17.Graph.Edge.exhausted",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {finite : CT17.FiniteScaleState S capability ctx input compatible} →\n              CT17.ExhaustedCertificate S capability ctx input →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.survivors CT17.Graph.NodeId.exhaustedTerminal"
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.edge.survivors",
+        "source": "CT17.enumerate.survivors",
+        "target": "CT17.terminal.residual.survivors",
+        "constructor": "StructuralExhaustion.CT17.Graph.Edge.survivors",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {finite : CT17.FiniteScaleState S capability ctx input compatible} →\n              CT17.SurvivorResidual S capability ctx input →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.survivors CT17.Graph.NodeId.survivorTerminal"
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.edge.targetHit",
+        "source": "CT17.decide.arithmetic",
+        "target": "CT17.terminal.certificate.target-hit",
+        "constructor": "StructuralExhaustion.CT17.Graph.Edge.targetHit",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {orbit : CT17.OrbitScaleState S capability ctx input compatible} →\n              CT17.TargetHitCertificate S capability ctx input orbit →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.arithmetic CT17.Graph.NodeId.targetHitTerminal"
+      }
+    },
+    {
+      "data": {
+        "id": "CT17.edge.orbit",
+        "source": "CT17.decide.arithmetic",
+        "target": "CT17.terminal.residual.orbit",
+        "constructor": "StructuralExhaustion.CT17.Graph.Edge.orbit",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {orbitState : CT17.OrbitScaleState S capability ctx input compatible} →\n              CT17.OrbitResidual S capability ctx input orbitState →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.arithmetic CT17.Graph.NodeId.orbitTerminal"
+      }
+    }
+  ]
+}

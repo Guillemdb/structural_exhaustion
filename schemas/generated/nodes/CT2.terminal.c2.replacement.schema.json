@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT2.terminal.c2.replacement.schema.json",
+  "title": "CT2.terminal.c2.replacement automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+        "semanticId": "CT2.terminal.c2.replacement",
+        "presentation": {
+          "summary": "Compiled certificate node with an explicit automation contract.",
+          "label": "CT2.terminal.c2.replacement"
+        },
+        "ordinal": 5,
+        "nodeKind": "certificate",
+        "nodeId": "CT2.terminal.c2.replacement",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT2.terminal.c2.replacement",
+              "sourceNode": "CT2.search.replacements",
+              "edgeId": "CT2.edge.replacementCloses",
+              "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.ReplacementWitness capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis\n              CT2.Graph.NodeId.replacementC2Terminal",
+              "constructor": "StructuralExhaustion.CT2.Graph.Edge.replacementCloses"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT2.Graph.NodeId.replacementC2Terminal",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT2.Graph.Edge.replacementCloses",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT2.Graph.Edge.replacementCloses",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT2.ExecutionResult@CT2.terminal.c2.replacement",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT2.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT2",
+    "apiVersion": "CT2-v6",
+    "namespace": "StructuralExhaustion.CT2"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT2.Graph.Edge.replacementCloses",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT2.Graph.Edge.replacementCloses",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT2.ExecutionResult@CT2.terminal.c2.replacement",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "StructuralExhaustion.CT2.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "genericTheorem",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [],
+    "incomingEdges": [
+      {
+        "targetNode": "CT2.terminal.c2.replacement",
+        "sourceNode": "CT2.search.replacements",
+        "edgeId": "CT2.edge.replacementCloses",
+        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.ReplacementWitness capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis\n              CT2.Graph.NodeId.replacementC2Terminal",
+        "constructor": "StructuralExhaustion.CT2.Graph.Edge.replacementCloses"
+      }
+    ]
+  }
+}

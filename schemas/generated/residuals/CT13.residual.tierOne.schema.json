@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT13.residual.tierOne.schema.json",
+  "title": "CT13.residual.tierOne semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "Capability.Payer",
+            "fieldName": "payer"
+          },
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "Capability.Eligible ctx payer",
+            "fieldName": "eligible"
+          }
+        ],
+        "residualKindId": "CT13.residual.tierOne",
+        "leanType": "StructuralExhaustion.CT13.TierOneResidual",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT13",
+    "apiVersion": "CT13-v3",
+    "namespace": "StructuralExhaustion.CT13"
+  }
+}

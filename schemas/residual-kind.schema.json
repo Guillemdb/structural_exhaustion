@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/residual-kind.schema.json",
+  "title": "Semantic residual kind",
+  "$ref": "lean-machine-catalog.schema.json#/$defs/residualKind"
+}

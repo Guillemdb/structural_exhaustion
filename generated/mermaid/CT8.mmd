@@ -1,0 +1,12 @@
+flowchart LR
+  N1["CT8.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT8.search.orderedRepeatedType<br/>finiteSearch<br/>author=2, generated=3"]
+  N3["CT8.compare.responses<br/>finiteSearch<br/>author=3, generated=3"]
+  N4["CT8.terminal.certificate.noRepetition<br/>genericTheorem<br/>author=0, generated=1"]
+  N5["CT8.terminal.residual.removal<br/>genericTheorem<br/>author=0, generated=1"]
+  N6["CT8.terminal.residual.responseSeparation<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT8.edge.begin| N2
+  N2 -->|CT8.edge.unique| N4
+  N2 -->|CT8.edge.repeated| N3
+  N3 -->|CT8.edge.removable| N5
+  N3 -->|CT8.edge.separating| N6

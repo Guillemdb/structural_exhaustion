@@ -1,7 +1,0 @@
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.org/structural-exhaustion/node.schema.json",
-  "title": "Structural-exhaustion node specification",
-  "description": "Validates one static proof-flow node of a structural exhaustion tactic diagram (branch_closure_methodology_extended.tex), including its exact mathematical obligation, typed data flow, S-*/A-* contracts, routes, source location, and any role-specific terminal or loop data.",
-  "$ref": "./structural-exhaustion.bundle.schema.json#/$defs/nodeSpec"
-}

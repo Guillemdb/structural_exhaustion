@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT11.terminal.residual.admissibilityGap.schema.json",
+  "title": "CT11.terminal.residual.admissibilityGap automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT11/Graph.lean",
+        "semanticId": "CT11.terminal.residual.admissibilityGap",
+        "presentation": {
+          "summary": "Compiled residual node with an explicit automation contract.",
+          "label": "CT11.terminal.residual.admissibilityGap"
+        },
+        "ordinal": 5,
+        "nodeKind": "residual",
+        "nodeId": "CT11.terminal.residual.admissibilityGap",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [],
+          "incomingEdges": [
+            {
+              "targetNode": "CT11.terminal.residual.admissibilityGap",
+              "sourceNode": "CT11.search.admissibilityGap",
+              "edgeId": "CT11.edge.gap",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.AdmissibilityGapResidual capability input →\n        CT11.Graph.Edge capability input CT11.Graph.NodeId.admissibility CT11.Graph.NodeId.gapTerminal",
+              "constructor": "StructuralExhaustion.CT11.Graph.Edge.gap"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT11.Graph.NodeId.gapTerminal",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT11.Graph.Edge.gap",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT11.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT11.Graph.Edge.gap",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT11.ExecutionResult@CT11.terminal.residual.admissibilityGap",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT11.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "genericTheorem",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT11",
+    "apiVersion": "CT11-v4",
+    "namespace": "StructuralExhaustion.CT11"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT11.Graph.Edge.gap",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "StructuralExhaustion.CT11.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT11.Graph.Edge.gap",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT11.ExecutionResult@CT11.terminal.residual.admissibilityGap",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "StructuralExhaustion.CT11.run_trace_valid",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "genericTheorem",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [],
+    "incomingEdges": [
+      {
+        "targetNode": "CT11.terminal.residual.admissibilityGap",
+        "sourceNode": "CT11.search.admissibilityGap",
+        "edgeId": "CT11.edge.gap",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.AdmissibilityGapResidual capability input →\n        CT11.Graph.Edge capability input CT11.Graph.NodeId.admissibility CT11.Graph.NodeId.gapTerminal",
+        "constructor": "StructuralExhaustion.CT11.Graph.Edge.gap"
+      }
+    ]
+  }
+}

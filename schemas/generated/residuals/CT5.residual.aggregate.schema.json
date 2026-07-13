@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT5.residual.aggregate.schema.json",
+  "title": "CT5.residual.aggregate semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_from_predecessor",
+            "leanType": "CT5.LocalLedgerState S capability input",
+            "fieldName": "ledger"
+          },
+          {
+            "provision": "derived_by_computation",
+            "leanType": "capability.required input ≤ capability.capacity input",
+            "fieldName": "required_le_capacity"
+          },
+          {
+            "provision": "derived_by_computation",
+            "leanType": "capability.capacity input < ledger.total",
+            "fieldName": "capacity_lt_total"
+          }
+        ],
+        "residualKindId": "CT5.residual.aggregate",
+        "leanType": "StructuralExhaustion.CT5.AggregateResidual S capability input",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT5",
+    "apiVersion": "CT5-v3",
+    "namespace": "StructuralExhaustion.CT5"
+  }
+}

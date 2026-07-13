@@ -1,0 +1,11 @@
+flowchart LR
+  N1["CT1.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT1.certify.equivalence<br/>definitional<br/>author=3, generated=1"]
+  N3["CT1.decide.realization<br/>finiteSearch<br/>author=10, generated=3"]
+  N4["CT1.terminal.c1<br/>genericTheorem<br/>author=0, generated=1"]
+  N5["CT1.terminal.avoiding<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT1.edge.beginEquivalence| N2
+  N2 -->|CT1.edge.equivalenceCertified| N3
+  N3 -->|CT1.edge.realizationHit| N4
+  N3 -->|CT1.edge.realizationAvoiding| N5
+  R1{"Router: CT1.residual.avoiding->CT2<br/>priority<br/>capabilityDiscovery"}

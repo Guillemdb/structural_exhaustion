@@ -1,0 +1,534 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/lean-machine-catalog.schema.json",
+  "title": "Automation-first Lean closure-tactic catalog",
+  "description": "A projection of the compiled CT1–CT17 Lean environment. Lean owns topology, capability boundaries, automation contracts, residuals, and routes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifactType",
+    "schemaVersion",
+    "sourceOfTruth",
+    "provisionTaxonomy",
+    "tactics",
+    "routes"
+  ],
+  "properties": {
+    "artifactType": {"const": "automationFirstLeanCatalog"},
+    "schemaVersion": {"const": "6.0.0"},
+    "sourceOfTruth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "rootModule", "registry"],
+      "properties": {
+        "kind": {"const": "compiledLeanEnvironment"},
+        "rootModule": {"const": "StructuralExhaustion"},
+        "registry": {"const": "StructuralExhaustion.Canonical.tactics"}
+      }
+    },
+    "provisionTaxonomy": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/provision"}
+    },
+    "tactics": {
+      "type": "array",
+      "minItems": 17,
+      "maxItems": 17,
+      "items": {"$ref": "#/$defs/tacticSpec"}
+    },
+    "routes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/routeRule"}
+    }
+  },
+  "$defs": {
+    "provision": {
+      "enum": [
+        "framework_constant",
+        "user_definition",
+        "user_operator",
+        "user_finite_enumeration",
+        "typeclass_inferred",
+        "derived_definitionally",
+        "derived_from_predecessor",
+        "derived_by_generic_search",
+        "derived_by_generic_theorem",
+        "derived_by_computation",
+        "instance_bridge",
+        "optimized_implementation",
+        "policy_selected",
+        "generated_route",
+        "generated_audit"
+      ]
+    },
+    "provisionedRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "provision"],
+      "properties": {
+        "ref": {"type": "string", "minLength": 1},
+        "provision": {"$ref": "#/$defs/provision"}
+      }
+    },
+    "declaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "kind", "type"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "kind": {
+          "enum": [
+            "axiom",
+            "definition",
+            "theorem",
+            "opaque",
+            "quotient",
+            "inductive",
+            "constructor",
+            "recursor"
+          ]
+        },
+        "type": {"type": "string", "minLength": 1}
+      }
+    },
+    "edgeContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "edgeId",
+        "constructor",
+        "constructorType",
+        "sourceNode",
+        "targetNode"
+      ],
+      "properties": {
+        "edgeId": {"type": "string", "minLength": 1},
+        "constructor": {"type": "string", "minLength": 1},
+        "constructorType": {"type": "string", "minLength": 1},
+        "sourceNode": {"type": "string", "minLength": 1},
+        "targetNode": {"type": "string", "minLength": 1}
+      }
+    },
+    "formalContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["predecessorIndexed", "incomingEdges", "outgoingEdges"],
+      "properties": {
+        "predecessorIndexed": {"const": true},
+        "incomingEdges": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/edgeContract"}
+        },
+        "outgoingEdges": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/edgeContract"}
+        }
+      }
+    },
+    "automationProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "executionClass",
+        "authorInputs",
+        "inferredInputs",
+        "predecessorInputs",
+        "derivedInputs",
+        "transitiveDependencies",
+        "frameworkTheorems",
+        "generatedOutputs",
+        "manualObligations"
+      ],
+      "properties": {
+        "executionClass": {
+          "enum": [
+            "definitional",
+            "typeclass",
+            "finiteSearch",
+            "verifiedComputation",
+            "genericTheorem",
+            "instanceBridge",
+            "interactiveFallback"
+          ]
+        },
+        "authorInputs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/provisionedRef"}
+        },
+        "inferredInputs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/provisionedRef"}
+        },
+        "predecessorInputs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/provisionedRef"}
+        },
+        "derivedInputs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/provisionedRef"}
+        },
+        "transitiveDependencies": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/provisionedRef"}
+        },
+        "frameworkTheorems": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/provisionedRef"}
+        },
+        "generatedOutputs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/provisionedRef"}
+        },
+        "manualObligations": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "presentation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "summary"],
+      "properties": {
+        "label": {"type": "string", "minLength": 1},
+        "summary": {"type": "string", "minLength": 1}
+      }
+    },
+    "nodeSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ordinal",
+        "nodeId",
+        "semanticId",
+        "nodeKind",
+        "constructor",
+        "sourceFile",
+        "formalContract",
+        "automation",
+        "presentation"
+      ],
+      "properties": {
+        "ordinal": {"type": "integer", "minimum": 1},
+        "nodeId": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])\\..+$"},
+        "semanticId": {"type": "string", "minLength": 1},
+        "nodeKind": {
+          "enum": [
+            "entry",
+            "definition",
+            "certification",
+            "decision",
+            "computation",
+            "residual",
+            "certificate",
+            "loop"
+          ]
+        },
+        "constructor": {"type": "string", "minLength": 1},
+        "sourceFile": {"type": "string", "minLength": 1},
+        "formalContract": {"$ref": "#/$defs/formalContract"},
+        "automation": {"$ref": "#/$defs/automationProfile"},
+        "presentation": {"$ref": "#/$defs/presentation"}
+      }
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ordinal",
+        "edgeId",
+        "constructor",
+        "constructorType",
+        "sourceNode",
+        "targetNode",
+        "provision"
+      ],
+      "properties": {
+        "ordinal": {"type": "integer", "minimum": 1},
+        "edgeId": {"type": "string", "minLength": 1},
+        "constructor": {"type": "string", "minLength": 1},
+        "constructorType": {"type": "string", "minLength": 1},
+        "sourceNode": {"type": "string", "minLength": 1},
+        "targetNode": {"type": "string", "minLength": 1},
+        "provision": {"const": "generated_audit"}
+      }
+    },
+    "terminal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordinal", "case", "nodeId", "constructor"],
+      "properties": {
+        "ordinal": {"type": "integer", "minimum": 1},
+        "case": {"type": "string", "minLength": 1},
+        "nodeId": {"type": "string", "minLength": 1},
+        "constructor": {"type": "string", "minLength": 1}
+      }
+    },
+    "capabilitySpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capabilityId",
+        "tacticId",
+        "requiredDefinitions",
+        "requiredInstances",
+        "derivedOperations"
+      ],
+      "properties": {
+        "capabilityId": {"type": "string", "minLength": 1},
+        "tacticId": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])$"},
+        "requiredDefinitions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/provisionedRef"}
+        },
+        "requiredInstances": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/provisionedRef"}
+        },
+        "derivedOperations": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/provisionedRef"}
+        }
+      }
+    },
+    "residualField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fieldName", "leanType", "provision"],
+      "properties": {
+        "fieldName": {"type": "string", "minLength": 1},
+        "leanType": {"type": "string", "minLength": 1},
+        "provision": {"$ref": "#/$defs/provision"}
+      }
+    },
+    "residualKind": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "residualKindId",
+        "leanType",
+        "semanticFields",
+        "inheritedContext"
+      ],
+      "properties": {
+        "residualKindId": {"type": "string", "minLength": 1},
+        "leanType": {"type": "string", "minLength": 1},
+        "semanticFields": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/residualField"}
+        },
+        "inheritedContext": {
+          "enum": [
+            "branch",
+            "avoidingBranch",
+            "minimalCounterexampleBranch",
+            "loopState"
+          ]
+        }
+      }
+    },
+    "routeSemanticDiscovery": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "adapterType"],
+          "properties": {
+            "kind": {"const": "capabilityDiscovery"},
+            "adapterType": {"type": "null"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "adapterType"],
+          "properties": {
+            "kind": {"const": "problemSemanticAdapter"},
+            "adapterType": {
+              "type": "string",
+              "pattern": "^StructuralExhaustion\\.Routes\\.[A-Za-z0-9_]+\\.[A-Za-z0-9_]+$"
+            }
+          }
+        }
+      ]
+    },
+    "routeAuthoringBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "semanticDiscovery",
+        "problemSpecificInputs",
+        "frameworkOwnedResponsibilities"
+      ],
+      "properties": {
+        "semanticDiscovery": {"$ref": "#/$defs/routeSemanticDiscovery"},
+        "problemSpecificInputs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "contains": {"const": "targetCapability"},
+          "items": {
+            "enum": [
+              "targetCapability",
+              "minimalityKernel",
+              "semanticDiscoveryAdapter"
+            ]
+          }
+        },
+        "frameworkOwnedResponsibilities": {
+          "const": [
+            "routeRuleConstruction",
+            "targetContextConstruction",
+            "triggerConstruction",
+            "soundnessProof",
+            "contextPreservationProof",
+            "provenanceProof"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "semanticDiscovery": {
+                "properties": {"kind": {"const": "capabilityDiscovery"}},
+                "required": ["kind"]
+              }
+            },
+            "required": ["semanticDiscovery"]
+          },
+          "then": {
+            "properties": {
+              "problemSpecificInputs": {
+                "not": {"contains": {"const": "semanticDiscoveryAdapter"}}
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "problemSpecificInputs": {
+                "contains": {"const": "semanticDiscoveryAdapter"}
+              }
+            }
+          }
+        }
+      ]
+    },
+    "routeRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "routeId",
+        "sourceResidualKind",
+        "targetTacticId",
+        "discovery",
+        "triggerConstructor",
+        "soundnessTheorem",
+        "contextPreservationTheorem",
+        "provenanceTheorem",
+        "selectionClass",
+        "authoringBoundary"
+      ],
+      "properties": {
+        "routeId": {"type": "string", "minLength": 1},
+        "sourceResidualKind": {"type": "string", "minLength": 1},
+        "targetTacticId": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])$"},
+        "discovery": {"type": "string", "minLength": 1},
+        "triggerConstructor": {"type": "string", "minLength": 1},
+        "soundnessTheorem": {"type": "string", "minLength": 1},
+        "contextPreservationTheorem": {"type": "string", "minLength": 1},
+        "provenanceTheorem": {"type": "string", "minLength": 1},
+        "selectionClass": {
+          "enum": ["forced", "priority", "costOrdered", "manualPolicy"]
+        },
+        "authoringBoundary": {"$ref": "#/$defs/routeAuthoringBoundary"}
+      }
+    },
+    "tacticSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tacticId",
+        "title",
+        "apiVersion",
+        "namespace",
+        "capability",
+        "capabilityProfiles",
+        "nodes",
+        "transitions",
+        "terminals",
+        "residualKinds",
+        "apiDeclarations",
+        "loopDecrease"
+      ],
+      "properties": {
+        "tacticId": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])$"},
+        "title": {"type": "string", "minLength": 1},
+        "apiVersion": {"type": "string", "minLength": 1},
+        "namespace": {"type": "string", "minLength": 1},
+        "capability": {"$ref": "#/$defs/capabilitySpec"},
+        "capabilityProfiles": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/capabilitySpec"}
+        },
+        "nodes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nodeSpec"}
+        },
+        "transitions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/transition"}
+        },
+        "terminals": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/terminal"}
+        },
+        "residualKinds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/residualKind"}
+        },
+        "apiDeclarations": {
+          "type": "array",
+          "minItems": 8,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/declaration"}
+        },
+        "loopDecrease": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/declaration"}
+          ]
+        }
+      }
+    }
+  }
+}

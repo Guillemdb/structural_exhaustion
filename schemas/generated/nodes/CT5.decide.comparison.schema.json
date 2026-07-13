@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT5.decide.comparison.schema.json",
+  "title": "CT5.decide.comparison automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT5/Graph.lean",
+        "semanticId": "CT5.decide.comparison",
+        "presentation": {
+          "summary": "Compiled decision node with an explicit automation contract.",
+          "label": "CT5.decide.comparison"
+        },
+        "ordinal": 4,
+        "nodeKind": "decision",
+        "nodeId": "CT5.decide.comparison",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT5.terminal.c4",
+              "sourceNode": "CT5.decide.comparison",
+              "edgeId": "CT5.edge.comparisonC4",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.C4Certificate S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.comparison CT5.Graph.NodeId.c4Terminal",
+              "constructor": "StructuralExhaustion.CT5.Graph.Edge.comparisonC4"
+            },
+            {
+              "targetNode": "CT5.terminal.residual.chargeLedger",
+              "sourceNode": "CT5.decide.comparison",
+              "edgeId": "CT5.edge.comparisonCharge",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.ChargeLedgerResidual S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.comparison CT5.Graph.NodeId.chargeTerminal",
+              "constructor": "StructuralExhaustion.CT5.Graph.Edge.comparisonCharge"
+            },
+            {
+              "targetNode": "CT5.terminal.residual.aggregate",
+              "sourceNode": "CT5.decide.comparison",
+              "edgeId": "CT5.edge.comparisonAggregate",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.AggregateResidual S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.comparison CT5.Graph.NodeId.aggregateTerminal",
+              "constructor": "StructuralExhaustion.CT5.Graph.Edge.comparisonAggregate"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT5.decide.comparison",
+              "sourceNode": "CT5.compute.summation",
+              "edgeId": "CT5.edge.summed",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.LocalLedgerState S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.summation CT5.Graph.NodeId.comparison",
+              "constructor": "StructuralExhaustion.CT5.Graph.Edge.summed"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT5.Graph.NodeId.comparison",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.required",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.capacity",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "CT5.LocalLedgerState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "CT5.LocalLedgerState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT5.ComparisonDecision",
+              "provision": "derived_by_computation"
+            },
+            {
+              "ref": "CT5.C4Certificate",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "CT5.ChargeLedgerResidual",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "CT5.AggregateResidual",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "verifiedComputation",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.required",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "Capability.capacity",
+              "provision": "user_operator"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT5",
+    "apiVersion": "CT5-v3",
+    "namespace": "StructuralExhaustion.CT5"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Capability.required",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.capacity",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "CT5.LocalLedgerState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "CT5.LocalLedgerState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT5.ComparisonDecision",
+        "provision": "derived_by_computation"
+      },
+      {
+        "ref": "CT5.C4Certificate",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "CT5.ChargeLedgerResidual",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "CT5.AggregateResidual",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "verifiedComputation",
+    "derivedInputs": [],
+    "authorInputs": [
+      {
+        "ref": "Capability.required",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "Capability.capacity",
+        "provision": "user_operator"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT5.terminal.c4",
+        "sourceNode": "CT5.decide.comparison",
+        "edgeId": "CT5.edge.comparisonC4",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.C4Certificate S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.comparison CT5.Graph.NodeId.c4Terminal",
+        "constructor": "StructuralExhaustion.CT5.Graph.Edge.comparisonC4"
+      },
+      {
+        "targetNode": "CT5.terminal.residual.chargeLedger",
+        "sourceNode": "CT5.decide.comparison",
+        "edgeId": "CT5.edge.comparisonCharge",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.ChargeLedgerResidual S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.comparison CT5.Graph.NodeId.chargeTerminal",
+        "constructor": "StructuralExhaustion.CT5.Graph.Edge.comparisonCharge"
+      },
+      {
+        "targetNode": "CT5.terminal.residual.aggregate",
+        "sourceNode": "CT5.decide.comparison",
+        "edgeId": "CT5.edge.comparisonAggregate",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.AggregateResidual S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.comparison CT5.Graph.NodeId.aggregateTerminal",
+        "constructor": "StructuralExhaustion.CT5.Graph.Edge.comparisonAggregate"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT5.decide.comparison",
+        "sourceNode": "CT5.compute.summation",
+        "edgeId": "CT5.edge.summed",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.LocalLedgerState S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.summation CT5.Graph.NodeId.comparison",
+        "constructor": "StructuralExhaustion.CT5.Graph.Edge.summed"
+      }
+    ]
+  }
+}

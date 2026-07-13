@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT11.search.admissibilityGap.schema.json",
+  "title": "CT11.search.admissibilityGap automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT11/Graph.lean",
+        "semanticId": "CT11.search.admissibilityGap",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT11.search.admissibilityGap"
+        },
+        "ordinal": 3,
+        "nodeKind": "computation",
+        "nodeId": "CT11.search.admissibilityGap",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT11.terminal.residual.admissibilityGap",
+              "sourceNode": "CT11.search.admissibilityGap",
+              "edgeId": "CT11.edge.gap",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.AdmissibilityGapResidual capability input →\n        CT11.Graph.Edge capability input CT11.Graph.NodeId.admissibility CT11.Graph.NodeId.gapTerminal",
+              "constructor": "StructuralExhaustion.CT11.Graph.Edge.gap"
+            },
+            {
+              "targetNode": "CT11.search.localNegativeBudget",
+              "sourceNode": "CT11.search.admissibilityGap",
+              "edgeId": "CT11.edge.closed",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.AdmissibleDecomposition capability input →\n        CT11.Graph.Edge capability input CT11.Graph.NodeId.admissibility CT11.Graph.NodeId.localization",
+              "constructor": "StructuralExhaustion.CT11.Graph.Edge.closed"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT11.search.admissibilityGap",
+              "sourceNode": "CT11.compute.decomposition",
+              "edgeId": "CT11.edge.decomposed",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.Graph.Edge capability input CT11.Graph.NodeId.decomposition CT11.Graph.NodeId.admissibility",
+              "constructor": "StructuralExhaustion.CT11.Graph.Edge.decomposed"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT11.Graph.NodeId.admissibility",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.Admissible",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.admissibleDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "Input.context",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.cells",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Core.FiniteSearch.onList",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "Input.context",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "Input.cells",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT11.AdmissibilityDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT11.AdmissibilityGapResidual",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "CT11.AdmissibleDecomposition",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "Core.FiniteSearch.onList",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.Admissible",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.admissibleDecidable",
+              "provision": "instance_bridge"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT11",
+    "apiVersion": "CT11-v4",
+    "namespace": "StructuralExhaustion.CT11"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Capability.Admissible",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.admissibleDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "Input.context",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Input.cells",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Core.FiniteSearch.onList",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "Input.context",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "Input.cells",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT11.AdmissibilityDecision",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT11.AdmissibilityGapResidual",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "CT11.AdmissibleDecomposition",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "Core.FiniteSearch.onList",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "finiteSearch",
+    "derivedInputs": [],
+    "authorInputs": [
+      {
+        "ref": "Capability.Admissible",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.admissibleDecidable",
+        "provision": "instance_bridge"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT11.terminal.residual.admissibilityGap",
+        "sourceNode": "CT11.search.admissibilityGap",
+        "edgeId": "CT11.edge.gap",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.AdmissibilityGapResidual capability input →\n        CT11.Graph.Edge capability input CT11.Graph.NodeId.admissibility CT11.Graph.NodeId.gapTerminal",
+        "constructor": "StructuralExhaustion.CT11.Graph.Edge.gap"
+      },
+      {
+        "targetNode": "CT11.search.localNegativeBudget",
+        "sourceNode": "CT11.search.admissibilityGap",
+        "edgeId": "CT11.edge.closed",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.AdmissibleDecomposition capability input →\n        CT11.Graph.Edge capability input CT11.Graph.NodeId.admissibility CT11.Graph.NodeId.localization",
+        "constructor": "StructuralExhaustion.CT11.Graph.Edge.closed"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT11.search.admissibilityGap",
+        "sourceNode": "CT11.compute.decomposition",
+        "edgeId": "CT11.edge.decomposed",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.Graph.Edge capability input CT11.Graph.NodeId.decomposition CT11.Graph.NodeId.admissibility",
+        "constructor": "StructuralExhaustion.CT11.Graph.Edge.decomposed"
+      }
+    ]
+  }
+}

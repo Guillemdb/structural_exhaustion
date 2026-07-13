@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT7.residual.distinguishingContext.schema.json",
+  "title": "CT7.residual.distinguishingContext semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_from_predecessor",
+            "leanType": "CT7.UnrealizedState S capability ctx input",
+            "fieldName": "unrealized"
+          },
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "S.Context",
+            "fieldName": "context"
+          },
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "S.response ctx input.left context ≠ S.response ctx input.right context",
+            "fieldName": "differs"
+          }
+        ],
+        "residualKindId": "CT7.residual.distinguishingContext",
+        "leanType": "StructuralExhaustion.CT7.DistinguishingResidual S capability ctx input",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT7",
+    "apiVersion": "CT7-v3",
+    "namespace": "StructuralExhaustion.CT7"
+  }
+}

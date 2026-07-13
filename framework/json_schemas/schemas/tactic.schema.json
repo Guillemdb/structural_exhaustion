@@ -1,7 +1,0 @@
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.org/structural-exhaustion/tactic.schema.json",
-  "title": "Structural-exhaustion tactic specification",
-  "description": "Validates one complete ordered obligation graph for a closure tactic of the structural exhaustion framework (CT1-CT17 or a new tactic built from the framework template), with its typed transitions, C1-C5 certificates, payload signatures P_{i->j}, audits, and cycle policies.",
-  "$ref": "./structural-exhaustion.bundle.schema.json#/$defs/tacticSpec"
-}

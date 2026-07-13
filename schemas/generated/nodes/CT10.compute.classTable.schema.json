@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT10.compute.classTable.schema.json",
+  "title": "CT10.compute.classTable automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT10/Graph.lean",
+        "semanticId": "CT10.compute.classTable",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT10.compute.classTable"
+        },
+        "ordinal": 2,
+        "nodeKind": "computation",
+        "nodeId": "CT10.compute.classTable",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT10.search.direct",
+              "sourceNode": "CT10.compute.classTable",
+              "edgeId": "CT10.edge.tableBuilt",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.table CT10.Graph.NodeId.direct",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.tableBuilt"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT10.compute.classTable",
+              "sourceNode": "CT10.entry",
+              "edgeId": "CT10.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.entry CT10.Graph.NodeId.table",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.begin"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT10.Graph.NodeId.table",
+        "automation": {
+          "transitiveDependencies": [],
+          "predecessorInputs": [],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT10.Graph.Edge.tableBuilt",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT10",
+    "apiVersion": "CT10-v3",
+    "namespace": "StructuralExhaustion.CT10"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [],
+    "predecessorInputs": [],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT10.Graph.Edge.tableBuilt",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "definitional",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT10.search.direct",
+        "sourceNode": "CT10.compute.classTable",
+        "edgeId": "CT10.edge.tableBuilt",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.table CT10.Graph.NodeId.direct",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.tableBuilt"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT10.compute.classTable",
+        "sourceNode": "CT10.entry",
+        "edgeId": "CT10.edge.begin",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.entry CT10.Graph.NodeId.table",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.begin"
+      }
+    ]
+  }
+}

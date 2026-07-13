@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT4.residual.capacity.schema.json",
+  "title": "CT4.residual.capacity semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_from_predecessor",
+            "leanType": "CT4.BoundedFibreState S capability input",
+            "fieldName": "bounded"
+          },
+          {
+            "provision": "derived_by_computation",
+            "leanType": "capability.required input ≤ CT4.totalCapacity S capability input",
+            "fieldName": "required_le_capacity"
+          }
+        ],
+        "residualKindId": "CT4.residual.capacity",
+        "leanType": "StructuralExhaustion.CT4.CapacityResidual S capability input",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT4",
+    "apiVersion": "CT4-v4",
+    "namespace": "StructuralExhaustion.CT4"
+  }
+}

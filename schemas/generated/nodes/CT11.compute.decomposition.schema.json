@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT11.compute.decomposition.schema.json",
+  "title": "CT11.compute.decomposition automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT11/Graph.lean",
+        "semanticId": "CT11.compute.decomposition",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT11.compute.decomposition"
+        },
+        "ordinal": 2,
+        "nodeKind": "computation",
+        "nodeId": "CT11.compute.decomposition",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT11.search.admissibilityGap",
+              "sourceNode": "CT11.compute.decomposition",
+              "edgeId": "CT11.edge.decomposed",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.Graph.Edge capability input CT11.Graph.NodeId.decomposition CT11.Graph.NodeId.admissibility",
+              "constructor": "StructuralExhaustion.CT11.Graph.Edge.decomposed"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT11.compute.decomposition",
+              "sourceNode": "CT11.entry",
+              "edgeId": "CT11.edge.begin",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.Graph.Edge capability input CT11.Graph.NodeId.entry CT11.Graph.NodeId.decomposition",
+              "constructor": "StructuralExhaustion.CT11.Graph.Edge.begin"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT11.Graph.NodeId.decomposition",
+        "automation": {
+          "transitiveDependencies": [],
+          "predecessorInputs": [],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT11.Graph.Edge.decomposed",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT11",
+    "apiVersion": "CT11-v4",
+    "namespace": "StructuralExhaustion.CT11"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [],
+    "predecessorInputs": [],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT11.Graph.Edge.decomposed",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "definitional",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT11.search.admissibilityGap",
+        "sourceNode": "CT11.compute.decomposition",
+        "edgeId": "CT11.edge.decomposed",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.Graph.Edge capability input CT11.Graph.NodeId.decomposition CT11.Graph.NodeId.admissibility",
+        "constructor": "StructuralExhaustion.CT11.Graph.Edge.decomposed"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT11.compute.decomposition",
+        "sourceNode": "CT11.entry",
+        "edgeId": "CT11.edge.begin",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.Graph.Edge capability input CT11.Graph.NodeId.entry CT11.Graph.NodeId.decomposition",
+        "constructor": "StructuralExhaustion.CT11.Graph.Edge.begin"
+      }
+    ]
+  }
+}

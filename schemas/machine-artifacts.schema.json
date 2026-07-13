@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/machine-artifacts.schema.json",
+  "title": "Automation-first Lean machine artifacts",
+  "$defs": {
+    "tacticId": {
+      "type": "string",
+      "pattern": "^CT(?:[1-9]|1[0-7])$"
+    },
+    "nodeId": {
+      "type": "string",
+      "pattern": "^CT(?:[1-9]|1[0-7])\\..+$"
+    },
+    "edgeId": {
+      "type": "string",
+      "pattern": "^CT(?:[1-9]|1[0-7])\\.edge\\..+$"
+    },
+    "leanDeclaration": {
+      "type": "string",
+      "pattern": "^StructuralExhaustion\\.[A-Za-z_][A-Za-z0-9_.]*$"
+    },
+    "machineStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "edgeOrdinal",
+        "edgeId",
+        "constructor",
+        "edgeType",
+        "sourceNode",
+        "targetNode",
+        "evidenceRef"
+      ],
+      "properties": {
+        "edgeOrdinal": {"type": "integer", "minimum": 1},
+        "edgeId": {"$ref": "#/$defs/edgeId"},
+        "constructor": {"$ref": "#/$defs/leanDeclaration"},
+        "edgeType": {"type": "string", "minLength": 1},
+        "sourceNode": {"$ref": "#/$defs/nodeId"},
+        "targetNode": {"$ref": "#/$defs/nodeId"},
+        "evidenceRef": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "minLength": 1}
+          ]
+        }
+      }
+    },
+    "terminal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordinal", "case", "nodeId", "constructor"],
+      "properties": {
+        "ordinal": {"type": "integer", "minimum": 1},
+        "case": {"type": "string", "minLength": 1},
+        "nodeId": {"$ref": "#/$defs/nodeId"},
+        "constructor": {"$ref": "#/$defs/leanDeclaration"}
+      }
+    },
+    "machineRun": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifactType",
+        "schemaVersion",
+        "tacticId",
+        "apiVersion",
+        "catalogHash",
+        "executionRef",
+        "startNode",
+        "steps",
+        "terminal"
+      ],
+      "properties": {
+        "artifactType": {"const": "leanMachineRun"},
+        "schemaVersion": {"const": "2.0.0"},
+        "tacticId": {"$ref": "#/$defs/tacticId"},
+        "apiVersion": {"type": "string", "minLength": 1},
+        "catalogHash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "executionRef": {"$ref": "#/$defs/leanDeclaration"},
+        "startNode": {"$ref": "#/$defs/nodeId"},
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/machineStep"}
+        },
+        "terminal": {"$ref": "#/$defs/terminal"}
+      }
+    },
+    "tacticVerification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tacticId",
+        "status",
+        "nodeCount",
+        "transitionCount",
+        "terminalCount",
+        "manualObligationCount"
+      ],
+      "properties": {
+        "tacticId": {"$ref": "#/$defs/tacticId"},
+        "status": {"enum": ["kernel_checked", "failed"]},
+        "nodeCount": {"type": "integer", "minimum": 1},
+        "transitionCount": {"type": "integer", "minimum": 1},
+        "terminalCount": {"type": "integer", "minimum": 1},
+        "manualObligationCount": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

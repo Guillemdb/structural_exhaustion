@@ -1,0 +1,460 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/runs/CT5.run.schema.json",
+  "title": "CT5 exact sequential run",
+  "allOf": [
+    {
+      "$ref": "../../machine-artifacts.schema.json#/$defs/machineRun"
+    },
+    {
+      "properties": {
+        "tacticId": {
+          "const": "CT5"
+        },
+        "apiVersion": {
+          "const": "CT5-v3"
+        },
+        "startNode": {
+          "const": "CT5.entry"
+        },
+        "executionRef": {
+          "enum": [
+            "StructuralExhaustion.CT5.run",
+            "StructuralExhaustion.CT5.runReference"
+          ]
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 1
+                  },
+                  "edgeId": {
+                    "const": "CT5.edge.beginDeficit"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT5.Graph.Edge.beginDeficit"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} → CT5.Graph.Edge S capability input CT5.Graph.NodeId.entry CT5.Graph.NodeId.deficitSearch"
+                  },
+                  "sourceNode": {
+                    "const": "CT5.entry"
+                  },
+                  "targetNode": {
+                    "const": "CT5.search.deficit"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 2
+                  },
+                  "edgeId": {
+                    "const": "CT5.edge.deficitFound"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT5.Graph.Edge.deficitFound"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.LocalDeficitResidual S input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.deficitSearch CT5.Graph.NodeId.deficitTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT5.search.deficit"
+                  },
+                  "targetNode": {
+                    "const": "CT5.terminal.residual.localDeficit"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 3
+                  },
+                  "edgeId": {
+                    "const": "CT5.edge.deficitAbsent"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT5.Graph.Edge.deficitAbsent"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.DeficitFreeState S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.deficitSearch CT5.Graph.NodeId.summation"
+                  },
+                  "sourceNode": {
+                    "const": "CT5.search.deficit"
+                  },
+                  "targetNode": {
+                    "const": "CT5.compute.summation"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 4
+                  },
+                  "edgeId": {
+                    "const": "CT5.edge.summed"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT5.Graph.Edge.summed"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.LocalLedgerState S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.summation CT5.Graph.NodeId.comparison"
+                  },
+                  "sourceNode": {
+                    "const": "CT5.compute.summation"
+                  },
+                  "targetNode": {
+                    "const": "CT5.decide.comparison"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 5
+                  },
+                  "edgeId": {
+                    "const": "CT5.edge.comparisonC4"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT5.Graph.Edge.comparisonC4"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.C4Certificate S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.comparison CT5.Graph.NodeId.c4Terminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT5.decide.comparison"
+                  },
+                  "targetNode": {
+                    "const": "CT5.terminal.c4"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 6
+                  },
+                  "edgeId": {
+                    "const": "CT5.edge.comparisonCharge"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT5.Graph.Edge.comparisonCharge"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.ChargeLedgerResidual S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.comparison CT5.Graph.NodeId.chargeTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT5.decide.comparison"
+                  },
+                  "targetNode": {
+                    "const": "CT5.terminal.residual.chargeLedger"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "edgeOrdinal",
+                  "edgeId",
+                  "constructor",
+                  "edgeType",
+                  "sourceNode",
+                  "targetNode",
+                  "evidenceRef"
+                ],
+                "properties": {
+                  "edgeOrdinal": {
+                    "const": 7
+                  },
+                  "edgeId": {
+                    "const": "CT5.edge.comparisonAggregate"
+                  },
+                  "constructor": {
+                    "const": "StructuralExhaustion.CT5.Graph.Edge.comparisonAggregate"
+                  },
+                  "edgeType": {
+                    "const": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.AggregateResidual S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.comparison CT5.Graph.NodeId.aggregateTerminal"
+                  },
+                  "sourceNode": {
+                    "const": "CT5.decide.comparison"
+                  },
+                  "targetNode": {
+                    "const": "CT5.terminal.residual.aggregate"
+                  },
+                  "evidenceRef": {
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "terminal": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 1
+                },
+                "case": {
+                  "const": "residual.localDeficit"
+                },
+                "nodeId": {
+                  "const": "CT5.terminal.residual.localDeficit"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT5.Graph.Terminal.deficit"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 2
+                },
+                "case": {
+                  "const": "c4"
+                },
+                "nodeId": {
+                  "const": "CT5.terminal.c4"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT5.Graph.Terminal.c4"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 3
+                },
+                "case": {
+                  "const": "residual.chargeLedger"
+                },
+                "nodeId": {
+                  "const": "CT5.terminal.residual.chargeLedger"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT5.Graph.Terminal.charge"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ordinal",
+                "case",
+                "nodeId",
+                "constructor"
+              ],
+              "properties": {
+                "ordinal": {
+                  "const": 4
+                },
+                "case": {
+                  "const": "residual.aggregate"
+                },
+                "nodeId": {
+                  "const": "CT5.terminal.residual.aggregate"
+                },
+                "constructor": {
+                  "const": "StructuralExhaustion.CT5.Graph.Terminal.aggregate"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "tacticId",
+        "apiVersion",
+        "startNode",
+        "executionRef",
+        "steps",
+        "terminal"
+      ]
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT5",
+    "apiVersion": "CT5-v3",
+    "namespace": "StructuralExhaustion.CT5"
+  }
+}

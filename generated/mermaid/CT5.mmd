@@ -1,0 +1,16 @@
+flowchart LR
+  N1["CT5.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT5.search.deficit<br/>finiteSearch<br/>author=6, generated=3"]
+  N3["CT5.compute.summation<br/>verifiedComputation<br/>author=7, generated=1"]
+  N4["CT5.decide.comparison<br/>verifiedComputation<br/>author=2, generated=4"]
+  N5["CT5.terminal.residual.localDeficit<br/>genericTheorem<br/>author=0, generated=1"]
+  N6["CT5.terminal.c4<br/>genericTheorem<br/>author=0, generated=1"]
+  N7["CT5.terminal.residual.chargeLedger<br/>genericTheorem<br/>author=0, generated=1"]
+  N8["CT5.terminal.residual.aggregate<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT5.edge.beginDeficit| N2
+  N2 -->|CT5.edge.deficitFound| N5
+  N2 -->|CT5.edge.deficitAbsent| N3
+  N3 -->|CT5.edge.summed| N4
+  N4 -->|CT5.edge.comparisonC4| N6
+  N4 -->|CT5.edge.comparisonCharge| N7
+  N4 -->|CT5.edge.comparisonAggregate| N8

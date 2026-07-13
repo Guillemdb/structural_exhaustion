@@ -1,0 +1,18 @@
+flowchart LR
+  N1["CT14.entry<br/>definitional<br/>author=0, generated=1"]
+  N2["CT14.compute.lower-mass<br/>verifiedComputation<br/>author=2, generated=1"]
+  N3["CT14.search.members<br/>finiteSearch<br/>author=3, generated=4"]
+  N4["CT14.compute.upper-capacity<br/>verifiedComputation<br/>author=4, generated=1"]
+  N5["CT14.decide.comparison<br/>verifiedComputation<br/>author=0, generated=3"]
+  N6["CT14.terminal.residual.unbounded-member<br/>genericTheorem<br/>author=0, generated=1"]
+  N7["CT14.terminal.residual.missing-label<br/>genericTheorem<br/>author=0, generated=1"]
+  N8["CT14.terminal.certificate.aggregate<br/>genericTheorem<br/>author=0, generated=1"]
+  N9["CT14.terminal.residual.capacity<br/>genericTheorem<br/>author=0, generated=1"]
+  N1 -->|CT14.edge.begin| N2
+  N2 -->|CT14.edge.lower| N3
+  N3 -->|CT14.edge.unbounded| N6
+  N3 -->|CT14.edge.missingLabel| N7
+  N3 -->|CT14.edge.complete| N4
+  N4 -->|CT14.edge.upper| N5
+  N5 -->|CT14.edge.aggregate| N8
+  N5 -->|CT14.edge.capacity| N9

@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT16.decide.closed-code.schema.json",
+  "title": "CT16.decide.closed-code automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT16/Graph.lean",
+        "semanticId": "CT16.decide.closed-code",
+        "presentation": {
+          "summary": "Compiled decision node with an explicit automation contract.",
+          "label": "CT16.decide.closed-code"
+        },
+        "ordinal": 4,
+        "nodeKind": "decision",
+        "nodeId": "CT16.decide.closed-code",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT16.terminal.certificate.exact-code",
+              "sourceNode": "CT16.decide.closed-code",
+              "edgeId": "CT16.edge.equal",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ExactCodeCertificate C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.equalTerminal",
+              "constructor": "StructuralExhaustion.CT16.Graph.Edge.equal"
+            },
+            {
+              "targetNode": "CT16.terminal.residual.closed-type-mismatch",
+              "sourceNode": "CT16.decide.closed-code",
+              "edgeId": "CT16.edge.mismatch",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedTypeMismatchResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.mismatchTerminal",
+              "constructor": "StructuralExhaustion.CT16.Graph.Edge.mismatch"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT16.decide.closed-code",
+              "sourceNode": "CT16.compute.closed-code",
+              "edgeId": "CT16.edge.codeReady",
+              "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedCodeState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComputation CT16.Graph.NodeId.codeComparison",
+              "constructor": "StructuralExhaustion.CT16.Graph.Edge.codeReady"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT16.Graph.NodeId.codeComparison",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "Capability.targetCode",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.codeDecidableEq",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "ClosedCodeState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "ClosedCodeState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT16.CodeDecision",
+              "provision": "derived_by_computation"
+            },
+            {
+              "ref": "CT16.ExactCodeCertificate",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "CT16.ClosedTypeMismatchResidual",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "verifiedComputation",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "Capability.targetCode",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "Capability.codeDecidableEq",
+              "provision": "instance_bridge"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT16",
+    "apiVersion": "CT16-v3",
+    "namespace": "StructuralExhaustion.CT16"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "Capability.targetCode",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.codeDecidableEq",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "ClosedCodeState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "ClosedCodeState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT16.CodeDecision",
+        "provision": "derived_by_computation"
+      },
+      {
+        "ref": "CT16.ExactCodeCertificate",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "CT16.ClosedTypeMismatchResidual",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "verifiedComputation",
+    "derivedInputs": [],
+    "authorInputs": [
+      {
+        "ref": "Capability.targetCode",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "Capability.codeDecidableEq",
+        "provision": "instance_bridge"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT16.terminal.certificate.exact-code",
+        "sourceNode": "CT16.decide.closed-code",
+        "edgeId": "CT16.edge.equal",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ExactCodeCertificate C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.equalTerminal",
+        "constructor": "StructuralExhaustion.CT16.Graph.Edge.equal"
+      },
+      {
+        "targetNode": "CT16.terminal.residual.closed-type-mismatch",
+        "sourceNode": "CT16.decide.closed-code",
+        "edgeId": "CT16.edge.mismatch",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedTypeMismatchResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.mismatchTerminal",
+        "constructor": "StructuralExhaustion.CT16.Graph.Edge.mismatch"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT16.decide.closed-code",
+        "sourceNode": "CT16.compute.closed-code",
+        "edgeId": "CT16.edge.codeReady",
+        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedCodeState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComputation CT16.Graph.NodeId.codeComparison",
+        "constructor": "StructuralExhaustion.CT16.Graph.Edge.codeReady"
+      }
+    ]
+  }
+}

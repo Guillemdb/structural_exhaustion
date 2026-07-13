@@ -1,0 +1,129 @@
+\subsection{CT3: Exact external-response compression}
+\label{sec:ct3-automation}
+
+CT3 first computes the source piece's exact response vector and searches the ordered candidate universe for the first admissible smaller piece with the same response. If compression is absent, the machine validates every row-context table entry and then performs exact row lookup, yielding a table defect, a known-row certificate, or a novel-row residual.
+
+A theorem instantiation supplies the problem-specific static entries in the first table. The framework constructs every remaining node output, exhaustive decision, certificate, residual, edge, and trace theorem.
+
+\paragraph{Public automation surface.}
+\texttt{StructuralExhaustion.CT3.run} returns the evidence-carrying \texttt{ExecutionResult}. \texttt{ct3\_\allowbreak{}execute}, \texttt{ct3}, and \texttt{ct3\_\allowbreak{}total} expose execution, semantic soundness, and totality, respectively.
+
+\paragraph{General problem-specific capability.}
+\begingroup\small
+\begin{longtable}{@{}p{0.27\linewidth}p{0.15\linewidth}p{0.46\linewidth}@{}}
+\toprule
+Reference & Provision & Role \\
+\midrule
+\endhead
+\texttt{Spec.\allowbreak{}Piece} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}Context} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}Candidate} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}Row} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}response} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}candidate\allowbreak{}Piece} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}Admissible} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}Smaller} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}row\allowbreak{}Piece} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\texttt{Spec.\allowbreak{}row\allowbreak{}Response} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}contexts} & \texttt{user\_\allowbreak{}finite\_\allowbreak{}enumeration} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}candidates} & \texttt{user\_\allowbreak{}finite\_\allowbreak{}enumeration} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}rows} & \texttt{user\_\allowbreak{}finite\_\allowbreak{}enumeration} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}admissible\allowbreak{}Decidable} & \texttt{instance\_\allowbreak{}bridge} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}smaller\allowbreak{}Decidable} & \texttt{instance\_\allowbreak{}bridge} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}input\allowbreak{}Size} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}work\allowbreak{}Coefficient} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}work\allowbreak{}Degree} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}work\allowbreak{}Bound} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\emph{Instance-bridge index.} \texttt{Capability.\allowbreak{}admissible\allowbreak{}Decidable}, \texttt{Capability.\allowbreak{}smaller\allowbreak{}Decidable}. These references index explicit capability fields already listed above; they introduce no additional problem-specific inputs.
+
+\paragraph{Per-node dependency and output contracts.}
+The execution class appears beneath each node identifier. The displayed categories are exact catalog projections; every manual-obligation list is empty.
+\begingroup\scriptsize\sloppy
+\begin{longtable}{@{}p{0.13\linewidth}p{0.17\linewidth}p{0.17\linewidth}p{0.18\linewidth}p{0.18\linewidth}@{}}
+\toprule
+Node & Problem-specific static inputs & Predecessor and inferred inputs & Framework-derived & Generated outputs \\
+\midrule
+\endhead
+\texttt{CT3.\allowbreak{}entry}\\{\scriptsize definitional} & $\varnothing$ & \texttt{Input.\allowbreak{}context} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]}; \allowbreak \texttt{Input.\allowbreak{}piece} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & $\varnothing$ & \texttt{CT3.\allowbreak{}Input} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} \\
+\texttt{CT3.\allowbreak{}compute.\allowbreak{}exact-\allowbreak{}vector}\\{\scriptsize definitional} & \texttt{Spec.\allowbreak{}response} {\scriptsize[user\_\allowbreak{}operator]} & \texttt{Input.\allowbreak{}piece} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Exact\allowbreak{}Vector\allowbreak{}State.\allowbreak{}exact} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{CT3.\allowbreak{}Exact\allowbreak{}Vector\allowbreak{}State} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}computation]} \\
+\texttt{CT3.\allowbreak{}search.\allowbreak{}compression}\\{\scriptsize finite\allowbreak{}Search} & \texttt{Capability.\allowbreak{}candidates} {\scriptsize[user\_\allowbreak{}finite\_\allowbreak{}enumeration]}; \allowbreak \texttt{Spec.\allowbreak{}candidate\allowbreak{}Piece} {\scriptsize[user\_\allowbreak{}operator]}; \allowbreak \texttt{Spec.\allowbreak{}response} {\scriptsize[user\_\allowbreak{}operator]}; \allowbreak \texttt{Spec.\allowbreak{}Admissible} {\scriptsize[user\_\allowbreak{}definition]}; \allowbreak \texttt{Spec.\allowbreak{}Smaller} {\scriptsize[user\_\allowbreak{}definition]}; \allowbreak \texttt{Capability.\allowbreak{}contexts} {\scriptsize[user\_\allowbreak{}finite\_\allowbreak{}enumeration]}; \allowbreak \texttt{Capability.\allowbreak{}admissible\allowbreak{}Decidable} {\scriptsize[instance\_\allowbreak{}bridge]}; \allowbreak \texttt{Capability.\allowbreak{}smaller\allowbreak{}Decidable} {\scriptsize[instance\_\allowbreak{}bridge]} & \texttt{Exact\allowbreak{}Vector\allowbreak{}State} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Same\allowbreak{}Response} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{Finite\allowbreak{}Search.\allowbreak{}first\_\allowbreak{}total} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]}; \allowbreak \texttt{Response\allowbreak{}Comparison.\allowbreak{}compare\_\allowbreak{}total} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{CT3.\allowbreak{}Compression\allowbreak{}Decision} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT3.\allowbreak{}Compression\allowbreak{}Certificate} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT3.\allowbreak{}Uncompres\allowbreak{}sible\allowbreak{}External\allowbreak{}Type} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} \\
+\texttt{CT3.\allowbreak{}validate.\allowbreak{}table}\\{\scriptsize finite\allowbreak{}Search} & \texttt{Capability.\allowbreak{}rows} {\scriptsize[user\_\allowbreak{}finite\_\allowbreak{}enumeration]}; \allowbreak \texttt{Capability.\allowbreak{}contexts} {\scriptsize[user\_\allowbreak{}finite\_\allowbreak{}enumeration]}; \allowbreak \texttt{Spec.\allowbreak{}row\allowbreak{}Piece} {\scriptsize[user\_\allowbreak{}operator]}; \allowbreak \texttt{Spec.\allowbreak{}row\allowbreak{}Response} {\scriptsize[user\_\allowbreak{}operator]}; \allowbreak \texttt{Spec.\allowbreak{}response} {\scriptsize[user\_\allowbreak{}operator]} & \texttt{Uncompres\allowbreak{}sible\allowbreak{}External\allowbreak{}Type} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Finite\allowbreak{}Search.\allowbreak{}dependent\allowbreak{}Search\_\allowbreak{}sound} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{CT3.\allowbreak{}Table\allowbreak{}Validation\allowbreak{}Decision} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT3.\allowbreak{}Distingui\allowbreak{}shing\allowbreak{}Context\allowbreak{}Residual} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT3.\allowbreak{}Exact\allowbreak{}Table\allowbreak{}State} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} \\
+\texttt{CT3.\allowbreak{}lookup.\allowbreak{}exact-\allowbreak{}row}\\{\scriptsize finite\allowbreak{}Search} & \texttt{Capability.\allowbreak{}rows} {\scriptsize[user\_\allowbreak{}finite\_\allowbreak{}enumeration]}; \allowbreak \texttt{Capability.\allowbreak{}contexts} {\scriptsize[user\_\allowbreak{}finite\_\allowbreak{}enumeration]}; \allowbreak \texttt{Spec.\allowbreak{}response} {\scriptsize[user\_\allowbreak{}operator]}; \allowbreak \texttt{Spec.\allowbreak{}row\allowbreak{}Response} {\scriptsize[user\_\allowbreak{}operator]} & \texttt{Exact\allowbreak{}Table\allowbreak{}State} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Row\allowbreak{}Matches} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{Finite\allowbreak{}Search.\allowbreak{}first\_\allowbreak{}total} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]}; \allowbreak \texttt{Response\allowbreak{}Comparison.\allowbreak{}compare\_\allowbreak{}total} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{CT3.\allowbreak{}Row\allowbreak{}Lookup\allowbreak{}Decision} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT3.\allowbreak{}Known\allowbreak{}Row\allowbreak{}Certificate} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT3.\allowbreak{}Novel\allowbreak{}External\allowbreak{}Type\allowbreak{}Residual} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} \\
+\texttt{CT3.\allowbreak{}terminal.\allowbreak{}compression}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}compression\allowbreak{}Found} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT3.\allowbreak{}terminal.\allowbreak{}compression} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT3.\allowbreak{}terminal.\allowbreak{}distingu\allowbreak{}ishing-\allowbreak{}context}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}table\allowbreak{}Defect} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT3.\allowbreak{}terminal.\allowbreak{}distingu\allowbreak{}ishing-\allowbreak{}context} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT3.\allowbreak{}terminal.\allowbreak{}known-\allowbreak{}row}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}row\allowbreak{}Known} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT3.\allowbreak{}terminal.\allowbreak{}known-\allowbreak{}row} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT3.\allowbreak{}terminal.\allowbreak{}novel-\allowbreak{}row}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}row\allowbreak{}Novel} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT3.\allowbreak{}terminal.\allowbreak{}novel-\allowbreak{}row} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\begin{landscape}
+\begin{figure}[p]
+\centering
+\begin{adjustbox}{max totalsize={\linewidth}{0.72\textheight},center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[ctauthor] (a1) at (0,-0.00) {\textbf{Problem-specific static inputs}\\$\varnothing$};
+\node[ctpred] (p1) at (5.6,-0.00) {\textbf{Predecessor-derived}\\\texttt{Input.\allowbreak{}context}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}\\\texttt{Input.\allowbreak{}piece}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d1) at (11.2,-0.00) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctentry] (n1) at (17.1,-0.00) {\textbf{CT3.\allowbreak{}entry}\\{\scriptsize definitional}\\[-0.2ex]{\tiny Outputs: \texttt{CT3.\allowbreak{}Input}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}}};
+\draw[ctinputarrow] (a1.south) |- ([yshift=-5pt]n1.west);
+\draw[ctpredarrow] (p1.south) |- (n1.west);
+\draw[ctderivedarrow] (d1.south) |- ([yshift=5pt]n1.west);
+\node[ctauthor] (a2) at (0,-3.05) {\textbf{Problem-specific static inputs}\\\texttt{Spec.\allowbreak{}response}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}};
+\node[ctpred] (p2) at (5.6,-3.05) {\textbf{Predecessor-derived}\\\texttt{Input.\allowbreak{}piece}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d2) at (11.2,-3.05) {\textbf{Framework-derived}\\\texttt{Exact\allowbreak{}Vector\allowbreak{}State.\allowbreak{}exact}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}};
+\node[ctnode] (n2) at (17.1,-3.05) {\textbf{CT3.\allowbreak{}compute.\allowbreak{}exact-\allowbreak{}vector}\\{\scriptsize definitional}\\[-0.2ex]{\tiny Outputs: \texttt{CT3.\allowbreak{}Exact\allowbreak{}Vector\allowbreak{}State}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}computation}}};
+\draw[ctinputarrow] (a2.south) |- ([yshift=-5pt]n2.west);
+\draw[ctpredarrow] (p2.south) |- (n2.west);
+\draw[ctderivedarrow] (d2.south) |- ([yshift=5pt]n2.west);
+\node[ctauthor] (a3) at (0,-6.10) {\textbf{Problem-specific static inputs}\\\texttt{Capability.\allowbreak{}candidates}\\[-0.2ex]{\tiny user\_\allowbreak{}finite\_\allowbreak{}enumeration}\\\texttt{Spec.\allowbreak{}candidate\allowbreak{}Piece}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}\\\texttt{Spec.\allowbreak{}response}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}\\\texttt{Spec.\allowbreak{}Admissible}\\[-0.2ex]{\tiny user\_\allowbreak{}definition}\\\texttt{Spec.\allowbreak{}Smaller}\\[-0.2ex]{\tiny user\_\allowbreak{}definition}\\\texttt{Capability.\allowbreak{}contexts}\\[-0.2ex]{\tiny user\_\allowbreak{}finite\_\allowbreak{}enumeration}\\\texttt{Capability.\allowbreak{}admissible\allowbreak{}Decidable}\\[-0.2ex]{\tiny instance\_\allowbreak{}bridge}\\\texttt{Capability.\allowbreak{}smaller\allowbreak{}Decidable}\\[-0.2ex]{\tiny instance\_\allowbreak{}bridge}};
+\node[ctpred] (p3) at (5.6,-6.10) {\textbf{Predecessor-derived}\\\texttt{Exact\allowbreak{}Vector\allowbreak{}State}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d3) at (11.2,-6.10) {\textbf{Framework-derived}\\\texttt{Same\allowbreak{}Response}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{Finite\allowbreak{}Search.\allowbreak{}first\_\allowbreak{}total}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}\\\texttt{Response\allowbreak{}Comparison.\allowbreak{}compare\_\allowbreak{}total}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}};
+\node[ctnode] (n3) at (17.1,-6.10) {\textbf{CT3.\allowbreak{}search.\allowbreak{}compression}\\{\scriptsize finite\allowbreak{}Search}\\[-0.2ex]{\tiny Outputs: \texttt{CT3.\allowbreak{}Compression\allowbreak{}Decision}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT3.\allowbreak{}Compression\allowbreak{}Certificate}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT3.\allowbreak{}Uncompres\allowbreak{}sible\allowbreak{}External\allowbreak{}Type}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}}};
+\draw[ctinputarrow] (a3.south) |- ([yshift=-5pt]n3.west);
+\draw[ctpredarrow] (p3.south) |- (n3.west);
+\draw[ctderivedarrow] (d3.south) |- ([yshift=5pt]n3.west);
+\node[ctauthor] (a4) at (0,-12.05) {\textbf{Problem-specific static inputs}\\\texttt{Capability.\allowbreak{}rows}\\[-0.2ex]{\tiny user\_\allowbreak{}finite\_\allowbreak{}enumeration}\\\texttt{Capability.\allowbreak{}contexts}\\[-0.2ex]{\tiny user\_\allowbreak{}finite\_\allowbreak{}enumeration}\\\texttt{Spec.\allowbreak{}row\allowbreak{}Piece}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}\\\texttt{Spec.\allowbreak{}row\allowbreak{}Response}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}\\\texttt{Spec.\allowbreak{}response}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}};
+\node[ctpred] (p4) at (5.6,-12.05) {\textbf{Predecessor-derived}\\\texttt{Uncompres\allowbreak{}sible\allowbreak{}External\allowbreak{}Type}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d4) at (11.2,-12.05) {\textbf{Framework-derived}\\\texttt{Finite\allowbreak{}Search.\allowbreak{}dependent\allowbreak{}Search\_\allowbreak{}sound}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}};
+\node[ctnode] (n4) at (17.1,-12.05) {\textbf{CT3.\allowbreak{}validate.\allowbreak{}table}\\{\scriptsize finite\allowbreak{}Search}\\[-0.2ex]{\tiny Outputs: \texttt{CT3.\allowbreak{}Table\allowbreak{}Validation\allowbreak{}Decision}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT3.\allowbreak{}Distingui\allowbreak{}shing\allowbreak{}Context\allowbreak{}Residual}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT3.\allowbreak{}Exact\allowbreak{}Table\allowbreak{}State}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}}};
+\draw[ctinputarrow] (a4.south) |- ([yshift=-5pt]n4.west);
+\draw[ctpredarrow] (p4.south) |- (n4.west);
+\draw[ctderivedarrow] (d4.south) |- ([yshift=5pt]n4.west);
+\node[ctauthor] (a5) at (0,-16.35) {\textbf{Problem-specific static inputs}\\\texttt{Capability.\allowbreak{}rows}\\[-0.2ex]{\tiny user\_\allowbreak{}finite\_\allowbreak{}enumeration}\\\texttt{Capability.\allowbreak{}contexts}\\[-0.2ex]{\tiny user\_\allowbreak{}finite\_\allowbreak{}enumeration}\\\texttt{Spec.\allowbreak{}response}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}\\\texttt{Spec.\allowbreak{}row\allowbreak{}Response}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}};
+\node[ctpred] (p5) at (5.6,-16.35) {\textbf{Predecessor-derived}\\\texttt{Exact\allowbreak{}Table\allowbreak{}State}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d5) at (11.2,-16.35) {\textbf{Framework-derived}\\\texttt{Row\allowbreak{}Matches}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{Finite\allowbreak{}Search.\allowbreak{}first\_\allowbreak{}total}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}\\\texttt{Response\allowbreak{}Comparison.\allowbreak{}compare\_\allowbreak{}total}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}};
+\node[ctnode] (n5) at (17.1,-16.35) {\textbf{CT3.\allowbreak{}lookup.\allowbreak{}exact-\allowbreak{}row}\\{\scriptsize finite\allowbreak{}Search}\\[-0.2ex]{\tiny Outputs: \texttt{CT3.\allowbreak{}Row\allowbreak{}Lookup\allowbreak{}Decision}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT3.\allowbreak{}Known\allowbreak{}Row\allowbreak{}Certificate}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT3.\allowbreak{}Novel\allowbreak{}External\allowbreak{}Type\allowbreak{}Residual}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}}};
+\draw[ctinputarrow] (a5.south) |- ([yshift=-5pt]n5.west);
+\draw[ctpredarrow] (p5.south) |- (n5.west);
+\draw[ctderivedarrow] (d5.south) |- ([yshift=5pt]n5.west);
+\node[ctcertificate] (n6) at (23.4,-6.10) {\textbf{CT3.\allowbreak{}terminal.\allowbreak{}compression}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\node[ctresidual] (n7) at (23.4,-12.05) {\textbf{CT3.\allowbreak{}terminal.\allowbreak{}distingu\allowbreak{}ishing-\allowbreak{}context}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\node[ctcertificate] (n8) at (23.4,-15.53) {\textbf{CT3.\allowbreak{}terminal.\allowbreak{}known-\allowbreak{}row}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\node[ctresidual] (n9) at (23.4,-17.18) {\textbf{CT3.\allowbreak{}terminal.\allowbreak{}novel-\allowbreak{}row}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\draw[ctedge] (n1.south east) to[bend left=15] node[ctedgelabel] {begin\allowbreak{}Vector} (n2.north east);
+\draw[ctedge] (n2.south east) to[bend left=15] node[ctedgelabel] {vector\allowbreak{}Ready} (n3.north east);
+\draw[ctedge] (n3.east) to[bend left=10] node[ctedgelabel] {compression\allowbreak{}Found} (n6.west);
+\draw[ctedge] (n3.south east) to[bend left=15] node[ctedgelabel] {compression\allowbreak{}Absent} (n4.north east);
+\draw[ctedge] (n4.east) to[bend left=10] node[ctedgelabel] {table\allowbreak{}Defect} (n7.west);
+\draw[ctedge] (n4.south east) to[bend left=15] node[ctedgelabel] {table\allowbreak{}Exact} (n5.north east);
+\draw[ctedge] (n5.east) to[bend left=10] node[ctedgelabel] {row\allowbreak{}Known} (n8.west);
+\draw[ctedge] (n5.east) to[bend left=10] node[ctedgelabel] {row\allowbreak{}Novel} (n9.west);
+\end{tikzpicture}%
+\end{adjustbox}
+\caption{Automation-first sequential machine for CT3. Each executable node has separate problem-specific static, predecessor, and framework-derived dependency boxes. Terminal nodes consume only incoming edge evidence. Route boxes are separate framework rules.}
+\label{fig:ct3-machine}
+\end{figure}
+\end{landscape}
+
+\begingroup\small\sloppy
+\paragraph{Residual contracts.}
+\begin{itemize}
+\item \texttt{CT3.\allowbreak{}residual.\allowbreak{}distingu\allowbreak{}ishing\allowbreak{}Context}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}Distingui\allowbreak{}shing\allowbreak{}Context\allowbreak{}Residual S C input}; inherited context \texttt{branch}.
+\item \texttt{CT3.\allowbreak{}residual.\allowbreak{}novel\allowbreak{}External\allowbreak{}Type}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}Novel\allowbreak{}External\allowbreak{}Type\allowbreak{}Residual S C input table}; inherited context \texttt{branch}.
+\end{itemize}
+\endgroup

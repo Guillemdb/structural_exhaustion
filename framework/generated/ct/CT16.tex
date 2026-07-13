@@ -1,0 +1,106 @@
+\subsection{CT16: Exact whole-support closed type}
+\label{sec:ct16-automation}
+
+CT16 searches the exact coordinate enumeration for a point outside support. A missing coordinate gives the proper-support residual. Whole support enables closed-code computation, after which literal decidable equality with the target code yields either the exact-code certificate or the mismatch residual.
+
+A theorem instantiation supplies the problem-specific static entries in the first table. The framework constructs every remaining node output, exhaustive decision, certificate, residual, edge, and trace theorem.
+
+\paragraph{Public automation surface.}
+\texttt{StructuralExhaustion.CT16.run} returns the evidence-carrying \texttt{ExecutionResult}. \texttt{ct16\_\allowbreak{}execute}, \texttt{ct16}, and \texttt{ct16\_\allowbreak{}total} expose execution, semantic soundness, and totality, respectively.
+
+\paragraph{General problem-specific capability.}
+\begingroup\small
+\begin{longtable}{@{}p{0.27\linewidth}p{0.15\linewidth}p{0.46\linewidth}@{}}
+\toprule
+Reference & Provision & Role \\
+\midrule
+\endhead
+\texttt{Capability.\allowbreak{}Coordinate} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}Closed\allowbreak{}Code} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}coordinates} & \texttt{user\_\allowbreak{}finite\_\allowbreak{}enumeration} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}In\allowbreak{}Support} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}in\allowbreak{}Support\allowbreak{}Decidable} & \texttt{instance\_\allowbreak{}bridge} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}closed\allowbreak{}Code} & \texttt{user\_\allowbreak{}operator} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}target\allowbreak{}Code} & \texttt{user\_\allowbreak{}definition} & problem-specific primitive \\
+\texttt{Capability.\allowbreak{}code\allowbreak{}Decidable\allowbreak{}Eq} & \texttt{instance\_\allowbreak{}bridge} & problem-specific primitive \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\emph{Instance-bridge index.} \texttt{Capability.\allowbreak{}in\allowbreak{}Support\allowbreak{}Decidable}, \texttt{Capability.\allowbreak{}code\allowbreak{}Decidable\allowbreak{}Eq}. These references index explicit capability fields already listed above; they introduce no additional problem-specific inputs.
+
+\paragraph{Per-node dependency and output contracts.}
+The execution class appears beneath each node identifier. The displayed categories are exact catalog projections; every manual-obligation list is empty.
+\begingroup\scriptsize\sloppy
+\begin{longtable}{@{}p{0.13\linewidth}p{0.17\linewidth}p{0.17\linewidth}p{0.18\linewidth}p{0.18\linewidth}@{}}
+\toprule
+Node & Problem-specific static inputs & Predecessor and inferred inputs & Framework-derived & Generated outputs \\
+\midrule
+\endhead
+\texttt{CT16.\allowbreak{}entry}\\{\scriptsize definitional} & $\varnothing$ & \texttt{Input} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & $\varnothing$ & \texttt{CT16.\allowbreak{}Input} {\scriptsize[derived\_\allowbreak{}definiti\allowbreak{}onally]} \\
+\texttt{CT16.\allowbreak{}search.\allowbreak{}support}\\{\scriptsize finite\allowbreak{}Search} & \texttt{Capability.\allowbreak{}coordinates} {\scriptsize[user\_\allowbreak{}finite\_\allowbreak{}enumeration]}; \allowbreak \texttt{Capability.\allowbreak{}In\allowbreak{}Support} {\scriptsize[user\_\allowbreak{}definition]}; \allowbreak \texttt{Capability.\allowbreak{}in\allowbreak{}Support\allowbreak{}Decidable} {\scriptsize[instance\_\allowbreak{}bridge]} & \texttt{context} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Core.\allowbreak{}Finite\allowbreak{}Search.\allowbreak{}search} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{CT16.\allowbreak{}Support\allowbreak{}Decision} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT16.\allowbreak{}Proper\allowbreak{}Support\allowbreak{}Residual} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search]}; \allowbreak \texttt{CT16.\allowbreak{}Whole\allowbreak{}Support\allowbreak{}State} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} \\
+\texttt{CT16.\allowbreak{}compute.\allowbreak{}closed-\allowbreak{}code}\\{\scriptsize verified\allowbreak{}Computation} & \texttt{Capability.\allowbreak{}closed\allowbreak{}Code} {\scriptsize[user\_\allowbreak{}operator]} & \texttt{Whole\allowbreak{}Support\allowbreak{}State} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & $\varnothing$ & \texttt{CT16.\allowbreak{}Closed\allowbreak{}Code\allowbreak{}State} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}computation]} \\
+\texttt{CT16.\allowbreak{}decide.\allowbreak{}closed-\allowbreak{}code}\\{\scriptsize verified\allowbreak{}Computation} & \texttt{Capability.\allowbreak{}target\allowbreak{}Code} {\scriptsize[user\_\allowbreak{}definition]}; \allowbreak \texttt{Capability.\allowbreak{}code\allowbreak{}Decidable\allowbreak{}Eq} {\scriptsize[instance\_\allowbreak{}bridge]} & \texttt{Closed\allowbreak{}Code\allowbreak{}State} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & $\varnothing$ & \texttt{CT16.\allowbreak{}Code\allowbreak{}Decision} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}computation]}; \allowbreak \texttt{CT16.\allowbreak{}Exact\allowbreak{}Code\allowbreak{}Certificate} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]}; \allowbreak \texttt{CT16.\allowbreak{}Closed\allowbreak{}Type\allowbreak{}Mismatch\allowbreak{}Residual} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} \\
+\texttt{CT16.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}proper-\allowbreak{}support}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT16.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}proper} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT16.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT16.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT16.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}proper-\allowbreak{}support} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT16.\allowbreak{}terminal.\allowbreak{}certificate.\allowbreak{}exact-\allowbreak{}code}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT16.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}equal} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT16.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT16.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT16.\allowbreak{}terminal.\allowbreak{}certificate.\allowbreak{}exact-\allowbreak{}code} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\texttt{CT16.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}closed-\allowbreak{}type-\allowbreak{}mismatch}\\{\scriptsize generic\allowbreak{}Theorem} & $\varnothing$ & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT16.\allowbreak{}Graph.\allowbreak{}Edge.\allowbreak{}mismatch} {\scriptsize[derived\_\allowbreak{}from\_\allowbreak{}predecessor]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT16.\allowbreak{}run\_\allowbreak{}trace\_\allowbreak{}valid} {\scriptsize[derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem]} & \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT16.\allowbreak{}Execution\allowbreak{}Result@\allowbreak{}CT16.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}closed-\allowbreak{}type-\allowbreak{}mismatch} {\scriptsize[generated\_\allowbreak{}audit]} \\
+\bottomrule
+\end{longtable}
+\endgroup
+
+\begin{landscape}
+\begin{figure}[p]
+\centering
+\begin{adjustbox}{max totalsize={\linewidth}{0.72\textheight},center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[ctauthor] (a1) at (0,-0.00) {\textbf{Problem-specific static inputs}\\$\varnothing$};
+\node[ctpred] (p1) at (5.6,-0.00) {\textbf{Predecessor-derived}\\\texttt{Input}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d1) at (11.2,-0.00) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctentry] (n1) at (17.1,-0.00) {\textbf{CT16.\allowbreak{}entry}\\{\scriptsize definitional}\\[-0.2ex]{\tiny Outputs: \texttt{CT16.\allowbreak{}Input}\\[-0.2ex]{\tiny derived\_\allowbreak{}definiti\allowbreak{}onally}}};
+\draw[ctinputarrow] (a1.south) |- ([yshift=-5pt]n1.west);
+\draw[ctpredarrow] (p1.south) |- (n1.west);
+\draw[ctderivedarrow] (d1.south) |- ([yshift=5pt]n1.west);
+\node[ctauthor] (a2) at (0,-3.05) {\textbf{Problem-specific static inputs}\\\texttt{Capability.\allowbreak{}coordinates}\\[-0.2ex]{\tiny user\_\allowbreak{}finite\_\allowbreak{}enumeration}\\\texttt{Capability.\allowbreak{}In\allowbreak{}Support}\\[-0.2ex]{\tiny user\_\allowbreak{}definition}\\\texttt{Capability.\allowbreak{}in\allowbreak{}Support\allowbreak{}Decidable}\\[-0.2ex]{\tiny instance\_\allowbreak{}bridge}};
+\node[ctpred] (p2) at (5.6,-3.05) {\textbf{Predecessor-derived}\\\texttt{context}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d2) at (11.2,-3.05) {\textbf{Framework-derived}\\\texttt{Core.\allowbreak{}Finite\allowbreak{}Search.\allowbreak{}search}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}};
+\node[ctnode] (n2) at (17.1,-3.05) {\textbf{CT16.\allowbreak{}search.\allowbreak{}support}\\{\scriptsize finite\allowbreak{}Search}\\[-0.2ex]{\tiny Outputs: \texttt{CT16.\allowbreak{}Support\allowbreak{}Decision}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT16.\allowbreak{}Proper\allowbreak{}Support\allowbreak{}Residual}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}search}\\\texttt{CT16.\allowbreak{}Whole\allowbreak{}Support\allowbreak{}State}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}}};
+\draw[ctinputarrow] (a2.south) |- ([yshift=-5pt]n2.west);
+\draw[ctpredarrow] (p2.south) |- (n2.west);
+\draw[ctderivedarrow] (d2.south) |- ([yshift=5pt]n2.west);
+\node[ctauthor] (a3) at (0,-6.25) {\textbf{Problem-specific static inputs}\\\texttt{Capability.\allowbreak{}closed\allowbreak{}Code}\\[-0.2ex]{\tiny user\_\allowbreak{}operator}};
+\node[ctpred] (p3) at (5.6,-6.25) {\textbf{Predecessor-derived}\\\texttt{Whole\allowbreak{}Support\allowbreak{}State}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d3) at (11.2,-6.25) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctnode] (n3) at (17.1,-6.25) {\textbf{CT16.\allowbreak{}compute.\allowbreak{}closed-\allowbreak{}code}\\{\scriptsize verified\allowbreak{}Computation}\\[-0.2ex]{\tiny Outputs: \texttt{CT16.\allowbreak{}Closed\allowbreak{}Code\allowbreak{}State}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}computation}}};
+\draw[ctinputarrow] (a3.south) |- ([yshift=-5pt]n3.west);
+\draw[ctpredarrow] (p3.south) |- (n3.west);
+\draw[ctderivedarrow] (d3.south) |- ([yshift=5pt]n3.west);
+\node[ctauthor] (a4) at (0,-9.30) {\textbf{Problem-specific static inputs}\\\texttt{Capability.\allowbreak{}target\allowbreak{}Code}\\[-0.2ex]{\tiny user\_\allowbreak{}definition}\\\texttt{Capability.\allowbreak{}code\allowbreak{}Decidable\allowbreak{}Eq}\\[-0.2ex]{\tiny instance\_\allowbreak{}bridge}};
+\node[ctpred] (p4) at (5.6,-9.30) {\textbf{Predecessor-derived}\\\texttt{Closed\allowbreak{}Code\allowbreak{}State}\\[-0.2ex]{\tiny derived\_\allowbreak{}from\_\allowbreak{}predecessor}};
+\node[ctderived] (d4) at (11.2,-9.30) {\textbf{Framework-derived}\\$\varnothing$};
+\node[ctdecision] (n4) at (17.1,-9.30) {\textbf{CT16.\allowbreak{}decide.\allowbreak{}closed-\allowbreak{}code}\\{\scriptsize verified\allowbreak{}Computation}\\[-0.2ex]{\tiny Outputs: \texttt{CT16.\allowbreak{}Code\allowbreak{}Decision}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}computation}\\\texttt{CT16.\allowbreak{}Exact\allowbreak{}Code\allowbreak{}Certificate}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}\\\texttt{CT16.\allowbreak{}Closed\allowbreak{}Type\allowbreak{}Mismatch\allowbreak{}Residual}\\[-0.2ex]{\tiny derived\_\allowbreak{}by\_\allowbreak{}generic\_\allowbreak{}theorem}}};
+\draw[ctinputarrow] (a4.south) |- ([yshift=-5pt]n4.west);
+\draw[ctpredarrow] (p4.south) |- (n4.west);
+\draw[ctderivedarrow] (d4.south) |- ([yshift=5pt]n4.west);
+\node[ctresidual] (n5) at (23.4,-3.05) {\textbf{CT16.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}proper-\allowbreak{}support}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\node[ctcertificate] (n6) at (23.4,-8.48) {\textbf{CT16.\allowbreak{}terminal.\allowbreak{}certificate.\allowbreak{}exact-\allowbreak{}code}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\node[ctresidual] (n7) at (23.4,-10.12) {\textbf{CT16.\allowbreak{}terminal.\allowbreak{}residual.\allowbreak{}closed-\allowbreak{}type-\allowbreak{}mismatch}\\{\tiny terminal; evidence fixed by the incoming edge}};
+\draw[ctedge] (n1.south east) to[bend left=15] node[ctedgelabel] {begin} (n2.north east);
+\draw[ctedge] (n2.east) to[bend left=10] node[ctedgelabel] {proper} (n5.west);
+\draw[ctedge] (n2.south east) to[bend left=15] node[ctedgelabel] {whole} (n3.north east);
+\draw[ctedge] (n3.south east) to[bend left=15] node[ctedgelabel] {code\allowbreak{}Ready} (n4.north east);
+\draw[ctedge] (n4.east) to[bend left=10] node[ctedgelabel] {equal} (n6.west);
+\draw[ctedge] (n4.east) to[bend left=10] node[ctedgelabel] {mismatch} (n7.west);
+\end{tikzpicture}%
+\end{adjustbox}
+\caption{Automation-first sequential machine for CT16. Each executable node has separate problem-specific static, predecessor, and framework-derived dependency boxes. Terminal nodes consume only incoming edge evidence. Route boxes are separate framework rules.}
+\label{fig:ct16-machine}
+\end{figure}
+\end{landscape}
+
+\begingroup\small\sloppy
+\paragraph{Residual contracts.}
+\begin{itemize}
+\item \texttt{CT16.\allowbreak{}residual.\allowbreak{}proper\allowbreak{}Support}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT16.\allowbreak{}Proper\allowbreak{}Support\allowbreak{}Residual}; inherited context \texttt{branch}.
+\item \texttt{CT16.\allowbreak{}residual.\allowbreak{}closed\allowbreak{}Type\allowbreak{}Mismatch}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT16.\allowbreak{}Closed\allowbreak{}Type\allowbreak{}Mismatch\allowbreak{}Residual}; inherited context \texttt{branch}.
+\end{itemize}
+\endgroup

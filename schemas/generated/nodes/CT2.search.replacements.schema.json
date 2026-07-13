@@ -1,0 +1,482 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT2.search.replacements.schema.json",
+  "title": "CT2.search.replacements automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT2/Graph.lean",
+        "semanticId": "CT2.search.replacements",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT2.search.replacements"
+        },
+        "ordinal": 3,
+        "nodeKind": "computation",
+        "nodeId": "CT2.search.replacements",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT2.terminal.c2.replacement",
+              "sourceNode": "CT2.search.replacements",
+              "edgeId": "CT2.edge.replacementCloses",
+              "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.ReplacementWitness capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis\n              CT2.Graph.NodeId.replacementC2Terminal",
+              "constructor": "StructuralExhaustion.CT2.Graph.Edge.replacementCloses"
+            },
+            {
+              "targetNode": "CT2.terminal.residual.separatingContext",
+              "sourceNode": "CT2.search.replacements",
+              "edgeId": "CT2.edge.replacementSeparating",
+              "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.SeparatingContextResidual capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis CT2.Graph.NodeId.separatingTerminal",
+              "constructor": "StructuralExhaustion.CT2.Graph.Edge.replacementSeparating"
+            },
+            {
+              "targetNode": "CT2.terminal.residual.criticality",
+              "sourceNode": "CT2.search.replacements",
+              "edgeId": "CT2.edge.replacementCritical",
+              "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.CriticalityResidual capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis\n              CT2.Graph.NodeId.criticalityTerminal",
+              "constructor": "StructuralExhaustion.CT2.Graph.Edge.replacementCritical"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT2.search.replacements",
+              "sourceNode": "CT2.decide.deletion",
+              "edgeId": "CT2.edge.deletionCritical",
+              "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.DeletionCriticalState capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.deletionDecision CT2.Graph.NodeId.replacementAnalysis",
+              "constructor": "StructuralExhaustion.CT2.Graph.Edge.deletionCritical"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT2.Graph.NodeId.replacementAnalysis",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT2.InterfaceSystem.interface",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ContextSystem.contexts",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ContextSystem.glue",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ContextSystem.abstract",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ContextSystem.currentContext",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ContextSystem.reconstruct",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.Observable.baselineDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.Observable.targetDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ReplacementSystem.Candidate",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ReplacementSystem.candidates",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ReplacementSystem.replacement",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ReplacementSystem.decreases",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "DecidableEq StructuralExhaustion.Core.ExactObservation",
+              "provision": "typeclass_inferred"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.DeletionCriticalState",
+              "provision": "derived_from_predecessor"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.analyzeCandidate",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.replacementTable",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ReplacementSystem.asSmaller",
+              "provision": "derived_definitionally"
+            },
+            {
+              "ref": "StructuralExhaustion.Core.FiniteSearch.search",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.replacementTable_complete",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT2.DeletionCriticalState",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [
+            {
+              "ref": "DecidableEq StructuralExhaustion.Core.ExactObservation",
+              "provision": "typeclass_inferred"
+            }
+          ],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT2.ReplacementDecision",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ReplacementWitness",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ReplacementTable",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.SeparatingContextResidual",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.CriticalityResidual",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.Core.FiniteSearch.search",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.replacementTable_complete",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "finiteSearch",
+          "derivedInputs": [
+            {
+              "ref": "StructuralExhaustion.CT2.analyzeCandidate",
+              "provision": "derived_by_generic_search"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.replacementTable",
+              "provision": "derived_by_generic_theorem"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ReplacementSystem.asSmaller",
+              "provision": "derived_definitionally"
+            }
+          ],
+          "authorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT2.InterfaceSystem.interface",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ContextSystem.contexts",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ContextSystem.glue",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ContextSystem.abstract",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ContextSystem.currentContext",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ContextSystem.reconstruct",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.Observable.baselineDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.Observable.targetDecidable",
+              "provision": "instance_bridge"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ReplacementSystem.Candidate",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ReplacementSystem.candidates",
+              "provision": "user_finite_enumeration"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ReplacementSystem.replacement",
+              "provision": "user_operator"
+            },
+            {
+              "ref": "StructuralExhaustion.CT2.ReplacementSystem.decreases",
+              "provision": "instance_bridge"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT2",
+    "apiVersion": "CT2-v6",
+    "namespace": "StructuralExhaustion.CT2"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT2.InterfaceSystem.interface",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ContextSystem.contexts",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ContextSystem.glue",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ContextSystem.abstract",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ContextSystem.currentContext",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ContextSystem.reconstruct",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.Observable.baselineDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.Observable.targetDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ReplacementSystem.Candidate",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ReplacementSystem.candidates",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ReplacementSystem.replacement",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ReplacementSystem.decreases",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "DecidableEq StructuralExhaustion.Core.ExactObservation",
+        "provision": "typeclass_inferred"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.DeletionCriticalState",
+        "provision": "derived_from_predecessor"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.analyzeCandidate",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.replacementTable",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ReplacementSystem.asSmaller",
+        "provision": "derived_definitionally"
+      },
+      {
+        "ref": "StructuralExhaustion.Core.FiniteSearch.search",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.replacementTable_complete",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT2.DeletionCriticalState",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [
+      {
+        "ref": "DecidableEq StructuralExhaustion.Core.ExactObservation",
+        "provision": "typeclass_inferred"
+      }
+    ],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT2.ReplacementDecision",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ReplacementWitness",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ReplacementTable",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.SeparatingContextResidual",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.CriticalityResidual",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "StructuralExhaustion.Core.FiniteSearch.search",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.replacementTable_complete",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "finiteSearch",
+    "derivedInputs": [
+      {
+        "ref": "StructuralExhaustion.CT2.analyzeCandidate",
+        "provision": "derived_by_generic_search"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.replacementTable",
+        "provision": "derived_by_generic_theorem"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ReplacementSystem.asSmaller",
+        "provision": "derived_definitionally"
+      }
+    ],
+    "authorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT2.InterfaceSystem.interface",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ContextSystem.contexts",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ContextSystem.glue",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ContextSystem.abstract",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ContextSystem.currentContext",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ContextSystem.reconstruct",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.Observable.baselineDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.Observable.targetDecidable",
+        "provision": "instance_bridge"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ReplacementSystem.Candidate",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ReplacementSystem.candidates",
+        "provision": "user_finite_enumeration"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ReplacementSystem.replacement",
+        "provision": "user_operator"
+      },
+      {
+        "ref": "StructuralExhaustion.CT2.ReplacementSystem.decreases",
+        "provision": "instance_bridge"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT2.terminal.c2.replacement",
+        "sourceNode": "CT2.search.replacements",
+        "edgeId": "CT2.edge.replacementCloses",
+        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.ReplacementWitness capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis\n              CT2.Graph.NodeId.replacementC2Terminal",
+        "constructor": "StructuralExhaustion.CT2.Graph.Edge.replacementCloses"
+      },
+      {
+        "targetNode": "CT2.terminal.residual.separatingContext",
+        "sourceNode": "CT2.search.replacements",
+        "edgeId": "CT2.edge.replacementSeparating",
+        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.SeparatingContextResidual capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis CT2.Graph.NodeId.separatingTerminal",
+        "constructor": "StructuralExhaustion.CT2.Graph.Edge.replacementSeparating"
+      },
+      {
+        "targetNode": "CT2.terminal.residual.criticality",
+        "sourceNode": "CT2.search.replacements",
+        "edgeId": "CT2.edge.replacementCritical",
+        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.CriticalityResidual capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis\n              CT2.Graph.NodeId.criticalityTerminal",
+        "constructor": "StructuralExhaustion.CT2.Graph.Edge.replacementCritical"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT2.search.replacements",
+        "sourceNode": "CT2.decide.deletion",
+        "edgeId": "CT2.edge.deletionCritical",
+        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.DeletionCriticalState capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.deletionDecision CT2.Graph.NodeId.replacementAnalysis",
+        "constructor": "StructuralExhaustion.CT2.Graph.Edge.deletionCritical"
+      }
+    ]
+  }
+}

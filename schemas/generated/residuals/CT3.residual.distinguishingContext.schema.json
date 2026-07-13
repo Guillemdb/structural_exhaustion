@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT3.residual.distinguishingContext.schema.json",
+  "title": "CT3.residual.distinguishingContext semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "S.Row",
+            "fieldName": "row"
+          },
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "row ∈ C.rows.orderedValues",
+            "fieldName": "rowMember"
+          },
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "S.Context",
+            "fieldName": "context"
+          },
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "context ∈ C.contexts.orderedValues",
+            "fieldName": "contextMember"
+          },
+          {
+            "provision": "derived_by_generic_search",
+            "leanType": "S.response (S.rowPiece row) context ≠ S.rowResponse row context",
+            "fieldName": "differs"
+          }
+        ],
+        "residualKindId": "CT3.residual.distinguishingContext",
+        "leanType": "StructuralExhaustion.CT3.DistinguishingContextResidual S C input",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT3",
+    "apiVersion": "CT3-v3",
+    "namespace": "StructuralExhaustion.CT3"
+  }
+}

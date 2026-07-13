@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT10.compute.promotion.schema.json",
+  "title": "CT10.compute.promotion automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT10/Graph.lean",
+        "semanticId": "CT10.compute.promotion",
+        "presentation": {
+          "summary": "Compiled computation node with an explicit automation contract.",
+          "label": "CT10.compute.promotion"
+        },
+        "ordinal": 5,
+        "nodeKind": "computation",
+        "nodeId": "CT10.compute.promotion",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT10.terminal.residual.promoted",
+              "sourceNode": "CT10.compute.promotion",
+              "edgeId": "CT10.edge.promoted",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.PromotedResidual capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.promotion CT10.Graph.NodeId.promotedTerminal",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.promoted"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT10.compute.promotion",
+              "sourceNode": "CT10.search.firstMissing",
+              "edgeId": "CT10.edge.missingFound",
+              "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.PromotedResidual capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.missing CT10.Graph.NodeId.promotion",
+              "constructor": "StructuralExhaustion.CT10.Graph.Edge.missingFound"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT10.Graph.NodeId.promotion",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "CT10.PromotedResidual",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "predecessorInputs": [
+            {
+              "ref": "CT10.PromotedResidual",
+              "provision": "derived_from_predecessor"
+            }
+          ],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "CT10.Graph.Edge.promoted",
+              "provision": "generated_audit"
+            }
+          ],
+          "frameworkTheorems": [],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": []
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT10",
+    "apiVersion": "CT10-v3",
+    "namespace": "StructuralExhaustion.CT10"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "CT10.PromotedResidual",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "predecessorInputs": [
+      {
+        "ref": "CT10.PromotedResidual",
+        "provision": "derived_from_predecessor"
+      }
+    ],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "CT10.Graph.Edge.promoted",
+        "provision": "generated_audit"
+      }
+    ],
+    "frameworkTheorems": [],
+    "executionClass": "definitional",
+    "derivedInputs": [],
+    "authorInputs": []
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT10.terminal.residual.promoted",
+        "sourceNode": "CT10.compute.promotion",
+        "edgeId": "CT10.edge.promoted",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.PromotedResidual capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.promotion CT10.Graph.NodeId.promotedTerminal",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.promoted"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT10.compute.promotion",
+        "sourceNode": "CT10.search.firstMissing",
+        "edgeId": "CT10.edge.missingFound",
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.PromotedResidual capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.missing CT10.Graph.NodeId.promotion",
+        "constructor": "StructuralExhaustion.CT10.Graph.Edge.missingFound"
+      }
+    ]
+  }
+}

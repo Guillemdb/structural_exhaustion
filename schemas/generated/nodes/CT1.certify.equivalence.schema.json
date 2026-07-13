@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/nodes/CT1.certify.equivalence.schema.json",
+  "title": "CT1.certify.equivalence automation-first node contract",
+  "description": "An exact projection of the compiled predecessor-indexed Lean node, including its proof-instance boundary and framework-generated outputs.",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/nodeSpec"
+    },
+    {
+      "const": {
+        "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+        "semanticId": "CT1.certify.equivalence",
+        "presentation": {
+          "summary": "Compiled certification node with an explicit automation contract.",
+          "label": "CT1.certify.equivalence"
+        },
+        "ordinal": 2,
+        "nodeKind": "certification",
+        "nodeId": "CT1.certify.equivalence",
+        "formalContract": {
+          "predecessorIndexed": true,
+          "outgoingEdges": [
+            {
+              "targetNode": "CT1.decide.realization",
+              "sourceNode": "CT1.certify.equivalence",
+              "edgeId": "CT1.edge.equivalenceCertified",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      CT1.EquivalenceState S input →\n        CT1.Graph.Edge S input CT1.Graph.NodeId.equivalenceCertification CT1.Graph.NodeId.realizationDecision",
+              "constructor": "StructuralExhaustion.CT1.Graph.Edge.equivalenceCertified"
+            }
+          ],
+          "incomingEdges": [
+            {
+              "targetNode": "CT1.certify.equivalence",
+              "sourceNode": "CT1.entry",
+              "edgeId": "CT1.edge.beginEquivalence",
+              "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} → CT1.Graph.Edge S input CT1.Graph.NodeId.entry CT1.Graph.NodeId.equivalenceCertification",
+              "constructor": "StructuralExhaustion.CT1.Graph.Edge.beginEquivalence"
+            }
+          ]
+        },
+        "constructor": "StructuralExhaustion.CT1.Graph.NodeId.equivalenceCertification",
+        "automation": {
+          "transitiveDependencies": [
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.TestIndex",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.Witness",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.Realizes",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.target_iff_realization",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "predecessorInputs": [],
+          "manualObligations": [],
+          "inferredInputs": [],
+          "generatedOutputs": [
+            {
+              "ref": "StructuralExhaustion.CT1.EquivalenceState",
+              "provision": "derived_definitionally"
+            }
+          ],
+          "frameworkTheorems": [
+            {
+              "ref": "StructuralExhaustion.CT1.target_iff_realization",
+              "provision": "derived_by_generic_theorem"
+            }
+          ],
+          "executionClass": "definitional",
+          "derivedInputs": [],
+          "authorInputs": [
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.TestIndex",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.Witness",
+              "provision": "user_definition"
+            },
+            {
+              "ref": "StructuralExhaustion.CT1.Spec.Realizes",
+              "provision": "user_definition"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT1",
+    "apiVersion": "CT1-v5",
+    "namespace": "StructuralExhaustion.CT1"
+  },
+  "x-automationContract": {
+    "transitiveDependencies": [
+      {
+        "ref": "StructuralExhaustion.CT1.Spec.TestIndex",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "StructuralExhaustion.CT1.Spec.Witness",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "StructuralExhaustion.CT1.Spec.Realizes",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "StructuralExhaustion.CT1.target_iff_realization",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "predecessorInputs": [],
+    "manualObligations": [],
+    "inferredInputs": [],
+    "generatedOutputs": [
+      {
+        "ref": "StructuralExhaustion.CT1.EquivalenceState",
+        "provision": "derived_definitionally"
+      }
+    ],
+    "frameworkTheorems": [
+      {
+        "ref": "StructuralExhaustion.CT1.target_iff_realization",
+        "provision": "derived_by_generic_theorem"
+      }
+    ],
+    "executionClass": "definitional",
+    "derivedInputs": [],
+    "authorInputs": [
+      {
+        "ref": "StructuralExhaustion.CT1.Spec.TestIndex",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "StructuralExhaustion.CT1.Spec.Witness",
+        "provision": "user_definition"
+      },
+      {
+        "ref": "StructuralExhaustion.CT1.Spec.Realizes",
+        "provision": "user_definition"
+      }
+    ]
+  },
+  "x-formalContract": {
+    "predecessorIndexed": true,
+    "outgoingEdges": [
+      {
+        "targetNode": "CT1.decide.realization",
+        "sourceNode": "CT1.certify.equivalence",
+        "edgeId": "CT1.edge.equivalenceCertified",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      CT1.EquivalenceState S input →\n        CT1.Graph.Edge S input CT1.Graph.NodeId.equivalenceCertification CT1.Graph.NodeId.realizationDecision",
+        "constructor": "StructuralExhaustion.CT1.Graph.Edge.equivalenceCertified"
+      }
+    ],
+    "incomingEdges": [
+      {
+        "targetNode": "CT1.certify.equivalence",
+        "sourceNode": "CT1.entry",
+        "edgeId": "CT1.edge.beginEquivalence",
+        "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} → CT1.Graph.Edge S input CT1.Graph.NodeId.entry CT1.Graph.NodeId.equivalenceCertification",
+        "constructor": "StructuralExhaustion.CT1.Graph.Edge.beginEquivalence"
+      }
+    ]
+  }
+}
