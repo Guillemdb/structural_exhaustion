@@ -117,6 +117,44 @@ structure ProperSubgraph (source : PackedFiniteObject.{u}) where
 
 namespace ProperSubgraph
 
+/-- A twice-induced graph on a support strictly smaller than the source is a
+proper packed subgraph of that source. -/
+def ofInducedCore (source : PackedFiniteObject.{u})
+    (support : Finset source.Vertex)
+    (supportStrict : support.card < source.vertexCount)
+    (core : Finset {vertex : source.Vertex // vertex ∈ support}) :
+    ProperSubgraph source where
+  value := pack ((source.object.induceFinset support).induceFinset core)
+  vertexEmbedding := ⟨fun vertex => vertex.1.1, by
+    intro left right equal
+    apply Subtype.ext
+    apply Subtype.ext
+    exact equal⟩
+  included := by
+    rintro left right ⟨_ne, innerLeft, innerRight, adjacent, rfl, rfl⟩
+    exact adjacent
+  strict := by
+    left
+    simp only [vertexCount_pack, FiniteObject.induceFinset_vertexCount]
+    calc
+      core.card ≤ Fintype.card {vertex : source.Vertex // vertex ∈ support} :=
+        Finset.card_le_univ core
+      _ = support.card := Fintype.card_coe support
+      _ < source.vertexCount := supportStrict
+
+/-- A proper induced support inherits minimum-degree-core freeness from a
+packed no-proper-core theorem. -/
+theorem internalMinDegreeFree_induceFinset_of_noProperCore
+    (source : PackedFiniteObject.{u}) (bound : Nat)
+    (support : Finset source.Vertex)
+    (supportStrict : support.card < source.vertexCount)
+    (noProperCore : ∀ subgraph : ProperSubgraph source,
+      ¬ bound ≤ subgraph.value.object.minDegree) :
+    (source.object.induceFinset support).InternalMinDegreeFree bound := by
+  rintro ⟨core, minimumDegree⟩
+  exact noProperCore (ofInducedCore source support supportStrict core)
+    minimumDegree
+
 /-- The injective graph homomorphism underlying a proper-subgraph
 certificate. -/
 def hom {source : PackedFiniteObject.{u}}

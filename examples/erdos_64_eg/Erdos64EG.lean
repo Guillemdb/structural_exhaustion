@@ -43,6 +43,7 @@ import Erdos64EG.CT14TypeBSupportSize
 import Erdos64EG.CT14TypeBBoundaryDeficit
 import Erdos64EG.CT14TypeBUnconditionalDeficit
 import Erdos64EG.CT14TypeBPostLedger
+import Erdos64EG.CT12SparseEnvelope
 
 /-!
 Structural-exhaustion implementation of the current Erdős Problem 64 proof

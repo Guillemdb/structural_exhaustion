@@ -750,6 +750,36 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.TypeBSupportScope.neg_netQuarterCharge_le_twentyOne_mul_surplus_add_receiverOverload,
         `Erdos64EG.Internal.TypeBSupportScope.unresolved_or_overlap_or_net_nonnegative_or_saturated_or_bounded_boundaryOverload
       ]
+    },
+    {
+      stageId := "proof-slice.sparse-envelope"
+      title := "CT12 two-degenerate sparse envelope"
+      summary := "Deletion criticality supplies a cubic vertex. The no-proper-core theorem makes its literal complement 2-degenerate; CT12 audits the proof-selected elimination list exactly once per remaining vertex, yielding m ≤ 2n-2 and the exact sparse slack/surplus identities."
+      kind := .tactic
+      tacticId? := some "CT12"
+      primaryDeclaration :=
+        `Erdos64EG.Internal.exists_verifiedSparseEnvelopePrefix
+      evidenceDeclarations := [
+        `StructuralExhaustion.Graph.DegeneracyPeeling.exists_certificate_of_internalMinDegreeFree,
+        `StructuralExhaustion.Graph.DegeneracyPeeling.edgeCount_le_two_mul_vertexCount_sub_three,
+        `StructuralExhaustion.Graph.DegeneracyPeeling.Profile.verifiedStage,
+        `StructuralExhaustion.Graph.SurplusPortActivity.degreeExcess_sum_int_eq,
+        `Erdos64EG.Internal.sparseEnvelopeProfile,
+        `Erdos64EG.Internal.sparseEnvelopeRoot_degree,
+        `Erdos64EG.Internal.sparseEnvelopeRemaining_coreFree,
+        `Erdos64EG.Internal.runSparseEnvelopeCT12_terminal,
+        `Erdos64EG.Internal.runSparseEnvelopeCT12_trace,
+        `Erdos64EG.Internal.runSparseEnvelopeCT12_verified,
+        `Erdos64EG.Internal.runSparseEnvelopeCT12_traceValid,
+        `Erdos64EG.Internal.runSparseEnvelopeCT12_total,
+        `Erdos64EG.Internal.runSparseEnvelopeCT12_iterations,
+        `Erdos64EG.Internal.runSparseEnvelopeCT12_linearBudget,
+        `Erdos64EG.Internal.sparseEnvelopeRemaining_edgeBound,
+        `Erdos64EG.Internal.sparseEnvelope_edgeBound,
+        `Erdos64EG.Internal.sparseSlack_surplus_identity,
+        `Erdos64EG.Internal.sparseEdge_surplus_identity,
+        `Erdos64EG.Internal.sparseSurplus_eq_degreeExcessLedger
+      ]
     }
   ]
   links := [
@@ -1324,6 +1354,22 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `StructuralExhaustion.Core.FiniteRefinedLedger.Profile.Choice.refinedSupport_pairwiseDisjoint,
         `Erdos64EG.Internal.TypeBAssignedSupport.fullLocalQuarterBalance_le_actualCharge,
         `Erdos64EG.Internal.TypeBAssignedSupport.netQuarterCharge_nonnegative_or_remaining_negative
+      ]
+    },
+    {
+      linkId := "proof-slice.sparse-envelope"
+      sourceStageId := "proof-slice.type-b-assigned-charge"
+      targetStageId := "proof-slice.sparse-envelope"
+      kind := .frameworkComposition
+      label := "same selected minimal graph"
+      description := "The retained packed context already contains deletion criticality and the no-proper-core theorem. The graph profile converts those exact outputs into one bounded elimination certificate and CT12 executes its finite list."
+      automationDeclarations := [
+        `StructuralExhaustion.Graph.DegeneracyPeeling.Profile.verifiedStage
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.sparseEnvelopeProfile,
+        `Erdos64EG.Internal.sparseEnvelope_edgeBound,
+        `Erdos64EG.Internal.exists_verifiedSparseEnvelopePrefix
       ]
     }
   ]
@@ -3041,19 +3087,61 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       workBound := "All constructions are proof-level finset images, filters, unions, sums, and monotone Fin embeddings over declared centers, ports, selected incidences, and the actual remaining vertex set. No powerset, injection space, candidate product, graph family, path family, or context universe is evaluated."
     },
     {
-      stepId := "erdos.surplus-frontier"
-      title := "Non-near-cubic surplus routing"
+      stepId := "erdos.sparse-envelope"
+      stageId? := some "proof-slice.sparse-envelope"
+      title := "Sparse upper envelope and slack identity"
       plainExplanation :=
-        "The ordinary high-center Type B family is now fully stratified into a literal unresolved local center, a full disjoint choice, or a minimal overlap obstruction. The next dependency-ready work constructs the separate decorated-handoff/residual-core transition and the remaining window/replacement reflection needed before the fan-mass summation."
+        "A cubic vertex is obtained from the already verified deletion-critical graph. Every induced core in its complement is a proper subgraph of the selected counterexample, so the no-proper-core theorem produces a two-degenerate elimination certificate. CT12 checks precisely that finite order. Counting at most two deleted edges until the last two vertices gives e(G-v)≤2(n-1)-3; restoring the three incident edges gives m≤2n-2. The graph handshake theorem identifies the CT6 excess ledger with σ=2m-3n, and elementary integer algebra gives σ=n-6-2λ."
       formalStatement :=
-        "\\sigma(G)>C_{\\mathrm{sp}}\\sqrt n \\Longrightarrow \\text{a certified sparse-surplus exit or closure}"
+        "m\\le 2n-2,\\qquad \\lambda=2n-3-m,\\qquad \\sigma=2m-3n=n-6-2\\lambda"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "lem:sparse-upper-envelope", title := "Sparse upper envelope", nodeIds := [126] },
+        { label := "lem:sparse-slack-surplus", title := "Sparse slack identity", nodeIds := [126] }
+      ]
+      declarationGroups := [{
+        groupId := "sparse-envelope-ct12"
+        title := "Two-degenerate graph profile, exact CT12 run, and Erdős arithmetic"
+        role := .semanticTheorem
+        explanation := "The reusable graph layer proves existence of the bounded elimination order from local induced-core freeness, executes CT12 on that list, proves the sharp edge count, and connects the ordered degree-excess total to the handshake identity. The Erdős layer supplies only the selected cubic vertex and the concrete no-proper-core specialization."
+        declarations := [
+          `StructuralExhaustion.Graph.DegeneracyPeeling.exists_certificate_of_internalMinDegreeFree,
+          `StructuralExhaustion.Graph.DegeneracyPeeling.edgeCount_le_two_mul_vertexCount_sub_three,
+          `StructuralExhaustion.Graph.DegeneracyPeeling.Profile.verifiedStage,
+          `StructuralExhaustion.Graph.SurplusPortActivity.degreeExcess_sum_int_eq,
+          `Erdos64EG.Internal.sparseEnvelopeProfile,
+          `Erdos64EG.Internal.sparseEnvelopeRoot_degree,
+          `Erdos64EG.Internal.sparseEnvelopeRemaining_coreFree,
+          `Erdos64EG.Internal.runSparseEnvelopeCT12_terminal,
+          `Erdos64EG.Internal.runSparseEnvelopeCT12_trace,
+          `Erdos64EG.Internal.runSparseEnvelopeCT12_verified,
+          `Erdos64EG.Internal.runSparseEnvelopeCT12_traceValid,
+          `Erdos64EG.Internal.runSparseEnvelopeCT12_total,
+          `Erdos64EG.Internal.runSparseEnvelopeCT12_iterations,
+          `Erdos64EG.Internal.runSparseEnvelopeCT12_linearBudget,
+          `Erdos64EG.Internal.sparseEnvelopeRemaining_edgeBound,
+          `Erdos64EG.Internal.sparseEnvelope_edgeBound,
+          `Erdos64EG.Internal.sparseSlack_surplus_identity,
+          `Erdos64EG.Internal.sparseEdge_surplus_identity,
+          `Erdos64EG.Internal.sparseSurplus_eq_degreeExcessLedger,
+          `Erdos64EG.Internal.exists_verifiedSparseEnvelopePrefix
+        ]
+      }]
+      scopeNotes := "This verifies the complete node [126] block, including both displayed identities. Nodes [127]–[128] remain the already verified CT6 surplus/activation outputs; the first later sparse-branch datum not yet implemented is node [129]'s baseline spine demand."
+      workBound := "CT12 performs exactly n-1 peeling iterations on one proof-selected vertex list and has a linear polynomial check budget. The edge theorem uses well-founded recursion on strictly smaller explicit supports; no graph, subgraph, order, path, or context universe is enumerated."
+    },
+    {
+      stepId := "erdos.baseline-spine-demand"
+      title := "Baseline spine demand"
+      plainExplanation := "The next sparse-branch step fixes the node [129] linear deficit demand consumed by the active surplus family."
+      formalStatement := "D_{\\mathrm{base}}=O(n)"
       status := .next
       correspondence := .partialCoverage
       manuscriptRefs := [
-        { label := "prop:nonnear-cubic-sharp-overload-routing", title := "Non-near-cubic sparse-pressure routing", nodeIds := [19, 20] }
+        { label := "def:baseline-spine-demand", title := "Baseline spine demand", nodeIds := [129] }
       ]
-      scopeNotes :=
-        "The finite selected-port audit through both literal Type B candidate fibres, the derived dependent demand system, unconditional CT12 completion, exact minimal overlap support, graph-derived high-center resolution split, and exact no-double-counted graph-charge realization are implemented. A negative full-choice branch is now literally the remaining induced core, which must be discharged by the Type A component theorem. Decorated handoffs, overlap fan-mass summation, Γ(p) path support, node [129] baseline, full pair-response supports, blocker/token closure, node [21], and the later density/remainder budget remain downstream."
+      scopeNotes := "The sparse envelope, exact slack identity, and the existing CT6 active surplus ledger are verified. The baseline demand and its subsequent response/token routing are not yet implemented."
       workBound := "Not yet implemented; the future CT must expose its local finite universe and polynomial audit."
     }
   ]
@@ -3126,6 +3214,16 @@ def descriptor : ExampleDescriptor := {
       problemDeclaration := `Erdos64EG.Internal.inducedP13PackingProfile
       frameworkDeclaration :=
         `StructuralExhaustion.CT12.DisjointPacking.Profile.verifiedStage
+    },
+    {
+      bindingId := "proof-slice.ct12-sparse-envelope"
+      stageId := "proof-slice.sparse-envelope"
+      tacticId := "CT12"
+      role := "two-degenerate elimination order"
+      description := "The application proves induced-core freeness of the cubic-vertex complement. The graph profile selects one bounded elimination certificate, and CT12 audits exactly that finite list with linear work."
+      problemDeclaration := `Erdos64EG.Internal.sparseEnvelopeProfile
+      frameworkDeclaration :=
+        `StructuralExhaustion.Graph.DegeneracyPeeling.Profile.verifiedStage
     },
     {
       bindingId := "proof-slice.ct10-p13-labels"

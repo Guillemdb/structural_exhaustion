@@ -571,6 +571,50 @@ theorem run_total_eq_surplus {V : Type u}
   simpa [CT6.activeTotal, spec, capability, context] using
     foldSum object.input.vertices.orderedValues 0
 
+/-- Exact handshake identity for an ordered degree-excess ledger above any
+pointwise baseline.  The machine order affects execution only; its total is
+the standard graph-theoretic quantity `2m - bound*n`. -/
+theorem degreeExcess_sum_add_baseline {V : Type u}
+    (object : FiniteObject V) (bound : Nat)
+    (baseline : ∀ vertex, bound ≤ object.degree vertex) :
+    (object.input.vertices.orderedValues.map
+        (fun vertex => object.degree vertex - bound)).sum +
+        bound * object.input.vertices.card =
+      2 * object.edgeCount := by
+  have listIdentity : ∀ values : List V,
+      (values.map (fun vertex => object.degree vertex - bound)).sum +
+          bound * values.length =
+        (values.map object.degree).sum := by
+    intro values
+    induction values with
+    | nil => simp
+    | cons head tail ih =>
+        simp only [List.map_cons, List.sum_cons, List.length_cons]
+        have headBound := baseline head
+        rw [Nat.mul_succ]
+        omega
+  have orderedIdentity :=
+    listIdentity object.input.vertices.orderedValues
+  rw [object.input.vertices.orderedValues_length] at orderedIdentity
+  rw [orderedIdentity]
+  letI : FinEnum V := object.input.vertices
+  letI : DecidableRel object.graph.Adj := object.input.decideAdj
+  rw [FinEnum.sum_orderedValues]
+  change (∑ vertex, object.graph.degree vertex) =
+    2 * object.graph.edgeFinset.card
+  exact object.graph.sum_degrees_eq_twice_card_edges
+
+/-- Integer form of the same exact ledger identity. -/
+theorem degreeExcess_sum_int_eq {V : Type u}
+    (object : FiniteObject V) (bound : Nat)
+    (baseline : ∀ vertex, bound ≤ object.degree vertex) :
+    ((object.input.vertices.orderedValues.map
+        (fun vertex => object.degree vertex - bound)).sum : Int) =
+      2 * (object.edgeCount : Int) -
+        bound * (object.input.vertices.card : Int) := by
+  have exactNat := degreeExcess_sum_add_baseline object bound baseline
+  omega
+
 /-- The selected slot universe has exactly the ledger cardinality.  This is
 the formal excess-selector equation `|P_exc| = Σ_v (d(v)-3)`. -/
 theorem excessPortSlot_card_eq_surplus {V : Type u}

@@ -98,6 +98,22 @@ def context (object : FiniteObject V) : Core.BranchContext (problem V) where
   baseline := trivial
   state := ()
 
+/-- The full finite vertex support supplied by the object's explicit
+enumeration, available without installing ambient typeclass instances. -/
+def vertexFinset (object : FiniteObject V) : Finset V :=
+  @Finset.univ V (@FinEnum.instFintype V object.input.vertices)
+
+@[simp]
+theorem mem_vertexFinset (object : FiniteObject V) (vertex : V) :
+    vertex ∈ object.vertexFinset := by
+  simp [vertexFinset]
+
+@[simp]
+theorem card_vertexFinset (object : FiniteObject V) :
+    object.vertexFinset.card = object.input.vertices.card := by
+  letI : FinEnum V := object.input.vertices
+  simp [vertexFinset, FinEnum.card_eq_fintypeCard]
+
 /-- Degree, computed by Mathlib after installing the object's explicit
 instances locally. -/
 def degree (object : FiniteObject V) (vertex : V) : Nat := by
@@ -149,6 +165,15 @@ def edgeCount (object : FiniteObject V) : Nat := by
   letI : DecidableRel object.graph.Adj := object.input.decideAdj
   exact object.graph.edgeFinset.card
 
+/-- Universal finite simple-graph edge bound, expressed using the object's
+declared vertex enumeration. -/
+theorem edgeCount_le_choose_two (object : FiniteObject V) :
+    object.edgeCount ≤ object.input.vertices.card.choose 2 := by
+  letI : FinEnum V := object.input.vertices
+  letI : DecidableRel object.graph.Adj := object.input.decideAdj
+  simpa [edgeCount, FinEnum.card_eq_fintypeCard] using
+    (SimpleGraph.card_edgeFinset_le_card_choose_two (G := object.graph))
+
 theorem minDegree_le_degree (object : FiniteObject V) (vertex : V) :
     object.minDegree ≤ object.degree vertex := by
   letI : FinEnum V := object.input.vertices
@@ -172,6 +197,15 @@ theorem degree_le_maxDegree (object : FiniteObject V) (vertex : V) :
   letI : DecidableRel object.graph.Adj := object.input.decideAdj
   exact object.graph.degree_le_maxDegree vertex
 
+/-- A vertex has strictly fewer neighbours than the number of declared
+vertices. -/
+theorem degree_lt_vertexCount (object : FiniteObject V) (vertex : V) :
+    object.degree vertex < object.input.vertices.card := by
+  letI : FinEnum V := object.input.vertices
+  letI : DecidableRel object.graph.Adj := object.input.decideAdj
+  simpa [degree, FinEnum.card_eq_fintypeCard] using
+    object.graph.degree_lt_card_verts vertex
+
 /-- A positive Mathlib minimum degree certifies that the vertex type is
 nonempty. -/
 theorem nonempty_of_minDegree_pos (object : FiniteObject V)
@@ -185,6 +219,36 @@ theorem nonempty_of_minDegree_pos (object : FiniteObject V)
         exact object.graph.minDegree_of_isEmpty
       omega
   | inr nonempty => exact nonempty
+
+/-- Positive minimum degree supplies an actual oriented edge. -/
+noncomputable def dartOfMinDegreePos (object : FiniteObject V)
+    (positive : 0 < object.minDegree) : object.graph.Dart := by
+  letI : FinEnum V := object.input.vertices
+  letI : DecidableRel object.graph.Adj := object.input.decideAdj
+  letI : Nonempty V := object.nonempty_of_minDegree_pos positive
+  let vertex := Classical.choice (inferInstance : Nonempty V)
+  have vertexPositive : 0 < object.graph.degree vertex := by
+    have minimumPositive : 0 < object.graph.minDegree := by
+      simpa [minDegree] using positive
+    exact minimumPositive.trans_le
+      (object.graph.minDegree_le_degree vertex)
+  have existsNeighbor : ∃ neighbor, object.graph.Adj vertex neighbor :=
+    (object.graph.degree_pos_iff_exists_adj vertex).1 vertexPositive
+  let neighbor := Classical.choose existsNeighbor
+  exact ⟨(vertex, neighbor), Classical.choose_spec existsNeighbor⟩
+
+/-- If every edge has a tight endpoint, positive minimum degree supplies an
+actual tight vertex. -/
+theorem exists_vertex_degree_eq_of_dart_endpoints
+    (object : FiniteObject V) (bound : Nat)
+    (positive : 0 < object.minDegree)
+    (tight : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = bound ∨ object.degree dart.snd = bound) :
+    ∃ vertex, object.degree vertex = bound := by
+  let dart := object.dartOfMinDegreePos positive
+  rcases tight dart with first | second
+  · exact ⟨dart.fst, first⟩
+  · exact ⟨dart.snd, second⟩
 
 /-- Delete the undirected edge underlying a Mathlib dart and retain the same
 vertex schedule. -/

@@ -64,8 +64,8 @@
       {"type":
        "StructuralExhaustion.Graph.CycleWithLength Tests.k4.graph Internal.PowerOfTwoLength",
        "sourceFile": "Erdos64EG/Tests.lean",
-       "selectionRange": {"start": {"line": 52, "column": 4}, "end": {"line": 52, "column": 11}},
-       "range": {"start": {"line": 52, "column": 0}, "end": {"line": 58, "column": 3}},
+       "selectionRange": {"start": {"line": 53, "column": 4}, "end": {"line": 53, "column": 11}},
+       "range": {"start": {"line": 53, "column": 0}, "end": {"line": 59, "column": 3}},
        "name": "Erdos64EG.Tests.k4Cycle",
        "module": "Erdos64EG.Tests",
        "kind": "definition"},
@@ -73,29 +73,29 @@
       "evidenceDeclarations":
       [{"type": "Internal.Baseline Tests.k4",
         "sourceFile": "Erdos64EG/Tests.lean",
-        "selectionRange": {"start": {"line": 29, "column": 8}, "end": {"line": 29, "column": 19}},
-        "range": {"start": {"line": 29, "column": 0}, "end": {"line": 31, "column": 6}},
+        "selectionRange": {"start": {"line": 30, "column": 8}, "end": {"line": 30, "column": 19}},
+        "range": {"start": {"line": 30, "column": 0}, "end": {"line": 32, "column": 6}},
         "name": "Erdos64EG.Tests.k4_baseline",
         "module": "Erdos64EG.Tests",
         "kind": "theorem"},
        {"type": "Tests.fourCycleWalk.IsCycle",
         "sourceFile": "Erdos64EG/Tests.lean",
-        "selectionRange": {"start": {"line": 40, "column": 8}, "end": {"line": 40, "column": 29}},
-        "range": {"start": {"line": 40, "column": 0}, "end": {"line": 45, "column": 10}},
+        "selectionRange": {"start": {"line": 41, "column": 8}, "end": {"line": 41, "column": 29}},
+        "range": {"start": {"line": 41, "column": 0}, "end": {"line": 46, "column": 10}},
         "name": "Erdos64EG.Tests.fourCycleWalk_isCycle",
         "module": "Erdos64EG.Tests",
         "kind": "theorem"},
        {"type": "Internal.PowerOfTwoLength Tests.fourCycleWalk.length",
         "sourceFile": "Erdos64EG/Tests.lean",
-        "selectionRange": {"start": {"line": 47, "column": 8}, "end": {"line": 47, "column": 32}},
-        "range": {"start": {"line": 47, "column": 0}, "end": {"line": 50, "column": 40}},
+        "selectionRange": {"start": {"line": 48, "column": 8}, "end": {"line": 48, "column": 32}},
+        "range": {"start": {"line": 48, "column": 0}, "end": {"line": 51, "column": 40}},
         "name": "Erdos64EG.Tests.fourCycleWalk_powerOfTwo",
         "module": "Erdos64EG.Tests",
         "kind": "theorem"},
        {"type": "Internal.MersenneReturn Tests.k4.graph",
         "sourceFile": "Erdos64EG/Tests.lean",
-        "selectionRange": {"start": {"line": 64, "column": 4}, "end": {"line": 64, "column": 20}},
-        "range": {"start": {"line": 62, "column": 0}, "end": {"line": 65, "column": 34}},
+        "selectionRange": {"start": {"line": 65, "column": 4}, "end": {"line": 65, "column": 20}},
+        "range": {"start": {"line": 63, "column": 0}, "end": {"line": 66, "column": 34}},
         "name": "Erdos64EG.Tests.k4MersenneReturn",
         "module": "Erdos64EG.Tests",
         "kind": "definition"}]},
@@ -142,8 +142,8 @@
        {"type":
         "StructuralExhaustion.CT1.CertifiedC1Run (Internal.ct1Spec (Fin 4)) (Internal.ct1Input Tests.k4 Tests.k4_baseline)",
         "sourceFile": "Erdos64EG/Tests.lean",
-        "selectionRange": {"start": {"line": 78, "column": 4}, "end": {"line": 78, "column": 20}},
-        "range": {"start": {"line": 78, "column": 0}, "end": {"line": 81, "column": 48}},
+        "selectionRange": {"start": {"line": 79, "column": 4}, "end": {"line": 79, "column": 20}},
+        "range": {"start": {"line": 79, "column": 0}, "end": {"line": 82, "column": 48}},
         "name": "Erdos64EG.Tests.k4MersenneCT1Run",
         "module": "Erdos64EG.Tests",
         "kind": "definition"}]},
@@ -206,8 +206,8 @@
        {"type":
         "∀ (input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput)\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target)\n  (subgraph : StructuralExhaustion.Graph.PackedFiniteObject.ProperSubgraph ctx.G)\n  (baseline : input.problem.Baseline subgraph.value),\n  ∃ run,\n    run.terminal = StructuralExhaustion.CT2.Graph.Terminal.deletionC2 ∧\n      run.trace =\n        [StructuralExhaustion.CT2.Graph.NodeId.entry, StructuralExhaustion.CT2.Graph.NodeId.deletionDecision,\n          StructuralExhaustion.CT2.Graph.NodeId.deletionC2Terminal]",
         "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
-        "selectionRange": {"start": {"line": 269, "column": 8}, "end": {"line": 269, "column": 34}},
-        "range": {"start": {"line": 267, "column": 0}, "end": {"line": 278, "column": 56}},
+        "selectionRange": {"start": {"line": 307, "column": 8}, "end": {"line": 307, "column": 34}},
+        "range": {"start": {"line": 305, "column": 0}, "end": {"line": 316, "column": 56}},
         "name":
         "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.properSubgraphCT2Run_total",
         "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
@@ -215,8 +215,8 @@
        {"type":
         "∀ (input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput)\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target)\n  (subgraph : StructuralExhaustion.Graph.PackedFiniteObject.ProperSubgraph ctx.G)\n  (baseline : input.problem.Baseline subgraph.value),\n  (input.properSubgraphCT2Run ctx subgraph baseline).checks ≤\n    (StructuralExhaustion.CT2.certifiedReductionBudget ctx).coefficient *\n      ((StructuralExhaustion.CT2.certifiedReductionBudget ctx).size\n            (input.properSubgraphCT2Input ctx subgraph baseline) +\n          1) ^\n        (StructuralExhaustion.CT2.certifiedReductionBudget ctx).degree",
         "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
-        "selectionRange": {"start": {"line": 289, "column": 8}, "end": {"line": 289, "column": 39}},
-        "range": {"start": {"line": 287, "column": 0}, "end": {"line": 299, "column": 8}},
+        "selectionRange": {"start": {"line": 327, "column": 8}, "end": {"line": 327, "column": 39}},
+        "range": {"start": {"line": 325, "column": 0}, "end": {"line": 337, "column": 8}},
         "name":
         "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.properSubgraphCT2Run_polynomial",
         "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
@@ -3160,6 +3160,177 @@
         "name":
         "Erdos64EG.Internal.TypeBSupportScope.unresolved_or_overlap_or_net_nonnegative_or_saturated_or_bounded_boundaryOverload",
         "module": "Erdos64EG.CT14TypeBPostLedger",
+        "kind": "theorem"}]},
+     {"title": "CT12 two-degenerate sparse envelope",
+      "tacticId": "CT12",
+      "summary":
+      "Deletion criticality supplies a cubic vertex. The no-proper-core theorem makes its literal complement 2-degenerate; CT12 audits the proof-selected elimination list exactly once per remaining vertex, yielding m ≤ 2n-2 and the exact sparse slack/surplus identities.",
+      "stageId": "proof-slice.sparse-envelope",
+      "primaryDeclaration":
+      {"type":
+       "∀ {V : Type u} (object : Internal.Object V),\n  Internal.Baseline object →\n    ¬Internal.Target object →\n      ∃ ctx,\n        Internal.PackedProblem.rank ctx.G ≤\n            Internal.PackedProblem.rank (StructuralExhaustion.Graph.PackedFiniteObject.pack object) ∧\n          Internal.VerifiedSparseEnvelopePrefix ctx",
+       "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+       "selectionRange": {"start": {"line": 329, "column": 8}, "end": {"line": 329, "column": 43}},
+       "range": {"start": {"line": 329, "column": 0}, "end": {"line": 338, "column": 64}},
+       "name": "Erdos64EG.Internal.exists_verifiedSparseEnvelopePrefix",
+       "module": "Erdos64EG.CT12SparseEnvelope",
+       "kind": "theorem"},
+      "kind": "tactic",
+      "evidenceDeclarations":
+      [{"type":
+        "∀ {V : Type u} (object : StructuralExhaustion.Graph.FiniteObject V) (bound : ℕ),\n  object.InternalMinDegreeFree (bound + 1) →\n    Nonempty (StructuralExhaustion.Graph.DegeneracyPeeling.Certificate object bound)",
+        "sourceFile": "StructuralExhaustion/Graph/DegeneracyPeeling.lean",
+        "selectionRange": {"start": {"line": 73, "column": 8}, "end": {"line": 73, "column": 51}},
+        "range": {"start": {"line": 70, "column": 0}, "end": {"line": 163, "column": 4}},
+        "name":
+        "StructuralExhaustion.Graph.DegeneracyPeeling.exists_certificate_of_internalMinDegreeFree",
+        "module": "StructuralExhaustion.Graph.DegeneracyPeeling",
+        "kind": "theorem"},
+       {"type":
+        "∀ {V : Type u} (object : StructuralExhaustion.Graph.FiniteObject V),\n  object.InternalMinDegreeFree 3 → 2 ≤ FinEnum.card V → object.edgeCount ≤ 2 * FinEnum.card V - 3",
+        "sourceFile": "StructuralExhaustion/Graph/DegeneracyPeeling.lean",
+        "selectionRange": {"start": {"line": 176, "column": 8}, "end": {"line": 176, "column": 50}},
+        "range": {"start": {"line": 172, "column": 0}, "end": {"line": 228, "column": 19}},
+        "name":
+        "StructuralExhaustion.Graph.DegeneracyPeeling.edgeCount_le_two_mul_vertexCount_sub_three",
+        "module": "StructuralExhaustion.Graph.DegeneracyPeeling",
+        "kind": "theorem"},
+       {"type":
+        "∀ {V : Type u} {object : StructuralExhaustion.Graph.FiniteObject V} {bound : ℕ} {P : StructuralExhaustion.Core.Problem}\n  (profile : StructuralExhaustion.Graph.DegeneracyPeeling.Profile object bound)\n  (context : StructuralExhaustion.Core.BranchContext P),\n  StructuralExhaustion.Graph.DegeneracyPeeling.Certificate.VerifiedStage context profile.certificate",
+        "sourceFile": "StructuralExhaustion/Graph/DegeneracyPeeling.lean",
+        "selectionRange": {"start": {"line": 361, "column": 8}, "end": {"line": 361, "column": 21}},
+        "range": {"start": {"line": 361, "column": 0}, "end": {"line": 364, "column": 43}},
+        "name": "StructuralExhaustion.Graph.DegeneracyPeeling.Profile.verifiedStage",
+        "module": "StructuralExhaustion.Graph.DegeneracyPeeling",
+        "kind": "theorem"},
+       {"type":
+        "∀ {V : Type u} (object : StructuralExhaustion.Graph.FiniteObject V) (bound : ℕ),\n  (∀ (vertex : V), bound ≤ object.degree vertex) →\n    ↑(List.map (fun vertex => object.degree vertex - bound) object.input.vertices.orderedValues).sum =\n      2 * ↑object.edgeCount - ↑bound * ↑(FinEnum.card V)",
+        "sourceFile": "StructuralExhaustion/Graph/SurplusPortActivity.lean",
+        "selectionRange": {"start": {"line": 608, "column": 8}, "end": {"line": 608, "column": 31}},
+        "range": {"start": {"line": 607, "column": 0}, "end": {"line": 616, "column": 7}},
+        "name": "StructuralExhaustion.Graph.SurplusPortActivity.degreeExcess_sum_int_eq",
+        "module": "StructuralExhaustion.Graph.SurplusPortActivity",
+        "kind": "theorem"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  StructuralExhaustion.Graph.DegeneracyPeeling.Profile (Internal.sparseEnvelopeRemaining ctx) 2",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange":
+        {"start": {"line": 110, "column": 18}, "end": {"line": 110, "column": 39}},
+        "range": {"start": {"line": 108, "column": 0}, "end": {"line": 114, "column": 52}},
+        "name": "Erdos64EG.Internal.sparseEnvelopeProfile",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "definition"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  ctx.G.object.degree (Internal.sparseEnvelopeRoot ctx) = 3",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 41, "column": 8}, "end": {"line": 41, "column": 33}},
+        "range": {"start": {"line": 41, "column": 0}, "end": {"line": 44, "column": 55}},
+        "name": "Erdos64EG.Internal.sparseEnvelopeRoot_degree",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "theorem"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  (Internal.sparseEnvelopeRemaining ctx).InternalMinDegreeFree 3",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 100, "column": 8}, "end": {"line": 100, "column": 40}},
+        "range": {"start": {"line": 98, "column": 0}, "end": {"line": 106, "column": 42}},
+        "name": "Erdos64EG.Internal.sparseEnvelopeRemaining_coreFree",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "theorem"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  (Internal.runSparseEnvelopeCT12 ctx).terminal = StructuralExhaustion.CT12.Graph.Terminal.exhausted",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 126, "column": 8}, "end": {"line": 126, "column": 38}},
+        "range": {"start": {"line": 126, "column": 0}, "end": {"line": 130, "column": 41}},
+        "name": "Erdos64EG.Internal.runSparseEnvelopeCT12_terminal",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "theorem"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  StructuralExhaustion.CT12.ExecutionResult.trace\n      (StructuralExhaustion.CT12.ListPeeling.capability (Internal.fixedPackedInput ctx).problem\n        ↥(Internal.sparseEnvelopeSupport ctx))\n      (Internal.runSparseEnvelopeCT12 ctx) =\n    StructuralExhaustion.CT12.ListPeeling.expectedTrace (FinEnum.card ↥(Internal.sparseEnvelopeSupport ctx))",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 132, "column": 8}, "end": {"line": 132, "column": 35}},
+        "range": {"start": {"line": 132, "column": 0}, "end": {"line": 138, "column": 38}},
+        "name": "Erdos64EG.Internal.runSparseEnvelopeCT12_trace",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "theorem"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  StructuralExhaustion.CT12.Outcome.Valid\n    (StructuralExhaustion.CT12.ListPeeling.capability (Internal.fixedPackedInput ctx).problem\n      ↥(Internal.sparseEnvelopeSupport ctx))\n    (Internal.runSparseEnvelopeCT12 ctx).outcome",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 140, "column": 8}, "end": {"line": 140, "column": 38}},
+        "range": {"start": {"line": 140, "column": 0}, "end": {"line": 144, "column": 41}},
+        "name": "Erdos64EG.Internal.runSparseEnvelopeCT12_verified",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "theorem"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  StructuralExhaustion.CT12.Graph.ValidTrace\n    (StructuralExhaustion.CT12.ListPeeling.capability (Internal.fixedPackedInput ctx).problem\n      ↥(Internal.sparseEnvelopeSupport ctx))\n    (StructuralExhaustion.CT12.ExecutionResult.trace\n      (StructuralExhaustion.CT12.ListPeeling.capability (Internal.fixedPackedInput ctx).problem\n        ↥(Internal.sparseEnvelopeSupport ctx))\n      (Internal.runSparseEnvelopeCT12 ctx))",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 146, "column": 8}, "end": {"line": 146, "column": 40}},
+        "range": {"start": {"line": 146, "column": 0}, "end": {"line": 154, "column": 43}},
+        "name": "Erdos64EG.Internal.runSparseEnvelopeCT12_traceValid",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "theorem"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  ∃ result,\n    result = Internal.runSparseEnvelopeCT12 ctx ∧\n      StructuralExhaustion.CT12.Outcome.Valid\n          (StructuralExhaustion.CT12.ListPeeling.capability (Internal.fixedPackedInput ctx).problem\n            ↥(Internal.sparseEnvelopeSupport ctx))\n          result.outcome ∧\n        StructuralExhaustion.CT12.Graph.ValidTrace\n            (StructuralExhaustion.CT12.ListPeeling.capability (Internal.fixedPackedInput ctx).problem\n              ↥(Internal.sparseEnvelopeSupport ctx))\n            (StructuralExhaustion.CT12.ExecutionResult.trace\n              (StructuralExhaustion.CT12.ListPeeling.capability (Internal.fixedPackedInput ctx).problem\n                ↥(Internal.sparseEnvelopeSupport ctx))\n              result) ∧\n          result.iterations ≤ FinEnum.card ↥(Internal.sparseEnvelopeSupport ctx)",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 163, "column": 8}, "end": {"line": 163, "column": 35}},
+        "range": {"start": {"line": 163, "column": 0}, "end": {"line": 174, "column": 38}},
+        "name": "Erdos64EG.Internal.runSparseEnvelopeCT12_total",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "theorem"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  (Internal.runSparseEnvelopeCT12 ctx).iterations = FinEnum.card ↥(Internal.sparseEnvelopeSupport ctx)",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 156, "column": 8}, "end": {"line": 156, "column": 40}},
+        "range": {"start": {"line": 156, "column": 0}, "end": {"line": 161, "column": 43}},
+        "name": "Erdos64EG.Internal.runSparseEnvelopeCT12_iterations",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "theorem"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  (⋯.budget (Internal.sparseEnvelopeContext ctx)).checks () ≤\n    (⋯.budget (Internal.sparseEnvelopeContext ctx)).coefficient *\n      ((⋯.budget (Internal.sparseEnvelopeContext ctx)).size () + 1) ^\n        (⋯.budget (Internal.sparseEnvelopeContext ctx)).degree",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 177, "column": 8}, "end": {"line": 177, "column": 42}},
+        "range": {"start": {"line": 176, "column": 0}, "end": {"line": 188, "column": 43}},
+        "name": "Erdos64EG.Internal.runSparseEnvelopeCT12_linearBudget",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "theorem"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  (Internal.sparseEnvelopeRemaining ctx).edgeCount ≤ 2 * FinEnum.card ↥(Internal.sparseEnvelopeSupport ctx) - 3",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 197, "column": 8}, "end": {"line": 197, "column": 41}},
+        "range": {"start": {"line": 197, "column": 0}, "end": {"line": 202, "column": 44}},
+        "name": "Erdos64EG.Internal.sparseEnvelopeRemaining_edgeBound",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "theorem"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  ctx.G.object.edgeCount ≤ 2 * FinEnum.card ctx.G.Vertex - 2",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 219, "column": 8}, "end": {"line": 219, "column": 32}},
+        "range": {"start": {"line": 218, "column": 0}, "end": {"line": 227, "column": 7}},
+        "name": "Erdos64EG.Internal.sparseEnvelope_edgeBound",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "theorem"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  Internal.sparseSurplus ctx = ↑(FinEnum.card ctx.G.Vertex) - 6 - 2 * Internal.sparseSlack ctx",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 244, "column": 8}, "end": {"line": 244, "column": 36}},
+        "range": {"start": {"line": 243, "column": 0}, "end": {"line": 250, "column": 6}},
+        "name": "Erdos64EG.Internal.sparseSlack_surplus_identity",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "theorem"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  2 * ↑ctx.G.object.edgeCount = 3 * ↑(FinEnum.card ctx.G.Vertex) + Internal.sparseSurplus ctx",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 253, "column": 8}, "end": {"line": 253, "column": 35}},
+        "range": {"start": {"line": 252, "column": 0}, "end": {"line": 257, "column": 22}},
+        "name": "Erdos64EG.Internal.sparseEdge_surplus_identity",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "theorem"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  Internal.sparseSurplus ctx =\n    ↑(List.map (fun vertex => ctx.G.object.degree vertex - 3) ctx.G.object.input.vertices.orderedValues).sum",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 260, "column": 8}, "end": {"line": 260, "column": 43}},
+        "range": {"start": {"line": 259, "column": 0}, "end": {"line": 269, "column": 45}},
+        "name": "Erdos64EG.Internal.sparseSurplus_eq_degreeExcessLedger",
+        "module": "Erdos64EG.CT12SparseEnvelope",
         "kind": "theorem"}]}],
     "purpose":
     "Inspect the exact Mersenne target algebra, lexicographic minimal selection, CT2 criticality and bridge contraction, boundaried replacement, the HSS-forced induced-P13 CT1 stage, the routed maximum-packing CT12 remainder stage, the exhaustive CT10 P13 attachment-label algebra, the ordered CT6 degree-surplus ledger, the routed CT9 surplus-pair split, and the Type B development through its graph-derived high-center choice/overlap trichotomy.",
@@ -3341,8 +3512,8 @@
        {"type":
         "∀ (input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput) (order : ℕ)\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target),\n  StructuralExhaustion.Graph.HasInducedPath ctx.G.object.graph order → input.VerifiedInducedPathStage order ctx",
         "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
-        "selectionRange": {"start": {"line": 419, "column": 4}, "end": {"line": 419, "column": 28}},
-        "range": {"start": {"line": 417, "column": 0}, "end": {"line": 424, "column": 44}},
+        "selectionRange": {"start": {"line": 457, "column": 4}, "end": {"line": 457, "column": 28}},
+        "range": {"start": {"line": 455, "column": 0}, "end": {"line": 462, "column": 44}},
         "name":
         "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.verifiedInducedPathStage",
         "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
@@ -3353,8 +3524,8 @@
       [{"type":
         "∀ (input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput) (order : ℕ)\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target),\n  StructuralExhaustion.Graph.HasInducedPath ctx.G.object.graph order → input.VerifiedInducedPathStage order ctx",
         "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
-        "selectionRange": {"start": {"line": 419, "column": 4}, "end": {"line": 419, "column": 28}},
-        "range": {"start": {"line": 417, "column": 0}, "end": {"line": 424, "column": 44}},
+        "selectionRange": {"start": {"line": 457, "column": 4}, "end": {"line": 457, "column": 28}},
+        "range": {"start": {"line": 455, "column": 0}, "end": {"line": 462, "column": 44}},
         "name":
         "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.verifiedInducedPathStage",
         "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
@@ -3387,8 +3558,8 @@
         "∀ (input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput) (order : ℕ) (positive : 0 < order)\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target),\n  input.VerifiedInducedPathStage order ctx → input.InducedPathPackingPrefix order positive ctx",
         "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
         "selectionRange":
-        {"start": {"line": 522, "column": 18}, "end": {"line": 522, "column": 42}},
-        "range": {"start": {"line": 519, "column": 0}, "end": {"line": 535, "column": 50}},
+        {"start": {"line": 560, "column": 18}, "end": {"line": 560, "column": 42}},
+        "range": {"start": {"line": 557, "column": 0}, "end": {"line": 573, "column": 50}},
         "name":
         "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingPrefix",
         "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
@@ -3396,8 +3567,8 @@
        {"type":
         "∀ (input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput) (order : ℕ) (positive : 0 < order)\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target)\n  (previous : input.VerifiedInducedPathStage order ctx),\n  ((StructuralExhaustion.Routes.CT1ToCT12.rule\n            (StructuralExhaustion.CT12.ListPeeling.capability input.problem\n              (StructuralExhaustion.Graph.InducedPathPacking.Window ctx.G.object order))\n            (input.inducedPathPackingAdapter order positive ctx)).generate\n        ⋯ ()).routeId =\n    \"CT1.terminal.c1->CT12\"",
         "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
-        "selectionRange": {"start": {"line": 483, "column": 8}, "end": {"line": 483, "column": 34}},
-        "range": {"start": {"line": 483, "column": 0}, "end": {"line": 493, "column": 43}},
+        "selectionRange": {"start": {"line": 521, "column": 8}, "end": {"line": 521, "column": 34}},
+        "range": {"start": {"line": 521, "column": 0}, "end": {"line": 531, "column": 43}},
         "name":
         "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingRoute_id",
         "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
@@ -3447,8 +3618,8 @@
         "∀ (input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput) (order : ℕ) (positive : 0 < order)\n  (classification : StructuralExhaustion.Graph.InducedPathAttachment.Classification order input.LengthOK)\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target),\n  input.InducedPathPackingPrefix order positive ctx →\n    input.InducedPathPackingAttachmentPrefix order positive classification ctx",
         "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
         "selectionRange":
-        {"start": {"line": 577, "column": 18}, "end": {"line": 577, "column": 52}},
-        "range": {"start": {"line": 575, "column": 0}, "end": {"line": 601, "column": 65}},
+        {"start": {"line": 615, "column": 18}, "end": {"line": 615, "column": 52}},
+        "range": {"start": {"line": 613, "column": 0}, "end": {"line": 639, "column": 65}},
         "name":
         "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingAttachmentPrefix",
         "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
@@ -3460,8 +3631,8 @@
         "∀ (input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput) (order : ℕ) (positive : 0 < order)\n  (classification : StructuralExhaustion.Graph.InducedPathAttachment.Classification order input.LengthOK)\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target),\n  input.InducedPathPackingPrefix order positive ctx →\n    input.InducedPathPackingAttachmentPrefix order positive classification ctx",
         "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
         "selectionRange":
-        {"start": {"line": 577, "column": 18}, "end": {"line": 577, "column": 52}},
-        "range": {"start": {"line": 575, "column": 0}, "end": {"line": 601, "column": 65}},
+        {"start": {"line": 615, "column": 18}, "end": {"line": 615, "column": 52}},
+        "range": {"start": {"line": 613, "column": 0}, "end": {"line": 639, "column": 65}},
         "name":
         "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingAttachmentPrefix",
         "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
@@ -4512,7 +4683,50 @@
         "kind": "theorem"}],
       "description":
       "The framework transports candidate-carrier disjointness to the literal induced-core supports used by the local proofs. The exact post-selection graph ledger then yields nonnegative net charge or a strictly negative remaining core.",
-      "automationDeclarations": []}],
+      "automationDeclarations": []},
+     {"targetStageId": "proof-slice.sparse-envelope",
+      "sourceStageId": "proof-slice.type-b-assigned-charge",
+      "routeId": null,
+      "linkId": "proof-slice.sparse-envelope",
+      "label": "same selected minimal graph",
+      "kind": "frameworkComposition",
+      "evidenceDeclarations":
+      [{"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  StructuralExhaustion.Graph.DegeneracyPeeling.Profile (Internal.sparseEnvelopeRemaining ctx) 2",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange":
+        {"start": {"line": 110, "column": 18}, "end": {"line": 110, "column": 39}},
+        "range": {"start": {"line": 108, "column": 0}, "end": {"line": 114, "column": 52}},
+        "name": "Erdos64EG.Internal.sparseEnvelopeProfile",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "definition"},
+       {"type":
+        "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  ctx.G.object.edgeCount ≤ 2 * FinEnum.card ctx.G.Vertex - 2",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 219, "column": 8}, "end": {"line": 219, "column": 32}},
+        "range": {"start": {"line": 218, "column": 0}, "end": {"line": 227, "column": 7}},
+        "name": "Erdos64EG.Internal.sparseEnvelope_edgeBound",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "theorem"},
+       {"type":
+        "∀ {V : Type u} (object : Internal.Object V),\n  Internal.Baseline object →\n    ¬Internal.Target object →\n      ∃ ctx,\n        Internal.PackedProblem.rank ctx.G ≤\n            Internal.PackedProblem.rank (StructuralExhaustion.Graph.PackedFiniteObject.pack object) ∧\n          Internal.VerifiedSparseEnvelopePrefix ctx",
+        "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+        "selectionRange": {"start": {"line": 329, "column": 8}, "end": {"line": 329, "column": 43}},
+        "range": {"start": {"line": 329, "column": 0}, "end": {"line": 338, "column": 64}},
+        "name": "Erdos64EG.Internal.exists_verifiedSparseEnvelopePrefix",
+        "module": "Erdos64EG.CT12SparseEnvelope",
+        "kind": "theorem"}],
+      "description":
+      "The retained packed context already contains deletion criticality and the no-proper-core theorem. The graph profile converts those exact outputs into one bounded elimination certificate and CT12 executes its finite list.",
+      "automationDeclarations":
+      [{"type":
+        "∀ {V : Type u} {object : StructuralExhaustion.Graph.FiniteObject V} {bound : ℕ} {P : StructuralExhaustion.Core.Problem}\n  (profile : StructuralExhaustion.Graph.DegeneracyPeeling.Profile object bound)\n  (context : StructuralExhaustion.Core.BranchContext P),\n  StructuralExhaustion.Graph.DegeneracyPeeling.Certificate.VerifiedStage context profile.certificate",
+        "sourceFile": "StructuralExhaustion/Graph/DegeneracyPeeling.lean",
+        "selectionRange": {"start": {"line": 361, "column": 8}, "end": {"line": 361, "column": 21}},
+        "range": {"start": {"line": 361, "column": 0}, "end": {"line": 364, "column": 43}},
+        "name": "StructuralExhaustion.Graph.DegeneracyPeeling.Profile.verifiedStage",
+        "module": "StructuralExhaustion.Graph.DegeneracyPeeling",
+        "kind": "theorem"}]}],
     "completion": "partial"}],
   "title": "Erdős Problem 64",
   "summary":
@@ -4613,36 +4827,36 @@
        [{"type":
          "StructuralExhaustion.Graph.CycleWithLength Tests.k4.graph Internal.PowerOfTwoLength",
          "sourceFile": "Erdos64EG/Tests.lean",
-         "selectionRange": {"start": {"line": 52, "column": 4}, "end": {"line": 52, "column": 11}},
-         "range": {"start": {"line": 52, "column": 0}, "end": {"line": 58, "column": 3}},
+         "selectionRange": {"start": {"line": 53, "column": 4}, "end": {"line": 53, "column": 11}},
+         "range": {"start": {"line": 53, "column": 0}, "end": {"line": 59, "column": 3}},
          "name": "Erdos64EG.Tests.k4Cycle",
          "module": "Erdos64EG.Tests",
          "kind": "definition"},
         {"type": "Internal.Baseline Tests.k4",
          "sourceFile": "Erdos64EG/Tests.lean",
-         "selectionRange": {"start": {"line": 29, "column": 8}, "end": {"line": 29, "column": 19}},
-         "range": {"start": {"line": 29, "column": 0}, "end": {"line": 31, "column": 6}},
+         "selectionRange": {"start": {"line": 30, "column": 8}, "end": {"line": 30, "column": 19}},
+         "range": {"start": {"line": 30, "column": 0}, "end": {"line": 32, "column": 6}},
          "name": "Erdos64EG.Tests.k4_baseline",
          "module": "Erdos64EG.Tests",
          "kind": "theorem"},
         {"type": "Tests.fourCycleWalk.IsCycle",
          "sourceFile": "Erdos64EG/Tests.lean",
-         "selectionRange": {"start": {"line": 40, "column": 8}, "end": {"line": 40, "column": 29}},
-         "range": {"start": {"line": 40, "column": 0}, "end": {"line": 45, "column": 10}},
+         "selectionRange": {"start": {"line": 41, "column": 8}, "end": {"line": 41, "column": 29}},
+         "range": {"start": {"line": 41, "column": 0}, "end": {"line": 46, "column": 10}},
          "name": "Erdos64EG.Tests.fourCycleWalk_isCycle",
          "module": "Erdos64EG.Tests",
          "kind": "theorem"},
         {"type": "Internal.PowerOfTwoLength Tests.fourCycleWalk.length",
          "sourceFile": "Erdos64EG/Tests.lean",
-         "selectionRange": {"start": {"line": 47, "column": 8}, "end": {"line": 47, "column": 32}},
-         "range": {"start": {"line": 47, "column": 0}, "end": {"line": 50, "column": 40}},
+         "selectionRange": {"start": {"line": 48, "column": 8}, "end": {"line": 48, "column": 32}},
+         "range": {"start": {"line": 48, "column": 0}, "end": {"line": 51, "column": 40}},
          "name": "Erdos64EG.Tests.fourCycleWalk_powerOfTwo",
          "module": "Erdos64EG.Tests",
          "kind": "theorem"},
         {"type": "Internal.MersenneReturn Tests.k4.graph",
          "sourceFile": "Erdos64EG/Tests.lean",
-         "selectionRange": {"start": {"line": 64, "column": 4}, "end": {"line": 64, "column": 20}},
-         "range": {"start": {"line": 62, "column": 0}, "end": {"line": 65, "column": 34}},
+         "selectionRange": {"start": {"line": 65, "column": 4}, "end": {"line": 65, "column": 20}},
+         "range": {"start": {"line": 63, "column": 0}, "end": {"line": 66, "column": 34}},
          "name": "Erdos64EG.Tests.k4MersenneReturn",
          "module": "Erdos64EG.Tests",
          "kind": "definition"}]}],
@@ -4712,8 +4926,8 @@
         {"type":
          "StructuralExhaustion.CT1.CertifiedC1Run (Internal.ct1Spec (Fin 4)) (Internal.ct1Input Tests.k4 Tests.k4_baseline)",
          "sourceFile": "Erdos64EG/Tests.lean",
-         "selectionRange": {"start": {"line": 78, "column": 4}, "end": {"line": 78, "column": 20}},
-         "range": {"start": {"line": 78, "column": 0}, "end": {"line": 81, "column": 48}},
+         "selectionRange": {"start": {"line": 79, "column": 4}, "end": {"line": 79, "column": 20}},
+         "range": {"start": {"line": 79, "column": 0}, "end": {"line": 82, "column": 48}},
          "name": "Erdos64EG.Tests.k4MersenneCT1Run",
          "module": "Erdos64EG.Tests",
          "kind": "definition"}]},
@@ -4813,8 +5027,8 @@
          "∀ (input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput)\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target)\n  (subgraph : StructuralExhaustion.Graph.PackedFiniteObject.ProperSubgraph ctx.G)\n  (baseline : input.problem.Baseline subgraph.value),\n  ∃ run,\n    run.terminal = StructuralExhaustion.CT2.Graph.Terminal.deletionC2 ∧\n      run.trace =\n        [StructuralExhaustion.CT2.Graph.NodeId.entry, StructuralExhaustion.CT2.Graph.NodeId.deletionDecision,\n          StructuralExhaustion.CT2.Graph.NodeId.deletionC2Terminal]",
          "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
          "selectionRange":
-         {"start": {"line": 269, "column": 8}, "end": {"line": 269, "column": 34}},
-         "range": {"start": {"line": 267, "column": 0}, "end": {"line": 278, "column": 56}},
+         {"start": {"line": 307, "column": 8}, "end": {"line": 307, "column": 34}},
+         "range": {"start": {"line": 305, "column": 0}, "end": {"line": 316, "column": 56}},
          "name":
          "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.properSubgraphCT2Run_total",
          "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
@@ -4823,8 +5037,8 @@
          "∀ (input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput)\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target)\n  (subgraph : StructuralExhaustion.Graph.PackedFiniteObject.ProperSubgraph ctx.G)\n  (baseline : input.problem.Baseline subgraph.value),\n  (input.properSubgraphCT2Run ctx subgraph baseline).checks ≤\n    (StructuralExhaustion.CT2.certifiedReductionBudget ctx).coefficient *\n      ((StructuralExhaustion.CT2.certifiedReductionBudget ctx).size\n            (input.properSubgraphCT2Input ctx subgraph baseline) +\n          1) ^\n        (StructuralExhaustion.CT2.certifiedReductionBudget ctx).degree",
          "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
          "selectionRange":
-         {"start": {"line": 289, "column": 8}, "end": {"line": 289, "column": 39}},
-         "range": {"start": {"line": 287, "column": 0}, "end": {"line": 299, "column": 8}},
+         {"start": {"line": 327, "column": 8}, "end": {"line": 327, "column": 39}},
+         "range": {"start": {"line": 325, "column": 0}, "end": {"line": 337, "column": 8}},
          "name":
          "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.properSubgraphCT2Run_polynomial",
          "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
@@ -4871,8 +5085,8 @@
          "(input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput) →\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target) →\n    (subgraph : StructuralExhaustion.Graph.PackedFiniteObject.ProperSubgraph ctx.G) →\n      (baseline : input.problem.Baseline subgraph.value) →\n        StructuralExhaustion.CT2.CertifiedReductionRun ctx (input.properSubgraphCT2Input ctx subgraph baseline)",
          "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
          "selectionRange":
-         {"start": {"line": 233, "column": 4}, "end": {"line": 233, "column": 24}},
-         "range": {"start": {"line": 231, "column": 0}, "end": {"line": 240, "column": 56}},
+         {"start": {"line": 271, "column": 4}, "end": {"line": 271, "column": 24}},
+         "range": {"start": {"line": 269, "column": 0}, "end": {"line": 278, "column": 56}},
          "name":
          "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.properSubgraphCT2Run",
          "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
@@ -5367,8 +5581,8 @@
          "∀ (input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput) (order : ℕ)\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target),\n  StructuralExhaustion.Graph.HasInducedPath ctx.G.object.graph order → input.VerifiedInducedPathStage order ctx",
          "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
          "selectionRange":
-         {"start": {"line": 419, "column": 4}, "end": {"line": 419, "column": 28}},
-         "range": {"start": {"line": 417, "column": 0}, "end": {"line": 424, "column": 44}},
+         {"start": {"line": 457, "column": 4}, "end": {"line": 457, "column": 28}},
+         "range": {"start": {"line": 455, "column": 0}, "end": {"line": 462, "column": 44}},
          "name":
          "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.verifiedInducedPathStage",
          "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
@@ -5583,8 +5797,8 @@
          "∀ (input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput) (order : ℕ) (positive : 0 < order)\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target),\n  input.VerifiedInducedPathStage order ctx → input.InducedPathPackingPrefix order positive ctx",
          "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
          "selectionRange":
-         {"start": {"line": 522, "column": 18}, "end": {"line": 522, "column": 42}},
-         "range": {"start": {"line": 519, "column": 0}, "end": {"line": 535, "column": 50}},
+         {"start": {"line": 560, "column": 18}, "end": {"line": 560, "column": 42}},
+         "range": {"start": {"line": 557, "column": 0}, "end": {"line": 573, "column": 50}},
          "name":
          "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingPrefix",
          "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
@@ -5593,8 +5807,8 @@
          "∀ (input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput) (order : ℕ) (positive : 0 < order)\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target)\n  (previous : input.VerifiedInducedPathStage order ctx),\n  ((StructuralExhaustion.Routes.CT1ToCT12.rule\n            (StructuralExhaustion.CT12.ListPeeling.capability input.problem\n              (StructuralExhaustion.Graph.InducedPathPacking.Window ctx.G.object order))\n            (input.inducedPathPackingAdapter order positive ctx)).generate\n        ⋯ ()).routeId =\n    \"CT1.terminal.c1->CT12\"",
          "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
          "selectionRange":
-         {"start": {"line": 483, "column": 8}, "end": {"line": 483, "column": 34}},
-         "range": {"start": {"line": 483, "column": 0}, "end": {"line": 493, "column": 43}},
+         {"start": {"line": 521, "column": 8}, "end": {"line": 521, "column": 34}},
+         "range": {"start": {"line": 521, "column": 0}, "end": {"line": 531, "column": 43}},
          "name":
          "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingRoute_id",
          "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
@@ -5856,8 +6070,8 @@
          "∀ (input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput) (order : ℕ) (positive : 0 < order)\n  (classification : StructuralExhaustion.Graph.InducedPathAttachment.Classification order input.LengthOK)\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target),\n  input.InducedPathPackingPrefix order positive ctx →\n    input.InducedPathPackingAttachmentPrefix order positive classification ctx",
          "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
          "selectionRange":
-         {"start": {"line": 577, "column": 18}, "end": {"line": 577, "column": 52}},
-         "range": {"start": {"line": 575, "column": 0}, "end": {"line": 601, "column": 65}},
+         {"start": {"line": 615, "column": 18}, "end": {"line": 615, "column": 52}},
+         "range": {"start": {"line": 613, "column": 0}, "end": {"line": 639, "column": 65}},
          "name":
          "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingAttachmentPrefix",
          "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
@@ -9242,21 +9456,220 @@
          "kind": "theorem"}]}],
      "correspondence": "exact"},
     {"workBound":
+     "CT12 performs exactly n-1 peeling iterations on one proof-selected vertex list and has a linear polynomial check budget. The edge theorem uses well-founded recursion on strictly smaller explicit supports; no graph, subgraph, order, path, or context universe is enumerated.",
+     "title": "Sparse upper envelope and slack identity",
+     "stepId": "erdos.sparse-envelope",
+     "status": "implemented",
+     "stageId": "proof-slice.sparse-envelope",
+     "scopeNotes":
+     "This verifies the complete node [126] block, including both displayed identities. Nodes [127]–[128] remain the already verified CT6 surplus/activation outputs; the first later sparse-branch datum not yet implemented is node [129]'s baseline spine demand.",
+     "plainExplanation":
+     "A cubic vertex is obtained from the already verified deletion-critical graph. Every induced core in its complement is a proper subgraph of the selected counterexample, so the no-proper-core theorem produces a two-degenerate elimination certificate. CT12 checks precisely that finite order. Counting at most two deleted edges until the last two vertices gives e(G-v)≤2(n-1)-3; restoring the three incident edges gives m≤2n-2. The graph handshake theorem identifies the CT6 excess ledger with σ=2m-3n, and elementary integer algebra gives σ=n-6-2λ.",
+     "manuscriptRefs":
+     [{"title": "Sparse upper envelope", "nodeIds": [126], "label": "lem:sparse-upper-envelope"},
+      {"title": "Sparse slack identity", "nodeIds": [126], "label": "lem:sparse-slack-surplus"}],
+     "formalStatement": "m\\le 2n-2,\\qquad \\lambda=2n-3-m,\\qquad \\sigma=2m-3n=n-6-2\\lambda",
+     "declarationGroups":
+     [{"title": "Two-degenerate graph profile, exact CT12 run, and Erdős arithmetic",
+       "role": "semanticTheorem",
+       "groupId": "sparse-envelope-ct12",
+       "explanation":
+       "The reusable graph layer proves existence of the bounded elimination order from local induced-core freeness, executes CT12 on that list, proves the sharp edge count, and connects the ordered degree-excess total to the handshake identity. The Erdős layer supplies only the selected cubic vertex and the concrete no-proper-core specialization.",
+       "declarations":
+       [{"type":
+         "∀ {V : Type u} (object : StructuralExhaustion.Graph.FiniteObject V) (bound : ℕ),\n  object.InternalMinDegreeFree (bound + 1) →\n    Nonempty (StructuralExhaustion.Graph.DegeneracyPeeling.Certificate object bound)",
+         "sourceFile": "StructuralExhaustion/Graph/DegeneracyPeeling.lean",
+         "selectionRange": {"start": {"line": 73, "column": 8}, "end": {"line": 73, "column": 51}},
+         "range": {"start": {"line": 70, "column": 0}, "end": {"line": 163, "column": 4}},
+         "name":
+         "StructuralExhaustion.Graph.DegeneracyPeeling.exists_certificate_of_internalMinDegreeFree",
+         "module": "StructuralExhaustion.Graph.DegeneracyPeeling",
+         "kind": "theorem"},
+        {"type":
+         "∀ {V : Type u} (object : StructuralExhaustion.Graph.FiniteObject V),\n  object.InternalMinDegreeFree 3 → 2 ≤ FinEnum.card V → object.edgeCount ≤ 2 * FinEnum.card V - 3",
+         "sourceFile": "StructuralExhaustion/Graph/DegeneracyPeeling.lean",
+         "selectionRange":
+         {"start": {"line": 176, "column": 8}, "end": {"line": 176, "column": 50}},
+         "range": {"start": {"line": 172, "column": 0}, "end": {"line": 228, "column": 19}},
+         "name":
+         "StructuralExhaustion.Graph.DegeneracyPeeling.edgeCount_le_two_mul_vertexCount_sub_three",
+         "module": "StructuralExhaustion.Graph.DegeneracyPeeling",
+         "kind": "theorem"},
+        {"type":
+         "∀ {V : Type u} {object : StructuralExhaustion.Graph.FiniteObject V} {bound : ℕ} {P : StructuralExhaustion.Core.Problem}\n  (profile : StructuralExhaustion.Graph.DegeneracyPeeling.Profile object bound)\n  (context : StructuralExhaustion.Core.BranchContext P),\n  StructuralExhaustion.Graph.DegeneracyPeeling.Certificate.VerifiedStage context profile.certificate",
+         "sourceFile": "StructuralExhaustion/Graph/DegeneracyPeeling.lean",
+         "selectionRange":
+         {"start": {"line": 361, "column": 8}, "end": {"line": 361, "column": 21}},
+         "range": {"start": {"line": 361, "column": 0}, "end": {"line": 364, "column": 43}},
+         "name": "StructuralExhaustion.Graph.DegeneracyPeeling.Profile.verifiedStage",
+         "module": "StructuralExhaustion.Graph.DegeneracyPeeling",
+         "kind": "theorem"},
+        {"type":
+         "∀ {V : Type u} (object : StructuralExhaustion.Graph.FiniteObject V) (bound : ℕ),\n  (∀ (vertex : V), bound ≤ object.degree vertex) →\n    ↑(List.map (fun vertex => object.degree vertex - bound) object.input.vertices.orderedValues).sum =\n      2 * ↑object.edgeCount - ↑bound * ↑(FinEnum.card V)",
+         "sourceFile": "StructuralExhaustion/Graph/SurplusPortActivity.lean",
+         "selectionRange":
+         {"start": {"line": 608, "column": 8}, "end": {"line": 608, "column": 31}},
+         "range": {"start": {"line": 607, "column": 0}, "end": {"line": 616, "column": 7}},
+         "name": "StructuralExhaustion.Graph.SurplusPortActivity.degreeExcess_sum_int_eq",
+         "module": "StructuralExhaustion.Graph.SurplusPortActivity",
+         "kind": "theorem"},
+        {"type":
+         "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  StructuralExhaustion.Graph.DegeneracyPeeling.Profile (Internal.sparseEnvelopeRemaining ctx) 2",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange":
+         {"start": {"line": 110, "column": 18}, "end": {"line": 110, "column": 39}},
+         "range": {"start": {"line": 108, "column": 0}, "end": {"line": 114, "column": 52}},
+         "name": "Erdos64EG.Internal.sparseEnvelopeProfile",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "definition"},
+        {"type":
+         "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  ctx.G.object.degree (Internal.sparseEnvelopeRoot ctx) = 3",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange": {"start": {"line": 41, "column": 8}, "end": {"line": 41, "column": 33}},
+         "range": {"start": {"line": 41, "column": 0}, "end": {"line": 44, "column": 55}},
+         "name": "Erdos64EG.Internal.sparseEnvelopeRoot_degree",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "theorem"},
+        {"type":
+         "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  (Internal.sparseEnvelopeRemaining ctx).InternalMinDegreeFree 3",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange":
+         {"start": {"line": 100, "column": 8}, "end": {"line": 100, "column": 40}},
+         "range": {"start": {"line": 98, "column": 0}, "end": {"line": 106, "column": 42}},
+         "name": "Erdos64EG.Internal.sparseEnvelopeRemaining_coreFree",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "theorem"},
+        {"type":
+         "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  (Internal.runSparseEnvelopeCT12 ctx).terminal = StructuralExhaustion.CT12.Graph.Terminal.exhausted",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange":
+         {"start": {"line": 126, "column": 8}, "end": {"line": 126, "column": 38}},
+         "range": {"start": {"line": 126, "column": 0}, "end": {"line": 130, "column": 41}},
+         "name": "Erdos64EG.Internal.runSparseEnvelopeCT12_terminal",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "theorem"},
+        {"type":
+         "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  StructuralExhaustion.CT12.ExecutionResult.trace\n      (StructuralExhaustion.CT12.ListPeeling.capability (Internal.fixedPackedInput ctx).problem\n        ↥(Internal.sparseEnvelopeSupport ctx))\n      (Internal.runSparseEnvelopeCT12 ctx) =\n    StructuralExhaustion.CT12.ListPeeling.expectedTrace (FinEnum.card ↥(Internal.sparseEnvelopeSupport ctx))",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange":
+         {"start": {"line": 132, "column": 8}, "end": {"line": 132, "column": 35}},
+         "range": {"start": {"line": 132, "column": 0}, "end": {"line": 138, "column": 38}},
+         "name": "Erdos64EG.Internal.runSparseEnvelopeCT12_trace",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "theorem"},
+        {"type":
+         "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  StructuralExhaustion.CT12.Outcome.Valid\n    (StructuralExhaustion.CT12.ListPeeling.capability (Internal.fixedPackedInput ctx).problem\n      ↥(Internal.sparseEnvelopeSupport ctx))\n    (Internal.runSparseEnvelopeCT12 ctx).outcome",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange":
+         {"start": {"line": 140, "column": 8}, "end": {"line": 140, "column": 38}},
+         "range": {"start": {"line": 140, "column": 0}, "end": {"line": 144, "column": 41}},
+         "name": "Erdos64EG.Internal.runSparseEnvelopeCT12_verified",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "theorem"},
+        {"type":
+         "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  StructuralExhaustion.CT12.Graph.ValidTrace\n    (StructuralExhaustion.CT12.ListPeeling.capability (Internal.fixedPackedInput ctx).problem\n      ↥(Internal.sparseEnvelopeSupport ctx))\n    (StructuralExhaustion.CT12.ExecutionResult.trace\n      (StructuralExhaustion.CT12.ListPeeling.capability (Internal.fixedPackedInput ctx).problem\n        ↥(Internal.sparseEnvelopeSupport ctx))\n      (Internal.runSparseEnvelopeCT12 ctx))",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange":
+         {"start": {"line": 146, "column": 8}, "end": {"line": 146, "column": 40}},
+         "range": {"start": {"line": 146, "column": 0}, "end": {"line": 154, "column": 43}},
+         "name": "Erdos64EG.Internal.runSparseEnvelopeCT12_traceValid",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "theorem"},
+        {"type":
+         "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  ∃ result,\n    result = Internal.runSparseEnvelopeCT12 ctx ∧\n      StructuralExhaustion.CT12.Outcome.Valid\n          (StructuralExhaustion.CT12.ListPeeling.capability (Internal.fixedPackedInput ctx).problem\n            ↥(Internal.sparseEnvelopeSupport ctx))\n          result.outcome ∧\n        StructuralExhaustion.CT12.Graph.ValidTrace\n            (StructuralExhaustion.CT12.ListPeeling.capability (Internal.fixedPackedInput ctx).problem\n              ↥(Internal.sparseEnvelopeSupport ctx))\n            (StructuralExhaustion.CT12.ExecutionResult.trace\n              (StructuralExhaustion.CT12.ListPeeling.capability (Internal.fixedPackedInput ctx).problem\n                ↥(Internal.sparseEnvelopeSupport ctx))\n              result) ∧\n          result.iterations ≤ FinEnum.card ↥(Internal.sparseEnvelopeSupport ctx)",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange":
+         {"start": {"line": 163, "column": 8}, "end": {"line": 163, "column": 35}},
+         "range": {"start": {"line": 163, "column": 0}, "end": {"line": 174, "column": 38}},
+         "name": "Erdos64EG.Internal.runSparseEnvelopeCT12_total",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "theorem"},
+        {"type":
+         "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  (Internal.runSparseEnvelopeCT12 ctx).iterations = FinEnum.card ↥(Internal.sparseEnvelopeSupport ctx)",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange":
+         {"start": {"line": 156, "column": 8}, "end": {"line": 156, "column": 40}},
+         "range": {"start": {"line": 156, "column": 0}, "end": {"line": 161, "column": 43}},
+         "name": "Erdos64EG.Internal.runSparseEnvelopeCT12_iterations",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "theorem"},
+        {"type":
+         "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  (⋯.budget (Internal.sparseEnvelopeContext ctx)).checks () ≤\n    (⋯.budget (Internal.sparseEnvelopeContext ctx)).coefficient *\n      ((⋯.budget (Internal.sparseEnvelopeContext ctx)).size () + 1) ^\n        (⋯.budget (Internal.sparseEnvelopeContext ctx)).degree",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange":
+         {"start": {"line": 177, "column": 8}, "end": {"line": 177, "column": 42}},
+         "range": {"start": {"line": 176, "column": 0}, "end": {"line": 188, "column": 43}},
+         "name": "Erdos64EG.Internal.runSparseEnvelopeCT12_linearBudget",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "theorem"},
+        {"type":
+         "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  (Internal.sparseEnvelopeRemaining ctx).edgeCount ≤ 2 * FinEnum.card ↥(Internal.sparseEnvelopeSupport ctx) - 3",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange":
+         {"start": {"line": 197, "column": 8}, "end": {"line": 197, "column": 41}},
+         "range": {"start": {"line": 197, "column": 0}, "end": {"line": 202, "column": 44}},
+         "name": "Erdos64EG.Internal.sparseEnvelopeRemaining_edgeBound",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "theorem"},
+        {"type":
+         "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  ctx.G.object.edgeCount ≤ 2 * FinEnum.card ctx.G.Vertex - 2",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange":
+         {"start": {"line": 219, "column": 8}, "end": {"line": 219, "column": 32}},
+         "range": {"start": {"line": 218, "column": 0}, "end": {"line": 227, "column": 7}},
+         "name": "Erdos64EG.Internal.sparseEnvelope_edgeBound",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "theorem"},
+        {"type":
+         "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  Internal.sparseSurplus ctx = ↑(FinEnum.card ctx.G.Vertex) - 6 - 2 * Internal.sparseSlack ctx",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange":
+         {"start": {"line": 244, "column": 8}, "end": {"line": 244, "column": 36}},
+         "range": {"start": {"line": 243, "column": 0}, "end": {"line": 250, "column": 6}},
+         "name": "Erdos64EG.Internal.sparseSlack_surplus_identity",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "theorem"},
+        {"type":
+         "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  2 * ↑ctx.G.object.edgeCount = 3 * ↑(FinEnum.card ctx.G.Vertex) + Internal.sparseSurplus ctx",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange":
+         {"start": {"line": 253, "column": 8}, "end": {"line": 253, "column": 35}},
+         "range": {"start": {"line": 252, "column": 0}, "end": {"line": 257, "column": 22}},
+         "name": "Erdos64EG.Internal.sparseEdge_surplus_identity",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "theorem"},
+        {"type":
+         "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  Internal.sparseSurplus ctx =\n    ↑(List.map (fun vertex => ctx.G.object.degree vertex - 3) ctx.G.object.input.vertices.orderedValues).sum",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange":
+         {"start": {"line": 260, "column": 8}, "end": {"line": 260, "column": 43}},
+         "range": {"start": {"line": 259, "column": 0}, "end": {"line": 269, "column": 45}},
+         "name": "Erdos64EG.Internal.sparseSurplus_eq_degreeExcessLedger",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "theorem"},
+        {"type":
+         "∀ {V : Type u} (object : Internal.Object V),\n  Internal.Baseline object →\n    ¬Internal.Target object →\n      ∃ ctx,\n        Internal.PackedProblem.rank ctx.G ≤\n            Internal.PackedProblem.rank (StructuralExhaustion.Graph.PackedFiniteObject.pack object) ∧\n          Internal.VerifiedSparseEnvelopePrefix ctx",
+         "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+         "selectionRange":
+         {"start": {"line": 329, "column": 8}, "end": {"line": 329, "column": 43}},
+         "range": {"start": {"line": 329, "column": 0}, "end": {"line": 338, "column": 64}},
+         "name": "Erdos64EG.Internal.exists_verifiedSparseEnvelopePrefix",
+         "module": "Erdos64EG.CT12SparseEnvelope",
+         "kind": "theorem"}]}],
+     "correspondence": "exact"},
+    {"workBound":
      "Not yet implemented; the future CT must expose its local finite universe and polynomial audit.",
-     "title": "Non-near-cubic surplus routing",
-     "stepId": "erdos.surplus-frontier",
+     "title": "Baseline spine demand",
+     "stepId": "erdos.baseline-spine-demand",
      "status": "next",
      "stageId": null,
      "scopeNotes":
-     "The finite selected-port audit through both literal Type B candidate fibres, the derived dependent demand system, unconditional CT12 completion, exact minimal overlap support, graph-derived high-center resolution split, and exact no-double-counted graph-charge realization are implemented. A negative full-choice branch is now literally the remaining induced core, which must be discharged by the Type A component theorem. Decorated handoffs, overlap fan-mass summation, Γ(p) path support, node [129] baseline, full pair-response supports, blocker/token closure, node [21], and the later density/remainder budget remain downstream.",
+     "The sparse envelope, exact slack identity, and the existing CT6 active surplus ledger are verified. The baseline demand and its subsequent response/token routing are not yet implemented.",
      "plainExplanation":
-     "The ordinary high-center Type B family is now fully stratified into a literal unresolved local center, a full disjoint choice, or a minimal overlap obstruction. The next dependency-ready work constructs the separate decorated-handoff/residual-core transition and the remaining window/replacement reflection needed before the fan-mass summation.",
+     "The next sparse-branch step fixes the node [129] linear deficit demand consumed by the active surplus family.",
      "manuscriptRefs":
-     [{"title": "Non-near-cubic sparse-pressure routing",
-       "nodeIds": [19, 20],
-       "label": "prop:nonnear-cubic-sharp-overload-routing"}],
-     "formalStatement":
-     "\\sigma(G)>C_{\\mathrm{sp}}\\sqrt n \\Longrightarrow \\text{a certified sparse-surplus exit or closure}",
+     [{"title": "Baseline spine demand", "nodeIds": [129], "label": "def:baseline-spine-demand"}],
+     "formalStatement": "D_{\\mathrm{base}}=O(n)",
      "declarationGroups": [],
      "correspondence": "partial"}],
    "path": "proofs/erdos_64_eg/erdos_64_proof.tex"},
@@ -9300,8 +9713,8 @@
     {"type":
      "(input : StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput) →\n  (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext input.problem input.Target) →\n    (subgraph : StructuralExhaustion.Graph.PackedFiniteObject.ProperSubgraph ctx.G) →\n      (baseline : input.problem.Baseline subgraph.value) →\n        StructuralExhaustion.CT2.CertifiedReductionRun ctx (input.properSubgraphCT2Input ctx subgraph baseline)",
      "sourceFile": "StructuralExhaustion/Graph/PackedMinimumDegreeCycle.lean",
-     "selectionRange": {"start": {"line": 233, "column": 4}, "end": {"line": 233, "column": 24}},
-     "range": {"start": {"line": 231, "column": 0}, "end": {"line": 240, "column": 56}},
+     "selectionRange": {"start": {"line": 271, "column": 4}, "end": {"line": 271, "column": 24}},
+     "range": {"start": {"line": 269, "column": 0}, "end": {"line": 278, "column": 56}},
      "name": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.properSubgraphCT2Run",
      "module": "StructuralExhaustion.Graph.PackedMinimumDegreeCycle",
      "kind": "definition"},
@@ -9403,6 +9816,30 @@
     "description":
     "The problem fixes path order thirteen; the core selects a maximum support-disjoint family, CT12 audits exactly its selected list, and the graph layer derives saturation, the induced-path-free remainder, and the arbitrary-subgraph minimum-degree bridge.",
     "bindingId": "proof-slice.ct12-p13-packing"},
+   {"tacticId": "CT12",
+    "stageId": "proof-slice.sparse-envelope",
+    "role": "two-degenerate elimination order",
+    "problemDeclaration":
+    {"type":
+     "∀ (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext Internal.PackedProblem Internal.PackedTarget),\n  StructuralExhaustion.Graph.DegeneracyPeeling.Profile (Internal.sparseEnvelopeRemaining ctx) 2",
+     "sourceFile": "Erdos64EG/CT12SparseEnvelope.lean",
+     "selectionRange": {"start": {"line": 110, "column": 18}, "end": {"line": 110, "column": 39}},
+     "range": {"start": {"line": 108, "column": 0}, "end": {"line": 114, "column": 52}},
+     "name": "Erdos64EG.Internal.sparseEnvelopeProfile",
+     "module": "Erdos64EG.CT12SparseEnvelope",
+     "kind": "definition"},
+    "frameworkDeclaration":
+    {"type":
+     "∀ {V : Type u} {object : StructuralExhaustion.Graph.FiniteObject V} {bound : ℕ} {P : StructuralExhaustion.Core.Problem}\n  (profile : StructuralExhaustion.Graph.DegeneracyPeeling.Profile object bound)\n  (context : StructuralExhaustion.Core.BranchContext P),\n  StructuralExhaustion.Graph.DegeneracyPeeling.Certificate.VerifiedStage context profile.certificate",
+     "sourceFile": "StructuralExhaustion/Graph/DegeneracyPeeling.lean",
+     "selectionRange": {"start": {"line": 361, "column": 8}, "end": {"line": 361, "column": 21}},
+     "range": {"start": {"line": 361, "column": 0}, "end": {"line": 364, "column": 43}},
+     "name": "StructuralExhaustion.Graph.DegeneracyPeeling.Profile.verifiedStage",
+     "module": "StructuralExhaustion.Graph.DegeneracyPeeling",
+     "kind": "theorem"},
+    "description":
+    "The application proves induced-core freeness of the cubic-vertex complement. The graph profile selects one bounded elimination certificate, and CT12 audits exactly that finite list with linear work.",
+    "bindingId": "proof-slice.ct12-sparse-envelope"},
    {"tacticId": "CT10",
     "stageId": "proof-slice.p13-labels",
     "role": "exact finite attachment-label classification",

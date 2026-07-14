@@ -175,7 +175,9 @@ target-uncompressibility.
 `[15]` and `[16]`. `Erdos64EG/CT12InducedP13Packing.lean` adds the exact
 packing output, and `Erdos64EG/CT10P13LabelAlgebra.lean` consumes that output
 at node `[18]`. The current theorem-bearing endpoint is
-`exists_verifiedTypeBPostLedgerPrefix`; it composes the previously
+`exists_verifiedSparseEnvelopePrefix`; it retains the complete Type B
+post-ledger prefix and then implements manuscript node `[126]`. The preceding
+Type B block composes the previously
 verified marked-fan degree cap with the actual two-port CT14 mass and hybrid
 incidence ledgers, deriving the positive deficit and paying capacity rather
 than accepting either as input, and projects the resulting endpoint-disjoint
@@ -242,6 +244,17 @@ Lean proves, in quarter-units,
 This applies equally on local-entry failure and minimal-overlap branches. The
 overload term is the exact Type A continuation, not a supplied certificate or
 an assumed charge bound.
+
+The sparse-envelope CT12 stage selects a cubic vertex from deletion
+criticality and forms the literal induced complement. The no-proper-core CT2
+theorem proves that complement is 2-degenerate. The reusable graph profile
+constructs one proof-selected bounded elimination order, and CT12 audits that
+finite list in exactly `n-1` iterations. Its sharp local edge count gives
+`e(G-v)≤2(n-1)-3`, hence `m≤2n-2`. The generic handshake bridge identifies
+the existing CT6 excess ledger with `σ=2m-3n`, and Lean proves the complete
+node `[126]` identity `σ=n-6-2λ` for `λ=2n-3-m`. The same profile is
+independently instantiated on the textbook triangle in the greedy-coloring
+example package.
 
 The independent even-cycle package instantiates the same graph theorem on the
 textbook complete bipartite graph `K₃,₄`. Deleting its three degree-four

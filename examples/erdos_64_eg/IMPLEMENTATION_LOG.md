@@ -4,7 +4,7 @@ This ledger records the Lean-checked proof content in
 `examples/erdos_64_eg` as of 2026-07-14.
 
 The theorem-bearing endpoint is
-`Erdos64EG.Internal.exists_verifiedTypeBResolutionPrefix`:
+`Erdos64EG.Internal.exists_verifiedSparseEnvelopePrefix`:
 
 ```lean
 (object : Object V) → Baseline object → ¬ Target object →
@@ -13,7 +13,7 @@ The theorem-bearing endpoint is
     packedStaticInput.problem.rank ctx.G ≤
         packedStaticInput.problem.rank
           (Graph.PackedFiniteObject.pack object) ∧
-      VerifiedTypeBResolutionPrefix ctx
+      VerifiedSparseEnvelopePrefix ctx
 ```
 
 Natural-number well-ordering selects a counterexample minimal in the
@@ -47,6 +47,12 @@ contains:
   deletion-critical closure of that failure branch, the exact
   `Σ_v (d(v)-3)` active ledger, and a dependent excess-slot family of the
   same cardinality.
+- the CT12 sparse-envelope stage at node `[126]`: deletion criticality selects
+  a cubic vertex, the CT2 no-proper-core theorem makes its literal complement
+  2-degenerate, and CT12 audits the proof-selected elimination order in
+  exactly `n-1` iterations. The graph layer proves
+  `e(G-v) ≤ 2(n-1)-3`, hence `m ≤ 2n-2`, and the exact handshake bridge gives
+  `σ=2m-3n=n-6-2λ` for `λ=2n-3-m`.
 - the CT9 surplus-pair availability stage: the registered CT6-to-CT9 route
   consumes the actual active-ledger residual, preserves the identical branch
   context, and scans exactly the surplus-slot list; its bounded branch proves
@@ -221,6 +227,7 @@ order and do not define a separate graph representation.
 | `thm:p13free`, `cor:p13-exists`, nodes `[15]`–`[16]` | `VerifiedBoundariedReplacementPrefix` and target avoidance on the identical packed minimal context | CT1 target-certificate profile through `Graph.InducedPath.Profile`; HSS is the sole trusted external closure | Literal `P₁₃`-free avoiding terminal and trace; HSS contradiction; induced `P₁₃` realization; exact C1 terminal and trace; totality; composed `VerifiedInducedP13Prefix` retaining all preceding outputs | Zero checks on the proof-carrying avoiding run; one check on a supplied Mathlib induced embedding; degree-zero polynomial budgets; no tuple, path, subgraph, or graph universe is enumerated |
 | `sec:remainder`, node `[17]` and the packing-derived clauses of `[25]`–`[27]` | `VerifiedInducedP13Prefix` on the identical selected packed graph | Registered `CT1.terminal.c1->CT12` route plus the CT12 disjoint-packing profile through `Graph.InducedPathPacking` | The route preserves the branch context, materializes exactly the selected-list CT12 input, and derives its nonemptiness from the CT1 realization; a maximum vertex-disjoint induced-`P₁₃` family; maximal saturation; exact exhausted CT12 run with `p₁₃` iterations; `13 p₁₃ ≤ n`; `|R| + 13 p₁₃ = n`; `R` and every induced subgraph of `R` are `P₁₃`-free; HSS rules out every finite internal subgraph of minimum degree at least three; composed `VerifiedP13PackingPrefix` retaining every prior stage | CT12 visits exactly the selected packing list, once per packed window and hence at most `n` iterations; trace length at most `4n + 3`; the embedding and packing universes are not materialized |
 | `lem:labels` and the definitions of `C_s` and `Ω₂`, node `[18]` | `VerifiedP13PackingPrefix` on the identical selected packed graph | CT10 exact accepted-class profile through `CT10.ExhaustiveClassification` and `Graph.InducedPathAttachment` | Exact legality equivalence; `8192` compact candidates; `399` legal labels; size distribution `13,60,122,122,63,17,2`; legal sizes `1`–`7`; exhaustive terminal, exact typed trace, semantic validity and totality; exact `C_s` and `Ω₂`; every actual attachment accepted; composed `VerifiedP13LabelAlgebraPrefix` retaining the exact CT12 predecessor | `167792 = 8192 + 399 + 399²` primitive candidate/direct/row checks, bounded quadratically in the explicit candidate universe; no graph, path, subgraph, or context universe is enumerated |
+| `lem:sparse-upper-envelope`, `lem:sparse-slack-surplus`, node `[126]` | `VerifiedTypeBPostLedgerPrefix`, retaining the selected packed context, CT2 no-proper-core theorem, and deletion criticality | `Graph.DegeneracyPeeling.Profile` with the exact CT12 list-peeling runner | Actual cubic root; literal complement; induced-core freeness; exhausted terminal; exact typed trace; validity and totality; exactly `n-1` iterations; `e(G-v)≤2(n-1)-3`; `m≤2n-2`; `σ=2m-3n=n-6-2λ`; exact equality with the existing CT6 degree-excess ledger; composed `VerifiedSparseEnvelopePrefix` | Linear CT12 schedule on one proof-selected list. The sharp edge proof recurses only on a strictly smaller explicit support; no graph, subgraph, order, path, or context universe is enumerated |
 | `lem:sparse-excess-port-extraction`, cubic-endpoint clause of `lem:sparse-port-activation`, nodes `[127]`–`[128]` | `VerifiedP13LabelAlgebraPrefix` and deletion criticality on the identical selected packed graph | CT6 ordered activity profile through `Graph.SurplusPortActivity` | Exact active-ledger terminal and trace; first-failure semantics for the first high centre with a non-cubic neighbour; deletion-critical exclusion of every failure; exact `Σ_v(d(v)-3)` ledger; excess-slot cardinality; composed `VerifiedSparseSurplusPrefix` | One failure test per declared vertex and at most `|V|²` primitive adjacency/degree tests; no enumeration of paths, subgraphs, graphs, or attachment tables |
 | `rem:ct9-surplus-slot-stratification`, pair-availability precursor to node `[130]` | The actual CT6 active-ledger residual in `VerifiedSparseSurplusPrefix` | Registered `CT6.residual.activeLedger->CT9` route and graph-owned capacity-one surplus-slot profile | Exact item count `σ(G)`; context and route provenance; verified total CT9 execution; bounded branch `σ(G) ≤ 1` or overload branch with two distinct slots; composed `VerifiedSurplusPairPrefix` | One partition scan of exactly `σ(G)` supplied slots; no pair, path, subgraph, graph, or response-table enumeration |
 | `lem:heavy-neighbourhood-normal-form`, `def:surplus-ports`, `def:heavy-center-triangular-port` | `VerifiedSurplusPairPrefix`, target avoidance, and deletion criticality | CT1 four-cycle target profile plus CT10 selected-port classification in `Graph.HighCenterStructure` and `Graph.SurplusPortActivity` | Exact avoiding terminal for length four; matching/common-neighbour consequences; canonical port endpoints and two shoulders; exhaustive open/triangular state split; composed `VerifiedSurplusPortClassificationPrefix` | Zero CT1 realization checks on the proof-carrying avoiding run; CT10 work at most `2|V|²+2` |
@@ -926,6 +933,28 @@ unresolved/full-resolution split and therefore also on every minimal-overlap
 branch. The overload term is the exact Type A continuation, not an assumed
 contract field.
 
+## Node `[126]`: CT12 sparse upper envelope
+
+`Graph.DegeneracyPeeling` owns the reusable bounded elimination certificate,
+its existence proof from `InternalMinDegreeFree (bound+1)`, the exact CT12
+runner, exhausted terminal, expected trace, semantic validity, totality, and
+linear work certificate. Its sharp two-degenerate theorem counts at most two
+edges per deletion until two vertices remain and then uses the universal
+one-edge bound.
+
+`CT12SparseEnvelope` selects an actual cubic vertex from deletion criticality,
+forms the literal induced complement, and obtains its core freeness from the
+already verified packed no-proper-core theorem. The exact CT12 execution has
+one iteration per remaining vertex. Restoring the selected vertex through the
+generic induced-edge recurrence proves `m≤2n-2`.
+
+`Graph.SurplusPortActivity.degreeExcess_sum_int_eq` proves the reusable
+handshake bridge from an ordered degree-excess ledger to `2m-3n`. Thus the
+existing CT6 ledger is exactly the manuscript surplus, and Lean verifies both
+node `[126]` identities `σ=n-6-2λ` and `2m=3n+σ` over the integers. The public
+endpoint accepts only the official finite graph, its baseline, and target
+avoidance, and retains `VerifiedTypeBPostLedgerPrefix` as its `previous` field.
+
 ## Independent transfer
 
 The independent transfer is
@@ -937,6 +966,13 @@ internal-three-core-freeness is proved directly without the external HSS
 theorem. The theorem
 `ConcreteK34.highCenterDeletion_deficit_bound` is the exact generic
 `21 * assignedSurplus + receiverOverload` conclusion.
+
+`GreedyColoringExample.DegeneracyTriangle` independently instantiates the
+same `Graph.DegeneracyPeeling.Profile` on the textbook triangle `K₃`. It runs
+the exact public CT12 machine, proves the exhausted terminal and expected
+trace, typed trace validity, totality, exactly three iterations, the linear
+polynomial budget, and the sharp edge bound. Its core-freeness proof uses only
+the generic finite simple-graph vertex-count theorem and no external axiom.
 
 `examples/even_cycle/EvenCycleExample/CT2Audit.lean` instantiates the exact
 `Graph.PackedMinimumDegreeCycle` and `CT2.CertifiedReductionInput` APIs with
@@ -992,9 +1028,16 @@ terminal and exact typed trace, and singleton cardinality. Mathlib's
 cycle-avoidance premise of the shared graph theorem, so every actual nonempty
 attachment to the edge is accepted by the same classification contract.
 
+## Next dependency-ready section
+
+The first unimplemented dependency after node `[126]` and the already
+verified CT6 nodes `[127]`–`[128]` is
+`def:baseline-spine-demand` at node `[129]`. It is not claimed by the current
+endpoint.
+
 ## Validation
 
-The following checks pass on 2026-07-14 for the post-ledger review:
+The following checks pass on 2026-07-14 for the sparse-envelope review:
 
 ```text
 make lint
@@ -1027,8 +1070,3 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error erdos_64_proof.tex
 git diff --check
   passed
 ```
-
-The Python regression suite was not run in this environment: system `pytest`
-is unavailable, and downloading it from PyPI was disallowed by the managed
-sandbox. The Lean kernel, compiled catalog, repository validator, frontend,
-and manuscript checks above are complete.

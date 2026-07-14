@@ -9,6 +9,8 @@ import StructuralExhaustion.Graph.InducedPath
 import StructuralExhaustion.Graph.InducedPathAttachment
 import StructuralExhaustion.Graph.InducedPathBridge
 import StructuralExhaustion.Graph.InducedSubgraph
+import StructuralExhaustion.Graph.EliminationOrder
+import StructuralExhaustion.Graph.DegeneracyPeeling
 import StructuralExhaustion.Graph.LowDegreeReceiverRouting
 import StructuralExhaustion.Graph.FiniteInducedBoundary
 import StructuralExhaustion.Graph.InducedPathPacking

@@ -6,6 +6,7 @@ import Erdos64EG.CT12TypeBOverlapSupport
 import Erdos64EG.CT12TypeBResolution
 import Erdos64EG.CT14TypeBChoiceLedger
 import Erdos64EG.CT14TypeBPostLedger
+import Erdos64EG.CT12SparseEnvelope
 
 namespace Erdos64EG.Tests
 
@@ -568,5 +569,32 @@ noncomputable example (scope : TypeBSupportScope ctx) :
                     800 *
                       (support.assignedChargeProfile.assignedSurplus : Int)) :=
   scope.unresolved_or_overlap_or_net_nonnegative_or_saturated_or_bounded_boundaryOverload
+
+example : ctx.G.object.edgeCount ≤
+    2 * ctx.G.object.input.vertices.card - 2 :=
+  sparseEnvelope_edgeBound ctx
+
+example : sparseSurplus ctx =
+    (ctx.G.object.input.vertices.card : Int) - 6 -
+      2 * sparseSlack ctx :=
+  sparseSlack_surplus_identity ctx
+
+example : (runSparseEnvelopeCT12 ctx).terminal = .exhausted :=
+  runSparseEnvelopeCT12_terminal ctx
+
+example : (runSparseEnvelopeCT12 ctx).iterations =
+    (sparseEnvelopeRemaining ctx).input.vertices.card :=
+  runSparseEnvelopeCT12_iterations ctx
+
+example :
+    ((sparseEnvelopeProfile ctx).budget
+        (sparseEnvelopeContext ctx)).checks () ≤
+      ((sparseEnvelopeProfile ctx).budget
+          (sparseEnvelopeContext ctx)).coefficient *
+        (((sparseEnvelopeProfile ctx).budget
+            (sparseEnvelopeContext ctx)).size () + 1) ^
+          ((sparseEnvelopeProfile ctx).budget
+            (sparseEnvelopeContext ctx)).degree :=
+  runSparseEnvelopeCT12_linearBudget ctx
 
 end Erdos64EG.Tests

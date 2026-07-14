@@ -73,6 +73,15 @@ def run {P : Core.Problem.{uAmbient, uBranch}}
     state := initialState values
   }
 
+/-- Exact node sequence of an exhausted canonical list-peeling run. -/
+def expectedLoopTrace : Nat → List CT12.Graph.NodeId
+  | 0 => [.saturation, .exhaustedTerminal]
+  | n + 1 => [.saturation, .peel, .restoration, .decrease] ++
+      expectedLoopTrace n
+
+def expectedTrace (length : Nat) : List CT12.Graph.NodeId :=
+  .entry :: expectedLoopTrace length
+
 private theorem runLoop_terminal_exhausted
     {P : Core.Problem.{uAmbient, uBranch}}
     (load : Nat) (state : State Value load) :
@@ -91,6 +100,36 @@ theorem run_terminal_exhausted {P : Core.Problem.{uAmbient, uBranch}}
     (context : Core.BranchContext P) (values : List Value) :
     (run context values).terminal = .exhausted := by
   exact runLoop_terminal_exhausted values.length (initialState values)
+
+private theorem runLoop_trace_eq_expected
+    {P : Core.Problem.{uAmbient, uBranch}}
+    (load : Nat) (state : State Value load) :
+    (CT12.runLoop (capability P Value) load state).path.trace =
+      expectedLoopTrace load := by
+  induction load using Nat.strong_induction_on with
+  | h load ih =>
+      cases load with
+      | zero =>
+          rw [CT12.runLoop]
+          rfl
+      | succ n =>
+          rw [CT12.runLoop]
+          change [.saturation, .peel, .restoration, .decrease] ++
+              (CT12.runLoop (capability P Value) n
+                (peel state).tail).path.trace =
+            [.saturation, .peel, .restoration, .decrease] ++
+              expectedLoopTrace n
+          rw [ih n (Nat.lt_succ_self n) (peel state).tail]
+
+/-- Exact typed trace of canonical list peeling, including every loop-back. -/
+theorem run_trace_eq_expected {P : Core.Problem.{uAmbient, uBranch}}
+    (context : Core.BranchContext P) (values : List Value) :
+    (run context values).trace = expectedTrace values.length := by
+  unfold run expectedTrace CT12.ExecutionResult.trace CT12.run
+    CT12.runReference
+  simp only [CT12.Graph.Path.trace]
+  rw [runLoop_trace_eq_expected values.length (initialState values)]
+  rfl
 
 private theorem runLoop_iterations_eq_length
     {P : Core.Problem.{uAmbient, uBranch}}
