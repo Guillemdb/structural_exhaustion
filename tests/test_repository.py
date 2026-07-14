@@ -323,6 +323,12 @@ def test_mathlib_graph_profiles_are_framework_owned_and_reused() -> None:
     greedy_coloring = (graph_root / "GreedyColoring.lean").read_text(
         encoding="utf-8"
     )
+    elimination_order = (graph_root / "EliminationOrder.lean").read_text(
+        encoding="utf-8"
+    )
+    degeneracy_peeling = (graph_root / "DegeneracyPeeling.lean").read_text(
+        encoding="utf-8"
+    )
     mantel = (graph_root / "Mantel.lean").read_text(encoding="utf-8")
     graph_umbrella = (ROOT / "lean/StructuralExhaustion/Graph.lean").read_text(
         encoding="utf-8"
@@ -355,6 +361,19 @@ def test_mathlib_graph_profiles_are_framework_owned_and_reused() -> None:
         assert declaration in endpoint_parity
     for declaration in (
         "inductive BoundedOrder",
+        "def laterNeighbors",
+        "def verticesFinset",
+    ):
+        assert declaration in elimination_order
+    for declaration in (
+        "structure Certificate",
+        "structure Profile",
+        "theorem exists_certificate_of_internalMinDegreeFree",
+        "theorem edgeCount_le_two_mul_vertexCount_sub_three",
+        "structure VerifiedStage",
+    ):
+        assert declaration in degeneracy_peeling
+    for declaration in (
         "def stepProfile",
         "def colorOrder",
         "theorem colorable_of_bounded_order",
@@ -381,6 +400,8 @@ def test_mathlib_graph_profiles_are_framework_owned_and_reused() -> None:
         in graph_umbrella
     )
     assert "import StructuralExhaustion.Graph.EndpointParityCycle" in graph_umbrella
+    assert "import StructuralExhaustion.Graph.EliminationOrder" in graph_umbrella
+    assert "import StructuralExhaustion.Graph.DegeneracyPeeling" in graph_umbrella
     assert "import StructuralExhaustion.Graph.GreedyColoring" in graph_umbrella
     assert "import StructuralExhaustion.Graph.Mantel" in graph_umbrella
 

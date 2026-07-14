@@ -1043,29 +1043,36 @@ The following checks pass on 2026-07-14 for the sparse-envelope review:
 make lint
   OK: CT1–CT17 expose only automation-first canonical APIs
 
-make schemas generate
-  Framework build completed successfully (3293 jobs)
-  Even-cycle build completed successfully (3202 jobs)
-  Erdős build completed successfully (3224 jobs)
-  Greedy-coloring build completed successfully (1303 jobs)
-  Mantel build completed successfully (3080 jobs)
-  Rendered 4 compiled Lean examples
-  Rendered 124 node, 37 residual, 9 route, and 51 tactic-level schemas
-  Rendered 17 tactic projections and 9 generated routes
+make framework-build
+  Framework build completed successfully (3295 jobs)
 
-python3 tools/verify_lean.py
-  Kernel checked 17 automation-first tactics, 124 nodes, 108 typed edges,
-  37 residual kinds, 9 routes, and 4 compiled examples
+make erdos-example-build
+  Erdős build completed successfully (3227 jobs)
+
+make example-build
+  Even-cycle build completed successfully (3202 jobs)
+  Erdős build completed successfully (3227 jobs)
+  Greedy-coloring build completed successfully (1306 jobs)
+  Mantel build completed successfully (3080 jobs)
+
+make export
+  Rendered 4 compiled Lean examples
 
 python3 tools/validate_repository.py
   OK: 17 automation-first Lean tactics, 124 nodes, 108 typed edges,
   37 residual kinds, 9 generated routes, 0 manual node obligations
 
 make web-frontend-test
-  12 test files and 23 tests passed; typecheck and production build passed
+  13 test files and 27 tests passed; typecheck and production build passed
 
-latexmk -pdf -interaction=nonstopmode -halt-on-error erdos_64_proof.tex
-  passed in an isolated output directory
+uv run --offline --with-requirements requirements.txt python -m pytest -q \
+  tests/test_repository.py tests/test_example_catalog.py \
+  tests/test_web_api.py tests/test_skills.py
+  49 tests passed
+
+latexmk -pdf -interaction=nonstopmode -halt-on-error \
+  -outdir=build/erdos proofs/erdos_64_eg/erdos_64_proof.tex
+  247-page manuscript passed
 
 git diff --check
   passed

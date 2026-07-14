@@ -54,7 +54,7 @@
         }
       ],
       "detailFile": "erdos-64.json",
-      "detailHash": "050914c8a02e5b1b31a8a148ad51a22ea32523938d1e723668863448ae1c17c7"
+      "detailHash": "62c93b5a68ca40804c1e861b8d6d8c5895d4061c0e707d5498a85c4323329233"
     },
     {
       "exampleId": "even-cycle",
@@ -109,7 +109,7 @@
         }
       ],
       "detailFile": "even-cycle.json",
-      "detailHash": "9768f4bf41945e3f4084ba174ee11b2073922c54087ec15e5bc6610614313e62"
+      "detailHash": "faff68f11f0e3748f70f78d7465a8893b8d68b9c19bdcb8e1d4037d2270ddae9"
     },
     {
       "exampleId": "greedy-coloring",
@@ -131,7 +131,7 @@
         }
       ],
       "detailFile": "greedy-coloring.json",
-      "detailHash": "28c494da44c06417ce261bea7e9a3e2b814271f56a8284b1492ba60947db0c41"
+      "detailHash": "8f742fc8a39405e8cbaaca0e5763e2510f459f7d9ab3d01068c301ac17720539"
     },
     {
       "exampleId": "mantel",
