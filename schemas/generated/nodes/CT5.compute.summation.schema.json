@@ -18,6 +18,187 @@
         "ordinal": 3,
         "nodeKind": "computation",
         "nodeId": "CT5.compute.summation",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.contribution",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns the amount contributed by a supporting witness.",
+              "mathematicalDefinition": "c_x(s,w)\\in\\mathbb{N}",
+              "label": "Witness contribution",
+              "declarationId": "StructuralExhaustion.CT5.Spec.contribution"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.sites",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all local sites.",
+              "mathematicalDefinition": "\\operatorname{sites}=\\mathcal{S}",
+              "label": "Finite site enumeration",
+              "declarationId": "StructuralExhaustion.CT5.Capability.sites"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.witnesses",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of the witnesses for each site.",
+              "mathematicalDefinition": "\\operatorname{witnesses}(s)=\\mathcal{W}(s)",
+              "label": "Finite witness enumeration",
+              "declarationId": "StructuralExhaustion.CT5.Capability.witnesses"
+            },
+            {
+              "stepId": "author.4",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.Active",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition that site s is active in branch context x.",
+              "mathematicalDefinition": "\\operatorname{Active}(x,s)",
+              "label": "Activity predicate",
+              "declarationId": "StructuralExhaustion.CT5.Spec.Active"
+            },
+            {
+              "stepId": "author.5",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.Supports",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition that witness w supplies valid support at site s.",
+              "mathematicalDefinition": "\\operatorname{Supports}(x,s,w)",
+              "label": "Support predicate",
+              "declarationId": "StructuralExhaustion.CT5.Spec.Supports"
+            },
+            {
+              "stepId": "author.6",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.activeDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding whether a site is active.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Active}(x,s))",
+              "label": "Activity decision procedure",
+              "declarationId": "StructuralExhaustion.CT5.Capability.activeDecidable"
+            },
+            {
+              "stepId": "author.7",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.supportsDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding whether a witness supports a site.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Supports}(x,s,w))",
+              "label": "Support decision procedure",
+              "declarationId": "StructuralExhaustion.CT5.Capability.supportsDecidable"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT5.DeficitFreeState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Exhaustive deficit exclusion emitted by the search node. ",
+              "mathematicalDefinition": null,
+              "label": "CT5.DeficitFreeState",
+              "declarationId": "StructuralExhaustion.CT5.DeficitFreeState"
+            },
+            {
+              "stepId": "operation.1",
+              "role": "operation",
+              "reference": {
+                "ref": "ledgerTotal",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "Framework-owned operation executed inside this node: ledgerTotal.",
+              "mathematicalDefinition": null,
+              "label": "ledgerTotal",
+              "declarationId": "StructuralExhaustion.CT5.ledgerTotal"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT5.LocalLedgerState",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "Complete local ledger computed only after exhaustive deficit exclusion. ",
+              "mathematicalDefinition": null,
+              "label": "CT5.LocalLedgerState",
+              "declarationId": "StructuralExhaustion.CT5.LocalLedgerState"
+            }
+          ],
+          "nodeId": "CT5.compute.summation",
+          "edges": [
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.1",
+              "relation": "consumes",
+              "edgeId": "CT5.compute.summation.internal.author.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.2",
+              "relation": "consumes",
+              "edgeId": "CT5.compute.summation.internal.author.2-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.3",
+              "relation": "consumes",
+              "edgeId": "CT5.compute.summation.internal.author.3-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.4",
+              "relation": "consumes",
+              "edgeId": "CT5.compute.summation.internal.author.4-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.5",
+              "relation": "consumes",
+              "edgeId": "CT5.compute.summation.internal.author.5-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.6",
+              "relation": "consumes",
+              "edgeId": "CT5.compute.summation.internal.author.6-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.7",
+              "relation": "consumes",
+              "edgeId": "CT5.compute.summation.internal.author.7-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "consumes",
+              "edgeId": "CT5.compute.summation.internal.predecessor.1-to-operation.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "operation.1",
+              "relation": "produces",
+              "edgeId": "CT5.compute.summation.internal.operation.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

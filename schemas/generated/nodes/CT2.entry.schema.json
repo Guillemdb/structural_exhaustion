@@ -18,6 +18,43 @@
         "ordinal": 1,
         "nodeKind": "entry",
         "nodeId": "CT2.entry",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "input.seed",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: input.seed.",
+              "mathematicalDefinition": null,
+              "label": "input.seed",
+              "declarationId": null
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.Input",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "CT2 is invoked only after generic piece discovery has constructed a seed. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.Input",
+              "declarationId": "StructuralExhaustion.CT2.Input"
+            }
+          ],
+          "nodeId": "CT2.entry",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT2.entry.internal.predecessor.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

@@ -1,5 +1,10 @@
 export type VerificationState = "verified" | "stale" | "failed";
 
+export interface ArtifactWarning {
+  code: "staleHash";
+  message: string;
+}
+
 export interface VerificationDisplay {
   state: VerificationState;
   message: string;
@@ -28,6 +33,7 @@ export interface FrameworkTotals {
   terminals: number;
   residualKinds: number;
   routes: number;
+  implementedTransitions: number;
   manualObligations: number;
 }
 
@@ -87,6 +93,37 @@ export interface AutomationContract {
   manualObligations: string[];
 }
 
+export type InternalStepRole =
+  | "authorObject"
+  | "inferredInstance"
+  | "predecessorState"
+  | "operation"
+  | "theorem"
+  | "output";
+
+export interface InternalStep {
+  stepId: string;
+  role: InternalStepRole;
+  reference: ProvisionedRef;
+  plainExplanation: string;
+  mathematicalDefinition: string | null;
+  label: string;
+  declarationId: string | null;
+}
+
+export interface InternalEdge {
+  edgeId: string;
+  sourceStepId: string;
+  targetStepId: string;
+  relation: "consumes" | "then" | "produces" | "certifies";
+}
+
+export interface InternalFlow {
+  nodeId: string;
+  steps: InternalStep[];
+  edges: InternalEdge[];
+}
+
 export interface NodeRecord {
   ordinal: number;
   nodeId: string;
@@ -104,6 +141,7 @@ export interface NodeRecord {
     outgoingEdges: FormalEdge[];
   };
   automation: AutomationContract;
+  internalFlow: InternalFlow;
 }
 
 export interface TransitionRecord extends FormalEdge {
@@ -180,13 +218,43 @@ export interface RouteRecord {
   };
 }
 
+export interface ImplementedTransitionRecord {
+  transitionId: string;
+  sourceTacticId: string;
+  targetTacticId: string;
+  relationshipKind: ExampleLinkKind;
+  automationClass: "registeredRoute" | "frameworkExecutor" | "frameworkAudit";
+  frameworkAutomated: true;
+  automationDeclarationIds: string[];
+  label: string;
+  summary: string;
+  exampleId: string;
+  exampleTitle: string;
+  workflowId: string;
+  workflowTitle: string;
+  workflowCompletion: ExampleProofStatus;
+  linkId: string;
+  sourceStageId: string;
+  sourceStageTitle: string;
+  sourceDeclarationId: string;
+  targetStageId: string;
+  targetStageTitle: string;
+  targetDeclarationId: string;
+  routeId?: string | null;
+  evidenceDeclarationIds: string[];
+}
+
 export interface FrameworkResponse {
   artifactType: "frameworkExplorer";
+  artifactWarnings: ArtifactWarning[];
   catalog: CatalogView;
   verification: VerificationView;
+  exampleCatalog: CatalogView;
+  exampleVerification: ExampleVerificationView;
   totals: FrameworkTotals;
   tactics: TacticSummary[];
   routes: RouteRecord[];
+  implementedTransitions: ImplementedTransitionRecord[];
 }
 
 export interface GraphElementData {
@@ -204,6 +272,7 @@ export interface GraphElement {
 
 export interface TacticResponse {
   artifactType: "frameworkExplorerTactic";
+  artifactWarnings: ArtifactWarning[];
   catalogHash: string;
   verification: VerificationView;
   tactic: TacticRecord;
@@ -213,6 +282,59 @@ export interface TacticResponse {
   };
   inboundRoutes: RouteRecord[];
   outboundRoutes: RouteRecord[];
+}
+
+export interface SourcePosition {
+  line: number;
+  column: number;
+}
+
+export interface SourceRange {
+  start: SourcePosition;
+  end: SourcePosition;
+}
+
+export interface InternalDeclaration {
+  declarationId: string;
+  name: string;
+  kind: string;
+  type: string;
+  docString: string | null;
+  module: string | null;
+  sourceFile: string | null;
+  range: SourceRange | null;
+  selectionRange: SourceRange | null;
+  bodyAvailable: boolean;
+  typeDependencies: string[];
+  bodyDependencies: string[];
+  projectLocal: boolean;
+  sourceId: string | null;
+}
+
+export interface InternalSource {
+  sourceId: string;
+  moduleName: string | null;
+  path: string;
+  sha256: string;
+  content: string;
+}
+
+export interface TacticInternals {
+  artifactType: "structuralExhaustionNodeInternals";
+  schemaVersion: "1.0.0";
+  tacticId: string;
+  apiVersion: string;
+  nodes: Array<{ nodeId: string; internalFlow: InternalFlow }>;
+  declarations: InternalDeclaration[];
+  sources: InternalSource[];
+}
+
+export interface TacticInternalsResponse {
+  artifactType: "frameworkExplorerTacticInternals";
+  artifactWarnings: ArtifactWarning[];
+  catalogHash: string;
+  verification: VerificationView;
+  internals: TacticInternals;
 }
 
 export interface SelectedGraphElement {
@@ -264,6 +386,7 @@ export interface ExampleVerificationView extends VerificationDisplay {
 
 export interface ExamplesResponse {
   artifactType: "frameworkExplorerExamples";
+  artifactWarnings: ArtifactWarning[];
   catalog: CatalogView;
   verification: ExampleVerificationView;
   examples: ExampleSummary[];
@@ -287,6 +410,7 @@ export interface ExampleLink {
   label: string;
   summary: string;
   routeId?: string | null;
+  automationDeclarationIds: string[];
   evidenceDeclarationIds: string[];
 }
 
@@ -337,6 +461,54 @@ export interface ExampleManuscriptReference {
   nodeIds: number[];
 }
 
+export type ExampleManuscriptInline =
+  | { kind: "text" | "code"; text: string }
+  | { kind: "space" | "softBreak" | "lineBreak" }
+  | { kind: "math"; display: boolean; tex: string }
+  | {
+      kind: "emphasis" | "strong" | "underline" | "strikeout" | "smallCaps" | "upright";
+      children: ExampleManuscriptInline[];
+    }
+  | {
+      kind: "reference";
+      labels: string[];
+      referenceKind: string;
+      prefix: string;
+      text: string;
+    }
+  | { kind: "citation"; keys: string[]; text: string };
+
+export type ExampleManuscriptBlock =
+  | { kind: "paragraph"; inlines: ExampleManuscriptInline[] }
+  | { kind: "heading"; level: number; label: string | null; inlines: ExampleManuscriptInline[] }
+  | {
+      kind: "environment";
+      environment: string;
+      label: string | null;
+      title: ExampleManuscriptInline[] | null;
+      blocks: ExampleManuscriptBlock[];
+    }
+  | { kind: "orderedList"; start: number; items: ExampleManuscriptBlock[][] }
+  | { kind: "bulletList"; items: ExampleManuscriptBlock[][] }
+  | { kind: "blockQuote"; blocks: ExampleManuscriptBlock[] }
+  | { kind: "codeBlock"; text: string }
+  | {
+      kind: "figure";
+      label: string;
+      svg: string;
+      svgSha256: string;
+      caption: ExampleManuscriptBlock[];
+    };
+
+export interface ExampleManuscriptFragment {
+  label: string;
+  environment: string;
+  sourceLine: number;
+  includesProof: boolean;
+  contentSha256: string;
+  blocks: ExampleManuscriptBlock[];
+}
+
 export interface ExampleDeclarationGroup {
   groupId: string;
   title: string;
@@ -362,12 +534,19 @@ export interface ExampleProofStep {
 export interface ExampleManuscript {
   title: string;
   path: string;
+  sha256: string;
+  fragments: ExampleManuscriptFragment[];
   proofSteps: ExampleProofStep[];
   coverage: {
     implementedSteps: number;
     totalSteps: number;
     explainedDeclarations: number;
     displayedDeclarations: number;
+    verifiedMathematicalObjects: number;
+    totalMathematicalObjects: number;
+    verifiedDiagramNodes: number;
+    totalDiagramNodes: number;
+    verifiedWorkflowSteps: number;
   };
 }
 
@@ -397,7 +576,7 @@ export interface ExampleSource {
 
 export interface ExampleDetail {
   artifactType: "structuralExhaustionExample";
-  schemaVersion: "1.1.0";
+  schemaVersion: "1.4.0";
   sourceOfTruth: {
     kind: "compiledLeanEnvironment";
     rootModule: string;
@@ -417,6 +596,7 @@ export interface ExampleDetail {
 
 export interface ExampleResponse {
   artifactType: "frameworkExplorerExample";
+  artifactWarnings: ArtifactWarning[];
   catalogHash: string;
   frameworkCatalogHash: string;
   verification: ExampleVerificationView;

@@ -18,6 +18,79 @@
         "ordinal": 2,
         "nodeKind": "computation",
         "nodeId": "CT3.compute.exact-vector",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.response",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Computes the exact Boolean behavior of a piece in an outside context.",
+              "mathematicalDefinition": "R:\\mathcal{P}\\times\\mathcal{K}\\to\\{0,1\\}",
+              "label": "Exact response",
+              "declarationId": "StructuralExhaustion.CT3.Spec.response"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.piece",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.piece.",
+              "mathematicalDefinition": null,
+              "label": "Input.piece",
+              "declarationId": "StructuralExhaustion.CT3.Input.piece"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "ExactVectorState.exact",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: ExactVectorState.exact.",
+              "mathematicalDefinition": null,
+              "label": "ExactVectorState.exact",
+              "declarationId": "StructuralExhaustion.CT3.ExactVectorState.exact"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT3.ExactVectorState",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "Framework-produced exact-vector state.  The equality makes it impossible\nfor an execution to substitute an unverified compact or coarse type. ",
+              "mathematicalDefinition": null,
+              "label": "CT3.ExactVectorState",
+              "declarationId": "StructuralExhaustion.CT3.ExactVectorState"
+            }
+          ],
+          "nodeId": "CT3.compute.exact-vector",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT3.compute.exact-vector.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT3.compute.exact-vector.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT3.compute.exact-vector.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

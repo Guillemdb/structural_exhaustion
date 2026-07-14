@@ -18,6 +18,151 @@
         "ordinal": 3,
         "nodeKind": "decision",
         "nodeId": "CT8.compare.responses",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.responseContexts",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all external response tests.",
+              "mathematicalDefinition": "\\operatorname{responseContexts}=\\mathcal{K}",
+              "label": "Finite response contexts",
+              "declarationId": "StructuralExhaustion.CT8.Capability.responseContexts"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.response",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Computes a state's exact Boolean response in an external context.",
+              "mathematicalDefinition": "R:\\mathcal{S}\\times\\mathcal{K}\\to\\{0,1\\}",
+              "label": "State response",
+              "declarationId": "StructuralExhaustion.CT8.Capability.response"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Input.remove",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Constructs a certified smaller ambient object from a chosen pair of repeated states.",
+              "mathematicalDefinition": "\\operatorname{remove}(s_1,s_2)\\prec G",
+              "label": "Repeated-state removal",
+              "declarationId": "StructuralExhaustion.CT8.Input.remove"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT8.OrderedRepeatedPair",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Two occurrences in strict left-to-right sequence order with equal exact\ntypes.  The constructors encode positions, so equal values at distinct\noccurrences remain detectable. ",
+              "mathematicalDefinition": null,
+              "label": "CT8.OrderedRepeatedPair",
+              "declarationId": "StructuralExhaustion.CT8.OrderedRepeatedPair"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "Core.FiniteSearch.search",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exhaustive search over an explicit Mathlib finite enumeration. ",
+              "mathematicalDefinition": null,
+              "label": "Core.FiniteSearch.search",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.search"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT8.ResponseDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT8.ResponseDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT8.ResponseDecision",
+              "declarationId": "StructuralExhaustion.CT8.ResponseDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT8.RemovalResidual",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT8.RemovalResidual.",
+              "mathematicalDefinition": null,
+              "label": "CT8.RemovalResidual",
+              "declarationId": "StructuralExhaustion.CT8.RemovalResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT8.SeparationResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT8.SeparationResidual.",
+              "mathematicalDefinition": null,
+              "label": "CT8.SeparationResidual",
+              "declarationId": "StructuralExhaustion.CT8.SeparationResidual"
+            }
+          ],
+          "nodeId": "CT8.compare.responses",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT8.compare.responses.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT8.compare.responses.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT8.compare.responses.internal.author.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT8.compare.responses.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT8.compare.responses.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT8.compare.responses.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT8.compare.responses.internal.theorem.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

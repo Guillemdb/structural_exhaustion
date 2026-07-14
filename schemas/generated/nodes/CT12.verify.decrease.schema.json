@@ -18,6 +18,133 @@
         "ordinal": 5,
         "nodeKind": "certification",
         "nodeId": "CT12.verify.decrease",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Capability.Peeled state",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Capability.Peeled state.",
+              "mathematicalDefinition": null,
+              "label": "Capability.Peeled state",
+              "declarationId": null
+            },
+            {
+              "stepId": "predecessor.2",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT12.Restoration.continue.next",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: CT12.Restoration.continue.next.",
+              "mathematicalDefinition": null,
+              "label": "CT12.Restoration.continue.next",
+              "declarationId": null
+            },
+            {
+              "stepId": "predecessor.3",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT12.Restoration.continue.state",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: CT12.Restoration.continue.state.",
+              "mathematicalDefinition": null,
+              "label": "CT12.Restoration.continue.state",
+              "declarationId": null
+            },
+            {
+              "stepId": "predecessor.4",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT12.Restoration.continue.decreases",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: CT12.Restoration.continue.decreases.",
+              "mathematicalDefinition": null,
+              "label": "CT12.Restoration.continue.decreases",
+              "declarationId": null
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT12.Graph.Edge.loopBack",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT12.Graph.Edge.loopBack.",
+              "mathematicalDefinition": null,
+              "label": "CT12.Graph.Edge.loopBack",
+              "declarationId": "StructuralExhaustion.CT12.Graph.Edge.loopBack"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT12.Graph.Edge.loopBack_decreases",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Every back edge exposes the strict decrease that licensed recursion. ",
+              "mathematicalDefinition": null,
+              "label": "CT12.Graph.Edge.loopBack_decreases",
+              "declarationId": "StructuralExhaustion.CT12.Graph.Edge.loopBack_decreases"
+            }
+          ],
+          "nodeId": "CT12.verify.decrease",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT12.verify.decrease.internal.predecessor.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT12.verify.decrease.internal.predecessor.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.2",
+              "relation": "produces",
+              "edgeId": "CT12.verify.decrease.internal.predecessor.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "predecessor.2",
+              "relation": "produces",
+              "edgeId": "CT12.verify.decrease.internal.predecessor.2-to-output.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.3",
+              "relation": "produces",
+              "edgeId": "CT12.verify.decrease.internal.predecessor.3-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "predecessor.3",
+              "relation": "produces",
+              "edgeId": "CT12.verify.decrease.internal.predecessor.3-to-output.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.4",
+              "relation": "produces",
+              "edgeId": "CT12.verify.decrease.internal.predecessor.4-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "predecessor.4",
+              "relation": "produces",
+              "edgeId": "CT12.verify.decrease.internal.predecessor.4-to-output.2"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [
@@ -101,7 +228,7 @@
     "kind": "compiledLeanEnvironment",
     "catalog": "generated/lean-machines.json",
     "tacticId": "CT12",
-    "apiVersion": "CT12-v5",
+    "apiVersion": "CT12-v6",
     "namespace": "StructuralExhaustion.CT12"
   },
   "x-automationContract": {

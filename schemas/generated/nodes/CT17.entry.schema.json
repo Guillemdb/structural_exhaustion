@@ -18,6 +18,43 @@
         "ordinal": 1,
         "nodeKind": "entry",
         "nodeId": "CT17.entry",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Route-facing invocation.  The inherited branch context is an index, so a\nroute supplies only the scale at which CT17 must run. ",
+              "mathematicalDefinition": null,
+              "label": "Input",
+              "declarationId": "StructuralExhaustion.CT17.Input"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT17.Graph.Edge.begin",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT17.Graph.Edge.begin.",
+              "mathematicalDefinition": null,
+              "label": "CT17.Graph.Edge.begin",
+              "declarationId": "StructuralExhaustion.CT17.Graph.Edge.begin"
+            }
+          ],
+          "nodeId": "CT17.entry",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT17.entry.internal.predecessor.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

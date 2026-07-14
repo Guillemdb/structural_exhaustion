@@ -1,4 +1,11 @@
-import Erdos64EG.CT10P13LabelAlgebra
+import Erdos64EG.CT14PositiveDeficitCandidate
+import Erdos64EG.CT14CertificateClosedCandidate
+import Erdos64EG.CT12TypeBDemandSystem
+import Erdos64EG.CT12TypeBCompletion
+import Erdos64EG.CT12TypeBOverlapSupport
+import Erdos64EG.CT12TypeBResolution
+import Erdos64EG.CT14TypeBChoiceLedger
+import Erdos64EG.CT14TypeBPostLedger
 
 namespace Erdos64EG.Tests
 
@@ -309,5 +316,257 @@ example : p13LabelClassification.Accepts
     (p13LabelEquiv.symm
       (packedStaticInput.inducedPathAttachmentLabel 13 ctx path outside)) :=
   p13AttachmentLabel_accepted ctx labelPrefix path outside outsidePath attached
+
+/-! The next exact stage consumes CT6's actual active-ledger residual through
+the registered CT6-to-CT9 route and partitions only the surplus-slot list. -/
+
+variable (surplusPrefix : VerifiedSparseSurplusPrefix ctx)
+
+example : (surplusPairInput ctx).context = sparseSurplusContext ctx :=
+  surplusPairRoute_context_preserved ctx
+
+example : (runSurplusPairCT9 ctx).outcome.Valid :=
+  runSurplusPairCT9_verified ctx
+
+example : CT9.Graph.ValidTrace (surplusPairCapability ctx)
+    (surplusPairInput ctx) (runSurplusPairCT9 ctx).trace :=
+  runSurplusPairCT9_traceValid ctx
+
+example : ∃ result : CT9.ExecutionResult (surplusPairCapability ctx)
+      (surplusPairInput ctx),
+    result.outcome.Valid ∧ CT9.Graph.ValidTrace
+      (surplusPairCapability ctx) (surplusPairInput ctx) result.trace :=
+  runSurplusPairCT9_total ctx
+
+variable (twoLeSigma : 2 ≤
+  (ctx.G.object.input.vertices.orderedValues.map
+    (fun center => ctx.G.object.degree center - 3)).sum)
+
+example : (runSurplusPairCT9OfTwoLeSigma ctx twoLeSigma).execution.terminal =
+    .overloaded :=
+  (runSurplusPairCT9OfTwoLeSigma ctx twoLeSigma).terminal_eq
+
+example : (surplusPairOfTwoLeSigma ctx twoLeSigma).first ≠
+    (surplusPairOfTwoLeSigma ctx twoLeSigma).second :=
+  surplusPairOfTwoLeSigma_distinct ctx twoLeSigma
+
+/-! Subsequent finite stages remain on the same selected graph. -/
+
+example : (runFourCycleAvoidingCT1 ctx).result.terminal = .avoiding :=
+  runFourCycleAvoidingCT1_terminal ctx
+
+example :
+    (runSurplusPortClassificationCT10 ctx).outcome.Valid :=
+  (surplusPortClassificationStage ctx).verified
+
+example : (runOpenPortPairCT9 ctx).outcome.Valid :=
+  (openPortPairStage ctx).verified
+
+example :
+    (∀ center, CT9.fibreCount (openPortPairCapability ctx)
+      (openPortPairInput ctx) center ≤ 1) ∨
+      (∃ source : Graph.OpenPortResponse.SourceResidual
+          (fixedPackedInput ctx) ctx.G.object
+          (packedStaticInput.fixedContext ctx).baseline
+          ((fixedPackedInput ctx).dart_has_tight_endpoint
+            (packedStaticInput.fixedContext ctx)),
+        Graph.OpenPortResponse.RoutedStage
+          (fixedPackedInput ctx) ctx.G.object
+          (packedStaticInput.fixedContext ctx).baseline
+          ((fixedPackedInput ctx).dart_has_tight_endpoint
+            (packedStaticInput.fixedContext ctx)) source) :=
+  openPortResponse_stateSpace ctx
+
+example :
+    (Graph.PortShoulderLedger.run
+      (fixedPackedInput ctx) ctx.G.object
+      (packedStaticInput.fixedContext ctx).baseline
+      ((fixedPackedInput ctx).dart_has_tight_endpoint
+        (packedStaticInput.fixedContext ctx))).terminal = .charge :=
+  runPortShoulderLedgerCT5_terminal ctx
+
+example : OpenPortCompatibilityState ctx :=
+  openPortCompatibility_stateSpace ctx
+
+example (center : ctx.G.Vertex)
+    (centerHigh : 4 ≤ ctx.G.object.degree center) :
+    HighCenterPortStage ctx center centerHigh :=
+  highCenterPort_stage ctx center centerHigh
+
+example (center : ctx.G.Vertex)
+    (centerHigh : 4 ≤ ctx.G.object.degree center) :
+    TriangularShoulderStage ctx center centerHigh :=
+  triangularShoulder_stage ctx center centerHigh
+
+example (dart : ctx.G.object.graph.Dart) :
+    ¬ctx.G.object.graph.IsBridge dart.edge :=
+  dart_not_bridge ctx dart
+
+example (dart : ctx.G.object.graph.Dart)
+    (bridge : ctx.G.object.graph.IsBridge dart.edge) :
+    (packedStaticInput.bridgeCT2Run (by decide) ctx dart bridge).terminal =
+      .deletionC2 :=
+  (bridgeReductionStage ctx).terminal dart bridge
+
+example (dart : ctx.G.object.graph.Dart)
+    (bridge : ctx.G.object.graph.IsBridge dart.edge) :
+    (packedStaticInput.bridgeCT2Run (by decide) ctx dart bridge).checks = 1 :=
+  (bridgeReductionStage ctx).checks dart bridge
+
+variable (center : ctx.G.Vertex)
+  (centerHigh : 4 ≤ ctx.G.object.degree center)
+  (triangularPort : Graph.TriangularPortReturn.TriPort
+    (triangularShoulderSetup ctx center centerHigh))
+
+example : (Graph.TriangularPortReturn.certificate
+    (triangularShoulderSetup ctx center centerHigh) triangularPort
+    (triangularPortRoot ctx center centerHigh triangularPort)).path.IsPath :=
+  (triangularPortReturnStage ctx center centerHigh triangularPort).pathIsSimple
+
+example : (Graph.TriangularPortReturn.run
+    (triangularShoulderSetup ctx center centerHigh) triangularPort
+    (triangularPortRoot ctx center centerHigh triangularPort)).result.terminal = .c1 :=
+  (triangularPortReturnStage ctx center centerHigh triangularPort).terminal
+
+example : (Graph.TriangularPortReturn.run
+    (triangularShoulderSetup ctx center centerHigh) triangularPort
+    (triangularPortRoot ctx center centerHigh triangularPort)).checks = 1 :=
+  (triangularPortReturnStage ctx center centerHigh triangularPort).checks
+
+example (exponent : Nat) (lower : 2 ≤ exponent) :
+    (Graph.TriangularPortReturn.certificate
+      (triangularShoulderSetup ctx center centerHigh) triangularPort
+      (triangularPortRoot ctx center centerHigh triangularPort)).path.length ≠
+        2 ^ exponent - 2 :=
+  triangularPortReturn_length_ne ctx center centerHigh triangularPort exponent lower
+
+example : CT10.Graph.ValidTrace
+    (Graph.TriangularFirstLanding.capability
+      (triangularShoulderSetup ctx center centerHigh))
+    (Graph.TriangularFirstLanding.input
+      (triangularShoulderSetup ctx center centerHigh))
+    (Graph.TriangularFirstLanding.run
+      (triangularShoulderSetup ctx center centerHigh)).trace :=
+  (triangularFirstLandingStage ctx center centerHigh).traceValid
+
+example : Graph.TriangularFirstLanding.ClassifiedReturnAlternative
+    (Graph.TriangularPortReturn.certificate
+      (triangularShoulderSetup ctx center centerHigh) triangularPort
+      (triangularPortRoot ctx center centerHigh triangularPort)) :=
+  triangularPortReturn_classified ctx center centerHigh triangularPort
+
+variable (secondTriangularPort : Graph.TriangularCrossShoulder.TriPort
+    (triangularShoulderSetup ctx center centerHigh))
+  (triangularPortsNe : triangularPort ≠ secondTriangularPort)
+
+example : Graph.TriangularCrossShoulder.HighShoulder triangularPort
+      secondTriangularPort ∨
+    CT9.fibreCount
+      (Graph.TriangularCrossShoulder.capability triangularPort
+        secondTriangularPort)
+      (Graph.TriangularCrossShoulder.input triangularPort
+        secondTriangularPort) () ≤ 1 :=
+  triangularCrossShoulder_stateSpace ctx center centerHigh triangularPort
+    secondTriangularPort triangularPortsNe
+
+example : Graph.TriangularCrossShoulder.checks triangularPort
+    secondTriangularPort ≤ 5 :=
+  (triangularCrossShoulderStage ctx center centerHigh triangularPort
+    secondTriangularPort triangularPortsNe).polynomial
+
+noncomputable example
+    (Assigned : Graph.FanClosedPort.LocalCarrier ctx.G.Vertex → Prop)
+    (assignedDecidable : ∀ carrier, Decidable (Assigned carrier)) :
+    Graph.FanClosedPort.FanWindowProfile ctx.G.Vertex :=
+  p13FanWindowProfile ctx Assigned assignedDecidable
+
+example : Graph.FanClosedPort.checks = 10 :=
+  Graph.FanClosedPort.checks_eq_ten
+
+example {degree closedCount : Nat} (degreeHigh : 4 ≤ degree)
+    (twoLe : 2 ≤ closedCount) :
+    0 < Graph.FanClosedPortMass.deficitNumerator degree closedCount :=
+  Graph.FanClosedPortMass.deficitNumerator_positive degreeHigh twoLe
+
+example {degree closedCount : Nat} (degreeLeEight : degree ≤ 8) :
+    (3 : Int) ≤ (4 * (closedCount : Int)) -
+      Graph.FanClosedPortMass.deficitNumerator degree closedCount := by
+  unfold Graph.FanClosedPortMass.deficitNumerator
+  omega
+
+noncomputable example (support : TypeBAssignedSupport ctx)
+    (choice : support.completionProfile.FullChoice) :
+    Set.PairwiseDisjoint (↑support.fullDemandSet)
+      (support.fullActualCoreSupport choice) :=
+  support.fullActualCoreSupport_pairwiseDisjoint choice
+
+noncomputable example (support : TypeBAssignedSupport ctx)
+    (choice : support.completionProfile.FullChoice) :
+    0 ≤ support.assignedChargeProfile.centerQuarterCharge +
+      ∑ vertex ∈ support.usedCore choice,
+        support.assignedChargeProfile.coreQuarterChargeAt vertex :=
+  support.processedFanCharge_nonnegative choice
+
+noncomputable example (support : TypeBAssignedSupport ctx)
+    (choice : support.completionProfile.FullChoice) :
+    0 ≤ support.assignedChargeProfile.netQuarterCharge ∨
+      support.remainingQuarterCharge choice < 0 :=
+  support.netQuarterCharge_nonnegative_or_remaining_negative choice
+
+noncomputable example (support : TypeBAssignedSupport ctx)
+    (choice : support.completionProfile.FullChoice) :
+    support.remainingInducedQuarterCharge choice =
+      support.remainingQuarterCharge choice +
+        support.remainingBoundaryCredit choice :=
+  support.remainingInducedQuarterCharge_eq_raw_add_boundary choice
+
+noncomputable example (support : TypeBAssignedSupport ctx)
+    (choice : support.completionProfile.FullChoice)
+    (unsaturated : support.RemainingUnsaturated choice)
+    (transfer : support.BoundaryTransfer choice) :
+    0 ≤ support.assignedChargeProfile.netQuarterCharge :=
+  support.netQuarterCharge_nonnegative_of_unsaturated_boundaryTransfer
+    choice unsaturated transfer
+
+noncomputable example (support : TypeBAssignedSupport ctx)
+    (choice : support.completionProfile.FullChoice)
+    (overload : support.BoundaryOverload choice) :
+    Nonempty (support.BoundaryLanding choice) :=
+  support.boundaryOverload_has_landing choice overload
+
+noncomputable example (support : TypeBAssignedSupport ctx)
+    (choice : support.completionProfile.FullChoice) :
+    (support.processedCore choice).card ≤ 25 * support.centers.card :=
+  support.processedCore_card_le_twentyFive_mul_centers choice
+
+noncomputable example (support : TypeBAssignedSupport ctx)
+    (choice : support.completionProfile.FullChoice)
+    (unsaturated : support.RemainingUnsaturated choice) :
+    -support.assignedChargeProfile.netQuarterCharge ≤
+      800 * (support.assignedChargeProfile.assignedSurplus : Int) :=
+  support.neg_netQuarterCharge_le_eightHundred_mul_assignedSurplus_of_unsaturated
+    choice unsaturated
+
+noncomputable example (scope : TypeBSupportScope ctx) :
+    -scope.highCenterChargeProfile.netQuarterCharge ≤
+      21 * (scope.highCenterChargeProfile.assignedSurplus : Int) +
+        (scope.centerDeletedReceiverOverload : Int) :=
+  scope.neg_netQuarterCharge_le_twentyOne_mul_surplus_add_receiverOverload
+
+noncomputable example (scope : TypeBSupportScope ctx) :
+    scope.UnresolvedCenter ∨
+      ∃ resolution : scope.FullResolution,
+        let support := scope.assignedSupport resolution
+        Nonempty support.MinimalOverlap ∨
+          ∃ choice : support.completionProfile.FullChoice,
+            0 ≤ support.assignedChargeProfile.netQuarterCharge ∨
+              Nonempty (support.RemainingSaturated choice) ∨
+                (support.assignedChargeProfile.netQuarterCharge < 0 ∧
+                  support.BoundaryOverload choice ∧
+                  Nonempty (support.BoundaryLanding choice) ∧
+                  -support.assignedChargeProfile.netQuarterCharge ≤
+                    800 *
+                      (support.assignedChargeProfile.assignedSurplus : Int)) :=
+  scope.unresolved_or_overlap_or_net_nonnegative_or_saturated_or_bounded_boundaryOverload
 
 end Erdos64EG.Tests

@@ -543,64 +543,92 @@
     {
       "data": {
         "id": "CT10.edge.begin",
+        "label": "begin",
+        "kind": "ctTransition",
+        "ordinal": 1,
         "source": "CT10.entry",
         "target": "CT10.compute.classTable",
         "constructor": "StructuralExhaustion.CT10.Graph.Edge.begin",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.entry CT10.Graph.NodeId.table"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.entry CT10.Graph.NodeId.table",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT10.edge.tableBuilt",
+        "label": "tableBuilt",
+        "kind": "ctTransition",
+        "ordinal": 2,
         "source": "CT10.compute.classTable",
         "target": "CT10.search.direct",
         "constructor": "StructuralExhaustion.CT10.Graph.Edge.tableBuilt",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.table CT10.Graph.NodeId.direct"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} → CT10.Graph.Edge capability input CT10.Graph.NodeId.table CT10.Graph.NodeId.direct",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT10.edge.directFound",
+        "label": "directFound",
+        "kind": "ctTransition",
+        "ordinal": 3,
         "source": "CT10.search.direct",
         "target": "CT10.terminal.residual.direct",
         "constructor": "StructuralExhaustion.CT10.Graph.Edge.directFound",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectResidual capability →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.directTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectResidual capability →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.directTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT10.edge.directAbsent",
+        "label": "directAbsent",
+        "kind": "ctTransition",
+        "ordinal": 4,
         "source": "CT10.search.direct",
         "target": "CT10.search.firstMissing",
         "constructor": "StructuralExhaustion.CT10.Graph.Edge.directAbsent",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectAbsent capability → CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.missing"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.DirectAbsent capability → CT10.Graph.Edge capability input CT10.Graph.NodeId.direct CT10.Graph.NodeId.missing",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT10.edge.missingFound",
+        "label": "missingFound",
+        "kind": "ctTransition",
+        "ordinal": 5,
         "source": "CT10.search.firstMissing",
         "target": "CT10.compute.promotion",
         "constructor": "StructuralExhaustion.CT10.Graph.Edge.missingFound",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.PromotedResidual capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.missing CT10.Graph.NodeId.promotion"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.PromotedResidual capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.missing CT10.Graph.NodeId.promotion",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT10.edge.promoted",
+        "label": "promoted",
+        "kind": "ctTransition",
+        "ordinal": 6,
         "source": "CT10.compute.promotion",
         "target": "CT10.terminal.residual.promoted",
         "constructor": "StructuralExhaustion.CT10.Graph.Edge.promoted",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.PromotedResidual capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.promotion CT10.Graph.NodeId.promotedTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.PromotedResidual capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.promotion CT10.Graph.NodeId.promotedTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT10.edge.exhaustive",
+        "label": "exhaustive",
+        "kind": "ctTransition",
+        "ordinal": 7,
         "source": "CT10.search.firstMissing",
         "target": "CT10.terminal.certificate.exhaustive",
         "constructor": "StructuralExhaustion.CT10.Graph.Edge.exhaustive",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.ExhaustiveCertificate capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.missing CT10.Graph.NodeId.exhaustiveTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT10.Capability P} →\n    {input : CT10.Input capability} →\n      CT10.ExhaustiveCertificate capability input →\n        CT10.Graph.Edge capability input CT10.Graph.NodeId.missing CT10.Graph.NodeId.exhaustiveTerminal",
+        "provision": "generated_audit"
       }
     }
   ]

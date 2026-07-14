@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/residuals/CT1.terminal.c1.schema.json",
+  "title": "CT1.terminal.c1 semantic residual",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/residualKind"
+    },
+    {
+      "const": {
+        "semanticFields": [
+          {
+            "provision": "derived_by_generic_theorem",
+            "leanType": "∃ index witness, Realizes G index witness",
+            "fieldName": "target"
+          }
+        ],
+        "residualKindId": "CT1.terminal.c1",
+        "leanType": "StructuralExhaustion.CT1.Target",
+        "inheritedContext": "branch"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "tacticId": "CT1",
+    "apiVersion": "CT1-v6",
+    "namespace": "StructuralExhaustion.CT1"
+  }
+}

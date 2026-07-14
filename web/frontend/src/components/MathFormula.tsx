@@ -22,25 +22,32 @@ function removeOuterDelimiters(value: string): string {
   return source;
 }
 
-export function MathFormula({ value, label }: { value: string; label: string }) {
+export function MathFormula({
+  value,
+  label,
+  display = true,
+}: {
+  value: string;
+  label: string;
+  display?: boolean;
+}) {
   const html = useMemo(
     () => katex.renderToString(removeOuterDelimiters(value), {
-      displayMode: true,
+      displayMode: display,
       output: "htmlAndMathml",
       strict: "warn",
       throwOnError: false,
       trust: false,
     }),
-    [value],
+    [display, value],
   );
 
-  return (
-    <div
-      className="math-formula"
-      aria-label={label}
-      // KaTeX generates this markup with trust disabled, so user-provided TeX cannot
-      // enable HTML commands or unsafe URLs.
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
-  );
+  const properties = {
+    className: display ? "math-formula" : "math-formula math-formula--inline",
+    "aria-label": label,
+    // KaTeX generates this markup with trust disabled, so user-provided TeX cannot
+    // enable HTML commands or unsafe URLs.
+    dangerouslySetInnerHTML: { __html: html },
+  };
+  return display ? <div {...properties} /> : <span {...properties} />;
 }

@@ -18,6 +18,79 @@
         "ordinal": 2,
         "nodeKind": "computation",
         "nodeId": "CT14.compute.lower-mass",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.Capability.members",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all aggregate members.",
+              "mathematicalDefinition": "\\operatorname{members}=\\mathcal{M}",
+              "label": "Finite member enumeration",
+              "declarationId": "StructuralExhaustion.CT14.Capability.members"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.Capability.memberLowerMass",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns the certified lower mass contributed by each member.",
+              "mathematicalDefinition": "m_x^-:\\mathcal{M}\\to\\mathbb{N}",
+              "label": "Member lower mass",
+              "declarationId": "StructuralExhaustion.CT14.Capability.memberLowerMass"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "context",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: context.",
+              "mathematicalDefinition": null,
+              "label": "context",
+              "declarationId": null
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.LowerMassState",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT14.LowerMassState.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.LowerMassState",
+              "declarationId": "StructuralExhaustion.CT14.LowerMassState"
+            }
+          ],
+          "nodeId": "CT14.compute.lower-mass",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "author.1",
+              "relation": "produces",
+              "edgeId": "CT14.compute.lower-mass.internal.author.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "author.2",
+              "relation": "produces",
+              "edgeId": "CT14.compute.lower-mass.internal.author.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT14.compute.lower-mass.internal.predecessor.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

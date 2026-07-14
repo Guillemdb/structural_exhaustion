@@ -7,7 +7,7 @@
   "required": ["artifactType", "schemaVersion", "sourceOfTruth", "example"],
   "properties": {
     "artifactType": {"const": "structuralExhaustionExample"},
-    "schemaVersion": {"const": "1.1.0"},
+    "schemaVersion": {"const": "1.2.0"},
     "sourceOfTruth": {"$ref": "#/$defs/sourceOfTruth"},
     "example": {"$ref": "#/$defs/example"}
   },
@@ -94,7 +94,7 @@
       "additionalProperties": false,
       "required": [
         "linkId", "sourceStageId", "targetStageId", "kind", "label",
-        "description", "routeId", "evidenceDeclarations"
+        "description", "routeId", "automationDeclarations", "evidenceDeclarations"
       ],
       "properties": {
         "linkId": {"$ref": "#/$defs/identifier"},
@@ -113,6 +113,11 @@
             {"type": "null"},
             {"$ref": "#/$defs/nonemptyString"}
           ]
+        },
+        "automationDeclarations": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/declaration"}
         },
         "evidenceDeclarations": {
           "type": "array",

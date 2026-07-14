@@ -18,6 +18,61 @@
         "ordinal": 7,
         "nodeKind": "residual",
         "nodeId": "CT2.terminal.residual.criticality",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.Graph.Edge.replacementCritical",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT2.Graph.Edge.replacementCritical.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.Graph.Edge.replacementCritical",
+              "declarationId": "StructuralExhaustion.CT2.Graph.Edge.replacementCritical"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.run_trace_valid",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT2.run_trace_valid.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.run_trace_valid",
+              "declarationId": "StructuralExhaustion.CT2.run_trace_valid"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ExecutionResult@CT2.terminal.residual.criticality",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT2.ExecutionResult@CT2.terminal.residual.criticality.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.ExecutionResult@CT2.terminal.residual.criticality",
+              "declarationId": null
+            }
+          ],
+          "nodeId": "CT2.terminal.residual.criticality",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT2.terminal.residual.criticality.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT2.terminal.residual.criticality.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [],

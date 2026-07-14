@@ -18,6 +18,24 @@
         "ordinal": 2,
         "nodeKind": "computation",
         "nodeId": "CT9.compute.partition",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT9.Graph.Edge.partitioned",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT9.Graph.Edge.partitioned.",
+              "mathematicalDefinition": null,
+              "label": "CT9.Graph.Edge.partitioned",
+              "declarationId": "StructuralExhaustion.CT9.Graph.Edge.partitioned"
+            }
+          ],
+          "nodeId": "CT9.compute.partition",
+          "edges": []
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

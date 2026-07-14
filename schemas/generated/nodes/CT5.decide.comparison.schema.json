@@ -18,6 +18,169 @@
         "ordinal": 4,
         "nodeKind": "decision",
         "nodeId": "CT5.decide.comparison",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.required",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "The total contribution required in the current branch.",
+              "mathematicalDefinition": "R(x)\\in\\mathbb{N}",
+              "label": "Required contribution",
+              "declarationId": "StructuralExhaustion.CT5.Capability.required"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.capacity",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "The total contribution capacity available in the current branch.",
+              "mathematicalDefinition": "K(x)\\in\\mathbb{N}",
+              "label": "Available capacity",
+              "declarationId": "StructuralExhaustion.CT5.Capability.capacity"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT5.LocalLedgerState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Complete local ledger computed only after exhaustive deficit exclusion. ",
+              "mathematicalDefinition": null,
+              "label": "CT5.LocalLedgerState",
+              "declarationId": "StructuralExhaustion.CT5.LocalLedgerState"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT5.ComparisonDecision",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT5.ComparisonDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT5.ComparisonDecision",
+              "declarationId": "StructuralExhaustion.CT5.ComparisonDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT5.C4Certificate",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Arithmetic C4 certificate; the global lower bound strictly exceeds the\navailable capacity. ",
+              "mathematicalDefinition": null,
+              "label": "CT5.C4Certificate",
+              "declarationId": "StructuralExhaustion.CT5.C4Certificate"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT5.ChargeLedgerResidual",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "A bounded charge ledger ready for the charging layer. ",
+              "mathematicalDefinition": null,
+              "label": "CT5.ChargeLedgerResidual",
+              "declarationId": "StructuralExhaustion.CT5.ChargeLedgerResidual"
+            },
+            {
+              "stepId": "output.4",
+              "role": "output",
+              "reference": {
+                "ref": "CT5.AggregateResidual",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "A computed aggregate exceeding capacity without a global C4 lower-bound\ncontradiction. ",
+              "mathematicalDefinition": null,
+              "label": "CT5.AggregateResidual",
+              "declarationId": "StructuralExhaustion.CT5.AggregateResidual"
+            }
+          ],
+          "nodeId": "CT5.decide.comparison",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "author.1",
+              "relation": "produces",
+              "edgeId": "CT5.decide.comparison.internal.author.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "author.1",
+              "relation": "produces",
+              "edgeId": "CT5.decide.comparison.internal.author.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "author.1",
+              "relation": "produces",
+              "edgeId": "CT5.decide.comparison.internal.author.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.4",
+              "sourceStepId": "author.1",
+              "relation": "produces",
+              "edgeId": "CT5.decide.comparison.internal.author.1-to-output.4"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "author.2",
+              "relation": "produces",
+              "edgeId": "CT5.decide.comparison.internal.author.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "author.2",
+              "relation": "produces",
+              "edgeId": "CT5.decide.comparison.internal.author.2-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "author.2",
+              "relation": "produces",
+              "edgeId": "CT5.decide.comparison.internal.author.2-to-output.3"
+            },
+            {
+              "targetStepId": "output.4",
+              "sourceStepId": "author.2",
+              "relation": "produces",
+              "edgeId": "CT5.decide.comparison.internal.author.2-to-output.4"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT5.decide.comparison.internal.predecessor.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT5.decide.comparison.internal.predecessor.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT5.decide.comparison.internal.predecessor.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.4",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT5.decide.comparison.internal.predecessor.1-to-output.4"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

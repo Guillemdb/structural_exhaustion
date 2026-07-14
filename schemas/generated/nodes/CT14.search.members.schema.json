@@ -18,6 +18,169 @@
         "ordinal": 3,
         "nodeKind": "computation",
         "nodeId": "CT14.search.members",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.Capability.members",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all aggregate members.",
+              "mathematicalDefinition": "\\operatorname{members}=\\mathcal{M}",
+              "label": "Finite member enumeration",
+              "declarationId": "StructuralExhaustion.CT14.Capability.members"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.Capability.memberCapacity",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Returns a member's upper capacity, or none when no finite capacity is available.",
+              "mathematicalDefinition": "\\kappa_x:\\mathcal{M}\\to\\mathbb{N}\\cup\\{\\bot\\}",
+              "label": "Optional member capacity",
+              "declarationId": "StructuralExhaustion.CT14.Capability.memberCapacity"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.Capability.memberLabel",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Returns the label counted for a member, or none when the label is missing.",
+              "mathematicalDefinition": "\\lambda_x:\\mathcal{M}\\to\\mathcal{L}\\cup\\{\\bot\\}",
+              "label": "Optional member label",
+              "declarationId": "StructuralExhaustion.CT14.Capability.memberLabel"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.LowerMassState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT14.LowerMassState.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.LowerMassState",
+              "declarationId": "StructuralExhaustion.CT14.LowerMassState"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.Core.FiniteSearch.first",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Ordered search over an explicit Mathlib finite enumeration. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.Core.FiniteSearch.first",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.first"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.ScanDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT14.ScanDecision.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.ScanDecision",
+              "declarationId": "StructuralExhaustion.CT14.ScanDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.UnboundedMemberResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT14.UnboundedMemberResidual.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.UnboundedMemberResidual",
+              "declarationId": "StructuralExhaustion.CT14.UnboundedMemberResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.MissingLabelResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT14.MissingLabelResidual.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.MissingLabelResidual",
+              "declarationId": "StructuralExhaustion.CT14.MissingLabelResidual"
+            },
+            {
+              "stepId": "output.4",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.MemberScanState",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT14.MemberScanState.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.MemberScanState",
+              "declarationId": "StructuralExhaustion.CT14.MemberScanState"
+            }
+          ],
+          "nodeId": "CT14.search.members",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT14.search.members.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT14.search.members.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT14.search.members.internal.author.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT14.search.members.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT14.search.members.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT14.search.members.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT14.search.members.internal.theorem.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.4",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT14.search.members.internal.theorem.1-to-output.4"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

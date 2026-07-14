@@ -15,7 +15,7 @@
   ],
   "properties": {
     "artifactType": {"const": "automationFirstLeanCatalog"},
-    "schemaVersion": {"const": "7.0.0"},
+    "schemaVersion": {"const": "8.0.0"},
     "sourceOfTruth": {
       "type": "object",
       "additionalProperties": false,
@@ -242,6 +242,119 @@
         }
       }
     },
+    "sourcePosition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["line", "column"],
+      "properties": {
+        "line": {"type": "integer", "minimum": 0},
+        "column": {"type": "integer", "minimum": 0}
+      }
+    },
+    "sourceRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start", "end"],
+      "properties": {
+        "start": {"$ref": "#/$defs/sourcePosition"},
+        "end": {"$ref": "#/$defs/sourcePosition"}
+      }
+    },
+    "internalDeclaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "declarationId", "name", "kind", "type", "docString", "module",
+        "sourceFile", "range", "selectionRange", "bodyAvailable",
+        "typeDependencies", "bodyDependencies"
+      ],
+      "properties": {
+        "declarationId": {"type": "string", "minLength": 1},
+        "name": {"type": "string", "minLength": 1},
+        "kind": {
+          "enum": [
+            "axiom", "definition", "theorem", "opaque", "quotient",
+            "inductive", "constructor", "recursor"
+          ]
+        },
+        "type": {"type": "string", "minLength": 1},
+        "docString": {"type": ["string", "null"]},
+        "module": {"type": ["string", "null"]},
+        "sourceFile": {"type": ["string", "null"]},
+        "range": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/sourceRange"}
+          ]
+        },
+        "selectionRange": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/sourceRange"}
+          ]
+        },
+        "bodyAvailable": {"type": "boolean"},
+        "typeDependencies": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "bodyDependencies": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "projectLocal": {"type": "boolean"},
+        "sourceId": {"type": ["string", "null"]}
+      }
+    },
+    "internalStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stepId", "role", "reference", "plainExplanation",
+        "mathematicalDefinition", "label", "declarationId"
+      ],
+      "properties": {
+        "stepId": {"type": "string", "minLength": 1},
+        "role": {
+          "enum": [
+            "authorObject", "inferredInstance", "predecessorState",
+            "operation", "theorem", "output"
+          ]
+        },
+        "reference": {"$ref": "#/$defs/provisionedRef"},
+        "plainExplanation": {"type": "string", "minLength": 1},
+        "mathematicalDefinition": {"type": ["string", "null"]},
+        "label": {"type": "string", "minLength": 1},
+        "declarationId": {"type": ["string", "null"]}
+      }
+    },
+    "internalEdge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["edgeId", "sourceStepId", "targetStepId", "relation"],
+      "properties": {
+        "edgeId": {"type": "string", "minLength": 1},
+        "sourceStepId": {"type": "string", "minLength": 1},
+        "targetStepId": {"type": "string", "minLength": 1},
+        "relation": {"enum": ["consumes", "then", "produces", "certifies"]}
+      }
+    },
+    "internalFlow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nodeId", "steps", "edges"],
+      "properties": {
+        "nodeId": {"type": "string", "minLength": 1},
+        "steps": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"$ref": "#/$defs/internalStep"}
+        },
+        "edges": {
+          "type": "array", "uniqueItems": true,
+          "items": {"$ref": "#/$defs/internalEdge"}
+        }
+      }
+    },
     "presentation": {
       "type": "object",
       "additionalProperties": false,
@@ -263,7 +376,8 @@
         "sourceFile",
         "formalContract",
         "automation",
-        "presentation"
+        "presentation",
+        "internalFlow"
       ],
       "properties": {
         "ordinal": {"type": "integer", "minimum": 1},
@@ -285,7 +399,8 @@
         "sourceFile": {"type": "string", "minLength": 1},
         "formalContract": {"$ref": "#/$defs/formalContract"},
         "automation": {"$ref": "#/$defs/automationProfile"},
-        "presentation": {"$ref": "#/$defs/presentation"}
+        "presentation": {"$ref": "#/$defs/presentation"},
+        "internalFlow": {"$ref": "#/$defs/internalFlow"}
       }
     },
     "transition": {
@@ -523,7 +638,8 @@
         "terminals",
         "residualKinds",
         "apiDeclarations",
-        "loopDecrease"
+        "loopDecrease",
+        "internalDeclarations"
       ],
       "properties": {
         "tacticId": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])$"},
@@ -570,6 +686,12 @@
           "minItems": 8,
           "uniqueItems": true,
           "items": {"$ref": "#/$defs/declaration"}
+        },
+        "internalDeclarations": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/internalDeclaration"}
         },
         "loopDecrease": {
           "oneOf": [

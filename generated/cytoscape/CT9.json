@@ -332,37 +332,89 @@
     {
       "data": {
         "id": "CT9.edge.begin",
+        "label": "begin",
+        "kind": "ctTransition",
+        "ordinal": 1,
         "source": "CT9.entry",
         "target": "CT9.compute.partition",
         "constructor": "StructuralExhaustion.CT9.Graph.Edge.begin",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} → CT9.Graph.Edge capability input CT9.Graph.NodeId.entry CT9.Graph.NodeId.partition"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} → CT9.Graph.Edge capability input CT9.Graph.NodeId.entry CT9.Graph.NodeId.partition",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT9.edge.partitioned",
+        "label": "partitioned",
+        "kind": "ctTransition",
+        "ordinal": 2,
         "source": "CT9.compute.partition",
         "target": "CT9.search.firstOverload",
         "constructor": "StructuralExhaustion.CT9.Graph.Edge.partitioned",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.Graph.Edge capability input CT9.Graph.NodeId.partition CT9.Graph.NodeId.overload"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.Graph.Edge capability input CT9.Graph.NodeId.partition CT9.Graph.NodeId.overload",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT9.edge.overloaded",
+        "label": "overloaded",
+        "kind": "ctTransition",
+        "ordinal": 3,
         "source": "CT9.search.firstOverload",
         "target": "CT9.terminal.residual.overload",
         "constructor": "StructuralExhaustion.CT9.Graph.Edge.overloaded",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.OverloadResidual capability input →\n        CT9.Graph.Edge capability input CT9.Graph.NodeId.overload CT9.Graph.NodeId.overloadedTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.OverloadResidual capability input →\n        CT9.Graph.Edge capability input CT9.Graph.NodeId.overload CT9.Graph.NodeId.overloadedTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT9.edge.bounded",
+        "label": "bounded",
+        "kind": "ctTransition",
+        "ordinal": 4,
         "source": "CT9.search.firstOverload",
         "target": "CT9.terminal.certificate.bounded",
         "constructor": "StructuralExhaustion.CT9.Graph.Edge.bounded",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.BoundedCertificate capability input →\n        CT9.Graph.Edge capability input CT9.Graph.NodeId.overload CT9.Graph.NodeId.boundedTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.BoundedCertificate capability input →\n        CT9.Graph.Edge capability input CT9.Graph.NodeId.overload CT9.Graph.NodeId.boundedTerminal",
+        "provision": "generated_audit"
+      }
+    },
+    {
+      "data": {
+        "id": "CT9.residual.overload->CT7",
+        "label": "CT9.residual.overload->CT7",
+        "kind": "generatedRoute",
+        "route": {
+          "triggerConstructor": "StructuralExhaustion.Routes.CT9ToCT7.buildInput",
+          "targetTacticId": "CT7",
+          "sourceResidualKind": "CT9.residual.overload",
+          "soundnessTheorem": "StructuralExhaustion.Routes.CT9ToCT7.enabled_generates",
+          "selectionClass": "forced",
+          "routeId": "CT9.residual.overload->CT7",
+          "provenanceTheorem": "StructuralExhaustion.Routes.CT9ToCT7.generated_route_id",
+          "discovery": "StructuralExhaustion.Routes.CT9ToCT7.ObjectAdapter.discover",
+          "contextPreservationTheorem": "StructuralExhaustion.Routes.CT9ToCT7.branchContext_preserved",
+          "authoringBoundary": {
+            "semanticDiscovery": {
+              "kind": "problemSemanticAdapter",
+              "adapterType": "StructuralExhaustion.Routes.CT9ToCT7.ObjectAdapter"
+            },
+            "problemSpecificInputs": [
+              "targetCapability",
+              "semanticDiscoveryAdapter"
+            ],
+            "frameworkOwnedResponsibilities": [
+              "routeRuleConstruction",
+              "targetContextConstruction",
+              "triggerConstruction",
+              "soundnessProof",
+              "contextPreservationProof",
+              "provenanceProof"
+            ]
+          }
+        }
       }
     }
   ]

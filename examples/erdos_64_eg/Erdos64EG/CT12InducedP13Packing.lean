@@ -262,6 +262,32 @@ theorem p13PackingPrefix_stage
       ctx.toBranchContext :=
   verified.generic.packingStage
 
+/-- The CT1→CT12 composition is the registered framework route, not an
+Erdős-local transition. -/
+theorem p13PackingPrefix_routeId
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedP13PackingPrefix ctx) :
+    ((Routes.CT1ToCT12.rule
+      (CT12.ListPeeling.capability packedStaticInput.problem
+        (Graph.InducedPathPacking.Window ctx.G.object 13))
+      (packedStaticInput.inducedPathPackingAdapter 13 thirteen_positive ctx)
+      ).generate
+        (packedStaticInput.inducedPathC1Source 13 ctx
+          verified.generic.previous) ()).routeId =
+      "CT1.terminal.c1->CT12" :=
+  verified.generic.routeId_eq
+
+/-- The route materializes exactly the selected-list input audited by the
+CT12 disjoint-packing profile. -/
+theorem p13PackingPrefix_routedInputExact
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedP13PackingPrefix ctx) :
+    packedStaticInput.inducedPathPackingRouteInput 13 thirteen_positive ctx
+        verified.generic.previous =
+      (Graph.InducedPathPacking.profile ctx.G.object 13 thirteen_positive).input
+        ctx.toBranchContext :=
+  verified.generic.routedInputExact
+
 /-- The selected packing is nonempty because the preceding CT1 stage retains
 an induced `P₁₃` realization. -/
 theorem p13PackingPrefix_nonempty

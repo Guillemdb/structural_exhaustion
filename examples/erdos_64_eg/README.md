@@ -58,15 +58,69 @@ The verified proof slice contains:
   and `6`, exact `C_s` and `Ω₂`, an exhaustive typed CT10 run with
   `167792` accounted checks, and a graph theorem placing every actual
   nonempty attachment in the table;
+- one CT6 stage covering the exact ordered surplus ledger at nodes
+  `[127]`--`[128]`, followed by a registered CT6-to-CT9 route that scans
+  exactly the surplus slots and separates `σ(G) ≤ 1` from the branch carrying
+  two distinct slots; it does not enumerate pairs or claim the later
+  free/blocked response semantics;
+- a CT1/CT10/CT9/CT7/CT5/CT7 local-port sequence: exact four-cycle avoidance,
+  canonical open/triangular selected-port classification, same-centre open
+  fibres, a registered overload-to-response route, and an exact two-shoulder
+  charge ledger, followed by the exact nonadjacent-endpoint fan-compatibility
+  interpretation; every finite universe is graph-owned and polynomially
+  bounded, and the CT7 scan is executed only on an actual CT9 overload;
+- an all-incident-port CT10 profile at each requested high centre, producing
+  a compatible open pair or at least `degree - 2` triangular ports by scanning
+  exactly the declared neighbour list and never materializing port pairs;
+- a triangular-shoulder CT5 profile with two sites per triangular port,
+  proving all four completion-bookkeeping clauses with at most
+  `2|V|²+2|V|+2` checks and no path or subset universe;
+- a framework-owned CT2-to-return transition and certificate-driven CT1 stage
+  for every actual triangular port: the simple path omits the port endpoint,
+  restores a cycle of exact length `|Q|+2`, satisfies the Mersenne-predecessor
+  exclusion, and exposes the exact four-way initial landing split with one
+  certificate check and no path enumeration;
+- a graph-owned CT10 first-landing profile over the exact
+  `(triangular port × two shoulders) × declared vertices` completion table:
+  every actual completion is central, cross-triangular, or outside, every
+  other port vertex and noncentral centre neighbour is excluded, and the
+  preceding CT1 return is composed with this classifier at a bound of
+  `6|V|²+3` checks;
+- a graph-owned CT9 cross-shoulder profile for two fixed triangular ports:
+  it scans only four shoulder pairs, proves that overload forces a
+  degree-at-least-four shoulder (the disjoint alternative is a forbidden
+  four-cycle), and otherwise returns the exact capacity-one survivor in at
+  most five checks;
+- a graph-owned CT5 fan-closure profile for two fixed compatible open ports:
+  the Erdős layer supplies the actual `P₁₃` window/remainder partition and
+  assigned-incidence predicate, while the framework derives two fan-closed
+  ports, four pairwise-distinct oriented carriers, the exact charge trace,
+  and totality in exactly ten checks;
+- a registered CT5 charge-ledger to CT14 route and graph-owned fan-mass
+  profile: CT14 scans the actual cubic-closed-neighbour subtype, retains its
+  exact unit mass and multiplicity, proves that a compatible pair injects as
+  two distinct members, and derives a positive quarter-deficit numerator with
+  a conservative `4|V|²+4|V|+1` audit and linear memory;
+- a registered CT14 capacity-to-CT14 refinement and graph-owned hybrid
+  incidence profile: every actual cubic-closed neighbour contributes exactly
+  two non-centre incidences, four-cycle avoidance proves their endpoints are
+  pairwise distinct, CT14 computes the exact window/non-window multiplicities,
+  and the resulting half-credit pays the local deficit with at least three
+  quarter-units of slack under the explicit marked-fan input `degree ≤ 8`;
+  the stored refinement universe has exactly `2c ≤ 2|V|` members and the
+  conservative audit is `4|V|²+20|V|+1`;
 - an executable `K₄` fixture pinning the length-three rooted return and CT1
   terminal, trace, and check count.
 
 The fixed `P₁₃` computation is a separate cache boundary:
 `P13LabelKernel.lean` defines the compact code/profile, and
-`P13LabelCertificate.lean` contains all five finite-reflection proofs. Normal
-proof-stage edits therefore reuse the certificate `.olean`. The production
-root does not import `Erdos64EG.Tests`; tests and web export request that module
-explicitly.
+`P13LabelCertificate.lean` contains the isolated finite-reflection reports.
+Normal proof-stage edits therefore reuse the certificate `.olean`. The
+verified proof prefix does not store the reported table cardinality or size
+histogram, so the native table computation is absent from its theorem
+dependency graph. The semantic gap theorem is kernel-checked with `decide`.
+The production root does not import `Erdos64EG.Tests`; tests and web export
+request that module explicitly.
 
 The reusable implementation is in
 `StructuralExhaustion.Graph.MinimumDegreeCycleRouted` and
@@ -74,9 +128,33 @@ The reusable implementation is in
 `StructuralExhaustion.Graph.InducedPath`,
 `StructuralExhaustion.Graph.InducedPathPacking`,
 `StructuralExhaustion.Graph.InducedPathAttachment`,
+`StructuralExhaustion.Graph.TriangularFirstLanding`,
+`StructuralExhaustion.Graph.TriangularCrossShoulder`,
+`StructuralExhaustion.Graph.FanClosedPort`,
+`StructuralExhaustion.Graph.FanClosedPortMass`,
+`StructuralExhaustion.Graph.HybridFanIncidence`,
+`StructuralExhaustion.Graph.InducedPathBridge`,
+`StructuralExhaustion.Graph.FanWindowCycle`,
+`StructuralExhaustion.Graph.TwoWindowCycle`,
+`StructuralExhaustion.Graph.P13FanLabelPacking`,
+`StructuralExhaustion.Graph.P13MarkedFanLabelPacking`,
+`StructuralExhaustion.Graph.CertificateClosedFanCharge`,
+`StructuralExhaustion.Graph.AssignedSupportCharge`,
+`StructuralExhaustion.Graph.WindowExternalCharge`,
+`StructuralExhaustion.Graph.InducedCoreFanReserve`,
+`StructuralExhaustion.Graph.FiniteInducedBoundary`,
+`StructuralExhaustion.Graph.LowDegreeReceiverRouting`,
+`StructuralExhaustion.Graph.HighCenterDeletionCharge`,
+`StructuralExhaustion.Core.FiniteReceiverDischarge`,
+`StructuralExhaustion.Core.FiniteBoundaryTransfer`,
 `StructuralExhaustion.CT10.ExhaustiveClassification`,
 `StructuralExhaustion.CT12.DisjointPacking`, and
-`StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.CertificateProfile`.
+`StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.CertificateProfile`,
+`StructuralExhaustion.Routes.CT1ToCT12`, and
+`StructuralExhaustion.Routes.CT5ToCT14`,
+`StructuralExhaustion.Routes.CT14ToCT14`,
+`StructuralExhaustion.Routes.CT6ToCT9`, and
+`StructuralExhaustion.Routes.CT9ToCT7`.
 The Erdős modules retain only the power-of-two/Mersenne predicates, their
 arithmetic equivalences, the fixed `P₁₃` code predicate and constants, the
 official-statement bridge, thin profile instantiations, and the concrete `K₄`
@@ -97,7 +175,78 @@ target-uncompressibility.
 `[15]` and `[16]`. `Erdos64EG/CT12InducedP13Packing.lean` adds the exact
 packing output, and `Erdos64EG/CT10P13LabelAlgebra.lean` consumes that output
 at node `[18]`. The current theorem-bearing endpoint is
-`exists_verifiedP13LabelAlgebraPrefix`.
+`exists_verifiedTypeBPostLedgerPrefix`; it composes the previously
+verified marked-fan degree cap with the actual two-port CT14 mass and hybrid
+incidence ledgers, deriving the positive deficit and paying capacity rather
+than accepting either as input, and projects the resulting endpoint-disjoint
+window/non-window ledger to the exact local B1 interface. The framework then
+defines the positive-deficit Type B candidate fibre directly from the literal
+incidences: every window incidence is mandatory, ordinary-reserve incidences
+are forbidden, and selected non-window incidences pay the exact remaining
+demand. Candidate finiteness is proof-level and does not evaluate a powerset.
+The certificate-closed fibre is likewise defined on the actual neighbour
+ports with assigned-incidence quarter weights: `-1` when assigned-closed and
+at least `3` when assigned-open. Deletion criticality proves its selected endpoints lie
+in `N(h) \ H_X`, and its nonnegative charge is the candidate validity
+theorem. The two literal fibres feed the common dependent weighted-selection
+adapter, which derives the heterogeneous candidates, their proof-level
+finiteness, selected carrier supports, and complete declared carrier
+universes. CT12 then proves, for the entire declared center schedule, either a
+pairwise-disjoint full choice or a nonempty inclusion-minimal overlap
+obstruction in at most one iteration per graph vertex. Reserve-blocked empty
+fibres remain visible in the overlap support. Ambient target avoidance,
+high-center independence, cubic neighbors, and proper-subfamily choices are
+derived for that obstruction. Finally, from only a literal vertex scope and
+reserve, the degree-at-least-four center set is graph-derived and the exact
+state-space split is proved: an actual high center has no verified local
+entry, or all high centers form the complete CT12 family and yield a full
+choice or a minimal overlap obstruction. No local-entry or center-completeness
+assertion is accepted as a scope field.
+
+The assigned-charge stage then realizes a full choice in literal induced-core
+charge. Decorative and window shoulders are handled by an exact external
+correction, and selected non-window half-credits are permitted only at
+canonical ordinary available core vertices. Every consumed core support is a
+subset of its candidate carrier, so CT12 disjointness proves exact
+no-double-counting. The framework partitions the counted core into used
+vertices, retained high centers, and the remaining core and proves the exact
+reduced-ledger identity. Consequently a full disjoint local choice either has
+nonnegative net charge or exposes a strictly negative literal remaining core.
+
+The Type A continuation is now connected at its exact graph boundary. The
+remaining induced graph is proved `P₁₃`-free, internal-three-core-free, and
+subcubic, and the framework proves the `3/7/11` unsaturated receiver theorem.
+Crucially, Lean also proves that induced remaining charge equals the raw charge
+retained by the Type B identity plus four quarter-units per incidence deleted
+with the selected vertices. Therefore the current total state space ends in
+nonnegative net charge, an actual saturated receiver, or a strict finite
+boundary overload with a literal cut edge and center-or-selected-entry
+landing.  Each local selected support has at most 24 vertices, the processed
+support has at most 25 vertices per assigned center, and its ambient degree
+sum is at most 200 per center.  Consequently every unsaturated negative net
+quarter-charge is proved to be at most 800 times the assigned surplus.  No
+boundary-transfer premise is accepted as a B2 field.
+
+The official quantitative Type B endpoint is choice-free.
+`StructuralExhaustion.Graph.HighCenterDeletionCharge` deletes every actual
+high center, bounds the literal center cut, and retains the exact total
+overload of the proof-selected `3/7/11` receiver fibres. The Erdős
+instantiation proves that the deleted graph is `P₁₃`-free,
+dyadic-cycle-free, and internal-three-core-free. For every literal Type B scope
+Lean proves, in quarter-units,
+
+```text
+-TypeBNet ≤ 21 * assignedSurplus + centerDeletedReceiverOverload.
+```
+
+This applies equally on local-entry failure and minimal-overlap branches. The
+overload term is the exact Type A continuation, not a supplied certificate or
+an assumed charge bound.
+
+The independent even-cycle package instantiates the same graph theorem on the
+textbook complete bipartite graph `K₃,₄`. Deleting its three degree-four
+vertices leaves four isolated degree-three vertices, so the retained
+internal-three-core exclusion is proved directly and does not use HSS.
 
 `StructuralExhaustion.Graph.External.HegdeSandeepShashank` is the single
 trusted external theorem module. Repository tooling allowlists exactly its

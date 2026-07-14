@@ -18,6 +18,295 @@
         "ordinal": 3,
         "nodeKind": "computation",
         "nodeId": "CT3.search.compression",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.candidates",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all compression candidates.",
+              "mathematicalDefinition": "\\operatorname{candidates}=\\mathcal{C}",
+              "label": "Finite candidate enumeration",
+              "declarationId": "StructuralExhaustion.CT3.Capability.candidates"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.candidatePiece",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Interprets a compression candidate as the piece it represents.",
+              "mathematicalDefinition": "\\operatorname{piece}:\\mathcal{C}\\to\\mathcal{P}",
+              "label": "Candidate interpretation",
+              "declarationId": "StructuralExhaustion.CT3.Spec.candidatePiece"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.response",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Computes the exact Boolean behavior of a piece in an outside context.",
+              "mathematicalDefinition": "R:\\mathcal{P}\\times\\mathcal{K}\\to\\{0,1\\}",
+              "label": "Exact response",
+              "declarationId": "StructuralExhaustion.CT3.Spec.response"
+            },
+            {
+              "stepId": "author.4",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.Admissible",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition that candidate c is allowed to replace source piece p in G.",
+              "mathematicalDefinition": "\\operatorname{Admissible}(G,p,c)",
+              "label": "Candidate admissibility",
+              "declarationId": "StructuralExhaustion.CT3.Spec.Admissible"
+            },
+            {
+              "stepId": "author.5",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.Smaller",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition that candidate c gives a genuine size reduction for p in G.",
+              "mathematicalDefinition": "\\operatorname{Smaller}(G,p,c)",
+              "label": "Strictly smaller candidate",
+              "declarationId": "StructuralExhaustion.CT3.Spec.Smaller"
+            },
+            {
+              "stepId": "author.6",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.contexts",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of every response coordinate.",
+              "mathematicalDefinition": "\\operatorname{contexts}=\\mathcal{K}",
+              "label": "Finite context enumeration",
+              "declarationId": "StructuralExhaustion.CT3.Capability.contexts"
+            },
+            {
+              "stepId": "author.7",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.admissibleDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding whether a candidate is admissible.",
+              "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Admissible}(G,p,c)\\right)",
+              "label": "Admissibility decision procedure",
+              "declarationId": "StructuralExhaustion.CT3.Capability.admissibleDecidable"
+            },
+            {
+              "stepId": "author.8",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.smallerDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding whether a candidate is strictly smaller.",
+              "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Smaller}(G,p,c)\\right)",
+              "label": "Decrease decision procedure",
+              "declarationId": "StructuralExhaustion.CT3.Capability.smallerDecidable"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "ExactVectorState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Framework-produced exact-vector state.  The equality makes it impossible\nfor an execution to substitute an unverified compact or coarse type. ",
+              "mathematicalDefinition": null,
+              "label": "ExactVectorState",
+              "declarationId": "StructuralExhaustion.CT3.ExactVectorState"
+            },
+            {
+              "stepId": "operation.1",
+              "role": "operation",
+              "reference": {
+                "ref": "SameResponse",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "Exact response equality.  There is no quotient, coarse label, or hidden\ncongruence in this relation. ",
+              "mathematicalDefinition": null,
+              "label": "SameResponse",
+              "declarationId": "StructuralExhaustion.CT3.SameResponse"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "FiniteSearch.first_total",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Ordered search is sound and exhaustive over the entire enumerated\nuniverse. ",
+              "mathematicalDefinition": null,
+              "label": "FiniteSearch.first_total",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.first_total"
+            },
+            {
+              "stepId": "theorem.2",
+              "role": "theorem",
+              "reference": {
+                "ref": "ResponseComparison.compare_total",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: ResponseComparison.compare_total.",
+              "mathematicalDefinition": null,
+              "label": "ResponseComparison.compare_total",
+              "declarationId": "StructuralExhaustion.Core.ResponseComparison.compare_total"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT3.CompressionDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "Exhaustive ordered compression search. ",
+              "mathematicalDefinition": null,
+              "label": "CT3.CompressionDecision",
+              "declarationId": "StructuralExhaustion.CT3.CompressionDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT3.CompressionCertificate",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "First valid compression candidate, including the exact clean prefix. ",
+              "mathematicalDefinition": null,
+              "label": "CT3.CompressionCertificate",
+              "declarationId": "StructuralExhaustion.CT3.CompressionCertificate"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT3.UncompressibleExternalType",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exhaustive failure of compression over the exact candidate universe. ",
+              "mathematicalDefinition": null,
+              "label": "CT3.UncompressibleExternalType",
+              "declarationId": "StructuralExhaustion.CT3.UncompressibleExternalType"
+            }
+          ],
+          "nodeId": "CT3.search.compression",
+          "edges": [
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.1",
+              "relation": "consumes",
+              "edgeId": "CT3.search.compression.internal.author.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.2",
+              "relation": "consumes",
+              "edgeId": "CT3.search.compression.internal.author.2-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.3",
+              "relation": "consumes",
+              "edgeId": "CT3.search.compression.internal.author.3-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.4",
+              "relation": "consumes",
+              "edgeId": "CT3.search.compression.internal.author.4-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.5",
+              "relation": "consumes",
+              "edgeId": "CT3.search.compression.internal.author.5-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.6",
+              "relation": "consumes",
+              "edgeId": "CT3.search.compression.internal.author.6-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.7",
+              "relation": "consumes",
+              "edgeId": "CT3.search.compression.internal.author.7-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.8",
+              "relation": "consumes",
+              "edgeId": "CT3.search.compression.internal.author.8-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "consumes",
+              "edgeId": "CT3.search.compression.internal.predecessor.1-to-operation.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT3.search.compression.internal.operation.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT3.search.compression.internal.operation.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT3.search.compression.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT3.search.compression.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT3.search.compression.internal.theorem.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT3.search.compression.internal.theorem.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT3.search.compression.internal.theorem.2-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT3.search.compression.internal.theorem.2-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

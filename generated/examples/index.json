@@ -30,31 +30,36 @@
     {
       "exampleId": "erdos-64",
       "title": "Erdős Problem 64",
-      "summary": "A partial proof with exact Mersenne returns, lexicographic minimal selection, CT2 criticality, CT3 boundaried uncompressibility, an HSS-forced induced-P13 CT1 stage, a maximum-packing CT12 remainder stage, and the complete CT10 P13 attachment-label algebra.",
+      "summary": "A partial proof with exact Mersenne returns, lexicographic minimal selection, CT2 criticality and bridge contraction, CT3 boundaried uncompressibility, an HSS-forced induced-P13 CT1 stage, a routed maximum-packing CT12 remainder stage, the complete CT10 P13 attachment-label algebra, a polynomial ordered CT6 degree-surplus ledger, a routed CT9 surplus-pair split, framework-native local-port verification, concrete Type B candidate fibres, an unconditional dependent CT12 choice-or-minimal-overlap theorem, an exact high-center local-resolution trichotomy, a no-double-counted induced-core realization of the full Type B charge ledger, and the choice-free Type B receiver-overload deficit bound.",
       "proofStatus": "partial",
       "tacticIds": [
         "CT1",
         "CT2",
         "CT3",
+        "CT5",
+        "CT6",
+        "CT7",
+        "CT9",
         "CT10",
-        "CT12"
+        "CT12",
+        "CT14"
       ],
       "workflowCount": 1,
       "workflows": [
         {
           "workflowId": "proof-slice",
           "title": "Verified Erdős 64 prefix",
-          "purpose": "Inspect the exact Mersenne target algebra, lexicographic minimal selection, CT2 criticality, boundaried replacement, the HSS-forced induced-P13 CT1 stage, the maximum-packing CT12 remainder stage, and the exhaustive CT10 P13 attachment-label algebra.",
+          "purpose": "Inspect the exact Mersenne target algebra, lexicographic minimal selection, CT2 criticality and bridge contraction, boundaried replacement, the HSS-forced induced-P13 CT1 stage, the routed maximum-packing CT12 remainder stage, the exhaustive CT10 P13 attachment-label algebra, the ordered CT6 degree-surplus ledger, the routed CT9 surplus-pair split, and the Type B development through its graph-derived high-center choice/overlap trichotomy.",
           "completion": "partial"
         }
       ],
       "detailFile": "erdos-64.json",
-      "detailHash": "63728e24841defd29756f93c5787d6a10d11ca819bd4c2e77951542a09c4472c"
+      "detailHash": "050914c8a02e5b1b31a8a148ad51a22ea32523938d1e723668863448ae1c17c7"
     },
     {
       "exampleId": "even-cycle",
       "title": "Even cycle",
-      "summary": "A complete minimum-degree-three proof with a registered CT6→CT9 route, CT1 validation, and separate CT2, CT3, induced-path CT1, and maximum-packing CT12 reuse workflows.",
+      "summary": "A complete minimum-degree-three proof with a registered CT6→CT9 route, CT1 validation, and separate CT2, CT3, induced-path CT1, maximum-packing CT12, and high-center-deletion reuse workflows.",
       "proofStatus": "complete",
       "tacticIds": [
         "CT1",
@@ -64,7 +69,7 @@
         "CT9",
         "CT12"
       ],
-      "workflowCount": 5,
+      "workflowCount": 6,
       "workflows": [
         {
           "workflowId": "main",
@@ -95,10 +100,16 @@
           "title": "Maximum matching by induced-P₂ packing",
           "purpose": "Instantiate the reusable maximum disjoint-packing CT12 profile on the textbook family of graph edges.",
           "completion": "complete"
+        },
+        {
+          "workflowId": "high-center-deletion",
+          "title": "High-center deletion charge on K₃,₄",
+          "purpose": "Instantiate the reusable Type-B-to-Type-A charge transition on a textbook complete bipartite graph without using an external theorem.",
+          "completion": "complete"
         }
       ],
       "detailFile": "even-cycle.json",
-      "detailHash": "f1825324850471f9d77607014db6140a0316d9f577fc523868ba35e1da303fa3"
+      "detailHash": "9768f4bf41945e3f4084ba174ee11b2073922c54087ec15e5bc6610614313e62"
     },
     {
       "exampleId": "greedy-coloring",
@@ -120,7 +131,7 @@
         }
       ],
       "detailFile": "greedy-coloring.json",
-      "detailHash": "6f3b93945eacfcbccfc307431a71e3880f8ba4350426ed81544210170362b5e5"
+      "detailHash": "28c494da44c06417ce261bea7e9a3e2b814271f56a8284b1492ba60947db0c41"
     },
     {
       "exampleId": "mantel",
@@ -152,7 +163,7 @@
         }
       ],
       "detailFile": "mantel.json",
-      "detailHash": "5f57446e8b4bd5784adca447a13feeb226d3a3524b92cf7d7df4f04b91c44633"
+      "detailHash": "a7da693916a3da33e973d684970248d0d54324d73ac1e518d5d8881fe37282d0"
     }
   ]
 }

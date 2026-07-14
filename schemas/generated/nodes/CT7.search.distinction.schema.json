@@ -18,6 +18,133 @@
         "ordinal": 3,
         "nodeKind": "computation",
         "nodeId": "CT7.search.distinction",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.response",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "The Boolean response assigned to an object-context pair.",
+              "mathematicalDefinition": "R_x:\\mathcal{O}\\times\\mathcal{K}\\to\\{0,1\\}",
+              "label": "Declared response",
+              "declarationId": "StructuralExhaustion.CT7.Spec.response"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.contexts",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered context enumeration specialized to the branch and object pair.",
+              "mathematicalDefinition": "\\mathcal{K}_x(a,b)",
+              "label": "Finite comparison contexts",
+              "declarationId": "StructuralExhaustion.CT7.Capability.contexts"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT7.UnrealizedState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Exhaustive absence of a realizing context. ",
+              "mathematicalDefinition": null,
+              "label": "CT7.UnrealizedState",
+              "declarationId": "StructuralExhaustion.CT7.UnrealizedState"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "Core.FiniteSearch.search_none_iff",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: Core.FiniteSearch.search_none_iff.",
+              "mathematicalDefinition": null,
+              "label": "Core.FiniteSearch.search_none_iff",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.search_none_iff"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT7.DistinctionDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "Second node decision, indexed by the exact unrealized predecessor. ",
+              "mathematicalDefinition": null,
+              "label": "CT7.DistinctionDecision",
+              "declarationId": "StructuralExhaustion.CT7.DistinctionDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT7.DistinguishingResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "A concrete exact response mismatch. ",
+              "mathematicalDefinition": null,
+              "label": "CT7.DistinguishingResidual",
+              "declarationId": "StructuralExhaustion.CT7.DistinguishingResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT7.NeutralityCertificate",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exact contextual neutrality over the complete context enumeration. ",
+              "mathematicalDefinition": null,
+              "label": "CT7.NeutralityCertificate",
+              "declarationId": "StructuralExhaustion.CT7.NeutralityCertificate"
+            }
+          ],
+          "nodeId": "CT7.search.distinction",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT7.search.distinction.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT7.search.distinction.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT7.search.distinction.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT7.search.distinction.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT7.search.distinction.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT7.search.distinction.internal.theorem.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

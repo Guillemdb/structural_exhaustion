@@ -18,6 +18,97 @@
         "ordinal": 4,
         "nodeKind": "computation",
         "nodeId": "CT12.compute.restoration",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.restorations",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Produces nonempty finite choices: a strictly smaller continuation or a demand/tier residual.",
+              "mathematicalDefinition": "\\operatorname{restorations}(p)\\in\\operatorname{NonemptyList}(\\mathcal{R}_{n+1})",
+              "label": "Restoration options",
+              "declarationId": "StructuralExhaustion.CT12.Capability.restorations"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Capability.Peeled state",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Capability.Peeled state.",
+              "mathematicalDefinition": null,
+              "label": "Capability.Peeled state",
+              "declarationId": null
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "CT12.RestorationOptions.first_mem",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: CT12.RestorationOptions.first_mem.",
+              "mathematicalDefinition": null,
+              "label": "CT12.RestorationOptions.first_mem",
+              "declarationId": "StructuralExhaustion.CT12.RestorationOptions.first_mem"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT12.RestorationOptions",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "A finite restoration search space that is nonempty by construction.\nThe framework's reference policy always selects `first`; optimized policies\nmay inspect `remaining` only after proving refinement. ",
+              "mathematicalDefinition": null,
+              "label": "CT12.RestorationOptions",
+              "declarationId": "StructuralExhaustion.CT12.RestorationOptions"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT12.Restoration",
+                "provision": "policy_selected"
+              },
+              "plainExplanation": "Restoration either produces a strictly smaller loop state or a semantic\nresidual.  The decrease proof is the only license for recursion. ",
+              "mathematicalDefinition": null,
+              "label": "CT12.Restoration",
+              "declarationId": "StructuralExhaustion.CT12.Restoration"
+            }
+          ],
+          "nodeId": "CT12.compute.restoration",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT12.compute.restoration.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT12.compute.restoration.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT12.compute.restoration.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT12.compute.restoration.internal.theorem.1-to-output.2"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [
@@ -109,7 +200,7 @@
     "kind": "compiledLeanEnvironment",
     "catalog": "generated/lean-machines.json",
     "tacticId": "CT12",
-    "apiVersion": "CT12-v5",
+    "apiVersion": "CT12-v6",
     "namespace": "StructuralExhaustion.CT12"
   },
   "x-automationContract": {

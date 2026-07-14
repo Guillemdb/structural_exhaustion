@@ -339,12 +339,6 @@ structure VerifiedP13LabelAlgebraPrefix
   previous : VerifiedP13PackingPrefix ctx
   generic : GenericP13LabelAlgebraPrefix ctx
   samePacking : generic.previous = previous.generic
-  labelCount : p13LabelClassification.classCount = 399
-  sizeDistribution :
-    p13LabelsOfSize 1 = 13 ∧ p13LabelsOfSize 2 = 60 ∧
-    p13LabelsOfSize 3 = 122 ∧ p13LabelsOfSize 4 = 122 ∧
-    p13LabelsOfSize 5 = 63 ∧ p13LabelsOfSize 6 = 17 ∧
-    p13LabelsOfSize 7 = 2
 
 /-- Extend the exact CT12 output through node `[18]` on the identical
 selected minimal graph. -/
@@ -357,8 +351,6 @@ noncomputable def verifiedP13LabelAlgebraPrefix
     packedStaticInput.inducedPathPackingAttachmentPrefix
       13 thirteen_positive p13AttachmentClassification ctx previous.generic
   samePacking := rfl
-  labelCount := p13LegalLabel_count
-  sizeDistribution := p13LegalLabel_size_distribution
 
 /-- The new CT10 stage consumes the exact preceding CT12 output. -/
 theorem p13LabelAlgebraPrefix_previous

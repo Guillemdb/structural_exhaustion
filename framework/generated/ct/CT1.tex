@@ -98,6 +98,8 @@ Node & Problem-specific static inputs & Predecessor and inferred inputs & Framew
 \draw[ctroutearrow] (n5.south)--(r1.north);
 \node[ctroute] (r2) at (10.30,-13.80) {\textbf{Typed route}\\\texttt{CT1.\allowbreak{}residual.\allowbreak{}avoiding-\allowbreak{}>CT2.\allowbreak{}local\allowbreak{}Deletion}\\{\tiny priority; capability\allowbreak{}Discovery}};
 \draw[ctroutearrow] (n5.south)--(r2.north);
+\node[ctroute] (r3) at (17.30,-13.80) {\textbf{Typed route}\\\texttt{CT1.\allowbreak{}terminal.\allowbreak{}c1-\allowbreak{}>CT12}\\{\tiny forced; problem\allowbreak{}Semantic\allowbreak{}Adapter}\\{\tiny adapter: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT1\allowbreak{}To\allowbreak{}CT12.\allowbreak{}Semantic\allowbreak{}Adapter}}};
+\draw[ctroutearrow] (n4.south)--(r3.north);
 \end{tikzpicture}%
 \end{adjustbox}
 \caption{Automation-first sequential machine for CT1. Each executable node has separate problem-specific static, predecessor, and framework-derived dependency boxes. Terminal nodes consume only incoming edge evidence. Route boxes are separate framework rules.}
@@ -108,11 +110,13 @@ Node & Problem-specific static inputs & Predecessor and inferred inputs & Framew
 \begingroup\small\sloppy
 \paragraph{Residual contracts.}
 \begin{itemize}
+\item \texttt{CT1.\allowbreak{}terminal.\allowbreak{}c1}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT1.\allowbreak{}Target}; inherited context \texttt{branch}.
 \item \texttt{CT1.\allowbreak{}residual.\allowbreak{}avoiding}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT1.\allowbreak{}Avoiding\allowbreak{}State}; inherited context \texttt{avoiding\allowbreak{}Branch}.
 \end{itemize}
 \paragraph{Registered routes.}
 \begin{itemize}
 \item \texttt{CT1.\allowbreak{}residual.\allowbreak{}avoiding-\allowbreak{}>CT2}: \texttt{CT1.\allowbreak{}residual.\allowbreak{}avoiding} $\to$ \texttt{CT2}; discovery \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT2.\allowbreak{}Capability.\allowbreak{}discover}; authoring mode \texttt{capability\allowbreak{}Discovery}.
 \item \texttt{CT1.\allowbreak{}residual.\allowbreak{}avoiding-\allowbreak{}>CT2.\allowbreak{}local\allowbreak{}Deletion}: \texttt{CT1.\allowbreak{}residual.\allowbreak{}avoiding} $\to$ \texttt{CT2}; discovery \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT2.\allowbreak{}Local\allowbreak{}Deletion\allowbreak{}Capability.\allowbreak{}discover}; authoring mode \texttt{capability\allowbreak{}Discovery}.
+\item \texttt{CT1.\allowbreak{}terminal.\allowbreak{}c1-\allowbreak{}>CT12}: \texttt{CT1.\allowbreak{}terminal.\allowbreak{}c1} $\to$ \texttt{CT12}; discovery \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT1\allowbreak{}To\allowbreak{}CT12.\allowbreak{}Semantic\allowbreak{}Adapter.\allowbreak{}discover}; authoring mode \texttt{problem\allowbreak{}Semantic\allowbreak{}Adapter} with adapter \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT1\allowbreak{}To\allowbreak{}CT12.\allowbreak{}Semantic\allowbreak{}Adapter}.
 \end{itemize}
 \endgroup

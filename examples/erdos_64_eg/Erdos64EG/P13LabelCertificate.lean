@@ -21,7 +21,7 @@ theorem pairCycleLength_powerOfTwo_iff_gap_two_or_six
     PowerOfTwoLength
         (Graph.InducedPathAttachment.pairCycleLength left right) ↔
       right.1 - left.1 = 2 ∨ right.1 - left.1 = 6 := by
-  native_decide +revert
+  decide +revert
 
 /-- Population count agrees with the decoded finite-set cardinality. -/
 theorem labelCode_card (code : Code) :

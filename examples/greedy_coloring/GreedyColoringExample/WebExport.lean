@@ -95,6 +95,10 @@ private def coloringWorkflow : ExampleWorkflowDescriptor := {
       kind := .scheduleAudit
       label := "certifies schedule"
       description := "CT12 audits the same vertex order used by the fold; this is orchestration, not a registered residual route."
+      automationDeclarations := [
+        `StructuralExhaustion.Graph.GreedyColoring.colorOrder,
+        `StructuralExhaustion.Graph.GreedyColoring.peelingRun
+      ]
       evidenceDeclarations := [`StructuralExhaustion.Graph.GreedyColoring.peeling_terminal_exhausted]
     },
     {

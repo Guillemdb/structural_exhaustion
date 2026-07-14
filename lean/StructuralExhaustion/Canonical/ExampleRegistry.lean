@@ -202,6 +202,9 @@ structure ExampleLinkDescriptor where
   label : String
   description : String
   routeId? : Option String := none
+  /-- Framework-owned declarations that execute or certify this connection.
+  Every direct transition between distinct CT stages must name at least one. -/
+  automationDeclarations : List Lean.Name := []
   evidenceDeclarations : List Lean.Name := []
   deriving Repr, DecidableEq
 

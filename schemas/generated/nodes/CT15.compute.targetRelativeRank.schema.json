@@ -18,6 +18,115 @@
         "ordinal": 2,
         "nodeKind": "computation",
         "nodeId": "CT15.compute.targetRelativeRank",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.TargetDependent",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition that coordinate c depends on the target in branch x.",
+              "mathematicalDefinition": "\\operatorname{TargetDependent}(x,c)",
+              "label": "Target-dependent coordinate",
+              "declarationId": "StructuralExhaustion.CT15.Spec.TargetDependent"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.coordinates",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all rank coordinates.",
+              "mathematicalDefinition": "\\operatorname{coordinates}=\\mathcal{C}",
+              "label": "Finite coordinate enumeration",
+              "declarationId": "StructuralExhaustion.CT15.Capability.coordinates"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.targetDependentDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding whether a coordinate is target-dependent.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{TargetDependent}(x,c))",
+              "label": "Target-dependence decision",
+              "declarationId": "StructuralExhaustion.CT15.Capability.targetDependentDecidable"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "input",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: input.",
+              "mathematicalDefinition": null,
+              "label": "input",
+              "declarationId": null
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "CT15.computeRank",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: CT15.computeRank.",
+              "mathematicalDefinition": null,
+              "label": "CT15.computeRank",
+              "declarationId": "StructuralExhaustion.CT15.computeRank"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT15.RankState",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "Machine-computed target-relative rank. ",
+              "mathematicalDefinition": null,
+              "label": "CT15.RankState",
+              "declarationId": "StructuralExhaustion.CT15.RankState"
+            }
+          ],
+          "nodeId": "CT15.compute.targetRelativeRank",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT15.compute.targetRelativeRank.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT15.compute.targetRelativeRank.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT15.compute.targetRelativeRank.internal.author.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT15.compute.targetRelativeRank.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT15.compute.targetRelativeRank.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

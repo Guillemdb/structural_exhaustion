@@ -18,6 +18,24 @@
         "ordinal": 1,
         "nodeKind": "entry",
         "nodeId": "CT4.entry",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT4.Input",
+                "provision": "derived_definitionally"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT4.Input.",
+              "mathematicalDefinition": null,
+              "label": "CT4.Input",
+              "declarationId": "StructuralExhaustion.CT4.Input"
+            }
+          ],
+          "nodeId": "CT4.entry",
+          "edges": []
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

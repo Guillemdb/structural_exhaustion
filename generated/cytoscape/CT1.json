@@ -423,37 +423,53 @@
     {
       "data": {
         "id": "CT1.edge.beginEquivalence",
+        "label": "beginEquivalence",
+        "kind": "ctTransition",
+        "ordinal": 1,
         "source": "CT1.entry",
         "target": "CT1.certify.equivalence",
         "constructor": "StructuralExhaustion.CT1.Graph.Edge.beginEquivalence",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} → CT1.Graph.Edge S input CT1.Graph.NodeId.entry CT1.Graph.NodeId.equivalenceCertification"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} → CT1.Graph.Edge S input CT1.Graph.NodeId.entry CT1.Graph.NodeId.equivalenceCertification",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT1.edge.equivalenceCertified",
+        "label": "equivalenceCertified",
+        "kind": "ctTransition",
+        "ordinal": 2,
         "source": "CT1.certify.equivalence",
         "target": "CT1.decide.realization",
         "constructor": "StructuralExhaustion.CT1.Graph.Edge.equivalenceCertified",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      CT1.EquivalenceState S input →\n        CT1.Graph.Edge S input CT1.Graph.NodeId.equivalenceCertification CT1.Graph.NodeId.realizationDecision"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      CT1.EquivalenceState S input →\n        CT1.Graph.Edge S input CT1.Graph.NodeId.equivalenceCertification CT1.Graph.NodeId.realizationDecision",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT1.edge.realizationHit",
+        "label": "realizationHit",
+        "kind": "ctTransition",
+        "ordinal": 3,
         "source": "CT1.decide.realization",
         "target": "CT1.terminal.c1",
         "constructor": "StructuralExhaustion.CT1.Graph.Edge.realizationHit",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.C1Certificate S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.c1Terminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.C1Certificate S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.c1Terminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT1.edge.realizationAvoiding",
+        "label": "realizationAvoiding",
+        "kind": "ctTransition",
+        "ordinal": 4,
         "source": "CT1.decide.realization",
         "target": "CT1.terminal.avoiding",
         "constructor": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.AvoidingState S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.avoidingTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.AvoidingState S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.avoidingTerminal",
+        "provision": "generated_audit"
       }
     },
     {
@@ -515,6 +531,42 @@
             "problemSpecificInputs": [
               "targetCapability",
               "minimalityKernel"
+            ],
+            "frameworkOwnedResponsibilities": [
+              "routeRuleConstruction",
+              "targetContextConstruction",
+              "triggerConstruction",
+              "soundnessProof",
+              "contextPreservationProof",
+              "provenanceProof"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT1.terminal.c1->CT12",
+        "label": "CT1.terminal.c1->CT12",
+        "kind": "generatedRoute",
+        "route": {
+          "triggerConstructor": "StructuralExhaustion.Routes.CT1ToCT12.buildTrigger",
+          "targetTacticId": "CT12",
+          "sourceResidualKind": "CT1.terminal.c1",
+          "soundnessTheorem": "StructuralExhaustion.Routes.CT1ToCT12.evidence_preserved",
+          "selectionClass": "forced",
+          "routeId": "CT1.terminal.c1->CT12",
+          "provenanceTheorem": "StructuralExhaustion.Routes.CT1ToCT12.generated_route_id",
+          "discovery": "StructuralExhaustion.Routes.CT1ToCT12.SemanticAdapter.discover",
+          "contextPreservationTheorem": "StructuralExhaustion.Routes.CT1ToCT12.branchContext_preserved",
+          "authoringBoundary": {
+            "semanticDiscovery": {
+              "kind": "problemSemanticAdapter",
+              "adapterType": "StructuralExhaustion.Routes.CT1ToCT12.SemanticAdapter"
+            },
+            "problemSpecificInputs": [
+              "targetCapability",
+              "semanticDiscoveryAdapter"
             ],
             "frameworkOwnedResponsibilities": [
               "routeRuleConstruction",

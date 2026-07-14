@@ -622,55 +622,79 @@
     {
       "data": {
         "id": "CT2.edge.beginDeletion",
+        "label": "beginDeletion",
+        "kind": "ctTransition",
+        "ordinal": 1,
         "source": "CT2.entry",
         "target": "CT2.decide.deletion",
         "constructor": "StructuralExhaustion.CT2.Graph.Edge.beginDeletion",
-        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.entry CT2.Graph.NodeId.deletionDecision"
+        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.entry CT2.Graph.NodeId.deletionDecision",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT2.edge.deletionCloses",
+        "label": "deletionCloses",
+        "kind": "ctTransition",
+        "ordinal": 2,
         "source": "CT2.decide.deletion",
         "target": "CT2.terminal.c2.deletion",
         "constructor": "StructuralExhaustion.CT2.Graph.Edge.deletionCloses",
-        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.DeletionWitness capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.deletionDecision CT2.Graph.NodeId.deletionC2Terminal"
+        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.DeletionWitness capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.deletionDecision CT2.Graph.NodeId.deletionC2Terminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT2.edge.deletionCritical",
+        "label": "deletionCritical",
+        "kind": "ctTransition",
+        "ordinal": 3,
         "source": "CT2.decide.deletion",
         "target": "CT2.search.replacements",
         "constructor": "StructuralExhaustion.CT2.Graph.Edge.deletionCritical",
-        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.DeletionCriticalState capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.deletionDecision CT2.Graph.NodeId.replacementAnalysis"
+        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.DeletionCriticalState capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.deletionDecision CT2.Graph.NodeId.replacementAnalysis",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT2.edge.replacementCloses",
+        "label": "replacementCloses",
+        "kind": "ctTransition",
+        "ordinal": 4,
         "source": "CT2.search.replacements",
         "target": "CT2.terminal.c2.replacement",
         "constructor": "StructuralExhaustion.CT2.Graph.Edge.replacementCloses",
-        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.ReplacementWitness capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis\n              CT2.Graph.NodeId.replacementC2Terminal"
+        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.ReplacementWitness capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis\n              CT2.Graph.NodeId.replacementC2Terminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT2.edge.replacementSeparating",
+        "label": "replacementSeparating",
+        "kind": "ctTransition",
+        "ordinal": 5,
         "source": "CT2.search.replacements",
         "target": "CT2.terminal.residual.separatingContext",
         "constructor": "StructuralExhaustion.CT2.Graph.Edge.replacementSeparating",
-        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.SeparatingContextResidual capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis CT2.Graph.NodeId.separatingTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.SeparatingContextResidual capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis CT2.Graph.NodeId.separatingTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT2.edge.replacementCritical",
+        "label": "replacementCritical",
+        "kind": "ctTransition",
+        "ordinal": 6,
         "source": "CT2.search.replacements",
         "target": "CT2.terminal.residual.criticality",
         "constructor": "StructuralExhaustion.CT2.Graph.Edge.replacementCritical",
-        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.CriticalityResidual capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis\n              CT2.Graph.NodeId.criticalityTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {Target : P.Ambient → Prop} →\n    {capability : CT2.Capability P Target} →\n      {ctx : Core.MinimalCounterexampleContext P Target} →\n        {input : CT2.Input capability ctx} →\n          CT2.CriticalityResidual capability ctx input →\n            CT2.Graph.Edge capability ctx input CT2.Graph.NodeId.replacementAnalysis\n              CT2.Graph.NodeId.criticalityTerminal",
+        "provision": "generated_audit"
       }
     },
     {

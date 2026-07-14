@@ -18,6 +18,61 @@
         "ordinal": 7,
         "nodeKind": "residual",
         "nodeId": "CT3.terminal.distinguishing-context",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT3.Graph.Edge.tableDefect",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT3.Graph.Edge.tableDefect.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT3.Graph.Edge.tableDefect",
+              "declarationId": "StructuralExhaustion.CT3.Graph.Edge.tableDefect"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT3.run_trace_valid",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Every erased trace is backed by an exact dependent path. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT3.run_trace_valid",
+              "declarationId": "StructuralExhaustion.CT3.run_trace_valid"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT3.ExecutionResult@CT3.terminal.distinguishing-context",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT3.ExecutionResult@CT3.terminal.distinguishing-context.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT3.ExecutionResult@CT3.terminal.distinguishing-context",
+              "declarationId": null
+            }
+          ],
+          "nodeId": "CT3.terminal.distinguishing-context",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT3.terminal.distinguishing-context.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT3.terminal.distinguishing-context.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [],

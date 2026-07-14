@@ -18,6 +18,169 @@
         "ordinal": 4,
         "nodeKind": "computation",
         "nodeId": "CT13.compute.reconciliation",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.Capability.tierTwo",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Returns the ordered payer collection available for a selected fallback obstruction.",
+              "mathematicalDefinition": "\\mathcal{P}_2(x,o)",
+              "label": "Tier-two payers",
+              "declarationId": "StructuralExhaustion.CT13.Capability.tierTwo"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.Capability.resource",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns to each payer the underlying resource that it consumes.",
+              "mathematicalDefinition": "\\rho_x:\\mathcal{P}\\to\\mathcal{R}",
+              "label": "Payer resource",
+              "declarationId": "StructuralExhaustion.CT13.Capability.resource"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.Capability.resourceDecidableEq",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable equality on resources, used to detect overlap and multiplicity.",
+              "mathematicalDefinition": "\\operatorname{decide}(r_1=r_2)",
+              "label": "Resource equality decision",
+              "declarationId": "StructuralExhaustion.CT13.Capability.resourceDecidableEq"
+            },
+            {
+              "stepId": "author.4",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.Capability.charge",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns the reconciled numerical contribution of each payer.",
+              "mathematicalDefinition": "q_x:\\mathcal{P}\\to\\mathbb{N}",
+              "label": "Payer charge",
+              "declarationId": "StructuralExhaustion.CT13.Capability.charge"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.FallbackState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Canonical fallback computed only after exhaustive tier-one absence. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.FallbackState",
+              "declarationId": "StructuralExhaustion.CT13.FallbackState"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.Core.FiniteSearch.onList",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Proof-carrying view of Mathlib's executable `List.find?`. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.Core.FiniteSearch.onList",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.onList"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.ReconciliationDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT13.ReconciliationDecision.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.ReconciliationDecision",
+              "declarationId": "StructuralExhaustion.CT13.ReconciliationDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.OverlapResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT13.OverlapResidual.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.OverlapResidual",
+              "declarationId": "StructuralExhaustion.CT13.OverlapResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.ReconciledState",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT13.ReconciledState.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.ReconciledState",
+              "declarationId": "StructuralExhaustion.CT13.ReconciledState"
+            }
+          ],
+          "nodeId": "CT13.compute.reconciliation",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT13.compute.reconciliation.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT13.compute.reconciliation.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT13.compute.reconciliation.internal.author.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.4",
+              "relation": "then",
+              "edgeId": "CT13.compute.reconciliation.internal.author.4-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT13.compute.reconciliation.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT13.compute.reconciliation.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT13.compute.reconciliation.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT13.compute.reconciliation.internal.theorem.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

@@ -18,6 +18,133 @@
         "ordinal": 3,
         "nodeKind": "computation",
         "nodeId": "CT10.search.direct",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.classes",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all refinement classes.",
+              "mathematicalDefinition": "\\operatorname{classes}=\\mathcal{C}",
+              "label": "Finite class enumeration",
+              "declarationId": "StructuralExhaustion.CT10.Capability.classes"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.Direct",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition that class c closes the branch without promotion.",
+              "mathematicalDefinition": "\\operatorname{Direct}(c)",
+              "label": "Directly closing class",
+              "declarationId": "StructuralExhaustion.CT10.Capability.Direct"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.directDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding whether a refinement class closes directly.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Direct}(c))",
+              "label": "Directness decision procedure",
+              "declarationId": "StructuralExhaustion.CT10.Capability.directDecidable"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "Core.FiniteSearch.search",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exhaustive search over an explicit Mathlib finite enumeration. ",
+              "mathematicalDefinition": null,
+              "label": "Core.FiniteSearch.search",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.search"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT10.DirectDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT10.DirectDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT10.DirectDecision",
+              "declarationId": "StructuralExhaustion.CT10.DirectDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT10.DirectResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT10.DirectResidual.",
+              "mathematicalDefinition": null,
+              "label": "CT10.DirectResidual",
+              "declarationId": "StructuralExhaustion.CT10.DirectResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT10.DirectAbsent",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT10.DirectAbsent.",
+              "mathematicalDefinition": null,
+              "label": "CT10.DirectAbsent",
+              "declarationId": "StructuralExhaustion.CT10.DirectAbsent"
+            }
+          ],
+          "nodeId": "CT10.search.direct",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT10.search.direct.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT10.search.direct.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT10.search.direct.internal.author.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT10.search.direct.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT10.search.direct.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT10.search.direct.internal.theorem.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

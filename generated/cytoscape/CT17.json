@@ -801,82 +801,118 @@
     {
       "data": {
         "id": "CT17.edge.begin",
+        "label": "begin",
+        "kind": "ctTransition",
+        "ordinal": 1,
         "source": "CT17.entry",
         "target": "CT17.search.compatibility",
         "constructor": "StructuralExhaustion.CT17.Graph.Edge.begin",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.entry CT17.Graph.NodeId.compatibility"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.entry CT17.Graph.NodeId.compatibility",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT17.edge.incompatible",
+        "label": "incompatible",
+        "kind": "ctTransition",
+        "ordinal": 2,
         "source": "CT17.search.compatibility",
         "target": "CT17.terminal.residual.incompatibility",
         "constructor": "StructuralExhaustion.CT17.Graph.Edge.incompatible",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.IncompatibilityResidual S capability ctx input →\n            CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.compatibility\n              CT17.Graph.NodeId.incompatibilityTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.IncompatibilityResidual S capability ctx input →\n            CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.compatibility\n              CT17.Graph.NodeId.incompatibilityTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT17.edge.compatible",
+        "label": "compatible",
+        "kind": "ctTransition",
+        "ordinal": 3,
         "source": "CT17.search.compatibility",
         "target": "CT17.decide.scale",
         "constructor": "StructuralExhaustion.CT17.Graph.Edge.compatible",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.CompatibleState S capability ctx input →\n            CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.compatibility CT17.Graph.NodeId.scale"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          CT17.CompatibleState S capability ctx input →\n            CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.compatibility CT17.Graph.NodeId.scale",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT17.edge.finite",
+        "label": "finite",
+        "kind": "ctTransition",
+        "ordinal": 4,
         "source": "CT17.decide.scale",
         "target": "CT17.enumerate.survivors",
         "constructor": "StructuralExhaustion.CT17.Graph.Edge.finite",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            CT17.FiniteScaleState S capability ctx input compatible →\n              CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.scale CT17.Graph.NodeId.survivors"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            CT17.FiniteScaleState S capability ctx input compatible →\n              CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.scale CT17.Graph.NodeId.survivors",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT17.edge.orbitScale",
+        "label": "orbitScale",
+        "kind": "ctTransition",
+        "ordinal": 5,
         "source": "CT17.decide.scale",
         "target": "CT17.decide.arithmetic",
         "constructor": "StructuralExhaustion.CT17.Graph.Edge.orbitScale",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            CT17.OrbitScaleState S capability ctx input compatible →\n              CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.scale CT17.Graph.NodeId.arithmetic"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            CT17.OrbitScaleState S capability ctx input compatible →\n              CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.scale CT17.Graph.NodeId.arithmetic",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT17.edge.exhausted",
+        "label": "exhausted",
+        "kind": "ctTransition",
+        "ordinal": 6,
         "source": "CT17.enumerate.survivors",
         "target": "CT17.terminal.certificate.exhausted",
         "constructor": "StructuralExhaustion.CT17.Graph.Edge.exhausted",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {finite : CT17.FiniteScaleState S capability ctx input compatible} →\n              CT17.ExhaustedCertificate S capability ctx input →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.survivors CT17.Graph.NodeId.exhaustedTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {finite : CT17.FiniteScaleState S capability ctx input compatible} →\n              CT17.ExhaustedCertificate S capability ctx input →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.survivors CT17.Graph.NodeId.exhaustedTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT17.edge.survivors",
+        "label": "survivors",
+        "kind": "ctTransition",
+        "ordinal": 7,
         "source": "CT17.enumerate.survivors",
         "target": "CT17.terminal.residual.survivors",
         "constructor": "StructuralExhaustion.CT17.Graph.Edge.survivors",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {finite : CT17.FiniteScaleState S capability ctx input compatible} →\n              CT17.SurvivorResidual S capability ctx input →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.survivors CT17.Graph.NodeId.survivorTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {finite : CT17.FiniteScaleState S capability ctx input compatible} →\n              CT17.SurvivorResidual S capability ctx input →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.survivors CT17.Graph.NodeId.survivorTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT17.edge.targetHit",
+        "label": "targetHit",
+        "kind": "ctTransition",
+        "ordinal": 8,
         "source": "CT17.decide.arithmetic",
         "target": "CT17.terminal.certificate.target-hit",
         "constructor": "StructuralExhaustion.CT17.Graph.Edge.targetHit",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {orbit : CT17.OrbitScaleState S capability ctx input compatible} →\n              CT17.TargetHitCertificate S capability ctx input orbit →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.arithmetic CT17.Graph.NodeId.targetHitTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {orbit : CT17.OrbitScaleState S capability ctx input compatible} →\n              CT17.TargetHitCertificate S capability ctx input orbit →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.arithmetic CT17.Graph.NodeId.targetHitTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT17.edge.orbit",
+        "label": "orbit",
+        "kind": "ctTransition",
+        "ordinal": 9,
         "source": "CT17.decide.arithmetic",
         "target": "CT17.terminal.residual.orbit",
         "constructor": "StructuralExhaustion.CT17.Graph.Edge.orbit",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {orbitState : CT17.OrbitScaleState S capability ctx input compatible} →\n              CT17.OrbitResidual S capability ctx input orbitState →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.arithmetic CT17.Graph.NodeId.orbitTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT17.Spec P} →\n    {capability : CT17.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT17.Input S capability ctx} →\n          {compatible : CT17.CompatibleState S capability ctx input} →\n            {orbitState : CT17.OrbitScaleState S capability ctx input compatible} →\n              CT17.OrbitResidual S capability ctx input orbitState →\n                CT17.Graph.Edge S capability ctx input CT17.Graph.NodeId.arithmetic CT17.Graph.NodeId.orbitTerminal",
+        "provision": "generated_audit"
       }
     }
   ]

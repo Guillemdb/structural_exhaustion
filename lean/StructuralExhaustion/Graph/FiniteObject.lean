@@ -105,6 +105,32 @@ def degree (object : FiniteObject V) (vertex : V) : Nat := by
   letI : DecidableRel object.graph.Adj := object.input.decideAdj
   exact object.graph.degree vertex
 
+/-- Any explicit finite set of neighbours gives a reusable lower bound on
+the degree.  This avoids repeating small-neighbour cardinality arguments in
+local graph profiles. -/
+theorem card_le_degree_of_adjacent_finset (object : FiniteObject V)
+    (center : V) (neighbors : Finset V)
+    (adjacent : ∀ vertex ∈ neighbors, object.graph.Adj center vertex) :
+    neighbors.card ≤ object.degree center := by
+  letI : FinEnum V := object.input.vertices
+  letI : DecidableRel object.graph.Adj := object.input.decideAdj
+  letI : DecidableEq V := object.input.vertices.decEq
+  have subset : neighbors ⊆ object.graph.neighborFinset center := by
+    intro vertex member
+    simpa [SimpleGraph.mem_neighborFinset] using adjacent vertex member
+  exact Finset.card_le_card subset
+
+/-- Instance-independent set-cardinality form of the bundled degree.  This is
+the convenient bridge when two finite schedules enumerate the same
+mathematical neighbour set. -/
+theorem degree_eq_ncard_neighborSet (object : FiniteObject V) (vertex : V) :
+    object.degree vertex = (object.graph.neighborSet vertex).ncard := by
+  letI : FinEnum V := object.input.vertices
+  letI : DecidableRel object.graph.Adj := object.input.decideAdj
+  unfold degree
+  rw [Set.ncard_eq_toFinset_card']
+  rfl
+
 /-- Mathlib minimum degree of the bundled graph. -/
 def minDegree (object : FiniteObject V) : Nat := by
   letI : FinEnum V := object.input.vertices
@@ -128,6 +154,16 @@ theorem minDegree_le_degree (object : FiniteObject V) (vertex : V) :
   letI : FinEnum V := object.input.vertices
   letI : DecidableRel object.graph.Adj := object.input.decideAdj
   exact object.graph.minDegree_le_degree vertex
+
+/-- Bundle-level form of Mathlib's pointwise minimum-degree introduction
+rule. -/
+theorem le_minDegree_of_forall_le_degree (object : FiniteObject V)
+    [Nonempty V] (bound : Nat)
+    (pointwise : ∀ vertex, bound ≤ object.degree vertex) :
+    bound ≤ object.minDegree := by
+  letI : FinEnum V := object.input.vertices
+  letI : DecidableRel object.graph.Adj := object.input.decideAdj
+  exact object.graph.le_minDegree_of_forall_le_degree bound pointwise
 
 /-- Every vertex degree is bounded by the object's Mathlib maximum degree. -/
 theorem degree_le_maxDegree (object : FiniteObject V) (vertex : V) :

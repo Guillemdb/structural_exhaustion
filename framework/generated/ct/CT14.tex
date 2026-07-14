@@ -101,6 +101,8 @@ Node & Problem-specific static inputs & Predecessor and inferred inputs & Framew
 \draw[ctedge] (n4.south east) to[bend left=15] node[ctedgelabel] {upper} (n5.north east);
 \draw[ctedge] (n5.east) to[bend left=10] node[ctedgelabel] {aggregate} (n8.west);
 \draw[ctedge] (n5.east) to[bend left=10] node[ctedgelabel] {capacity} (n9.west);
+\node[ctroute] (r1) at (3.30,-17.30) {\textbf{Typed route}\\\texttt{CT14.\allowbreak{}residual.\allowbreak{}capacity-\allowbreak{}>CT14}\\{\tiny forced; capability\allowbreak{}Discovery}};
+\draw[ctroutearrow] (n9.south)--(r1.north);
 \end{tikzpicture}%
 \end{adjustbox}
 \caption{Automation-first sequential machine for CT14. Each executable node has separate problem-specific static, predecessor, and framework-derived dependency boxes. Terminal nodes consume only incoming edge evidence. Route boxes are separate framework rules.}
@@ -114,5 +116,9 @@ Node & Problem-specific static inputs & Predecessor and inferred inputs & Framew
 \item \texttt{CT14.\allowbreak{}residual.\allowbreak{}unbounded\allowbreak{}Member}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT14.\allowbreak{}Unbounded\allowbreak{}Member\allowbreak{}Residual}; inherited context \texttt{branch}.
 \item \texttt{CT14.\allowbreak{}residual.\allowbreak{}missing\allowbreak{}Label}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT14.\allowbreak{}Missing\allowbreak{}Label\allowbreak{}Residual}; inherited context \texttt{branch}.
 \item \texttt{CT14.\allowbreak{}residual.\allowbreak{}capacity}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT14.\allowbreak{}Capacity\allowbreak{}Residual}; inherited context \texttt{branch}.
+\end{itemize}
+\paragraph{Registered routes.}
+\begin{itemize}
+\item \texttt{CT14.\allowbreak{}residual.\allowbreak{}capacity-\allowbreak{}>CT14}: \texttt{CT14.\allowbreak{}residual.\allowbreak{}capacity} $\to$ \texttt{CT14}; discovery \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT14.\allowbreak{}Capability.\allowbreak{}discover}; authoring mode \texttt{capability\allowbreak{}Discovery}.
 \end{itemize}
 \endgroup

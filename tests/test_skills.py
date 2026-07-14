@@ -10,11 +10,12 @@ SKILLS_ROOT = ROOT / ".agents/skills"
 STRATEGY = "design-structural-exhaustion-proof"
 ROUTE = "implement-structural-exhaustion-route"
 ERDOS_NEXT_CT = "implement-next-erdos-64-eg-ct"
+ERDOS_REVIEW = "review-erdos-64-eg-expansion"
 CT_SKILLS = {
     f"implement-structural-exhaustion-ct{number}": f"CT{number}"
     for number in range(1, 18)
 }
-EXPECTED_SKILLS = {STRATEGY, ROUTE, ERDOS_NEXT_CT, *CT_SKILLS}
+EXPECTED_SKILLS = {STRATEGY, ROUTE, ERDOS_NEXT_CT, ERDOS_REVIEW, *CT_SKILLS}
 
 
 def read_skill(name: str) -> str:
@@ -165,7 +166,7 @@ def test_route_skill_covers_every_registered_authoring_boundary() -> None:
     catalog = json.loads(
         (ROOT / "generated/lean-machines.json").read_text(encoding="utf-8")
     )
-    assert len(catalog["routes"]) == 5
+    assert len(catalog["routes"]) == 9
     for route_phrase, adapter, example in (
         ("CT1 avoidance to CT2", "MinimalityKernel", "CT1ToCT2AutomationFirst.lean"),
         (
@@ -173,9 +174,25 @@ def test_route_skill_covers_every_registered_authoring_boundary() -> None:
             "LocalDeletionCapability",
             "CT1ToCT2AutomationFirst.lean",
         ),
+        (
+            "CT1 C1 terminal to CT12",
+            "SemanticAdapter",
+            "EvenCycleExample/CT12MaximalMatching.lean",
+        ),
         ("CT2 separating context to CT3", "PieceDiscovery", "CT2ToCT3AutomationFirst.lean"),
         ("CT2 criticality to CT10", "DataDiscovery", "CT2ToCT10AutomationFirst.lean"),
+        (
+            "CT5 charge ledger to CT14",
+            "forced empty trigger",
+            "CT5ToCT14AutomationFirst.lean",
+        ),
         ("CT6 active ledger to CT9", "ItemCollectionAdapter", "CT6ToCT9AutomationFirst.lean"),
+        ("CT9 capacity-one overload to CT7", "ObjectAdapter", "CT9ToCT7AutomationFirst.lean"),
+        (
+            "CT14 capacity ledger to CT14",
+            "independently declared target capability",
+            "CT14ToCT14AutomationFirst.lean",
+        ),
     ):
         assert route_phrase in skill
         assert adapter in skill
@@ -284,3 +301,75 @@ def test_erdos_next_ct_skill_requires_transfer_and_current_state_log() -> None:
         "all ambient contexts",
     ):
         assert prohibited_global_search in normalized
+
+
+def test_erdos_expansion_review_skill_audits_and_repairs_the_full_claim() -> None:
+    skill = read_skill(ERDOS_REVIEW)
+    normalized = " ".join(skill.split())
+
+    for authority in (
+        "implement-next-erdos-64-eg-ct/SKILL.md",
+        "design-structural-exhaustion-proof/SKILL.md",
+        "implement-structural-exhaustion-ctN/SKILL.md",
+        "proofs/erdos_64_eg/erdos_64_proof.tex",
+        "OfficialStatement.lean",
+        "InternalProblem.lean",
+        "WebExport.lean",
+        "generated/lean-machines.json",
+        "generated/examples/erdos-64.json",
+    ):
+        assert authority in skill
+
+    for unconditional_guardrail in (
+        "Do not implement the next CT",
+        "public endpoint",
+        "exact preceding execution output",
+        "public framework runner",
+        "terminal-indexed outcome",
+        "typed path and trace",
+        "semantic soundness",
+        "totality",
+        "#print axioms",
+        "sole permitted external theorem",
+        "Hegde--Sandeep--Shashank",
+        "previous unconditional frontier",
+    ):
+        assert unconditional_guardrail in normalized
+
+    for manuscript_sync in (
+        "repair the paper only with mathematics already kernel-verified",
+        "Never weaken or rewrite the paper merely to conceal an unproved Lean obligation",
+        "TeX label or diagram node -> proof step -> workflow stage",
+        "Lean declaration -> declaration group and role",
+        "explainedDeclarations == displayedDeclarations",
+        "ExampleDeclarationGroup",
+        "make export",
+        "IMPLEMENTATION_LOG.md",
+    ):
+        assert manuscript_sync in normalized
+
+    for architecture_rule in (
+        "Apply the parameterization test declaration by declaration",
+        "`Core`",
+        "That CT namespace",
+        "`Routes`",
+        "`Graph`",
+        "named textbook example",
+        "exact new graph/core/CT/route profile",
+        "Core.PolynomialCheckBudget",
+        "all `SimpleGraph V`",
+        "recursively expanding frontier",
+    ):
+        assert architecture_rule in normalized
+
+    for validation in (
+        "make lint",
+        "make framework-build",
+        "make erdos-example-build",
+        "make example-build",
+        "tests/test_example_catalog.py",
+        "make web-frontend-test",
+        "latexmk",
+        "git diff --check",
+    ):
+        assert validation in skill

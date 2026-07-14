@@ -10,6 +10,7 @@ vi.mock("../api", () => ({ fetchExamples: vi.fn() }));
 
 const response: ExamplesResponse = {
   artifactType: "frameworkExplorerExamples",
+  artifactWarnings: [],
   catalog: {
     schemaVersion: "1.0.0",
     catalogHash: "1234567890abcdef",
@@ -56,6 +57,10 @@ describe("ExamplesPage", () => {
     expect(await screen.findByRole("heading", { name: "Even cycle" })).toBeVisible();
     expect(screen.getByText("Erdős 6-4")).toBeVisible();
     expect(screen.getByText("partial")).toBeVisible();
+    expect(screen.getByRole("link", { name: /Erdős 6-4/ })).toHaveAttribute(
+      "href",
+      "/erdos-gyarfas",
+    );
 
     fireEvent.change(screen.getByRole("searchbox", { name: "Search examples" }), {
       target: { value: "CT9" },
@@ -69,5 +74,25 @@ describe("ExamplesPage", () => {
       "href",
       "/examples/even-cycle",
     );
+  });
+
+  it("shows stale generated-artifact warnings without replacing the page", async () => {
+    vi.mocked(fetchExamples).mockResolvedValue({
+      ...response,
+      artifactWarnings: [
+        {
+          code: "staleHash",
+          message: "The manuscript hash is stale. Showing embedded content.",
+        },
+      ],
+    });
+    render(<MemoryRouter><ExamplesPage /></MemoryRouter>);
+
+    const warning = await screen.findByRole("status", {
+      name: "Stale artifact warning",
+    });
+    expect(warning).toHaveTextContent("Generated content may be stale");
+    expect(warning).toHaveTextContent("Showing embedded content");
+    expect(screen.getByRole("heading", { name: "Even cycle" })).toBeVisible();
   });
 });

@@ -18,6 +18,133 @@
         "ordinal": 3,
         "nodeKind": "decision",
         "nodeId": "CT17.decide.scale",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.finiteScaleLimit",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The declared bound separating exhaustive finite-scale analysis from survivor arithmetic.",
+              "mathematicalDefinition": "s_{\\max}\\in\\mathbb{N}",
+              "label": "Finite scale limit",
+              "declarationId": "StructuralExhaustion.CT17.Capability.finiteScaleLimit"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CompatibleState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "State produced only after exhaustive compatibility search has found no\ncounterexample. ",
+              "mathematicalDefinition": null,
+              "label": "CompatibleState",
+              "declarationId": "StructuralExhaustion.CT17.CompatibleState"
+            },
+            {
+              "stepId": "predecessor.2",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.scale",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.scale.",
+              "mathematicalDefinition": null,
+              "label": "Input.scale",
+              "declarationId": "StructuralExhaustion.CT17.Input.scale"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "CT17.analyzeScale_sound",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: CT17.analyzeScale_sound.",
+              "mathematicalDefinition": null,
+              "label": "CT17.analyzeScale_sound",
+              "declarationId": "StructuralExhaustion.CT17.analyzeScale_sound"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT17.ScaleDecision",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT17.ScaleDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT17.ScaleDecision",
+              "declarationId": "StructuralExhaustion.CT17.ScaleDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT17.FiniteScaleState",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "Exact finite-scale predecessor state. ",
+              "mathematicalDefinition": null,
+              "label": "CT17.FiniteScaleState",
+              "declarationId": "StructuralExhaustion.CT17.FiniteScaleState"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT17.OrbitScaleState",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "Exact large-scale predecessor state. ",
+              "mathematicalDefinition": null,
+              "label": "CT17.OrbitScaleState",
+              "declarationId": "StructuralExhaustion.CT17.OrbitScaleState"
+            }
+          ],
+          "nodeId": "CT17.decide.scale",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT17.decide.scale.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT17.decide.scale.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.2",
+              "relation": "then",
+              "edgeId": "CT17.decide.scale.internal.predecessor.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT17.decide.scale.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT17.decide.scale.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT17.decide.scale.internal.theorem.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

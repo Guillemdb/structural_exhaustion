@@ -74,9 +74,13 @@ build: framework-build example-build
 example-export: build
 	mkdir -p $(EXAMPLE_EXPORT_DIR)
 	rm -f $(EXAMPLE_EXPORT_DIR)/*.json
+	cd $(EVEN_CYCLE_EXAMPLE_DIR) && STRUCTURAL_EXHAUSTION_EXAMPLE_EXPORT=../../$(EXAMPLE_EXPORT_DIR)/even-cycle.raw.json lake build EvenCycleExample.WebExport
 	cd $(EVEN_CYCLE_EXAMPLE_DIR) && STRUCTURAL_EXHAUSTION_EXAMPLE_EXPORT=../../$(EXAMPLE_EXPORT_DIR)/even-cycle.raw.json lake env lean EvenCycleExample/WebExport.lean
+	cd $(ERDOS_EXAMPLE_DIR) && STRUCTURAL_EXHAUSTION_EXAMPLE_EXPORT=../../$(EXAMPLE_EXPORT_DIR)/erdos-64.raw.json lake build Erdos64EG.WebExport
 	cd $(ERDOS_EXAMPLE_DIR) && STRUCTURAL_EXHAUSTION_EXAMPLE_EXPORT=../../$(EXAMPLE_EXPORT_DIR)/erdos-64.raw.json lake env lean Erdos64EG/WebExport.lean
+	cd $(GREEDY_COLORING_EXAMPLE_DIR) && STRUCTURAL_EXHAUSTION_EXAMPLE_EXPORT=../../$(EXAMPLE_EXPORT_DIR)/greedy-coloring.raw.json lake build GreedyColoringExample.WebExport
 	cd $(GREEDY_COLORING_EXAMPLE_DIR) && STRUCTURAL_EXHAUSTION_EXAMPLE_EXPORT=../../$(EXAMPLE_EXPORT_DIR)/greedy-coloring.raw.json lake env lean GreedyColoringExample/WebExport.lean
+	cd $(MANTEL_EXAMPLE_DIR) && STRUCTURAL_EXHAUSTION_EXAMPLE_EXPORT=../../$(EXAMPLE_EXPORT_DIR)/mantel.raw.json lake build MantelExample.WebExport
 	cd $(MANTEL_EXAMPLE_DIR) && STRUCTURAL_EXHAUSTION_EXAMPLE_EXPORT=../../$(EXAMPLE_EXPORT_DIR)/mantel.raw.json lake env lean MantelExample/WebExport.lean
 
 export: build example-export
@@ -122,7 +126,7 @@ web-test: $(WEB_NODE_STAMP)
 	$(MAKE) web-frontend-test
 
 web: web-build
-	UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run --with-requirements requirements.txt uvicorn web.backend.app.main:app --host $(WEB_HOST) --port $(WEB_PORT)
+	STRUCTURAL_EXHAUSTION_ALLOW_STALE_HASHES=1 UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run --with-requirements requirements.txt uvicorn web.backend.app.main:app --host $(WEB_HOST) --port $(WEB_PORT)
 
 manuscript: generate
 	mkdir -p build/framework

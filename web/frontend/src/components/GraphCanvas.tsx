@@ -10,7 +10,7 @@ import type { GraphElement, GraphElementData, SelectedGraphElement } from "../ty
 
 interface GraphCanvasProps {
   elements: GraphElement[];
-  mode: "framework" | "machine" | "example";
+  mode: "framework" | "machine" | "internals" | "example" | "proofFlow";
   entryId?: string;
   selectedId?: string | null;
   onSelect?: (element: SelectedGraphElement | null) => void;
@@ -104,6 +104,80 @@ const graphStyles: cytoscape.StylesheetJson = [
     style: { "background-color": "#755d91", shape: "round-hexagon" },
   },
   {
+    selector: "node[expanded]",
+    style: {
+      "background-color": "#f3f0e8",
+      "background-opacity": 0.82,
+      "border-color": "#315d73",
+      "border-style": "dashed",
+      "border-width": 2,
+      color: "#193f57",
+      label: "data(label)",
+      padding: "28px",
+      shape: "round-rectangle",
+      "text-background-opacity": 0,
+      "text-border-width": 0,
+      "text-halign": "center",
+      "text-margin-y": 0,
+      "text-valign": "top",
+    },
+  },
+  {
+    selector: 'node[kind = "internalStep"]',
+    style: {
+      "background-color": "#315d73",
+      "border-width": 2,
+      color: "#172235",
+      height: 34,
+      label: "data(label)",
+      shape: "round-rectangle",
+      "text-margin-y": 32,
+      "text-max-width": "130px",
+      width: 54,
+    },
+  },
+  {
+    selector: 'node[kind = "internalStep"][role = "authorObject"]',
+    style: { "background-color": "#d18a2c" },
+  },
+  {
+    selector: 'node[kind = "internalStep"][role = "inferredInstance"]',
+    style: { "background-color": "#697889" },
+  },
+  {
+    selector: 'node[kind = "internalStep"][role = "predecessorState"]',
+    style: { "background-color": "#755d91" },
+  },
+  {
+    selector: 'node[kind = "internalStep"][role = "theorem"]',
+    style: { "background-color": "#193f57", shape: "hexagon" },
+  },
+  {
+    selector: 'node[kind = "internalStep"][role = "output"]',
+    style: { "background-color": "#4d815f" },
+  },
+  {
+    selector: 'node[kind = "leanDeclaration"], node[kind = "externalDeclaration"]',
+    style: {
+      "background-color": "#fbfaf6",
+      "border-color": "#7b8d95",
+      "border-width": 2,
+      color: "#334753",
+      height: 26,
+      shape: "rectangle",
+      "text-margin-y": 28,
+      "text-max-width": "120px",
+      width: 34,
+    },
+  },
+  {
+    selector: 'node[kind = "externalDeclaration"]',
+    style: {
+      "border-style": "dotted",
+      opacity: 0.72,
+    },
+  },
+  {
     selector: 'node[kind = "problem"]',
     style: { "background-color": "#315d73", shape: "round-rectangle" },
   },
@@ -120,6 +194,59 @@ const graphStyles: cytoscape.StylesheetJson = [
     style: { "background-color": "#697889", shape: "rectangle" },
   },
   {
+    selector: 'node[kind = "proofFlowNode"]',
+    style: {
+      "background-color": "#fbfaf6",
+      "border-color": "#87969a",
+      "border-width": 2,
+      color: "#263b46",
+      "font-size": 10,
+      "font-weight": 650,
+      height: 62,
+      shape: "round-rectangle",
+      "text-background-opacity": 0,
+      "text-border-width": 0,
+      "text-margin-y": 0,
+      "text-max-width": "180px",
+      "text-valign": "center",
+      width: 210,
+    },
+  },
+  {
+    selector: 'node[kind = "proofFlowNode"][proofNodeKind = "decision"]',
+    style: {
+      height: 94,
+      shape: "diamond",
+      "text-max-width": "132px",
+      width: 198,
+    },
+  },
+  {
+    selector: 'node[kind = "proofFlowNode"][proofNodeKind = "terminal"]',
+    style: {
+      height: 68,
+      shape: "ellipse",
+      "text-max-width": "155px",
+      width: 190,
+    },
+  },
+  {
+    selector: 'node[kind = "proofFlowNode"][verified = true]',
+    style: {
+      "background-color": "#397a50",
+      "border-color": "#cfe5d5",
+      color: "#ffffff",
+    },
+  },
+  {
+    selector: 'node[kind = "proofFlowNode"][status = "next"]',
+    style: {
+      "background-color": "#d18a2c",
+      "border-color": "#f2ddbd",
+      color: "#ffffff",
+    },
+  },
+  {
     selector: "edge",
     style: {
       width: 2,
@@ -128,6 +255,20 @@ const graphStyles: cytoscape.StylesheetJson = [
       "target-arrow-shape": "triangle",
       "arrow-scale": 0.8,
       "curve-style": "bezier",
+    },
+  },
+  {
+    selector: 'edge[kind = "ctTransition"]',
+    style: {
+      color: "#52636b",
+      "font-size": 8,
+      label: "data(label)",
+      "line-color": "#7c9098",
+      "target-arrow-color": "#7c9098",
+      "text-background-color": "#fdfcf9",
+      "text-background-opacity": 0.94,
+      "text-background-padding": "2px",
+      "text-rotation": "autorotate",
     },
   },
   {
@@ -144,6 +285,38 @@ const graphStyles: cytoscape.StylesheetJson = [
       "text-background-opacity": 0.95,
       "text-background-padding": "3px",
       "text-rotation": "autorotate",
+    },
+  },
+  {
+    selector: 'edge[kind = "implementedTransition"]',
+    style: {
+      width: 3,
+      "line-color": "#d18a2c",
+      "target-arrow-color": "#d18a2c",
+      label: "data(label)",
+      color: "#7a521f",
+      "font-size": 9,
+      "text-background-color": "#fbfaf6",
+      "text-background-opacity": 0.96,
+      "text-background-padding": "3px",
+      "text-rotation": "autorotate",
+    },
+  },
+  {
+    selector: 'edge[kind = "implementedTransition"][relationshipKind = "registeredRoute"]',
+    style: {
+      "line-color": "#755d91",
+      "target-arrow-color": "#755d91",
+      color: "#54406e",
+    },
+  },
+  {
+    selector: 'edge[kind = "implementedTransition"][relationshipKind = "scheduleAudit"]',
+    style: {
+      "line-color": "#697889",
+      "target-arrow-color": "#697889",
+      "line-style": "dotted",
+      color: "#56646f",
     },
   },
   {
@@ -211,6 +384,54 @@ const graphStyles: cytoscape.StylesheetJson = [
     },
   },
   {
+    selector: 'edge[kind = "proofFlowEdge"]',
+    style: {
+      color: "#55686f",
+      "curve-style": "taxi",
+      "font-size": 9,
+      label: "data(label)",
+      "line-color": "#71868d",
+      "target-arrow-color": "#71868d",
+      "text-background-color": "#fdfcf9",
+      "text-background-opacity": 0.96,
+      "text-background-padding": "3px",
+      "text-rotation": "none",
+      width: 2,
+    },
+  },
+  {
+    selector: 'edge[kind = "proofFlowEdge"][dashed = true]',
+    style: { "line-style": "dashed" },
+  },
+  {
+    selector: 'edge[kind = "internalFlow"]',
+    style: {
+      color: "#596b74",
+      "font-size": 8,
+      label: "data(label)",
+      "line-color": "#7b8d95",
+      "target-arrow-color": "#7b8d95",
+      "text-background-color": "#fdfcf9",
+      "text-background-opacity": 0.9,
+      "text-rotation": "autorotate",
+    },
+  },
+  {
+    selector: 'edge[kind = "typeDependency"], edge[kind = "bodyDependency"]',
+    style: {
+      color: "#6c5a43",
+      "font-size": 8,
+      label: "data(label)",
+      "line-color": "#b58d57",
+      "line-style": "dashed",
+      "target-arrow-color": "#b58d57",
+      "text-background-color": "#fdfcf9",
+      "text-background-opacity": 0.9,
+      "text-rotation": "autorotate",
+      width: 1.5,
+    },
+  },
+  {
     selector: ":selected",
     style: {
       "border-color": "#e0a33d",
@@ -245,8 +466,14 @@ export function GraphCanvas({
         : {
             name: "breadthfirst",
             directed: true,
-            spacingFactor: mode === "example" ? 1.65 : 1.35,
-            padding: 48,
+            spacingFactor: mode === "example"
+              ? 1.65
+              : mode === "internals"
+                ? 1.5
+                : mode === "proofFlow"
+                  ? 1.08
+                  : 1.35,
+            padding: mode === "proofFlow" ? 34 : 48,
             avoidOverlap: true,
           };
     const graph = cytoscape({
@@ -295,9 +522,13 @@ export function GraphCanvas({
         role="img"
         aria-label={
           mode === "framework"
-            ? "Registered routes between closure tactics"
+            ? "Registered routes and implemented proof transitions between closure tactics"
             : mode === "example"
               ? "Composition diagram for the selected example workflow"
+              : mode === "proofFlow"
+                ? "Selected part of the Chapter 1 proof dependency diagram"
+              : mode === "internals"
+                ? "Closure tactic graph with one node expanded into Lean internals"
               : "Closure tactic flow diagram"
         }
       />

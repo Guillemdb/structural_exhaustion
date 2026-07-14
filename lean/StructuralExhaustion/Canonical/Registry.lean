@@ -19,9 +19,13 @@ import StructuralExhaustion.CT17.Automation
 import StructuralExhaustion.Canonical.CapabilityConcepts
 import StructuralExhaustion.Canonical.NodeInternalMetadata
 import StructuralExhaustion.Routes.CT1ToCT2
+import StructuralExhaustion.Routes.CT1ToCT12
 import StructuralExhaustion.Routes.CT2ToCT3
 import StructuralExhaustion.Routes.CT2ToCT10
+import StructuralExhaustion.Routes.CT5ToCT14
 import StructuralExhaustion.Routes.CT6ToCT9
+import StructuralExhaustion.Routes.CT9ToCT7
+import StructuralExhaustion.Routes.CT14ToCT14
 
 namespace StructuralExhaustion.Canonical
 
@@ -103,11 +107,12 @@ def tactics : Array TacticDescriptor := #[
     `StructuralExhaustion.CT11 CT11.capabilityContract
     CT11.nodeAutomationContracts CT11.residualKindContracts
     [CT11.negativeBudgetCapabilityProfile],
-  descriptor "CT12" "Well-founded structural peeling" "CT12-v5"
+  descriptor "CT12" "Well-founded structural peeling" "CT12-v6"
     `StructuralExhaustion.CT12 CT12.capabilityContract
     CT12.nodeAutomationContracts CT12.residualKindContracts
     [CT12.listPeelingCapabilityProfile,
-      CT12.disjointPackingCapabilityProfile],
+      CT12.disjointPackingCapabilityProfile,
+      CT12.refinedLedgerCompletionCapabilityProfile],
   descriptor "CT13" "Tier availability and canonical fallback" "CT13-v3"
     `StructuralExhaustion.CT13 CT13.capabilityContract
     CT13.nodeAutomationContracts CT13.residualKindContracts,
@@ -129,9 +134,13 @@ def tactics : Array TacticDescriptor := #[
 def routes : List Core.RouteContract := [
   Routes.CT1ToCT2.contract,
   Routes.CT1ToCT2.LocalDeletion.contract,
+  Routes.CT1ToCT12.routeContract,
   Routes.CT2ToCT3.routeContract,
   Routes.CT2ToCT10.routeContract,
-  Routes.CT6ToCT9.routeContract
+  Routes.CT5ToCT14.routeContract,
+  Routes.CT6ToCT9.routeContract,
+  Routes.CT9ToCT7.routeContract,
+  Routes.CT14ToCT14.routeContract
 ]
 
 end StructuralExhaustion.Canonical

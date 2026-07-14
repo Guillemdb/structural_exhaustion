@@ -1,6 +1,6 @@
 {
   "artifactType": "structuralExhaustionExample",
-  "schemaVersion": "1.1.0",
+  "schemaVersion": "1.4.0",
   "sourceOfTruth": {
     "rootModule": "GreedyColoringExample",
     "kind": "compiledLeanEnvironment",
@@ -102,6 +102,7 @@
           "kind": "sharedProblem",
           "label": "audits vertex order",
           "summary": "The finite graph's declared vertex enumeration is the schedule inspected by CT12.",
+          "automationDeclarationIds": [],
           "evidenceDeclarationIds": []
         },
         {
@@ -111,6 +112,10 @@
           "kind": "scheduleAudit",
           "label": "certifies schedule",
           "summary": "CT12 audits the same vertex order used by the fold; this is orchestration, not a registered residual route.",
+          "automationDeclarationIds": [
+            "StructuralExhaustion.Graph.GreedyColoring.colorOrder",
+            "StructuralExhaustion.Graph.GreedyColoring.peelingRun"
+          ],
           "evidenceDeclarationIds": [
             "StructuralExhaustion.Graph.GreedyColoring.peeling_terminal_exhausted"
           ]
@@ -122,6 +127,7 @@
           "kind": "frameworkComposition",
           "label": "repeated reverse fold",
           "summary": "Problem-specific recursion repeatedly invokes CT4 and inserts each selected color into the partial coloring.",
+          "automationDeclarationIds": [],
           "evidenceDeclarationIds": [
             "StructuralExhaustion.Graph.GreedyColoring.colorOrder"
           ]
@@ -133,6 +139,7 @@
           "kind": "validation",
           "label": "validated by CT1",
           "summary": "CT1 checks the proper coloring after it has been constructed by the CT4 fold.",
+          "automationDeclarationIds": [],
           "evidenceDeclarationIds": []
         },
         {
@@ -142,6 +149,7 @@
           "kind": "proofData",
           "label": "witnesses colorability",
           "summary": "The complete coloring is the witness required by Mathlib's Colorable predicate.",
+          "automationDeclarationIds": [],
           "evidenceDeclarationIds": [
             "StructuralExhaustion.Graph.GreedyColoring.colorable_maxDegree_succ"
           ]
@@ -153,6 +161,7 @@
           "kind": "validation",
           "label": "target confirmed",
           "summary": "The CT1 success run independently confirms the generated certificate realizes the target.",
+          "automationDeclarationIds": [],
           "evidenceDeclarationIds": []
         }
       ]

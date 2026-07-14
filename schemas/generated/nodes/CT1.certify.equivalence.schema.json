@@ -18,6 +18,97 @@
         "ordinal": 2,
         "nodeKind": "certification",
         "nodeId": "CT1.certify.equivalence",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.Spec.TestIndex",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The finite family of target tests that CT1 must consider.",
+              "mathematicalDefinition": "\\mathcal{I}",
+              "label": "Test index",
+              "declarationId": "StructuralExhaustion.CT1.Spec.TestIndex"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.Spec.Witness",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The type of certificates that may realize test i in the ambient object G.",
+              "mathematicalDefinition": "\\mathcal{W}(G,i)",
+              "label": "Realization witness",
+              "declarationId": "StructuralExhaustion.CT1.Spec.Witness"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.Spec.Realizes",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition saying that witness w realizes test i in G.",
+              "mathematicalDefinition": "\\operatorname{Realizes}(G,i,w)",
+              "label": "Realization predicate",
+              "declarationId": "StructuralExhaustion.CT1.Spec.Realizes"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.target_iff_realization",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT1.target_iff_realization.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT1.target_iff_realization",
+              "declarationId": "StructuralExhaustion.CT1.target_iff_realization"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.EquivalenceState",
+                "provision": "derived_definitionally"
+              },
+              "plainExplanation": "Framework-produced certification of the definitional target semantics. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT1.EquivalenceState",
+              "declarationId": "StructuralExhaustion.CT1.EquivalenceState"
+            }
+          ],
+          "nodeId": "CT1.certify.equivalence",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT1.certify.equivalence.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT1.certify.equivalence.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT1.certify.equivalence.internal.author.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT1.certify.equivalence.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

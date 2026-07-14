@@ -18,6 +18,223 @@
         "ordinal": 5,
         "nodeKind": "definition",
         "nodeId": "CT3.lookup.exact-row",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.rows",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all known response rows.",
+              "mathematicalDefinition": "\\operatorname{rows}=\\mathcal{L}",
+              "label": "Finite row enumeration",
+              "declarationId": "StructuralExhaustion.CT3.Capability.rows"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.contexts",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of every response coordinate.",
+              "mathematicalDefinition": "\\operatorname{contexts}=\\mathcal{K}",
+              "label": "Finite context enumeration",
+              "declarationId": "StructuralExhaustion.CT3.Capability.contexts"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.response",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Computes the exact Boolean behavior of a piece in an outside context.",
+              "mathematicalDefinition": "R:\\mathcal{P}\\times\\mathcal{K}\\to\\{0,1\\}",
+              "label": "Exact response",
+              "declarationId": "StructuralExhaustion.CT3.Spec.response"
+            },
+            {
+              "stepId": "author.4",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.rowResponse",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Gives the declared exact response vector associated with a known row.",
+              "mathematicalDefinition": "R_{\\ell}:\\mathcal{K}\\to\\{0,1\\}",
+              "label": "Row response",
+              "declarationId": "StructuralExhaustion.CT3.Spec.rowResponse"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "ExactTableState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Universal certification that every declared row is exact. ",
+              "mathematicalDefinition": null,
+              "label": "ExactTableState",
+              "declarationId": "StructuralExhaustion.CT3.ExactTableState"
+            },
+            {
+              "stepId": "operation.1",
+              "role": "operation",
+              "reference": {
+                "ref": "RowMatches",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "The source vector equals a declared exact row. ",
+              "mathematicalDefinition": null,
+              "label": "RowMatches",
+              "declarationId": "StructuralExhaustion.CT3.RowMatches"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "FiniteSearch.first_total",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Ordered search is sound and exhaustive over the entire enumerated\nuniverse. ",
+              "mathematicalDefinition": null,
+              "label": "FiniteSearch.first_total",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.first_total"
+            },
+            {
+              "stepId": "theorem.2",
+              "role": "theorem",
+              "reference": {
+                "ref": "ResponseComparison.compare_total",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: ResponseComparison.compare_total.",
+              "mathematicalDefinition": null,
+              "label": "ResponseComparison.compare_total",
+              "declarationId": "StructuralExhaustion.Core.ResponseComparison.compare_total"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT3.RowLookupDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "Result of exact lookup after table validation. ",
+              "mathematicalDefinition": null,
+              "label": "CT3.RowLookupDecision",
+              "declarationId": "StructuralExhaustion.CT3.RowLookupDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT3.KnownRowCertificate",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "The first table row equal to the source's exact vector. ",
+              "mathematicalDefinition": null,
+              "label": "CT3.KnownRowCertificate",
+              "declarationId": "StructuralExhaustion.CT3.KnownRowCertificate"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT3.NovelExternalTypeResidual",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "The source's exact external type is absent from the complete declared\ntable. ",
+              "mathematicalDefinition": null,
+              "label": "CT3.NovelExternalTypeResidual",
+              "declarationId": "StructuralExhaustion.CT3.NovelExternalTypeResidual"
+            }
+          ],
+          "nodeId": "CT3.lookup.exact-row",
+          "edges": [
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.1",
+              "relation": "consumes",
+              "edgeId": "CT3.lookup.exact-row.internal.author.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.2",
+              "relation": "consumes",
+              "edgeId": "CT3.lookup.exact-row.internal.author.2-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.3",
+              "relation": "consumes",
+              "edgeId": "CT3.lookup.exact-row.internal.author.3-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.4",
+              "relation": "consumes",
+              "edgeId": "CT3.lookup.exact-row.internal.author.4-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "consumes",
+              "edgeId": "CT3.lookup.exact-row.internal.predecessor.1-to-operation.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT3.lookup.exact-row.internal.operation.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT3.lookup.exact-row.internal.operation.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT3.lookup.exact-row.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT3.lookup.exact-row.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT3.lookup.exact-row.internal.theorem.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT3.lookup.exact-row.internal.theorem.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT3.lookup.exact-row.internal.theorem.2-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT3.lookup.exact-row.internal.theorem.2-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

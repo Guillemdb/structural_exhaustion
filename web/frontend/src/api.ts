@@ -3,6 +3,7 @@ import type {
   ExamplesResponse,
   FrameworkResponse,
   TacticResponse,
+  TacticInternalsResponse,
 } from "./types";
 
 export class ApiError extends Error {
@@ -41,6 +42,16 @@ export function fetchTactic(
   signal?: AbortSignal,
 ): Promise<TacticResponse> {
   return getJson<TacticResponse>(`/api/v1/tactics/${encodeURIComponent(tacticId)}`, signal);
+}
+
+export function fetchTacticInternals(
+  tacticId: string,
+  signal?: AbortSignal,
+): Promise<TacticInternalsResponse> {
+  return getJson<TacticInternalsResponse>(
+    `/api/v1/tactics/${encodeURIComponent(tacticId)}/internals`,
+    signal,
+  );
 }
 
 export function fetchExamples(signal?: AbortSignal): Promise<ExamplesResponse> {

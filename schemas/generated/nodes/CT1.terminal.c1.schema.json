@@ -18,6 +18,61 @@
         "ordinal": 4,
         "nodeKind": "certificate",
         "nodeId": "CT1.terminal.c1",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.Graph.Edge.realizationHit",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT1.Graph.Edge.realizationHit.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT1.Graph.Edge.realizationHit",
+              "declarationId": "StructuralExhaustion.CT1.Graph.Edge.realizationHit"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.run_trace_valid",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "The erased trace of every run is backed by its exact dependent path. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT1.run_trace_valid",
+              "declarationId": "StructuralExhaustion.CT1.run_trace_valid"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.c1",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.c1.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.c1",
+              "declarationId": null
+            }
+          ],
+          "nodeId": "CT1.terminal.c1",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT1.terminal.c1.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT1.terminal.c1.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [],

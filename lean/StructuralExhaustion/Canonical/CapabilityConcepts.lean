@@ -831,7 +831,37 @@ def ct12 : List CapabilityConcept := [
     "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative_mem"
     `StructuralExhaustion.Core.FiniteDisjointPacking.Profile.representative_mem
     "Representative membership" r"r(i)\in S(i)"
-    "Proof that every item support is nonempty at its declared representative."
+    "Proof that every item support is nonempty at its declared representative.",
+  capabilityConcept "CT12.refinedLedger.demands"
+    "StructuralExhaustion.Core.FiniteRefinedLedger.Profile.demands"
+    `StructuralExhaustion.Core.FiniteRefinedLedger.Profile.demands
+    "Demand schedule" r"\mathcal D=(d_1,\ldots,d_m)"
+    "The exact duplicate-free finite schedule audited by the CT12 peeling loop.",
+  capabilityConcept "CT12.refinedLedger.candidate"
+    "StructuralExhaustion.Core.FiniteRefinedLedger.Profile.Candidate"
+    `StructuralExhaustion.Core.FiniteRefinedLedger.Profile.Candidate
+    "Candidate entry" r"\mathcal E(d)"
+    "The dependent type of admissible refined-ledger entries for one demand.",
+  capabilityConcept "CT12.refinedLedger.finiteCandidates"
+    "StructuralExhaustion.Core.FiniteRefinedLedger.Profile.finiteCandidates"
+    `StructuralExhaustion.Core.FiniteRefinedLedger.Profile.finiteCandidates
+    "Finite candidate fibres" r"|\mathcal E(d)|<\infty"
+    "Finiteness of every demand fibre; the reference theorem does not enumerate their product.",
+  capabilityConcept "CT12.refinedLedger.carrierSupport"
+    "StructuralExhaustion.Core.FiniteRefinedLedger.Profile.carrierSupport"
+    `StructuralExhaustion.Core.FiniteRefinedLedger.Profile.carrierSupport
+    "Carrier support" r"S(d,e)\subseteq\mathcal C"
+    "The finite carrier set occupied by a candidate entry.",
+  capabilityConcept "CT12.refinedLedger.demandSupport"
+    "StructuralExhaustion.Core.FiniteRefinedLedger.Profile.demandSupport"
+    `StructuralExhaustion.Core.FiniteRefinedLedger.Profile.demandSupport
+    "Declared demand support" r"S(d)\subseteq\mathcal C"
+    "The complete finite carrier universe retained even when the valid candidate fibre is empty.",
+  capabilityConcept "CT12.refinedLedger.carrierSupportSubset"
+    "StructuralExhaustion.Core.FiniteRefinedLedger.Profile.carrierSupport_subset"
+    `StructuralExhaustion.Core.FiniteRefinedLedger.Profile.carrierSupport_subset
+    "Candidate support containment" r"S(d,e)\subseteq S(d)"
+    "Proof that every valid candidate occupies only carriers from its demand's declared universe."
 ]
 
 def ct13 : List CapabilityConcept := [

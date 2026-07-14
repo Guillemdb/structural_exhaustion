@@ -36,6 +36,11 @@ const node: NodeRecord = {
     ],
     manualObligations: [],
   },
+  internalFlow: {
+    nodeId: "CT6.search.firstFailure",
+    steps: [],
+    edges: [],
+  },
 };
 
 const tactic = {

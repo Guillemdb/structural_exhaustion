@@ -18,6 +18,61 @@
         "ordinal": 3,
         "nodeKind": "computation",
         "nodeId": "CT12.compute.peel",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.peel",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Computes the exact peeled decomposition of a positive-load state.",
+              "mathematicalDefinition": "\\operatorname{peel}:\\mathcal{S}_{n+1}\\to\\mathcal{P}(s)",
+              "label": "Peeling operation",
+              "declarationId": "StructuralExhaustion.CT12.Capability.peel"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Capability.State (n + 1)",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Capability.State (n + 1).",
+              "mathematicalDefinition": null,
+              "label": "Capability.State (n + 1)",
+              "declarationId": null
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "Capability.Peeled state",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: Capability.Peeled state.",
+              "mathematicalDefinition": null,
+              "label": "Capability.Peeled state",
+              "declarationId": null
+            }
+          ],
+          "nodeId": "CT12.compute.peel",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "author.1",
+              "relation": "produces",
+              "edgeId": "CT12.compute.peel.internal.author.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT12.compute.peel.internal.predecessor.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [
@@ -82,7 +137,7 @@
     "kind": "compiledLeanEnvironment",
     "catalog": "generated/lean-machines.json",
     "tacticId": "CT12",
-    "apiVersion": "CT12-v5",
+    "apiVersion": "CT12-v6",
     "namespace": "StructuralExhaustion.CT12"
   },
   "x-automationContract": {

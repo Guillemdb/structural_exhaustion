@@ -198,7 +198,11 @@ After the Lean stage is proved, update
 
 - Add or extend exactly one workflow stage for the selected manuscript step,
   with its primary declaration, all reader-relevant evidence declarations,
-  inbound link evidence, and problem-to-framework interface bindings.
+  inbound link automation/evidence, and problem-to-framework interface bindings.
+- Every direct link between distinct CT stages must populate
+  `automationDeclarations` with the compiled framework-owned executor or
+  `routeContract`; never use an Erdős-local wrapper or a `Graph.External`
+  theorem as transition automation.
 - Add or extend the corresponding `ExampleProofStepDescriptor` in
   `erdosManuscript`. Record the stable TeX labels and diagram node IDs, a plain
   explanation, a genuine TeX mathematical statement rather than Lean pretty
@@ -220,7 +224,8 @@ After the Lean stage is proved, update
 Preserve these two-way invariants. For each implemented proof step `p` mapped
 to workflow stage `s`, let `D(s)` be the union of the stage primary/evidence
 declarations, matching interface-binding declarations, and evidence on links
-entering `s`. The union of `p`'s declaration groups must equal `D(s)`: no
+entering `s`, including each link's `automationDeclarations`. The union of
+`p`'s declaration groups must equal `D(s)`: no
 missing explanations and no unrelated declarations. Every displayed stage
 must map to exactly one proof step. Reuse of one declaration by multiple stages
 is allowed only when each stage explains its role independently.
@@ -352,6 +357,11 @@ mathematics. Inspect `generated/examples/erdos-64.json` and require:
 
 - every manuscript label and diagram node referenced by `erdosManuscript`
   exists uniquely in the TeX source;
+- every referenced label has exactly one fresh rendered manuscript fragment,
+  theorem-like fragments include their adjacent proof, and every selected
+  figure compiles to a sanitized hashed SVG; preserve optional environment
+  titles and `\cref`/`\Cref` casing, and never accept a caption-only or silently
+  truncated fallback;
 - `explainedDeclarations == displayedDeclarations`;
 - no displayed declaration is absent from the proof-step groups and no group
   names a declaration outside its mapped stage; and

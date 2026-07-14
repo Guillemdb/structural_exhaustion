@@ -18,6 +18,61 @@
         "ordinal": 8,
         "nodeKind": "residual",
         "nodeId": "CT12.terminal.residual.tier",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT12.Graph.Edge.tier",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT12.Graph.Edge.tier.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT12.Graph.Edge.tier",
+              "declarationId": "StructuralExhaustion.CT12.Graph.Edge.tier"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT12.run_trace_valid",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT12.run_trace_valid.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT12.run_trace_valid",
+              "declarationId": "StructuralExhaustion.CT12.run_trace_valid"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT12.ExecutionResult@CT12.terminal.residual.tier",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT12.ExecutionResult@CT12.terminal.residual.tier.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT12.ExecutionResult@CT12.terminal.residual.tier",
+              "declarationId": null
+            }
+          ],
+          "nodeId": "CT12.terminal.residual.tier",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT12.terminal.residual.tier.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT12.terminal.residual.tier.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [],
@@ -74,7 +129,7 @@
     "kind": "compiledLeanEnvironment",
     "catalog": "generated/lean-machines.json",
     "tacticId": "CT12",
-    "apiVersion": "CT12-v5",
+    "apiVersion": "CT12-v6",
     "namespace": "StructuralExhaustion.CT12"
   },
   "x-automationContract": {

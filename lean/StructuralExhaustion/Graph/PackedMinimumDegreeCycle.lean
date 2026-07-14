@@ -5,6 +5,7 @@ import StructuralExhaustion.Graph.InducedPath
 import StructuralExhaustion.Graph.InducedPathAttachment
 import StructuralExhaustion.Graph.InducedPathPacking
 import StructuralExhaustion.Graph.MinimumDegreeCycleRouted
+import StructuralExhaustion.Routes.CT1ToCT12
 
 namespace StructuralExhaustion.Graph
 
@@ -424,6 +425,73 @@ def verifiedInducedPathStage (input : StaticInput) (order : Nat)
 
 /-! ## Induced-path packing CT12 prefix -/
 
+/-- The exact successful CT1 outcome retained for framework routing. -/
+noncomputable def inducedPathC1Source
+    (input : StaticInput) (order : Nat)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target)
+    (previous : input.VerifiedInducedPathStage order ctx) :
+    Routes.CT1ToCT12.PackedC1
+      (input.inducedPathProfile order).encoding.spec
+      (input.inducedPathInput ctx) := by
+  rcases previous.realization with ⟨certificate⟩
+  exact ⟨(), certificate, trivial⟩
+
+/-- Framework route adapter from the realized induced path to the selected
+maximum-packing peel schedule.  Its evidence is the nonemptiness conclusion
+needed by the graph proof, derived from the literal CT1 witness. -/
+noncomputable def inducedPathPackingAdapter
+    (input : StaticInput) (order : Nat) (positive : 0 < order)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target) :
+    Routes.CT1ToCT12.SemanticAdapter
+      (S := (input.inducedPathProfile order).encoding.spec)
+      (input := input.inducedPathInput ctx)
+      (CT12.ListPeeling.capability input.problem
+        (InducedPathPacking.Window ctx.G.object order)) where
+  trigger := fun _source => {
+    load := (InducedPathPacking.profile ctx.G.object order positive).values.length
+    state := CT12.ListPeeling.initialState
+      (InducedPathPacking.profile ctx.G.object order positive).values
+  }
+  Evidence := fun _source _trigger =>
+    InducedPathPacking.windows ctx.G.object order positive ≠ []
+  evidence := by
+    intro source
+    rcases source with ⟨_unit, certificate, _accepts⟩
+    exact InducedPathPacking.windows_nonempty_of_realization
+      ctx.G.object order positive ⟨certificate⟩
+
+/-- CT12 input produced only through the registered CT1→CT12 route. -/
+noncomputable def inducedPathPackingRouteInput
+    (input : StaticInput) (order : Nat) (positive : 0 < order)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target)
+    (previous : input.VerifiedInducedPathStage order ctx) :=
+  Routes.CT1ToCT12.buildInput
+    (CT12.ListPeeling.capability input.problem
+      (InducedPathPacking.Window ctx.G.object order))
+    (input.inducedPathPackingAdapter order positive ctx)
+    (input.inducedPathC1Source order ctx previous)
+
+theorem inducedPathPackingRouteInput_eq
+    (input : StaticInput) (order : Nat) (positive : 0 < order)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target)
+    (previous : input.VerifiedInducedPathStage order ctx) :
+    input.inducedPathPackingRouteInput order positive ctx previous =
+      (InducedPathPacking.profile ctx.G.object order positive).input
+        ctx.toBranchContext := by
+  rfl
+
+theorem inducedPathPackingRoute_id
+    (input : StaticInput) (order : Nat) (positive : 0 < order)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target)
+    (previous : input.VerifiedInducedPathStage order ctx) :
+    ((Routes.CT1ToCT12.rule
+      (CT12.ListPeeling.capability input.problem
+        (InducedPathPacking.Window ctx.G.object order))
+      (input.inducedPathPackingAdapter order positive ctx)).generate
+        (input.inducedPathC1Source order ctx previous) ()).routeId =
+      "CT1.terminal.c1->CT12" :=
+  Routes.CT1ToCT12.generated_route_id _ _ _
+
 /-- Framework-owned extension that consumes the exact induced-path CT1
 output and retains a maximum/maximal vertex-disjoint packing, its CT12 audit,
 and its induced-path-free remainder on the same selected graph. -/
@@ -434,6 +502,17 @@ structure InducedPathPackingPrefix (input : StaticInput)
   previous : input.VerifiedInducedPathStage order ctx
   packingStage : InducedPathPacking.VerifiedStage ctx.G.object order positive
     ctx.toBranchContext
+  routeId_eq :
+    ((Routes.CT1ToCT12.rule
+      (CT12.ListPeeling.capability input.problem
+        (InducedPathPacking.Window ctx.G.object order))
+      (input.inducedPathPackingAdapter order positive ctx)).generate
+        (input.inducedPathC1Source order ctx previous) ()).routeId =
+      "CT1.terminal.c1->CT12"
+  routedInputExact :
+    input.inducedPathPackingRouteInput order positive ctx previous =
+      (InducedPathPacking.profile ctx.G.object order positive).input
+        ctx.toBranchContext
   packingNonempty :
     InducedPathPacking.windows ctx.G.object order positive ≠ []
 
@@ -448,9 +527,12 @@ noncomputable def inducedPathPackingPrefix
   previous := previous
   packingStage := InducedPathPacking.verifiedStage ctx.G.object order positive
     ctx.toBranchContext
-  packingNonempty :=
-    InducedPathPacking.windows_nonempty_of_realization ctx.G.object order
-      positive previous.realization
+  routeId_eq := input.inducedPathPackingRoute_id order positive ctx previous
+  routedInputExact := input.inducedPathPackingRouteInput_eq order positive ctx
+    previous
+  packingNonempty := Routes.CT1ToCT12.evidence_preserved _
+    (input.inducedPathPackingAdapter order positive ctx)
+    (input.inducedPathC1Source order ctx previous)
 
 /-! ## Induced-path attachment-classification CT10 prefix -/
 

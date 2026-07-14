@@ -68,6 +68,18 @@
             "semanticFields": [
               {
                 "provision": "derived_by_generic_theorem",
+                "leanType": "∃ index witness, Realizes G index witness",
+                "fieldName": "target"
+              }
+            ],
+            "residualKindId": "CT1.terminal.c1",
+            "leanType": "StructuralExhaustion.CT1.Target",
+            "inheritedContext": "branch"
+          },
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_by_generic_theorem",
                 "leanType": "∀ index witness, ¬ Realizes G index witness",
                 "fieldName": "noRealization"
               }
@@ -88,6 +100,43 @@
             "ordinal": 1,
             "nodeKind": "entry",
             "nodeId": "CT1.entry",
+            "internalFlow": {
+              "steps": [
+                {
+                  "stepId": "predecessor.1",
+                  "role": "predecessorState",
+                  "reference": {
+                    "ref": "input.context",
+                    "provision": "derived_from_predecessor"
+                  },
+                  "plainExplanation": "Typed state inherited from the immediately preceding CT node: input.context.",
+                  "mathematicalDefinition": null,
+                  "label": "input.context",
+                  "declarationId": null
+                },
+                {
+                  "stepId": "output.1",
+                  "role": "output",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Input",
+                    "provision": "derived_from_predecessor"
+                  },
+                  "plainExplanation": "CT1 receives only the shared branch context. ",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT1.Input",
+                  "declarationId": "StructuralExhaustion.CT1.Input"
+                }
+              ],
+              "nodeId": "CT1.entry",
+              "edges": [
+                {
+                  "targetStepId": "output.1",
+                  "sourceStepId": "predecessor.1",
+                  "relation": "produces",
+                  "edgeId": "CT1.entry.internal.predecessor.1-to-output.1"
+                }
+              ]
+            },
             "formalContract": {
               "predecessorIndexed": true,
               "outgoingEdges": [
@@ -139,6 +188,97 @@
             "ordinal": 2,
             "nodeKind": "certification",
             "nodeId": "CT1.certify.equivalence",
+            "internalFlow": {
+              "steps": [
+                {
+                  "stepId": "author.1",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Spec.TestIndex",
+                    "provision": "user_definition"
+                  },
+                  "plainExplanation": "The finite family of target tests that CT1 must consider.",
+                  "mathematicalDefinition": "\\mathcal{I}",
+                  "label": "Test index",
+                  "declarationId": "StructuralExhaustion.CT1.Spec.TestIndex"
+                },
+                {
+                  "stepId": "author.2",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Spec.Witness",
+                    "provision": "user_definition"
+                  },
+                  "plainExplanation": "The type of certificates that may realize test i in the ambient object G.",
+                  "mathematicalDefinition": "\\mathcal{W}(G,i)",
+                  "label": "Realization witness",
+                  "declarationId": "StructuralExhaustion.CT1.Spec.Witness"
+                },
+                {
+                  "stepId": "author.3",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Spec.Realizes",
+                    "provision": "user_definition"
+                  },
+                  "plainExplanation": "The proposition saying that witness w realizes test i in G.",
+                  "mathematicalDefinition": "\\operatorname{Realizes}(G,i,w)",
+                  "label": "Realization predicate",
+                  "declarationId": "StructuralExhaustion.CT1.Spec.Realizes"
+                },
+                {
+                  "stepId": "theorem.1",
+                  "role": "theorem",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.target_iff_realization",
+                    "provision": "derived_by_generic_theorem"
+                  },
+                  "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT1.target_iff_realization.",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT1.target_iff_realization",
+                  "declarationId": "StructuralExhaustion.CT1.target_iff_realization"
+                },
+                {
+                  "stepId": "output.1",
+                  "role": "output",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.EquivalenceState",
+                    "provision": "derived_definitionally"
+                  },
+                  "plainExplanation": "Framework-produced certification of the definitional target semantics. ",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT1.EquivalenceState",
+                  "declarationId": "StructuralExhaustion.CT1.EquivalenceState"
+                }
+              ],
+              "nodeId": "CT1.certify.equivalence",
+              "edges": [
+                {
+                  "targetStepId": "theorem.1",
+                  "sourceStepId": "author.1",
+                  "relation": "then",
+                  "edgeId": "CT1.certify.equivalence.internal.author.1-to-theorem.1"
+                },
+                {
+                  "targetStepId": "theorem.1",
+                  "sourceStepId": "author.2",
+                  "relation": "then",
+                  "edgeId": "CT1.certify.equivalence.internal.author.2-to-theorem.1"
+                },
+                {
+                  "targetStepId": "theorem.1",
+                  "sourceStepId": "author.3",
+                  "relation": "then",
+                  "edgeId": "CT1.certify.equivalence.internal.author.3-to-theorem.1"
+                },
+                {
+                  "targetStepId": "output.1",
+                  "sourceStepId": "theorem.1",
+                  "relation": "certifies",
+                  "edgeId": "CT1.certify.equivalence.internal.theorem.1-to-output.1"
+                }
+              ]
+            },
             "formalContract": {
               "predecessorIndexed": true,
               "outgoingEdges": [
@@ -223,6 +363,421 @@
             "ordinal": 3,
             "nodeKind": "decision",
             "nodeId": "CT1.decide.realization",
+            "internalFlow": {
+              "steps": [
+                {
+                  "stepId": "author.1",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Spec.TestIndex",
+                    "provision": "user_definition"
+                  },
+                  "plainExplanation": "The finite family of target tests that CT1 must consider.",
+                  "mathematicalDefinition": "\\mathcal{I}",
+                  "label": "Test index",
+                  "declarationId": "StructuralExhaustion.CT1.Spec.TestIndex"
+                },
+                {
+                  "stepId": "author.2",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Spec.Witness",
+                    "provision": "user_definition"
+                  },
+                  "plainExplanation": "The type of certificates that may realize test i in the ambient object G.",
+                  "mathematicalDefinition": "\\mathcal{W}(G,i)",
+                  "label": "Realization witness",
+                  "declarationId": "StructuralExhaustion.CT1.Spec.Witness"
+                },
+                {
+                  "stepId": "author.3",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Spec.Realizes",
+                    "provision": "user_definition"
+                  },
+                  "plainExplanation": "The proposition saying that witness w realizes test i in G.",
+                  "mathematicalDefinition": "\\operatorname{Realizes}(G,i,w)",
+                  "label": "Realization predicate",
+                  "declarationId": "StructuralExhaustion.CT1.Spec.Realizes"
+                },
+                {
+                  "stepId": "author.4",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Capability.tests",
+                    "provision": "user_finite_enumeration"
+                  },
+                  "plainExplanation": "An exhaustive ordered enumeration of all test indices.",
+                  "mathematicalDefinition": "\\operatorname{tests}=\\{i_1,\\ldots,i_m\\}=\\mathcal{I}",
+                  "label": "Finite test enumeration",
+                  "declarationId": "StructuralExhaustion.CT1.Capability.tests"
+                },
+                {
+                  "stepId": "author.5",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Capability.witnesses",
+                    "provision": "user_finite_enumeration"
+                  },
+                  "plainExplanation": "An exhaustive ordered enumeration of the witnesses for each object and test.",
+                  "mathematicalDefinition": "\\operatorname{witnesses}(G,i)=\\mathcal{W}(G,i)",
+                  "label": "Finite witness enumeration",
+                  "declarationId": "StructuralExhaustion.CT1.Capability.witnesses"
+                },
+                {
+                  "stepId": "author.6",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Capability.realizesDecidable",
+                    "provision": "instance_bridge"
+                  },
+                  "plainExplanation": "Executable evidence deciding whether a proposed witness realizes a test.",
+                  "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Realizes}(G,i,w)\\right)",
+                  "label": "Realization decision procedure",
+                  "declarationId": "StructuralExhaustion.CT1.Capability.realizesDecidable"
+                },
+                {
+                  "stepId": "author.7",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Capability.inputSize",
+                    "provision": "user_operator"
+                  },
+                  "plainExplanation": "The application-specific size measure used in CT1's complexity certificate.",
+                  "mathematicalDefinition": "n(G)\\in\\mathbb{N}",
+                  "label": "Input size",
+                  "declarationId": "StructuralExhaustion.CT1.Capability.inputSize"
+                },
+                {
+                  "stepId": "author.8",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Capability.workCoefficient",
+                    "provision": "user_definition"
+                  },
+                  "plainExplanation": "The coefficient in the certified polynomial bound on exhaustive checks.",
+                  "mathematicalDefinition": "c\\in\\mathbb{N}",
+                  "label": "Work coefficient",
+                  "declarationId": "StructuralExhaustion.CT1.Capability.workCoefficient"
+                },
+                {
+                  "stepId": "author.9",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Capability.workDegree",
+                    "provision": "user_definition"
+                  },
+                  "plainExplanation": "The degree in the certified polynomial bound on exhaustive checks.",
+                  "mathematicalDefinition": "d\\in\\mathbb{N}",
+                  "label": "Work degree",
+                  "declarationId": "StructuralExhaustion.CT1.Capability.workDegree"
+                },
+                {
+                  "stepId": "author.10",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Capability.workBound",
+                    "provision": "user_definition"
+                  },
+                  "plainExplanation": "A proof that the complete CT1 search schedule satisfies the declared polynomial bound.",
+                  "mathematicalDefinition": "\\operatorname{checks}(G)\\le c\\,(n(G)+1)^d",
+                  "label": "Polynomial work bound",
+                  "declarationId": "StructuralExhaustion.CT1.Capability.workBound"
+                },
+                {
+                  "stepId": "predecessor.1",
+                  "role": "predecessorState",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.EquivalenceState",
+                    "provision": "derived_from_predecessor"
+                  },
+                  "plainExplanation": "Framework-produced certification of the definitional target semantics. ",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT1.EquivalenceState",
+                  "declarationId": "StructuralExhaustion.CT1.EquivalenceState"
+                },
+                {
+                  "stepId": "operation.1",
+                  "role": "operation",
+                  "reference": {
+                    "ref": "StructuralExhaustion.Core.FiniteSearch.dependentSearch",
+                    "provision": "derived_by_generic_search"
+                  },
+                  "plainExplanation": "Exhaustive nested search over a finite index enumeration and an exact\nfinite enumeration for each dependent fibre. ",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.Core.FiniteSearch.dependentSearch",
+                  "declarationId": "StructuralExhaustion.Core.FiniteSearch.dependentSearch"
+                },
+                {
+                  "stepId": "operation.2",
+                  "role": "operation",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.AvoidingState.ofNoRealization",
+                    "provision": "derived_by_generic_theorem"
+                  },
+                  "plainExplanation": "Framework-owned operation executed inside this node: StructuralExhaustion.CT1.AvoidingState.ofNoRealization.",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT1.AvoidingState.ofNoRealization",
+                  "declarationId": "StructuralExhaustion.CT1.AvoidingState.ofNoRealization"
+                },
+                {
+                  "stepId": "theorem.1",
+                  "role": "theorem",
+                  "reference": {
+                    "ref": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_sound",
+                    "provision": "derived_by_generic_theorem"
+                  },
+                  "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.Core.FiniteSearch.dependentSearch_sound.",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_sound",
+                  "declarationId": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_sound"
+                },
+                {
+                  "stepId": "theorem.2",
+                  "role": "theorem",
+                  "reference": {
+                    "ref": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_complete",
+                    "provision": "derived_by_generic_theorem"
+                  },
+                  "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.Core.FiniteSearch.dependentSearch_complete.",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_complete",
+                  "declarationId": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_complete"
+                },
+                {
+                  "stepId": "output.1",
+                  "role": "output",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.RealizationDecision",
+                    "provision": "derived_by_generic_search"
+                  },
+                  "plainExplanation": "Proof-carrying result of CT1's generic dependent finite search. ",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT1.RealizationDecision",
+                  "declarationId": "StructuralExhaustion.CT1.RealizationDecision"
+                },
+                {
+                  "stepId": "output.2",
+                  "role": "output",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.C1Certificate",
+                    "provision": "derived_by_generic_search"
+                  },
+                  "plainExplanation": "Provenance-indexed C1 evidence. ",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT1.C1Certificate",
+                  "declarationId": "StructuralExhaustion.CT1.C1Certificate"
+                },
+                {
+                  "stepId": "output.3",
+                  "role": "output",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.AvoidingState",
+                    "provision": "derived_by_generic_theorem"
+                  },
+                  "plainExplanation": "Exact negative realization state.  The inherited branch context remains a\ndependent index and is therefore not duplicated in this residual. ",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT1.AvoidingState",
+                  "declarationId": "StructuralExhaustion.CT1.AvoidingState"
+                }
+              ],
+              "nodeId": "CT1.decide.realization",
+              "edges": [
+                {
+                  "targetStepId": "operation.1",
+                  "sourceStepId": "author.1",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.1-to-operation.1"
+                },
+                {
+                  "targetStepId": "operation.2",
+                  "sourceStepId": "author.1",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.1-to-operation.2"
+                },
+                {
+                  "targetStepId": "operation.1",
+                  "sourceStepId": "author.2",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.2-to-operation.1"
+                },
+                {
+                  "targetStepId": "operation.2",
+                  "sourceStepId": "author.2",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.2-to-operation.2"
+                },
+                {
+                  "targetStepId": "operation.1",
+                  "sourceStepId": "author.3",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.3-to-operation.1"
+                },
+                {
+                  "targetStepId": "operation.2",
+                  "sourceStepId": "author.3",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.3-to-operation.2"
+                },
+                {
+                  "targetStepId": "operation.1",
+                  "sourceStepId": "author.4",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.4-to-operation.1"
+                },
+                {
+                  "targetStepId": "operation.2",
+                  "sourceStepId": "author.4",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.4-to-operation.2"
+                },
+                {
+                  "targetStepId": "operation.1",
+                  "sourceStepId": "author.5",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.5-to-operation.1"
+                },
+                {
+                  "targetStepId": "operation.2",
+                  "sourceStepId": "author.5",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.5-to-operation.2"
+                },
+                {
+                  "targetStepId": "operation.1",
+                  "sourceStepId": "author.6",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.6-to-operation.1"
+                },
+                {
+                  "targetStepId": "operation.2",
+                  "sourceStepId": "author.6",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.6-to-operation.2"
+                },
+                {
+                  "targetStepId": "operation.1",
+                  "sourceStepId": "author.7",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.7-to-operation.1"
+                },
+                {
+                  "targetStepId": "operation.2",
+                  "sourceStepId": "author.7",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.7-to-operation.2"
+                },
+                {
+                  "targetStepId": "operation.1",
+                  "sourceStepId": "author.8",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.8-to-operation.1"
+                },
+                {
+                  "targetStepId": "operation.2",
+                  "sourceStepId": "author.8",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.8-to-operation.2"
+                },
+                {
+                  "targetStepId": "operation.1",
+                  "sourceStepId": "author.9",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.9-to-operation.1"
+                },
+                {
+                  "targetStepId": "operation.2",
+                  "sourceStepId": "author.9",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.9-to-operation.2"
+                },
+                {
+                  "targetStepId": "operation.1",
+                  "sourceStepId": "author.10",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.10-to-operation.1"
+                },
+                {
+                  "targetStepId": "operation.2",
+                  "sourceStepId": "author.10",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.author.10-to-operation.2"
+                },
+                {
+                  "targetStepId": "operation.1",
+                  "sourceStepId": "predecessor.1",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.predecessor.1-to-operation.1"
+                },
+                {
+                  "targetStepId": "operation.2",
+                  "sourceStepId": "predecessor.1",
+                  "relation": "consumes",
+                  "edgeId": "CT1.decide.realization.internal.predecessor.1-to-operation.2"
+                },
+                {
+                  "targetStepId": "theorem.1",
+                  "sourceStepId": "operation.1",
+                  "relation": "then",
+                  "edgeId": "CT1.decide.realization.internal.operation.1-to-theorem.1"
+                },
+                {
+                  "targetStepId": "theorem.2",
+                  "sourceStepId": "operation.1",
+                  "relation": "then",
+                  "edgeId": "CT1.decide.realization.internal.operation.1-to-theorem.2"
+                },
+                {
+                  "targetStepId": "theorem.1",
+                  "sourceStepId": "operation.2",
+                  "relation": "then",
+                  "edgeId": "CT1.decide.realization.internal.operation.2-to-theorem.1"
+                },
+                {
+                  "targetStepId": "theorem.2",
+                  "sourceStepId": "operation.2",
+                  "relation": "then",
+                  "edgeId": "CT1.decide.realization.internal.operation.2-to-theorem.2"
+                },
+                {
+                  "targetStepId": "output.1",
+                  "sourceStepId": "theorem.1",
+                  "relation": "certifies",
+                  "edgeId": "CT1.decide.realization.internal.theorem.1-to-output.1"
+                },
+                {
+                  "targetStepId": "output.2",
+                  "sourceStepId": "theorem.1",
+                  "relation": "certifies",
+                  "edgeId": "CT1.decide.realization.internal.theorem.1-to-output.2"
+                },
+                {
+                  "targetStepId": "output.3",
+                  "sourceStepId": "theorem.1",
+                  "relation": "certifies",
+                  "edgeId": "CT1.decide.realization.internal.theorem.1-to-output.3"
+                },
+                {
+                  "targetStepId": "output.1",
+                  "sourceStepId": "theorem.2",
+                  "relation": "certifies",
+                  "edgeId": "CT1.decide.realization.internal.theorem.2-to-output.1"
+                },
+                {
+                  "targetStepId": "output.2",
+                  "sourceStepId": "theorem.2",
+                  "relation": "certifies",
+                  "edgeId": "CT1.decide.realization.internal.theorem.2-to-output.2"
+                },
+                {
+                  "targetStepId": "output.3",
+                  "sourceStepId": "theorem.2",
+                  "relation": "certifies",
+                  "edgeId": "CT1.decide.realization.internal.theorem.2-to-output.3"
+                }
+              ]
+            },
             "formalContract": {
               "predecessorIndexed": true,
               "outgoingEdges": [
@@ -412,6 +967,61 @@
             "ordinal": 4,
             "nodeKind": "certificate",
             "nodeId": "CT1.terminal.c1",
+            "internalFlow": {
+              "steps": [
+                {
+                  "stepId": "predecessor.1",
+                  "role": "predecessorState",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Graph.Edge.realizationHit",
+                    "provision": "derived_from_predecessor"
+                  },
+                  "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT1.Graph.Edge.realizationHit.",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT1.Graph.Edge.realizationHit",
+                  "declarationId": "StructuralExhaustion.CT1.Graph.Edge.realizationHit"
+                },
+                {
+                  "stepId": "theorem.1",
+                  "role": "theorem",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.run_trace_valid",
+                    "provision": "derived_by_generic_theorem"
+                  },
+                  "plainExplanation": "The erased trace of every run is backed by its exact dependent path. ",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT1.run_trace_valid",
+                  "declarationId": "StructuralExhaustion.CT1.run_trace_valid"
+                },
+                {
+                  "stepId": "output.1",
+                  "role": "output",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.c1",
+                    "provision": "generated_audit"
+                  },
+                  "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.c1.",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.c1",
+                  "declarationId": null
+                }
+              ],
+              "nodeId": "CT1.terminal.c1",
+              "edges": [
+                {
+                  "targetStepId": "theorem.1",
+                  "sourceStepId": "predecessor.1",
+                  "relation": "then",
+                  "edgeId": "CT1.terminal.c1.internal.predecessor.1-to-theorem.1"
+                },
+                {
+                  "targetStepId": "output.1",
+                  "sourceStepId": "theorem.1",
+                  "relation": "certifies",
+                  "edgeId": "CT1.terminal.c1.internal.theorem.1-to-output.1"
+                }
+              ]
+            },
             "formalContract": {
               "predecessorIndexed": true,
               "outgoingEdges": [],
@@ -472,6 +1082,61 @@
             "ordinal": 5,
             "nodeKind": "residual",
             "nodeId": "CT1.terminal.avoiding",
+            "internalFlow": {
+              "steps": [
+                {
+                  "stepId": "predecessor.1",
+                  "role": "predecessorState",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+                    "provision": "derived_from_predecessor"
+                  },
+                  "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding.",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+                  "declarationId": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding"
+                },
+                {
+                  "stepId": "theorem.1",
+                  "role": "theorem",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.run_trace_valid",
+                    "provision": "derived_by_generic_theorem"
+                  },
+                  "plainExplanation": "The erased trace of every run is backed by its exact dependent path. ",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT1.run_trace_valid",
+                  "declarationId": "StructuralExhaustion.CT1.run_trace_valid"
+                },
+                {
+                  "stepId": "output.1",
+                  "role": "output",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.avoiding",
+                    "provision": "generated_audit"
+                  },
+                  "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.avoiding.",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.avoiding",
+                  "declarationId": null
+                }
+              ],
+              "nodeId": "CT1.terminal.avoiding",
+              "edges": [
+                {
+                  "targetStepId": "theorem.1",
+                  "sourceStepId": "predecessor.1",
+                  "relation": "then",
+                  "edgeId": "CT1.terminal.avoiding.internal.predecessor.1-to-theorem.1"
+                },
+                {
+                  "targetStepId": "output.1",
+                  "sourceStepId": "theorem.1",
+                  "relation": "certifies",
+                  "edgeId": "CT1.terminal.avoiding.internal.theorem.1-to-output.1"
+                }
+              ]
+            },
             "formalContract": {
               "predecessorIndexed": true,
               "outgoingEdges": [],
@@ -525,6 +1190,3970 @@
         ],
         "namespace": "StructuralExhaustion.CT1",
         "loopDecrease": null,
+        "internalDeclarations": [
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "Core.Problem → Type (max u_1 u_2)",
+            "sourceFile": "StructuralExhaustion/CT1/State.lean",
+            "selectionRange": {
+              "start": {
+                "line": 7,
+                "column": 10
+              },
+              "end": {
+                "line": 7,
+                "column": 15
+              }
+            },
+            "range": {
+              "start": {
+                "line": 6,
+                "column": 0
+              },
+              "end": {
+                "line": 8,
+                "column": 32
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Input",
+            "module": "StructuralExhaustion.CT1.State",
+            "kind": "inductive",
+            "docString": "CT1 receives only the shared branch context. ",
+            "declarationId": "StructuralExhaustion.CT1.Input",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.Input.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → CT1.Spec P → Type uI",
+            "sourceFile": "StructuralExhaustion/CT1/Spec.lean",
+            "selectionRange": {
+              "start": {
+                "line": 10,
+                "column": 2
+              },
+              "end": {
+                "line": 10,
+                "column": 11
+              }
+            },
+            "range": {
+              "start": {
+                "line": 10,
+                "column": 2
+              },
+              "end": {
+                "line": 10,
+                "column": 11
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Spec.TestIndex",
+            "module": "StructuralExhaustion.CT1.Spec",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Spec.TestIndex",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.CT1.Spec.TestIndex",
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient"
+            ],
+            "type": "{P : Core.Problem} → (self : CT1.Spec P) → P.Ambient → self.TestIndex → Type uW",
+            "sourceFile": "StructuralExhaustion/CT1/Spec.lean",
+            "selectionRange": {
+              "start": {
+                "line": 11,
+                "column": 2
+              },
+              "end": {
+                "line": 11,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 11,
+                "column": 2
+              },
+              "end": {
+                "line": 11,
+                "column": 9
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Spec.Witness",
+            "module": "StructuralExhaustion.CT1.Spec",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Spec.Witness",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.CT1.Spec.TestIndex",
+              "StructuralExhaustion.CT1.Spec.Witness",
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient"
+            ],
+            "type": "{P : Core.Problem} → (self : CT1.Spec P) → (G : P.Ambient) → (index : self.TestIndex) → self.Witness G index → Prop",
+            "sourceFile": "StructuralExhaustion/CT1/Spec.lean",
+            "selectionRange": {
+              "start": {
+                "line": 12,
+                "column": 2
+              },
+              "end": {
+                "line": 12,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 12,
+                "column": 2
+              },
+              "end": {
+                "line": 12,
+                "column": 10
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Spec.Realizes",
+            "module": "StructuralExhaustion.CT1.Spec",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Spec.Realizes",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Exists",
+              "Iff",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.CT1.Spec.Realizes",
+              "StructuralExhaustion.CT1.Spec.TestIndex",
+              "StructuralExhaustion.CT1.Spec.Witness",
+              "StructuralExhaustion.CT1.Target",
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient"
+            ],
+            "type": "∀ {P : Core.Problem} (S : CT1.Spec P) (G : P.Ambient), CT1.Target S G ↔ ∃ index witness, S.Realizes G index witness",
+            "sourceFile": "StructuralExhaustion/CT1/Spec.lean",
+            "selectionRange": {
+              "start": {
+                "line": 22,
+                "column": 8
+              },
+              "end": {
+                "line": 22,
+                "column": 30
+              }
+            },
+            "range": {
+              "start": {
+                "line": 22,
+                "column": 0
+              },
+              "end": {
+                "line": 25,
+                "column": 9
+              }
+            },
+            "name": "StructuralExhaustion.CT1.target_iff_realization",
+            "module": "StructuralExhaustion.CT1.Spec",
+            "kind": "theorem",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.target_iff_realization",
+            "bodyDependencies": [
+              "Iff.rfl"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → CT1.Spec P → CT1.Input P → Prop",
+            "sourceFile": "StructuralExhaustion/CT1/State.lean",
+            "selectionRange": {
+              "start": {
+                "line": 11,
+                "column": 10
+              },
+              "end": {
+                "line": 11,
+                "column": 26
+              }
+            },
+            "range": {
+              "start": {
+                "line": 10,
+                "column": 0
+              },
+              "end": {
+                "line": 16,
+                "column": 48
+              }
+            },
+            "name": "StructuralExhaustion.CT1.EquivalenceState",
+            "module": "StructuralExhaustion.CT1.State",
+            "kind": "inductive",
+            "docString": "Framework-produced certification of the definitional target semantics. ",
+            "declarationId": "StructuralExhaustion.CT1.EquivalenceState",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.EquivalenceState.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "FinEnum",
+              "StructuralExhaustion.CT1.Capability",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.CT1.Spec.TestIndex",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → {S : CT1.Spec P} → CT1.Capability S → FinEnum S.TestIndex",
+            "sourceFile": "StructuralExhaustion/CT1/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 25,
+                "column": 2
+              },
+              "end": {
+                "line": 25,
+                "column": 7
+              }
+            },
+            "range": {
+              "start": {
+                "line": 25,
+                "column": 2
+              },
+              "end": {
+                "line": 25,
+                "column": 7
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Capability.tests",
+            "module": "StructuralExhaustion.CT1.Capability",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Capability.tests",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "FinEnum",
+              "StructuralExhaustion.CT1.Capability",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.CT1.Spec.TestIndex",
+              "StructuralExhaustion.CT1.Spec.Witness",
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} → CT1.Capability S → (G : P.Ambient) → (index : S.TestIndex) → FinEnum (S.Witness G index)",
+            "sourceFile": "StructuralExhaustion/CT1/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 26,
+                "column": 2
+              },
+              "end": {
+                "line": 26,
+                "column": 11
+              }
+            },
+            "range": {
+              "start": {
+                "line": 26,
+                "column": 2
+              },
+              "end": {
+                "line": 26,
+                "column": 11
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Capability.witnesses",
+            "module": "StructuralExhaustion.CT1.Capability",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Capability.witnesses",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Decidable",
+              "StructuralExhaustion.CT1.Capability",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.CT1.Spec.Realizes",
+              "StructuralExhaustion.CT1.Spec.TestIndex",
+              "StructuralExhaustion.CT1.Spec.Witness",
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    CT1.Capability S →\n      (G : P.Ambient) → (index : S.TestIndex) → (witness : S.Witness G index) → Decidable (S.Realizes G index witness)",
+            "sourceFile": "StructuralExhaustion/CT1/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 30,
+                "column": 2
+              },
+              "end": {
+                "line": 30,
+                "column": 19
+              }
+            },
+            "range": {
+              "start": {
+                "line": 30,
+                "column": 2
+              },
+              "end": {
+                "line": 30,
+                "column": 19
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Capability.realizesDecidable",
+            "module": "StructuralExhaustion.CT1.Capability",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Capability.realizesDecidable",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Nat",
+              "StructuralExhaustion.CT1.Capability",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient"
+            ],
+            "type": "{P : Core.Problem} → {S : CT1.Spec P} → CT1.Capability S → P.Ambient → ℕ",
+            "sourceFile": "StructuralExhaustion/CT1/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 36,
+                "column": 2
+              },
+              "end": {
+                "line": 36,
+                "column": 11
+              }
+            },
+            "range": {
+              "start": {
+                "line": 36,
+                "column": 2
+              },
+              "end": {
+                "line": 36,
+                "column": 11
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Capability.inputSize",
+            "module": "StructuralExhaustion.CT1.Capability",
+            "kind": "definition",
+            "docString": "Application-specific input size used to audit the local CT1 schedule. ",
+            "declarationId": "StructuralExhaustion.CT1.Capability.inputSize",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Nat",
+              "StructuralExhaustion.CT1.Capability",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → {S : CT1.Spec P} → CT1.Capability S → ℕ",
+            "sourceFile": "StructuralExhaustion/CT1/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 38,
+                "column": 2
+              },
+              "end": {
+                "line": 38,
+                "column": 17
+              }
+            },
+            "range": {
+              "start": {
+                "line": 38,
+                "column": 2
+              },
+              "end": {
+                "line": 38,
+                "column": 17
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Capability.workCoefficient",
+            "module": "StructuralExhaustion.CT1.Capability",
+            "kind": "definition",
+            "docString": "Coefficient in the certified polynomial work bound. ",
+            "declarationId": "StructuralExhaustion.CT1.Capability.workCoefficient",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Nat",
+              "StructuralExhaustion.CT1.Capability",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → {S : CT1.Spec P} → CT1.Capability S → ℕ",
+            "sourceFile": "StructuralExhaustion/CT1/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 40,
+                "column": 2
+              },
+              "end": {
+                "line": 40,
+                "column": 12
+              }
+            },
+            "range": {
+              "start": {
+                "line": 40,
+                "column": 2
+              },
+              "end": {
+                "line": 40,
+                "column": 12
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Capability.workDegree",
+            "module": "StructuralExhaustion.CT1.Capability",
+            "kind": "definition",
+            "docString": "Degree in the certified polynomial work bound. ",
+            "declarationId": "StructuralExhaustion.CT1.Capability.workDegree",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "HAdd.hAdd",
+              "HMul.hMul",
+              "HPow.hPow",
+              "LE.le",
+              "Monoid.toPow",
+              "Nat",
+              "Nat.instMonoid",
+              "OfNat.ofNat",
+              "StructuralExhaustion.CT1.Capability",
+              "StructuralExhaustion.CT1.Capability.inputSize",
+              "StructuralExhaustion.CT1.Capability.tests",
+              "StructuralExhaustion.CT1.Capability.witnesses",
+              "StructuralExhaustion.CT1.Capability.workCoefficient",
+              "StructuralExhaustion.CT1.Capability.workDegree",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.CT1.searchCheckBound",
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient",
+              "instAddNat",
+              "instHAdd",
+              "instHMul",
+              "instHPow",
+              "instLENat",
+              "instMulNat",
+              "instOfNatNat"
+            ],
+            "type": "∀ {P : Core.Problem} {S : CT1.Spec P} (self : CT1.Capability S) (G : P.Ambient),\n  CT1.searchCheckBound S self.tests self.witnesses G ≤ self.workCoefficient * (self.inputSize G + 1) ^ self.workDegree",
+            "sourceFile": "StructuralExhaustion/CT1/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 42,
+                "column": 2
+              },
+              "end": {
+                "line": 42,
+                "column": 11
+              }
+            },
+            "range": {
+              "start": {
+                "line": 42,
+                "column": 2
+              },
+              "end": {
+                "line": 42,
+                "column": 11
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Capability.workBound",
+            "module": "StructuralExhaustion.CT1.Capability",
+            "kind": "theorem",
+            "docString": "The complete local schedule is polynomial in the declared input size. ",
+            "declarationId": "StructuralExhaustion.CT1.Capability.workBound",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Decidable",
+              "StructuralExhaustion.Core.DependentEnumeration",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult"
+            ],
+            "type": "{ι : Type u} →\n  {α : ι → Type v} →\n    Core.DependentEnumeration ι α →\n      (p : (i : ι) → α i → Prop) →\n        ((index : ι) → (value : α index) → Decidable (p index value)) → Core.FiniteSearch.DependentResult p",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 311,
+                "column": 4
+              },
+              "end": {
+                "line": 311,
+                "column": 19
+              }
+            },
+            "range": {
+              "start": {
+                "line": 309,
+                "column": 0
+              },
+              "end": {
+                "line": 319,
+                "column": 69
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.dependentSearch",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "definition",
+            "docString": "Exhaustive nested search over a finite index enumeration and an exact\nfinite enumeration for each dependent fibre. ",
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.dependentSearch",
+            "bodyDependencies": [
+              "FinEnum.orderedValues",
+              "List",
+              "List.instMembership",
+              "Membership.mem",
+              "Not",
+              "StructuralExhaustion.Core.DependentEnumeration.fibres",
+              "StructuralExhaustion.Core.DependentEnumeration.indices",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.absent",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.found",
+              "StructuralExhaustion.Core.FiniteSearch.dependentSearch._proof_1",
+              "StructuralExhaustion.Core.FiniteSearch.dependentSearch.match_1",
+              "_private.StructuralExhaustion.Core.FiniteSearch.0.StructuralExhaustion.Core.FiniteSearch.DependentListResult",
+              "_private.StructuralExhaustion.Core.FiniteSearch.0.StructuralExhaustion.Core.FiniteSearch.dependentOnList"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Not",
+              "StructuralExhaustion.CT1.AvoidingState",
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Input.context",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.CT1.Spec.Realizes",
+              "StructuralExhaustion.CT1.Spec.TestIndex",
+              "StructuralExhaustion.CT1.Spec.Witness",
+              "StructuralExhaustion.Core.BranchContext.G",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "∀ {P : Core.Problem} {S : CT1.Spec P} {input : CT1.Input P} (equivalence : CT1.EquivalenceState S input),\n  (∀ (index : S.TestIndex) (witness : S.Witness input.context.G index), ¬S.Realizes input.context.G index witness) →\n    CT1.AvoidingState S input equivalence",
+            "sourceFile": "StructuralExhaustion/CT1/State.lean",
+            "selectionRange": {
+              "start": {
+                "line": 49,
+                "column": 4
+              },
+              "end": {
+                "line": 49,
+                "column": 19
+              }
+            },
+            "range": {
+              "start": {
+                "line": 49,
+                "column": 0
+              },
+              "end": {
+                "line": 55,
+                "column": 32
+              }
+            },
+            "name": "StructuralExhaustion.CT1.AvoidingState.ofNoRealization",
+            "module": "StructuralExhaustion.CT1.State",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.AvoidingState.ofNoRealization",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.AvoidingState.mk"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Decidable",
+              "Not",
+              "StructuralExhaustion.Core.DependentEnumeration",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.index?.match_1",
+              "StructuralExhaustion.Core.FiniteSearch.dependentSearch",
+              "True"
+            ],
+            "type": "∀ {ι : Type u} {α : ι → Type v} (enumeration : Core.DependentEnumeration ι α) (p : (i : ι) → α i → Prop)\n  (decideP : (index : ι) → (value : α index) → Decidable (p index value)),\n  match Core.FiniteSearch.dependentSearch enumeration p decideP with\n  | Core.FiniteSearch.DependentResult.found index value holds => p index value\n  | Core.FiniteSearch.DependentResult.absent none => True",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 321,
+                "column": 8
+              },
+              "end": {
+                "line": 321,
+                "column": 29
+              }
+            },
+            "range": {
+              "start": {
+                "line": 321,
+                "column": 0
+              },
+              "end": {
+                "line": 330,
+                "column": 26
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_sound",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "theorem",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_sound",
+            "bodyDependencies": [
+              "Eq",
+              "Eq.ndrec",
+              "Eq.refl",
+              "Eq.symm",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.absent",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.casesOn",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.found",
+              "True.intro"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Decidable",
+              "Exists",
+              "False",
+              "Not",
+              "StructuralExhaustion.Core.DependentEnumeration",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.index?.match_1",
+              "StructuralExhaustion.Core.FiniteSearch.dependentSearch",
+              "True"
+            ],
+            "type": "∀ {ι : Type u} {α : ι → Type v} (enumeration : Core.DependentEnumeration ι α) (p : (i : ι) → α i → Prop)\n  (decideP : (index : ι) → (value : α index) → Decidable (p index value)),\n  (∃ index value, p index value) →\n    match Core.FiniteSearch.dependentSearch enumeration p decideP with\n    | Core.FiniteSearch.DependentResult.found index value holds => True\n    | Core.FiniteSearch.DependentResult.absent none => False",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 332,
+                "column": 8
+              },
+              "end": {
+                "line": 332,
+                "column": 32
+              }
+            },
+            "range": {
+              "start": {
+                "line": 332,
+                "column": 0
+              },
+              "end": {
+                "line": 344,
+                "column": 34
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_complete",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "theorem",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_complete",
+            "bodyDependencies": [
+              "Eq",
+              "Eq.ndrec",
+              "Eq.refl",
+              "Eq.symm",
+              "Exists.casesOn",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.absent",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.casesOn",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.found",
+              "True.intro"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (S : CT1.Spec P) → (input : CT1.Input P) → CT1.EquivalenceState S input → Type (max u_3 u_4)",
+            "sourceFile": "StructuralExhaustion/CT1/Search.lean",
+            "selectionRange": {
+              "start": {
+                "line": 6,
+                "column": 10
+              },
+              "end": {
+                "line": 6,
+                "column": 29
+              }
+            },
+            "range": {
+              "start": {
+                "line": 5,
+                "column": 0
+              },
+              "end": {
+                "line": 9,
+                "column": 56
+              }
+            },
+            "name": "StructuralExhaustion.CT1.RealizationDecision",
+            "module": "StructuralExhaustion.CT1.Search",
+            "kind": "inductive",
+            "docString": "Proof-carrying result of CT1's generic dependent finite search. ",
+            "declarationId": "StructuralExhaustion.CT1.RealizationDecision",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.RealizationDecision.avoiding",
+              "StructuralExhaustion.CT1.RealizationDecision.hit"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (S : CT1.Spec P) → (input : CT1.Input P) → CT1.EquivalenceState S input → Type (max u_3 u_4)",
+            "sourceFile": "StructuralExhaustion/CT1/State.lean",
+            "selectionRange": {
+              "start": {
+                "line": 23,
+                "column": 10
+              },
+              "end": {
+                "line": 23,
+                "column": 23
+              }
+            },
+            "range": {
+              "start": {
+                "line": 22,
+                "column": 0
+              },
+              "end": {
+                "line": 27,
+                "column": 53
+              }
+            },
+            "name": "StructuralExhaustion.CT1.C1Certificate",
+            "module": "StructuralExhaustion.CT1.State",
+            "kind": "inductive",
+            "docString": "Provenance-indexed C1 evidence. ",
+            "declarationId": "StructuralExhaustion.CT1.C1Certificate",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.C1Certificate.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (S : CT1.Spec P) → (input : CT1.Input P) → CT1.EquivalenceState S input → Prop",
+            "sourceFile": "StructuralExhaustion/CT1/State.lean",
+            "selectionRange": {
+              "start": {
+                "line": 41,
+                "column": 10
+              },
+              "end": {
+                "line": 41,
+                "column": 23
+              }
+            },
+            "range": {
+              "start": {
+                "line": 39,
+                "column": 0
+              },
+              "end": {
+                "line": 45,
+                "column": 48
+              }
+            },
+            "name": "StructuralExhaustion.CT1.AvoidingState",
+            "module": "StructuralExhaustion.CT1.State",
+            "kind": "inductive",
+            "docString": "Exact negative realization state.  The inherited branch context remains a\ndependent index and is therefore not duplicated in this residual. ",
+            "declarationId": "StructuralExhaustion.CT1.AvoidingState",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.AvoidingState.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.C1Certificate",
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Graph.Edge",
+              "StructuralExhaustion.CT1.Graph.NodeId.c1Terminal",
+              "StructuralExhaustion.CT1.Graph.NodeId.realizationDecision",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.C1Certificate S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.c1Terminal",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 50,
+                "column": 4
+              },
+              "end": {
+                "line": 50,
+                "column": 18
+              }
+            },
+            "range": {
+              "start": {
+                "line": 50,
+                "column": 2
+              },
+              "end": {
+                "line": 53,
+                "column": 51
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Edge.realizationHit",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Edge.realizationHit",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Capability",
+              "StructuralExhaustion.CT1.ExecutionResult.trace",
+              "StructuralExhaustion.CT1.Graph.ValidTrace",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.CT1.run",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "∀ {P : Core.Problem} (S : CT1.Spec P) (capability : CT1.Capability S) (input : CT1.Input P),\n  CT1.Graph.ValidTrace (CT1.run S capability input).trace",
+            "sourceFile": "StructuralExhaustion/CT1/Theorems.lean",
+            "selectionRange": {
+              "start": {
+                "line": 99,
+                "column": 8
+              },
+              "end": {
+                "line": 99,
+                "column": 23
+              }
+            },
+            "range": {
+              "start": {
+                "line": 98,
+                "column": 0
+              },
+              "end": {
+                "line": 103,
+                "column": 37
+              }
+            },
+            "name": "StructuralExhaustion.CT1.run_trace_valid",
+            "module": "StructuralExhaustion.CT1.Theorems",
+            "kind": "theorem",
+            "docString": "The erased trace of every run is backed by its exact dependent path. ",
+            "declarationId": "StructuralExhaustion.CT1.run_trace_valid",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.ExecutionResult.traceValid"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.AvoidingState",
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Graph.Edge",
+              "StructuralExhaustion.CT1.Graph.NodeId.avoidingTerminal",
+              "StructuralExhaustion.CT1.Graph.NodeId.realizationDecision",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.AvoidingState S input equivalence →\n          CT1.Graph.Edge S input CT1.Graph.NodeId.realizationDecision CT1.Graph.NodeId.avoidingTerminal",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 54,
+                "column": 4
+              },
+              "end": {
+                "line": 54,
+                "column": 23
+              }
+            },
+            "range": {
+              "start": {
+                "line": 54,
+                "column": 2
+              },
+              "end": {
+                "line": 57,
+                "column": 57
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.Core.BranchContext",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → Core.BranchContext P → CT1.Input P",
+            "sourceFile": "StructuralExhaustion/CT1/State.lean",
+            "selectionRange": {
+              "start": {
+                "line": 7,
+                "column": 10
+              },
+              "end": {
+                "line": 7,
+                "column": 15
+              }
+            },
+            "range": {
+              "start": {
+                "line": 7,
+                "column": 10
+              },
+              "end": {
+                "line": 7,
+                "column": 15
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Input.mk",
+            "module": "StructuralExhaustion.CT1.State",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Input.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [],
+            "type": "Type (max (uAmbient + 1) (uBranch + 1))",
+            "sourceFile": "StructuralExhaustion/Core/Problem.lean",
+            "selectionRange": {
+              "start": {
+                "line": 16,
+                "column": 10
+              },
+              "end": {
+                "line": 16,
+                "column": 17
+              }
+            },
+            "range": {
+              "start": {
+                "line": 14,
+                "column": 0
+              },
+              "end": {
+                "line": 20,
+                "column": 38
+              }
+            },
+            "name": "StructuralExhaustion.Core.Problem",
+            "module": "StructuralExhaustion.Core.Problem",
+            "kind": "inductive",
+            "docString": "Mathematical data shared by every tactic in one structural-exhaustion\nproof instance. ",
+            "declarationId": "StructuralExhaustion.Core.Problem",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.Problem.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "Core.Problem → Type (max (max (uI + 1) (uW + 1)) u_1)",
+            "sourceFile": "StructuralExhaustion/CT1/Spec.lean",
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "column": 10
+              },
+              "end": {
+                "line": 9,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 7,
+                "column": 0
+              },
+              "end": {
+                "line": 15,
+                "column": 26
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Spec",
+            "module": "StructuralExhaustion.CT1.Spec",
+            "kind": "inductive",
+            "docString": "Mathematical target-test vocabulary.  It contains no search procedure,\ndownstream tactic, or completed node decision. ",
+            "declarationId": "StructuralExhaustion.CT1.Spec",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.Spec.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "Core.Problem → Type uAmbient",
+            "sourceFile": "StructuralExhaustion/Core/Problem.lean",
+            "selectionRange": {
+              "start": {
+                "line": 17,
+                "column": 2
+              },
+              "end": {
+                "line": 17,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 17,
+                "column": 2
+              },
+              "end": {
+                "line": 17,
+                "column": 9
+              }
+            },
+            "name": "StructuralExhaustion.Core.Problem.Ambient",
+            "module": "StructuralExhaustion.Core.Problem",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.Problem.Ambient",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient"
+            ],
+            "type": "{P : Core.Problem} → CT1.Spec P → P.Ambient → Prop",
+            "sourceFile": "StructuralExhaustion/CT1/Spec.lean",
+            "selectionRange": {
+              "start": {
+                "line": 19,
+                "column": 4
+              },
+              "end": {
+                "line": 19,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 17,
+                "column": 0
+              },
+              "end": {
+                "line": 20,
+                "column": 48
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Target",
+            "module": "StructuralExhaustion.CT1.Spec",
+            "kind": "definition",
+            "docString": "The canonical CT1 target.  Defining the target from its realization\nsemantics makes target-test equivalence a framework theorem by reflexivity. ",
+            "declarationId": "StructuralExhaustion.CT1.Target",
+            "bodyDependencies": [
+              "Exists",
+              "StructuralExhaustion.CT1.Spec.Realizes",
+              "StructuralExhaustion.CT1.Spec.TestIndex",
+              "StructuralExhaustion.CT1.Spec.Witness"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Exists",
+              "Iff",
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Input.context",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.CT1.Spec.Realizes",
+              "StructuralExhaustion.CT1.Spec.TestIndex",
+              "StructuralExhaustion.CT1.Spec.Witness",
+              "StructuralExhaustion.CT1.Target",
+              "StructuralExhaustion.Core.BranchContext.G",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "∀ {P : Core.Problem} {S : CT1.Spec P} {input : CT1.Input P},\n  (CT1.Target S input.context.G ↔ ∃ index witness, S.Realizes input.context.G index witness) →\n    CT1.EquivalenceState S input",
+            "sourceFile": "StructuralExhaustion/CT1/State.lean",
+            "selectionRange": {
+              "start": {
+                "line": 11,
+                "column": 10
+              },
+              "end": {
+                "line": 11,
+                "column": 26
+              }
+            },
+            "range": {
+              "start": {
+                "line": 11,
+                "column": 10
+              },
+              "end": {
+                "line": 11,
+                "column": 26
+              }
+            },
+            "name": "StructuralExhaustion.CT1.EquivalenceState.mk",
+            "module": "StructuralExhaustion.CT1.State",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.EquivalenceState.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → CT1.Spec P → Type (max (max u_1 u_3) u_4)",
+            "sourceFile": "StructuralExhaustion/CT1/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 24,
+                "column": 10
+              },
+              "end": {
+                "line": 24,
+                "column": 20
+              }
+            },
+            "range": {
+              "start": {
+                "line": 19,
+                "column": 0
+              },
+              "end": {
+                "line": 44,
+                "column": 54
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Capability",
+            "module": "StructuralExhaustion.CT1.Capability",
+            "kind": "inductive",
+            "docString": "The complete problem-specific surface needed to execute CT1.\n\nThe capability contains only finite enumerators and a decision procedure for\nthe primitive realization relation. Search, exhaustiveness, certificates,\npaths, and terminal selection are framework-derived. ",
+            "declarationId": "StructuralExhaustion.CT1.Capability",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.Capability.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "FinEnum",
+              "Nat",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.CT1.Spec.TestIndex",
+              "StructuralExhaustion.CT1.Spec.Witness",
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient"
+            ],
+            "type": "{P : Core.Problem} →\n  (S : CT1.Spec P) →\n    FinEnum S.TestIndex → ((G : P.Ambient) → (index : S.TestIndex) → FinEnum (S.Witness G index)) → P.Ambient → ℕ",
+            "sourceFile": "StructuralExhaustion/CT1/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "column": 4
+              },
+              "end": {
+                "line": 9,
+                "column": 20
+              }
+            },
+            "range": {
+              "start": {
+                "line": 6,
+                "column": 0
+              },
+              "end": {
+                "line": 17,
+                "column": 49
+              }
+            },
+            "name": "StructuralExhaustion.CT1.searchCheckBound",
+            "module": "StructuralExhaustion.CT1.Capability",
+            "kind": "definition",
+            "docString": "Number of primitive realization decisions made by the exhaustive CT1\nschedule when every finite fibre is inspected.  This counts only the local\ntests supplied by the capability; it does not construct any ambient universe. ",
+            "declarationId": "StructuralExhaustion.CT1.searchCheckBound",
+            "bodyDependencies": [
+              "AddMonoid.toAddZeroClass",
+              "AddZero.toZero",
+              "AddZeroClass.toAddZero",
+              "FinEnum.orderedValues",
+              "List.length",
+              "List.map",
+              "List.sum",
+              "Nat.instAddMonoid",
+              "instAddNat"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [],
+            "type": "(ι : Type u) → (ι → Type v) → Type (max u v)",
+            "sourceFile": "StructuralExhaustion/Core/Enumeration.lean",
+            "selectionRange": {
+              "start": {
+                "line": 31,
+                "column": 10
+              },
+              "end": {
+                "line": 31,
+                "column": 30
+              }
+            },
+            "range": {
+              "start": {
+                "line": 29,
+                "column": 0
+              },
+              "end": {
+                "line": 33,
+                "column": 34
+              }
+            },
+            "name": "StructuralExhaustion.Core.DependentEnumeration",
+            "module": "StructuralExhaustion.Core.Enumeration",
+            "kind": "inductive",
+            "docString": "An exact enumeration of a dependent family over an exact finite index\nuniverse. ",
+            "declarationId": "StructuralExhaustion.Core.DependentEnumeration",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.DependentEnumeration.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "FinEnum",
+              "StructuralExhaustion.Core.DependentEnumeration"
+            ],
+            "type": "{ι : Type u} → {α : ι → Type v} → Core.DependentEnumeration ι α → (i : ι) → FinEnum (α i)",
+            "sourceFile": "StructuralExhaustion/Core/Enumeration.lean",
+            "selectionRange": {
+              "start": {
+                "line": 33,
+                "column": 2
+              },
+              "end": {
+                "line": 33,
+                "column": 8
+              }
+            },
+            "range": {
+              "start": {
+                "line": 33,
+                "column": 2
+              },
+              "end": {
+                "line": 33,
+                "column": 8
+              }
+            },
+            "name": "StructuralExhaustion.Core.DependentEnumeration.fibres",
+            "module": "StructuralExhaustion.Core.Enumeration",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.DependentEnumeration.fibres",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "FinEnum",
+              "StructuralExhaustion.Core.DependentEnumeration"
+            ],
+            "type": "{ι : Type u} → {α : ι → Type v} → Core.DependentEnumeration ι α → FinEnum ι",
+            "sourceFile": "StructuralExhaustion/Core/Enumeration.lean",
+            "selectionRange": {
+              "start": {
+                "line": 32,
+                "column": 2
+              },
+              "end": {
+                "line": 32,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 32,
+                "column": 2
+              },
+              "end": {
+                "line": 32,
+                "column": 9
+              }
+            },
+            "name": "StructuralExhaustion.Core.DependentEnumeration.indices",
+            "module": "StructuralExhaustion.Core.Enumeration",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.DependentEnumeration.indices",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [],
+            "type": "{ι : Type u} → {α : ι → Type v} → ((i : ι) → α i → Prop) → Type (max u v)",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 263,
+                "column": 10
+              },
+              "end": {
+                "line": 263,
+                "column": 25
+              }
+            },
+            "range": {
+              "start": {
+                "line": 261,
+                "column": 0
+              },
+              "end": {
+                "line": 266,
+                "column": 67
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.DependentResult",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "inductive",
+            "docString": "Dependent exhaustive-search result.  The witness is constructed directly\nin `Type`; it is never extracted from a propositional existential. ",
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.DependentResult",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.absent",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.found"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "Not",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult"
+            ],
+            "type": "{ι : Type u} →\n  {α : ι → Type v} →\n    {p : (i : ι) → α i → Prop} → (∀ (index : ι) (value : α index), ¬p index value) → Core.FiniteSearch.DependentResult p",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 266,
+                "column": 4
+              },
+              "end": {
+                "line": 266,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 266,
+                "column": 2
+              },
+              "end": {
+                "line": 266,
+                "column": 67
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.DependentResult.absent",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.DependentResult.absent",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult"
+            ],
+            "type": "{ι : Type u} →\n  {α : ι → Type v} →\n    {p : (i : ι) → α i → Prop} → (index : ι) → (value : α index) → p index value → Core.FiniteSearch.DependentResult p",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 265,
+                "column": 4
+              },
+              "end": {
+                "line": 265,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 265,
+                "column": 2
+              },
+              "end": {
+                "line": 265,
+                "column": 63
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.DependentResult.found",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.DependentResult.found",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "FinEnum.orderedValues",
+              "List",
+              "List.instMembership",
+              "Membership.mem",
+              "Not",
+              "StructuralExhaustion.Core.DependentEnumeration",
+              "StructuralExhaustion.Core.DependentEnumeration.indices"
+            ],
+            "type": "∀ {ι : Type u_1} {α : ι → Type u_2} (enumeration : Core.DependentEnumeration ι α) (p : (i : ι) → α i → Prop),\n  (∀ index ∈ enumeration.indices.orderedValues, ∀ (value : α index), ¬p index value) →\n    ∀ (index : ι) (value : α index), ¬p index value",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.Core.FiniteSearch.dependentSearch._proof_1",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "theorem",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.dependentSearch._proof_1",
+            "bodyDependencies": [
+              "FinEnum.mem_orderedValues"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "FinEnum.orderedValues",
+              "List",
+              "List.instMembership",
+              "Membership.mem",
+              "Not",
+              "StructuralExhaustion.Core.DependentEnumeration",
+              "StructuralExhaustion.Core.DependentEnumeration.indices",
+              "_private.StructuralExhaustion.Core.FiniteSearch.0.StructuralExhaustion.Core.FiniteSearch.DependentListResult",
+              "_private.StructuralExhaustion.Core.FiniteSearch.0.StructuralExhaustion.Core.FiniteSearch.DependentListResult.absent",
+              "_private.StructuralExhaustion.Core.FiniteSearch.0.StructuralExhaustion.Core.FiniteSearch.DependentListResult.found"
+            ],
+            "type": "{ι : Type u_1} →\n  {α : ι → Type u_2} →\n    (enumeration : Core.DependentEnumeration ι α) →\n      (p : (i : ι) → α i → Prop) →\n        (motive :\n            StructuralExhaustion.Core.FiniteSearch.DependentListResult✝ enumeration.indices.orderedValues p →\n              Sort u_3) →\n          (x : StructuralExhaustion.Core.FiniteSearch.DependentListResult✝ enumeration.indices.orderedValues p) →\n            ((index : ι) →\n                (member : index ∈ enumeration.indices.orderedValues) →\n                  (value : α index) →\n                    (holds : p index value) →\n                      motive\n                        (StructuralExhaustion.Core.FiniteSearch.DependentListResult.found✝ index member value holds)) →\n              ((absentProof : ∀ index ∈ enumeration.indices.orderedValues, ∀ (value : α index), ¬p index value) →\n                  motive (StructuralExhaustion.Core.FiniteSearch.DependentListResult.absent✝ absentProof)) →\n                motive x",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.Core.FiniteSearch.dependentSearch.match_1",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.dependentSearch.match_1",
+            "bodyDependencies": [
+              "_private.StructuralExhaustion.Core.FiniteSearch.0.StructuralExhaustion.Core.FiniteSearch.DependentListResult.casesOn"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Not",
+              "StructuralExhaustion.CT1.AvoidingState",
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Input.context",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.CT1.Spec.Realizes",
+              "StructuralExhaustion.CT1.Spec.TestIndex",
+              "StructuralExhaustion.CT1.Spec.Witness",
+              "StructuralExhaustion.Core.BranchContext.G",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "∀ {P : Core.Problem} {S : CT1.Spec P} {input : CT1.Input P} {equivalence : CT1.EquivalenceState S input},\n  (∀ (index : S.TestIndex) (witness : S.Witness input.context.G index), ¬S.Realizes input.context.G index witness) →\n    CT1.AvoidingState S input equivalence",
+            "sourceFile": "StructuralExhaustion/CT1/State.lean",
+            "selectionRange": {
+              "start": {
+                "line": 41,
+                "column": 10
+              },
+              "end": {
+                "line": 41,
+                "column": 23
+              }
+            },
+            "range": {
+              "start": {
+                "line": 41,
+                "column": 10
+              },
+              "end": {
+                "line": 41,
+                "column": 23
+              }
+            },
+            "name": "StructuralExhaustion.CT1.AvoidingState.mk",
+            "module": "StructuralExhaustion.CT1.State",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.AvoidingState.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.Core.BranchContext",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → CT1.Input P → Core.BranchContext P",
+            "sourceFile": "StructuralExhaustion/CT1/State.lean",
+            "selectionRange": {
+              "start": {
+                "line": 8,
+                "column": 2
+              },
+              "end": {
+                "line": 8,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 8,
+                "column": 2
+              },
+              "end": {
+                "line": 8,
+                "column": 9
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Input.context",
+            "module": "StructuralExhaustion.CT1.State",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Input.context",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.BranchContext",
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient"
+            ],
+            "type": "{P : Core.Problem} → Core.BranchContext P → P.Ambient",
+            "sourceFile": "StructuralExhaustion/Core/Context.lean",
+            "selectionRange": {
+              "start": {
+                "line": 10,
+                "column": 2
+              },
+              "end": {
+                "line": 10,
+                "column": 3
+              }
+            },
+            "range": {
+              "start": {
+                "line": 10,
+                "column": 2
+              },
+              "end": {
+                "line": 10,
+                "column": 3
+              }
+            },
+            "name": "StructuralExhaustion.Core.BranchContext.G",
+            "module": "StructuralExhaustion.Core.Context",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.BranchContext.G",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Not",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.absent",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.found"
+            ],
+            "type": "{ι : Type u} →\n  {α : ι → Type v} →\n    {p : (i : ι) → α i → Prop} →\n      {motive : Core.FiniteSearch.DependentResult p → Sort u_1} →\n        (t : Core.FiniteSearch.DependentResult p) →\n          ((index : ι) →\n              (value : α index) →\n                (holds : p index value) → motive (Core.FiniteSearch.DependentResult.found index value holds)) →\n            ((none : ∀ (index : ι) (value : α index), ¬p index value) →\n                motive (Core.FiniteSearch.DependentResult.absent none)) →\n              motive t",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 263,
+                "column": 10
+              },
+              "end": {
+                "line": 263,
+                "column": 25
+              }
+            },
+            "range": {
+              "start": {
+                "line": 261,
+                "column": 0
+              },
+              "end": {
+                "line": 266,
+                "column": 67
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.DependentResult.casesOn",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.DependentResult.casesOn",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.rec"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Not",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.absent",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.found"
+            ],
+            "type": "{ι : Type u_1} →\n  {α : ι → Type u_2} →\n    {p : (i : ι) → α i → Prop} →\n      (motive : Core.FiniteSearch.DependentResult p → Sort u_3) →\n        (x : Core.FiniteSearch.DependentResult p) →\n          ((index : ι) →\n              (value : α index) →\n                (holds : p index value) → motive (Core.FiniteSearch.DependentResult.found index value holds)) →\n            ((none : ∀ (index : ι) (value : α index), ¬p index value) →\n                motive (Core.FiniteSearch.DependentResult.absent none)) →\n              motive x",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.Core.FiniteSearch.DependentResult.index?.match_1",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.DependentResult.index?.match_1",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.casesOn"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.AvoidingState",
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.RealizationDecision",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.AvoidingState S input equivalence → CT1.RealizationDecision S input equivalence",
+            "sourceFile": "StructuralExhaustion/CT1/Search.lean",
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "column": 4
+              },
+              "end": {
+                "line": 9,
+                "column": 12
+              }
+            },
+            "range": {
+              "start": {
+                "line": 9,
+                "column": 2
+              },
+              "end": {
+                "line": 9,
+                "column": 56
+              }
+            },
+            "name": "StructuralExhaustion.CT1.RealizationDecision.avoiding",
+            "module": "StructuralExhaustion.CT1.Search",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.RealizationDecision.avoiding",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.C1Certificate",
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.RealizationDecision",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.C1Certificate S input equivalence → CT1.RealizationDecision S input equivalence",
+            "sourceFile": "StructuralExhaustion/CT1/Search.lean",
+            "selectionRange": {
+              "start": {
+                "line": 8,
+                "column": 4
+              },
+              "end": {
+                "line": 8,
+                "column": 7
+              }
+            },
+            "range": {
+              "start": {
+                "line": 8,
+                "column": 2
+              },
+              "end": {
+                "line": 8,
+                "column": 57
+              }
+            },
+            "name": "StructuralExhaustion.CT1.RealizationDecision.hit",
+            "module": "StructuralExhaustion.CT1.Search",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.RealizationDecision.hit",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.C1Certificate",
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Input.context",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.CT1.Spec.Realizes",
+              "StructuralExhaustion.CT1.Spec.TestIndex",
+              "StructuralExhaustion.CT1.Spec.Witness",
+              "StructuralExhaustion.Core.BranchContext.G",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        (index : S.TestIndex) →\n          (witness : S.Witness input.context.G index) →\n            S.Realizes input.context.G index witness → CT1.C1Certificate S input equivalence",
+            "sourceFile": "StructuralExhaustion/CT1/State.lean",
+            "selectionRange": {
+              "start": {
+                "line": 23,
+                "column": 10
+              },
+              "end": {
+                "line": 23,
+                "column": 23
+              }
+            },
+            "range": {
+              "start": {
+                "line": 23,
+                "column": 10
+              },
+              "end": {
+                "line": 23,
+                "column": 23
+              }
+            },
+            "name": "StructuralExhaustion.CT1.C1Certificate.mk",
+            "module": "StructuralExhaustion.CT1.State",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.C1Certificate.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  CT1.Spec P → CT1.Input P → CT1.Graph.NodeId → CT1.Graph.NodeId → Type (max (uIndex + 1) (uWitness + 1))",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 42,
+                "column": 10
+              },
+              "end": {
+                "line": 42,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 40,
+                "column": 0
+              },
+              "end": {
+                "line": 57,
+                "column": 57
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Edge",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "inductive",
+            "docString": "Every nontrivial transition carries the exact evidence emitted by its\nsource node. ",
+            "declarationId": "StructuralExhaustion.CT1.Graph.Edge",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.Graph.Edge.beginEquivalence",
+              "StructuralExhaustion.CT1.Graph.Edge.equivalenceCertified",
+              "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+              "StructuralExhaustion.CT1.Graph.Edge.realizationHit"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.NodeId"
+            ],
+            "type": "CT1.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 12,
+                "column": 4
+              },
+              "end": {
+                "line": 12,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 12,
+                "column": 2
+              },
+              "end": {
+                "line": 12,
+                "column": 14
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.NodeId.c1Terminal",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.NodeId.c1Terminal",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.NodeId"
+            ],
+            "type": "CT1.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 11,
+                "column": 4
+              },
+              "end": {
+                "line": 11,
+                "column": 23
+              }
+            },
+            "range": {
+              "start": {
+                "line": 11,
+                "column": 2
+              },
+              "end": {
+                "line": 11,
+                "column": 23
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.NodeId.realizationDecision",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.NodeId.realizationDecision",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "List",
+              "StructuralExhaustion.CT1.ExecutionResult",
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → {S : CT1.Spec P} → {input : CT1.Input P} → CT1.ExecutionResult S input → List CT1.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT1/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 30,
+                "column": 4
+              },
+              "end": {
+                "line": 30,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 30,
+                "column": 0
+              },
+              "end": {
+                "line": 33,
+                "column": 19
+              }
+            },
+            "name": "StructuralExhaustion.CT1.ExecutionResult.trace",
+            "module": "StructuralExhaustion.CT1.Execution",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.ExecutionResult.trace",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.ExecutionResult.path",
+              "StructuralExhaustion.CT1.ExecutionResult.terminal",
+              "StructuralExhaustion.CT1.Graph.NodeId.entry",
+              "StructuralExhaustion.CT1.Graph.Path.trace",
+              "StructuralExhaustion.CT1.Graph.Terminal.nodeId"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.ExecutionResult",
+              "StructuralExhaustion.CT1.ExecutionResult.trace",
+              "StructuralExhaustion.CT1.Graph.ValidTrace",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "∀ {P : Core.Problem} {S : CT1.Spec P} {input : CT1.Input P} (result : CT1.ExecutionResult S input),\n  CT1.Graph.ValidTrace result.trace",
+            "sourceFile": "StructuralExhaustion/CT1/Theorems.lean",
+            "selectionRange": {
+              "start": {
+                "line": 23,
+                "column": 8
+              },
+              "end": {
+                "line": 23,
+                "column": 18
+              }
+            },
+            "range": {
+              "start": {
+                "line": 23,
+                "column": 0
+              },
+              "end": {
+                "line": 26,
+                "column": 37
+              }
+            },
+            "name": "StructuralExhaustion.CT1.ExecutionResult.traceValid",
+            "module": "StructuralExhaustion.CT1.Theorems",
+            "kind": "theorem",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.ExecutionResult.traceValid",
+            "bodyDependencies": [
+              "Eq",
+              "Exists",
+              "Exists.intro",
+              "List",
+              "StructuralExhaustion.CT1.ExecutionResult.path",
+              "StructuralExhaustion.CT1.ExecutionResult.terminal",
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Graph.NodeId.entry",
+              "StructuralExhaustion.CT1.Graph.Path",
+              "StructuralExhaustion.CT1.Graph.Path.trace",
+              "StructuralExhaustion.CT1.Graph.Terminal",
+              "StructuralExhaustion.CT1.Graph.Terminal.nodeId",
+              "rfl"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "List",
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → {S : CT1.Spec P} → {input : CT1.Input P} → List CT1.Graph.NodeId → Prop",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 93,
+                "column": 4
+              },
+              "end": {
+                "line": 93,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 93,
+                "column": 0
+              },
+              "end": {
+                "line": 98,
+                "column": 24
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.ValidTrace",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.ValidTrace",
+            "bodyDependencies": [
+              "Eq",
+              "Exists",
+              "StructuralExhaustion.CT1.Graph.NodeId.entry",
+              "StructuralExhaustion.CT1.Graph.Path",
+              "StructuralExhaustion.CT1.Graph.Path.trace",
+              "StructuralExhaustion.CT1.Graph.Terminal",
+              "StructuralExhaustion.CT1.Graph.Terminal.nodeId"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Capability",
+              "StructuralExhaustion.CT1.ExecutionResult",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (S : CT1.Spec P) → CT1.Capability S → (input : CT1.Input P) → CT1.ExecutionResult S input",
+            "sourceFile": "StructuralExhaustion/CT1/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 62,
+                "column": 4
+              },
+              "end": {
+                "line": 62,
+                "column": 7
+              }
+            },
+            "range": {
+              "start": {
+                "line": 59,
+                "column": 0
+              },
+              "end": {
+                "line": 65,
+                "column": 33
+              }
+            },
+            "name": "StructuralExhaustion.CT1.run",
+            "module": "StructuralExhaustion.CT1.Execution",
+            "kind": "definition",
+            "docString": "Public CT1 execution returns the exact path and matching terminal\nevidence. Consumers can project `terminal` or `outcome` when they do not need\nthe trace. ",
+            "declarationId": "StructuralExhaustion.CT1.run",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.runReference"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.NodeId"
+            ],
+            "type": "CT1.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 13,
+                "column": 4
+              },
+              "end": {
+                "line": 13,
+                "column": 20
+              }
+            },
+            "range": {
+              "start": {
+                "line": 13,
+                "column": 2
+              },
+              "end": {
+                "line": 13,
+                "column": 20
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.NodeId.avoidingTerminal",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.NodeId.avoidingTerminal",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "Core.Problem → Type (max uAmbient uBranch)",
+            "sourceFile": "StructuralExhaustion/Core/Context.lean",
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "column": 10
+              },
+              "end": {
+                "line": 9,
+                "column": 23
+              }
+            },
+            "range": {
+              "start": {
+                "line": 7,
+                "column": 0
+              },
+              "end": {
+                "line": 12,
+                "column": 25
+              }
+            },
+            "name": "StructuralExhaustion.Core.BranchContext",
+            "module": "StructuralExhaustion.Core.Context",
+            "kind": "inductive",
+            "docString": "The inherited state of one branch, shared by dependent CT inputs and route\ntriggers. ",
+            "declarationId": "StructuralExhaustion.Core.BranchContext",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.BranchContext.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "Nat",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "(Ambient : Type uAmbient) → (Ambient → Prop) → (Ambient → ℕ) → (Ambient → Type uBranch) → Core.Problem",
+            "sourceFile": "StructuralExhaustion/Core/Problem.lean",
+            "selectionRange": {
+              "start": {
+                "line": 16,
+                "column": 10
+              },
+              "end": {
+                "line": 16,
+                "column": 17
+              }
+            },
+            "range": {
+              "start": {
+                "line": 16,
+                "column": 10
+              },
+              "end": {
+                "line": 16,
+                "column": 17
+              }
+            },
+            "name": "StructuralExhaustion.Core.Problem.mk",
+            "module": "StructuralExhaustion.Core.Problem",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.Problem.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient"
+            ],
+            "type": "{P : Core.Problem} →\n  (TestIndex : Type uI) →\n    (Witness : P.Ambient → TestIndex → Type uW) →\n      ((G : P.Ambient) → (index : TestIndex) → Witness G index → Prop) → CT1.Spec P",
+            "sourceFile": "StructuralExhaustion/CT1/Spec.lean",
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "column": 10
+              },
+              "end": {
+                "line": 9,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 9,
+                "column": 10
+              },
+              "end": {
+                "line": 9,
+                "column": 14
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Spec.mk",
+            "module": "StructuralExhaustion.CT1.Spec",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Spec.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "Decidable",
+              "FinEnum",
+              "HAdd.hAdd",
+              "HMul.hMul",
+              "HPow.hPow",
+              "LE.le",
+              "Monoid.toPow",
+              "Nat",
+              "Nat.instMonoid",
+              "OfNat.ofNat",
+              "StructuralExhaustion.CT1.Capability",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.CT1.Spec.Realizes",
+              "StructuralExhaustion.CT1.Spec.TestIndex",
+              "StructuralExhaustion.CT1.Spec.Witness",
+              "StructuralExhaustion.CT1.searchCheckBound",
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient",
+              "instAddNat",
+              "instHAdd",
+              "instHMul",
+              "instHPow",
+              "instLENat",
+              "instMulNat",
+              "instOfNatNat"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    (tests : FinEnum S.TestIndex) →\n      (witnesses : (G : P.Ambient) → (index : S.TestIndex) → FinEnum (S.Witness G index)) →\n        ((G : P.Ambient) →\n            (index : S.TestIndex) → (witness : S.Witness G index) → Decidable (S.Realizes G index witness)) →\n          (inputSize : P.Ambient → ℕ) →\n            (workCoefficient workDegree : ℕ) →\n              (∀ (G : P.Ambient),\n                  CT1.searchCheckBound S tests witnesses G ≤ workCoefficient * (inputSize G + 1) ^ workDegree) →\n                CT1.Capability S",
+            "sourceFile": "StructuralExhaustion/CT1/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 24,
+                "column": 10
+              },
+              "end": {
+                "line": 24,
+                "column": 20
+              }
+            },
+            "range": {
+              "start": {
+                "line": 24,
+                "column": 10
+              },
+              "end": {
+                "line": 24,
+                "column": 20
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Capability.mk",
+            "module": "StructuralExhaustion.CT1.Capability",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Capability.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "FinEnum",
+              "StructuralExhaustion.Core.DependentEnumeration"
+            ],
+            "type": "{ι : Type u} → {α : ι → Type v} → FinEnum ι → ((i : ι) → FinEnum (α i)) → Core.DependentEnumeration ι α",
+            "sourceFile": "StructuralExhaustion/Core/Enumeration.lean",
+            "selectionRange": {
+              "start": {
+                "line": 31,
+                "column": 10
+              },
+              "end": {
+                "line": 31,
+                "column": 30
+              }
+            },
+            "range": {
+              "start": {
+                "line": 31,
+                "column": 10
+              },
+              "end": {
+                "line": 31,
+                "column": 30
+              }
+            },
+            "name": "StructuralExhaustion.Core.DependentEnumeration.mk",
+            "module": "StructuralExhaustion.Core.Enumeration",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.DependentEnumeration.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "Not",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.absent",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.found"
+            ],
+            "type": "{ι : Type u} →\n  {α : ι → Type v} →\n    {p : (i : ι) → α i → Prop} →\n      {motive : Core.FiniteSearch.DependentResult p → Sort u_1} →\n        ((index : ι) →\n            (value : α index) →\n              (holds : p index value) → motive (Core.FiniteSearch.DependentResult.found index value holds)) →\n          ((none : ∀ (index : ι) (value : α index), ¬p index value) →\n              motive (Core.FiniteSearch.DependentResult.absent none)) →\n            (t : Core.FiniteSearch.DependentResult p) → motive t",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 263,
+                "column": 10
+              },
+              "end": {
+                "line": 263,
+                "column": 25
+              }
+            },
+            "range": {
+              "start": {
+                "line": 261,
+                "column": 0
+              },
+              "end": {
+                "line": 266,
+                "column": 67
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.DependentResult.rec",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "recursor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.DependentResult.rec",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.Edge",
+              "StructuralExhaustion.CT1.Graph.NodeId.entry",
+              "StructuralExhaustion.CT1.Graph.NodeId.equivalenceCertification",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} → CT1.Graph.Edge S input CT1.Graph.NodeId.entry CT1.Graph.NodeId.equivalenceCertification",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 45,
+                "column": 4
+              },
+              "end": {
+                "line": 45,
+                "column": 20
+              }
+            },
+            "range": {
+              "start": {
+                "line": 45,
+                "column": 2
+              },
+              "end": {
+                "line": 46,
+                "column": 51
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Edge.beginEquivalence",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Edge.beginEquivalence",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Graph.Edge",
+              "StructuralExhaustion.CT1.Graph.NodeId.equivalenceCertification",
+              "StructuralExhaustion.CT1.Graph.NodeId.realizationDecision",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      CT1.EquivalenceState S input →\n        CT1.Graph.Edge S input CT1.Graph.NodeId.equivalenceCertification CT1.Graph.NodeId.realizationDecision",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 47,
+                "column": 4
+              },
+              "end": {
+                "line": 47,
+                "column": 24
+              }
+            },
+            "range": {
+              "start": {
+                "line": 47,
+                "column": 2
+              },
+              "end": {
+                "line": 49,
+                "column": 65
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Edge.equivalenceCertified",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Edge.equivalenceCertified",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [],
+            "type": "Type",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 8,
+                "column": 10
+              },
+              "end": {
+                "line": 8,
+                "column": 16
+              }
+            },
+            "range": {
+              "start": {
+                "line": 7,
+                "column": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 28
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.NodeId",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "inductive",
+            "docString": "Exact automation-first CT1 nodes. ",
+            "declarationId": "StructuralExhaustion.CT1.Graph.NodeId",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.Graph.NodeId.avoidingTerminal",
+              "StructuralExhaustion.CT1.Graph.NodeId.c1Terminal",
+              "StructuralExhaustion.CT1.Graph.NodeId.entry",
+              "StructuralExhaustion.CT1.Graph.NodeId.equivalenceCertification",
+              "StructuralExhaustion.CT1.Graph.NodeId.realizationDecision"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → CT1.Spec P → CT1.Input P → Type (max (uIndex + 1) (uWitness + 1))",
+            "sourceFile": "StructuralExhaustion/CT1/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 21,
+                "column": 10
+              },
+              "end": {
+                "line": 21,
+                "column": 25
+              }
+            },
+            "range": {
+              "start": {
+                "line": 19,
+                "column": 0
+              },
+              "end": {
+                "line": 26,
+                "column": 39
+              }
+            },
+            "name": "StructuralExhaustion.CT1.ExecutionResult",
+            "module": "StructuralExhaustion.CT1.Execution",
+            "kind": "inductive",
+            "docString": "A CT1 result bundles one semantic terminal, the kernel-typed path reaching\nit, and terminal evidence carrying the same index. ",
+            "declarationId": "StructuralExhaustion.CT1.ExecutionResult",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.ExecutionResult.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.ExecutionResult",
+              "StructuralExhaustion.CT1.ExecutionResult.terminal",
+              "StructuralExhaustion.CT1.Graph.NodeId.entry",
+              "StructuralExhaustion.CT1.Graph.Path",
+              "StructuralExhaustion.CT1.Graph.Terminal.nodeId",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      (self : CT1.ExecutionResult S input) → CT1.Graph.Path S input CT1.Graph.NodeId.entry self.terminal.nodeId",
+            "sourceFile": "StructuralExhaustion/CT1/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 25,
+                "column": 2
+              },
+              "end": {
+                "line": 25,
+                "column": 6
+              }
+            },
+            "range": {
+              "start": {
+                "line": 25,
+                "column": 2
+              },
+              "end": {
+                "line": 25,
+                "column": 6
+              }
+            },
+            "name": "StructuralExhaustion.CT1.ExecutionResult.path",
+            "module": "StructuralExhaustion.CT1.Execution",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.ExecutionResult.path",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.ExecutionResult",
+              "StructuralExhaustion.CT1.Graph.Terminal",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → {S : CT1.Spec P} → {input : CT1.Input P} → CT1.ExecutionResult S input → CT1.Graph.Terminal",
+            "sourceFile": "StructuralExhaustion/CT1/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 24,
+                "column": 2
+              },
+              "end": {
+                "line": 24,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 24,
+                "column": 2
+              },
+              "end": {
+                "line": 24,
+                "column": 10
+              }
+            },
+            "name": "StructuralExhaustion.CT1.ExecutionResult.terminal",
+            "module": "StructuralExhaustion.CT1.Execution",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.ExecutionResult.terminal",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.NodeId"
+            ],
+            "type": "CT1.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "column": 4
+              },
+              "end": {
+                "line": 9,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 9,
+                "column": 2
+              },
+              "end": {
+                "line": 9,
+                "column": 9
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.NodeId.entry",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.NodeId.entry",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "List",
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Graph.Path",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} → {first last : CT1.Graph.NodeId} → CT1.Graph.Path S input first last → List CT1.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 85,
+                "column": 4
+              },
+              "end": {
+                "line": 85,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 85,
+                "column": 0
+              },
+              "end": {
+                "line": 89,
+                "column": 48
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Path.trace",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Path.trace",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.Graph.Path.brecOn",
+              "StructuralExhaustion.CT1.Graph.Path.trace._f"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Graph.Terminal"
+            ],
+            "type": "CT1.Graph.Terminal → CT1.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 34,
+                "column": 4
+              },
+              "end": {
+                "line": 34,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 34,
+                "column": 0
+              },
+              "end": {
+                "line": 36,
+                "column": 34
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Terminal.nodeId",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Terminal.nodeId",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.Graph.NodeId.avoidingTerminal",
+              "StructuralExhaustion.CT1.Graph.NodeId.c1Terminal",
+              "StructuralExhaustion.CT1.Graph.instReprTerminal.repr.match_1",
+              "Unit"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  CT1.Spec P → CT1.Input P → CT1.Graph.NodeId → CT1.Graph.NodeId → Type (max (uIndex + 1) (uWitness + 1))",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 74,
+                "column": 10
+              },
+              "end": {
+                "line": 74,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 73,
+                "column": 0
+              },
+              "end": {
+                "line": 81,
+                "column": 29
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Path",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "inductive",
+            "docString": "A dependent execution path; ill-composed traces are unrepresentable. ",
+            "declarationId": "StructuralExhaustion.CT1.Graph.Path",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.Graph.Path.cons",
+              "StructuralExhaustion.CT1.Graph.Path.nil"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [],
+            "type": "Type",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 27,
+                "column": 10
+              },
+              "end": {
+                "line": 27,
+                "column": 18
+              }
+            },
+            "range": {
+              "start": {
+                "line": 27,
+                "column": 0
+              },
+              "end": {
+                "line": 30,
+                "column": 28
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Terminal",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "inductive",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Terminal",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.Graph.Terminal.avoiding",
+              "StructuralExhaustion.CT1.Graph.Terminal.c1"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Capability",
+              "StructuralExhaustion.CT1.ExecutionResult",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (S : CT1.Spec P) → CT1.Capability S → (input : CT1.Input P) → CT1.ExecutionResult S input",
+            "sourceFile": "StructuralExhaustion/CT1/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 39,
+                "column": 4
+              },
+              "end": {
+                "line": 39,
+                "column": 16
+              }
+            },
+            "range": {
+              "start": {
+                "line": 37,
+                "column": 0
+              },
+              "end": {
+                "line": 57,
+                "column": 5
+              }
+            },
+            "name": "StructuralExhaustion.CT1.runReference",
+            "module": "StructuralExhaustion.CT1.Execution",
+            "kind": "definition",
+            "docString": "The framework executes every CT1 node and constructs the exact path from\nthe capability primitives; the caller supplies no completed node decision. ",
+            "declarationId": "StructuralExhaustion.CT1.runReference",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.AvoidingState",
+              "StructuralExhaustion.CT1.C1Certificate",
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.ExecutionResult.mk",
+              "StructuralExhaustion.CT1.Graph.Edge.beginEquivalence",
+              "StructuralExhaustion.CT1.Graph.Edge.equivalenceCertified",
+              "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+              "StructuralExhaustion.CT1.Graph.Edge.realizationHit",
+              "StructuralExhaustion.CT1.Graph.NodeId.avoidingTerminal",
+              "StructuralExhaustion.CT1.Graph.NodeId.c1Terminal",
+              "StructuralExhaustion.CT1.Graph.NodeId.entry",
+              "StructuralExhaustion.CT1.Graph.NodeId.equivalenceCertification",
+              "StructuralExhaustion.CT1.Graph.NodeId.realizationDecision",
+              "StructuralExhaustion.CT1.Graph.Path.cons",
+              "StructuralExhaustion.CT1.Graph.Path.nil",
+              "StructuralExhaustion.CT1.Graph.Terminal.avoiding",
+              "StructuralExhaustion.CT1.Graph.Terminal.c1",
+              "StructuralExhaustion.CT1.Graph.Terminal.nodeId",
+              "StructuralExhaustion.CT1.RawOutcome.avoiding",
+              "StructuralExhaustion.CT1.RawOutcome.c1",
+              "StructuralExhaustion.CT1.RealizationDecision",
+              "StructuralExhaustion.CT1.certifyEquivalence",
+              "StructuralExhaustion.CT1.findRealization",
+              "StructuralExhaustion.CT1.runReference.match_1"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.BranchContext",
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient",
+              "StructuralExhaustion.Core.Problem.Baseline",
+              "StructuralExhaustion.Core.Problem.BranchState"
+            ],
+            "type": "{P : Core.Problem} → (G : P.Ambient) → P.Baseline G → P.BranchState G → Core.BranchContext P",
+            "sourceFile": "StructuralExhaustion/Core/Context.lean",
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "column": 10
+              },
+              "end": {
+                "line": 9,
+                "column": 23
+              }
+            },
+            "range": {
+              "start": {
+                "line": 9,
+                "column": 10
+              },
+              "end": {
+                "line": 9,
+                "column": 23
+              }
+            },
+            "name": "StructuralExhaustion.Core.BranchContext.mk",
+            "module": "StructuralExhaustion.Core.Context",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.BranchContext.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.NodeId"
+            ],
+            "type": "CT1.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 10,
+                "column": 4
+              },
+              "end": {
+                "line": 10,
+                "column": 28
+              }
+            },
+            "range": {
+              "start": {
+                "line": 10,
+                "column": 2
+              },
+              "end": {
+                "line": 10,
+                "column": 28
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.NodeId.equivalenceCertification",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.NodeId.equivalenceCertification",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.ExecutionResult",
+              "StructuralExhaustion.CT1.Graph.NodeId.entry",
+              "StructuralExhaustion.CT1.Graph.Path",
+              "StructuralExhaustion.CT1.Graph.Terminal",
+              "StructuralExhaustion.CT1.Graph.Terminal.nodeId",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.RawOutcome",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      (terminal : CT1.Graph.Terminal) →\n        CT1.Graph.Path S input CT1.Graph.NodeId.entry terminal.nodeId →\n          CT1.RawOutcome S input terminal → CT1.ExecutionResult S input",
+            "sourceFile": "StructuralExhaustion/CT1/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 21,
+                "column": 10
+              },
+              "end": {
+                "line": 21,
+                "column": 25
+              }
+            },
+            "range": {
+              "start": {
+                "line": 21,
+                "column": 10
+              },
+              "end": {
+                "line": 21,
+                "column": 25
+              }
+            },
+            "name": "StructuralExhaustion.CT1.ExecutionResult.mk",
+            "module": "StructuralExhaustion.CT1.Execution",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.ExecutionResult.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Graph.Path",
+              "StructuralExhaustion.CT1.Graph.Path.below",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {motive : (a a_1 : CT1.Graph.NodeId) → CT1.Graph.Path S input a a_1 → Sort u} →\n        {a a_1 : CT1.Graph.NodeId} →\n          (t : CT1.Graph.Path S input a a_1) →\n            ((a a_2 : CT1.Graph.NodeId) →\n                (t : CT1.Graph.Path S input a a_2) → CT1.Graph.Path.below t → motive a a_2 t) →\n              motive a a_1 t",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 74,
+                "column": 10
+              },
+              "end": {
+                "line": 74,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 73,
+                "column": 0
+              },
+              "end": {
+                "line": 81,
+                "column": 29
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Path.brecOn",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Path.brecOn",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.Graph.Path.brecOn.go"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "List",
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Graph.Path",
+              "StructuralExhaustion.CT1.Graph.Path.below",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {first last : CT1.Graph.NodeId} →\n        (x : CT1.Graph.Path S input first last) → CT1.Graph.Path.below x → List CT1.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.CT1.Graph.Path.trace._f",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Path.trace._f",
+            "bodyDependencies": [
+              "List.cons",
+              "List.nil",
+              "StructuralExhaustion.CT1.Graph.Edge",
+              "StructuralExhaustion.CT1.Graph.Edge.source",
+              "StructuralExhaustion.CT1.Graph.Path.cons",
+              "StructuralExhaustion.CT1.Graph.Path.nil",
+              "StructuralExhaustion.CT1.Graph.Path.trace.match_1"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.Terminal",
+              "StructuralExhaustion.CT1.Graph.Terminal.avoiding",
+              "StructuralExhaustion.CT1.Graph.Terminal.c1",
+              "Unit"
+            ],
+            "type": "(motive : CT1.Graph.Terminal → Sort u_1) →\n  (x : CT1.Graph.Terminal) →\n    (Unit → motive CT1.Graph.Terminal.c1) → (Unit → motive CT1.Graph.Terminal.avoiding) → motive x",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.CT1.Graph.instReprTerminal.repr.match_1",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.instReprTerminal.repr.match_1",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.Graph.Terminal.casesOn",
+              "Unit.unit"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.Edge",
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Graph.Path",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {first second last : CT1.Graph.NodeId} →\n        CT1.Graph.Edge S input first second → CT1.Graph.Path S input second last → CT1.Graph.Path S input first last",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 78,
+                "column": 4
+              },
+              "end": {
+                "line": 78,
+                "column": 8
+              }
+            },
+            "range": {
+              "start": {
+                "line": 78,
+                "column": 2
+              },
+              "end": {
+                "line": 81,
+                "column": 29
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Path.cons",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Path.cons",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Graph.Path",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} → {input : CT1.Input P} → (node : CT1.Graph.NodeId) → CT1.Graph.Path S input node node",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 77,
+                "column": 4
+              },
+              "end": {
+                "line": 77,
+                "column": 7
+              }
+            },
+            "range": {
+              "start": {
+                "line": 77,
+                "column": 2
+              },
+              "end": {
+                "line": 77,
+                "column": 48
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Path.nil",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Path.nil",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.Terminal"
+            ],
+            "type": "CT1.Graph.Terminal",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 29,
+                "column": 4
+              },
+              "end": {
+                "line": 29,
+                "column": 12
+              }
+            },
+            "range": {
+              "start": {
+                "line": 29,
+                "column": 2
+              },
+              "end": {
+                "line": 29,
+                "column": 12
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Terminal.avoiding",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Terminal.avoiding",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.Terminal"
+            ],
+            "type": "CT1.Graph.Terminal",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 28,
+                "column": 4
+              },
+              "end": {
+                "line": 28,
+                "column": 6
+              }
+            },
+            "range": {
+              "start": {
+                "line": 28,
+                "column": 2
+              },
+              "end": {
+                "line": 28,
+                "column": 6
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Terminal.c1",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Terminal.c1",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.AvoidingState",
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Graph.Terminal.avoiding",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.RawOutcome",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.AvoidingState S input equivalence → CT1.RawOutcome S input CT1.Graph.Terminal.avoiding",
+            "sourceFile": "StructuralExhaustion/CT1/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 15,
+                "column": 4
+              },
+              "end": {
+                "line": 15,
+                "column": 12
+              }
+            },
+            "range": {
+              "start": {
+                "line": 15,
+                "column": 2
+              },
+              "end": {
+                "line": 17,
+                "column": 34
+              }
+            },
+            "name": "StructuralExhaustion.CT1.RawOutcome.avoiding",
+            "module": "StructuralExhaustion.CT1.Execution",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.RawOutcome.avoiding",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.C1Certificate",
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Graph.Terminal.c1",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.RawOutcome",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        CT1.C1Certificate S input equivalence → CT1.RawOutcome S input CT1.Graph.Terminal.c1",
+            "sourceFile": "StructuralExhaustion/CT1/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 12,
+                "column": 4
+              },
+              "end": {
+                "line": 12,
+                "column": 6
+              }
+            },
+            "range": {
+              "start": {
+                "line": 12,
+                "column": 2
+              },
+              "end": {
+                "line": 14,
+                "column": 28
+              }
+            },
+            "name": "StructuralExhaustion.CT1.RawOutcome.c1",
+            "module": "StructuralExhaustion.CT1.Execution",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.RawOutcome.c1",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "∀ {P : Core.Problem} (S : CT1.Spec P) (input : CT1.Input P), CT1.EquivalenceState S input",
+            "sourceFile": "StructuralExhaustion/CT1/State.lean",
+            "selectionRange": {
+              "start": {
+                "line": 18,
+                "column": 4
+              },
+              "end": {
+                "line": 18,
+                "column": 22
+              }
+            },
+            "range": {
+              "start": {
+                "line": 18,
+                "column": 0
+              },
+              "end": {
+                "line": 20,
+                "column": 22
+              }
+            },
+            "name": "StructuralExhaustion.CT1.certifyEquivalence",
+            "module": "StructuralExhaustion.CT1.State",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.certifyEquivalence",
+            "bodyDependencies": [
+              "Iff.rfl",
+              "StructuralExhaustion.CT1.EquivalenceState.mk",
+              "StructuralExhaustion.CT1.Input.context",
+              "StructuralExhaustion.CT1.Target",
+              "StructuralExhaustion.Core.BranchContext.G"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Capability",
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.RealizationDecision",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  (S : CT1.Spec P) →\n    CT1.Capability S →\n      (input : CT1.Input P) → (equivalence : CT1.EquivalenceState S input) → CT1.RealizationDecision S input equivalence",
+            "sourceFile": "StructuralExhaustion/CT1/Search.lean",
+            "selectionRange": {
+              "start": {
+                "line": 14,
+                "column": 4
+              },
+              "end": {
+                "line": 14,
+                "column": 19
+              }
+            },
+            "range": {
+              "start": {
+                "line": 11,
+                "column": 0
+              },
+              "end": {
+                "line": 32,
+                "column": 73
+              }
+            },
+            "name": "StructuralExhaustion.CT1.findRealization",
+            "module": "StructuralExhaustion.CT1.Search",
+            "kind": "definition",
+            "docString": "Execute the reference nested search over tests and their dependent witness\nfibres.  Both branches are complete because the enumerators carry coverage\nproofs. ",
+            "declarationId": "StructuralExhaustion.CT1.findRealization",
+            "bodyDependencies": [
+              "Not",
+              "StructuralExhaustion.CT1.AvoidingState.ofNoRealization",
+              "StructuralExhaustion.CT1.C1Certificate.mk",
+              "StructuralExhaustion.CT1.Capability.realizesDecidable",
+              "StructuralExhaustion.CT1.Capability.tests",
+              "StructuralExhaustion.CT1.Capability.witnesses",
+              "StructuralExhaustion.CT1.Input.context",
+              "StructuralExhaustion.CT1.RealizationDecision.avoiding",
+              "StructuralExhaustion.CT1.RealizationDecision.hit",
+              "StructuralExhaustion.CT1.Spec.Realizes",
+              "StructuralExhaustion.CT1.Spec.TestIndex",
+              "StructuralExhaustion.CT1.Spec.Witness",
+              "StructuralExhaustion.CT1.findRealization.match_1",
+              "StructuralExhaustion.Core.BranchContext.G",
+              "StructuralExhaustion.Core.DependentEnumeration.mk",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult",
+              "StructuralExhaustion.Core.FiniteSearch.dependentSearch"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.AvoidingState",
+              "StructuralExhaustion.CT1.C1Certificate",
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.RealizationDecision",
+              "StructuralExhaustion.CT1.RealizationDecision.avoiding",
+              "StructuralExhaustion.CT1.RealizationDecision.hit",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  (S : CT1.Spec P) →\n    (input : CT1.Input P) →\n      (equivalence : CT1.EquivalenceState S input) →\n        (motive : CT1.RealizationDecision S input equivalence → Sort u_5) →\n          (x : CT1.RealizationDecision S input equivalence) →\n            ((certificate : CT1.C1Certificate S input equivalence) → motive (CT1.RealizationDecision.hit certificate)) →\n              ((state : CT1.AvoidingState S input equivalence) → motive (CT1.RealizationDecision.avoiding state)) →\n                motive x",
+            "sourceFile": "StructuralExhaustion/CT1/Execution.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.CT1.runReference.match_1",
+            "module": "StructuralExhaustion.CT1.Execution",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.runReference.match_1",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.RealizationDecision.casesOn"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient"
+            ],
+            "type": "(self : Core.Problem) → self.Ambient → Prop",
+            "sourceFile": "StructuralExhaustion/Core/Problem.lean",
+            "selectionRange": {
+              "start": {
+                "line": 18,
+                "column": 2
+              },
+              "end": {
+                "line": 18,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 18,
+                "column": 2
+              },
+              "end": {
+                "line": 18,
+                "column": 10
+              }
+            },
+            "name": "StructuralExhaustion.Core.Problem.Baseline",
+            "module": "StructuralExhaustion.Core.Problem",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.Problem.Baseline",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient"
+            ],
+            "type": "(self : Core.Problem) → self.Ambient → Type uBranch",
+            "sourceFile": "StructuralExhaustion/Core/Problem.lean",
+            "selectionRange": {
+              "start": {
+                "line": 20,
+                "column": 2
+              },
+              "end": {
+                "line": 20,
+                "column": 13
+              }
+            },
+            "range": {
+              "start": {
+                "line": 20,
+                "column": 2
+              },
+              "end": {
+                "line": 20,
+                "column": 13
+              }
+            },
+            "name": "StructuralExhaustion.Core.Problem.BranchState",
+            "module": "StructuralExhaustion.Core.Problem",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.Problem.BranchState",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.Terminal",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → CT1.Spec P → CT1.Input P → CT1.Graph.Terminal → Type (max (uIndex + 1) (uWitness + 1))",
+            "sourceFile": "StructuralExhaustion/CT1/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "column": 10
+              },
+              "end": {
+                "line": 9,
+                "column": 20
+              }
+            },
+            "range": {
+              "start": {
+                "line": 8,
+                "column": 0
+              },
+              "end": {
+                "line": 17,
+                "column": 34
+              }
+            },
+            "name": "StructuralExhaustion.CT1.RawOutcome",
+            "module": "StructuralExhaustion.CT1.Execution",
+            "kind": "inductive",
+            "docString": "Semantic terminal evidence, indexed by the exact CT1 terminal. ",
+            "declarationId": "StructuralExhaustion.CT1.RawOutcome",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.RawOutcome.avoiding",
+              "StructuralExhaustion.CT1.RawOutcome.c1"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Graph.Path",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {motive : (a a_1 : CT1.Graph.NodeId) → CT1.Graph.Path S input a a_1 → Sort u} →\n        {a a_1 : CT1.Graph.NodeId} → CT1.Graph.Path S input a a_1 → Sort (max ((max (uIndex + 1) (uWitness + 1)) + 1) u)",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 74,
+                "column": 10
+              },
+              "end": {
+                "line": 74,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 73,
+                "column": 0
+              },
+              "end": {
+                "line": 81,
+                "column": 29
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Path.below",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Path.below",
+            "bodyDependencies": [
+              "PProd",
+              "PUnit",
+              "StructuralExhaustion.CT1.Graph.Edge",
+              "StructuralExhaustion.CT1.Graph.Path.rec"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "PProd",
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Graph.Path",
+              "StructuralExhaustion.CT1.Graph.Path.below",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {motive : (a a_1 : CT1.Graph.NodeId) → CT1.Graph.Path S input a a_1 → Sort u} →\n        {a a_1 : CT1.Graph.NodeId} →\n          (t : CT1.Graph.Path S input a a_1) →\n            ((a a_2 : CT1.Graph.NodeId) →\n                (t : CT1.Graph.Path S input a a_2) → CT1.Graph.Path.below t → motive a a_2 t) →\n              motive a a_1 t ×' CT1.Graph.Path.below t",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.CT1.Graph.Path.brecOn.go",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Path.brecOn.go",
+            "bodyDependencies": [
+              "PProd.mk",
+              "PUnit",
+              "PUnit.unit",
+              "StructuralExhaustion.CT1.Graph.Edge",
+              "StructuralExhaustion.CT1.Graph.Path.cons",
+              "StructuralExhaustion.CT1.Graph.Path.nil",
+              "StructuralExhaustion.CT1.Graph.Path.rec"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.Edge",
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} → {first second : CT1.Graph.NodeId} → CT1.Graph.Edge S input first second → CT1.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 61,
+                "column": 4
+              },
+              "end": {
+                "line": 61,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 61,
+                "column": 0
+              },
+              "end": {
+                "line": 64,
+                "column": 7
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Edge.source",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Edge.source",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.Edge",
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Graph.Path",
+              "StructuralExhaustion.CT1.Graph.Path.cons",
+              "StructuralExhaustion.CT1.Graph.Path.nil",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      (motive : (last first : CT1.Graph.NodeId) → CT1.Graph.Path S input first last → Sort u_5) →\n        (last first : CT1.Graph.NodeId) →\n          (x : CT1.Graph.Path S input first last) →\n            ((node : CT1.Graph.NodeId) → motive node node (CT1.Graph.Path.nil node)) →\n              ((last first second : CT1.Graph.NodeId) →\n                  (edge : CT1.Graph.Edge S input first second) →\n                    (rest : CT1.Graph.Path S input second last) → motive last first (CT1.Graph.Path.cons edge rest)) →\n                motive last first x",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.CT1.Graph.Path.trace.match_1",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Path.trace.match_1",
+            "bodyDependencies": [
+              "Eq",
+              "Eq.ndrec",
+              "Eq.refl",
+              "Eq.symm",
+              "HEq",
+              "HEq.refl",
+              "StructuralExhaustion.CT1.Graph.Path.casesOn",
+              "eq_of_heq"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.Terminal",
+              "StructuralExhaustion.CT1.Graph.Terminal.avoiding",
+              "StructuralExhaustion.CT1.Graph.Terminal.c1"
+            ],
+            "type": "{motive : CT1.Graph.Terminal → Sort u} →\n  (t : CT1.Graph.Terminal) → motive CT1.Graph.Terminal.c1 → motive CT1.Graph.Terminal.avoiding → motive t",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 27,
+                "column": 10
+              },
+              "end": {
+                "line": 27,
+                "column": 18
+              }
+            },
+            "range": {
+              "start": {
+                "line": 27,
+                "column": 0
+              },
+              "end": {
+                "line": 30,
+                "column": 28
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Terminal.casesOn",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Terminal.casesOn",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.Graph.Terminal.rec"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Not",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Input.context",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.CT1.Spec.Realizes",
+              "StructuralExhaustion.CT1.Spec.TestIndex",
+              "StructuralExhaustion.CT1.Spec.Witness",
+              "StructuralExhaustion.Core.BranchContext.G",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.absent",
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.found",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  (S : CT1.Spec P) →\n    (input : CT1.Input P) →\n      (motive : Core.FiniteSearch.DependentResult (S.Realizes input.context.G) → Sort u_5) →\n        (x : Core.FiniteSearch.DependentResult (S.Realizes input.context.G)) →\n          ((index : S.TestIndex) →\n              (witness : S.Witness input.context.G index) →\n                (realizes : S.Realizes input.context.G index witness) →\n                  motive (Core.FiniteSearch.DependentResult.found index witness realizes)) →\n            ((noRealization :\n                  ∀ (index : S.TestIndex) (value : S.Witness input.context.G index),\n                    ¬S.Realizes input.context.G index value) →\n                motive (Core.FiniteSearch.DependentResult.absent noRealization)) →\n              motive x",
+            "sourceFile": "StructuralExhaustion/CT1/Search.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.CT1.findRealization.match_1",
+            "module": "StructuralExhaustion.CT1.Search",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.findRealization.match_1",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.FiniteSearch.DependentResult.casesOn"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.AvoidingState",
+              "StructuralExhaustion.CT1.C1Certificate",
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.RealizationDecision",
+              "StructuralExhaustion.CT1.RealizationDecision.avoiding",
+              "StructuralExhaustion.CT1.RealizationDecision.hit",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        {motive : CT1.RealizationDecision S input equivalence → Sort u} →\n          (t : CT1.RealizationDecision S input equivalence) →\n            ((certificate : CT1.C1Certificate S input equivalence) → motive (CT1.RealizationDecision.hit certificate)) →\n              ((state : CT1.AvoidingState S input equivalence) → motive (CT1.RealizationDecision.avoiding state)) →\n                motive t",
+            "sourceFile": "StructuralExhaustion/CT1/Search.lean",
+            "selectionRange": {
+              "start": {
+                "line": 6,
+                "column": 10
+              },
+              "end": {
+                "line": 6,
+                "column": 29
+              }
+            },
+            "range": {
+              "start": {
+                "line": 5,
+                "column": 0
+              },
+              "end": {
+                "line": 9,
+                "column": 56
+              }
+            },
+            "name": "StructuralExhaustion.CT1.RealizationDecision.casesOn",
+            "module": "StructuralExhaustion.CT1.Search",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.RealizationDecision.casesOn",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.RealizationDecision.rec"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.Edge",
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Graph.Path",
+              "StructuralExhaustion.CT1.Graph.Path.cons",
+              "StructuralExhaustion.CT1.Graph.Path.nil",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {motive : (a a_1 : CT1.Graph.NodeId) → CT1.Graph.Path S input a a_1 → Sort u} →\n        ((node : CT1.Graph.NodeId) → motive node node (CT1.Graph.Path.nil node)) →\n          ({first second last : CT1.Graph.NodeId} →\n              (a : CT1.Graph.Edge S input first second) →\n                (a_1 : CT1.Graph.Path S input second last) →\n                  motive second last a_1 → motive first last (CT1.Graph.Path.cons a a_1)) →\n            {a a_1 : CT1.Graph.NodeId} → (t : CT1.Graph.Path S input a a_1) → motive a a_1 t",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 74,
+                "column": 10
+              },
+              "end": {
+                "line": 74,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 73,
+                "column": 0
+              },
+              "end": {
+                "line": 81,
+                "column": 29
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Path.rec",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "recursor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Path.rec",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.Edge",
+              "StructuralExhaustion.CT1.Graph.NodeId",
+              "StructuralExhaustion.CT1.Graph.Path",
+              "StructuralExhaustion.CT1.Graph.Path.cons",
+              "StructuralExhaustion.CT1.Graph.Path.nil",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {motive : (a a_1 : CT1.Graph.NodeId) → CT1.Graph.Path S input a a_1 → Sort u} →\n        {a a_1 : CT1.Graph.NodeId} →\n          (t : CT1.Graph.Path S input a a_1) →\n            ((node : CT1.Graph.NodeId) → motive node node (CT1.Graph.Path.nil node)) →\n              ({first second last : CT1.Graph.NodeId} →\n                  (a : CT1.Graph.Edge S input first second) →\n                    (a_2 : CT1.Graph.Path S input second last) → motive first last (CT1.Graph.Path.cons a a_2)) →\n                motive a a_1 t",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 74,
+                "column": 10
+              },
+              "end": {
+                "line": 74,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 73,
+                "column": 0
+              },
+              "end": {
+                "line": 81,
+                "column": 29
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Path.casesOn",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Path.casesOn",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT1.Graph.Path.rec"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.Graph.Terminal",
+              "StructuralExhaustion.CT1.Graph.Terminal.avoiding",
+              "StructuralExhaustion.CT1.Graph.Terminal.c1"
+            ],
+            "type": "{motive : CT1.Graph.Terminal → Sort u} →\n  motive CT1.Graph.Terminal.c1 → motive CT1.Graph.Terminal.avoiding → (t : CT1.Graph.Terminal) → motive t",
+            "sourceFile": "StructuralExhaustion/CT1/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 27,
+                "column": 10
+              },
+              "end": {
+                "line": 27,
+                "column": 18
+              }
+            },
+            "range": {
+              "start": {
+                "line": 27,
+                "column": 0
+              },
+              "end": {
+                "line": 30,
+                "column": 28
+              }
+            },
+            "name": "StructuralExhaustion.CT1.Graph.Terminal.rec",
+            "module": "StructuralExhaustion.CT1.Graph",
+            "kind": "recursor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.Graph.Terminal.rec",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT1.AvoidingState",
+              "StructuralExhaustion.CT1.C1Certificate",
+              "StructuralExhaustion.CT1.EquivalenceState",
+              "StructuralExhaustion.CT1.Input",
+              "StructuralExhaustion.CT1.RealizationDecision",
+              "StructuralExhaustion.CT1.RealizationDecision.avoiding",
+              "StructuralExhaustion.CT1.RealizationDecision.hit",
+              "StructuralExhaustion.CT1.Spec",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {S : CT1.Spec P} →\n    {input : CT1.Input P} →\n      {equivalence : CT1.EquivalenceState S input} →\n        {motive : CT1.RealizationDecision S input equivalence → Sort u} →\n          ((certificate : CT1.C1Certificate S input equivalence) → motive (CT1.RealizationDecision.hit certificate)) →\n            ((state : CT1.AvoidingState S input equivalence) → motive (CT1.RealizationDecision.avoiding state)) →\n              (t : CT1.RealizationDecision S input equivalence) → motive t",
+            "sourceFile": "StructuralExhaustion/CT1/Search.lean",
+            "selectionRange": {
+              "start": {
+                "line": 6,
+                "column": 10
+              },
+              "end": {
+                "line": 6,
+                "column": 29
+              }
+            },
+            "range": {
+              "start": {
+                "line": 5,
+                "column": 0
+              },
+              "end": {
+                "line": 9,
+                "column": 56
+              }
+            },
+            "name": "StructuralExhaustion.CT1.RealizationDecision.rec",
+            "module": "StructuralExhaustion.CT1.Search",
+            "kind": "recursor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT1.RealizationDecision.rec",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          }
+        ],
         "capabilityProfiles": [
           {
             "tacticId": "CT1",

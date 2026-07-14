@@ -18,6 +18,61 @@
         "ordinal": 6,
         "nodeKind": "residual",
         "nodeId": "CT11.terminal.residual.localizedDeficit",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT11.Graph.Edge.localized",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT11.Graph.Edge.localized.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT11.Graph.Edge.localized",
+              "declarationId": "StructuralExhaustion.CT11.Graph.Edge.localized"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT11.run_trace_valid",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT11.run_trace_valid.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT11.run_trace_valid",
+              "declarationId": "StructuralExhaustion.CT11.run_trace_valid"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT11.ExecutionResult@CT11.terminal.residual.localizedDeficit",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT11.ExecutionResult@CT11.terminal.residual.localizedDeficit.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT11.ExecutionResult@CT11.terminal.residual.localizedDeficit",
+              "declarationId": null
+            }
+          ],
+          "nodeId": "CT11.terminal.residual.localizedDeficit",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT11.terminal.residual.localizedDeficit.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT11.terminal.residual.localizedDeficit.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [],

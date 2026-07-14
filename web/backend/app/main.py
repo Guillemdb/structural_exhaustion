@@ -15,6 +15,7 @@ from .models import (
     ExamplesResponse,
     FrameworkResponse,
     HealthResponse,
+    TacticInternalsResponse,
     TacticResponse,
 )
 from .repository import ArtifactRepository
@@ -51,6 +52,7 @@ def create_app(
         return {
             "status": "ok",
             "artifactType": "frameworkExplorerHealth",
+            "artifactWarnings": artifacts.artifact_warnings,
             "catalog": artifacts.catalog_view,
             "verification": artifacts.verification_status,
             "tacticCount": len(artifacts.tactics),
@@ -64,6 +66,16 @@ def create_app(
     @app.get("/api/v1/tactics/{tactic_id}", response_model=TacticResponse)
     async def tactic(tactic_id: str) -> dict:
         response = artifacts.tactic_response(tactic_id.upper())
+        if response is None:
+            raise HTTPException(status_code=404, detail=f"Unknown tactic {tactic_id}")
+        return response
+
+    @app.get(
+        "/api/v1/tactics/{tactic_id}/internals",
+        response_model=TacticInternalsResponse,
+    )
+    async def tactic_internals(tactic_id: str) -> dict:
+        response = artifacts.tactic_internals_response(tactic_id.upper())
         if response is None:
             raise HTTPException(status_code=404, detail=f"Unknown tactic {tactic_id}")
         return response

@@ -18,6 +18,157 @@
         "ordinal": 5,
         "nodeKind": "decision",
         "nodeId": "CT15.decide.ledgerCapacity",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.capacity",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "The total capacity against which the full-rank charge ledger is compared.",
+              "mathematicalDefinition": "K(x)\\in\\mathbb{N}",
+              "label": "Rank capacity",
+              "declarationId": "StructuralExhaustion.CT15.Spec.capacity"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT15.LedgerState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Exact ledger state indexed by the full-rank predecessor. ",
+              "mathematicalDefinition": null,
+              "label": "CT15.LedgerState",
+              "declarationId": "StructuralExhaustion.CT15.LedgerState"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "Nat.decLt",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "A decision procedure for strict inequality of natural numbers, usually accessed via the\n`DecidableLT Nat` instance.\n\nExamples:\n * `(if 3 < 4 then \"yes\" else \"no\") = \"yes\"`\n * `(if 4 < 4 then \"yes\" else \"no\") = \"no\"`\n * `(if 6 < 4 then \"yes\" else \"no\") = \"no\"`\n * `show 5 < 12 by decide`\n",
+              "mathematicalDefinition": null,
+              "label": "Nat.decLt",
+              "declarationId": "Nat.decLt"
+            },
+            {
+              "stepId": "theorem.2",
+              "role": "theorem",
+              "reference": {
+                "ref": "CT15.compareLedger",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exact arithmetic split with no proof-instance comparison callback. ",
+              "mathematicalDefinition": null,
+              "label": "CT15.compareLedger",
+              "declarationId": "StructuralExhaustion.CT15.compareLedger"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT15.LedgerComparison",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT15.LedgerComparison.",
+              "mathematicalDefinition": null,
+              "label": "CT15.LedgerComparison",
+              "declarationId": "StructuralExhaustion.CT15.LedgerComparison"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT15.C4Certificate",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Arithmetic C4: exact full-rank demand strictly exceeds capacity. ",
+              "mathematicalDefinition": null,
+              "label": "CT15.C4Certificate",
+              "declarationId": "StructuralExhaustion.CT15.C4Certificate"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT15.FullRankLedgerResidual",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Reusable full-rank ledger when capacity is sufficient. ",
+              "mathematicalDefinition": null,
+              "label": "CT15.FullRankLedgerResidual",
+              "declarationId": "StructuralExhaustion.CT15.FullRankLedgerResidual"
+            }
+          ],
+          "nodeId": "CT15.decide.ledgerCapacity",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT15.decide.ledgerCapacity.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT15.decide.ledgerCapacity.internal.author.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT15.decide.ledgerCapacity.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT15.decide.ledgerCapacity.internal.predecessor.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT15.decide.ledgerCapacity.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT15.decide.ledgerCapacity.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT15.decide.ledgerCapacity.internal.theorem.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT15.decide.ledgerCapacity.internal.theorem.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT15.decide.ledgerCapacity.internal.theorem.2-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT15.decide.ledgerCapacity.internal.theorem.2-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

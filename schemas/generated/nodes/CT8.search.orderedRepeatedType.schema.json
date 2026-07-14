@@ -18,6 +18,133 @@
         "ordinal": 2,
         "nodeKind": "computation",
         "nodeId": "CT8.search.orderedRepeatedType",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.exactTypes",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all exact state types.",
+              "mathematicalDefinition": "\\operatorname{exactTypes}=\\mathcal{T}",
+              "label": "Finite exact-type enumeration",
+              "declarationId": "StructuralExhaustion.CT8.Capability.exactTypes"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.exactType",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns the exact finite type used to detect repetitions.",
+              "mathematicalDefinition": "\\tau:\\mathcal{S}\\to\\mathcal{T}",
+              "label": "Exact-type classifier",
+              "declarationId": "StructuralExhaustion.CT8.Capability.exactType"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.sequence",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.sequence.",
+              "mathematicalDefinition": null,
+              "label": "Input.sequence",
+              "declarationId": "StructuralExhaustion.CT8.Input.sequence"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "Core.FiniteSearch.onList",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Proof-carrying view of Mathlib's executable `List.find?`. ",
+              "mathematicalDefinition": null,
+              "label": "Core.FiniteSearch.onList",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.onList"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT8.RepetitionDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT8.RepetitionDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT8.RepetitionDecision",
+              "declarationId": "StructuralExhaustion.CT8.RepetitionDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT8.OrderedRepeatedPair",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "Two occurrences in strict left-to-right sequence order with equal exact\ntypes.  The constructors encode positions, so equal values at distinct\noccurrences remain detectable. ",
+              "mathematicalDefinition": null,
+              "label": "CT8.OrderedRepeatedPair",
+              "declarationId": "StructuralExhaustion.CT8.OrderedRepeatedPair"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT8.NoRepetitionCertificate",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT8.NoRepetitionCertificate.",
+              "mathematicalDefinition": null,
+              "label": "CT8.NoRepetitionCertificate",
+              "declarationId": "StructuralExhaustion.CT8.NoRepetitionCertificate"
+            }
+          ],
+          "nodeId": "CT8.search.orderedRepeatedType",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT8.search.orderedRepeatedType.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT8.search.orderedRepeatedType.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT8.search.orderedRepeatedType.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT8.search.orderedRepeatedType.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT8.search.orderedRepeatedType.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT8.search.orderedRepeatedType.internal.theorem.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

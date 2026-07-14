@@ -604,64 +604,127 @@
     {
       "data": {
         "id": "CT5.edge.beginDeficit",
+        "label": "beginDeficit",
+        "kind": "ctTransition",
+        "ordinal": 1,
         "source": "CT5.entry",
         "target": "CT5.search.deficit",
         "constructor": "StructuralExhaustion.CT5.Graph.Edge.beginDeficit",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} → CT5.Graph.Edge S capability input CT5.Graph.NodeId.entry CT5.Graph.NodeId.deficitSearch"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} → CT5.Graph.Edge S capability input CT5.Graph.NodeId.entry CT5.Graph.NodeId.deficitSearch",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT5.edge.deficitFound",
+        "label": "deficitFound",
+        "kind": "ctTransition",
+        "ordinal": 2,
         "source": "CT5.search.deficit",
         "target": "CT5.terminal.residual.localDeficit",
         "constructor": "StructuralExhaustion.CT5.Graph.Edge.deficitFound",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.LocalDeficitResidual S input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.deficitSearch CT5.Graph.NodeId.deficitTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.LocalDeficitResidual S input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.deficitSearch CT5.Graph.NodeId.deficitTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT5.edge.deficitAbsent",
+        "label": "deficitAbsent",
+        "kind": "ctTransition",
+        "ordinal": 3,
         "source": "CT5.search.deficit",
         "target": "CT5.compute.summation",
         "constructor": "StructuralExhaustion.CT5.Graph.Edge.deficitAbsent",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.DeficitFreeState S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.deficitSearch CT5.Graph.NodeId.summation"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.DeficitFreeState S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.deficitSearch CT5.Graph.NodeId.summation",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT5.edge.summed",
+        "label": "summed",
+        "kind": "ctTransition",
+        "ordinal": 4,
         "source": "CT5.compute.summation",
         "target": "CT5.decide.comparison",
         "constructor": "StructuralExhaustion.CT5.Graph.Edge.summed",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.LocalLedgerState S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.summation CT5.Graph.NodeId.comparison"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.LocalLedgerState S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.summation CT5.Graph.NodeId.comparison",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT5.edge.comparisonC4",
+        "label": "comparisonC4",
+        "kind": "ctTransition",
+        "ordinal": 5,
         "source": "CT5.decide.comparison",
         "target": "CT5.terminal.c4",
         "constructor": "StructuralExhaustion.CT5.Graph.Edge.comparisonC4",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.C4Certificate S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.comparison CT5.Graph.NodeId.c4Terminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.C4Certificate S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.comparison CT5.Graph.NodeId.c4Terminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT5.edge.comparisonCharge",
+        "label": "comparisonCharge",
+        "kind": "ctTransition",
+        "ordinal": 6,
         "source": "CT5.decide.comparison",
         "target": "CT5.terminal.residual.chargeLedger",
         "constructor": "StructuralExhaustion.CT5.Graph.Edge.comparisonCharge",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.ChargeLedgerResidual S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.comparison CT5.Graph.NodeId.chargeTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.ChargeLedgerResidual S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.comparison CT5.Graph.NodeId.chargeTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT5.edge.comparisonAggregate",
+        "label": "comparisonAggregate",
+        "kind": "ctTransition",
+        "ordinal": 7,
         "source": "CT5.decide.comparison",
         "target": "CT5.terminal.residual.aggregate",
         "constructor": "StructuralExhaustion.CT5.Graph.Edge.comparisonAggregate",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.AggregateResidual S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.comparison CT5.Graph.NodeId.aggregateTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT5.Spec P} →\n    {capability : CT5.Capability S} →\n      {input : CT5.Input P} →\n        CT5.AggregateResidual S capability input →\n          CT5.Graph.Edge S capability input CT5.Graph.NodeId.comparison CT5.Graph.NodeId.aggregateTerminal",
+        "provision": "generated_audit"
+      }
+    },
+    {
+      "data": {
+        "id": "CT5.residual.chargeLedger->CT14",
+        "label": "CT5.residual.chargeLedger->CT14",
+        "kind": "generatedRoute",
+        "route": {
+          "triggerConstructor": "StructuralExhaustion.Routes.CT5ToCT14.buildInput",
+          "targetTacticId": "CT14",
+          "sourceResidualKind": "CT5.residual.chargeLedger",
+          "soundnessTheorem": "StructuralExhaustion.Routes.CT5ToCT14.enabled_generates",
+          "selectionClass": "forced",
+          "routeId": "CT5.residual.chargeLedger->CT14",
+          "provenanceTheorem": "StructuralExhaustion.Routes.CT5ToCT14.generated_route_id",
+          "discovery": "StructuralExhaustion.CT14.Capability.discover",
+          "contextPreservationTheorem": "StructuralExhaustion.Routes.CT5ToCT14.branchContext_preserved",
+          "authoringBoundary": {
+            "semanticDiscovery": {
+              "kind": "capabilityDiscovery",
+              "adapterType": null
+            },
+            "problemSpecificInputs": [
+              "targetCapability"
+            ],
+            "frameworkOwnedResponsibilities": [
+              "routeRuleConstruction",
+              "targetContextConstruction",
+              "triggerConstruction",
+              "soundnessProof",
+              "contextPreservationProof",
+              "provenanceProof"
+            ]
+          }
+        }
       }
     }
   ]

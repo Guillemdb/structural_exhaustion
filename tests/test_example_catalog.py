@@ -13,6 +13,11 @@ from tools.render_example_catalog import (
     render_example_catalog,
     trusted_source_path,
 )
+from tools.render_manuscript_fragments import (
+    ManuscriptRenderError,
+    _sanitize_svg,
+    render_manuscript_fragments,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -46,7 +51,7 @@ def declaration(module: str, name: str | None = None) -> dict:
 def raw_example(root_module: str, example_id: str) -> dict:
     return {
         "artifactType": "structuralExhaustionExample",
-        "schemaVersion": "1.1.0",
+        "schemaVersion": "1.2.0",
         "sourceOfTruth": {
             "kind": "compiledLeanEnvironment",
             "rootModule": root_module,
@@ -133,6 +138,7 @@ def test_renderer_rejects_links_outside_their_workflow() -> None:
             "label": "dangling",
             "description": "This endpoint is not declared.",
             "routeId": None,
+            "automationDeclarations": [],
             "evidenceDeclarations": [],
         }
     )
@@ -172,10 +178,70 @@ def test_renderer_checks_registered_route_tactic_endpoints() -> None:
             "label": "invalid source",
             "description": "The declared source tactic does not own this residual.",
             "routeId": "CT6.residual.activeLedger->CT9",
+            "automationDeclarations": [],
             "evidenceDeclarations": [],
         }
     ]
     with pytest.raises(ExampleCatalogError, match="expects CT6 -> CT9"):
+        hydrate_example(raw, ROOT, CATALOG)
+
+
+def cross_ct_fixture() -> tuple[dict, dict]:
+    raw = raw_example("EvenCycleExample", "even-cycle")
+    workflow = raw["example"]["workflows"][0]
+    workflow["stages"] = [
+        {
+            "stageId": "main.ct10",
+            "title": "CT10",
+            "summary": "A compiled CT10 stage.",
+            "kind": "tactic",
+            "tacticId": "CT10",
+            "primaryDeclaration": declaration(
+                "EvenCycleExample", "EvenCycleExample.ct10"
+            ),
+            "evidenceDeclarations": [],
+        },
+        {
+            "stageId": "main.ct6",
+            "title": "CT6",
+            "summary": "A compiled CT6 stage.",
+            "kind": "tactic",
+            "tacticId": "CT6",
+            "primaryDeclaration": declaration(
+                "EvenCycleExample", "EvenCycleExample.ct6"
+            ),
+            "evidenceDeclarations": [],
+        },
+    ]
+    link = {
+        "linkId": "main.ct10-ct6",
+        "sourceStageId": "main.ct10",
+        "targetStageId": "main.ct6",
+        "kind": "frameworkComposition",
+        "label": "compiled transition",
+        "description": "The framework executes the next CT.",
+        "routeId": None,
+        "automationDeclarations": [],
+        "evidenceDeclarations": [],
+    }
+    workflow["links"] = [link]
+    return raw, link
+
+
+def test_renderer_rejects_cross_ct_transition_without_framework_automation() -> None:
+    raw, _ = cross_ct_fixture()
+    with pytest.raises(
+        ExampleCatalogError, match="cross-CT transition has no framework automation"
+    ):
+        hydrate_example(raw, ROOT, CATALOG)
+
+
+def test_renderer_rejects_example_local_transition_automation() -> None:
+    raw, link = cross_ct_fixture()
+    link["automationDeclarations"] = [
+        declaration("EvenCycleExample", "EvenCycleExample.localExecutor")
+    ]
+    with pytest.raises(ExampleCatalogError, match="is not framework-owned"):
         hydrate_example(raw, ROOT, CATALOG)
 
 
@@ -216,18 +282,90 @@ def test_renderer_validates_manuscript_labels_nodes_and_complete_coverage() -> N
     raw = raw_example("EvenCycleExample", "even-cycle")
     raw["example"]["manuscript"] = manuscript_for_single_stage(raw)
     detail = hydrate_example(raw, ROOT, CATALOG)
-    assert detail["manuscript"]["coverage"] == {
+    coverage = detail["manuscript"]["coverage"]
+    assert {
+        key: coverage[key]
+        for key in (
+            "implementedSteps",
+            "totalSteps",
+            "explainedDeclarations",
+            "displayedDeclarations",
+            "verifiedMathematicalObjects",
+            "verifiedDiagramNodes",
+            "verifiedWorkflowSteps",
+        )
+    } == {
         "implementedSteps": 1,
         "totalSteps": 1,
         "explainedDeclarations": 1,
         "displayedDeclarations": 1,
+        "verifiedMathematicalObjects": 1,
+        "verifiedDiagramNodes": 1,
+        "verifiedWorkflowSteps": 1,
     }
+    assert coverage["totalMathematicalObjects"] >= 1
+    assert coverage["totalDiagramNodes"] >= 1
+    assert detail["manuscript"]["sha256"] == hashlib.sha256(
+        (ROOT / detail["manuscript"]["path"]).read_bytes()
+    ).hexdigest()
+    fragment = detail["manuscript"]["fragments"][0]
+    assert fragment["label"] == "thm:main"
+    assert fragment["environment"] == "theorem"
+    assert fragment["includesProof"] is True
+    assert [block["environment"] for block in fragment["blocks"]] == [
+        "theorem",
+        "proof",
+    ]
+    assert "".join(
+        inline.get("text", " ")
+        for inline in fragment["blocks"][0]["title"]
+    ) == "Main closure"
+
+    def walk(value: object):
+        if isinstance(value, dict):
+            yield value
+            for child in value.values():
+                yield from walk(child)
+        elif isinstance(value, list):
+            for child in value:
+                yield from walk(child)
+
+    first_reference = next(
+        node for node in walk(fragment["blocks"]) if node.get("kind") == "reference"
+    )
+    assert first_reference["labels"] == ["lem:return-equivalence"]
+    assert first_reference["prefix"] == "lemma"
 
     raw["example"]["manuscript"]["proofSteps"][0]["manuscriptRefs"][0][
         "label"
     ] = "lem:does-not-exist"
     with pytest.raises(ExampleCatalogError, match="unknown manuscript label"):
         hydrate_example(raw, ROOT, CATALOG)
+
+
+def test_renderer_exports_a_complete_section_and_checked_tikz_figure() -> None:
+    manuscript = render_manuscript_fragments(
+        path="proofs/erdos_64_eg/erdos_64_proof.tex",
+        source_root=ROOT,
+        requested_labels=["sec:remainder"],
+    )
+    fragment = manuscript["fragments"][0]
+    assert fragment["environment"] == "section"
+    assert fragment["includesProof"] is False
+    figures = [block for block in fragment["blocks"] if block["kind"] == "figure"]
+    assert [figure["label"] for figure in figures] == ["fig:p13-remainder-ledger"]
+    assert figures[0]["svg"].startswith("<")
+    assert hashlib.sha256(figures[0]["svg"].encode("utf-8")).hexdigest() == figures[0][
+        "svgSha256"
+    ]
+
+
+def test_manuscript_renderer_rejects_active_svg_content() -> None:
+    with pytest.raises(ManuscriptRenderError, match="unsupported element script"):
+        _sanitize_svg(
+            '<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>',
+            "fig:unsafe",
+        )
 
 
 def test_renderer_rejects_unexplained_displayed_declarations() -> None:
@@ -274,3 +412,55 @@ def test_committed_example_artifacts_validate_and_hash_sources() -> None:
             assert ".." not in Path(source["path"]).parts
             assert hashlib.sha256(source["content"].encode("utf-8")).hexdigest() == source["sha256"]
             assert (ROOT / source["path"]).read_text(encoding="utf-8") == source["content"]
+        if detail["manuscript"] is not None:
+            manuscript = detail["manuscript"]
+            assert hashlib.sha256((ROOT / manuscript["path"]).read_bytes()).hexdigest() == manuscript[
+                "sha256"
+            ]
+            referenced = {
+                reference["label"]
+                for step in manuscript["proofSteps"]
+                for reference in step["manuscriptRefs"]
+            }
+            assert {fragment["label"] for fragment in manuscript["fragments"]} == referenced
+            rendered = render_manuscript_fragments(
+                path=manuscript["path"],
+                source_root=ROOT,
+                requested_labels=[],
+            )
+            implemented = [
+                step for step in manuscript["proofSteps"]
+                if step["status"] == "implemented"
+            ]
+            fragment_kinds = {
+                fragment["label"]: fragment["environment"]
+                for fragment in manuscript["fragments"]
+            }
+            verified_objects = {
+                reference["label"]
+                for step in implemented
+                for reference in step["manuscriptRefs"]
+                if fragment_kinds[reference["label"]] in {
+                    "theorem", "lemma", "proposition", "corollary",
+                    "claim", "definition", "remark",
+                }
+            }
+            verified_nodes = {
+                node_id
+                for step in implemented
+                for reference in step["manuscriptRefs"]
+                for node_id in reference["nodeIds"]
+            }
+            assert manuscript["coverage"] == {
+                "implementedSteps": len(implemented),
+                "totalSteps": len(manuscript["proofSteps"]),
+                "explainedDeclarations": len(detail["declarations"]),
+                "displayedDeclarations": len(detail["declarations"]),
+                "verifiedMathematicalObjects": len(verified_objects),
+                "totalMathematicalObjects": len(
+                    rendered["mathematicalObjectLabels"]
+                ),
+                "verifiedDiagramNodes": len(verified_nodes),
+                "totalDiagramNodes": len(rendered["nodeIds"]),
+                "verifiedWorkflowSteps": len(implemented),
+            }

@@ -11,12 +11,22 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import re
 import sys
 from pathlib import Path
 from typing import Any
 
 from jsonschema import Draft202012Validator
+
+try:
+    from tools.render_manuscript_fragments import (
+        ManuscriptRenderError,
+        render_manuscript_fragments,
+    )
+except ModuleNotFoundError:  # Direct execution adds tools/, not the repository root.
+    from render_manuscript_fragments import (  # type: ignore[no-redef]
+        ManuscriptRenderError,
+        render_manuscript_fragments,
+    )
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -173,31 +183,6 @@ def validate_declaration_range(
         <= raw_position_key(declaration_range["end"])
     ):
         raise ExampleCatalogError(f"{name}: selectionRange is outside declaration range")
-
-
-def manuscript_index(path: str, source_root: Path) -> tuple[set[str], set[int]]:
-    relative = Path(path)
-    if relative.is_absolute() or ".." in relative.parts or relative.suffix != ".tex":
-        raise ExampleCatalogError(
-            f"manuscript path must be a safe repository-relative .tex file: {path}"
-        )
-    root = source_root.resolve()
-    try:
-        manuscript_path = (root / relative).resolve(strict=True)
-        manuscript_path.relative_to(root)
-    except (OSError, ValueError) as error:
-        raise ExampleCatalogError(f"manuscript is unavailable or escapes the repository: {path}") from error
-    try:
-        content = manuscript_path.read_text(encoding="utf-8")
-    except (OSError, UnicodeDecodeError) as error:
-        raise ExampleCatalogError(f"cannot read manuscript {path}: {error}") from error
-    labels = re.findall(r"\\label(?:\[[^\]]+\])?\{([^}]+)\}", content)
-    unique(labels, f"LaTeX labels in {path}")
-    nodes = {
-        int(value)
-        for value in re.findall(r"\\textbf\{\[([0-9]+)\]\}", content)
-    }
-    return set(labels), nodes
 
 
 class DetailBuilder:
@@ -359,6 +344,30 @@ def hydrate_example(
                     f"link {link['linkId']}: only registeredRoute links may name a route"
                 )
 
+            automation_ids = builder.declaration_ids(
+                link["automationDeclarations"]
+            )
+            source_tactic = workflow_stages[source_id].get("tacticId")
+            target_tactic = workflow_stages[target_id].get("tacticId")
+            cross_tactic = (
+                source_tactic is not None
+                and target_tactic is not None
+                and source_tactic != target_tactic
+            )
+            if cross_tactic and not automation_ids:
+                raise ExampleCatalogError(
+                    f"link {link['linkId']}: cross-CT transition has no framework automation"
+                )
+            for declaration_id in automation_ids:
+                source_module = builder.declarations[declaration_id]["sourceId"]
+                if not source_module.startswith("StructuralExhaustion.") or (
+                    source_module.startswith("StructuralExhaustion.Graph.External.")
+                ):
+                    raise ExampleCatalogError(
+                        f"link {link['linkId']}: automation declaration "
+                        f"{declaration_id} is not framework-owned"
+                    )
+
             normalized_link = {
                 "linkId": link["linkId"],
                 "sourceStageId": source_id,
@@ -366,6 +375,7 @@ def hydrate_example(
                 "kind": link["kind"],
                 "label": link["label"],
                 "summary": link["description"],
+                "automationDeclarationIds": automation_ids,
                 "evidenceDeclarationIds": builder.declaration_ids(
                     link["evidenceDeclarations"]
                 ),
@@ -429,10 +439,22 @@ def hydrate_example(
     raw_manuscript = raw["manuscript"]
     manuscript: dict[str, Any] | None = None
     if raw_manuscript is not None:
-        known_labels, known_nodes = manuscript_index(
-            raw_manuscript["path"], source_root
-        )
         proof_steps = raw_manuscript["proofSteps"]
+        requested_labels = list(dict.fromkeys(
+            reference["label"]
+            for step in proof_steps
+            for reference in step["manuscriptRefs"]
+        ))
+        try:
+            rendered_manuscript = render_manuscript_fragments(
+                path=raw_manuscript["path"],
+                source_root=source_root,
+                requested_labels=requested_labels,
+            )
+        except ManuscriptRenderError as error:
+            raise ExampleCatalogError(str(error)) from error
+        known_labels = set(rendered_manuscript["labels"])
+        known_nodes = set(rendered_manuscript["nodeIds"])
         unique([step["stepId"] for step in proof_steps], "proof step IDs")
         mapped_stage_ids = [
             step["stageId"] for step in proof_steps if step["stageId"] is not None
@@ -452,7 +474,10 @@ def hydrate_example(
         for workflow in workflow_values:
             for link in workflow["links"]:
                 inbound_link_evidence.setdefault(link["targetStageId"], set()).update(
-                    link["evidenceDeclarationIds"]
+                    [
+                        *link["automationDeclarationIds"],
+                        *link["evidenceDeclarationIds"],
+                    ]
                 )
 
         normalized_steps: list[dict[str, Any]] = []
@@ -550,23 +575,49 @@ def hydrate_example(
                 normalized_step["stageId"] = stage_id
             normalized_steps.append(normalized_step)
 
+        mathematical_object_labels = set(
+            rendered_manuscript["mathematicalObjectLabels"]
+        )
+        implemented_steps = [
+            step for step in normalized_steps if step["status"] == "implemented"
+        ]
+        verified_mathematical_objects = {
+            reference["label"]
+            for step in implemented_steps
+            for reference in step["manuscriptRefs"]
+            if reference["label"] in mathematical_object_labels
+        }
+        verified_diagram_nodes = {
+            node_id
+            for step in implemented_steps
+            for reference in step["manuscriptRefs"]
+            for node_id in reference["nodeIds"]
+        }
+
         manuscript = {
             "title": raw_manuscript["title"],
             "path": raw_manuscript["path"],
+            "sha256": rendered_manuscript["sha256"],
+            "fragments": rendered_manuscript["fragments"],
             "proofSteps": normalized_steps,
             "coverage": {
-                "implementedSteps": sum(
-                    step["status"] == "implemented" for step in normalized_steps
-                ),
+                "implementedSteps": len(implemented_steps),
                 "totalSteps": len(normalized_steps),
                 "explainedDeclarations": len(explained_declarations),
                 "displayedDeclarations": len(displayed_declarations),
+                "verifiedMathematicalObjects": len(
+                    verified_mathematical_objects
+                ),
+                "totalMathematicalObjects": len(mathematical_object_labels),
+                "verifiedDiagramNodes": len(verified_diagram_nodes),
+                "totalDiagramNodes": len(rendered_manuscript["nodeIds"]),
+                "verifiedWorkflowSteps": len(implemented_steps),
             },
         }
 
     detail = {
         "artifactType": "structuralExhaustionExample",
-        "schemaVersion": "1.1.0",
+        "schemaVersion": "1.4.0",
         "sourceOfTruth": raw_artifact["sourceOfTruth"],
         "exampleId": raw["exampleId"],
         "title": raw["title"],
@@ -600,7 +651,12 @@ def validate_detail_semantics(detail: dict[str, Any]) -> None:
             if not set(refs) <= declaration_set:
                 raise ExampleCatalogError(f"stage {stage['stageId']}: dangling declaration")
         for link in workflow["links"]:
-            if not set(link["evidenceDeclarationIds"]) <= declaration_set:
+            if not set(
+                [
+                    *link["automationDeclarationIds"],
+                    *link["evidenceDeclarationIds"],
+                ]
+            ) <= declaration_set:
                 raise ExampleCatalogError(f"link {link['linkId']}: dangling declaration")
     for binding in detail["interfaceBindings"]:
         refs = {
@@ -614,7 +670,23 @@ def validate_detail_semantics(detail: dict[str, Any]) -> None:
     manuscript = detail["manuscript"]
     if manuscript is not None:
         explained: set[str] = set()
+        fragment_kinds = {
+            fragment["label"]: fragment["environment"]
+            for fragment in manuscript["fragments"]
+        }
+        verified_objects: set[str] = set()
+        verified_nodes: set[int] = set()
+        implemented_steps = 0
         for step in manuscript["proofSteps"]:
+            if step["status"] == "implemented":
+                implemented_steps += 1
+                for reference in step["manuscriptRefs"]:
+                    if fragment_kinds[reference["label"]] in {
+                        "theorem", "lemma", "proposition", "corollary",
+                        "claim", "definition", "remark",
+                    }:
+                        verified_objects.add(reference["label"])
+                    verified_nodes.update(reference["nodeIds"])
             for group in step["declarationGroups"]:
                 if not set(group["declarationIds"]) <= declaration_set:
                     raise ExampleCatalogError(
@@ -624,6 +696,14 @@ def validate_detail_semantics(detail: dict[str, Any]) -> None:
         coverage = manuscript["coverage"]
         if coverage["explainedDeclarations"] != len(explained):
             raise ExampleCatalogError("manuscript explained-declaration coverage is stale")
+        expected_progress = {
+            "implementedSteps": implemented_steps,
+            "verifiedMathematicalObjects": len(verified_objects),
+            "verifiedDiagramNodes": len(verified_nodes),
+            "verifiedWorkflowSteps": implemented_steps,
+        }
+        if any(coverage[key] != value for key, value in expected_progress.items()):
+            raise ExampleCatalogError("manuscript proof-progress coverage is stale")
         if explained != declaration_set:
             raise ExampleCatalogError(
                 "manuscript does not explain every declaration exposed by the example"

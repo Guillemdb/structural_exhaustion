@@ -18,6 +18,205 @@
         "ordinal": 2,
         "nodeKind": "decision",
         "nodeId": "CT2.decide.deletion",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ReductionOps.delete",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Constructs the certified smaller ambient object obtained by deleting p.",
+              "mathematicalDefinition": "G\\setminus p\\prec G",
+              "label": "Deletion operation",
+              "declarationId": "StructuralExhaustion.CT2.ReductionOps.delete"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.Observable.baselineDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding the problem's baseline property on an ambient object.",
+              "mathematicalDefinition": "\\operatorname{decide}\\!\\left(B(G)\\right)",
+              "label": "Baseline decision procedure",
+              "declarationId": "StructuralExhaustion.CT2.Observable.baselineDecidable"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.Observable.targetDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding the target property on an ambient object.",
+              "mathematicalDefinition": "\\operatorname{decide}\\!\\left(T(G)\\right)",
+              "label": "Target decision procedure",
+              "declarationId": "StructuralExhaustion.CT2.Observable.targetDecidable"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.Input.seed",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT2.Input.seed.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.Input.seed",
+              "declarationId": "StructuralExhaustion.CT2.Input.seed"
+            },
+            {
+              "stepId": "operation.1",
+              "role": "operation",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.Observable.observe",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "The exact reference observation of an ambient object. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.Observable.observe",
+              "declarationId": "StructuralExhaustion.CT2.Observable.observe"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.analyzeDeletion_sound",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Both deletion branches carry their exact mathematical dichotomy. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.analyzeDeletion_sound",
+              "declarationId": "StructuralExhaustion.CT2.analyzeDeletion_sound"
+            },
+            {
+              "stepId": "theorem.2",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.Core.SmallerObject.counterexample_impossible",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "A smaller target-avoiding baseline object contradicts minimality. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.Core.SmallerObject.counterexample_impossible",
+              "declarationId": "StructuralExhaustion.Core.SmallerObject.counterexample_impossible"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.DeletionDecision",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT2.DeletionDecision.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.DeletionDecision",
+              "declarationId": "StructuralExhaustion.CT2.DeletionDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.DeletionWitness",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "A deletion branch retains the exact smaller counterexample found by\ncomputation. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.DeletionWitness",
+              "declarationId": "StructuralExhaustion.CT2.DeletionWitness"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.DeletionCriticalState",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "Failure of deletion to produce a smaller counterexample. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.DeletionCriticalState",
+              "declarationId": "StructuralExhaustion.CT2.DeletionCriticalState"
+            }
+          ],
+          "nodeId": "CT2.decide.deletion",
+          "edges": [
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.1",
+              "relation": "consumes",
+              "edgeId": "CT2.decide.deletion.internal.author.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.2",
+              "relation": "consumes",
+              "edgeId": "CT2.decide.deletion.internal.author.2-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.3",
+              "relation": "consumes",
+              "edgeId": "CT2.decide.deletion.internal.author.3-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "consumes",
+              "edgeId": "CT2.decide.deletion.internal.predecessor.1-to-operation.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT2.decide.deletion.internal.operation.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT2.decide.deletion.internal.operation.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT2.decide.deletion.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT2.decide.deletion.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT2.decide.deletion.internal.theorem.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT2.decide.deletion.internal.theorem.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT2.decide.deletion.internal.theorem.2-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT2.decide.deletion.internal.theorem.2-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

@@ -103,8 +103,20 @@ abbrev boundedCapability : CT9.Capability problem where
 def boundedInput : CT9.Input boundedCapability := ⟨context, items⟩
 def boundedResult := ct9_execute boundedCapability on boundedInput
 
+theorem boundedPointwise : ∀ label,
+    CT9.fibreCount boundedCapability boundedInput label ≤
+      boundedCapability.capacity label := by
+  intro label
+  cases label <;> decide
+
+def boundedRun : CT9.BoundedRun boundedCapability boundedInput :=
+  CT9.runBoundedOfBounded boundedCapability boundedInput boundedPointwise
+
 example : boundedResult.terminal = .bounded := rfl
 example : boundedResult.trace = [.entry, .partition, .overload, .boundedTerminal] := rfl
+example : boundedRun.execution.terminal = .bounded := boundedRun.terminal_eq
+example : boundedRun.execution.trace =
+    [.entry, .partition, .overload, .boundedTerminal] := boundedRun.trace_eq
 example : boundedResult.outcome.Valid := CT9.run_verified boundedCapability boundedInput
 example : boundedResult = boundedResult :=
   CT9.run_deterministic boundedCapability boundedInput

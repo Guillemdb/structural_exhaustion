@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/node-internals.schema.json",
+  "title": "Structural-exhaustion CT node internals",
+  "description": "A lazy per-CT projection of Lean-owned node flows, declaration dependencies, and exact source text.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifactType", "schemaVersion", "tacticId", "apiVersion", "nodes",
+    "declarations", "sources"
+  ],
+  "properties": {
+    "artifactType": {"const": "structuralExhaustionNodeInternals"},
+    "schemaVersion": {"const": "1.0.0"},
+    "tacticId": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])$"},
+    "apiVersion": {"type": "string", "minLength": 1},
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["nodeId", "internalFlow"],
+        "properties": {
+          "nodeId": {"type": "string", "minLength": 1},
+          "internalFlow": {
+            "$ref": "lean-machine-catalog.schema.json#/$defs/internalFlow"
+          }
+        }
+      }
+    },
+    "declarations": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "allOf": [
+          {"$ref": "lean-machine-catalog.schema.json#/$defs/internalDeclaration"},
+          {"required": ["projectLocal", "sourceId"]}
+        ]
+      }
+    },
+    "sources": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/source"}
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceId", "moduleName", "path", "sha256", "content"],
+      "properties": {
+        "sourceId": {"type": "string", "minLength": 1},
+        "moduleName": {"type": ["string", "null"]},
+        "path": {"type": "string", "pattern": "^lean/StructuralExhaustion/.+\\.lean$"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "content": {"type": "string"}
+      }
+    }
+  }
+}

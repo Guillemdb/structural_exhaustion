@@ -1,0 +1,4419 @@
+{
+  "artifactType": "structuralExhaustionNodeInternals",
+  "schemaVersion": "1.0.0",
+  "tacticId": "CT6",
+  "apiVersion": "CT6-v5",
+  "nodes": [
+    {
+      "nodeId": "CT6.entry",
+      "internalFlow": {
+        "steps": [
+          {
+            "stepId": "output.1",
+            "role": "output",
+            "reference": {
+              "ref": "CT6.Input",
+              "provision": "derived_definitionally"
+            },
+            "plainExplanation": "State, decision, certificate, or residual produced by this node: CT6.Input.",
+            "mathematicalDefinition": null,
+            "label": "CT6.Input",
+            "declarationId": "StructuralExhaustion.CT6.Input"
+          }
+        ],
+        "nodeId": "CT6.entry",
+        "edges": []
+      }
+    },
+    {
+      "nodeId": "CT6.search.firstFailure",
+      "internalFlow": {
+        "steps": [
+          {
+            "stepId": "author.1",
+            "role": "authorObject",
+            "reference": {
+              "ref": "Capability.failureOrder",
+              "provision": "user_finite_enumeration"
+            },
+            "plainExplanation": "An exhaustive ordered enumeration determining the first-failure search order.",
+            "mathematicalDefinition": "(i_1,\\ldots,i_m)",
+            "label": "Finite failure order",
+            "declarationId": "StructuralExhaustion.CT6.Capability.failureOrder"
+          },
+          {
+            "stepId": "author.2",
+            "role": "authorObject",
+            "reference": {
+              "ref": "Spec.Failure",
+              "provision": "user_definition"
+            },
+            "plainExplanation": "The proposition that local activity fails at index i in branch x.",
+            "mathematicalDefinition": "\\operatorname{Failure}(x,i)",
+            "label": "Failure predicate",
+            "declarationId": "StructuralExhaustion.CT6.Spec.Failure"
+          },
+          {
+            "stepId": "author.3",
+            "role": "authorObject",
+            "reference": {
+              "ref": "Spec.failureData",
+              "provision": "user_operator"
+            },
+            "plainExplanation": "Converts proof of a local failure into its typed application-specific payload.",
+            "mathematicalDefinition": "\\operatorname{failureData}_x(i):\\operatorname{Failure}(x,i)\\to\\mathcal{F}",
+            "label": "Failure-data extractor",
+            "declarationId": "StructuralExhaustion.CT6.Spec.failureData"
+          },
+          {
+            "stepId": "author.4",
+            "role": "authorObject",
+            "reference": {
+              "ref": "Spec.contribution",
+              "provision": "user_operator"
+            },
+            "plainExplanation": "Assigns the contribution recorded for each nonfailing activity index.",
+            "mathematicalDefinition": "c_x:\\mathcal{I}\\to\\mathbb{N}",
+            "label": "Index contribution",
+            "declarationId": "StructuralExhaustion.CT6.Spec.contribution"
+          },
+          {
+            "stepId": "author.5",
+            "role": "authorObject",
+            "reference": {
+              "ref": "Capability.failureDecidable",
+              "provision": "instance_bridge"
+            },
+            "plainExplanation": "Executable evidence deciding whether activity fails at an index.",
+            "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Failure}(x,i))",
+            "label": "Failure decision procedure",
+            "declarationId": "StructuralExhaustion.CT6.Capability.failureDecidable"
+          },
+          {
+            "stepId": "operation.1",
+            "role": "operation",
+            "reference": {
+              "ref": "FirstHit.beforeAbsent",
+              "provision": "derived_by_generic_search"
+            },
+            "plainExplanation": "Framework-owned operation executed inside this node: FirstHit.beforeAbsent.",
+            "mathematicalDefinition": null,
+            "label": "FirstHit.beforeAbsent",
+            "declarationId": null
+          },
+          {
+            "stepId": "theorem.1",
+            "role": "theorem",
+            "reference": {
+              "ref": "Core.FiniteSearch.first_hit_no_earlier",
+              "provision": "derived_by_generic_theorem"
+            },
+            "plainExplanation": "Framework theorem certifying the semantic correctness of this node: Core.FiniteSearch.first_hit_no_earlier.",
+            "mathematicalDefinition": null,
+            "label": "Core.FiniteSearch.first_hit_no_earlier",
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.first_hit_no_earlier"
+          },
+          {
+            "stepId": "output.1",
+            "role": "output",
+            "reference": {
+              "ref": "CT6.ActivityDecision",
+              "provision": "derived_by_generic_search"
+            },
+            "plainExplanation": "State, decision, certificate, or residual produced by this node: CT6.ActivityDecision.",
+            "mathematicalDefinition": null,
+            "label": "CT6.ActivityDecision",
+            "declarationId": "StructuralExhaustion.CT6.ActivityDecision"
+          },
+          {
+            "stepId": "output.2",
+            "role": "output",
+            "reference": {
+              "ref": "CT6.FirstFailureResidual",
+              "provision": "derived_by_generic_search"
+            },
+            "plainExplanation": "Canonical first failure with its exact clean prefix and structural datum. ",
+            "mathematicalDefinition": null,
+            "label": "CT6.FirstFailureResidual",
+            "declarationId": "StructuralExhaustion.CT6.FirstFailureResidual"
+          },
+          {
+            "stepId": "output.3",
+            "role": "output",
+            "reference": {
+              "ref": "CT6.ActiveLedgerResidual",
+              "provision": "derived_by_generic_theorem"
+            },
+            "plainExplanation": "Exhaustive active ledger produced when no monitored index fails. ",
+            "mathematicalDefinition": null,
+            "label": "CT6.ActiveLedgerResidual",
+            "declarationId": "StructuralExhaustion.CT6.ActiveLedgerResidual"
+          }
+        ],
+        "nodeId": "CT6.search.firstFailure",
+        "edges": [
+          {
+            "targetStepId": "operation.1",
+            "sourceStepId": "author.1",
+            "relation": "consumes",
+            "edgeId": "CT6.search.firstFailure.internal.author.1-to-operation.1"
+          },
+          {
+            "targetStepId": "operation.1",
+            "sourceStepId": "author.2",
+            "relation": "consumes",
+            "edgeId": "CT6.search.firstFailure.internal.author.2-to-operation.1"
+          },
+          {
+            "targetStepId": "operation.1",
+            "sourceStepId": "author.3",
+            "relation": "consumes",
+            "edgeId": "CT6.search.firstFailure.internal.author.3-to-operation.1"
+          },
+          {
+            "targetStepId": "operation.1",
+            "sourceStepId": "author.4",
+            "relation": "consumes",
+            "edgeId": "CT6.search.firstFailure.internal.author.4-to-operation.1"
+          },
+          {
+            "targetStepId": "operation.1",
+            "sourceStepId": "author.5",
+            "relation": "consumes",
+            "edgeId": "CT6.search.firstFailure.internal.author.5-to-operation.1"
+          },
+          {
+            "targetStepId": "theorem.1",
+            "sourceStepId": "operation.1",
+            "relation": "then",
+            "edgeId": "CT6.search.firstFailure.internal.operation.1-to-theorem.1"
+          },
+          {
+            "targetStepId": "output.1",
+            "sourceStepId": "theorem.1",
+            "relation": "certifies",
+            "edgeId": "CT6.search.firstFailure.internal.theorem.1-to-output.1"
+          },
+          {
+            "targetStepId": "output.2",
+            "sourceStepId": "theorem.1",
+            "relation": "certifies",
+            "edgeId": "CT6.search.firstFailure.internal.theorem.1-to-output.2"
+          },
+          {
+            "targetStepId": "output.3",
+            "sourceStepId": "theorem.1",
+            "relation": "certifies",
+            "edgeId": "CT6.search.firstFailure.internal.theorem.1-to-output.3"
+          }
+        ]
+      }
+    },
+    {
+      "nodeId": "CT6.terminal.residual.firstFailure",
+      "internalFlow": {
+        "steps": [
+          {
+            "stepId": "predecessor.1",
+            "role": "predecessorState",
+            "reference": {
+              "ref": "StructuralExhaustion.CT6.Graph.Edge.failure",
+              "provision": "derived_from_predecessor"
+            },
+            "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT6.Graph.Edge.failure.",
+            "mathematicalDefinition": null,
+            "label": "StructuralExhaustion.CT6.Graph.Edge.failure",
+            "declarationId": "StructuralExhaustion.CT6.Graph.Edge.failure"
+          },
+          {
+            "stepId": "theorem.1",
+            "role": "theorem",
+            "reference": {
+              "ref": "StructuralExhaustion.CT6.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            },
+            "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT6.run_trace_valid.",
+            "mathematicalDefinition": null,
+            "label": "StructuralExhaustion.CT6.run_trace_valid",
+            "declarationId": "StructuralExhaustion.CT6.run_trace_valid"
+          },
+          {
+            "stepId": "output.1",
+            "role": "output",
+            "reference": {
+              "ref": "StructuralExhaustion.CT6.ExecutionResult@CT6.terminal.residual.firstFailure",
+              "provision": "generated_audit"
+            },
+            "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT6.ExecutionResult@CT6.terminal.residual.firstFailure.",
+            "mathematicalDefinition": null,
+            "label": "StructuralExhaustion.CT6.ExecutionResult@CT6.terminal.residual.firstFailure",
+            "declarationId": null
+          }
+        ],
+        "nodeId": "CT6.terminal.residual.firstFailure",
+        "edges": [
+          {
+            "targetStepId": "theorem.1",
+            "sourceStepId": "predecessor.1",
+            "relation": "then",
+            "edgeId": "CT6.terminal.residual.firstFailure.internal.predecessor.1-to-theorem.1"
+          },
+          {
+            "targetStepId": "output.1",
+            "sourceStepId": "theorem.1",
+            "relation": "certifies",
+            "edgeId": "CT6.terminal.residual.firstFailure.internal.theorem.1-to-output.1"
+          }
+        ]
+      }
+    },
+    {
+      "nodeId": "CT6.terminal.residual.activeLedger",
+      "internalFlow": {
+        "steps": [
+          {
+            "stepId": "predecessor.1",
+            "role": "predecessorState",
+            "reference": {
+              "ref": "StructuralExhaustion.CT6.Graph.Edge.active",
+              "provision": "derived_from_predecessor"
+            },
+            "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT6.Graph.Edge.active.",
+            "mathematicalDefinition": null,
+            "label": "StructuralExhaustion.CT6.Graph.Edge.active",
+            "declarationId": "StructuralExhaustion.CT6.Graph.Edge.active"
+          },
+          {
+            "stepId": "theorem.1",
+            "role": "theorem",
+            "reference": {
+              "ref": "StructuralExhaustion.CT6.run_trace_valid",
+              "provision": "derived_by_generic_theorem"
+            },
+            "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT6.run_trace_valid.",
+            "mathematicalDefinition": null,
+            "label": "StructuralExhaustion.CT6.run_trace_valid",
+            "declarationId": "StructuralExhaustion.CT6.run_trace_valid"
+          },
+          {
+            "stepId": "output.1",
+            "role": "output",
+            "reference": {
+              "ref": "StructuralExhaustion.CT6.ExecutionResult@CT6.terminal.residual.activeLedger",
+              "provision": "generated_audit"
+            },
+            "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT6.ExecutionResult@CT6.terminal.residual.activeLedger.",
+            "mathematicalDefinition": null,
+            "label": "StructuralExhaustion.CT6.ExecutionResult@CT6.terminal.residual.activeLedger",
+            "declarationId": null
+          }
+        ],
+        "nodeId": "CT6.terminal.residual.activeLedger",
+        "edges": [
+          {
+            "targetStepId": "theorem.1",
+            "sourceStepId": "predecessor.1",
+            "relation": "then",
+            "edgeId": "CT6.terminal.residual.activeLedger.internal.predecessor.1-to-theorem.1"
+          },
+          {
+            "targetStepId": "output.1",
+            "sourceStepId": "theorem.1",
+            "relation": "certifies",
+            "edgeId": "CT6.terminal.residual.activeLedger.internal.theorem.1-to-output.1"
+          }
+        ]
+      }
+    }
+  ],
+  "declarations": [
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "Core.Problem → Type (max u_1 u_2)",
+      "sourceFile": "StructuralExhaustion/CT6/Capability.lean",
+      "selectionRange": {
+        "start": {
+          "line": 10,
+          "column": 7
+        },
+        "end": {
+          "line": 10,
+          "column": 12
+        }
+      },
+      "range": {
+        "start": {
+          "line": 10,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 55
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Input",
+      "module": "StructuralExhaustion.CT6.Capability",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Input",
+      "bodyDependencies": [
+        "StructuralExhaustion.Core.BranchContext"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Capability.lean"
+    },
+    {
+      "typeDependencies": [
+        "FinEnum",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.CT6.Spec.Index",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} → {S : CT6.Spec P} → CT6.Capability S → FinEnum S.Index",
+      "sourceFile": "StructuralExhaustion/CT6/Capability.lean",
+      "selectionRange": {
+        "start": {
+          "line": 6,
+          "column": 2
+        },
+        "end": {
+          "line": 6,
+          "column": 14
+        }
+      },
+      "range": {
+        "start": {
+          "line": 6,
+          "column": 2
+        },
+        "end": {
+          "line": 6,
+          "column": 14
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Capability.failureOrder",
+      "module": "StructuralExhaustion.CT6.Capability",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Capability.failureOrder",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Capability.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.CT6.Spec.Index",
+        "StructuralExhaustion.Core.BranchContext",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} → (self : CT6.Spec P) → Core.BranchContext P → self.Index → Prop",
+      "sourceFile": "StructuralExhaustion/CT6/Spec.lean",
+      "selectionRange": {
+        "start": {
+          "line": 11,
+          "column": 2
+        },
+        "end": {
+          "line": 11,
+          "column": 9
+        }
+      },
+      "range": {
+        "start": {
+          "line": 11,
+          "column": 2
+        },
+        "end": {
+          "line": 11,
+          "column": 9
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Spec.Failure",
+      "module": "StructuralExhaustion.CT6.Spec",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Spec.Failure",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Spec.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.CT6.Spec.Failure",
+        "StructuralExhaustion.CT6.Spec.FailureData",
+        "StructuralExhaustion.CT6.Spec.Index",
+        "StructuralExhaustion.Core.BranchContext",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  (self : CT6.Spec P) → (ctx : Core.BranchContext P) → (index : self.Index) → self.Failure ctx index → self.FailureData",
+      "sourceFile": "StructuralExhaustion/CT6/Spec.lean",
+      "selectionRange": {
+        "start": {
+          "line": 12,
+          "column": 2
+        },
+        "end": {
+          "line": 12,
+          "column": 13
+        }
+      },
+      "range": {
+        "start": {
+          "line": 12,
+          "column": 2
+        },
+        "end": {
+          "line": 12,
+          "column": 13
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Spec.failureData",
+      "module": "StructuralExhaustion.CT6.Spec",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Spec.failureData",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Spec.lean"
+    },
+    {
+      "typeDependencies": [
+        "Nat",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.CT6.Spec.Index",
+        "StructuralExhaustion.Core.BranchContext",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} → (self : CT6.Spec P) → Core.BranchContext P → self.Index → ℕ",
+      "sourceFile": "StructuralExhaustion/CT6/Spec.lean",
+      "selectionRange": {
+        "start": {
+          "line": 14,
+          "column": 2
+        },
+        "end": {
+          "line": 14,
+          "column": 14
+        }
+      },
+      "range": {
+        "start": {
+          "line": 14,
+          "column": 2
+        },
+        "end": {
+          "line": 14,
+          "column": 14
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Spec.contribution",
+      "module": "StructuralExhaustion.CT6.Spec",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Spec.contribution",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Spec.lean"
+    },
+    {
+      "typeDependencies": [
+        "Decidable",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.CT6.Spec.Failure",
+        "StructuralExhaustion.CT6.Spec.Index",
+        "StructuralExhaustion.Core.BranchContext",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    CT6.Capability S → (ctx : Core.BranchContext P) → (index : S.Index) → Decidable (S.Failure ctx index)",
+      "sourceFile": "StructuralExhaustion/CT6/Capability.lean",
+      "selectionRange": {
+        "start": {
+          "line": 7,
+          "column": 2
+        },
+        "end": {
+          "line": 7,
+          "column": 18
+        }
+      },
+      "range": {
+        "start": {
+          "line": 7,
+          "column": 2
+        },
+        "end": {
+          "line": 7,
+          "column": 18
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Capability.failureDecidable",
+      "module": "StructuralExhaustion.CT6.Capability",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Capability.failureDecidable",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Capability.lean"
+    },
+    {
+      "typeDependencies": [
+        "List",
+        "List.instMembership",
+        "Membership.mem",
+        "Not",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit.before"
+      ],
+      "type": "∀ {α : Type u} {xs : List α} {p : α → Prop} (hit : Core.FiniteSearch.FirstHit xs p),\n  ∀ candidate ∈ hit.before, ¬p candidate",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": {
+        "start": {
+          "line": 207,
+          "column": 8
+        },
+        "end": {
+          "line": 207,
+          "column": 28
+        }
+      },
+      "range": {
+        "start": {
+          "line": 207,
+          "column": 0
+        },
+        "end": {
+          "line": 210,
+          "column": 18
+        }
+      },
+      "name": "StructuralExhaustion.Core.FiniteSearch.first_hit_no_earlier",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.first_hit_no_earlier",
+      "bodyDependencies": [
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit.beforeAbsent"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} → (S : CT6.Spec P) → CT6.Capability S → CT6.Input P → Type (max u_3 u_4)",
+      "sourceFile": "StructuralExhaustion/CT6/Search.lean",
+      "selectionRange": {
+        "start": {
+          "line": 8,
+          "column": 10
+        },
+        "end": {
+          "line": 8,
+          "column": 26
+        }
+      },
+      "range": {
+        "start": {
+          "line": 8,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 63
+        }
+      },
+      "name": "StructuralExhaustion.CT6.ActivityDecision",
+      "module": "StructuralExhaustion.CT6.Search",
+      "kind": "inductive",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.ActivityDecision",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.ActivityDecision.active",
+        "StructuralExhaustion.CT6.ActivityDecision.firstFailure"
+      ],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Search.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} → (S : CT6.Spec P) → CT6.Capability S → CT6.Input P → Type (max u_3 u_4)",
+      "sourceFile": "StructuralExhaustion/CT6/State.lean",
+      "selectionRange": {
+        "start": {
+          "line": 13,
+          "column": 10
+        },
+        "end": {
+          "line": 13,
+          "column": 30
+        }
+      },
+      "range": {
+        "start": {
+          "line": 12,
+          "column": 0
+        },
+        "end": {
+          "line": 17,
+          "column": 58
+        }
+      },
+      "name": "StructuralExhaustion.CT6.FirstFailureResidual",
+      "module": "StructuralExhaustion.CT6.State",
+      "kind": "inductive",
+      "docString": "Canonical first failure with its exact clean prefix and structural datum. ",
+      "declarationId": "StructuralExhaustion.CT6.FirstFailureResidual",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.FirstFailureResidual.mk"
+      ],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/State.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} → (S : CT6.Spec P) → CT6.Capability S → CT6.Input P → Type",
+      "sourceFile": "StructuralExhaustion/CT6/State.lean",
+      "selectionRange": {
+        "start": {
+          "line": 20,
+          "column": 10
+        },
+        "end": {
+          "line": 20,
+          "column": 30
+        }
+      },
+      "range": {
+        "start": {
+          "line": 19,
+          "column": 0
+        },
+        "end": {
+          "line": 23,
+          "column": 51
+        }
+      },
+      "name": "StructuralExhaustion.CT6.ActiveLedgerResidual",
+      "module": "StructuralExhaustion.CT6.State",
+      "kind": "inductive",
+      "docString": "Exhaustive active ledger produced when no monitored index fails. ",
+      "declarationId": "StructuralExhaustion.CT6.ActiveLedgerResidual",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.ActiveLedgerResidual.mk"
+      ],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/State.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.FirstFailureResidual",
+        "StructuralExhaustion.CT6.Graph.Edge",
+        "StructuralExhaustion.CT6.Graph.NodeId.firstFailureSearch",
+        "StructuralExhaustion.CT6.Graph.NodeId.firstFailureTerminal",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.FirstFailureResidual S capability input →\n          CT6.Graph.Edge S capability input CT6.Graph.NodeId.firstFailureSearch CT6.Graph.NodeId.firstFailureTerminal",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 27,
+          "column": 4
+        },
+        "end": {
+          "line": 27,
+          "column": 11
+        }
+      },
+      "range": {
+        "start": {
+          "line": 27,
+          "column": 2
+        },
+        "end": {
+          "line": 28,
+          "column": 52
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Edge.failure",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Edge.failure",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.ExecutionResult.trace",
+        "StructuralExhaustion.CT6.Graph.ValidTrace",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.CT6.run",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "∀ {P : Core.Problem} (S : CT6.Spec P) (capability : CT6.Capability S) (input : CT6.Input P),\n  CT6.Graph.ValidTrace S capability input (CT6.ExecutionResult.trace S capability input (CT6.run S capability input))",
+      "sourceFile": "StructuralExhaustion/CT6/Theorems.lean",
+      "selectionRange": {
+        "start": {
+          "line": 43,
+          "column": 8
+        },
+        "end": {
+          "line": 43,
+          "column": 23
+        }
+      },
+      "range": {
+        "start": {
+          "line": 43,
+          "column": 0
+        },
+        "end": {
+          "line": 45,
+          "column": 37
+        }
+      },
+      "name": "StructuralExhaustion.CT6.run_trace_valid",
+      "module": "StructuralExhaustion.CT6.Theorems",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.run_trace_valid",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.ExecutionResult.traceValid"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Theorems.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.ActiveLedgerResidual",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.Edge",
+        "StructuralExhaustion.CT6.Graph.NodeId.activeLedgerTerminal",
+        "StructuralExhaustion.CT6.Graph.NodeId.firstFailureSearch",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.ActiveLedgerResidual S capability input →\n          CT6.Graph.Edge S capability input CT6.Graph.NodeId.firstFailureSearch CT6.Graph.NodeId.activeLedgerTerminal",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 29,
+          "column": 4
+        },
+        "end": {
+          "line": 29,
+          "column": 10
+        }
+      },
+      "range": {
+        "start": {
+          "line": 29,
+          "column": 2
+        },
+        "end": {
+          "line": 30,
+          "column": 52
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Edge.active",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Edge.active",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "Core.Problem → Type (max uAmbient uBranch)",
+      "sourceFile": "StructuralExhaustion/Core/Context.lean",
+      "selectionRange": {
+        "start": {
+          "line": 9,
+          "column": 10
+        },
+        "end": {
+          "line": 9,
+          "column": 23
+        }
+      },
+      "range": {
+        "start": {
+          "line": 7,
+          "column": 0
+        },
+        "end": {
+          "line": 12,
+          "column": 25
+        }
+      },
+      "name": "StructuralExhaustion.Core.BranchContext",
+      "module": "StructuralExhaustion.Core.Context",
+      "kind": "inductive",
+      "docString": "The inherited state of one branch, shared by dependent CT inputs and route\ntriggers. ",
+      "declarationId": "StructuralExhaustion.Core.BranchContext",
+      "bodyDependencies": [
+        "StructuralExhaustion.Core.BranchContext.mk"
+      ],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/Context.lean"
+    },
+    {
+      "typeDependencies": [],
+      "type": "Type (max (uAmbient + 1) (uBranch + 1))",
+      "sourceFile": "StructuralExhaustion/Core/Problem.lean",
+      "selectionRange": {
+        "start": {
+          "line": 16,
+          "column": 10
+        },
+        "end": {
+          "line": 16,
+          "column": 17
+        }
+      },
+      "range": {
+        "start": {
+          "line": 14,
+          "column": 0
+        },
+        "end": {
+          "line": 20,
+          "column": 38
+        }
+      },
+      "name": "StructuralExhaustion.Core.Problem",
+      "module": "StructuralExhaustion.Core.Problem",
+      "kind": "inductive",
+      "docString": "Mathematical data shared by every tactic in one structural-exhaustion\nproof instance. ",
+      "declarationId": "StructuralExhaustion.Core.Problem",
+      "bodyDependencies": [
+        "StructuralExhaustion.Core.Problem.mk"
+      ],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/Problem.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} → CT6.Spec P → Type (max (max u_1 u_2) u_3)",
+      "sourceFile": "StructuralExhaustion/CT6/Capability.lean",
+      "selectionRange": {
+        "start": {
+          "line": 5,
+          "column": 10
+        },
+        "end": {
+          "line": 5,
+          "column": 20
+        }
+      },
+      "range": {
+        "start": {
+          "line": 5,
+          "column": 0
+        },
+        "end": {
+          "line": 8,
+          "column": 55
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Capability",
+      "module": "StructuralExhaustion.CT6.Capability",
+      "kind": "inductive",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Capability",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.Capability.mk"
+      ],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Capability.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "Core.Problem → Type (max (max (max (uData + 1) (uIndex + 1)) u_1) u_2)",
+      "sourceFile": "StructuralExhaustion/CT6/Spec.lean",
+      "selectionRange": {
+        "start": {
+          "line": 8,
+          "column": 10
+        },
+        "end": {
+          "line": 8,
+          "column": 14
+        }
+      },
+      "range": {
+        "start": {
+          "line": 7,
+          "column": 0
+        },
+        "end": {
+          "line": 14,
+          "column": 51
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Spec",
+      "module": "StructuralExhaustion.CT6.Spec",
+      "kind": "inductive",
+      "docString": "Problem-specific monitored family and first-failure semantics. ",
+      "declarationId": "StructuralExhaustion.CT6.Spec",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.Spec.mk"
+      ],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Spec.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} → CT6.Spec P → Type uIndex",
+      "sourceFile": "StructuralExhaustion/CT6/Spec.lean",
+      "selectionRange": {
+        "start": {
+          "line": 9,
+          "column": 2
+        },
+        "end": {
+          "line": 9,
+          "column": 7
+        }
+      },
+      "range": {
+        "start": {
+          "line": 9,
+          "column": 2
+        },
+        "end": {
+          "line": 9,
+          "column": 7
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Spec.Index",
+      "module": "StructuralExhaustion.CT6.Spec",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Spec.Index",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Spec.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} → CT6.Spec P → Type uData",
+      "sourceFile": "StructuralExhaustion/CT6/Spec.lean",
+      "selectionRange": {
+        "start": {
+          "line": 10,
+          "column": 2
+        },
+        "end": {
+          "line": 10,
+          "column": 13
+        }
+      },
+      "range": {
+        "start": {
+          "line": 10,
+          "column": 2
+        },
+        "end": {
+          "line": 10,
+          "column": 13
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Spec.FailureData",
+      "module": "StructuralExhaustion.CT6.Spec",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Spec.FailureData",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Spec.lean"
+    },
+    {
+      "typeDependencies": [
+        "List"
+      ],
+      "type": "{α : Type u} → List α → (α → Prop) → Type u",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": {
+        "start": {
+          "line": 108,
+          "column": 10
+        },
+        "end": {
+          "line": 108,
+          "column": 18
+        }
+      },
+      "range": {
+        "start": {
+          "line": 107,
+          "column": 0
+        },
+        "end": {
+          "line": 114,
+          "column": 68
+        }
+      },
+      "name": "StructuralExhaustion.Core.FiniteSearch.FirstHit",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "inductive",
+      "docString": "A first-hit witness retains the exact prefix certified to contain no hit. ",
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.FirstHit",
+      "bodyDependencies": [
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit.mk"
+      ],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "List",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit"
+      ],
+      "type": "{α : Type u} → {xs : List α} → {p : α → Prop} → Core.FiniteSearch.FirstHit xs p → List α",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": {
+        "start": {
+          "line": 109,
+          "column": 2
+        },
+        "end": {
+          "line": 109,
+          "column": 8
+        }
+      },
+      "range": {
+        "start": {
+          "line": 109,
+          "column": 2
+        },
+        "end": {
+          "line": 109,
+          "column": 8
+        }
+      },
+      "name": "StructuralExhaustion.Core.FiniteSearch.FirstHit.before",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.FirstHit.before",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "List",
+        "List.instMembership",
+        "Membership.mem",
+        "Not",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit.before"
+      ],
+      "type": "∀ {α : Type u} {xs : List α} {p : α → Prop} (self : Core.FiniteSearch.FirstHit xs p),\n  ∀ candidate ∈ self.before, ¬p candidate",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": {
+        "start": {
+          "line": 114,
+          "column": 2
+        },
+        "end": {
+          "line": 114,
+          "column": 14
+        }
+      },
+      "range": {
+        "start": {
+          "line": 114,
+          "column": 2
+        },
+        "end": {
+          "line": 114,
+          "column": 14
+        }
+      },
+      "name": "StructuralExhaustion.Core.FiniteSearch.FirstHit.beforeAbsent",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.FirstHit.beforeAbsent",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.ActiveLedgerResidual",
+        "StructuralExhaustion.CT6.ActivityDecision",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} → CT6.ActiveLedgerResidual S capability input → CT6.ActivityDecision S capability input",
+      "sourceFile": "StructuralExhaustion/CT6/Search.lean",
+      "selectionRange": {
+        "start": {
+          "line": 10,
+          "column": 4
+        },
+        "end": {
+          "line": 10,
+          "column": 10
+        }
+      },
+      "range": {
+        "start": {
+          "line": 10,
+          "column": 2
+        },
+        "end": {
+          "line": 10,
+          "column": 63
+        }
+      },
+      "name": "StructuralExhaustion.CT6.ActivityDecision.active",
+      "module": "StructuralExhaustion.CT6.Search",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.ActivityDecision.active",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Search.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.ActivityDecision",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.FirstFailureResidual",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} → CT6.FirstFailureResidual S capability input → CT6.ActivityDecision S capability input",
+      "sourceFile": "StructuralExhaustion/CT6/Search.lean",
+      "selectionRange": {
+        "start": {
+          "line": 9,
+          "column": 4
+        },
+        "end": {
+          "line": 9,
+          "column": 16
+        }
+      },
+      "range": {
+        "start": {
+          "line": 9,
+          "column": 2
+        },
+        "end": {
+          "line": 9,
+          "column": 69
+        }
+      },
+      "name": "StructuralExhaustion.CT6.ActivityDecision.firstFailure",
+      "module": "StructuralExhaustion.CT6.Search",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.ActivityDecision.firstFailure",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Search.lean"
+    },
+    {
+      "typeDependencies": [
+        "Eq",
+        "FinEnum.orderedValues",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Capability.failureOrder",
+        "StructuralExhaustion.CT6.FirstFailureResidual",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.CT6.Spec.Failure",
+        "StructuralExhaustion.CT6.Spec.FailureData",
+        "StructuralExhaustion.CT6.Spec.Index",
+        "StructuralExhaustion.CT6.Spec.failureData",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit.holds",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit.value",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        (hit : Core.FiniteSearch.FirstHit capability.failureOrder.orderedValues (S.Failure input)) →\n          (data : S.FailureData) → data = S.failureData input hit.value ⋯ → CT6.FirstFailureResidual S capability input",
+      "sourceFile": "StructuralExhaustion/CT6/State.lean",
+      "selectionRange": {
+        "start": {
+          "line": 13,
+          "column": 10
+        },
+        "end": {
+          "line": 13,
+          "column": 30
+        }
+      },
+      "range": {
+        "start": {
+          "line": 13,
+          "column": 10
+        },
+        "end": {
+          "line": 13,
+          "column": 30
+        }
+      },
+      "name": "StructuralExhaustion.CT6.FirstFailureResidual.mk",
+      "module": "StructuralExhaustion.CT6.State",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.FirstFailureResidual.mk",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/State.lean"
+    },
+    {
+      "typeDependencies": [
+        "Eq",
+        "Nat",
+        "Not",
+        "StructuralExhaustion.CT6.ActiveLedgerResidual",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.CT6.Spec.Failure",
+        "StructuralExhaustion.CT6.Spec.Index",
+        "StructuralExhaustion.CT6.activeTotal",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        (∀ (index : S.Index), ¬S.Failure input index) →\n          (total : ℕ) → total = CT6.activeTotal S capability input → CT6.ActiveLedgerResidual S capability input",
+      "sourceFile": "StructuralExhaustion/CT6/State.lean",
+      "selectionRange": {
+        "start": {
+          "line": 20,
+          "column": 10
+        },
+        "end": {
+          "line": 20,
+          "column": 30
+        }
+      },
+      "range": {
+        "start": {
+          "line": 20,
+          "column": 10
+        },
+        "end": {
+          "line": 20,
+          "column": 30
+        }
+      },
+      "name": "StructuralExhaustion.CT6.ActiveLedgerResidual.mk",
+      "module": "StructuralExhaustion.CT6.State",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.ActiveLedgerResidual.mk",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/State.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  (S : CT6.Spec P) → CT6.Capability S → CT6.Input P → CT6.Graph.NodeId → CT6.Graph.NodeId → Type (max u_3 u_4)",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 25,
+          "column": 10
+        },
+        "end": {
+          "line": 25,
+          "column": 14
+        }
+      },
+      "range": {
+        "start": {
+          "line": 25,
+          "column": 0
+        },
+        "end": {
+          "line": 30,
+          "column": 52
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Edge",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "inductive",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Edge",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.Graph.Edge.active",
+        "StructuralExhaustion.CT6.Graph.Edge.beginSearch",
+        "StructuralExhaustion.CT6.Graph.Edge.failure"
+      ],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Graph.NodeId"
+      ],
+      "type": "CT6.Graph.NodeId",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 6,
+          "column": 12
+        },
+        "end": {
+          "line": 6,
+          "column": 30
+        }
+      },
+      "range": {
+        "start": {
+          "line": 6,
+          "column": 10
+        },
+        "end": {
+          "line": 6,
+          "column": 30
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.NodeId.firstFailureSearch",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.NodeId.firstFailureSearch",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Graph.NodeId"
+      ],
+      "type": "CT6.Graph.NodeId",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 6,
+          "column": 33
+        },
+        "end": {
+          "line": 6,
+          "column": 53
+        }
+      },
+      "range": {
+        "start": {
+          "line": 6,
+          "column": 31
+        },
+        "end": {
+          "line": 6,
+          "column": 53
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.NodeId.firstFailureTerminal",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.NodeId.firstFailureTerminal",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "List",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.ExecutionResult",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  (S : CT6.Spec P) →\n    (capability : CT6.Capability S) →\n      (input : CT6.Input P) → CT6.ExecutionResult S capability input → List CT6.Graph.NodeId",
+      "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
+      "selectionRange": {
+        "start": {
+          "line": 19,
+          "column": 4
+        },
+        "end": {
+          "line": 19,
+          "column": 9
+        }
+      },
+      "range": {
+        "start": {
+          "line": 19,
+          "column": 0
+        },
+        "end": {
+          "line": 19,
+          "column": 76
+        }
+      },
+      "name": "StructuralExhaustion.CT6.ExecutionResult.trace",
+      "module": "StructuralExhaustion.CT6.Execution",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.ExecutionResult.trace",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.ExecutionResult.path",
+        "StructuralExhaustion.CT6.ExecutionResult.terminal",
+        "StructuralExhaustion.CT6.Graph.NodeId.entry",
+        "StructuralExhaustion.CT6.Graph.Path.trace",
+        "StructuralExhaustion.CT6.Graph.Terminal.nodeId"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Execution.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.ExecutionResult",
+        "StructuralExhaustion.CT6.ExecutionResult.trace",
+        "StructuralExhaustion.CT6.Graph.ValidTrace",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "∀ {P : Core.Problem} (S : CT6.Spec P) (capability : CT6.Capability S) (input : CT6.Input P)\n  (result : CT6.ExecutionResult S capability input),\n  CT6.Graph.ValidTrace S capability input (CT6.ExecutionResult.trace S capability input result)",
+      "sourceFile": "StructuralExhaustion/CT6/Theorems.lean",
+      "selectionRange": {
+        "start": {
+          "line": 24,
+          "column": 8
+        },
+        "end": {
+          "line": 24,
+          "column": 18
+        }
+      },
+      "range": {
+        "start": {
+          "line": 24,
+          "column": 0
+        },
+        "end": {
+          "line": 26,
+          "column": 37
+        }
+      },
+      "name": "StructuralExhaustion.CT6.ExecutionResult.traceValid",
+      "module": "StructuralExhaustion.CT6.Theorems",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.ExecutionResult.traceValid",
+      "bodyDependencies": [
+        "Eq",
+        "Exists",
+        "Exists.intro",
+        "List",
+        "StructuralExhaustion.CT6.ExecutionResult.path",
+        "StructuralExhaustion.CT6.ExecutionResult.terminal",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Graph.NodeId.entry",
+        "StructuralExhaustion.CT6.Graph.Path",
+        "StructuralExhaustion.CT6.Graph.Path.trace",
+        "StructuralExhaustion.CT6.Graph.Terminal",
+        "StructuralExhaustion.CT6.Graph.Terminal.nodeId",
+        "rfl"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Theorems.lean"
+    },
+    {
+      "typeDependencies": [
+        "List",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} → (S : CT6.Spec P) → CT6.Capability S → CT6.Input P → List CT6.Graph.NodeId → Prop",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 42,
+          "column": 4
+        },
+        "end": {
+          "line": 42,
+          "column": 14
+        }
+      },
+      "range": {
+        "start": {
+          "line": 42,
+          "column": 0
+        },
+        "end": {
+          "line": 44,
+          "column": 22
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.ValidTrace",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.ValidTrace",
+      "bodyDependencies": [
+        "Eq",
+        "Exists",
+        "StructuralExhaustion.CT6.Graph.NodeId.entry",
+        "StructuralExhaustion.CT6.Graph.Path",
+        "StructuralExhaustion.CT6.Graph.Path.trace",
+        "StructuralExhaustion.CT6.Graph.Terminal",
+        "StructuralExhaustion.CT6.Graph.Terminal.nodeId"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.ExecutionResult",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  (S : CT6.Spec P) → (capability : CT6.Capability S) → (input : CT6.Input P) → CT6.ExecutionResult S capability input",
+      "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
+      "selectionRange": {
+        "start": {
+          "line": 37,
+          "column": 4
+        },
+        "end": {
+          "line": 37,
+          "column": 7
+        }
+      },
+      "range": {
+        "start": {
+          "line": 37,
+          "column": 0
+        },
+        "end": {
+          "line": 37,
+          "column": 42
+        }
+      },
+      "name": "StructuralExhaustion.CT6.run",
+      "module": "StructuralExhaustion.CT6.Execution",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.run",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.runReference"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Execution.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Graph.NodeId"
+      ],
+      "type": "CT6.Graph.NodeId",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 6,
+          "column": 56
+        },
+        "end": {
+          "line": 6,
+          "column": 76
+        }
+      },
+      "range": {
+        "start": {
+          "line": 6,
+          "column": 54
+        },
+        "end": {
+          "line": 6,
+          "column": 76
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.NodeId.activeLedgerTerminal",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.NodeId.activeLedgerTerminal",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.Core.BranchContext",
+        "StructuralExhaustion.Core.Problem",
+        "StructuralExhaustion.Core.Problem.Ambient",
+        "StructuralExhaustion.Core.Problem.Baseline",
+        "StructuralExhaustion.Core.Problem.BranchState"
+      ],
+      "type": "{P : Core.Problem} → (G : P.Ambient) → P.Baseline G → P.BranchState G → Core.BranchContext P",
+      "sourceFile": "StructuralExhaustion/Core/Context.lean",
+      "selectionRange": {
+        "start": {
+          "line": 9,
+          "column": 10
+        },
+        "end": {
+          "line": 9,
+          "column": 23
+        }
+      },
+      "range": {
+        "start": {
+          "line": 9,
+          "column": 10
+        },
+        "end": {
+          "line": 9,
+          "column": 23
+        }
+      },
+      "name": "StructuralExhaustion.Core.BranchContext.mk",
+      "module": "StructuralExhaustion.Core.Context",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.BranchContext.mk",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/Context.lean"
+    },
+    {
+      "typeDependencies": [
+        "Nat",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "(Ambient : Type uAmbient) → (Ambient → Prop) → (Ambient → ℕ) → (Ambient → Type uBranch) → Core.Problem",
+      "sourceFile": "StructuralExhaustion/Core/Problem.lean",
+      "selectionRange": {
+        "start": {
+          "line": 16,
+          "column": 10
+        },
+        "end": {
+          "line": 16,
+          "column": 17
+        }
+      },
+      "range": {
+        "start": {
+          "line": 16,
+          "column": 10
+        },
+        "end": {
+          "line": 16,
+          "column": 17
+        }
+      },
+      "name": "StructuralExhaustion.Core.Problem.mk",
+      "module": "StructuralExhaustion.Core.Problem",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.Problem.mk",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/Problem.lean"
+    },
+    {
+      "typeDependencies": [
+        "Decidable",
+        "FinEnum",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.CT6.Spec.Failure",
+        "StructuralExhaustion.CT6.Spec.Index",
+        "StructuralExhaustion.Core.BranchContext",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    FinEnum S.Index →\n      ((ctx : Core.BranchContext P) → (index : S.Index) → Decidable (S.Failure ctx index)) → CT6.Capability S",
+      "sourceFile": "StructuralExhaustion/CT6/Capability.lean",
+      "selectionRange": {
+        "start": {
+          "line": 5,
+          "column": 10
+        },
+        "end": {
+          "line": 5,
+          "column": 20
+        }
+      },
+      "range": {
+        "start": {
+          "line": 5,
+          "column": 10
+        },
+        "end": {
+          "line": 5,
+          "column": 20
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Capability.mk",
+      "module": "StructuralExhaustion.CT6.Capability",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Capability.mk",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Capability.lean"
+    },
+    {
+      "typeDependencies": [
+        "Nat",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.BranchContext",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  (Index : Type uIndex) →\n    (FailureData : Type uData) →\n      (Failure : Core.BranchContext P → Index → Prop) →\n        ((ctx : Core.BranchContext P) → (index : Index) → Failure ctx index → FailureData) →\n          (Core.BranchContext P → Index → ℕ) → CT6.Spec P",
+      "sourceFile": "StructuralExhaustion/CT6/Spec.lean",
+      "selectionRange": {
+        "start": {
+          "line": 8,
+          "column": 10
+        },
+        "end": {
+          "line": 8,
+          "column": 14
+        }
+      },
+      "range": {
+        "start": {
+          "line": 8,
+          "column": 10
+        },
+        "end": {
+          "line": 8,
+          "column": 14
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Spec.mk",
+      "module": "StructuralExhaustion.CT6.Spec",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Spec.mk",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Spec.lean"
+    },
+    {
+      "typeDependencies": [
+        "Eq",
+        "HAppend.hAppend",
+        "List",
+        "List.cons",
+        "List.instAppend",
+        "List.instMembership",
+        "Membership.mem",
+        "Not",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit",
+        "instHAppendOfAppend"
+      ],
+      "type": "{α : Type u} →\n  {xs : List α} →\n    {p : α → Prop} →\n      (before : List α) →\n        (value : α) →\n          (after : List α) →\n            xs = before ++ value :: after →\n              p value → (∀ candidate ∈ before, ¬p candidate) → Core.FiniteSearch.FirstHit xs p",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": {
+        "start": {
+          "line": 108,
+          "column": 10
+        },
+        "end": {
+          "line": 108,
+          "column": 18
+        }
+      },
+      "range": {
+        "start": {
+          "line": 108,
+          "column": 10
+        },
+        "end": {
+          "line": 108,
+          "column": 18
+        }
+      },
+      "name": "StructuralExhaustion.Core.FiniteSearch.FirstHit.mk",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.FirstHit.mk",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "List",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit.value"
+      ],
+      "type": "∀ {α : Type u} {xs : List α} {p : α → Prop} (self : Core.FiniteSearch.FirstHit xs p), p self.value",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": {
+        "start": {
+          "line": 113,
+          "column": 2
+        },
+        "end": {
+          "line": 113,
+          "column": 7
+        }
+      },
+      "range": {
+        "start": {
+          "line": 113,
+          "column": 2
+        },
+        "end": {
+          "line": 113,
+          "column": 7
+        }
+      },
+      "name": "StructuralExhaustion.Core.FiniteSearch.FirstHit.holds",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.FirstHit.holds",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "List",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit"
+      ],
+      "type": "{α : Type u} → {xs : List α} → {p : α → Prop} → Core.FiniteSearch.FirstHit xs p → α",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": {
+        "start": {
+          "line": 110,
+          "column": 2
+        },
+        "end": {
+          "line": 110,
+          "column": 7
+        }
+      },
+      "range": {
+        "start": {
+          "line": 110,
+          "column": 2
+        },
+        "end": {
+          "line": 110,
+          "column": 7
+        }
+      },
+      "name": "StructuralExhaustion.Core.FiniteSearch.FirstHit.value",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.FirstHit.value",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "Nat",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} → (S : CT6.Spec P) → CT6.Capability S → CT6.Input P → ℕ",
+      "sourceFile": "StructuralExhaustion/CT6/State.lean",
+      "selectionRange": {
+        "start": {
+          "line": 8,
+          "column": 4
+        },
+        "end": {
+          "line": 8,
+          "column": 15
+        }
+      },
+      "range": {
+        "start": {
+          "line": 8,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 61
+        }
+      },
+      "name": "StructuralExhaustion.CT6.activeTotal",
+      "module": "StructuralExhaustion.CT6.State",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.activeTotal",
+      "bodyDependencies": [
+        "FinEnum.orderedValues",
+        "HAdd.hAdd",
+        "List.foldl",
+        "OfNat.ofNat",
+        "StructuralExhaustion.CT6.Capability.failureOrder",
+        "StructuralExhaustion.CT6.Spec.Index",
+        "StructuralExhaustion.CT6.Spec.contribution",
+        "instAddNat",
+        "instHAdd",
+        "instOfNatNat"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/State.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.Edge",
+        "StructuralExhaustion.CT6.Graph.NodeId.entry",
+        "StructuralExhaustion.CT6.Graph.NodeId.firstFailureSearch",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.Graph.Edge S capability input CT6.Graph.NodeId.entry CT6.Graph.NodeId.firstFailureSearch",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 26,
+          "column": 4
+        },
+        "end": {
+          "line": 26,
+          "column": 15
+        }
+      },
+      "range": {
+        "start": {
+          "line": 26,
+          "column": 2
+        },
+        "end": {
+          "line": 26,
+          "column": 49
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Edge.beginSearch",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Edge.beginSearch",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [],
+      "type": "Type",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 5,
+          "column": 10
+        },
+        "end": {
+          "line": 5,
+          "column": 16
+        }
+      },
+      "range": {
+        "start": {
+          "line": 5,
+          "column": 0
+        },
+        "end": {
+          "line": 7,
+          "column": 28
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.NodeId",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "inductive",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.NodeId",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.Graph.NodeId.activeLedgerTerminal",
+        "StructuralExhaustion.CT6.Graph.NodeId.entry",
+        "StructuralExhaustion.CT6.Graph.NodeId.firstFailureSearch",
+        "StructuralExhaustion.CT6.Graph.NodeId.firstFailureTerminal"
+      ],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} → (S : CT6.Spec P) → CT6.Capability S → CT6.Input P → Type (max u_3 u_4)",
+      "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
+      "selectionRange": {
+        "start": {
+          "line": 14,
+          "column": 10
+        },
+        "end": {
+          "line": 14,
+          "column": 25
+        }
+      },
+      "range": {
+        "start": {
+          "line": 14,
+          "column": 0
+        },
+        "end": {
+          "line": 17,
+          "column": 50
+        }
+      },
+      "name": "StructuralExhaustion.CT6.ExecutionResult",
+      "module": "StructuralExhaustion.CT6.Execution",
+      "kind": "inductive",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.ExecutionResult",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.ExecutionResult.mk"
+      ],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Execution.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.ExecutionResult",
+        "StructuralExhaustion.CT6.ExecutionResult.terminal",
+        "StructuralExhaustion.CT6.Graph.NodeId.entry",
+        "StructuralExhaustion.CT6.Graph.Path",
+        "StructuralExhaustion.CT6.Graph.Terminal.nodeId",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        (self : CT6.ExecutionResult S capability input) →\n          CT6.Graph.Path S capability input CT6.Graph.NodeId.entry self.terminal.nodeId",
+      "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
+      "selectionRange": {
+        "start": {
+          "line": 16,
+          "column": 2
+        },
+        "end": {
+          "line": 16,
+          "column": 6
+        }
+      },
+      "range": {
+        "start": {
+          "line": 16,
+          "column": 2
+        },
+        "end": {
+          "line": 16,
+          "column": 6
+        }
+      },
+      "name": "StructuralExhaustion.CT6.ExecutionResult.path",
+      "module": "StructuralExhaustion.CT6.Execution",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.ExecutionResult.path",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Execution.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.ExecutionResult",
+        "StructuralExhaustion.CT6.Graph.Terminal",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} → CT6.ExecutionResult S capability input → CT6.Graph.Terminal",
+      "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
+      "selectionRange": {
+        "start": {
+          "line": 15,
+          "column": 2
+        },
+        "end": {
+          "line": 15,
+          "column": 10
+        }
+      },
+      "range": {
+        "start": {
+          "line": 15,
+          "column": 2
+        },
+        "end": {
+          "line": 15,
+          "column": 10
+        }
+      },
+      "name": "StructuralExhaustion.CT6.ExecutionResult.terminal",
+      "module": "StructuralExhaustion.CT6.Execution",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.ExecutionResult.terminal",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Execution.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Graph.NodeId"
+      ],
+      "type": "CT6.Graph.NodeId",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 6,
+          "column": 4
+        },
+        "end": {
+          "line": 6,
+          "column": 9
+        }
+      },
+      "range": {
+        "start": {
+          "line": 6,
+          "column": 2
+        },
+        "end": {
+          "line": 6,
+          "column": 9
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.NodeId.entry",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.NodeId.entry",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "List",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Graph.Path",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  (S : CT6.Spec P) →\n    (capability : CT6.Capability S) →\n      (input : CT6.Input P) → {a b : CT6.Graph.NodeId} → CT6.Graph.Path S capability input a b → List CT6.Graph.NodeId",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 38,
+          "column": 4
+        },
+        "end": {
+          "line": 38,
+          "column": 9
+        }
+      },
+      "range": {
+        "start": {
+          "line": 38,
+          "column": 0
+        },
+        "end": {
+          "line": 40,
+          "column": 48
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Path.trace",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Path.trace",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.Graph.Path.brecOn",
+        "StructuralExhaustion.CT6.Graph.Path.trace._f"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Graph.Terminal"
+      ],
+      "type": "CT6.Graph.Terminal → CT6.Graph.NodeId",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 18,
+          "column": 4
+        },
+        "end": {
+          "line": 18,
+          "column": 10
+        }
+      },
+      "range": {
+        "start": {
+          "line": 18,
+          "column": 0
+        },
+        "end": {
+          "line": 20,
+          "column": 42
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Terminal.nodeId",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Terminal.nodeId",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.Graph.NodeId.activeLedgerTerminal",
+        "StructuralExhaustion.CT6.Graph.NodeId.firstFailureTerminal",
+        "StructuralExhaustion.CT6.Graph.instReprTerminal.repr.match_1",
+        "Unit"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  (S : CT6.Spec P) → CT6.Capability S → CT6.Input P → CT6.Graph.NodeId → CT6.Graph.NodeId → Type (max u_3 u_4)",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 34,
+          "column": 10
+        },
+        "end": {
+          "line": 34,
+          "column": 14
+        }
+      },
+      "range": {
+        "start": {
+          "line": 34,
+          "column": 0
+        },
+        "end": {
+          "line": 36,
+          "column": 68
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Path",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "inductive",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Path",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.Graph.Path.cons",
+        "StructuralExhaustion.CT6.Graph.Path.nil"
+      ],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [],
+      "type": "Type",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 15,
+          "column": 10
+        },
+        "end": {
+          "line": 15,
+          "column": 18
+        }
+      },
+      "range": {
+        "start": {
+          "line": 15,
+          "column": 0
+        },
+        "end": {
+          "line": 16,
+          "column": 28
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Terminal",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "inductive",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Terminal",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.Graph.Terminal.activeLedger",
+        "StructuralExhaustion.CT6.Graph.Terminal.firstFailure"
+      ],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.ExecutionResult",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  (S : CT6.Spec P) → (capability : CT6.Capability S) → (input : CT6.Input P) → CT6.ExecutionResult S capability input",
+      "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
+      "selectionRange": {
+        "start": {
+          "line": 22,
+          "column": 4
+        },
+        "end": {
+          "line": 22,
+          "column": 16
+        }
+      },
+      "range": {
+        "start": {
+          "line": 22,
+          "column": 0
+        },
+        "end": {
+          "line": 35,
+          "column": 5
+        }
+      },
+      "name": "StructuralExhaustion.CT6.runReference",
+      "module": "StructuralExhaustion.CT6.Execution",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.runReference",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.ActiveLedgerResidual",
+        "StructuralExhaustion.CT6.ActivityDecision",
+        "StructuralExhaustion.CT6.ExecutionResult.mk",
+        "StructuralExhaustion.CT6.FirstFailureResidual",
+        "StructuralExhaustion.CT6.Graph.Edge.active",
+        "StructuralExhaustion.CT6.Graph.Edge.beginSearch",
+        "StructuralExhaustion.CT6.Graph.Edge.failure",
+        "StructuralExhaustion.CT6.Graph.NodeId.activeLedgerTerminal",
+        "StructuralExhaustion.CT6.Graph.NodeId.entry",
+        "StructuralExhaustion.CT6.Graph.NodeId.firstFailureSearch",
+        "StructuralExhaustion.CT6.Graph.NodeId.firstFailureTerminal",
+        "StructuralExhaustion.CT6.Graph.Path.cons",
+        "StructuralExhaustion.CT6.Graph.Path.nil",
+        "StructuralExhaustion.CT6.Graph.Terminal.activeLedger",
+        "StructuralExhaustion.CT6.Graph.Terminal.firstFailure",
+        "StructuralExhaustion.CT6.Graph.Terminal.nodeId",
+        "StructuralExhaustion.CT6.RawOutcome.activeLedger",
+        "StructuralExhaustion.CT6.RawOutcome.firstFailure",
+        "StructuralExhaustion.CT6.analyzeActivity",
+        "StructuralExhaustion.CT6.runReference.match_1"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Execution.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "Core.Problem → Type uAmbient",
+      "sourceFile": "StructuralExhaustion/Core/Problem.lean",
+      "selectionRange": {
+        "start": {
+          "line": 17,
+          "column": 2
+        },
+        "end": {
+          "line": 17,
+          "column": 9
+        }
+      },
+      "range": {
+        "start": {
+          "line": 17,
+          "column": 2
+        },
+        "end": {
+          "line": 17,
+          "column": 9
+        }
+      },
+      "name": "StructuralExhaustion.Core.Problem.Ambient",
+      "module": "StructuralExhaustion.Core.Problem",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.Problem.Ambient",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/Problem.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.Core.Problem",
+        "StructuralExhaustion.Core.Problem.Ambient"
+      ],
+      "type": "(self : Core.Problem) → self.Ambient → Prop",
+      "sourceFile": "StructuralExhaustion/Core/Problem.lean",
+      "selectionRange": {
+        "start": {
+          "line": 18,
+          "column": 2
+        },
+        "end": {
+          "line": 18,
+          "column": 10
+        }
+      },
+      "range": {
+        "start": {
+          "line": 18,
+          "column": 2
+        },
+        "end": {
+          "line": 18,
+          "column": 10
+        }
+      },
+      "name": "StructuralExhaustion.Core.Problem.Baseline",
+      "module": "StructuralExhaustion.Core.Problem",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.Problem.Baseline",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/Problem.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.Core.Problem",
+        "StructuralExhaustion.Core.Problem.Ambient"
+      ],
+      "type": "(self : Core.Problem) → self.Ambient → Type uBranch",
+      "sourceFile": "StructuralExhaustion/Core/Problem.lean",
+      "selectionRange": {
+        "start": {
+          "line": 20,
+          "column": 2
+        },
+        "end": {
+          "line": 20,
+          "column": 13
+        }
+      },
+      "range": {
+        "start": {
+          "line": 20,
+          "column": 2
+        },
+        "end": {
+          "line": 20,
+          "column": 13
+        }
+      },
+      "name": "StructuralExhaustion.Core.Problem.BranchState",
+      "module": "StructuralExhaustion.Core.Problem",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.Problem.BranchState",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/Problem.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.ExecutionResult",
+        "StructuralExhaustion.CT6.Graph.NodeId.entry",
+        "StructuralExhaustion.CT6.Graph.Path",
+        "StructuralExhaustion.CT6.Graph.Terminal",
+        "StructuralExhaustion.CT6.Graph.Terminal.nodeId",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.RawOutcome",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        (terminal : CT6.Graph.Terminal) →\n          CT6.Graph.Path S capability input CT6.Graph.NodeId.entry terminal.nodeId →\n            CT6.RawOutcome S capability input terminal → CT6.ExecutionResult S capability input",
+      "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
+      "selectionRange": {
+        "start": {
+          "line": 14,
+          "column": 10
+        },
+        "end": {
+          "line": 14,
+          "column": 25
+        }
+      },
+      "range": {
+        "start": {
+          "line": 14,
+          "column": 10
+        },
+        "end": {
+          "line": 14,
+          "column": 25
+        }
+      },
+      "name": "StructuralExhaustion.CT6.ExecutionResult.mk",
+      "module": "StructuralExhaustion.CT6.Execution",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.ExecutionResult.mk",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Execution.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Graph.Path",
+        "StructuralExhaustion.CT6.Graph.Path.below",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        {motive : (a a_1 : CT6.Graph.NodeId) → CT6.Graph.Path S capability input a a_1 → Sort u} →\n          {a a_1 : CT6.Graph.NodeId} →\n            (t : CT6.Graph.Path S capability input a a_1) →\n              ((a a_2 : CT6.Graph.NodeId) →\n                  (t : CT6.Graph.Path S capability input a a_2) → CT6.Graph.Path.below t → motive a a_2 t) →\n                motive a a_1 t",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 34,
+          "column": 10
+        },
+        "end": {
+          "line": 34,
+          "column": 14
+        }
+      },
+      "range": {
+        "start": {
+          "line": 34,
+          "column": 0
+        },
+        "end": {
+          "line": 36,
+          "column": 68
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Path.brecOn",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Path.brecOn",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.Graph.Path.brecOn.go"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "List",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Graph.Path",
+        "StructuralExhaustion.CT6.Graph.Path.below",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  (S : CT6.Spec P) →\n    (capability : CT6.Capability S) →\n      (input : CT6.Input P) →\n        {a b : CT6.Graph.NodeId} →\n          (x : CT6.Graph.Path S capability input a b) → CT6.Graph.Path.below x → List CT6.Graph.NodeId",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.CT6.Graph.Path.trace._f",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Path.trace._f",
+      "bodyDependencies": [
+        "List.cons",
+        "List.nil",
+        "StructuralExhaustion.CT6.Graph.Edge",
+        "StructuralExhaustion.CT6.Graph.Edge.source",
+        "StructuralExhaustion.CT6.Graph.Path.cons",
+        "StructuralExhaustion.CT6.Graph.Path.nil",
+        "StructuralExhaustion.CT6.Graph.Path.trace.match_1"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Graph.Terminal",
+        "StructuralExhaustion.CT6.Graph.Terminal.activeLedger",
+        "StructuralExhaustion.CT6.Graph.Terminal.firstFailure",
+        "Unit"
+      ],
+      "type": "(motive : CT6.Graph.Terminal → Sort u_1) →\n  (x : CT6.Graph.Terminal) →\n    (Unit → motive CT6.Graph.Terminal.firstFailure) → (Unit → motive CT6.Graph.Terminal.activeLedger) → motive x",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.CT6.Graph.instReprTerminal.repr.match_1",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.instReprTerminal.repr.match_1",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.Graph.Terminal.casesOn",
+        "Unit.unit"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.Edge",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Graph.Path",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        {a b c : CT6.Graph.NodeId} →\n          CT6.Graph.Edge S capability input a b →\n            CT6.Graph.Path S capability input b c → CT6.Graph.Path S capability input a c",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 36,
+          "column": 4
+        },
+        "end": {
+          "line": 36,
+          "column": 8
+        }
+      },
+      "range": {
+        "start": {
+          "line": 36,
+          "column": 2
+        },
+        "end": {
+          "line": 36,
+          "column": 68
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Path.cons",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Path.cons",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Graph.Path",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} → (node : CT6.Graph.NodeId) → CT6.Graph.Path S capability input node node",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 35,
+          "column": 4
+        },
+        "end": {
+          "line": 35,
+          "column": 7
+        }
+      },
+      "range": {
+        "start": {
+          "line": 35,
+          "column": 2
+        },
+        "end": {
+          "line": 35,
+          "column": 31
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Path.nil",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Path.nil",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Graph.Terminal"
+      ],
+      "type": "CT6.Graph.Terminal",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 15,
+          "column": 42
+        },
+        "end": {
+          "line": 15,
+          "column": 54
+        }
+      },
+      "range": {
+        "start": {
+          "line": 15,
+          "column": 40
+        },
+        "end": {
+          "line": 15,
+          "column": 54
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Terminal.activeLedger",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Terminal.activeLedger",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Graph.Terminal"
+      ],
+      "type": "CT6.Graph.Terminal",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 15,
+          "column": 27
+        },
+        "end": {
+          "line": 15,
+          "column": 39
+        }
+      },
+      "range": {
+        "start": {
+          "line": 15,
+          "column": 25
+        },
+        "end": {
+          "line": 15,
+          "column": 39
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Terminal.firstFailure",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Terminal.firstFailure",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.ActiveLedgerResidual",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.Terminal.activeLedger",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.RawOutcome",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.ActiveLedgerResidual S capability input → CT6.RawOutcome S capability input CT6.Graph.Terminal.activeLedger",
+      "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
+      "selectionRange": {
+        "start": {
+          "line": 11,
+          "column": 4
+        },
+        "end": {
+          "line": 11,
+          "column": 16
+        }
+      },
+      "range": {
+        "start": {
+          "line": 11,
+          "column": 2
+        },
+        "end": {
+          "line": 12,
+          "column": 30
+        }
+      },
+      "name": "StructuralExhaustion.CT6.RawOutcome.activeLedger",
+      "module": "StructuralExhaustion.CT6.Execution",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.RawOutcome.activeLedger",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Execution.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.FirstFailureResidual",
+        "StructuralExhaustion.CT6.Graph.Terminal.firstFailure",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.RawOutcome",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.FirstFailureResidual S capability input → CT6.RawOutcome S capability input CT6.Graph.Terminal.firstFailure",
+      "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
+      "selectionRange": {
+        "start": {
+          "line": 9,
+          "column": 4
+        },
+        "end": {
+          "line": 9,
+          "column": 16
+        }
+      },
+      "range": {
+        "start": {
+          "line": 9,
+          "column": 2
+        },
+        "end": {
+          "line": 10,
+          "column": 30
+        }
+      },
+      "name": "StructuralExhaustion.CT6.RawOutcome.firstFailure",
+      "module": "StructuralExhaustion.CT6.Execution",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.RawOutcome.firstFailure",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Execution.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.ActivityDecision",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  (S : CT6.Spec P) → (capability : CT6.Capability S) → (input : CT6.Input P) → CT6.ActivityDecision S capability input",
+      "sourceFile": "StructuralExhaustion/CT6/Search.lean",
+      "selectionRange": {
+        "start": {
+          "line": 13,
+          "column": 4
+        },
+        "end": {
+          "line": 13,
+          "column": 19
+        }
+      },
+      "range": {
+        "start": {
+          "line": 12,
+          "column": 0
+        },
+        "end": {
+          "line": 26,
+          "column": 5
+        }
+      },
+      "name": "StructuralExhaustion.CT6.analyzeActivity",
+      "module": "StructuralExhaustion.CT6.Search",
+      "kind": "definition",
+      "docString": "Search the declared finite order and retain the no-earlier-failure proof. ",
+      "declarationId": "StructuralExhaustion.CT6.analyzeActivity",
+      "bodyDependencies": [
+        "FinEnum.orderedValues",
+        "List",
+        "List.instMembership",
+        "Membership.mem",
+        "Not",
+        "StructuralExhaustion.CT6.ActiveLedgerResidual.mk",
+        "StructuralExhaustion.CT6.ActivityDecision.active",
+        "StructuralExhaustion.CT6.ActivityDecision.firstFailure",
+        "StructuralExhaustion.CT6.Capability.failureDecidable",
+        "StructuralExhaustion.CT6.Capability.failureOrder",
+        "StructuralExhaustion.CT6.FirstFailureResidual.mk",
+        "StructuralExhaustion.CT6.Spec.Failure",
+        "StructuralExhaustion.CT6.Spec.Index",
+        "StructuralExhaustion.CT6.Spec.failureData",
+        "StructuralExhaustion.CT6.activeTotal",
+        "StructuralExhaustion.CT6.analyzeActivity._proof_1",
+        "StructuralExhaustion.CT6.analyzeActivity._proof_2",
+        "StructuralExhaustion.CT6.analyzeActivity._proof_3",
+        "StructuralExhaustion.CT6.analyzeActivity._proof_4",
+        "StructuralExhaustion.CT6.analyzeActivity.match_1",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit.value",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult",
+        "StructuralExhaustion.Core.FiniteSearch.first"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Search.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.ActiveLedgerResidual",
+        "StructuralExhaustion.CT6.ActivityDecision",
+        "StructuralExhaustion.CT6.ActivityDecision.active",
+        "StructuralExhaustion.CT6.ActivityDecision.firstFailure",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.FirstFailureResidual",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  (S : CT6.Spec P) →\n    (capability : CT6.Capability S) →\n      (input : CT6.Input P) →\n        (motive : CT6.ActivityDecision S capability input → Sort u_5) →\n          (x : CT6.ActivityDecision S capability input) →\n            ((residual : CT6.FirstFailureResidual S capability input) →\n                motive (CT6.ActivityDecision.firstFailure residual)) →\n              ((residual : CT6.ActiveLedgerResidual S capability input) →\n                  motive (CT6.ActivityDecision.active residual)) →\n                motive x",
+      "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.CT6.runReference.match_1",
+      "module": "StructuralExhaustion.CT6.Execution",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.runReference.match_1",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.ActivityDecision.casesOn"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Execution.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.Terminal",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} → (S : CT6.Spec P) → CT6.Capability S → CT6.Input P → CT6.Graph.Terminal → Type (max u_3 u_4)",
+      "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
+      "selectionRange": {
+        "start": {
+          "line": 8,
+          "column": 10
+        },
+        "end": {
+          "line": 8,
+          "column": 20
+        }
+      },
+      "range": {
+        "start": {
+          "line": 8,
+          "column": 0
+        },
+        "end": {
+          "line": 12,
+          "column": 30
+        }
+      },
+      "name": "StructuralExhaustion.CT6.RawOutcome",
+      "module": "StructuralExhaustion.CT6.Execution",
+      "kind": "inductive",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.RawOutcome",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.RawOutcome.activeLedger",
+        "StructuralExhaustion.CT6.RawOutcome.firstFailure"
+      ],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Execution.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Graph.Path",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        {motive : (a a_1 : CT6.Graph.NodeId) → CT6.Graph.Path S capability input a a_1 → Sort u} →\n          {a a_1 : CT6.Graph.NodeId} → CT6.Graph.Path S capability input a a_1 → Sort (max ((max u_3 u_4) + 1) u)",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 34,
+          "column": 10
+        },
+        "end": {
+          "line": 34,
+          "column": 14
+        }
+      },
+      "range": {
+        "start": {
+          "line": 34,
+          "column": 0
+        },
+        "end": {
+          "line": 36,
+          "column": 68
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Path.below",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Path.below",
+      "bodyDependencies": [
+        "PProd",
+        "PUnit",
+        "StructuralExhaustion.CT6.Graph.Edge",
+        "StructuralExhaustion.CT6.Graph.Path.rec"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "PProd",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Graph.Path",
+        "StructuralExhaustion.CT6.Graph.Path.below",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        {motive : (a a_1 : CT6.Graph.NodeId) → CT6.Graph.Path S capability input a a_1 → Sort u} →\n          {a a_1 : CT6.Graph.NodeId} →\n            (t : CT6.Graph.Path S capability input a a_1) →\n              ((a a_2 : CT6.Graph.NodeId) →\n                  (t : CT6.Graph.Path S capability input a a_2) → CT6.Graph.Path.below t → motive a a_2 t) →\n                motive a a_1 t ×' CT6.Graph.Path.below t",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.CT6.Graph.Path.brecOn.go",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Path.brecOn.go",
+      "bodyDependencies": [
+        "PProd.mk",
+        "PUnit",
+        "PUnit.unit",
+        "StructuralExhaustion.CT6.Graph.Edge",
+        "StructuralExhaustion.CT6.Graph.Path.cons",
+        "StructuralExhaustion.CT6.Graph.Path.nil",
+        "StructuralExhaustion.CT6.Graph.Path.rec"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.Edge",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  (S : CT6.Spec P) →\n    (capability : CT6.Capability S) →\n      (input : CT6.Input P) → {a b : CT6.Graph.NodeId} → CT6.Graph.Edge S capability input a b → CT6.Graph.NodeId",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 32,
+          "column": 4
+        },
+        "end": {
+          "line": 32,
+          "column": 10
+        }
+      },
+      "range": {
+        "start": {
+          "line": 32,
+          "column": 0
+        },
+        "end": {
+          "line": 32,
+          "column": 55
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Edge.source",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Edge.source",
+      "bodyDependencies": [],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.Edge",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Graph.Path",
+        "StructuralExhaustion.CT6.Graph.Path.cons",
+        "StructuralExhaustion.CT6.Graph.Path.nil",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  (S : CT6.Spec P) →\n    (capability : CT6.Capability S) →\n      (input : CT6.Input P) →\n        (motive : (b a : CT6.Graph.NodeId) → CT6.Graph.Path S capability input a b → Sort u_5) →\n          (b a : CT6.Graph.NodeId) →\n            (x : CT6.Graph.Path S capability input a b) →\n              ((node : CT6.Graph.NodeId) → motive node node (CT6.Graph.Path.nil node)) →\n                ((b a b_1 : CT6.Graph.NodeId) →\n                    (edge : CT6.Graph.Edge S capability input a b_1) →\n                      (rest : CT6.Graph.Path S capability input b_1 b) → motive b a (CT6.Graph.Path.cons edge rest)) →\n                  motive b a x",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.CT6.Graph.Path.trace.match_1",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Path.trace.match_1",
+      "bodyDependencies": [
+        "Eq",
+        "Eq.ndrec",
+        "Eq.refl",
+        "Eq.symm",
+        "HEq",
+        "HEq.refl",
+        "StructuralExhaustion.CT6.Graph.Path.casesOn",
+        "eq_of_heq"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Graph.Terminal",
+        "StructuralExhaustion.CT6.Graph.Terminal.activeLedger",
+        "StructuralExhaustion.CT6.Graph.Terminal.firstFailure"
+      ],
+      "type": "{motive : CT6.Graph.Terminal → Sort u} →\n  (t : CT6.Graph.Terminal) → motive CT6.Graph.Terminal.firstFailure → motive CT6.Graph.Terminal.activeLedger → motive t",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 15,
+          "column": 10
+        },
+        "end": {
+          "line": 15,
+          "column": 18
+        }
+      },
+      "range": {
+        "start": {
+          "line": 15,
+          "column": 0
+        },
+        "end": {
+          "line": 16,
+          "column": 28
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Terminal.casesOn",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Terminal.casesOn",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.Graph.Terminal.rec"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "FinEnum.orderedValues",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Capability.failureOrder",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.CT6.Spec.Failure",
+        "StructuralExhaustion.CT6.Spec.Index",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit.value",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "∀ {P : Core.Problem} (S : CT6.Spec P) (capability : CT6.Capability S) (input : CT6.Input P)\n  (hit : Core.FiniteSearch.FirstHit capability.failureOrder.orderedValues (S.Failure input)), S.Failure input hit.value",
+      "sourceFile": "StructuralExhaustion/CT6/Search.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.CT6.analyzeActivity._proof_1",
+      "module": "StructuralExhaustion.CT6.Search",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.analyzeActivity._proof_1",
+      "bodyDependencies": [
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit.holds"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Search.lean"
+    },
+    {
+      "typeDependencies": [
+        "Eq",
+        "FinEnum.orderedValues",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Capability.failureOrder",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.CT6.Spec.Failure",
+        "StructuralExhaustion.CT6.Spec.FailureData",
+        "StructuralExhaustion.CT6.Spec.Index",
+        "StructuralExhaustion.CT6.Spec.failureData",
+        "StructuralExhaustion.CT6.analyzeActivity._proof_1",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit.value",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "∀ {P : Core.Problem} (S : CT6.Spec P) (capability : CT6.Capability S) (input : CT6.Input P)\n  (hit : Core.FiniteSearch.FirstHit capability.failureOrder.orderedValues (S.Failure input)),\n  S.failureData input hit.value ⋯ = S.failureData input hit.value ⋯",
+      "sourceFile": "StructuralExhaustion/CT6/Search.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.CT6.analyzeActivity._proof_2",
+      "module": "StructuralExhaustion.CT6.Search",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.analyzeActivity._proof_2",
+      "bodyDependencies": [
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit.holds",
+        "rfl"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Search.lean"
+    },
+    {
+      "typeDependencies": [
+        "FinEnum.orderedValues",
+        "List",
+        "List.instMembership",
+        "Membership.mem",
+        "Not",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Capability.failureOrder",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.CT6.Spec.Failure",
+        "StructuralExhaustion.CT6.Spec.Index",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "∀ {P : Core.Problem} (S : CT6.Spec P) (capability : CT6.Capability S) (input : CT6.Input P),\n  (∀ value ∈ capability.failureOrder.orderedValues, ¬S.Failure input value) →\n    ∀ (index : S.Index), ¬S.Failure input index",
+      "sourceFile": "StructuralExhaustion/CT6/Search.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.CT6.analyzeActivity._proof_3",
+      "module": "StructuralExhaustion.CT6.Search",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.analyzeActivity._proof_3",
+      "bodyDependencies": [
+        "FinEnum.mem_orderedValues"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Search.lean"
+    },
+    {
+      "typeDependencies": [
+        "Eq",
+        "Nat",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.CT6.activeTotal",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "∀ {P : Core.Problem} (S : CT6.Spec P) (capability : CT6.Capability S) (input : CT6.Input P),\n  CT6.activeTotal S capability input = CT6.activeTotal S capability input",
+      "sourceFile": "StructuralExhaustion/CT6/Search.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.CT6.analyzeActivity._proof_4",
+      "module": "StructuralExhaustion.CT6.Search",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.analyzeActivity._proof_4",
+      "bodyDependencies": [
+        "rfl"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Search.lean"
+    },
+    {
+      "typeDependencies": [
+        "FinEnum.orderedValues",
+        "List",
+        "List.instMembership",
+        "Membership.mem",
+        "Not",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Capability.failureOrder",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.CT6.Spec.Failure",
+        "StructuralExhaustion.CT6.Spec.Index",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult.absent",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult.found",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  (S : CT6.Spec P) →\n    (capability : CT6.Capability S) →\n      (input : CT6.Input P) →\n        (motive : Core.FiniteSearch.FirstResult capability.failureOrder.orderedValues (S.Failure input) → Sort u_5) →\n          (x : Core.FiniteSearch.FirstResult capability.failureOrder.orderedValues (S.Failure input)) →\n            ((hit : Core.FiniteSearch.FirstHit capability.failureOrder.orderedValues (S.Failure input)) →\n                motive (Core.FiniteSearch.FirstResult.found hit)) →\n              ((absent : ∀ value ∈ capability.failureOrder.orderedValues, ¬S.Failure input value) →\n                  motive (Core.FiniteSearch.FirstResult.absent absent)) →\n                motive x",
+      "sourceFile": "StructuralExhaustion/CT6/Search.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.CT6.analyzeActivity.match_1",
+      "module": "StructuralExhaustion.CT6.Search",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.analyzeActivity.match_1",
+      "bodyDependencies": [
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult.casesOn"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Search.lean"
+    },
+    {
+      "typeDependencies": [
+        "List"
+      ],
+      "type": "{α : Type u} → List α → (α → Prop) → Type u",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": {
+        "start": {
+          "line": 127,
+          "column": 10
+        },
+        "end": {
+          "line": 127,
+          "column": 21
+        }
+      },
+      "range": {
+        "start": {
+          "line": 125,
+          "column": 0
+        },
+        "end": {
+          "line": 129,
+          "column": 55
+        }
+      },
+      "name": "StructuralExhaustion.Core.FiniteSearch.FirstResult",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "inductive",
+      "docString": "Ordered exhaustive search: either the first hit and its clean prefix, or\nan absence proof for the whole list. ",
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.FirstResult",
+      "bodyDependencies": [
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult.absent",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult.found"
+      ],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "Decidable",
+        "FinEnum",
+        "FinEnum.orderedValues",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult"
+      ],
+      "type": "{α : Type u} →\n  (enumeration : FinEnum α) →\n    (p : α → Prop) → ((value : α) → Decidable (p value)) → Core.FiniteSearch.FirstResult enumeration.orderedValues p",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": {
+        "start": {
+          "line": 184,
+          "column": 4
+        },
+        "end": {
+          "line": 184,
+          "column": 9
+        }
+      },
+      "range": {
+        "start": {
+          "line": 183,
+          "column": 0
+        },
+        "end": {
+          "line": 187,
+          "column": 49
+        }
+      },
+      "name": "StructuralExhaustion.Core.FiniteSearch.first",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "definition",
+      "docString": "Ordered search over an explicit Mathlib finite enumeration. ",
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.first",
+      "bodyDependencies": [
+        "StructuralExhaustion.Core.FiniteSearch.firstOnList"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.ActiveLedgerResidual",
+        "StructuralExhaustion.CT6.ActivityDecision",
+        "StructuralExhaustion.CT6.ActivityDecision.active",
+        "StructuralExhaustion.CT6.ActivityDecision.firstFailure",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.FirstFailureResidual",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        {motive : CT6.ActivityDecision S capability input → Sort u} →\n          (t : CT6.ActivityDecision S capability input) →\n            ((residual : CT6.FirstFailureResidual S capability input) →\n                motive (CT6.ActivityDecision.firstFailure residual)) →\n              ((residual : CT6.ActiveLedgerResidual S capability input) →\n                  motive (CT6.ActivityDecision.active residual)) →\n                motive t",
+      "sourceFile": "StructuralExhaustion/CT6/Search.lean",
+      "selectionRange": {
+        "start": {
+          "line": 8,
+          "column": 10
+        },
+        "end": {
+          "line": 8,
+          "column": 26
+        }
+      },
+      "range": {
+        "start": {
+          "line": 8,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 63
+        }
+      },
+      "name": "StructuralExhaustion.CT6.ActivityDecision.casesOn",
+      "module": "StructuralExhaustion.CT6.Search",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.ActivityDecision.casesOn",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.ActivityDecision.rec"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Search.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.Edge",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Graph.Path",
+        "StructuralExhaustion.CT6.Graph.Path.cons",
+        "StructuralExhaustion.CT6.Graph.Path.nil",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        {motive : (a a_1 : CT6.Graph.NodeId) → CT6.Graph.Path S capability input a a_1 → Sort u} →\n          ((node : CT6.Graph.NodeId) → motive node node (CT6.Graph.Path.nil node)) →\n            ({a b c : CT6.Graph.NodeId} →\n                (a_1 : CT6.Graph.Edge S capability input a b) →\n                  (a_2 : CT6.Graph.Path S capability input b c) →\n                    motive b c a_2 → motive a c (CT6.Graph.Path.cons a_1 a_2)) →\n              {a a_1 : CT6.Graph.NodeId} → (t : CT6.Graph.Path S capability input a a_1) → motive a a_1 t",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 34,
+          "column": 10
+        },
+        "end": {
+          "line": 34,
+          "column": 14
+        }
+      },
+      "range": {
+        "start": {
+          "line": 34,
+          "column": 0
+        },
+        "end": {
+          "line": 36,
+          "column": 68
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Path.rec",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "recursor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Path.rec",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.Graph.Edge",
+        "StructuralExhaustion.CT6.Graph.NodeId",
+        "StructuralExhaustion.CT6.Graph.Path",
+        "StructuralExhaustion.CT6.Graph.Path.cons",
+        "StructuralExhaustion.CT6.Graph.Path.nil",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        {motive : (a a_1 : CT6.Graph.NodeId) → CT6.Graph.Path S capability input a a_1 → Sort u} →\n          {a a_1 : CT6.Graph.NodeId} →\n            (t : CT6.Graph.Path S capability input a a_1) →\n              ((node : CT6.Graph.NodeId) → motive node node (CT6.Graph.Path.nil node)) →\n                ({a b c : CT6.Graph.NodeId} →\n                    (a_2 : CT6.Graph.Edge S capability input a b) →\n                      (a_3 : CT6.Graph.Path S capability input b c) → motive a c (CT6.Graph.Path.cons a_2 a_3)) →\n                  motive a a_1 t",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 34,
+          "column": 10
+        },
+        "end": {
+          "line": 34,
+          "column": 14
+        }
+      },
+      "range": {
+        "start": {
+          "line": 34,
+          "column": 0
+        },
+        "end": {
+          "line": 36,
+          "column": 68
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Path.casesOn",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Path.casesOn",
+      "bodyDependencies": [
+        "StructuralExhaustion.CT6.Graph.Path.rec"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.Graph.Terminal",
+        "StructuralExhaustion.CT6.Graph.Terminal.activeLedger",
+        "StructuralExhaustion.CT6.Graph.Terminal.firstFailure"
+      ],
+      "type": "{motive : CT6.Graph.Terminal → Sort u} →\n  motive CT6.Graph.Terminal.firstFailure → motive CT6.Graph.Terminal.activeLedger → (t : CT6.Graph.Terminal) → motive t",
+      "sourceFile": "StructuralExhaustion/CT6/Graph.lean",
+      "selectionRange": {
+        "start": {
+          "line": 15,
+          "column": 10
+        },
+        "end": {
+          "line": 15,
+          "column": 18
+        }
+      },
+      "range": {
+        "start": {
+          "line": 15,
+          "column": 0
+        },
+        "end": {
+          "line": 16,
+          "column": 28
+        }
+      },
+      "name": "StructuralExhaustion.CT6.Graph.Terminal.rec",
+      "module": "StructuralExhaustion.CT6.Graph",
+      "kind": "recursor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.Graph.Terminal.rec",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean"
+    },
+    {
+      "typeDependencies": [
+        "List",
+        "List.instMembership",
+        "Membership.mem",
+        "Not",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult"
+      ],
+      "type": "{α : Type u} → {xs : List α} → {p : α → Prop} → (∀ value ∈ xs, ¬p value) → Core.FiniteSearch.FirstResult xs p",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": {
+        "start": {
+          "line": 129,
+          "column": 4
+        },
+        "end": {
+          "line": 129,
+          "column": 10
+        }
+      },
+      "range": {
+        "start": {
+          "line": 129,
+          "column": 2
+        },
+        "end": {
+          "line": 129,
+          "column": 55
+        }
+      },
+      "name": "StructuralExhaustion.Core.FiniteSearch.FirstResult.absent",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.FirstResult.absent",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "List",
+        "List.instMembership",
+        "Membership.mem",
+        "Not",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult.absent",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult.found"
+      ],
+      "type": "{α : Type u} →\n  {xs : List α} →\n    {p : α → Prop} →\n      {motive : Core.FiniteSearch.FirstResult xs p → Sort u_1} →\n        (t : Core.FiniteSearch.FirstResult xs p) →\n          ((hit : Core.FiniteSearch.FirstHit xs p) → motive (Core.FiniteSearch.FirstResult.found hit)) →\n            ((none : ∀ value ∈ xs, ¬p value) → motive (Core.FiniteSearch.FirstResult.absent none)) → motive t",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": {
+        "start": {
+          "line": 127,
+          "column": 10
+        },
+        "end": {
+          "line": 127,
+          "column": 21
+        }
+      },
+      "range": {
+        "start": {
+          "line": 125,
+          "column": 0
+        },
+        "end": {
+          "line": 129,
+          "column": 55
+        }
+      },
+      "name": "StructuralExhaustion.Core.FiniteSearch.FirstResult.casesOn",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.FirstResult.casesOn",
+      "bodyDependencies": [
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult.rec"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "List",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult"
+      ],
+      "type": "{α : Type u} → {xs : List α} → {p : α → Prop} → Core.FiniteSearch.FirstHit xs p → Core.FiniteSearch.FirstResult xs p",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": {
+        "start": {
+          "line": 128,
+          "column": 4
+        },
+        "end": {
+          "line": 128,
+          "column": 9
+        }
+      },
+      "range": {
+        "start": {
+          "line": 128,
+          "column": 2
+        },
+        "end": {
+          "line": 128,
+          "column": 31
+        }
+      },
+      "name": "StructuralExhaustion.Core.FiniteSearch.FirstResult.found",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "constructor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.FirstResult.found",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "Decidable",
+        "List",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult"
+      ],
+      "type": "{α : Type u} → (xs : List α) → (p : α → Prop) → ((value : α) → Decidable (p value)) → Core.FiniteSearch.FirstResult xs p",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": {
+        "start": {
+          "line": 151,
+          "column": 4
+        },
+        "end": {
+          "line": 151,
+          "column": 15
+        }
+      },
+      "range": {
+        "start": {
+          "line": 150,
+          "column": 0
+        },
+        "end": {
+          "line": 181,
+          "column": 56
+        }
+      },
+      "name": "StructuralExhaustion.Core.FiniteSearch.firstOnList",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "definition",
+      "docString": "Proof-carrying first-hit view of Mathlib's executable `List.find?`. ",
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.firstOnList",
+      "bodyDependencies": [
+        "Bool",
+        "Bool.true",
+        "Decidable.decide",
+        "Eq",
+        "GetElem.getElem",
+        "HAdd.hAdd",
+        "LT.lt",
+        "List.drop",
+        "List.findIdx",
+        "List.findIdx?",
+        "List.instGetElemNatLtLength",
+        "List.length",
+        "List.take",
+        "Nat",
+        "OfNat.ofNat",
+        "Option",
+        "Option.none",
+        "Option.some",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit.mk",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult.absent",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult.found",
+        "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_1",
+        "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_2",
+        "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_3",
+        "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_4",
+        "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_5",
+        "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_6",
+        "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_7",
+        "StructuralExhaustion.Core.FiniteSearch.firstOnList.match_1",
+        "instAddNat",
+        "instHAdd",
+        "instLTNat",
+        "instOfNatNat"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "StructuralExhaustion.CT6.ActiveLedgerResidual",
+        "StructuralExhaustion.CT6.ActivityDecision",
+        "StructuralExhaustion.CT6.ActivityDecision.active",
+        "StructuralExhaustion.CT6.ActivityDecision.firstFailure",
+        "StructuralExhaustion.CT6.Capability",
+        "StructuralExhaustion.CT6.FirstFailureResidual",
+        "StructuralExhaustion.CT6.Input",
+        "StructuralExhaustion.CT6.Spec",
+        "StructuralExhaustion.Core.Problem"
+      ],
+      "type": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        {motive : CT6.ActivityDecision S capability input → Sort u} →\n          ((residual : CT6.FirstFailureResidual S capability input) →\n              motive (CT6.ActivityDecision.firstFailure residual)) →\n            ((residual : CT6.ActiveLedgerResidual S capability input) → motive (CT6.ActivityDecision.active residual)) →\n              (t : CT6.ActivityDecision S capability input) → motive t",
+      "sourceFile": "StructuralExhaustion/CT6/Search.lean",
+      "selectionRange": {
+        "start": {
+          "line": 8,
+          "column": 10
+        },
+        "end": {
+          "line": 8,
+          "column": 26
+        }
+      },
+      "range": {
+        "start": {
+          "line": 8,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 63
+        }
+      },
+      "name": "StructuralExhaustion.CT6.ActivityDecision.rec",
+      "module": "StructuralExhaustion.CT6.Search",
+      "kind": "recursor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.CT6.ActivityDecision.rec",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/CT6/Search.lean"
+    },
+    {
+      "typeDependencies": [
+        "List",
+        "List.instMembership",
+        "Membership.mem",
+        "Not",
+        "StructuralExhaustion.Core.FiniteSearch.FirstHit",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult.absent",
+        "StructuralExhaustion.Core.FiniteSearch.FirstResult.found"
+      ],
+      "type": "{α : Type u} →\n  {xs : List α} →\n    {p : α → Prop} →\n      {motive : Core.FiniteSearch.FirstResult xs p → Sort u_1} →\n        ((hit : Core.FiniteSearch.FirstHit xs p) → motive (Core.FiniteSearch.FirstResult.found hit)) →\n          ((none : ∀ value ∈ xs, ¬p value) → motive (Core.FiniteSearch.FirstResult.absent none)) →\n            (t : Core.FiniteSearch.FirstResult xs p) → motive t",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": {
+        "start": {
+          "line": 127,
+          "column": 10
+        },
+        "end": {
+          "line": 127,
+          "column": 21
+        }
+      },
+      "range": {
+        "start": {
+          "line": 125,
+          "column": 0
+        },
+        "end": {
+          "line": 129,
+          "column": 55
+        }
+      },
+      "name": "StructuralExhaustion.Core.FiniteSearch.FirstResult.rec",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "recursor",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.FirstResult.rec",
+      "bodyDependencies": [],
+      "bodyAvailable": false,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "Decidable",
+        "Decidable.decide",
+        "Eq",
+        "LT.lt",
+        "List",
+        "List.findIdx?",
+        "List.length",
+        "Nat",
+        "Option",
+        "Option.some",
+        "instLTNat"
+      ],
+      "type": "∀ {α : Type u_1} (xs : List α) (p : α → Prop) (decideP : (value : α) → Decidable (p value)) (index : ℕ),\n  List.findIdx? (fun value => decide (p value)) xs = some index → index < xs.length",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_1",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_1",
+      "bodyDependencies": [
+        "And",
+        "And.left",
+        "Iff.mp",
+        "List.findIdx",
+        "List.findIdx?_eq_some_iff_findIdx_eq"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "Decidable",
+        "Decidable.decide",
+        "Eq",
+        "List",
+        "List.findIdx",
+        "List.findIdx?",
+        "Nat",
+        "Option",
+        "Option.some"
+      ],
+      "type": "∀ {α : Type u_1} (xs : List α) (p : α → Prop) (decideP : (value : α) → Decidable (p value)) (index : ℕ),\n  List.findIdx? (fun value => decide (p value)) xs = some index →\n    List.findIdx (fun value => decide (p value)) xs = index",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_2",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_2",
+      "bodyDependencies": [
+        "And",
+        "And.right",
+        "Iff.mp",
+        "LT.lt",
+        "List.findIdx?_eq_some_iff_findIdx_eq",
+        "List.length",
+        "instLTNat"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "Bool",
+        "Bool.true",
+        "Decidable",
+        "Decidable.decide",
+        "Eq",
+        "GetElem.getElem",
+        "LT.lt",
+        "List",
+        "List.findIdx?",
+        "List.instGetElemNatLtLength",
+        "List.length",
+        "Nat",
+        "Option",
+        "Option.some",
+        "instLTNat"
+      ],
+      "type": "∀ {α : Type u_1} (xs : List α) (p : α → Prop) (decideP : (value : α) → Decidable (p value)) (index : ℕ),\n  List.findIdx? (fun value => decide (p value)) xs = some index →\n    ∀ (bound : index < xs.length), decide (p xs[index]) = true",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_3",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_3",
+      "bodyDependencies": [
+        "Bool.false",
+        "Eq.mp",
+        "GetElem?.getElem?",
+        "List.getElem?_eq_getElem",
+        "List.instGetElem?NatLtLength",
+        "List.of_findIdx?_eq_some",
+        "List.of_findIdx?_eq_some.match_1",
+        "Unit",
+        "congrArg"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "Eq",
+        "GetElem.getElem",
+        "HAdd.hAdd",
+        "HAppend.hAppend",
+        "LT.lt",
+        "List",
+        "List.cons",
+        "List.drop",
+        "List.instAppend",
+        "List.instGetElemNatLtLength",
+        "List.length",
+        "List.take",
+        "Nat",
+        "OfNat.ofNat",
+        "instAddNat",
+        "instHAdd",
+        "instHAppendOfAppend",
+        "instLTNat",
+        "instOfNatNat"
+      ],
+      "type": "∀ {α : Type u_1} (xs : List α) (index : ℕ) (bound : index < xs.length),\n  xs = List.take index xs ++ xs[index] :: List.drop (index + 1) xs",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_4",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_4",
+      "bodyDependencies": [
+        "Eq.mpr",
+        "Eq.refl",
+        "List.getElem_cons_drop",
+        "List.take_append_drop",
+        "congrArg",
+        "id"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "Bool",
+        "Bool.true",
+        "Decidable",
+        "Decidable.decide",
+        "Eq",
+        "GetElem.getElem",
+        "LT.lt",
+        "List",
+        "List.instGetElemNatLtLength",
+        "List.length",
+        "Nat",
+        "instLTNat"
+      ],
+      "type": "∀ {α : Type u_1} (xs : List α) (p : α → Prop) (decideP : (value : α) → Decidable (p value)) (index : ℕ)\n  (bound : index < xs.length), (fun value => decide (p value)) xs[index] = true → p xs[index]",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_5",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_5",
+      "bodyDependencies": [
+        "Eq.mp",
+        "Eq.mpr",
+        "decide_eq_true_eq",
+        "id",
+        "of_decide_eq_true"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "Decidable",
+        "Decidable.decide",
+        "Eq",
+        "False",
+        "List",
+        "List.findIdx",
+        "List.instMembership",
+        "List.take",
+        "Membership.mem",
+        "Nat"
+      ],
+      "type": "∀ {α : Type u_1} (xs : List α) (p : α → Prop) (decideP : (value : α) → Decidable (p value)) (index : ℕ),\n  List.findIdx (fun value => decide (p value)) xs = index → ∀ candidate ∈ List.take index xs, p candidate → False",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_6",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_6",
+      "bodyDependencies": [
+        "Bool",
+        "Bool.false",
+        "Bool.true",
+        "Bool.true_eq_false",
+        "Eq.mp",
+        "Eq.mpr",
+        "Eq.trans",
+        "False.elim",
+        "List.false_of_mem_take_findIdx",
+        "congrArg",
+        "congrFun'",
+        "decide_eq_true",
+        "id"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "Decidable",
+        "Decidable.decide",
+        "Eq",
+        "False",
+        "List",
+        "List.findIdx?",
+        "List.instMembership",
+        "Membership.mem",
+        "Nat",
+        "Option",
+        "Option.none"
+      ],
+      "type": "∀ {α : Type u_1} (xs : List α) (p : α → Prop) (decideP : (value : α) → Decidable (p value)),\n  List.findIdx? (fun value => decide (p value)) xs = none → ∀ value ∈ xs, p value → False",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_7",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "theorem",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.firstOnList._proof_7",
+      "bodyDependencies": [
+        "Bool",
+        "Bool.false",
+        "Bool.true",
+        "Bool.true_eq_false",
+        "Eq.mp",
+        "Eq.trans",
+        "False.elim",
+        "Iff.mp",
+        "List.findIdx?_eq_none_iff",
+        "congrArg",
+        "congrFun'",
+        "decide_eq_true"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    },
+    {
+      "typeDependencies": [
+        "Eq",
+        "Nat",
+        "Option",
+        "Option.none",
+        "Option.some"
+      ],
+      "type": "(motive : Option ℕ → Sort u_1) →\n  (x : Option ℕ) → ((index : ℕ) → x = some index → motive (some index)) → (x = none → motive none) → motive x",
+      "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "selectionRange": null,
+      "range": null,
+      "name": "StructuralExhaustion.Core.FiniteSearch.firstOnList.match_1",
+      "module": "StructuralExhaustion.Core.FiniteSearch",
+      "kind": "definition",
+      "docString": null,
+      "declarationId": "StructuralExhaustion.Core.FiniteSearch.firstOnList.match_1",
+      "bodyDependencies": [
+        "Eq.refl",
+        "Option.casesOn"
+      ],
+      "bodyAvailable": true,
+      "projectLocal": true,
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean"
+    }
+  ],
+  "sources": [
+    {
+      "sourceId": "StructuralExhaustion/CT6/Capability.lean",
+      "moduleName": "StructuralExhaustion.CT6.Capability",
+      "path": "lean/StructuralExhaustion/CT6/Capability.lean",
+      "sha256": "83b72569594476ced39cb574b09cd51907d9248c35b6dd69c3b2d51a3b127fd7",
+      "content": "import StructuralExhaustion.CT6.Spec\n\nnamespace StructuralExhaustion.CT6\n\nstructure Capability {P : Core.Problem} (S : Spec P) where\n  failureOrder : FinEnum S.Index\n  failureDecidable : (ctx : Core.BranchContext P) →\n    (index : S.Index) → Decidable (S.Failure ctx index)\n\nabbrev Input (P : Core.Problem) := Core.BranchContext P\n\nnamespace Capability\n\n/-- Route-facing CT6 trigger; the shared context contains the complete input. -/\ndef tacticInterface {P : Core.Problem} {S : Spec P}\n    (_capability : Capability S) : Core.Routing.TacticInterface where\n  Context := Core.BranchContext P\n  Trigger := fun _ => Unit\n\nend Capability\n\nend StructuralExhaustion.CT6\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion/CT6/Execution.lean",
+      "moduleName": "StructuralExhaustion.CT6.Execution",
+      "path": "lean/StructuralExhaustion/CT6/Execution.lean",
+      "sha256": "4570fb744f0b00bf03c0209a42c29faa6391cfcdf2e9e36dc00c72a3ea4542bc",
+      "content": "import StructuralExhaustion.CT6.Graph\n\nnamespace StructuralExhaustion.CT6\n\nvariable {P : Core.Problem} (S : Spec P) (capability : Capability S)\nvariable (input : Input P)\n\ninductive RawOutcome : Graph.Terminal → Type _ where\n  | firstFailure (residual : FirstFailureResidual S capability input) :\n      RawOutcome .firstFailure\n  | activeLedger (residual : ActiveLedgerResidual S capability input) :\n      RawOutcome .activeLedger\n\nstructure ExecutionResult where\n  terminal : Graph.Terminal\n  path : Graph.Path S capability input .entry terminal.nodeId\n  outcome : RawOutcome S capability input terminal\nnamespace ExecutionResult\ndef trace (result : ExecutionResult S capability input) := result.path.trace\nend ExecutionResult\n\ndef runReference : ExecutionResult S capability input :=\n  match analyzeActivity S capability input with\n  | .firstFailure residual => {\n      terminal := .firstFailure\n      path := .cons .beginSearch\n        (.cons (.failure residual) (.nil .firstFailureTerminal))\n      outcome := .firstFailure residual\n    }\n  | .active residual => {\n      terminal := .activeLedger\n      path := .cons .beginSearch\n        (.cons (.active residual) (.nil .activeLedgerTerminal))\n      outcome := .activeLedger residual\n    }\n\ndef run := runReference S capability input\n\nend StructuralExhaustion.CT6\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion/CT6/Graph.lean",
+      "moduleName": "StructuralExhaustion.CT6.Graph",
+      "path": "lean/StructuralExhaustion/CT6/Graph.lean",
+      "sha256": "32cec5a013af54b051aed6bb02f1f4d2df895fb3dc7928c3d712f4c02bd6bb09",
+      "content": "import StructuralExhaustion.CT6.Search\n\nnamespace StructuralExhaustion.CT6.Graph\n\ninductive NodeId where\n  | entry | firstFailureSearch | firstFailureTerminal | activeLedgerTerminal\n  deriving Repr, DecidableEq\nnamespace NodeId\ndef code : NodeId → String\n  | .entry => \"CT6.entry\"\n  | .firstFailureSearch => \"CT6.search.firstFailure\"\n  | .firstFailureTerminal => \"CT6.terminal.residual.firstFailure\"\n  | .activeLedgerTerminal => \"CT6.terminal.residual.activeLedger\"\nend NodeId\ninductive Terminal where | firstFailure | activeLedger\n  deriving Repr, DecidableEq\nnamespace Terminal\ndef nodeId : Terminal → NodeId\n  | .firstFailure => .firstFailureTerminal\n  | .activeLedger => .activeLedgerTerminal\nend Terminal\n\nvariable {P : Core.Problem} (S : Spec P) (capability : Capability S)\nvariable (input : Input P)\ninductive Edge : NodeId → NodeId → Type _ where\n  | beginSearch : Edge .entry .firstFailureSearch\n  | failure (residual : FirstFailureResidual S capability input) :\n      Edge .firstFailureSearch .firstFailureTerminal\n  | active (residual : ActiveLedgerResidual S capability input) :\n      Edge .firstFailureSearch .activeLedgerTerminal\nnamespace Edge\ndef source {a b} (_ : Edge S capability input a b) := a\nend Edge\ninductive Path : NodeId → NodeId → Type _ where\n  | nil (node) : Path node node\n  | cons {a b c} : Edge S capability input a b → Path b c → Path a c\nnamespace Path\ndef trace {a b} : Path S capability input a b → List NodeId\n  | .nil node => [node]\n  | .cons edge rest => edge.source :: rest.trace\nend Path\ndef ValidTrace (nodes : List NodeId) : Prop :=\n  ∃ terminal : Terminal, ∃ path : Path S capability input .entry terminal.nodeId,\n    path.trace = nodes\n\nend StructuralExhaustion.CT6.Graph\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion/CT6/Search.lean",
+      "moduleName": "StructuralExhaustion.CT6.Search",
+      "path": "lean/StructuralExhaustion/CT6/Search.lean",
+      "sha256": "8943b19cd8837967f4569ae1e7fec2d3d17af5a2c8211d0aa46ab4d24c86b009",
+      "content": "import StructuralExhaustion.CT6.State\n\nnamespace StructuralExhaustion.CT6\n\nvariable {P : Core.Problem} (S : Spec P) (capability : Capability S)\nvariable (input : Input P)\n\ninductive ActivityDecision where\n  | firstFailure (residual : FirstFailureResidual S capability input)\n  | active (residual : ActiveLedgerResidual S capability input)\n\n/-- Search the declared finite order and retain the no-earlier-failure proof. -/\ndef analyzeActivity : ActivityDecision S capability input :=\n  match Core.FiniteSearch.first capability.failureOrder (S.Failure input)\n      (capability.failureDecidable input) with\n  | .found hit => .firstFailure {\n      hit := hit\n      data := S.failureData input hit.value hit.holds\n      data_eq := rfl\n    }\n  | .absent absent => .active {\n      noFailure := fun index => absent index\n        (capability.failureOrder.mem_orderedValues index)\n      total := activeTotal S capability input\n      computed := rfl\n    }\n\ntheorem analyzeActivity_sound :\n    match analyzeActivity S capability input with\n    | .firstFailure residual =>\n        S.Failure input residual.hit.value ∧\n          (∀ candidate, candidate ∈ residual.hit.before →\n            ¬ S.Failure input candidate)\n    | .active _ => ∀ index, ¬ S.Failure input index := by\n  cases analyzeActivity S capability input with\n  | firstFailure residual => exact ⟨residual.hit.holds,\n      residual.hit.beforeAbsent⟩\n  | active residual => exact residual.noFailure\n\nend StructuralExhaustion.CT6\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion/CT6/Spec.lean",
+      "moduleName": "StructuralExhaustion.CT6.Spec",
+      "path": "lean/StructuralExhaustion/CT6/Spec.lean",
+      "sha256": "edae96b2f2b9f621abb20fb21130e0ed179e7afb4c1c2f2c39045462cfd02109",
+      "content": "import StructuralExhaustion.Core.AutomationFirst\n\nnamespace StructuralExhaustion.CT6\n\nuniverse uIndex uData\n\n/-- Problem-specific monitored family and first-failure semantics. -/\nstructure Spec (P : Core.Problem) where\n  Index : Type uIndex\n  FailureData : Type uData\n  Failure : Core.BranchContext P → Index → Prop\n  failureData : (ctx : Core.BranchContext P) →\n    (index : Index) → Failure ctx index → FailureData\n  contribution : Core.BranchContext P → Index → Nat\n\nend StructuralExhaustion.CT6\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion/CT6/State.lean",
+      "moduleName": "StructuralExhaustion.CT6.State",
+      "path": "lean/StructuralExhaustion/CT6/State.lean",
+      "sha256": "c130e3dbb7f40de016c4d76c721cc2bfb391f1209f637e2649fccca6f6cadef5",
+      "content": "import StructuralExhaustion.CT6.Capability\n\nnamespace StructuralExhaustion.CT6\n\nvariable {P : Core.Problem} (S : Spec P) (capability : Capability S)\nvariable (input : Input P)\n\ndef activeTotal : Nat :=\n  capability.failureOrder.orderedValues.foldl\n    (fun total index => total + S.contribution input index) 0\n\n/-- Canonical first failure with its exact clean prefix and structural datum. -/\nstructure FirstFailureResidual where\n  hit : Core.FiniteSearch.FirstHit capability.failureOrder.orderedValues\n    (S.Failure input)\n  data : S.FailureData\n  data_eq : data = S.failureData input hit.value hit.holds\n\n/-- Exhaustive active ledger produced when no monitored index fails. -/\nstructure ActiveLedgerResidual where\n  noFailure : ∀ index, ¬ S.Failure input index\n  total : Nat\n  computed : total = activeTotal S capability input\n\nend StructuralExhaustion.CT6\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion/CT6/Theorems.lean",
+      "moduleName": "StructuralExhaustion.CT6.Theorems",
+      "path": "lean/StructuralExhaustion/CT6/Theorems.lean",
+      "sha256": "98e724f1c9ac99c88a6c77703ff469b2a522caac33782e769c89d1e7f9ec0cb5",
+      "content": "import StructuralExhaustion.CT6.Execution\n\nnamespace StructuralExhaustion.CT6\n\nvariable {P : Core.Problem} (S : Spec P) (capability : Capability S)\nvariable (input : Input P)\nnamespace RawOutcome\ndef Valid {terminal} : RawOutcome S capability input terminal → Prop\n  | .firstFailure residual =>\n      S.Failure input residual.hit.value ∧\n        (∀ candidate, candidate ∈ residual.hit.before →\n          ¬ S.Failure input candidate)\n  | .activeLedger residual => ∀ index, ¬ S.Failure input index\ntheorem verified {terminal} (outcome : RawOutcome S capability input terminal) :\n    outcome.Valid := by\n  cases outcome with\n  | firstFailure residual => exact ⟨residual.hit.holds,\n      residual.hit.beforeAbsent⟩\n  | activeLedger residual => exact residual.noFailure\nend RawOutcome\nnamespace ExecutionResult\ntheorem verified (result : ExecutionResult S capability input) :\n    result.outcome.Valid := result.outcome.verified\ntheorem traceValid (result : ExecutionResult S capability input) :\n    Graph.ValidTrace S capability input result.trace :=\n  ⟨result.terminal, result.path, rfl⟩\n\n/-- Extract the active-ledger residual carried by this exact execution result.\nThe terminal equality rules out the first-failure outcome. -/\ndef activeLedgerResidual_of_terminal_eq\n    {S : Spec P} {capability : Capability S} {input : Input P}\n    (result : ExecutionResult S capability input)\n    (terminalEq : result.terminal = .activeLedger) :\n    ActiveLedgerResidual S capability input := by\n  cases result with\n  | mk _terminal _path outcome =>\n      cases outcome with\n      | firstFailure _residual => simp at terminalEq\n      | activeLedger residual => exact residual\nend ExecutionResult\ntheorem run_verified : (run S capability input).outcome.Valid :=\n  (run S capability input).verified\ntheorem run_trace_valid :\n    Graph.ValidTrace S capability input (run S capability input).trace :=\n  (run S capability input).traceValid\ntheorem run_total : ∃ result : ExecutionResult S capability input,\n    result.outcome.Valid ∧ Graph.ValidTrace S capability input result.trace :=\n  ⟨run S capability input, run_verified S capability input,\n    run_trace_valid S capability input⟩\ntheorem run_deterministic (left right : ExecutionResult S capability input)\n    (hl : left = run S capability input) (hr : right = run S capability input) :\n    left = right := hl.trans hr.symm\n\ntheorem outcome_exhaustive (result : ExecutionResult S capability input) :\n    result.terminal = .firstFailure ∨\n      result.terminal = .activeLedger := by\n  cases result with\n  | mk _ _ outcome =>\n      cases outcome with\n      | firstFailure _ => exact Or.inl rfl\n      | activeLedger _ => exact Or.inr rfl\n\n/-- Build the complete active ledger once the application has ruled out every\nmonitored failure.  The ledger total is framework-computed; the application\nsupplies only the semantic no-failure premise. -/\ndef activeLedgerResidual_of_noFailure\n    (noFailure : ∀ index, ¬ S.Failure input index) :\n    ActiveLedgerResidual S capability input where\n  noFailure := noFailure\n  total := activeTotal S capability input\n  computed := rfl\n\n/-- If the application rules out every monitored failure, the actual CT6\nreference run selects the active-ledger terminal. -/\ntheorem run_terminal_activeLedger_of_noFailure\n    (noFailure : ∀ index, ¬ S.Failure input index) :\n    (run S capability input).terminal = .activeLedger := by\n  cases decision : analyzeActivity S capability input with\n  | firstFailure residual =>\n      exact (noFailure residual.hit.value residual.hit.holds).elim\n  | active residual =>\n      simp [run, runReference, decision]\n\n/-- If the application rules out every monitored failure, the actual CT6\nreference run has the unique active-ledger node trace. -/\ntheorem run_trace_activeLedger_of_noFailure\n    (noFailure : ∀ index, ¬ S.Failure input index) :\n    (run S capability input).trace =\n      [.entry, .firstFailureSearch, .activeLedgerTerminal] := by\n  cases decision : analyzeActivity S capability input with\n  | firstFailure residual =>\n      exact (noFailure residual.hit.value residual.hit.holds).elim\n  | active residual =>\n      simp only [run]\n      unfold runReference\n      rw [decision]\n      rfl\n\n/-- Extract the active-ledger residual carried by the actual reference run\nonce the application has ruled out every monitored failure. -/\ndef runActiveLedgerResidual_of_noFailure\n    (noFailure : ∀ index, ¬ S.Failure input index) :\n    ActiveLedgerResidual S capability input :=\n  (run S capability input).activeLedgerResidual_of_terminal_eq\n    (run_terminal_activeLedger_of_noFailure S capability input noFailure)\n\n/-- Exact reference-run package for the forced active-ledger branch.\n\nThe residual accessor below is extracted from this very execution using\n`terminal_eq`; it is not a separately reconstructed semantic certificate. -/\nstructure ActiveLedgerRun where\n  terminal_eq : (run S capability input).terminal = .activeLedger\n  trace_eq : (run S capability input).trace =\n    [.entry, .firstFailureSearch, .activeLedgerTerminal]\n\nnamespace ActiveLedgerRun\n\n/-- The reference execution certified by this package. -/\ndef execution (_bundle : ActiveLedgerRun S capability input) :\n    ExecutionResult S capability input :=\n  run S capability input\n\n/-- The active-ledger residual carried by the certified reference execution. -/\ndef residual (bundle : ActiveLedgerRun S capability input) :\n    ActiveLedgerResidual S capability input :=\n  bundle.execution.activeLedgerResidual_of_terminal_eq bundle.terminal_eq\n\ntheorem noFailure (bundle : ActiveLedgerRun S capability input) :\n    ∀ index, ¬ S.Failure input index :=\n  bundle.residual.noFailure\n\nend ActiveLedgerRun\n\n/-- Run CT6 under the sole application premise that every monitored failure\nis absent, retaining the exact residual, terminal, and audit trace together. -/\ndef runActiveLedgerOfNoFailure\n    (noFailure : ∀ index, ¬ S.Failure input index) :\n    ActiveLedgerRun S capability input where\n  terminal_eq :=\n    run_terminal_activeLedger_of_noFailure S capability input noFailure\n  trace_eq :=\n    run_trace_activeLedger_of_noFailure S capability input noFailure\n\nend StructuralExhaustion.CT6\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion/Core/Context.lean",
+      "moduleName": "StructuralExhaustion.Core.Context",
+      "path": "lean/StructuralExhaustion/Core/Context.lean",
+      "sha256": "aa4d885b81c8732212c5994382ae441c3d1dd4cb0d5650afce7373b8837cf134",
+      "content": "import StructuralExhaustion.Core.Problem\n\nnamespace StructuralExhaustion.Core\n\nuniverse uAmbient uBranch\n\n/-- The inherited state of one branch, shared by dependent CT inputs and route\ntriggers. -/\nstructure BranchContext (P : Problem.{uAmbient, uBranch}) where\n  G : P.Ambient\n  baseline : P.Baseline G\n  state : P.BranchState G\n\n/-- A branch context on which the target has not yet been realized. -/\nstructure AvoidingContext (P : Problem.{uAmbient, uBranch})\n    (Target : P.Ambient → Prop) extends BranchContext P where\n  avoids : ¬ Target G\n\n/-- The reusable minimality theorem attached to a fixed branch context. -/\ndef MinimalityKernel (P : Problem.{uAmbient, uBranch})\n    (Target : P.Ambient → Prop) (ctx : BranchContext P) : Prop :=\n  ∀ H : P.Ambient,\n    P.rank H < P.rank ctx.G → P.Baseline H → Target H\n\n/-- A target-avoiding branch equipped with the minimal-counterexample\nprinciple. -/\nstructure MinimalCounterexampleContext (P : Problem.{uAmbient, uBranch})\n    (Target : P.Ambient → Prop) extends AvoidingContext P Target where\n  minimal : MinimalityKernel P Target toBranchContext\n\nnamespace AvoidingContext\n\n/-- Extend a branch context with a target-avoidance proof. -/\ndef ofBranch {P : Problem.{uAmbient, uBranch}} {Target : P.Ambient → Prop}\n    (ctx : BranchContext P) (avoids : ¬ Target ctx.G) :\n    AvoidingContext P Target where\n  toBranchContext := ctx\n  avoids := avoids\n\nend AvoidingContext\n\nnamespace MinimalCounterexampleContext\n\n/-- Build a minimal-counterexample context without duplicating the inherited\nbranch fields. -/\ndef ofAvoiding {P : Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop} (ctx : AvoidingContext P Target)\n    (minimal : MinimalityKernel P Target ctx.toBranchContext) :\n    MinimalCounterexampleContext P Target where\n  toAvoidingContext := ctx\n  minimal := minimal\n\nend MinimalCounterexampleContext\n\nend StructuralExhaustion.Core\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion/Core/FiniteSearch.lean",
+      "moduleName": "StructuralExhaustion.Core.FiniteSearch",
+      "path": "lean/StructuralExhaustion/Core/FiniteSearch.lean",
+      "sha256": "62d4f0b7c0a167f5235c877a8c5d00e3a7fa1112120e44e1d8b13f28120454ef",
+      "content": "import StructuralExhaustion.Core.Enumeration\n\nnamespace StructuralExhaustion.Core.FiniteSearch\n\nuniverse u v\n\n/-! Constructive proof-carrying search over exact enumerator-derived lists. -/\n\n/-- The result of exhaustive search over an exact finite universe. -/\ninductive Result {α : Type u} (p : α → Prop) where\n  | found (value : α) (holds : p value)\n  | absent (none : ∀ value : α, ¬ p value)\n\nnamespace Result\n\ndef value? {α : Type u} {p : α → Prop} : Result p → Option α\n  | .found value _ => some value\n  | .absent _ => none\n\ntheorem value_sound {α : Type u} {p : α → Prop} (result : Result p)\n    {value : α} (h : result.value? = some value) : p value := by\n  cases result with\n  | found witness holds =>\n      simp only [value?] at h\n      cases h\n      exact holds\n  | absent none =>\n      simp only [value?] at h\n      contradiction\n\ntheorem none_complete {α : Type u} {p : α → Prop} (result : Result p)\n    (h : result.value? = none) : ∀ value : α, ¬ p value := by\n  cases result with\n  | found witness holds =>\n      simp only [value?] at h\n      contradiction\n  | absent none => exact none\n\nend Result\n\n/-- Search evidence relative to an arbitrary finite list. -/\ninductive ListResult {α : Type u} (xs : List α) (p : α → Prop) where\n  | found (value : α) (member : value ∈ xs) (holds : p value)\n  | absent (none : ∀ value : α, value ∈ xs → ¬ p value)\n\n/-- Proof-carrying view of Mathlib's executable `List.find?`. -/\ndef onList {α : Type u} (xs : List α) (p : α → Prop)\n    (decideP : ∀ value : α, Decidable (p value)) : ListResult xs p := by\n  let predicate : α → Bool := fun value => @decide (p value) (decideP value)\n  match found : xs.find? predicate with\n  | some value =>\n      have holds : @decide (p value) (decideP value) = true := by\n        simpa [predicate] using (List.find?_some (p := predicate) found)\n      exact .found value (List.mem_of_find?_eq_some found)\n        (of_decide_eq_true holds)\n  | none =>\n      exact .absent fun value member holds => by\n        have absent := (List.find?_eq_none.mp found) value member\n        simp [predicate, decide_eq_true holds] at absent\n\n/-- Exhaustive search over an explicit Mathlib finite enumeration. -/\ndef search {α : Type u} (enumeration : FinEnum α)\n    (p : α → Prop) (decideP : ∀ value : α, Decidable (p value)) : Result p :=\n  match onList enumeration.orderedValues p decideP with\n  | .found value _ holds => .found value holds\n  | .absent absentProof =>\n      .absent fun value => absentProof value (enumeration.mem_orderedValues value)\n\ntheorem search_sound {α : Type u} (enumeration : FinEnum α)\n    (p : α → Prop) (decideP : ∀ value : α, Decidable (p value))\n    {value : α} (h : (search enumeration p decideP).value? = some value) :\n    p value :=\n  Result.value_sound _ h\n\ntheorem search_complete {α : Type u}\n    (enumeration : FinEnum α) (p : α → Prop)\n    (decideP : ∀ value : α, Decidable (p value))\n    (existsWitness : ∃ value : α, p value) :\n    ∃ value : α, (search enumeration p decideP).value? = some value ∧ p value := by\n  cases result : search enumeration p decideP with\n  | found value holds =>\n      exact ⟨value, by simp [Result.value?], holds⟩\n  | absent none =>\n      obtain ⟨value, holds⟩ := existsWitness\n      exact (none value holds).elim\n\ntheorem search_none_iff {α : Type u}\n    (enumeration : FinEnum α) (p : α → Prop)\n    (decideP : ∀ value : α, Decidable (p value)) :\n    (search enumeration p decideP).value? = none ↔ ∀ value : α, ¬ p value := by\n  constructor\n  · exact Result.none_complete _\n  · intro none\n    cases result : search enumeration p decideP with\n    | found value holds => exact (none value holds).elim\n    | absent absent => simp [Result.value?]\n\n/-- Two purported executions of the same exhaustive search are equal. -/\ntheorem search_deterministic {α : Type u}\n    (enumeration : FinEnum α) (p : α → Prop)\n    (decideP : ∀ value : α, Decidable (p value))\n    (left right : Result p)\n    (leftIsRun : left = search enumeration p decideP)\n    (rightIsRun : right = search enumeration p decideP) : left = right :=\n  leftIsRun.trans rightIsRun.symm\n\n/-- A first-hit witness retains the exact prefix certified to contain no hit. -/\nstructure FirstHit {α : Type u} (xs : List α) (p : α → Prop) where\n  before : List α\n  value : α\n  after : List α\n  split : xs = before ++ value :: after\n  holds : p value\n  beforeAbsent : ∀ candidate : α, candidate ∈ before → ¬ p candidate\n\nnamespace FirstHit\n\ntheorem member {α : Type u} {xs : List α} {p : α → Prop}\n    (hit : FirstHit xs p) : hit.value ∈ xs := by\n  have membership : hit.value ∈ hit.before ++ hit.value :: hit.after := by simp\n  exact Eq.mpr (congrArg (fun values => hit.value ∈ values) hit.split) membership\n\nend FirstHit\n\n/-- Ordered exhaustive search: either the first hit and its clean prefix, or\nan absence proof for the whole list. -/\ninductive FirstResult {α : Type u} (xs : List α) (p : α → Prop) where\n  | found (hit : FirstHit xs p)\n  | absent (none : ∀ value : α, value ∈ xs → ¬ p value)\n\nnamespace FirstResult\n\ndef value? {α : Type u} {xs : List α} {p : α → Prop} :\n    FirstResult xs p → Option α\n  | .found hit => some hit.value\n  | .absent _ => none\n\ndef before? {α : Type u} {xs : List α} {p : α → Prop} :\n    FirstResult xs p → Option (List α)\n  | .found hit => some hit.before\n  | .absent _ => none\n\ndef HasHit {α : Type u} {xs : List α} {p : α → Prop} :\n    FirstResult xs p → Prop\n  | .found _ => True\n  | .absent _ => False\n\nend FirstResult\n\n/-- Proof-carrying first-hit view of Mathlib's executable `List.find?`. -/\ndef firstOnList {α : Type u} (xs : List α) (p : α → Prop)\n    (decideP : ∀ value : α, Decidable (p value)) : FirstResult xs p := by\n  let predicate : α → Bool := fun value => @decide (p value) (decideP value)\n  match found : xs.findIdx? predicate with\n  | some index =>\n      have bound : index < xs.length :=\n        (List.findIdx?_eq_some_iff_findIdx_eq.mp found).1\n      have indexEq : xs.findIdx predicate = index :=\n        (List.findIdx?_eq_some_iff_findIdx_eq.mp found).2\n      have holdsBool : predicate xs[index] := by\n        have foundValue := List.of_findIdx?_eq_some found\n        simpa [List.getElem?_eq_getElem bound] using foundValue\n      exact .found {\n        before := xs.take index\n        value := xs[index]\n        after := xs.drop (index + 1)\n        split := by\n          rw [List.getElem_cons_drop bound, List.take_append_drop]\n        holds := of_decide_eq_true (by simpa [predicate] using holdsBool)\n        beforeAbsent := by\n          intro candidate member candidateHolds\n          have absent : predicate candidate = false := by\n            have member' : candidate ∈ xs.take (xs.findIdx predicate) := by\n              simpa [indexEq] using member\n            exact List.false_of_mem_take_findIdx (p := predicate) member'\n          simp [predicate, decide_eq_true candidateHolds] at absent\n      }\n  | none =>\n      exact .absent fun value member holds => by\n        have absent := (List.findIdx?_eq_none_iff.mp found) value member\n        simp [predicate, decide_eq_true holds] at absent\n\n/-- Ordered search over an explicit Mathlib finite enumeration. -/\ndef first {α : Type u} (enumeration : FinEnum α)\n    (p : α → Prop) (decideP : ∀ value : α, Decidable (p value)) :\n    FirstResult enumeration.orderedValues p :=\n  firstOnList enumeration.orderedValues p decideP\n\n/-- Ordered search is sound and exhaustive over the entire enumerated\nuniverse. -/\ntheorem first_total {α : Type u} (enumeration : FinEnum α)\n    (p : α → Prop) (decideP : ∀ value : α, Decidable (p value)) :\n    match first enumeration p decideP with\n    | .found hit => hit.value ∈ enumeration.orderedValues ∧ p hit.value\n    | .absent _ => ∀ value : α, ¬ p value := by\n  cases result : first enumeration p decideP with\n  | found hit => exact ⟨hit.member, hit.holds⟩\n  | absent absentProof =>\n      exact fun value => absentProof value (enumeration.mem_orderedValues value)\n\n/-- Every reported first hit satisfies the predicate and occurs in the source\nlist.  Its `beforeAbsent` field is the generic no-earlier-hit theorem. -/\ntheorem first_hit_sound {α : Type u} {xs : List α} {p : α → Prop}\n    (hit : FirstHit xs p) : hit.value ∈ xs ∧ p hit.value :=\n  ⟨hit.member, hit.holds⟩\n\ntheorem first_hit_no_earlier {α : Type u} {xs : List α} {p : α → Prop}\n    (hit : FirstHit xs p) :\n    ∀ candidate : α, candidate ∈ hit.before → ¬ p candidate :=\n  hit.beforeAbsent\n\ntheorem first_complete {α : Type u}\n    (enumeration : FinEnum α) (p : α → Prop)\n    (decideP : ∀ value : α, Decidable (p value))\n    (existsWitness : ∃ value : α, p value) :\n    (first enumeration p decideP).HasHit := by\n  cases result : first enumeration p decideP with\n  | found hit => trivial\n  | absent absentProof =>\n      obtain ⟨value, holds⟩ := existsWitness\n      exact absentProof value (enumeration.mem_orderedValues value) holds\n\n/-- Ordered search is a pure function and therefore has a unique result. -/\ntheorem first_deterministic {α : Type u} (xs : List α) (p : α → Prop)\n    (decideP : ∀ value : α, Decidable (p value))\n    (left right : FirstResult xs p)\n    (leftIsRun : left = firstOnList xs p decideP)\n    (rightIsRun : right = firstOnList xs p decideP) : left = right :=\n  leftIsRun.trans rightIsRun.symm\n\n/-- The certificate-producing runner selects the value at Mathlib's canonical\nfirst satisfying index. -/\ntheorem firstOnList_value?_eq_findIdx? {α : Type u} (xs : List α)\n    (p : α → Prop) (decideP : ∀ value : α, Decidable (p value)) :\n    (firstOnList xs p decideP).value? =\n      (xs.findIdx? fun value => @decide (p value) (decideP value)).bind\n        (fun index => xs[index]?) := by\n  unfold firstOnList\n  dsimp only\n  split\n  · rename_i index found\n    have bound : index < xs.length :=\n      (List.findIdx?_eq_some_iff_findIdx_eq.mp found).1\n    simp [FirstResult.value?, found, List.getElem?_eq_getElem bound]\n  · rename_i found\n    simp [FirstResult.value?, found]\n\n/-- The selected first value is independent of the implementation of the\npredicate's decision procedure. -/\ntheorem first_value_independent {α : Type u} (xs : List α) (p : α → Prop)\n    (leftDecision rightDecision : ∀ value : α, Decidable (p value)) :\n    (firstOnList xs p leftDecision).value? =\n      (firstOnList xs p rightDecision).value? := by\n  have decisions :\n      (fun value => @decide (p value) (leftDecision value)) =\n        (fun value => @decide (p value) (rightDecision value)) := by\n    funext value\n    exact decide_eq_decide.mpr Iff.rfl\n  rw [firstOnList_value?_eq_findIdx?, firstOnList_value?_eq_findIdx?, decisions]\n\n/-- Dependent exhaustive-search result.  The witness is constructed directly\nin `Type`; it is never extracted from a propositional existential. -/\ninductive DependentResult {ι : Type u} {α : ι → Type v}\n    (p : (i : ι) → α i → Prop) where\n  | found (index : ι) (value : α index) (holds : p index value)\n  | absent (none : ∀ index : ι, ∀ value : α index, ¬ p index value)\n\nnamespace DependentResult\n\ndef index? {ι : Type u} {α : ι → Type v} {p : (i : ι) → α i → Prop} :\n    DependentResult p → Option ι\n  | .found index _ _ => some index\n  | .absent _ => none\n\nend DependentResult\n\nprivate inductive DependentListResult {ι : Type u} {α : ι → Type v}\n    (indices : List ι) (p : (i : ι) → α i → Prop) where\n  | found (index : ι) (member : index ∈ indices)\n      (value : α index) (holds : p index value)\n  | absent (none : ∀ index : ι, index ∈ indices →\n      ∀ value : α index, ¬ p index value)\n\nprivate def dependentOnList {ι : Type u} {α : ι → Type v}\n    (indices : List ι) (fibres : (i : ι) → FinEnum (α i))\n    (p : (i : ι) → α i → Prop)\n    (decideP : ∀ index value, Decidable (p index value)) :\n    DependentListResult indices p :=\n  match indices with\n  | [] => .absent (by\n      intro index member\n      cases member)\n  | head :: tail =>\n      match search (fibres head) (p head) (decideP head) with\n      | .found value holds => .found head (by simp) value holds\n      | .absent headAbsent =>\n          match dependentOnList tail fibres p decideP with\n          | .found index member value holds =>\n              .found index (List.mem_cons_of_mem head member) value holds\n          | .absent tailAbsent => .absent (by\n              intro index member value\n              simp only [List.mem_cons] at member\n              cases member with\n              | inl equal =>\n                  subst index\n                  exact headAbsent value\n              | inr inTail => exact tailAbsent index inTail value)\n\n/-- Exhaustive nested search over a finite index enumeration and an exact\nfinite enumeration for each dependent fibre. -/\ndef dependentSearch {ι : Type u} {α : ι → Type v}\n    (enumeration : Core.DependentEnumeration ι α)\n    (p : (i : ι) → α i → Prop)\n    (decideP : ∀ index value, Decidable (p index value)) :\n    DependentResult p :=\n  match dependentOnList enumeration.indices.orderedValues enumeration.fibres p decideP with\n  | .found index _ value holds => .found index value holds\n  | .absent absentProof => .absent fun index =>\n      absentProof index (enumeration.indices.mem_orderedValues index)\n\ntheorem dependentSearch_sound {ι : Type u} {α : ι → Type v}\n    (enumeration : Core.DependentEnumeration ι α)\n    (p : (i : ι) → α i → Prop)\n    (decideP : ∀ index value, Decidable (p index value)) :\n    match dependentSearch enumeration p decideP with\n    | .found index value _ => p index value\n    | .absent _ => True := by\n  cases dependentSearch enumeration p decideP with\n  | found index value holds => exact holds\n  | absent none => trivial\n\ntheorem dependentSearch_complete {ι : Type u} {α : ι → Type v}\n    (enumeration : Core.DependentEnumeration ι α)\n    (p : (i : ι) → α i → Prop)\n    (decideP : ∀ index value, Decidable (p index value))\n    (existsWitness : ∃ index : ι, ∃ value : α index, p index value) :\n    match dependentSearch enumeration p decideP with\n    | .found _ _ _ => True\n    | .absent _ => False := by\n  cases result : dependentSearch enumeration p decideP with\n  | found index value holds => trivial\n  | absent none =>\n      obtain ⟨index, value, holds⟩ := existsWitness\n      exact none index value holds\n\ntheorem dependentSearch_deterministic {ι : Type u} {α : ι → Type v}\n    (enumeration : Core.DependentEnumeration ι α)\n    (p : (i : ι) → α i → Prop)\n    (decideP : ∀ index value, Decidable (p index value))\n    (left right : DependentResult p)\n    (leftIsRun : left = dependentSearch enumeration p decideP)\n    (rightIsRun : right = dependentSearch enumeration p decideP) : left = right :=\n  leftIsRun.trans rightIsRun.symm\n\n/-- Optional optimized execution, checked against a reference semantic\npredicate.  Optimization cannot change the meaning of the reference runner. -/\nstructure OptimizedSearch (Input : Type u) (Output : Input → Type v)\n    (Valid : (input : Input) → Output input → Prop)\n    (ReferenceHasResult : Input → Prop) where\n  run : (input : Input) → Option (Output input)\n  sound : ∀ input result, run input = some result → Valid input result\n  complete : ∀ input, ReferenceHasResult input → ∃ result, run input = some result\n\nend StructuralExhaustion.Core.FiniteSearch\n"
+    },
+    {
+      "sourceId": "StructuralExhaustion/Core/Problem.lean",
+      "moduleName": "StructuralExhaustion.Core.Problem",
+      "path": "lean/StructuralExhaustion/Core/Problem.lean",
+      "sha256": "0bb7d22a8ea1048b97b7342738ff1ecb16719155be1bf125f29aadf5d7ec15f1",
+      "content": "namespace StructuralExhaustion.Core\n\nuniverse uAmbient uBranch\n\n/-!\nThe problem-wide vocabulary shared by every automation-first closure tactic.\n\nTactics are parameterized by this object instead of embedding one another's\nframework records.  Consequently the ambient object, baseline predicate,\nrank, and branch-state family agree definitionally across every registered\nroute.\n-/\n\n/-- Mathematical data shared by every tactic in one structural-exhaustion\nproof instance. -/\nstructure Problem where\n  Ambient : Type uAmbient\n  Baseline : Ambient → Prop\n  rank : Ambient → Nat\n  BranchState : Ambient → Type uBranch\n\nend StructuralExhaustion.Core\n"
+    }
+  ]
+}

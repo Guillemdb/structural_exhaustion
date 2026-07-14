@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import re
 from collections import defaultdict
@@ -130,6 +131,9 @@ MACHINE_DESCRIPTIONS = {
         "orbit-avoidance residual with the computed value list."
     ),
 }
+
+
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 
 
 def write_text(path: Path, value: str) -> None:
@@ -263,6 +267,12 @@ def mermaid(tactic: dict, routes: list[dict]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def transition_label(edge: dict) -> str:
+    """Return the stable reader-facing name of a compiled Edge constructor."""
+
+    return edge["constructor"].rsplit(".", 1)[-1]
+
+
 def cytoscape(tactic: dict, routes: list[dict]) -> dict:
     elements: list[dict] = []
     for node in tactic["nodes"]:
@@ -282,10 +292,14 @@ def cytoscape(tactic: dict, routes: list[dict]) -> dict:
             {
                 "data": {
                     "id": edge["edgeId"],
+                    "label": transition_label(edge),
+                    "kind": "ctTransition",
+                    "ordinal": edge["ordinal"],
                     "source": edge["sourceNode"],
                     "target": edge["targetNode"],
                     "constructor": edge["constructor"],
                     "constructorType": edge["constructorType"],
+                    "provision": edge["provision"],
                 }
             }
         )
@@ -301,6 +315,60 @@ def cytoscape(tactic: dict, routes: list[dict]) -> dict:
             }
         )
     return {"tacticId": tactic["tacticId"], "elements": elements}
+
+
+def node_internals(tactic: dict, source_root: Path) -> dict:
+    """Package a CT's Lean-owned low-level flow and inspectable source files.
+
+    The catalog remains the canonical compiled projection.  This per-CT artifact is
+    deliberately separate so the web client can load exact declaration dependencies
+    and source text only after a reader asks to expand a node.
+    """
+
+    lean_root = (source_root / "lean").resolve()
+    sources: dict[str, dict] = {}
+    declarations: list[dict] = []
+    for raw in tactic["internalDeclarations"]:
+        declaration = dict(raw)
+        project_local = str(raw["name"]).startswith("StructuralExhaustion.")
+        declaration["projectLocal"] = project_local
+        source_file = declaration.get("sourceFile")
+        source_id: str | None = None
+        if project_local and isinstance(source_file, str):
+            source_path = (lean_root / source_file).resolve()
+            if lean_root not in source_path.parents or not source_path.is_file():
+                raise ValueError(
+                    f"{tactic['tacticId']} declaration {raw['name']} has an unsafe "
+                    f"or missing source file: {source_file}"
+                )
+            source_id = source_file
+            if source_id not in sources:
+                content = source_path.read_text(encoding="utf-8")
+                sources[source_id] = {
+                    "sourceId": source_id,
+                    "moduleName": declaration.get("module"),
+                    "path": f"lean/{source_file}",
+                    "sha256": hashlib.sha256(content.encode("utf-8")).hexdigest(),
+                    "content": content,
+                }
+        declaration["sourceId"] = source_id
+        declarations.append(declaration)
+
+    return {
+        "artifactType": "structuralExhaustionNodeInternals",
+        "schemaVersion": "1.0.0",
+        "tacticId": tactic["tacticId"],
+        "apiVersion": tactic["apiVersion"],
+        "nodes": [
+            {
+                "nodeId": node["nodeId"],
+                "internalFlow": node["internalFlow"],
+            }
+            for node in tactic["nodes"]
+        ],
+        "declarations": declarations,
+        "sources": [sources[source_id] for source_id in sorted(sources)],
+    }
 
 
 def node_style(kind: str) -> str:
@@ -731,7 +799,14 @@ def catalog_status_tex(catalog: dict) -> str:
     )
 
 
-def render(root: Path, catalog: dict, *, generated_only: bool = False) -> dict:
+def render(
+    root: Path,
+    catalog: dict,
+    *,
+    generated_only: bool = False,
+    source_root: Path | None = None,
+) -> dict:
+    source_root = (source_root or REPOSITORY_ROOT).resolve()
     routes_by_source: dict[str, list[dict]] = defaultdict(list)
     residual_owner: dict[str, str] = {}
     for tactic in catalog["tactics"]:
@@ -746,19 +821,23 @@ def render(root: Path, catalog: dict, *, generated_only: bool = False) -> dict:
     node_rows: list[list[object]] = []
     expected_mermaid: set[Path] = set()
     expected_cytoscape: set[Path] = set()
+    expected_internals: set[Path] = set()
     expected_tex: set[Path] = set()
     for tactic in catalog["tactics"]:
         tactic_id = tactic["tacticId"]
         routes = routes_by_source[tactic_id]
         mermaid_path = Path(f"generated/mermaid/{tactic_id}.mmd")
         cytoscape_path = Path(f"generated/cytoscape/{tactic_id}.json")
+        internals_path = Path(f"generated/internals/{tactic_id}.json")
         tex_path = Path(f"framework/generated/ct/{tactic_id}.tex")
         write_text(root / mermaid_path, mermaid(tactic, routes))
         write_json(root / cytoscape_path, cytoscape(tactic, routes))
+        write_json(root / internals_path, node_internals(tactic, source_root))
         if not generated_only:
             write_text(root / tex_path, tikz_fragment(tactic, routes))
         expected_mermaid.add(root / mermaid_path)
         expected_cytoscape.add(root / cytoscape_path)
+        expected_internals.add(root / internals_path)
         if not generated_only:
             expected_tex.add(root / tex_path)
         manifest_tactics.append(
@@ -767,6 +846,7 @@ def render(root: Path, catalog: dict, *, generated_only: bool = False) -> dict:
                 "apiVersion": tactic["apiVersion"],
                 "mermaid": mermaid_path.as_posix(),
                 "cytoscape": cytoscape_path.as_posix(),
+                "internals": internals_path.as_posix(),
                 "manuscriptFigure": tex_path.as_posix(),
             }
         )
@@ -789,6 +869,7 @@ def render(root: Path, catalog: dict, *, generated_only: bool = False) -> dict:
 
     prune_files(root / "generated/mermaid", expected_mermaid)
     prune_files(root / "generated/cytoscape", expected_cytoscape)
+    prune_files(root / "generated/internals", expected_internals)
     if not generated_only:
         prune_files(root / "framework/generated/ct", expected_tex)
 

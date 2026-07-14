@@ -18,6 +18,24 @@
         "ordinal": 1,
         "nodeKind": "entry",
         "nodeId": "CT6.entry",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT6.Input",
+                "provision": "derived_definitionally"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT6.Input.",
+              "mathematicalDefinition": null,
+              "label": "CT6.Input",
+              "declarationId": "StructuralExhaustion.CT6.Input"
+            }
+          ],
+          "nodeId": "CT6.entry",
+          "edges": []
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

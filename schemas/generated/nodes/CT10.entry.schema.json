@@ -18,6 +18,61 @@
         "ordinal": 1,
         "nodeKind": "entry",
         "nodeId": "CT10.entry",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.context",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.context.",
+              "mathematicalDefinition": null,
+              "label": "Input.context",
+              "declarationId": "StructuralExhaustion.CT10.Input.context"
+            },
+            {
+              "stepId": "predecessor.2",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.data",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.data.",
+              "mathematicalDefinition": null,
+              "label": "Input.data",
+              "declarationId": "StructuralExhaustion.CT10.Input.data"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT10.Input",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT10.Input.",
+              "mathematicalDefinition": null,
+              "label": "CT10.Input",
+              "declarationId": "StructuralExhaustion.CT10.Input"
+            }
+          ],
+          "nodeId": "CT10.entry",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT10.entry.internal.predecessor.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.2",
+              "relation": "produces",
+              "edgeId": "CT10.entry.internal.predecessor.2-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

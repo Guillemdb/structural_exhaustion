@@ -47,6 +47,7 @@ lake env lean EvenCycleExample/Run.lean
 lake env lean EvenCycleExample/Concrete.lean
 lake env lean EvenCycleExample/CT2Audit.lean
 lake env lean EvenCycleExample/CT12MaximalMatching.lean
+lake env lean EvenCycleExample/CT14HighCenterDeletionCharge.lean
 ```
 
 ## API boundary
@@ -74,6 +75,11 @@ lake env lean EvenCycleExample/CT12MaximalMatching.lean
   `Graph.MaximumMatching`, whose graph-owned implementation specializes the
   induced-path packing profile to order two and proves the maximum, partition,
   CT12 audit, and edgeless-remainder results.
+- `CT14HighCenterDeletionCharge.lean` instantiates
+  `Graph.HighCenterDeletionCharge` on the textbook `K₃,₄`. Its three
+  degree-four vertices are deleted, the retained four-vertex graph is proved
+  edgeless and internal-three-core-free, and the exact generic
+  `21 * assignedSurplus + receiverOverload` theorem is reused without HSS.
 - `Concrete.lean` runs the pipeline on Mathlib's complete graph on four
   explicitly scheduled vertices and checks the exact terminals, traces,
   maximal path, and cycle.

@@ -84,6 +84,11 @@ private def findStage?
 private def validateDeclaration (env : Environment) (name : Name) : CommandElabM Unit := do
   let _ ← declarationJson env name
 
+private def frameworkOwnedAutomation (name : Name) : Bool :=
+  let value := name.toString
+  value.startsWith "StructuralExhaustion." &&
+    !value.startsWith "StructuralExhaustion.Graph.External."
+
 private def validateStage
     (env : Environment) (stage : ExampleStageDescriptor) : CommandElabM Unit := do
   ensureNonempty "stageId" stage.stageId
@@ -112,6 +117,20 @@ private def validateLink
   let some target := findStage? workflow link.targetStageId
     | throwError
         "example export: link {link.linkId} has unknown target stage {link.targetStageId}"
+  let crossTactic := match source.tacticId?, target.tacticId? with
+    | some sourceTactic, some targetTactic => sourceTactic != targetTactic
+    | _, _ => false
+  if crossTactic && link.automationDeclarations.isEmpty then
+    throwError
+      "example export: cross-CT link {link.linkId} has no framework automation declaration"
+  if let some duplicate := duplicate? (link.automationDeclarations.map (·.toString)) then
+    throwError
+      "example export: link {link.linkId} repeats automation declaration {duplicate}"
+  for declaration in link.automationDeclarations do
+    unless frameworkOwnedAutomation declaration do
+      throwError
+        "example export: link {link.linkId} automation {declaration} is not framework-owned"
+    validateDeclaration env declaration
   match link.kind, link.routeId? with
   | .registeredRoute, some routeId =>
       let some route := findRoute? routeId
@@ -182,7 +201,7 @@ private def stageDeclarations
     |>.flatMap fun binding => [binding.problemDeclaration, binding.frameworkDeclaration]
   let inboundLinkDeclarations := allLinks description
     |>.filter (·.targetStageId == stage.stageId)
-    |>.flatMap (·.evidenceDeclarations)
+    |>.flatMap fun link => link.automationDeclarations ++ link.evidenceDeclarations
   stage.primaryDeclaration ::
     stage.evidenceDeclarations ++ bindingDeclarations ++ inboundLinkDeclarations
 
@@ -319,6 +338,7 @@ private def linkJson
     ("routeId", match link.routeId? with
       | none => Json.null
       | some routeId => toJson routeId),
+    ("automationDeclarations", ← declarationsJson env link.automationDeclarations),
     ("evidenceDeclarations", ← declarationsJson env link.evidenceDeclarations)
   ]
 
@@ -407,7 +427,7 @@ def exportExample
     | some manuscript => manuscriptJson env manuscript
   let catalog := Json.mkObj [
     ("artifactType", toJson "structuralExhaustionExample"),
-    ("schemaVersion", toJson "1.1.0"),
+    ("schemaVersion", toJson "1.2.0"),
     ("sourceOfTruth", Json.mkObj [
       ("kind", toJson "compiledLeanEnvironment"),
       ("rootModule", toJson rootModule.toString),

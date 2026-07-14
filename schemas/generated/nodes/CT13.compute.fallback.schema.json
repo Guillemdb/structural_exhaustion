@@ -18,6 +18,157 @@
         "ordinal": 3,
         "nodeKind": "computation",
         "nodeId": "CT13.compute.fallback",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.Capability.obstructions",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of fallback obstructions.",
+              "mathematicalDefinition": "\\operatorname{obstructions}=\\mathcal{O}",
+              "label": "Finite obstruction enumeration",
+              "declarationId": "StructuralExhaustion.CT13.Capability.obstructions"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.Capability.fallbackDefault",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "A canonical obstruction ensuring that fallback selection is always defined.",
+              "mathematicalDefinition": "o_0\\in\\mathcal{O}",
+              "label": "Default obstruction",
+              "declarationId": "StructuralExhaustion.CT13.Capability.fallbackDefault"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.Capability.obstructionCost",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns the cost minimized by the canonical fallback policy.",
+              "mathematicalDefinition": "c_x:\\mathcal{O}\\to\\mathbb{N}",
+              "label": "Obstruction cost",
+              "declarationId": "StructuralExhaustion.CT13.Capability.obstructionCost"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.TierOneAbsenceState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT13.TierOneAbsenceState.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.TierOneAbsenceState",
+              "declarationId": "StructuralExhaustion.CT13.TierOneAbsenceState"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.selectMin",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT13.selectMin.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.selectMin",
+              "declarationId": "StructuralExhaustion.CT13.selectMin"
+            },
+            {
+              "stepId": "theorem.2",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.selectMin_le_of_mem",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT13.selectMin_le_of_mem.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.selectMin_le_of_mem",
+              "declarationId": "StructuralExhaustion.CT13.selectMin_le_of_mem"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.FallbackState",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "Canonical fallback computed only after exhaustive tier-one absence. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.FallbackState",
+              "declarationId": "StructuralExhaustion.CT13.FallbackState"
+            }
+          ],
+          "nodeId": "CT13.compute.fallback",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT13.compute.fallback.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT13.compute.fallback.internal.author.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT13.compute.fallback.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT13.compute.fallback.internal.author.2-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT13.compute.fallback.internal.author.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT13.compute.fallback.internal.author.3-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT13.compute.fallback.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT13.compute.fallback.internal.predecessor.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT13.compute.fallback.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT13.compute.fallback.internal.theorem.2-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

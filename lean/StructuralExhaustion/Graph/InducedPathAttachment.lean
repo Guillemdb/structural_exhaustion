@@ -349,6 +349,25 @@ private theorem forwardWalk_support_le {order start gap : Nat}
       · cases equal
         exact Nat.le_refl _
 
+private theorem forwardWalk_support_ge {order start gap : Nat}
+    (bound : start + gap < order) (position : Fin order)
+    (member : position ∈ (forwardWalk start gap bound).support) :
+    start ≤ position.1 := by
+  induction gap with
+  | zero =>
+      have equal : position =
+          ⟨start, lt_of_le_of_lt (Nat.le_refl start) bound⟩ := by
+        simpa [forwardWalk] using member
+      subst position
+      exact Nat.le_refl start
+  | succ gap inductionHypothesis =>
+      simp only [forwardWalk, SimpleGraph.Walk.support_concat,
+        List.mem_append, List.mem_singleton] at member
+      rcases member with member | equal
+      · exact inductionHypothesis (by omega) member
+      · cases equal
+        exact Nat.le_add_right start (gap + 1)
+
 private theorem forwardWalk_isPath {order start gap : Nat}
     (bound : start + gap < order) :
     (forwardWalk start gap bound).IsPath := by
@@ -384,6 +403,17 @@ private theorem segmentWalk_isPath {order : Nat} (left right : Fin order)
   rw [SimpleGraph.Walk.isPath_copy]
   exact forwardWalk_isPath _
 
+private theorem segmentWalk_support_bounds {order : Nat}
+    (left right position : Fin order) (left_le_right : left ≤ right)
+    (member : position ∈ (segmentWalk left right left_le_right).support) :
+    left ≤ position ∧ position ≤ right := by
+  unfold segmentWalk at member
+  rw [SimpleGraph.Walk.support_copy] at member
+  constructor
+  · exact forwardWalk_support_ge (by omega) position member
+  · have upper := forwardWalk_support_le (by omega) position member
+    exact_mod_cast (show position.1 ≤ right.1 by omega)
+
 /-- The literal path segment transported through an induced-path embedding. -/
 def ambientSegment {V : Type uVertex} {G : SimpleGraph V} {order : Nat}
     (path : SimpleGraph.pathGraph order ↪g G)
@@ -406,6 +436,34 @@ theorem ambientSegment_isPath
     (ambientSegment path left right left_le_right).IsPath :=
   SimpleGraph.Walk.map_isPath_of_injective path.injective
     (segmentWalk_isPath left right left_le_right)
+
+/-- A vertex outside the embedded path does not occur on any transported
+path segment.  This support lemma is the reusable interface needed by local
+cycle constructors with two external endpoints. -/
+theorem outside_not_mem_ambientSegment
+    {V : Type uVertex} {G : SimpleGraph V} {order : Nat}
+    (path : SimpleGraph.pathGraph order ↪g G) (outside : V)
+    (outsidePath : ∀ position : Fin order, outside ≠ path position)
+    (left right : Fin order) (left_le_right : left ≤ right) :
+    outside ∉ (ambientSegment path left right left_le_right).support := by
+  intro outsideMember
+  rw [ambientSegment, SimpleGraph.Walk.support_map] at outsideMember
+  obtain ⟨position, _positionMember, equal⟩ := List.mem_map.mp outsideMember
+  exact outsidePath position equal.symm
+
+/-- Every vertex on a transported segment comes from a path position in the
+closed index interval between its endpoints. -/
+theorem mem_ambientSegment_support_bounds
+    {V : Type uVertex} {G : SimpleGraph V} {order : Nat}
+    (path : SimpleGraph.pathGraph order ↪g G)
+    (left right : Fin order) (left_le_right : left ≤ right) (vertex : V)
+    (member : vertex ∈ (ambientSegment path left right left_le_right).support) :
+    ∃ position : Fin order,
+      path position = vertex ∧ left ≤ position ∧ position ≤ right := by
+  rw [ambientSegment, SimpleGraph.Walk.support_map] at member
+  obtain ⟨position, positionMember, equal⟩ := List.mem_map.mp member
+  exact ⟨position, equal, segmentWalk_support_bounds left right position
+    left_le_right positionMember⟩
 
 /-- Return from the left attachment along the path segment and then to the
 outside vertex. -/

@@ -18,6 +18,79 @@
         "ordinal": 5,
         "nodeKind": "decision",
         "nodeId": "CT14.decide.comparison",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.LedgerState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT14.LedgerState.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.LedgerState",
+              "declarationId": "StructuralExhaustion.CT14.LedgerState"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.ComparisonDecision",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT14.ComparisonDecision.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.ComparisonDecision",
+              "declarationId": "StructuralExhaustion.CT14.ComparisonDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.AggregateCertificate",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT14.AggregateCertificate.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.AggregateCertificate",
+              "declarationId": "StructuralExhaustion.CT14.AggregateCertificate"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.CapacityResidual",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT14.CapacityResidual.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.CapacityResidual",
+              "declarationId": "StructuralExhaustion.CT14.CapacityResidual"
+            }
+          ],
+          "nodeId": "CT14.decide.comparison",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT14.decide.comparison.internal.predecessor.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT14.decide.comparison.internal.predecessor.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT14.decide.comparison.internal.predecessor.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

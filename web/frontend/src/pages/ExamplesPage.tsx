@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { fetchExamples } from "../api";
 import { AppHeader } from "../components/AppHeader";
 import { ErrorState, LoadingState } from "../components/LoadState";
+import { exampleDestination } from "../routes";
 import type { ExampleSummary, ExamplesResponse } from "../types";
 
 export function filterExamples(examples: ExampleSummary[], query: string): ExampleSummary[] {
@@ -17,7 +18,7 @@ export function filterExamples(examples: ExampleSummary[], query: string): Examp
 
 function ExampleCard({ example }: { example: ExampleSummary }) {
   return (
-    <Link className="example-card" to={`/examples/${example.exampleId}`}>
+    <Link className="example-card" to={exampleDestination(example.exampleId)}>
       <div className="example-card__topline">
         <span className={`proof-status proof-status--${example.proofStatus}`}>
           {example.proofStatus}
@@ -62,7 +63,10 @@ export function ExamplesPage() {
   const completeCount = response.examples.filter((example) => example.proofStatus === "complete").length;
   return (
     <div className="app-page app-page--overview app-page--examples">
-      <AppHeader verification={response.verification} />
+      <AppHeader
+        verification={response.verification}
+        artifactWarnings={response.artifactWarnings}
+      />
       <main>
         <section className="hero examples-hero">
           <div>

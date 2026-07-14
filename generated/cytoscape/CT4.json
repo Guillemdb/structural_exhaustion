@@ -657,73 +657,105 @@
     {
       "data": {
         "id": "CT4.edge.beginAssignment",
+        "label": "beginAssignment",
+        "kind": "ctTransition",
+        "ordinal": 1,
         "source": "CT4.entry",
         "target": "CT4.compute.assignment",
         "constructor": "StructuralExhaustion.CT4.Graph.Edge.beginAssignment",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} → CT4.Graph.Edge S capability input CT4.Graph.NodeId.entry CT4.Graph.NodeId.assignment"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} → CT4.Graph.Edge S capability input CT4.Graph.NodeId.entry CT4.Graph.NodeId.assignment",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT4.edge.assigned",
+        "label": "assigned",
+        "kind": "ctTransition",
+        "ordinal": 2,
         "source": "CT4.compute.assignment",
         "target": "CT4.search.availability",
         "constructor": "StructuralExhaustion.CT4.Graph.Edge.assigned",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.AssignmentState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.assignment CT4.Graph.NodeId.availability"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.AssignmentState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.assignment CT4.Graph.NodeId.availability",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT4.edge.missing",
+        "label": "missing",
+        "kind": "ctTransition",
+        "ordinal": 3,
         "source": "CT4.search.availability",
         "target": "CT4.terminal.residual.missingPayer",
         "constructor": "StructuralExhaustion.CT4.Graph.Edge.missing",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.MissingPayerResidual S input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.availability CT4.Graph.NodeId.missingTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.MissingPayerResidual S input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.availability CT4.Graph.NodeId.missingTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT4.edge.total",
+        "label": "total",
+        "kind": "ctTransition",
+        "ordinal": 4,
         "source": "CT4.search.availability",
         "target": "CT4.compute.fibres",
         "constructor": "StructuralExhaustion.CT4.Graph.Edge.total",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.TotalAssignmentState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.availability CT4.Graph.NodeId.fibres"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.TotalAssignmentState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.availability CT4.Graph.NodeId.fibres",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT4.edge.overloaded",
+        "label": "overloaded",
+        "kind": "ctTransition",
+        "ordinal": 5,
         "source": "CT4.compute.fibres",
         "target": "CT4.terminal.residual.overloadedFibre",
         "constructor": "StructuralExhaustion.CT4.Graph.Edge.overloaded",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.OverloadedFibreResidual S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.fibres CT4.Graph.NodeId.overloadTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.OverloadedFibreResidual S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.fibres CT4.Graph.NodeId.overloadTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT4.edge.bounded",
+        "label": "bounded",
+        "kind": "ctTransition",
+        "ordinal": 6,
         "source": "CT4.compute.fibres",
         "target": "CT4.decide.capacity",
         "constructor": "StructuralExhaustion.CT4.Graph.Edge.bounded",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.BoundedFibreState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.fibres CT4.Graph.NodeId.comparison"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.BoundedFibreState S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.fibres CT4.Graph.NodeId.comparison",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT4.edge.c4",
+        "label": "c4",
+        "kind": "ctTransition",
+        "ordinal": 7,
         "source": "CT4.decide.capacity",
         "target": "CT4.terminal.c4",
         "constructor": "StructuralExhaustion.CT4.Graph.Edge.c4",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.C4Certificate S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.comparison CT4.Graph.NodeId.c4Terminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.C4Certificate S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.comparison CT4.Graph.NodeId.c4Terminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT4.edge.capacity",
+        "label": "capacity",
+        "kind": "ctTransition",
+        "ordinal": 8,
         "source": "CT4.decide.capacity",
         "target": "CT4.terminal.residual.capacity",
         "constructor": "StructuralExhaustion.CT4.Graph.Edge.capacity",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.CapacityResidual S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.comparison CT4.Graph.NodeId.capacityTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT4.Spec P} →\n    {capability : CT4.Capability S} →\n      {input : CT4.Input P} →\n        CT4.CapacityResidual S capability input →\n          CT4.Graph.Edge S capability input CT4.Graph.NodeId.comparison CT4.Graph.NodeId.capacityTerminal",
+        "provision": "generated_audit"
       }
     }
   ]

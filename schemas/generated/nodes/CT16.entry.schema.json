@@ -18,6 +18,43 @@
         "ordinal": 1,
         "nodeKind": "entry",
         "nodeId": "CT16.entry",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Route-facing invocation; the branch context is an index and is never\nduplicated inside a residual. ",
+              "mathematicalDefinition": null,
+              "label": "Input",
+              "declarationId": "StructuralExhaustion.CT16.Input"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT16.Input",
+                "provision": "derived_definitionally"
+              },
+              "plainExplanation": "Route-facing invocation; the branch context is an index and is never\nduplicated inside a residual. ",
+              "mathematicalDefinition": null,
+              "label": "CT16.Input",
+              "declarationId": "StructuralExhaustion.CT16.Input"
+            }
+          ],
+          "nodeId": "CT16.entry",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT16.entry.internal.predecessor.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

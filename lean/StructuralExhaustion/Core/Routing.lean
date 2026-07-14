@@ -45,7 +45,7 @@ theorem disabled_complete {Seed : Type uSeed} (reject : Seed → False) :
 end Discovery
 
 /-- A reusable route from one semantic residual kind to one target tactic. -/
-structure RouteRule (Residual : Type uResidual)
+structure RouteRule (Residual : Sort uResidual)
     (target : TacticInterface.{uContext, uTrigger}) where
   routeId : String
   targetContext : Residual → target.Context
@@ -61,7 +61,7 @@ structure GeneratedRoute (target : TacticInterface.{uContext, uTrigger}) where
   target : PackedTrigger target
 
 /-- The result of applying a route rule to a particular residual. -/
-inductive Attempt {Residual : Type uResidual}
+inductive Attempt {Residual : Sort uResidual}
     {target : TacticInterface.{uContext, uTrigger}}
     (rule : RouteRule.{uResidual, uContext, uTrigger, uSeed} Residual target)
     (residual : Residual) where
@@ -70,7 +70,7 @@ inductive Attempt {Residual : Type uResidual}
 
 namespace RouteRule
 
-def attempt {Residual : Type uResidual}
+def attempt {Residual : Sort uResidual}
     {target : TacticInterface.{uContext, uTrigger}}
     (rule : RouteRule.{uResidual, uContext, uTrigger, uSeed} Residual target)
     (residual : Residual) : Attempt rule residual :=
@@ -79,7 +79,7 @@ def attempt {Residual : Type uResidual}
   | .disabled reject => .disabled reject
 
 /-- Build the exact generated route from a discovered seed. -/
-def generate {Residual : Type uResidual}
+def generate {Residual : Sort uResidual}
     {target : TacticInterface.{uContext, uTrigger}}
     (rule : RouteRule.{uResidual, uContext, uTrigger, uSeed} Residual target)
     (residual : Residual) (seed : rule.Seed residual) : GeneratedRoute target where
@@ -88,21 +88,21 @@ def generate {Residual : Type uResidual}
 
 /-- The result type of `buildTrigger` enforces target admission at the exact
 context selected by the route. -/
-def validTrigger {Residual : Type uResidual}
+def validTrigger {Residual : Sort uResidual}
     {target : TacticInterface.{uContext, uTrigger}}
     (rule : RouteRule.{uResidual, uContext, uTrigger, uSeed} Residual target)
     (residual : Residual) (seed : rule.Seed residual) :
     target.Trigger (rule.targetContext residual) :=
   rule.buildTrigger residual seed
 
-theorem trigger_inhabited {Residual : Type uResidual}
+theorem trigger_inhabited {Residual : Sort uResidual}
     {target : TacticInterface.{uContext, uTrigger}}
     (rule : RouteRule.{uResidual, uContext, uTrigger, uSeed} Residual target)
     (residual : Residual) (seed : rule.Seed residual) :
     Nonempty (target.Trigger (rule.targetContext residual)) :=
   ⟨rule.validTrigger residual seed⟩
 
-theorem generated_provenance {Residual : Type uResidual}
+theorem generated_provenance {Residual : Sort uResidual}
     {target : TacticInterface.{uContext, uTrigger}}
     (rule : RouteRule.{uResidual, uContext, uTrigger, uSeed} Residual target)
     (residual : Residual) (seed : rule.Seed residual) :
@@ -115,14 +115,14 @@ namespace Attempt
 
 /-- Materialize an enabled attempt; disabled attempts retain their exact
 seed-impossibility proof. -/
-def generated? {Residual : Type uResidual}
+def generated? {Residual : Sort uResidual}
     {target : TacticInterface.{uContext, uTrigger}}
     {rule : RouteRule.{uResidual, uContext, uTrigger, uSeed} Residual target}
     {residual : Residual} : Attempt rule residual → Option (GeneratedRoute target)
   | .enabled seed => some (rule.generate residual seed)
   | .disabled _ => none
 
-theorem deterministic {Residual : Type uResidual}
+theorem deterministic {Residual : Sort uResidual}
     {target : TacticInterface.{uContext, uTrigger}}
     {rule : RouteRule.{uResidual, uContext, uTrigger, uSeed} Residual target}
     {residual : Residual} (left right : Attempt rule residual)

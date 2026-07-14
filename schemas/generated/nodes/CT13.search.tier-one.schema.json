@@ -18,6 +18,151 @@
         "ordinal": 2,
         "nodeKind": "computation",
         "nodeId": "CT13.search.tier-one",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.Capability.payers",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all tier-one payer candidates.",
+              "mathematicalDefinition": "\\operatorname{payers}=\\mathcal{P}",
+              "label": "Finite payer enumeration",
+              "declarationId": "StructuralExhaustion.CT13.Capability.payers"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.Capability.Eligible",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition that payer p is available in the current branch.",
+              "mathematicalDefinition": "\\operatorname{Eligible}(x,p)",
+              "label": "Tier-one eligibility",
+              "declarationId": "StructuralExhaustion.CT13.Capability.Eligible"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.Capability.eligibleDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding tier-one payer availability.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Eligible}(x,p))",
+              "label": "Eligibility decision procedure",
+              "declarationId": "StructuralExhaustion.CT13.Capability.eligibleDecidable"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "context",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: context.",
+              "mathematicalDefinition": null,
+              "label": "context",
+              "declarationId": null
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.Core.FiniteSearch.first",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Ordered search over an explicit Mathlib finite enumeration. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.Core.FiniteSearch.first",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.first"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.TierOneDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT13.TierOneDecision.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.TierOneDecision",
+              "declarationId": "StructuralExhaustion.CT13.TierOneDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.TierOneResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT13.TierOneResidual.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.TierOneResidual",
+              "declarationId": "StructuralExhaustion.CT13.TierOneResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.TierOneAbsenceState",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT13.TierOneAbsenceState.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.TierOneAbsenceState",
+              "declarationId": "StructuralExhaustion.CT13.TierOneAbsenceState"
+            }
+          ],
+          "nodeId": "CT13.search.tier-one",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT13.search.tier-one.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT13.search.tier-one.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT13.search.tier-one.internal.author.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT13.search.tier-one.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT13.search.tier-one.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT13.search.tier-one.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT13.search.tier-one.internal.theorem.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

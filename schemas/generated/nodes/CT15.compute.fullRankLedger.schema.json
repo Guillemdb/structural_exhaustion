@@ -18,6 +18,109 @@
         "ordinal": 4,
         "nodeKind": "computation",
         "nodeId": "CT15.compute.fullRankLedger",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.charge",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns the ledger charge contributed by each rank coordinate.",
+              "mathematicalDefinition": "q_x:\\mathcal{C}\\to\\mathbb{N}",
+              "label": "Coordinate charge",
+              "declarationId": "StructuralExhaustion.CT15.Spec.charge"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT15.FullRankState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Exhaustive full-rank evidence.  The equality is derived from the absence\nof a dependent coordinate, not supplied by a proof instance. ",
+              "mathematicalDefinition": null,
+              "label": "CT15.FullRankState",
+              "declarationId": "StructuralExhaustion.CT15.FullRankState"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "CT15.buildLedger",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: CT15.buildLedger.",
+              "mathematicalDefinition": null,
+              "label": "CT15.buildLedger",
+              "declarationId": "StructuralExhaustion.CT15.buildLedger"
+            },
+            {
+              "stepId": "theorem.2",
+              "role": "theorem",
+              "reference": {
+                "ref": "CT15.ledger_exact",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Every ledger is the complete declared coordinate ledger, with no omitted\nor duplicated coordinate. ",
+              "mathematicalDefinition": null,
+              "label": "CT15.ledger_exact",
+              "declarationId": "StructuralExhaustion.CT15.ledger_exact"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT15.LedgerState",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "Exact ledger state indexed by the full-rank predecessor. ",
+              "mathematicalDefinition": null,
+              "label": "CT15.LedgerState",
+              "declarationId": "StructuralExhaustion.CT15.LedgerState"
+            }
+          ],
+          "nodeId": "CT15.compute.fullRankLedger",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT15.compute.fullRankLedger.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT15.compute.fullRankLedger.internal.author.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT15.compute.fullRankLedger.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT15.compute.fullRankLedger.internal.predecessor.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT15.compute.fullRankLedger.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT15.compute.fullRankLedger.internal.theorem.2-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

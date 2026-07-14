@@ -271,6 +271,20 @@ export function ExampleInspector({
           </div>
           {link.routeId ? <code className="route-id">{link.routeId}</code> : null}
         </section>
+        {link.automationDeclarationIds.length ? (
+          <section>
+            <h3>Framework automation</h3>
+            <p>
+              This transition is executed or certified by the following reusable
+              framework declaration{link.automationDeclarationIds.length === 1 ? "" : "s"}.
+            </p>
+            <DeclarationButtons
+              declarationIds={link.automationDeclarationIds}
+              declarations={declarations}
+              onSelect={onDeclarationSelect}
+            />
+          </section>
+        ) : null}
         <section>
           <h3>Kernel-checked evidence</h3>
           <DeclarationButtons

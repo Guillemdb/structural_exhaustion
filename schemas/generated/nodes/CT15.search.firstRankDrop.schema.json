@@ -18,6 +18,259 @@
         "ordinal": 3,
         "nodeKind": "computation",
         "nodeId": "CT15.search.firstRankDrop",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.TargetDependent",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition that coordinate c depends on the target in branch x.",
+              "mathematicalDefinition": "\\operatorname{TargetDependent}(x,c)",
+              "label": "Target-dependent coordinate",
+              "declarationId": "StructuralExhaustion.CT15.Spec.TargetDependent"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.coordinates",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all rank coordinates.",
+              "mathematicalDefinition": "\\operatorname{coordinates}=\\mathcal{C}",
+              "label": "Finite coordinate enumeration",
+              "declarationId": "StructuralExhaustion.CT15.Capability.coordinates"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.targetDependentDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding whether a coordinate is target-dependent.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{TargetDependent}(x,c))",
+              "label": "Target-dependence decision",
+              "declarationId": "StructuralExhaustion.CT15.Capability.targetDependentDecidable"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT15.RankState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Machine-computed target-relative rank. ",
+              "mathematicalDefinition": null,
+              "label": "CT15.RankState",
+              "declarationId": "StructuralExhaustion.CT15.RankState"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "Core.FiniteSearch.first",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Ordered search over an explicit Mathlib finite enumeration. ",
+              "mathematicalDefinition": null,
+              "label": "Core.FiniteSearch.first",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.first"
+            },
+            {
+              "stepId": "theorem.2",
+              "role": "theorem",
+              "reference": {
+                "ref": "CT15.computedRank_eq_targetRank",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exhaustive absence of target-relative dependence forces literal full\nrank. ",
+              "mathematicalDefinition": null,
+              "label": "CT15.computedRank_eq_targetRank",
+              "declarationId": "StructuralExhaustion.CT15.computedRank_eq_targetRank"
+            },
+            {
+              "stepId": "theorem.3",
+              "role": "theorem",
+              "reference": {
+                "ref": "CT15.splitRank_sound",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: CT15.splitRank_sound.",
+              "mathematicalDefinition": null,
+              "label": "CT15.splitRank_sound",
+              "declarationId": "StructuralExhaustion.CT15.splitRank_sound"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT15.RankSplitDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT15.RankSplitDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT15.RankSplitDecision",
+              "declarationId": "StructuralExhaustion.CT15.RankSplitDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT15.RankDropResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "First dependent coordinate, retaining the exact independent prefix. ",
+              "mathematicalDefinition": null,
+              "label": "CT15.RankDropResidual",
+              "declarationId": "StructuralExhaustion.CT15.RankDropResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT15.FullRankState",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exhaustive full-rank evidence.  The equality is derived from the absence\nof a dependent coordinate, not supplied by a proof instance. ",
+              "mathematicalDefinition": null,
+              "label": "CT15.FullRankState",
+              "declarationId": "StructuralExhaustion.CT15.FullRankState"
+            }
+          ],
+          "nodeId": "CT15.search.firstRankDrop",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT15.search.firstRankDrop.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT15.search.firstRankDrop.internal.author.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.3",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT15.search.firstRankDrop.internal.author.1-to-theorem.3"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT15.search.firstRankDrop.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT15.search.firstRankDrop.internal.author.2-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.3",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT15.search.firstRankDrop.internal.author.2-to-theorem.3"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT15.search.firstRankDrop.internal.author.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT15.search.firstRankDrop.internal.author.3-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.3",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT15.search.firstRankDrop.internal.author.3-to-theorem.3"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT15.search.firstRankDrop.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT15.search.firstRankDrop.internal.predecessor.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.3",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT15.search.firstRankDrop.internal.predecessor.1-to-theorem.3"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT15.search.firstRankDrop.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT15.search.firstRankDrop.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT15.search.firstRankDrop.internal.theorem.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT15.search.firstRankDrop.internal.theorem.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT15.search.firstRankDrop.internal.theorem.2-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT15.search.firstRankDrop.internal.theorem.2-to-output.3"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.3",
+              "relation": "certifies",
+              "edgeId": "CT15.search.firstRankDrop.internal.theorem.3-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.3",
+              "relation": "certifies",
+              "edgeId": "CT15.search.firstRankDrop.internal.theorem.3-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.3",
+              "relation": "certifies",
+              "edgeId": "CT15.search.firstRankDrop.internal.theorem.3-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

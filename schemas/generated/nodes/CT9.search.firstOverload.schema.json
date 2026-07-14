@@ -18,6 +18,205 @@
         "ordinal": 3,
         "nodeKind": "computation",
         "nodeId": "CT9.search.firstOverload",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.capacity",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns the permitted size of each label fibre.",
+              "mathematicalDefinition": "\\kappa:\\mathcal{L}\\to\\mathbb{N}",
+              "label": "Fibre capacity",
+              "declarationId": "StructuralExhaustion.CT9.Capability.capacity"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.labels",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all fibre labels.",
+              "mathematicalDefinition": "\\operatorname{labels}=\\mathcal{L}",
+              "label": "Finite label enumeration",
+              "declarationId": "StructuralExhaustion.CT9.Capability.labels"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.label",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns each active item to exactly one label fibre.",
+              "mathematicalDefinition": "\\lambda:\\mathcal{X}\\to\\mathcal{L}",
+              "label": "Item labelling",
+              "declarationId": "StructuralExhaustion.CT9.Capability.label"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.items",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.items.",
+              "mathematicalDefinition": null,
+              "label": "Input.items",
+              "declarationId": "StructuralExhaustion.CT9.Input.items"
+            },
+            {
+              "stepId": "operation.1",
+              "role": "operation",
+              "reference": {
+                "ref": "CT9.fibre",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "Exact fibre of one label, computed from the active collection. ",
+              "mathematicalDefinition": null,
+              "label": "CT9.fibre",
+              "declarationId": "StructuralExhaustion.CT9.fibre"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "CT9.mem_own_fibre",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "The label partition is exact: every active item belongs to the fibre named\nby its computed label. ",
+              "mathematicalDefinition": null,
+              "label": "CT9.mem_own_fibre",
+              "declarationId": "StructuralExhaustion.CT9.mem_own_fibre"
+            },
+            {
+              "stepId": "theorem.2",
+              "role": "theorem",
+              "reference": {
+                "ref": "Core.FiniteSearch.search",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exhaustive search over an explicit Mathlib finite enumeration. ",
+              "mathematicalDefinition": null,
+              "label": "Core.FiniteSearch.search",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.search"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT9.Decision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT9.Decision.",
+              "mathematicalDefinition": null,
+              "label": "CT9.Decision",
+              "declarationId": "StructuralExhaustion.CT9.Decision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT9.OverloadResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "First exact label whose fibre exceeds its declared capacity. ",
+              "mathematicalDefinition": null,
+              "label": "CT9.OverloadResidual",
+              "declarationId": "StructuralExhaustion.CT9.OverloadResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT9.BoundedCertificate",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Complete bounded-multiplicity certificate over the exact label universe. ",
+              "mathematicalDefinition": null,
+              "label": "CT9.BoundedCertificate",
+              "declarationId": "StructuralExhaustion.CT9.BoundedCertificate"
+            }
+          ],
+          "nodeId": "CT9.search.firstOverload",
+          "edges": [
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.1",
+              "relation": "consumes",
+              "edgeId": "CT9.search.firstOverload.internal.author.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.2",
+              "relation": "consumes",
+              "edgeId": "CT9.search.firstOverload.internal.author.2-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.3",
+              "relation": "consumes",
+              "edgeId": "CT9.search.firstOverload.internal.author.3-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "consumes",
+              "edgeId": "CT9.search.firstOverload.internal.predecessor.1-to-operation.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT9.search.firstOverload.internal.operation.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT9.search.firstOverload.internal.operation.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT9.search.firstOverload.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT9.search.firstOverload.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT9.search.firstOverload.internal.theorem.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT9.search.firstOverload.internal.theorem.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT9.search.firstOverload.internal.theorem.2-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT9.search.firstOverload.internal.theorem.2-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

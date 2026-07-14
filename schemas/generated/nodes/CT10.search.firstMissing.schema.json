@@ -18,6 +18,223 @@
         "ordinal": 4,
         "nodeKind": "computation",
         "nodeId": "CT10.search.firstMissing",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.classes",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all refinement classes.",
+              "mathematicalDefinition": "\\operatorname{classes}=\\mathcal{C}",
+              "label": "Finite class enumeration",
+              "declarationId": "StructuralExhaustion.CT10.Capability.classes"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.classOf",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns each local datum to its exact refinement class.",
+              "mathematicalDefinition": "\\chi:\\mathcal{D}\\to\\mathcal{C}",
+              "label": "Datum classifier",
+              "declarationId": "StructuralExhaustion.CT10.Capability.classOf"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.promote",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Converts the first missing nondirect class into its downstream promotion payload.",
+              "mathematicalDefinition": "\\pi:\\mathcal{C}\\to\\mathcal{P}",
+              "label": "Class promotion",
+              "declarationId": "StructuralExhaustion.CT10.Capability.promote"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT10.DirectAbsent",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: CT10.DirectAbsent.",
+              "mathematicalDefinition": null,
+              "label": "CT10.DirectAbsent",
+              "declarationId": "StructuralExhaustion.CT10.DirectAbsent"
+            },
+            {
+              "stepId": "predecessor.2",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.data",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.data.",
+              "mathematicalDefinition": null,
+              "label": "Input.data",
+              "declarationId": "StructuralExhaustion.CT10.Input.data"
+            },
+            {
+              "stepId": "operation.1",
+              "role": "operation",
+              "reference": {
+                "ref": "CT10.row",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "Framework-owned operation executed inside this node: CT10.row.",
+              "mathematicalDefinition": null,
+              "label": "CT10.row",
+              "declarationId": "StructuralExhaustion.CT10.row"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "CT10.datum_mem_own_row",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: CT10.datum_mem_own_row.",
+              "mathematicalDefinition": null,
+              "label": "CT10.datum_mem_own_row",
+              "declarationId": "StructuralExhaustion.CT10.datum_mem_own_row"
+            },
+            {
+              "stepId": "theorem.2",
+              "role": "theorem",
+              "reference": {
+                "ref": "Core.FiniteSearch.search",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exhaustive search over an explicit Mathlib finite enumeration. ",
+              "mathematicalDefinition": null,
+              "label": "Core.FiniteSearch.search",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.search"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT10.MissingDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT10.MissingDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT10.MissingDecision",
+              "declarationId": "StructuralExhaustion.CT10.MissingDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT10.PromotedResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT10.PromotedResidual.",
+              "mathematicalDefinition": null,
+              "label": "CT10.PromotedResidual",
+              "declarationId": "StructuralExhaustion.CT10.PromotedResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT10.ExhaustiveCertificate",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT10.ExhaustiveCertificate.",
+              "mathematicalDefinition": null,
+              "label": "CT10.ExhaustiveCertificate",
+              "declarationId": "StructuralExhaustion.CT10.ExhaustiveCertificate"
+            }
+          ],
+          "nodeId": "CT10.search.firstMissing",
+          "edges": [
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.1",
+              "relation": "consumes",
+              "edgeId": "CT10.search.firstMissing.internal.author.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.2",
+              "relation": "consumes",
+              "edgeId": "CT10.search.firstMissing.internal.author.2-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.3",
+              "relation": "consumes",
+              "edgeId": "CT10.search.firstMissing.internal.author.3-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "consumes",
+              "edgeId": "CT10.search.firstMissing.internal.predecessor.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "predecessor.2",
+              "relation": "consumes",
+              "edgeId": "CT10.search.firstMissing.internal.predecessor.2-to-operation.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT10.search.firstMissing.internal.operation.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT10.search.firstMissing.internal.operation.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT10.search.firstMissing.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT10.search.firstMissing.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT10.search.firstMissing.internal.theorem.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT10.search.firstMissing.internal.theorem.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT10.search.firstMissing.internal.theorem.2-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT10.search.firstMissing.internal.theorem.2-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

@@ -124,4 +124,96 @@ theorem internalSubgraphMinDegreeFree_of_internalMinDegreeFree
     free (object.hasInternalMinDegreeAtLeast_of_internalSubgraph bound
       internalSubgraph)
 
+/-! ## Heredity under a second induced restriction -/
+
+/-- Flatten a finite set of vertices of an induced object back to the host
+vertex type. -/
+noncomputable def flattenInducedVertices (_object : FiniteObject V)
+    (support : Finset V)
+    (vertices : Finset {vertex : V // vertex ∈ support}) : Finset V :=
+  vertices.map (Function.Embedding.subtype fun vertex => vertex ∈ support)
+
+/-- The natural equivalence between a twice-restricted vertex type and its
+flattened once-restricted form. -/
+noncomputable def flattenInducedEquiv (object : FiniteObject V)
+    (support : Finset V)
+    (vertices : Finset {vertex : V // vertex ∈ support}) :
+    {vertex : {vertex : V // vertex ∈ support} // vertex ∈ vertices} ≃
+      {vertex : V // vertex ∈
+        object.flattenInducedVertices support vertices} :=
+  Equiv.ofBijective
+    (fun vertex => ⟨vertex.1.1, by
+      unfold flattenInducedVertices
+      exact Finset.mem_map.mpr ⟨vertex.1, vertex.2, rfl⟩⟩)
+    (by
+      constructor
+      · intro left right equal
+        apply Subtype.ext
+        apply Subtype.ext
+        exact congrArg (fun vertex => vertex.1) equal
+      · intro vertex
+        unfold flattenInducedVertices at vertex
+        obtain ⟨source, member, value⟩ := Finset.mem_map.mp vertex.2
+        refine ⟨⟨source, member⟩, ?_⟩
+        apply Subtype.ext
+        exact value)
+
+/-- Restricting an induced graph a second time is isomorphic to inducing the
+host graph on the flattened support. -/
+noncomputable def flattenInducedIso (object : FiniteObject V)
+    (support : Finset V)
+    (vertices : Finset {vertex : V // vertex ∈ support}) :
+    ((object.induceFinset support).induceFinset vertices).graph ≃g
+      (object.induceFinset
+        (object.flattenInducedVertices support vertices)).graph where
+  __ := object.flattenInducedEquiv support vertices
+  map_rel_iff' := by
+    intro left right
+    rfl
+
+/-- Internal-core freeness is hereditary under restriction to any explicit
+finite induced support. -/
+theorem internalMinDegreeFree_induceFinset (object : FiniteObject V)
+    (support : Finset V) (bound : Nat)
+    (free : object.InternalMinDegreeFree bound) :
+    (object.induceFinset support).InternalMinDegreeFree bound := by
+  intro restrictedCore
+  rcases restrictedCore with ⟨vertices, minimum⟩
+  let inner := (object.induceFinset support).induceFinset vertices
+  let outerVertices := object.flattenInducedVertices support vertices
+  let outer := object.induceFinset outerVertices
+  let iso := object.flattenInducedIso support vertices
+  apply free
+  refine ⟨outerVertices, ?_⟩
+  letI : FinEnum {vertex : {vertex : V // vertex ∈ support} //
+      vertex ∈ vertices} := inner.input.vertices
+  letI : DecidableRel inner.graph.Adj := inner.input.decideAdj
+  letI : FinEnum {vertex : V // vertex ∈ outerVertices} :=
+    outer.input.vertices
+  letI : DecidableRel outer.graph.Adj := outer.input.decideAdj
+  by_cases verticesNonempty : vertices.Nonempty
+  · let sourceVertex := verticesNonempty.choose
+    let source : {vertex : {vertex : V // vertex ∈ support} //
+        vertex ∈ vertices} := ⟨sourceVertex, verticesNonempty.choose_spec⟩
+    letI : Nonempty {vertex : V // vertex ∈ outerVertices} :=
+      ⟨iso source⟩
+    apply outer.le_minDegree_of_forall_le_degree bound
+    intro vertex
+    let source := iso.symm vertex
+    have sourceLower : bound ≤ inner.degree source :=
+      minimum.trans (inner.minDegree_le_degree source)
+    have degreeEq : outer.degree (iso source) = inner.degree source := by
+      rw [outer.degree_eq_ncard_neighborSet,
+        inner.degree_eq_ncard_neighborSet]
+      exact (Set.ncard_congr' (iso.mapNeighborSet source)).symm
+    have mapped : iso source = vertex := iso.apply_symm_apply vertex
+    rw [mapped] at degreeEq
+    rw [degreeEq]
+    exact sourceLower
+  · have verticesEmpty : vertices = ∅ := Finset.not_nonempty_iff_eq_empty.mp
+      verticesNonempty
+    subst vertices
+    simpa [inner, outer, outerVertices, flattenInducedVertices,
+      FiniteObject.minDegree] using minimum
+
 end StructuralExhaustion.Graph.FiniteObject

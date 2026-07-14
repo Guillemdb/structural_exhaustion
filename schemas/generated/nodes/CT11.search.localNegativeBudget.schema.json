@@ -18,6 +18,133 @@
         "ordinal": 4,
         "nodeKind": "computation",
         "nodeId": "CT11.search.localNegativeBudget",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.localBudget",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns the signed local contribution whose negative total is localized.",
+              "mathematicalDefinition": "b_x:\\mathcal{C}\\to\\mathbb{Z}",
+              "label": "Local integer budget",
+              "declarationId": "StructuralExhaustion.CT11.Capability.localBudget"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT11.AdmissibleDecomposition",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: CT11.AdmissibleDecomposition.",
+              "mathematicalDefinition": null,
+              "label": "CT11.AdmissibleDecomposition",
+              "declarationId": "StructuralExhaustion.CT11.AdmissibleDecomposition"
+            },
+            {
+              "stepId": "predecessor.2",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.context",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.context.",
+              "mathematicalDefinition": null,
+              "label": "Input.context",
+              "declarationId": "StructuralExhaustion.CT11.Input.context"
+            },
+            {
+              "stepId": "predecessor.3",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.cells",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.cells.",
+              "mathematicalDefinition": null,
+              "label": "Input.cells",
+              "declarationId": "StructuralExhaustion.CT11.Input.cells"
+            },
+            {
+              "stepId": "predecessor.4",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.deficit",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.deficit.",
+              "mathematicalDefinition": null,
+              "label": "Input.deficit",
+              "declarationId": "StructuralExhaustion.CT11.Input.deficit"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "CT11.sum_nonnegative",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: CT11.sum_nonnegative.",
+              "mathematicalDefinition": null,
+              "label": "CT11.sum_nonnegative",
+              "declarationId": "StructuralExhaustion.CT11.sum_nonnegative"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT11.LocalizedDeficitResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT11.LocalizedDeficitResidual.",
+              "mathematicalDefinition": null,
+              "label": "CT11.LocalizedDeficitResidual",
+              "declarationId": "StructuralExhaustion.CT11.LocalizedDeficitResidual"
+            }
+          ],
+          "nodeId": "CT11.search.localNegativeBudget",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT11.search.localNegativeBudget.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT11.search.localNegativeBudget.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.2",
+              "relation": "then",
+              "edgeId": "CT11.search.localNegativeBudget.internal.predecessor.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.3",
+              "relation": "then",
+              "edgeId": "CT11.search.localNegativeBudget.internal.predecessor.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.4",
+              "relation": "then",
+              "edgeId": "CT11.search.localNegativeBudget.internal.predecessor.4-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT11.search.localNegativeBudget.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

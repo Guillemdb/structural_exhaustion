@@ -18,6 +18,151 @@
         "ordinal": 5,
         "nodeKind": "decision",
         "nodeId": "CT4.decide.capacity",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.required",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "The branch-specific aggregate amount against which the computed charge is compared.",
+              "mathematicalDefinition": "R(x)\\in\\mathbb{N}",
+              "label": "Required total",
+              "declarationId": "StructuralExhaustion.CT4.Capability.required"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.payers",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all possible payers.",
+              "mathematicalDefinition": "\\operatorname{payers}=\\mathcal{Q}",
+              "label": "Finite payer enumeration",
+              "declarationId": "StructuralExhaustion.CT4.Capability.payers"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.capacity",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns the maximum permitted load to each payer in a branch context.",
+              "mathematicalDefinition": "\\kappa_x:\\mathcal{Q}\\to\\mathbb{N}",
+              "label": "Payer capacity",
+              "declarationId": "StructuralExhaustion.CT4.Spec.capacity"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT4.BoundedFibreState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: CT4.BoundedFibreState.",
+              "mathematicalDefinition": null,
+              "label": "CT4.BoundedFibreState",
+              "declarationId": "StructuralExhaustion.CT4.BoundedFibreState"
+            },
+            {
+              "stepId": "operation.1",
+              "role": "operation",
+              "reference": {
+                "ref": "totalCapacity",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "Framework-owned operation executed inside this node: totalCapacity.",
+              "mathematicalDefinition": null,
+              "label": "totalCapacity",
+              "declarationId": "StructuralExhaustion.CT4.totalCapacity"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT4.CapacityDecision",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT4.CapacityDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT4.CapacityDecision",
+              "declarationId": "StructuralExhaustion.CT4.CapacityDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT4.C4Certificate",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT4.C4Certificate.",
+              "mathematicalDefinition": null,
+              "label": "CT4.C4Certificate",
+              "declarationId": "StructuralExhaustion.CT4.C4Certificate"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT4.CapacityResidual",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT4.CapacityResidual.",
+              "mathematicalDefinition": null,
+              "label": "CT4.CapacityResidual",
+              "declarationId": "StructuralExhaustion.CT4.CapacityResidual"
+            }
+          ],
+          "nodeId": "CT4.decide.capacity",
+          "edges": [
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.1",
+              "relation": "consumes",
+              "edgeId": "CT4.decide.capacity.internal.author.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.2",
+              "relation": "consumes",
+              "edgeId": "CT4.decide.capacity.internal.author.2-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.3",
+              "relation": "consumes",
+              "edgeId": "CT4.decide.capacity.internal.author.3-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "consumes",
+              "edgeId": "CT4.decide.capacity.internal.predecessor.1-to-operation.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "operation.1",
+              "relation": "produces",
+              "edgeId": "CT4.decide.capacity.internal.operation.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "operation.1",
+              "relation": "produces",
+              "edgeId": "CT4.decide.capacity.internal.operation.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "operation.1",
+              "relation": "produces",
+              "edgeId": "CT4.decide.capacity.internal.operation.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

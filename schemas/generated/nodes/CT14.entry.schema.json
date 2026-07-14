@@ -18,6 +18,43 @@
         "ordinal": 1,
         "nodeKind": "entry",
         "nodeId": "CT14.entry",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "context",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: context.",
+              "mathematicalDefinition": null,
+              "label": "context",
+              "declarationId": null
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.Input",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT14.Input.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.Input",
+              "declarationId": "StructuralExhaustion.CT14.Input"
+            }
+          ],
+          "nodeId": "CT14.entry",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT14.entry.internal.predecessor.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

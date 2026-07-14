@@ -538,73 +538,105 @@
     {
       "data": {
         "id": "CT12.edge.begin",
+        "label": "begin",
+        "kind": "ctTransition",
+        "ordinal": 1,
         "source": "CT12.entry",
         "target": "CT12.decide.saturation",
         "constructor": "StructuralExhaustion.CT12.Graph.Edge.begin",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} → CT12.Graph.Edge capability CT12.Graph.NodeId.entry CT12.Graph.NodeId.saturation"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} → CT12.Graph.Edge capability CT12.Graph.NodeId.entry CT12.Graph.NodeId.saturation",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT12.edge.exhausted",
+        "label": "exhausted",
+        "kind": "ctTransition",
+        "ordinal": 2,
         "source": "CT12.decide.saturation",
         "target": "CT12.terminal.certificate.exhausted",
         "constructor": "StructuralExhaustion.CT12.Graph.Edge.exhausted",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    capability.State 0 → CT12.Graph.Edge capability CT12.Graph.NodeId.saturation CT12.Graph.NodeId.exhaustedTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    capability.State 0 → CT12.Graph.Edge capability CT12.Graph.NodeId.saturation CT12.Graph.NodeId.exhaustedTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT12.edge.positive",
+        "label": "positive",
+        "kind": "ctTransition",
+        "ordinal": 3,
         "source": "CT12.decide.saturation",
         "target": "CT12.compute.peel",
         "constructor": "StructuralExhaustion.CT12.Graph.Edge.positive",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} → capability.State (n + 1) → CT12.Graph.Edge capability CT12.Graph.NodeId.saturation CT12.Graph.NodeId.peel"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} → capability.State (n + 1) → CT12.Graph.Edge capability CT12.Graph.NodeId.saturation CT12.Graph.NodeId.peel",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT12.edge.peeled",
+        "label": "peeled",
+        "kind": "ctTransition",
+        "ordinal": 4,
         "source": "CT12.compute.peel",
         "target": "CT12.compute.restoration",
         "constructor": "StructuralExhaustion.CT12.Graph.Edge.peeled",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state → CT12.Graph.Edge capability CT12.Graph.NodeId.peel CT12.Graph.NodeId.restoration"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state → CT12.Graph.Edge capability CT12.Graph.NodeId.peel CT12.Graph.NodeId.restoration",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT12.edge.demand",
+        "label": "demand",
+        "kind": "ctTransition",
+        "ordinal": 5,
         "source": "CT12.compute.restoration",
         "target": "CT12.terminal.residual.demand",
         "constructor": "StructuralExhaustion.CT12.Graph.Edge.demand",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.DemandResidual →\n            CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.demandTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.DemandResidual →\n            CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.demandTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT12.edge.tier",
+        "label": "tier",
+        "kind": "ctTransition",
+        "ordinal": 6,
         "source": "CT12.compute.restoration",
         "target": "CT12.terminal.residual.tier",
         "constructor": "StructuralExhaustion.CT12.Graph.Edge.tier",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.TierResidual →\n            CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.tierTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.TierResidual →\n            CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.tierTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT12.edge.continue",
+        "label": "continue",
+        "kind": "ctTransition",
+        "ordinal": 7,
         "source": "CT12.compute.restoration",
         "target": "CT12.verify.decrease",
         "constructor": "StructuralExhaustion.CT12.Graph.Edge.continue",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n next : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.State next →\n            next < n + 1 → CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.decrease"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n next : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.State next →\n            next < n + 1 → CT12.Graph.Edge capability CT12.Graph.NodeId.restoration CT12.Graph.NodeId.decrease",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT12.edge.loopBack",
+        "label": "loopBack",
+        "kind": "ctTransition",
+        "ordinal": 8,
         "source": "CT12.verify.decrease",
         "target": "CT12.decide.saturation",
         "constructor": "StructuralExhaustion.CT12.Graph.Edge.loopBack",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n next : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.State next →\n            next < n + 1 → CT12.Graph.Edge capability CT12.Graph.NodeId.decrease CT12.Graph.NodeId.saturation"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT12.Capability P} →\n    {n next : ℕ} →\n      {state : capability.State (n + 1)} →\n        capability.Peeled state →\n          capability.State next →\n            next < n + 1 → CT12.Graph.Edge capability CT12.Graph.NodeId.decrease CT12.Graph.NodeId.saturation",
+        "provision": "generated_audit"
       }
     }
   ]

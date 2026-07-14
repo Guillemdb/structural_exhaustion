@@ -18,6 +18,151 @@
         "ordinal": 2,
         "nodeKind": "computation",
         "nodeId": "CT16.search.support",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.coordinates",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of every support coordinate.",
+              "mathematicalDefinition": "\\operatorname{coordinates}=\\mathcal{C}",
+              "label": "Finite support coordinates",
+              "declarationId": "StructuralExhaustion.CT16.Capability.coordinates"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.InSupport",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition that coordinate c belongs to the support of G.",
+              "mathematicalDefinition": "c\\in\\operatorname{supp}(G)",
+              "label": "Support-membership predicate",
+              "declarationId": "StructuralExhaustion.CT16.Capability.InSupport"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.inSupportDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding whether a coordinate lies in the support.",
+              "mathematicalDefinition": "\\operatorname{decide}(c\\in\\operatorname{supp}(G))",
+              "label": "Support-membership decision",
+              "declarationId": "StructuralExhaustion.CT16.Capability.inSupportDecidable"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "context",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: context.",
+              "mathematicalDefinition": null,
+              "label": "context",
+              "declarationId": null
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "Core.FiniteSearch.search",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exhaustive search over an explicit Mathlib finite enumeration. ",
+              "mathematicalDefinition": null,
+              "label": "Core.FiniteSearch.search",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.search"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT16.SupportDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT16.SupportDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT16.SupportDecision",
+              "declarationId": "StructuralExhaustion.CT16.SupportDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT16.ProperSupportResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT16.ProperSupportResidual.",
+              "mathematicalDefinition": null,
+              "label": "CT16.ProperSupportResidual",
+              "declarationId": "StructuralExhaustion.CT16.ProperSupportResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT16.WholeSupportState",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT16.WholeSupportState.",
+              "mathematicalDefinition": null,
+              "label": "CT16.WholeSupportState",
+              "declarationId": "StructuralExhaustion.CT16.WholeSupportState"
+            }
+          ],
+          "nodeId": "CT16.search.support",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT16.search.support.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT16.search.support.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT16.search.support.internal.author.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT16.search.support.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT16.search.support.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT16.search.support.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT16.search.support.internal.theorem.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

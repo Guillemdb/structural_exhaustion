@@ -7,6 +7,7 @@ from copy import deepcopy
 from pathlib import Path
 
 from jsonschema import Draft202012Validator
+from referencing import Registry, Resource
 
 from tools.lint_automation_first import (
     AXIOM_DECLARATION_PATTERN,
@@ -146,12 +147,12 @@ def first_terminal_path(tactic: dict) -> tuple[list[dict], dict]:
     raise AssertionError(f"{tactic['tacticId']} has no reachable terminal")
 
 
-def test_catalog_is_the_compiled_schema_v7_ct1_to_ct17_registry() -> None:
+def test_catalog_is_the_compiled_schema_v8_ct1_to_ct17_registry() -> None:
     catalog = load("generated/lean-machines.json")
     schema = load("schemas/lean-machine-catalog.schema.json")
     assert list(Draft202012Validator(schema).iter_errors(catalog)) == []
     assert catalog["artifactType"] == "automationFirstLeanCatalog"
-    assert catalog["schemaVersion"] == "7.0.0"
+    assert catalog["schemaVersion"] == "8.0.0"
     assert catalog["sourceOfTruth"] == {
         "kind": "compiledLeanEnvironment",
         "rootModule": "StructuralExhaustion",
@@ -187,6 +188,27 @@ def test_catalog_is_the_compiled_schema_v7_ct1_to_ct17_registry() -> None:
             if declaration["name"] == f"{tactic['namespace']}.run"
         )
         assert "ExecutionResult" in run_declaration["type"]
+        assert len(tactic["internalDeclarations"]) > 0
+        declaration_ids = {
+            declaration["declarationId"]
+            for declaration in tactic["internalDeclarations"]
+        }
+        for node in tactic["nodes"]:
+            flow = node["internalFlow"]
+            assert flow["nodeId"] == node["nodeId"]
+            assert len(flow["steps"]) > 0
+            step_ids = {step["stepId"] for step in flow["steps"]}
+            assert len(step_ids) == len(flow["steps"])
+            assert all(
+                edge["sourceStepId"] in step_ids
+                and edge["targetStepId"] in step_ids
+                for edge in flow["edges"]
+            )
+            assert all(
+                step["declarationId"] is None
+                or step["declarationId"] in declaration_ids
+                for step in flow["steps"]
+            )
 
 
 def test_canonical_lean_sources_have_standard_surface_and_no_legacy_api() -> None:
@@ -529,6 +551,26 @@ def test_graphs_are_closed_reachable_exact_and_only_ct12_is_cyclic() -> None:
             edge["sourceNode"] in node_ids and edge["targetNode"] in node_ids
             for edge in transitions
         )
+        graph = load(f"generated/cytoscape/{tactic['tacticId']}.json")
+        displayed_transitions = [
+            element["data"]
+            for element in graph["elements"]
+            if element["data"].get("kind") == "ctTransition"
+        ]
+        assert displayed_transitions == [
+            {
+                "id": edge["edgeId"],
+                "label": edge["constructor"].rsplit(".", 1)[-1],
+                "kind": "ctTransition",
+                "ordinal": edge["ordinal"],
+                "source": edge["sourceNode"],
+                "target": edge["targetNode"],
+                "constructor": edge["constructor"],
+                "constructorType": edge["constructorType"],
+                "provision": edge["provision"],
+            }
+            for edge in transitions
+        ]
 
         terminals = {terminal["nodeId"] for terminal in tactic["terminals"]}
         assert terminals == {
@@ -569,9 +611,13 @@ def test_residual_registry_and_routes_are_explicit_and_framework_owned() -> None
     assert {route["routeId"] for route in catalog["routes"]} == {
         "CT1.residual.avoiding->CT2",
         "CT1.residual.avoiding->CT2.localDeletion",
+        "CT1.terminal.c1->CT12",
         "CT2.residual.separatingContext->CT3",
         "CT2.residual.criticality->CT10",
+        "CT5.residual.chargeLedger->CT14",
         "CT6.residual.activeLedger->CT9",
+        "CT9.residual.overload->CT7",
+        "CT14.residual.capacity->CT14",
     }
     expected_semantic_discovery = {
         "CT1.residual.avoiding->CT2": {
@@ -582,6 +628,10 @@ def test_residual_registry_and_routes_are_explicit_and_framework_owned() -> None
             "kind": "capabilityDiscovery",
             "adapterType": None,
         },
+        "CT1.terminal.c1->CT12": {
+            "kind": "problemSemanticAdapter",
+            "adapterType": "StructuralExhaustion.Routes.CT1ToCT12.SemanticAdapter",
+        },
         "CT2.residual.separatingContext->CT3": {
             "kind": "problemSemanticAdapter",
             "adapterType": "StructuralExhaustion.Routes.CT2ToCT3.PieceDiscovery",
@@ -590,9 +640,21 @@ def test_residual_registry_and_routes_are_explicit_and_framework_owned() -> None
             "kind": "problemSemanticAdapter",
             "adapterType": "StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery",
         },
+        "CT5.residual.chargeLedger->CT14": {
+            "kind": "capabilityDiscovery",
+            "adapterType": None,
+        },
         "CT6.residual.activeLedger->CT9": {
             "kind": "problemSemanticAdapter",
             "adapterType": "StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter",
+        },
+        "CT9.residual.overload->CT7": {
+            "kind": "problemSemanticAdapter",
+            "adapterType": "StructuralExhaustion.Routes.CT9ToCT7.ObjectAdapter",
+        },
+        "CT14.residual.capacity->CT14": {
+            "kind": "capabilityDiscovery",
+            "adapterType": None,
         },
     }
     for route in catalog["routes"]:
@@ -760,8 +822,30 @@ def test_manifest_projects_the_catalog_and_generated_files_exist() -> None:
     assert route_manifest["schemaVersion"] == "2.0.0"
     assert route_manifest["routes"] == catalog["routes"]
     for tactic in manifest["tactics"]:
-        for key in ("mermaid", "cytoscape", "manuscriptFigure"):
+        for key in ("mermaid", "cytoscape", "internals", "manuscriptFigure"):
             assert (ROOT / tactic[key]).is_file()
+
+
+def test_node_internal_artifacts_match_catalog_and_schema() -> None:
+    catalog_schema = load("schemas/lean-machine-catalog.schema.json")
+    internal_schema = load("schemas/node-internals.schema.json")
+    registry = Registry().with_resource(
+        catalog_schema["$id"],
+        Resource.from_contents(catalog_schema),
+    )
+    validator = Draft202012Validator(internal_schema, registry=registry)
+    catalog = load("generated/lean-machines.json")
+    for tactic in catalog["tactics"]:
+        artifact = load(f"generated/internals/{tactic['tacticId']}.json")
+        assert list(validator.iter_errors(artifact)) == []
+        assert artifact["apiVersion"] == tactic["apiVersion"]
+        assert [node["internalFlow"] for node in artifact["nodes"]] == [
+            node["internalFlow"] for node in tactic["nodes"]
+        ]
+        assert all(
+            source["path"] == f"lean/{source['sourceId']}"
+            for source in artifact["sources"]
+        )
 
 
 def test_catalog_status_is_computed_from_catalog() -> None:

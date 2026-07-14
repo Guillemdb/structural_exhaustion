@@ -14,6 +14,7 @@
     "schemas/lean-derived-schema-index.schema.json",
     "schemas/lean-machine-catalog.schema.json",
     "schemas/machine-artifacts.schema.json",
+    "schemas/node-internals.schema.json",
     "schemas/node-spec.schema.json",
     "schemas/provisioned-ref.schema.json",
     "schemas/residual-kind.schema.json",
@@ -36,6 +37,7 @@
         "schemas/generated/nodes/CT1.terminal.avoiding.schema.json"
       ],
       "residualSchemas": [
+        "schemas/generated/residuals/CT1.terminal.c1.schema.json",
         "schemas/generated/residuals/CT1.residual.avoiding.schema.json"
       ]
     },
@@ -239,7 +241,7 @@
     },
     {
       "tacticId": "CT12",
-      "apiVersion": "CT12-v5",
+      "apiVersion": "CT12-v6",
       "tacticSchema": "schemas/generated/tactics/CT12.schema.json",
       "runSchema": "schemas/generated/runs/CT12.run.schema.json",
       "verificationSchema": "schemas/generated/verifications/CT12.verification.schema.json",
@@ -373,8 +375,12 @@
   "routes": [
     "schemas/generated/routes/CT1.residual.avoiding-_CT2.schema.json",
     "schemas/generated/routes/CT1.residual.avoiding-_CT2.localDeletion.schema.json",
+    "schemas/generated/routes/CT1.terminal.c1-_CT12.schema.json",
     "schemas/generated/routes/CT2.residual.separatingContext-_CT3.schema.json",
     "schemas/generated/routes/CT2.residual.criticality-_CT10.schema.json",
-    "schemas/generated/routes/CT6.residual.activeLedger-_CT9.schema.json"
+    "schemas/generated/routes/CT5.residual.chargeLedger-_CT14.schema.json",
+    "schemas/generated/routes/CT6.residual.activeLedger-_CT9.schema.json",
+    "schemas/generated/routes/CT9.residual.overload-_CT7.schema.json",
+    "schemas/generated/routes/CT14.residual.capacity-_CT14.schema.json"
   ]
 }

@@ -18,6 +18,61 @@
         "ordinal": 8,
         "nodeKind": "certificate",
         "nodeId": "CT10.terminal.certificate.exhaustive",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT10.Graph.Edge.exhaustive",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT10.Graph.Edge.exhaustive.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT10.Graph.Edge.exhaustive",
+              "declarationId": "StructuralExhaustion.CT10.Graph.Edge.exhaustive"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT10.run_trace_valid",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT10.run_trace_valid.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT10.run_trace_valid",
+              "declarationId": "StructuralExhaustion.CT10.run_trace_valid"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT10.ExecutionResult@CT10.terminal.certificate.exhaustive",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT10.ExecutionResult@CT10.terminal.certificate.exhaustive.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT10.ExecutionResult@CT10.terminal.certificate.exhaustive",
+              "declarationId": null
+            }
+          ],
+          "nodeId": "CT10.terminal.certificate.exhaustive",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT10.terminal.certificate.exhaustive.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT10.terminal.certificate.exhaustive.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [],

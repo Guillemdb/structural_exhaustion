@@ -341,14 +341,20 @@ private def genericStepExplanation
   | .output =>
       s!"State, decision, certificate, or residual produced by this node: {step.reference.ref}."
 
+private def internalStepDeclaration?
+    (env : Environment) (tactic : TacticDescriptor)
+    (step : NodeInternalStepDescriptor) : Option Name :=
+  match tactic.capabilityConcepts.find? fun concept =>
+      concept.requirementRef == step.reference.ref with
+  | some concept => some concept.declarationName
+  | none => resolveReference? env tactic step.reference.ref
+
 private def internalStepJson
     (env : Environment) (tactic : TacticDescriptor)
     (step : NodeInternalStepDescriptor) : CommandElabM Json := do
   let concept? := tactic.capabilityConcepts.find? fun concept =>
     concept.requirementRef == step.reference.ref
-  let declaration? := match concept? with
-    | some concept => some concept.declarationName
-    | none => resolveReference? env tactic step.reference.ref
+  let declaration? := internalStepDeclaration? env tactic step
   let label := match concept? with
     | some concept => concept.presentation.label
     | none => step.reference.ref
@@ -393,8 +399,8 @@ private def internalFlowJson
 private def contractReferences
     (contract : Core.NodeAutomationContract) : List String :=
   (contract.authorInputs ++ contract.derivedInputs ++
-    contract.frameworkTheorems.map fun name =>
-      Core.ProvisionedRef.mk name .derivedByGenericTheorem ++
+    (contract.frameworkTheorems.map fun name =>
+      Core.ProvisionedRef.mk name .derivedByGenericTheorem) ++
     contract.generatedOutputs).map (·.ref)
 
 private def validateInternalFlow
@@ -634,8 +640,8 @@ private def tacticJson
       (incoming.toList.map (·.constructorType))
     let matchingContracts := tactic.nodeAutomationContracts.filter fun contract =>
       contract.nodeId == code
-    let automation ← match isTerminal, matchingContracts with
-      | true, [] => pure (terminalAutomationJson tactic code incoming)
+    let contract ← match isTerminal, matchingContracts with
+      | true, [] => pure (terminalAutomationContract tactic code incoming)
       | true, _ =>
           throwError
             "automation-first export: terminal {code} has an executable node contract"
@@ -648,11 +654,23 @@ private def tacticJson
             throwError "automation-first export: {code} misclassifies an author input"
           unless contract.derivedInputs.all fun input => input.provision.isFrameworkDerived do
             throwError "automation-first export: {code} misclassifies a derived input"
-          pure (automationJson contract)
+          pure contract
       | false, [] =>
           throwError "automation-first export: nonterminal {code} has no node contract"
       | false, _ =>
           throwError "automation-first export: nonterminal {code} has duplicate contracts"
+    let flow ← if isTerminal then
+        pure (NodeInternalFlowDescriptor.ofContract contract)
+      else
+        match tactic.nodeInternalFlows.filter fun candidate => candidate.nodeId == code with
+        | [candidate] => pure candidate
+        | [] => throwError
+            "automation-first export: nonterminal {code} has no internal flow"
+        | _ => throwError
+            "automation-first export: nonterminal {code} has duplicate internal flows"
+    validateInternalFlow contract flow
+    let automation := automationJson contract
+    let internalFlow ← internalFlowJson env tactic flow
     let formalContract := Json.mkObj [
       ("predecessorIndexed", toJson true),
       ("incomingEdges", Json.arr (incoming.map (·.contractJson))),
@@ -671,6 +689,7 @@ private def tacticJson
       ("sourceFile", toJson (sourcePath graphNamespace)),
       ("formalContract", formalContract),
       ("automation", automation),
+      ("internalFlow", internalFlow),
       ("presentation", presentation)
     ]
 
@@ -681,6 +700,20 @@ private def tacticJson
     unless nonterminalCodes.contains contract.nodeId do
       throwError
         "automation-first export: node contract {contract.nodeId} is not a nonterminal constructor"
+  for flow in tactic.nodeInternalFlows do
+    unless nonterminalCodes.contains flow.nodeId do
+      throwError
+        "automation-first export: internal flow {flow.nodeId} is not a nonterminal constructor"
+
+  let terminalFlows := terminalCodes.map fun code =>
+    let incoming := transitions.filter fun edge => edge.targetNode == code
+    NodeInternalFlowDescriptor.ofContract
+      (terminalAutomationContract tactic code incoming)
+  let allInternalFlows := tactic.nodeInternalFlows ++ terminalFlows
+  let internalRoots := allInternalFlows.flatMap (·.steps) |>.filterMap fun step =>
+    internalStepDeclaration? env tactic step
+  let internalNames := projectDeclarationClosure env internalRoots []
+  let internalDeclarations ← internalNames.mapM (internalDeclarationJson env)
 
   for residual in tactic.residualKindContracts do
     if residual.semanticFields.isEmpty then
@@ -749,6 +782,7 @@ private def tacticJson
     ("residualKinds", Json.arr
       (tactic.residualKindContracts.map residualKindJson).toArray),
     ("apiDeclarations", Json.arr apiDeclarations.toArray),
+    ("internalDeclarations", Json.arr internalDeclarations.toArray),
     ("loopDecrease", loopDecrease)
   ]
 
@@ -817,7 +851,7 @@ private def exportCatalog : CommandElabM Unit := do
   let tactics ← Canonical.tactics.mapM (tacticJson env)
   let catalog := Json.mkObj [
     ("artifactType", toJson "automationFirstLeanCatalog"),
-    ("schemaVersion", toJson "7.0.0"),
+    ("schemaVersion", toJson "8.0.0"),
     ("sourceOfTruth", Json.mkObj [
       ("kind", toJson "compiledLeanEnvironment"),
       ("rootModule", toJson "StructuralExhaustion"),

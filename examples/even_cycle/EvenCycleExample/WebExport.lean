@@ -106,6 +106,9 @@ private def mainWorkflow : ExampleWorkflowDescriptor := {
       label := "active-ledger route"
       description := "The framework-registered CT6 active-ledger residual route constructs the CT9 input through the problem adapter."
       routeId? := some "CT6.residual.activeLedger->CT9"
+      automationDeclarations := [
+        `StructuralExhaustion.Routes.CT6ToCT9.routeContract
+      ]
       evidenceDeclarations := [`EvenCycleExample.ct6ToCT9ItemAdapter]
     },
     {
@@ -445,14 +448,82 @@ private def maximalMatchingWorkflow : ExampleWorkflowDescriptor := {
   ]
 }
 
+private def highCenterDeletionWorkflow : ExampleWorkflowDescriptor := {
+  workflowId := "high-center-deletion"
+  title := "High-center deletion charge on K₃,₄"
+  purpose :=
+    "Instantiate the reusable Type-B-to-Type-A charge transition on a textbook complete bipartite graph without using an external theorem."
+  completion := .complete
+  stages := [
+    {
+      stageId := "high-center-deletion.problem"
+      title := "Complete bipartite K₃,₄ profile"
+      summary :=
+        "The three left vertices are exactly the degree-four assigned centers; every noncenter is one of the four degree-three right vertices."
+      kind := .problem
+      primaryDeclaration :=
+        `EvenCycleExample.ConcreteK34.highCenterDeletionProfile
+      evidenceDeclarations := [
+        `EvenCycleExample.ConcreteK34.leftCenter_degree_at_least_four,
+        `EvenCycleExample.ConcreteK34.nonleft_core_vertex_degree_eq_three
+      ]
+    },
+    {
+      stageId := "high-center-deletion.retained"
+      title := "Literal edgeless retained graph"
+      summary :=
+        "Deleting the left part leaves exactly the four right vertices. Their induced graph is bottom, so internal minimum degree three is excluded directly."
+      kind := .adapter
+      primaryDeclaration :=
+        `EvenCycleExample.ConcreteK34.remainingObject_internalThreeCore_free
+      evidenceDeclarations := [
+        `EvenCycleExample.ConcreteK34.remainingCore_eq_rightVertices,
+        `EvenCycleExample.ConcreteK34.remainingObject_graph_eq_bot
+      ]
+    },
+    {
+      stageId := "high-center-deletion.bound"
+      title := "Choice-free receiver-overload bound"
+      summary :=
+        "The same graph-owned theorem used by the Erdős Type B scope bounds negative net quarter-charge by twenty-one times assigned surplus plus the exact retained receiver overload."
+      kind := .theorem
+      primaryDeclaration :=
+        `EvenCycleExample.ConcreteK34.highCenterDeletion_deficit_bound
+      evidenceDeclarations := [
+        `StructuralExhaustion.Graph.HighCenterDeletionCharge.Profile.neg_netQuarterCharge_le_twentyOne_mul_surplus_add_overload
+      ]
+    }
+  ]
+  links := [
+    {
+      linkId := "high-center-deletion.problem-retained"
+      sourceStageId := "high-center-deletion.problem"
+      targetStageId := "high-center-deletion.retained"
+      kind := .proofData
+      label := "delete all high centers"
+      description :=
+        "The profile's derived remaining support is exactly the right side of K₃,₄."
+    },
+    {
+      linkId := "high-center-deletion.retained-bound"
+      sourceStageId := "high-center-deletion.retained"
+      targetStageId := "high-center-deletion.bound"
+      kind := .frameworkComposition
+      label := "apply generic charge theorem"
+      description :=
+        "Direct internal-core freeness supplies the sole premise needed by the reusable receiver-overload inequality."
+    }
+  ]
+}
+
 def descriptor : ExampleDescriptor := {
   exampleId := "even-cycle"
   title := "Even cycle"
   summary :=
-    "A complete minimum-degree-three proof with a registered CT6→CT9 route, CT1 validation, and separate CT2, CT3, induced-path CT1, and maximum-packing CT12 reuse workflows."
+    "A complete minimum-degree-three proof with a registered CT6→CT9 route, CT1 validation, and separate CT2, CT3, induced-path CT1, maximum-packing CT12, and high-center-deletion reuse workflows."
   proofStatus := .complete
   workflows := [mainWorkflow, deletionAuditWorkflow, seriesWorkflow,
-    inducedEdgeWorkflow, maximalMatchingWorkflow]
+    inducedEdgeWorkflow, maximalMatchingWorkflow, highCenterDeletionWorkflow]
   interfaceBindings := [
     {
       bindingId := "main.ct6-capability"

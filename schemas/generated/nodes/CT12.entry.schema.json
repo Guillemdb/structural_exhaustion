@@ -18,6 +18,61 @@
         "ordinal": 1,
         "nodeKind": "entry",
         "nodeId": "CT12.entry",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.state",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.state.",
+              "mathematicalDefinition": null,
+              "label": "Input.state",
+              "declarationId": "StructuralExhaustion.CT12.Input.state"
+            },
+            {
+              "stepId": "predecessor.2",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.load",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.load.",
+              "mathematicalDefinition": null,
+              "label": "Input.load",
+              "declarationId": "StructuralExhaustion.CT12.Input.load"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT12.Input",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT12.Input.",
+              "mathematicalDefinition": null,
+              "label": "CT12.Input",
+              "declarationId": "StructuralExhaustion.CT12.Input"
+            }
+          ],
+          "nodeId": "CT12.entry",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT12.entry.internal.predecessor.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.2",
+              "relation": "produces",
+              "edgeId": "CT12.entry.internal.predecessor.2-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [
@@ -73,7 +128,7 @@
     "kind": "compiledLeanEnvironment",
     "catalog": "generated/lean-machines.json",
     "tacticId": "CT12",
-    "apiVersion": "CT12-v5",
+    "apiVersion": "CT12-v6",
     "namespace": "StructuralExhaustion.CT12"
   },
   "x-automationContract": {

@@ -18,6 +18,421 @@
         "ordinal": 3,
         "nodeKind": "decision",
         "nodeId": "CT1.decide.realization",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.Spec.TestIndex",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The finite family of target tests that CT1 must consider.",
+              "mathematicalDefinition": "\\mathcal{I}",
+              "label": "Test index",
+              "declarationId": "StructuralExhaustion.CT1.Spec.TestIndex"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.Spec.Witness",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The type of certificates that may realize test i in the ambient object G.",
+              "mathematicalDefinition": "\\mathcal{W}(G,i)",
+              "label": "Realization witness",
+              "declarationId": "StructuralExhaustion.CT1.Spec.Witness"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.Spec.Realizes",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition saying that witness w realizes test i in G.",
+              "mathematicalDefinition": "\\operatorname{Realizes}(G,i,w)",
+              "label": "Realization predicate",
+              "declarationId": "StructuralExhaustion.CT1.Spec.Realizes"
+            },
+            {
+              "stepId": "author.4",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.Capability.tests",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all test indices.",
+              "mathematicalDefinition": "\\operatorname{tests}=\\{i_1,\\ldots,i_m\\}=\\mathcal{I}",
+              "label": "Finite test enumeration",
+              "declarationId": "StructuralExhaustion.CT1.Capability.tests"
+            },
+            {
+              "stepId": "author.5",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.Capability.witnesses",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of the witnesses for each object and test.",
+              "mathematicalDefinition": "\\operatorname{witnesses}(G,i)=\\mathcal{W}(G,i)",
+              "label": "Finite witness enumeration",
+              "declarationId": "StructuralExhaustion.CT1.Capability.witnesses"
+            },
+            {
+              "stepId": "author.6",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.Capability.realizesDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding whether a proposed witness realizes a test.",
+              "mathematicalDefinition": "\\operatorname{decide}\\!\\left(\\operatorname{Realizes}(G,i,w)\\right)",
+              "label": "Realization decision procedure",
+              "declarationId": "StructuralExhaustion.CT1.Capability.realizesDecidable"
+            },
+            {
+              "stepId": "author.7",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.Capability.inputSize",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "The application-specific size measure used in CT1's complexity certificate.",
+              "mathematicalDefinition": "n(G)\\in\\mathbb{N}",
+              "label": "Input size",
+              "declarationId": "StructuralExhaustion.CT1.Capability.inputSize"
+            },
+            {
+              "stepId": "author.8",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.Capability.workCoefficient",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The coefficient in the certified polynomial bound on exhaustive checks.",
+              "mathematicalDefinition": "c\\in\\mathbb{N}",
+              "label": "Work coefficient",
+              "declarationId": "StructuralExhaustion.CT1.Capability.workCoefficient"
+            },
+            {
+              "stepId": "author.9",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.Capability.workDegree",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The degree in the certified polynomial bound on exhaustive checks.",
+              "mathematicalDefinition": "d\\in\\mathbb{N}",
+              "label": "Work degree",
+              "declarationId": "StructuralExhaustion.CT1.Capability.workDegree"
+            },
+            {
+              "stepId": "author.10",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.Capability.workBound",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "A proof that the complete CT1 search schedule satisfies the declared polynomial bound.",
+              "mathematicalDefinition": "\\operatorname{checks}(G)\\le c\\,(n(G)+1)^d",
+              "label": "Polynomial work bound",
+              "declarationId": "StructuralExhaustion.CT1.Capability.workBound"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.EquivalenceState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Framework-produced certification of the definitional target semantics. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT1.EquivalenceState",
+              "declarationId": "StructuralExhaustion.CT1.EquivalenceState"
+            },
+            {
+              "stepId": "operation.1",
+              "role": "operation",
+              "reference": {
+                "ref": "StructuralExhaustion.Core.FiniteSearch.dependentSearch",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "Exhaustive nested search over a finite index enumeration and an exact\nfinite enumeration for each dependent fibre. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.Core.FiniteSearch.dependentSearch",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.dependentSearch"
+            },
+            {
+              "stepId": "operation.2",
+              "role": "operation",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.AvoidingState.ofNoRealization",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework-owned operation executed inside this node: StructuralExhaustion.CT1.AvoidingState.ofNoRealization.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT1.AvoidingState.ofNoRealization",
+              "declarationId": "StructuralExhaustion.CT1.AvoidingState.ofNoRealization"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_sound",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.Core.FiniteSearch.dependentSearch_sound.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_sound",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_sound"
+            },
+            {
+              "stepId": "theorem.2",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_complete",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.Core.FiniteSearch.dependentSearch_complete.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_complete",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_complete"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.RealizationDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "Proof-carrying result of CT1's generic dependent finite search. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT1.RealizationDecision",
+              "declarationId": "StructuralExhaustion.CT1.RealizationDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.C1Certificate",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "Provenance-indexed C1 evidence. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT1.C1Certificate",
+              "declarationId": "StructuralExhaustion.CT1.C1Certificate"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.AvoidingState",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exact negative realization state.  The inherited branch context remains a\ndependent index and is therefore not duplicated in this residual. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT1.AvoidingState",
+              "declarationId": "StructuralExhaustion.CT1.AvoidingState"
+            }
+          ],
+          "nodeId": "CT1.decide.realization",
+          "edges": [
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.1",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.1",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.1-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.2",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.2-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.2",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.2-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.3",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.3-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.3",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.3-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.4",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.4-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.4",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.4-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.5",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.5-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.5",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.5-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.6",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.6-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.6",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.6-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.7",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.7-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.7",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.7-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.8",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.8-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.8",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.8-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.9",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.9-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.9",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.9-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.10",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.10-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.10",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.author.10-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.predecessor.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "predecessor.1",
+              "relation": "consumes",
+              "edgeId": "CT1.decide.realization.internal.predecessor.1-to-operation.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT1.decide.realization.internal.operation.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT1.decide.realization.internal.operation.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "operation.2",
+              "relation": "then",
+              "edgeId": "CT1.decide.realization.internal.operation.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "operation.2",
+              "relation": "then",
+              "edgeId": "CT1.decide.realization.internal.operation.2-to-theorem.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT1.decide.realization.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT1.decide.realization.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT1.decide.realization.internal.theorem.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT1.decide.realization.internal.theorem.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT1.decide.realization.internal.theorem.2-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT1.decide.realization.internal.theorem.2-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

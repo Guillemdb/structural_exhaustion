@@ -413,46 +413,66 @@
     {
       "data": {
         "id": "CT7.edge.beginRealization",
+        "label": "beginRealization",
+        "kind": "ctTransition",
+        "ordinal": 1,
         "source": "CT7.entry",
         "target": "CT7.search.realization",
         "constructor": "StructuralExhaustion.CT7.Graph.Edge.beginRealization",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.entry CT7.Graph.NodeId.realizationSearch"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.entry CT7.Graph.NodeId.realizationSearch",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT7.edge.realized",
+        "label": "realized",
+        "kind": "ctTransition",
+        "ordinal": 2,
         "source": "CT7.search.realization",
         "target": "CT7.terminal.certificate.realization",
         "constructor": "StructuralExhaustion.CT7.Graph.Edge.realized",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.RealizationCertificate S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch\n              CT7.Graph.NodeId.realizationTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.RealizationCertificate S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch\n              CT7.Graph.NodeId.realizationTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT7.edge.unrealized",
+        "label": "unrealized",
+        "kind": "ctTransition",
+        "ordinal": 3,
         "source": "CT7.search.realization",
         "target": "CT7.search.distinction",
         "constructor": "StructuralExhaustion.CT7.Graph.Edge.unrealized",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.UnrealizedState S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch CT7.Graph.NodeId.distinctionSearch"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.UnrealizedState S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.realizationSearch CT7.Graph.NodeId.distinctionSearch",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT7.edge.distinguished",
+        "label": "distinguished",
+        "kind": "ctTransition",
+        "ordinal": 4,
         "source": "CT7.search.distinction",
         "target": "CT7.terminal.residual.distinguishing",
         "constructor": "StructuralExhaustion.CT7.Graph.Edge.distinguished",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.DistinguishingResidual S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.distinctionSearch\n              CT7.Graph.NodeId.distinguishingTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.DistinguishingResidual S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.distinctionSearch\n              CT7.Graph.NodeId.distinguishingTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT7.edge.neutral",
+        "label": "neutral",
+        "kind": "ctTransition",
+        "ordinal": 5,
         "source": "CT7.search.distinction",
         "target": "CT7.terminal.certificate.neutrality",
         "constructor": "StructuralExhaustion.CT7.Graph.Edge.neutral",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.NeutralityCertificate S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.distinctionSearch CT7.Graph.NodeId.neutralTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.NeutralityCertificate S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.distinctionSearch CT7.Graph.NodeId.neutralTerminal",
+        "provision": "generated_audit"
       }
     }
   ]

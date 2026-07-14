@@ -149,6 +149,18 @@ def subtype {α : Type u} (enumeration : FinEnum α)
         · simp [rightAccepted] at rightOutput
       · simp [leftAccepted] at leftOutput)
 
+/-- Restricting an exact finite enumeration to a decidable subtype cannot
+increase its cardinality. -/
+theorem subtype_card_le {α : Type u} (enumeration : FinEnum α)
+    (predicate : α → Prop)
+    (decidePredicate : ∀ value, Decidable (predicate value)) :
+    (subtype enumeration predicate decidePredicate).card ≤ enumeration.card := by
+  letI : FinEnum α := enumeration
+  letI : FinEnum {value // predicate value} :=
+    subtype enumeration predicate decidePredicate
+  simpa [FinEnum.card_eq_fintypeCard] using
+    Fintype.card_le_of_injective Subtype.val Subtype.val_injective
+
 /-- Exact ordered enumeration of all lists of length at most `bound`. -/
 @[implicit_reducible]
 def boundedList {α : Type u} (enumeration : FinEnum α)

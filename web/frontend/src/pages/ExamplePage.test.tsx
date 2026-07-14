@@ -4,7 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { fetchExample } from "../api";
 import type { ExampleResponse, GraphElement, SelectedGraphElement } from "../types";
-import { ExamplePage } from "./ExamplePage";
+import { ExamplePage, ExampleWorkspace } from "./ExamplePage";
 
 vi.mock("../api", () => ({ fetchExample: vi.fn() }));
 vi.mock("../components/GraphCanvas", () => ({
@@ -74,6 +74,7 @@ function declaration(
 
 const response: ExampleResponse = {
   artifactType: "frameworkExplorerExample",
+  artifactWarnings: [],
   catalogHash: "example-catalog",
   frameworkCatalogHash: "framework-catalog",
   verification: {
@@ -86,7 +87,7 @@ const response: ExampleResponse = {
   tactics: [],
   example: {
     artifactType: "structuralExhaustionExample",
-    schemaVersion: "1.1.0",
+    schemaVersion: "1.4.0",
     sourceOfTruth: {
       kind: "compiledLeanEnvironment",
       rootModule: "Examples.EvenCycle",
@@ -133,6 +134,7 @@ const response: ExampleResponse = {
             label: "Active-ledger route",
             summary: "The generated registered route.",
             routeId: "CT6.residual.activeLedger->CT9",
+            automationDeclarationIds: ["ct6-run"],
             evidenceDeclarationIds: ["ct6-trace"],
           },
         ],
@@ -172,11 +174,71 @@ const response: ExampleResponse = {
     manuscript: {
       title: "Synthetic proof",
       path: "proofs/synthetic.tex",
+      sha256: "b".repeat(64),
+      fragments: [
+        {
+          label: "lem:activity",
+          environment: "lemma",
+          sourceLine: 12,
+          includesProof: true,
+          contentSha256: "c".repeat(64),
+          blocks: [
+            {
+              kind: "environment",
+              environment: "lemma",
+              label: "lem:activity",
+              title: null,
+              blocks: [{
+                kind: "paragraph",
+                inlines: [
+                  { kind: "strong", children: [{ kind: "text", text: "Lemma 1." }] },
+                  { kind: "space" },
+                  { kind: "text", text: "The active ledger is exact." },
+                  { kind: "space" },
+                  { kind: "math", display: false, tex: "A=A" },
+                ],
+              }],
+            },
+            {
+              kind: "environment",
+              environment: "proof",
+              label: null,
+              title: null,
+              blocks: [{
+                kind: "paragraph",
+                inlines: [{ kind: "text", text: "The finite scan checks every site." }],
+              }],
+            },
+          ],
+        },
+        {
+          label: "lem:overload",
+          environment: "lemma",
+          sourceLine: 28,
+          includesProof: false,
+          contentSha256: "d".repeat(64),
+          blocks: [{
+            kind: "environment",
+            environment: "lemma",
+            label: "lem:overload",
+            title: null,
+            blocks: [{
+              kind: "paragraph",
+              inlines: [{ kind: "text", text: "One label fibre is overloaded." }],
+            }],
+          }],
+        },
+      ],
       coverage: {
         implementedSteps: 3,
         totalSteps: 3,
         explainedDeclarations: 5,
         displayedDeclarations: 5,
+        verifiedMathematicalObjects: 2,
+        totalMathematicalObjects: 14,
+        verifiedDiagramNodes: 2,
+        totalDiagramNodes: 20,
+        verifiedWorkflowSteps: 3,
       },
       proofSteps: [
         {
@@ -279,6 +341,7 @@ describe("ExamplePage", () => {
     expect(screen.getByRole("link", { name: /Open CT6 machine/ })).toHaveAttribute("href", "/ct/CT6");
     expect(screen.getAllByText("Example.ct6Run").length).toBeGreaterThan(0);
     expect(document.querySelector('[data-line="4"]')).toHaveClass("source-line--highlighted");
+    expect(screen.queryByRole("button", { name: "Paper" })).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "graph:ct9-stage" }));
     expect(screen.getByRole("heading", { name: "Overload" })).toBeVisible();
@@ -312,5 +375,51 @@ describe("ExamplePage", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Full file" }));
     expect(within(sourceViewer).getByText("end Example")).toBeVisible();
+  });
+
+  it("presents the same compiled artifact as an EG-specific proof workspace", () => {
+    render(
+      <MemoryRouter initialEntries={["/erdos-gyarfas"]}>
+        <ExampleWorkspace response={response} mode="erdos" />
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByRole("heading", {
+      name: "Erdős–Gyárfás Problem 64",
+    })).toBeVisible();
+    expect(screen.getByRole("link", { name: "Erdős–Gyárfás" })).toHaveAttribute(
+      "href",
+      "/erdos-gyarfas",
+    );
+    const progress = screen.getByRole("region", {
+      name: "Erdős–Gyárfás formalization progress",
+    });
+    expect(within(progress).getByText("2/14")).toBeVisible();
+    expect(within(progress).getByText("paper objects mapped to verified Lean")).toBeVisible();
+    expect(within(progress).getByText("2/20")).toBeVisible();
+    expect(within(progress).getByText("Chapter 1 flow nodes verified")).toBeVisible();
+    expect(within(progress).getByText("verified workflow steps")).toBeVisible();
+    expect(screen.getByText("3 indexed steps")).toBeVisible();
+    expect(screen.getByText("Verified EG proof flow")).toBeVisible();
+    expect(screen.getByText("157-node proof dependency map")).toBeVisible();
+    expect(screen.getByRole("button", {
+      name: /Node 1: finite simple graph G\. Formalized in Lean/,
+    })).toBeVisible();
+    expect(screen.getByRole("button", {
+      name: /Node 157: G3 or same-interface table: compression\. Paper proof only/,
+    })).toBeVisible();
+
+    fireEvent.click(screen.getByRole("button", { name: /Part XI.*formalized/ }));
+    expect(screen.getByRole("heading", { name: "Hot/cold window interface" })).toBeVisible();
+
+    fireEvent.click(screen.getByRole("button", { name: "Paper" }));
+    const manuscript = screen.getByRole("region", { name: "Rendered manuscript fragment" });
+    expect(within(manuscript).getByText("The active ledger is exact.")).toBeVisible();
+    expect(within(manuscript).getByText("The finite scan checks every site.")).toBeVisible();
+    expect(screen.getByRole("button", { name: /Activity.*lem:activity/ })).toHaveClass("is-active");
+
+    fireEvent.click(screen.getByRole("button", { name: /Overload theorem/ }));
+    expect(within(manuscript).getByText("One label fibre is overloaded.")).toBeVisible();
+    expect(screen.getByRole("button", { name: "Lean" })).toBeVisible();
   });
 });

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Erdős 64 Expansion"
+  short_description: "Audit and repair one verified Erdős expansion"
+  default_prompt: "Use $review-erdos-64-eg-expansion to audit and repair the latest Erdős 64 proof-expansion round across Lean, TeX, framework ownership, and generated proof metadata."

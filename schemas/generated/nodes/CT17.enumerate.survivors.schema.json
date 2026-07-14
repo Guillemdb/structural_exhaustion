@@ -18,6 +18,277 @@
         "ordinal": 4,
         "nodeKind": "definition",
         "nodeId": "CT17.enumerate.survivors",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.positions",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of the positions available at every scale.",
+              "mathematicalDefinition": "\\operatorname{positions}(s)=\\mathcal{P}_s",
+              "label": "Finite scale positions",
+              "declarationId": "StructuralExhaustion.CT17.Capability.positions"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.targets",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all thickening targets.",
+              "mathematicalDefinition": "\\operatorname{targets}=\\mathcal{T}",
+              "label": "Finite target enumeration",
+              "declarationId": "StructuralExhaustion.CT17.Capability.targets"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.offsets",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all target offsets.",
+              "mathematicalDefinition": "\\operatorname{offsets}=\\mathcal{O}",
+              "label": "Finite offset enumeration",
+              "declarationId": "StructuralExhaustion.CT17.Capability.offsets"
+            },
+            {
+              "stepId": "author.4",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.blockValue",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Computes the value observed at a scale-indexed block position and offset.",
+              "mathematicalDefinition": "v_B(x,p,o)\\in\\mathcal{V}",
+              "label": "Block value",
+              "declarationId": "StructuralExhaustion.CT17.Spec.blockValue"
+            },
+            {
+              "stepId": "author.5",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.targetValue",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns the exact comparison value required by each target.",
+              "mathematicalDefinition": "v_T:\\mathcal{T}\\to\\mathcal{V}",
+              "label": "Target value",
+              "declarationId": "StructuralExhaustion.CT17.Spec.targetValue"
+            },
+            {
+              "stepId": "author.6",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.valueDecidableEq",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable equality on comparison values, used to certify target hits and mismatches.",
+              "mathematicalDefinition": "\\operatorname{decide}(v_1=v_2)",
+              "label": "Value equality decision",
+              "declarationId": "StructuralExhaustion.CT17.Capability.valueDecidableEq"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "FiniteScaleState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Exact finite-scale predecessor state. ",
+              "mathematicalDefinition": null,
+              "label": "FiniteScaleState",
+              "declarationId": "StructuralExhaustion.CT17.FiniteScaleState"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "Core.FiniteSearch.dependentSearch",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exhaustive nested search over a finite index enumeration and an exact\nfinite enumeration for each dependent fibre. ",
+              "mathematicalDefinition": null,
+              "label": "Core.FiniteSearch.dependentSearch",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.dependentSearch"
+            },
+            {
+              "stepId": "theorem.2",
+              "role": "theorem",
+              "reference": {
+                "ref": "CT17.analyzeSurvivors_sound",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: CT17.analyzeSurvivors_sound.",
+              "mathematicalDefinition": null,
+              "label": "CT17.analyzeSurvivors_sound",
+              "declarationId": "StructuralExhaustion.CT17.analyzeSurvivors_sound"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT17.SurvivorDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT17.SurvivorDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT17.SurvivorDecision",
+              "declarationId": "StructuralExhaustion.CT17.SurvivorDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT17.ExhaustedCertificate",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT17.ExhaustedCertificate.",
+              "mathematicalDefinition": null,
+              "label": "CT17.ExhaustedCertificate",
+              "declarationId": "StructuralExhaustion.CT17.ExhaustedCertificate"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT17.SurvivorResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT17.SurvivorResidual.",
+              "mathematicalDefinition": null,
+              "label": "CT17.SurvivorResidual",
+              "declarationId": "StructuralExhaustion.CT17.SurvivorResidual"
+            }
+          ],
+          "nodeId": "CT17.enumerate.survivors",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT17.enumerate.survivors.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT17.enumerate.survivors.internal.author.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT17.enumerate.survivors.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT17.enumerate.survivors.internal.author.2-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT17.enumerate.survivors.internal.author.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT17.enumerate.survivors.internal.author.3-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.4",
+              "relation": "then",
+              "edgeId": "CT17.enumerate.survivors.internal.author.4-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.4",
+              "relation": "then",
+              "edgeId": "CT17.enumerate.survivors.internal.author.4-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.5",
+              "relation": "then",
+              "edgeId": "CT17.enumerate.survivors.internal.author.5-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.5",
+              "relation": "then",
+              "edgeId": "CT17.enumerate.survivors.internal.author.5-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.6",
+              "relation": "then",
+              "edgeId": "CT17.enumerate.survivors.internal.author.6-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.6",
+              "relation": "then",
+              "edgeId": "CT17.enumerate.survivors.internal.author.6-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT17.enumerate.survivors.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT17.enumerate.survivors.internal.predecessor.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT17.enumerate.survivors.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT17.enumerate.survivors.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT17.enumerate.survivors.internal.theorem.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT17.enumerate.survivors.internal.theorem.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT17.enumerate.survivors.internal.theorem.2-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT17.enumerate.survivors.internal.theorem.2-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

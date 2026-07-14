@@ -1,6 +1,6 @@
 {
   "artifactType": "structuralExhaustionExample",
-  "schemaVersion": "1.1.0",
+  "schemaVersion": "1.4.0",
   "sourceOfTruth": {
     "rootModule": "MantelExample",
     "kind": "compiledLeanEnvironment",
@@ -83,6 +83,7 @@
           "kind": "proofData",
           "label": "negate target",
           "summary": "A hypothetical failure of the target is converted, using the degree-sum identity and Cauchy–Schwarz, into a negative total budget.",
+          "automationDeclarationIds": [],
           "evidenceDeclarationIds": [
             "StructuralExhaustion.Graph.Mantel.deficit_of_mantel_violation"
           ]
@@ -94,6 +95,7 @@
           "kind": "frameworkComposition",
           "label": "instantiate CT11",
           "summary": "The graph-specific profile supplies dart cells and local budgets to the generic CT11 negative-budget runner.",
+          "automationDeclarationIds": [],
           "evidenceDeclarationIds": []
         },
         {
@@ -103,6 +105,7 @@
           "kind": "proofData",
           "label": "localized deficit",
           "summary": "CT11's localized terminal exposes the canonical dart and its certified negative local budget.",
+          "automationDeclarationIds": [],
           "evidenceDeclarationIds": [
             "StructuralExhaustion.Graph.Mantel.offending_degree_sum_gt"
           ]
@@ -114,6 +117,7 @@
           "kind": "proofData",
           "label": "contradicts triangle-freeness",
           "summary": "The residual's strict lower bound contradicts the neighborhood-disjointness upper bound forced by triangle-freeness.",
+          "automationDeclarationIds": [],
           "evidenceDeclarationIds": [
             "StructuralExhaustion.Graph.Mantel.degree_add_degree_le_card_of_triangleFree"
           ]
@@ -170,6 +174,7 @@
           "kind": "frameworkComposition",
           "label": "run violating input",
           "summary": "The concrete violation is converted to a negative budget and passed to CT11.",
+          "automationDeclarationIds": [],
           "evidenceDeclarationIds": []
         },
         {
@@ -179,6 +184,7 @@
           "kind": "proofData",
           "label": "pins execution",
           "summary": "Kernel-checked equalities pin the exact terminal, trace, and selected dart.",
+          "automationDeclarationIds": [],
           "evidenceDeclarationIds": [
             "MantelExample.ConcreteK4.trace_exact"
           ]
@@ -229,6 +235,7 @@
           "kind": "proofData",
           "label": "finite check",
           "summary": "The concrete adjacency decision procedure proves the required triangle-free hypothesis.",
+          "automationDeclarationIds": [],
           "evidenceDeclarationIds": []
         },
         {
@@ -238,6 +245,7 @@
           "kind": "proofData",
           "label": "invoke theorem",
           "summary": "The C₅ certificate instantiates the hypothesis of the completed generic Mantel theorem.",
+          "automationDeclarationIds": [],
           "evidenceDeclarationIds": [
             "MantelExample.ConcreteC5.mantel_bound"
           ]
@@ -275,13 +283,13 @@
       "kind": "theorem",
       "type": "ConcreteC5.object.edgeCount = 5",
       "sourceId": "MantelExample.Concrete",
-      "startLine": 68,
+      "startLine": 69,
       "startColumn": 1,
-      "endLine": 69,
+      "endLine": 70,
       "endColumn": 16,
-      "selectionStartLine": 68,
+      "selectionStartLine": 69,
       "selectionStartColumn": 9,
-      "selectionEndLine": 68,
+      "selectionEndLine": 69,
       "selectionEndColumn": 24
     },
     {
@@ -290,13 +298,13 @@
       "kind": "theorem",
       "type": "Target ConcreteC5.object",
       "sourceId": "MantelExample.Concrete",
-      "startLine": 71,
+      "startLine": 72,
       "startColumn": 1,
-      "endLine": 71,
+      "endLine": 72,
       "endColumn": 67,
-      "selectionStartLine": 71,
+      "selectionStartLine": 72,
       "selectionStartColumn": 9,
-      "selectionEndLine": 71,
+      "selectionEndLine": 72,
       "selectionEndColumn": 21
     },
     {
@@ -305,13 +313,13 @@
       "kind": "definition",
       "type": "StructuralExhaustion.Graph.FiniteObject ConcreteC5.Vertex",
       "sourceId": "MantelExample.Concrete",
-      "startLine": 60,
+      "startLine": 61,
       "startColumn": 1,
-      "endLine": 60,
+      "endLine": 61,
       "endColumn": 57,
-      "selectionStartLine": 60,
+      "selectionStartLine": 61,
       "selectionStartColumn": 5,
-      "selectionEndLine": 60,
+      "selectionEndLine": 61,
       "selectionEndColumn": 11
     },
     {
@@ -320,13 +328,13 @@
       "kind": "theorem",
       "type": "ConcreteC5.object.graph.CliqueFree 3",
       "sourceId": "MantelExample.Concrete",
-      "startLine": 62,
+      "startLine": 63,
       "startColumn": 1,
-      "endLine": 66,
+      "endLine": 67,
       "endColumn": 16,
-      "selectionStartLine": 62,
+      "selectionStartLine": 63,
       "selectionStartColumn": 9,
-      "selectionEndLine": 62,
+      "selectionEndLine": 63,
       "selectionEndColumn": 21
     },
     {
@@ -335,13 +343,13 @@
       "kind": "definition",
       "type": "StructuralExhaustion.CT11.ExecutionResult (StructuralExhaustion.Graph.Mantel.profile ConcreteK4.object).capability\n  ((StructuralExhaustion.Graph.Mantel.profile ConcreteK4.object).input ConcreteK4.object.context\n    (StructuralExhaustion.Graph.Mantel.dartCells ConcreteK4.object) ⋯)",
       "sourceId": "MantelExample.Concrete",
-      "startLine": 29,
+      "startLine": 30,
       "startColumn": 1,
-      "endLine": 29,
+      "endLine": 30,
       "endColumn": 42,
-      "selectionStartLine": 29,
+      "selectionStartLine": 30,
       "selectionStartColumn": 5,
-      "selectionEndLine": 29,
+      "selectionEndLine": 30,
       "selectionEndColumn": 14
     },
     {
@@ -350,13 +358,13 @@
       "kind": "definition",
       "type": "StructuralExhaustion.Graph.FiniteObject ConcreteK4.Vertex",
       "sourceId": "MantelExample.Concrete",
-      "startLine": 24,
+      "startLine": 25,
       "startColumn": 1,
-      "endLine": 24,
+      "endLine": 25,
       "endColumn": 57,
-      "selectionStartLine": 24,
+      "selectionStartLine": 25,
       "selectionStartColumn": 5,
-      "selectionEndLine": 24,
+      "selectionEndLine": 25,
       "selectionEndColumn": 11
     },
     {
@@ -365,13 +373,13 @@
       "kind": "theorem",
       "type": "(StructuralExhaustion.Graph.Mantel.offendingResidual ConcreteK4.object ConcreteK4.violation).cell.toProd = (0, 1)",
       "sourceId": "MantelExample.Concrete",
-      "startLine": 39,
+      "startLine": 40,
       "startColumn": 1,
-      "endLine": 41,
+      "endLine": 42,
       "endColumn": 16,
-      "selectionStartLine": 39,
+      "selectionStartLine": 40,
       "selectionStartColumn": 9,
-      "selectionEndLine": 39,
+      "selectionEndLine": 40,
       "selectionEndColumn": 28
     },
     {
@@ -380,13 +388,13 @@
       "kind": "theorem",
       "type": "ConcreteK4.execution.terminal = StructuralExhaustion.CT11.Graph.Terminal.localized",
       "sourceId": "MantelExample.Concrete",
-      "startLine": 31,
+      "startLine": 32,
       "startColumn": 1,
-      "endLine": 32,
+      "endLine": 33,
       "endColumn": 55,
-      "selectionStartLine": 31,
+      "selectionStartLine": 32,
       "selectionStartColumn": 9,
-      "selectionEndLine": 31,
+      "selectionEndLine": 32,
       "selectionEndColumn": 27
     },
     {
@@ -395,13 +403,13 @@
       "kind": "theorem",
       "type": "StructuralExhaustion.CT11.ExecutionResult.trace (StructuralExhaustion.Graph.Mantel.profile ConcreteK4.object).capability\n    ((StructuralExhaustion.Graph.Mantel.profile ConcreteK4.object).input ConcreteK4.object.context\n      (StructuralExhaustion.Graph.Mantel.dartCells ConcreteK4.object) ⋯)\n    ConcreteK4.execution =\n  [StructuralExhaustion.CT11.Graph.NodeId.entry, StructuralExhaustion.CT11.Graph.NodeId.decomposition,\n    StructuralExhaustion.CT11.Graph.NodeId.admissibility, StructuralExhaustion.CT11.Graph.NodeId.localization,\n    StructuralExhaustion.CT11.Graph.NodeId.localizedTerminal]",
       "sourceId": "MantelExample.Concrete",
-      "startLine": 34,
+      "startLine": 35,
       "startColumn": 1,
-      "endLine": 37,
+      "endLine": 38,
       "endColumn": 16,
-      "selectionStartLine": 34,
+      "selectionStartLine": 35,
       "selectionStartColumn": 9,
-      "selectionEndLine": 34,
+      "selectionEndLine": 35,
       "selectionEndColumn": 20
     },
     {
@@ -410,13 +418,13 @@
       "kind": "theorem",
       "type": "FinEnum.card ConcreteK4.Vertex ^ 2 < 4 * ConcreteK4.object.edgeCount",
       "sourceId": "MantelExample.Concrete",
-      "startLine": 26,
+      "startLine": 27,
       "startColumn": 1,
-      "endLine": 27,
+      "endLine": 28,
       "endColumn": 16,
-      "selectionStartLine": 26,
+      "selectionStartLine": 27,
       "selectionStartColumn": 9,
-      "selectionEndLine": 26,
+      "selectionEndLine": 27,
       "selectionEndColumn": 18
     },
     {
@@ -635,8 +643,8 @@
       "sourceId": "MantelExample.Concrete",
       "moduleName": "MantelExample.Concrete",
       "path": "examples/mantel/MantelExample/Concrete.lean",
-      "sha256": "a33eeb2aab4e59019d4e3c3e8b89ee6587a227c8db3ec7cab675c2a5f7fedc7f",
-      "content": "import Mathlib.Combinatorics.SimpleGraph.Circulant\nimport MantelExample.Run\n\nnamespace MantelExample\n\nopen StructuralExhaustion\n\nnamespace ConcreteK4\n\n/-! `K₄` violates the numerical Mantel bound.  It is intentionally not\ntriangle-free: this fixture executes and pins the CT11 localization machine\nindependently of the final graph-theoretic contradiction. -/\n\nabbrev Vertex := Fin 4\n\ndef graph : SimpleGraph Vertex := ⊤\n\ndef input : Graph.FiniteInput graph where\n  vertices := inferInstance\n  decideAdj := by\n    change DecidableRel fun left right : Vertex => left ≠ right\n    infer_instance\n\ndef object : Graph.FiniteObject Vertex := ⟨graph, input⟩\n\ntheorem violation : object.input.vertices.card ^ 2 < 4 * object.edgeCount := by\n  native_decide\n\ndef execution := ct11Run object violation\n\ntheorem terminal_localized : execution.terminal = .localized :=\n  Graph.Mantel.run_terminal_localized object violation\n\ntheorem trace_exact : execution.trace =\n    [.entry, .decomposition, .admissibility, .localization,\n      .localizedTerminal] := by\n  native_decide\n\ntheorem selected_dart_exact :\n    (Graph.Mantel.offendingResidual object violation).cell.toProd = (0, 1) := by\n  native_decide\n\nend ConcreteK4\n\nnamespace ConcreteC5\n\n/-! `C₅` is a non-bipartite triangle-free graph.  The external package only\nchecks its concrete input properties and invokes the framework theorem. -/\n\nabbrev Vertex := Fin 5\n\ndef graph : SimpleGraph Vertex := SimpleGraph.cycleGraph 5\n\ndef input : Graph.FiniteInput graph where\n  vertices := inferInstance\n  decideAdj := by\n    change DecidableRel (SimpleGraph.cycleGraph 5).Adj\n    infer_instance\n\ndef object : Graph.FiniteObject Vertex := ⟨graph, input⟩\n\ntheorem triangleFree : object.graph.CliqueFree 3 := by\n  letI : FinEnum Vertex := object.input.vertices\n  letI : DecidableRel object.graph.Adj := object.input.decideAdj\n  rw [← SimpleGraph.cliqueFinset_eq_empty_iff]\n  native_decide\n\ntheorem edgeCount_exact : object.edgeCount = 5 := by\n  native_decide\n\ntheorem mantel_bound : Target object := mantel object triangleFree\n\nend ConcreteC5\n\nend MantelExample\n"
+      "sha256": "d740d4355de6e1af715574c6cec245b6ddd6db86c611a35d60603bf10c33f1bd",
+      "content": "import Mathlib.Combinatorics.SimpleGraph.Circulant\nimport MantelExample.Run\nimport StructuralExhaustion.Graph.HighCenterStructure\n\nnamespace MantelExample\n\nopen StructuralExhaustion\n\nnamespace ConcreteK4\n\n/-! `K₄` violates the numerical Mantel bound.  It is intentionally not\ntriangle-free: this fixture executes and pins the CT11 localization machine\nindependently of the final graph-theoretic contradiction. -/\n\nabbrev Vertex := Fin 4\n\ndef graph : SimpleGraph Vertex := ⊤\n\ndef input : Graph.FiniteInput graph where\n  vertices := inferInstance\n  decideAdj := by\n    change DecidableRel fun left right : Vertex => left ≠ right\n    infer_instance\n\ndef object : Graph.FiniteObject Vertex := ⟨graph, input⟩\n\ntheorem violation : object.input.vertices.card ^ 2 < 4 * object.edgeCount := by\n  native_decide\n\ndef execution := ct11Run object violation\n\ntheorem terminal_localized : execution.terminal = .localized :=\n  Graph.Mantel.run_terminal_localized object violation\n\ntheorem trace_exact : execution.trace =\n    [.entry, .decomposition, .admissibility, .localization,\n      .localizedTerminal] := by\n  native_decide\n\ntheorem selected_dart_exact :\n    (Graph.Mantel.offendingResidual object violation).cell.toProd = (0, 1) := by\n  native_decide\n\nend ConcreteK4\n\nnamespace ConcreteC5\n\n/-! `C₅` is a non-bipartite triangle-free graph.  The external package only\nchecks its concrete input properties and invokes the framework theorem. -/\n\nabbrev Vertex := Fin 5\n\ndef graph : SimpleGraph Vertex := SimpleGraph.cycleGraph 5\n\ndef input : Graph.FiniteInput graph where\n  vertices := inferInstance\n  decideAdj := by\n    change DecidableRel (SimpleGraph.cycleGraph 5).Adj\n    infer_instance\n\ndef object : Graph.FiniteObject Vertex := ⟨graph, input⟩\n\ntheorem triangleFree : object.graph.CliqueFree 3 := by\n  letI : FinEnum Vertex := object.input.vertices\n  letI : DecidableRel object.graph.Adj := object.input.decideAdj\n  rw [← SimpleGraph.cliqueFinset_eq_empty_iff]\n  native_decide\n\ntheorem edgeCount_exact : object.edgeCount = 5 := by\n  native_decide\n\ntheorem mantel_bound : Target object := mantel object triangleFree\n\ntheorem fourCycleFree :\n    ¬Graph.HasCycleWithLength object.graph\n      Graph.HighCenterStructure.FourLength := by\n  rintro ⟨cycle⟩\n  have lengthEq : cycle.walk.length = 5 := by\n    have raw := Graph.cycle_length_eq_card_of_connected_isCycles\n      (SimpleGraph.cycleGraph_connected (n := 4))\n      (Graph.cycleGraph_isCycles 2) cycle.walk cycle.isCycle\n    change cycle.walk.length = 5 at raw\n    exact raw\n  have four : cycle.walk.length = 4 := cycle.length_ok\n  omega\n\ndef fourCycleAudit :=\n  Graph.HighCenterStructure.runAvoiding object fourCycleFree\n\ntheorem fourCycleAudit_terminal :\n    fourCycleAudit.result.terminal = .avoiding :=\n  Graph.HighCenterStructure.runAvoiding_terminal object fourCycleFree\n\ntheorem fourCycleAudit_trace : fourCycleAudit.result.trace =\n    [.entry, .equivalenceCertification, .realizationDecision,\n      .avoidingTerminal] :=\n  Graph.HighCenterStructure.runAvoiding_trace object fourCycleFree\n\ntheorem fourCycleAudit_checks : fourCycleAudit.checks = 0 :=\n  Graph.HighCenterStructure.runAvoiding_checks object fourCycleFree\n\nend ConcreteC5\n\nend MantelExample\n"
     },
     {
       "sourceId": "MantelExample.Problem",

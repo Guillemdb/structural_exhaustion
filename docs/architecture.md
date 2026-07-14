@@ -139,6 +139,75 @@ Every reference is tagged with a `Core.Provision` value. The catalog therefore
 supports both a small author-facing view and a complete transitive audit view
 without calling both of them “inputs.”
 
+### Typed-transition projection invariant
+
+For each CT, the constructors of its indexed `Graph.Edge` inductive are the
+complete authority for intra-CT transitions. The compiled exporter enumerates
+those constructors, reduces their source and target indices, records their
+exact Lean types, and assigns stable ordinals and IDs. The Cytoscape renderer
+must project every catalog transition exactly once, with the same endpoints,
+constructor, type, provision, and ordinal. Its visible label is the final
+component of the Lean constructor name.
+
+The backend rejects a graph when any transition is missing, duplicated,
+renamed, redirected, or changed. The ordinary CT view displays these labels;
+expanding one node preserves every surrounding typed transition while adding
+the node's internal flow. Registered residual-to-CT routes remain a separate,
+explicit overlay and are never counted as intra-CT `Graph.Edge` transitions.
+
+The main framework graph also projects every direct CT-to-CT relationship in
+the compiled example workflows. These edges are example-backed implemented
+transitions, not additional `Core.Routing.RouteRule` instances. Each keeps its
+original relationship kind, example and workflow identity, endpoint stages,
+primary declarations, and evidence declarations. Consequently a theorem
+composition such as the Erdős CT10-to-CT6 step is visible without being
+misclassified as a reusable registered residual route. The framework API
+reports the CT catalog and example-catalog verification states independently.
+
+Every such direct cross-CT edge must also name at least one compiled,
+framework-owned automation declaration. Registered routes name their reusable
+`routeContract`; ordinary compositions name the Core, CT, Route, or Graph
+executor that constructs or certifies the transition. Lean export, catalog
+hydration, and backend loading all reject missing, example-local, or
+`Graph.External` automation. The main framework graph and example inspector
+show these automation declarations separately from theorem-specific evidence.
+
+## Expandable node internals
+
+Every node also has a Lean-owned `NodeInternalFlowDescriptor`. Its curated
+steps are derived from the node automation contract and classify author
+objects, inferred instances, predecessor state, framework operations, generic
+theorems, and generated outputs. The exporter rejects a descriptor unless it
+covers the automation references exactly and every internal edge has valid
+endpoints. Capability concepts supply their existing plain-language and
+mathematical presentations; other steps retain an exact provisioned reference
+and resolve to a compiled declaration whenever one exists.
+
+The catalog exporter reads each resolved declaration from the compiled Lean
+environment. It records the exact type, kind, documentation, module, source
+range, direct type dependencies, and direct body dependencies, then follows
+`StructuralExhaustion.*` dependencies recursively. Lean and Mathlib constants
+remain named boundary leaves rather than being expanded into third-party
+implementation graphs.
+
+`tools/render_artifacts.py` packages this data as
+`generated/internals/CTN.json`, including hashed source text for every
+project-local source file. These files are versioned and schema-checked by
+`schemas/node-internals.schema.json`. The web backend loads and validates one
+file only when `/api/v1/tactics/CTN/internals` is requested. It checks the CT
+API version, exact equality with the catalog's node flows and declarations,
+dependency closure, safe source paths, hashes, current file contents, and
+source ranges before returning the artifact.
+
+The framework explorer therefore keeps its ordinary CT overview unchanged.
+After selecting a node, a reader can expand that one node in place, inspect
+each step in plain language, formal mathematics where the step denotes a
+mathematical concept, and its exact Lean type and source excerpt. Direct
+declaration dependencies can then be revealed recursively; project-local
+declarations are expandable and external declarations stay collapsed. Only
+one high-level node is expanded at a time, and returning to the overview
+restores the prior cross-CT route setting.
+
 ## Reference and optimized semantics
 
 The reference implementation uses the declared order of explicit `FinEnum`
@@ -158,9 +227,14 @@ a dependent index; it does not contain a consumer choice.
 context, trigger construction, and stable route identity. Enabled discovery
 produces a well-typed trigger. Disabled discovery retains a proof that no seed
 exists. Each route contract records its authoring boundary. CT1-to-CT2 uses
-target-capability discovery and the shared minimality kernel. CT2-to-CT3 and
-CT2-to-CT10 each receive one reusable problem-specific semantic discovery
-adapter. Route modules construct the destination trigger and prove
+target-capability discovery and the shared minimality kernel. CT1-C1-to-CT12,
+CT2-to-CT3, CT2-to-CT10, CT6-to-CT9, and CT9-to-CT7 each receive one reusable
+problem-specific semantic adapter. The CT9-to-CT7 adapter maps the exact
+capacity-one overload pair to the consumer's two comparison objects without
+rescanning the source collection. For CT1-to-CT12 the adapter must prove the
+declared relation between the successful CT1 theorem and the independent CT12
+loop seed; it cannot inspect the proof-valued source to generate computation.
+Route modules construct the destination trigger and prove
 branch-context preservation, soundness, and provenance once.
 
 ## Verification boundary
@@ -176,6 +250,10 @@ Repository verification checks:
 - every capability contract contains only author-supplied primitives and names
   its framework-derived operations;
 - every generated schema and diagram is a fresh projection of the catalog;
+- every displayed CT transition agrees one-to-one with a compiled indexed
+  `Graph.Edge` constructor, including its endpoints and exact type;
+- every per-CT internal-flow artifact agrees with the compiled catalog and
+  current hashed Lean sources;
 - every registered route has discovery, trigger, soundness, context
   preservation, provenance, and an explicit semantic-discovery authoring mode.
 
@@ -195,6 +273,27 @@ to cover exactly every declaration displayed by the corresponding stage and
 its problem/framework bindings. The example renderer independently verifies
 that the manuscript path is repository-relative, every referenced LaTeX label
 exists uniquely, every diagram-node number exists, and the compiled source
-ranges still match the embedded Lean sources. The hydrated coverage counts are
-therefore audit data, not a UI estimate. Mathematical explanation strings are
-inspection prose; the compiled declaration types remain the formal authority.
+ranges still match the embedded Lean sources. It parses the complete TeX
+document once and emits exactly one normalized fragment for every referenced
+label. Theorem-like fragments include the immediately adjacent proof; section
+fragments end at the next equal-or-higher heading. Optional environment titles
+and the capitalization distinction between `\cref` and `\Cref` are retained.
+Unknown Pandoc nodes are fatal rather than silently omitted. TikZ figures
+inside a selected fragment
+are compiled from the original preamble, converted to SVG, sanitized, and
+hashed. The hydrated coverage counts are therefore audit data, not a UI
+estimate. Mathematical explanation strings are inspection prose; the compiled
+declaration types remain the formal authority.
+
+The Erdős--Gyárfás artifact remains a member of the compiled example catalog,
+but its canonical browser route is `/erdos-gyarfas`. The dedicated page reads
+the same immutable `erdos-64` detail artifact and reuses the same synchronized
+proof-step, graph, declaration, and Lean-source state. No second mathematical
+catalog is introduced. `/examples/erdos-64` redirects to the dedicated reader;
+all other `/examples/:exampleId` routes retain the generic example workspace.
+The EG source companion offers `Lean` and `Paper` modes. Paper mode follows the
+same active proof-step/declaration state, presents multiple Lean-owned labels
+as tabs, and renders only the generated structured fragments. KaTeX runs with
+trust disabled and SVG is displayed through an image data URI, so neither raw
+TeX nor generated SVG is inserted into the application DOM. Ordinary framework
+examples retain their existing Lean-only source viewer.

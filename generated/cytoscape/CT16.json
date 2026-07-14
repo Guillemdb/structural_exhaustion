@@ -467,55 +467,79 @@
     {
       "data": {
         "id": "CT16.edge.begin",
+        "label": "begin",
+        "kind": "ctTransition",
+        "ordinal": 1,
         "source": "CT16.entry",
         "target": "CT16.search.support",
         "constructor": "StructuralExhaustion.CT16.Graph.Edge.begin",
-        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} → CT16.Graph.Edge C ctx CT16.Graph.NodeId.entry CT16.Graph.NodeId.supportScan"
+        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} → CT16.Graph.Edge C ctx CT16.Graph.NodeId.entry CT16.Graph.NodeId.supportScan",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT16.edge.proper",
+        "label": "proper",
+        "kind": "ctTransition",
+        "ordinal": 2,
         "source": "CT16.search.support",
         "target": "CT16.terminal.residual.proper-support",
         "constructor": "StructuralExhaustion.CT16.Graph.Edge.proper",
-        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ProperSupportResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.properTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ProperSupportResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.properTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT16.edge.whole",
+        "label": "whole",
+        "kind": "ctTransition",
+        "ordinal": 3,
         "source": "CT16.search.support",
         "target": "CT16.compute.closed-code",
         "constructor": "StructuralExhaustion.CT16.Graph.Edge.whole",
-        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.WholeSupportState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.codeComputation"
+        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.WholeSupportState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.supportScan CT16.Graph.NodeId.codeComputation",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT16.edge.codeReady",
+        "label": "codeReady",
+        "kind": "ctTransition",
+        "ordinal": 4,
         "source": "CT16.compute.closed-code",
         "target": "CT16.decide.closed-code",
         "constructor": "StructuralExhaustion.CT16.Graph.Edge.codeReady",
-        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedCodeState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComputation CT16.Graph.NodeId.codeComparison"
+        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedCodeState C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComputation CT16.Graph.NodeId.codeComparison",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT16.edge.equal",
+        "label": "equal",
+        "kind": "ctTransition",
+        "ordinal": 5,
         "source": "CT16.decide.closed-code",
         "target": "CT16.terminal.certificate.exact-code",
         "constructor": "StructuralExhaustion.CT16.Graph.Edge.equal",
-        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ExactCodeCertificate C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.equalTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ExactCodeCertificate C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.equalTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT16.edge.mismatch",
+        "label": "mismatch",
+        "kind": "ctTransition",
+        "ordinal": 6,
         "source": "CT16.decide.closed-code",
         "target": "CT16.terminal.residual.closed-type-mismatch",
         "constructor": "StructuralExhaustion.CT16.Graph.Edge.mismatch",
-        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedTypeMismatchResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.mismatchTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {C : CT16.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT16.ClosedTypeMismatchResidual C ctx →\n        CT16.Graph.Edge C ctx CT16.Graph.NodeId.codeComparison CT16.Graph.NodeId.mismatchTerminal",
+        "provision": "generated_audit"
       }
     }
   ]

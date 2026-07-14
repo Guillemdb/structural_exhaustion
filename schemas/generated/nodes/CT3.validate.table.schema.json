@@ -18,6 +18,187 @@
         "ordinal": 4,
         "nodeKind": "definition",
         "nodeId": "CT3.validate.table",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.rows",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all known response rows.",
+              "mathematicalDefinition": "\\operatorname{rows}=\\mathcal{L}",
+              "label": "Finite row enumeration",
+              "declarationId": "StructuralExhaustion.CT3.Capability.rows"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.contexts",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of every response coordinate.",
+              "mathematicalDefinition": "\\operatorname{contexts}=\\mathcal{K}",
+              "label": "Finite context enumeration",
+              "declarationId": "StructuralExhaustion.CT3.Capability.contexts"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.rowPiece",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Selects the canonical piece represented by a known response row.",
+              "mathematicalDefinition": "\\operatorname{rowPiece}:\\mathcal{L}\\to\\mathcal{P}",
+              "label": "Row representative",
+              "declarationId": "StructuralExhaustion.CT3.Spec.rowPiece"
+            },
+            {
+              "stepId": "author.4",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.rowResponse",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Gives the declared exact response vector associated with a known row.",
+              "mathematicalDefinition": "R_{\\ell}:\\mathcal{K}\\to\\{0,1\\}",
+              "label": "Row response",
+              "declarationId": "StructuralExhaustion.CT3.Spec.rowResponse"
+            },
+            {
+              "stepId": "author.5",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.response",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Computes the exact Boolean behavior of a piece in an outside context.",
+              "mathematicalDefinition": "R:\\mathcal{P}\\times\\mathcal{K}\\to\\{0,1\\}",
+              "label": "Exact response",
+              "declarationId": "StructuralExhaustion.CT3.Spec.response"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "UncompressibleExternalType",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Exhaustive failure of compression over the exact candidate universe. ",
+              "mathematicalDefinition": null,
+              "label": "UncompressibleExternalType",
+              "declarationId": "StructuralExhaustion.CT3.UncompressibleExternalType"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "FiniteSearch.dependentSearch_sound",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: FiniteSearch.dependentSearch_sound.",
+              "mathematicalDefinition": null,
+              "label": "FiniteSearch.dependentSearch_sound",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.dependentSearch_sound"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT3.TableValidationDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "Result of validating every stored table bit against its representative. ",
+              "mathematicalDefinition": null,
+              "label": "CT3.TableValidationDecision",
+              "declarationId": "StructuralExhaustion.CT3.TableValidationDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT3.DistinguishingContextResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "A concrete inconsistency between a declared table row and the exact\nresponses of its representative. ",
+              "mathematicalDefinition": null,
+              "label": "CT3.DistinguishingContextResidual",
+              "declarationId": "StructuralExhaustion.CT3.DistinguishingContextResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT3.ExactTableState",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Universal certification that every declared row is exact. ",
+              "mathematicalDefinition": null,
+              "label": "CT3.ExactTableState",
+              "declarationId": "StructuralExhaustion.CT3.ExactTableState"
+            }
+          ],
+          "nodeId": "CT3.validate.table",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT3.validate.table.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT3.validate.table.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT3.validate.table.internal.author.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.4",
+              "relation": "then",
+              "edgeId": "CT3.validate.table.internal.author.4-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.5",
+              "relation": "then",
+              "edgeId": "CT3.validate.table.internal.author.5-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT3.validate.table.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT3.validate.table.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT3.validate.table.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT3.validate.table.internal.theorem.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

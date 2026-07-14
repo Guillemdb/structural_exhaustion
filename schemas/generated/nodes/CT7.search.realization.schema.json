@@ -18,6 +18,151 @@
         "ordinal": 2,
         "nodeKind": "computation",
         "nodeId": "CT7.search.realization",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.Realizes",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition that object o realizes the target behavior in context k.",
+              "mathematicalDefinition": "\\operatorname{Realizes}(x,o,k)",
+              "label": "Realization predicate",
+              "declarationId": "StructuralExhaustion.CT7.Spec.Realizes"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.contexts",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered context enumeration specialized to the branch and object pair.",
+              "mathematicalDefinition": "\\mathcal{K}_x(a,b)",
+              "label": "Finite comparison contexts",
+              "declarationId": "StructuralExhaustion.CT7.Capability.contexts"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.realizesDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding the exact realization predicate.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Realizes}(x,o,k))",
+              "label": "Realization decision procedure",
+              "declarationId": "StructuralExhaustion.CT7.Capability.realizesDecidable"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "input",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: input.",
+              "mathematicalDefinition": null,
+              "label": "input",
+              "declarationId": null
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "Core.FiniteSearch.search_none_iff",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: Core.FiniteSearch.search_none_iff.",
+              "mathematicalDefinition": null,
+              "label": "Core.FiniteSearch.search_none_iff",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.search_none_iff"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT7.RealizationDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "First node decision: either the first realizing context or exhaustive\nabsence.  It does not inspect response equality. ",
+              "mathematicalDefinition": null,
+              "label": "CT7.RealizationDecision",
+              "declarationId": "StructuralExhaustion.CT7.RealizationDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT7.RealizationCertificate",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "A concrete realizing context; realization is searched before distinction. ",
+              "mathematicalDefinition": null,
+              "label": "CT7.RealizationCertificate",
+              "declarationId": "StructuralExhaustion.CT7.RealizationCertificate"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT7.UnrealizedState",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exhaustive absence of a realizing context. ",
+              "mathematicalDefinition": null,
+              "label": "CT7.UnrealizedState",
+              "declarationId": "StructuralExhaustion.CT7.UnrealizedState"
+            }
+          ],
+          "nodeId": "CT7.search.realization",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT7.search.realization.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT7.search.realization.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT7.search.realization.internal.author.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT7.search.realization.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT7.search.realization.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT7.search.realization.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT7.search.realization.internal.theorem.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

@@ -18,6 +18,109 @@
         "ordinal": 5,
         "nodeKind": "decision",
         "nodeId": "CT13.decide.comparison",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.Capability.demand",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "The total branch-specific demand against which reconciled tier-two charge is compared.",
+              "mathematicalDefinition": "D(x)\\in\\mathbb{N}",
+              "label": "Required demand",
+              "declarationId": "StructuralExhaustion.CT13.Capability.demand"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.ReconciledState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT13.ReconciledState.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.ReconciledState",
+              "declarationId": "StructuralExhaustion.CT13.ReconciledState"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.ComparisonDecision",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT13.ComparisonDecision.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.ComparisonDecision",
+              "declarationId": "StructuralExhaustion.CT13.ComparisonDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.DeficitResidual",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT13.DeficitResidual.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.DeficitResidual",
+              "declarationId": "StructuralExhaustion.CT13.DeficitResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.ReconciliationCertificate",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT13.ReconciliationCertificate.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.ReconciliationCertificate",
+              "declarationId": "StructuralExhaustion.CT13.ReconciliationCertificate"
+            }
+          ],
+          "nodeId": "CT13.decide.comparison",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "author.1",
+              "relation": "produces",
+              "edgeId": "CT13.decide.comparison.internal.author.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "author.1",
+              "relation": "produces",
+              "edgeId": "CT13.decide.comparison.internal.author.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "author.1",
+              "relation": "produces",
+              "edgeId": "CT13.decide.comparison.internal.author.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT13.decide.comparison.internal.predecessor.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT13.decide.comparison.internal.predecessor.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT13.decide.comparison.internal.predecessor.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

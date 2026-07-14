@@ -18,6 +18,85 @@
         "ordinal": 2,
         "nodeKind": "decision",
         "nodeId": "CT12.decide.saturation",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "current.state",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: current.state.",
+              "mathematicalDefinition": null,
+              "label": "current.state",
+              "declarationId": null
+            },
+            {
+              "stepId": "predecessor.2",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "current.load",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: current.load.",
+              "mathematicalDefinition": null,
+              "label": "current.load",
+              "declarationId": null
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "Capability.State 0",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: Capability.State 0.",
+              "mathematicalDefinition": null,
+              "label": "Capability.State 0",
+              "declarationId": null
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "Capability.State (n + 1)",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: Capability.State (n + 1).",
+              "mathematicalDefinition": null,
+              "label": "Capability.State (n + 1)",
+              "declarationId": null
+            }
+          ],
+          "nodeId": "CT12.decide.saturation",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT12.decide.saturation.internal.predecessor.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT12.decide.saturation.internal.predecessor.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.2",
+              "relation": "produces",
+              "edgeId": "CT12.decide.saturation.internal.predecessor.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "predecessor.2",
+              "relation": "produces",
+              "edgeId": "CT12.decide.saturation.internal.predecessor.2-to-output.2"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [
@@ -99,7 +178,7 @@
     "kind": "compiledLeanEnvironment",
     "catalog": "generated/lean-machines.json",
     "tacticId": "CT12",
-    "apiVersion": "CT12-v5",
+    "apiVersion": "CT12-v6",
     "namespace": "StructuralExhaustion.CT12"
   },
   "x-automationContract": {

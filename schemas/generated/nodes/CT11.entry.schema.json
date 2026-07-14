@@ -18,6 +18,79 @@
         "ordinal": 1,
         "nodeKind": "entry",
         "nodeId": "CT11.entry",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.context",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.context.",
+              "mathematicalDefinition": null,
+              "label": "Input.context",
+              "declarationId": "StructuralExhaustion.CT11.Input.context"
+            },
+            {
+              "stepId": "predecessor.2",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.cells",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.cells.",
+              "mathematicalDefinition": null,
+              "label": "Input.cells",
+              "declarationId": "StructuralExhaustion.CT11.Input.cells"
+            },
+            {
+              "stepId": "predecessor.3",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.deficit",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.deficit.",
+              "mathematicalDefinition": null,
+              "label": "Input.deficit",
+              "declarationId": "StructuralExhaustion.CT11.Input.deficit"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT11.Input",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT11.Input.",
+              "mathematicalDefinition": null,
+              "label": "CT11.Input",
+              "declarationId": "StructuralExhaustion.CT11.Input"
+            }
+          ],
+          "nodeId": "CT11.entry",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT11.entry.internal.predecessor.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.2",
+              "relation": "produces",
+              "edgeId": "CT11.entry.internal.predecessor.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.3",
+              "relation": "produces",
+              "edgeId": "CT11.entry.internal.predecessor.3-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

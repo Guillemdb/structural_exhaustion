@@ -74,6 +74,13 @@ namespace FinEnum
 def orderedValues {α : Type u} (enumeration : FinEnum α) : List α :=
   @FinEnum.toList α enumeration
 
+/-- The observable list has exactly the cardinality recorded by its explicit
+enumeration. -/
+@[simp] theorem orderedValues_length {α : Type u}
+    (enumeration : FinEnum α) :
+    enumeration.orderedValues.length = enumeration.card := by
+  simp [orderedValues, FinEnum.toList]
+
 /-- The exposed enumeration contains no duplicate. -/
 theorem nodup_orderedValues {α : Type u} (enumeration : FinEnum α) :
     enumeration.orderedValues.Nodup :=
@@ -112,6 +119,27 @@ theorem sum_orderedValues {α : Type u} {M : Type v} [AddCommMonoid M]
 end FinEnum
 
 namespace StructuralExhaustion.Core.Enumeration
+
+/-- Lift an exact enumeration to a chosen universe without changing its
+observable order. -/
+@[implicit_reducible]
+def ulift {α : Type u} (enumeration : FinEnum α) : FinEnum (ULift.{v, u} α) :=
+  FinEnum.ofNodupList
+    (enumeration.orderedValues.map ULift.up)
+    (by
+      intro value
+      rcases value with ⟨value⟩
+      simp)
+    (enumeration.nodup_orderedValues.map (by
+      intro left right equal
+      exact congrArg ULift.down equal))
+
+theorem ulift_card {α : Type u} (enumeration : FinEnum α) :
+    (@ulift.{u, v} α enumeration).card = enumeration.card := by
+  letI : FinEnum α := enumeration
+  letI : FinEnum (ULift.{v, u} α) := ulift enumeration
+  rw [FinEnum.card_eq_fintypeCard, FinEnum.card_eq_fintypeCard,
+    Fintype.card_ulift]
 
 /-- Canonical explicit enumeration of the empty type. -/
 @[implicit_reducible]

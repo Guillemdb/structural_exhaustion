@@ -597,64 +597,92 @@
     {
       "data": {
         "id": "CT15.edge.beginRank",
+        "label": "beginRank",
+        "kind": "ctTransition",
+        "ordinal": 1,
         "source": "CT15.entry",
         "target": "CT15.compute.targetRelativeRank",
         "constructor": "StructuralExhaustion.CT15.Graph.Edge.beginRank",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        CT15.Graph.Edge S capability input CT15.Graph.NodeId.entry CT15.Graph.NodeId.rankComputation"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        CT15.Graph.Edge S capability input CT15.Graph.NodeId.entry CT15.Graph.NodeId.rankComputation",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT15.edge.rankComputed",
+        "label": "rankComputed",
+        "kind": "ctTransition",
+        "ordinal": 2,
         "source": "CT15.compute.targetRelativeRank",
         "target": "CT15.search.firstRankDrop",
         "constructor": "StructuralExhaustion.CT15.Graph.Edge.rankComputed",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        CT15.RankState S capability input →\n          CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankComputation CT15.Graph.NodeId.rankSplit"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        CT15.RankState S capability input →\n          CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankComputation CT15.Graph.NodeId.rankSplit",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT15.edge.rankDropped",
+        "label": "rankDropped",
+        "kind": "ctTransition",
+        "ordinal": 3,
         "source": "CT15.search.firstRankDrop",
         "target": "CT15.terminal.rankDrop",
         "constructor": "StructuralExhaustion.CT15.Graph.Edge.rankDropped",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          CT15.RankDropResidual S capability input rank →\n            CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankSplit CT15.Graph.NodeId.rankDropTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          CT15.RankDropResidual S capability input rank →\n            CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankSplit CT15.Graph.NodeId.rankDropTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT15.edge.rankFull",
+        "label": "rankFull",
+        "kind": "ctTransition",
+        "ordinal": 4,
         "source": "CT15.search.firstRankDrop",
         "target": "CT15.compute.fullRankLedger",
         "constructor": "StructuralExhaustion.CT15.Graph.Edge.rankFull",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          CT15.FullRankState S capability input rank →\n            CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankSplit CT15.Graph.NodeId.ledgerComputation"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          CT15.FullRankState S capability input rank →\n            CT15.Graph.Edge S capability input CT15.Graph.NodeId.rankSplit CT15.Graph.NodeId.ledgerComputation",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT15.edge.ledgerComputed",
+        "label": "ledgerComputed",
+        "kind": "ctTransition",
+        "ordinal": 5,
         "source": "CT15.compute.fullRankLedger",
         "target": "CT15.decide.ledgerCapacity",
         "constructor": "StructuralExhaustion.CT15.Graph.Edge.ledgerComputed",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            CT15.LedgerState S capability input full →\n              CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComputation CT15.Graph.NodeId.ledgerComparison"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            CT15.LedgerState S capability input full →\n              CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComputation CT15.Graph.NodeId.ledgerComparison",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT15.edge.capacityExceeded",
+        "label": "capacityExceeded",
+        "kind": "ctTransition",
+        "ordinal": 6,
         "source": "CT15.decide.ledgerCapacity",
         "target": "CT15.terminal.c4",
         "constructor": "StructuralExhaustion.CT15.Graph.Edge.capacityExceeded",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            {ledger : CT15.LedgerState S capability input full} →\n              CT15.C4Certificate S capability input ledger →\n                CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComparison CT15.Graph.NodeId.c4Terminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            {ledger : CT15.LedgerState S capability input full} →\n              CT15.C4Certificate S capability input ledger →\n                CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComparison CT15.Graph.NodeId.c4Terminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT15.edge.capacityAvailable",
+        "label": "capacityAvailable",
+        "kind": "ctTransition",
+        "ordinal": 7,
         "source": "CT15.decide.ledgerCapacity",
         "target": "CT15.terminal.fullRankLedger",
         "constructor": "StructuralExhaustion.CT15.Graph.Edge.capacityAvailable",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            {ledger : CT15.LedgerState S capability input full} →\n              CT15.FullRankLedgerResidual S capability input ledger →\n                CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComparison\n                  CT15.Graph.NodeId.fullRankLedgerTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            {ledger : CT15.LedgerState S capability input full} →\n              CT15.FullRankLedgerResidual S capability input ledger →\n                CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComparison\n                  CT15.Graph.NodeId.fullRankLedgerTerminal",
+        "provision": "generated_audit"
       }
     }
   ]

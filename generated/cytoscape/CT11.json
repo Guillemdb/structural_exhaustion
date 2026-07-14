@@ -419,46 +419,66 @@
     {
       "data": {
         "id": "CT11.edge.begin",
+        "label": "begin",
+        "kind": "ctTransition",
+        "ordinal": 1,
         "source": "CT11.entry",
         "target": "CT11.compute.decomposition",
         "constructor": "StructuralExhaustion.CT11.Graph.Edge.begin",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.Graph.Edge capability input CT11.Graph.NodeId.entry CT11.Graph.NodeId.decomposition"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.Graph.Edge capability input CT11.Graph.NodeId.entry CT11.Graph.NodeId.decomposition",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT11.edge.decomposed",
+        "label": "decomposed",
+        "kind": "ctTransition",
+        "ordinal": 2,
         "source": "CT11.compute.decomposition",
         "target": "CT11.search.admissibilityGap",
         "constructor": "StructuralExhaustion.CT11.Graph.Edge.decomposed",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.Graph.Edge capability input CT11.Graph.NodeId.decomposition CT11.Graph.NodeId.admissibility"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.Graph.Edge capability input CT11.Graph.NodeId.decomposition CT11.Graph.NodeId.admissibility",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT11.edge.gap",
+        "label": "gap",
+        "kind": "ctTransition",
+        "ordinal": 3,
         "source": "CT11.search.admissibilityGap",
         "target": "CT11.terminal.residual.admissibilityGap",
         "constructor": "StructuralExhaustion.CT11.Graph.Edge.gap",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.AdmissibilityGapResidual capability input →\n        CT11.Graph.Edge capability input CT11.Graph.NodeId.admissibility CT11.Graph.NodeId.gapTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.AdmissibilityGapResidual capability input →\n        CT11.Graph.Edge capability input CT11.Graph.NodeId.admissibility CT11.Graph.NodeId.gapTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT11.edge.closed",
+        "label": "closed",
+        "kind": "ctTransition",
+        "ordinal": 4,
         "source": "CT11.search.admissibilityGap",
         "target": "CT11.search.localNegativeBudget",
         "constructor": "StructuralExhaustion.CT11.Graph.Edge.closed",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.AdmissibleDecomposition capability input →\n        CT11.Graph.Edge capability input CT11.Graph.NodeId.admissibility CT11.Graph.NodeId.localization"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.AdmissibleDecomposition capability input →\n        CT11.Graph.Edge capability input CT11.Graph.NodeId.admissibility CT11.Graph.NodeId.localization",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT11.edge.localized",
+        "label": "localized",
+        "kind": "ctTransition",
+        "ordinal": 5,
         "source": "CT11.search.localNegativeBudget",
         "target": "CT11.terminal.residual.localizedDeficit",
         "constructor": "StructuralExhaustion.CT11.Graph.Edge.localized",
-        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.LocalizedDeficitResidual capability input →\n        CT11.Graph.Edge capability input CT11.Graph.NodeId.localization CT11.Graph.NodeId.localizedTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {capability : CT11.Capability P} →\n    {input : CT11.Input capability} →\n      CT11.LocalizedDeficitResidual capability input →\n        CT11.Graph.Edge capability input CT11.Graph.NodeId.localization CT11.Graph.NodeId.localizedTerminal",
+        "provision": "generated_audit"
       }
     }
   ]

@@ -257,7 +257,8 @@ def generated_artifacts_are_fresh(catalog_path: Path) -> tuple[bool, str]:
             for path in expected_root.rglob("*")
             if path.is_file()
             and (
-                path.relative_to(expected_root).parts[0] in {"mermaid", "cytoscape"}
+                path.relative_to(expected_root).parts[0]
+                in {"mermaid", "cytoscape", "internals"}
                 or path.relative_to(expected_root).as_posix() in managed
             )
         }

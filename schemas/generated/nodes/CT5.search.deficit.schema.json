@@ -18,6 +18,205 @@
         "ordinal": 2,
         "nodeKind": "computation",
         "nodeId": "CT5.search.deficit",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.sites",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all local sites.",
+              "mathematicalDefinition": "\\operatorname{sites}=\\mathcal{S}",
+              "label": "Finite site enumeration",
+              "declarationId": "StructuralExhaustion.CT5.Capability.sites"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.witnesses",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of the witnesses for each site.",
+              "mathematicalDefinition": "\\operatorname{witnesses}(s)=\\mathcal{W}(s)",
+              "label": "Finite witness enumeration",
+              "declarationId": "StructuralExhaustion.CT5.Capability.witnesses"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.Active",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition that site s is active in branch context x.",
+              "mathematicalDefinition": "\\operatorname{Active}(x,s)",
+              "label": "Activity predicate",
+              "declarationId": "StructuralExhaustion.CT5.Spec.Active"
+            },
+            {
+              "stepId": "author.4",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.Supports",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition that witness w supplies valid support at site s.",
+              "mathematicalDefinition": "\\operatorname{Supports}(x,s,w)",
+              "label": "Support predicate",
+              "declarationId": "StructuralExhaustion.CT5.Spec.Supports"
+            },
+            {
+              "stepId": "author.5",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.activeDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding whether a site is active.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Active}(x,s))",
+              "label": "Activity decision procedure",
+              "declarationId": "StructuralExhaustion.CT5.Capability.activeDecidable"
+            },
+            {
+              "stepId": "author.6",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.supportsDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding whether a witness supports a site.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Supports}(x,s,w))",
+              "label": "Support decision procedure",
+              "declarationId": "StructuralExhaustion.CT5.Capability.supportsDecidable"
+            },
+            {
+              "stepId": "operation.1",
+              "role": "operation",
+              "reference": {
+                "ref": "FiniteSearch.search",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "Exhaustive search over an explicit Mathlib finite enumeration. ",
+              "mathematicalDefinition": null,
+              "label": "FiniteSearch.search",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.search"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "Core.FiniteSearch.search_none_iff",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: Core.FiniteSearch.search_none_iff.",
+              "mathematicalDefinition": null,
+              "label": "Core.FiniteSearch.search_none_iff",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.search_none_iff"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT5.DeficitDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT5.DeficitDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT5.DeficitDecision",
+              "declarationId": "StructuralExhaustion.CT5.DeficitDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT5.LocalDeficitResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "A concrete active site at which the exact witness universe is empty of\nsupporting witnesses. ",
+              "mathematicalDefinition": null,
+              "label": "CT5.LocalDeficitResidual",
+              "declarationId": "StructuralExhaustion.CT5.LocalDeficitResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT5.DeficitFreeState",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exhaustive deficit exclusion emitted by the search node. ",
+              "mathematicalDefinition": null,
+              "label": "CT5.DeficitFreeState",
+              "declarationId": "StructuralExhaustion.CT5.DeficitFreeState"
+            }
+          ],
+          "nodeId": "CT5.search.deficit",
+          "edges": [
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.1",
+              "relation": "consumes",
+              "edgeId": "CT5.search.deficit.internal.author.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.2",
+              "relation": "consumes",
+              "edgeId": "CT5.search.deficit.internal.author.2-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.3",
+              "relation": "consumes",
+              "edgeId": "CT5.search.deficit.internal.author.3-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.4",
+              "relation": "consumes",
+              "edgeId": "CT5.search.deficit.internal.author.4-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.5",
+              "relation": "consumes",
+              "edgeId": "CT5.search.deficit.internal.author.5-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.6",
+              "relation": "consumes",
+              "edgeId": "CT5.search.deficit.internal.author.6-to-operation.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT5.search.deficit.internal.operation.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT5.search.deficit.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT5.search.deficit.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT5.search.deficit.internal.theorem.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

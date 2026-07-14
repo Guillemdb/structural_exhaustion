@@ -18,6 +18,229 @@
         "ordinal": 2,
         "nodeKind": "computation",
         "nodeId": "CT17.search.compatibility",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.targets",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all thickening targets.",
+              "mathematicalDefinition": "\\operatorname{targets}=\\mathcal{T}",
+              "label": "Finite target enumeration",
+              "declarationId": "StructuralExhaustion.CT17.Capability.targets"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.offsets",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all target offsets.",
+              "mathematicalDefinition": "\\operatorname{offsets}=\\mathcal{O}",
+              "label": "Finite offset enumeration",
+              "declarationId": "StructuralExhaustion.CT17.Capability.offsets"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.Compatible",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition that offset o is admissible for target t in branch x.",
+              "mathematicalDefinition": "\\operatorname{Compatible}(x,t,o)",
+              "label": "Target-offset compatibility",
+              "declarationId": "StructuralExhaustion.CT17.Spec.Compatible"
+            },
+            {
+              "stepId": "author.4",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.compatibleDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding whether a target-offset pair is compatible.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Compatible}(x,t,o))",
+              "label": "Compatibility decision procedure",
+              "declarationId": "StructuralExhaustion.CT17.Capability.compatibleDecidable"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "context",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: context.",
+              "mathematicalDefinition": null,
+              "label": "context",
+              "declarationId": null
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "Core.FiniteSearch.dependentSearch",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exhaustive nested search over a finite index enumeration and an exact\nfinite enumeration for each dependent fibre. ",
+              "mathematicalDefinition": null,
+              "label": "Core.FiniteSearch.dependentSearch",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.dependentSearch"
+            },
+            {
+              "stepId": "theorem.2",
+              "role": "theorem",
+              "reference": {
+                "ref": "CT17.analyzeCompatibility_sound",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: CT17.analyzeCompatibility_sound.",
+              "mathematicalDefinition": null,
+              "label": "CT17.analyzeCompatibility_sound",
+              "declarationId": "StructuralExhaustion.CT17.analyzeCompatibility_sound"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT17.CompatibilityDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT17.CompatibilityDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT17.CompatibilityDecision",
+              "declarationId": "StructuralExhaustion.CT17.CompatibilityDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT17.IncompatibilityResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "First incompatible target/offset pair in deterministic enumeration order. ",
+              "mathematicalDefinition": null,
+              "label": "CT17.IncompatibilityResidual",
+              "declarationId": "StructuralExhaustion.CT17.IncompatibilityResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT17.CompatibleState",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State produced only after exhaustive compatibility search has found no\ncounterexample. ",
+              "mathematicalDefinition": null,
+              "label": "CT17.CompatibleState",
+              "declarationId": "StructuralExhaustion.CT17.CompatibleState"
+            }
+          ],
+          "nodeId": "CT17.search.compatibility",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT17.search.compatibility.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT17.search.compatibility.internal.author.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT17.search.compatibility.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT17.search.compatibility.internal.author.2-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT17.search.compatibility.internal.author.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.3",
+              "relation": "then",
+              "edgeId": "CT17.search.compatibility.internal.author.3-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.4",
+              "relation": "then",
+              "edgeId": "CT17.search.compatibility.internal.author.4-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "author.4",
+              "relation": "then",
+              "edgeId": "CT17.search.compatibility.internal.author.4-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT17.search.compatibility.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT17.search.compatibility.internal.predecessor.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT17.search.compatibility.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT17.search.compatibility.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT17.search.compatibility.internal.theorem.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT17.search.compatibility.internal.theorem.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT17.search.compatibility.internal.theorem.2-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT17.search.compatibility.internal.theorem.2-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

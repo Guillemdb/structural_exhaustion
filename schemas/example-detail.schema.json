@@ -11,7 +11,7 @@
   ],
   "properties": {
     "artifactType": {"const": "structuralExhaustionExample"},
-    "schemaVersion": {"const": "1.1.0"},
+    "schemaVersion": {"const": "1.4.0"},
     "sourceOfTruth": {"$ref": "#/$defs/sourceOfTruth"},
     "exampleId": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
     "title": {"$ref": "#/$defs/nonemptyString"},
@@ -92,7 +92,7 @@
       "additionalProperties": false,
       "required": [
         "linkId", "sourceStageId", "targetStageId", "kind", "label",
-        "summary", "evidenceDeclarationIds"
+        "summary", "automationDeclarationIds", "evidenceDeclarationIds"
       ],
       "properties": {
         "linkId": {"$ref": "#/$defs/identifier"},
@@ -107,6 +107,11 @@
         "label": {"$ref": "#/$defs/nonemptyString"},
         "summary": {"$ref": "#/$defs/nonemptyString"},
         "routeId": {"$ref": "#/$defs/nonemptyString"},
+        "automationDeclarationIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/nonemptyString"}
+        },
         "evidenceDeclarationIds": {
           "type": "array",
           "uniqueItems": true,
@@ -153,6 +158,225 @@
         "summary": {"$ref": "#/$defs/nonemptyString"},
         "problemDeclarationId": {"$ref": "#/$defs/nonemptyString"},
         "frameworkDeclarationId": {"$ref": "#/$defs/nonemptyString"}
+      }
+    },
+    "manuscriptInline": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "text"],
+          "properties": {
+            "kind": {"enum": ["text", "code"]},
+            "text": {"type": "string"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind"],
+          "properties": {
+            "kind": {"enum": ["space", "softBreak", "lineBreak"]}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "display", "tex"],
+          "properties": {
+            "kind": {"const": "math"},
+            "display": {"type": "boolean"},
+            "tex": {"type": "string"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "children"],
+          "properties": {
+            "kind": {
+              "enum": [
+                "emphasis", "strong", "underline", "strikeout", "smallCaps",
+                "upright"
+              ]
+            },
+            "children": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/manuscriptInline"}
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "labels", "referenceKind", "prefix", "text"],
+          "properties": {
+            "kind": {"const": "reference"},
+            "labels": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {"$ref": "#/$defs/nonemptyString"}
+            },
+            "referenceKind": {"$ref": "#/$defs/nonemptyString"},
+            "prefix": {"type": "string"},
+            "text": {"$ref": "#/$defs/nonemptyString"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "keys", "text"],
+          "properties": {
+            "kind": {"const": "citation"},
+            "keys": {
+              "type": "array",
+              "minItems": 1,
+              "items": {"$ref": "#/$defs/nonemptyString"}
+            },
+            "text": {"$ref": "#/$defs/nonemptyString"}
+          }
+        }
+      ]
+    },
+    "manuscriptBlock": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "inlines"],
+          "properties": {
+            "kind": {"const": "paragraph"},
+            "inlines": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/manuscriptInline"}
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "level", "label", "inlines"],
+          "properties": {
+            "kind": {"const": "heading"},
+            "level": {"type": "integer", "minimum": 1, "maximum": 6},
+            "label": {
+              "oneOf": [{"type": "null"}, {"$ref": "#/$defs/nonemptyString"}]
+            },
+            "inlines": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/manuscriptInline"}
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "environment", "label", "title", "blocks"],
+          "properties": {
+            "kind": {"const": "environment"},
+            "environment": {"$ref": "#/$defs/nonemptyString"},
+            "label": {
+              "oneOf": [{"type": "null"}, {"$ref": "#/$defs/nonemptyString"}]
+            },
+            "title": {
+              "oneOf": [
+                {"type": "null"},
+                {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {"$ref": "#/$defs/manuscriptInline"}
+                }
+              ]
+            },
+            "blocks": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/manuscriptBlock"}
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "start", "items"],
+          "properties": {
+            "kind": {"const": "orderedList"},
+            "start": {"type": "integer", "minimum": 1},
+            "items": {"$ref": "#/$defs/manuscriptListItems"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "items"],
+          "properties": {
+            "kind": {"const": "bulletList"},
+            "items": {"$ref": "#/$defs/manuscriptListItems"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "blocks"],
+          "properties": {
+            "kind": {"const": "blockQuote"},
+            "blocks": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/manuscriptBlock"}
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "text"],
+          "properties": {
+            "kind": {"const": "codeBlock"},
+            "text": {"type": "string"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "label", "svg", "svgSha256", "caption"],
+          "properties": {
+            "kind": {"const": "figure"},
+            "label": {"$ref": "#/$defs/nonemptyString"},
+            "svg": {"$ref": "#/$defs/nonemptyString"},
+            "svgSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "caption": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/manuscriptBlock"}
+            }
+          }
+        }
+      ]
+    },
+    "manuscriptListItems": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {"$ref": "#/$defs/manuscriptBlock"}
+      }
+    },
+    "manuscriptFragment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label", "environment", "sourceLine", "includesProof",
+        "contentSha256", "blocks"
+      ],
+      "properties": {
+        "label": {"$ref": "#/$defs/nonemptyString"},
+        "environment": {"$ref": "#/$defs/nonemptyString"},
+        "sourceLine": {"type": "integer", "minimum": 1},
+        "includesProof": {"type": "boolean"},
+        "contentSha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "blocks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/manuscriptBlock"}
+        }
       }
     },
     "manuscriptReference": {
@@ -226,12 +450,17 @@
     "manuscript": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["title", "path", "proofSteps", "coverage"],
+      "required": ["title", "path", "sha256", "fragments", "proofSteps", "coverage"],
       "properties": {
         "title": {"$ref": "#/$defs/nonemptyString"},
         "path": {
           "type": "string",
           "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+\\.tex$"
+        },
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "fragments": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/manuscriptFragment"}
         },
         "proofSteps": {
           "type": "array",
@@ -241,12 +470,22 @@
         "coverage": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["implementedSteps", "totalSteps", "explainedDeclarations", "displayedDeclarations"],
+          "required": [
+            "implementedSteps", "totalSteps", "explainedDeclarations",
+            "displayedDeclarations", "verifiedMathematicalObjects",
+            "totalMathematicalObjects", "verifiedDiagramNodes",
+            "totalDiagramNodes", "verifiedWorkflowSteps"
+          ],
           "properties": {
             "implementedSteps": {"type": "integer", "minimum": 0},
             "totalSteps": {"type": "integer", "minimum": 1},
             "explainedDeclarations": {"type": "integer", "minimum": 0},
-            "displayedDeclarations": {"type": "integer", "minimum": 0}
+            "displayedDeclarations": {"type": "integer", "minimum": 0},
+            "verifiedMathematicalObjects": {"type": "integer", "minimum": 0},
+            "totalMathematicalObjects": {"type": "integer", "minimum": 1},
+            "verifiedDiagramNodes": {"type": "integer", "minimum": 0},
+            "totalDiagramNodes": {"type": "integer", "minimum": 1},
+            "verifiedWorkflowSteps": {"type": "integer", "minimum": 0}
           }
         }
       }

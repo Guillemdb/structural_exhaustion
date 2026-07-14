@@ -18,6 +18,187 @@
         "ordinal": 2,
         "nodeKind": "computation",
         "nodeId": "CT6.search.firstFailure",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.failureOrder",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration determining the first-failure search order.",
+              "mathematicalDefinition": "(i_1,\\ldots,i_m)",
+              "label": "Finite failure order",
+              "declarationId": "StructuralExhaustion.CT6.Capability.failureOrder"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.Failure",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition that local activity fails at index i in branch x.",
+              "mathematicalDefinition": "\\operatorname{Failure}(x,i)",
+              "label": "Failure predicate",
+              "declarationId": "StructuralExhaustion.CT6.Spec.Failure"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.failureData",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Converts proof of a local failure into its typed application-specific payload.",
+              "mathematicalDefinition": "\\operatorname{failureData}_x(i):\\operatorname{Failure}(x,i)\\to\\mathcal{F}",
+              "label": "Failure-data extractor",
+              "declarationId": "StructuralExhaustion.CT6.Spec.failureData"
+            },
+            {
+              "stepId": "author.4",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.contribution",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns the contribution recorded for each nonfailing activity index.",
+              "mathematicalDefinition": "c_x:\\mathcal{I}\\to\\mathbb{N}",
+              "label": "Index contribution",
+              "declarationId": "StructuralExhaustion.CT6.Spec.contribution"
+            },
+            {
+              "stepId": "author.5",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.failureDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding whether activity fails at an index.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Failure}(x,i))",
+              "label": "Failure decision procedure",
+              "declarationId": "StructuralExhaustion.CT6.Capability.failureDecidable"
+            },
+            {
+              "stepId": "operation.1",
+              "role": "operation",
+              "reference": {
+                "ref": "FirstHit.beforeAbsent",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "Framework-owned operation executed inside this node: FirstHit.beforeAbsent.",
+              "mathematicalDefinition": null,
+              "label": "FirstHit.beforeAbsent",
+              "declarationId": null
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "Core.FiniteSearch.first_hit_no_earlier",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: Core.FiniteSearch.first_hit_no_earlier.",
+              "mathematicalDefinition": null,
+              "label": "Core.FiniteSearch.first_hit_no_earlier",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.first_hit_no_earlier"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT6.ActivityDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT6.ActivityDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT6.ActivityDecision",
+              "declarationId": "StructuralExhaustion.CT6.ActivityDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT6.FirstFailureResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "Canonical first failure with its exact clean prefix and structural datum. ",
+              "mathematicalDefinition": null,
+              "label": "CT6.FirstFailureResidual",
+              "declarationId": "StructuralExhaustion.CT6.FirstFailureResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT6.ActiveLedgerResidual",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exhaustive active ledger produced when no monitored index fails. ",
+              "mathematicalDefinition": null,
+              "label": "CT6.ActiveLedgerResidual",
+              "declarationId": "StructuralExhaustion.CT6.ActiveLedgerResidual"
+            }
+          ],
+          "nodeId": "CT6.search.firstFailure",
+          "edges": [
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.1",
+              "relation": "consumes",
+              "edgeId": "CT6.search.firstFailure.internal.author.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.2",
+              "relation": "consumes",
+              "edgeId": "CT6.search.firstFailure.internal.author.2-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.3",
+              "relation": "consumes",
+              "edgeId": "CT6.search.firstFailure.internal.author.3-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.4",
+              "relation": "consumes",
+              "edgeId": "CT6.search.firstFailure.internal.author.4-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.5",
+              "relation": "consumes",
+              "edgeId": "CT6.search.firstFailure.internal.author.5-to-operation.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT6.search.firstFailure.internal.operation.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT6.search.firstFailure.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT6.search.firstFailure.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT6.search.firstFailure.internal.theorem.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

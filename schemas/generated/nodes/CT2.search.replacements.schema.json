@@ -18,6 +18,649 @@
         "ordinal": 3,
         "nodeKind": "computation",
         "nodeId": "CT2.search.replacements",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.InterfaceSystem.interface",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns to each local piece its exact boundary interface.",
+              "mathematicalDefinition": "\\partial p\\in\\mathcal{I}",
+              "label": "Piece interface",
+              "declarationId": "StructuralExhaustion.CT2.InterfaceSystem.interface"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ContextSystem.contexts",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of the outside contexts for each interface.",
+              "mathematicalDefinition": "\\operatorname{contexts}(\\iota)=\\mathcal{K}(\\iota)",
+              "label": "Finite context enumeration",
+              "declarationId": "StructuralExhaustion.CT2.ContextSystem.contexts"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ContextSystem.glue",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Reconstructs an ambient object by placing an abstract piece into an outside context.",
+              "mathematicalDefinition": "\\operatorname{glue}_{\\iota}:\\mathcal{K}(\\iota)\\times\\mathcal{A}(\\iota)\\to\\mathcal{G}",
+              "label": "Gluing operation",
+              "declarationId": "StructuralExhaustion.CT2.ContextSystem.glue"
+            },
+            {
+              "stepId": "author.4",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ContextSystem.abstract",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Extracts the abstract interior represented by a concrete piece.",
+              "mathematicalDefinition": "\\operatorname{abstract}(p)\\in\\mathcal{A}(\\partial p)",
+              "label": "Piece abstraction",
+              "declarationId": "StructuralExhaustion.CT2.ContextSystem.abstract"
+            },
+            {
+              "stepId": "author.5",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ContextSystem.currentContext",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Extracts the outside environment surrounding the concrete piece in G.",
+              "mathematicalDefinition": "\\operatorname{currentContext}(p)\\in\\mathcal{K}(\\partial p)",
+              "label": "Current outside context",
+              "declarationId": "StructuralExhaustion.CT2.ContextSystem.currentContext"
+            },
+            {
+              "stepId": "author.6",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ContextSystem.reconstruct",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "A proof that the context and abstraction recover the original ambient object exactly.",
+              "mathematicalDefinition": "\\operatorname{glue}(\\operatorname{currentContext}(p),\\operatorname{abstract}(p))=G",
+              "label": "Reconstruction law",
+              "declarationId": "StructuralExhaustion.CT2.ContextSystem.reconstruct"
+            },
+            {
+              "stepId": "author.7",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.Observable.baselineDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding the problem's baseline property on an ambient object.",
+              "mathematicalDefinition": "\\operatorname{decide}\\!\\left(B(G)\\right)",
+              "label": "Baseline decision procedure",
+              "declarationId": "StructuralExhaustion.CT2.Observable.baselineDecidable"
+            },
+            {
+              "stepId": "author.8",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.Observable.targetDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding the target property on an ambient object.",
+              "mathematicalDefinition": "\\operatorname{decide}\\!\\left(T(G)\\right)",
+              "label": "Target decision procedure",
+              "declarationId": "StructuralExhaustion.CT2.Observable.targetDecidable"
+            },
+            {
+              "stepId": "author.9",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ReplacementSystem.Candidate",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The type of candidate replacements available for a concrete piece p.",
+              "mathematicalDefinition": "\\mathcal{R}(p)",
+              "label": "Replacement candidate",
+              "declarationId": "StructuralExhaustion.CT2.ReplacementSystem.Candidate"
+            },
+            {
+              "stepId": "author.10",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ReplacementSystem.candidates",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of candidate replacements for p.",
+              "mathematicalDefinition": "\\operatorname{candidates}(p)=\\mathcal{R}(p)",
+              "label": "Finite replacement enumeration",
+              "declarationId": "StructuralExhaustion.CT2.ReplacementSystem.candidates"
+            },
+            {
+              "stepId": "author.11",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ReplacementSystem.replacement",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Interprets candidate r as an abstract piece with the same interface as p.",
+              "mathematicalDefinition": "\\operatorname{replacement}(p,r)\\in\\mathcal{A}(\\partial p)",
+              "label": "Replacement interpretation",
+              "declarationId": "StructuralExhaustion.CT2.ReplacementSystem.replacement"
+            },
+            {
+              "stepId": "author.12",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ReplacementSystem.decreases",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "A proof that every enumerated replacement produces a strictly smaller ambient object.",
+              "mathematicalDefinition": "\\rho\\!\\left(\\operatorname{glue}(K_p,\\operatorname{replacement}(p,r))\\right)<\\rho(G)",
+              "label": "Replacement decrease proof",
+              "declarationId": "StructuralExhaustion.CT2.ReplacementSystem.decreases"
+            },
+            {
+              "stepId": "inferred.1",
+              "role": "inferredInstance",
+              "reference": {
+                "ref": "DecidableEq StructuralExhaustion.Core.ExactObservation",
+                "provision": "typeclass_inferred"
+              },
+              "plainExplanation": "Executable instance inferred by Lean for this node: DecidableEq StructuralExhaustion.Core.ExactObservation.",
+              "mathematicalDefinition": null,
+              "label": "DecidableEq StructuralExhaustion.Core.ExactObservation",
+              "declarationId": null
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.DeletionCriticalState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Failure of deletion to produce a smaller counterexample. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.DeletionCriticalState",
+              "declarationId": "StructuralExhaustion.CT2.DeletionCriticalState"
+            },
+            {
+              "stepId": "operation.1",
+              "role": "operation",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.analyzeCandidate",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "Exhaustively compare a candidate with the source in every exact context. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.analyzeCandidate",
+              "declarationId": "StructuralExhaustion.CT2.analyzeCandidate"
+            },
+            {
+              "stepId": "operation.2",
+              "role": "operation",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.replacementTable",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Turn exhaustive absence of an equivalent candidate into a complete table\nof concrete separating contexts. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.replacementTable",
+              "declarationId": "StructuralExhaustion.CT2.replacementTable"
+            },
+            {
+              "stepId": "operation.3",
+              "role": "operation",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ReplacementSystem.asSmaller",
+                "provision": "derived_definitionally"
+              },
+              "plainExplanation": "Framework-owned operation executed inside this node: StructuralExhaustion.CT2.ReplacementSystem.asSmaller.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.ReplacementSystem.asSmaller",
+              "declarationId": "StructuralExhaustion.CT2.ReplacementSystem.asSmaller"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.Core.FiniteSearch.search",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exhaustive search over an explicit Mathlib finite enumeration. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.Core.FiniteSearch.search",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.search"
+            },
+            {
+              "stepId": "theorem.2",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.replacementTable_complete",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT2.replacementTable_complete.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.replacementTable_complete",
+              "declarationId": "StructuralExhaustion.CT2.replacementTable_complete"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ReplacementDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT2.ReplacementDecision.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.ReplacementDecision",
+              "declarationId": "StructuralExhaustion.CT2.ReplacementDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ReplacementWitness",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "A legal replacement whose exact response agrees in every context. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.ReplacementWitness",
+              "declarationId": "StructuralExhaustion.CT2.ReplacementWitness"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ReplacementTable",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Complete exhaustive replacement table: every legal candidate has a named\nfirst separating context. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.ReplacementTable",
+              "declarationId": "StructuralExhaustion.CT2.ReplacementTable"
+            },
+            {
+              "stepId": "output.4",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.SeparatingContextResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "A deterministic separating residual.  The complete table is retained so\nthe residual certifies that no later candidate was silently ignored. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.SeparatingContextResidual",
+              "declarationId": "StructuralExhaustion.CT2.SeparatingContextResidual"
+            },
+            {
+              "stepId": "output.5",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.CriticalityResidual",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Exhaustive criticality is emitted exactly when the legal replacement\nuniverse is empty. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.CriticalityResidual",
+              "declarationId": "StructuralExhaustion.CT2.CriticalityResidual"
+            }
+          ],
+          "nodeId": "CT2.search.replacements",
+          "edges": [
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.1",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.1",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.1-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.3",
+              "sourceStepId": "author.1",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.1-to-operation.3"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.2",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.2-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.2",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.2-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.3",
+              "sourceStepId": "author.2",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.2-to-operation.3"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.3",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.3-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.3",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.3-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.3",
+              "sourceStepId": "author.3",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.3-to-operation.3"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.4",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.4-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.4",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.4-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.3",
+              "sourceStepId": "author.4",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.4-to-operation.3"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.5",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.5-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.5",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.5-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.3",
+              "sourceStepId": "author.5",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.5-to-operation.3"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.6",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.6-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.6",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.6-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.3",
+              "sourceStepId": "author.6",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.6-to-operation.3"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.7",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.7-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.7",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.7-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.3",
+              "sourceStepId": "author.7",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.7-to-operation.3"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.8",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.8-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.8",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.8-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.3",
+              "sourceStepId": "author.8",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.8-to-operation.3"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.9",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.9-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.9",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.9-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.3",
+              "sourceStepId": "author.9",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.9-to-operation.3"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.10",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.10-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.10",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.10-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.3",
+              "sourceStepId": "author.10",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.10-to-operation.3"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.11",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.11-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.11",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.11-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.3",
+              "sourceStepId": "author.11",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.11-to-operation.3"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.12",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.12-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "author.12",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.12-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.3",
+              "sourceStepId": "author.12",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.author.12-to-operation.3"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "inferred.1",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.inferred.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "inferred.1",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.inferred.1-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.3",
+              "sourceStepId": "inferred.1",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.inferred.1-to-operation.3"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.predecessor.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.2",
+              "sourceStepId": "predecessor.1",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.predecessor.1-to-operation.2"
+            },
+            {
+              "targetStepId": "operation.3",
+              "sourceStepId": "predecessor.1",
+              "relation": "consumes",
+              "edgeId": "CT2.search.replacements.internal.predecessor.1-to-operation.3"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT2.search.replacements.internal.operation.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "operation.1",
+              "relation": "then",
+              "edgeId": "CT2.search.replacements.internal.operation.1-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "operation.2",
+              "relation": "then",
+              "edgeId": "CT2.search.replacements.internal.operation.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "operation.2",
+              "relation": "then",
+              "edgeId": "CT2.search.replacements.internal.operation.2-to-theorem.2"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "operation.3",
+              "relation": "then",
+              "edgeId": "CT2.search.replacements.internal.operation.3-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.2",
+              "sourceStepId": "operation.3",
+              "relation": "then",
+              "edgeId": "CT2.search.replacements.internal.operation.3-to-theorem.2"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT2.search.replacements.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT2.search.replacements.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT2.search.replacements.internal.theorem.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.4",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT2.search.replacements.internal.theorem.1-to-output.4"
+            },
+            {
+              "targetStepId": "output.5",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT2.search.replacements.internal.theorem.1-to-output.5"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT2.search.replacements.internal.theorem.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT2.search.replacements.internal.theorem.2-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT2.search.replacements.internal.theorem.2-to-output.3"
+            },
+            {
+              "targetStepId": "output.4",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT2.search.replacements.internal.theorem.2-to-output.4"
+            },
+            {
+              "targetStepId": "output.5",
+              "sourceStepId": "theorem.2",
+              "relation": "certifies",
+              "edgeId": "CT2.search.replacements.internal.theorem.2-to-output.5"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

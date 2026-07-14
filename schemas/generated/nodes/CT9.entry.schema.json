@@ -18,6 +18,61 @@
         "ordinal": 1,
         "nodeKind": "entry",
         "nodeId": "CT9.entry",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.context",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.context.",
+              "mathematicalDefinition": null,
+              "label": "Input.context",
+              "declarationId": "StructuralExhaustion.CT9.Input.context"
+            },
+            {
+              "stepId": "predecessor.2",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.items",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.items.",
+              "mathematicalDefinition": null,
+              "label": "Input.items",
+              "declarationId": "StructuralExhaustion.CT9.Input.items"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT9.Input",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Runtime CT9 data: one branch and its exact active item collection. ",
+              "mathematicalDefinition": null,
+              "label": "CT9.Input",
+              "declarationId": "StructuralExhaustion.CT9.Input"
+            }
+          ],
+          "nodeId": "CT9.entry",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT9.entry.internal.predecessor.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.2",
+              "relation": "produces",
+              "edgeId": "CT9.entry.internal.predecessor.2-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

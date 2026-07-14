@@ -20,6 +20,13 @@ def tacticInterface {P : Core.Problem} (C : Capability P) :
     Core.Routing.TacticInterface where
   Context := Core.BranchContext P
   Trigger := Input C
+
+/-- CT14's target capability already fixes the complete member universe and
+its trigger has no additional semantic seed.  Consequently every inherited
+branch context is constructively enabled. -/
+def discover {P : Core.Problem} (_C : Capability P) {Residual : Sort _}
+    (_source : Residual) : Core.Routing.Discovery Unit :=
+  .enabled ()
 end Capability
 
 def lowerMass {P : Core.Problem} (C : Capability P)

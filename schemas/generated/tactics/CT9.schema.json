@@ -93,6 +93,61 @@
             "ordinal": 1,
             "nodeKind": "entry",
             "nodeId": "CT9.entry",
+            "internalFlow": {
+              "steps": [
+                {
+                  "stepId": "predecessor.1",
+                  "role": "predecessorState",
+                  "reference": {
+                    "ref": "Input.context",
+                    "provision": "derived_from_predecessor"
+                  },
+                  "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.context.",
+                  "mathematicalDefinition": null,
+                  "label": "Input.context",
+                  "declarationId": "StructuralExhaustion.CT9.Input.context"
+                },
+                {
+                  "stepId": "predecessor.2",
+                  "role": "predecessorState",
+                  "reference": {
+                    "ref": "Input.items",
+                    "provision": "derived_from_predecessor"
+                  },
+                  "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.items.",
+                  "mathematicalDefinition": null,
+                  "label": "Input.items",
+                  "declarationId": "StructuralExhaustion.CT9.Input.items"
+                },
+                {
+                  "stepId": "output.1",
+                  "role": "output",
+                  "reference": {
+                    "ref": "CT9.Input",
+                    "provision": "derived_from_predecessor"
+                  },
+                  "plainExplanation": "Runtime CT9 data: one branch and its exact active item collection. ",
+                  "mathematicalDefinition": null,
+                  "label": "CT9.Input",
+                  "declarationId": "StructuralExhaustion.CT9.Input"
+                }
+              ],
+              "nodeId": "CT9.entry",
+              "edges": [
+                {
+                  "targetStepId": "output.1",
+                  "sourceStepId": "predecessor.1",
+                  "relation": "produces",
+                  "edgeId": "CT9.entry.internal.predecessor.1-to-output.1"
+                },
+                {
+                  "targetStepId": "output.1",
+                  "sourceStepId": "predecessor.2",
+                  "relation": "produces",
+                  "edgeId": "CT9.entry.internal.predecessor.2-to-output.1"
+                }
+              ]
+            },
             "formalContract": {
               "predecessorIndexed": true,
               "outgoingEdges": [
@@ -152,6 +207,24 @@
             "ordinal": 2,
             "nodeKind": "computation",
             "nodeId": "CT9.compute.partition",
+            "internalFlow": {
+              "steps": [
+                {
+                  "stepId": "output.1",
+                  "role": "output",
+                  "reference": {
+                    "ref": "CT9.Graph.Edge.partitioned",
+                    "provision": "generated_audit"
+                  },
+                  "plainExplanation": "State, decision, certificate, or residual produced by this node: CT9.Graph.Edge.partitioned.",
+                  "mathematicalDefinition": null,
+                  "label": "CT9.Graph.Edge.partitioned",
+                  "declarationId": "StructuralExhaustion.CT9.Graph.Edge.partitioned"
+                }
+              ],
+              "nodeId": "CT9.compute.partition",
+              "edges": []
+            },
             "formalContract": {
               "predecessorIndexed": true,
               "outgoingEdges": [
@@ -201,6 +274,205 @@
             "ordinal": 3,
             "nodeKind": "computation",
             "nodeId": "CT9.search.firstOverload",
+            "internalFlow": {
+              "steps": [
+                {
+                  "stepId": "author.1",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "Capability.capacity",
+                    "provision": "user_operator"
+                  },
+                  "plainExplanation": "Assigns the permitted size of each label fibre.",
+                  "mathematicalDefinition": "\\kappa:\\mathcal{L}\\to\\mathbb{N}",
+                  "label": "Fibre capacity",
+                  "declarationId": "StructuralExhaustion.CT9.Capability.capacity"
+                },
+                {
+                  "stepId": "author.2",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "Capability.labels",
+                    "provision": "user_finite_enumeration"
+                  },
+                  "plainExplanation": "An exhaustive ordered enumeration of all fibre labels.",
+                  "mathematicalDefinition": "\\operatorname{labels}=\\mathcal{L}",
+                  "label": "Finite label enumeration",
+                  "declarationId": "StructuralExhaustion.CT9.Capability.labels"
+                },
+                {
+                  "stepId": "author.3",
+                  "role": "authorObject",
+                  "reference": {
+                    "ref": "Capability.label",
+                    "provision": "user_operator"
+                  },
+                  "plainExplanation": "Assigns each active item to exactly one label fibre.",
+                  "mathematicalDefinition": "\\lambda:\\mathcal{X}\\to\\mathcal{L}",
+                  "label": "Item labelling",
+                  "declarationId": "StructuralExhaustion.CT9.Capability.label"
+                },
+                {
+                  "stepId": "predecessor.1",
+                  "role": "predecessorState",
+                  "reference": {
+                    "ref": "Input.items",
+                    "provision": "derived_from_predecessor"
+                  },
+                  "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.items.",
+                  "mathematicalDefinition": null,
+                  "label": "Input.items",
+                  "declarationId": "StructuralExhaustion.CT9.Input.items"
+                },
+                {
+                  "stepId": "operation.1",
+                  "role": "operation",
+                  "reference": {
+                    "ref": "CT9.fibre",
+                    "provision": "derived_by_computation"
+                  },
+                  "plainExplanation": "Exact fibre of one label, computed from the active collection. ",
+                  "mathematicalDefinition": null,
+                  "label": "CT9.fibre",
+                  "declarationId": "StructuralExhaustion.CT9.fibre"
+                },
+                {
+                  "stepId": "theorem.1",
+                  "role": "theorem",
+                  "reference": {
+                    "ref": "CT9.mem_own_fibre",
+                    "provision": "derived_by_generic_theorem"
+                  },
+                  "plainExplanation": "The label partition is exact: every active item belongs to the fibre named\nby its computed label. ",
+                  "mathematicalDefinition": null,
+                  "label": "CT9.mem_own_fibre",
+                  "declarationId": "StructuralExhaustion.CT9.mem_own_fibre"
+                },
+                {
+                  "stepId": "theorem.2",
+                  "role": "theorem",
+                  "reference": {
+                    "ref": "Core.FiniteSearch.search",
+                    "provision": "derived_by_generic_theorem"
+                  },
+                  "plainExplanation": "Exhaustive search over an explicit Mathlib finite enumeration. ",
+                  "mathematicalDefinition": null,
+                  "label": "Core.FiniteSearch.search",
+                  "declarationId": "StructuralExhaustion.Core.FiniteSearch.search"
+                },
+                {
+                  "stepId": "output.1",
+                  "role": "output",
+                  "reference": {
+                    "ref": "CT9.Decision",
+                    "provision": "derived_by_generic_search"
+                  },
+                  "plainExplanation": "State, decision, certificate, or residual produced by this node: CT9.Decision.",
+                  "mathematicalDefinition": null,
+                  "label": "CT9.Decision",
+                  "declarationId": "StructuralExhaustion.CT9.Decision"
+                },
+                {
+                  "stepId": "output.2",
+                  "role": "output",
+                  "reference": {
+                    "ref": "CT9.OverloadResidual",
+                    "provision": "derived_by_generic_search"
+                  },
+                  "plainExplanation": "First exact label whose fibre exceeds its declared capacity. ",
+                  "mathematicalDefinition": null,
+                  "label": "CT9.OverloadResidual",
+                  "declarationId": "StructuralExhaustion.CT9.OverloadResidual"
+                },
+                {
+                  "stepId": "output.3",
+                  "role": "output",
+                  "reference": {
+                    "ref": "CT9.BoundedCertificate",
+                    "provision": "derived_by_generic_theorem"
+                  },
+                  "plainExplanation": "Complete bounded-multiplicity certificate over the exact label universe. ",
+                  "mathematicalDefinition": null,
+                  "label": "CT9.BoundedCertificate",
+                  "declarationId": "StructuralExhaustion.CT9.BoundedCertificate"
+                }
+              ],
+              "nodeId": "CT9.search.firstOverload",
+              "edges": [
+                {
+                  "targetStepId": "operation.1",
+                  "sourceStepId": "author.1",
+                  "relation": "consumes",
+                  "edgeId": "CT9.search.firstOverload.internal.author.1-to-operation.1"
+                },
+                {
+                  "targetStepId": "operation.1",
+                  "sourceStepId": "author.2",
+                  "relation": "consumes",
+                  "edgeId": "CT9.search.firstOverload.internal.author.2-to-operation.1"
+                },
+                {
+                  "targetStepId": "operation.1",
+                  "sourceStepId": "author.3",
+                  "relation": "consumes",
+                  "edgeId": "CT9.search.firstOverload.internal.author.3-to-operation.1"
+                },
+                {
+                  "targetStepId": "operation.1",
+                  "sourceStepId": "predecessor.1",
+                  "relation": "consumes",
+                  "edgeId": "CT9.search.firstOverload.internal.predecessor.1-to-operation.1"
+                },
+                {
+                  "targetStepId": "theorem.1",
+                  "sourceStepId": "operation.1",
+                  "relation": "then",
+                  "edgeId": "CT9.search.firstOverload.internal.operation.1-to-theorem.1"
+                },
+                {
+                  "targetStepId": "theorem.2",
+                  "sourceStepId": "operation.1",
+                  "relation": "then",
+                  "edgeId": "CT9.search.firstOverload.internal.operation.1-to-theorem.2"
+                },
+                {
+                  "targetStepId": "output.1",
+                  "sourceStepId": "theorem.1",
+                  "relation": "certifies",
+                  "edgeId": "CT9.search.firstOverload.internal.theorem.1-to-output.1"
+                },
+                {
+                  "targetStepId": "output.2",
+                  "sourceStepId": "theorem.1",
+                  "relation": "certifies",
+                  "edgeId": "CT9.search.firstOverload.internal.theorem.1-to-output.2"
+                },
+                {
+                  "targetStepId": "output.3",
+                  "sourceStepId": "theorem.1",
+                  "relation": "certifies",
+                  "edgeId": "CT9.search.firstOverload.internal.theorem.1-to-output.3"
+                },
+                {
+                  "targetStepId": "output.1",
+                  "sourceStepId": "theorem.2",
+                  "relation": "certifies",
+                  "edgeId": "CT9.search.firstOverload.internal.theorem.2-to-output.1"
+                },
+                {
+                  "targetStepId": "output.2",
+                  "sourceStepId": "theorem.2",
+                  "relation": "certifies",
+                  "edgeId": "CT9.search.firstOverload.internal.theorem.2-to-output.2"
+                },
+                {
+                  "targetStepId": "output.3",
+                  "sourceStepId": "theorem.2",
+                  "relation": "certifies",
+                  "edgeId": "CT9.search.firstOverload.internal.theorem.2-to-output.3"
+                }
+              ]
+            },
             "formalContract": {
               "predecessorIndexed": true,
               "outgoingEdges": [
@@ -326,6 +598,61 @@
             "ordinal": 4,
             "nodeKind": "residual",
             "nodeId": "CT9.terminal.residual.overload",
+            "internalFlow": {
+              "steps": [
+                {
+                  "stepId": "predecessor.1",
+                  "role": "predecessorState",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT9.Graph.Edge.overloaded",
+                    "provision": "derived_from_predecessor"
+                  },
+                  "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT9.Graph.Edge.overloaded.",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT9.Graph.Edge.overloaded",
+                  "declarationId": "StructuralExhaustion.CT9.Graph.Edge.overloaded"
+                },
+                {
+                  "stepId": "theorem.1",
+                  "role": "theorem",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT9.run_trace_valid",
+                    "provision": "derived_by_generic_theorem"
+                  },
+                  "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT9.run_trace_valid.",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT9.run_trace_valid",
+                  "declarationId": "StructuralExhaustion.CT9.run_trace_valid"
+                },
+                {
+                  "stepId": "output.1",
+                  "role": "output",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT9.ExecutionResult@CT9.terminal.residual.overload",
+                    "provision": "generated_audit"
+                  },
+                  "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT9.ExecutionResult@CT9.terminal.residual.overload.",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT9.ExecutionResult@CT9.terminal.residual.overload",
+                  "declarationId": null
+                }
+              ],
+              "nodeId": "CT9.terminal.residual.overload",
+              "edges": [
+                {
+                  "targetStepId": "theorem.1",
+                  "sourceStepId": "predecessor.1",
+                  "relation": "then",
+                  "edgeId": "CT9.terminal.residual.overload.internal.predecessor.1-to-theorem.1"
+                },
+                {
+                  "targetStepId": "output.1",
+                  "sourceStepId": "theorem.1",
+                  "relation": "certifies",
+                  "edgeId": "CT9.terminal.residual.overload.internal.theorem.1-to-output.1"
+                }
+              ]
+            },
             "formalContract": {
               "predecessorIndexed": true,
               "outgoingEdges": [],
@@ -386,6 +713,61 @@
             "ordinal": 5,
             "nodeKind": "certificate",
             "nodeId": "CT9.terminal.certificate.bounded",
+            "internalFlow": {
+              "steps": [
+                {
+                  "stepId": "predecessor.1",
+                  "role": "predecessorState",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT9.Graph.Edge.bounded",
+                    "provision": "derived_from_predecessor"
+                  },
+                  "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT9.Graph.Edge.bounded.",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT9.Graph.Edge.bounded",
+                  "declarationId": "StructuralExhaustion.CT9.Graph.Edge.bounded"
+                },
+                {
+                  "stepId": "theorem.1",
+                  "role": "theorem",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT9.run_trace_valid",
+                    "provision": "derived_by_generic_theorem"
+                  },
+                  "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT9.run_trace_valid.",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT9.run_trace_valid",
+                  "declarationId": "StructuralExhaustion.CT9.run_trace_valid"
+                },
+                {
+                  "stepId": "output.1",
+                  "role": "output",
+                  "reference": {
+                    "ref": "StructuralExhaustion.CT9.ExecutionResult@CT9.terminal.certificate.bounded",
+                    "provision": "generated_audit"
+                  },
+                  "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT9.ExecutionResult@CT9.terminal.certificate.bounded.",
+                  "mathematicalDefinition": null,
+                  "label": "StructuralExhaustion.CT9.ExecutionResult@CT9.terminal.certificate.bounded",
+                  "declarationId": null
+                }
+              ],
+              "nodeId": "CT9.terminal.certificate.bounded",
+              "edges": [
+                {
+                  "targetStepId": "theorem.1",
+                  "sourceStepId": "predecessor.1",
+                  "relation": "then",
+                  "edgeId": "CT9.terminal.certificate.bounded.internal.predecessor.1-to-theorem.1"
+                },
+                {
+                  "targetStepId": "output.1",
+                  "sourceStepId": "theorem.1",
+                  "relation": "certifies",
+                  "edgeId": "CT9.terminal.certificate.bounded.internal.theorem.1-to-output.1"
+                }
+              ]
+            },
             "formalContract": {
               "predecessorIndexed": true,
               "outgoingEdges": [],
@@ -439,6 +821,3726 @@
         ],
         "namespace": "StructuralExhaustion.CT9",
         "loopDecrease": null,
+        "internalDeclarations": [
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.BranchContext",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → {capability : CT9.Capability P} → CT9.Input capability → Core.BranchContext P",
+            "sourceFile": "StructuralExhaustion/CT9/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 18,
+                "column": 2
+              },
+              "end": {
+                "line": 18,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 18,
+                "column": 2
+              },
+              "end": {
+                "line": 18,
+                "column": 9
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Input.context",
+            "module": "StructuralExhaustion.CT9.Capability",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Input.context",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Capability.Item",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.OrderedCollection",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → {capability : CT9.Capability P} → CT9.Input capability → Core.OrderedCollection capability.Item",
+            "sourceFile": "StructuralExhaustion/CT9/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 19,
+                "column": 2
+              },
+              "end": {
+                "line": 19,
+                "column": 7
+              }
+            },
+            "range": {
+              "start": {
+                "line": 19,
+                "column": 2
+              },
+              "end": {
+                "line": 19,
+                "column": 7
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Input.items",
+            "module": "StructuralExhaustion.CT9.Capability",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Input.items",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → CT9.Capability P → Type (max (max uAmbient uBranch) uItem)",
+            "sourceFile": "StructuralExhaustion/CT9/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 16,
+                "column": 10
+              },
+              "end": {
+                "line": 16,
+                "column": 15
+              }
+            },
+            "range": {
+              "start": {
+                "line": 15,
+                "column": 0
+              },
+              "end": {
+                "line": 19,
+                "column": 48
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Input",
+            "module": "StructuralExhaustion.CT9.Capability",
+            "kind": "inductive",
+            "docString": "Runtime CT9 data: one branch and its exact active item collection. ",
+            "declarationId": "StructuralExhaustion.CT9.Input",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Input.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.Edge",
+              "StructuralExhaustion.CT9.Graph.NodeId.overload",
+              "StructuralExhaustion.CT9.Graph.NodeId.partition",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.Graph.Edge capability input CT9.Graph.NodeId.partition CT9.Graph.NodeId.overload",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 34,
+                "column": 4
+              },
+              "end": {
+                "line": 34,
+                "column": 15
+              }
+            },
+            "range": {
+              "start": {
+                "line": 34,
+                "column": 2
+              },
+              "end": {
+                "line": 34,
+                "column": 43
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Edge.partitioned",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Edge.partitioned",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "Nat",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Capability.Label",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (self : CT9.Capability P) → self.Label → ℕ",
+            "sourceFile": "StructuralExhaustion/CT9/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 13,
+                "column": 2
+              },
+              "end": {
+                "line": 13,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 13,
+                "column": 2
+              },
+              "end": {
+                "line": 13,
+                "column": 10
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Capability.capacity",
+            "module": "StructuralExhaustion.CT9.Capability",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Capability.capacity",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "FinEnum",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Capability.Label",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (self : CT9.Capability P) → FinEnum self.Label",
+            "sourceFile": "StructuralExhaustion/CT9/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 11,
+                "column": 2
+              },
+              "end": {
+                "line": 11,
+                "column": 8
+              }
+            },
+            "range": {
+              "start": {
+                "line": 11,
+                "column": 2
+              },
+              "end": {
+                "line": 11,
+                "column": 8
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Capability.labels",
+            "module": "StructuralExhaustion.CT9.Capability",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Capability.labels",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Capability.Item",
+              "StructuralExhaustion.CT9.Capability.Label",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (self : CT9.Capability P) → self.Item → self.Label",
+            "sourceFile": "StructuralExhaustion/CT9/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 12,
+                "column": 2
+              },
+              "end": {
+                "line": 12,
+                "column": 7
+              }
+            },
+            "range": {
+              "start": {
+                "line": 12,
+                "column": 2
+              },
+              "end": {
+                "line": 12,
+                "column": 7
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Capability.label",
+            "module": "StructuralExhaustion.CT9.Capability",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Capability.label",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "List",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Capability.Item",
+              "StructuralExhaustion.CT9.Capability.Label",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (capability : CT9.Capability P) → CT9.Input capability → capability.Label → List capability.Item",
+            "sourceFile": "StructuralExhaustion/CT9/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 42,
+                "column": 4
+              },
+              "end": {
+                "line": 42,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 41,
+                "column": 0
+              },
+              "end": {
+                "line": 46,
+                "column": 69
+              }
+            },
+            "name": "StructuralExhaustion.CT9.fibre",
+            "module": "StructuralExhaustion.CT9.Capability",
+            "kind": "definition",
+            "docString": "Exact fibre of one label, computed from the active collection. ",
+            "declarationId": "StructuralExhaustion.CT9.fibre",
+            "bodyDependencies": [
+              "Decidable.decide",
+              "Eq",
+              "FinEnum.decEq",
+              "List.filter",
+              "StructuralExhaustion.CT9.Capability.label",
+              "StructuralExhaustion.CT9.Capability.labels",
+              "StructuralExhaustion.CT9.Input.items",
+              "StructuralExhaustion.Core.OrderedCollection.values"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "List",
+              "List.instMembership",
+              "Membership.mem",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Capability.Item",
+              "StructuralExhaustion.CT9.Capability.label",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.CT9.Input.items",
+              "StructuralExhaustion.CT9.fibre",
+              "StructuralExhaustion.Core.OrderedCollection.values",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "∀ {P : Core.Problem} (capability : CT9.Capability P) (input : CT9.Input capability),\n  ∀ item ∈ input.items.values, item ∈ CT9.fibre capability input (capability.label item)",
+            "sourceFile": "StructuralExhaustion/CT9/Search.lean",
+            "selectionRange": {
+              "start": {
+                "line": 13,
+                "column": 8
+              },
+              "end": {
+                "line": 13,
+                "column": 21
+              }
+            },
+            "range": {
+              "start": {
+                "line": 11,
+                "column": 0
+              },
+              "end": {
+                "line": 15,
+                "column": 22
+              }
+            },
+            "name": "StructuralExhaustion.CT9.mem_own_fibre",
+            "module": "StructuralExhaustion.CT9.Search",
+            "kind": "theorem",
+            "docString": "The label partition is exact: every active item belongs to the fibre named\nby its computed label. ",
+            "declarationId": "StructuralExhaustion.CT9.mem_own_fibre",
+            "bodyDependencies": [
+              "And",
+              "Bool",
+              "Bool.true",
+              "Decidable.decide",
+              "Decidable.decide.congr_simp",
+              "Eq",
+              "Eq.trans",
+              "FinEnum.decEq",
+              "List.filter",
+              "List.mem_filter._simp_1",
+              "StructuralExhaustion.CT9.Capability.Label",
+              "StructuralExhaustion.CT9.Capability.labels",
+              "True",
+              "and_self",
+              "congr",
+              "congrArg",
+              "congrFun'",
+              "decide_true",
+              "eq_self",
+              "eq_true",
+              "instDecidableTrue",
+              "of_eq_true"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Decidable",
+              "FinEnum",
+              "StructuralExhaustion.Core.FiniteSearch.Result"
+            ],
+            "type": "{α : Type u} → FinEnum α → (p : α → Prop) → ((value : α) → Decidable (p value)) → Core.FiniteSearch.Result p",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 62,
+                "column": 4
+              },
+              "end": {
+                "line": 62,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 61,
+                "column": 0
+              },
+              "end": {
+                "line": 67,
+                "column": 82
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.search",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "definition",
+            "docString": "Exhaustive search over an explicit Mathlib finite enumeration. ",
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.search",
+            "bodyDependencies": [
+              "FinEnum.orderedValues",
+              "List",
+              "List.instMembership",
+              "Membership.mem",
+              "Not",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult",
+              "StructuralExhaustion.Core.FiniteSearch.Result.absent",
+              "StructuralExhaustion.Core.FiniteSearch.Result.found",
+              "StructuralExhaustion.Core.FiniteSearch.onList",
+              "StructuralExhaustion.Core.FiniteSearch.search._proof_1",
+              "StructuralExhaustion.Core.FiniteSearch.search.match_1"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (capability : CT9.Capability P) → CT9.Input capability → Type uLabel",
+            "sourceFile": "StructuralExhaustion/CT9/Search.lean",
+            "selectionRange": {
+              "start": {
+                "line": 162,
+                "column": 10
+              },
+              "end": {
+                "line": 162,
+                "column": 18
+              }
+            },
+            "range": {
+              "start": {
+                "line": 162,
+                "column": 0
+              },
+              "end": {
+                "line": 164,
+                "column": 63
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Decision",
+            "module": "StructuralExhaustion.CT9.Search",
+            "kind": "inductive",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Decision",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Decision.bounded",
+              "StructuralExhaustion.CT9.Decision.overloaded"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (capability : CT9.Capability P) → CT9.Input capability → Type uLabel",
+            "sourceFile": "StructuralExhaustion/CT9/State.lean",
+            "selectionRange": {
+              "start": {
+                "line": 12,
+                "column": 10
+              },
+              "end": {
+                "line": 12,
+                "column": 26
+              }
+            },
+            "range": {
+              "start": {
+                "line": 11,
+                "column": 0
+              },
+              "end": {
+                "line": 14,
+                "column": 76
+              }
+            },
+            "name": "StructuralExhaustion.CT9.OverloadResidual",
+            "module": "StructuralExhaustion.CT9.State",
+            "kind": "inductive",
+            "docString": "First exact label whose fibre exceeds its declared capacity. ",
+            "declarationId": "StructuralExhaustion.CT9.OverloadResidual",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.OverloadResidual.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (capability : CT9.Capability P) → CT9.Input capability → Prop",
+            "sourceFile": "StructuralExhaustion/CT9/State.lean",
+            "selectionRange": {
+              "start": {
+                "line": 36,
+                "column": 10
+              },
+              "end": {
+                "line": 36,
+                "column": 28
+              }
+            },
+            "range": {
+              "start": {
+                "line": 35,
+                "column": 0
+              },
+              "end": {
+                "line": 38,
+                "column": 65
+              }
+            },
+            "name": "StructuralExhaustion.CT9.BoundedCertificate",
+            "module": "StructuralExhaustion.CT9.State",
+            "kind": "inductive",
+            "docString": "Complete bounded-multiplicity certificate over the exact label universe. ",
+            "declarationId": "StructuralExhaustion.CT9.BoundedCertificate",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.BoundedCertificate.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.Edge",
+              "StructuralExhaustion.CT9.Graph.NodeId.overload",
+              "StructuralExhaustion.CT9.Graph.NodeId.overloadedTerminal",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.CT9.OverloadResidual",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.OverloadResidual capability input →\n        CT9.Graph.Edge capability input CT9.Graph.NodeId.overload CT9.Graph.NodeId.overloadedTerminal",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 35,
+                "column": 4
+              },
+              "end": {
+                "line": 35,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 35,
+                "column": 2
+              },
+              "end": {
+                "line": 36,
+                "column": 40
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Edge.overloaded",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Edge.overloaded",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.ExecutionResult.trace",
+              "StructuralExhaustion.CT9.Graph.ValidTrace",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.CT9.run",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "∀ {P : Core.Problem} (capability : CT9.Capability P) (input : CT9.Input capability),\n  CT9.Graph.ValidTrace capability input (CT9.ExecutionResult.trace capability input (CT9.run capability input))",
+            "sourceFile": "StructuralExhaustion/CT9/Theorems.lean",
+            "selectionRange": {
+              "start": {
+                "line": 44,
+                "column": 8
+              },
+              "end": {
+                "line": 44,
+                "column": 23
+              }
+            },
+            "range": {
+              "start": {
+                "line": 44,
+                "column": 0
+              },
+              "end": {
+                "line": 46,
+                "column": 35
+              }
+            },
+            "name": "StructuralExhaustion.CT9.run_trace_valid",
+            "module": "StructuralExhaustion.CT9.Theorems",
+            "kind": "theorem",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.run_trace_valid",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.ExecutionResult.traceValid"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.BoundedCertificate",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.Edge",
+              "StructuralExhaustion.CT9.Graph.NodeId.boundedTerminal",
+              "StructuralExhaustion.CT9.Graph.NodeId.overload",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.BoundedCertificate capability input →\n        CT9.Graph.Edge capability input CT9.Graph.NodeId.overload CT9.Graph.NodeId.boundedTerminal",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 37,
+                "column": 4
+              },
+              "end": {
+                "line": 37,
+                "column": 11
+              }
+            },
+            "range": {
+              "start": {
+                "line": 37,
+                "column": 2
+              },
+              "end": {
+                "line": 38,
+                "column": 37
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Edge.bounded",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Edge.bounded",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "Core.Problem → Type (max (uItem + 1) (uLabel + 1))",
+            "sourceFile": "StructuralExhaustion/CT9/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 8,
+                "column": 10
+              },
+              "end": {
+                "line": 8,
+                "column": 20
+              }
+            },
+            "range": {
+              "start": {
+                "line": 7,
+                "column": 0
+              },
+              "end": {
+                "line": 13,
+                "column": 24
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Capability",
+            "module": "StructuralExhaustion.CT9.Capability",
+            "kind": "inductive",
+            "docString": "Mathematical data for exact label fibres and capacity comparison. ",
+            "declarationId": "StructuralExhaustion.CT9.Capability",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Capability.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "Core.Problem → Type (max uAmbient uBranch)",
+            "sourceFile": "StructuralExhaustion/Core/Context.lean",
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "column": 10
+              },
+              "end": {
+                "line": 9,
+                "column": 23
+              }
+            },
+            "range": {
+              "start": {
+                "line": 7,
+                "column": 0
+              },
+              "end": {
+                "line": 12,
+                "column": 25
+              }
+            },
+            "name": "StructuralExhaustion.Core.BranchContext",
+            "module": "StructuralExhaustion.Core.Context",
+            "kind": "inductive",
+            "docString": "The inherited state of one branch, shared by dependent CT inputs and route\ntriggers. ",
+            "declarationId": "StructuralExhaustion.Core.BranchContext",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.BranchContext.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [],
+            "type": "Type (max (uAmbient + 1) (uBranch + 1))",
+            "sourceFile": "StructuralExhaustion/Core/Problem.lean",
+            "selectionRange": {
+              "start": {
+                "line": 16,
+                "column": 10
+              },
+              "end": {
+                "line": 16,
+                "column": 17
+              }
+            },
+            "range": {
+              "start": {
+                "line": 14,
+                "column": 0
+              },
+              "end": {
+                "line": 20,
+                "column": 38
+              }
+            },
+            "name": "StructuralExhaustion.Core.Problem",
+            "module": "StructuralExhaustion.Core.Problem",
+            "kind": "inductive",
+            "docString": "Mathematical data shared by every tactic in one structural-exhaustion\nproof instance. ",
+            "declarationId": "StructuralExhaustion.Core.Problem",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.Problem.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → CT9.Capability P → Type uItem",
+            "sourceFile": "StructuralExhaustion/CT9/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "column": 2
+              },
+              "end": {
+                "line": 9,
+                "column": 6
+              }
+            },
+            "range": {
+              "start": {
+                "line": 9,
+                "column": 2
+              },
+              "end": {
+                "line": 9,
+                "column": 6
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Capability.Item",
+            "module": "StructuralExhaustion.CT9.Capability",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Capability.Item",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [],
+            "type": "Type u → Type u",
+            "sourceFile": "StructuralExhaustion/Core/Enumeration.lean",
+            "selectionRange": {
+              "start": {
+                "line": 24,
+                "column": 10
+              },
+              "end": {
+                "line": 24,
+                "column": 27
+              }
+            },
+            "range": {
+              "start": {
+                "line": 17,
+                "column": 0
+              },
+              "end": {
+                "line": 27,
+                "column": 23
+              }
+            },
+            "name": "StructuralExhaustion.Core.OrderedCollection",
+            "module": "StructuralExhaustion.Core.Enumeration",
+            "kind": "inductive",
+            "docString": "A finite ordered collection, without the claim that it contains every\ninhabitant of its element type.\n\nThis is intentionally a duplicate-free list rather than a `Finset`: first-hit\nmachine semantics consume its order.  All set-like reasoning should pass\nthrough Mathlib's `List`/`Finset` API instead of adding another collection\nimplementation here. ",
+            "declarationId": "StructuralExhaustion.Core.OrderedCollection",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.OrderedCollection.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Capability.Item",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.BranchContext",
+              "StructuralExhaustion.Core.OrderedCollection",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} → Core.BranchContext P → Core.OrderedCollection capability.Item → CT9.Input capability",
+            "sourceFile": "StructuralExhaustion/CT9/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 16,
+                "column": 10
+              },
+              "end": {
+                "line": 16,
+                "column": 15
+              }
+            },
+            "range": {
+              "start": {
+                "line": 16,
+                "column": 10
+              },
+              "end": {
+                "line": 16,
+                "column": 15
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Input.mk",
+            "module": "StructuralExhaustion.CT9.Capability",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Input.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  (capability : CT9.Capability P) → CT9.Input capability → CT9.Graph.NodeId → CT9.Graph.NodeId → Type uLabel",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 32,
+                "column": 10
+              },
+              "end": {
+                "line": 32,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 32,
+                "column": 0
+              },
+              "end": {
+                "line": 38,
+                "column": 37
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Edge",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "inductive",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Edge",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Graph.Edge.begin",
+              "StructuralExhaustion.CT9.Graph.Edge.bounded",
+              "StructuralExhaustion.CT9.Graph.Edge.overloaded",
+              "StructuralExhaustion.CT9.Graph.Edge.partitioned"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Graph.NodeId"
+            ],
+            "type": "CT9.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 8,
+                "column": 24
+              },
+              "end": {
+                "line": 8,
+                "column": 32
+              }
+            },
+            "range": {
+              "start": {
+                "line": 8,
+                "column": 22
+              },
+              "end": {
+                "line": 8,
+                "column": 32
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.NodeId.overload",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.NodeId.overload",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Graph.NodeId"
+            ],
+            "type": "CT9.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 8,
+                "column": 12
+              },
+              "end": {
+                "line": 8,
+                "column": 21
+              }
+            },
+            "range": {
+              "start": {
+                "line": 8,
+                "column": 10
+              },
+              "end": {
+                "line": 8,
+                "column": 21
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.NodeId.partition",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.NodeId.partition",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → CT9.Capability P → Type uLabel",
+            "sourceFile": "StructuralExhaustion/CT9/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 10,
+                "column": 2
+              },
+              "end": {
+                "line": 10,
+                "column": 7
+              }
+            },
+            "range": {
+              "start": {
+                "line": 10,
+                "column": 2
+              },
+              "end": {
+                "line": 10,
+                "column": 7
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Capability.Label",
+            "module": "StructuralExhaustion.CT9.Capability",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Capability.Label",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "List",
+              "StructuralExhaustion.Core.OrderedCollection"
+            ],
+            "type": "{α : Type u} → Core.OrderedCollection α → List α",
+            "sourceFile": "StructuralExhaustion/Core/Enumeration.lean",
+            "selectionRange": {
+              "start": {
+                "line": 25,
+                "column": 2
+              },
+              "end": {
+                "line": 25,
+                "column": 8
+              }
+            },
+            "range": {
+              "start": {
+                "line": 25,
+                "column": 2
+              },
+              "end": {
+                "line": 25,
+                "column": 8
+              }
+            },
+            "name": "StructuralExhaustion.Core.OrderedCollection.values",
+            "module": "StructuralExhaustion.Core.Enumeration",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.OrderedCollection.values",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "List"
+            ],
+            "type": "{α : Type u} → List α → (α → Prop) → Type u",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 42,
+                "column": 10
+              },
+              "end": {
+                "line": 42,
+                "column": 20
+              }
+            },
+            "range": {
+              "start": {
+                "line": 41,
+                "column": 0
+              },
+              "end": {
+                "line": 44,
+                "column": 55
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.ListResult",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "inductive",
+            "docString": "Search evidence relative to an arbitrary finite list. ",
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.ListResult",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.FiniteSearch.ListResult.absent",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult.found"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [],
+            "type": "{α : Type u} → (α → Prop) → Type u",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 10,
+                "column": 10
+              },
+              "end": {
+                "line": 10,
+                "column": 16
+              }
+            },
+            "range": {
+              "start": {
+                "line": 9,
+                "column": 0
+              },
+              "end": {
+                "line": 12,
+                "column": 42
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.Result",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "inductive",
+            "docString": "The result of exhaustive search over an exact finite universe. ",
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.Result",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.FiniteSearch.Result.absent",
+              "StructuralExhaustion.Core.FiniteSearch.Result.found"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "Not",
+              "StructuralExhaustion.Core.FiniteSearch.Result"
+            ],
+            "type": "{α : Type u} → {p : α → Prop} → (∀ (value : α), ¬p value) → Core.FiniteSearch.Result p",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 12,
+                "column": 4
+              },
+              "end": {
+                "line": 12,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 12,
+                "column": 2
+              },
+              "end": {
+                "line": 12,
+                "column": 42
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.Result.absent",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.Result.absent",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.FiniteSearch.Result"
+            ],
+            "type": "{α : Type u} → {p : α → Prop} → (value : α) → p value → Core.FiniteSearch.Result p",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 11,
+                "column": 4
+              },
+              "end": {
+                "line": 11,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 11,
+                "column": 2
+              },
+              "end": {
+                "line": 11,
+                "column": 39
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.Result.found",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.Result.found",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "Decidable",
+              "List",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult"
+            ],
+            "type": "{α : Type u} → (xs : List α) → (p : α → Prop) → ((value : α) → Decidable (p value)) → Core.FiniteSearch.ListResult xs p",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 47,
+                "column": 4
+              },
+              "end": {
+                "line": 47,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 46,
+                "column": 0
+              },
+              "end": {
+                "line": 59,
+                "column": 56
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.onList",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "definition",
+            "docString": "Proof-carrying view of Mathlib's executable `List.find?`. ",
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.onList",
+            "bodyDependencies": [
+              "Bool",
+              "Bool.true",
+              "Decidable.decide",
+              "Eq",
+              "List.find?",
+              "List.mem_of_find?_eq_some",
+              "Option",
+              "Option.none",
+              "Option.some",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult.absent",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult.found",
+              "StructuralExhaustion.Core.FiniteSearch.onList._proof_1",
+              "StructuralExhaustion.Core.FiniteSearch.onList._proof_2",
+              "StructuralExhaustion.Core.FiniteSearch.onList._proof_3",
+              "StructuralExhaustion.Core.FiniteSearch.onList.match_1"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "FinEnum",
+              "FinEnum.orderedValues",
+              "List",
+              "List.instMembership",
+              "Membership.mem",
+              "Not"
+            ],
+            "type": "∀ {α : Type u_1} (enumeration : FinEnum α) (p : α → Prop),\n  (∀ value ∈ enumeration.orderedValues, ¬p value) → ∀ (value : α), ¬p value",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.Core.FiniteSearch.search._proof_1",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "theorem",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.search._proof_1",
+            "bodyDependencies": [
+              "FinEnum.mem_orderedValues"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "FinEnum",
+              "FinEnum.orderedValues",
+              "List",
+              "List.instMembership",
+              "Membership.mem",
+              "Not",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult.absent",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult.found"
+            ],
+            "type": "{α : Type u_1} →\n  (enumeration : FinEnum α) →\n    (p : α → Prop) →\n      (motive : Core.FiniteSearch.ListResult enumeration.orderedValues p → Sort u_2) →\n        (x : Core.FiniteSearch.ListResult enumeration.orderedValues p) →\n          ((value : α) →\n              (member : value ∈ enumeration.orderedValues) →\n                (holds : p value) → motive (Core.FiniteSearch.ListResult.found value member holds)) →\n            ((absentProof : ∀ value ∈ enumeration.orderedValues, ¬p value) →\n                motive (Core.FiniteSearch.ListResult.absent absentProof)) →\n              motive x",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.Core.FiniteSearch.search.match_1",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.search.match_1",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.FiniteSearch.ListResult.casesOn"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.BoundedCertificate",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Decision",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} → CT9.BoundedCertificate capability input → CT9.Decision capability input",
+            "sourceFile": "StructuralExhaustion/CT9/Search.lean",
+            "selectionRange": {
+              "start": {
+                "line": 164,
+                "column": 4
+              },
+              "end": {
+                "line": 164,
+                "column": 11
+              }
+            },
+            "range": {
+              "start": {
+                "line": 164,
+                "column": 2
+              },
+              "end": {
+                "line": 164,
+                "column": 63
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Decision.bounded",
+            "module": "StructuralExhaustion.CT9.Search",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Decision.bounded",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Decision",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.CT9.OverloadResidual",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} → CT9.OverloadResidual capability input → CT9.Decision capability input",
+            "sourceFile": "StructuralExhaustion/CT9/Search.lean",
+            "selectionRange": {
+              "start": {
+                "line": 163,
+                "column": 4
+              },
+              "end": {
+                "line": 163,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 163,
+                "column": 2
+              },
+              "end": {
+                "line": 163,
+                "column": 61
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Decision.overloaded",
+            "module": "StructuralExhaustion.CT9.Search",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Decision.overloaded",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "LT.lt",
+              "Nat",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Capability.Label",
+              "StructuralExhaustion.CT9.Capability.capacity",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.CT9.OverloadResidual",
+              "StructuralExhaustion.CT9.fibreCount",
+              "StructuralExhaustion.Core.Problem",
+              "instLTNat"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      (label : capability.Label) →\n        capability.capacity label < CT9.fibreCount capability input label → CT9.OverloadResidual capability input",
+            "sourceFile": "StructuralExhaustion/CT9/State.lean",
+            "selectionRange": {
+              "start": {
+                "line": 12,
+                "column": 10
+              },
+              "end": {
+                "line": 12,
+                "column": 26
+              }
+            },
+            "range": {
+              "start": {
+                "line": 12,
+                "column": 10
+              },
+              "end": {
+                "line": 12,
+                "column": 26
+              }
+            },
+            "name": "StructuralExhaustion.CT9.OverloadResidual.mk",
+            "module": "StructuralExhaustion.CT9.State",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.OverloadResidual.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "LE.le",
+              "Nat",
+              "StructuralExhaustion.CT9.BoundedCertificate",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Capability.Label",
+              "StructuralExhaustion.CT9.Capability.capacity",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.CT9.fibreCount",
+              "StructuralExhaustion.Core.Problem",
+              "instLENat"
+            ],
+            "type": "∀ {P : Core.Problem} {capability : CT9.Capability P} {input : CT9.Input capability},\n  (∀ (label : capability.Label), CT9.fibreCount capability input label ≤ capability.capacity label) →\n    CT9.BoundedCertificate capability input",
+            "sourceFile": "StructuralExhaustion/CT9/State.lean",
+            "selectionRange": {
+              "start": {
+                "line": 36,
+                "column": 10
+              },
+              "end": {
+                "line": 36,
+                "column": 28
+              }
+            },
+            "range": {
+              "start": {
+                "line": 36,
+                "column": 10
+              },
+              "end": {
+                "line": 36,
+                "column": 28
+              }
+            },
+            "name": "StructuralExhaustion.CT9.BoundedCertificate.mk",
+            "module": "StructuralExhaustion.CT9.State",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.BoundedCertificate.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Graph.NodeId"
+            ],
+            "type": "CT9.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "column": 4
+              },
+              "end": {
+                "line": 9,
+                "column": 22
+              }
+            },
+            "range": {
+              "start": {
+                "line": 9,
+                "column": 2
+              },
+              "end": {
+                "line": 9,
+                "column": 22
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.NodeId.overloadedTerminal",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.NodeId.overloadedTerminal",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "List",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.ExecutionResult",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  (capability : CT9.Capability P) →\n    (input : CT9.Input capability) → CT9.ExecutionResult capability input → List CT9.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT9/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 19,
+                "column": 4
+              },
+              "end": {
+                "line": 19,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 19,
+                "column": 0
+              },
+              "end": {
+                "line": 19,
+                "column": 74
+              }
+            },
+            "name": "StructuralExhaustion.CT9.ExecutionResult.trace",
+            "module": "StructuralExhaustion.CT9.Execution",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.ExecutionResult.trace",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.ExecutionResult.path",
+              "StructuralExhaustion.CT9.ExecutionResult.terminal",
+              "StructuralExhaustion.CT9.Graph.NodeId.entry",
+              "StructuralExhaustion.CT9.Graph.Path.trace",
+              "StructuralExhaustion.CT9.Graph.Terminal.nodeId"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.ExecutionResult",
+              "StructuralExhaustion.CT9.ExecutionResult.trace",
+              "StructuralExhaustion.CT9.Graph.ValidTrace",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "∀ {P : Core.Problem} (capability : CT9.Capability P) (input : CT9.Input capability)\n  (result : CT9.ExecutionResult capability input),\n  CT9.Graph.ValidTrace capability input (CT9.ExecutionResult.trace capability input result)",
+            "sourceFile": "StructuralExhaustion/CT9/Theorems.lean",
+            "selectionRange": {
+              "start": {
+                "line": 26,
+                "column": 8
+              },
+              "end": {
+                "line": 26,
+                "column": 18
+              }
+            },
+            "range": {
+              "start": {
+                "line": 26,
+                "column": 0
+              },
+              "end": {
+                "line": 27,
+                "column": 87
+              }
+            },
+            "name": "StructuralExhaustion.CT9.ExecutionResult.traceValid",
+            "module": "StructuralExhaustion.CT9.Theorems",
+            "kind": "theorem",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.ExecutionResult.traceValid",
+            "bodyDependencies": [
+              "Eq",
+              "Exists",
+              "Exists.intro",
+              "List",
+              "StructuralExhaustion.CT9.ExecutionResult.path",
+              "StructuralExhaustion.CT9.ExecutionResult.terminal",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Graph.NodeId.entry",
+              "StructuralExhaustion.CT9.Graph.Path",
+              "StructuralExhaustion.CT9.Graph.Path.trace",
+              "StructuralExhaustion.CT9.Graph.Terminal",
+              "StructuralExhaustion.CT9.Graph.Terminal.nodeId",
+              "rfl"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "List",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (capability : CT9.Capability P) → CT9.Input capability → List CT9.Graph.NodeId → Prop",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 53,
+                "column": 4
+              },
+              "end": {
+                "line": 53,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 53,
+                "column": 0
+              },
+              "end": {
+                "line": 55,
+                "column": 22
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.ValidTrace",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.ValidTrace",
+            "bodyDependencies": [
+              "Eq",
+              "Exists",
+              "StructuralExhaustion.CT9.Graph.NodeId.entry",
+              "StructuralExhaustion.CT9.Graph.Path",
+              "StructuralExhaustion.CT9.Graph.Path.trace",
+              "StructuralExhaustion.CT9.Graph.Terminal",
+              "StructuralExhaustion.CT9.Graph.Terminal.nodeId"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.ExecutionResult",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  (capability : CT9.Capability P) → (input : CT9.Input capability) → CT9.ExecutionResult capability input",
+            "sourceFile": "StructuralExhaustion/CT9/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 35,
+                "column": 4
+              },
+              "end": {
+                "line": 35,
+                "column": 7
+              }
+            },
+            "range": {
+              "start": {
+                "line": 35,
+                "column": 0
+              },
+              "end": {
+                "line": 35,
+                "column": 75
+              }
+            },
+            "name": "StructuralExhaustion.CT9.run",
+            "module": "StructuralExhaustion.CT9.Execution",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.run",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.runReference"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Graph.NodeId"
+            ],
+            "type": "CT9.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "column": 25
+              },
+              "end": {
+                "line": 9,
+                "column": 40
+              }
+            },
+            "range": {
+              "start": {
+                "line": 9,
+                "column": 23
+              },
+              "end": {
+                "line": 9,
+                "column": 40
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.NodeId.boundedTerminal",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.NodeId.boundedTerminal",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "FinEnum",
+              "Nat",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  (Item : Type uItem) → (Label : Type uLabel) → FinEnum Label → (Item → Label) → (Label → ℕ) → CT9.Capability P",
+            "sourceFile": "StructuralExhaustion/CT9/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 8,
+                "column": 10
+              },
+              "end": {
+                "line": 8,
+                "column": 20
+              }
+            },
+            "range": {
+              "start": {
+                "line": 8,
+                "column": 10
+              },
+              "end": {
+                "line": 8,
+                "column": 20
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Capability.mk",
+            "module": "StructuralExhaustion.CT9.Capability",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Capability.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.BranchContext",
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient",
+              "StructuralExhaustion.Core.Problem.Baseline",
+              "StructuralExhaustion.Core.Problem.BranchState"
+            ],
+            "type": "{P : Core.Problem} → (G : P.Ambient) → P.Baseline G → P.BranchState G → Core.BranchContext P",
+            "sourceFile": "StructuralExhaustion/Core/Context.lean",
+            "selectionRange": {
+              "start": {
+                "line": 9,
+                "column": 10
+              },
+              "end": {
+                "line": 9,
+                "column": 23
+              }
+            },
+            "range": {
+              "start": {
+                "line": 9,
+                "column": 10
+              },
+              "end": {
+                "line": 9,
+                "column": 23
+              }
+            },
+            "name": "StructuralExhaustion.Core.BranchContext.mk",
+            "module": "StructuralExhaustion.Core.Context",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.BranchContext.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "Nat",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "(Ambient : Type uAmbient) → (Ambient → Prop) → (Ambient → ℕ) → (Ambient → Type uBranch) → Core.Problem",
+            "sourceFile": "StructuralExhaustion/Core/Problem.lean",
+            "selectionRange": {
+              "start": {
+                "line": 16,
+                "column": 10
+              },
+              "end": {
+                "line": 16,
+                "column": 17
+              }
+            },
+            "range": {
+              "start": {
+                "line": 16,
+                "column": 10
+              },
+              "end": {
+                "line": 16,
+                "column": 17
+              }
+            },
+            "name": "StructuralExhaustion.Core.Problem.mk",
+            "module": "StructuralExhaustion.Core.Problem",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.Problem.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "DecidableEq",
+              "List",
+              "List.Nodup",
+              "StructuralExhaustion.Core.OrderedCollection"
+            ],
+            "type": "{α : Type u} → (values : List α) → values.Nodup → DecidableEq α → Core.OrderedCollection α",
+            "sourceFile": "StructuralExhaustion/Core/Enumeration.lean",
+            "selectionRange": {
+              "start": {
+                "line": 24,
+                "column": 10
+              },
+              "end": {
+                "line": 24,
+                "column": 27
+              }
+            },
+            "range": {
+              "start": {
+                "line": 24,
+                "column": 10
+              },
+              "end": {
+                "line": 24,
+                "column": 27
+              }
+            },
+            "name": "StructuralExhaustion.Core.OrderedCollection.mk",
+            "module": "StructuralExhaustion.Core.Enumeration",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.OrderedCollection.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.Edge",
+              "StructuralExhaustion.CT9.Graph.NodeId.entry",
+              "StructuralExhaustion.CT9.Graph.NodeId.partition",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} → CT9.Graph.Edge capability input CT9.Graph.NodeId.entry CT9.Graph.NodeId.partition",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 33,
+                "column": 4
+              },
+              "end": {
+                "line": 33,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 33,
+                "column": 2
+              },
+              "end": {
+                "line": 33,
+                "column": 34
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Edge.begin",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Edge.begin",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [],
+            "type": "Type",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 7,
+                "column": 10
+              },
+              "end": {
+                "line": 7,
+                "column": 16
+              }
+            },
+            "range": {
+              "start": {
+                "line": 7,
+                "column": 0
+              },
+              "end": {
+                "line": 10,
+                "column": 28
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.NodeId",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "inductive",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.NodeId",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Graph.NodeId.boundedTerminal",
+              "StructuralExhaustion.CT9.Graph.NodeId.entry",
+              "StructuralExhaustion.CT9.Graph.NodeId.overload",
+              "StructuralExhaustion.CT9.Graph.NodeId.overloadedTerminal",
+              "StructuralExhaustion.CT9.Graph.NodeId.partition"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "List",
+              "List.instMembership",
+              "Membership.mem",
+              "Not",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult"
+            ],
+            "type": "{α : Type u} → {xs : List α} → {p : α → Prop} → (∀ value ∈ xs, ¬p value) → Core.FiniteSearch.ListResult xs p",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 44,
+                "column": 4
+              },
+              "end": {
+                "line": 44,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 44,
+                "column": 2
+              },
+              "end": {
+                "line": 44,
+                "column": 55
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.ListResult.absent",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.ListResult.absent",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "List",
+              "List.instMembership",
+              "Membership.mem",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult"
+            ],
+            "type": "{α : Type u} → {xs : List α} → {p : α → Prop} → (value : α) → value ∈ xs → p value → Core.FiniteSearch.ListResult xs p",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 43,
+                "column": 4
+              },
+              "end": {
+                "line": 43,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 43,
+                "column": 2
+              },
+              "end": {
+                "line": 43,
+                "column": 61
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.ListResult.found",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.ListResult.found",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "Bool",
+              "Bool.true",
+              "Decidable",
+              "Decidable.decide",
+              "Eq",
+              "List",
+              "List.find?",
+              "Option",
+              "Option.some"
+            ],
+            "type": "∀ {α : Type u_1} (xs : List α) (p : α → Prop) (decideP : (value : α) → Decidable (p value)) (value : α),\n  List.find? (fun value => decide (p value)) xs = some value → decide (p value) = true",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.Core.FiniteSearch.onList._proof_1",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "theorem",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.onList._proof_1",
+            "bodyDependencies": [
+              "Eq.mp",
+              "Eq.mpr",
+              "List.find?_some",
+              "decide_eq_true_eq",
+              "id"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Bool",
+              "Bool.true",
+              "Decidable",
+              "Decidable.decide",
+              "Eq"
+            ],
+            "type": "∀ {α : Type u_1} (p : α → Prop) (decideP : (value : α) → Decidable (p value)) (value : α),\n  decide (p value) = true → p value",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.Core.FiniteSearch.onList._proof_2",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "theorem",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.onList._proof_2",
+            "bodyDependencies": [
+              "of_decide_eq_true"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Decidable",
+              "Decidable.decide",
+              "Eq",
+              "False",
+              "List",
+              "List.find?",
+              "List.instMembership",
+              "Membership.mem",
+              "Option",
+              "Option.none"
+            ],
+            "type": "∀ {α : Type u_1} (xs : List α) (p : α → Prop) (decideP : (value : α) → Decidable (p value)),\n  List.find? (fun value => decide (p value)) xs = none → ∀ value ∈ xs, p value → False",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.Core.FiniteSearch.onList._proof_3",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "theorem",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.onList._proof_3",
+            "bodyDependencies": [
+              "Bool",
+              "Bool.true",
+              "Eq.mp",
+              "Eq.trans",
+              "False.elim",
+              "Iff.mp",
+              "List.find?_eq_none",
+              "Not",
+              "True",
+              "congrArg",
+              "congrFun'",
+              "decide_eq_true",
+              "eq_self",
+              "not_true_eq_false"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Eq",
+              "Option",
+              "Option.none",
+              "Option.some"
+            ],
+            "type": "{α : Type u_1} →\n  (motive : Option α → Sort u_2) →\n    (x : Option α) → ((value : α) → x = some value → motive (some value)) → (x = none → motive none) → motive x",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.Core.FiniteSearch.onList.match_1",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.onList.match_1",
+            "bodyDependencies": [
+              "Eq.refl",
+              "Option.casesOn"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "List",
+              "List.instMembership",
+              "Membership.mem",
+              "Not",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult.absent",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult.found"
+            ],
+            "type": "{α : Type u} →\n  {xs : List α} →\n    {p : α → Prop} →\n      {motive : Core.FiniteSearch.ListResult xs p → Sort u_1} →\n        (t : Core.FiniteSearch.ListResult xs p) →\n          ((value : α) →\n              (member : value ∈ xs) →\n                (holds : p value) → motive (Core.FiniteSearch.ListResult.found value member holds)) →\n            ((none : ∀ value ∈ xs, ¬p value) → motive (Core.FiniteSearch.ListResult.absent none)) → motive t",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 42,
+                "column": 10
+              },
+              "end": {
+                "line": 42,
+                "column": 20
+              }
+            },
+            "range": {
+              "start": {
+                "line": 41,
+                "column": 0
+              },
+              "end": {
+                "line": 44,
+                "column": 55
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.ListResult.casesOn",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.ListResult.casesOn",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.FiniteSearch.ListResult.rec"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "Nat",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Capability.Label",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (capability : CT9.Capability P) → CT9.Input capability → capability.Label → ℕ",
+            "sourceFile": "StructuralExhaustion/CT9/Capability.lean",
+            "selectionRange": {
+              "start": {
+                "line": 48,
+                "column": 4
+              },
+              "end": {
+                "line": 48,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 48,
+                "column": 0
+              },
+              "end": {
+                "line": 51,
+                "column": 39
+              }
+            },
+            "name": "StructuralExhaustion.CT9.fibreCount",
+            "module": "StructuralExhaustion.CT9.Capability",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.fibreCount",
+            "bodyDependencies": [
+              "List.length",
+              "StructuralExhaustion.CT9.Capability.Item",
+              "StructuralExhaustion.CT9.fibre"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (capability : CT9.Capability P) → CT9.Input capability → Type uLabel",
+            "sourceFile": "StructuralExhaustion/CT9/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 14,
+                "column": 10
+              },
+              "end": {
+                "line": 14,
+                "column": 25
+              }
+            },
+            "range": {
+              "start": {
+                "line": 14,
+                "column": 0
+              },
+              "end": {
+                "line": 17,
+                "column": 45
+              }
+            },
+            "name": "StructuralExhaustion.CT9.ExecutionResult",
+            "module": "StructuralExhaustion.CT9.Execution",
+            "kind": "inductive",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.ExecutionResult",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.ExecutionResult.mk"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.ExecutionResult",
+              "StructuralExhaustion.CT9.ExecutionResult.terminal",
+              "StructuralExhaustion.CT9.Graph.NodeId.entry",
+              "StructuralExhaustion.CT9.Graph.Path",
+              "StructuralExhaustion.CT9.Graph.Terminal.nodeId",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      (self : CT9.ExecutionResult capability input) →\n        CT9.Graph.Path capability input CT9.Graph.NodeId.entry self.terminal.nodeId",
+            "sourceFile": "StructuralExhaustion/CT9/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 16,
+                "column": 2
+              },
+              "end": {
+                "line": 16,
+                "column": 6
+              }
+            },
+            "range": {
+              "start": {
+                "line": 16,
+                "column": 2
+              },
+              "end": {
+                "line": 16,
+                "column": 6
+              }
+            },
+            "name": "StructuralExhaustion.CT9.ExecutionResult.path",
+            "module": "StructuralExhaustion.CT9.Execution",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.ExecutionResult.path",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.ExecutionResult",
+              "StructuralExhaustion.CT9.Graph.Terminal",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} → CT9.ExecutionResult capability input → CT9.Graph.Terminal",
+            "sourceFile": "StructuralExhaustion/CT9/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 15,
+                "column": 2
+              },
+              "end": {
+                "line": 15,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 15,
+                "column": 2
+              },
+              "end": {
+                "line": 15,
+                "column": 10
+              }
+            },
+            "name": "StructuralExhaustion.CT9.ExecutionResult.terminal",
+            "module": "StructuralExhaustion.CT9.Execution",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.ExecutionResult.terminal",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Graph.NodeId"
+            ],
+            "type": "CT9.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 8,
+                "column": 4
+              },
+              "end": {
+                "line": 8,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 8,
+                "column": 2
+              },
+              "end": {
+                "line": 8,
+                "column": 9
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.NodeId.entry",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.NodeId.entry",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "List",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Graph.Path",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  (capability : CT9.Capability P) →\n    (input : CT9.Input capability) →\n      {a b : CT9.Graph.NodeId} → CT9.Graph.Path capability input a b → List CT9.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 48,
+                "column": 4
+              },
+              "end": {
+                "line": 48,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 48,
+                "column": 0
+              },
+              "end": {
+                "line": 50,
+                "column": 42
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Path.trace",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Path.trace",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Graph.Path.brecOn",
+              "StructuralExhaustion.CT9.Graph.Path.trace._f"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Graph.Terminal"
+            ],
+            "type": "CT9.Graph.Terminal → CT9.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 23,
+                "column": 4
+              },
+              "end": {
+                "line": 23,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 23,
+                "column": 0
+              },
+              "end": {
+                "line": 25,
+                "column": 32
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Terminal.nodeId",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Terminal.nodeId",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Graph.NodeId.boundedTerminal",
+              "StructuralExhaustion.CT9.Graph.NodeId.overloadedTerminal",
+              "StructuralExhaustion.CT9.Graph.instReprTerminal.repr.match_1",
+              "Unit"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  (capability : CT9.Capability P) → CT9.Input capability → CT9.Graph.NodeId → CT9.Graph.NodeId → Type uLabel",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 44,
+                "column": 10
+              },
+              "end": {
+                "line": 44,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 44,
+                "column": 0
+              },
+              "end": {
+                "line": 46,
+                "column": 66
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Path",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "inductive",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Path",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Graph.Path.cons",
+              "StructuralExhaustion.CT9.Graph.Path.nil"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [],
+            "type": "Type",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 21,
+                "column": 10
+              },
+              "end": {
+                "line": 21,
+                "column": 18
+              }
+            },
+            "range": {
+              "start": {
+                "line": 21,
+                "column": 0
+              },
+              "end": {
+                "line": 21,
+                "column": 74
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Terminal",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "inductive",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Terminal",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Graph.Terminal.bounded",
+              "StructuralExhaustion.CT9.Graph.Terminal.overloaded"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.ExecutionResult",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  (capability : CT9.Capability P) → (input : CT9.Input capability) → CT9.ExecutionResult capability input",
+            "sourceFile": "StructuralExhaustion/CT9/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 22,
+                "column": 4
+              },
+              "end": {
+                "line": 22,
+                "column": 16
+              }
+            },
+            "range": {
+              "start": {
+                "line": 22,
+                "column": 0
+              },
+              "end": {
+                "line": 33,
+                "column": 29
+              }
+            },
+            "name": "StructuralExhaustion.CT9.runReference",
+            "module": "StructuralExhaustion.CT9.Execution",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.runReference",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.BoundedCertificate",
+              "StructuralExhaustion.CT9.Decision",
+              "StructuralExhaustion.CT9.ExecutionResult.mk",
+              "StructuralExhaustion.CT9.Graph.Edge.begin",
+              "StructuralExhaustion.CT9.Graph.Edge.bounded",
+              "StructuralExhaustion.CT9.Graph.Edge.overloaded",
+              "StructuralExhaustion.CT9.Graph.Edge.partitioned",
+              "StructuralExhaustion.CT9.Graph.NodeId.boundedTerminal",
+              "StructuralExhaustion.CT9.Graph.NodeId.entry",
+              "StructuralExhaustion.CT9.Graph.NodeId.overload",
+              "StructuralExhaustion.CT9.Graph.NodeId.overloadedTerminal",
+              "StructuralExhaustion.CT9.Graph.NodeId.partition",
+              "StructuralExhaustion.CT9.Graph.Path.cons",
+              "StructuralExhaustion.CT9.Graph.Path.nil",
+              "StructuralExhaustion.CT9.Graph.Terminal.bounded",
+              "StructuralExhaustion.CT9.Graph.Terminal.nodeId",
+              "StructuralExhaustion.CT9.Graph.Terminal.overloaded",
+              "StructuralExhaustion.CT9.Outcome.bounded",
+              "StructuralExhaustion.CT9.Outcome.overloaded",
+              "StructuralExhaustion.CT9.OverloadResidual",
+              "StructuralExhaustion.CT9.analyze",
+              "StructuralExhaustion.CT9.runReference.match_1"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "Core.Problem → Type uAmbient",
+            "sourceFile": "StructuralExhaustion/Core/Problem.lean",
+            "selectionRange": {
+              "start": {
+                "line": 17,
+                "column": 2
+              },
+              "end": {
+                "line": 17,
+                "column": 9
+              }
+            },
+            "range": {
+              "start": {
+                "line": 17,
+                "column": 2
+              },
+              "end": {
+                "line": 17,
+                "column": 9
+              }
+            },
+            "name": "StructuralExhaustion.Core.Problem.Ambient",
+            "module": "StructuralExhaustion.Core.Problem",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.Problem.Ambient",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient"
+            ],
+            "type": "(self : Core.Problem) → self.Ambient → Prop",
+            "sourceFile": "StructuralExhaustion/Core/Problem.lean",
+            "selectionRange": {
+              "start": {
+                "line": 18,
+                "column": 2
+              },
+              "end": {
+                "line": 18,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 18,
+                "column": 2
+              },
+              "end": {
+                "line": 18,
+                "column": 10
+              }
+            },
+            "name": "StructuralExhaustion.Core.Problem.Baseline",
+            "module": "StructuralExhaustion.Core.Problem",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.Problem.Baseline",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.Core.Problem",
+              "StructuralExhaustion.Core.Problem.Ambient"
+            ],
+            "type": "(self : Core.Problem) → self.Ambient → Type uBranch",
+            "sourceFile": "StructuralExhaustion/Core/Problem.lean",
+            "selectionRange": {
+              "start": {
+                "line": 20,
+                "column": 2
+              },
+              "end": {
+                "line": 20,
+                "column": 13
+              }
+            },
+            "range": {
+              "start": {
+                "line": 20,
+                "column": 2
+              },
+              "end": {
+                "line": 20,
+                "column": 13
+              }
+            },
+            "name": "StructuralExhaustion.Core.Problem.BranchState",
+            "module": "StructuralExhaustion.Core.Problem",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.Problem.BranchState",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "List",
+              "List.instMembership",
+              "Membership.mem",
+              "Not",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult.absent",
+              "StructuralExhaustion.Core.FiniteSearch.ListResult.found"
+            ],
+            "type": "{α : Type u} →\n  {xs : List α} →\n    {p : α → Prop} →\n      {motive : Core.FiniteSearch.ListResult xs p → Sort u_1} →\n        ((value : α) →\n            (member : value ∈ xs) →\n              (holds : p value) → motive (Core.FiniteSearch.ListResult.found value member holds)) →\n          ((none : ∀ value ∈ xs, ¬p value) → motive (Core.FiniteSearch.ListResult.absent none)) →\n            (t : Core.FiniteSearch.ListResult xs p) → motive t",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 42,
+                "column": 10
+              },
+              "end": {
+                "line": 42,
+                "column": 20
+              }
+            },
+            "range": {
+              "start": {
+                "line": 41,
+                "column": 0
+              },
+              "end": {
+                "line": 44,
+                "column": 55
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.ListResult.rec",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "recursor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.ListResult.rec",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.ExecutionResult",
+              "StructuralExhaustion.CT9.Graph.NodeId.entry",
+              "StructuralExhaustion.CT9.Graph.Path",
+              "StructuralExhaustion.CT9.Graph.Terminal",
+              "StructuralExhaustion.CT9.Graph.Terminal.nodeId",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.CT9.Outcome",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      (terminal : CT9.Graph.Terminal) →\n        CT9.Graph.Path capability input CT9.Graph.NodeId.entry terminal.nodeId →\n          CT9.Outcome capability input terminal → CT9.ExecutionResult capability input",
+            "sourceFile": "StructuralExhaustion/CT9/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 14,
+                "column": 10
+              },
+              "end": {
+                "line": 14,
+                "column": 25
+              }
+            },
+            "range": {
+              "start": {
+                "line": 14,
+                "column": 10
+              },
+              "end": {
+                "line": 14,
+                "column": 25
+              }
+            },
+            "name": "StructuralExhaustion.CT9.ExecutionResult.mk",
+            "module": "StructuralExhaustion.CT9.Execution",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.ExecutionResult.mk",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Graph.Path",
+              "StructuralExhaustion.CT9.Graph.Path.below",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      {motive : (a a_1 : CT9.Graph.NodeId) → CT9.Graph.Path capability input a a_1 → Sort u} →\n        {a a_1 : CT9.Graph.NodeId} →\n          (t : CT9.Graph.Path capability input a a_1) →\n            ((a a_2 : CT9.Graph.NodeId) →\n                (t : CT9.Graph.Path capability input a a_2) → CT9.Graph.Path.below t → motive a a_2 t) →\n              motive a a_1 t",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 44,
+                "column": 10
+              },
+              "end": {
+                "line": 44,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 44,
+                "column": 0
+              },
+              "end": {
+                "line": 46,
+                "column": 66
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Path.brecOn",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Path.brecOn",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Graph.Path.brecOn.go"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "List",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Graph.Path",
+              "StructuralExhaustion.CT9.Graph.Path.below",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  (capability : CT9.Capability P) →\n    (input : CT9.Input capability) →\n      {a b : CT9.Graph.NodeId} →\n        (x : CT9.Graph.Path capability input a b) → CT9.Graph.Path.below x → List CT9.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.CT9.Graph.Path.trace._f",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Path.trace._f",
+            "bodyDependencies": [
+              "List.cons",
+              "List.nil",
+              "StructuralExhaustion.CT9.Graph.Edge",
+              "StructuralExhaustion.CT9.Graph.Edge.source",
+              "StructuralExhaustion.CT9.Graph.Path.cons",
+              "StructuralExhaustion.CT9.Graph.Path.nil",
+              "StructuralExhaustion.CT9.Graph.Path.trace.match_1"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Graph.Terminal",
+              "StructuralExhaustion.CT9.Graph.Terminal.bounded",
+              "StructuralExhaustion.CT9.Graph.Terminal.overloaded",
+              "Unit"
+            ],
+            "type": "(motive : CT9.Graph.Terminal → Sort u_1) →\n  (x : CT9.Graph.Terminal) →\n    (Unit → motive CT9.Graph.Terminal.overloaded) → (Unit → motive CT9.Graph.Terminal.bounded) → motive x",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.CT9.Graph.instReprTerminal.repr.match_1",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.instReprTerminal.repr.match_1",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Graph.Terminal.casesOn",
+              "Unit.unit"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.Edge",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Graph.Path",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      {a b c : CT9.Graph.NodeId} →\n        CT9.Graph.Edge capability input a b → CT9.Graph.Path capability input b c → CT9.Graph.Path capability input a c",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 46,
+                "column": 4
+              },
+              "end": {
+                "line": 46,
+                "column": 8
+              }
+            },
+            "range": {
+              "start": {
+                "line": 46,
+                "column": 2
+              },
+              "end": {
+                "line": 46,
+                "column": 66
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Path.cons",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Path.cons",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Graph.Path",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} → (node : CT9.Graph.NodeId) → CT9.Graph.Path capability input node node",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 45,
+                "column": 4
+              },
+              "end": {
+                "line": 45,
+                "column": 7
+              }
+            },
+            "range": {
+              "start": {
+                "line": 45,
+                "column": 2
+              },
+              "end": {
+                "line": 45,
+                "column": 31
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Path.nil",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Path.nil",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Graph.Terminal"
+            ],
+            "type": "CT9.Graph.Terminal",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 21,
+                "column": 40
+              },
+              "end": {
+                "line": 21,
+                "column": 47
+              }
+            },
+            "range": {
+              "start": {
+                "line": 21,
+                "column": 38
+              },
+              "end": {
+                "line": 21,
+                "column": 47
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Terminal.bounded",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Terminal.bounded",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Graph.Terminal"
+            ],
+            "type": "CT9.Graph.Terminal",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 21,
+                "column": 27
+              },
+              "end": {
+                "line": 21,
+                "column": 37
+              }
+            },
+            "range": {
+              "start": {
+                "line": 21,
+                "column": 25
+              },
+              "end": {
+                "line": 21,
+                "column": 37
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Terminal.overloaded",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Terminal.overloaded",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.BoundedCertificate",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.Terminal.bounded",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.CT9.Outcome",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.BoundedCertificate capability input → CT9.Outcome capability input CT9.Graph.Terminal.bounded",
+            "sourceFile": "StructuralExhaustion/CT9/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 12,
+                "column": 4
+              },
+              "end": {
+                "line": 12,
+                "column": 11
+              }
+            },
+            "range": {
+              "start": {
+                "line": 12,
+                "column": 2
+              },
+              "end": {
+                "line": 12,
+                "column": 82
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Outcome.bounded",
+            "module": "StructuralExhaustion.CT9.Execution",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Outcome.bounded",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.Terminal.overloaded",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.CT9.Outcome",
+              "StructuralExhaustion.CT9.OverloadResidual",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      CT9.OverloadResidual capability input → CT9.Outcome capability input CT9.Graph.Terminal.overloaded",
+            "sourceFile": "StructuralExhaustion/CT9/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 11,
+                "column": 4
+              },
+              "end": {
+                "line": 11,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 11,
+                "column": 2
+              },
+              "end": {
+                "line": 11,
+                "column": 83
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Outcome.overloaded",
+            "module": "StructuralExhaustion.CT9.Execution",
+            "kind": "constructor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Outcome.overloaded",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Decision",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (capability : CT9.Capability P) → (input : CT9.Input capability) → CT9.Decision capability input",
+            "sourceFile": "StructuralExhaustion/CT9/Search.lean",
+            "selectionRange": {
+              "start": {
+                "line": 167,
+                "column": 4
+              },
+              "end": {
+                "line": 167,
+                "column": 11
+              }
+            },
+            "range": {
+              "start": {
+                "line": 166,
+                "column": 0
+              },
+              "end": {
+                "line": 173,
+                "column": 42
+              }
+            },
+            "name": "StructuralExhaustion.CT9.analyze",
+            "module": "StructuralExhaustion.CT9.Search",
+            "kind": "definition",
+            "docString": "Search labels in their declared order for the first overloaded fibre. ",
+            "declarationId": "StructuralExhaustion.CT9.analyze",
+            "bodyDependencies": [
+              "Decidable",
+              "LT.lt",
+              "Nat",
+              "Nat.decLt",
+              "Not",
+              "StructuralExhaustion.CT9.Capability.Label",
+              "StructuralExhaustion.CT9.Capability.capacity",
+              "StructuralExhaustion.CT9.Capability.labels",
+              "StructuralExhaustion.CT9.Decision.bounded",
+              "StructuralExhaustion.CT9.Decision.overloaded",
+              "StructuralExhaustion.CT9.OverloadResidual.mk",
+              "StructuralExhaustion.CT9.analyze._proof_1",
+              "StructuralExhaustion.CT9.analyze.match_1",
+              "StructuralExhaustion.CT9.fibreCount",
+              "StructuralExhaustion.Core.FiniteSearch.Result",
+              "StructuralExhaustion.Core.FiniteSearch.search",
+              "inferInstance",
+              "instLTNat"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.BoundedCertificate",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Decision",
+              "StructuralExhaustion.CT9.Decision.bounded",
+              "StructuralExhaustion.CT9.Decision.overloaded",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.CT9.OverloadResidual",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  (capability : CT9.Capability P) →\n    (input : CT9.Input capability) →\n      (motive : CT9.Decision capability input → Sort u_5) →\n        (x : CT9.Decision capability input) →\n          ((residual : CT9.OverloadResidual capability input) → motive (CT9.Decision.overloaded residual)) →\n            ((certificate : CT9.BoundedCertificate capability input) → motive (CT9.Decision.bounded certificate)) →\n              motive x",
+            "sourceFile": "StructuralExhaustion/CT9/Execution.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.CT9.runReference.match_1",
+            "module": "StructuralExhaustion.CT9.Execution",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.runReference.match_1",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Decision.casesOn"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.Terminal",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} → (capability : CT9.Capability P) → CT9.Input capability → CT9.Graph.Terminal → Type uLabel",
+            "sourceFile": "StructuralExhaustion/CT9/Execution.lean",
+            "selectionRange": {
+              "start": {
+                "line": 10,
+                "column": 10
+              },
+              "end": {
+                "line": 10,
+                "column": 17
+              }
+            },
+            "range": {
+              "start": {
+                "line": 10,
+                "column": 0
+              },
+              "end": {
+                "line": 12,
+                "column": 82
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Outcome",
+            "module": "StructuralExhaustion.CT9.Execution",
+            "kind": "inductive",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Outcome",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Outcome.bounded",
+              "StructuralExhaustion.CT9.Outcome.overloaded"
+            ],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Graph.Path",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      {motive : (a a_1 : CT9.Graph.NodeId) → CT9.Graph.Path capability input a a_1 → Sort u} →\n        {a a_1 : CT9.Graph.NodeId} → CT9.Graph.Path capability input a a_1 → Sort (max (uLabel + 1) u)",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 44,
+                "column": 10
+              },
+              "end": {
+                "line": 44,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 44,
+                "column": 0
+              },
+              "end": {
+                "line": 46,
+                "column": 66
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Path.below",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Path.below",
+            "bodyDependencies": [
+              "PProd",
+              "PUnit",
+              "StructuralExhaustion.CT9.Graph.Edge",
+              "StructuralExhaustion.CT9.Graph.Path.rec"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "PProd",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Graph.Path",
+              "StructuralExhaustion.CT9.Graph.Path.below",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      {motive : (a a_1 : CT9.Graph.NodeId) → CT9.Graph.Path capability input a a_1 → Sort u} →\n        {a a_1 : CT9.Graph.NodeId} →\n          (t : CT9.Graph.Path capability input a a_1) →\n            ((a a_2 : CT9.Graph.NodeId) →\n                (t : CT9.Graph.Path capability input a a_2) → CT9.Graph.Path.below t → motive a a_2 t) →\n              motive a a_1 t ×' CT9.Graph.Path.below t",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.CT9.Graph.Path.brecOn.go",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Path.brecOn.go",
+            "bodyDependencies": [
+              "PProd.mk",
+              "PUnit",
+              "PUnit.unit",
+              "StructuralExhaustion.CT9.Graph.Edge",
+              "StructuralExhaustion.CT9.Graph.Path.cons",
+              "StructuralExhaustion.CT9.Graph.Path.nil",
+              "StructuralExhaustion.CT9.Graph.Path.rec"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.Edge",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  (capability : CT9.Capability P) →\n    (input : CT9.Input capability) → {a b : CT9.Graph.NodeId} → CT9.Graph.Edge capability input a b → CT9.Graph.NodeId",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 41,
+                "column": 4
+              },
+              "end": {
+                "line": 41,
+                "column": 10
+              }
+            },
+            "range": {
+              "start": {
+                "line": 41,
+                "column": 0
+              },
+              "end": {
+                "line": 41,
+                "column": 53
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Edge.source",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Edge.source",
+            "bodyDependencies": [],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.Edge",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Graph.Path",
+              "StructuralExhaustion.CT9.Graph.Path.cons",
+              "StructuralExhaustion.CT9.Graph.Path.nil",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  (capability : CT9.Capability P) →\n    (input : CT9.Input capability) →\n      (motive : (b a : CT9.Graph.NodeId) → CT9.Graph.Path capability input a b → Sort u_5) →\n        (b a : CT9.Graph.NodeId) →\n          (x : CT9.Graph.Path capability input a b) →\n            ((n : CT9.Graph.NodeId) → motive n n (CT9.Graph.Path.nil n)) →\n              ((b a b_1 : CT9.Graph.NodeId) →\n                  (e : CT9.Graph.Edge capability input a b_1) →\n                    (rest : CT9.Graph.Path capability input b_1 b) → motive b a (CT9.Graph.Path.cons e rest)) →\n                motive b a x",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.CT9.Graph.Path.trace.match_1",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Path.trace.match_1",
+            "bodyDependencies": [
+              "Eq",
+              "Eq.ndrec",
+              "Eq.refl",
+              "Eq.symm",
+              "HEq",
+              "HEq.refl",
+              "StructuralExhaustion.CT9.Graph.Path.casesOn",
+              "eq_of_heq"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Graph.Terminal",
+              "StructuralExhaustion.CT9.Graph.Terminal.bounded",
+              "StructuralExhaustion.CT9.Graph.Terminal.overloaded"
+            ],
+            "type": "{motive : CT9.Graph.Terminal → Sort u} →\n  (t : CT9.Graph.Terminal) → motive CT9.Graph.Terminal.overloaded → motive CT9.Graph.Terminal.bounded → motive t",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 21,
+                "column": 10
+              },
+              "end": {
+                "line": 21,
+                "column": 18
+              }
+            },
+            "range": {
+              "start": {
+                "line": 21,
+                "column": 0
+              },
+              "end": {
+                "line": 21,
+                "column": 74
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Terminal.casesOn",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Terminal.casesOn",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Graph.Terminal.rec"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "LT.lt",
+              "Nat",
+              "Not",
+              "StructuralExhaustion.CT9.BoundedCertificate",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Capability.Label",
+              "StructuralExhaustion.CT9.Capability.capacity",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.CT9.fibreCount",
+              "StructuralExhaustion.Core.Problem",
+              "instLTNat"
+            ],
+            "type": "∀ {P : Core.Problem} (capability : CT9.Capability P) (input : CT9.Input capability),\n  (∀ (value : capability.Label), ¬capability.capacity value < CT9.fibreCount capability input value) →\n    CT9.BoundedCertificate capability input",
+            "sourceFile": "StructuralExhaustion/CT9/Search.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.CT9.analyze._proof_1",
+            "module": "StructuralExhaustion.CT9.Search",
+            "kind": "theorem",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.analyze._proof_1",
+            "bodyDependencies": [
+              "Nat.le_of_not_gt",
+              "StructuralExhaustion.CT9.BoundedCertificate.mk"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "LT.lt",
+              "Nat",
+              "Not",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Capability.Label",
+              "StructuralExhaustion.CT9.Capability.capacity",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.CT9.fibreCount",
+              "StructuralExhaustion.Core.FiniteSearch.Result",
+              "StructuralExhaustion.Core.FiniteSearch.Result.absent",
+              "StructuralExhaustion.Core.FiniteSearch.Result.found",
+              "StructuralExhaustion.Core.Problem",
+              "instLTNat"
+            ],
+            "type": "{P : Core.Problem} →\n  (capability : CT9.Capability P) →\n    (input : CT9.Input capability) →\n      (motive :\n          (Core.FiniteSearch.Result fun label => capability.capacity label < CT9.fibreCount capability input label) →\n            Sort u_5) →\n        (x : Core.FiniteSearch.Result fun label => capability.capacity label < CT9.fibreCount capability input label) →\n          ((label : capability.Label) →\n              (overloaded : capability.capacity label < CT9.fibreCount capability input label) →\n                motive (Core.FiniteSearch.Result.found label overloaded)) →\n            ((noOverload :\n                  ∀ (value : capability.Label), ¬capability.capacity value < CT9.fibreCount capability input value) →\n                motive (Core.FiniteSearch.Result.absent noOverload)) →\n              motive x",
+            "sourceFile": "StructuralExhaustion/CT9/Search.lean",
+            "selectionRange": null,
+            "range": null,
+            "name": "StructuralExhaustion.CT9.analyze.match_1",
+            "module": "StructuralExhaustion.CT9.Search",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.analyze.match_1",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.FiniteSearch.Result.casesOn"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.BoundedCertificate",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Decision",
+              "StructuralExhaustion.CT9.Decision.bounded",
+              "StructuralExhaustion.CT9.Decision.overloaded",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.CT9.OverloadResidual",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      {motive : CT9.Decision capability input → Sort u} →\n        (t : CT9.Decision capability input) →\n          ((residual : CT9.OverloadResidual capability input) → motive (CT9.Decision.overloaded residual)) →\n            ((certificate : CT9.BoundedCertificate capability input) → motive (CT9.Decision.bounded certificate)) →\n              motive t",
+            "sourceFile": "StructuralExhaustion/CT9/Search.lean",
+            "selectionRange": {
+              "start": {
+                "line": 162,
+                "column": 10
+              },
+              "end": {
+                "line": 162,
+                "column": 18
+              }
+            },
+            "range": {
+              "start": {
+                "line": 162,
+                "column": 0
+              },
+              "end": {
+                "line": 164,
+                "column": 63
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Decision.casesOn",
+            "module": "StructuralExhaustion.CT9.Search",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Decision.casesOn",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Decision.rec"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.Edge",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Graph.Path",
+              "StructuralExhaustion.CT9.Graph.Path.cons",
+              "StructuralExhaustion.CT9.Graph.Path.nil",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      {motive : (a a_1 : CT9.Graph.NodeId) → CT9.Graph.Path capability input a a_1 → Sort u} →\n        ((node : CT9.Graph.NodeId) → motive node node (CT9.Graph.Path.nil node)) →\n          ({a b c : CT9.Graph.NodeId} →\n              (a_1 : CT9.Graph.Edge capability input a b) →\n                (a_2 : CT9.Graph.Path capability input b c) →\n                  motive b c a_2 → motive a c (CT9.Graph.Path.cons a_1 a_2)) →\n            {a a_1 : CT9.Graph.NodeId} → (t : CT9.Graph.Path capability input a a_1) → motive a a_1 t",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 44,
+                "column": 10
+              },
+              "end": {
+                "line": 44,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 44,
+                "column": 0
+              },
+              "end": {
+                "line": 46,
+                "column": 66
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Path.rec",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "recursor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Path.rec",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Graph.Edge",
+              "StructuralExhaustion.CT9.Graph.NodeId",
+              "StructuralExhaustion.CT9.Graph.Path",
+              "StructuralExhaustion.CT9.Graph.Path.cons",
+              "StructuralExhaustion.CT9.Graph.Path.nil",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      {motive : (a a_1 : CT9.Graph.NodeId) → CT9.Graph.Path capability input a a_1 → Sort u} →\n        {a a_1 : CT9.Graph.NodeId} →\n          (t : CT9.Graph.Path capability input a a_1) →\n            ((node : CT9.Graph.NodeId) → motive node node (CT9.Graph.Path.nil node)) →\n              ({a b c : CT9.Graph.NodeId} →\n                  (a_2 : CT9.Graph.Edge capability input a b) →\n                    (a_3 : CT9.Graph.Path capability input b c) → motive a c (CT9.Graph.Path.cons a_2 a_3)) →\n                motive a a_1 t",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 44,
+                "column": 10
+              },
+              "end": {
+                "line": 44,
+                "column": 14
+              }
+            },
+            "range": {
+              "start": {
+                "line": 44,
+                "column": 0
+              },
+              "end": {
+                "line": 46,
+                "column": 66
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Path.casesOn",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Path.casesOn",
+            "bodyDependencies": [
+              "StructuralExhaustion.CT9.Graph.Path.rec"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.Graph.Terminal",
+              "StructuralExhaustion.CT9.Graph.Terminal.bounded",
+              "StructuralExhaustion.CT9.Graph.Terminal.overloaded"
+            ],
+            "type": "{motive : CT9.Graph.Terminal → Sort u} →\n  motive CT9.Graph.Terminal.overloaded → motive CT9.Graph.Terminal.bounded → (t : CT9.Graph.Terminal) → motive t",
+            "sourceFile": "StructuralExhaustion/CT9/Graph.lean",
+            "selectionRange": {
+              "start": {
+                "line": 21,
+                "column": 10
+              },
+              "end": {
+                "line": 21,
+                "column": 18
+              }
+            },
+            "range": {
+              "start": {
+                "line": 21,
+                "column": 0
+              },
+              "end": {
+                "line": 21,
+                "column": 74
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Graph.Terminal.rec",
+            "module": "StructuralExhaustion.CT9.Graph",
+            "kind": "recursor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Graph.Terminal.rec",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "Not",
+              "StructuralExhaustion.Core.FiniteSearch.Result",
+              "StructuralExhaustion.Core.FiniteSearch.Result.absent",
+              "StructuralExhaustion.Core.FiniteSearch.Result.found"
+            ],
+            "type": "{α : Type u} →\n  {p : α → Prop} →\n    {motive : Core.FiniteSearch.Result p → Sort u_1} →\n      (t : Core.FiniteSearch.Result p) →\n        ((value : α) → (holds : p value) → motive (Core.FiniteSearch.Result.found value holds)) →\n          ((none : ∀ (value : α), ¬p value) → motive (Core.FiniteSearch.Result.absent none)) → motive t",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 10,
+                "column": 10
+              },
+              "end": {
+                "line": 10,
+                "column": 16
+              }
+            },
+            "range": {
+              "start": {
+                "line": 9,
+                "column": 0
+              },
+              "end": {
+                "line": 12,
+                "column": 42
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.Result.casesOn",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "definition",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.Result.casesOn",
+            "bodyDependencies": [
+              "StructuralExhaustion.Core.FiniteSearch.Result.rec"
+            ],
+            "bodyAvailable": true
+          },
+          {
+            "typeDependencies": [
+              "StructuralExhaustion.CT9.BoundedCertificate",
+              "StructuralExhaustion.CT9.Capability",
+              "StructuralExhaustion.CT9.Decision",
+              "StructuralExhaustion.CT9.Decision.bounded",
+              "StructuralExhaustion.CT9.Decision.overloaded",
+              "StructuralExhaustion.CT9.Input",
+              "StructuralExhaustion.CT9.OverloadResidual",
+              "StructuralExhaustion.Core.Problem"
+            ],
+            "type": "{P : Core.Problem} →\n  {capability : CT9.Capability P} →\n    {input : CT9.Input capability} →\n      {motive : CT9.Decision capability input → Sort u} →\n        ((residual : CT9.OverloadResidual capability input) → motive (CT9.Decision.overloaded residual)) →\n          ((certificate : CT9.BoundedCertificate capability input) → motive (CT9.Decision.bounded certificate)) →\n            (t : CT9.Decision capability input) → motive t",
+            "sourceFile": "StructuralExhaustion/CT9/Search.lean",
+            "selectionRange": {
+              "start": {
+                "line": 162,
+                "column": 10
+              },
+              "end": {
+                "line": 162,
+                "column": 18
+              }
+            },
+            "range": {
+              "start": {
+                "line": 162,
+                "column": 0
+              },
+              "end": {
+                "line": 164,
+                "column": 63
+              }
+            },
+            "name": "StructuralExhaustion.CT9.Decision.rec",
+            "module": "StructuralExhaustion.CT9.Search",
+            "kind": "recursor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.CT9.Decision.rec",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          },
+          {
+            "typeDependencies": [
+              "Not",
+              "StructuralExhaustion.Core.FiniteSearch.Result",
+              "StructuralExhaustion.Core.FiniteSearch.Result.absent",
+              "StructuralExhaustion.Core.FiniteSearch.Result.found"
+            ],
+            "type": "{α : Type u} →\n  {p : α → Prop} →\n    {motive : Core.FiniteSearch.Result p → Sort u_1} →\n      ((value : α) → (holds : p value) → motive (Core.FiniteSearch.Result.found value holds)) →\n        ((none : ∀ (value : α), ¬p value) → motive (Core.FiniteSearch.Result.absent none)) →\n          (t : Core.FiniteSearch.Result p) → motive t",
+            "sourceFile": "StructuralExhaustion/Core/FiniteSearch.lean",
+            "selectionRange": {
+              "start": {
+                "line": 10,
+                "column": 10
+              },
+              "end": {
+                "line": 10,
+                "column": 16
+              }
+            },
+            "range": {
+              "start": {
+                "line": 9,
+                "column": 0
+              },
+              "end": {
+                "line": 12,
+                "column": 42
+              }
+            },
+            "name": "StructuralExhaustion.Core.FiniteSearch.Result.rec",
+            "module": "StructuralExhaustion.Core.FiniteSearch",
+            "kind": "recursor",
+            "docString": null,
+            "declarationId": "StructuralExhaustion.Core.FiniteSearch.Result.rec",
+            "bodyDependencies": [],
+            "bodyAvailable": false
+          }
+        ],
         "capabilityProfiles": [
           {
             "tacticId": "CT9",
@@ -656,6 +4758,30 @@
               "provision": "framework_constant"
             },
             {
+              "ref": "CT9.run_terminal_bounded_of_bounded",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT9.run_trace_bounded_of_bounded",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT9.fibreCount_le_one_of_label_injective_on_items",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT9.fibreCount_eq_zero_of_label_absent",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT9.cardinality_le_totalCapacity_of_bounded",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT9.cardinality_le_totalCapacity_of_label_injective_on_items",
+              "provision": "framework_constant"
+            },
+            {
               "ref": "CT9.runOverloadResidualOfTotalCapacityLtCardinality",
               "provision": "framework_constant"
             },
@@ -673,6 +4799,18 @@
             },
             {
               "ref": "CT9.runOverloadedOfTotalCapacityLtCardinality",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT9.BoundedRun",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT9.runBoundedOfBounded",
+              "provision": "framework_constant"
+            },
+            {
+              "ref": "CT9.runBoundedOfLabelInjectiveOnItems",
               "provision": "framework_constant"
             },
             {
@@ -896,6 +5034,30 @@
         "provision": "framework_constant"
       },
       {
+        "ref": "CT9.run_terminal_bounded_of_bounded",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT9.run_trace_bounded_of_bounded",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT9.fibreCount_le_one_of_label_injective_on_items",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT9.fibreCount_eq_zero_of_label_absent",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT9.cardinality_le_totalCapacity_of_bounded",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT9.cardinality_le_totalCapacity_of_label_injective_on_items",
+        "provision": "framework_constant"
+      },
+      {
         "ref": "CT9.runOverloadResidualOfTotalCapacityLtCardinality",
         "provision": "framework_constant"
       },
@@ -913,6 +5075,18 @@
       },
       {
         "ref": "CT9.runOverloadedOfTotalCapacityLtCardinality",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT9.BoundedRun",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT9.runBoundedOfBounded",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT9.runBoundedOfLabelInjectiveOnItems",
         "provision": "framework_constant"
       },
       {

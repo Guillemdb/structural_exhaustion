@@ -31,7 +31,6 @@
       "inferredInstances": 2,
       "derivedOperations": 7,
       "capabilityProfiles": [
-        "StructuralExhaustion.CT3.profile.boundariedReplacement",
         "StructuralExhaustion.CT3.profile.literalPackedReplacement"
       ],
       "manualObligations": 0
@@ -82,7 +81,7 @@
       "tacticId": "CT9",
       "authorDefinitions": 5,
       "inferredInstances": 0,
-      "derivedOperations": 22,
+      "derivedOperations": 31,
       "capabilityProfiles": [
         "StructuralExhaustion.CT9.profile.parityCapacityOne"
       ],
@@ -113,7 +112,8 @@
       "derivedOperations": 6,
       "capabilityProfiles": [
         "StructuralExhaustion.CT12.profile.listPeeling",
-        "StructuralExhaustion.CT12.profile.disjointPacking"
+        "StructuralExhaustion.CT12.profile.disjointPacking",
+        "StructuralExhaustion.CT12.profile.refinedLedgerCompletion"
       ],
       "manualObligations": 0
     },

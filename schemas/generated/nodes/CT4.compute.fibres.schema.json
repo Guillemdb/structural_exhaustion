@@ -18,6 +18,169 @@
         "ordinal": 4,
         "nodeKind": "computation",
         "nodeId": "CT4.compute.fibres",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.demandWeight",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns the amount charged by each demand in a branch context.",
+              "mathematicalDefinition": "w_x:\\mathcal{D}\\to\\mathbb{N}",
+              "label": "Demand weight",
+              "declarationId": "StructuralExhaustion.CT4.Spec.demandWeight"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Spec.capacity",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Assigns the maximum permitted load to each payer in a branch context.",
+              "mathematicalDefinition": "\\kappa_x:\\mathcal{Q}\\to\\mathbb{N}",
+              "label": "Payer capacity",
+              "declarationId": "StructuralExhaustion.CT4.Spec.capacity"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.demands",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all demands.",
+              "mathematicalDefinition": "\\operatorname{demands}=\\mathcal{D}",
+              "label": "Finite demand enumeration",
+              "declarationId": "StructuralExhaustion.CT4.Capability.demands"
+            },
+            {
+              "stepId": "author.4",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.payers",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all possible payers.",
+              "mathematicalDefinition": "\\operatorname{payers}=\\mathcal{Q}",
+              "label": "Finite payer enumeration",
+              "declarationId": "StructuralExhaustion.CT4.Capability.payers"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT4.TotalAssignmentState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: CT4.TotalAssignmentState.",
+              "mathematicalDefinition": null,
+              "label": "CT4.TotalAssignmentState",
+              "declarationId": "StructuralExhaustion.CT4.TotalAssignmentState"
+            },
+            {
+              "stepId": "operation.1",
+              "role": "operation",
+              "reference": {
+                "ref": "fibre",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "Framework-owned operation executed inside this node: fibre.",
+              "mathematicalDefinition": null,
+              "label": "fibre",
+              "declarationId": "StructuralExhaustion.CT4.fibre"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT4.FibreDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT4.FibreDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT4.FibreDecision",
+              "declarationId": "StructuralExhaustion.CT4.FibreDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT4.OverloadedFibreResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT4.OverloadedFibreResidual.",
+              "mathematicalDefinition": null,
+              "label": "CT4.OverloadedFibreResidual",
+              "declarationId": "StructuralExhaustion.CT4.OverloadedFibreResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT4.BoundedFibreState",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT4.BoundedFibreState.",
+              "mathematicalDefinition": null,
+              "label": "CT4.BoundedFibreState",
+              "declarationId": "StructuralExhaustion.CT4.BoundedFibreState"
+            }
+          ],
+          "nodeId": "CT4.compute.fibres",
+          "edges": [
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.1",
+              "relation": "consumes",
+              "edgeId": "CT4.compute.fibres.internal.author.1-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.2",
+              "relation": "consumes",
+              "edgeId": "CT4.compute.fibres.internal.author.2-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.3",
+              "relation": "consumes",
+              "edgeId": "CT4.compute.fibres.internal.author.3-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "author.4",
+              "relation": "consumes",
+              "edgeId": "CT4.compute.fibres.internal.author.4-to-operation.1"
+            },
+            {
+              "targetStepId": "operation.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "consumes",
+              "edgeId": "CT4.compute.fibres.internal.predecessor.1-to-operation.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "operation.1",
+              "relation": "produces",
+              "edgeId": "CT4.compute.fibres.internal.operation.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "operation.1",
+              "relation": "produces",
+              "edgeId": "CT4.compute.fibres.internal.operation.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "operation.1",
+              "relation": "produces",
+              "edgeId": "CT4.compute.fibres.internal.operation.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

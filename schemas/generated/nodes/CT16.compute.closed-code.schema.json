@@ -18,6 +18,61 @@
         "ordinal": 3,
         "nodeKind": "computation",
         "nodeId": "CT16.compute.closed-code",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.closedCode",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Computes the exact closed-type code of an ambient object after whole support is established.",
+              "mathematicalDefinition": "z:\\mathcal{G}\\to\\mathcal{Z}",
+              "label": "Computed closed code",
+              "declarationId": "StructuralExhaustion.CT16.Capability.closedCode"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "WholeSupportState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: WholeSupportState.",
+              "mathematicalDefinition": null,
+              "label": "WholeSupportState",
+              "declarationId": "StructuralExhaustion.CT16.WholeSupportState"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT16.ClosedCodeState",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT16.ClosedCodeState.",
+              "mathematicalDefinition": null,
+              "label": "CT16.ClosedCodeState",
+              "declarationId": "StructuralExhaustion.CT16.ClosedCodeState"
+            }
+          ],
+          "nodeId": "CT16.compute.closed-code",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "author.1",
+              "relation": "produces",
+              "edgeId": "CT16.compute.closed-code.internal.author.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT16.compute.closed-code.internal.predecessor.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

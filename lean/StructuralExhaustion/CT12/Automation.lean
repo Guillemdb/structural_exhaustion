@@ -79,6 +79,32 @@ def disjointPackingCapabilityProfile : Core.CapabilityProfile where
     "StructuralExhaustion.CT12.DisjointPacking.Profile.verifiedStage",
     "StructuralExhaustion.CT12.DisjointPacking.Profile.run_total"]
 
+/-- Finite demand completion with a semantic disjoint-choice/overlap split;
+CT12 scans only the demand schedule. -/
+def refinedLedgerCompletionCapabilityProfile : Core.CapabilityProfile where
+  capabilityId := "StructuralExhaustion.CT12.profile.refinedLedgerCompletion"
+  tacticId := "CT12"
+  requiredDefinitions := [
+    ⟨"StructuralExhaustion.Core.FiniteRefinedLedger.Profile.demands",
+      .userDefinition⟩,
+    ⟨"StructuralExhaustion.Core.FiniteRefinedLedger.Profile.Candidate",
+      .userDefinition⟩,
+    ⟨"StructuralExhaustion.Core.FiniteRefinedLedger.Profile.finiteCandidates",
+      .userDefinition⟩,
+    ⟨"StructuralExhaustion.Core.FiniteRefinedLedger.Profile.carrierSupport",
+      .userOperator⟩,
+    ⟨"StructuralExhaustion.Core.FiniteRefinedLedger.Profile.demandSupport",
+      .userOperator⟩,
+    ⟨"StructuralExhaustion.Core.FiniteRefinedLedger.Profile.carrierSupport_subset",
+      .userDefinition⟩]
+  requiredInstances := []
+  derivedOperations := [
+    "StructuralExhaustion.Core.FiniteRefinedLedger.Profile.fullChoice_or_obstruction",
+    "StructuralExhaustion.Core.FiniteRefinedLedger.Profile.fullChoice_or_minimal_obstruction",
+    "StructuralExhaustion.CT12.RefinedLedgerCompletion.Profile.run",
+    "StructuralExhaustion.CT12.RefinedLedgerCompletion.Profile.run_iterations_eq_demands",
+    "StructuralExhaustion.CT12.RefinedLedgerCompletion.Profile.verifiedStage"]
+
 def nodeAutomationContracts : List Core.NodeAutomationContract := [
   ⟨"CT12.entry", .definitional, [],
     [⟨"Input.state", .derivedFromPredecessor⟩,

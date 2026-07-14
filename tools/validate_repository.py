@@ -50,6 +50,10 @@ ROUTE_EXPECTED_PROBLEM_INPUTS = {
         "targetCapability",
         "minimalityKernel",
     ],
+    "CT1.terminal.c1->CT12": [
+        "targetCapability",
+        "semanticDiscoveryAdapter",
+    ],
     "CT2.residual.separatingContext->CT3": [
         "targetCapability",
         "semanticDiscoveryAdapter",
@@ -58,10 +62,16 @@ ROUTE_EXPECTED_PROBLEM_INPUTS = {
         "targetCapability",
         "semanticDiscoveryAdapter",
     ],
+    "CT5.residual.chargeLedger->CT14": ["targetCapability"],
     "CT6.residual.activeLedger->CT9": [
         "targetCapability",
         "semanticDiscoveryAdapter",
     ],
+    "CT9.residual.overload->CT7": [
+        "targetCapability",
+        "semanticDiscoveryAdapter",
+    ],
+    "CT14.residual.capacity->CT14": ["targetCapability"],
 }
 SUSPICIOUS_CAPABILITY = re.compile(
     r"(?:^|\.)(?:solve|run|execute|outcome|result|claim|certificate|residual)(?:$|[A-Z_.])",
@@ -445,6 +455,7 @@ def validate_routes(errors: list[str], catalog: dict) -> None:
     required_routes = {
         "CT1.residual.avoiding->CT2",
         "CT1.residual.avoiding->CT2.localDeletion",
+        "CT1.terminal.c1->CT12",
         "CT2.residual.separatingContext->CT3",
         "CT2.residual.criticality->CT10",
         "CT6.residual.activeLedger->CT9",

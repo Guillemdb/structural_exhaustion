@@ -18,6 +18,61 @@
         "ordinal": 7,
         "nodeKind": "residual",
         "nodeId": "CT13.terminal.residual.overlap",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.Graph.Edge.overlap",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT13.Graph.Edge.overlap.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.Graph.Edge.overlap",
+              "declarationId": "StructuralExhaustion.CT13.Graph.Edge.overlap"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.run_trace_valid",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT13.run_trace_valid.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.run_trace_valid",
+              "declarationId": "StructuralExhaustion.CT13.run_trace_valid"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT13.ExecutionResult@CT13.terminal.residual.overlap",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT13.ExecutionResult@CT13.terminal.residual.overlap.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT13.ExecutionResult@CT13.terminal.residual.overlap",
+              "declarationId": null
+            }
+          ],
+          "nodeId": "CT13.terminal.residual.overlap",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT13.terminal.residual.overlap.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT13.terminal.residual.overlap.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [],

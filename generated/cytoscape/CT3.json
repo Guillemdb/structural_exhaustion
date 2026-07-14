@@ -757,73 +757,105 @@
     {
       "data": {
         "id": "CT3.edge.beginVector",
+        "label": "beginVector",
+        "kind": "ctTransition",
+        "ordinal": 1,
         "source": "CT3.entry",
         "target": "CT3.compute.exact-vector",
         "constructor": "StructuralExhaustion.CT3.Graph.Edge.beginVector",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} → CT3.Graph.Edge S C input CT3.Graph.NodeId.entry CT3.Graph.NodeId.vectorComputation"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} → CT3.Graph.Edge S C input CT3.Graph.NodeId.entry CT3.Graph.NodeId.vectorComputation",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT3.edge.vectorReady",
+        "label": "vectorReady",
+        "kind": "ctTransition",
+        "ordinal": 2,
         "source": "CT3.compute.exact-vector",
         "target": "CT3.search.compression",
         "constructor": "StructuralExhaustion.CT3.Graph.Edge.vectorReady",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactVectorState S input →\n          CT3.Graph.Edge S C input CT3.Graph.NodeId.vectorComputation CT3.Graph.NodeId.compressionSearch"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactVectorState S input →\n          CT3.Graph.Edge S C input CT3.Graph.NodeId.vectorComputation CT3.Graph.NodeId.compressionSearch",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT3.edge.compressionFound",
+        "label": "compressionFound",
+        "kind": "ctTransition",
+        "ordinal": 3,
         "source": "CT3.search.compression",
         "target": "CT3.terminal.compression",
         "constructor": "StructuralExhaustion.CT3.Graph.Edge.compressionFound",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.CompressionCertificate S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.compressionTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.CompressionCertificate S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.compressionTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT3.edge.compressionAbsent",
+        "label": "compressionAbsent",
+        "kind": "ctTransition",
+        "ordinal": 4,
         "source": "CT3.search.compression",
         "target": "CT3.validate.table",
         "constructor": "StructuralExhaustion.CT3.Graph.Edge.compressionAbsent",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.UncompressibleExternalType S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.tableValidation"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {vector : CT3.ExactVectorState S input} →\n          CT3.UncompressibleExternalType S C input vector →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.compressionSearch CT3.Graph.NodeId.tableValidation",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT3.edge.tableDefect",
+        "label": "tableDefect",
+        "kind": "ctTransition",
+        "ordinal": 5,
         "source": "CT3.validate.table",
         "target": "CT3.terminal.distinguishing-context",
         "constructor": "StructuralExhaustion.CT3.Graph.Edge.tableDefect",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.DistinguishingContextResidual S C input →\n          CT3.Graph.Edge S C input CT3.Graph.NodeId.tableValidation CT3.Graph.NodeId.distinguishingTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.DistinguishingContextResidual S C input →\n          CT3.Graph.Edge S C input CT3.Graph.NodeId.tableValidation CT3.Graph.NodeId.distinguishingTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT3.edge.tableExact",
+        "label": "tableExact",
+        "kind": "ctTransition",
+        "ordinal": 6,
         "source": "CT3.validate.table",
         "target": "CT3.lookup.exact-row",
         "constructor": "StructuralExhaustion.CT3.Graph.Edge.tableExact",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactTableState S C → CT3.Graph.Edge S C input CT3.Graph.NodeId.tableValidation CT3.Graph.NodeId.rowLookup"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        CT3.ExactTableState S C → CT3.Graph.Edge S C input CT3.Graph.NodeId.tableValidation CT3.Graph.NodeId.rowLookup",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT3.edge.rowKnown",
+        "label": "rowKnown",
+        "kind": "ctTransition",
+        "ordinal": 7,
         "source": "CT3.lookup.exact-row",
         "target": "CT3.terminal.known-row",
         "constructor": "StructuralExhaustion.CT3.Graph.Edge.rowKnown",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.KnownRowCertificate S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.knownRowTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.KnownRowCertificate S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.knownRowTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT3.edge.rowNovel",
+        "label": "rowNovel",
+        "kind": "ctTransition",
+        "ordinal": 8,
         "source": "CT3.lookup.exact-row",
         "target": "CT3.terminal.novel-row",
         "constructor": "StructuralExhaustion.CT3.Graph.Edge.rowNovel",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.NovelExternalTypeResidual S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.novelRowTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT3.Spec P} →\n    {C : CT3.Capability S} →\n      {input : CT3.Input S} →\n        {table : CT3.ExactTableState S C} →\n          CT3.NovelExternalTypeResidual S C input table →\n            CT3.Graph.Edge S C input CT3.Graph.NodeId.rowLookup CT3.Graph.NodeId.novelRowTerminal",
+        "provision": "generated_audit"
       }
     }
   ]

@@ -18,6 +18,24 @@
         "ordinal": 2,
         "nodeKind": "computation",
         "nodeId": "CT10.compute.classTable",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT10.Graph.Edge.tableBuilt",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT10.Graph.Edge.tableBuilt.",
+              "mathematicalDefinition": null,
+              "label": "CT10.Graph.Edge.tableBuilt",
+              "declarationId": "StructuralExhaustion.CT10.Graph.Edge.tableBuilt"
+            }
+          ],
+          "nodeId": "CT10.compute.classTable",
+          "edges": []
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

@@ -18,6 +18,61 @@
         "ordinal": 7,
         "nodeKind": "residual",
         "nodeId": "CT14.terminal.residual.missing-label",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.Graph.Edge.missingLabel",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT14.Graph.Edge.missingLabel.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.Graph.Edge.missingLabel",
+              "declarationId": "StructuralExhaustion.CT14.Graph.Edge.missingLabel"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.run_trace_valid",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT14.run_trace_valid.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.run_trace_valid",
+              "declarationId": "StructuralExhaustion.CT14.run_trace_valid"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.ExecutionResult@CT14.terminal.residual.missing-label",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT14.ExecutionResult@CT14.terminal.residual.missing-label.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.ExecutionResult@CT14.terminal.residual.missing-label",
+              "declarationId": null
+            }
+          ],
+          "nodeId": "CT14.terminal.residual.missing-label",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT14.terminal.residual.missing-label.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT14.terminal.residual.missing-label.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [],

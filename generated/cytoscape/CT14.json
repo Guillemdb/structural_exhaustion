@@ -611,73 +611,140 @@
     {
       "data": {
         "id": "CT14.edge.begin",
+        "label": "begin",
+        "kind": "ctTransition",
+        "ordinal": 1,
         "source": "CT14.entry",
         "target": "CT14.compute.lower-mass",
         "constructor": "StructuralExhaustion.CT14.Graph.Edge.begin",
-        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} → CT14.Graph.Edge C ctx CT14.Graph.NodeId.entry CT14.Graph.NodeId.lowerMass"
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} → CT14.Graph.Edge C ctx CT14.Graph.NodeId.entry CT14.Graph.NodeId.lowerMass",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT14.edge.lower",
+        "label": "lower",
+        "kind": "ctTransition",
+        "ordinal": 2,
         "source": "CT14.compute.lower-mass",
         "target": "CT14.search.members",
         "constructor": "StructuralExhaustion.CT14.Graph.Edge.lower",
-        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LowerMassState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.lowerMass CT14.Graph.NodeId.memberScan"
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LowerMassState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.lowerMass CT14.Graph.NodeId.memberScan",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT14.edge.unbounded",
+        "label": "unbounded",
+        "kind": "ctTransition",
+        "ordinal": 3,
         "source": "CT14.search.members",
         "target": "CT14.terminal.residual.unbounded-member",
         "constructor": "StructuralExhaustion.CT14.Graph.Edge.unbounded",
-        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.UnboundedMemberResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.unboundedTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.UnboundedMemberResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.unboundedTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT14.edge.missingLabel",
+        "label": "missingLabel",
+        "kind": "ctTransition",
+        "ordinal": 4,
         "source": "CT14.search.members",
         "target": "CT14.terminal.residual.missing-label",
         "constructor": "StructuralExhaustion.CT14.Graph.Edge.missingLabel",
-        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.MissingLabelResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.missingLabelTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.MissingLabelResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.missingLabelTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT14.edge.complete",
+        "label": "complete",
+        "kind": "ctTransition",
+        "ordinal": 5,
         "source": "CT14.search.members",
         "target": "CT14.compute.upper-capacity",
         "constructor": "StructuralExhaustion.CT14.Graph.Edge.complete",
-        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.MemberScanState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.upperCapacity"
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.MemberScanState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.memberScan CT14.Graph.NodeId.upperCapacity",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT14.edge.upper",
+        "label": "upper",
+        "kind": "ctTransition",
+        "ordinal": 6,
         "source": "CT14.compute.upper-capacity",
         "target": "CT14.decide.comparison",
         "constructor": "StructuralExhaustion.CT14.Graph.Edge.upper",
-        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LedgerState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.upperCapacity CT14.Graph.NodeId.comparison"
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.LedgerState C ctx → CT14.Graph.Edge C ctx CT14.Graph.NodeId.upperCapacity CT14.Graph.NodeId.comparison",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT14.edge.aggregate",
+        "label": "aggregate",
+        "kind": "ctTransition",
+        "ordinal": 7,
         "source": "CT14.decide.comparison",
         "target": "CT14.terminal.certificate.aggregate",
         "constructor": "StructuralExhaustion.CT14.Graph.Edge.aggregate",
-        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.AggregateCertificate C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.aggregateTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.AggregateCertificate C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.aggregateTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT14.edge.capacity",
+        "label": "capacity",
+        "kind": "ctTransition",
+        "ordinal": 8,
         "source": "CT14.decide.comparison",
         "target": "CT14.terminal.residual.capacity",
         "constructor": "StructuralExhaustion.CT14.Graph.Edge.capacity",
-        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.CapacityResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.capacityTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {C : CT14.Capability P} →\n    {ctx : Core.BranchContext P} →\n      CT14.CapacityResidual C ctx →\n        CT14.Graph.Edge C ctx CT14.Graph.NodeId.comparison CT14.Graph.NodeId.capacityTerminal",
+        "provision": "generated_audit"
+      }
+    },
+    {
+      "data": {
+        "id": "CT14.residual.capacity->CT14",
+        "label": "CT14.residual.capacity->CT14",
+        "kind": "generatedRoute",
+        "route": {
+          "triggerConstructor": "StructuralExhaustion.Routes.CT14ToCT14.buildInput",
+          "targetTacticId": "CT14",
+          "sourceResidualKind": "CT14.residual.capacity",
+          "soundnessTheorem": "StructuralExhaustion.Routes.CT14ToCT14.enabled_generates",
+          "selectionClass": "forced",
+          "routeId": "CT14.residual.capacity->CT14",
+          "provenanceTheorem": "StructuralExhaustion.Routes.CT14ToCT14.generated_route_id",
+          "discovery": "StructuralExhaustion.CT14.Capability.discover",
+          "contextPreservationTheorem": "StructuralExhaustion.Routes.CT14ToCT14.branchContext_preserved",
+          "authoringBoundary": {
+            "semanticDiscovery": {
+              "kind": "capabilityDiscovery",
+              "adapterType": null
+            },
+            "problemSpecificInputs": [
+              "targetCapability"
+            ],
+            "frameworkOwnedResponsibilities": [
+              "routeRuleConstruction",
+              "targetContextConstruction",
+              "triggerConstruction",
+              "soundnessProof",
+              "contextPreservationProof",
+              "provenanceProof"
+            ]
+          }
+        }
       }
     }
   ]

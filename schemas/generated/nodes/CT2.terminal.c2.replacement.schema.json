@@ -18,6 +18,61 @@
         "ordinal": 5,
         "nodeKind": "certificate",
         "nodeId": "CT2.terminal.c2.replacement",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.Graph.Edge.replacementCloses",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT2.Graph.Edge.replacementCloses.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.Graph.Edge.replacementCloses",
+              "declarationId": "StructuralExhaustion.CT2.Graph.Edge.replacementCloses"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.run_trace_valid",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT2.run_trace_valid.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.run_trace_valid",
+              "declarationId": "StructuralExhaustion.CT2.run_trace_valid"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT2.ExecutionResult@CT2.terminal.c2.replacement",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT2.ExecutionResult@CT2.terminal.c2.replacement.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT2.ExecutionResult@CT2.terminal.c2.replacement",
+              "declarationId": null
+            }
+          ],
+          "nodeId": "CT2.terminal.c2.replacement",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT2.terminal.c2.replacement.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT2.terminal.c2.replacement.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [],

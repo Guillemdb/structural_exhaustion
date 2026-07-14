@@ -103,8 +103,18 @@ def targetCertificateCapabilityProfile : Core.CapabilityProfile where
     "StructuralExhaustion.CT1.certifiedAvoidingBudget"
   ]
 
-/-- CT1 exports only semantic avoidance; downstream triggers are route-owned. -/
+/-- CT1 exports its two semantic terminal payloads; downstream triggers remain
+route-owned. -/
 def residualKindContracts : List Core.ResidualKindContract := [
+  {
+    residualKindId := "CT1.terminal.c1"
+    leanType := "StructuralExhaustion.CT1.Target"
+    semanticFields := [
+      ⟨"target", "∃ index witness, Realizes G index witness",
+        .derivedByGenericTheorem⟩
+    ]
+    inheritedContext := .branch
+  },
   {
     residualKindId := "CT1.residual.avoiding"
     leanType := "StructuralExhaustion.CT1.AvoidingState"

@@ -18,6 +18,139 @@
         "ordinal": 4,
         "nodeKind": "decision",
         "nodeId": "CT16.decide.closed-code",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.targetCode",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The distinguished closed-type code that certifies the target case.",
+              "mathematicalDefinition": "z_\\star\\in\\mathcal{Z}",
+              "label": "Target closed code",
+              "declarationId": "StructuralExhaustion.CT16.Capability.targetCode"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.codeDecidableEq",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable equality on closed codes, used for the final exact comparison.",
+              "mathematicalDefinition": "\\operatorname{decide}(z=z_\\star)",
+              "label": "Code equality decision",
+              "declarationId": "StructuralExhaustion.CT16.Capability.codeDecidableEq"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "ClosedCodeState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: ClosedCodeState.",
+              "mathematicalDefinition": null,
+              "label": "ClosedCodeState",
+              "declarationId": "StructuralExhaustion.CT16.ClosedCodeState"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT16.CodeDecision",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT16.CodeDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT16.CodeDecision",
+              "declarationId": "StructuralExhaustion.CT16.CodeDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT16.ExactCodeCertificate",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT16.ExactCodeCertificate.",
+              "mathematicalDefinition": null,
+              "label": "CT16.ExactCodeCertificate",
+              "declarationId": "StructuralExhaustion.CT16.ExactCodeCertificate"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT16.ClosedTypeMismatchResidual",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT16.ClosedTypeMismatchResidual.",
+              "mathematicalDefinition": null,
+              "label": "CT16.ClosedTypeMismatchResidual",
+              "declarationId": "StructuralExhaustion.CT16.ClosedTypeMismatchResidual"
+            }
+          ],
+          "nodeId": "CT16.decide.closed-code",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "author.1",
+              "relation": "produces",
+              "edgeId": "CT16.decide.closed-code.internal.author.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "author.1",
+              "relation": "produces",
+              "edgeId": "CT16.decide.closed-code.internal.author.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "author.1",
+              "relation": "produces",
+              "edgeId": "CT16.decide.closed-code.internal.author.1-to-output.3"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "author.2",
+              "relation": "produces",
+              "edgeId": "CT16.decide.closed-code.internal.author.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "author.2",
+              "relation": "produces",
+              "edgeId": "CT16.decide.closed-code.internal.author.2-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "author.2",
+              "relation": "produces",
+              "edgeId": "CT16.decide.closed-code.internal.author.2-to-output.3"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT16.decide.closed-code.internal.predecessor.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT16.decide.closed-code.internal.predecessor.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT16.decide.closed-code.internal.predecessor.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

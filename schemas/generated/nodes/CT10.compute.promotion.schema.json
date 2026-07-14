@@ -18,6 +18,43 @@
         "ordinal": 5,
         "nodeKind": "computation",
         "nodeId": "CT10.compute.promotion",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT10.PromotedResidual",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: CT10.PromotedResidual.",
+              "mathematicalDefinition": null,
+              "label": "CT10.PromotedResidual",
+              "declarationId": "StructuralExhaustion.CT10.PromotedResidual"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT10.Graph.Edge.promoted",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT10.Graph.Edge.promoted.",
+              "mathematicalDefinition": null,
+              "label": "CT10.Graph.Edge.promoted",
+              "declarationId": "StructuralExhaustion.CT10.Graph.Edge.promoted"
+            }
+          ],
+          "nodeId": "CT10.compute.promotion",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT10.compute.promotion.internal.predecessor.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

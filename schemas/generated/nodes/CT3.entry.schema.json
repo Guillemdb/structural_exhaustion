@@ -18,6 +18,61 @@
         "ordinal": 1,
         "nodeKind": "entry",
         "nodeId": "CT3.entry",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.context",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.context.",
+              "mathematicalDefinition": null,
+              "label": "Input.context",
+              "declarationId": "StructuralExhaustion.CT3.Input.context"
+            },
+            {
+              "stepId": "predecessor.2",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.piece",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.piece.",
+              "mathematicalDefinition": null,
+              "label": "Input.piece",
+              "declarationId": "StructuralExhaustion.CT3.Input.piece"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT3.Input",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "CT3 receives the shared branch context and one source piece. ",
+              "mathematicalDefinition": null,
+              "label": "CT3.Input",
+              "declarationId": "StructuralExhaustion.CT3.Input"
+            }
+          ],
+          "nodeId": "CT3.entry",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT3.entry.internal.predecessor.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.2",
+              "relation": "produces",
+              "edgeId": "CT3.entry.internal.predecessor.2-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

@@ -18,6 +18,115 @@
         "ordinal": 3,
         "nodeKind": "computation",
         "nodeId": "CT4.search.availability",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.demands",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all demands.",
+              "mathematicalDefinition": "\\operatorname{demands}=\\mathcal{D}",
+              "label": "Finite demand enumeration",
+              "declarationId": "StructuralExhaustion.CT4.Capability.demands"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "CT4.AssignmentState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Framework-computed canonical assignment table.  The search is performed\nonce at this node; downstream nodes consume `assigned` and its exactness\nproofs rather than re-running payer search. ",
+              "mathematicalDefinition": null,
+              "label": "CT4.AssignmentState",
+              "declarationId": "StructuralExhaustion.CT4.AssignmentState"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "Core.FiniteSearch.search_none_iff",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: Core.FiniteSearch.search_none_iff.",
+              "mathematicalDefinition": null,
+              "label": "Core.FiniteSearch.search_none_iff",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.search_none_iff"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT4.AvailabilityDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT4.AvailabilityDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT4.AvailabilityDecision",
+              "declarationId": "StructuralExhaustion.CT4.AvailabilityDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT4.MissingPayerResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT4.MissingPayerResidual.",
+              "mathematicalDefinition": null,
+              "label": "CT4.MissingPayerResidual",
+              "declarationId": "StructuralExhaustion.CT4.MissingPayerResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT4.TotalAssignmentState",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT4.TotalAssignmentState.",
+              "mathematicalDefinition": null,
+              "label": "CT4.TotalAssignmentState",
+              "declarationId": "StructuralExhaustion.CT4.TotalAssignmentState"
+            }
+          ],
+          "nodeId": "CT4.search.availability",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT4.search.availability.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT4.search.availability.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT4.search.availability.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT4.search.availability.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT4.search.availability.internal.theorem.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

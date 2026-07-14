@@ -269,28 +269,40 @@
     {
       "data": {
         "id": "CT6.edge.beginSearch",
+        "label": "beginSearch",
+        "kind": "ctTransition",
+        "ordinal": 1,
         "source": "CT6.entry",
         "target": "CT6.search.firstFailure",
         "constructor": "StructuralExhaustion.CT6.Graph.Edge.beginSearch",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.Graph.Edge S capability input CT6.Graph.NodeId.entry CT6.Graph.NodeId.firstFailureSearch"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.Graph.Edge S capability input CT6.Graph.NodeId.entry CT6.Graph.NodeId.firstFailureSearch",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT6.edge.failure",
+        "label": "failure",
+        "kind": "ctTransition",
+        "ordinal": 2,
         "source": "CT6.search.firstFailure",
         "target": "CT6.terminal.residual.firstFailure",
         "constructor": "StructuralExhaustion.CT6.Graph.Edge.failure",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.FirstFailureResidual S capability input →\n          CT6.Graph.Edge S capability input CT6.Graph.NodeId.firstFailureSearch CT6.Graph.NodeId.firstFailureTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.FirstFailureResidual S capability input →\n          CT6.Graph.Edge S capability input CT6.Graph.NodeId.firstFailureSearch CT6.Graph.NodeId.firstFailureTerminal",
+        "provision": "generated_audit"
       }
     },
     {
       "data": {
         "id": "CT6.edge.active",
+        "label": "active",
+        "kind": "ctTransition",
+        "ordinal": 3,
         "source": "CT6.search.firstFailure",
         "target": "CT6.terminal.residual.activeLedger",
         "constructor": "StructuralExhaustion.CT6.Graph.Edge.active",
-        "constructorType": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.ActiveLedgerResidual S capability input →\n          CT6.Graph.Edge S capability input CT6.Graph.NodeId.firstFailureSearch CT6.Graph.NodeId.activeLedgerTerminal"
+        "constructorType": "{P : Core.Problem} →\n  {S : CT6.Spec P} →\n    {capability : CT6.Capability S} →\n      {input : CT6.Input P} →\n        CT6.ActiveLedgerResidual S capability input →\n          CT6.Graph.Edge S capability input CT6.Graph.NodeId.firstFailureSearch CT6.Graph.NodeId.activeLedgerTerminal",
+        "provision": "generated_audit"
       }
     },
     {

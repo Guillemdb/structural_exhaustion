@@ -18,6 +18,61 @@
         "ordinal": 4,
         "nodeKind": "residual",
         "nodeId": "CT9.terminal.residual.overload",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT9.Graph.Edge.overloaded",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT9.Graph.Edge.overloaded.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT9.Graph.Edge.overloaded",
+              "declarationId": "StructuralExhaustion.CT9.Graph.Edge.overloaded"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT9.run_trace_valid",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT9.run_trace_valid.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT9.run_trace_valid",
+              "declarationId": "StructuralExhaustion.CT9.run_trace_valid"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT9.ExecutionResult@CT9.terminal.residual.overload",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT9.ExecutionResult@CT9.terminal.residual.overload.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT9.ExecutionResult@CT9.terminal.residual.overload",
+              "declarationId": null
+            }
+          ],
+          "nodeId": "CT9.terminal.residual.overload",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT9.terminal.residual.overload.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT9.terminal.residual.overload.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [],

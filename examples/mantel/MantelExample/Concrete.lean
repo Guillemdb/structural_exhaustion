@@ -1,5 +1,6 @@
 import Mathlib.Combinatorics.SimpleGraph.Circulant
 import MantelExample.Run
+import StructuralExhaustion.Graph.HighCenterStructure
 
 namespace MantelExample
 
@@ -69,6 +70,34 @@ theorem edgeCount_exact : object.edgeCount = 5 := by
   native_decide
 
 theorem mantel_bound : Target object := mantel object triangleFree
+
+theorem fourCycleFree :
+    ¬Graph.HasCycleWithLength object.graph
+      Graph.HighCenterStructure.FourLength := by
+  rintro ⟨cycle⟩
+  have lengthEq : cycle.walk.length = 5 := by
+    have raw := Graph.cycle_length_eq_card_of_connected_isCycles
+      (SimpleGraph.cycleGraph_connected (n := 4))
+      (Graph.cycleGraph_isCycles 2) cycle.walk cycle.isCycle
+    change cycle.walk.length = 5 at raw
+    exact raw
+  have four : cycle.walk.length = 4 := cycle.length_ok
+  omega
+
+def fourCycleAudit :=
+  Graph.HighCenterStructure.runAvoiding object fourCycleFree
+
+theorem fourCycleAudit_terminal :
+    fourCycleAudit.result.terminal = .avoiding :=
+  Graph.HighCenterStructure.runAvoiding_terminal object fourCycleFree
+
+theorem fourCycleAudit_trace : fourCycleAudit.result.trace =
+    [.entry, .equivalenceCertification, .realizationDecision,
+      .avoidingTerminal] :=
+  Graph.HighCenterStructure.runAvoiding_trace object fourCycleFree
+
+theorem fourCycleAudit_checks : fourCycleAudit.checks = 0 :=
+  Graph.HighCenterStructure.runAvoiding_checks object fourCycleFree
 
 end ConcreteC5
 

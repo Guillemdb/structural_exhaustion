@@ -44,11 +44,21 @@ make example-build
   spans manuscript nodes `[15]`--`[16]`: literal induced-`P₁₃`-freeness is
   closed by the isolated Hegde--Sandeep--Shashank external theorem, and the
   forced induced embedding is retained through an exact C1 execution.
-  Its generated web descriptor also carries a manuscript roadmap through the
-  current node `[18]` endpoint: every displayed declaration is assigned to an
+  The later verified slice includes the graph-owned ordered surplus CT6 stage
+  and its registered CT6-to-CT9 surplus-slot route, followed by exact
+  four-cycle/high-neighbourhood structure, open/triangular selected-port
+  classification, centre-fibre CT9, an overload-only CT9-to-CT7 response
+  route, the exact CT5 shoulder ledger, and the framework-owned conditional
+  fan-compatibility interpretation, followed by the all-incident-port CT10
+  high-centre dichotomy and the CT5 triangular-shoulder completion ledger. The
+  current endpoint is `exists_verifiedTriangularShoulderCompletionPrefix`;
+  none of these stages enumerates
+  port pairs, vertex subsets, completion graphs, or response tables.
+  Its generated web descriptor carries the corresponding manuscript roadmap:
+  every displayed declaration is assigned to an
   explained mathematical, execution, complexity, provenance, interface,
   fixture, or external-theorem group, with validated LaTeX labels and diagram
-  nodes and an explicit node `[19]`--`[20]` frontier.
+  nodes and an explicit remaining node `[19]`--`[20]` frontier.
 - [`examples/greedy_coloring`](examples/greedy_coloring) completely proves the
   Mathlib-native theorem `G.Colorable (G.maxDegree + 1)`. The graph layer
   generates a bounded elimination order, runs CT12's canonical list-peeling
@@ -111,8 +121,10 @@ Tactic inputs are indexed by a shared `Core.BranchContext`,
 `Core.AvoidingContext`, or `Core.MinimalCounterexampleContext`. This makes the
 context components retained by the target agree definitionally across routes.
 For example, CT2-to-CT3 and CT2-to-CT10 project a minimal-counterexample context
-to its inherited branch context. A producer emits a semantic residual; the
-route layer constructs the consumer trigger.
+to its inherited branch context, while CT9-to-CT7 maps the exact
+capacity-one overload pair to two comparison objects without rescanning the
+source fibre. A producer emits a semantic residual; the route layer constructs
+the consumer trigger.
 
 For each CT, define its `Spec`, `Capability`, or primitive system records with
 only the data that cannot be derived generically. CT1 follows the same
@@ -367,14 +379,23 @@ CT machines, their typed edges, automation contracts, residuals, terminals,
 and registered cross-CT routes. Its Examples section also exposes the four
 external graph applications, their accurately typed proof-composition flows,
 problem/framework interfaces, kernel evidence, and focused or full Lean
-source. Erdős 64 is explicitly marked as a partial proof slice, and conceptual
-composition is kept distinct from a registered residual route.
+source. Erdős 64 remains in that catalog but opens in a dedicated
+`/erdos-gyarfas` proof workspace, where the manuscript roadmap, CT flow,
+mathematical explanation, and Lean sources can evolve independently of the
+generic example reader. Its right-hand companion switches between focused or
+full Lean source and label-addressed paper fragments. The paper view renders
+the labeled mathematical environment together with its adjacent proof, uses
+tabs when one proof step cites several labels, and includes checked SVG output
+for selected TikZ figures. It is explicitly marked as a partial proof slice,
+and conceptual composition is kept distinct from a registered residual route.
 
 Both sections consume only immutable files under `generated/`. Example
 descriptors are exported from each compiled external Lake package; source text
 is copied from the exporter-selected modules with declaration ranges and
-SHA-256 hashes. The web layer does not discover source paths or maintain a
-second mathematical catalog.
+SHA-256 hashes. The Lean-owned manuscript descriptor selects the TeX labels;
+generation parses those labels into a safe document AST, hashes the source and
+every fragment, and rejects content it cannot render faithfully. The web layer
+does not discover source paths or maintain a second mathematical catalog.
 
 Start the explorer from a fresh checkout with one command:
 
@@ -394,7 +415,12 @@ make web WEB_HOST=0.0.0.0 WEB_PORT=8080
 `make web` uses the currently committed generated artifacts; it does not
 compile Lean. The header reports framework and example freshness independently
 whenever either catalog hash differs from `generated/kernel-verification.json`.
-Use `make verify` when the generated projections need to be refreshed.
+For local browsing only, freshness-only hash mismatches produce a terminal
+warning and a visible page banner while the explorer continues with the last
+generated embedded content. Malformed structure, unsafe paths or SVG, and
+missing artifacts still stop startup. Strict export, validation, and test
+commands continue to reject stale hashes. Use `make verify` when the generated
+projections need to be refreshed.
 
 Run the focused backend and frontend checks with `make web-test`.
 
@@ -407,7 +433,9 @@ Prerequisites:
 - network access for the first dependency resolution and Mathlib cache fetch;
 - Python 3.10 or newer;
 - the packages in `requirements.txt` for schema validation and tests;
-- `latexmk` and the LaTeX packages used by the manuscript for PDF compilation.
+- Pandoc with AST API 1.23.1 for label-addressed paper fragments; and
+- `latexmk`, `dvisvgm`, and the LaTeX packages used by the manuscripts for PDF
+  and checked SVG figure compilation.
 
 See all public targets:
 
@@ -447,13 +475,15 @@ The targets have the following contracts:
   compile one external application each; `make example-build` compiles all
   four.
 - `make build` compiles the framework and all external applications.
-- `make export` builds Lean and writes `generated/lean-machines.json` from the
-  compiled registry.
+- `make export` builds Lean, writes `generated/lean-machines.json` from the
+  compiled registry, and regenerates the checked example source and manuscript
+  projections.
 - `make schemas` exports Lean and regenerates only the concrete JSON Schema
   family and its index.
 - `make generate` exports Lean and regenerates all schemas, Mermaid/Cytoscape
-  graphs, example catalogs and source projections, manuscript CT fragments,
-  indexes, manifests, and the Lean binding check.
+  graphs, lazy per-CT node-internal dependency/source artifacts, example
+  catalogs and source projections, manuscript CT fragments, indexes,
+  manifests, and the Lean binding check.
 - `make validate` validates the current generated tree. It does not first make
   stale artifacts current; use `make verify` for that.
 - `make kernel` regenerates artifacts, builds Lean, compiles the generated

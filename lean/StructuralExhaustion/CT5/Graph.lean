@@ -68,4 +68,36 @@ def ValidTrace (nodes : List NodeId) : Prop :=
   ∃ terminal : Terminal, ∃ path : Path S capability input .entry terminal.nodeId,
     path.trace = nodes
 
+/-- The CT5 graph has a unique node trace to the charge-ledger terminal. -/
+theorem trace_eq_of_path_to_charge
+    (path : Path S capability input .entry .chargeTerminal) :
+    path.trace =
+      [.entry, .deficitSearch, .summation, .comparison, .chargeTerminal] := by
+  cases path with
+  | cons first rest =>
+      cases first
+      cases rest with
+      | cons second rest =>
+          cases second with
+          | deficitFound residual =>
+              cases rest with
+              | cons impossible _tail => cases impossible
+          | deficitAbsent state =>
+              cases rest with
+              | cons third rest =>
+                  cases third
+                  cases rest with
+                  | cons fourth rest =>
+                      cases fourth with
+                      | comparisonC4 certificate =>
+                          cases rest with
+                          | cons impossible _tail => cases impossible
+                      | comparisonCharge residual =>
+                          cases rest with
+                          | nil => rfl
+                          | cons impossible _tail => cases impossible
+                      | comparisonAggregate residual =>
+                          cases rest with
+                          | cons impossible _tail => cases impossible
+
 end StructuralExhaustion.CT5.Graph

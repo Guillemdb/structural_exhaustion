@@ -18,6 +18,61 @@
         "ordinal": 8,
         "nodeKind": "residual",
         "nodeId": "CT17.terminal.residual.survivors",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT17.Graph.Edge.survivors",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT17.Graph.Edge.survivors.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT17.Graph.Edge.survivors",
+              "declarationId": "StructuralExhaustion.CT17.Graph.Edge.survivors"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT17.run_trace_valid",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT17.run_trace_valid.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT17.run_trace_valid",
+              "declarationId": "StructuralExhaustion.CT17.run_trace_valid"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT17.ExecutionResult@CT17.terminal.residual.survivors",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT17.ExecutionResult@CT17.terminal.residual.survivors.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT17.ExecutionResult@CT17.terminal.residual.survivors",
+              "declarationId": null
+            }
+          ],
+          "nodeId": "CT17.terminal.residual.survivors",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT17.terminal.residual.survivors.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT17.terminal.residual.survivors.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [],

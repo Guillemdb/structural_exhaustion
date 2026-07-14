@@ -18,6 +18,61 @@
         "ordinal": 5,
         "nodeKind": "residual",
         "nodeId": "CT1.terminal.avoiding",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding",
+              "declarationId": "StructuralExhaustion.CT1.Graph.Edge.realizationAvoiding"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.run_trace_valid",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "The erased trace of every run is backed by its exact dependent path. ",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT1.run_trace_valid",
+              "declarationId": "StructuralExhaustion.CT1.run_trace_valid"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.avoiding",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.avoiding.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT1.ExecutionResult@CT1.terminal.avoiding",
+              "declarationId": null
+            }
+          ],
+          "nodeId": "CT1.terminal.avoiding",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT1.terminal.avoiding.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT1.terminal.avoiding.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [],

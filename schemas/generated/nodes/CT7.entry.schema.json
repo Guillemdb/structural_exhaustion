@@ -18,6 +18,43 @@
         "ordinal": 1,
         "nodeKind": "entry",
         "nodeId": "CT7.entry",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "input",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: input.",
+              "mathematicalDefinition": null,
+              "label": "input",
+              "declarationId": null
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT7.Input",
+                "provision": "derived_definitionally"
+              },
+              "plainExplanation": "A same-context pair of representatives. ",
+              "mathematicalDefinition": null,
+              "label": "CT7.Input",
+              "declarationId": "StructuralExhaustion.CT7.Input"
+            }
+          ],
+          "nodeId": "CT7.entry",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT7.entry.internal.predecessor.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

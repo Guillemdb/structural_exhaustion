@@ -29,6 +29,40 @@ def HasEdgeRootedReturn {V : Type u} (G : SimpleGraph V)
     (LengthOK : Nat → Prop) : Prop :=
   Nonempty (EdgeRootedReturn G LengthOK)
 
+/-- A simple return for one fixed oriented edge.  Unlike
+`EdgeRootedReturn`, the dart is an index rather than certificate data; this
+is the convenient output of a proved non-bridge fact. -/
+structure DartReturn {V : Type u} (G : SimpleGraph V) (dart : G.Dart) where
+  path : (G.deleteEdges {dart.edge}).Walk dart.snd dart.fst
+  isPath : path.IsPath
+
+namespace DartReturn
+
+variable {V : Type u} {G : SimpleGraph V} {dart : G.Dart}
+
+/-- A non-bridge supplies a simple return in the graph with that one edge
+deleted.  This uses Mathlib's reachability-to-path theorem and classical
+choice on the proved existential; it does not enumerate walks. -/
+noncomputable def ofNotBridge
+    (notBridge : ¬G.IsBridge dart.edge) : DartReturn G dart := by
+  have reachableForward :
+      (G.deleteEdges {dart.edge}).Reachable dart.fst dart.snd := by
+    exact Classical.not_not.mp (by
+      simpa [SimpleGraph.isBridge_iff, SimpleGraph.Dart.edge] using notBridge)
+  let witness := reachableForward.symm.exists_isPath
+  exact ⟨Classical.choose witness, Classical.choose_spec witness⟩
+
+/-- Forget the fixed-dart index and regard a return as an unrestricted
+edge-rooted certificate. -/
+def toEdgeRootedReturn (returnPath : DartReturn G dart) :
+    EdgeRootedReturn G (fun _length => True) where
+  dart := dart
+  path := returnPath.path
+  isPath := returnPath.isPath
+  length_ok := trivial
+
+end DartReturn
+
 /-- The exact return-length set rooted at one oriented edge. -/
 def edgeReturnSet {V : Type u} (G : SimpleGraph V)
     (dart : G.Dart) : Set Nat :=

@@ -31,6 +31,20 @@ theorem verified (result : ExecutionResult S capability input) :
 theorem traceValid (result : ExecutionResult S capability input) :
     Graph.ValidTrace S capability input result.trace :=
   ⟨result.terminal, result.path, rfl⟩
+
+/-- Extract the actual charge residual from an execution already proved to
+reach the charge terminal.  This is the canonical source object for typed
+routes out of CT5; consumers never reconstruct a ledger. -/
+def chargeResidual (result : ExecutionResult S capability input)
+    (terminal : result.terminal = .charge) :
+    ChargeLedgerResidual S capability input := by
+  cases result with
+  | mk terminalId path outcome =>
+      cases outcome with
+      | deficit residual => cases terminal
+      | c4 certificate => cases terminal
+      | charge residual => exact residual
+      | aggregate residual => cases terminal
 end ExecutionResult
 
 theorem run_verified : (run S capability input).outcome.Valid :=

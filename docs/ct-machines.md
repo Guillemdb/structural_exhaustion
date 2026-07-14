@@ -4,7 +4,7 @@ Generated from the compiled `StructuralExhaustion.Canonical` registry.
 
 | Tactic | Nodes | Edges | Terminals | Author definitions | Derived operations | Residuals |
 |---|---:|---:|---:|---:|---:|---:|
-| CT1 | 5 | 4 | 2 | 10 | 24 | 1 |
+| CT1 | 5 | 4 | 2 | 10 | 24 | 2 |
 | CT2 | 7 | 6 | 4 | 22 | 25 | 2 |
 | CT3 | 9 | 8 | 4 | 19 | 7 | 2 |
 | CT4 | 9 | 8 | 4 | 9 | 8 | 3 |
@@ -12,7 +12,7 @@ Generated from the compiled `StructuralExhaustion.Canonical` registry.
 | CT6 | 4 | 3 | 2 | 7 | 14 | 2 |
 | CT7 | 6 | 5 | 3 | 6 | 4 | 1 |
 | CT8 | 6 | 5 | 3 | 8 | 5 | 2 |
-| CT9 | 5 | 4 | 2 | 5 | 22 | 1 |
+| CT9 | 5 | 4 | 2 | 5 | 31 | 1 |
 | CT10 | 8 | 7 | 3 | 8 | 6 | 2 |
 | CT11 | 6 | 5 | 2 | 4 | 5 | 2 |
 | CT12 | 8 | 8 | 3 | 6 | 6 | 2 |
@@ -205,6 +205,10 @@ Generated from the compiled `StructuralExhaustion.Canonical` registry.
 |---|---|---|---|
 | `CT1.residual.avoiding->CT2` | `capabilityDiscovery` | targetCapability, minimalityKernel | `—` |
 | `CT1.residual.avoiding->CT2.localDeletion` | `capabilityDiscovery` | targetCapability, minimalityKernel | `—` |
+| `CT1.terminal.c1->CT12` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT1ToCT12.SemanticAdapter` |
 | `CT2.residual.separatingContext->CT3` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT2ToCT3.PieceDiscovery` |
 | `CT2.residual.criticality->CT10` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery` |
+| `CT5.residual.chargeLedger->CT14` | `capabilityDiscovery` | targetCapability | `—` |
 | `CT6.residual.activeLedger->CT9` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter` |
+| `CT9.residual.overload->CT7` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT9ToCT7.ObjectAdapter` |
+| `CT14.residual.capacity->CT14` | `capabilityDiscovery` | targetCapability | `—` |

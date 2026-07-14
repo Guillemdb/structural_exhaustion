@@ -86,6 +86,8 @@ Node & Problem-specific static inputs & Predecessor and inferred inputs & Framew
 \draw[ctedge] (n2.south east) to[bend left=15] node[ctedgelabel] {partitioned} (n3.north east);
 \draw[ctedge] (n3.east) to[bend left=10] node[ctedgelabel] {overloaded} (n4.west);
 \draw[ctedge] (n3.east) to[bend left=10] node[ctedgelabel] {bounded} (n5.west);
+\node[ctroute] (r1) at (3.30,-9.80) {\textbf{Typed route}\\\texttt{CT9.\allowbreak{}residual.\allowbreak{}overload-\allowbreak{}>CT7}\\{\tiny forced; problem\allowbreak{}Semantic\allowbreak{}Adapter}\\{\tiny adapter: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT9\allowbreak{}To\allowbreak{}CT7.\allowbreak{}Object\allowbreak{}Adapter}}};
+\draw[ctroutearrow] (n4.south)--(r1.north);
 \end{tikzpicture}%
 \end{adjustbox}
 \caption{Automation-first sequential machine for CT9. Each executable node has separate problem-specific static, predecessor, and framework-derived dependency boxes. Terminal nodes consume only incoming edge evidence. Route boxes are separate framework rules.}
@@ -97,5 +99,9 @@ Node & Problem-specific static inputs & Predecessor and inferred inputs & Framew
 \paragraph{Residual contracts.}
 \begin{itemize}
 \item \texttt{CT9.\allowbreak{}residual.\allowbreak{}overload}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT9.\allowbreak{}Overload\allowbreak{}Residual}; inherited context \texttt{branch}.
+\end{itemize}
+\paragraph{Registered routes.}
+\begin{itemize}
+\item \texttt{CT9.\allowbreak{}residual.\allowbreak{}overload-\allowbreak{}>CT7}: \texttt{CT9.\allowbreak{}residual.\allowbreak{}overload} $\to$ \texttt{CT7}; discovery \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT9\allowbreak{}To\allowbreak{}CT7.\allowbreak{}Object\allowbreak{}Adapter.\allowbreak{}discover}; authoring mode \texttt{problem\allowbreak{}Semantic\allowbreak{}Adapter} with adapter \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT9\allowbreak{}To\allowbreak{}CT7.\allowbreak{}Object\allowbreak{}Adapter}.
 \end{itemize}
 \endgroup

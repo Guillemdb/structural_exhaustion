@@ -18,6 +18,115 @@
         "ordinal": 4,
         "nodeKind": "computation",
         "nodeId": "CT14.compute.upper-capacity",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.Capability.members",
+                "provision": "user_finite_enumeration"
+              },
+              "plainExplanation": "An exhaustive ordered enumeration of all aggregate members.",
+              "mathematicalDefinition": "\\operatorname{members}=\\mathcal{M}",
+              "label": "Finite member enumeration",
+              "declarationId": "StructuralExhaustion.CT14.Capability.members"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.Capability.memberCapacity",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Returns a member's upper capacity, or none when no finite capacity is available.",
+              "mathematicalDefinition": "\\kappa_x:\\mathcal{M}\\to\\mathbb{N}\\cup\\{\\bot\\}",
+              "label": "Optional member capacity",
+              "declarationId": "StructuralExhaustion.CT14.Capability.memberCapacity"
+            },
+            {
+              "stepId": "author.3",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.Capability.memberLabel",
+                "provision": "user_operator"
+              },
+              "plainExplanation": "Returns the label counted for a member, or none when the label is missing.",
+              "mathematicalDefinition": "\\lambda_x:\\mathcal{M}\\to\\mathcal{L}\\cup\\{\\bot\\}",
+              "label": "Optional member label",
+              "declarationId": "StructuralExhaustion.CT14.Capability.memberLabel"
+            },
+            {
+              "stepId": "author.4",
+              "role": "authorObject",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.Capability.labelDecidableEq",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable equality on labels, used to compute exact multiplicities.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\ell_1=\\ell_2)",
+              "label": "Label equality decision",
+              "declarationId": "StructuralExhaustion.CT14.Capability.labelDecidableEq"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.MemberScanState",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT14.MemberScanState.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.MemberScanState",
+              "declarationId": "StructuralExhaustion.CT14.MemberScanState"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT14.LedgerState",
+                "provision": "derived_by_computation"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT14.LedgerState.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT14.LedgerState",
+              "declarationId": "StructuralExhaustion.CT14.LedgerState"
+            }
+          ],
+          "nodeId": "CT14.compute.upper-capacity",
+          "edges": [
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "author.1",
+              "relation": "produces",
+              "edgeId": "CT14.compute.upper-capacity.internal.author.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "author.2",
+              "relation": "produces",
+              "edgeId": "CT14.compute.upper-capacity.internal.author.2-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "author.3",
+              "relation": "produces",
+              "edgeId": "CT14.compute.upper-capacity.internal.author.3-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "author.4",
+              "relation": "produces",
+              "edgeId": "CT14.compute.upper-capacity.internal.author.4-to-output.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "produces",
+              "edgeId": "CT14.compute.upper-capacity.internal.predecessor.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

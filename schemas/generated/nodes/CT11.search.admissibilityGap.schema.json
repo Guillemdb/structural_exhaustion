@@ -18,6 +18,151 @@
         "ordinal": 3,
         "nodeKind": "computation",
         "nodeId": "CT11.search.admissibilityGap",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "author.1",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.Admissible",
+                "provision": "user_definition"
+              },
+              "plainExplanation": "The proposition that a cell participates validly in the localization argument.",
+              "mathematicalDefinition": "\\operatorname{Admissible}(x,c)",
+              "label": "Cell admissibility",
+              "declarationId": "StructuralExhaustion.CT11.Capability.Admissible"
+            },
+            {
+              "stepId": "author.2",
+              "role": "authorObject",
+              "reference": {
+                "ref": "Capability.admissibleDecidable",
+                "provision": "instance_bridge"
+              },
+              "plainExplanation": "Executable evidence deciding whether a cell is admissible.",
+              "mathematicalDefinition": "\\operatorname{decide}(\\operatorname{Admissible}(x,c))",
+              "label": "Admissibility decision procedure",
+              "declarationId": "StructuralExhaustion.CT11.Capability.admissibleDecidable"
+            },
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.context",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.context.",
+              "mathematicalDefinition": null,
+              "label": "Input.context",
+              "declarationId": "StructuralExhaustion.CT11.Input.context"
+            },
+            {
+              "stepId": "predecessor.2",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "Input.cells",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: Input.cells.",
+              "mathematicalDefinition": null,
+              "label": "Input.cells",
+              "declarationId": "StructuralExhaustion.CT11.Input.cells"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "Core.FiniteSearch.onList",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Proof-carrying view of Mathlib's executable `List.find?`. ",
+              "mathematicalDefinition": null,
+              "label": "Core.FiniteSearch.onList",
+              "declarationId": "StructuralExhaustion.Core.FiniteSearch.onList"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "CT11.AdmissibilityDecision",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT11.AdmissibilityDecision.",
+              "mathematicalDefinition": null,
+              "label": "CT11.AdmissibilityDecision",
+              "declarationId": "StructuralExhaustion.CT11.AdmissibilityDecision"
+            },
+            {
+              "stepId": "output.2",
+              "role": "output",
+              "reference": {
+                "ref": "CT11.AdmissibilityGapResidual",
+                "provision": "derived_by_generic_search"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT11.AdmissibilityGapResidual.",
+              "mathematicalDefinition": null,
+              "label": "CT11.AdmissibilityGapResidual",
+              "declarationId": "StructuralExhaustion.CT11.AdmissibilityGapResidual"
+            },
+            {
+              "stepId": "output.3",
+              "role": "output",
+              "reference": {
+                "ref": "CT11.AdmissibleDecomposition",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: CT11.AdmissibleDecomposition.",
+              "mathematicalDefinition": null,
+              "label": "CT11.AdmissibleDecomposition",
+              "declarationId": "StructuralExhaustion.CT11.AdmissibleDecomposition"
+            }
+          ],
+          "nodeId": "CT11.search.admissibilityGap",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.1",
+              "relation": "then",
+              "edgeId": "CT11.search.admissibilityGap.internal.author.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "author.2",
+              "relation": "then",
+              "edgeId": "CT11.search.admissibilityGap.internal.author.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT11.search.admissibilityGap.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.2",
+              "relation": "then",
+              "edgeId": "CT11.search.admissibilityGap.internal.predecessor.2-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT11.search.admissibilityGap.internal.theorem.1-to-output.1"
+            },
+            {
+              "targetStepId": "output.2",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT11.search.admissibilityGap.internal.theorem.1-to-output.2"
+            },
+            {
+              "targetStepId": "output.3",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT11.search.admissibilityGap.internal.theorem.1-to-output.3"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [

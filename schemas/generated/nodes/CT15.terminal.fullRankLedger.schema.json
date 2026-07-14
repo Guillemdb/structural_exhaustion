@@ -18,6 +18,61 @@
         "ordinal": 8,
         "nodeKind": "residual",
         "nodeId": "CT15.terminal.fullRankLedger",
+        "internalFlow": {
+          "steps": [
+            {
+              "stepId": "predecessor.1",
+              "role": "predecessorState",
+              "reference": {
+                "ref": "StructuralExhaustion.CT15.Graph.Edge.capacityAvailable",
+                "provision": "derived_from_predecessor"
+              },
+              "plainExplanation": "Typed state inherited from the immediately preceding CT node: StructuralExhaustion.CT15.Graph.Edge.capacityAvailable.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT15.Graph.Edge.capacityAvailable",
+              "declarationId": "StructuralExhaustion.CT15.Graph.Edge.capacityAvailable"
+            },
+            {
+              "stepId": "theorem.1",
+              "role": "theorem",
+              "reference": {
+                "ref": "StructuralExhaustion.CT15.run_trace_valid",
+                "provision": "derived_by_generic_theorem"
+              },
+              "plainExplanation": "Framework theorem certifying the semantic correctness of this node: StructuralExhaustion.CT15.run_trace_valid.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT15.run_trace_valid",
+              "declarationId": "StructuralExhaustion.CT15.run_trace_valid"
+            },
+            {
+              "stepId": "output.1",
+              "role": "output",
+              "reference": {
+                "ref": "StructuralExhaustion.CT15.ExecutionResult@CT15.terminal.fullRankLedger",
+                "provision": "generated_audit"
+              },
+              "plainExplanation": "State, decision, certificate, or residual produced by this node: StructuralExhaustion.CT15.ExecutionResult@CT15.terminal.fullRankLedger.",
+              "mathematicalDefinition": null,
+              "label": "StructuralExhaustion.CT15.ExecutionResult@CT15.terminal.fullRankLedger",
+              "declarationId": null
+            }
+          ],
+          "nodeId": "CT15.terminal.fullRankLedger",
+          "edges": [
+            {
+              "targetStepId": "theorem.1",
+              "sourceStepId": "predecessor.1",
+              "relation": "then",
+              "edgeId": "CT15.terminal.fullRankLedger.internal.predecessor.1-to-theorem.1"
+            },
+            {
+              "targetStepId": "output.1",
+              "sourceStepId": "theorem.1",
+              "relation": "certifies",
+              "edgeId": "CT15.terminal.fullRankLedger.internal.theorem.1-to-output.1"
+            }
+          ]
+        },
         "formalContract": {
           "predecessorIndexed": true,
           "outgoingEdges": [],

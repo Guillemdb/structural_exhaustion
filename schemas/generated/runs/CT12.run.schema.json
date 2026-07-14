@@ -12,7 +12,7 @@
           "const": "CT12"
         },
         "apiVersion": {
-          "const": "CT12-v5"
+          "const": "CT12-v6"
         },
         "startNode": {
           "const": "CT12.entry"
@@ -474,7 +474,7 @@
     "kind": "compiledLeanEnvironment",
     "catalog": "generated/lean-machines.json",
     "tacticId": "CT12",
-    "apiVersion": "CT12-v5",
+    "apiVersion": "CT12-v6",
     "namespace": "StructuralExhaustion.CT12"
   }
 }

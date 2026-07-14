@@ -11,6 +11,11 @@ class ApiModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
+class ArtifactWarningView(ApiModel):
+    code: Literal["staleHash"]
+    message: str
+
+
 class VerificationView(ApiModel):
     state: Literal["verified", "stale", "failed"]
     reportedStatus: str
@@ -48,6 +53,7 @@ class FrameworkTotals(ApiModel):
     terminals: int
     residualKinds: int
     routes: int
+    implementedTransitions: int
     manualObligations: int
 
 
@@ -63,9 +69,45 @@ class TacticSummary(ApiModel):
     manualObligationCount: int
 
 
+class ImplementedTransitionRecord(ApiModel):
+    transitionId: str
+    sourceTacticId: str
+    targetTacticId: str
+    relationshipKind: Literal[
+        "registeredRoute",
+        "frameworkComposition",
+        "proofData",
+        "validation",
+        "scheduleAudit",
+        "sharedProblem",
+    ]
+    automationClass: Literal[
+        "registeredRoute", "frameworkExecutor", "frameworkAudit"
+    ]
+    frameworkAutomated: Literal[True]
+    automationDeclarationIds: list[str]
+    label: str
+    summary: str
+    exampleId: str
+    exampleTitle: str
+    workflowId: str
+    workflowTitle: str
+    workflowCompletion: Literal["complete", "partial"]
+    linkId: str
+    sourceStageId: str
+    sourceStageTitle: str
+    sourceDeclarationId: str
+    targetStageId: str
+    targetStageTitle: str
+    targetDeclarationId: str
+    routeId: str | None = None
+    evidenceDeclarationIds: list[str]
+
+
 class HealthResponse(ApiModel):
     status: Literal["ok"]
     artifactType: Literal["frameworkExplorerHealth"]
+    artifactWarnings: list[ArtifactWarningView]
     catalog: CatalogView
     verification: VerificationView
     tacticCount: int
@@ -74,21 +116,128 @@ class HealthResponse(ApiModel):
 
 class FrameworkResponse(ApiModel):
     artifactType: Literal["frameworkExplorer"]
+    artifactWarnings: list[ArtifactWarningView]
     catalog: CatalogView
     verification: VerificationView
+    exampleCatalog: ExampleCatalogView
+    exampleVerification: ExampleVerificationView
     totals: FrameworkTotals
     tactics: list[TacticSummary]
     routes: list[dict[str, Any]]
+    implementedTransitions: list[ImplementedTransitionRecord]
 
 
 class TacticResponse(ApiModel):
     artifactType: Literal["frameworkExplorerTactic"]
+    artifactWarnings: list[ArtifactWarningView]
     catalogHash: str
     verification: VerificationView
     tactic: dict[str, Any]
     graph: dict[str, Any]
     inboundRoutes: list[dict[str, Any]]
     outboundRoutes: list[dict[str, Any]]
+
+
+class InternalReference(ApiModel):
+    ref: str
+    provision: str
+
+
+class InternalStep(ApiModel):
+    stepId: str
+    role: Literal[
+        "authorObject",
+        "inferredInstance",
+        "predecessorState",
+        "operation",
+        "theorem",
+        "output",
+    ]
+    reference: InternalReference
+    plainExplanation: str
+    mathematicalDefinition: str | None
+    label: str
+    declarationId: str | None
+
+
+class InternalEdge(ApiModel):
+    edgeId: str
+    sourceStepId: str
+    targetStepId: str
+    relation: Literal["consumes", "then", "produces", "certifies"]
+
+
+class InternalFlow(ApiModel):
+    nodeId: str
+    steps: list[InternalStep]
+    edges: list[InternalEdge]
+
+
+class NodeInternalRecord(ApiModel):
+    nodeId: str
+    internalFlow: InternalFlow
+
+
+class SourcePosition(ApiModel):
+    line: int
+    column: int
+
+
+class SourceRange(ApiModel):
+    start: SourcePosition
+    end: SourcePosition
+
+
+class InternalDeclaration(ApiModel):
+    declarationId: str
+    name: str
+    kind: Literal[
+        "axiom",
+        "definition",
+        "theorem",
+        "opaque",
+        "quotient",
+        "inductive",
+        "constructor",
+        "recursor",
+    ]
+    type: str
+    docString: str | None
+    module: str | None
+    sourceFile: str | None
+    range: SourceRange | None
+    selectionRange: SourceRange | None
+    bodyAvailable: bool
+    typeDependencies: list[str]
+    bodyDependencies: list[str]
+    projectLocal: bool
+    sourceId: str | None
+
+
+class InternalSource(ApiModel):
+    sourceId: str
+    moduleName: str | None
+    path: str
+    sha256: str
+    content: str
+
+
+class TacticInternals(ApiModel):
+    artifactType: Literal["structuralExhaustionNodeInternals"]
+    schemaVersion: Literal["1.0.0"]
+    tacticId: str
+    apiVersion: str
+    nodes: list[NodeInternalRecord]
+    declarations: list[InternalDeclaration]
+    sources: list[InternalSource]
+
+
+class TacticInternalsResponse(ApiModel):
+    artifactType: Literal["frameworkExplorerTacticInternals"]
+    artifactWarnings: list[ArtifactWarningView]
+    catalogHash: str
+    verification: VerificationView
+    internals: TacticInternals
 
 
 class ExampleWorkflowSummary(ApiModel):
@@ -110,6 +259,7 @@ class ExampleSummary(ApiModel):
 
 class ExamplesResponse(ApiModel):
     artifactType: Literal["frameworkExplorerExamples"]
+    artifactWarnings: list[ArtifactWarningView]
     catalog: ExampleCatalogView
     verification: ExampleVerificationView
     examples: list[ExampleSummary]
@@ -146,6 +296,7 @@ class ExampleLinkRecord(ApiModel):
     label: str
     summary: str
     routeId: str | None = None
+    automationDeclarationIds: list[str]
     evidenceDeclarationIds: list[str]
 
 
@@ -174,6 +325,67 @@ class ExampleManuscriptReferenceRecord(ApiModel):
     label: str
     title: str
     nodeIds: list[int]
+
+
+class ExampleManuscriptInlineRecord(ApiModel):
+    kind: Literal[
+        "text",
+        "code",
+        "space",
+        "softBreak",
+        "lineBreak",
+        "math",
+        "emphasis",
+        "strong",
+        "underline",
+        "strikeout",
+        "smallCaps",
+        "upright",
+        "reference",
+        "citation",
+    ]
+    text: str | None = None
+    display: bool | None = None
+    tex: str | None = None
+    children: list["ExampleManuscriptInlineRecord"] | None = None
+    labels: list[str] | None = None
+    referenceKind: str | None = None
+    prefix: str | None = None
+    keys: list[str] | None = None
+
+
+class ExampleManuscriptBlockRecord(ApiModel):
+    kind: Literal[
+        "paragraph",
+        "heading",
+        "environment",
+        "orderedList",
+        "bulletList",
+        "blockQuote",
+        "codeBlock",
+        "figure",
+    ]
+    inlines: list[ExampleManuscriptInlineRecord] | None = None
+    level: int | None = None
+    label: str | None = None
+    environment: str | None = None
+    title: list[ExampleManuscriptInlineRecord] | None = None
+    blocks: list["ExampleManuscriptBlockRecord"] | None = None
+    start: int | None = None
+    items: list[list["ExampleManuscriptBlockRecord"]] | None = None
+    text: str | None = None
+    svg: str | None = None
+    svgSha256: str | None = None
+    caption: list["ExampleManuscriptBlockRecord"] | None = None
+
+
+class ExampleManuscriptFragmentRecord(ApiModel):
+    label: str
+    environment: str
+    sourceLine: int
+    includesProof: bool
+    contentSha256: str
+    blocks: list[ExampleManuscriptBlockRecord]
 
 
 class ExampleDeclarationGroupRecord(ApiModel):
@@ -217,11 +429,18 @@ class ExampleManuscriptCoverageRecord(ApiModel):
     totalSteps: int
     explainedDeclarations: int
     displayedDeclarations: int
+    verifiedMathematicalObjects: int
+    totalMathematicalObjects: int
+    verifiedDiagramNodes: int
+    totalDiagramNodes: int
+    verifiedWorkflowSteps: int
 
 
 class ExampleManuscriptRecord(ApiModel):
     title: str
     path: str
+    sha256: str
+    fragments: list[ExampleManuscriptFragmentRecord]
     proofSteps: list[ExampleProofStepRecord]
     coverage: ExampleManuscriptCoverageRecord
 
@@ -252,7 +471,7 @@ class ExampleSourceRecord(ApiModel):
 
 class ExampleDetail(ApiModel):
     artifactType: Literal["structuralExhaustionExample"]
-    schemaVersion: Literal["1.1.0"]
+    schemaVersion: Literal["1.4.0"]
     sourceOfTruth: ExampleSourceOfTruth
     exampleId: str
     title: str
@@ -268,6 +487,7 @@ class ExampleDetail(ApiModel):
 
 class ExampleResponse(ApiModel):
     artifactType: Literal["frameworkExplorerExample"]
+    artifactWarnings: list[ArtifactWarningView]
     catalogHash: str
     frameworkCatalogHash: str
     verification: ExampleVerificationView
