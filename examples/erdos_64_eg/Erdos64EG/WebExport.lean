@@ -780,6 +780,34 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.sparseEdge_surplus_identity,
         `Erdos64EG.Internal.sparseSurplus_eq_degreeExcessLedger
       ]
+    },
+    {
+      stageId := "proof-slice.baseline-spine-demand"
+      title := "CT15 baseline-spine demand"
+      summary := "The exact cubic-baseline skeleton count and integer bit budget are computed from n. The canonical empty coordinate family realizes the baseline-demand definition with its full exact deficit, and CT15 certifies its full-rank ledger in linear work. No linear deficit estimate is assumed."
+      kind := .tactic
+      tacticId? := some "CT15"
+      primaryDeclaration :=
+        `Erdos64EG.Internal.exists_verifiedBaselineSpineDemandPrefix
+      evidenceDeclarations := [
+        `StructuralExhaustion.CT15.BaselineDemand.Profile.verifiedStage,
+        `StructuralExhaustion.CT15.run_terminal_eq_fullRankLedger_of_noDrop_of_total_le_capacity,
+        `StructuralExhaustion.CT15.ledgerTotal_eq_card_of_charge_eq_one,
+        `StructuralExhaustion.CT15.linearCheckBudget,
+        `Erdos64EG.Internal.baselineSpineEdgeSlots,
+        `Erdos64EG.Internal.baselineSpineEdgeCount,
+        `Erdos64EG.Internal.baselineSpineStateCount,
+        `Erdos64EG.Internal.baselineSpineBitBudget,
+        `Erdos64EG.Internal.baselineSpineProfile,
+        `Erdos64EG.Internal.baselineSpineProfile_coordinateCount,
+        `Erdos64EG.Internal.baselineSpineProfile_exactDeficit,
+        `Erdos64EG.Internal.baselineSpineProfile_lowerBound,
+        `Erdos64EG.Internal.runBaselineSpineCT15_terminal,
+        `Erdos64EG.Internal.runBaselineSpineCT15_trace,
+        `Erdos64EG.Internal.runBaselineSpineCT15_verified,
+        `Erdos64EG.Internal.runBaselineSpineCT15_total,
+        `Erdos64EG.Internal.runBaselineSpineCT15_linearBudget
+      ]
     }
   ]
   links := [
@@ -1370,6 +1398,21 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.sparseEnvelopeProfile,
         `Erdos64EG.Internal.sparseEnvelope_edgeBound,
         `Erdos64EG.Internal.exists_verifiedSparseEnvelopePrefix
+      ]
+    },
+    {
+      linkId := "proof-slice.baseline-spine-demand"
+      sourceStageId := "proof-slice.sparse-envelope"
+      targetStageId := "proof-slice.baseline-spine-demand"
+      kind := .frameworkComposition
+      label := "declare and audit the exact baseline demand"
+      description := "The retained selected graph supplies n to the cubic-baseline count. The application declares the canonical independent empty family and its exact full deficit; the reusable CT15 profile owns the full-rank execution, exact ledger, trace, soundness, totality, and linear work bound."
+      automationDeclarations := [
+        `StructuralExhaustion.CT15.BaselineDemand.Profile.verifiedStage
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.baselineSpineProfile,
+        `Erdos64EG.Internal.exists_verifiedBaselineSpineDemandPrefix
       ]
     }
   ]
@@ -3133,16 +3176,56 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
     },
     {
       stepId := "erdos.baseline-spine-demand"
+      stageId? := some "proof-slice.baseline-spine-demand"
       title := "Baseline spine demand"
-      plainExplanation := "The next sparse-branch step fixes the node [129] linear deficit demand consumed by the active surplus family."
-      formalStatement := "D_{\\mathrm{base}}=O(n)"
-      status := .next
-      correspondence := .partialCoverage
+      plainExplanation := "Node [129] defines a baseline demand as an independently target-testable finite coordinate family together with its deficit from the cubic skeleton budget. The canonical empty family is an unconditional instance: its exact deficit is the entire executable cubic bit budget. CT15 scans that complete declared family, proves full rank, and returns its exact ledger. This implements the definition without assuming the separate linear-deficit estimate needed by the later entropy sandwich."
+      formalStatement := "b_0=\\lfloor\\log_2\\binom{\\binom n2}{\\lceil3n/2\\rceil}\\rfloor,\\qquad |\\mathcal I_{\\rm spine}|=0\\ge b_0-b_0"
+      status := .implemented
+      correspondence := .exact
       manuscriptRefs := [
         { label := "def:baseline-spine-demand", title := "Baseline spine demand", nodeIds := [129] }
       ]
-      scopeNotes := "The sparse envelope, exact slack identity, and the existing CT6 active surplus ledger are verified. The baseline demand and its subsequent response/token routing are not yet implemented."
-      workBound := "Not yet implemented; the future CT must expose its local finite universe and polynomial audit."
+      declarationGroups := [{
+        groupId := "baseline-spine-demand-ct15"
+        title := "Exact finite baseline-demand profile and CT15 ledger"
+        role := .semanticTheorem
+        explanation := "The framework layer owns certified independent finite demands, their unit-charge full-rank ledgers, deterministic CT15 terminal and trace, soundness, totality, and linear work. The Erdős layer supplies only the exact cubic skeleton count and the canonical empty family with its explicit full deficit."
+        declarations := [
+          `StructuralExhaustion.CT15.BaselineDemand.Profile.verifiedStage,
+          `StructuralExhaustion.CT15.run_terminal_eq_fullRankLedger_of_noDrop_of_total_le_capacity,
+          `StructuralExhaustion.CT15.ledgerTotal_eq_card_of_charge_eq_one,
+          `StructuralExhaustion.CT15.linearCheckBudget,
+          `Erdos64EG.Internal.baselineSpineEdgeSlots,
+          `Erdos64EG.Internal.baselineSpineEdgeCount,
+          `Erdos64EG.Internal.baselineSpineStateCount,
+          `Erdos64EG.Internal.baselineSpineBitBudget,
+          `Erdos64EG.Internal.baselineSpineProfile,
+          `Erdos64EG.Internal.baselineSpineProfile_coordinateCount,
+          `Erdos64EG.Internal.baselineSpineProfile_exactDeficit,
+          `Erdos64EG.Internal.baselineSpineProfile_lowerBound,
+          `Erdos64EG.Internal.runBaselineSpineCT15_terminal,
+          `Erdos64EG.Internal.runBaselineSpineCT15_trace,
+          `Erdos64EG.Internal.runBaselineSpineCT15_verified,
+          `Erdos64EG.Internal.runBaselineSpineCT15_total,
+          `Erdos64EG.Internal.runBaselineSpineCT15_linearBudget,
+          `Erdos64EG.Internal.exists_verifiedBaselineSpineDemandPrefix
+        ]
+      }]
+      scopeNotes := "This verifies the exact node [129] definition and makes its deficit explicit. The manuscript does not derive an O(n) deficit from that definition; a nonempty coordinate construction with a separately verified linear deficit remains necessary before the entropy sandwich can imply a near-cubic bound."
+      workBound := "CT15 makes two passes over the declared coordinate list plus one comparison. For the canonical empty family this is one constant check; no subsets, target states, graph families, or contexts are enumerated."
+    },
+    {
+      stepId := "erdos.spine-lower-bound-deficits"
+      title := "Verified spine deficit packages"
+      plainExplanation := "The next unimplemented sparse-branch datum is a concrete nonempty baseline coordinate family together with one of the manuscript's independently proved lower-bound deficit packages."
+      formalStatement := "E_{\\rm spine}(n)=O(n)"
+      status := .next
+      correspondence := .partialCoverage
+      manuscriptRefs := [
+        { label := "def:spine-lower-bound-deficits", title := "Spine lower-bound deficits", nodeIds := [129] }
+      ]
+      scopeNotes := "The baseline-demand contract and its unconditional empty instance are verified. No linear deficit estimate or nonempty spine coordinate family is currently claimed."
+      workBound := "Not yet implemented; the next stage must expose only its declared finite coordinate list and a polynomial local audit."
     }
   ]
 }
@@ -3224,6 +3307,16 @@ def descriptor : ExampleDescriptor := {
       problemDeclaration := `Erdos64EG.Internal.sparseEnvelopeProfile
       frameworkDeclaration :=
         `StructuralExhaustion.Graph.DegeneracyPeeling.Profile.verifiedStage
+    },
+    {
+      bindingId := "proof-slice.ct15-baseline-spine-demand"
+      stageId := "proof-slice.baseline-spine-demand"
+      tacticId := "CT15"
+      role := "certified finite baseline demand"
+      description := "The application supplies the exact cubic-baseline count and a concrete independently target-testable coordinate family with its deficit. The framework computes full rank, the unit-charge ledger, terminal, trace, soundness, totality, and a linear check budget."
+      problemDeclaration := `Erdos64EG.Internal.baselineSpineProfile
+      frameworkDeclaration :=
+        `StructuralExhaustion.CT15.BaselineDemand.Profile.verifiedStage
     },
     {
       bindingId := "proof-slice.ct10-p13-labels"

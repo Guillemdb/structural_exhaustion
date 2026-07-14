@@ -1,4 +1,5 @@
 import StructuralExhaustion.CT15.Automation
+import StructuralExhaustion.CT15.BaselineDemand
 
 namespace StructuralExhaustion.Examples.CT15AutomationFirst
 
@@ -149,5 +150,45 @@ example : ledgerResult.terminal = .rankDrop ∨
     ledgerResult.terminal = .c4 ∨
     ledgerResult.terminal = .fullRankLedger :=
   CT15.outcome_exhaustive ledgerSpec ledgerCapability branch ledgerResult
+
+/-! ## Reusable baseline-demand profile: three independent switches -/
+
+@[implicit_reducible]
+def threeCoordinates : FinEnum (Fin 3) := inferInstance
+
+def threeSwitchDemand : CT15.BaselineDemand.Profile problem where
+  Coordinate := Fin 3
+  coordinates := threeCoordinates
+  TargetDependent := fun _ _ => False
+  independent := fun _ _ => id
+  baseline := fun _ => 5
+  deficit := fun _ => 2
+  deficit_le_baseline := by intro _; omega
+  lowerBound := by intro _; decide
+
+def threeSwitchResult := threeSwitchDemand.run branch
+
+theorem threeSwitch_terminal :
+    threeSwitchResult.terminal = .fullRankLedger :=
+  threeSwitchDemand.terminal branch
+
+theorem threeSwitch_exact_ledger :
+    CT15.ledgerTotal threeSwitchDemand.spec
+      threeSwitchDemand.capability branch = 3 := by
+  rw [threeSwitchDemand.ledgerTotal branch]
+  rfl
+
+theorem threeSwitch_trace :
+    threeSwitchResult.trace =
+      [.entry, .rankComputation, .rankSplit, .ledgerComputation,
+        .ledgerComparison, .fullRankLedgerTerminal] :=
+  threeSwitchDemand.trace branch
+
+theorem threeSwitch_linear_work :
+    (threeSwitchDemand.budget branch).checks () ≤
+      (threeSwitchDemand.budget branch).coefficient *
+        ((threeSwitchDemand.budget branch).size () + 1) ^
+          (threeSwitchDemand.budget branch).degree :=
+  threeSwitchDemand.linearWork branch
 
 end StructuralExhaustion.Examples.CT15AutomationFirst

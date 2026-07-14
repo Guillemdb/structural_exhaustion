@@ -431,6 +431,48 @@ def test_mathlib_graph_profiles_are_framework_owned_and_reused() -> None:
     assert "discover_disabled_of_closure" not in erdos_ct2
 
 
+def test_ct15_baseline_demand_is_framework_owned_and_reused() -> None:
+    profile = (
+        ROOT / "lean/StructuralExhaustion/CT15/BaselineDemand.lean"
+    ).read_text(encoding="utf-8")
+    theorems = (
+        ROOT / "lean/StructuralExhaustion/CT15/Theorems.lean"
+    ).read_text(encoding="utf-8")
+    framework_umbrella = (
+        ROOT / "lean/StructuralExhaustion.lean"
+    ).read_text(encoding="utf-8")
+    ct15_fixture = (
+        ROOT
+        / "lean/StructuralExhaustion/Examples/CT15AutomationFirst.lean"
+    ).read_text(encoding="utf-8")
+    erdos = (
+        ROOT
+        / "examples/erdos_64_eg/Erdos64EG/CT15BaselineSpineDemand.lean"
+    ).read_text(encoding="utf-8")
+
+    for declaration in (
+        "structure Profile",
+        "def run",
+        "theorem terminal",
+        "theorem trace",
+        "structure VerifiedStage",
+        "def verifiedStage",
+    ):
+        assert declaration in profile
+    for declaration in (
+        "theorem run_terminal_eq_fullRankLedger_of_noDrop_of_total_le_capacity",
+        "theorem run_trace_eq_fullRankLedger_of_noDrop_of_total_le_capacity",
+        "theorem ledgerTotal_eq_card_of_charge_eq_one",
+        "def linearCheckBudget",
+    ):
+        assert declaration in theorems
+    assert "import StructuralExhaustion.CT15.BaselineDemand" in framework_umbrella
+    assert "def threeSwitchDemand : CT15.BaselineDemand.Profile" in ct15_fixture
+    assert "def baselineSpineProfile" in erdos
+    assert "CT15.BaselineDemand.Profile" in erdos
+    assert "Erdos64EG" not in profile
+
+
 def test_greedy_coloring_example_is_thin_and_complete() -> None:
     example_root = ROOT / "examples/greedy_coloring"
     run_source = (example_root / "GreedyColoringExample/Run.lean").read_text(

@@ -4,7 +4,7 @@ This ledger records the Lean-checked proof content in
 `examples/erdos_64_eg` as of 2026-07-14.
 
 The theorem-bearing endpoint is
-`Erdos64EG.Internal.exists_verifiedSparseEnvelopePrefix`:
+`Erdos64EG.Internal.exists_verifiedBaselineSpineDemandPrefix`:
 
 ```lean
 (object : Object V) → Baseline object → ¬ Target object →
@@ -13,7 +13,7 @@ The theorem-bearing endpoint is
     packedStaticInput.problem.rank ctx.G ≤
         packedStaticInput.problem.rank
           (Graph.PackedFiniteObject.pack object) ∧
-      VerifiedSparseEnvelopePrefix ctx
+      VerifiedBaselineSpineDemandPrefix ctx
 ```
 
 Natural-number well-ordering selects a counterexample minimal in the
@@ -53,6 +53,11 @@ contains:
   exactly `n-1` iterations. The graph layer proves
   `e(G-v) ≤ 2(n-1)-3`, hence `m ≤ 2n-2`, and the exact handshake bridge gives
   `σ=2m-3n=n-6-2λ` for `λ=2n-3-m`.
+- the CT15 baseline-demand stage at node `[129]`: the exact cubic-baseline
+  state count and integer bit budget are computed from `n`; the canonical
+  empty coordinate family has exact deficit equal to that full bit budget;
+  CT15 certifies its complete full-rank ledger, exact trace, totality, and
+  linear work bound. No linear deficit estimate is assumed.
 - the CT9 surplus-pair availability stage: the registered CT6-to-CT9 route
   consumes the actual active-ledger residual, preserves the identical branch
   context, and scans exactly the surplus-slot list; its bounded branch proves
@@ -955,6 +960,36 @@ node `[126]` identities `σ=n-6-2λ` and `2m=3n+σ` over the integers. The publi
 endpoint accepts only the official finite graph, its baseline, and target
 avoidance, and retains `VerifiedTypeBPostLedgerPrefix` as its `previous` field.
 
+## Node `[129]`: CT15 baseline spine demand
+
+`CT15.BaselineDemand.Profile` is the reusable author interface for a finite
+independently target-testable coordinate family, its exact baseline budget,
+and its deficit. The framework supplies unit charges, the target-relative
+rank pass, the first-drop scan, the exact ledger and total, the deterministic
+full-rank terminal and trace, soundness, totality, and a linear polynomial
+work budget.
+
+`CT15BaselineSpineDemand` computes
+
+```text
+N = choose(n, 2)
+m₀ = ceil(3n/2)
+S₀ = choose(N, m₀)
+b₀ = Nat.log2 S₀.
+```
+
+It instantiates the profile with the canonical empty coordinate family. This
+family is independently target-testable vacuously, has cardinality zero, and
+has exact deficit `b₀`, so `0 ≥ b₀-b₀`. CT15 scans this complete declared
+universe and returns the full-rank-ledger terminal. The public endpoint takes
+only `object`, `baseline`, and `avoids`, and retains the complete sparse-
+envelope prefix as its `previous` field.
+
+The manuscript definition does not construct a nonempty family or prove an
+`O(n)` deficit. The Chapter 1 diagram and ledger now state this accurately:
+the linear deficit is a separate downstream estimate required by the entropy
+sandwich, and is not imported into this verified endpoint.
+
 ## Independent transfer
 
 The independent transfer is
@@ -973,6 +1008,13 @@ the exact public CT12 machine, proves the exhausted terminal and expected
 trace, typed trace validity, totality, exactly three iterations, the linear
 polynomial budget, and the sharp edge bound. Its core-freeness proof uses only
 the generic finite simple-graph vertex-count theorem and no external axiom.
+
+`StructuralExhaustion.Examples.CT15AutomationFirst.threeSwitchDemand`
+independently instantiates the same baseline-demand profile on the textbook
+three-coordinate Boolean switch family. Its baseline is five units, its
+deficit is two, and its three unit-charge coordinates exactly meet the lower
+bound. The public profile returns the full-rank-ledger terminal, exact
+six-node trace, ledger total three, and linear work certificate.
 
 `examples/even_cycle/EvenCycleExample/CT2Audit.lean` instantiates the exact
 `Graph.PackedMinimumDegreeCycle` and `CT2.CertifiedReductionInput` APIs with
@@ -1030,28 +1072,29 @@ attachment to the edge is accepted by the same classification contract.
 
 ## Next dependency-ready section
 
-The first unimplemented dependency after node `[126]` and the already
-verified CT6 nodes `[127]`–`[128]` is
-`def:baseline-spine-demand` at node `[129]`. It is not claimed by the current
-endpoint.
+The exact baseline-demand definition at node `[129]` is verified. The first
+unimplemented datum needed to make the later entropy sandwich quantitative is
+`def:spine-lower-bound-deficits`: a concrete nonempty target-coordinate
+family with a separately proved linear deficit. The current endpoint does not
+claim that estimate.
 
 ## Validation
 
-The following checks pass on 2026-07-14 for the sparse-envelope review:
+The following checks pass on 2026-07-14 for the baseline-demand review:
 
 ```text
 make lint
   OK: CT1–CT17 expose only automation-first canonical APIs
 
 make framework-build
-  Framework build completed successfully (3295 jobs)
+  Framework build completed successfully (3296 jobs)
 
 make erdos-example-build
-  Erdős build completed successfully (3227 jobs)
+  Erdős build completed successfully (3236 jobs)
 
 make example-build
   Even-cycle build completed successfully (3202 jobs)
-  Erdős build completed successfully (3227 jobs)
+  Erdős build completed successfully (3236 jobs)
   Greedy-coloring build completed successfully (1306 jobs)
   Mantel build completed successfully (3080 jobs)
 
@@ -1062,13 +1105,17 @@ python3 tools/validate_repository.py
   OK: 17 automation-first Lean tactics, 124 nodes, 108 typed edges,
   37 residual kinds, 9 generated routes, 0 manual node obligations
 
+python3 tools/verify_lean.py
+  Kernel checked 17 tactics, 124 nodes, 108 typed edges, 37 residual kinds,
+  9 routes, and 4 compiled examples
+
 make web-frontend-test
   13 test files and 27 tests passed; typecheck and production build passed
 
 uv run --offline --with-requirements requirements.txt python -m pytest -q \
   tests/test_repository.py tests/test_example_catalog.py \
   tests/test_web_api.py tests/test_skills.py
-  49 tests passed
+  50 tests passed
 
 latexmk -pdf -interaction=nonstopmode -halt-on-error \
   -outdir=build/erdos proofs/erdos_64_eg/erdos_64_proof.tex

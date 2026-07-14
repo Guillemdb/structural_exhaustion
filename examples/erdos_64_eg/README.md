@@ -63,6 +63,11 @@ The verified proof slice contains:
   exactly the surplus slots and separates `σ(G) ≤ 1` from the branch carrying
   two distinct slots; it does not enumerate pairs or claim the later
   free/blocked response semantics;
+- one CT15 stage covering the exact baseline-demand definition at node
+  `[129]`: it computes the cubic-baseline skeleton count, records the
+  canonical empty coordinate family with its full exact deficit, and executes
+  the reusable full-rank ledger with a linear check bound. It does not assume
+  that this deficit is `O(n)`;
 - a CT1/CT10/CT9/CT7/CT5/CT7 local-port sequence: exact four-cycle avoidance,
   canonical open/triangular selected-port classification, same-centre open
   fibres, a registered overload-to-response route, and an exact two-shoulder
@@ -175,8 +180,9 @@ target-uncompressibility.
 `[15]` and `[16]`. `Erdos64EG/CT12InducedP13Packing.lean` adds the exact
 packing output, and `Erdos64EG/CT10P13LabelAlgebra.lean` consumes that output
 at node `[18]`. The current theorem-bearing endpoint is
-`exists_verifiedSparseEnvelopePrefix`; it retains the complete Type B
-post-ledger prefix and then implements manuscript node `[126]`. The preceding
+`exists_verifiedBaselineSpineDemandPrefix`; it retains the complete Type B
+post-ledger and sparse-envelope prefixes, implements manuscript node `[126]`,
+and executes the exact baseline-demand definition at node `[129]`. The preceding
 Type B block composes the previously
 verified marked-fan degree cap with the actual two-port CT14 mass and hybrid
 incidence ledgers, deriving the positive deficit and paying capacity rather
@@ -255,6 +261,16 @@ the existing CT6 excess ledger with `σ=2m-3n`, and Lean proves the complete
 node `[126]` identity `σ=n-6-2λ` for `λ=2n-3-m`. The same profile is
 independently instantiated on the textbook triangle in the greedy-coloring
 example package.
+
+The baseline-demand CT15 stage then computes the exact cubic-baseline state
+count `choose(choose(n,2),ceil(3n/2))` and its executable integer bit budget.
+The canonical empty coordinate family is an unconditional demand with exact
+deficit equal to that entire budget. The reusable CT15 profile proves its
+full-rank terminal, exact ledger and trace, totality, and linear work bound.
+The manuscript and web companion explicitly leave the stronger `O(n)`
+deficit estimate to a later verified coordinate construction; it is not a
+premise of the current endpoint. The framework profile is independently
+reused by the three-switch CT15 fixture.
 
 The independent even-cycle package instantiates the same graph theorem on the
 textbook complete bipartite graph `K₃,₄`. Deleting its three degree-four

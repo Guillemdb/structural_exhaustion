@@ -33,7 +33,7 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         "terminals": 55,
         "residualKinds": 37,
         "routes": 9,
-        "implementedTransitions": 26,
+        "implementedTransitions": 27,
         "manualObligations": 0,
     }
     assert [item["tacticId"] for item in response["tactics"]] == [
@@ -96,6 +96,7 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         ("erdos-64", "CT14", "CT1", "frameworkComposition"),
         ("erdos-64", "CT1", "CT9", "frameworkComposition"),
         ("erdos-64", "CT9", "CT14", "frameworkComposition"),
+        ("erdos-64", "CT12", "CT15", "frameworkComposition"),
         ("even-cycle", "CT6", "CT9", "registeredRoute"),
         ("greedy-coloring", "CT12", "CT4", "scheduleAudit"),
     ]
@@ -295,7 +296,7 @@ def test_api_and_spa_are_served_from_one_application(tmp_path: Path) -> None:
             framework = await get("/api/v1/framework")
             assert framework.status_code == 200
             assert framework.json()["totals"]["routes"] == 9
-            assert framework.json()["totals"]["implementedTransitions"] == 26
+            assert framework.json()["totals"]["implementedTransitions"] == 27
             assert any(
                 transition["sourceTacticId"] == "CT10"
                 and transition["targetTacticId"] == "CT6"

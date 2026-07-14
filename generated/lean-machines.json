@@ -58353,8 +58353,8 @@
      "type":
      "∀ {P : Core.Problem} (S : CT15.Spec P) (capability : CT15.Capability S) (input : CT15.Input P)\n  {rank : CT15.RankState S capability input} {full : CT15.FullRankState S capability input rank}\n  (ledger : CT15.LedgerState S capability input full),\n  ledger.entries = CT15.ledgerEntries S capability input ∧ ledger.total = CT15.ledgerTotal S capability input",
      "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
-     "selectionRange": {"start": {"line": 109, "column": 8}, "end": {"line": 109, "column": 20}},
-     "range": {"start": {"line": 107, "column": 0}, "end": {"line": 114, "column": 31}},
+     "selectionRange": {"start": {"line": 128, "column": 8}, "end": {"line": 128, "column": 20}},
+     "range": {"start": {"line": 126, "column": 0}, "end": {"line": 133, "column": 31}},
      "name": "StructuralExhaustion.CT15.ledger_exact",
      "module": "StructuralExhaustion.CT15.Theorems",
      "kind": "theorem",
@@ -58543,8 +58543,8 @@
      "type":
      "∀ {P : Core.Problem} (S : CT15.Spec P) (capability : CT15.Capability S) (input : CT15.Input P),\n  CT15.Graph.ValidTrace (CT15.ExecutionResult.trace S capability input (CT15.run S capability input))",
      "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
-     "selectionRange": {"start": {"line": 69, "column": 8}, "end": {"line": 69, "column": 23}},
-     "range": {"start": {"line": 69, "column": 0}, "end": {"line": 71, "column": 37}},
+     "selectionRange": {"start": {"line": 88, "column": 8}, "end": {"line": 88, "column": 23}},
+     "range": {"start": {"line": 88, "column": 0}, "end": {"line": 90, "column": 37}},
      "name": "StructuralExhaustion.CT15.run_trace_valid",
      "module": "StructuralExhaustion.CT15.Theorems",
      "kind": "theorem",
@@ -59657,8 +59657,8 @@
      "type":
      "∀ {P : Core.Problem} (S : CT15.Spec P) (capability : CT15.Capability S) (input : CT15.Input P)\n  (result : CT15.ExecutionResult S capability input),\n  CT15.Graph.ValidTrace (CT15.ExecutionResult.trace S capability input result)",
      "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
-     "selectionRange": {"start": {"line": 59, "column": 8}, "end": {"line": 59, "column": 18}},
-     "range": {"start": {"line": 59, "column": 0}, "end": {"line": 61, "column": 37}},
+     "selectionRange": {"start": {"line": 78, "column": 8}, "end": {"line": 78, "column": 18}},
+     "range": {"start": {"line": 78, "column": 0}, "end": {"line": 80, "column": 37}},
      "name": "StructuralExhaustion.CT15.ExecutionResult.traceValid",
      "module": "StructuralExhaustion.CT15.Theorems",
      "kind": "theorem",

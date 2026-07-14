@@ -42,7 +42,8 @@
         "CT9",
         "CT10",
         "CT12",
-        "CT14"
+        "CT14",
+        "CT15"
       ],
       "workflowCount": 1,
       "workflows": [
@@ -54,7 +55,7 @@
         }
       ],
       "detailFile": "erdos-64.json",
-      "detailHash": "62c93b5a68ca40804c1e861b8d6d8c5895d4061c0e707d5498a85c4323329233"
+      "detailHash": "77f40b46748faaff1bf659a6183a0c350654b6484ae051dbcc8597b790367ad6"
     },
     {
       "exampleId": "even-cycle",

@@ -1522,21 +1522,21 @@
       "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
       "selectionRange": {
         "start": {
-          "line": 109,
+          "line": 128,
           "column": 8
         },
         "end": {
-          "line": 109,
+          "line": 128,
           "column": 20
         }
       },
       "range": {
         "start": {
-          "line": 107,
+          "line": 126,
           "column": 0
         },
         "end": {
-          "line": 114,
+          "line": 133,
           "column": 31
         }
       },
@@ -1926,21 +1926,21 @@
       "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
       "selectionRange": {
         "start": {
-          "line": 69,
+          "line": 88,
           "column": 8
         },
         "end": {
-          "line": 69,
+          "line": 88,
           "column": 23
         }
       },
       "range": {
         "start": {
-          "line": 69,
+          "line": 88,
           "column": 0
         },
         "end": {
-          "line": 71,
+          "line": 90,
           "column": 37
         }
       },
@@ -4087,21 +4087,21 @@
       "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
       "selectionRange": {
         "start": {
-          "line": 59,
+          "line": 78,
           "column": 8
         },
         "end": {
-          "line": 59,
+          "line": 78,
           "column": 18
         }
       },
       "range": {
         "start": {
-          "line": 59,
+          "line": 78,
           "column": 0
         },
         "end": {
-          "line": 61,
+          "line": 80,
           "column": 37
         }
       },
@@ -7103,8 +7103,8 @@
       "sourceId": "StructuralExhaustion/CT15/Theorems.lean",
       "moduleName": "StructuralExhaustion.CT15.Theorems",
       "path": "lean/StructuralExhaustion/CT15/Theorems.lean",
-      "sha256": "13fa58d6fede1790c6eef8dc137c19823e7b4433a8df400c72f63eb79d664bf8",
-      "content": "import StructuralExhaustion.CT15.Execution\n\nnamespace StructuralExhaustion.CT15\n\nuniverse uAmbient uBranch uCoordinate\n\nvariable {P : Core.Problem.{uAmbient, uBranch}}\nvariable (S : Spec.{uAmbient, uBranch, uCoordinate} P)\nvariable (capability : Capability S) (input : Input P)\n\nnamespace RawOutcome\n\n/-- Exact semantic meaning of every terminal. -/\ndef Valid {terminal : Graph.Terminal} :\n    RawOutcome S capability input terminal → Prop\n  | .rankDrop residual =>\n      S.TargetDependent input residual.hit.value ∧\n        ∀ coordinate, coordinate ∈ residual.hit.before →\n          ¬ S.TargetDependent input coordinate\n  | .c4 _ =>\n      (∀ coordinate, ¬ S.TargetDependent input coordinate) ∧\n        computedRank S capability input = targetRank S capability ∧\n        S.capacity input < ledgerTotal S capability input\n  | .fullRankLedger _ =>\n      (∀ coordinate, ¬ S.TargetDependent input coordinate) ∧\n        computedRank S capability input = targetRank S capability ∧\n        ledgerTotal S capability input ≤ S.capacity input\n\ntheorem verified {terminal : Graph.Terminal}\n    (outcome : RawOutcome S capability input terminal) : outcome.Valid := by\n  cases outcome with\n  | rankDrop residual =>\n      exact ⟨residual.hit.holds, residual.hit.beforeAbsent⟩\n  | @c4 rank full ledger certificate =>\n      change (∀ coordinate, ¬ S.TargetDependent input coordinate) ∧\n        computedRank S capability input = targetRank S capability ∧\n        S.capacity input < ledgerTotal S capability input\n      refine ⟨full.noDrop,\n        computedRank_eq_targetRank S capability input full.noDrop, ?_⟩\n      rw [← ledger.summed]\n      exact certificate.capacity_lt_total\n  | @fullRankLedger rank full ledger residual =>\n      change (∀ coordinate, ¬ S.TargetDependent input coordinate) ∧\n        computedRank S capability input = targetRank S capability ∧\n        ledgerTotal S capability input ≤ S.capacity input\n      refine ⟨full.noDrop,\n        computedRank_eq_targetRank S capability input full.noDrop, ?_⟩\n      rw [← ledger.summed]\n      exact residual.total_le_capacity\n\nend RawOutcome\n\nnamespace ExecutionResult\n\ntheorem verified (result : ExecutionResult S capability input) :\n    result.outcome.Valid :=\n  result.outcome.verified\n\ntheorem traceValid (result : ExecutionResult S capability input) :\n    @Graph.ValidTrace P S capability input result.trace :=\n  ⟨result.terminal, result.path, rfl⟩\n\nend ExecutionResult\n\ntheorem run_verified :\n    (run S capability input).outcome.Valid :=\n  (run S capability input).verified\n\ntheorem run_trace_valid :\n    @Graph.ValidTrace P S capability input (run S capability input).trace :=\n  (run S capability input).traceValid\n\ntheorem run_total :\n    ∃ result : ExecutionResult S capability input,\n      result.outcome.Valid ∧\n        @Graph.ValidTrace P S capability input result.trace :=\n  ⟨run S capability input,\n    run_verified S capability input,\n    run_trace_valid S capability input⟩\n\ntheorem run_deterministic\n    (left right : ExecutionResult S capability input)\n    (leftIsRun : left = run S capability input)\n    (rightIsRun : right = run S capability input) : left = right :=\n  leftIsRun.trans rightIsRun.symm\n\ntheorem outcome_exhaustive\n    (result : ExecutionResult S capability input) :\n    result.terminal = .rankDrop ∨\n      result.terminal = .c4 ∨\n      result.terminal = .fullRankLedger := by\n  cases result with\n  | mk _ _ outcome =>\n      cases outcome with\n      | rankDrop _ => exact Or.inl rfl\n      | c4 _ => exact Or.inr (Or.inl rfl)\n      | fullRankLedger _ => exact Or.inr (Or.inr rfl)\n\n/-- A full-rank state certifies both exhaustive independence and the exact\ntarget-rank equality. -/\ntheorem full_rank_sound {rank : RankState S capability input}\n    (full : FullRankState S capability input rank) :\n    (∀ coordinate, ¬ S.TargetDependent input coordinate) ∧\n      rank.value = targetRank S capability :=\n  ⟨full.noDrop, full.full⟩\n\n/-- Every ledger is the complete declared coordinate ledger, with no omitted\nor duplicated coordinate. -/\ntheorem ledger_exact {rank : RankState S capability input}\n    {full : FullRankState S capability input rank}\n    (ledger : LedgerState S capability input full) :\n    ledger.entries = ledgerEntries S capability input ∧\n      ledger.total = ledgerTotal S capability input :=\n  ⟨ledger.exact, ledger.summed⟩\n\nend StructuralExhaustion.CT15\n"
+      "sha256": "9ffd7f7a91a808c7e1734fe811ed5e0d9aabc1ad27c59bb476e16b98d9babbd8",
+      "content": "import StructuralExhaustion.CT15.Execution\n\nnamespace StructuralExhaustion.CT15\n\nuniverse uAmbient uBranch uCoordinate\n\nvariable {P : Core.Problem.{uAmbient, uBranch}}\nvariable (S : Spec.{uAmbient, uBranch, uCoordinate} P)\nvariable (capability : Capability S) (input : Input P)\n\nnamespace Graph.Path\n\n/-- There is one node trace from the CT15 entry to the full-rank-ledger\nterminal.  State values may differ, but the typed graph fixes every node. -/\ntheorem trace_eq_fullRankLedger\n    (path : Graph.Path S capability input .entry\n      .fullRankLedgerTerminal) :\n    path.trace =\n      [.entry, .rankComputation, .rankSplit, .ledgerComputation,\n        .ledgerComparison, .fullRankLedgerTerminal] := by\n  match path with\n  | .cons .beginRank\n      (.cons (.rankComputed _)\n        (.cons (.rankFull _)\n          (.cons (.ledgerComputed _)\n            (.cons (.capacityAvailable _) (.nil _))))) => rfl\n\nend Graph.Path\n\nnamespace RawOutcome\n\n/-- Exact semantic meaning of every terminal. -/\ndef Valid {terminal : Graph.Terminal} :\n    RawOutcome S capability input terminal → Prop\n  | .rankDrop residual =>\n      S.TargetDependent input residual.hit.value ∧\n        ∀ coordinate, coordinate ∈ residual.hit.before →\n          ¬ S.TargetDependent input coordinate\n  | .c4 _ =>\n      (∀ coordinate, ¬ S.TargetDependent input coordinate) ∧\n        computedRank S capability input = targetRank S capability ∧\n        S.capacity input < ledgerTotal S capability input\n  | .fullRankLedger _ =>\n      (∀ coordinate, ¬ S.TargetDependent input coordinate) ∧\n        computedRank S capability input = targetRank S capability ∧\n        ledgerTotal S capability input ≤ S.capacity input\n\ntheorem verified {terminal : Graph.Terminal}\n    (outcome : RawOutcome S capability input terminal) : outcome.Valid := by\n  cases outcome with\n  | rankDrop residual =>\n      exact ⟨residual.hit.holds, residual.hit.beforeAbsent⟩\n  | @c4 rank full ledger certificate =>\n      change (∀ coordinate, ¬ S.TargetDependent input coordinate) ∧\n        computedRank S capability input = targetRank S capability ∧\n        S.capacity input < ledgerTotal S capability input\n      refine ⟨full.noDrop,\n        computedRank_eq_targetRank S capability input full.noDrop, ?_⟩\n      rw [← ledger.summed]\n      exact certificate.capacity_lt_total\n  | @fullRankLedger rank full ledger residual =>\n      change (∀ coordinate, ¬ S.TargetDependent input coordinate) ∧\n        computedRank S capability input = targetRank S capability ∧\n        ledgerTotal S capability input ≤ S.capacity input\n      refine ⟨full.noDrop,\n        computedRank_eq_targetRank S capability input full.noDrop, ?_⟩\n      rw [← ledger.summed]\n      exact residual.total_le_capacity\n\nend RawOutcome\n\nnamespace ExecutionResult\n\ntheorem verified (result : ExecutionResult S capability input) :\n    result.outcome.Valid :=\n  result.outcome.verified\n\ntheorem traceValid (result : ExecutionResult S capability input) :\n    @Graph.ValidTrace P S capability input result.trace :=\n  ⟨result.terminal, result.path, rfl⟩\n\nend ExecutionResult\n\ntheorem run_verified :\n    (run S capability input).outcome.Valid :=\n  (run S capability input).verified\n\ntheorem run_trace_valid :\n    @Graph.ValidTrace P S capability input (run S capability input).trace :=\n  (run S capability input).traceValid\n\ntheorem run_total :\n    ∃ result : ExecutionResult S capability input,\n      result.outcome.Valid ∧\n        @Graph.ValidTrace P S capability input result.trace :=\n  ⟨run S capability input,\n    run_verified S capability input,\n    run_trace_valid S capability input⟩\n\ntheorem run_deterministic\n    (left right : ExecutionResult S capability input)\n    (leftIsRun : left = run S capability input)\n    (rightIsRun : right = run S capability input) : left = right :=\n  leftIsRun.trans rightIsRun.symm\n\ntheorem outcome_exhaustive\n    (result : ExecutionResult S capability input) :\n    result.terminal = .rankDrop ∨\n      result.terminal = .c4 ∨\n      result.terminal = .fullRankLedger := by\n  cases result with\n  | mk _ _ outcome =>\n      cases outcome with\n      | rankDrop _ => exact Or.inl rfl\n      | c4 _ => exact Or.inr (Or.inl rfl)\n      | fullRankLedger _ => exact Or.inr (Or.inr rfl)\n\n/-- A full-rank state certifies both exhaustive independence and the exact\ntarget-rank equality. -/\ntheorem full_rank_sound {rank : RankState S capability input}\n    (full : FullRankState S capability input rank) :\n    (∀ coordinate, ¬ S.TargetDependent input coordinate) ∧\n      rank.value = targetRank S capability :=\n  ⟨full.noDrop, full.full⟩\n\n/-- Every ledger is the complete declared coordinate ledger, with no omitted\nor duplicated coordinate. -/\ntheorem ledger_exact {rank : RankState S capability input}\n    {full : FullRankState S capability input rank}\n    (ledger : LedgerState S capability input full) :\n    ledger.entries = ledgerEntries S capability input ∧\n      ledger.total = ledgerTotal S capability input :=\n  ⟨ledger.exact, ledger.summed⟩\n\n/-- A certified absence of target dependence determines the full-rank branch\nof the reference runner.  If the exact ledger also fits the declared\ncapacity, CT15 must return its reusable full-rank residual. -/\ntheorem run_terminal_eq_fullRankLedger_of_noDrop_of_total_le_capacity\n    (noDrop : ∀ coordinate, ¬ S.TargetDependent input coordinate)\n    (totalLe : ledgerTotal S capability input ≤ S.capacity input) :\n    (run S capability input).terminal = .fullRankLedger := by\n  generalize resultEq : run S capability input = result\n  cases result with\n  | mk terminal path outcome =>\n      cases outcome with\n      | rankDrop residual =>\n          exact (noDrop residual.hit.value residual.hit.holds).elim\n      | @c4 rank full ledger certificate =>\n          have exceeds : S.capacity input < ledgerTotal S capability input := by\n            rw [← ledger.summed]\n            exact certificate.capacity_lt_total\n          exact (Nat.not_lt_of_ge totalLe exceeds).elim\n      | fullRankLedger _ => rfl\n\n/-- The full-rank residual has the unique full CT15 execution trace. -/\ntheorem run_trace_eq_fullRankLedger_of_noDrop_of_total_le_capacity\n    (noDrop : ∀ coordinate, ¬ S.TargetDependent input coordinate)\n    (totalLe : ledgerTotal S capability input ≤ S.capacity input) :\n    (run S capability input).trace =\n      [.entry, .rankComputation, .rankSplit, .ledgerComputation,\n        .ledgerComparison, .fullRankLedgerTerminal] := by\n  generalize resultEq : run S capability input = result\n  cases result with\n  | mk terminal path outcome =>\n      cases outcome with\n      | rankDrop residual =>\n          exact (noDrop residual.hit.value residual.hit.holds).elim\n      | @c4 rank full ledger certificate =>\n          have exceeds : S.capacity input < ledgerTotal S capability input := by\n            rw [← ledger.summed]\n            exact certificate.capacity_lt_total\n          exact (Nat.not_lt_of_ge totalLe exceeds).elim\n      | fullRankLedger residual =>\n          exact Graph.Path.trace_eq_fullRankLedger S capability input path\n\n/-- Unit charge on every declared coordinate makes the exact CT15 ledger\nequal to the cardinality of the explicit coordinate universe. -/\ntheorem ledgerTotal_eq_card_of_charge_eq_one\n    (unitCharge : ∀ coordinate, S.charge input coordinate = 1) :\n    ledgerTotal S capability input = capability.coordinates.card := by\n  simp only [ledgerTotal, ledgerEntries, List.map_map]\n  let coordinates := capability.coordinates.orderedValues\n  change (coordinates.map (fun coordinate => S.charge input coordinate)).sum = _\n  have sumEq :\n      (coordinates.map (fun coordinate => S.charge input coordinate)).sum =\n        coordinates.length := by\n    induction coordinates with\n    | nil => rfl\n    | cons coordinate rest ih =>\n        simp [unitCharge coordinate, ih, Nat.add_comm]\n  rw [sumEq]\n  exact capability.coordinates.orderedValues_length\n\n/-- CT15 evaluates dependence in the rank pass and in the deterministic\nfirst-drop pass, followed by one constant comparison. -/\ndef primitiveCheckCount : Nat :=\n  2 * capability.coordinates.card + 1\n\n/-- The reference CT15 schedule is linear in the declared coordinate list. -/\ndef linearCheckBudget : Core.PolynomialCheckBudget Unit where\n  size := fun _ => capability.coordinates.card\n  checks := fun _ => primitiveCheckCount S capability\n  coefficient := 2\n  degree := 1\n  bounded := by\n    intro _\n    simp only [primitiveCheckCount, pow_one]\n    omega\n\nend StructuralExhaustion.CT15\n"
     },
     {
       "sourceId": "StructuralExhaustion/Core/Context.lean",

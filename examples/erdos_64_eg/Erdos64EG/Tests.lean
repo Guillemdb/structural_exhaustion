@@ -7,6 +7,7 @@ import Erdos64EG.CT12TypeBResolution
 import Erdos64EG.CT14TypeBChoiceLedger
 import Erdos64EG.CT14TypeBPostLedger
 import Erdos64EG.CT12SparseEnvelope
+import Erdos64EG.CT15BaselineSpineDemand
 
 namespace Erdos64EG.Tests
 
@@ -596,5 +597,35 @@ example :
           ((sparseEnvelopeProfile ctx).budget
             (sparseEnvelopeContext ctx)).degree :=
   runSparseEnvelopeCT12_linearBudget ctx
+
+example : (baselineSpineProfile ctx).coordinates.card = 0 :=
+  baselineSpineProfile_coordinateCount ctx
+
+example :
+    (baselineSpineProfile ctx).deficit (sparseEnvelopeContext ctx) =
+      baselineSpineBitBudget ctx :=
+  baselineSpineProfile_exactDeficit ctx
+
+example : (runBaselineSpineCT15 ctx).terminal = .fullRankLedger :=
+  runBaselineSpineCT15_terminal ctx
+
+example : (runBaselineSpineCT15 ctx).trace =
+    [.entry, .rankComputation, .rankSplit, .ledgerComputation,
+      .ledgerComparison, .fullRankLedgerTerminal] :=
+  runBaselineSpineCT15_trace ctx
+
+example : (runBaselineSpineCT15 ctx).outcome.Valid :=
+  runBaselineSpineCT15_verified ctx
+
+example :
+    ((baselineSpineProfile ctx).budget
+        (sparseEnvelopeContext ctx)).checks () ≤
+      ((baselineSpineProfile ctx).budget
+          (sparseEnvelopeContext ctx)).coefficient *
+        (((baselineSpineProfile ctx).budget
+            (sparseEnvelopeContext ctx)).size () + 1) ^
+          ((baselineSpineProfile ctx).budget
+            (sparseEnvelopeContext ctx)).degree :=
+  runBaselineSpineCT15_linearBudget ctx
 
 end Erdos64EG.Tests

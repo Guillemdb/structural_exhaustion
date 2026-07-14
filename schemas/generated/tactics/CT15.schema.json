@@ -2234,21 +2234,21 @@
             "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
             "selectionRange": {
               "start": {
-                "line": 109,
+                "line": 128,
                 "column": 8
               },
               "end": {
-                "line": 109,
+                "line": 128,
                 "column": 20
               }
             },
             "range": {
               "start": {
-                "line": 107,
+                "line": 126,
                 "column": 0
               },
               "end": {
-                "line": 114,
+                "line": 133,
                 "column": 31
               }
             },
@@ -2620,21 +2620,21 @@
             "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
             "selectionRange": {
               "start": {
-                "line": 69,
+                "line": 88,
                 "column": 8
               },
               "end": {
-                "line": 69,
+                "line": 88,
                 "column": 23
               }
             },
             "range": {
               "start": {
-                "line": 69,
+                "line": 88,
                 "column": 0
               },
               "end": {
-                "line": 71,
+                "line": 90,
                 "column": 37
               }
             },
@@ -4681,21 +4681,21 @@
             "sourceFile": "StructuralExhaustion/CT15/Theorems.lean",
             "selectionRange": {
               "start": {
-                "line": 59,
+                "line": 78,
                 "column": 8
               },
               "end": {
-                "line": 59,
+                "line": 78,
                 "column": 18
               }
             },
             "range": {
               "start": {
-                "line": 59,
+                "line": 78,
                 "column": 0
               },
               "end": {
-                "line": 61,
+                "line": 80,
                 "column": 37
               }
             },

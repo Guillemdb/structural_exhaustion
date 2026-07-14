@@ -44,6 +44,7 @@ import Erdos64EG.CT14TypeBBoundaryDeficit
 import Erdos64EG.CT14TypeBUnconditionalDeficit
 import Erdos64EG.CT14TypeBPostLedger
 import Erdos64EG.CT12SparseEnvelope
+import Erdos64EG.CT15BaselineSpineDemand
 
 /-!
 Structural-exhaustion implementation of the current Erdős Problem 64 proof
@@ -138,4 +139,11 @@ outside the high-center set; the verified certificate charge constructs the
 complete-neighbour candidate when the reserve is locally free. Concrete
 cross-centre completion and the remaining center, window, replacement, and
 delocalization reflection clauses remain outside this prefix.
+
+The current endpoint additionally retains the choice-free Type B post-ledger
+bound, proves the node `[126]` sparse envelope through the reusable CT12
+two-degenerate profile, and executes node `[129]` through the reusable CT15
+baseline-demand profile. The canonical empty coordinate family makes the
+definition unconditional with exact deficit equal to the cubic bit budget;
+no linear deficit estimate is asserted.
 -/
