@@ -334,6 +334,7 @@ export function ExampleWorkspace({
             {isErdos ? (
               <div className="proof-flow-legend" aria-label="Proof formalization legend">
                 <span><i className="proof-flow-legend__verified" /> formalized in Lean</span>
+                <span><i className="proof-flow-legend__partial" /> partially formalized</span>
                 <span><i className="proof-flow-legend__next" /> next frontier</span>
                 <span><i className="proof-flow-legend__paper" /> paper only</span>
               </div>

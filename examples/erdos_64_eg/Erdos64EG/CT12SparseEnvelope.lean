@@ -1,4 +1,4 @@
-import Erdos64EG.CT14TypeBPostLedger
+import Erdos64EG.CT6SparseSurplus
 import StructuralExhaustion.Graph.DegeneracyPeeling
 
 namespace Erdos64EG.Internal
@@ -272,7 +272,7 @@ theorem sparseSurplus_eq_degreeExcessLedger
 structure VerifiedSparseEnvelopePrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
     Prop where
-  previous : VerifiedTypeBPostLedgerPrefix ctx
+  previous : VerifiedSparseSurplusPrefix ctx
   rootDegree : ctx.G.object.degree (sparseEnvelopeRoot ctx) = 3
   coreFree : (sparseEnvelopeRemaining ctx).InternalMinDegreeFree 3
   terminal : (runSparseEnvelopeCT12 ctx).terminal = .exhausted
@@ -310,7 +310,7 @@ structure VerifiedSparseEnvelopePrefix
 
 noncomputable def verifiedSparseEnvelopePrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (previous : VerifiedTypeBPostLedgerPrefix ctx) :
+    (previous : VerifiedSparseSurplusPrefix ctx) :
     VerifiedSparseEnvelopePrefix ctx where
   previous := previous
   rootDegree := sparseEnvelopeRoot_degree ctx
@@ -334,7 +334,7 @@ theorem exists_verifiedSparseEnvelopePrefix {V : Type u}
           PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
         VerifiedSparseEnvelopePrefix.{u} ctx := by
   obtain ⟨ctx, rankLe, previous⟩ :=
-    exists_verifiedTypeBPostLedgerPrefix object baseline avoids
+    exists_verifiedSparseSurplusPrefix object baseline avoids
   exact ⟨ctx, rankLe, verifiedSparseEnvelopePrefix ctx previous⟩
 
 end Erdos64EG.Internal

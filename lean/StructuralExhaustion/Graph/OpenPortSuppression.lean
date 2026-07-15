@@ -368,6 +368,13 @@ structure SuppressionPath (LengthOK : Nat → Prop) where
 def HasSuppressionPath (LengthOK : Nat → Prop) : Prop :=
   Nonempty (SuppressionPath setup LengthOK)
 
+/-- The proof-carrying target cycle produced in the suppressed graph by
+minimality.  Retaining it prevents later blocker stages from searching the
+suppressed cycle universe again. -/
+structure CriticalCycle (LengthOK : Nat → Prop) where
+  cycle : CycleWithLength setup.graph LengthOK
+  usesChord : s(setup.firstVertex, setup.secondVertex) ∈ cycle.walk.edges
+
 /-- Remove the new chord from a supplied target cycle in the suppressed graph
 and return its source-graph predecessor path. -/
 theorem pathOfCycleUsingChord (LengthOK : Nat → Prop)
@@ -432,6 +439,17 @@ theorem pathOfCycleUsingChord (LengthOK : Nat → Prop)
     rw [lengthEq]
     exact cycle.length_ok
 
+namespace CriticalCycle
+
+/-- Extract the source-graph predecessor path from the retained critical
+cycle.  This is one certificate transformation, not a path search. -/
+noncomputable def predecessor (critical : CriticalCycle setup LengthOK) :
+    SuppressionPath setup LengthOK :=
+  Classical.choice
+    (setup.pathOfCycleUsingChord LengthOK critical.cycle critical.usesChord)
+
+end CriticalCycle
+
 /-- A chord-avoiding suppressed cycle maps to a cycle of the same length in
 the source graph. -/
 theorem sourceCycleOfAvoidingChord (LengthOK : Nat → Prop)
@@ -455,13 +473,14 @@ theorem sourceCycleOfAvoidingChord (LengthOK : Nat → Prop)
       exact cycle.length_ok
   }⟩
 
-/-- Minimality and target avoidance force the local predecessor path. -/
-theorem witnessFromMinimality
+/-- Minimality and target avoidance produce one target cycle in the
+suppressed graph and prove that it uses the added shoulder chord. -/
+theorem criticalCycleFromMinimality
     (input : PackedMinimumDegreeCycle.StaticInput)
     (ctx : Core.MinimalCounterexampleContext input.problem input.Target)
     (setup : Setup ctx.G.object)
     (minimumDegree_three : input.minimumDegree = 3) :
-    HasSuppressionPath setup input.LengthOK := by
+    Nonempty (CriticalCycle setup input.LengthOK) := by
   have sourceBaseline : 3 ≤ ctx.G.object.minDegree := by
     have original := ctx.baseline
     change input.minimumDegree ≤ ctx.G.object.minDegree at original
@@ -478,9 +497,21 @@ theorem witnessFromMinimality
       setup.packedRank_lt baseline
   obtain ⟨cycle⟩ := target
   by_cases uses : s(setup.firstVertex, setup.secondVertex) ∈ cycle.walk.edges
-  · exact setup.pathOfCycleUsingChord input.LengthOK cycle uses
+  · exact ⟨⟨cycle, uses⟩⟩
   · exact (ctx.avoids (setup.sourceCycleOfAvoidingChord
       input.LengthOK cycle uses)).elim
+
+/-- Minimality and target avoidance force the local predecessor path while
+the stronger theorem above retains the originating suppression cycle. -/
+theorem witnessFromMinimality
+    (input : PackedMinimumDegreeCycle.StaticInput)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target)
+    (setup : Setup ctx.G.object)
+    (minimumDegree_three : input.minimumDegree = 3) :
+    HasSuppressionPath setup input.LengthOK := by
+  let critical := Classical.choice
+    (setup.criticalCycleFromMinimality input ctx minimumDegree_three)
+  exact ⟨critical.predecessor⟩
 
 end Setup
 

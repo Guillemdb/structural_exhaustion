@@ -217,7 +217,7 @@ export const ERDOS_PROOF_FLOW_PARTS: ErdosProofPart[] = [
       d(71, "certificate labelling present?"),
       d(72, "local fan-window ledger complete and B2 disjointness holds?"),
       a(73, "B2 failure: minimal Type B overlap obstruction"),
-      a(74, "B2 holds: bridge reduction gives nonnegative net charge outside route 8"),
+      a(74, "B2 bridge reduction: nonnegative charge, saturated Type A, or bounded boundary overload"),
       a(75, "bridge fan-mass charged to assigned surplus"),
       a(76, "Type B cannot carry the linear deficit outside two-carrier route 8"),
       a(77, "route-8 cores continue in Part IX"),
@@ -427,19 +427,29 @@ export function proofFlowNodeSteps(
 
 export function proofFlowNodeStatuses(
   manuscript: ExampleManuscript,
-): Map<number, "implemented" | "next" | "notStarted"> {
-  const statuses = new Map<number, "implemented" | "next" | "notStarted">();
-  const priority = { notStarted: 0, next: 1, implemented: 2 } as const;
+): Map<number, "implemented" | "partial" | "next" | "notStarted"> {
+  const statuses = new Map<
+    number,
+    "implemented" | "partial" | "next" | "notStarted"
+  >();
+  const formalized = new Set(manuscript.formalizedNodeIds);
+  const priority = { notStarted: 0, partial: 1, next: 2, implemented: 3 } as const;
   for (const step of manuscript.proofSteps) {
     for (const reference of step.manuscriptRefs) {
       for (const nodeId of reference.nodeIds) {
+        const status = formalized.has(nodeId)
+          ? "implemented"
+          : step.status === "implemented"
+            ? "partial"
+            : step.status;
         const previous = statuses.get(nodeId);
-        if (!previous || priority[step.status] > priority[previous]) {
-          statuses.set(nodeId, step.status);
+        if (!previous || priority[status] > priority[previous]) {
+          statuses.set(nodeId, status);
         }
       }
     }
   }
+  for (const nodeId of formalized) statuses.set(nodeId, "implemented");
   return statuses;
 }
 

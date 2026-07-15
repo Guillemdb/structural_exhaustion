@@ -407,6 +407,21 @@ def _inline_converter(
                 "SmallCaps": "smallCaps",
             }[str(kind)]
             return [{"kind": style, "children": convert_many(value)}]
+        if kind == "Quoted" and isinstance(value, list) and len(value) == 2:
+            quote_kind = value[0]
+            if not isinstance(quote_kind, dict):
+                raise ManuscriptRenderError("pandoc quotation kind is malformed")
+            delimiters = {
+                "DoubleQuote": ("“", "”"),
+                "SingleQuote": ("‘", "’"),
+            }.get(quote_kind.get("t"))
+            if delimiters is None:
+                raise ManuscriptRenderError("pandoc returned an unknown quotation kind")
+            return [
+                {"kind": "text", "text": delimiters[0]},
+                *convert_many(value[1]),
+                {"kind": "text", "text": delimiters[1]},
+            ]
         if kind == "Span" and isinstance(value, list) and len(value) == 2:
             attributes = _attr(node)
             if attributes is None:

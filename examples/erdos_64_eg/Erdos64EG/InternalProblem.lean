@@ -1,4 +1,5 @@
 import StructuralExhaustion.Graph.MinimumDegreeCycle
+import StructuralExhaustion.Core.CounterexampleBranch
 
 namespace Erdos64EG.Internal
 
@@ -71,6 +72,18 @@ abbrev problem (V : Type u) := (staticInput V).problem
 abbrev Baseline {V : Type u} := (staticInput V).problem.Baseline
 abbrev Target {V : Type u} := (staticInput V).Target
 
+/-- Exact predicate tested at manuscript node `[2]`. -/
+abbrev IsCounterexample {V : Type u} (object : Object V) : Prop :=
+  Core.IsCounterexample (problem V) Target object
+
+/-- Complete local contract of terminal node `[3]`: on the negative branch of
+the counterexample test, the official conclusion holds for the same graph as
+soon as its minimum-degree premise is supplied. -/
+theorem target_of_notCounterexample {V : Type u} (object : Object V)
+    (notCounterexample : ¬IsCounterexample object)
+    (baseline : Baseline object) : Target object :=
+  Core.target_of_not_isCounterexample notCounterexample baseline
+
 /-- Convert the ordinary unbounded exponent formulation into the executable
 bounded target predicate used by the internal framework boundary. -/
 theorem target_of_unboundedPowerOfTwoCycle {V : Type u}
@@ -111,5 +124,15 @@ theorem target_iff_official_conclusion {V : Type u} (object : Object V) :
       length_ok := (powerOfTwoLength_iff cycle.length).mpr
         ⟨exponent, lower, lengthEq⟩
     }⟩
+
+/-- Node `[3]` stated directly in the Mathlib vocabulary of the official
+conclusion. -/
+theorem officialConclusion_of_notCounterexample {V : Type u}
+    (object : Object V) (notCounterexample : ¬IsCounterexample object)
+    (baseline : Baseline object) :
+    ∃ (exponent : Nat) (vertex : V) (cycle : object.graph.Walk vertex vertex),
+      exponent ≥ 2 ∧ cycle.IsCycle ∧ cycle.length = 2 ^ exponent :=
+  (target_iff_official_conclusion object).mp
+    (target_of_notCounterexample object notCounterexample baseline)
 
 end Erdos64EG.Internal

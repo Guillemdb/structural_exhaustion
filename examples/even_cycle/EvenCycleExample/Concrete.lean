@@ -8,6 +8,8 @@ import StructuralExhaustion.Graph.TriangularFirstLanding
 import StructuralExhaustion.Graph.TriangularCrossShoulder
 import StructuralExhaustion.Graph.FanClosedPort
 import StructuralExhaustion.Graph.FanClosedPortMass
+import StructuralExhaustion.Graph.DegreeFourFanLedger
+import StructuralExhaustion.Graph.FiniteCertificateMarking
 import StructuralExhaustion.Graph.HybridFanIncidence
 import StructuralExhaustion.Graph.PackedBridgeReduction
 
@@ -757,6 +759,130 @@ theorem routed_terminal :
     profile first second pair assigned).terminal
 
 end EvenCycleExample.FanClosedPortMassTransfer
+
+namespace EvenCycleExample.DegreeFourFanLedgerTransfer
+
+open StructuralExhaustion
+
+universe u
+
+variable {V : Type u}
+variable {base : Graph.MinimumDegreeCycle.StaticInput V (fun _ => Unit)}
+variable {object : Graph.FiniteObject V}
+variable {baseline : base.problem.Baseline object}
+variable {center : V}
+variable (centerHigh : 4 ≤ object.degree center)
+variable (deletionCritical : ∀ dart : object.graph.Dart,
+  object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+variable (Assigned : Graph.FanClosedPort.LocalCarrier V → Prop)
+variable (assignedDecidable : ∀ carrier, Decidable (Assigned carrier))
+variable (degreeFour : object.degree center = 4)
+
+def stage : Graph.DegreeFourFanLedger.VerifiedStage object center centerHigh
+    deletionCritical Assigned assignedDecidable
+    (Graph.FanClosedPortMass.context base object baseline) degreeFour :=
+  Graph.DegreeFourFanLedger.verifiedStage object center centerHigh
+    deletionCritical Assigned assignedDecidable
+    (Graph.FanClosedPortMass.context base object baseline) degreeFour
+
+include base baseline centerHigh deletionCritical Assigned assignedDecidable
+  degreeFour in
+theorem exact_center_surplus : object.degree center - 3 = 1 :=
+  (stage (base := base) (baseline := baseline) centerHigh deletionCritical
+    Assigned assignedDecidable degreeFour).centerSurplus
+
+include degreeFour in
+theorem exact_local_sign_split :
+    (Graph.DegreeFourFanLedger.closedCount object center centerHigh
+        deletionCritical Assigned assignedDecidable
+        (Graph.FanClosedPortMass.context base object baseline) ≤ 1 ∧
+      Graph.DegreeFourFanLedger.quarterDeficit object center centerHigh
+        deletionCritical Assigned assignedDecidable
+        (Graph.FanClosedPortMass.context base object baseline) ≤ 0) ∨
+    (2 ≤ Graph.DegreeFourFanLedger.closedCount object center centerHigh
+        deletionCritical Assigned assignedDecidable
+        (Graph.FanClosedPortMass.context base object baseline) ∧
+      0 < Graph.DegreeFourFanLedger.quarterDeficit object center centerHigh
+        deletionCritical Assigned assignedDecidable
+        (Graph.FanClosedPortMass.context base object baseline)) :=
+  (stage (base := base) (baseline := baseline) centerHigh deletionCritical
+    Assigned assignedDecidable degreeFour).signSplit
+
+include base baseline centerHigh deletionCritical Assigned assignedDecidable
+  degreeFour in
+theorem local_linear_budget :
+    Graph.DegreeFourFanLedger.checks object center ≤
+      17 * (object.input.vertices.card + 1) :=
+  (stage (base := base) (baseline := baseline) centerHigh deletionCritical
+    Assigned assignedDecidable degreeFour).polynomial
+
+end EvenCycleExample.DegreeFourFanLedgerTransfer
+
+namespace EvenCycleExample.FiniteCertificateMarkingTransfer
+
+open StructuralExhaustion
+
+/-! A two-site textbook transfer for the exact node `[80]` machinery.  The
+certificate is already assigned at `false` and absent at `true`; no
+certificate family is searched. -/
+
+def context : Core.BranchContext
+    ConcreteK4.surplusBase.problem :=
+  Graph.FanClosedPortMass.context ConcreteK4.surplusBase ConcreteK4.object
+    ConcreteK4.minimumDegreeThree
+
+def profile : Graph.FiniteCertificateMarking.Profile Bool where
+  sites := Core.Enumeration.bool
+  Certificate := fun _site => Unit
+  assigned := fun site => if site then none else some ()
+
+def stage : profile.VerifiedStage context :=
+  profile.verifiedStage context
+
+theorem false_is_marked :
+    Nonempty (profile.Marked context false) := by
+  rcases profile.marked_or_residual context false with marked | residual
+  · exact marked
+  · have missing := residual.missing
+    simp [profile] at missing
+
+noncomputable def falseMarked : profile.Marked context false :=
+  Classical.choice false_is_marked
+
+theorem marked_terminal :
+    (profile.run context false).terminal = .capacity :=
+  falseMarked.terminal
+
+theorem marked_trace :
+    (profile.run context false).trace =
+      [.entry, .lowerMass, .memberScan, .upperCapacity, .comparison,
+        .capacityTerminal] :=
+  falseMarked.trace
+
+theorem true_is_residual : profile.Residual context true := by
+  rcases profile.marked_or_residual context true with marked | residual
+  · rcases marked with ⟨marked⟩
+    have present := marked.present
+    simp [profile] at present
+  · exact residual
+
+theorem residual_terminal :
+    (profile.run context true).terminal = .missingLabel :=
+  true_is_residual.terminal
+
+theorem residual_trace :
+    (profile.run context true).trace =
+      [.entry, .lowerMass, .memberScan, .missingLabelTerminal] :=
+  true_is_residual.trace
+
+theorem totality_and_linear_work :
+    (∀ site : Bool,
+      Nonempty (profile.Marked context site) ∨ profile.Residual context site) ∧
+      profile.checks ≤ profile.budget.coefficient *
+        (profile.budget.size () + 1) ^ profile.budget.degree :=
+  ⟨stage.exhaustive, stage.polynomial⟩
+
+end EvenCycleExample.FiniteCertificateMarkingTransfer
 
 namespace EvenCycleExample.HybridFanIncidenceTransfer
 

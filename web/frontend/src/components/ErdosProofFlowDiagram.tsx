@@ -24,8 +24,9 @@ function partForNode(nodeId: number | null) {
     part.nodes.some((node) => node.nodeId === nodeId)) ?? ERDOS_PROOF_FLOW_PARTS[0];
 }
 
-function statusLabel(status: "implemented" | "next" | "notStarted") {
+function statusLabel(status: "implemented" | "partial" | "next" | "notStarted") {
   if (status === "implemented") return "Formalized in Lean";
+  if (status === "partial") return "Partially formalized in Lean";
   if (status === "next") return "Current formalization frontier";
   return "Paper proof only";
 }
@@ -80,8 +81,9 @@ export function ErdosProofFlowDiagram({
           <strong>157-node proof dependency map</strong>
         </div>
         <p>
-          Every numbered cell below is a paper node. Green cells are backed by an
-          implemented Lean proof step; amber marks the declared next frontier.
+          Every numbered cell below is a paper node. Green means that the complete
+          displayed assertion is formalized in Lean, yellow marks partial Lean
+          coverage, amber marks the declared next frontier, and white is paper-only.
         </p>
       </div>
 
@@ -167,8 +169,10 @@ export function ErdosProofFlowDiagram({
               <strong>[{activeNode.nodeId}] {activeNode.label}</strong>
             </div>
             <p>
-              {activeSteps.length
-                ? `Indexed by ${activeSteps.map((step) => step?.title).join(", ")}. Select the node to keep its manuscript and Lean evidence synchronized below.`
+              {activeSteps.length && activeStatus === "partial"
+                ? `Lean evidence covers part of this paper node through ${activeSteps.map((step) => step?.title).join(", ")}; the complete displayed assertion is not yet formalized.`
+                : activeSteps.length
+                  ? `Indexed by ${activeSteps.map((step) => step?.title).join(", ")}. Select the node to keep its manuscript and Lean evidence synchronized below.`
                 : "No implemented Lean proof step is indexed to this paper node yet."}
             </p>
           </>

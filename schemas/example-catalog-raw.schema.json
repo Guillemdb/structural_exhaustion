@@ -237,12 +237,17 @@
     "manuscript": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["title", "path", "proofSteps"],
+      "required": ["title", "path", "formalizedNodeIds", "proofSteps"],
       "properties": {
         "title": {"$ref": "#/$defs/nonemptyString"},
         "path": {
           "type": "string",
           "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+\\.tex$"
+        },
+        "formalizedNodeIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "integer", "minimum": 1}
         },
         "proofSteps": {
           "type": "array",

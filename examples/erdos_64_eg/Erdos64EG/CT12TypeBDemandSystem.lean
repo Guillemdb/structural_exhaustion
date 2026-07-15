@@ -32,11 +32,23 @@ abbrev LocalCarrier
     {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}} :=
   Graph.FanClosedPort.LocalCarrier ctx.G.Vertex
 
+/-- The exact marked fan from which either local ledger entry was built. -/
+def fan
+    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}} :
+    TypeBLocalEntry ctx → MarkedFan ctx
+  | .certificate marked => marked.fan
+  | .positive entry => entry.fan
+
 def center
     {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}} :
     TypeBLocalEntry ctx → ctx.G.Vertex
   | .certificate marked => marked.fan.center
   | .positive entry => entry.fan.center
+
+@[simp] theorem fan_center
+    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
+    (entry : TypeBLocalEntry ctx) : entry.fan.center = entry.center := by
+  cases entry <;> rfl
 
 /-- The literal assigned-incidence predicate used to construct this local
 entry.  Exposing it is essential for the global support layer: a local charge
@@ -284,6 +296,12 @@ def demands : FinEnum support.Demand :=
     letI : DecidableEq ctx.G.Vertex := ctx.G.object.input.vertices.decEq
     exact Core.Enumeration.subtype ctx.G.object.input.vertices
       (fun vertex => vertex ∈ support.centers) (fun _vertex => inferInstance)
+
+theorem demands_card_eq_centers :
+    support.demands.card = support.centers.card := by
+  classical
+  letI : FinEnum support.Demand := support.demands
+  rw [FinEnum.card_eq_fintypeCard, Fintype.card_coe]
 
 /-- Literal selectable-item type at one demand. -/
 abbrev CandidateItem (demand : support.Demand) : Type u :=

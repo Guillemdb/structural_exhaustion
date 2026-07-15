@@ -175,6 +175,7 @@ const response: ExampleResponse = {
       title: "Synthetic proof",
       path: "proofs/synthetic.tex",
       sha256: "b".repeat(64),
+      formalizedNodeIds: [1],
       fragments: [
         {
           label: "lem:activity",
@@ -236,7 +237,7 @@ const response: ExampleResponse = {
         displayedDeclarations: 5,
         verifiedMathematicalObjects: 2,
         totalMathematicalObjects: 14,
-        verifiedDiagramNodes: 2,
+        verifiedDiagramNodes: 1,
         totalDiagramNodes: 20,
         verifiedWorkflowSteps: 3,
       },
@@ -396,7 +397,7 @@ describe("ExamplePage", () => {
     });
     expect(within(progress).getByText("2/14")).toBeVisible();
     expect(within(progress).getByText("paper objects mapped to verified Lean")).toBeVisible();
-    expect(within(progress).getByText("2/20")).toBeVisible();
+    expect(within(progress).getByText("1/20")).toBeVisible();
     expect(within(progress).getByText("Chapter 1 flow nodes verified")).toBeVisible();
     expect(within(progress).getByText("verified workflow steps")).toBeVisible();
     expect(screen.getByText("3 indexed steps")).toBeVisible();
@@ -405,6 +406,10 @@ describe("ExamplePage", () => {
     expect(screen.getByRole("button", {
       name: /Node 1: finite simple graph G\. Formalized in Lean/,
     })).toBeVisible();
+    expect(screen.getByRole("button", {
+      name: /Node 2: counterexample.*Partially formalized in Lean/,
+    })).toBeVisible();
+    expect(screen.getByText("partially formalized")).toBeVisible();
     expect(screen.getByRole("button", {
       name: /Node 157: G3 or same-interface table: compression\. Paper proof only/,
     })).toBeVisible();

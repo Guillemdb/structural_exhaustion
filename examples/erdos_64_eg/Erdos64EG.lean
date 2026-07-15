@@ -4,8 +4,13 @@ import Erdos64EG.CT2
 import Erdos64EG.CT3
 import Erdos64EG.CT1InducedP13
 import Erdos64EG.CT12InducedP13Packing
+import Erdos64EG.P13RemainderResidual
 import Erdos64EG.CT10P13LabelAlgebra
+import Erdos64EG.SurplusScaleSplit
+import Erdos64EG.CT14P13PositiveDeficiency
+import Erdos64EG.CT15RemainderCurvature
 import Erdos64EG.CT6SparseSurplus
+import Erdos64EG.TypeBEntryRouting
 import Erdos64EG.CT9SurplusPairs
 import Erdos64EG.CT1HighCenterStructure
 import Erdos64EG.CT10SurplusPortClassification
@@ -35,6 +40,7 @@ import Erdos64EG.CT12TypeBDemandSystem
 import Erdos64EG.CT12TypeBCompletion
 import Erdos64EG.CT12TypeBOverlapSupport
 import Erdos64EG.CT12TypeBResolution
+import Erdos64EG.CT14DegreeFourTypeBLedger
 import Erdos64EG.CT14TypeBChoiceLedger
 import Erdos64EG.CT14TypeBAssignedCharge
 import Erdos64EG.CT14TypeARemainingDischarge
@@ -43,9 +49,17 @@ import Erdos64EG.CT14TypeBSupportSize
 import Erdos64EG.CT14TypeBBoundaryDeficit
 import Erdos64EG.CT14TypeBUnconditionalDeficit
 import Erdos64EG.CT14TypeBPostLedger
+import Erdos64EG.CT12DegreeFourB2Routing
+import Erdos64EG.CT14TypeBResidualCenterLedger
 import Erdos64EG.CT12SparseEnvelope
+import Erdos64EG.SparsePressureEnvelopeRoute
 import Erdos64EG.CT6SurplusPortActivation
 import Erdos64EG.CT15BaselineSpineDemand
+import Erdos64EG.CT15SparsePairResponses
+import Erdos64EG.CT9AllPairAnchorLedger
+import Erdos64EG.CT9CapacityTokenLedger
+import Erdos64EG.CT9CoupledClassOverload
+import Erdos64EG.CT9HomogeneousPattern
 
 /-!
 Structural-exhaustion implementation of the current Erdős Problem 64 proof
@@ -143,8 +157,44 @@ delocalization reflection clauses remain outside this prefix.
 
 The current endpoint additionally retains the choice-free Type B post-ledger
 bound, proves the node `[126]` sparse envelope through the reusable CT12
-two-degenerate profile, and executes node `[129]` through the reusable CT15
-baseline-demand profile. The canonical empty coordinate family makes the
-definition unconditional with exact deficit equal to the cubic bit budget;
-no linear deficit estimate is asserted.
+two-degenerate profile, executes node `[129]` through the reusable CT15
+baseline-demand profile, and consumes the exact activated residual in the
+free/blocked pair-response CT15 block at nodes `[130]`--`[132]`.  The pair
+stage proves its exact partition, retains local blocker and shortest-connector
+certificates, and proves admitted quotient injectivity by the generic
+certified-reduction/minimality theorem.  Its schedule is at most quartic and
+no graph, path, connected-subgraph, quotient, or context universe is
+materialized.  The current CT9 route then accounts for every scheduled pair
+in one exact first-port/product-role partition.  Its five roles are the four
+admitted structural blocker kinds and the literal `freeAnchor` residual.  Blocked
+pairs retain their complete first-hit certificate for the canonical blocker
+ledger; every free-anchor fibre member is proved blocker-free and carries its
+first selected surplus port as the primitive-carrier token.  The route uses
+the existing quartic pair schedule and a fixed five-role scan.  Nodes
+`[133]`--`[136]` then refine that unchanged pair collection to the exact
+window/remainder/primitive capacity-token universe, prove the selected
+`P₁₃` window-join identity, and partition every pair among 25 total roles.
+The following classwise CT9 decision covers nodes `[137]`--`[139]` and
+`[141]`: positive coupled excess returns an actual overloaded token--role
+fibre and its unique token-class route, while the other side proves
+`σ² ≤ (450 bmax + 1)n`.  Both audits are cubic, with the explicit common
+bound `225 n³`, and materialize no graph family, matching family, Boolean
+cube, or recursive search tree.
+The next graph-owned CT9 consumer covers nodes `[140]`, `[142]`, and `[143]`:
+it projects the actual overloaded fibre and runs a deterministic greedy
+maximal-matching scan.  The sharp `(L-1)(2L-3)` bound produces a matching or
+star of the class threshold without enumerating either pattern family.
+At the other green boundaries, a core squared-scale decision implements node
+`[19]`, the graph charge profile implements node `[28]` on the exact packed
+remainder, and the degree-four Type B chain implements nodes `[80]`--`[83]`
+with certificate provenance fixed before CT12 completion.  Its unresolved,
+remaining-negative, and minimal-overlap outputs remain explicit residuals;
+node `[75]` proves that every ordinary residual center is paid by an actual
+  assigned surplus unit.  The remainder-curvature CT15 block then implements
+  nodes `[29]`--`[35]` from the exact node-`[28]` residual, including the
+  surplus-adjusted stub inequality, literal wedge count, and full-rank
+  admissible-quotient audit.  The framework-owned proper-delocalization route
+  closes nodes `[40]`--`[42]` by an actual boundary-fixing support embedding
+  and the existing CT3 context audit.  The compiled descriptor therefore has
+  exactly seventy green Chapter 1 nodes.
 -/

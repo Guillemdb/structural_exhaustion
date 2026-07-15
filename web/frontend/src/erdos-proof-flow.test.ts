@@ -19,6 +19,7 @@ function manuscriptWithStatuses(): ExampleManuscript {
     path: "proofs/synthetic.tex",
     sha256: "a".repeat(64),
     fragments: [],
+    formalizedNodeIds: [1],
     coverage: {
       implementedSteps: 1,
       totalSteps: 3,
@@ -26,7 +27,7 @@ function manuscriptWithStatuses(): ExampleManuscript {
       displayedDeclarations: 0,
       verifiedMathematicalObjects: 0,
       totalMathematicalObjects: 1,
-      verifiedDiagramNodes: 2,
+      verifiedDiagramNodes: 1,
       totalDiagramNodes: 157,
       verifiedWorkflowSteps: 1,
     },
@@ -94,11 +95,11 @@ describe("Erdős Chapter 1 proof flow", () => {
     }
   });
 
-  it("derives green and frontier states from manuscript-indexed proof steps", () => {
+  it("separates complete, partial, frontier, and paper-only node states", () => {
     const manuscript = manuscriptWithStatuses();
     const statuses = proofFlowNodeStatuses(manuscript);
     expect(statuses.get(1)).toBe("implemented");
-    expect(statuses.get(2)).toBe("implemented");
+    expect(statuses.get(2)).toBe("partial");
     expect(statuses.get(19)).toBe("next");
 
     const elements = erdosProofFlowElements(ERDOS_PROOF_FLOW_PARTS[0], manuscript);
@@ -110,6 +111,10 @@ describe("Erdős Chapter 1 proof flow", () => {
     expect(elements.find((element) => element.data.id === "proof-node:19")?.data).toMatchObject({
       verified: false,
       status: "next",
+    });
+    expect(elements.find((element) => element.data.id === "proof-node:2")?.data).toMatchObject({
+      verified: false,
+      status: "partial",
     });
   });
 
@@ -137,5 +142,65 @@ describe("Erdős Chapter 1 proof flow", () => {
     expect(verified).toHaveLength(
       detail.manuscript.coverage.verifiedDiagramNodes,
     );
+    expect(statuses.get(3)).toBe("implemented");
+    expect(statuses.get(19)).toBe("implemented");
+    expect(statuses.get(131)).toBe("implemented");
+    expect(statuses.get(132)).toBe("implemented");
+    expect(detail.manuscript.coverage.verifiedDiagramNodes).toBe(75);
+    for (const nodeId of [133, 134, 135, 136, 137, 138, 139, 141]) {
+      expect(statuses.get(nodeId)).toBe("implemented");
+    }
+    for (const nodeId of [19, 28, 75, 80, 81, 82, 83, 140, 142, 143]) {
+      expect(statuses.get(nodeId)).toBe("implemented");
+    }
+    for (const nodeId of [84, 144]) {
+      expect(statuses.get(nodeId)).toBe("next");
+    }
+  });
+
+  it("has no partially formalized nodes in the compiled Erdős descriptor", () => {
+    const detail = JSON.parse(readFileSync(
+      resolve(process.cwd(), "../../generated/examples/erdos-64.json"),
+      "utf8",
+    )) as ExampleDetail;
+    expect(detail.manuscript).not.toBeNull();
+    if (!detail.manuscript) return;
+
+    const statuses = proofFlowNodeStatuses(detail.manuscript);
+    expect([...statuses.values()]).not.toContain("partial");
+    expect(statuses.get(3)).toBe("implemented");
+    expect(statuses.get(64) ?? "notStarted").toBe("notStarted");
+    expect(statuses.get(65) ?? "notStarted").toBe("notStarted");
+    expect(statuses.get(66) ?? "notStarted").toBe("notStarted");
+  });
+
+  it("renders the current Part II split as verified then paper-only", () => {
+    const detail = JSON.parse(readFileSync(
+      resolve(process.cwd(), "../../generated/examples/erdos-64.json"),
+      "utf8",
+    )) as ExampleDetail;
+    expect(detail.manuscript).not.toBeNull();
+    if (!detail.manuscript) return;
+
+    const part = ERDOS_PROOF_FLOW_PARTS.find((candidate) => candidate.part === 2);
+    expect(part).toBeDefined();
+    if (!part) return;
+    const nodeStatuses = Object.fromEntries(
+      erdosProofFlowElements(part, detail.manuscript)
+        .filter((element) => element.data.kind === "proofFlowNode")
+        .map((element) => [element.data.proofNodeId, element.data.status]),
+    );
+
+    expect(nodeStatuses).toEqual({
+      26: "implemented",
+      27: "implemented",
+      28: "implemented",
+      29: "implemented",
+      30: "implemented",
+      31: "implemented",
+      32: "implemented",
+      33: "implemented",
+      34: "implemented",
+    });
   });
 });

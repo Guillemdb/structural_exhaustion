@@ -1,0 +1,4 @@
+interface:
+  display_name: "Red-Team Structural Repair"
+  short_description: "Audit repaired branches for hidden proof gaps"
+  default_prompt: "Use $red-team-structural-exhaustion-manuscript-repair to audit this repair, feed every blocking lemma back into autonomous structural repair, and iterate until the branch passes without asking me to provide missing mathematics."

@@ -407,6 +407,7 @@ private def manuscriptJson
   pure <| Json.mkObj [
     ("title", toJson manuscript.title),
     ("path", toJson manuscript.path),
+    ("formalizedNodeIds", toJson manuscript.formalizedNodeIds),
     ("proofSteps", Json.arr
       (← manuscript.proofSteps.mapM (proofStepJson env)).toArray)
   ]

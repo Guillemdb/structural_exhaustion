@@ -10,6 +10,7 @@ const manuscript: ExampleManuscript = {
   title: "Synthetic paper",
   path: "proofs/synthetic.tex",
   sha256: "a".repeat(64),
+  formalizedNodeIds: [],
   proofSteps: [],
   fragments: [
     {

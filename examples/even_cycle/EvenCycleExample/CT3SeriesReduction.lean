@@ -1,6 +1,6 @@
 import EvenCycleExample.CT1Instance
 import StructuralExhaustion.CT3.TargetCompression
-import StructuralExhaustion.Graph.PackedBoundariedGluing
+import StructuralExhaustion.Graph.BoundariedRankDrop
 
 namespace EvenCycleExample.SeriesReduction
 
@@ -344,5 +344,29 @@ theorem exists_duffinConcreteBoundariedReplacementStage :
   exact ⟨ctx, rankLe,
     Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.verifiedStage
       concretePackedInput (inferInstance : FinEnum (Fin 2)) ctx⟩
+
+/-- Independent transfer of the certificate-local rank-drop router used by
+the Erdős CT3 instantiation. -/
+theorem exists_duffinBoundariedRankDropRoutingStage :
+    ∃ ctx : Core.MinimalCounterexampleContext
+        concretePackedInput.problem concretePackedInput.Target,
+      concretePackedInput.problem.rank ctx.G ≤
+          concretePackedInput.problem.rank concreteSeedObject ∧
+        Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.VerifiedStage
+          concretePackedInput (inferInstance : FinEnum (Fin 2)) ctx ∧
+        ∀ (atom :
+          Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom
+            concretePackedInput (inferInstance : FinEnum (Fin 2)) ctx)
+          (Enlarged : Type),
+          Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.VerifiedStage
+            concretePackedInput (inferInstance : FinEnum (Fin 2)) atom Enlarged := by
+  obtain ⟨ctx, rankLe⟩ :=
+    concreteAvoidingContext.exists_minimalCounterexample (fun _object => ())
+  exact ⟨ctx, rankLe,
+    Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.verifiedStage
+      concretePackedInput (inferInstance : FinEnum (Fin 2)) ctx,
+    fun atom Enlarged =>
+      Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.verifiedStage
+        concretePackedInput (inferInstance : FinEnum (Fin 2)) atom Enlarged⟩
 
 end EvenCycleExample.SeriesReduction

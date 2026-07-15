@@ -65,6 +65,41 @@ def ValidTrace {P : Core.Problem} {C : Capability P} {ctx : Core.BranchContext P
     (xs : List NodeId) : Prop :=
   ∃ t : Terminal, ∃ path : Path C ctx .entry t.nodeId, path.trace = xs
 
+/-- The CT14 graph has a unique node trace to the missing-label residual. -/
+theorem trace_eq_of_path_to_missingLabel
+    {P : Core.Problem} {C : Capability P} {ctx : Core.BranchContext P}
+    (path : Path C ctx .entry .missingLabelTerminal) :
+    path.trace = [.entry, .lowerMass, .memberScan, .missingLabelTerminal] := by
+  cases path with
+  | cons first rest =>
+      cases first
+      cases rest with
+      | cons second rest =>
+          cases second
+          cases rest with
+          | cons third rest =>
+              cases third with
+              | unbounded residual =>
+                  cases rest with
+                  | cons impossible _tail => cases impossible
+              | missingLabel residual =>
+                  cases rest with
+                  | nil => rfl
+                  | cons impossible _tail => cases impossible
+              | complete scan =>
+                  cases rest with
+                  | cons fourth rest =>
+                      cases fourth
+                      cases rest with
+                      | cons fifth rest =>
+                          cases fifth with
+                          | aggregate certificate =>
+                              cases rest with
+                              | cons impossible _tail => cases impossible
+                          | capacity residual =>
+                              cases rest with
+                              | cons impossible _tail => cases impossible
+
 /-- The CT14 graph has a unique node trace to the capacity residual. -/
 theorem trace_eq_of_path_to_capacity
     {P : Core.Problem} {C : Capability P} {ctx : Core.BranchContext P}

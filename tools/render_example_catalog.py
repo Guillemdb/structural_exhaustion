@@ -455,6 +455,14 @@ def hydrate_example(
             raise ExampleCatalogError(str(error)) from error
         known_labels = set(rendered_manuscript["labels"])
         known_nodes = set(rendered_manuscript["nodeIds"])
+        formalized_node_ids = raw_manuscript.get("formalizedNodeIds", [])
+        unique(formalized_node_ids, "formalized manuscript node IDs")
+        unknown_formalized_nodes = set(formalized_node_ids) - known_nodes
+        if unknown_formalized_nodes:
+            raise ExampleCatalogError(
+                "manuscript declares unknown formalized diagram nodes "
+                f"{sorted(unknown_formalized_nodes)}"
+            )
         unique([step["stepId"] for step in proof_steps], "proof step IDs")
         mapped_stage_ids = [
             step["stageId"] for step in proof_steps if step["stageId"] is not None
@@ -587,18 +595,24 @@ def hydrate_example(
             for reference in step["manuscriptRefs"]
             if reference["label"] in mathematical_object_labels
         }
-        verified_diagram_nodes = {
+        implemented_reference_nodes = {
             node_id
             for step in implemented_steps
             for reference in step["manuscriptRefs"]
             for node_id in reference["nodeIds"]
         }
+        if not set(formalized_node_ids) <= implemented_reference_nodes:
+            raise ExampleCatalogError(
+                "formalized manuscript nodes lack implemented proof-step evidence; "
+                f"missing={sorted(set(formalized_node_ids) - implemented_reference_nodes)}"
+            )
 
         manuscript = {
             "title": raw_manuscript["title"],
             "path": raw_manuscript["path"],
             "sha256": rendered_manuscript["sha256"],
             "fragments": rendered_manuscript["fragments"],
+            "formalizedNodeIds": formalized_node_ids,
             "proofSteps": normalized_steps,
             "coverage": {
                 "implementedSteps": len(implemented_steps),
@@ -609,7 +623,7 @@ def hydrate_example(
                     verified_mathematical_objects
                 ),
                 "totalMathematicalObjects": len(mathematical_object_labels),
-                "verifiedDiagramNodes": len(verified_diagram_nodes),
+                "verifiedDiagramNodes": len(formalized_node_ids),
                 "totalDiagramNodes": len(rendered_manuscript["nodeIds"]),
                 "verifiedWorkflowSteps": len(implemented_steps),
             },
@@ -675,7 +689,7 @@ def validate_detail_semantics(detail: dict[str, Any]) -> None:
             for fragment in manuscript["fragments"]
         }
         verified_objects: set[str] = set()
-        verified_nodes: set[int] = set()
+        formalized_nodes = set(manuscript["formalizedNodeIds"])
         implemented_steps = 0
         for step in manuscript["proofSteps"]:
             if step["status"] == "implemented":
@@ -686,7 +700,6 @@ def validate_detail_semantics(detail: dict[str, Any]) -> None:
                         "claim", "definition", "remark",
                     }:
                         verified_objects.add(reference["label"])
-                    verified_nodes.update(reference["nodeIds"])
             for group in step["declarationGroups"]:
                 if not set(group["declarationIds"]) <= declaration_set:
                     raise ExampleCatalogError(
@@ -699,7 +712,7 @@ def validate_detail_semantics(detail: dict[str, Any]) -> None:
         expected_progress = {
             "implementedSteps": implemented_steps,
             "verifiedMathematicalObjects": len(verified_objects),
-            "verifiedDiagramNodes": len(verified_nodes),
+            "verifiedDiagramNodes": len(formalized_nodes),
             "verifiedWorkflowSteps": implemented_steps,
         }
         if any(coverage[key] != value for key, value in expected_progress.items()):

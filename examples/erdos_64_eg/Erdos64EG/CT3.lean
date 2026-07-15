@@ -1,5 +1,5 @@
 import Erdos64EG.CT2
-import StructuralExhaustion.Graph.PackedBoundariedGluing
+import StructuralExhaustion.Graph.BoundariedRankDrop
 
 namespace Erdos64EG.Internal
 
@@ -51,6 +51,27 @@ abbrev VerifiedStage
   Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.VerifiedStage
     packedStaticInput boundaries ctx
 
+abbrev RankDropCertificate
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
+    {T : Type u} (boundaries : FinEnum T) [Nonempty T]
+    (atom : ProperAtom ctx boundaries) (Enlarged : Type u) :=
+  Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.Certificate
+    packedStaticInput boundaries atom Enlarged
+
+abbrev RankDropRouted
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
+    {T : Type u} (boundaries : FinEnum T) [Nonempty T]
+    (atom : ProperAtom ctx boundaries) (Enlarged : Type u) :=
+  Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.Routed
+    packedStaticInput boundaries atom Enlarged
+
+abbrev RankDropVerifiedStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
+    {T : Type u} (boundaries : FinEnum T) [Nonempty T]
+    (atom : ProperAtom ctx boundaries) (Enlarged : Type u) :=
+  Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.VerifiedStage
+    packedStaticInput boundaries atom Enlarged
+
 end ConcreteCT3
 
 /-! ## Completed verified prefix -/
@@ -101,6 +122,128 @@ theorem boundariedReplacementPrefix_uncompressible
     (atom : ConcreteCT3.ProperAtom ctx boundaries)
     (compression : ConcreteCT3.Compression atom) : False :=
   (verified.concrete boundaries).compressionImpossible atom compression
+
+/-! ## Rank-drop reuse at nodes `[36]`--`[39]` -/
+
+/-- Exact context-audit dichotomy for the incoming node `[35]` determination
+certificate. -/
+theorem rankDrop_contextAudit
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
+    (_previous : VerifiedBoundariedReplacementPrefix ctx)
+    {T : Type u} (boundaries : FinEnum T) [Nonempty T]
+    {atom : ConcreteCT3.ProperAtom ctx boundaries} {Enlarged : Type u}
+    (certificate : ConcreteCT3.RankDropCertificate ctx boundaries atom Enlarged) :
+    Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.TargetDefective
+        packedStaticInput boundaries certificate.realization atom.source ∨
+      Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.TargetComplete
+        packedStaticInput boundaries certificate.realization atom.source :=
+  certificate.contextAudit
+
+/-- The at-atom, context-universal branch executes the literal CT3
+compression and contradicts minimality. -/
+theorem rankDrop_atAtom_impossible
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
+    (_previous : VerifiedBoundariedReplacementPrefix ctx)
+    {T : Type u} (boundaries : FinEnum T) [Nonempty T]
+    {atom : ConcreteCT3.ProperAtom ctx boundaries}
+    (realization : ConcreteCT3.Piece T)
+    (internalTargetFree :
+      ¬ PackedTarget (Graph.PackedBoundariedGluing.Piece.pack boundaries realization))
+    (internalBaseline : realization.InternalBaseline boundaries 3)
+    (locallySmaller : Graph.PackedBoundariedGluing.Piece.LexSmaller
+      realization atom.source)
+    (universal :
+      Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.TargetComplete
+        packedStaticInput boundaries realization atom.source) : False :=
+  Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.impossible
+    realization internalTargetFree internalBaseline locallySmaller universal
+
+theorem rankDrop_atAtom_terminal
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
+    (_previous : VerifiedBoundariedReplacementPrefix ctx)
+    {T : Type u} (boundaries : FinEnum T) [Nonempty T]
+    {atom : ConcreteCT3.ProperAtom ctx boundaries}
+    (realization : ConcreteCT3.Piece T)
+    (internalTargetFree :
+      ¬ PackedTarget (Graph.PackedBoundariedGluing.Piece.pack boundaries realization))
+    (internalBaseline : realization.InternalBaseline boundaries 3)
+    (locallySmaller : Graph.PackedBoundariedGluing.Piece.LexSmaller
+      realization atom.source)
+    (universal :
+      Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.TargetComplete
+        packedStaticInput boundaries realization atom.source) :
+    (Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.run
+      (Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.compression
+        realization internalTargetFree internalBaseline locallySmaller universal)).terminal =
+      .compression := rfl
+
+theorem rankDrop_atAtom_trace
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
+    (_previous : VerifiedBoundariedReplacementPrefix ctx)
+    {T : Type u} (boundaries : FinEnum T) [Nonempty T]
+    {atom : ConcreteCT3.ProperAtom ctx boundaries}
+    (realization : ConcreteCT3.Piece T)
+    (internalTargetFree :
+      ¬ PackedTarget (Graph.PackedBoundariedGluing.Piece.pack boundaries realization))
+    (internalBaseline : realization.InternalBaseline boundaries 3)
+    (locallySmaller : Graph.PackedBoundariedGluing.Piece.LexSmaller
+      realization atom.source)
+    (universal :
+      Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.TargetComplete
+        packedStaticInput boundaries realization atom.source) :
+    (Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.run
+      (Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.compression
+        realization internalTargetFree internalBaseline locallySmaller universal)).trace =
+      [.entry, .vectorComputation, .compressionSearch, .compressionTerminal] := rfl
+
+/-- The only surviving local outputs are the concrete defect witness for node
+`[37]` or the unchanged enlarged-support residual consumed by white node
+`[40]`. -/
+theorem rankDrop_routed
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
+    (_previous : VerifiedBoundariedReplacementPrefix ctx)
+    {T : Type u} (boundaries : FinEnum T) [Nonempty T]
+    {atom : ConcreteCT3.ProperAtom ctx boundaries} {Enlarged : Type u}
+    (certificate : ConcreteCT3.RankDropCertificate ctx boundaries atom Enlarged) :
+    ConcreteCT3.RankDropRouted ctx boundaries atom Enlarged :=
+  Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.route
+    packedStaticInput boundaries certificate
+
+structure VerifiedRankDropRoutingPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
+    {T : Type u} (boundaries : FinEnum T) [Nonempty T]
+    (atom : ConcreteCT3.ProperAtom ctx boundaries) (Enlarged : Type u) : Prop where
+  previous : VerifiedBoundariedReplacementPrefix ctx
+  stage : ConcreteCT3.RankDropVerifiedStage ctx boundaries atom Enlarged
+
+/-- Complete node `[36]`--`[39]` stage, indexed by the exact selected graph and
+proper atom retained by the verified replacement prefix. -/
+noncomputable def verifiedRankDropRoutingStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
+    (previous : VerifiedBoundariedReplacementPrefix ctx)
+    {T : Type u} (boundaries : FinEnum T) [Nonempty T]
+    (atom : ConcreteCT3.ProperAtom ctx boundaries) (Enlarged : Type u) :
+    VerifiedRankDropRoutingPrefix ctx boundaries atom Enlarged where
+  previous := previous
+  stage :=
+    Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.verifiedStage
+      packedStaticInput boundaries atom Enlarged
+
+theorem rankDropRoutingPrefix_previous
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
+    {T : Type u} (boundaries : FinEnum T) [Nonempty T]
+    {atom : ConcreteCT3.ProperAtom ctx boundaries} {Enlarged : Type u}
+    (verified : VerifiedRankDropRoutingPrefix ctx boundaries atom Enlarged) :
+    VerifiedBoundariedReplacementPrefix ctx :=
+  verified.previous
+
+theorem rankDropRoutingPrefix_stage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
+    {T : Type u} (boundaries : FinEnum T) [Nonempty T]
+    {atom : ConcreteCT3.ProperAtom ctx boundaries} {Enlarged : Type u}
+    (verified : VerifiedRankDropRoutingPrefix ctx boundaries atom Enlarged) :
+    ConcreteCT3.RankDropVerifiedStage ctx boundaries atom Enlarged :=
+  verified.stage
 
 /-- Starting with only the official internal counterexample data, select the
 same packed lexicographic minimum used by the preceding prefix and extend that

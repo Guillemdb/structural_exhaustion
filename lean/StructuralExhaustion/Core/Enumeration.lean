@@ -99,6 +99,13 @@ def toOrderedCollection {α : Type u} (enumeration : FinEnum α) :
   nodup := enumeration.nodup_orderedValues
   decEq := enumeration.decEq
 
+/-- Passing an exact enumeration to a CT as an ordered collection preserves
+its cardinality exactly. -/
+@[simp] theorem toOrderedCollection_length {α : Type u}
+    (enumeration : FinEnum α) :
+    enumeration.toOrderedCollection.values.length = enumeration.card :=
+  enumeration.orderedValues_length
+
 /-- The deterministic list sum exposed by a `FinEnum` is the standard
 Mathlib `Fintype` sum. -/
 theorem sum_orderedValues {α : Type u} {M : Type v} [AddCommMonoid M]

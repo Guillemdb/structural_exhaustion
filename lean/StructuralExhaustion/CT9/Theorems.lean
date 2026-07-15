@@ -44,6 +44,14 @@ theorem run_verified : (run capability input).outcome.Valid :=
 theorem run_trace_valid :
     Graph.ValidTrace capability input (run capability input).trace :=
   (run capability input).traceValid
+
+/-- A computed label fibre is a filtered sublist of the authored item
+collection.  This is the basic locality bound for consumers that inspect one
+CT9 residual rather than the whole label product. -/
+theorem fibreCount_le_itemCount (label : capability.Label) :
+    fibreCount capability input label ≤ input.items.values.length := by
+  unfold fibreCount fibre
+  exact List.length_filter_le _ _
 theorem run_total : ∃ result : ExecutionResult capability input,
     result.outcome.Valid ∧ Graph.ValidTrace capability input result.trace :=
   ⟨run capability input, run_verified capability input, run_trace_valid capability input⟩
@@ -163,6 +171,38 @@ theorem cardinality_le_totalCapacity_of_bounded
       fibreCount capability input label ≤ capability.capacity label) :
     input.items.values.length ≤ totalCapacity capability :=
   (show BoundedCertificate capability input from ⟨bounded⟩).cardinality_le_totalCapacity
+
+/-- Exact no-overcounting identity for the authored label function.  Every
+active item occurs in exactly one fibre over the declared `FinEnum` of
+labels.  This is the generic ledger theorem used by canonical blocker,
+capacity-token, and role-fibre accounting. -/
+theorem cardinality_eq_sum_fibreCount :
+    input.items.values.length =
+      (capability.labels.orderedValues.map
+        (fibreCount capability input)).sum := by
+  letI : DecidableEq capability.Label := capability.labels.decEq
+  letI : DecidableEq capability.Item := input.items.decEq
+  have itemCard : input.items.values.toFinset.card =
+      input.items.values.length :=
+    List.toFinset_card_of_nodup input.items.nodup
+  have mapsTo : (input.items.values.toFinset : Set capability.Item).MapsTo
+      capability.label capability.labels.orderedValues.toFinset := by
+    intro item _member
+    exact List.mem_toFinset.mpr
+      (capability.labels.mem_orderedValues (capability.label item))
+  have partition := Finset.card_eq_sum_card_fiberwise mapsTo
+  rw [itemCard] at partition
+  rw [← List.sum_toFinset (fibreCount capability input)
+    capability.labels.nodup_orderedValues]
+  rw [partition]
+  apply Finset.sum_congr rfl
+  intro label _labelMem
+  unfold fibreCount fibre
+  rw [← List.toFinset_card_of_nodup
+    (input.items.nodup.filter fun item => capability.label item = label)]
+  congr 1
+  ext item
+  simp
 
 /-- Capacity-one specialization of the generic global cardinality theorem. -/
 theorem cardinality_le_totalCapacity_of_label_injective_on_items

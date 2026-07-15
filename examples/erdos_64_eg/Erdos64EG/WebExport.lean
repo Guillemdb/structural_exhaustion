@@ -10,7 +10,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
   workflowId := "proof-slice"
   title := "Verified Erdős 64 prefix"
   purpose :=
-    "Inspect the exact Mersenne target algebra, lexicographic minimal selection, CT2 criticality and bridge contraction, boundaried replacement, the HSS-forced induced-P13 CT1 stage, the routed maximum-packing CT12 remainder stage, the exhaustive CT10 P13 attachment-label algebra, the ordered CT6 degree-surplus ledger with per-slot activation, the CT15 baseline demand, and the Type B development through its graph-derived high-center choice/overlap trichotomy."
+    "Inspect the exact Mersenne target algebra, lexicographic minimal selection, CT2 criticality and bridge contraction, boundaried replacement, the HSS-forced induced-P13 CT1 stage, the routed maximum-packing CT12 remainder stage, the exhaustive CT10 P13 attachment-label algebra, the ordered CT6 degree-surplus ledger with per-slot activation, the CT15 baseline and free/blocked pair-response stages, the CT9 free-anchor and capacity-token ledgers, the exact 25-role coupled overload decision, and the Type B development through its graph-derived high-center choice/overlap trichotomy."
   completion := .partialProof
   stages := [
     {
@@ -27,6 +27,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       kind := .adapter
       primaryDeclaration := `Erdos64EG.Internal.staticInput
       evidenceDeclarations := [
+        `StructuralExhaustion.Core.IsCounterexample,
+        `StructuralExhaustion.Core.target_of_not_isCounterexample,
+        `Erdos64EG.Internal.IsCounterexample,
+        `Erdos64EG.Internal.officialConclusion_of_notCounterexample,
         `Erdos64EG.Internal.powerOfTwoLength_iff,
         `Erdos64EG.Internal.target_iff_official_conclusion
       ]
@@ -109,8 +113,19 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `StructuralExhaustion.Graph.PackedBoundariedGluing.glue_lexRank_lt,
         `StructuralExhaustion.Graph.PackedBoundariedGluing.glue_preserves_minDegree,
         `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.impossible,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.Certificate.contextAudit,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.impossible,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.terminal,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.trace,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.checks,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.polynomial,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.total,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.route,
         `Erdos64EG.Internal.boundariedReplacementPrefix_previous,
-        `Erdos64EG.Internal.boundariedReplacementPrefix_uncompressible
+        `Erdos64EG.Internal.boundariedReplacementPrefix_uncompressible,
+        `Erdos64EG.Internal.verifiedRankDropRoutingStage,
+        `Erdos64EG.Internal.rankDropRoutingPrefix_previous,
+        `Erdos64EG.Internal.rankDropRoutingPrefix_stage
       ]
     },
     {
@@ -156,6 +171,11 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.p13Remainder_componentwise_free,
         `Erdos64EG.Internal.p13Remainder_internalThreeCore_free,
         `Erdos64EG.Internal.p13Remainder_internalSubgraphThreeCore_free,
+        `StructuralExhaustion.Graph.InducedPathPacking.remainder_card_ge_of_packingNumber_le,
+        `Erdos64EG.Internal.P13CoverageResidual,
+        `Erdos64EG.Internal.verifiedP13RemainderResidual,
+        `Erdos64EG.Internal.p13Remainder_large,
+        `Erdos64EG.Internal.p13Remainder_node26_exact,
         `Erdos64EG.Internal.p13PackingPrefix_previous,
         `Erdos64EG.Internal.p13PackingPrefix_routeId,
         `Erdos64EG.Internal.p13PackingPrefix_routedInputExact,
@@ -188,6 +208,118 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.p13AttachmentLabel_accepted,
         `Erdos64EG.Internal.p13LabelAlgebraPrefix_previous,
         `Erdos64EG.Internal.p13LabelAlgebraPrefix_stage
+      ]
+    },
+    {
+      stageId := "proof-slice.surplus-scale-split"
+      title := "Exact quadratic surplus-scale split"
+      summary := "The actual degree surplus is compared with the squared fixed homogeneous-cap scale by one natural-number comparison, giving the exhaustive node-[19] non-near-cubic or bounded branch."
+      kind := .theorem
+      primaryDeclaration :=
+        `Erdos64EG.Internal.exists_verifiedSurplusScaleRoutingPrefix
+      evidenceDeclarations := [
+        `StructuralExhaustion.Core.QuadraticScaleSplit.decide,
+        `StructuralExhaustion.Core.QuadraticScaleSplit.exhaustive,
+        `StructuralExhaustion.Core.QuadraticScaleSplit.verifiedStage,
+        `Erdos64EG.Internal.surplusScaleCoefficient,
+        `Erdos64EG.Internal.surplusScaleInput,
+        `Erdos64EG.Internal.surplusScaleStage,
+        `Erdos64EG.Internal.surplusScale_exhaustive,
+        `Erdos64EG.Internal.routeSurplusScale,
+        `Erdos64EG.Internal.routeSurplusScale_exhaustive,
+        `Erdos64EG.Internal.verifiedSurplusScaleRoutingPrefix
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-positive-deficiency"
+      title := "Exact P13-remainder positive deficiency"
+      summary := "The graph-owned induced-support charge profile is instantiated on the exact selected P13 remainder, so node [28] is definitionally the sum of max(0,3-d_R(v)) on that same graph."
+      kind := .theorem
+      primaryDeclaration :=
+        `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix
+      evidenceDeclarations := [
+        `StructuralExhaustion.Graph.AssignedSupportCharge.Profile.internalDegree,
+        `StructuralExhaustion.Graph.AssignedSupportCharge.Profile.positiveDeficiency,
+        `Erdos64EG.Internal.p13RemainderDeficiencyProfile,
+        `Erdos64EG.Internal.p13Remainder_internalDegree_eq,
+        `Erdos64EG.Internal.p13Remainder_positiveDeficiency_eq
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-curvature-rank"
+      title := "Exact remainder curvature CT15"
+      summary := "The exact node-[28] remainder is scanned for boundary incidences and raw length-two wedges; CT15 evaluates the literal wedge supports and certified-reduction admissibility forces its full-rank ledger."
+      kind := .tactic
+      tacticId? := some "CT15"
+      primaryDeclaration :=
+        `Erdos64EG.Internal.exists_verifiedP13CurvaturePrefix
+      evidenceDeclarations := [
+        `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.positiveDeficiency_le_boundaryIncidences,
+        `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeFloor,
+        `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeCount_le_cube,
+        `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderBoundaryIncidences_le_tokenCount,
+        `StructuralExhaustion.Graph.InducedPathWindowLedger.tokenCount_eq_fifteen_mul_packing_add_surplus,
+        `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_le_fifteen_mul_packing_add_surplus,
+        `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_sub_remainderSurplus_le,
+        `Erdos64EG.Internal.p13CurvatureCoordinates,
+        `Erdos64EG.Internal.p13CurvatureCoordinates_card_eq_wedgeCount,
+        `Erdos64EG.Internal.p13CurvatureCoordinates_card_le_cube,
+        `Erdos64EG.Internal.p13CurvatureResponseProfile,
+        `StructuralExhaustion.Graph.FiniteSupportResponse.Profile.run,
+        `Erdos64EG.Internal.runP13CurvatureCT15_terminal,
+        `Erdos64EG.Internal.runP13CurvatureCT15_trace,
+        `Erdos64EG.Internal.no_p13Curvature_rankDrop,
+        `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix,
+        `Erdos64EG.Internal.exists_verifiedP13CurvaturePrefix
+      ]
+    },
+    {
+      stageId := "proof-slice.proper-delocalization"
+      title := "Proper enlarged-support closure"
+      summary := "The enlarged determination support is tagged as proper or whole-graph. A proper support is audited by literal context response and the existing CT3 compression kernel; only the unchanged whole-graph payload survives."
+      kind := .tactic
+      tacticId? := some "CT3"
+      primaryDeclaration :=
+        `Erdos64EG.Internal.exists_verifiedP13ProperDelocalizationPrefix
+      evidenceDeclarations := [
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.ProperExtension,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.verifiedStage,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.ProperExtension.targetDefective,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.ProperExtension.compression_terminal,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.ProperExtension.compression_trace,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.Location,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.route,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.routeAfterRankDrop,
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.verifiedStage,
+        `Erdos64EG.Internal.routeProperDelocalization,
+        `Erdos64EG.Internal.routeRankDropThroughProperDelocalization,
+        `Erdos64EG.Internal.exists_verifiedP13ProperDelocalizationPrefix
+      ]
+    },
+    {
+      stageId := "proof-slice.global-rank-drop-closure"
+      title := "Whole-support rank-drop audit"
+      summary := "The exact whole payload carries the quotient already admitted by the finite determination certificate. Minimality makes that quotient injective, so its literal distinct-coordinate identification closes; the one--three identity is derived separately from one finite graph component."
+      kind := .tactic
+      tacticId? := some "CT15"
+      primaryDeclaration :=
+        `Erdos64EG.Internal.exists_verifiedP13GlobalRankClosurePrefix
+      evidenceDeclarations := [
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Admissible.injective,
+        `StructuralExhaustion.Graph.ClosedRankDrop.exactBarrier,
+        `StructuralExhaustion.Graph.ClosedRankDrop.no_silent_identification,
+        `StructuralExhaustion.Graph.ClosedRankDrop.rankDrop_impossible,
+        `StructuralExhaustion.Core.OneThreeRepair.identity,
+        `StructuralExhaustion.Graph.OneThreeRepair.Component.identity,
+        `Erdos64EG.Internal.P13WholeDelocalization,
+        `Erdos64EG.Internal.routeRankDropThroughGlobalClosure,
+        `Erdos64EG.Internal.p13ClosedRankDrop_exactBarrier,
+        `Erdos64EG.Internal.no_p13Closed_silentIdentification,
+        `Erdos64EG.Internal.p13WholeDelocalization_impossible,
+        `Erdos64EG.Internal.oneThreeRepair_identity,
+        `Erdos64EG.Internal.oneThreeRepair_component_identity,
+        `Erdos64EG.Internal.exists_verifiedP13ProperDelocalizationPrefix,
+        `Erdos64EG.Internal.exists_verifiedP13GlobalRankClosurePrefix
       ]
     },
     {
@@ -331,6 +463,57 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `StructuralExhaustion.Graph.HighCenterPort.verifiedStage,
         `StructuralExhaustion.Graph.HighCenterPort.localDichotomy,
         `StructuralExhaustion.Graph.HighCenterPort.classificationChecks_linear
+      ]
+    },
+    {
+      stageId := "proof-slice.degree-four-type-b-ledger"
+      title := "CT14 degree-four Type B fan ledger"
+      summary := "On the no-higher-centre branch, every actual centre has degree exactly four; CT14 computes its exact closed-port count, quarter-deficit, and assigned-certificate split."
+      kind := .tactic
+      tacticId? := some "CT14"
+      primaryDeclaration :=
+        `Erdos64EG.Internal.exists_verifiedDegreeFourTypeBLedgerPrefix
+      evidenceDeclarations := [
+        `StructuralExhaustion.Graph.DegreeFourFanLedger.members_card_eq_degree,
+        `StructuralExhaustion.Graph.DegreeFourFanLedger.verifiedStage,
+        `StructuralExhaustion.Graph.FiniteCertificateMarking.Profile.marked_or_residual,
+        `Erdos64EG.Internal.TypeBSupportScope.degree_eq_four_of_noHigher,
+        `Erdos64EG.Internal.TypeBSupportScope.higher_or_degreeFour_certificateFlow
+      ]
+    },
+    {
+      stageId := "proof-slice.degree-four-b2-routing"
+      title := "Exact degree-four B1/B2 routing"
+      summary := "The node-[80] assigned certificate is now a required provenance field of every local entry. Finite resolution plus CT12 returns an unresolved center, a nonnegative full choice, a literal remaining negative core, or a proof-carrying minimal overlap."
+      kind := .tactic
+      tacticId? := some "CT12"
+      primaryDeclaration :=
+        `Erdos64EG.Internal.exists_verifiedDegreeFourB2RoutingPrefix
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.TypeBSupportScope.unresolved_of_certificate_none,
+        `Erdos64EG.Internal.TypeBSupportScope.certificateResidual_is_unresolved,
+        `Erdos64EG.Internal.TypeBSupportScope.fullResolution_entry_provenance,
+        `Erdos64EG.Internal.TypeBSupportScope.degreeFourB2Route,
+        `Erdos64EG.Internal.TypeBSupportScope.fullChoice_nonnegative_or_remainingNegative,
+        `Erdos64EG.Internal.TypeBAssignedSupport.MinimalOverlap.no_disjoint_choice,
+        `Erdos64EG.Internal.TypeBAssignedSupport.MinimalOverlap.proper_subschedule_has_choice,
+        `Erdos64EG.Internal.TypeBAssignedSupport.MinimalOverlap.no_separated_carrier_partition
+      ]
+    },
+    {
+      stageId := "proof-slice.type-b-residual-center-ledger"
+      title := "Assigned-surplus residual-center ledger"
+      summary := "Every certificate failure, unresolved local entry, and selected center of a minimal B2 overlap is an actual high center in the same scope and is bounded by its graph-derived assigned-surplus sum."
+      kind := .tactic
+      tacticId? := some "CT14"
+      primaryDeclaration :=
+        `Erdos64EG.Internal.exists_verifiedTypeBResidualCenterLedgerPrefix
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.TypeBSupportScope.residualCenters_card_le_assignedSurplus,
+        `Erdos64EG.Internal.TypeBSupportScope.certificateResidual_charged,
+        `Erdos64EG.Internal.TypeBSupportScope.unresolved_charged,
+        `Erdos64EG.Internal.TypeBSupportScope.minimalOverlapCenters_charged,
+        `Erdos64EG.Internal.TypeBSupportScope.minimalOverlap_has_assignedSurplus
       ]
     },
     {
@@ -760,6 +943,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       primaryDeclaration :=
         `Erdos64EG.Internal.exists_verifiedSparseEnvelopePrefix
       evidenceDeclarations := [
+        `Erdos64EG.Internal.exists_verifiedSparseSurplusPrefix,
         `StructuralExhaustion.Graph.DegeneracyPeeling.exists_certificate_of_internalMinDegreeFree,
         `StructuralExhaustion.Graph.DegeneracyPeeling.edgeCount_le_two_mul_vertexCount_sub_three,
         `StructuralExhaustion.Graph.DegeneracyPeeling.Profile.verifiedStage,
@@ -778,7 +962,9 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.sparseEnvelope_edgeBound,
         `Erdos64EG.Internal.sparseSlack_surplus_identity,
         `Erdos64EG.Internal.sparseEdge_surplus_identity,
-        `Erdos64EG.Internal.sparseSurplus_eq_degreeExcessLedger
+        `Erdos64EG.Internal.sparseSurplus_eq_degreeExcessLedger,
+        `Erdos64EG.Internal.verifiedSparseEnvelopeFromPressure,
+        `Erdos64EG.Internal.verifiedSparseEnvelopeFromPressure_sameLabelPrefix
       ]
     },
     {
@@ -816,6 +1002,141 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.runBaselineSpineCT15_verified,
         `Erdos64EG.Internal.runBaselineSpineCT15_total,
         `Erdos64EG.Internal.runBaselineSpineCT15_linearBudget
+      ]
+    },
+    {
+      stageId := "proof-slice.sparse-pair-responses"
+      title := "CT15 exact free/blocked pair responses"
+      summary := "The exact activated-slot schedule is paired once, each pair is classified by a finite local blocker scan, and every free pair receives one proof-carrying shortest connector. CT15 then verifies full rank under the audited admissible-quotient contract; boundary and target mismatches are raw-proposal exits and cannot occur after admission."
+      kind := .tactic
+      tacticId? := some "CT15"
+      primaryDeclaration :=
+        `Erdos64EG.Internal.exists_verifiedSparsePairResponsePrefix
+      evidenceDeclarations := [
+        `StructuralExhaustion.Core.FiniteBlockerLedger.FamilyProfile.blocked_card_add_free_card,
+        `StructuralExhaustion.Core.FiniteBlockerLedger.FamilyProfile.firstBlocker_sound,
+        `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.preconnected_of_noProperCore,
+        `StructuralExhaustion.Graph.FiniteConnector.exists_certificate,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Admissible.no_boundary_mismatch,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Admissible.no_target_mismatch,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Admissible.injective,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.verifiedFor,
+        `StructuralExhaustion.Graph.SurplusPairResponse.verifiedStage,
+        `StructuralExhaustion.Graph.SurplusPairResponse.canonicalBlocker_sound,
+        `Erdos64EG.Internal.sparsePair_exact_partition,
+        `Erdos64EG.Internal.sparsePairCT15_verified,
+        `Erdos64EG.Internal.sparsePair_schedule_quartic,
+        `Erdos64EG.Internal.exists_verifiedSparsePairResponsePrefix
+      ]
+    },
+    {
+      stageId := "proof-slice.total-pair-token-route"
+      title := "CT9 pair dispatch and free-anchor route"
+      summary := "CT9 executes the exact node-130 pre-retokenization dispatch by first selected port and a five-way role. Blocked pairs retain their canonical first-hit record for node 134; blocker-free pairs receive the literal freeAnchor role and enter the primitive selected-port audit with their retained shortest connector. The downstream capacity-token map is not part of this stage."
+      kind := .tactic
+      tacticId? := some "CT9"
+      primaryDeclaration :=
+        `Erdos64EG.Internal.exists_verifiedAllPairTokenRoutingPrefix
+      evidenceDeclarations := [
+        `StructuralExhaustion.CT9.TokenRoleLedger.noOvercounting,
+        `StructuralExhaustion.CT9.TokenRoleLedger.bounded_total,
+        `StructuralExhaustion.CT9.TokenRoleLedger.verifiedStage,
+        `StructuralExhaustion.Graph.SurplusTokenRole.pairRouteRole_card,
+        `StructuralExhaustion.Graph.SurplusTokenRole.totalRole_card,
+        `StructuralExhaustion.Graph.SurplusPairTokenRouting.free_role,
+        `StructuralExhaustion.Graph.SurplusPairTokenRouting.blocked_role,
+        `StructuralExhaustion.Graph.SurplusPairTokenRouting.freeAnchorFibre_member_is_free,
+        `StructuralExhaustion.Graph.SurplusPairTokenRouting.freeAnchorFibre_member_first,
+        `StructuralExhaustion.Graph.SurplusPairTokenRouting.blocked_retains_canonical_blocker,
+        `StructuralExhaustion.Graph.SurplusPairTokenRouting.run_verified,
+        `StructuralExhaustion.Graph.SurplusPairTokenRouting.run_traceValid,
+        `StructuralExhaustion.Graph.SurplusPairTokenRouting.run_total,
+        `StructuralExhaustion.Graph.SurplusPairTokenRouting.checks_le_five_mul_sixthPower,
+        `StructuralExhaustion.Graph.SurplusPairTokenRouting.checks_le_five_mul_cube_of_token_card_le,
+        `StructuralExhaustion.Graph.SurplusPairTokenRouting.verifiedStage,
+        `Erdos64EG.Internal.allPairTokenRouting_terminal,
+        `Erdos64EG.Internal.allPairTokenRouting_verified,
+        `Erdos64EG.Internal.allPairTokenRouting_traceValid,
+        `Erdos64EG.Internal.allPairTokenRouting_total,
+        `Erdos64EG.Internal.allPairTokenRouting_noOvercounting,
+        `Erdos64EG.Internal.allPairTokenRouting_freeHandoff,
+        `Erdos64EG.Internal.allPairTokenRouting_blockedHandoff,
+        `Erdos64EG.Internal.allPairTokenRouting_checks,
+        `Erdos64EG.Internal.allPairTokenRouting_checks_polynomial,
+        `Erdos64EG.Internal.allPairTokenRouting_tokenCount_le_vertexCount,
+        `Erdos64EG.Internal.allPairTokenRouting_checks_cubic,
+        `Erdos64EG.Internal.exists_verifiedAllPairTokenRoutingPrefix
+      ]
+    },
+    {
+      stageId := "proof-slice.capacity-token-ledger"
+      title := "CT9 capacity-token and exact join ledger"
+      summary := "The exact blocked output is retokenized by the manuscript priority map; the selected induced-P13 packing supplies the window-join identity; the existing free-anchor side and the blocked side form one exact 25-role partition of every scheduled pair."
+      kind := .tactic
+      tacticId? := some "CT9"
+      primaryDeclaration :=
+        `Erdos64EG.Internal.exists_verifiedCapacityTokenPrefix
+      evidenceDeclarations := [
+        `StructuralExhaustion.Graph.InducedPathWindowLedger.tokens_card_eq_fifteen_mul_packing_add_surplus,
+        `StructuralExhaustion.Graph.SurplusCapacityTokenRouting.input_items_eq_source,
+        `StructuralExhaustion.Graph.SurplusCapacityTokenRouting.free_token,
+        `StructuralExhaustion.Graph.SurplusCapacityTokenRouting.blocked_token,
+        `StructuralExhaustion.Graph.SurplusCapacityTokenRouting.noOvercounting,
+        `StructuralExhaustion.Graph.SurplusCapacityTokenRouting.token_supply_exact,
+        `StructuralExhaustion.Graph.SurplusCapacityTokenRouting.verifiedStage,
+        `Erdos64EG.Internal.sparsePairAuditExit_closed,
+        `Erdos64EG.Internal.canonicalBlockedToken_total,
+        `Erdos64EG.Internal.exactWindowJoinIdentity,
+        `Erdos64EG.Internal.capacityTokenSupply_exact,
+        `Erdos64EG.Internal.totalCapacityLedger_noOvercounting,
+        `Erdos64EG.Internal.totalCapacityRoleCount,
+        `Erdos64EG.Internal.capacityLedgerChecks_cubic,
+        `Erdos64EG.Internal.exists_verifiedCapacityTokenPrefix
+      ]
+    },
+    {
+      stageId := "proof-slice.coupled-class-overload"
+      title := "CT9 exact coupled class overload"
+      summary := "For every fixed threshold triple, CT9 compares the literal complete surplus-pair count with the exact 25-role class capacity. Positive excess returns an actual overloaded fibre and its token-class route; the other side proves the explicit quadratic surplus bound."
+      kind := .tactic
+      tacticId? := some "CT9"
+      primaryDeclaration :=
+        `Erdos64EG.Internal.exists_verifiedCoupledClassOverloadPrefix
+      evidenceDeclarations := [
+        `StructuralExhaustion.CT9.ClasswiseTokenLedger.Profile.exactPartition,
+        `StructuralExhaustion.CT9.ClasswiseTokenLedger.Profile.decide,
+        `StructuralExhaustion.CT9.ClasswiseTokenLedger.Profile.totalCapacity_le,
+        `StructuralExhaustion.Graph.SurplusClasswiseOverload.exactPartition,
+        `StructuralExhaustion.Graph.SurplusClasswiseOverload.routeClass,
+        `StructuralExhaustion.Graph.SurplusClasswiseOverload.routedOverload,
+        `StructuralExhaustion.Graph.SurplusClasswiseOverload.totalCapacity_le,
+        `StructuralExhaustion.Graph.SurplusClasswiseOverload.verifiedStage,
+        `Erdos64EG.Internal.coupledClassProfile,
+        `Erdos64EG.Internal.coupledExcess_positive_iff,
+        `Erdos64EG.Internal.coupledOverloadClassRoute,
+        `Erdos64EG.Internal.coupledPairCount_eq_chooseSurplus,
+        `Erdos64EG.Internal.withinCoupledCapacity_pairBound,
+        `Erdos64EG.Internal.noCoupledOverload_quadraticSpine,
+        `Erdos64EG.Internal.coupledClassChecks_cubic,
+        `Erdos64EG.Internal.exists_verifiedCoupledClassOverloadPrefix
+      ]
+    },
+    {
+      stageId := "proof-slice.homogeneous-pattern"
+      title := "Greedy homogeneous matching--star audit"
+      summary := "The graph layer projects CT9's actual overloaded token--role fibre, follows its literal window/remainder/primitive class route, and performs one deterministic greedy maximal-matching scan. The sharp local cap yields the corresponding matching or star without searching a pattern family."
+      kind := .tactic
+      tacticId? := some "CT9"
+      primaryDeclaration :=
+        `Erdos64EG.Internal.exists_verifiedHomogeneousPatternPrefix
+      evidenceDeclarations := [
+        `StructuralExhaustion.Core.GreedyMatchingStar.greedy,
+        `StructuralExhaustion.Core.GreedyMatchingStar.greedy_pairwise,
+        `StructuralExhaustion.Core.GreedyMatchingStar.greedy_covers,
+        `StructuralExhaustion.Core.GreedyMatchingStar.exists_pattern_of_cap_lt_card,
+        `StructuralExhaustion.Graph.SurplusHomogeneousPattern.audit,
+        `Erdos64EG.Internal.homogeneousPatternAudit,
+        `Erdos64EG.Internal.exists_verifiedHomogeneousPatternPrefix
       ]
     }
   ]
@@ -938,6 +1259,81 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.verifiedP13LabelAlgebraPrefix,
         `Erdos64EG.Internal.p13LabelAlgebraPrefix_previous,
         `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingAttachmentPrefix
+      ]
+    },
+    {
+      linkId := "proof-slice.p13-labels-surplus-scale"
+      sourceStageId := "proof-slice.p13-labels"
+      targetStageId := "proof-slice.surplus-scale-split"
+      kind := .frameworkComposition
+      label := "exact node-[18] surplus handoff"
+      description := "The same selected graph supplies its literal total degree surplus and order to the constant-work squared-scale comparison. The three homogeneous thresholds remain explicit authored local data."
+      automationDeclarations := [
+        `StructuralExhaustion.Core.QuadraticScaleSplit.verifiedStage
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.exists_verifiedP13LabelAlgebraPrefix,
+        `Erdos64EG.Internal.exists_verifiedSurplusScaleSplitPrefix
+      ]
+    },
+    {
+      linkId := "proof-slice.p13-packing-positive-deficiency"
+      sourceStageId := "proof-slice.p13-packing"
+      targetStageId := "proof-slice.p13-positive-deficiency"
+      kind := .frameworkComposition
+      label := "exact remainder support"
+      description := "The graph charge profile takes the literal CT12 remainder finset and computes induced degrees and positive deficiency on it without selecting another graph or support."
+      automationDeclarations := [
+        `StructuralExhaustion.Graph.AssignedSupportCharge.Profile.positiveDeficiency
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.exists_verifiedP13PackingPrefix,
+        `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix
+      ]
+    },
+    {
+      linkId := "proof-slice.positive-deficiency-curvature"
+      sourceStageId := "proof-slice.p13-positive-deficiency"
+      targetStageId := "proof-slice.p13-curvature-rank"
+      kind := .frameworkComposition
+      label := "same exact remainder"
+      description := "The graph accounting kernel consumes the unchanged CT12 remainder. Its boundary ledger is a subledger of the selected-window tokens, its raw wedge schedule has exactly W₂ entries, and CT15 scans precisely that schedule."
+      automationDeclarations := [
+        `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_le_tokenCount,
+        `StructuralExhaustion.Graph.FiniteSupportResponse.Profile.run
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix,
+        `Erdos64EG.Internal.exists_verifiedP13CurvaturePrefix
+      ]
+    },
+    {
+      linkId := "proof-slice.curvature-proper-delocalization"
+      sourceStageId := "proof-slice.p13-curvature-rank"
+      targetStageId := "proof-slice.proper-delocalization"
+      kind := .frameworkComposition
+      label := "rank-drop support classification"
+      description := "The exact CT15 run proves that the rank-drop residual is empty on the selected minimal graph. The reusable conditional route nevertheless classifies every enlarged certificate and closes its proper-support constructor through CT3, leaving only the later whole-graph constructor."
+      automationDeclarations := [
+        `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.route
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.exists_verifiedP13ProperDelocalizationPrefix
+      ]
+    },
+    {
+      linkId := "proof-slice.proper-global-rank-drop"
+      sourceStageId := "proof-slice.proper-delocalization"
+      targetStageId := "proof-slice.global-rank-drop-closure"
+      kind := .frameworkComposition
+      label := "exact whole-support payload"
+      description := "The whole constructor carries the admitted finite quotient and its literal rank-drop identification unchanged. The generic exact-label barrier derives injectivity from that admission certificate and closes the distinct identification."
+      automationDeclarations := [
+        `StructuralExhaustion.Graph.ClosedRankDrop.rankDrop_impossible
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.exists_verifiedP13ProperDelocalizationPrefix,
+        `Erdos64EG.Internal.exists_verifiedP13GlobalRankClosurePrefix
       ]
     },
     {
@@ -1092,6 +1488,52 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       evidenceDeclarations := [
         `Erdos64EG.Internal.triangularShoulder_stage,
         `StructuralExhaustion.Graph.TriangularShoulderCompletion.verifiedStage
+      ]
+    },
+    {
+      linkId := "proof-slice.high-center-dichotomy-degree-four-ledger"
+      sourceStageId := "proof-slice.high-center-port-dichotomy"
+      targetStageId := "proof-slice.degree-four-type-b-ledger"
+      kind := .frameworkComposition
+      label := "no degree-greater-than-four centre"
+      description := "The negative high-centre branch is retained pointwise. The framework derives degree exactly four for every actual centre and runs the local CT14 fan ledger on that same finite centre schedule."
+      automationDeclarations := [
+        `StructuralExhaustion.Graph.DegreeFourFanLedger.verifiedStage
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.TypeBSupportScope.degree_eq_four_of_noHigher,
+        `Erdos64EG.Internal.TypeBSupportScope.higher_or_degreeFour_certificateFlow
+      ]
+    },
+    {
+      linkId := "proof-slice.degree-four-ledger-b2-routing"
+      sourceStageId := "proof-slice.degree-four-type-b-ledger"
+      targetStageId := "proof-slice.degree-four-b2-routing"
+      kind := .frameworkComposition
+      label := "assigned certificate to exact local entry"
+      description := "Every resolved local entry must name the exact Option certificate returned by node [80]. Finite resolution and CT12 then expose all negative and positive B2 outcomes."
+      automationDeclarations := [
+        `StructuralExhaustion.Core.FiniteResolution.Profile.fullResolution_or_unresolved,
+        `StructuralExhaustion.CT12.RefinedLedgerCompletion.Profile.verifiedStage
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.exists_verifiedDegreeFourTypeBLedgerPrefix,
+        `Erdos64EG.Internal.exists_verifiedDegreeFourB2RoutingPrefix
+      ]
+    },
+    {
+      linkId := "proof-slice.degree-four-b2-residual-center-ledger"
+      sourceStageId := "proof-slice.degree-four-b2-routing"
+      targetStageId := "proof-slice.type-b-residual-center-ledger"
+      kind := .frameworkComposition
+      label := "literal residual centers to surplus units"
+      description := "Certificate failures, unresolved centers, and minimal-overlap demands remain subtypes of the actual high-center schedule, whose graph-derived assigned-surplus sum pays their cardinality."
+      automationDeclarations := [
+        `StructuralExhaustion.Graph.HighCenterDeletionCharge.Profile.centers_card_le_assignedSurplus
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.exists_verifiedDegreeFourB2RoutingPrefix,
+        `Erdos64EG.Internal.exists_verifiedTypeBResidualCenterLedgerPrefix
       ]
     },
     {
@@ -1395,18 +1837,20 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     },
     {
       linkId := "proof-slice.sparse-envelope"
-      sourceStageId := "proof-slice.type-b-assigned-charge"
+      sourceStageId := "proof-slice.surplus-scale-split"
       targetStageId := "proof-slice.sparse-envelope"
       kind := .frameworkComposition
-      label := "same selected minimal graph"
-      description := "The retained packed context already contains deletion criticality and the no-proper-core theorem. The graph profile converts those exact outputs into one bounded elimination certificate and CT12 executes its finite list."
+      label := "consume the strict Part-X residual"
+      description := "The node-[125] residual retains the literal strict node-[19] inequality and the same node-[18] selected graph. On that identical graph the route executes the existing CT6 surplus audit and the graph profile converts no-proper-core into one bounded elimination certificate for CT12."
       automationDeclarations := [
         `StructuralExhaustion.Graph.DegeneracyPeeling.Profile.verifiedStage
       ]
       evidenceDeclarations := [
+        `Erdos64EG.Internal.routeSurplusScale_exhaustive,
         `Erdos64EG.Internal.sparseEnvelopeProfile,
         `Erdos64EG.Internal.sparseEnvelope_edgeBound,
-        `Erdos64EG.Internal.exists_verifiedSparseEnvelopePrefix
+        `Erdos64EG.Internal.verifiedSparseEnvelopeFromPressure,
+        `Erdos64EG.Internal.verifiedSparseEnvelopeFromPressure_sameLabelPrefix
       ]
     },
     {
@@ -1426,6 +1870,90 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.baselineSpineProfile,
         `Erdos64EG.Internal.exists_verifiedBaselineSpineDemandPrefix
       ]
+    },
+    {
+      linkId := "proof-slice.baseline-spine-demand-sparse-pair-responses"
+      sourceStageId := "proof-slice.baseline-spine-demand"
+      targetStageId := "proof-slice.sparse-pair-responses"
+      kind := .frameworkComposition
+      label := "consume the exact activated residual"
+      description := "The pair stage uses the activated CT6 schedule retained by the baseline prefix on the same selected graph. The framework owns pair generation, the exact local partition, shortest connectors, quotient admissibility, and CT15 execution."
+      automationDeclarations := [
+        `StructuralExhaustion.Graph.SurplusPairResponse.verifiedStage,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.verifiedFor
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.exists_verifiedBaselineSpineDemandPrefix,
+        `Erdos64EG.Internal.sparsePairResponseStage,
+        `Erdos64EG.Internal.exists_verifiedSparsePairResponsePrefix
+      ]
+    },
+    {
+      linkId := "proof-slice.sparse-pair-responses-total-pair-token-route"
+      sourceStageId := "proof-slice.sparse-pair-responses"
+      targetStageId := "proof-slice.total-pair-token-route"
+      kind := .frameworkComposition
+      label := "route both blocker decisions"
+      description := "The CT9 product ledger consumes the exact node-130 pair schedule. Its freeAnchor constructor is definitionally the negative blocker result and its blocked constructor retains the canonical first hit, so both routes use only the preceding verified output."
+      automationDeclarations := [
+        `StructuralExhaustion.CT9.TokenRoleLedger.noOvercounting,
+        `StructuralExhaustion.Graph.SurplusPairTokenRouting.noOvercounting
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.exists_verifiedSparsePairResponsePrefix,
+        `Erdos64EG.Internal.allPairTokenRouting_freeHandoff,
+        `Erdos64EG.Internal.allPairTokenRouting_blockedHandoff,
+        `Erdos64EG.Internal.exists_verifiedAllPairTokenRoutingPrefix
+      ]
+    },
+    {
+      linkId := "proof-slice.total-pair-token-route-capacity-token-ledger"
+      sourceStageId := "proof-slice.total-pair-token-route"
+      targetStageId := "proof-slice.capacity-token-ledger"
+      kind := .frameworkComposition
+      label := "refine the exact complete pair ledger"
+      description := "The capacity-token stage consumes the unchanged node-130 pair collection. Free pairs keep their already verified selected-port token; blocked pairs use their retained canonical first hit and the deterministic window/remainder/primitive priority map."
+      automationDeclarations := [
+        `StructuralExhaustion.Graph.SurplusCapacityTokenRouting.verifiedStage
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.exists_verifiedAllPairTokenRoutingPrefix,
+        `StructuralExhaustion.Graph.SurplusCapacityTokenRouting.input_items_eq_source,
+        `Erdos64EG.Internal.exists_verifiedCapacityTokenPrefix
+      ]
+    },
+    {
+      linkId := "proof-slice.capacity-token-ledger-coupled-class-overload"
+      sourceStageId := "proof-slice.capacity-token-ledger"
+      targetStageId := "proof-slice.coupled-class-overload"
+      kind := .frameworkComposition
+      label := "execute the exact 25-role coupled decision"
+      description := "The classwise CT9 profile uses precisely the complete pair list, token map, role map, and 25-role enumeration certified by the preceding green stage. No entropy realization, global graph family, or extra branch assumption is introduced."
+      automationDeclarations := [
+        `StructuralExhaustion.CT9.ClasswiseTokenLedger.Profile.decide,
+        `StructuralExhaustion.Graph.SurplusClasswiseOverload.verifiedStage
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.exists_verifiedCapacityTokenPrefix,
+        `Erdos64EG.Internal.coupledPairCount_eq_chooseSurplus,
+        `Erdos64EG.Internal.exists_verifiedCoupledClassOverloadPrefix
+      ]
+    },
+    {
+      linkId := "proof-slice.coupled-class-overload-homogeneous-pattern"
+      sourceStageId := "proof-slice.coupled-class-overload"
+      targetStageId := "proof-slice.homogeneous-pattern"
+      kind := .frameworkComposition
+      label := "scan the actual overloaded fibre"
+      description := "The consumer receives the exact CT9 fibre and its already verified token-class constructor. The generic graph theorem derives the matching or star from only that local list."
+      automationDeclarations := [
+        `StructuralExhaustion.Core.GreedyMatchingStar.verifiedStage,
+        `StructuralExhaustion.Graph.SurplusHomogeneousPattern.audit
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.exists_verifiedCoupledClassOverloadPrefix,
+        `Erdos64EG.Internal.exists_verifiedHomogeneousPatternPrefix
+      ]
     }
   ]
 }
@@ -1433,6 +1961,19 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
 private def erdosManuscript : ExampleManuscriptDescriptor := {
   title := "Erdős--Gyárfás Problem 64 proof"
   path := "proofs/erdos_64_eg/erdos_64_proof.tex"
+  /- Whole-node status for the Chapter 1 web diagram.  Manuscript references
+  below may additionally index partial Lean coverage; those nodes remain
+  yellow until every assertion displayed in the diagram cell is proved. -/
+  formalizedNodeIds := [
+    1, 2, 3,
+    4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    25, 26, 27, 28,
+    29, 30, 31, 32, 33, 34, 35,
+    36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
+    67, 68, 69, 70, 71, 72, 73, 74, 75, 78, 79, 80, 81, 82, 83,
+    125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136,
+    137, 138, 139, 140, 141, 142, 143
+  ]
   proofSteps := [
     {
       stepId := "erdos.official"
@@ -1483,6 +2024,10 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
             "The static input supplies deterministic finite data; the two equivalence theorems prove that neither the cycle predicate nor its exponent range has changed."
           declarations := [
             `Erdos64EG.Internal.staticInput,
+            `StructuralExhaustion.Core.IsCounterexample,
+            `StructuralExhaustion.Core.target_of_not_isCounterexample,
+            `Erdos64EG.Internal.IsCounterexample,
+            `Erdos64EG.Internal.officialConclusion_of_notCounterexample,
             `Erdos64EG.Internal.powerOfTwoLength_iff,
             `Erdos64EG.Internal.target_iff_official_conclusion
           ]
@@ -1723,7 +2268,10 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
             `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.targetComplete_contextUniversal,
             `StructuralExhaustion.Graph.PackedBoundariedGluing.glue_lexRank_lt,
             `StructuralExhaustion.Graph.PackedBoundariedGluing.glue_preserves_minDegree,
-            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.impossible
+            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.impossible,
+            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.Certificate.contextAudit,
+            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.impossible,
+            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.route
           ]
         },
         {
@@ -1737,7 +2285,12 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
             `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.run_trace,
             `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.run_total,
             `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.run_checks,
-            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.run_polynomial
+            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.run_polynomial,
+            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.terminal,
+            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.trace,
+            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.checks,
+            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.polynomial,
+            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.total
           ]
         },
         {
@@ -1750,7 +2303,10 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
             `Erdos64EG.Internal.exists_verifiedBoundariedReplacementPrefix,
             `Erdos64EG.Internal.verifiedBoundariedReplacementPrefix,
             `Erdos64EG.Internal.boundariedReplacementPrefix_previous,
-            `Erdos64EG.Internal.boundariedReplacementPrefix_uncompressible
+            `Erdos64EG.Internal.boundariedReplacementPrefix_uncompressible,
+            `Erdos64EG.Internal.verifiedRankDropRoutingStage,
+            `Erdos64EG.Internal.rankDropRoutingPrefix_previous,
+            `Erdos64EG.Internal.rankDropRoutingPrefix_stage
           ]
         },
         {
@@ -1766,7 +2322,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         }
       ]
       scopeNotes :=
-        "This covers nodes [11]--[14] for normalized decompositions with nonempty boundary. Empty-boundary closed representatives remain a separate manuscript branch. Later invocations at [36]--[39] are not yet formalized."
+        "This covers nodes [11]--[14] for normalized decompositions with nonempty boundary and the complete certificate-local routing at nodes [36]--[39]. A context mismatch yields the exact target-defective residual; a context-universal at-atom realization executes CT3 and contradicts minimality; an enlarged-support residual is retained unchanged for node [40]. Empty-boundary closed representatives remain a separate later manuscript branch."
       workBound := "Proof-level literal gluing and one certified reduction; no universe of contexts, graphs, or replacements is enumerated."
     },
     {
@@ -1890,7 +2446,12 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
             `Erdos64EG.Internal.p13Remainder_free,
             `Erdos64EG.Internal.p13Remainder_componentwise_free,
             `Erdos64EG.Internal.p13Remainder_internalThreeCore_free,
-            `Erdos64EG.Internal.p13Remainder_internalSubgraphThreeCore_free
+            `Erdos64EG.Internal.p13Remainder_internalSubgraphThreeCore_free,
+            `StructuralExhaustion.Graph.InducedPathPacking.remainder_card_ge_of_packingNumber_le,
+            `Erdos64EG.Internal.P13CoverageResidual,
+            `Erdos64EG.Internal.verifiedP13RemainderResidual,
+            `Erdos64EG.Internal.p13Remainder_large,
+            `Erdos64EG.Internal.p13Remainder_node26_exact
           ]
         },
         {
@@ -1937,7 +2498,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         }
       ]
       scopeNotes :=
-        "The packing and P₁₃-free remainder clauses are implemented. The later density assertion that R is large is downstream and is not claimed here."
+        "The packing and P₁₃-free remainder clauses are implemented. Nodes [25]--[26] consume the exact predecessor ceiling p₁₃ ≤ U₁₃ and derive the certified finite floor |V(G)| - 13U₁₃ ≤ |R| on the identical CT12 remainder. Producing the numerical ceiling remains node [24]'s separate task."
       workBound := "Exactly p₁₃ CT12 iterations, at most |V(G)|; the universe of embeddings and packings is not materialized."
     },
     {
@@ -2044,6 +2605,210 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       scopeNotes :=
         "Node [18]'s legal-label table and Cₛ/Ω₂ definitions are implemented. The later triple-count curvature enumeration and constants c_Ω and c₁₃ at node [21] are not yet implemented."
       workBound := "8192 + 399 + 399² = 167792 primitive checks; quadratic in the explicit 8192-code universe."
+    },
+    {
+      stepId := "erdos.surplus-scale-split"
+      stageId? := some "proof-slice.surplus-scale-split"
+      title := "Exact surplus decision and Part-X entry"
+      plainExplanation := "After node [18], the framework reads the actual total degree surplus and graph order. One natural-number comparison decides the two branches. Its strict outcome is retained verbatim at node [20] and node [125]; the complementary inequality is retained as the exact node-[21] input."
+      formalStatement := "C_{\\rm sp}^2 n<\\sigma(G)^2\\ \\lor\\ \\sigma(G)^2\\le C_{\\rm sp}^2 n"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "def:near-cubic-spine", title := "Near-cubic surplus scale", nodeIds := [19, 20] },
+        { label := "thm:sharp-classwise-homogeneous-token-budget", title := "Explicit homogeneous-cap coefficient", nodeIds := [19, 125] }
+      ]
+      declarationGroups := [{
+        groupId := "quadratic-surplus-scale"
+        title := "Reusable constant-work squared-scale decision"
+        role := .semanticTheorem
+        explanation := "The core stage owns the exhaustive comparison and one-check work audit. The Erdős instance supplies only the actual surplus, graph order, and the same explicit cap coefficient consumed downstream at node [138]."
+        declarations := [
+          `StructuralExhaustion.Core.QuadraticScaleSplit.decide,
+          `StructuralExhaustion.Core.QuadraticScaleSplit.exhaustive,
+          `StructuralExhaustion.Core.QuadraticScaleSplit.verifiedStage,
+          `Erdos64EG.Internal.surplusScaleCoefficient,
+          `Erdos64EG.Internal.surplusScaleInput,
+          `Erdos64EG.Internal.surplusScaleStage,
+          `Erdos64EG.Internal.surplusScale_exhaustive,
+          `Erdos64EG.Internal.routeSurplusScale,
+          `Erdos64EG.Internal.routeSurplusScale_exhaustive,
+          `Erdos64EG.Internal.exists_verifiedP13LabelAlgebraPrefix,
+          `Erdos64EG.Internal.exists_verifiedSurplusScaleSplitPrefix,
+          `Erdos64EG.Internal.verifiedSurplusScaleRoutingPrefix,
+          `Erdos64EG.Internal.exists_verifiedSurplusScaleRoutingPrefix
+        ]
+      }]
+      scopeNotes := "Nodes [19], [20], and [125] are complete as one local typed route. The strict inequality and predecessor are preserved definitionally into Part X; the bounded inequality remains the separate node-[21] residual."
+      workBound := "One exact natural-number comparison. No square root, floating-point computation, graph family, or threshold search is evaluated."
+    },
+    {
+      stepId := "erdos.p13-positive-deficiency"
+      stageId? := some "proof-slice.p13-positive-deficiency"
+      title := "Positive deficiency of the exact P13 remainder"
+      plainExplanation := "The graph charge layer computes the induced degree of every vertex in the exact CT12 remainder and sums the natural deficit 3-d_R(v), which is exactly max(0,3-d_R(v)). The no-internal-three-core predecessor is retained unchanged."
+      formalStatement := "\\operatorname{def}^{+}(R)=\\sum_{v\\in R}\\max\\{0,3-d_R(v)\\}"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "def:deficiency-surplus", title := "Positive deficiency and surplus", nodeIds := [28] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-remainder-positive-deficiency"
+        title := "Framework-owned induced-support charge definition"
+        role := .mathematicalDefinition
+        explanation := "The reusable graph profile owns induced degree and positive deficiency. The application instantiates its core with the exact node-[27] remainder finset and proves the displayed sum definitionally."
+        declarations := [
+          `StructuralExhaustion.Graph.AssignedSupportCharge.Profile.internalDegree,
+          `StructuralExhaustion.Graph.AssignedSupportCharge.Profile.positiveDeficiency,
+          `Erdos64EG.Internal.p13RemainderDeficiencyProfile,
+          `Erdos64EG.Internal.p13Remainder_internalDegree_eq,
+          `Erdos64EG.Internal.p13Remainder_positiveDeficiency_eq,
+          `Erdos64EG.Internal.exists_verifiedP13PackingPrefix,
+          `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix
+        ]
+      }]
+      scopeNotes := "Node [28] is complete and consumes only the green node-[27] remainder. Its exact output is consumed unchanged by the green node-[29] incidence ledger."
+      workBound := "One induced-neighbour scan per remainder vertex, bounded quadratically in the declared graph order; no subgraph or support family is enumerated."
+    },
+    {
+      stepId := "erdos.remainder-curvature-rank"
+      stageId? := some "proof-slice.p13-curvature-rank"
+      title := "Exact remainder incidence, wedge, and curvature rank"
+      plainExplanation := "The framework consumes the exact node-[28] remainder. Every deficient unit is charged to a literal edge leaving that remainder, every such edge occurs in the selected-window token schedule, and the exact identity for that schedule gives 15p₁₃+σ_W. The raw coordinate type is one center plus a canonical unordered pair of its internal remainder neighbours, so its cardinality is exactly W₂(R). CT15 scans those coordinates and certified-reduction admissibility makes the full-rank terminal unconditional."
+      formalStatement := "\\operatorname{def}^{+}(R)\\le15p_{13}+\\sigma_W,\\quad \\operatorname{def}^{+}(R)-\\sigma_R\\le15p_{13}+\\sigma_W-\\sigma_R,\\quad W_2(R)\\ge3|R|-2\\operatorname{def}^{+}(R),\\quad r_\\Omega(R)=W_2(R)"
+      status := .implemented
+      correspondence := .composite
+      manuscriptRefs := [
+        { label := "lem:stub-positive", title := "External-incidence supply", nodeIds := [29] },
+        { label := "lem:surplus-aware-window-stub", title := "Exact surplus-aware stub bound", nodeIds := [29] },
+        { label := "lem:wedge-lower", title := "Wedge lower bound", nodeIds := [30] },
+        { label := "def:curvature-target-rank", title := "Curvature target-rank", nodeIds := [31] },
+        { label := "lem:target-rank-circuit", title := "Rank decision", nodeIds := [32, 33, 34, 35] },
+        { label := "lem:full-rank", title := "Forcing of full curvature rank", nodeIds := [34] }
+      ]
+      declarationGroups := [
+        {
+          groupId := "remainder-deficiency-wedge-kernel"
+          title := "Framework-owned exact graph accounting"
+          role := .semanticTheorem
+          explanation := "The reusable graph profile owns internal degree, boundary incidence, positive deficiency, raw wedge count, the deficiency injection, and the exact finite wedge floor."
+          declarations := [
+            `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.positiveDeficiency_le_boundaryIncidences,
+            `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeFloor,
+            `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeCount_le_cube,
+            `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderBoundaryIncidences_le_tokenCount,
+            `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_le_tokenCount,
+            `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_le_fifteen_mul_packing_add_surplus,
+            `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_sub_remainderSurplus_le,
+            `StructuralExhaustion.Graph.InducedPathWindowLedger.tokenCount_eq_fifteen_mul_packing_add_surplus
+          ]
+        },
+        {
+          groupId := "remainder-curvature-ct15"
+          title := "Literal wedge coordinates and CT15 execution"
+          role := .compositionProvenance
+          explanation := "The Erdős layer supplies only the exact remainder and the three-vertex support of each actual wedge. The generic response profile and admissible-quotient CT15 runner own the decision, trace, validity, and linear coordinate scan."
+          declarations := [
+            `Erdos64EG.Internal.p13CurvatureCoordinates,
+            `Erdos64EG.Internal.p13CurvatureCoordinates_card_eq_wedgeCount,
+            `Erdos64EG.Internal.p13CurvatureCoordinates_card_le_cube,
+            `Erdos64EG.Internal.p13CurvatureResponseProfile,
+            `StructuralExhaustion.Graph.FiniteSupportResponse.Profile.run,
+            `Erdos64EG.Internal.runP13CurvatureCT15_terminal,
+            `Erdos64EG.Internal.runP13CurvatureCT15_trace,
+            `Erdos64EG.Internal.no_p13Curvature_rankDrop,
+            `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix,
+            `Erdos64EG.Internal.exists_verifiedP13CurvaturePrefix
+          ]
+        }
+      ]
+      scopeNotes := "Nodes [29]--[35] are complete on the unchanged green node-[28] remainder. The exact finite inequalities are stronger than their normalized o(n) manuscript corollaries. The rank-drop constructor is proved empty for the selected minimal graph, so the existing conditional nodes [36]--[39] have a valid but unreachable input rather than an assumed certificate."
+      workBound := "At most quadratic neighbour-incidence work on the supplied graph plus one linear CT15 scan of the literal wedge schedule; the graph kernel proves that schedule has at most n³ coordinates. No connected-support, path, quotient, context, subgraph, or graph family is enumerated."
+    },
+    {
+      stepId := "erdos.proper-delocalization-closure"
+      stageId? := some "proof-slice.proper-delocalization"
+      title := "Proper enlarged-support smearing closure"
+      plainExplanation := "An enlarged determination certificate records a connected proper support Z, an embedding of the original atom, and strict support growth. The next tag decides whether the enlarged support is proper or whole-graph. In the proper case the framework compares the exact response against all outside contexts: a mismatch is the target-defect residual, while universal agreement constructs the existing literal CT3 compression and contradicts minimality."
+      formalStatement := "C\\subsetneq Z\\subsetneq G\\Longrightarrow\\text{target defect or impossible proper-support compression}"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "lem:curvature-dependence-routing", title := "Enlarged connected support route", nodeIds := [40] },
+        { label := "lem:proper-smearing", title := "Proper delocalization supports are forbidden", nodeIds := [41, 42] }
+      ]
+      declarationGroups := [{
+        groupId := "proper-delocalization-ct3-route"
+        title := "Framework-owned proper/whole split and CT3 closure"
+        role := .semanticTheorem
+        explanation := "The graph layer owns the extension certificate, proper-versus-whole tag, universal context audit, exact CT3 compression execution, and total route. The Erdős layer is a thin instantiation on the selected packed minimal context."
+        declarations := [
+          `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.ProperExtension,
+          `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.verifiedStage,
+          `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.ProperExtension.targetDefective,
+          `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.ProperExtension.compression_terminal,
+          `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.ProperExtension.compression_trace,
+          `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.Location,
+          `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.route,
+          `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.routeAfterRankDrop,
+          `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization.verifiedStage,
+          `Erdos64EG.Internal.routeProperDelocalization,
+          `Erdos64EG.Internal.routeRankDropThroughProperDelocalization,
+          `Erdos64EG.Internal.exists_verifiedP13ProperDelocalizationPrefix
+        ]
+      }]
+      scopeNotes := "Nodes [40]--[42] are complete and consume only the green rank-drop routing interface at nodes [36]--[39]. The whole-graph constructor preserves the exact closed-proposal payload consumed by the next verified block."
+      workBound := "One supplied context-universality proposition and, on its universal side, one constant-work certified CT3 reduction. No contexts, supports, quotients, subgraphs, or graphs are generated."
+    },
+    {
+      stepId := "erdos.global-rank-drop-closure"
+      stageId? := some "proof-slice.global-rank-drop-closure"
+      title := "Whole-support rank-drop closure"
+      plainExplanation := "The whole-graph constructor carries one concrete quotient already admitted by the finite exact-profile contract, together with the two distinct coordinates identified by the alleged rank drop. The framework derives injectivity from the quotient's certified-reduction field and minimality, so the identification is impossible. Separately, the graph layer computes the one--three repair identity from one literal connected finite component."
+      formalStatement := "s=p-2+2\\beta_Z-\\sigma_Z,\\qquad Z=G\\Longrightarrow\\text{the admitted quotient is injective and the rank drop closes}"
+      status := .implemented
+      correspondence := .composite
+      manuscriptRefs := [
+        { label := "lem:no-silent-global-smearing", title := "Whole-graph delocalization barrier", nodeIds := [43, 45] },
+        { label := "lem:smearing-support-repair", title := "One--three repair identity", nodeIds := [44] },
+        { label := "lem:full-rank", title := "Rank-drop closure and full-rank join", nodeIds := [46, 47] }
+      ]
+      declarationGroups := [
+        {
+          groupId := "closed-rank-drop-route"
+          title := "Framework-owned admitted-quotient barrier"
+          role := .semanticTheorem
+          explanation := "The CT15 admission contract already contains response preservation and a certified reduction for every non-injective code. The graph layer derives exact label injectivity and closes a literal distinct-coordinate identification. The Erdős layer supplies the wedge response system and composes the inherited admitted payload."
+          declarations := [
+            `StructuralExhaustion.CT15.AdmissibleQuotient.Admissible.injective,
+            `StructuralExhaustion.Graph.ClosedRankDrop.exactBarrier,
+            `StructuralExhaustion.Graph.ClosedRankDrop.no_silent_identification,
+            `StructuralExhaustion.Graph.ClosedRankDrop.rankDrop_impossible,
+            `Erdos64EG.Internal.P13WholeDelocalization,
+            `Erdos64EG.Internal.routeRankDropThroughGlobalClosure,
+            `Erdos64EG.Internal.p13ClosedRankDrop_exactBarrier,
+            `Erdos64EG.Internal.no_p13Closed_silentIdentification,
+            `Erdos64EG.Internal.p13WholeDelocalization_impossible,
+            `Erdos64EG.Internal.exists_verifiedP13ProperDelocalizationPrefix
+          ]
+        },
+        {
+          groupId := "one-three-repair-arithmetic"
+          title := "Framework-owned handshake and cycle-rank identity"
+          role := .semanticTheorem
+          explanation := "The core theorem derives the exact repair identity in integer arithmetic from the handshake and connected cycle-rank equations, avoiding truncated subtraction."
+          declarations := [
+            `StructuralExhaustion.Core.OneThreeRepair.identity,
+            `StructuralExhaustion.Graph.OneThreeRepair.Component.identity,
+            `Erdos64EG.Internal.oneThreeRepair_identity,
+            `Erdos64EG.Internal.oneThreeRepair_component_identity,
+            `Erdos64EG.Internal.exists_verifiedP13GlobalRankClosurePrefix
+          ]
+        }
+      ]
+      scopeNotes := "Nodes [43]--[47] implement the complete local admitted-quotient closure. Node [46] is closed by the contradiction between injectivity and the retained distinct-coordinate identification; node [47] is the unconditional full-rank join. Node [48] remains white: quotient injectivity is not treated as Boolean-product realization."
+      workBound := "One certified-reduction check for the supplied admitted quotient; no contexts, quotient family, support family, graph family, or Boolean cube is enumerated."
     },
     {
       stepId := "erdos.surplus-ct6"
@@ -2157,7 +2922,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:heavy-neighbourhood-normal-form", title := "High-neighbourhood normal form", nodeIds := [64, 65] }
+        { label := "lem:heavy-neighbourhood-normal-form", title := "High-neighbourhood normal form", nodeIds := [67, 69] }
       ]
       declarationGroups := [{
         groupId := "high-center-ct1"
@@ -2190,9 +2955,9 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       status := .implemented
       correspondence := .partialCoverage
       manuscriptRefs := [
-        { label := "def:surplus-ports", title := "Surplus ports and excess selectors", nodeIds := [64] },
-        { label := "def:heavy-center-triangular-port", title := "High centers and port types", nodeIds := [65] },
-        { label := "rem:finite-selected-port-audit", title := "Finite selected-port audit", nodeIds := [64, 65] }
+        { label := "def:surplus-ports", title := "Surplus ports and excess selectors" },
+        { label := "def:heavy-center-triangular-port", title := "High centers and port types", nodeIds := [69, 78] },
+        { label := "rem:finite-selected-port-audit", title := "Finite selected-port audit", nodeIds := [69, 78] }
       ]
       declarationGroups := [{
         groupId := "selected-port-ct10"
@@ -2221,8 +2986,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       status := .implemented
       correspondence := .partialCoverage
       manuscriptRefs := [
-        { label := "lem:same-center-open-port-compatibility", title := "Same-center open ports", nodeIds := [66] },
-        { label := "rem:finite-selected-port-audit", title := "Finite selected-port audit", nodeIds := [66] }
+        { label := "rem:finite-selected-port-audit", title := "Finite selected-port audit", nodeIds := [69] }
       ]
       declarationGroups := [{
         groupId := "open-port-ct9"
@@ -2251,7 +3015,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       status := .implemented
       correspondence := .partialCoverage
       manuscriptRefs := [
-        { label := "rem:finite-selected-port-audit", title := "Finite selected-port audit", nodeIds := [66, 130] },
+        { label := "rem:finite-selected-port-audit", title := "Finite selected-port audit", nodeIds := [69, 130] },
         { label := "def:sparse-pair-response", title := "Sparse pair-response coordinates", nodeIds := [130] }
       ]
       declarationGroups := [{
@@ -2281,9 +3045,9 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       status := .implemented
       correspondence := .partialCoverage
       manuscriptRefs := [
-        { label := "def:surplus-ports", title := "Surplus ports and shoulder pairs", nodeIds := [64] },
-        { label := "def:triangular-fan-core", title := "Triangular fan shoulders", nodeIds := [68] },
-        { label := "rem:finite-selected-port-audit", title := "Finite selected-port audit", nodeIds := [64, 68] }
+        { label := "def:surplus-ports", title := "Surplus ports and shoulder pairs" },
+        { label := "def:triangular-fan-core", title := "Triangular fan shoulders", nodeIds := [79] },
+        { label := "rem:finite-selected-port-audit", title := "Finite selected-port audit", nodeIds := [69, 79] }
       ]
       declarationGroups := [{
         groupId := "shoulder-ct5"
@@ -2366,6 +3130,120 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       workBound := "At most 2d(h)+2 primitive CT10 row checks for a requested centre, bounded by 2|V|+2; no port-pair universe is constructed."
     },
     {
+      stepId := "erdos.degree-four-type-b-ledger"
+      stageId? := some "proof-slice.degree-four-type-b-ledger"
+      title := "Exact degree-four Type B fan ledger"
+      plainExplanation :=
+        "The negative side of the higher-centre test proves that every actual high centre has degree exactly four. CT14 then scans its four incident ports, computes the exact cubic-closed count and quarter-deficit, and an independent finite marking scan routes the same centre to its assigned fan certificate or to the literal no-certificate residual."
+      formalStatement :=
+        "(\\neg\\exists h,\\ d(h)>4)\\Longrightarrow\\forall h,\\ d(h)=4\\land 0\\le c(h)\\le4\\land D_B(h)=c(h)-7/4\\land(S_h\\text{ is assigned}\\ \\lor\\ S_h=\\varnothing)"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "cor:degree-four-local-activation", title := "Degree-four local activation", nodeIds := [68, 78] },
+        { label := "def:typeB-window-incidence-profile", title := "Degree-four fan profile", nodeIds := [79] },
+        { label := "def:marked-typeB-fan", title := "Assigned certificate marking", nodeIds := [80] }
+      ]
+      declarationGroups := [{
+        groupId := "degree-four-type-b-ct14"
+        title := "Framework-owned degree-four fan and certificate ledgers"
+        role := .semanticTheorem
+        explanation := "The graph layer owns the exact four-port CT14 scan, closed-count arithmetic, and finite certificate marking. The Erdős layer derives degree four from the actual high-centre schedule and composes both ledgers without a global graph enumeration."
+        declarations := [
+          `StructuralExhaustion.Graph.DegreeFourFanLedger.members_card_eq_degree,
+          `StructuralExhaustion.Graph.DegreeFourFanLedger.verifiedStage,
+          `StructuralExhaustion.Graph.FiniteCertificateMarking.Profile.marked_or_residual,
+          `Erdos64EG.Internal.TypeBSupportScope.degree_eq_four_of_noHigher,
+          `Erdos64EG.Internal.TypeBSupportScope.higher_or_degreeFour_certificateFlow,
+          `Erdos64EG.Internal.exists_verifiedDegreeFourTypeBLedgerPrefix
+        ]
+      }]
+      scopeNotes := "This completes nodes [78]--[80] locally. The node-[80] yes branch retains the exact assigned marked fan; its no branch retains the literal equality assignedMarkedFan(h)=none for the fan-mass route. Neither outcome assumes the later B1/B2 decision."
+      workBound := "Each centre scans exactly four incident ports and one optional certificate; over the actual high-centre schedule the proved bound is 23(|V|+1)^2."
+    },
+    {
+      stepId := "erdos.degree-four-b2-routing"
+      stageId? := some "proof-slice.degree-four-b2-routing"
+      title := "Exact local-entry and B2 exhaustion"
+      plainExplanation := "Every local certificate-closed or positive-B1 entry must use the exact Option certificate assigned at node [80]. The finite resolution scan and CT12 then return an unresolved actual center, a full disjoint choice with nonnegative charge or a literal remaining negative core, or a proof-carrying minimal overlap obstruction."
+      formalStatement := "\\operatorname{Unresolved}(h)\\ \\lor\\ \\operatorname{No}(X)\\ge0\\ \\lor\\ \\operatorname{Remaining}(X)<0\\ \\lor\\ \\operatorname{MinimalOverlap}(X)"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "lem:typeB-hybrid-B1", title := "Local B1 incidence budget", nodeIds := [81] },
+        { label := "lem:typeB-bridge-to-overlap", title := "B2 failure gives minimal overlap", nodeIds := [81, 83] },
+        { label := "lem:typeB-exclusion", title := "Nonnegative full-choice branch outside the remaining residual", nodeIds := [82] }
+      ]
+      declarationGroups := [{
+        groupId := "degree-four-b2-total-route"
+        title := "Framework finite resolution and CT12 B2 route"
+        role := .semanticTheorem
+        explanation := "The provenance-refined local-entry subtype prevents a later certificate substitution. Generic finite resolution and the existing CT12 completion own the exhaustive split; the graph-charge theorem owns the full-choice nonnegative/remaining-negative alternative."
+        declarations := [
+          `StructuralExhaustion.Core.FiniteResolution.Profile.fullResolution_or_unresolved,
+          `StructuralExhaustion.CT12.RefinedLedgerCompletion.Profile.verifiedStage,
+          `Erdos64EG.Internal.TypeBSupportScope.unresolved_of_certificate_none,
+          `Erdos64EG.Internal.TypeBSupportScope.certificateResidual_is_unresolved,
+          `Erdos64EG.Internal.TypeBSupportScope.fullResolution_entry_provenance,
+          `Erdos64EG.Internal.TypeBSupportScope.degreeFourB2Route,
+          `Erdos64EG.Internal.TypeBSupportScope.fullChoice_nonnegative_or_remainingNegative,
+          `Erdos64EG.Internal.TypeBAssignedSupport.MinimalOverlap.no_disjoint_choice,
+          `Erdos64EG.Internal.TypeBAssignedSupport.MinimalOverlap.proper_subschedule_has_choice,
+          `Erdos64EG.Internal.TypeBAssignedSupport.MinimalOverlap.no_separated_carrier_partition,
+          `Erdos64EG.Internal.exists_verifiedDegreeFourTypeBLedgerPrefix,
+          `Erdos64EG.Internal.exists_verifiedDegreeFourB2RoutingPrefix
+        ]
+      }]
+      scopeNotes := "Nodes [81]--[83] are complete. Missing or incoherent local entries are explicit fan-mass residuals; a full choice is split by the literal graph charge; failure of the choice is the exact minimal CT12 overlap. No branch is discarded or converted into an assumption."
+      workBound := "The local-entry scan is linear in actual high centers and CT12 peels each declared center once. Candidate products, demand subsets, graph families, and support families are not evaluated."
+    },
+    {
+      stepId := "erdos.type-b-residual-center-ledger"
+      stageId? := some "proof-slice.type-b-residual-center-ledger"
+      title := "Ordinary Type B residual centers use assigned surplus"
+      plainExplanation := "Certificate failures, unresolved local entries, and every center selected by a minimal B2 obstruction remain actual members of the same high-center schedule. The graph charge profile proves their finite cardinality is at most the assigned surplus sum."
+      formalStatement := "|H_{\\rm residual}(X)|\\le\\sum_{h\\in H_X}(d_G(h)-3)"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "def:typeB-residual-mass", title := "Type B residual fan mass", nodeIds := [75] },
+        { label := "lem:typeB-bridge-deficit-bound", title := "Assigned residual-center budget", nodeIds := [75] }
+      ]
+      declarationGroups := [{
+        groupId := "type-b-residual-center-charge"
+        title := "Graph-derived assigned-surplus payer ledger"
+        role := .semanticTheorem
+        explanation := "The reusable high-center charge theorem pays every finite subtype of actual high centers. The Erdős layer identifies the certificate, unresolved, and minimal-overlap center lists with such subtypes and retains their exact provenance."
+        declarations := [
+          `StructuralExhaustion.Graph.HighCenterDeletionCharge.Profile.centers_card_le_assignedSurplus,
+          `Erdos64EG.Internal.TypeBSupportScope.residualCenters_card_le_assignedSurplus,
+          `Erdos64EG.Internal.TypeBSupportScope.certificateResidual_charged,
+          `Erdos64EG.Internal.TypeBSupportScope.unresolved_charged,
+          `Erdos64EG.Internal.TypeBSupportScope.minimalOverlapCenters_charged,
+          `Erdos64EG.Internal.TypeBSupportScope.minimalOverlap_has_assignedSurplus,
+          `Erdos64EG.Internal.exists_verifiedDegreeFourB2RoutingPrefix,
+          `Erdos64EG.Internal.exists_verifiedTypeBResidualCenterLedgerPrefix
+        ]
+      }]
+      scopeNotes := "Node [75] is complete for the ordinary assigned-support role: every local negative outcome has an actual high-center payer and no center is duplicated inside the finite residual set. The later node [84] two-role grouped-envelope mass coefficient is not claimed here."
+      workBound := "Linear finite-set and subschedule cardinality proofs over actual high centers. No support family, envelope family, graph family, or global matching is enumerated."
+    },
+    {
+      stepId := "erdos.type-b-grouped-fan-mass"
+      title := "Grouped Type B fan-mass discharge"
+      plainExplanation := "The next Type B CT consumes only the verified certificate-failure, unresolved-entry, and minimal-overlap residual centers. It must add the grouped-envelope role ledger and prove the exact fan-mass coefficient without changing those residuals."
+      formalStatement := "M_B\\le 416\\sum_{h\\in H_X}(d_G(h)-3)"
+      status := .next
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "lem:typeB-processed-boundary-bound", title := "Processed-envelope boundary bound", nodeIds := [84] },
+        { label := "prop:typeB-bridge-sublinear", title := "Grouped Type B fan-mass discharge", nodeIds := [84] }
+      ]
+      declarationGroups := []
+      scopeNotes := "This frontier may consume only green node [75] and nodes [81]--[83]. It must retain the literal route-8 remaining core as a separate output and may not assume the near-cubic estimate while constructing the local grouped ledger."
+      workBound := "The implementation must scan actual residual-center and envelope-incidence lists only; no support family, envelope family, graph family, or global matching may be enumerated."
+    },
+    {
       stepId := "erdos.triangular-shoulder-completion"
       stageId? := some "proof-slice.triangular-shoulder-completion"
       title := "Triangular shoulder-completion bookkeeping"
@@ -2376,8 +3254,8 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "def:triangular-fan-core", title := "Triangular fan core and shoulder completions", nodeIds := [68, 78] },
-        { label := "lem:triangular-shoulder-completion", title := "Shoulder-completion bookkeeping", nodeIds := [78] }
+        { label := "def:triangular-fan-core", title := "Triangular fan core and shoulder completions" },
+        { label := "lem:triangular-shoulder-completion", title := "Shoulder-completion bookkeeping" }
       ]
       declarationGroups := [{
         groupId := "triangular-shoulder-ct5"
@@ -2441,7 +3319,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:triangular-port-return", title := "Port returns enter through shoulders", nodeIds := [79] }
+        { label := "lem:triangular-port-return", title := "Port returns enter through shoulders" }
       ]
       declarationGroups := [{
         groupId := "triangular-return-ct1"
@@ -2476,7 +3354,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:triangular-first-landing", title := "First landing exhaustion for triangular shoulders", nodeIds := [80] }
+        { label := "lem:triangular-first-landing", title := "First landing exhaustion for triangular shoulders" }
       ]
       declarationGroups := [{
         groupId := "triangular-first-landing-ct10"
@@ -2510,7 +3388,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:triangular-cross-shoulder", title := "Cross-shoulder multiplicity", nodeIds := [81] }
+        { label := "lem:triangular-cross-shoulder", title := "Cross-shoulder multiplicity" }
       ]
       declarationGroups := [{
         groupId := "triangular-cross-shoulder-ct9"
@@ -3161,6 +4039,8 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         role := .semanticTheorem
         explanation := "The reusable graph layer proves existence of the bounded elimination order from local induced-core freeness, executes CT12 on that list, proves the sharp edge count, and connects the ordered degree-excess total to the handshake identity. The Erdős layer supplies only the selected cubic vertex and the concrete no-proper-core specialization."
         declarations := [
+          `Erdos64EG.Internal.routeSurplusScale_exhaustive,
+          `Erdos64EG.Internal.exists_verifiedSparseSurplusPrefix,
           `StructuralExhaustion.Graph.DegeneracyPeeling.exists_certificate_of_internalMinDegreeFree,
           `StructuralExhaustion.Graph.DegeneracyPeeling.edgeCount_le_two_mul_vertexCount_sub_three,
           `StructuralExhaustion.Graph.DegeneracyPeeling.Profile.verifiedStage,
@@ -3180,7 +4060,9 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.sparseSlack_surplus_identity,
           `Erdos64EG.Internal.sparseEdge_surplus_identity,
           `Erdos64EG.Internal.sparseSurplus_eq_degreeExcessLedger,
-          `Erdos64EG.Internal.exists_verifiedSparseEnvelopePrefix
+          `Erdos64EG.Internal.exists_verifiedSparseEnvelopePrefix,
+          `Erdos64EG.Internal.verifiedSparseEnvelopeFromPressure,
+          `Erdos64EG.Internal.verifiedSparseEnvelopeFromPressure_sameLabelPrefix
         ]
       }]
       scopeNotes := "This verifies the complete node [126] block, including both displayed identities. Its output is retained unchanged by the activated surplus family and baseline-demand stages."
@@ -3247,17 +4129,226 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
     },
     {
       stepId := "erdos.free-blocked-pair-response"
+      stageId? := some "proof-slice.sparse-pair-responses"
       title := "Complete free/blocked pair-response split"
-      plainExplanation := "The next stage constructs the canonical connector support and exact finite response coordinates, then executes every blocker class and the complete free/blocked routing for nodes [130]--[132]."
+      plainExplanation := "Nodes [130] and [132] consume the exact activated surplus schedule. Each unordered pair is generated once and classified by a local scan of its two retained supports, returns, port roles, and suppression cycles. A free pair receives one shortest connector and one exact finite-support response coordinate. Raw profile or target mismatches are rejected by the quotient audit; every admitted non-injective quotient carries a certified smaller counterexample and is impossible by minimality. CT15 returns the audited quotient-rank ledger for exactly the free coordinates; the following CT9 route consumes both sides of this exact partition."
       formalStatement := "\\binom{\\mathcal A_0}{2}=\\Pi_{\\rm free}\\sqcup\\Pi_{\\rm blk}"
-      status := .next
-      correspondence := .partialCoverage
+      status := .implemented
+      correspondence := .exact
       manuscriptRefs := [
         { label := "def:surplus-blockers", title := "Sparse surplus blockers", nodeIds := [130, 132] },
-        { label := "def:sparse-pair-response", title := "Sparse pair-response coordinates", nodeIds := [130, 131] }
+        { label := "def:sparse-canonical-connector", title := "Canonical sparse connector", nodeIds := [130] },
+        { label := "def:sparse-pair-response", title := "Sparse pair-response coordinates", nodeIds := [130] },
+        { label := "lem:sparse-pair-dependence-exit", title := "Pair quotient audit", nodeIds := [130, 132] }
       ]
-      scopeNotes := "No proper subset of the six blocker classes is currently claimed as the manuscript split."
-      workBound := "The implementation must use the explicit quadratic pair schedule and finite local coordinates; no ambient context, path, subgraph, or graph universe may be enumerated."
+      declarationGroups := [{
+        groupId := "sparse-pair-response-ct15"
+        title := "Framework-owned local blocker, connector, and CT15 contracts"
+        role := .semanticTheorem
+        explanation := "The core layer proves the exact finite-family partition. The graph layer derives preconnectedness from packed minimality, retains one shortest connector per free pair, builds literal finite-support response coordinates, and executes CT15. The Erdős layer only composes this stage with the exact activated output retained by the preceding prefix."
+        declarations := [
+          `StructuralExhaustion.Core.FiniteBlockerLedger.FamilyProfile.blocked_card_add_free_card,
+          `StructuralExhaustion.Core.FiniteBlockerLedger.FamilyProfile.firstBlocker_sound,
+          `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.preconnected_of_noProperCore,
+          `StructuralExhaustion.Graph.FiniteConnector.exists_certificate,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Admissible.no_boundary_mismatch,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Admissible.no_target_mismatch,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Admissible.injective,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.verifiedFor,
+          `StructuralExhaustion.Graph.SurplusPairResponse.verifiedStage,
+          `StructuralExhaustion.Graph.SurplusPairResponse.canonicalBlocker_sound,
+          `Erdos64EG.Internal.exists_verifiedBaselineSpineDemandPrefix,
+          `Erdos64EG.Internal.sparsePairResponseStage,
+          `Erdos64EG.Internal.sparsePair_exact_partition,
+          `Erdos64EG.Internal.sparsePairCT15_verified,
+          `Erdos64EG.Internal.sparsePair_schedule_quartic,
+          `Erdos64EG.Internal.exists_verifiedSparsePairResponsePrefix
+        ]
+      }]
+      scopeNotes := "The verified output is the exact admitted structural split: blocker types (a)--(c) and retained type (f) are locally scanned, while types (d) and (e) are complete raw-proposal audit records and are impossible on the admitted branch. Node [131] consumes the free subtype and node [134] consumes the blocked subtype."
+      workBound := "The slot schedule is at most quadratic and each unordered pair occurs once, so the pair schedule is at most n^4. Every pair scan touches only its two declared local supports, return paths, fixed port-role list, and retained cycles. A connector is proof-selected by finite endpoint minimization and verified from one retained shortest path; neither paths, connected subgraphs, quotient proposals, contexts, nor graphs are enumerated."
+    },
+    {
+      stepId := "erdos.total-pair-token-route"
+      stageId? := some "proof-slice.total-pair-token-route"
+      title := "Exact free-anchor and blocker routing"
+      plainExplanation := "Node [131] assigns every blocker-free pair to its canonical first selected surplus port with the distinct freeAnchor role. That port is already a primitive carrier token, and every member of its CT9 fibre is proved blocker-free, has that exact first port, and retains the shortest connector selected at node [130]. Blocked pairs retain their canonical first blocker and all earlier failed candidates for node [134]."
+      formalStatement := "\\pi\\in\\Pi_{p,\\mathsf{freeAnchor}}\\Longrightarrow \\pi\\in\\Pi_{\\rm free},\\quad \\operatorname{first}(\\pi)=p"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "def:total-surplus-pair-token-route", title := "Five-role pre-retokenization dispatch and free-anchor route", nodeIds := [131] },
+        { label := "lem:total-pair-token-route-no-overcount", title := "Free-anchor fibre clause", nodeIds := [131] }
+      ]
+      declarationGroups := [{
+        groupId := "total-pair-token-route-ct9"
+        title := "Framework-owned token--role ledger and graph route"
+        role := .semanticTheorem
+        explanation := "CT9 owns the finite product partition and bounded-fibre aggregation. The graph layer derives both role constructors directly from the blocker decision and exposes a typed primitive-audit input with retained connector data. The Erdős layer only composes this route with the exact prior prefix."
+        declarations := [
+          `StructuralExhaustion.CT9.TokenRoleLedger.noOvercounting,
+          `StructuralExhaustion.CT9.TokenRoleLedger.bounded_total,
+          `StructuralExhaustion.CT9.TokenRoleLedger.verifiedStage,
+          `StructuralExhaustion.Graph.SurplusTokenRole.pairRouteRole_card,
+          `StructuralExhaustion.Graph.SurplusTokenRole.totalRole_card,
+          `StructuralExhaustion.Graph.SurplusPairTokenRouting.noOvercounting,
+          `StructuralExhaustion.Graph.SurplusPairTokenRouting.free_role,
+          `StructuralExhaustion.Graph.SurplusPairTokenRouting.blocked_role,
+          `StructuralExhaustion.Graph.SurplusPairTokenRouting.freeAnchorFibre_member_is_free,
+          `StructuralExhaustion.Graph.SurplusPairTokenRouting.freeAnchorFibre_member_first,
+          `StructuralExhaustion.Graph.SurplusPairTokenRouting.blocked_retains_canonical_blocker,
+          `StructuralExhaustion.Graph.SurplusPairTokenRouting.run_verified,
+          `StructuralExhaustion.Graph.SurplusPairTokenRouting.run_traceValid,
+          `StructuralExhaustion.Graph.SurplusPairTokenRouting.run_total,
+          `StructuralExhaustion.Graph.SurplusPairTokenRouting.checks_le_five_mul_sixthPower,
+          `StructuralExhaustion.Graph.SurplusPairTokenRouting.checks_le_five_mul_cube_of_token_card_le,
+          `StructuralExhaustion.Graph.SurplusPairTokenRouting.verifiedStage,
+          `Erdos64EG.Internal.exists_verifiedSparsePairResponsePrefix,
+          `Erdos64EG.Internal.allPairTokenRoutingInput,
+          `Erdos64EG.Internal.allPairTokenRouting_terminal,
+          `Erdos64EG.Internal.allPairTokenRouting_verified,
+          `Erdos64EG.Internal.allPairTokenRouting_traceValid,
+          `Erdos64EG.Internal.allPairTokenRouting_total,
+          `Erdos64EG.Internal.allPairTokenRouting_noOvercounting,
+          `Erdos64EG.Internal.allPairTokenRouting_freeHandoff,
+          `Erdos64EG.Internal.allPairTokenRouting_blockedHandoff,
+          `Erdos64EG.Internal.allPairTokenRouting_checks,
+          `Erdos64EG.Internal.allPairTokenRouting_checks_polynomial,
+          `Erdos64EG.Internal.allPairTokenRouting_tokenCount_le_vertexCount,
+          `Erdos64EG.Internal.allPairTokenRouting_checks_cubic,
+          `Erdos64EG.Internal.exists_verifiedAllPairTokenRoutingPrefix
+        ]
+      }]
+      scopeNotes := "This completes node [131] locally: the five-role executable dispatch and every assertion about a free-anchor fibre are verified. Its blocked output and free-anchor output are the exact green inputs consumed by the following capacity-token stage."
+      workBound := "The generic graph contract has a 5n^6 worst-case bound. On this exact sparse residual, node [126] implies at most n selected-port tokens, hence at most n^2 pairs; Lean proves the sharper complete bound 5n^3. It never materializes Boolean states, graphs, contexts, paths, subgraphs, or recursive search trees."
+    },
+    {
+      stepId := "erdos.blocked-capacity-token-ledger"
+      stageId? := some "proof-slice.capacity-token-ledger"
+      title := "Blocked-pair capacity-token and join ledger"
+      plainExplanation := "This CT9 block consumes the exact blocked subtype and canonical first-hit payload emitted at node [132]. The admitted candidate type proves the raw quotient-audit exits impossible at node [133]. Every blocked pair is then retokenized by the deterministic window/remainder/primitive priority map at node [134], the selected P13 packing proves the exact window-join identity at node [135], and the result joins the verified free-anchor fibres in one exact 25-role partition at node [136]."
+      formalStatement := "\\Pi_{\\rm blk}=\\bigsqcup_{t,r}\\Pi^{\\rm blk}_{t,r},\\qquad \\binom{|\\mathcal A_0|}{2}=\\sum_{t,r}\\widehat\\ell(t,r)"
+      status := .implemented
+      correspondence := .composite
+      manuscriptRefs := [
+        { label := "lem:sparse-pair-dependence-exit", title := "Sparse pair audit exits", nodeIds := [133] },
+        { label := "def:canonical-blocker-ledger", title := "Canonical blocker ledger", nodeIds := [134] },
+        { label := "def:capacity-token-ledger", title := "Capacity tokens for blocked pairs", nodeIds := [134, 136] },
+        { label := "lem:exact-window-join-identity", title := "Exact window-join pressure", nodeIds := [135] },
+        { label := "lem:token-ledger-no-overcount", title := "Exact blocked token partition", nodeIds := [136] },
+        { label := "def:total-surplus-pair-token-route", title := "Completed blocked/free capacity-token map", nodeIds := [136] },
+        { label := "lem:total-pair-token-route-no-overcount", title := "Complete capacity-token partition", nodeIds := [136] }
+      ]
+      declarationGroups := [{
+        groupId := "capacity-token-ledger-ct9"
+        title := "Framework-owned capacity-token refinement"
+        role := .semanticTheorem
+        explanation := "The graph layer owns the exact window, remainder-surplus, and primitive token sum; the deterministic blocked-pair priority; the 25-role relabelling of the unchanged source pair collection; and the polynomial work audit. The Erdős layer supplies only the selected minimal context and its already verified sparse bounds."
+        declarations := [
+          `Erdos64EG.Internal.exists_verifiedAllPairTokenRoutingPrefix,
+          `StructuralExhaustion.Graph.InducedPathWindowLedger.tokens_card_eq_fifteen_mul_packing_add_surplus,
+          `StructuralExhaustion.Graph.SurplusCapacityTokenRouting.input_items_eq_source,
+          `StructuralExhaustion.Graph.SurplusCapacityTokenRouting.free_token,
+          `StructuralExhaustion.Graph.SurplusCapacityTokenRouting.blocked_token,
+          `StructuralExhaustion.Graph.SurplusCapacityTokenRouting.noOvercounting,
+          `StructuralExhaustion.Graph.SurplusCapacityTokenRouting.token_supply_exact,
+          `StructuralExhaustion.Graph.SurplusCapacityTokenRouting.verifiedStage,
+          `Erdos64EG.Internal.capacityTokenActivationStage,
+          `Erdos64EG.Internal.sparsePairAuditExit_closed,
+          `Erdos64EG.Internal.canonicalBlockedToken_total,
+          `Erdos64EG.Internal.exactWindowJoinIdentity,
+          `Erdos64EG.Internal.capacityTokenSupply_exact,
+          `Erdos64EG.Internal.totalCapacityLedger_noOvercounting,
+          `Erdos64EG.Internal.totalCapacityRoleCount,
+          `Erdos64EG.Internal.capacityLedgerChecks_cubic,
+          `Erdos64EG.Internal.exists_verifiedCapacityTokenPrefix
+        ]
+      }]
+      scopeNotes := "Nodes [133]--[136] are complete node-local contracts. Their sole predecessor is the green complete-pair dispatch at nodes [130]--[132]. The geometric overload audits are not used here."
+      workBound := "The selected window ledger uses at most 13n² checks, and the complete token--role audit uses at most 225n³ comparisons. It scans only the existing pair, token, path-window, vertex, dart, and surplus-slot lists."
+    },
+    {
+      stepId := "erdos.coupled-class-overload"
+      stageId? := some "proof-slice.coupled-class-overload"
+      title := "Exact 25-role coupled overload and class route"
+      plainExplanation := "Nodes [137]--[139] and [141] execute one coupled CT9 contract on the exact node-[136] pair ledger. Positive exact excess returns a concrete overloaded token--role fibre. Its literal token constructor routes it uniquely through the window test and then the remainder test. On the other arithmetic side, the complete pair count, the nine-n token bound, and the exact identity 2 choose(σ,2)+σ=σ² prove the explicit node-[138] quadratic surplus bound."
+      formalStatement := "D_{25}>0\\Rightarrow\\exists(t,r),\\ \\widehat\\ell(t,r)>b_{C(t)};\\qquad D_{25}=0\\Rightarrow\\sigma^2\\le(450b_{\\max}+1)n"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "prop:exact-25-role-coupled-decision", title := "Exact 25-role coupled CT9 decision", nodeIds := [137, 138, 139, 141] }
+      ]
+      declarationGroups := [{
+        groupId := "coupled-class-overload-ct9"
+        title := "Reusable classwise token-capacity decision"
+        role := .semanticTheorem
+        explanation := "The generic CT9 profile owns exact product labels, total capacity, the overloaded-fibre residual, the aggregate within-capacity alternative, partition equality, and finite work. The graph specialization supplies only token classes and matching--star capacity numbers; the Erdős layer derives the selected graph's explicit quadratic bound."
+        declarations := [
+          `Erdos64EG.Internal.exists_verifiedCapacityTokenPrefix,
+          `StructuralExhaustion.CT9.ClasswiseTokenLedger.Profile.decide,
+          `StructuralExhaustion.CT9.ClasswiseTokenLedger.Profile.exactPartition,
+          `StructuralExhaustion.CT9.ClasswiseTokenLedger.Profile.totalCapacity_le,
+          `StructuralExhaustion.Graph.SurplusClasswiseOverload.exactPartition,
+          `StructuralExhaustion.Graph.SurplusClasswiseOverload.routeClass,
+          `StructuralExhaustion.Graph.SurplusClasswiseOverload.routedOverload,
+          `StructuralExhaustion.Graph.SurplusClasswiseOverload.totalCapacity_le,
+          `StructuralExhaustion.Graph.SurplusClasswiseOverload.verifiedStage,
+          `Erdos64EG.Internal.coupledClassProfile,
+          `Erdos64EG.Internal.coupledExcess_positive_iff,
+          `Erdos64EG.Internal.coupledOverloadClassRoute,
+          `Erdos64EG.Internal.coupledPairCount_eq_chooseSurplus,
+          `Erdos64EG.Internal.withinCoupledCapacity_pairBound,
+          `Erdos64EG.Internal.noCoupledOverload_quadraticSpine,
+          `Erdos64EG.Internal.coupledClassChecks_cubic,
+          `Erdos64EG.Internal.exists_verifiedCoupledClassOverloadPrefix
+        ]
+      }]
+      scopeNotes := "These four decision/routing nodes are complete and consume only green node [136]. Nodes [140], [142], and [143] require the separate geometric matching--star audit and are not claimed by this stage."
+      workBound := "At most 225n³ finite label comparisons on one selected graph. No Boolean state cube, graph family, matching family, path family, or recursive universe is materialized."
+    },
+    {
+      stepId := "erdos.homogeneous-geometric-audits"
+      stageId? := some "proof-slice.homogeneous-pattern"
+      title := "Homogeneous geometric token audits"
+      plainExplanation := "The exact overloaded fibre returned at node [137] is scanned by a deterministic greedy maximal matching. Nodes [139] and [141] select the threshold belonging to its literal token constructor, and the sharp endpoint-star count proves a matching or star of that size in the same fibre."
+      formalStatement := "\\widehat\\ell(t,r)>(L_C-1)(2L_C-3)\\Longrightarrow\\text{an }L_C\\text{-matching or }L_C\\text{-star}"
+      status := .implemented
+      correspondence := .composite
+      manuscriptRefs := [
+        { label := "lem:same-token-matching-star", title := "Same-token matching--star bound", nodeIds := [140, 142, 143] }
+      ]
+      declarationGroups := [{
+        groupId := "homogeneous-pattern-ct9"
+        title := "Framework-owned greedy matching--star extraction"
+        role := .semanticTheorem
+        explanation := "The core layer owns the greedy scan, maximal coverage, endpoint-star charging, sharp cap, exact pattern certificate, and quadratic work audit. The graph layer projects only the selected CT9 fibre and routes its literal token class."
+        declarations := [
+          `StructuralExhaustion.Core.GreedyMatchingStar.greedy,
+          `StructuralExhaustion.Core.GreedyMatchingStar.greedy_pairwise,
+          `StructuralExhaustion.Core.GreedyMatchingStar.greedy_covers,
+          `StructuralExhaustion.Core.GreedyMatchingStar.exists_pattern_of_cap_lt_card,
+          `StructuralExhaustion.Core.GreedyMatchingStar.verifiedStage,
+          `StructuralExhaustion.Graph.SurplusHomogeneousPattern.audit,
+          `Erdos64EG.Internal.exists_verifiedCoupledClassOverloadPrefix,
+          `Erdos64EG.Internal.homogeneousPatternAudit,
+          `Erdos64EG.Internal.exists_verifiedHomogeneousPatternPrefix
+        ]
+      }]
+      scopeNotes := "Nodes [140], [142], and [143] are complete: each consumes only the green overloaded-fibre residual selected by nodes [139] and [141]. The geometric routing-germ discharge at node [144] is separate and remains the frontier."
+      workBound := "At most three times the square of the actual fibre length in pair-intersection and incidence tests. No matching family, star family, pair universe, graph family, path family, or context family is enumerated."
+    },
+    {
+      stepId := "erdos.same-token-bottleneck"
+      title := "Same-token routing-germ bottleneck"
+      plainExplanation := "The next dependency-ready CT consumes one of the three verified matching--star patterns, constructs only its declared local routing supports and canonical germs, and routes every local comparison to a sparse exit or a decorated Type B handoff."
+      formalStatement := "|\\mathcal M|>Q_{\\rm geom}\\Longrightarrow\\text{sparse exit or decorated Type B handoff}"
+      status := .next
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "lem:same-token-bottleneck-routing", title := "Same-token bottleneck routing", nodeIds := [144] }
+      ]
+      scopeNotes := "This frontier may consume only green node [140], [142], or [143] pattern data and the local supports already retained by the pair ledger."
+      workBound := "The implementation must scan only the selected pattern and its finite support lists; it may not enumerate paths, contexts, quotients, subgraphs, or graphs."
     }
   ]
 }
@@ -3266,7 +4357,7 @@ def descriptor : ExampleDescriptor := {
   exampleId := "erdos-64"
   title := "Erdős Problem 64"
   summary :=
-    "A partial proof with exact Mersenne returns, lexicographic minimal selection, CT2 criticality and bridge contraction, CT3 boundaried uncompressibility, an HSS-forced induced-P13 CT1 stage, a routed maximum-packing CT12 remainder stage, the complete CT10 P13 attachment-label algebra, a polynomial ordered CT6 degree-surplus ledger with exact per-slot return/suppression activation feeding CT15, framework-native local-port verification, concrete Type B candidate fibres, an unconditional dependent CT12 choice-or-minimal-overlap theorem, an exact high-center local-resolution trichotomy, a no-double-counted induced-core realization of the full Type B charge ledger, and the choice-free Type B receiver-overload deficit bound."
+    "A partial proof with exact Mersenne returns, lexicographic minimal selection, CT2 criticality and bridge contraction, CT3 boundaried uncompressibility, an HSS-forced induced-P13 CT1 stage, a routed maximum-packing CT12 remainder stage, the complete CT10 P13 attachment-label algebra, a polynomial ordered CT6 degree-surplus ledger with exact per-slot activation, the CT15 baseline and free/blocked pair-response stages, the exact CT9 capacity-token partition, and the exact 25-role coupled overload/class decision, together with the framework-native local-port and Type B ledgers retained by the same selected graph."
   proofStatus := .partialProof
   workflows := [proofSliceWorkflow]
   interfaceBindings := [
@@ -3349,6 +4440,46 @@ def descriptor : ExampleDescriptor := {
       problemDeclaration := `Erdos64EG.Internal.baselineSpineProfile
       frameworkDeclaration :=
         `StructuralExhaustion.CT15.BaselineDemand.Profile.verifiedStage
+    },
+    {
+      bindingId := "proof-slice.ct15-sparse-pair-responses"
+      stageId := "proof-slice.sparse-pair-responses"
+      tacticId := "CT15"
+      role := "audited exact free-pair response rank"
+      description := "The application passes the exact activated schedule. The reusable core and graph layers generate the pair partition, retain local blockers and shortest connectors, audit raw quotient proposals, rule out non-injective admitted quotients by certified minimality reduction, and execute CT15 on exactly the free coordinates."
+      problemDeclaration := `Erdos64EG.Internal.sparsePairResponseStage
+      frameworkDeclaration :=
+        `StructuralExhaustion.Graph.SurplusPairResponse.verifiedStage
+    },
+    {
+      bindingId := "proof-slice.ct9-total-pair-token-route"
+      stageId := "proof-slice.total-pair-token-route"
+      tacticId := "CT9"
+      role := "exact local token--role dispatch"
+      description := "The application consumes the exact pair split. The reusable CT9 product ledger partitions every scheduled pair once; the graph route proves that freeAnchor is precisely the negative blocker branch and that blocked pairs retain the canonical first hit."
+      problemDeclaration := `Erdos64EG.Internal.allPairTokenRoutingInput
+      frameworkDeclaration :=
+        `StructuralExhaustion.CT9.TokenRoleLedger.noOvercounting
+    },
+    {
+      bindingId := "proof-slice.ct9-capacity-token-ledger"
+      stageId := "proof-slice.capacity-token-ledger"
+      tacticId := "CT9"
+      role := "exact capacity-token refinement"
+      description := "The application supplies the already verified pair split and sparse graph bounds. The graph layer constructs the disjoint window/remainder/primitive token universe, retokenizes the blocked side by deterministic priority, preserves the free-anchor side, and proves the exact 25-role partition and cubic work bound."
+      problemDeclaration := `Erdos64EG.Internal.capacityTokenActivationStage
+      frameworkDeclaration :=
+        `StructuralExhaustion.Graph.SurplusCapacityTokenRouting.verifiedStage
+    },
+    {
+      bindingId := "proof-slice.ct9-coupled-class-overload"
+      stageId := "proof-slice.coupled-class-overload"
+      tacticId := "CT9"
+      role := "exact classwise capacity decision"
+      description := "The application supplies only the fixed threshold triple and the preceding verified stage. The reusable CT9 contract compares the literal complete pair list with class capacities, returns a concrete overload or an aggregate bound, and the graph layer routes overloads by the literal token constructor."
+      problemDeclaration := `Erdos64EG.Internal.coupledClassProfile
+      frameworkDeclaration :=
+        `StructuralExhaustion.CT9.ClasswiseTokenLedger.Profile.decide
     },
     {
       bindingId := "proof-slice.ct10-p13-labels"

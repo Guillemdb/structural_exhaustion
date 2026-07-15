@@ -149,6 +149,86 @@ theorem and_shift_eq_zero_iff_no_gap {order : Nat}
         simpa [left, BitVec.getLsb_eq_getElem] using leftBit
       simp [BitVec.getElem_and, BitVec.getElem_ushiftRight, leftElem]
 
+/-- A shifted intersection of two codes is zero exactly when the decoded
+labels contain no cross-label ordered pair at that positive gap.  This is the
+two-label analogue of `and_shift_eq_zero_iff_no_gap` and supports compact
+compatibility-matrix certificates. -/
+theorem and_shift_cross_eq_zero_iff_no_gap {order : Nat}
+    (leftCode rightCode : LabelCode order) (gap : Nat) (gapPositive : 0 < gap) :
+    leftCode &&& (rightCode >>> gap) = 0 ↔
+      ∀ left : Fin order, left ∈ decodeCode leftCode →
+        ∀ right : Fin order, right ∈ decodeCode rightCode →
+          left < right → right.1 - left.1 ≠ gap := by
+  constructor
+  · intro zero left leftMember right rightMember left_lt_right gapEq
+    have rightEq : gap + left.1 = right.1 := by omega
+    have bitEq := congrArg (fun bits : LabelCode order => bits[left.1]) zero
+    have leftBit : leftCode.getLsb left = true := by
+      simpa [decodeCode] using leftMember
+    have rightBit : rightCode.getLsbD (gap + left.1) = true := by
+      rw [rightEq, BitVec.getLsbD_eq_getElem right.isLt]
+      simpa [decodeCode] using rightMember
+    have leftElem : leftCode[left.1] = true := by
+      simpa [BitVec.getLsb_eq_getElem] using leftBit
+    simp [BitVec.getElem_and, BitVec.getElem_ushiftRight,
+      leftElem, rightBit] at bitEq
+  · intro noGap
+    apply BitVec.eq_of_getElem_eq
+    intro index index_lt
+    let left : Fin order := ⟨index, index_lt⟩
+    by_cases leftMember : left ∈ decodeCode leftCode
+    · by_cases right_lt : gap + index < order
+      · let right : Fin order := ⟨gap + index, right_lt⟩
+        have rightNotMember : right ∉ decodeCode rightCode := by
+          intro rightMember
+          have forbidden := noGap left leftMember right rightMember (by
+            change index < gap + index
+            omega)
+          apply forbidden
+          change (gap + index) - index = gap
+          omega
+        have rightBit : rightCode.getLsbD (gap + index) = false := by
+          rw [BitVec.getLsbD_eq_getElem right_lt]
+          simpa [decodeCode, right] using rightNotMember
+        simp [BitVec.getElem_and, BitVec.getElem_ushiftRight, rightBit]
+      · have rightBit : rightCode.getLsbD (gap + index) = false := by
+          apply BitVec.getLsbD_of_ge
+          omega
+        simp [BitVec.getElem_and, BitVec.getElem_ushiftRight, rightBit]
+    · have leftBit : leftCode.getLsb left = false := by
+        simpa [decodeCode] using leftMember
+      have leftElem : leftCode[index] = false := by
+        simpa [left, BitVec.getLsb_eq_getElem] using leftBit
+      simp [BitVec.getElem_and, BitVec.getElem_ushiftRight, leftElem]
+
+/-- An unshifted intersection is zero exactly when the decoded labels have no
+common position. -/
+theorem and_eq_zero_iff_no_common {order : Nat}
+    (leftCode rightCode : LabelCode order) :
+    leftCode &&& rightCode = 0 ↔
+      ∀ position : Fin order,
+        position ∈ decodeCode leftCode → position ∉ decodeCode rightCode := by
+  constructor
+  · intro zero position leftMember rightMember
+    have bitEq := congrArg (fun bits : LabelCode order => bits[position.1]) zero
+    have leftBit : leftCode[position.1] = true := by
+      simpa [decodeCode, BitVec.getLsb_eq_getElem] using leftMember
+    have rightBit : rightCode[position.1] = true := by
+      simpa [decodeCode, BitVec.getLsb_eq_getElem] using rightMember
+    simp [BitVec.getElem_and, leftBit, rightBit] at bitEq
+  · intro disjoint
+    apply BitVec.eq_of_getElem_eq
+    intro index index_lt
+    let position : Fin order := ⟨index, index_lt⟩
+    by_cases leftMember : position ∈ decodeCode leftCode
+    · have rightNotMember := disjoint position leftMember
+      have rightBit : rightCode[index] = false := by
+        simpa [decodeCode, position, BitVec.getLsb_eq_getElem] using rightNotMember
+      simp [BitVec.getElem_and, rightBit]
+    · have leftBit : leftCode[index] = false := by
+        simpa [decodeCode, position, BitVec.getLsb_eq_getElem] using leftMember
+      simp [BitVec.getElem_and, leftBit]
+
 /-- Length of the cycle closed by an outside vertex attached at two ordered
 path positions. -/
 def pairCycleLength {order : Nat} (left right : Fin order) : Nat :=

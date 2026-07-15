@@ -4,11 +4,24 @@ import Erdos64EG.CT12TypeBDemandSystem
 import Erdos64EG.CT12TypeBCompletion
 import Erdos64EG.CT12TypeBOverlapSupport
 import Erdos64EG.CT12TypeBResolution
+import Erdos64EG.CT14DegreeFourTypeBLedger
 import Erdos64EG.CT14TypeBChoiceLedger
 import Erdos64EG.CT14TypeBPostLedger
 import Erdos64EG.CT12SparseEnvelope
 import Erdos64EG.CT6SurplusPortActivation
 import Erdos64EG.CT15BaselineSpineDemand
+import Erdos64EG.CT15SparsePairResponses
+import Erdos64EG.CT9AllPairAnchorLedger
+import Erdos64EG.CT9CapacityTokenLedger
+import Erdos64EG.CT9CoupledClassOverload
+import Erdos64EG.CT9HomogeneousPattern
+import Erdos64EG.P13RemainderResidual
+import Erdos64EG.SurplusScaleSplit
+import Erdos64EG.SparsePressureEnvelopeRoute
+import Erdos64EG.CT14P13PositiveDeficiency
+import Erdos64EG.CT15RemainderCurvature
+import Erdos64EG.CT12DegreeFourB2Routing
+import Erdos64EG.CT14TypeBResidualCenterLedger
 
 namespace Erdos64EG.Tests
 
@@ -61,6 +74,16 @@ def k4Cycle : CycleWithLength k4.graph PowerOfTwoLength :=
   }
 
 def k4Target : Target k4 := ⟨k4Cycle⟩
+
+theorem k4_notCounterexample : ¬IsCounterexample k4 := by
+  intro counterexample
+  exact counterexample.2 k4Target
+
+example :
+    ∃ (exponent : Nat) (vertex : Fin 4)
+      (cycle : k4.graph.Walk vertex vertex),
+      exponent ≥ 2 ∧ cycle.IsCycle ∧ cycle.length = 2 ^ exponent :=
+  officialConclusion_of_notCounterexample k4 k4_notCounterexample k4_baseline
 
 /-- The manuscript conversion deletes the first edge of the four-cycle and
 produces the length-three Mersenne return in `K₄ - e`. -/
@@ -260,6 +283,22 @@ example : (p13Remainder ctx).InternalMinDegreeFree 3 :=
 
 example : ¬(p13Remainder ctx).HasInternalSubgraphMinDegreeAtLeast 3 :=
   packingPrefix.noInternalSubgraphThreeCore
+
+noncomputable def exactPackingCeiling : P13CoverageResidual ctx packingPrefix where
+  windowCeiling := p13 ctx
+  packing_le := Nat.le_refl _
+
+example : (exactPackingCeiling ctx packingPrefix).remainderFloor ≤
+    (p13RemainderVertices ctx).card :=
+  p13Remainder_large ctx packingPrefix
+    (exactPackingCeiling ctx packingPrefix)
+
+example : VerifiedP13RemainderContinuation ctx packingPrefix
+    (exactPackingCeiling ctx packingPrefix) :=
+  p13Remainder_node26_exact ctx packingPrefix
+    (exactPackingCeiling ctx packingPrefix)
+    (verifiedP13RemainderResidual ctx packingPrefix
+      (exactPackingCeiling ctx packingPrefix))
 
 /-! Node `[18]` consumes that exact CT12 prefix.  CT10 exhausts the compact
 `P₁₃` label universe, while the graph layer proves that every actual
@@ -572,6 +611,23 @@ noncomputable example (scope : TypeBSupportScope ctx) :
                       (support.assignedChargeProfile.assignedSurplus : Int)) :=
   scope.unresolved_or_overlap_or_net_nonnegative_or_saturated_or_bounded_boundaryOverload
 
+noncomputable example (scope : TypeBSupportScope ctx)
+    (noHigher : scope.NoHigherCenter) (center : scope.Center) :
+    Nonempty (scope.CertificateMarkedDegreeFourCenter noHigher center) ∨
+      scope.FanCertificateResidualCenter noHigher center :=
+  scope.certificateMarked_or_fanCertificateResidual noHigher center
+
+example (scope : TypeBSupportScope ctx)
+    (noHigher : scope.NoHigherCenter) (center : scope.Center)
+    (residual : scope.FanCertificateResidualCenter noHigher center) :
+    scope.assignedMarkedFan center.1 = none :=
+  residual.assignedMarkedFan_eq_none
+
+noncomputable example (scope : TypeBSupportScope ctx) :
+    scope.degreeFourCertificateChecks ≤
+      23 * (ctx.G.object.input.vertices.card + 1) ^ 2 :=
+  scope.degreeFourCertificateChecks_polynomial
+
 example : ctx.G.object.edgeCount ≤
     2 * ctx.G.object.input.vertices.card - 2 :=
   sparseEnvelope_edgeBound ctx
@@ -630,6 +686,96 @@ example : (runBaselineSpineCT15 ctx).trace =
 example : (runBaselineSpineCT15 ctx).outcome.Valid :=
   runBaselineSpineCT15_verified ctx
 
+example : SparsePairCT15Verified ctx :=
+  sparsePairCT15_verified ctx
+
+example :
+    (Graph.SurplusPairResponse.blockedPairEnumeration
+        (sparsePairActivationStage ctx)).card +
+      (Graph.SurplusPairResponse.freePairEnumeration
+        (sparsePairActivationStage ctx)).card =
+      (Graph.SurplusPairResponse.pairEnumeration
+        (setup := surplusPortActivationSetup ctx)).card :=
+  sparsePair_exact_partition ctx
+
+example :
+    (Graph.SurplusPairResponse.pairEnumeration
+        (setup := surplusPortActivationSetup ctx)).card ≤
+      ctx.G.object.input.vertices.card ^ 4 :=
+  sparsePair_schedule_quartic ctx
+
+example :
+    (allPairTokenRoutingInput ctx).items.values.length =
+      ((allPairTokenRoutingCapability ctx).labels.orderedValues.map fun label ↦
+        CT9.fibreCount (allPairTokenRoutingCapability ctx)
+          (allPairTokenRoutingInput ctx) label).sum :=
+  allPairTokenRouting_noOvercounting ctx
+
+example (pair : Graph.SurplusPairResponse.FreePair
+    (allPairTokenRoutingStage ctx)) :
+    Graph.SurplusPairTokenRouting.pairRole
+      (allPairTokenRoutingStage ctx) pair.1 = .freeAnchor :=
+  allPairTokenRouting_freeRole ctx pair
+
+example (pair : Graph.SurplusPairResponse.BlockedPair
+    (allPairTokenRoutingStage ctx)) :
+    Graph.SurplusPairTokenRouting.pairRole
+      (allPairTokenRoutingStage ctx) pair.1 =
+        .blocked (Graph.SurplusTokenRole.admittedKind
+          (Graph.SurplusPairResponse.canonicalBlocker
+            (allPairTokenRoutingStage ctx) pair).value) :=
+  allPairTokenRouting_blockedRole ctx pair
+
+example :
+    Graph.SurplusPairTokenRouting.checks (allPairTokenRoutingStage ctx) =
+      (Graph.SurplusPairResponse.pairEnumeration
+        (setup := surplusPortActivationSetup ctx)).card *
+        ((allPairSlotEnumeration ctx).card * 5) :=
+  allPairTokenRouting_checks ctx
+
+example :
+    Graph.SurplusPairTokenRouting.checks (allPairTokenRoutingStage ctx) ≤
+      5 * ctx.G.object.input.vertices.card ^ 6 :=
+  allPairTokenRouting_checks_polynomial ctx
+
+example :
+    (allPairSlotEnumeration ctx).card ≤
+      ctx.G.object.input.vertices.card :=
+  allPairTokenRouting_tokenCount_le_vertexCount ctx
+
+example :
+    Graph.SurplusPairTokenRouting.checks (allPairTokenRoutingStage ctx) ≤
+      5 * ctx.G.object.input.vertices.card ^ 3 :=
+  allPairTokenRouting_checks_cubic ctx
+
+example :
+    (Graph.SurplusPairTokenRouting.run
+      (allPairTokenRoutingStage ctx)).outcome.Valid :=
+  allPairTokenRouting_verified ctx
+
+example :
+    CT9.Graph.ValidTrace (allPairTokenRoutingCapability ctx)
+      (allPairTokenRoutingInput ctx)
+      (Graph.SurplusPairTokenRouting.run
+        (allPairTokenRoutingStage ctx)).trace :=
+  allPairTokenRouting_traceValid ctx
+
+example
+    (pair : Graph.SurplusPairResponse.BlockedPair
+      (sparsePairActivationStage ctx)) :
+    (Graph.SurplusPairResponse.canonicalBlocker
+        (sparsePairActivationStage ctx) pair).value ∈
+      ((Graph.SurplusPairResponse.localBlockerProfile
+        (sparsePairActivationStage ctx)).candidates pair.1).values ∧
+    (Graph.SurplusPairResponse.localBlockerProfile
+      (sparsePairActivationStage ctx)).Blocks pair.1
+        (Graph.SurplusPairResponse.canonicalBlocker
+          (sparsePairActivationStage ctx) pair).value :=
+  ⟨(Graph.SurplusPairResponse.canonicalBlocker_sound
+      (sparsePairActivationStage ctx) pair).1,
+    (Graph.SurplusPairResponse.canonicalBlocker_sound
+      (sparsePairActivationStage ctx) pair).2.1⟩
+
 example :
     ((baselineSpineProfile ctx).budget
         (sparseEnvelopeContext ctx)).checks () ≤
@@ -640,5 +786,106 @@ example :
           ((baselineSpineProfile ctx).budget
             (sparseEnvelopeContext ctx)).degree :=
   runBaselineSpineCT15_linearBudget ctx
+
+/-! Regression coverage for nodes `[133]`--`[139]` and `[141]`.  Each term
+consumes the same green minimal-counterexample context and the exact complete
+pair ledger inherited from node `[130]`. -/
+
+noncomputable example (windowSize remainderSize primitiveSize : Nat) :
+    (coupledClassProfile ctx windowSize remainderSize primitiveSize).Decision
+      ctx.toBranchContext (coupledClassItems ctx) :=
+  coupledClassDecision ctx windowSize remainderSize primitiveSize
+
+noncomputable example (windowSize remainderSize primitiveSize : Nat)
+    (overload :
+      (coupledClassProfile ctx windowSize remainderSize primitiveSize).Overload
+        ctx.toBranchContext (coupledClassItems ctx)) :
+    Graph.SurplusClasswiseOverload.RoutedOverload
+      (coupledClassActivationStage ctx)
+      windowSize remainderSize primitiveSize :=
+  coupledOverloadClassRoute ctx windowSize remainderSize primitiveSize overload
+
+example (windowSize remainderSize primitiveSize : Nat)
+    (within :
+      (coupledClassProfile ctx windowSize remainderSize primitiveSize).WithinCapacity
+        (coupledClassItems ctx)) :
+    (Graph.InducedPathWindowLedger.totalSurplus ctx.G.object) ^ 2 ≤
+      (450 * Graph.SurplusClasswiseOverload.maxCap
+          windowSize remainderSize primitiveSize + 1) *
+        ctx.G.object.input.vertices.card :=
+  noCoupledOverload_quadraticSpine ctx
+    windowSize remainderSize primitiveSize within
+
+example (windowSize remainderSize primitiveSize : Nat) :
+    Graph.SurplusClasswiseOverload.checks
+      (setup := surplusPortActivationSetup ctx)
+      windowSize remainderSize primitiveSize ≤
+        225 * ctx.G.object.input.vertices.card ^ 3 :=
+  coupledClassChecks_cubic ctx windowSize remainderSize primitiveSize
+
+/-! Regression coverage for the ten-node green expansion.  Every statement
+below consumes the identical minimal-counterexample context retained by its
+green predecessor endpoint. -/
+
+noncomputable example (windowSize remainderSize primitiveSize : Nat) :
+    SurplusScaleDecision ctx windowSize remainderSize primitiveSize :=
+  (surplusScaleStage ctx windowSize remainderSize primitiveSize).decision
+
+example (windowSize remainderSize primitiveSize : Nat) :
+    surplusScaleCoefficient windowSize remainderSize primitiveSize *
+        ctx.G.object.input.vertices.card <
+          (Graph.InducedPathWindowLedger.totalSurplus ctx.G.object) ^ 2 ∨
+      (Graph.InducedPathWindowLedger.totalSurplus ctx.G.object) ^ 2 ≤
+        surplusScaleCoefficient windowSize remainderSize primitiveSize *
+          ctx.G.object.input.vertices.card :=
+  surplusScale_exhaustive ctx windowSize remainderSize primitiveSize
+
+example :
+    (p13RemainderDeficiencyProfile ctx).positiveDeficiency =
+      Finset.sum (p13RemainderVertices ctx) (fun vertex : ctx.G.Vertex =>
+        3 - (p13RemainderDeficiencyProfile ctx).internalDegree vertex) :=
+  p13Remainder_positiveDeficiency_eq ctx
+
+example :
+    (p13RemainderCurvatureProfile ctx).positiveDeficiency -
+        Graph.InducedPathWindowLedger.remainderSurplus ctx.G.object ≤
+      15 * Graph.InducedPathWindowLedger.packingNumber ctx.G.object +
+          Graph.InducedPathWindowLedger.windowSurplus ctx.G.object -
+        Graph.InducedPathWindowLedger.remainderSurplus ctx.G.object :=
+  p13Remainder_surplusAdjustedDeficiency ctx
+
+example :
+    (p13CurvatureCoordinates ctx).card =
+      (p13RemainderCurvatureProfile ctx).wedgeCount :=
+  p13CurvatureCoordinates_card_eq_wedgeCount ctx
+
+example : (runP13CurvatureCT15 ctx).terminal = .fullRankLedger :=
+  runP13CurvatureCT15_terminal ctx
+
+example (scope : TypeBSupportScope ctx)
+    (noHigher : scope.NoHigherCenter) :
+    scope.DegreeFourB2Route noHigher :=
+  scope.degreeFourB2Route noHigher
+
+example (scope : TypeBSupportScope ctx)
+    (noHigher : scope.NoHigherCenter) (center : scope.Center)
+    (residual : scope.FanCertificateResidualCenter noHigher center) :
+    scope.UnresolvedCenter :=
+  scope.certificateResidual_is_unresolved noHigher center residual
+
+example (scope : TypeBSupportScope ctx)
+    (residualCenters : Finset scope.Center) :
+    residualCenters.card ≤ scope.highCenterChargeProfile.assignedSurplus :=
+  scope.residualCenters_card_le_assignedSurplus residualCenters
+
+noncomputable example (windowSize remainderSize primitiveSize : Nat)
+    (overload :
+      (coupledClassProfile ctx windowSize remainderSize primitiveSize).Overload
+        ctx.toBranchContext (coupledClassItems ctx)) :
+    Nonempty (Graph.SurplusHomogeneousPattern.Audit
+      (homogeneousActivationStage ctx)
+      windowSize remainderSize primitiveSize
+      (coupledOverloadClassRoute ctx windowSize remainderSize primitiveSize overload)) :=
+  ⟨homogeneousPatternAudit ctx windowSize remainderSize primitiveSize overload⟩
 
 end Erdos64EG.Tests

@@ -324,9 +324,24 @@ def openSuppressionSetup {input : PackedMinimumDegreeCycle.StaticInput}
     simp [adjacent] at isOpen
   center_high := SurplusPortActivity.portCenter_high ctx.G.object slot
 
+/-- The exact proof-carrying target cycle selected in the suppressed graph.
+Later chord blockers consume this value directly; they do not enumerate or
+reselect suppressed cycles. -/
+noncomputable def openCriticalCycleFromMinimality
+    {input : PackedMinimumDegreeCycle.StaticInput}
+    {ctx : Core.MinimalCounterexampleContext input.problem input.Target}
+    (setup : Setup input ctx) (slot : Slot setup)
+    (isOpen : SurplusPortActivity.portType ctx.G.object
+      setup.deletionCritical slot = .open) :
+    OpenPortSuppression.Setup.CriticalCycle
+      (openSuppressionSetup setup slot isOpen) input.LengthOK :=
+  Classical.choice
+    ((openSuppressionSetup setup slot isOpen).criticalCycleFromMinimality
+      input ctx setup.minimumDegree_eq_three)
+
 /-- The open response is forced locally by suppressing the cubic endpoint and
-applying packed minimality.  This discharges the open-response input of the
-activation constructor; it is not an additional hypothesis. -/
+applying packed minimality.  Its path is extracted from the retained critical
+cycle above, so the two certificates have identical provenance. -/
 noncomputable def openResponseFromMinimality
     {input : PackedMinimumDegreeCycle.StaticInput}
     {ctx : Core.MinimalCounterexampleContext input.problem input.Target}
@@ -335,9 +350,8 @@ noncomputable def openResponseFromMinimality
       setup.deletionCritical slot = .open) :
     OpenResponse setup slot isOpen := by
   let suppression := openSuppressionSetup setup slot isOpen
-  let witness := Classical.choice
-    (OpenPortSuppression.Setup.witnessFromMinimality input ctx suppression
-      setup.minimumDegree_eq_three)
+  let critical := openCriticalCycleFromMinimality setup slot isOpen
+  let witness := critical.predecessor
   exact {
     path := witness.path
     pathIsSimple := witness.isPath
@@ -619,6 +633,31 @@ theorem mem_GammaVertices_iff (demand : ActiveDemand setup slot)
   change vertex ∈ demand.GammaEdges.biUnion Sym2.toFinset ↔ _
   simp only [Finset.mem_biUnion, Sym2.mem_toFinset]
 
+/-- The selected cubic endpoint lies in every exact response support.  This
+supplies the nonempty endpoint set consumed by the canonical connector stage. -/
+theorem portEndpoint_mem_GammaVertices
+    (demand : ActiveDemand setup slot) :
+    SurplusPortActivity.portEndpoint ctx.G.object slot ∈
+      demand.GammaVertices := by
+  rw [demand.mem_GammaVertices_iff]
+  let endpoint := SurplusPortActivity.portEndpoint ctx.G.object slot
+  let first := SurplusPortActivity.firstShoulder ctx.G.object slot
+    setup.deletionCritical
+  refine ⟨s(endpoint, first), ?_, ?_⟩
+  · cases responseEq : demand.response <;>
+      simp [GammaEdges, responseEq, openGammaEdges,
+        triangularGammaEdges, triangle, endpoint, first,
+        SurplusPortActivity.portEndpoint,
+        SurplusPortActivity.firstShoulder,
+        SurplusPortActivity.secondShoulder]
+  · change endpoint ∈ s(endpoint, first)
+    simp only [Sym2.mem_iff, true_or]
+
+theorem GammaVertices_nonempty (demand : ActiveDemand setup slot) :
+    demand.GammaVertices.Nonempty :=
+  ⟨SurplusPortActivity.portEndpoint ctx.G.object slot,
+    demand.portEndpoint_mem_GammaVertices⟩
+
 /-- Exact open-branch equation for the active demand's response support. -/
 theorem gammaEdges_eq_open (demand : ActiveDemand setup slot)
     (isOpen : SurplusPortActivity.portType ctx.G.object
@@ -641,6 +680,62 @@ theorem gammaEdges_eq_triangular (demand : ActiveDemand setup slot)
     (branch : demand.response = .triangular isTriangular returnStage) :
     demand.GammaEdges = triangularGammaEdges isTriangular := by
   simp only [GammaEdges, branch]
+
+/-- Every edge label retained by the canonical root return is an actual
+ambient edge.  The return walk lives in the one-edge deletion, whose edge
+relation is a subrelation of the host. -/
+theorem rootReturnEdges_subset_edgeSet (setup : Setup input ctx)
+    (slot : Slot setup) :
+    ∀ edge ∈ rootReturnEdges setup slot, edge ∈ ctx.G.object.graph.edgeSet := by
+  intro edge member
+  letI : DecidableEq ctx.G.Vertex := ctx.G.object.input.vertices.decEq
+  letI : DecidableEq (Sym2 ctx.G.Vertex) := inferInstance
+  have pathMember : edge ∈ (rootReturn setup slot).path.edges := by
+    simpa [rootReturnEdges] using member
+  have deletedMember :=
+    (rootReturn setup slot).path.edges_subset_edgeSet pathMember
+  exact SimpleGraph.edgeSet_mono
+    (ctx.G.object.graph.deleteEdges_le {(rootDart setup slot).edge})
+    deletedMember
+
+/-- The complete response support contains only actual ambient graph edges.
+This is the graph-owned typing fact used by every downstream primitive
+edge-incidence carrier. -/
+theorem GammaEdges_subset_edgeSet (demand : ActiveDemand setup slot) :
+    ∀ edge ∈ demand.GammaEdges, edge ∈ ctx.G.object.graph.edgeSet := by
+  intro edge member
+  letI : DecidableEq ctx.G.Vertex := ctx.G.object.input.vertices.decEq
+  letI : DecidableEq (Sym2 ctx.G.Vertex) := inferInstance
+  cases responseEq : demand.response
+  · rename_i isOpen response
+    rw [demand.gammaEdges_eq_open isOpen response responseEq] at member
+    simp only [openGammaEdges, Finset.mem_union, Finset.mem_insert,
+      Finset.mem_singleton] at member
+    rcases member with (rootMember | pathMember) | firstEdge | secondEdge
+    · exact rootReturnEdges_subset_edgeSet setup slot edge rootMember
+    · exact response.path.edges_subset_edgeSet (by simpa using pathMember)
+    · subst edge
+      rw [SimpleGraph.mem_edgeSet]
+      exact (HighCenterPort.firstShoulder_adjacent_endpoint
+          ctx.G.object slot.1
+          (SurplusPortActivity.portCenter_high ctx.G.object slot)
+          setup.deletionCritical
+          (SurplusPortActivity.portOfSlot ctx.G.object slot)).symm
+    · subst edge
+      rw [SimpleGraph.mem_edgeSet]
+      exact (HighCenterPort.secondShoulder_adjacent_endpoint
+          ctx.G.object slot.1
+          (SurplusPortActivity.portCenter_high ctx.G.object slot)
+          setup.deletionCritical
+          (SurplusPortActivity.portOfSlot ctx.G.object slot)).symm
+  · rename_i isTriangular returnStage
+    rw [demand.gammaEdges_eq_triangular isTriangular returnStage responseEq]
+      at member
+    simp only [triangularGammaEdges, Finset.mem_union] at member
+    rcases member with rootMember | triangleMember
+    · exact rootReturnEdges_subset_edgeSet setup slot edge rootMember
+    · exact (triangle setup slot isTriangular).edges_subset_edgeSet
+        (by simpa using triangleMember)
 
 end ActiveDemand
 

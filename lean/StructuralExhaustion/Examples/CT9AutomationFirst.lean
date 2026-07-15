@@ -135,6 +135,13 @@ def parityRun : CT9.ParityCapacityOneRun (fun value : Nat => value)
   CT9.runParityCapacityOneOfThreeLeCardinality (fun value : Nat => value)
     parityInput (by decide)
 
+/-- Textbook transfer check for the exact fibre partition: the three authored
+items occur exactly once across the two parity labels. -/
+example : items.values.length =
+    (parityCapability.labels.orderedValues.map
+      (CT9.fibreCount parityCapability parityInput)).sum :=
+  CT9.cardinality_eq_sum_fibreCount parityCapability parityInput
+
 example : CT9.totalCapacity parityCapability = 2 := by simp
 example : parityRun.execution.terminal = .overloaded :=
   parityRun.terminal_eq

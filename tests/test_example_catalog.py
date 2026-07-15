@@ -250,6 +250,7 @@ def manuscript_for_single_stage(raw: dict) -> dict:
     return {
         "title": "Synthetic manuscript mapping",
         "path": "proofs/erdos_64_eg/erdos_64_proof.tex",
+        "formalizedNodeIds": [1],
         "proofSteps": [
             {
                 "stepId": "main.statement",
@@ -445,12 +446,6 @@ def test_committed_example_artifacts_validate_and_hash_sources() -> None:
                     "claim", "definition", "remark",
                 }
             }
-            verified_nodes = {
-                node_id
-                for step in implemented
-                for reference in step["manuscriptRefs"]
-                for node_id in reference["nodeIds"]
-            }
             assert manuscript["coverage"] == {
                 "implementedSteps": len(implemented),
                 "totalSteps": len(manuscript["proofSteps"]),
@@ -460,7 +455,7 @@ def test_committed_example_artifacts_validate_and_hash_sources() -> None:
                 "totalMathematicalObjects": len(
                     rendered["mathematicalObjectLabels"]
                 ),
-                "verifiedDiagramNodes": len(verified_nodes),
+                "verifiedDiagramNodes": len(manuscript["formalizedNodeIds"]),
                 "totalDiagramNodes": len(rendered["nodeIds"]),
                 "verifiedWorkflowSteps": len(implemented),
             }

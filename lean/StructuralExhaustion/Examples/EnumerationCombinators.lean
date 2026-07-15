@@ -24,6 +24,14 @@ def trueBools : FinEnum {value : Bool // value = true} :=
 
 example : trueBools.orderedValues.map Subtype.val = [true] := rfl
 
+example : (Enumeration.distinctPairs (inferInstance : FinEnum (Fin 4))).card = 6 := by
+  rw [Enumeration.distinctPairs_card]
+  decide
+
+example : (Enumeration.distinctPairs (inferInstance : FinEnum (Fin 4))).card ≤
+    (inferInstance : FinEnum (Fin 4)).card ^ 2 :=
+  Enumeration.distinctPairs_card_le_square _
+
 example (value : {value : Bool // value = true}) : value ∈ trueBools.orderedValues :=
   trueBools.mem_orderedValues value
 

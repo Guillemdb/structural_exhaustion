@@ -30,7 +30,7 @@
     {
       "exampleId": "erdos-64",
       "title": "Erdős Problem 64",
-      "summary": "A partial proof with exact Mersenne returns, lexicographic minimal selection, CT2 criticality and bridge contraction, CT3 boundaried uncompressibility, an HSS-forced induced-P13 CT1 stage, a routed maximum-packing CT12 remainder stage, the complete CT10 P13 attachment-label algebra, a polynomial ordered CT6 degree-surplus ledger with exact per-slot return/suppression activation feeding CT15, framework-native local-port verification, concrete Type B candidate fibres, an unconditional dependent CT12 choice-or-minimal-overlap theorem, an exact high-center local-resolution trichotomy, a no-double-counted induced-core realization of the full Type B charge ledger, and the choice-free Type B receiver-overload deficit bound.",
+      "summary": "A partial proof with exact Mersenne returns, lexicographic minimal selection, CT2 criticality and bridge contraction, CT3 boundaried uncompressibility, an HSS-forced induced-P13 CT1 stage, a routed maximum-packing CT12 remainder stage, the complete CT10 P13 attachment-label algebra, a polynomial ordered CT6 degree-surplus ledger with exact per-slot activation, the CT15 baseline and free/blocked pair-response stages, the exact CT9 capacity-token partition, and the exact 25-role coupled overload/class decision, together with the framework-native local-port and Type B ledgers retained by the same selected graph.",
       "proofStatus": "partial",
       "tacticIds": [
         "CT1",
@@ -50,12 +50,12 @@
         {
           "workflowId": "proof-slice",
           "title": "Verified Erdős 64 prefix",
-          "purpose": "Inspect the exact Mersenne target algebra, lexicographic minimal selection, CT2 criticality and bridge contraction, boundaried replacement, the HSS-forced induced-P13 CT1 stage, the routed maximum-packing CT12 remainder stage, the exhaustive CT10 P13 attachment-label algebra, the ordered CT6 degree-surplus ledger with per-slot activation, the CT15 baseline demand, and the Type B development through its graph-derived high-center choice/overlap trichotomy.",
+          "purpose": "Inspect the exact Mersenne target algebra, lexicographic minimal selection, CT2 criticality and bridge contraction, boundaried replacement, the HSS-forced induced-P13 CT1 stage, the routed maximum-packing CT12 remainder stage, the exhaustive CT10 P13 attachment-label algebra, the ordered CT6 degree-surplus ledger with per-slot activation, the CT15 baseline and free/blocked pair-response stages, the CT9 free-anchor and capacity-token ledgers, the exact 25-role coupled overload decision, and the Type B development through its graph-derived high-center choice/overlap trichotomy.",
           "completion": "partial"
         }
       ],
       "detailFile": "erdos-64.json",
-      "detailHash": "adcfaccf80485f7c63567e417a1d59953327786fc0f923b82e6104f3be954f90"
+      "detailHash": "32b9074d39020c30b8d5b89be6a890344e664bbe82a7eb0a8da1d88d997c714e"
     },
     {
       "exampleId": "even-cycle",
@@ -110,7 +110,7 @@
         }
       ],
       "detailFile": "even-cycle.json",
-      "detailHash": "faff68f11f0e3748f70f78d7465a8893b8d68b9c19bdcb8e1d4037d2270ddae9"
+      "detailHash": "14cb10b1ad35c8b7fb89f30d3e1724f13c1a48b3eba708721c65139769d76df6"
     },
     {
       "exampleId": "greedy-coloring",

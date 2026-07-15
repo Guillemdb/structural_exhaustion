@@ -179,6 +179,10 @@ structure ExampleProofStepDescriptor where
 structure ExampleManuscriptDescriptor where
   title : String
   path : String
+  /-- Diagram nodes whose complete displayed assertion is formalized.  A proof
+  step may cite additional nodes for partial coverage and navigation without
+  promoting those whole nodes to verified status. -/
+  formalizedNodeIds : List Nat := []
   proofSteps : List ExampleProofStepDescriptor
   deriving Repr, DecidableEq
 

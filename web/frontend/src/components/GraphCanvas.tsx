@@ -16,7 +16,7 @@ interface GraphCanvasProps {
   onSelect?: (element: SelectedGraphElement | null) => void;
 }
 
-const graphStyles: cytoscape.StylesheetJson = [
+export const graphStyles: cytoscape.StylesheetJson = [
   {
     selector: "node",
     style: {
@@ -26,7 +26,7 @@ const graphStyles: cytoscape.StylesheetJson = [
       color: "#172235",
       "font-family": "Inter, ui-sans-serif, system-ui, sans-serif",
       "font-size": 11,
-      "font-weight": 650,
+      "font-weight": "bold",
       label: "data(label)",
       "text-background-color": "#fbfaf6",
       "text-background-opacity": 0.92,
@@ -201,7 +201,7 @@ const graphStyles: cytoscape.StylesheetJson = [
       "border-width": 2,
       color: "#263b46",
       "font-size": 10,
-      "font-weight": 650,
+      "font-weight": "bold",
       height: 62,
       shape: "round-rectangle",
       "text-background-opacity": 0,
@@ -210,6 +210,14 @@ const graphStyles: cytoscape.StylesheetJson = [
       "text-max-width": "180px",
       "text-valign": "center",
       width: 210,
+    },
+  },
+  {
+    selector: 'node[kind = "proofFlowNode"][status = "notStarted"]',
+    style: {
+      "background-color": "#fbfaf6",
+      "border-color": "#87969a",
+      color: "#263b46",
     },
   },
   {
@@ -231,11 +239,19 @@ const graphStyles: cytoscape.StylesheetJson = [
     },
   },
   {
-    selector: 'node[kind = "proofFlowNode"][verified = true]',
+    selector: 'node[kind = "proofFlowNode"][status = "implemented"]',
     style: {
       "background-color": "#397a50",
       "border-color": "#cfe5d5",
       color: "#ffffff",
+    },
+  },
+  {
+    selector: 'node[kind = "proofFlowNode"][status = "partial"]',
+    style: {
+      "background-color": "#e2bd3f",
+      "border-color": "#f3e3a4",
+      color: "#3f3210",
     },
   },
   {
@@ -400,7 +416,7 @@ const graphStyles: cytoscape.StylesheetJson = [
     },
   },
   {
-    selector: 'edge[kind = "proofFlowEdge"][dashed = true]',
+    selector: 'edge[kind = "proofFlowEdge"][?dashed]',
     style: { "line-style": "dashed" },
   },
   {

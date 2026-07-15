@@ -1,0 +1,569 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,booktabs,longtable,array}
+\usepackage[margin=1in]{geometry}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{corollary}{Corollary}
+\newcommand{\States}{\mathcal S}
+\newcommand{\Coords}{\mathcal I}
+\newcommand{\Pair}{\Pi}
+\newcommand{\Exit}{\mathsf{Exit}}
+\newcommand{\Block}{\mathsf{Block}}
+
+\title{Node [131] repair laboratory:\\
+sequential Boolean extension and first-conflict routing}
+\author{Structural-exhaustion repair sketch}
+\date{15 July 2026}
+
+\begin{document}
+\maketitle
+
+\paragraph{Status.}
+This file is deliberately separate from
+\texttt{proofs/erdos\_64\_eg/erdos\_64\_proof.tex}.  It freezes the exact
+node-[131] defect and records successive repair candidates.  The sequential
+Boolean-extension candidate below is rejected: its negative output has no
+graph-local consumer.  The second iteration replaces that candidate by an
+exact all-pair anchor ledger.  The third iteration identifies the missing
+legal consumer: the first selected port is already a primitive capacity
+token, so the blocker-free anchor fibre enters the existing non-near-cubic
+primitive-carrier audit.  The source-manuscript baseline is
+\begin{center}
+\texttt{4e7db39e6bc8defa1a5150b912eba4fe0208d09289db4cfdddf8f8b9d2fa7680}.
+\end{center}
+No claim in this laboratory is an additional hypothesis of the main theorem.
+
+\section{Defect freeze}
+
+The incoming path in Part X is
+\[
+[125]\longrightarrow[126]\longrightarrow[127]\longrightarrow[128]
+\longrightarrow[129]\longrightarrow[130].
+\]
+Node [130] forms the exact pair partition supplied by the canonical local
+blocker scan.  Write its pair-local blocker-free side as
+$\Pair_{\mathrm{loc}}$ and its admitted blocked side as
+$\Pair_{\mathrm{blk}}^0$.  Node [131] currently receives
+\[
+\Coords_0:=\Coords_{\mathrm{spine}}
+\qquad\text{and}\qquad
+\{r_\pi:\pi\in\Pair_{\mathrm{loc}}\}.
+\]
+The baseline family $\Coords_0$ is independently target-testable.  The CT15
+output currently established for $\Pair_{\mathrm{loc}}$ is injectivity of the
+declared coordinate labels under every admitted pair-identifying quotient.
+
+The failed implication is
+\[
+\begin{split}
+&\text{every admitted quotient is label-injective on }
+  \{r_\pi:\pi\in\Pair_{\mathrm{loc}}\}\\
+&\hspace{35mm}\Longrightarrow
+\text{the mixed family realizes every vector in }
+\{0,1\}^{\Coords_0\cup\{r_\pi:\pi\in\Pair_{\mathrm{loc}}\}}.
+\end{split} \tag{D131}
+\]
+This implication is false.  It is not made true by the fact that each
+coordinate separately takes both values.  The three-state response relation
+\[
+\{(0,0),(0,1),(1,0)\}\subsetneq\{0,1\}^2
+\]
+has distinct, context-separable coordinate labels and omits $(1,1)$.  The
+corresponding finite countermodel is kernel checked in
+\texttt{StructuralExhaustion.Examples.BooleanStateEntropy}.
+
+Consequently the node-[131] residual is the literal negation of mixed
+realization:
+\[
+\mathsf{Missing}_{131}:\quad
+\exists\varepsilon:\Coords_0\cup
+  \{r_\pi:\pi\in\Pair_{\mathrm{loc}}\}\to\{0,1\},\quad
+\forall s\in\States,\ \operatorname{val}(s)\ne\varepsilon . \tag{R131}
+\]
+The residual is not an assumption.  It is the negative branch that the
+repair must consume.
+
+\section{Frozen directed branch state}
+
+The branch tuple at [131] is
+\[
+\mathfrak B_{131}=(H_0,\prec,\mathcal E,\mathcal I,
+\mathcal R,\mathcal V,\mathcal Q,\mathcal A),
+\]
+with the following fields.
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.17\textwidth}
+                  >{\raggedright\arraybackslash}p{0.75\textwidth}}
+\toprule
+Field & Value and producer \\
+\midrule
+$H_0$ & The selected finite simple target-avoiding graph, minimum degree at
+least three, and lexicographic minimality inherited before [125]. \\
+$\prec$ & The declared vertex, surplus-port, pair, blocker, and certificate
+orders fixed before [130]. \\
+$\mathcal E$ & All sparse exits in the manuscript definition of sparse surplus
+exits are absent on this survivor. \\
+$\mathcal I$ & The sparse upper envelope; the exact slack--surplus identity;
+the full active excess-port family of cardinality $\sigma(G)$; all retained
+activation supports and paths; the baseline family $\Coords_0$ and its
+recorded deficit; the exact pair-local blocker scan and pair partition. \\
+$\mathcal R$ & The unprocessed pair-response schedule together with the mixed
+realization residual (R131) when it occurs. \\
+$\mathcal V$ & Declared graph vertices, edge incidences, surplus ports,
+activation supports, pair supports, response coordinates, admitted blockers,
+capacity tokens, and proof-carrying local certificates. \\
+$\mathcal Q$ & The admitted blocked-pair token payloads already queued for
+[134]--[136]. \\
+$\mathcal A$ & The Part-X diagram rows, the invariant ledger, the payload
+registry, and the TeX--Lean index through [130]. \\
+\bottomrule
+\end{longtable}
+
+No near-cubic estimate is available in this tuple.  No Type B fan-mass bound
+that assumes the near-cubic spine is available either.  Facts proved only on
+those branches cannot be used to repair [131].
+
+\section{The finite local repair machine}
+
+The complete Boolean cube must not be materialized.  The correct local object
+is a compact extension operation and its first failure.
+
+\begin{definition}[Prefix realization]
+Let $c_1,\ldots,c_k$ be the ordered pair coordinates and let $\Coords_0$ be
+the baseline coordinate family.  Put
+\[
+\Coords_i=\Coords_0\cup\{c_1,\ldots,c_i\}.
+\]
+A prefix constructor at stage $i$ is a function, at proof level,
+\[
+F_i:\bigl(\Coords_i\to\{0,1\}\bigr)\longrightarrow\States
+\]
+such that $\operatorname{val}(F_i(\alpha))|_{\Coords_i}=\alpha$.  The function
+is not evaluated on all assignments; it is a uniform construction proved
+correct for an arbitrary assignment.
+\end{definition}
+
+\begin{definition}[One-coordinate extension and first conflict]
+Assume a prefix constructor $F_i$ has been retained.  The next coordinate
+$c_{i+1}$ is \emph{extendible} if, for every assignment $\alpha$ on
+$\Coords_i$ and every bit $b$, a locally certified operation returns a state
+$s'$ satisfying
+\[
+\operatorname{val}(s')|_{\Coords_i}=\alpha,
+\qquad
+\operatorname{val}(s')(c_{i+1})=b. \tag{E}
+\]
+The negative branch is the lexicographically first tuple $(i+1,\alpha,b)$
+for which the local extension audit cannot construct (E).  Its certificate
+must be a bounded graph object checked on the declared support of
+$c_{i+1}$ and the retained prefix interface; absence of a state after scanning
+all labelled graphs is not an admissible certificate.
+\end{definition}
+
+\begin{lemma}[Sequential realization]
+If $F_0$ realizes the baseline family and every ordered pair coordinate is
+extendible in the sense of (E), then the full mixed coordinate family has a
+complete Boolean-state realization.
+\end{lemma}
+
+\begin{proof}
+Induct on $i$.  The base constructor is $F_0$.  Given $F_i$ and an assignment
+$\beta$ on $\Coords_{i+1}$, apply the certified extension operation to
+$\alpha=\beta|_{\Coords_i}$ and $b=\beta(c_{i+1})$.  The returned state has
+the required values on $\Coords_i$ and on $c_{i+1}$, hence realizes $\beta$.
+This defines $F_{i+1}$.  After $k$ steps, $F_k$ realizes every mixed Boolean
+assignment.  The proof performs $k$ symbolic extension steps for one arbitrary
+assignment; it never enumerates the $2^k$ assignments.
+\end{proof}
+
+\begin{lemma}[First-conflict dichotomy]
+For the finite ordered pair schedule, either the sequential construction
+reaches $F_k$, or there is a least failed extension index.  On the failure
+branch the unprocessed-coordinate measure
+\[
+\mu=k-i
+\]
+strictly decreases after the failed coordinate is consumed by a registered
+route.
+\end{lemma}
+
+\begin{proof}
+The schedule is finite and ordered.  Scan it once.  A successful extension
+increments $i$.  If an extension fails, retain the least failing index and its
+local certificate.  A legal route must either close the graph or remove that
+coordinate from the unprocessed schedule; in the latter case $\mu$ decreases
+by one.  Hence re-entry terminates after at most $k$ successful extensions or
+routed failures.
+\end{proof}
+
+This is the CT10--CT15--CT6 control flow required by the framework: CT10 names
+the next coordinate and its finite response label, CT15 tests target-relative
+extension, and CT6 retains the first failed local extension.  The successful
+terminal supplies the exact realization contract consumed by the entropy
+bound.  A failed terminal is not called a rank quotient; it is the positive
+first-conflict residual.
+
+\section{Required graph classifier}
+
+For the repair to close, the following proposition must be proved from the
+pre-[131] graph state.  It is stated here as the exact remaining proof target,
+not as an assumption or a result.
+
+\begin{quote}
+\textbf{Sparse pair product-or-route target.}
+Let $\Coords_i$ be a realized mixed prefix and let
+$c_{i+1}=r_\pi$ be the next pair-local blocker-free response coordinate.
+For an arbitrary prefix assignment $\alpha$ and requested bit $b$, exactly
+one of the following certified outcomes is constructed from the declared
+support data.
+\begin{enumerate}
+\item A state extension satisfying (E).
+\item A payload satisfying the exact trigger of one of the already registered
+sparse exits: direct target, target-defective quotient, proper
+target-complete compression, proper or closed delocalization, or suppression
+arithmetic contradiction.
+\item An admitted structural blocker for $\pi$, together with its canonical
+capacity token and role.  The coordinate is moved from the current free
+schedule to the blocked ledger, after which the scan re-enters with the same
+realized prefix and one fewer unprocessed coordinate.
+\end{enumerate}
+The alternatives are exhaustive; their certificate check is polynomial in
+the declared supports and does not enumerate contexts, graphs, or Boolean
+assignments.
+\end{quote}
+
+If this proposition is proved, the repaired node is total.  Let
+$\Pair_{\mathrm{ind}}$ be the successfully extended coordinates and let
+$\Pair_{\mathrm{blk}}$ be the initial admitted blockers plus all failed
+coordinates routed by outcome 3.  Then
+\[
+\binom{\mathcal A_0}{2}
+=\Pair_{\mathrm{ind}}\sqcup\Pair_{\mathrm{blk}}.
+\]
+The sequential lemma gives complete mixed realization for
+$\Coords_0\cup\{r_\pi:\pi\in\Pair_{\mathrm{ind}}\}$, so the entropy
+sandwich charges exactly $|\Pair_{\mathrm{ind}}|$.  The existing token ledger
+charges exactly $|\Pair_{\mathrm{blk}}|$.  Thus the downstream pair identity
+and capacity comparison are unchanged, but every coordinate reaches them
+through a proved local route.
+
+The current definitions do not prove the product-or-route target.  In
+particular, pair-local absence of the listed blocker types does not define an
+operation that changes $r_\pi$ while preserving an arbitrary earlier mixed
+assignment.  Nor does a missing mixed vector construct a boundary mismatch,
+a distinguishing outside context, a smaller representative, or one of the
+current admitted blocker values.  This is precisely the missing graph lemma;
+the abstract quotient-injectivity theorem cannot replace it.
+
+\section{Audit of reuse of existing branches}
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.18\textwidth}
+                  >{\raggedright\arraybackslash}p{0.23\textwidth}
+                  >{\raggedright\arraybackslash}p{0.22\textwidth}
+                  >{\raggedright\arraybackslash}p{0.27\textwidth}}
+\toprule
+Candidate consumer & Exact entry trigger & Dependency result & Present verdict \\
+\midrule
+Sparse exit: target defect & A concrete boundary-preserving raw proposal and
+a compatible context with unequal target responses & Upstream of [131] and
+independent & Legal only when the first-conflict classifier constructs this
+payload; (R131) alone does not. \\
+Sparse exit: proper compression & A target-complete proper-support quotient
+with a certified strictly smaller representative & Upstream and independent &
+Legal only with that representative; a missing vector does not supply one. \\
+Sparse exit: delocalization & A determination certificate with its exact
+minimal connected support & The proper/closed minimality argument is
+independent of [131] & Legal only after constructing the determination
+certificate; quotient-label injectivity supplies none. \\
+Suppression exit & A retained critical suppression cycle and a chord-set
+arithmetic violation & Upstream and independent & Legal only when the local
+extension audit constructs that exact cycle certificate. \\
+Initial blocked-pair ledger & One of the admitted blocker values and its
+canonical capacity token & Nodes [134]--[144] consume it after the repaired
+partition & Legal and noncircular if the new classifier proves the exact
+blocker and token fields. \\
+Curvature rank-drop branch & A functional target-dependence with a
+determination certificate & Its intended local exits are upstream, but its
+trigger is stronger than a missing Boolean vector & Illegal from (R131): the
+three-state countermodel has a missing vector without a functional
+coordinate dependence. \\
+Type B fan-mass closure & Decorated fan or B2-overlap payload plus the
+near-cubic surplus bound used by the fan-mass estimate & Depends on the spine
+whose derivation passes through [131] & Circular.  A stronger local Type B
+C1--C4 certificate could be used, but the generic fan-mass destination cannot. \\
+Node [138] & The completed free/blocked quadratic budget or the fixed-cap
+bottleneck conclusion & Descendant of [131] & Circular as a direct repair
+destination. \\
+HSS closure & A finite induced-$P_{13}$-free graph of minimum degree at least
+three & Independent external input & Legal only if the local conflict
+constructs that exact graph; (R131) does not imply it. \\
+\bottomrule
+\end{longtable}
+
+Thus routing to an already closed branch is part of the proposed classifier,
+but the route is legal only for sparse-exit or direct-target payloads whose
+full triggers are constructed locally.  A green diagram status is not a
+dependency proof.
+
+\section{Both-sides and practicality audit}
+
+\begin{center}
+\begin{tabular}{p{0.20\textwidth}p{0.25\textwidth}p{0.25\textwidth}p{0.20\textwidth}}
+\toprule
+Predicate & Positive payment & Negative residual & Consumer \\
+\midrule
+The next response coordinate admits the certified extension (E) & Add one
+coordinate to the compact prefix constructor; later charge one entropy unit &
+First failed tuple $(i,\alpha,b)$ with its bounded support certificate &
+Product-or-route classifier, then sparse exit or blocker ledger \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The schedule has at most polynomially many pair coordinates.  Each successful
+step verifies one proof-carrying local operation.  Each failed step verifies
+one local route and decreases the unprocessed-coordinate measure.  The
+realization constructor is universally quantified Lean proof data rather than
+a table of $2^k$ states.  Therefore the intended execution is polynomial in
+the pair schedule and declared certificate sizes.  The only unproved item is
+the graph classifier above; replacing it by a scan of all labelled graphs or
+all Boolean vectors would violate the framework and is not an admissible
+repair.
+
+\section{Second repair iteration: total anchor-token accounting}
+
+The first-conflict construction is not retained as the repair invariant.  Its
+positive side is correct, but its negative side starts with an arbitrary
+prefix assignment and therefore does not construct any of the finite graph
+objects consumed by a sparse exit.  The repair returns to node~[130] and
+tokenizes every scheduled pair before the free/blocked distinction is used for
+accounting.
+
+\begin{definition}[Canonical anchor token]
+Let
+\[
+  p_1<\cdots<p_s,\qquad s=|\mathcal A_0|=\sigma(G),
+\]
+be the exact activated surplus-slot schedule.  For the canonically oriented
+pair \(\pi=(p_i,p_j)\) with \(i<j\), define
+\[
+  \Theta_{\rm anc}(\pi):=p_i.
+\]
+The anchor-token universe is exactly \(\mathcal A_0\).  Its fibre at \(p_i\)
+is
+\[
+  F_{p_i}=\{(p_i,p_j):i<j\},
+\]
+so every two members have the same first endpoint.  Thus each fibre is a
+literal star in the scheduled-pair graph.
+\end{definition}
+
+\begin{lemma}[Exact all-pair anchor ledger]
+The anchor fibres are pairwise disjoint and partition the whole scheduled
+pair family.  Consequently
+\[
+  \binom{s}{2}=\sum_{p\in\mathcal A_0}|F_p|.
+\]
+The token supply is exactly \(s=\sigma(G)\), and the complete pair schedule
+has quadratic size in \(s\).
+\end{lemma}
+
+\begin{proof}
+Every canonically oriented pair has one first endpoint and hence belongs to
+one displayed fibre.  Equality of two anchor tokens is equality of their
+first endpoints, so distinct fibres are disjoint.  The cardinality identity
+follows.  The token-supply identity is the already verified activated-slot
+identity \(|\mathcal A_0|=\sigma(G)\).  Pair generation uses the ordered
+distinct-pair iterator and is quadratic in the slot count.
+\end{proof}
+
+This lemma is kernel checked in the reusable module
+\[
+\texttt{StructuralExhaustion.CT9.AnchoredPairLedger}
+\]
+and the non-Erd\H{o}s transfer fixture
+\texttt{StructuralExhaustion.Examples.CT9AnchoredPairLedger}.  The thin
+problem instantiation is
+\texttt{Erdos64EG.Internal.allPairAnchor\_noOvercounting}; its exact token
+supply and star-fibre theorems are
+\texttt{allPairAnchor\_tokenSupply\_eq\_sigma} and
+\texttt{allPairAnchor\_sameAnchor}.
+
+\begin{corollary}[Bounded anchor fibres close the numerical side]
+If \(|F_p|\le L\) for every anchor token, then
+\[
+  \binom{\sigma(G)}2\le L\sigma(G).
+\]
+For \(\sigma(G)>0\) this implies \(\sigma(G)\le2L+1\), hence in
+particular the near-cubic estimate needed at node~[138].
+\end{corollary}
+
+The complementary residual is now completely local and contains no Boolean
+assignment:
+\[
+\mathsf{AnchorOverload}(p,L):\qquad |F_p|>L.
+\tag{A131}
+\]
+CT9 constructs the exact overloaded fibre, and the reusable anchor theorem
+constructs its common first endpoint.  This is strict progress over
+\((R131)\): the residual is a finite star of actual activated surplus pairs.
+
+\subsection*{Consumer audit for the overloaded star}
+
+The current blocked-token route cannot consume (A131).  Its trigger contains
+a canonical structural blocker, one of the capacity tokens attached to that
+blocker, and one of the six blocker roles.  A blocker-free member of
+\(F_p\) has none of those fields.  Re-labelling the anchor as a capacity token
+would establish the ledger identity but would not construct the blocker or
+the geometric role required by nodes [134]--[144].
+
+The current decorated Type B route also cannot consume (A131).  Its exact
+trigger contains a connected negative counted core \(Y\) in the
+\(P_{13}\)-free remainder, a high decoration outside that core, a nonempty
+set of distinct first neighbours, proof-carrying arms with first-entry
+certificates, pairwise fan-safety, context safety, forbidden-freeness,
+core-freeness, and uncompressibility.  The fact that scheduled pairs share
+their first surplus slot proves none of the negative-core, first-neighbour,
+or fan-safety fields.  Moreover the generic Type B bridge-mass conclusion
+uses the near-cubic bound derived after node~[131], so it is not a legal
+closure for this residual.
+
+Finally, the same-token bottleneck prose currently present downstream cannot
+be imported as a proof of the new route.  Its parallel and cubic-separator
+cases pass from target-completeness of an identification to a proper smaller
+representative.  The admissible-quotient definition requires that
+representative as input; target-completeness alone does not construct it.
+The all-pair ledger therefore removes the false Boolean-product implication,
+but it does not by itself prove a fixed cap on blocker-free anchor fibres.
+
+\section{Merge gate after the second iteration}
+
+The all-pair anchor ledger is a proved reusable component, but the complete
+repair still fails the leaf-totality test at (A131).  A merge would require a
+graph theorem which, from the exact overloaded anchor star, constructs either
+an already registered sparse-exit payload or the full decorated Type B entry
+payload without using the near-cubic spine.  No current theorem has that
+statement, and none of its missing payload fields follows from the anchor
+ledger.  Until a different invariant closes this residual:
+\begin{enumerate}
+\item node [131] remains open;
+\item no complete-realization hypothesis may be carried downstream;
+\item the exact anchor ledger may be used as bookkeeping, but not as a
+geometric closure certificate;
+\item no existing closed branch may be reused without the trigger and
+dependency proofs listed above.
+\end{enumerate}
+
+\section{Third repair iteration: exact route into the non-near-cubic ledger}
+
+The overloaded anchor star is not an attempted Boolean-realization theorem.
+It is already one of the three token classes of the Part-X residual.  Indeed,
+the primitive carrier universe contains the selected surplus ports
+\(\mathcal P_{\rm exc}\).  Thus the first endpoint of a canonically oriented
+free pair is a primitive selected-port token already counted by the manuscript.
+
+\begin{definition}[Total pair token route]
+For a canonically oriented pair \(\pi=(p_i,p_j)\), \(i<j\), define
+\[
+ \widehat\Theta(\pi)=
+ \begin{cases}
+   \Theta_{\rm cap}(\pi),&\pi\in\Pi_{\rm blk},\\
+   p_i,&\pi\in\Pi_{\rm free}.
+ \end{cases}
+\]
+On the blocked side retain the canonical blocker kind at the node-[130]
+dispatch and compute the existing blocker/token subtype only at nodes
+[134]--[136].  On the free side use the single role
+\(\mathsf{freeAnchor}\).  After retokenization the final role alphabet is
+\[
+ \widehat{\mathfrak R}_{\rm st}
+ =\{\mathsf{blocked}(r):r\in\mathfrak R_{\rm st}\}
+   \sqcup\{\mathsf{freeAnchor}\},
+ \qquad |\widehat{\mathfrak R}_{\rm st}|\le4\cdot6+1=25.
+\]
+The free role occurs only with the primitive selected-port subtype.
+\end{definition}
+
+\begin{lemma}[Exact total-pair route]
+The fibres of \((\widehat\Theta,\widehat\rho)\) form a disjoint partition of
+the complete scheduled pair family.  In particular,
+\[
+ \binom{|\mathcal A_0|}{2}
+ =\sum_{C\in\{W,R,P\}}
+   \sum_{t\in\mathfrak T_C}
+   \sum_{r\in\widehat{\mathfrak R}_{\rm st}}\widehat\ell(t,r).
+ \tag{T131}
+\]
+Every member of a \((p,\mathsf{freeAnchor})\)-fibre is blocker-free, has
+first endpoint exactly \(p\), and retains the shortest connector and both
+activated demand supports selected at node~[130].
+\end{lemma}
+
+\begin{proof}
+The canonical blocker scan gives the decidable disjoint partition
+\(\Pi_{\rm blk}\sqcup\Pi_{\rm free}\).  A blocked pair is sent through the
+existing single-valued map \(\Theta_{\rm cap}\) and its existing role map.  A
+free pair has a unique first endpoint in the ordered pair schedule and is sent
+to that endpoint with the distinct role \(\mathsf{freeAnchor}\).  Hence the
+two images cannot overlap, and within either side equality of the token--role
+label defines the displayed fibres.  This proves (T131).  For the last
+assertion, membership in the free-anchor fibre unfolds to the two equalities
+\(p_i=p\) and \(\widehat\rho(\pi)=\mathsf{freeAnchor}\).  The latter is
+definitionally the negative result of the canonical blocker decision, while
+the connector and its two support inclusions are the data already retained
+for that free pair.
+\end{proof}
+
+This is kernel checked in three layers.  The reusable product partition and
+local-cap aggregation are
+\texttt{StructuralExhaustion.CT9.TokenRoleLedger}; the non-Erd\H{o}s transfer
+fixture is \texttt{StructuralExhaustion.Examples.CT9TokenRoleLedger}; and the
+graph-owned semantic route is
+\texttt{StructuralExhaustion.Graph.SurplusPairTokenRouting}.  Its Erd\H{o}s
+endpoint is
+\texttt{Erdos64EG.Internal.exists\_verifiedAllPairTokenRoutingPrefix}.
+The executable node-[130] dispatch uses five roles---the four admitted
+structural blocker kinds and \(\mathsf{freeAnchor}\)---because profile and
+target mismatches leave as raw audit exits and a blocked token subtype is not
+invented before the downstream capacity-token map.  The final combined ledger
+uses the 25-role alphabet above.
+
+\subsection*{Exact consumer and dependency audit}
+
+For a free-anchor fibre the token \(p\) lies in
+\(\mathcal P_{\rm exc}\subseteq\mathfrak T_{\rm prim}\).  Its fibre is a
+literal role-homogeneous star in the pair graph, centered at \(p\).  Therefore
+its exact consumer is node~[143], the primitive-carrier geometric audit.  The
+support passed to that audit is the retained pair connector support, not a
+newly searched subgraph.  In the routing-germ definition the token root is
+the buffer \(x(p)\), exactly the already specified root of a primitive
+selected-port token.
+
+This handoff is noncircular.  Nodes [125]--[130] produce the graph, activated
+slots, blocker decision, and free-pair connectors.  The route uses only those
+objects and the fixed primitive-token inclusion.  Node [143] does not become
+an input hypothesis: it is the next residual audit.  In particular, no
+near-cubic estimate or Type-B fan-mass estimate is transported into the
+route.  The later alternatives of the geometric audit may produce a sparse
+exit, Type-B handoff data, or fixed caps; only the fixed-cap outcome is then
+allowed to produce node~[138].
+
+The blocked branch remains unchanged: its canonical first-hit record, with
+the absence of all earlier candidates, enters node~[134], where the existing
+capacity-token map computes the token subtype.  Thus the total route neither
+adds a blocker hypothesis to a free pair nor assigns a fictitious subtype to
+a blocked pair.
+
+\section{Merge gate after the third iteration}
+
+The node-[131] repair passes the local leaf-totality test.  Every pair has one
+of two exact outputs: a canonical blocker handoff to node~[134], or a
+free-anchor primitive-token handoff to node~[143].  The false implication
+(D131) and the mixed-realization residual (R131) are no longer used by the
+Part-X accounting route.  The frontier after this repair is the downstream
+capacity-token and primitive geometric audits themselves; their verification
+status is independent of the completed node-[131] dispatch.
+
+\end{document}

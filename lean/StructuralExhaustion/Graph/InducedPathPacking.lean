@@ -153,6 +153,41 @@ theorem remainder_partition (object : FiniteObject V) (order : Nat)
   rw [← coveredVertices_card object order positive]
   simpa [remainderVertices, FinEnum.card_eq_fintypeCard] using partition
 
+/-- Subtraction form of the exact packed/remainder partition. -/
+theorem remainder_card_eq_sub (object : FiniteObject V) (order : Nat)
+    (positive : 0 < order) :
+    (remainderVertices object order positive).card =
+      object.input.vertices.card -
+        order * packingNumber object order positive := by
+  have partition := remainder_partition object order positive
+  omega
+
+/-- A coverage bound from the preceding packing-density branch transfers
+exactly to a lower bound on the complementary remainder.  This is local
+arithmetic on the already selected packing; it performs no search. -/
+theorem remainder_card_ge_of_coverage_add_floor_le
+    (object : FiniteObject V) (order : Nat) (positive : 0 < order)
+    (floor : Nat)
+    (coverage : order * packingNumber object order positive + floor ≤
+      object.input.vertices.card) :
+    floor ≤ (remainderVertices object order positive).card := by
+  have partition := remainder_partition object order positive
+  omega
+
+/-- An upper bound on the number of selected packed items gives the exact
+complementary remainder floor.  This is the direct local handoff used after a
+packing-density branch. -/
+theorem remainder_card_ge_of_packingNumber_le
+    (object : FiniteObject V) (order : Nat) (positive : 0 < order)
+    (windowCeiling : Nat)
+    (packingBound : packingNumber object order positive ≤ windowCeiling) :
+    object.input.vertices.card - order * windowCeiling ≤
+      (remainderVertices object order positive).card := by
+  rw [remainder_card_eq_sub object order positive]
+  exact Nat.sub_le_sub_left
+    (Nat.mul_le_mul_left order packingBound)
+    object.input.vertices.card
+
 /-- In particular, `order * p ≤ |V|`. -/
 theorem packing_vertices_bound (object : FiniteObject V) (order : Nat)
     (positive : 0 < order) :

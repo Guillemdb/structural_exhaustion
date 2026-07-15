@@ -1,4 +1,5 @@
 import StructuralExhaustion.Graph.EndpointParityCycle
+import StructuralExhaustion.Core.CounterexampleBranch
 
 namespace EvenCycleExample
 
@@ -34,5 +35,15 @@ abbrev Baseline {V : Type u} (object : Graph.FiniteObject V) : Prop :=
 
 abbrev HasEvenCycle {V : Type u} (object : Graph.FiniteObject V) : Prop :=
   (staticInput V).Target object
+
+/-- The same generic initial branch used by the Erdős example: if a graph is
+not simultaneously baseline-admissible and target-avoiding, its baseline
+premise yields an even cycle. -/
+theorem hasEvenCycle_of_notCounterexample {V : Type u}
+    (object : Graph.FiniteObject V)
+    (notCounterexample :
+      ¬Core.IsCounterexample (problem V) HasEvenCycle object)
+    (baseline : Baseline object) : HasEvenCycle object :=
+  Core.target_of_not_isCounterexample notCounterexample baseline
 
 end EvenCycleExample

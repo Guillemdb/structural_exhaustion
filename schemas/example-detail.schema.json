@@ -450,7 +450,7 @@
     "manuscript": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["title", "path", "sha256", "fragments", "proofSteps", "coverage"],
+      "required": ["title", "path", "sha256", "fragments", "formalizedNodeIds", "proofSteps", "coverage"],
       "properties": {
         "title": {"$ref": "#/$defs/nonemptyString"},
         "path": {
@@ -461,6 +461,11 @@
         "fragments": {
           "type": "array",
           "items": {"$ref": "#/$defs/manuscriptFragment"}
+        },
+        "formalizedNodeIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "integer", "minimum": 1}
         },
         "proofSteps": {
           "type": "array",

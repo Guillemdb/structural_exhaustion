@@ -142,6 +142,23 @@ def ofInducedCore (source : PackedFiniteObject.{u})
       _ = support.card := Fintype.card_coe support
       _ < source.vertexCount := supportStrict
 
+/-- The induced graph on one proper vertex support, packaged as a literal
+proper subgraph.  This is the one-support specialization of `ofInducedCore`
+and avoids rebuilding the same certificate in connectivity arguments. -/
+def ofInducedSupport (source : PackedFiniteObject.{u})
+    (support : Finset source.Vertex)
+    (supportStrict : support.card < source.vertexCount) :
+    ProperSubgraph source where
+  value := pack (source.object.induceFinset support)
+  vertexEmbedding := ⟨fun vertex ↦ vertex.1, Subtype.val_injective⟩
+  included := by
+    rintro left right ⟨_ne, _leftMem, _rightMem, adjacent, rfl, rfl⟩
+    exact adjacent
+  strict := by
+    left
+    simpa only [vertexCount_pack, FiniteObject.induceFinset_vertexCount]
+      using supportStrict
+
 /-- A proper induced support inherits minimum-degree-core freeness from a
 packed no-proper-core theorem. -/
 theorem internalMinDegreeFree_induceFinset_of_noProperCore
@@ -285,6 +302,65 @@ theorem noProperCore (input : StaticInput)
     ¬ input.problem.Baseline subgraph.value := by
   intro baseline
   exact (input.properSubgraphCT2Run ctx subgraph baseline).verified
+
+/-- A lexicographically minimal minimum-degree counterexample is
+preconnected.  Keeping one connected component preserves every vertex degree,
+so a disconnected graph would supply a proper baseline-preserving CT2
+reduction. -/
+theorem preconnected_of_noProperCore (input : StaticInput)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target) :
+    ctx.G.object.graph.Preconnected := by
+  intro root outside
+  by_contra separated
+  letI : FinEnum ctx.G.Vertex := ctx.G.object.input.vertices
+  let component := ctx.G.object.graph.connectedComponentMk root
+  letI : Fintype component.supp := Fintype.ofFinite component.supp
+  let support : Finset ctx.G.Vertex := component.supp.toFinset
+  have rootMem : root ∈ support := by
+    simp [support, component]
+  have outsideNotMem : outside ∉ support := by
+    intro outsideMem
+    have outsideComponent :
+        ctx.G.object.graph.connectedComponentMk outside = component := by
+      simpa [support] using outsideMem
+    exact separated
+      (SimpleGraph.ConnectedComponent.exact outsideComponent.symm)
+  have properSupport : support.card < ctx.G.vertexCount := by
+    rw [PackedFiniteObject.vertexCount,
+      ← ctx.G.object.card_vertexFinset]
+    apply Finset.card_lt_card
+    refine Finset.ssubset_iff_subset_ne.mpr ⟨?_, ?_⟩
+    · intro vertex _
+      exact ctx.G.object.mem_vertexFinset vertex
+    · intro equal
+      exact outsideNotMem (equal ▸ ctx.G.object.mem_vertexFinset outside)
+  let subgraph : PackedFiniteObject.ProperSubgraph ctx.G :=
+    PackedFiniteObject.ProperSubgraph.ofInducedSupport
+      ctx.G support properSupport
+  have baseline : input.problem.Baseline subgraph.value := by
+    change input.minimumDegree ≤
+      (ctx.G.object.induceFinset support).minDegree
+    letI : Nonempty {vertex : ctx.G.Vertex // vertex ∈ support} :=
+      ⟨⟨root, rootMem⟩⟩
+    apply (ctx.G.object.induceFinset support).le_minDegree_of_forall_le_degree
+    intro vertex
+    have neighborSubset :
+        ctx.G.object.graph.neighborSet vertex.1 ⊆
+          (support : Set ctx.G.Vertex) := by
+      intro neighbor adjacent
+      have vertexMem : vertex.1 ∈ component.supp := by
+        simpa only [support, Set.mem_toFinset] using vertex.2
+      have neighborMem :=
+        component.mem_supp_of_adj_mem_supp vertexMem adjacent
+      simpa [support] using neighborMem
+    have degreeEq :
+        (ctx.G.object.induceFinset support).degree vertex =
+          ctx.G.object.degree vertex.1 :=
+      ctx.G.object.induceFinset_degree_of_neighborSet_subset
+        support vertex neighborSubset
+    rw [degreeEq]
+    exact ctx.baseline.trans (ctx.G.object.minDegree_le_degree vertex.1)
+  exact input.noProperCore ctx subgraph baseline
 
 /-- Exact terminal of every hypothetical proper-core CT2 execution. -/
 theorem properSubgraphCT2Run_terminal (input : StaticInput)

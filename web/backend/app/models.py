@@ -441,6 +441,7 @@ class ExampleManuscriptRecord(ApiModel):
     path: str
     sha256: str
     fragments: list[ExampleManuscriptFragmentRecord]
+    formalizedNodeIds: list[int]
     proofSteps: list[ExampleProofStepRecord]
     coverage: ExampleManuscriptCoverageRecord
 

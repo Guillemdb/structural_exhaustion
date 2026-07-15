@@ -93,7 +93,6 @@ theorem maximum_saturated (item : Item) :
       exact ⟨profile.maximum.2, disjointFromAll⟩⟩
   have impossible := profile.maximum_spec extended
   simp [extended, itemNotMem] at impossible
-  omega
 
 /-- The list consumed by local peeling machines.  It contains exactly the
 selected maximum packing and no duplicates. -/
@@ -176,6 +175,27 @@ theorem values_length_le_vertices :
 theorem values_nonempty_of_item (item : Item) : profile.values ≠ [] := by
   rcases profile.values_saturated item with ⟨selected, selectedMem, _⟩
   exact List.ne_nil_of_mem selectedMem
+
+/-- Summing a local vertex ledger over a finite pairwise-disjoint item family
+is exactly the sum over its union support.  This is the reusable accounting
+bridge between position-indexed CT data and an unordered residual vertex
+set. -/
+theorem sum_subtype_supports {M : Type*} [AddCommMonoid M]
+    [DecidableEq Item] [DecidableEq Vertex]
+    (items : Finset Item) (support : Item → Finset Vertex)
+    (pairwise : (items : Set Item).PairwiseDisjoint support)
+    (f : Vertex → M) :
+    (∑ item : {item : Item // item ∈ items},
+      ∑ vertex ∈ support item.1, f vertex) =
+      ∑ vertex ∈ items.biUnion support, f vertex := by
+  calc
+    (∑ item : {item : Item // item ∈ items},
+        ∑ vertex ∈ support item.1, f vertex) =
+      ∑ item ∈ items, ∑ vertex ∈ support item, f vertex :=
+        (Finset.sum_subtype items (fun _ => Iff.rfl)
+          (fun item => ∑ vertex ∈ support item, f vertex)).symm
+    _ = ∑ vertex ∈ items.biUnion support, f vertex :=
+      (Finset.sum_biUnion (f := f) pairwise).symm
 
 end Profile
 

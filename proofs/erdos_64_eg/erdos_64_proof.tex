@@ -403,11 +403,13 @@ the sparse surplus exits uses the full active-demand family, an
 only three possible outcomes: the near-cubic spine estimate, a sparse surplus
 exit, or decorated Type B fan data routed to the Type B fan ledger.
 The free/blocked pair split of
-\cref{def:canonical-blocker-ledger} and the no-overcounting identity
-\cref{lem:canonical-blocker-ledger-no-overcount}, together with the token
-supply and no-overcounting identities
-\cref{lem:capacity-token-supply,lem:token-ledger-no-overcount}, give the exact
-high-load alternative of \cref{lem:capacity-token-high-load}.  The token-fibre
+\cref{def:canonical-blocker-ledger} feeds the total route
+\cref{def:total-surplus-pair-token-route,lem:total-pair-token-route-no-overcount}:
+blocked pairs retain their canonical capacity-token assignment, while free
+pairs use their first selected port in the primitive class.  Together with the
+token supply identity \cref{lem:capacity-token-supply}, this gives the exact
+total-pair high-load alternative of
+\cref{thm:sharp-classwise-homogeneous-token-budget}.  The token-fibre
 graph accounting of
 \cref{def:same-token-patterns,def:same-token-blocker-roles,lem:same-token-matching-star}
 converts any large token load into either a same-token matching or a same-token
@@ -416,8 +418,9 @@ role-homogeneous same-token pattern in the window-incidence,
 remainder-surplus, or primitive-carrier token class.  Bounded role-fibre load
 routes to the near-cubic spine by
 \cref{thm:tokenized-surplus-accounting-closure}.  If bounded load fails, the
-exact numerical frontier is \cref{thm:sharp-surplus-overload-audit}: it gives
-the forced blocked-pair demand \(N_*(G)\), splits it over the six subtype
+exact numerical frontier is
+\cref{thm:sharp-classwise-homogeneous-token-budget}: it gives the complete
+pair demand, splits it over the three token classes and their subtypes,
 supplies
 \[
 e(R,W),\qquad 2e_\times(W),\qquad \sigma_R,\qquad n,\qquad 2m,\qquad \sigma(G),
@@ -617,7 +620,7 @@ every node/.style={font=\scriptsize}
 \node[dec, below=of enum] (many) {\textbf{[22]}~$P_{13}$ packing density too large?};
 \node[term, right=of many] (overflow) {\textbf{[23]}~$P_{13}$ window\\entropy overflow};
 \node[box, below=of many] (theta) {\textbf{[24]}~$\theta\le\theta_{\rm win}+o(1)$;\\high entropy: $\theta\le0.01198542083\ldots$};
-\node[box, below=of theta] (R) {\textbf{[25]}~Residual A: $R=G-\bigcup V(P)$ is large and componentwise $P_{13}$-free};
+\node[box, below=of theta] (R) {\textbf{[25]}~Residual A: $R=G-\bigcup V(P)$; $L_R\le|R|$; componentwise $P_{13}$-free};
 \draw[arrow] (G)--(bad);
 \draw[arrow] (bad)--node[above]{no}(notbad);
 \draw[arrow] (bad)--node[right]{yes}(min);
@@ -660,7 +663,7 @@ term/.style={ellipse,draw,align=center,inner sep=2pt,minimum width=3.1cm},
 arrow/.style={-{Latex[length=2mm]},thick},
 every node/.style={font=\scriptsize}
 ]
-\node[box] (R) {\textbf{[26]}~Residual A: $R$ large and componentwise $P_{13}$-free};
+\node[box] (R) {\textbf{[26]}~Residual A unchanged: $L_R\le|R|$ and componentwise $P_{13}$-free};
 \node[box, below=of R] (no3) {\textbf{[27]}~no component of $R$ has an internal $3$-core};
 \node[box, below=of no3] (defp) {\textbf{[28]}~positive deficiency $\defp(X)=\sum_v\max(0,3-d_X(v))$};
 \node[box, below=of defp] (stub) {\textbf{[29]}~external-incidence supply:\\$\defp(R)\le15p_{13}+o(n)$\\and $\defp(R)-\sigma_R\le15p_{13}+o(n)$};
@@ -705,8 +708,8 @@ every node/.style={font=\scriptsize}
 \node[term, right=of properZ] (properterm) {\textbf{[42]}~proper-support\\smearing closure:\\target defect or compression};
 \node[box, below=of properZ] (global) {\textbf{[43]}~$Z=G$: whole-graph delocalization};
 \node[box, below=of global] (rankwall) {\textbf{[44]}~$1$--$3$ repair identity $s=p-2+2\beta-\sigma$};
-\node[box, below=of rankwall] (globalterm) {\textbf{[45]}~target / replacement /\\global profile barrier};
-\node[term, left=of globalterm] (closed) {\textbf{[46]}~rank-drop branch\\closed};
+\node[box, below=of rankwall] (globalterm) {\textbf{[45]}~admitted closed quotient\\is exact on raw labels};
+\node[term, below=of globalterm] (closed) {\textbf{[46]}~whole-support\\rank-drop branch closed};
 \draw[arrow] (dep)--(ctx);
 \draw[arrow] (ctx)--node[above]{no}(defect);
 \draw[arrow] (ctx)--node[right]{yes}(atom);
@@ -720,7 +723,7 @@ every node/.style={font=\scriptsize}
 \draw[arrow] (globalterm)--(closed);
 \end{tikzpicture}%
 }
-\caption[Proof-dependency diagram, Part III]{Proof-dependency diagram, Part III.  Rectangles, diamonds, ellipses, bracketed node numbers, and edge labels use the convention of \cref{fig:proof-diagram-part-i}.  Every rank-drop branch terminates in a closed round node.}
+\caption[Proof-dependency diagram, Part III]{Proof-dependency diagram, Part III.  Rectangles, diamonds, ellipses, bracketed node numbers, and edge labels use the convention of \cref{fig:proof-diagram-part-i}.  The node-[43] payload contains an already-admitted quotient.  Its certified-reduction clause and minimality force injectivity on the declared raw labels, so the retained distinct-coordinate rank-drop witness closes at node [46]; the complementary CT15 execution feeds the full-rank join at node [47].}
 \label{fig:proof-diagram-part-iii}
 \end{figure}
 
@@ -818,7 +821,7 @@ every node/.style={font=\scriptsize}
 \node[dec] (certq) at (0.00,0.25) {\textbf{[71]}~certificate labelling present?};
 \node[dec] (b2q) at (0.00,-2.55) {\textbf{[72]}~local fan-window ledger complete; B2 disjointness holds?};
 \node[wide] (typeBres) at (6.75,-2.55) {\textbf{[73]}~B2 disjointness fails:\\minimal Type B overlap obstruction};
-\node[wide] (fanthm) at (-3.80,-5.35) {\textbf{[74]}~B2 holds:\\bridge reduction gives \(\No(X)\ge0\) outside route 8};
+\node[wide] (fanthm) at (-3.80,-5.35) {\textbf{[74]}~B2 bridge reduction:\\nonnegative charge, saturated Type A,\\or bounded boundary overload};
 \node[wide] (fanmass) at (6.75,-5.35) {\textbf{[75]}~bridge fan-mass:\\fan-certificate centers and B2 failures charged to assigned surplus};
 \node[wide] (closed) at (0.00,-7.95) {\textbf{[76]}~Type B cannot carry the linear deficit outside two-carrier route 8};
 \node[box] (route8) at (6.75,-7.95) {\textbf{[77]}~route-8 cores\\continue in Part IX};
@@ -839,7 +842,7 @@ every node/.style={font=\scriptsize}
 \draw[arrow] (closed)--(route8);
 \end{tikzpicture}%
 }
-\caption[Proof-dependency diagram, Part VI]{Proof-dependency diagram, Part VI.  The Type B continuation starts from node [64], receives the incoming Type A handoff through the dashed input [66], splits at [68], and applies [69]--[76] before the route-8 continuation [77].  The degree-\(4\) no-branch of [68] is expanded in \cref{fig:proof-diagram-part-vii}.}
+\caption[Proof-dependency diagram, Part VI]{Proof-dependency diagram, Part VI.  The Type B continuation starts from node [64], receives the incoming Type A handoff through the dashed input [66], splits at [68], and applies [69]--[76] before the route-8 continuation [77].  At node [74], B2 gives the exact local alternative proved in \cref{prop:typeB-bridge-reduction}: nonnegative charge, a saturated Type A receiver, or a boundary-transfer overload bounded by assigned center surplus.  The later nodes consume the two residual alternatives.  The degree-\(4\) no-branch of [68] is expanded in \cref{fig:proof-diagram-part-vii}.}
 \label{fig:proof-diagram-part-vi}
 \end{figure}
 
@@ -858,23 +861,24 @@ every node/.style={font=\scriptsize}
 \node[dec] (split) at (0.00,6.60) {\textbf{[78]}~degree-\(4\) branch:\\\(d_G(h)=4\)};
 \node[wide] (profile) at (0.00,4.15) {\textbf{[79]}~degree-\(4\) fan profile:\\center surplus \(1\), \(0\le c\le4\), \(D_B=c-\frac74\)};
 \node[dec] (certq) at (0.00,1.65) {\textbf{[80]}~certificate labelling present?};
-\node[dec] (ledgerq) at (0.00,-1.35) {\textbf{[81]}~\(c\le1\), or \(c\ge2\) with B2 disjoint ledger?};
-\node[wide] (closedledger) at (-5.20,-4.25) {\textbf{[82]}~yes:\\certificate-closed or B2-paid; \(\No(X)\ge0\) outside route 8};
-\node[wide] (overlap) at (5.45,-4.25) {\textbf{[83]}~no:\\\(c\ge2\) and B2 fails; minimal Type B overlap obstruction};
-\node[wide] (fanmass) at (5.45,-6.95) {\textbf{[84]}~fan-mass route:\\certificate failures and B2 failures charged to assigned surplus};
+\node[dec] (ledgerq) at (0.00,-1.35) {\textbf{[81]}~exact certificate-tied local entries for every center; full B2 choice?};
+\node[wide] (closedledger) at (-5.20,-4.25) {\textbf{[82]}~full choice:\\nonnegative assigned charge, or a literal negative remaining core for route 8};
+\node[wide] (overlap) at (5.45,-4.25) {\textbf{[83]}~no full choice:\\minimal Type B overlap obstruction};
+\node[wide] (fanmass) at (5.45,-6.95) {\textbf{[84]}~fan-mass route:\\certificate failures, unresolved local entries, and B2 failures charged to assigned surplus};
 \node[wide] (closed) at (0.00,-9.25) {\textbf{[85]}~degree-\(4\) Type B cannot carry linear deficit outside route 8 once the fan-mass residual is sublinear};
 \draw[arrow] (split)--node[right]{no}(profile);
 \draw[arrow] (profile)--(certq);
 \draw[arrow] (certq)--node[left]{yes}(ledgerq);
 \draw[arrow] (certq.east)--node[above,pos=.17]{no}++(5.70,0)|-(fanmass.north);
-\draw[arrow] (ledgerq.south west)--node[above,sloped]{yes}(closedledger.north east);
-\draw[arrow] (ledgerq.south east)--node[above,sloped]{no}(overlap.north west);
+\draw[arrow] (ledgerq.south west)--node[above,sloped]{full choice}(closedledger.north east);
+\draw[arrow] (ledgerq.south east)--node[above,sloped]{minimal overlap}(overlap.north west);
+\draw[arrow] (ledgerq.east)--node[above,pos=.16]{unresolved}++(5.70,0)|-(fanmass.north);
 \draw[arrow] (overlap)--(fanmass);
 \draw[arrow] (closedledger)--(closed);
 \draw[arrow] (fanmass)--(closed);
 \end{tikzpicture}%
 }
-\caption[Proof-dependency diagram, Part VII]{Proof-dependency diagram, Part VII.  This panel expands the degree-\(4\) no-branch of [68].  The local closed cases are \(c\le1\); the difficult degree-\(4\) cases are \(c=2,3,4\), where closure depends on the B1 incidence payment and the B2 disjoint ledger at [81], or else routes to the residual fan-mass node [84].}
+\caption[Proof-dependency diagram, Part VII]{Proof-dependency diagram, Part VII.  This panel expands the degree-\(4\) no-branch of [68].  Node [80] fixes the certificate attached to each center.  Node [81] then makes an exhaustive local decision on those exact certificates: an unresolved local entry routes directly to [84]; otherwise CT12 returns either a full disjoint B2 choice or a minimal overlap obstruction.  A full choice gives the exact post-ledger alternative at [82], while the obstruction is retained at [83] and routed to [84].}
 \label{fig:proof-diagram-part-vii}
 \end{figure}
 
@@ -1014,13 +1018,13 @@ every node/.style={font=\scriptsize}
 \node[box] (activate) at (-1.55,3.25) {\textbf{[128]}~canonical activation:\\returns \(R_p\); open \(Q_p\); triangular response};
 \node[box] (thin) at (-1.55,1.60) {\textbf{[129]}~full active family and baseline:\\\(\mathcal A_0=\mathcal P_{\rm exc}\), declared \(\mathcal I_{\rm spine}\) with deficit \(E_{\rm spine}\)};
 \node[dec] (rankq) at (-1.55,-0.35) {\textbf{[130]}~canonical pair split:\\blocker-free?};
-\node[box] (entropy) at (-7.40,-0.35) {\textbf{[131]}~free-pair entropy sandwich:\\\(|\Pi_{\rm free}|\le E_{\rm spine}+(\sigma/2+1)\log_2 n\)};
+\node[box] (entropy) at (-7.40,-0.35) {\textbf{[131]}~free-anchor token route:\\first selected port in \(\mathfrak T_{\rm prim}\);\\role \(\mathsf{freeAnchor}\)};
 \node[dec] (depend) at (5.70,-0.35) {\textbf{[132]}~blocked-pair routing:\\exit or canonical blocker?};
 \node[term] (exit) at (12.00,-4.45) {\textbf{[133]}~sparse surplus\\exit closes};
 \node[wide] (blockers) at (5.70,-3.05) {\textbf{[134]}~canonical blocker ledger:\\each blocked pair gets one \(B_\pi\)\\and one capacity token};
 \node[wide] (joinpress) at (5.70,-5.35) {\textbf{[135]}~exact window-join pressure:\\\(e(R,W)+2e_\times(W)=15p_{13}+\sigma_W\)};
-\node[wide] (supplyq) at (5.70,-7.55) {\textbf{[136]}~tokenized blocked-pair ledger:\\\(|\Pi_{\rm blk}|=\sum_{C,t,r}\ell(t,r)\),\\supplies \(15p_{13}+\sigma_W,\sigma_R,4n+2\sigma\)};
-\node[dec] (highload) at (5.70,-9.75) {\textbf{[137]}~coupled excess\\\(D_{\rm all}>0\)?};
+\node[wide] (supplyq) at (5.70,-7.55) {\textbf{[136]}~total pair token--role ledger:\\\(\binom{|\mathcal A_0|}{2}=\sum_{C,t,r}\widehat\ell(t,r)\),\\25 actual roles; same three token classes};
+\node[dec] (highload) at (5.70,-9.75) {\textbf{[137]}~exact coupled excess\\\(D_{25}>0\)?};
 \node[term] (nearclose) at (11.90,-9.75) {\textbf{[138]}~no coupled overload:\\explicit quadratic bound on \(\sigma\);\\near-cubic spine};
 \node[dec] (wclass) at (5.70,-12.35) {\textbf{[139]}~token in\\\(\mathfrak T_W\)?};
 \node[box] (wres) at (11.90,-12.35) {\textbf{[140]}~window-incidence\\geometric audit:\\homogeneous matching/star};
@@ -1040,7 +1044,7 @@ every node/.style={font=\scriptsize}
 \draw[arrow] (blockers)--(joinpress);
 \draw[arrow] (joinpress)--(supplyq);
 \draw[arrow] (supplyq)--(highload);
-\draw[arrow] (entropy.south)--(entropy.south|-highload.west)--node[below]{free pairs}(highload.west);
+\draw[arrow] (entropy.south)--(entropy.south|-supplyq.west)--node[below]{free-anchor fibres}(supplyq.west);
 \draw[arrow] (highload.east)--node[above]{no}(nearclose.west);
 \draw[arrow] (highload)--node[right]{yes}(wclass);
 \draw[arrow] (wclass.east)--node[above]{yes}(wres.west);
@@ -1054,7 +1058,7 @@ every node/.style={font=\scriptsize}
 \draw[arrow] (pres.east)--node[above]{bottleneck}(capcontra.west);
 \end{tikzpicture}%
 }
-\caption[Proof-dependency diagram, Part X]{Proof-dependency diagram, Part X.  This panel expands the sparse non-near-cubic branch [20].  Nodes [126]--[128] build the full active surplus family, and node [129] records the separate baseline-demand definition with its exact deficit.  A linear bound on that deficit is an additional downstream estimate, not a consequence of the definition.  Node [130] splits canonical pairs.  Free pairs are charged by the entropy sandwich [131], while blocked pairs pass through the blocker route [132]--[136]; the role fibres in [136] partition \(\Pi_{\rm blk}\), so this ledger has no double counting.  Node [137] is the coupled single-graph test of \cref{cor:coupled-single-graph-overload-budget,cor:numerical-single-graph-budget,prop:single-graph-sparse-pressure-routing}: all three token classes use the same \(n,p_{13},\sigma_W,\sigma_R\).  If \(D_{\rm all}=0\), the explicit quadratic bound routes to [138].  If \(D_{\rm all}>0\), the role-fibre excess enters the window-incidence, remainder-surplus, or primitive-carrier geometric audit [140], [142], [143].  Node [144] applies \cref{thm:homogeneous-overload-geometric-closure}: the bottleneck realizes a sparse surplus exit, produces Type B fan data, or is bounded by fixed homogeneous caps and routes to [138].}
+\caption[Proof-dependency diagram, Part X]{Proof-dependency diagram, Part X.  This panel expands the sparse non-near-cubic branch [20].  Nodes [126]--[128] build the full active surplus family, and node [129] records the separate baseline-demand definition with its exact deficit.  Node [130] performs the canonical blocker split.  At [131], every blocker-free pair is assigned to its first selected surplus port, which is already a primitive token, with the distinct role \(\mathsf{freeAnchor}\).  Blocked pairs pass through [132]--[134] and receive their canonical capacity token.  The two routes join at [136], where the 25 token--role labels partition the complete scheduled-pair family without double counting.  Node [137] is the exact coupled CT9 decision of \cref{prop:exact-25-role-coupled-decision}; it consumes the literal pair count \(\binom{\sigma(G)}2\), not a Boolean-realization estimate.  If \(D_{25}=0\), the explicit quadratic surplus bound routes to [138].  If \(D_{25}>0\), CT9 returns an actual overloaded token--role fibre.  Nodes [139] and [141] inspect the literal constructor of that token and route it to the window-incidence, remainder-surplus, or primitive-carrier geometric audit [140], [142], [143].  A free-anchor fibre lies in the primitive class and is a literal same-first-port star.  Node [144] is the downstream geometric bottleneck audit; it is not an input to the node-[131] route.}
 \label{fig:proof-diagram-part-x}
 \end{figure}
 
@@ -1132,7 +1136,7 @@ The table records every named object in the proof-dependency diagram.  The \emph
 16 & [21] & Multi-scale window package & $c_{13}=118.108581006\ldots$ and \((c_{13}-o(1))p_{13}\log_2 n\) independently target-testable window coordinates & controls $P_{13}$ packing density & \cref{lem:p13-window-package}; \cref{app:curv-code} \\
 17 & [22]--[24] & $P_{13}$ density bound & after surplus-token routing supplies \cref{def:near-cubic-spine}, $\theta\le\theta_{\rm win}+o(1)$; high entropy gives $\theta\le0.01198542083\ldots+o(1)$ & window entropy overflow / window-only cap & \cref{lem:p13-window-package}, \cref{prop:p13-density} \\
 18 & [145]--[157] & Hot/cold window branch & if \(\theta<1/78\), route 8 closes; otherwise hot failure forces \(C\ge(\theta-\theta_{\rm win})n-o(n)\), \(b(\mathfrak S_{\rm cold})\ge13C-o(n)\), and \(N_{\rm germ}\ge13C/D_{\rm cold}-o(n)\); bounded germs route to hit, defect, handoff, route 8, same-interface table, or compression & no terminal cold residual after the spine estimate & \cref{def:cold-window-ledger,def:surviving-cold-branch,lem:hot-failure-cold-mass,def:cold-skeleton-excess,lem:cold-window-stub-excess,lem:cold-short-self-return-filter,def:cold-bounded-germ,def:cold-corridor-first-failure,lem:cold-corridor-first-failure,lem:cold-germ-extraction,lem:cold-bounded-germ-trichotomy,def:cold-same-interface-table,lem:cold-same-interface-table,lem:cold-increment-arithmetic,thm:cold-branch-quantitative-closure} \\
-19 & [17], [25]--[27] & Remainder $R$ & componentwise $P_{13}$-free and large & maximality of packing & \cref{sec:remainder} \\
+19 & [17], [25]--[27] & Remainder $R$ & exact partition, certified floor $L_R\le|R|$, and componentwise $P_{13}$-freeness & packing maximality and the incoming coverage certificate & \cref{def:p13-remainder-residual,sec:remainder} \\
 20 & [28] & Positive deficiency & $\defp(X)=\sum_v\max(0,3-d_X(v))$ & high degree cannot cancel deficient vertices & \cref{def:deficiency-surplus} \\
 21 & [29] & External-incidence supply & $\defp(R)\le15p_{13}+o(n)$ and hence $\defp(R)-\sigma_R\le15p_{13}+o(n)$ & few windows give small supply & \cref{lem:stub-positive} \\
 22 & [30] & Wedge lower bound & componentwise \(W_2(C)\ge3|V(C)|-2\defp(C)\); with \(\defp(R)\le(\tau_{\rm win}+o(1))|R|\), this gives \(W_2(R)\ge\omega_{\rm win}|R|-o(|R|)\); high entropy gives \(\omega|R|-o(|R|)\) & degree-count proof & \cref{lem:wedge-lower} \\
@@ -1158,12 +1162,12 @@ The table records every named object in the proof-dependency diagram.  The \emph
 42 & [123] & Large-budget pressure descent & The remaining linear Type A deficit is placed in the unified target-defect/route-8 ledger; every target-defect two-carrier entry is canonical exit-(4) peel data, and finite descent removes it & the terminal large-budget branch can survive only through a two-carrier route-8 entry, which is then routed to node [124] & \cref{def:typeA-unified-negative}, \cref{def:typeA-pressure-ledger}, \cref{def:typeA-peeling-reduced-ledger}, \cref{lem:typeA-peeling-reduced-reduction}, \cref{lem:typeA-pressure-is-exit4-peel}, \cref{lem:typeA-exit4-finite-descent}, \cref{thm:large-budget-route8-only} \\
 43 & [110]--[124] & Route-8 exit closure & after target-defect descent, the route-8 burden gives $N_{\rm basin}\ge4D_A$; canonical carrier cores close zero/one-essential-core entries; absence of a two-carrier entry forces incompatible private-carrier upper and lower bounds; a two-carrier entry supplies a terminal obstruction with declared deletion witnesses & node [124] rules out the terminal two-carrier obstruction because the two-carrier condition places each declared deletion quotient in the canonical exit-(4) family, while exit (4) is absent in a true route-8 residual & \cref{def:typeA-large-budget-deficit}, \cref{def:typeA-route8-carriers}, \cref{def:typeA-true-route8-residual}, \cref{lem:typeA-route8-burden}, \cref{lem:typeA-carrier-cut-parity}, \cref{lem:typeA-one-terminal-collapse}, \cref{prop:typeA-route8-carrier-reduction}, \cref{def:typeA-carrier-deletion-witness}, \cref{lem:typeA-essential-deletion-witness}, \cref{lem:typeA-deletion-witness-declared}, \cref{lem:typeA-two-carrier-deletion-canonical}, \cref{lem:typeA-carrier-deletion-exit}, \cref{def:typeA-terminal-two-carrier}, \cref{thm:typeA-two-carrier-nogo}, \cref{prop:typeA-route8-closure-from-nogo}, \cref{thm:large-budget-route8-only} \\
 44 & --- & Enumeration appendix & reproduces all finite constants including $c_{13}$ & constants are checkable & \cref{app:curv-code} \\
-45 & [19], [20] & Non-near-cubic surplus branch & every survivor of the sparse surplus exits has the full active-demand family and, after an \(O(n)\)-deficit baseline demand is fixed, satisfies the exact capacity-token budget; the geometric same-token bottleneck lemma gives fixed homogeneous caps unless the load realizes a sparse surplus exit or ordinary Type B fan data, and the caps give \(\sigma(G)=O(\sqrt n)\) & derives the near-cubic spine before the normalized entropy budget is used, except for branches that are already routed to sparse exits or to the Type B fan ledger; blocker-free pair responses are charged by the exact cubic-baseline sandwich and the spine lower-bound deficits, while blocked pairs are assigned to capacity tokens; the exact token-fibre budget gives the load forced by any attempted violation, and \cref{lem:same-token-bottleneck-routing} turns a large homogeneous fibre into a geometric first-separator/fan route & \cref{lem:sparse-upper-envelope}, \cref{lem:sparse-slack-surplus}, \cref{def:named-surplus-exits}, \cref{def:active-surplus-demands}, \cref{lem:surviving-active-family}, \cref{def:surplus-blockers}, \cref{def:canonical-blocker-ledger}, \cref{lem:canonical-blocker-ledger-no-overcount}, \cref{def:primitive-sparse-blocker-carrier}, \cref{lem:primitive-carrier-supply}, \cref{def:capacity-token-ledger}, \cref{lem:capacity-token-supply}, \cref{lem:token-ledger-no-overcount}, \cref{def:same-token-patterns}, \cref{def:same-token-blocker-roles}, \cref{def:same-token-routing-germs}, \cref{lem:same-token-matching-star}, \cref{lem:same-token-homogeneous-extraction}, \cref{lem:same-token-bottleneck-routing}, \cref{thm:homogeneous-overload-geometric-closure}, \cref{cor:homogeneous-same-token-caps-close}, \cref{def:baseline-spine-demand}, \cref{lem:exact-cubic-baseline-budget}, \cref{lem:incremental-skeleton-room}, \cref{prop:sparse-entropy-sandwich}, \cref{prop:sparse-entropy-sandwich-with-blockers}, \cref{thm:tokenized-surplus-accounting-closure}, \cref{def:window-remainder-surplus-split}, \cref{lem:exact-window-join-identity}, \cref{cor:global-window-join-pressure}, \cref{prop:nonnear-cubic-sharp-overload-routing} \\
+45 & [19], [20] & Non-near-cubic surplus branch & every survivor of the sparse surplus exits has the full active-demand family and, after an \(O(n)\)-deficit baseline demand is fixed, satisfies the exact capacity-token budget; the geometric same-token bottleneck lemma gives fixed homogeneous caps unless the load realizes a sparse surplus exit or ordinary Type B fan data, and the caps give \(\sigma(G)=O(\sqrt n)\) & derives the near-cubic spine before the normalized entropy budget is used, except for branches that are already routed to sparse exits or to the Type B fan ledger; blocker-free pairs use their first selected surplus port in the primitive token class, while blocked pairs use the canonical capacity-token map; the exact complete-pair token-fibre budget gives the load forced by any attempted violation, and \cref{lem:same-token-bottleneck-routing} turns a large homogeneous fibre into a geometric first-separator/fan route & \cref{lem:sparse-upper-envelope}, \cref{lem:sparse-slack-surplus}, \cref{def:named-surplus-exits}, \cref{def:active-surplus-demands}, \cref{lem:surviving-active-family}, \cref{def:surplus-blockers}, \cref{def:canonical-blocker-ledger}, \cref{lem:canonical-blocker-ledger-no-overcount}, \cref{def:primitive-sparse-blocker-carrier}, \cref{lem:primitive-carrier-supply}, \cref{def:capacity-token-ledger}, \cref{lem:capacity-token-supply}, \cref{lem:token-ledger-no-overcount}, \cref{def:total-surplus-pair-token-route}, \cref{lem:total-pair-token-route-no-overcount}, \cref{def:same-token-patterns}, \cref{def:same-token-blocker-roles}, \cref{def:same-token-routing-germs}, \cref{lem:same-token-matching-star}, \cref{lem:same-token-homogeneous-extraction}, \cref{lem:same-token-bottleneck-routing}, \cref{thm:homogeneous-overload-geometric-closure}, \cref{def:baseline-spine-demand}, \cref{lem:exact-cubic-baseline-budget}, \cref{lem:incremental-skeleton-room}, \cref{thm:sharp-classwise-homogeneous-token-budget}, \cref{def:window-remainder-surplus-split}, \cref{lem:exact-window-join-identity}, \cref{cor:global-window-join-pressure}, \cref{prop:nonnear-cubic-sharp-overload-routing} \\
 46 & [125]--[128] & Ordered surplus activation & a sparse-pressure survivor yields the full excess-slot ledger; the ordered CT6 audit scans high centres and either returns the first non-cubic incident endpoint or certifies every centre active & deletion criticality rules out the failure terminal; the ledger weight is exactly \(\sum_v(d(v)-3)=\sigma(G)\) & \cref{lem:sparse-excess-port-extraction}, \cref{lem:sparse-port-activation}, \cref{lem:surviving-active-family} \\
 46a & [129] & Baseline spine demand & after the active family has been established, record a declared baseline demand and its exact deficit & a linear deficit bound is a separate downstream estimate, not a premise of the CT6 activation audit or a consequence of the definition & \cref{def:baseline-spine-demand} \\
-46b & [64]--[69], [78], [130] & Finite local-port audit & four-cycle avoidance, selected-port classification, center-fibre overload, overload-only adjacency-response comparison, the exact two-shoulder ledger, the nonadjacent same-center fan-compatibility implication, the all-incident-port high-center dichotomy, and triangular shoulder-completion bookkeeping & scans only declared vertex and neighbour schedules; it does not materialize port pairs, paths, or subsets, and does not establish the later Type B/free-blocked routing & \cref{rem:finite-selected-port-audit,lem:heavy-neighbourhood-normal-form,def:heavy-center-triangular-port,lem:same-center-open-port-compatibility,lem:heavy-center-triangular-alternative,cor:heavy-center-local-dichotomy,lem:triangular-shoulder-completion} \\
-47 & [130]--[132] & Free/blocked pair split & pair-response coordinates split into blocker-free and blocked pairs; free pairs are charged by the entropy sandwich & blocked-pair debt is the only branch passed to the token ledger & \cref{def:sparse-canonical-connector}, \cref{def:sparse-pair-response}, \cref{lem:sparse-pair-dependence-exit}, \cref{prop:sparse-entropy-sandwich-with-blockers} \\
-48 & [132]--[136] & Blocker and token ledger & canonical blockers, primitive carriers, and capacity tokens count blocked pairs exactly once & [136] is the exact token-fibre partition and no-overcounting closure & \cref{def:surplus-blockers}, \cref{lem:sparse-blocker-values-finite}, \cref{def:canonical-sparse-blocker-order}, \cref{def:canonical-blocker-ledger}, \cref{lem:canonical-blocker-ledger-no-overcount}, \cref{def:primitive-sparse-blocker-carrier}, \cref{lem:primitive-carrier-supply}, \cref{def:capacity-token-ledger}, \cref{lem:capacity-token-supply}, \cref{lem:token-ledger-no-overcount} \\
+46b & [67]--[69], [78]--[81], [130] & Finite local-port audit & four-cycle avoidance, selected-port classification, center-fibre overload, overload-only adjacency-response comparison, the exact two-shoulder ledger, the nonadjacent same-center fan-compatibility implication, the all-incident-port high-center dichotomy, and triangular shoulder-completion bookkeeping & scans only declared vertex and neighbour schedules; it does not materialize port pairs, paths, or subsets, and does not establish the later Type B/free-blocked routing & \cref{rem:finite-selected-port-audit,lem:heavy-neighbourhood-normal-form,def:heavy-center-triangular-port,lem:same-center-open-port-compatibility,lem:heavy-center-triangular-alternative,cor:heavy-center-local-dichotomy,lem:triangular-shoulder-completion} \\
+47 & [130]--[132] & Free/blocked pair split and free-anchor route & pair-response coordinates split into blocker-free and blocked pairs; each free pair is assigned to its first selected surplus port with role \(\mathsf{freeAnchor}\) & blocked pairs retain the canonical first-hit payload for [134], while free-anchor fibres enter the primitive audit [143] & \cref{def:sparse-canonical-connector}, \cref{def:sparse-pair-response}, \cref{lem:sparse-pair-dependence-exit}, \cref{def:total-surplus-pair-token-route}, \cref{lem:total-pair-token-route-no-overcount} \\
+48 & [132]--[136] & Blocker and total token ledger & canonical blockers, primitive carriers, and capacity tokens count blocked pairs exactly once; the free-anchor route uses selected ports already in the primitive universe & [136] is the exact complete-pair token--role partition and no-overcounting closure & \cref{def:surplus-blockers}, \cref{lem:sparse-blocker-values-finite}, \cref{def:canonical-sparse-blocker-order}, \cref{def:canonical-blocker-ledger}, \cref{lem:canonical-blocker-ledger-no-overcount}, \cref{def:primitive-sparse-blocker-carrier}, \cref{lem:primitive-carrier-supply}, \cref{def:capacity-token-ledger}, \cref{lem:capacity-token-supply}, \cref{lem:token-ledger-no-overcount}, \cref{def:total-surplus-pair-token-route}, \cref{lem:total-pair-token-route-no-overcount} \\
 49 & [135], [136] & Window-join pressure & the exact packed-window join identity supplies \(15p_{13}+\sigma_W\) and the surplus-aware window-stub pressure & supplies the window/remainder capacity side of the token ledger & \cref{def:window-remainder-surplus-split}, \cref{lem:exact-window-join-identity}, \cref{cor:global-window-join-pressure}, \cref{rem:surplus-pair-sharp-frontier} \\
 50 & [137]--[143] & Coupled high-load split & the single-graph high-load test splits the forced homogeneous pattern into window-incidence, remainder-surplus, and primitive-carrier token classes & [139]--[143] are the three token-class audits & \cref{def:same-token-patterns}, \cref{def:same-token-blocker-roles}, \cref{def:homogeneous-token-charge}, \cref{lem:exact-surplus-pair-charge-partition}, \cref{lem:same-token-matching-star}, \cref{thm:sharp-classwise-homogeneous-token-budget}, \cref{thm:tokenized-surplus-accounting-closure} \\
 51 & [140], [142]--[144] & Geometric bottleneck discharge & a large same-token fibre gives a homogeneous matching or star, then realizes a sparse exit, Type B fan data, or fixed homogeneous caps & [144] sends the branch to a sparse exit, Type B, or [138] & \cref{def:same-token-routing-germs}, \cref{lem:same-token-bottleneck-routing}, \cref{thm:homogeneous-overload-geometric-closure}, \cref{cor:homogeneous-same-token-caps-close} \\
@@ -1454,12 +1458,13 @@ Ledger-invariant numbers and diagram-node numbers are separate namespaces.  The 
 \cref{lem:near-cubic-budget} & ENT & [21] \texttt{(enum)} & \cref{def:near-cubic-spine} & Near-cubic budget $B_{\mathrm{skel}}=\tfrac32 n\log_2 n+o(n\log n)$. & Pins the $\tfrac32$ constant on the branch where the surplus-token routing has supplied the spine estimate. \\
 \cref{lem:surviving-active-family} & ENT\slash SURP & [125]--[128] \texttt{(active setup)} & inv 10, 14, 15; sparse surplus exits absent & A sparse-pressure survivor has the full active surplus family. & Sets up the active-demand side of the surplus branch. \\
 \cref{def:baseline-spine-demand} & ENT\slash SURP & [129] \texttt{(baseline)} & inv 14, 15; \cref{lem:surviving-active-family} & Defines a declared baseline demand and records its exact deficit. & Supplies the common demand interface for the later sandwich; any linear deficit bound must be proved separately. \\
-\cref{lem:exact-cubic-baseline-budget}, \cref{lem:incremental-skeleton-room} & ENT\slash SURP & [131] \texttt{(free pairs)} & inv 10, 14, 15; \cref{def:baseline-spine-demand} & Computes the cubic baseline budget and the incremental edge-count room above cubic. & Supplies the numerical room used by the surplus-pair entropy sandwich. \\
-\cref{prop:sparse-entropy-sandwich} & ENT\slash SURP & [131] \texttt{(free pairs)} & inv 10, 14, 15; \cref{lem:exact-cubic-baseline-budget}, \cref{lem:incremental-skeleton-room} & Charges blocker-free surplus-pair responses to the exact cubic-baseline sandwich. & Handles the free-pair side. \\
-\cref{prop:sparse-entropy-sandwich-with-blockers} & ENT\slash SURP & [132] \texttt{(blocked?)} & inv 10, 14, 15; \cref{prop:sparse-entropy-sandwich} & Extends the entropy sandwich to the blocked case, leaving only canonical blocker debt. & Sends blocked pairs to the blocker ledger. \\
+\cref{lem:exact-cubic-baseline-budget}, \cref{lem:incremental-skeleton-room} & ENT\slash SURP & auxiliary entropy audit & inv 10, 14, 15; \cref{def:baseline-spine-demand} & Computes the cubic baseline budget and the incremental edge-count room above cubic. & Supplies numerical room only when an independent realization contract is separately present. \\
+\cref{prop:sparse-entropy-sandwich} & ENT\slash SURP & auxiliary entropy audit & inv 10, 14, 15; complete mixed Boolean-state realization; \cref{lem:exact-cubic-baseline-budget}, \cref{lem:incremental-skeleton-room} & Bounds blocker-free surplus-pair responses under the stated complete-realization contract. & Conditional auxiliary result; it is not an input to the node-[131] route. \\
+\cref{prop:sparse-entropy-sandwich-with-blockers} & ENT\slash SURP & auxiliary entropy audit & inv 10, 14, 15; complete mixed Boolean-state realization; \cref{prop:sparse-entropy-sandwich} & Gives the corresponding conditional free-pair estimate in the presence of blockers. & Conditional auxiliary result; it is not an input to the blocker or total-token ledgers. \\
+The pre-retokenization clause of \cref{def:total-surplus-pair-token-route} and the free-anchor clause of \cref{lem:total-pair-token-route-no-overcount} & ENT\slash SURP & [131] \texttt{(free-anchor dispatch)} & \cref{lem:surviving-active-family,def:surplus-blockers,def:sparse-pair-response} & Assigns every blocker-free pair to its first selected surplus port with role \(\mathsf{freeAnchor}\); every blocked pair retains its canonical blocker kind and first-hit record for the downstream capacity-token map.  The five pre-retokenization role fibres partition the complete pair schedule. & Closes node [131] locally and supplies the exact free and blocked inputs for [134]--[136]. \\
 \cref{def:spine-lower-bound-deficits} & ENT\slash SURP & [129] \texttt{(baseline)} & inv 14, 15; \cref{def:baseline-spine-demand} & Records the lower-bound deficit packages. & Supplies the deficit side of the surplus estimates. \\
-\cref{cor:spine-lower-bound-surplus-estimates} & ENT\slash SURP & [138] \texttt{(nearclose)} & inv 14, 15; \cref{def:spine-lower-bound-deficits} & Converts the lower-bound packages into surplus estimates used when the branch routes to the near-cubic spine. & Supplies the near-cubic cap side of the surplus sandwich. \\
-\cref{def:canonical-blocker-ledger} & ENT\slash SURP & [132]--[134] \texttt{(canonical blockers)} & inv 10, 14, 15; \cref{prop:sparse-entropy-sandwich-with-blockers} & Defines the canonical blocker assigned to each blocked response. & Makes the blocked-pair assignment single-valued. \\
+\cref{cor:spine-lower-bound-surplus-estimates} & ENT\slash SURP & auxiliary entropy audit & inv 14, 15; \cref{def:spine-lower-bound-deficits} & Converts a separately supplied complete Boolean realization into surplus estimates. & This conditional estimate is not an input to node [137] or [138]. \\
+\cref{def:canonical-blocker-ledger} & ENT\slash SURP & [132]--[134] \texttt{(canonical blockers)} & inv 10, 14, 15; the blocked output of node [130] & Defines the canonical blocker assigned to each blocked response. & Makes the blocked-pair assignment single-valued. \\
 \cref{lem:canonical-blocker-ledger-no-overcount} & ENT\slash SURP & [134] \texttt{(blocker ledger)} & inv 10, 14, 15; \cref{def:canonical-blocker-ledger} & Proves the canonical blocker ledger counts each blocked response once. & Prevents overcounting before capacity tokens are introduced. \\
 \cref{def:primitive-sparse-blocker-carrier}, \cref{lem:primitive-carrier-supply} & ENT\slash SURP & [134] \texttt{(primitive carrier)} & inv 14, 15; \cref{def:canonical-blocker-ledger} & Primitive sparse blocker carriers supply the primitive-carrier token class. & Supplies the primitive-carrier side of the token ledger. \\
 \cref{def:capacity-token-ledger} & ENT\slash SURP & [134]--[136] \texttt{(capacity tokens)} & inv 10, 14, 15; \cref{lem:canonical-blocker-ledger-no-overcount} & Defines the capacity-token fibres attached to the blocked-pair ledger. & Names the token side of the blocked-pair accounting. \\
@@ -1470,13 +1475,13 @@ Ledger-invariant numbers and diagram-node numbers are separate namespaces.  The 
 \cref{cor:global-window-join-pressure} & ENT\slash SURP & [136] \texttt{(supply)} & inv 14, 23, 24; \cref{lem:exact-window-join-identity}, \cref{lem:surplus-aware-window-stub} & Globalizes the join pressure into the coupled token budget. & Supplies the window/remainder side of the token capacities. \\
 \cref{def:same-token-patterns} & ENT\slash SURP & [136] \texttt{(token fibres)} & inv 14, 15; \cref{def:capacity-token-ledger} & Defines same-token fibres. & Names the fibres used by the high-load split. \\
 \cref{def:same-token-blocker-roles} & ENT\slash SURP & [139]--[143] \texttt{(token roles)} & inv 14, 15; \cref{def:same-token-patterns} & Defines the window-incidence, remainder-surplus, and primitive-carrier roles. & Names the three token classes used in the high-load split. \\
-\cref{cor:forced-homogeneous-same-token-scale}, \cref{lem:capacity-token-high-load} & ENT\slash SURP & [137] \texttt{(high-load test)} & inv 10, 14, 15; \cref{lem:capacity-token-supply}, \cref{lem:token-ledger-no-overcount} & Gives the coupled single-graph high-load alternative. & Determines whether the branch routes to [138] or to a role class. \\
-\cref{thm:tokenized-surplus-accounting-closure} & ENT\slash SURP & [137]--[143] \texttt{(role split)} & inv 10, 14, 15; \cref{cor:forced-homogeneous-same-token-scale}, \cref{lem:capacity-token-high-load} & Splits the forced load into the window-incidence, remainder-surplus, and primitive-carrier token classes. & Records the sharp load alternative before geometric routing. \\
+\cref{prop:exact-25-role-coupled-decision} & ENT\slash SURP & [137]--[139], [141] \texttt{(exact coupled decision)} & green nodes [126], [130]--[136]; \cref{lem:capacity-token-supply,lem:total-pair-token-route-no-overcount} & Executes CT9 on the literal complete pair schedule and the exact 25-role alphabet. & A positive excess returns an actual overloaded fibre and its unique token-class route; the other side proves the explicit node-[138] quadratic surplus bound. \\
+\cref{thm:tokenized-surplus-accounting-closure} & ENT\slash SURP & auxiliary uniform-load consequence & inv 10, 14, 15; \cref{lem:capacity-token-supply,lem:total-pair-token-route-no-overcount} & Converts a separately supplied fixed bound on every token load into a near-cubic estimate. & This consequence is not used to execute the node-[137] CT9 decision. \\
 \cref{def:same-token-routing-germs} & ENT\slash SURP & [140], [142], [143] \texttt{(role audits)} & inv 4, 8, 14, 15; \cref{def:same-token-blocker-roles} & Defines the routing germs used in the three role audits. & Names the geometric data audited by the bottleneck lemma. \\
 \cref{lem:same-token-matching-star} & ENT\slash SURP & [140], [142], [143] \texttt{(role audits)} & inv 4, 8, 14, 15; \cref{def:same-token-routing-germs} & A large same-token load contains a matching or star in the active role class. & Produces the combinatorial pattern audited by homogeneous extraction. \\
 \cref{lem:same-token-homogeneous-extraction} & ENT\slash SURP & [140], [142], [143] \texttt{(role audits)} & inv 4, 8, 14, 15; \cref{lem:same-token-matching-star} & The matching or star contains a homogeneous role subpattern. & Produces the geometric pattern audited by the bottleneck lemma. \\
 \cref{lem:same-token-bottleneck-routing}, \cref{thm:homogeneous-overload-geometric-closure} & ENT\slash SURP & [144] \texttt{(bottleneck)} & inv 4, 8, 14, 15; sparse surplus exits and Type B routing where applicable & The homogeneous bottleneck realizes a sparse surplus exit, produces Type B fan data, or falls under fixed homogeneous caps. & Discharges the geometric audit. \\
-\cref{cor:homogeneous-same-token-caps-close} & ENT\slash SURP & [138] \texttt{(nearclose)} & inv 14, 15; \cref{thm:homogeneous-overload-geometric-closure} & Fixed homogeneous caps route the remaining branch to the near-cubic spine. & Supplies the cap-to-spine route. \\
+\cref{cor:homogeneous-same-token-caps-close} & ENT\slash SURP & downstream cap-to-spine consequence & inv 14, 15; \cref{thm:homogeneous-overload-geometric-closure} & Fixed homogeneous caps also route the remaining geometric branch to the near-cubic spine. & This downstream route rejoins the already available node-[138] conclusion. \\
 \cref{prop:nonnear-cubic-sharp-overload-routing} & ENT\slash SURP & [144] \texttt{(bottleneck)} & inv 14, 15; \cref{cor:homogeneous-same-token-caps-close} & Combines the sparse-pressure discharge with the cap-to-spine route. & Closes the non-near-cubic surplus branch or derives the near-cubic spine. \\
 \cref{lem:state-count-comparison} & ENT & [22] \texttt{(many)} & inv 1; \cref{lem:skeleton-dominates} & \#realizable states $\le$ \#labelled graphs. & The counting contradiction step. \\
 \cref{lem:p13-window-package} & ENT & [21] \texttt{(enum)} $\to$ [22] \texttt{(many)} & inv 1, 25; \cref{def:near-cubic-spine}; \cref{app:curv-code} & Converts the finite \(91\)-barrier computation into \((c_{13}-o(1))p_{13}\log_2 n\) independent window coordinates. & Names the load-bearing window package used by the density cap. \\
@@ -1632,7 +1637,7 @@ If invariant $k$ needs revision, these results are affected; diagram-node number
 11 & Cycle-rank pressure & Minimality {[4]} & \cref{lem:cycle-rank} ([4]); feeds inv~12 and inv~13 & Cycle-rank lower bound. \\
 12 & Laman slack identity & Rank ids {[4]} & \cref{lem:near-cubic-budget} ([21]), \cref{def:remainder-entropy}, \cref{prop:two-budget} ([52]) & Links rank and sparsity. \\
 13 & Surplus--rank relation & Rank ids {[4]} & \cref{lem:netcharge-superadd} ([56], [58]); net-charge notation throughout the large-budget branch & Translates surplus into charge. \\
-14 & High-degree surplus bound & Surplus branch {[125]--[144]} supplies spine estimate & \cref{def:near-cubic-spine}, \cref{prop:sparse-entropy-sandwich}, \cref{prop:sparse-entropy-sandwich-with-blockers}, \cref{cor:spine-lower-bound-surplus-estimates}, \cref{lem:surviving-active-family}, \cref{def:canonical-blocker-ledger}, \cref{lem:canonical-blocker-ledger-no-overcount}, \cref{def:primitive-sparse-blocker-carrier}, \cref{lem:primitive-carrier-supply}, \cref{def:capacity-token-ledger}, \cref{lem:capacity-token-supply}, \cref{lem:token-ledger-no-overcount}, \cref{def:same-token-patterns}, \cref{def:same-token-blocker-roles}, \cref{def:same-token-routing-germs}, \cref{lem:same-token-matching-star}, \cref{lem:same-token-homogeneous-extraction}, \cref{lem:same-token-bottleneck-routing}, \cref{thm:homogeneous-overload-geometric-closure}, \cref{cor:homogeneous-same-token-caps-close}, \cref{cor:forced-homogeneous-same-token-scale}, \cref{lem:capacity-token-high-load}, \cref{thm:tokenized-surplus-accounting-closure}, \cref{def:window-remainder-surplus-split}, \cref{lem:exact-window-join-identity}, \cref{cor:global-window-join-pressure}, \cref{prop:nonnear-cubic-sharp-overload-routing}, \cref{lem:netcharge-superadd} ([56], [58]), \cref{prop:negative-net-charge} ([59]), \cref{prop:typeA-route8-carrier-reduction}, \cref{def:typeA-terminal-two-carrier} ([124]) & Keeps surplus sublinear on the derived spine branch, or derives the exact high-load alternative from the free-pair entropy sandwich plus the capacity-token ledger; blocked pairs are counted by token fibres, the \(P_{13}\) join identity quantifies window concentration, and any large homogeneous same-token fibre is a geometric bottleneck routed to sparse exits or Type B. \\
+14 & High-degree surplus bound & Surplus branch {[125]--[144]} supplies spine estimate & \cref{def:near-cubic-spine}, \cref{lem:surviving-active-family}, \cref{def:canonical-blocker-ledger}, \cref{lem:canonical-blocker-ledger-no-overcount}, \cref{def:primitive-sparse-blocker-carrier}, \cref{lem:primitive-carrier-supply}, \cref{def:capacity-token-ledger}, \cref{lem:capacity-token-supply}, \cref{lem:token-ledger-no-overcount}, \cref{def:total-surplus-pair-token-route}, \cref{lem:total-pair-token-route-no-overcount}, \cref{def:same-token-patterns}, \cref{def:same-token-blocker-roles}, \cref{def:same-token-routing-germs}, \cref{lem:same-token-matching-star}, \cref{lem:same-token-bottleneck-routing}, \cref{thm:homogeneous-overload-geometric-closure}, \cref{cor:homogeneous-same-token-caps-close}, \cref{cor:forced-homogeneous-same-token-scale}, \cref{lem:capacity-token-high-load}, \cref{thm:tokenized-surplus-accounting-closure}, \cref{def:window-remainder-surplus-split}, \cref{lem:exact-window-join-identity}, \cref{cor:global-window-join-pressure}, \cref{prop:nonnear-cubic-sharp-overload-routing}, \cref{lem:netcharge-superadd} ([56], [58]), \cref{prop:negative-net-charge} ([59]), \cref{prop:typeA-route8-carrier-reduction}, \cref{def:typeA-terminal-two-carrier} ([124]) & Keeps surplus sublinear on the derived spine branch, or derives the exact high-load alternative from the complete pair schedule: blocker-free pairs use their first selected port, blocked pairs use their canonical capacity token, and total role fibres count every pair exactly once.  The \(P_{13}\) join identity quantifies window concentration, and any large homogeneous same-token fibre is a geometric bottleneck routed to sparse exits or Type B. \\
 15 & Near-cubic edge count & Surplus branch {[125]--[144]} supplies spine estimate & \cref{def:near-cubic-spine}, \cref{prop:sparse-entropy-sandwich}, \cref{cor:spine-lower-bound-surplus-estimates}, \cref{thm:homogeneous-overload-geometric-closure}, \cref{prop:nonnear-cubic-sharp-overload-routing}, \cref{lem:near-cubic-budget} ([21]), \cref{lem:skeleton-dominates} ([21]), \cref{lem:dominant-type} ([49], [50]); entropy estimates using $B_{\mathrm{skel}}$ & Fixes the budget coefficient after the near-cubic bound is supplied by the sparse surplus branch. \\
 16 & Certificate-marked fan degree & High-degree {[67]} & \cref{lem:typeB-exclusion} ([65]), \cref{rem:fan-finite} ([70], [71]), \cref{lem:fan-certificate}; related to inv~4 & Auxiliary fan-label cap; fan-certificate residual centers are charged through surplus mass. \\
 17 & Spectral feasibility mask & Spectral {[70]} & \cref{lem:typeB-exclusion} ([70]), \cref{lem:fan-certificate}, \cref{rem:app-typeB-finite-only} & Auxiliary spectral mask. \\
@@ -2371,11 +2376,12 @@ compression, delocalization, or fan-closed Type B alternatives are counted by
 the active surplus family \(\mathcal P_{\rm exc}\).  The non-near-cubic branch
 then applies the free/blocked pair split and the capacity-token ledger of
 \cref{def:capacity-token-ledger}.  Consequently any attempted survivor above
-the near-cubic range first produces one of the three role-homogeneous
-same-token audit classes of
-\cref{def:same-token-blocker-roles,cor:forced-homogeneous-same-token-scale}:
-window-incidence, remainder-surplus, or primitive-carrier load, with a fixed
-blocker type and token subtype.  The same-token bottleneck routing of
+the near-cubic range first passes through the total pair route of
+\cref{def:total-surplus-pair-token-route}: blocked pairs retain their canonical
+blocker token and blocker role, while free pairs use their first selected port
+with role \(\mathsf{freeAnchor}\).  The resulting three total-role-homogeneous
+same-token audit classes are window-incidence, remainder-surplus, and
+primitive-carrier load.  The same-token bottleneck routing of
 \cref{lem:same-token-bottleneck-routing} then either realizes a sparse surplus
 exit, produces ordinary Type B fan data, or leaves fixed homogeneous caps and
 hence the near-cubic estimate.
@@ -2698,10 +2704,9 @@ exactly \(|\mathcal P_{\rm exc}|=\sigma(G)\), again by
 
 \begin{definition}[Canonical local connector support]\label[definition]{def:sparse-canonical-connector}
 For two nonempty connected finite edge-labelled subgraphs \(A,B\subseteq G\),
-run multi-source breadth-first search from \(V(A)\) until \(V(B)\) is reached.
-Among the endpoint pairs at minimum distance choose the lexicographically first
-pair, and among their shortest paths choose the lexicographically first
-predecessor path \(P_G(A,B)\).  Define
+choose a pair \((a,b)\in V(A)\times V(B)\) of minimum ambient distance and
+retain a proof-carrying shortest path \(P_G(A,B)\) from \(a\) to \(b\).  Fix
+one such certificate for each ordered pair of supports.  Define
 \[
 J_G(A,B):=A\cup P_G(A,B)\cup B.
 \]
@@ -2712,8 +2717,10 @@ the selected-port order and put
 X_\pi:=J_G(\Gamma(p),\Gamma(q)).
 \]
 Thus \(X_\pi\) is a specified connected support, not a minimum Steiner
-subgraph.  It is computed by one multi-source BFS and one predecessor trace,
-and checking it does not enumerate connected subgraphs or paths.
+subgraph.  A producer may compute the certificate by one multi-source BFS and
+one predecessor trace.  The verifier checks the retained path and the
+minimum-distance endpoint condition; it does not enumerate connected
+subgraphs or paths.
 \end{definition}
 
 \begin{definition}[Sparse surplus blockers]\label[definition]{def:surplus-blockers}
@@ -2739,18 +2746,21 @@ edge-incidence of the two canonical return paths \(R_p\) and \(R_q\).
 \]
 together with its two role labels in
 \(\{\mathsf{leftShoulder},\mathsf{rightShoulder},\mathsf{buffer}\}\).
-\item For \(\tau=\mathsf{profile}\), \(b=(\xi,v)\), where \(\xi\) is a
-boundary-degree-profile coordinate in the declared exact signature on
-\(X_\pi\), \(v\) is its value in the labelled pair state, and this entry
-prevents the proposed quotient or replacement from staying in a single fibre,
-in the sense of
-\cref{lem:degree-profile-fibres};
-\item For \(\tau=\mathsf{target}\), \(b=(\xi,v)\), where \(\xi\) is a
-target-response coordinate in the declared exact signature on \(X_\pi\),
-\(v\) is its exact finite response-table value, and the entry witnesses a
-target-defective quotient, target-complete compression, or delocalization
-event, in the sense of
-\cref{lem:context-universality,cor:uncompressible,lem:proper-smearing,lem:no-silent-global-smearing};
+\item For \(\tau=\mathsf{profile}\),
+\(b=(q,s,t,\xi,v_s,v_t)\), where \(q\) is a normalized quotient proposal on
+the finite declared signature of \(X_\pi\), \(q(s)=q(t)\), and the
+boundary-degree coordinate \(\xi\) has unequal values
+\(v_s\ne v_t\).  This is the finite audit certificate that the proposal does
+not preserve boundary fibres, in the sense of
+\cref{lem:degree-profile-fibres}.
+\item For \(\tau=\mathsf{target}\),
+\(b=(q,s,t,K,\xi,v_s,v_t)\), where \(q(s)=q(t)\), \(K\) is a supplied
+boundaried outside context, and the exact target-response coordinate \(\xi\)
+has unequal values \(v_s\ne v_t\) after gluing \(K\).  This is the finite
+audit certificate that the proposal is not target-complete.  A
+target-complete non-injective proposal is not represented by this tag: to be
+admissible it must instead carry the strictly smaller representative required
+by \cref{def:admissible-rank-quotient}.
 \item For \(\tau=\mathsf{chord}\), \(b=(\mathcal Q,C,\mathcal S)\), where
 \(\varnothing\ne\mathcal Q\subseteq\{p,q\}\) is suppressible, \(C\) is a
 proof-carrying simple power-of-two cycle in \(G/\mathcal Q\), and
@@ -2758,39 +2768,41 @@ proof-carrying simple power-of-two cycle in \(G/\mathcal Q\), and
 shoulder chords used by \(C\), as in
 \cref{lem:suppressed-family-critical-cycle}.
 \end{enumerate}
-The blocker must be an object explicitly listed above.  A pair is not declared
-blocked merely because the proof has not found a closure; its failed
-compatibility must be represented by a finite-capacity object of one of these
-six types.
+Every audit or structural blocker record must be an object explicitly listed
+above.  A pair is not declared blocked merely because the proof has not found
+a closure.  Types (d) and (e) route the raw proposal through sparse exit (b)
+before admission; the admitted blocked ledger contains exactly the finite
+structural types (a)--(c) and (f).
 \end{definition}
 
-\begin{lemma}[Sparse blocker values are finite]\label[lemma]{lem:sparse-blocker-values-finite}
-For every active pair \(\pi\), the tagged carrier
-\(\mathsf{Blk}(\pi)\) of \cref{def:surplus-blockers} is finite.  A proposed
-member is checked from \(X_\pi\), the two exact response supports, and, only in
-the chord case, the supplied cycle certificate; checking membership does not
-enumerate ambient subgraphs or paths.
+\begin{lemma}[Sparse blocker values are locally finite]\label[lemma]{lem:sparse-blocker-values-finite}
+For every active pair \(\pi\), the admitted structural carrier
+\(\mathsf{Blk}_{\rm adm}(\pi)\), consisting of types (a)--(c) and the retained
+suppression certificates of type (f), is finite.  Types (d) and (e) are audit
+outputs relative to one supplied raw quotient proposal; they are routed before
+the admitted pair ledger is formed and are empty for an admissible quotient.
+Membership is checked from \(X_\pi\), the two exact response supports, and the
+supplied certificates; checking does not enumerate ambient subgraphs, paths,
+quotients, or outside contexts.
 \end{lemma}
 
 \begin{proof}
-The carriers in (a)--(c) are subsets of finite supports.  The exact signature
-of the finite boundaried support \(X_\pi\) has finitely many coordinate labels,
-each with a finite value type, so (d) and (e) are finite.  In (f) there are only
-three nonempty choices for \(\mathcal Q\subseteq\{p,q\}\); a finite graph has
-finitely many simple cycles, and each cycle determines \(\mathcal S\) by
-inspection.  The verifier need not generate those cycles: the tuple contains
-\(C\), and simplicity, length, and the used-chord set are checked by one scan
-of its supplied edge list.
+The carriers in (a)--(c) are subsets of finite supports.  For (f), activation
+retains at most one proof-carrying critical suppression cycle for each of
+\(p\) and \(q\), so the pair scan adds at most two chord tags.  The verifier
+checks simplicity, length, and chord use by one scan of each retained edge
+list.  For a raw quotient proposal, a boundary mismatch or one supplied
+distinguishing context is a finite record of type (d) or (e).  Boundary
+preservation and context-universal target completeness prove directly that no
+such record exists after the proposal has been admitted.
 \end{proof}
 
 \begin{definition}[Canonical sparse-blocker order]\label[definition]{def:canonical-sparse-blocker-order}
-Fix the vertex order used in the lexicographic choices above.  Sparse surplus
-blockers are ordered as follows.  First order by the type number
-(a)--(f) in \cref{def:surplus-blockers}.  Within a type, order vertices by the
+Fix the vertex order used in the local schedules above.  Admitted sparse
+surplus blockers are ordered as follows.  First order by the type number
+(a)--(c), (f) in \cref{def:surplus-blockers}.  Within a type, order vertices by the
 fixed vertex order, edge-incidences lexicographically by their ordered endpoint
-pair and incident end, boundary-profile and target-response coordinates by the
-lexicographic order of their declared labels, finite values, and supports, and
-chord tuples by the lexicographic order of
+pair and incident end, and chord tuples by the lexicographic order of
 \((\mathcal Q,E(C),\mathcal S)\).
 This gives a total order on every finite set of blockers arising from a fixed
 pair of active surplus demands.
@@ -2802,16 +2814,18 @@ Let \(\mathcal A_0\) be a finite family of active surplus demands and put
 \Pi(\mathcal A_0)=\binom{\mathcal A_0}{2}.
 \]
 For \(\pi=\{p,q\}\in\Pi(\mathcal A_0)\), let
-\(\mathsf{Blk}(\pi)\) be the finite set of sparse surplus blockers for
-\(\pi\) in the sense of \cref{def:surplus-blockers}.  Define
+\(\mathsf{Blk}_{\rm adm}(\pi)\) be the finite admitted structural blocker set
+of \cref{lem:sparse-blocker-values-finite}.  Raw proposals that produce a
+type-(d) or type-(e) audit record have already left through the corresponding
+exit and do not enter this ledger.  Define
 \[
-\Pi_{\rm blk}:=\{\pi\in\Pi(\mathcal A_0):\mathsf{Blk}(\pi)\ne\varnothing\},
+\Pi_{\rm blk}:=\{\pi\in\Pi(\mathcal A_0):\mathsf{Blk}_{\rm adm}(\pi)\ne\varnothing\},
 \qquad
 \Pi_{\rm free}:=\Pi(\mathcal A_0)\setminus\Pi_{\rm blk}.
 \]
 For every \(\pi\in\Pi_{\rm blk}\), the \emph{canonical blocker} is
 \[
-\Phi_{\rm can}(\pi):=\min_{\prec}\mathsf{Blk}(\pi),
+\Phi_{\rm can}(\pi):=\min_{\prec}\mathsf{Blk}_{\rm adm}(\pi),
 \]
 where \(\prec\) is the order of \cref{def:canonical-sparse-blocker-order}.  The
 canonical blocker set and incidence ledger are
@@ -2992,6 +3006,89 @@ For \(t\in\mathfrak T_{\rm cap}\), its \emph{token load} is
 \ell_{\rm cap}(t):=|\Theta_{\rm cap}^{-1}(t)|.
 \]
 \end{definition}
+
+\begin{definition}[Total surplus-pair token route]\label[definition]{def:total-surplus-pair-token-route}
+Orient every pair in \(\binom{\mathcal A_0}{2}\) by the canonical selected-port
+order, writing it as \(\pi=(p_i,p_j)\) with \(i<j\).  Define the total token
+map
+\[
+\widehat\Theta(\pi)=
+\begin{cases}
+\Theta_{\rm cap}(\pi),&\pi\in\Pi_{\rm blk},\\
+p_i,&\pi\in\Pi_{\rm free}.
+\end{cases}
+\]
+The second line is well typed because
+\(p_i\in\mathcal P_{\rm exc}\subseteq\mathfrak T_{\rm prim}\).  It is the
+\emph{free-anchor route}.  Its role is the new symbol
+\(\mathsf{freeAnchor}\).  A blocked pair retains the role determined by its
+canonical blocker and the subtype of \(\Theta_{\rm cap}(\pi)\).  Thus the
+total role alphabet is the disjoint union
+\[
+\widehat{\mathfrak R}_{\rm st}
+=\{\mathsf{blocked}(r):r\in\mathfrak R_{\rm blk}\}
+\sqcup\{\mathsf{freeAnchor}\},
+\qquad |\mathfrak R_{\rm blk}|=4\cdot6=24,
+\qquad |\widehat{\mathfrak R}_{\rm st}|=25.
+\]
+Here \(\mathfrak R_{\rm blk}\) is the full product of the four admitted
+structural blocker kinds (a)--(c), (f) and the six token subtypes; product
+entries that are not realized simply have empty fibres.  Raw profile and
+target mismatches have already left as audit exits and do not consume blocked
+roles.
+Write \(\widehat\rho(\pi)\) for this role, and put
+\[
+\widehat\Pi_{t,r}
+=\{\pi:\widehat\Theta(\pi)=t,\ \widehat\rho(\pi)=r\},
+\qquad
+\widehat\ell(t,r)=|\widehat\Pi_{t,r}|,
+\qquad
+\widehat\ell_{\rm cap}(t)=\sum_r\widehat\ell(t,r).
+\]
+Let \(\widehat H_{t,r}\) be the simple graph on \(\mathcal A_0\) with edge
+set \(\widehat\Pi_{t,r}\).  A matching or star in this graph is a
+\emph{total-role-homogeneous same-token pattern}.  When
+\(r=\mathsf{freeAnchor}\), every edge has first endpoint \(t\), so the whole
+fibre is already a star centered at that selected port.
+At the node-[130] dispatch, before a blocked pair has been retokenized, the
+finite role is only its actual canonical blocker kind.  Hence that executable
+dispatch has five roles: the four admitted structural blocker kinds and
+\(\mathsf{freeAnchor}\).  The token subtype is computed only by the
+downstream capacity-token map.
+\end{definition}
+
+\begin{lemma}[Total pair route has no overcounting]\label[lemma]{lem:total-pair-token-route-no-overcount}
+The total token--role fibres form a disjoint partition of the complete pair
+schedule:
+\[
+\binom{\mathcal A_0}{2}
+=\bigsqcup_{t\in\mathfrak T_{\rm cap}}
+  \bigsqcup_{r\in\widehat{\mathfrak R}_{\rm st}}
+  \widehat\Pi_{t,r}.
+\]
+Consequently,
+\[
+\binom{|\mathcal A_0|}{2}
+=\sum_{t\in\mathfrak T_{\rm cap}}
+  \sum_{r\in\widehat{\mathfrak R}_{\rm st}}\widehat\ell(t,r).
+\]
+If \(\pi\in\widehat\Pi_{p,\mathsf{freeAnchor}}\), then \(\pi\) is
+blocker-free, its first selected port is exactly \(p\), and it retains the
+canonical connector and the two demand supports fixed at node~[130].
+\end{lemma}
+
+\begin{proof}
+The canonical blocker decision partitions the pair schedule into the disjoint
+sets \(\Pi_{\rm blk}\) and \(\Pi_{\rm free}\).  On the first set,
+\(\Theta_{\rm cap}\) and the blocked role are functions.  On the second set,
+the canonical first endpoint and the distinct role
+\(\mathsf{freeAnchor}\) are functions.  The distinct role constructors make
+the two images disjoint, proving the partition and the cardinality identity.
+Membership in a free-anchor fibre unfolds to the negative side of the blocker
+decision and equality of the first endpoint with \(p\).  The connector and
+support data are the values already retained for that same free pair, so no
+new path or support is selected.
+\end{proof}
 
 \begin{figure}[t]
 \centering
@@ -3266,23 +3363,22 @@ centre \(p\).  One colour class has size at least
 \end{proof}
 
 \begin{corollary}[Homogeneous same-token caps close the surplus branch]\label[corollary]{cor:homogeneous-same-token-caps-close}
-Assume \(G\) survives the sparse surplus exits, admits a baseline spine demand
-with \(E_{\rm spine}(n)\le C_E n\), and has full active family
+Assume \(G\) has full active family
 \(\mathcal A_0=\mathcal P_{\rm exc}\).  Suppose there are fixed integers
 \(L_W,L_R,L_P\) such that:
 \begin{enumerate}[label=(\alph*), leftmargin=2.2em]
-\item no token in \(\mathfrak T_W\) supports a role-homogeneous same-token
-\(L_W\)-matching or role-homogeneous same-token \(L_W\)-star;
-\item no token in \(\mathfrak T_R\) supports a role-homogeneous same-token
-\(L_R\)-matching or role-homogeneous same-token \(L_R\)-star;
-\item no token in \(\mathfrak T_{\rm prim}\) supports a role-homogeneous
-same-token \(L_P\)-matching or role-homogeneous same-token \(L_P\)-star.
+\item no token in \(\mathfrak T_W\) supports a total-role-homogeneous
+same-token \(L_W\)-matching or \(L_W\)-star;
+\item no token in \(\mathfrak T_R\) supports a total-role-homogeneous
+same-token \(L_R\)-matching or \(L_R\)-star;
+\item no token in \(\mathfrak T_{\rm prim}\) supports a total-role-homogeneous
+same-token \(L_P\)-matching or \(L_P\)-star.
 \end{enumerate}
 Then
 \[
 \sigma(G)=O(\sqrt n),
 \]
-where the implicit constant depends only on \(C_E,L_W,L_R,L_P\).
+where the implicit constant depends only on \(L_W,L_R,L_P\).
 \end{corollary}
 
 \begin{proof}
@@ -3293,24 +3389,25 @@ M_0:=\max\{
 \operatorname{Cap}_{\rm hom}(L_R),\
 \operatorname{Cap}_{\rm hom}(L_P)\}.
 \]
-We show that every token has load at most \(M_0\).  Fix
-\(t\in\mathfrak T_W\).  For each role \(r\), the graph \(H_{t,r}\) has no
+We show that every token has total load at most \(M_0\).  Fix
+\(t\in\mathfrak T_W\).  For each total role \(r\), the graph
+\(\widehat H_{t,r}\) has no
 \(L_W\)-matching and no \(L_W\)-star; otherwise that matching or star would be
-a role-homogeneous same-token \(L_W\)-pattern at \(t\), contrary to (a).  By
+a total-role-homogeneous same-token \(L_W\)-pattern at \(t\), contrary to (a).  By
 \cref{lem:same-token-matching-star},
 \[
-\ell(t,r)\le (L_W-1)(2L_W-3)
+\widehat\ell(t,r)\le (L_W-1)(2L_W-3)
 \]
-for every \(r\).  Summing the role-fibre partition of
-\cref{def:same-token-blocker-roles} gives
+for every \(r\).  Summing the total role-fibre partition of
+\cref{def:total-surplus-pair-token-route} gives
 \[
-\ell_{\rm cap}(t)
-=\sum_{r\in\mathfrak R_{\rm st}}\ell(t,r)
+\widehat\ell_{\rm cap}(t)
+=\sum_{r\in\widehat{\mathfrak R}_{\rm st}}\widehat\ell(t,r)
 \le Q_{\rm st}(L_W-1)(2L_W-3)
 =\operatorname{Cap}_{\rm hom}(L_W)
 \le M_0 .
 \]
-The argument for a token in \(\mathfrak T_W\) used only the role-fibre
+The argument for a token in \(\mathfrak T_W\) used only the total role-fibre
 partition and the corresponding homogeneous cap.  Replacing \(L_W\) by \(L_R\)
 or \(L_P\) gives the same bound for tokens in
 \(\mathfrak T_R\) and \(\mathfrak T_{\rm prim}\).  The hypotheses of
@@ -3325,40 +3422,43 @@ Assume \(G\) survives the sparse surplus exits, admits a baseline spine demand
 with deficit \(E_{\rm spine}(n)\), and has full active family
 \(\mathcal A_0=\mathcal P_{\rm exc}\).  Let \(\Lambda(G)\) be the quantity in
 \cref{cor:forced-same-token-scale}.  Then some capacity token supports a
-role-homogeneous same-token matching or role-homogeneous same-token star of
+total-role-homogeneous same-token matching or total-role-homogeneous same-token star of
 size at least
 \[
 \psi\!\left(\frac{\Lambda(G)}{Q_{\rm st}}\right).
 \]
 In particular, if \(E_{\rm spine}(n)=O(n)\) and
-\(\sigma(G)/\sqrt n\to\infty\), then the forced role-homogeneous same-token
+\(\sigma(G)/\sqrt n\to\infty\), then the forced total-role-homogeneous same-token
 matching-or-star size tends to infinity.
 \end{corollary}
 
 \begin{proof}
 \Cref{lem:capacity-token-high-load} gives a token \(t\) with
 \[
-\ell_{\rm cap}(t)\ge\Lambda(G).
+\widehat\ell_{\rm cap}(t)\ge\Lambda(G).
 \]
-The role fibres at \(t\) partition \(\Theta_{\rm cap}^{-1}(t)\), so
+The total role fibres at \(t\) partition \(\widehat\Theta^{-1}(t)\), so
 \[
-\sum_{r\in\mathfrak R_{\rm st}}\ell(t,r)=\ell_{\rm cap}(t).
+\sum_{r\in\widehat{\mathfrak R}_{\rm st}}\widehat\ell(t,r)
+=\widehat\ell_{\rm cap}(t).
 \]
 Since at most \(Q_{\rm st}\) roles occur, some role \(r\) satisfies
 \[
-\ell(t,r)\ge\frac{\Lambda(G)}{Q_{\rm st}}.
+\widehat\ell(t,r)\ge\frac{\Lambda(G)}{Q_{\rm st}}.
 \]
-Apply \cref{lem:same-token-matching-star} to the role-fibre graph \(H_{t,r}\).
-If \(s=\max\{\nu(H_{t,r}),\Delta(H_{t,r})\}\), then
+Apply \cref{lem:same-token-matching-star} to the total role-fibre graph
+\(\widehat H_{t,r}\).  If
+\(s=\max\{\nu(\widehat H_{t,r}),\Delta(\widehat H_{t,r})\}\), then
 \[
-\ell(t,r)=e(H_{t,r})\le s(2s-1).
+\widehat\ell(t,r)=e(\widehat H_{t,r})\le s(2s-1).
 \]
 By the definition of \(\psi\),
 \[
 s\ge\psi\!\left(\frac{\Lambda(G)}{Q_{\rm st}}\right).
 \]
-Thus \(H_{t,r}\) contains a matching or star of that size.  Because all edges
-of \(H_{t,r}\) have the same role \(r\), this is a role-homogeneous same-token
+Thus \(\widehat H_{t,r}\) contains a matching or star of that size.  Because all edges
+of \(\widehat H_{t,r}\) have the same total role \(r\), this is a
+total-role-homogeneous same-token
 matching or star.  The final assertion follows because \(Q_{\rm st}\) is
 fixed.
 \end{proof}
@@ -3367,8 +3467,8 @@ fixed.
 Assume \(G\) survives the sparse surplus exits, has full active family
 \(\mathcal A_0=\mathcal P_{\rm exc}\), and admits a baseline spine demand with
 deficit \(E_{\rm spine}(n)\le C_E n\).  Let \(K_{\rm hom}(G)\) be the largest
-integer \(K\) for which some capacity token supports a role-homogeneous
-same-token \(K\)-matching or a role-homogeneous same-token \(K\)-star.  Then
+integer \(K\) for which some capacity token supports a total-role-homogeneous
+same-token \(K\)-matching or a total-role-homogeneous same-token \(K\)-star.  Then
 \[
 K_{\rm hom}(G)\ge
 \psi\!\left(
@@ -3503,12 +3603,12 @@ with \(E_{\rm spine}(n)\le C_E n\), and has full active family
 \(\mathcal A_0=\mathcal P_{\rm exc}\).  Suppose there are fixed integers
 \(K_W,K_R,K_P\) such that:
 \begin{enumerate}[label=(\alph*), leftmargin=2.2em]
-\item no token in \(\mathfrak T_W\) supports a same-token \(K_W\)-matching or
-a same-token \(K_W\)-star;
-\item no token in \(\mathfrak T_R\) supports a same-token \(K_R\)-matching or
-a same-token \(K_R\)-star;
-\item no token in \(\mathfrak T_{\rm prim}\) supports a same-token
-\(K_P\)-matching or a same-token \(K_P\)-star.
+\item no token in \(\mathfrak T_W\) supports a total-role-homogeneous
+same-token \(K_W\)-matching or \(K_W\)-star;
+\item no token in \(\mathfrak T_R\) supports a total-role-homogeneous
+same-token \(K_R\)-matching or \(K_R\)-star;
+\item no token in \(\mathfrak T_{\rm prim}\) supports a total-role-homogeneous
+same-token \(K_P\)-matching or \(K_P\)-star.
 \end{enumerate}
 Then
 \[
@@ -3518,22 +3618,10 @@ where the implicit constant depends only on \(C_E,K_W,K_R,K_P\).
 \end{corollary}
 
 \begin{proof}
-Put
-\[
-M_0:=\max\bigl\{
-(K_W-1)(2K_W-3),\,
-(K_R-1)(2K_R-3),\,
-(K_P-1)(2K_P-3)
-\bigr\}.
-\]
-By \cref{lem:same-token-matching-star}, every token load satisfies
-\[
-\ell_{\rm cap}(t)\le M_0 .
-\]
-The hypotheses of \cref{thm:tokenized-surplus-accounting-closure} now hold
-with \(c_1=1\), because
-\(|\mathcal A_0|=\sigma(G)\) by \cref{lem:surviving-active-family}.  That
-theorem gives \(\sigma(G)=O(\sqrt n)\).
+The three hypotheses are exactly those of
+\cref{cor:homogeneous-same-token-caps-close}, with
+\(L_W=K_W\), \(L_R=K_R\), and \(L_P=K_P\).  That corollary gives
+\(\sigma(G)=O(\sqrt n)\).
 \end{proof}
 
 \begin{corollary}[Forced same-token overload scale]\label[corollary]{cor:forced-same-token-scale}
@@ -3550,10 +3638,11 @@ with deficit \(E_{\rm spine}(n)\), and has full active family
 \right\}}
 {8n+\sigma(G)} .
 \]
-Then some capacity token supports a same-token matching or a same-token star of
+Then some capacity token supports a total-role-homogeneous same-token matching
+or total-role-homogeneous same-token star of
 size at least
 \[
-\psi(\Lambda(G)).
+\psi\!\left(\frac{\Lambda(G)}{Q_{\rm st}}\right).
 \]
 In particular, if \(E_{\rm spine}(n)=O(n)\) and
 \(\sigma(G)/\sqrt n\to\infty\), then the forced same-token matching-or-star
@@ -3563,20 +3652,23 @@ size tends to infinity.
 \begin{proof}
 \Cref{lem:capacity-token-high-load} gives a token \(t\) with
 \[
-\ell_{\rm cap}(t)\ge \Lambda(G).
+\widehat\ell_{\rm cap}(t)\ge \Lambda(G).
 \]
-Let \(r=\max\{\nu(H_t),\Delta(H_t)\}\).  By
+The at most \(Q_{\rm st}\) total role fibres partition this token fibre, so
+some total role \(r\) satisfies
+\[
+\widehat\ell(t,r)\ge\frac{\Lambda(G)}{Q_{\rm st}}.
+\]
+Put
+\(s=\max\{\nu(\widehat H_{t,r}),\Delta(\widehat H_{t,r})\}\).  By
 \cref{lem:same-token-matching-star},
 \[
-\ell_{\rm cap}(t)=e(H_t)\le r(2r-1).
+\widehat\ell(t,r)=e(\widehat H_{t,r})\le s(2s-1).
 \]
-Since \(\ell_{\rm cap}(t)\ge\Lambda(G)\), the definition of \(\psi\) gives
-\[
-r\ge\psi(\Lambda(G)).
-\]
-Thus \(H_t\) contains either a matching or a star of size
-\(\psi(\Lambda(G))\), which is precisely a same-token matching or same-token
-star at \(t\).  If
+The definition of \(\psi\) now gives
+\(s\ge\psi(\Lambda(G)/Q_{\rm st})\).  Thus \(\widehat H_{t,r}\) contains a
+matching or star of the claimed size, and all its edges have total role \(r\).
+If
 \(E_{\rm spine}(n)=O(n)\) and \(\sigma(G)/\sqrt n\to\infty\), then the
 numerator in \(\Lambda(G)\) is \(\frac12\sigma(G)^2-o(\sigma(G)^2)\), while
 \(8n+\sigma(G)\le9n\) by \(\sigma(G)\le n\), which follows from
@@ -3595,54 +3687,43 @@ Let \(\mathcal A_0\) be a finite family of active surplus demands.  For
 Then the following disjoint union is exact:
 \[
 \binom{\mathcal A_0}{2}
-=
-\Pi_{\rm free}
-\sqcup
-\bigsqcup_{C\in\{W,R,P\}}
+=\bigsqcup_{C\in\{W,R,P\}}
 \bigsqcup_{t\in\mathfrak T_C}
-\bigsqcup_{r\in\mathfrak R_{\rm st}}
-\Pi_{t,r}.
+\bigsqcup_{r\in\widehat{\mathfrak R}_{\rm st}}
+\widehat\Pi_{t,r}.
 \]
 Consequently,
 \[
 \binom{|\mathcal A_0|}{2}
-=
-|\Pi_{\rm free}|
-+
-\sum_{C\in\{W,R,P\}}
+=\sum_{C\in\{W,R,P\}}
 \sum_{t\in\mathfrak T_C}
-\sum_{r\in\mathfrak R_{\rm st}}
-\ell(t,r).
+\sum_{r\in\widehat{\mathfrak R}_{\rm st}}
+\widehat\ell(t,r).
 \]
 Every unordered pair of active demands appears in exactly one summand on the
 right-hand side.
 \end{lemma}
 
 \begin{proof}
-By \cref{def:canonical-blocker-ledger}, the pair set
-\(\binom{\mathcal A_0}{2}\) is the disjoint union
-\[
-\Pi_{\rm free}\sqcup\Pi_{\rm blk}.
-\]
-If \(\pi\in\Pi_{\rm blk}\), then \(\Theta_{\rm cap}(\pi)\) is defined and is a
-single element of the disjoint token universe
+By \cref{lem:total-pair-token-route-no-overcount}, every pair has one total
+token and one total role.  The token is a single element of the disjoint
+universe
 \[
 \mathfrak T_{\rm cap}
 =\mathfrak T_W\sqcup\mathfrak T_R\sqcup\mathfrak T_{\rm prim}.
 \]
-Thus \(\pi\) lies in exactly one token class \(C\) and exactly one token
-\(t\in\mathfrak T_C\).  For that fixed \(t\), the role map
-\(\rho_t\) assigns exactly one role \(r\in\mathfrak R_{\rm st}\), so
-\(\pi\in\Pi_{t,r}\).  This proves that every blocked pair appears in at least
+Thus each pair lies in exactly one token class \(C\), exactly one token
+\(t\in\mathfrak T_C\).  For that fixed \(t\), the total role map
+\(\widehat\rho\) assigns exactly one role
+\(r\in\widehat{\mathfrak R}_{\rm st}\), so
+\(\pi\in\widehat\Pi_{t,r}\).  This proves that every pair appears in at least
 one displayed role-fibre summand.
 
-The appearance is unique.  The token classes are disjoint, \(\Theta_{\rm cap}\)
-is a function, and \(\rho_t\) is a function once \(t\) is fixed.  Hence a
-blocked pair cannot belong to two distinct triples \((C,t,r)\).  Conversely,
-every \(\Pi_{t,r}\) is a subset of \(\Theta_{\rm cap}^{-1}(t)\subseteq
-\Pi_{\rm blk}\), so no free pair appears in any role-fibre summand.  Therefore
-the displayed union is disjoint and exhaustive.  Taking cardinalities gives the
-second formula.
+The appearance is unique.  The token classes are disjoint,
+\(\widehat\Theta\) is a function, and \(\widehat\rho\) is
+a function once \(t\) is fixed.  Hence no pair can belong to two distinct
+triples \((C,t,r)\).  The displayed union is disjoint and exhaustive.  Taking
+cardinalities gives the second formula.
 \end{proof}
 
 \begin{theorem}[Sharp classwise homogeneous token budget]\label[theorem]{thm:sharp-classwise-homogeneous-token-budget}
@@ -3666,13 +3747,14 @@ For \(C\in\{W,R,P\}\), set
 \mathfrak T_{\rm prim},&C=P,
 \end{cases}
 \qquad
-\Pi_C:=\{\pi\in\Pi_{\rm blk}:\Theta_{\rm cap}(\pi)\in\mathfrak T_C\},
+\Pi_C:=\left\{\pi\in\binom{\mathcal A_0}{2}:
+  \widehat\Theta(\pi)\in\mathfrak T_C\right\},
 \]
 and write \(B_C:=|\Pi_C|\), \(S_C:=|\mathfrak T_C|\).  Then:
 \begin{enumerate}[label=(\alph*), leftmargin=2.2em]
-\item The blocked-pair demand satisfies the exact class split
+\item The total-pair demand satisfies the exact class split
 \[
-B_W+B_R+B_P=|\Pi_{\rm blk}|\ge N_*(G).
+B_W+B_R+B_P=\binom{\sigma(G)}2\ge N_*(G).
 \]
 \item The class supplies are
 \[
@@ -3721,23 +3803,19 @@ and in particular at least
 \end{theorem}
 
 \begin{proof}
-For (a), the free-pair entropy sandwich with blockers gives
+For (a), \cref{lem:exact-surplus-pair-charge-partition} and
+\(|\mathcal A_0|=\sigma(G)\) give
 \[
-|\Pi_{\rm free}|
-\le
-E_{\rm spine}(n)+\left(\frac12\sigma(G)+1\right)\log_2 n,
+B_W+B_R+B_P=\binom{\sigma(G)}2.
 \]
-because \(|\mathcal A_0|=\sigma(G)\).  Since
-\[
-|\Pi_{\rm free}|+|\Pi_{\rm blk}|=\binom{\sigma(G)}2,
-\]
-we obtain \(|\Pi_{\rm blk}|\ge N_*(G)\).  The three sets
-\(\Pi_W,\Pi_R,\Pi_P\) partition \(\Pi_{\rm blk}\), because
+The subtracted deficit and incremental-room terms in the definition of
+\(N_*(G)\) are nonnegative, so \(N_*(G)\le\binom{\sigma(G)}2\).  The three sets
+\(\Pi_W,\Pi_R,\Pi_P\) partition the complete pair family, because
 \(\mathfrak T_{\rm cap}\) is the disjoint union
 \(\mathfrak T_W\sqcup\mathfrak T_R\sqcup\mathfrak T_{\rm prim}\) and
-\(\Theta_{\rm cap}\) assigns exactly one token to each blocked pair.  Hence
+\(\widehat\Theta\) assigns exactly one token to each pair.  Hence
 \[
-B_W+B_R+B_P=|\Pi_{\rm blk}|\ge N_*(G).
+B_W+B_R+B_P=\binom{\sigma(G)}2\ge N_*(G).
 \]
 
 Part (b) is exactly \cref{lem:capacity-token-supply}, with
@@ -3745,17 +3823,19 @@ Part (b) is exactly \cref{lem:capacity-token-supply}, with
 \cref{lem:primitive-carrier-supply} applied to \(S_P\).
 
 For (c), fix a class \(C\) and a token \(t\in\mathfrak T_C\).  For every role
-\(r\), the role-fibre graph \(H_{t,r}\) has no matching of size \(L_C\) and no
+\(r\in\widehat{\mathfrak R}_{\rm st}\), the total role-fibre graph
+\(\widehat H_{t,r}\) has no matching of size \(L_C\) and no
 star of size \(L_C\); otherwise that matching or star would be a
 role-homogeneous same-token \(L_C\)-pattern at \(t\).  By
 \cref{lem:same-token-matching-star},
 \[
-\ell(t,r)=e(H_{t,r})\le (L_C-1)(2L_C-3).
+\widehat\ell(t,r)=e(\widehat H_{t,r})\le (L_C-1)(2L_C-3).
 \]
-The role fibres partition the token fibre, so
+The total role fibres partition the token fibre, and there are at most
+\(25\le Q_{\rm st}=36\) of them, so
 \[
-\ell_{\rm cap}(t)
-=\sum_{r\in\mathfrak R_{\rm st}}\ell(t,r)
+\widehat\ell_{\rm cap}(t)
+=\sum_{r\in\widehat{\mathfrak R}_{\rm st}}\widehat\ell(t,r)
 \le
 Q_{\rm st}(L_C-1)(2L_C-3)
 =\operatorname{Cap}_{\rm hom}(L_C).
@@ -3763,7 +3843,7 @@ Q_{\rm st}(L_C-1)(2L_C-3)
 Summing the exact token fibres in class \(C\) gives
 \[
 B_C
-=\sum_{t\in\mathfrak T_C}\ell_{\rm cap}(t)
+=\sum_{t\in\mathfrak T_C}\widehat\ell_{\rm cap}(t)
 \le
 \operatorname{Cap}_{\rm hom}(L_C)S_C .
 \]
@@ -3771,8 +3851,8 @@ B_C
 Part (d) follows by summing the three estimates in (c) and using (a) and (b).
 
 For (e), choose a class \(C\) for which \(B_C/S_C\) is maximal among nonempty
-classes with \(S_C>0\).  Since the nonempty classes partition
-\(\Pi_{\rm blk}\),
+classes with \(S_C>0\).  Since the nonempty classes partition the complete
+pair family,
 \[
 \frac{B_C}{S_C}\ge
 \frac{B_W+B_R+B_P}{S_W+S_R+S_P}
@@ -3781,22 +3861,23 @@ classes with \(S_C>0\).  Since the nonempty classes partition
 \]
 Some token \(t\in\mathfrak T_C\) then has load
 \[
-\ell_{\rm cap}(t)\ge B_C/S_C.
+\widehat\ell_{\rm cap}(t)\ge B_C/S_C.
 \]
-The role fibres at \(t\) partition the token fibre, so some role \(r\) has
+The total role fibres at \(t\) partition the token fibre, so some role
+\(r\in\widehat{\mathfrak R}_{\rm st}\) has
 \[
-\ell(t,r)\ge\frac{B_C}{Q_{\rm st}S_C}.
+\widehat\ell(t,r)\ge\frac{B_C}{Q_{\rm st}S_C}.
 \]
-Apply \cref{lem:same-token-matching-star} to \(H_{t,r}\).  If
-\(s=\max\{\nu(H_{t,r}),\Delta(H_{t,r})\}\), then
+Apply \cref{lem:same-token-matching-star} to \(\widehat H_{t,r}\).  If
+\(s=\max\{\nu(\widehat H_{t,r}),\Delta(\widehat H_{t,r})\}\), then
 \[
-\ell(t,r)=e(H_{t,r})\le s(2s-1).
+\widehat\ell(t,r)=e(\widehat H_{t,r})\le s(2s-1).
 \]
 Therefore
 \[
 s\ge\psi\!\left(\frac{B_C}{Q_{\rm st}S_C}\right).
 \]
-The graph \(H_{t,r}\) contains a matching or star of that size, and all its
+The graph \(\widehat H_{t,r}\) contains a matching or star of that size, and all its
 edges have the same role \(r\).  This gives the first displayed homogeneous
 lower bound.  The second follows from
 \[
@@ -3982,6 +4063,85 @@ using monotonicity of \(\psi\).  The \(R\)- and \(P\)-estimates are the same
 argument with the class names permuted.
 \end{proof}
 
+\begin{proposition}[Exact 25-role coupled CT9 decision]\label[proposition]{prop:exact-25-role-coupled-decision}
+Assume that the same residual graph has reached node~[136].  Fix integers
+\(L_W,L_R,L_P\ge2\), set
+\[
+b_C=(L_C-1)(2L_C-3)\quad(C\in\{W,R,P\}),
+\qquad b_{\max}=\max\{b_W,b_R,b_P\},
+\]
+and give every token--role label \((t,r)\) the capacity
+\(b_{C(t)}\), where \(C(t)\) is the unique class of the token.  Define the
+exact coupled capacity and its positive excess by
+\[
+A_{25}:=
+\sum_{C\in\{W,R,P\}}
+\sum_{t\in\mathfrak T_C}
+\sum_{r\in\widehat{\mathfrak R}_{\rm st}} b_C,
+\qquad
+D_{25}:=\left(\binom{\sigma(G)}2-A_{25}\right)_+ .
+\]
+Then the following alternatives are exhaustive.
+\begin{enumerate}[label=(\alph*), leftmargin=2.2em]
+\item If \(D_{25}>0\), CT9 returns a concrete label \((t,r)\) satisfying
+\[
+\widehat\ell(t,r)>b_{C(t)}.
+\]
+The constructor of \(t\) routes this output uniquely through node~[139] or
+node~[141] to exactly one of the window-incidence, remainder-surplus, and
+primitive-carrier classes.
+\item If \(D_{25}=0\), then
+\[
+\sigma(G)^2\le(450b_{\max}+1)n.
+\]
+In particular this side of the decision is the node-[138] near-cubic route,
+with an explicit constant depending only on the three fixed thresholds.
+\end{enumerate}
+The decision uses only the selected graph's complete surplus-pair list and
+its finite token and role lists.  Its number of label comparisons is at most
+\(225n^3\).
+\end{proposition}
+
+\begin{proof}
+Node~[136] gives the exact partition
+\[
+\binom{\sigma(G)}2
+=\sum_{C,t,r}\widehat\ell(t,r)
+\]
+over the 25-element total-role alphabet.  If \(D_{25}>0\), then
+\(A_{25}<\binom{\sigma(G)}2\).  Were every fibre bounded by its assigned
+capacity, summing those 25-role fibre inequalities over all tokens would give
+\(\binom{\sigma(G)}2\le A_{25}\), a contradiction.  The first overloaded
+label in the fixed token--role order is therefore a concrete CT9 residual.
+The token universe is the disjoint union
+\(\mathfrak T_W\sqcup\mathfrak T_R\sqcup\mathfrak T_{\rm prim}\), so testing
+the token constructor gives the stated unique class route.
+
+Suppose now that \(D_{25}=0\).  Then
+\(\binom{\sigma(G)}2\le A_{25}\).  Since each label capacity is at most
+\(b_{\max}\), \(|\widehat{\mathfrak R}_{\rm st}|=25\), and
+\cref{lem:capacity-token-supply,lem:sparse-upper-envelope} give
+\[
+A_{25}
+\le25b_{\max}|\mathfrak T_{\rm cap}|
+\le25b_{\max}(8n+\sigma(G))
+\le225b_{\max}n.
+\]
+Using the exact identity
+\[
+\sigma(G)^2=2\binom{\sigma(G)}2+\sigma(G)
+\]
+and again \(\sigma(G)\le n\), we obtain
+\[
+\sigma(G)^2
+\le450b_{\max}n+n
+=(450b_{\max}+1)n.
+\]
+Finally, the complete pair list has at most \(n^2\) entries, the token list
+has at most \(9n\) entries, and the role list has 25 entries.  The literal
+product scan therefore uses at most \(n^2\cdot9n\cdot25=225n^3\) comparisons.
+\end{proof}
+
 \begin{corollary}[Coupled single-graph overload budget]\label[corollary]{cor:coupled-single-graph-overload-budget}
 Assume the hypotheses of
 \cref{thm:sharp-classwise-homogeneous-token-budget}, and fix proposed
@@ -3991,8 +4151,8 @@ b_W:=(L_W-1)(2L_W-3),\qquad
 b_R:=(L_R-1)(2L_R-3),\qquad
 b_P:=(L_P-1)(2L_P-3).
 \]
-Since \(Q_{\rm st}=36\), the exact coupled capacity of the three classes in
-the single graph \(G\) is
+Using the uniform bound \(Q_{\rm st}=36\), the conservative coupled capacity
+envelope for the three classes in the single graph \(G\) is
 \[
 A_{\rm all}
 =
@@ -4018,7 +4178,7 @@ D_{\rm all}:=\bigl(N_*(G)-A_{\rm all}\bigr)_+ .
 \]
 Then:
 \begin{enumerate}[label=(\alph*), leftmargin=2.2em]
-\item The total role-fibre overload in the single graph is at least
+\item The total role-fibre overload relative to this envelope is at least
 \[
 D_{\rm all}.
 \]
@@ -4062,13 +4222,13 @@ displayed formula for \(A_{\rm all}\); the second displayed form is obtained by
 substituting \(\sigma(G)=\sigma_W+\sigma_R\).
 
 For each role fibre in class \(C\), the cap threshold before a homogeneous
-\(L_C\)-matching or \(L_C\)-star is \(b_C\).  Thus the total role-fibre
-capacity over all three classes is
+\(L_C\)-matching or \(L_C\)-star is \(b_C\).  Padding the 25 actual roles to
+the uniform 36-role bound gives the capacity envelope
 \[
 36b_WS_W+36b_RS_R+36b_PS_P=A_{\rm all}.
 \]
-Since the exact class theorem gives a blocked-pair demand at least \(N_*(G)\),
-the excess above this coupled capacity is at least \(D_{\rm all}\).  This proves
+Since the exact class theorem gives a total-pair demand at least \(N_*(G)\),
+the excess above this coupled envelope is at least \(D_{\rm all}\).  This proves
 (a).
 
 The number of role-fibre slots is at most \(36(S_W+S_R+S_P)\).  Using the exact
@@ -4080,16 +4240,18 @@ S_W+S_R+S_P
 \]
 which proves (b).
 
-For a token \(t\in\mathfrak T_C\) and a role \(r\in\mathfrak R_{\rm st}\),
+For a token \(t\in\mathfrak T_C\) and a total role
+\(r\in\widehat{\mathfrak R}_{\rm st}\),
 write
 \[
-E_{t,r}:=\bigl(\ell(t,r)-b_C\bigr)_+ .
+E_{t,r}:=\bigl(\widehat\ell(t,r)-b_C\bigr)_+ .
 \]
 The elementary inequality \(\sum_i(x_i-y_i)_+\ge(\sum_i x_i-\sum_i y_i)_+\),
-applied to all triples \((C,t,r)\), gives
+applied to the 25 actual role labels, and then weakened to the 36-role
+capacity envelope, gives
 \[
 \sum_{C\in\{W,R,P\}}\sum_{t\in\mathfrak T_C}
-\sum_{r\in\mathfrak R_{\rm st}}E_{t,r}
+\sum_{r\in\widehat{\mathfrak R}_{\rm st}}E_{t,r}
 \ge
 \left(
 \sum_C B_C-A_{\rm all}
@@ -4122,8 +4284,8 @@ w:=\frac{\sigma_W}n,\qquad
 r:=\frac{\sigma_R}n,\qquad
 s:=\frac{\sigma(G)}n=w+r .
 \]
-Then \(0\le\theta\le1/13\) and \(0\le s\le1\), and the coupled capacity is
-exactly
+Then \(0\le\theta\le1/13\) and \(0\le s\le1\), and the coupled capacity
+envelope is
 \[
 A_{\rm all}=n\,\Gamma_L(\theta,w,r),
 \]
@@ -4144,7 +4306,7 @@ R & r & b_R & 36b_Rr\\
 P & 4+2s & b_P & 36b_P(4+2s)
 \end{array}
 \]
-The exact coupled excess is
+The corresponding envelope excess is
 \[
 D_{\rm all}
 =
@@ -4285,9 +4447,9 @@ family and baseline demand at \([129]\), the exact window-join identity at
 \begin{proof}
 Assume first that the three homogeneous caps hold.  Then each role fibre in
 class \(C\) has load at most \(b_C\), by
-\cref{lem:same-token-matching-star}; hence the total blocked-pair load is at
-most \(A_{\rm all}\).  Since
-\cref{thm:sharp-classwise-homogeneous-token-budget} gives blocked-pair demand
+\cref{lem:same-token-matching-star}; hence the total pair load in the extended
+token--role fibres is at most \(A_{\rm all}\).  Since
+\cref{thm:sharp-classwise-homogeneous-token-budget} gives total-pair demand
 at least \(N_*(G)\), we have \(N_*(G)\le A_{\rm all}\).  Thus
 \[
 \binom{\sigma(G)}2
@@ -4356,8 +4518,8 @@ branches \([140]\), \([142]\), and \([143]\).
 Part (c) is the logical union of (a) and (b).  Every inequality used above is
 one of the stated structural inputs: \(m\le2n-2\) gives \(\sigma(G)/n\le1\),
 the full active family and baseline demand give the lower demand \(N_*(G)\),
-the window-join identity gives the \(W\)-token supply, and the role-fibre
-partition gives the exact blocked-pair sum.  If a graph avoids all four routed
+the window-join identity gives the \(W\)-token supply, and the total role-fibre
+partition gives the exact complete-pair sum.  If a graph avoids all four routed
 outcomes, at least one of those inputs must fail.
 \end{proof}
 
@@ -4366,60 +4528,36 @@ Let \(\mathcal A_0\) be a finite family of active surplus demands such that
 \[
 |\mathcal A_0|\ge c_1\sigma(G)
 \]
-for a fixed \(c_1>0\).  Suppose \(G\) survives the sparse surplus exits and
-there is a baseline spine demand with \(E_{\rm spine}(n)\le C_E n\).  Suppose
-also that the capacity-token ledger satisfies
+for a fixed \(c_1>0\).  Suppose the total token ledger satisfies
 \[
-\ell_{\rm cap}(t)\le M_0
+\widehat\ell_{\rm cap}(t)\le M_0
 \qquad(t\in\mathfrak T_{\rm cap})
 \]
 for a fixed constant \(M_0\).  Then
 \[
 \sigma(G)=O(\sqrt n),
 \]
-where the implicit constant depends only on \(c_1,C_E\), and \(M_0\).
+where the implicit constant depends only on \(c_1\) and \(M_0\).
 \end{theorem}
 
 \begin{proof}
-The pair set is the disjoint union
-\[
-\binom{\mathcal A_0}{2}=\Pi_{\rm free}\sqcup\Pi_{\rm blk}.
-\]
-By \cref{prop:sparse-entropy-sandwich-with-blockers},
-\[
-|\Pi_{\rm free}|
-\le
-C_E n+\left(\frac12\sigma(G)+1\right)\log_2 n.
-\]
-By \cref{lem:token-ledger-no-overcount},
-\[
-|\Pi_{\rm blk}|
-\le
-M_0(8n+\sigma(G)).
-\]
-Thus
+By \cref{lem:total-pair-token-route-no-overcount} and the assumed load cap,
 \[
 \binom{|\mathcal A_0|}{2}
-\le
-(C_E+8M_0)n+M_0\sigma(G)
-+\left(\frac12\sigma(G)+1\right)\log_2 n.
+=\sum_{t\in\mathfrak T_{\rm cap}}\widehat\ell_{\rm cap}(t)
+\le M_0|\mathfrak T_{\rm cap}|
+\le M_0(8n+\sigma(G)).
 \]
+The last inequality is \cref{lem:capacity-token-supply}.  Moreover
+\(\sigma(G)\le n\) by \cref{lem:sparse-upper-envelope}, so the right-hand
+side is at most \(9M_0n\).
 For all sufficiently large \(\sigma(G)\),
 \[
 \binom{|\mathcal A_0|}{2}\ge \frac{c_1^2}{4}\sigma(G)^2.
 \]
-Combining the two displays gives constants \(C_1,C_2\), depending only on
-\(c_1,C_E,M_0\), such that
-\[
-\sigma(G)^2
-\le
-C_1n+C_2\sigma(G)\log_2 n+C_2\sigma(G)+C_2\log_2 n.
-\]
-If \(\sigma(G)\le4C_2\log_2 n+4C_2\), then
-\(\sigma(G)=O(\log n)=O(\sqrt n)\).  Otherwise the terms linear in
-\(\sigma(G)\) and \(\sigma(G)\log_2 n\) are absorbed into
-\(\frac12\sigma(G)^2\), after increasing constants.  The remaining inequality
-gives \(\sigma(G)^2\le C_3n\), and hence \(\sigma(G)=O(\sqrt n)\).
+Combining the displays gives
+\(\sigma(G)^2\le36M_0c_1^{-2}n\) outside a fixed finite range.  Enlarging the
+constant to cover that range proves \(\sigma(G)=O(\sqrt n)\).
 \end{proof}
 
 \begin{lemma}[Exact capacity-token load alternative]\label[lemma]{lem:capacity-token-high-load}
@@ -4427,80 +4565,43 @@ Let \(\mathcal A_0\) be a finite family of active surplus demands, and put
 \[
 s:=|\mathcal A_0|,
 \qquad
-L_{\max}:=\max_{t\in\mathfrak T_{\rm cap}}\ell_{\rm cap}(t).
+L_{\max}:=\max_{t\in\mathfrak T_{\rm cap}}\widehat\ell_{\rm cap}(t).
 \]
-Suppose \(G\) survives the sparse surplus exits and admits a baseline spine
-demand with deficit \(E_{\rm spine}(n)\).  Then
+Then
 \[
-\binom{s}{2}
-\le
-E_{\rm spine}(n)+\left(\frac12\sigma(G)+1\right)\log_2 n
-+L_{\max}|\mathfrak T_{\rm cap}|.
+\binom{s}{2}\le L_{\max}|\mathfrak T_{\rm cap}|.
 \]
 Equivalently,
 \[
 L_{\max}
 \ge
-\frac{
-\max\left\{0,\,
-\binom{s}{2}
--E_{\rm spine}(n)
--\left(\frac12\sigma(G)+1\right)\log_2 n
-\right\}}
-{|\mathfrak T_{\rm cap}|}.
+\frac{\binom{s}{2}}{|\mathfrak T_{\rm cap}|}.
 \]
 Using \cref{lem:capacity-token-supply}, this implies the coarser but
 denominator-free bound
 \[
 L_{\max}
 \ge
-\frac{
-\max\left\{0,\,
-\binom{s}{2}
--E_{\rm spine}(n)
--\left(\frac12\sigma(G)+1\right)\log_2 n
-\right\}}
-{8n+\sigma(G)}.
+\frac{\binom{s}{2}}{8n+\sigma(G)}.
 \]
 In particular, for the full active family
-\(\mathcal A_0=\mathcal P_{\rm exc}\), if
-\(E_{\rm spine}(n)\le C_E n\) and \(\sigma(G)\ge2\), then
+\(\mathcal A_0=\mathcal P_{\rm exc}\), if \(\sigma(G)\ge2\), then
 \[
 L_{\max}
 \ge
-\frac{
-\max\left\{0,\,
-\frac14\sigma(G)^2
--C_E n
--\left(\frac12\sigma(G)+1\right)\log_2 n
-\right\}}
-{8n+\sigma(G)}.
+\frac{\sigma(G)^2}{4(8n+\sigma(G))}.
 \]
 \end{lemma}
 
 \begin{proof}
-The canonical ledger gives the disjoint partition
+The total ledger gives the exact identity
 \[
-\binom{\mathcal A_0}{2}=\Pi_{\rm free}\sqcup\Pi_{\rm blk}.
+\binom{s}{2}
+=\sum_{t\in\mathfrak T_{\rm cap}}\widehat\ell_{\rm cap}(t)
+\le L_{\max}|\mathfrak T_{\rm cap}|.
 \]
-By \cref{prop:sparse-entropy-sandwich-with-blockers},
-\[
-|\Pi_{\rm free}|
-\le
-E_{\rm spine}(n)+\left(\frac12\sigma(G)+1\right)\log_2 n.
-\]
-By \cref{lem:token-ledger-no-overcount},
-\[
-|\Pi_{\rm blk}|
-=
-\sum_{t\in\mathfrak T_{\rm cap}}\ell_{\rm cap}(t)
-\le
-L_{\max}|\mathfrak T_{\rm cap}|.
-\]
-Adding the two bounds proves the first displayed inequality.  Rearranging gives
-the exact lower bound for \(L_{\max}\); if the numerator is negative, the
-trivial lower bound \(L_{\max}\ge0\) is stronger, which accounts for the maximum
-with \(0\).  The denominator-free version follows from
+This is \cref{lem:total-pair-token-route-no-overcount}.  Rearranging gives the
+exact lower bound for \(L_{\max}\).  The denominator-free version follows from
 \(|\mathfrak T_{\rm cap}|\le8n+\sigma(G)\).  For the full active family,
 \cref{lem:surviving-active-family} gives \(s=\sigma(G)\), and
 \(\binom{\sigma(G)}2\ge\sigma(G)^2/4\) for \(\sigma(G)\ge2\).
@@ -4509,7 +4610,7 @@ with \(0\).  The denominator-free version follows from
 \begin{definition}[Sparse surplus-pair response coordinates]\label[definition]{def:sparse-pair-response}
 Let \(\mathcal A_0\) be a finite family of active surplus demands.  For an
 unordered pair \(\pi=\{p,q\}\subseteq\mathcal A_0\), let \(X_\pi\) be the
-canonical BFS connector support of
+proof-selected minimum-distance connector support of
 \cref{def:sparse-canonical-connector}.  Since \(T(p)\subseteq\Gamma(p)\) and
 \(T(q)\subseteq\Gamma(q)\), it contains all declared data of both demands.
 Let
@@ -4552,96 +4653,90 @@ blocked.  Those semantic constructions belong to the subsequent branches of
 node~\([130]\).
 \end{remark}
 
-\begin{lemma}[Sparse pair dependence forces a blocker or an exit]\label[lemma]{lem:sparse-pair-dependence-exit}
+\begin{lemma}[Sparse pair quotient audit and admissible independence]\label[lemma]{lem:sparse-pair-dependence-exit}
 Let \(\mathcal A_0\) be a finite family of active surplus demands and let
 \(\Pi\subseteq\binom{\mathcal A_0}{2}\).  Suppose the coordinate family
 \[
 \mathcal R_\Pi=\{r_\pi:\pi\in\Pi\}
 \]
-does not survive every admissible rank quotient of
-\(\rho_{\partial X_\Pi}^{\rm ex}(X_\Pi)\).  Then either \(G\) has a sparse
-surplus exit in the sense of \cref{def:named-surplus-exits}, or some
-\(\pi\in\Pi\) has a sparse surplus blocker of type (d) or (e) in
-\cref{def:surplus-blockers}.
+is evaluated in \(\rho_{\partial X_\Pi}^{\rm ex}(X_\Pi)\).  A raw quotient
+proposal that identifies two distinct members of \(\mathcal R_\Pi\) either
+fails the boundary or context-universal audit, producing a record of type (d)
+or (e), or is admissible and carries the certified strictly smaller
+representative required by \cref{def:admissible-rank-quotient}.  In the latter
+case minimality gives a contradiction.  Consequently every admitted quotient
+is label-injective on \(\mathcal R_\Pi\).
 \end{lemma}
 
 \begin{proof}
-Choose a maximal subfamily \(\mathcal I\subseteq\mathcal R_\Pi\) that survives
-every admissible rank quotient.  Since \(\mathcal R_\Pi\) does not survive,
-there is a coordinate \(r_\pi\in\mathcal R_\Pi\setminus\mathcal I\).  The
-finite circuit argument of \cref{lem:target-rank-circuit}, applied to the
-declared coordinates \(\mathcal R_\Pi\), gives a subfamily
-\(\mathcal B\subseteq\mathcal I\) and an admissible quotient
-\[
-q:\rho_{\partial Z}^{\rm ex}(Z)\to Q
-\]
-on an inclusion-minimal connected determination support \(Z\subseteq X_\Pi\)
-which determines \(r_\pi\) from the coordinates in \(\mathcal B\).
+Let \(q\) identify distinct coordinates \(r_\pi\) and \(r_{\pi'}\).  If their
+boundary-degree functions differ, choose one unequal coordinate; together
+with the two compared states and their values this is exactly the type-(d)
+audit record.  Otherwise the boundary profile is preserved.  If some supplied
+outside context distinguishes their target responses, that context and the
+unequal response values form the type-(e) audit record.  This is precisely the
+negation of context-universal target completeness.
 
-If the determination attempts to identify states with different boundary degree
-profiles, then \cref{lem:degree-profile-fibres} forbids a target-complete
-identification.  The offending boundary-degree entry is a blocker of type (d).
-Thus assume the boundary degree profile is preserved.
-
-If the determination is not target-complete against all
-\(\partial Z\)-boundaried contexts, then by
-\cref{lem:context-universality} it is target-defective.  This is a sparse
-surplus exit of type (b), and the distinguishing target-response coordinate is
-also a blocker of type (e).
-
-Assume, therefore, that the quotient is target-complete.  If \(Z\subsetneq G\),
-then the admissibility rule of \cref{def:admissible-rank-quotient} supplies a
-strictly smaller proper representative \(Z'\) in the sense of
-\cref{def:proper-quotient-representative}.  The five defining properties of a
-proper representative are exactly the five hypotheses of the replacement lemma
-\cref{lem:replacement} for the support \(Z\).  Hence replacing \(Z\) by \(Z'\)
-would give a smaller counterexample, contradicting the minimality of \(G\).
-Equivalently, the dependence is a forbidden target-complete compression, which
-is a sparse surplus exit of type (c) and a blocker of type (e).
-
-It remains to consider \(Z=G\).  Then the quotient is a closed exact-profile
-quotient.  By the closed clause of \cref{def:admissible-rank-quotient}, a
-rank-reducing closed quotient is admissible only if it has a strictly smaller
-admissible closed representative \(H\).  By
-\cref{def:closed-quotient-representative}, \(H\) is finite, simple, strictly
-smaller than \(G\), and \(\delta(H)\ge3\).  Also
-\(\profile_\varnothing(H)\subseteq\profile_\varnothing(G)\).  If \(H\)
-contained a dyadic cycle, the empty closed context witnessing that dyadic cycle
-would lie in \(\profile_\varnothing(H)\).  It does not lie in
-\(\profile_\varnothing(G)\), because \(G\) is a counterexample with no dyadic
-cycle.  Hence \(H\) has no dyadic cycle, so \(H\) is a strictly smaller
-counterexample, contradicting minimality.  If no smaller closed representative
-exists, the quotient is label-injective on the declared coordinates under
-discussion and therefore cannot reduce the rank of \(\mathcal R_\Pi\), contrary
-to the choice of \(q\).  Thus the whole-graph case also produces a sparse
-surplus exit of type (d), represented concretely by the target-response
-coordinate of the failed global quotient.
+It remains to consider a proposal that passes both audits.  By
+\cref{def:admissible-rank-quotient}, a non-injective proposal is admitted as a
+rank reduction only together with a strictly smaller proper or closed
+representative.  The representative preserves the minimum-degree baseline and
+transports every target certificate back to \(G\).  Since \(G\) itself avoids
+the target, the representative also avoids it.  It is therefore a strictly
+smaller counterexample, contradicting the minimality of \(G\).  Thus an
+admitted proposal cannot identify two distinct coordinates.  Notice that this
+argument uses only the supplied representative certificate and minimality; it
+does not enumerate proposals, contexts, graphs, or paths.
 \end{proof}
 
-\begin{proposition}[Sparse pair independence/compression dichotomy]\label[proposition]{prop:sparse-pair-independence-dichotomy}
+\begin{definition}[Complete mixed Boolean-state realization]\label[definition]{def:sparse-mixed-cube-realization}
+Let \(\mathcal I\) be a finite family of declared Boolean target coordinates.
+A \emph{complete Boolean-state realization} of \(\mathcal I\) consists of a
+finite canonical family \(\mathcal S\) of target-complete states and a response
+map
+\[
+\operatorname{val}:\mathcal S\longrightarrow\{0,1\}^{\mathcal I}
+\]
+such that, for every assignment
+\(\varepsilon:\mathcal I\to\{0,1\}\), there is a state
+\(s\in\mathcal S\) with \(\operatorname{val}(s)=\varepsilon\).  The states
+are required to arise from the labelled graph class used in the skeleton
+count.  For a baseline family \(\mathcal I_{\rm spine}\) and a free-pair set
+\(\Pi_{\rm free}\), the \emph{mixed realization contract} is this datum for
+\[
+\mathcal I_{\rm spine}\cup\{r_\pi:\pi\in\Pi_{\rm free}\}.
+\]
+This is proof-carrying finite data.  Its verifier checks a supplied realization
+map; it does not generate the Boolean cube or enumerate labelled graphs.
+\end{definition}
+
+\begin{proposition}[Sparse pair quotient-rank dichotomy]\label[proposition]{prop:sparse-pair-independence-dichotomy}
 Let \(\mathcal A_0\) be a finite family of active surplus demands.  If \(G\)
 survives the sparse surplus exits and no pair in
 \(\binom{\mathcal A_0}{2}\) has a sparse surplus blocker, then the full family
 \[
 \{r_{\{p,q\}}:\{p,q\}\in\binom{\mathcal A_0}{2}\}
 \]
-is independently target-testable.
+is label-injective under every admitted rank quotient.  A complete Boolean-state
+realization in the sense of \cref{def:sparse-mixed-cube-realization} is a
+separate condition.
 \end{proposition}
 
 \begin{proof}
-If the displayed family were not independently target-testable, it would fail
-to survive some admissible rank quotient.  Applying
-\cref{lem:sparse-pair-dependence-exit} with
-\(\Pi=\binom{\mathcal A_0}{2}\) gives either a sparse surplus exit or a sparse
-surplus blocker for one of the pairs.  Both alternatives are excluded by
-hypothesis.  Hence no admissible quotient reduces the family, which is exactly
-independent target-testability in the sense of \cref{def:target-rank}.
+Apply \cref{lem:sparse-pair-dependence-exit} with
+\(\Pi=\binom{\mathcal A_0}{2}\).  The no-blocker hypothesis places every pair
+on the free side of the canonical ledger.  The conclusion is label injectivity
+for every admitted quotient.  Full realization of
+\(\{0,1\}^{\binom{\mathcal A_0}{2}}\) is not a consequence of label
+injectivity and is therefore retained as the separate contract of
+\cref{def:sparse-mixed-cube-realization}.
 \end{proof}
 
 \begin{corollary}[Entropy saturation of an unblocked surplus family]\label[corollary]{cor:sparse-pair-entropy-saturation}
 Let \(\mathcal A_0\) be a finite family of active surplus demands.  If \(G\)
 survives the sparse surplus exits and no pair in
-\(\binom{\mathcal A_0}{2}\) has a sparse surplus blocker, then
+\(\binom{\mathcal A_0}{2}\) has a sparse surplus blocker.  Suppose also that
+the pair-response family has a complete Boolean-state realization.  Then
 \[
 \binom{|\mathcal A_0|}{2}
 \le
@@ -4654,9 +4749,9 @@ In particular, using \cref{lem:sparse-upper-envelope},
 \end{corollary}
 
 \begin{proof}
-By \cref{prop:sparse-pair-independence-dichotomy}, all pair-response
-coordinates indexed by \(\binom{\mathcal A_0}{2}\) are independently
-target-testable.  \Cref{lem:independent-target-entropy,lem:skeleton-dominates}
+The complete Boolean-state realization makes all pair-response coordinates
+indexed by \(\binom{\mathcal A_0}{2}\) independently target-testable.
+\Cref{lem:independent-target-entropy,lem:skeleton-dominates}
 therefore give
 \[
 2^{\binom{|\mathcal A_0|}{2}}
@@ -4769,7 +4864,7 @@ claim.  Finally,
 where \(2m_0-3n\in\{0,1\}\).  Hence \(s\le\sigma(G)/2+1\).
 \end{proof}
 
-\begin{lemma}[Mixed sparse-spine dependence forces compression or a blocker]\label[lemma]{lem:mixed-sparse-spine-dependence}
+\begin{lemma}[Mixed sparse-spine quotient audit]\label[lemma]{lem:mixed-sparse-spine-dependence}
 Let \(\mathcal A_0\) be a finite family of active surplus demands, let
 \(\mathcal I_{\rm spine}\) be any family of declared baseline spine
 coordinates, and put
@@ -4777,55 +4872,52 @@ coordinates, and put
 \mathcal R_{\mathcal A_0}=
 \{r_{\{p,q\}}:\{p,q\}\in\binom{\mathcal A_0}{2}\}.
 \]
-If the union
+Let \(q\) be a raw quotient proposal on the exact response profile carrying
 \[
-\mathcal I_{\rm spine}\cup\mathcal R_{\mathcal A_0}
+\mathcal I_{\rm spine}\cup\mathcal R_{\mathcal A_0}.
 \]
-is not independently target-testable, then either \(G\) has a sparse surplus
-exit, or some pair \(\{p,q\}\subseteq\mathcal A_0\) has a sparse surplus
-blocker of type (d) or (e) in \cref{def:surplus-blockers}.
+If \(q\) is rank-reducing on this family, then a boundary-profile or
+context-universality failure supplies sparse surplus exit~(b), a certified
+proper target-complete reduction supplies sparse surplus exit~(c), and a
+certified closed target-complete reduction supplies a strictly smaller
+admissible closed representative.  Consequently, in a lexicographically
+minimal counterexample surviving the sparse surplus exits, every functional
+admissible rank quotient is label-injective on the displayed family.
 \end{lemma}
 
 \begin{proof}
-Apply the circuit extraction lemma \cref{lem:target-rank-circuit} to the
-declared coordinate family
-\(\mathcal I_{\rm spine}\cup\mathcal R_{\mathcal A_0}\).  Choose an
-inclusion-minimal determination certificate for the first coordinate whose
-label-injectivity fails after a maximal independent subfamily is fixed.
-
-If the determination attempts to identify states with different boundary degree
-profiles, then \cref{lem:degree-profile-fibres} forbids a target-complete
-identification.  If the determined coordinate is a pair coordinate
-\(r_{\{p,q\}}\), the offending boundary-degree entry is a blocker of type (d);
-otherwise it is a sparse surplus exit of type (b), because a non-fibrewise
-quotient is target-defective.
+If the proposal identifies states with different boundary degree profiles,
+then \cref{lem:degree-profile-fibres} forbids a target-complete identification.
+If the determined coordinate is a pair coordinate \(r_{\{p,q\}}\), the
+offending boundary-degree entry is the raw type-(d) audit record.  In every
+case the non-fibrewise quotient is target-defective, which is sparse surplus
+exit~(b).
 
 Assume from now on that the boundary degree profile is preserved.  If the
-quotient is not target-complete against all contexts, then
-\cref{lem:context-universality} makes it target-defective.  This is a sparse
-surplus exit of type (b).  If the determined coordinate is \(r_{\{p,q\}}\), the
-distinguishing target-response coordinate is also a blocker of type (e).
+proposal is not target-complete against all contexts, then
+\cref{lem:context-universality} makes it target-defective.  This is sparse
+surplus exit~(b).  For a pair coordinate, the supplied distinguishing context
+is exactly the raw type-(e) audit record routed by that exit.
 
-It remains that the quotient is target-complete.  If its determination support
-is proper in \(G\), then admissibility supplies a strictly smaller proper
-representative in the sense of \cref{def:proper-quotient-representative}; by
-\cref{lem:replacement,cor:uncompressible} this is impossible in the minimal
-counterexample.  Thus the attempted correlation is a sparse surplus exit of
-type (c), and, for a pair coordinate, a blocker of type (e).
+It remains that the proposal is target-complete.  If its support is proper in
+\(G\), then admissibility requires a strictly smaller proper representative in
+the sense of \cref{def:proper-quotient-representative}.  By
+\cref{lem:replacement,cor:uncompressible}, this is impossible in the minimal
+counterexample and is sparse surplus exit~(c).
 
 If the support is all of \(G\), the closed exact-profile clause of
 \cref{def:admissible-rank-quotient} applies.  A non-injective closed quotient
 is admissible only when represented by a strictly smaller admissible closed
-graph \(H\).  Then \(H\) is finite, simple, satisfies \(\delta(H)\ge3\), and
-has closed profile contained in \(\profile_\varnothing(G)\).  A dyadic cycle in
-\(H\) would add the corresponding empty-context target event to
+graph \(H\).  Then \(H\) is finite and simple, satisfies \(\delta(H)\ge3\),
+and has closed profile contained in \(\profile_\varnothing(G)\).  A dyadic
+cycle in \(H\) would add the corresponding empty-context target event to
 \(\profile_\varnothing(H)\), impossible because
 \(\profile_\varnothing(G)\) contains no such event.  Hence \(H\) is a strictly
 smaller counterexample, contradicting minimality.  If no such representative
-exists, the quotient is label-injective on the declared coordinates under
-discussion and therefore is not a rank reduction.  Hence every genuine mixed
-dependence produces either a sparse surplus exit or, when a pair coordinate is
-involved, a blocker of type (d) or (e).
+exists, the proposal is not an admissible rank reduction.  Thus every
+functional admissible rank quotient in a surviving minimal counterexample is
+label-injective on the declared family.  This conclusion concerns quotient
+rank only; it does not assert that all Boolean response vectors are realized.
 \end{proof}
 
 \begin{proposition}[Entropy sandwich for independent surplus pairs]\label[proposition]{prop:sparse-entropy-sandwich}
@@ -4833,7 +4925,13 @@ Let \(\mathcal A_0\) be a finite family of active surplus demands.  Suppose
 \(G\) survives the sparse surplus exits and no pair in
 \(\binom{\mathcal A_0}{2}\) has a sparse surplus blocker.  Suppose also that
 there is a baseline spine demand \(\mathcal I_{\rm spine}\) with deficit
-\(E_{\rm spine}(n)\).  Then
+\(E_{\rm spine}(n)\), and suppose that the mixed family
+\[
+\mathcal I_{\rm spine}\cup
+\{r_{\{p,q\}}:\{p,q\}\in\tbinom{\mathcal A_0}{2}\}
+\]
+has a complete Boolean-state realization in the sense of
+\cref{def:sparse-mixed-cube-realization}.  Then
 \[
 \binom{|\mathcal A_0|}{2}
 \le
@@ -4847,13 +4945,12 @@ Consequently, if \(E_{\rm spine}(n)=O(n)\) and
 \end{proposition}
 
 \begin{proof}
-By \cref{lem:mixed-sparse-spine-dependence}, the union
+The supplied mixed realization makes the union
 \[
 \mathcal I_{\rm spine}\cup
 \{r_{\{p,q\}}:\{p,q\}\in\binom{\mathcal A_0}{2}\}
 \]
-is independently target-testable; otherwise a sparse exit or a sparse blocker
-would occur, contrary to the hypotheses.  Therefore
+independently target-testable.  Therefore
 \cref{lem:independent-target-entropy,lem:skeleton-dominates} give
 \[
 |\mathcal I_{\rm spine}|+\binom{|\mathcal A_0|}{2}
@@ -4887,7 +4984,12 @@ Let \(\mathcal A_0\) be a finite family of active surplus demands, and let
 \(\Pi_{\rm free}\) be the unblocked pair set from
 \cref{def:canonical-blocker-ledger}.  Suppose \(G\) survives the sparse surplus
 exits and that there is a baseline spine demand \(\mathcal I_{\rm spine}\) with
-deficit \(E_{\rm spine}(n)\).  Then
+deficit \(E_{\rm spine}(n)\).  Suppose also that
+\[
+\mathcal I_{\rm spine}\cup\{r_\pi:\pi\in\Pi_{\rm free}\}
+\]
+has a complete Boolean-state realization in the sense of
+\cref{def:sparse-mixed-cube-realization}.  Then
 \[
 |\Pi_{\rm free}|
 \le
@@ -4896,28 +4998,14 @@ E_{\rm spine}(n)+\left(\frac12\sigma(G)+1\right)\log_2 n.
 \end{proposition}
 
 \begin{proof}
-Consider the declared coordinate family
+The mixed-realization contract applies to the declared coordinate family
 \[
 \mathcal I_{\rm spine}\cup\{r_\pi:\pi\in\Pi_{\rm free}\}.
 \]
-If this family is not independently target-testable, apply the finite circuit
-extraction argument of \cref{lem:target-rank-circuit} to an
-inclusion-minimal determination support for a first dependent coordinate.  The
-same alternatives as in \cref{lem:mixed-sparse-spine-dependence} occur.  A
-boundary-degree-profile failure gives a sparse surplus exit unless the
-dependent coordinate is a pair coordinate, in which case it gives a blocker of
-type (d).  A failure of context-universality gives a sparse surplus exit unless
-the dependent coordinate is a pair coordinate, in which case it gives a blocker
-of type (e).  A target-complete proper support contradicts
-\cref{lem:replacement,cor:uncompressible}; this is the sparse surplus exit of
-type (c), and for a pair coordinate also a blocker of type (e).  A closed
-whole-graph quotient is either represented by a smaller admissible closed graph,
-contradicting minimality, or is label-injective on the declared coordinates and
-therefore not a rank reduction.  Thus any dependence gives a sparse surplus
-exit or a blocker for some pair in \(\Pi_{\rm free}\).  Both are impossible:
-the graph survives the sparse surplus exits, and pairs in \(\Pi_{\rm free}\)
-have no sparse surplus blocker by definition.  Hence the displayed coordinate
-family is independently target-testable.
+It therefore realizes every Boolean response vector and is independently
+target-testable.  The definition of \(\Pi_{\rm free}\) separately excludes
+every admitted structural blocker; no property of the blocked branch is used
+in the realization contract.
 
 By \cref{lem:independent-target-entropy,lem:skeleton-dominates},
 \[
@@ -5107,8 +5195,10 @@ r:=\sigma_R/n,\qquad
 s:=\sigma(G)/n=w+r .
 \]
 For each subtype \(u\in\{RW,WW,R,V,I,P\}\), let \(S_u\) be the number of
-capacity tokens of subtype \(u\), and let \(B_u\) be the number of blocked
-pairs assigned to such tokens.  Then:
+capacity tokens of subtype \(u\), and let \(B_u\) be the number of all active
+pairs whose total token \(\widehat\Theta\) has subtype \(u\).  Thus free-anchor
+pairs contribute to subtype \(P\), while blocked pairs contribute to the
+subtype of their canonical capacity token.  Then:
 \begin{enumerate}[label=(\alph*), leftmargin=2.2em]
 \item The subtype supplies are exact:
 \[
@@ -5125,10 +5215,10 @@ P & \sigma(G) & s
 \]
 where \(0\le x\le(15\theta+w)/2\), \(0\le\theta\le1/13\), and
 \(0\le s\le1\).
-\item The blocked-pair demand has the exact subtype split
+\item The complete pair demand has the exact subtype split
 \[
 B_{RW}+B_{WW}+B_R+B_V+B_I+B_P
-=|\Pi_{\rm blk}|\ge N_*(G).
+=\binom{\sigma(G)}2\ge N_*(G).
 \]
 \item The total token supply and total role-fibre slot supply are
 \[
@@ -5189,12 +5279,17 @@ Since \(\sigma(G)=2m-3n\), one has \(2m=3n+\sigma(G)\), giving
 follow respectively from the vertex-disjointness of the packed \(P_{13}\)
 windows and from \cref{lem:sparse-upper-envelope}.
 
-The map \(\Theta_{\rm cap}\) assigns every blocked pair to exactly one capacity
-token by \cref{def:capacity-token-ledger}.  The six subtypes listed in
+The total map \(\widehat\Theta\) assigns every active pair to exactly one
+capacity token by \cref{def:total-surplus-pair-token-route}.  Its blocked side
+is \(\Theta_{\rm cap}\), and its free side is the first selected surplus port,
+which has subtype \(P\).  The six subtypes listed in
 \cref{def:same-token-blocker-roles} partition the capacity-token universe.
-Thus the subtype fibres partition \(\Pi_{\rm blk}\).  The lower bound
-\(|\Pi_{\rm blk}|\ge N_*(G)\) is
-\cref{thm:sharp-classwise-homogeneous-token-budget}.
+Hence their fibres partition the complete active-pair family.  Since
+\(|\mathcal A_0|=\sigma(G)\),
+\cref{lem:total-pair-token-route-no-overcount} gives
+\[
+\sum_u B_u=\binom{\sigma(G)}2\ge N_*(G).
+\]
 
 Summing the six supply rows gives
 \[
@@ -5236,14 +5331,17 @@ The displayed global lower bound follows by monotonicity of \(\psi\).
 \end{proof}
 
 \begin{definition}[Same-token routing germs]\label[definition]{def:same-token-routing-germs}
-Let \(t\in\mathfrak T_{\rm cap}\), let \(r\in\mathfrak R_{\rm st}\), and let
-\(\pi=\{p,q\}\in\Pi_{t,r}\).  The \emph{same-token routing support}
+Let \(t\in\mathfrak T_{\rm cap}\), let
+\(r\in\widehat{\mathfrak R}_{\rm st}\), and let
+\(\pi=\{p,q\}\in\widehat\Pi_{t,r}\).  The \emph{same-token routing support}
 \[
 Z(\pi;t,r)
 \]
-is constructed from the token support, the declared support of the tagged
-canonical blocker \(\Phi_{\rm can}(\pi)\), and
-\(\Gamma(p),\Gamma(q)\).  Order these finite supports and all their connected
+is constructed from the token support and \(\Gamma(p),\Gamma(q)\), together
+with the declared support of the tagged canonical blocker
+\(\Phi_{\rm can}(\pi)\) on the blocked-role branch.  On the
+\(\mathsf{freeAnchor}\) branch, use instead the canonical connector support
+\(X_\pi\) already retained at node~[130].  Order these finite supports and all their connected
 components by their declared labels, start with the first component, and join
 each subsequent component by \(J_G\) from
 \cref{def:sparse-canonical-connector}.  The resulting connected BFS closure is
@@ -5273,15 +5371,17 @@ terminal role of each canonical germ in
 \(\{\mathsf{leftShoulder},\mathsf{rightShoulder},\mathsf{buffer}\}\), the
 boundary-degree profile of the bounded port supports \(T(p),T(q)\), the
 \(P_{13}\)-label entries appearing in the bounded part of the support, and the
-suppressed-chord flag when the blocker has type (f).  These labels form a
+suppressed-chord flag when the blocked role has type (f), and a distinct
+free-anchor flag otherwise.  These labels form a
 finite set; denote its cardinality by \(Q_{\rm geom}\).
 \end{definition}
 
 \begin{lemma}[Same-token bottleneck routing]\label[lemma]{lem:same-token-bottleneck-routing}
 Assume \(G\) survives the sparse surplus exits of
 \cref{def:named-surplus-exits}.  Let \(t\in\mathfrak T_{\rm cap}\) and
-\(r\in\mathfrak R_{\rm st}\).  If a role-homogeneous same-token matching or
-star in the role-fibre graph \(H_{t,r}\) has more than \(Q_{\rm geom}\) edges,
+\(r\in\widehat{\mathfrak R}_{\rm st}\).  If a total-role-homogeneous
+same-token matching or star in \(\widehat H_{t,r}\) has more than
+\(Q_{\rm geom}\) edges,
 then one of the following occurs:
 \begin{enumerate}[label=(\alph*), leftmargin=2.2em]
 \item a sparse surplus exit occurs; or
@@ -5297,8 +5397,10 @@ Let \(\mathcal M\) be the matching or star.  Since there are only
 a star, choose the two noncentral endpoints of \(\pi_1\) and \(\pi_2\); if
 \(\mathcal M\) is a matching, choose an endpoint from each edge.  In both cases
 we obtain two distinct selected surplus demands whose connector data have the
-same token, the same blocker type, the same token subtype, and the same
-boundary-degree fibre.
+same token, the same total role, and the same boundary-degree fibre.  On a
+blocked-role fibre this includes the same blocker type and token subtype.  On
+the free-anchor fibre the common token is literally the first selected port
+of every pair, so the selected edges already form a star at that port.
 
 Consider the two canonical routing germs from the token root \(c(t)\) toward
 those two selected demands.  If the germs are parallel, then the two declared response
@@ -5377,7 +5479,7 @@ spine demand with \(E_{\rm spine}(n)\le C_E n\).  Put
 \[
 L_{\rm geom}:=Q_{\rm geom}+1 .
 \]
-Then every role-homogeneous same-token matching or star of size
+Then every total-role-homogeneous same-token matching or star of size
 \(L_{\rm geom}\) in the window-incidence, remainder-surplus, or
 primitive-carrier token classes realizes either a sparse surplus exit or a
 decorated Type B handoff fan envelope.
@@ -5402,10 +5504,11 @@ to the role fibre containing the alleged matching or star.
 
 If sparse exits are absent and decorated Type B handoff data have already been
 routed to the Type B fan ledger, the first assertion says that no capacity
-token in any of the three classes can support a role-homogeneous same-token
+token in any of the three classes can support a total-role-homogeneous same-token
 \(L_{\rm geom}\)-matching or \(L_{\rm geom}\)-star.  Therefore the hypotheses
-of \cref{cor:homogeneous-same-token-caps-close} hold with
-\(L_W=L_R=L_P=L_{\rm geom}\).  That corollary gives
+of the bounded alternative in
+\cref{prop:single-graph-sparse-pressure-routing} hold with
+\(L_W=L_R=L_P=L_{\rm geom}\).  That alternative gives
 \(\sigma(G)=O(\sqrt n)\).  Since
 \[
 m=\frac32n+\frac12\sigma(G)
@@ -5477,20 +5580,20 @@ every node/.style={font=\scriptsize}
 \draw[arr] (tq.east)--(caps.west);
 \end{tikzpicture}%
 }
-\caption[Visual definition of the homogeneous same-token bottleneck]{Visual definition of the homogeneous same-token bottleneck.  Panel I shows blocked active surplus pairs assigned by the capacity-token map to one overloaded token \(t\in\mathfrak T_{\rm cap}\).  The role partition of the fibre over \(t\) produces a role \(r\) for which the same-token role graph \(H_{t,r}\) contains a large matching or a large star.  Panel II displays the two possible homogeneous patterns: every shown edge has the same token \(t\) and the same role \(r\).  Panel III shows the geometric routing of two selected demands from the same homogeneous pattern.  Parallel routing germs give one of the quotient, compression, or delocalization exits already included among the sparse surplus exits.  If the germs first separate at a high-degree vertex \(z\), the separated tails form decorated Type B handoff fan data.  When neither a sparse surplus exit nor Type B fan data remains, all three token classes have fixed homogeneous caps, and \cref{cor:homogeneous-same-token-caps-close} gives \(\sigma(G)=O(\sqrt n)\).}
+\caption[Visual definition of the homogeneous same-token bottleneck]{Visual definition of the homogeneous same-token bottleneck.  Panel I shows active surplus pairs assigned by the total token map to one overloaded token \(t\in\mathfrak T_{\rm cap}\).  The total-role partition of the fibre over \(t\) produces a role \(r\) for which \(\widehat H_{t,r}\) contains a large matching or a large star.  Panel II displays the two possible homogeneous patterns: every shown edge has the same token \(t\) and the same total role \(r\).  Panel III shows the geometric routing of two selected demands from the same homogeneous pattern.  Parallel routing germs give one of the quotient, compression, or delocalization exits already included among the sparse surplus exits.  If the germs first separate at a high-degree vertex \(z\), the separated tails form decorated Type B handoff fan data.  When neither a sparse surplus exit nor Type B fan data remains, all three token classes have fixed homogeneous caps, and \cref{cor:homogeneous-same-token-caps-close} gives \(\sigma(G)=O(\sqrt n)\).}
 \label{fig:same-token-bottleneck-gadget}
 \end{figure}
 
 \begin{remark}[Exact surplus frontier]\label[remark]{rem:surplus-pair-sharp-frontier}
 The sparse surplus bookkeeping has no disjointness loss.  The active family is
 \(\mathcal A_0=\mathcal P_{\rm exc}\) by
-\cref{lem:surviving-active-family}.  Free pairs are charged by
-\cref{prop:sparse-entropy-sandwich-with-blockers}.  Blocked pairs are assigned a
+\cref{lem:surviving-active-family}.  Free pairs use the free-anchor route of
+\cref{def:total-surplus-pair-token-route}.  Blocked pairs are assigned a
 canonical blocker and then one capacity token by
-\cref{def:capacity-token-ledger}.  The token fibres partition the blocked-pair
-set by \cref{lem:token-ledger-no-overcount}.  Therefore any attempted
+\cref{def:capacity-token-ledger}.  The total token--role fibres partition the
+complete pair set by \cref{lem:total-pair-token-route-no-overcount}.  Therefore any attempted
 non-near-cubic surplus survivor must first pass through one of the six subtype
-loads in \cref{thm:sharp-surplus-overload-audit}, grouped into the three
+total loads in \cref{thm:sharp-surplus-overload-audit}, grouped into the three
 diagram classes \(W=\{RW,WW\}\), \(R=\{R\}\), and \(P=\{V,I,P\}\).  A large
 load in any one of those fibres is not terminal:
 \cref{thm:homogeneous-overload-geometric-closure} routes it to a sparse surplus
@@ -5506,7 +5609,7 @@ sparse-pressure audit has only the following outcomes:
 \item \(G\) satisfies the near-cubic spine estimate
 \(\sigma(G)=O(\sqrt n)\);
 \item a sparse surplus exit occurs; or
-\item a role-homogeneous same-token bottleneck produces decorated Type B fan
+\item a total-role-homogeneous same-token bottleneck produces decorated Type B fan
 data and is routed to the Type B fan ledger.
 \end{enumerate}
 In particular, the window-incidence, remainder-surplus, and primitive-carrier
@@ -5517,10 +5620,11 @@ same-token classes are not terminal non-near-cubic leaves.
 If a sparse surplus exit occurs, there is nothing to route.  Otherwise
 \cref{lem:surviving-active-family} gives
 \(\mathcal A_0=\mathcal P_{\rm exc}\), and
-\cref{prop:sparse-entropy-sandwich-with-blockers} supplies the free-pair
-entropy bound used in \(N_*(G)\).  The blocked-pair ledger and token ledger are
-exact by
-\cref{lem:canonical-blocker-ledger-no-overcount,lem:token-ledger-no-overcount}.
+\cref{lem:total-pair-token-route-no-overcount} supplies the exact complete
+pair demand used in the classwise overload audit.  The blocked-pair ledger
+and its capacity-token subroute are exact by
+\cref{lem:canonical-blocker-ledger-no-overcount,lem:token-ledger-no-overcount},
+and the free pairs enter the primitive selected-port class.
 
 Apply \cref{thm:homogeneous-overload-geometric-closure}.  If no homogeneous
 same-token pattern reaches size \(L_{\rm geom}\), the fixed caps
@@ -5528,7 +5632,7 @@ same-token pattern reaches size \(L_{\rm geom}\), the fixed caps
 \cref{cor:homogeneous-same-token-caps-close} gives
 \(\sigma(G)=O(\sqrt n)\).  If such a pattern exists, then
 \cref{lem:same-token-bottleneck-routing} gives either a sparse surplus exit or
-decorated Type B handoff data.  The subtype identity in
+decorated Type B handoff data.  The total subtype identity in
 \cref{thm:sharp-surplus-overload-audit} records where the load came from:
 \(RW\) and \(WW\) are window-incidence loads, \(R\) is a remainder-surplus
 load, and \(V,I,P\) are primitive-carrier loads.  In all cases the load is
@@ -5747,6 +5851,13 @@ q:\rho_T^{\rm ex}(X)\longrightarrow Q
 \]
 which preserves the boundary degree profile and is target-complete against all
 $T$-boundaried contexts in the sense above.
+
+A map on the finite coordinate labels is first a \emph{raw quotient proposal}.
+It becomes an admissible rank quotient only after the two preservation
+properties above and the representative clause below have been certified.
+Thus a boundary-profile mismatch and a distinguishing outside context are
+audit failures of a raw proposal, not branches of an already admissible
+quotient.
 
 If \(X\subsetneq G\), then a rank-reducing admissible quotient must be
 represented by a strictly smaller proper representative in the sense of
@@ -7487,10 +7598,33 @@ W=\bigcup_{P\in\mathcal P}V(P),
 \qquad
 R=G-W.
 \]
+\begin{definition}[Exact \(P_{13}\)-remainder residual]\label[definition]{def:p13-remainder-residual}
+The finite output carried from the window-density branch into Residual A is an
+integer window ceiling \(U_{13}\) together with the packing certificate
+\[
+p_{13}\le U_{13}.
+\]
+Put \(L_R:=n-13U_{13}\), with natural-number truncated subtraction.
+Residual A retains this certificate, the selected maximum packing, and its
+literal complement \(R=G-W\).  Since the packed supports are pairwise disjoint,
+\[
+|R|+13p_{13}=n,
+\]
+and therefore the local meaning of ``\(R\) is large'' is the exact conclusion
+\[
+L_R=n-13U_{13}\le |R|.
+\]
+The same tuple crosses unchanged from node~[25] to node~[26].  No packing,
+remainder, or size parameter is selected again at that panel boundary.
+\end{definition}
+
 By the near-cubic window-only part of \cref{prop:p13-density},
 \[
 |R|\ge0.83489768623\ldots n-o(n).
 \]
+Equivalently, the density branch supplies a choice of \(U_{13}\) with
+\(n-13U_{13}\ge0.83489768623\ldots n-o(n)\); the exact local handoff itself
+uses only the certified natural-number packing inequality.
 By the maximality of $\mathcal P$, the graph $R$ contains no induced $P_{13}$, since any such copy would extend $\mathcal P$; hence every component of $R$ is $P_{13}$-free.  We claim that no component of $R$ contains a subgraph of minimum degree at least $3$.  Indeed, suppose $H\subseteq R$ had $\delta(H)\ge3$.  Passing to the induced subgraph $G[V(H)]\supseteq H$ only adds edges, so $\delta(G[V(H)])\ge\delta(H)\ge3$; and $G[V(H)]$, being an induced subgraph of a $P_{13}$-free component of $R$, is itself $P_{13}$-free.  By \cref{thm:p13free}, $G[V(H)]$ then contains a power-of-two cycle, which is also a cycle of $G$, contradicting that $G$ is a counterexample.
 
 \begin{figure}[t]
@@ -8139,53 +8273,38 @@ s=p-2+2\beta_Z-\sigma_Z. \qedhere
 \]
 \end{proof}
 
-\begin{lemma}[No silent global delocalization]\label[lemma]{lem:no-silent-global-smearing}
+\begin{lemma}[No silent whole-support delocalization]\label[lemma]{lem:no-silent-global-smearing}
 Let a curvature target-dependence have inclusion-minimal connected support equal
-to the whole graph $G$.  Then any attempted rank-reducing quotient is either
-target-defective, represented by a strictly smaller admissible closed
-representative, or exact on the raw curvature labels.  In particular, a
-target-complete
-whole-graph dependence cannot silently reduce atom curvature rank.
+to the whole graph $G$, and let
+\(q:\rho_\varnothing^{\rm ex}(G)\to Q\) be the functional admissible rank
+quotient in its determination certificate.  Then \(q\) is injective on the
+declared raw curvature coordinates.  In particular, no proper curvature
+rank-drop dependence has whole support.
 \end{lemma}
 
 \begin{proof}
-Let $q:\rho_\varnothing^{\rm ex}(G)\to Q$ be the quotient of the closed exact
-response profile which witnesses the proposed dependence in the sense of
-\cref{def:curvature-target-dependence}.  Since the support is all of $G$, the
-boundary is empty and the only actual outside context is the empty graph.
-\Cref{def:admissible-rank-quotient} is the rule that prevents this empty context
-from identifying all coordinates vacuously.
+The quotient \(q\) is not a raw proposal: admissibility is part of the
+determination certificate in
+\cref{def:curvature-target-dependence,def:admissible-rank-quotient}.  Hence its
+boundary-profile and target-response obligations have already been checked on
+the fixed finite exact response system.  Since \(T=\varnothing\), there is no
+additional outside-support family to enumerate at this node.
 
-If the attempted quotient is not target-complete, then it is target-defective
-by definition and cannot witness a target-dependence.  This is the
-target-defect exit used elsewhere in the proof, so it is not a surviving global
-rank reduction.
-
-Assume next that $q$ is target-complete and has a strictly smaller admissible
-closed representative $G_q$ in the sense of
-\cref{def:closed-quotient-representative}.  Thus \(G_q\) is finite and simple,
-\(\delta(G_q)\ge3\), and
+Suppose that \(q\) were not injective on the declared raw coordinates.  The
+closed clause of \cref{def:admissible-rank-quotient} then supplies a strictly
+smaller admissible closed representative \(G_q\).  It is finite and simple,
+has minimum degree at least \(3\), and satisfies
 \(\profile_\varnothing(G_q)\subseteq\profile_\varnothing(G)\).  If \(G_q\)
-contained a dyadic cycle, then
-the empty \(\varnothing\)-boundaried context would belong to
-\(\profile_\varnothing(G_q)\).  The same empty context does not belong to
-\(\profile_\varnothing(G)\), because \(G\) has no dyadic cycle.  This would
-contradict \(\profile_\varnothing(G_q)\subseteq\profile_\varnothing(G)\).
-Hence \(G_q\) has no dyadic cycle.  Thus \(G_q\) is a strictly smaller
-counterexample, contradicting the lexicographic minimality of \(G\).
-
-It remains that $q$ is target-complete and has no smaller closed representative.
-By the closed clause in \cref{def:admissible-rank-quotient}, such a quotient is
-label-injective on the raw curvature coordinates of
-\(\rho_\varnothing^{\rm ex}(G)\).  Therefore it neither forgets a raw curvature
-coordinate nor identifies two distinct raw curvature coordinates.  It can record
-exact global response data, but it is not curvature-rank-reducing.  This
-contradicts the assumption that the whole-graph dependence reduced
-\(r_\Omega\).
+contained a dyadic cycle, its empty-context target response would also occur
+in \(G\), contrary to the choice of \(G\).  Thus \(G_q\) is a strictly smaller
+counterexample, contradicting lexicographic minimality.  Therefore \(q\) is
+injective.  A proper rank drop would identify distinct declared raw
+coordinates by \cref{lem:target-rank-circuit}, so no such whole-support
+dependence remains.
 \end{proof}
 
-\begin{lemma}[Forcing of full curvature rank]\label[lemma]{lem:full-rank}
-In a minimal counterexample,
+\begin{lemma}[Forcing of full admissible quotient-rank]\label[lemma]{lem:full-rank}
+In a minimal counterexample, the manuscript's admissible quotient-rank satisfies
 \[
 r_\Omega(R)\ge W_2(R)-o(W_2(R)).
 \]
@@ -8216,12 +8335,11 @@ again excludes it.
 
 It remains that the inclusion-minimal support is $Z=G$.  Then the dependence
 becomes context-universal only globally.  By
-\cref{lem:no-silent-global-smearing}, such a global dependence either creates a
-target cycle, creates a replacement, or contributes exact non-identifying
-global response data.  The first two alternatives contradict the counterexample
-condition and minimality; the third does not identify two distinct local
-curvature tests and hence is not a proper target-dependence.  Thus no proper
-target-dependence survives.  By \cref{lem:target-rank-circuit}, the raw
+\cref{lem:no-silent-global-smearing}, its already-admitted quotient is
+injective on the declared raw curvature coordinates.  It therefore cannot
+identify two distinct local curvature tests, so no proper admissible
+target-dependence survives.
+By \cref{lem:target-rank-circuit}, the raw
 curvature tests have no admissible rank loss.  Hence
 \[
 r_\Omega(R)=W_2(R),
@@ -13093,6 +13211,9 @@ A \emph{Type B bridge residual} is either:
 \begin{enumerate}[label=(\roman*), leftmargin=2.2em]
 \item a connected assigned Type B support containing a fan-certificate residual
 center of \cref{def:marked-typeB-fan}; or
+\item a connected assigned Type B support containing a certificate-marked
+center for which no certificate-tied certificate-closed or positive-deficit
+local entry is available; or
 \item a connected assigned Type B support in which the local B1 entries have
 been supplied, the support assignment has been made maximal, and the
 disjoint-carrier part of B2 fails; or
@@ -13102,11 +13223,11 @@ be closed by the center tokens of its core--center incidence component.
 exist but the boundary demand strictly exceeds the available processed
 quarter-charge slots.
 \end{enumerate}
-In cases (ii) and (iii), the support contains a minimal Type B overlap
+In cases (iii) and (iv), the support contains a minimal Type B overlap
 obstruction in the sense of \cref{def:typeB-overlap-obstruction}; by
 \cref{prop:typeB-global-local-bridge}, that obstruction carries the
 global-to-local constraints of \cref{lem:typeB-global-local-reflection}.
-Case~(iv) is a separate arithmetic residual.  Its deficit is bounded by
+Case~(v) is a separate arithmetic residual.  Its deficit is bounded by
 \textup{(B-boundary-size)} and is not identified with an overlap obstruction.
 \end{definition}
 
@@ -13700,6 +13821,22 @@ An unlabeled fan center remaining in the certificate-closed local calculation.
 &
 [80]\(\to\)[84]\\
 \addlinespace
+Exact local-entry resolution
+&
+For each marked center, the local entry must use the certificate fixed at
+node [80].  The finite resolution either supplies such an entry for every
+center or returns an actual center whose exact certificate has no verified
+certificate-closed or positive-deficit entry.
+&
+An exact certificate-tied local entry at every marked center before the B2
+completion is attempted.
+&
+Replacing the node-[80] certificate by another witness, or assuming that an
+empty local-entry fibre is inhabited.  Either failure is retained as a bridge
+residual and routed to [84].
+&
+[80]\(\to\)[81]\(\to\)[84]\\
+\addlinespace
 Direct dyadic-cycle exclusions
 &
 Any same-window single label gap in \(\{2,6\}\) gives a \(4\)- or \(8\)-cycle.
@@ -13749,8 +13886,9 @@ B1 pays one fan at a time.  To sum several degree-four fan entries, their
 candidate entries and half-incidence carriers must be pairwise disjoint and
 disjoint from the ordinary deficiency reserve.
 &
-A refined disjoint Type B ledger for all degree-four fan demands in the support.
-If it exists, the support has \(\No(X)\ge0\) outside route 8.
+A refined disjoint Type B ledger for all degree-four fan demands in the
+support.  If it exists, exact post-ledger accounting gives either nonnegative
+assigned charge or a literal negative remaining core routed to route 8.
 &
 Double-use of a vertex, incidence carrier, or ordinary deficiency-reserve unit
 inside the asserted summed ledger.
@@ -17107,7 +17245,7 @@ Ordered by how much the proof loses if that single leaf fails with no redundant 
 \item \textbf{Redundantly covered or routed forward:} {[30]} curvature demand (covered by {[60]} net-charge, about $4.1\times$ slack); {[60]} net-charge (covered by {[30]}, about $9.6\%$ slack); {[32]}/{[47]} \texttt{fullrank} (covered by Branch~D); {[50]}/{[54]} entropy routing (high-entropy and repetitive low-entropy subcases add information, while nonrepetitive low entropy is routed to net charge); {[123]} branch-kill outside explicit residuals.
 \item \textbf{Closed or bounded by auxiliary bookkeeping:} {[23]} \texttt{overflow} via the quiet-block accounting in \cref{lem:app-dense-window-closure}; {[45]} \texttt{globalterm} by the main global-smearing lemma, recorded again in \cref{lem:app-global-smearing-closure}.  The route-8 Type A branch is reduced to the terminal two-carrier obstruction by the canonical carrier-core ledger of \cref{prop:typeA-route8-carrier-reduction}, supplied with declared deletion witnesses by \cref{lem:typeA-essential-deletion-witness,lem:typeA-deletion-witness-declared}, and closed at node {[124]} because two-carrier declared deletion quotients are canonical exit-(4) quotients by \cref{lem:typeA-two-carrier-deletion-canonical} and realize exit (4) by \cref{lem:typeA-carrier-deletion-exit}; it remains quiet-block bounded by \cref{lem:app-typeA-quiet-bound}.
 \item \textbf{Closed by structural Type B bookkeeping:} {[74]} \texttt{fanthm} uses the certificate-marked fan-safe clique bound for the local certificate-closed fan charge, the direct fan-window cycle lemmas for positive-deficit pairs, and the hybrid incidence budget of \cref{lem:typeB-hybrid-incidence-budget,lem:typeB-hybrid-B1}.  The degree-greater-than-four side leaf enters this ledger through fan-closed ports: a fan-compatible open pair routes by \cref{cor:compatible-pair-typeB-routing}, and the triangular alternative routes by \cref{prop:triangular-port-typeB-routing}.  In both cases \cref{prop:fan-closed-port-typeB-routing} supplies \(D_B\ge(k-3)/4>0\), with the triangular alternative giving the stronger \(D_B\ge(5k-19)/4>0\).  The local closure is reduced to B2 in \cref{def:typeB-bridge-statements}; fan-certificate residual centers and disjoint-carrier failures are then bounded globally by the fan-mass estimate \cref{prop:typeB-bridge-sublinear}, while \cref{lem:typeB-bridge-with-route8-core,lem:decorated-envelope-with-route8-core} extract route-8 non-window cores into the Type A deficit ledger.  Disjoint-carrier failures are also reflected as minimal overlap obstructions of \cref{def:typeB-overlap-obstruction}.
-\item \textbf{Reduced by exact surplus-token bookkeeping and geometric routing:} {[125]}--{[144]} use the active surplus family, the free/blocked pair split, the exact token-fibre identity, the classwise token supplies, and the window-join pressure identity.  The exact partition \cref{lem:exact-surplus-pair-charge-partition} assigns every active-demand pair to exactly one free term or one role fibre.  The matching--star bound \cref{lem:same-token-matching-star} and the classwise budget theorem \cref{thm:sharp-classwise-homogeneous-token-budget} give the sharp load alternative, and \cref{lem:same-token-bottleneck-routing,thm:homogeneous-overload-geometric-closure} discharge any large homogeneous same-token fibre: it realizes a sparse surplus exit, produces ordinary Type B fan data, or is bounded by fixed homogeneous caps.  In the bounded case \cref{cor:homogeneous-same-token-caps-close} gives \(\sigma(G)=O(\sqrt n)\).
+\item \textbf{Reduced by exact surplus-token bookkeeping and geometric routing:} {[125]}--{[144]} use the active surplus family, the free/blocked pair split, the exact token-fibre identity, the classwise token supplies, and the window-join pressure identity.  The exact partition \cref{lem:exact-surplus-pair-charge-partition} assigns every active-demand pair to exactly one total token--role fibre.  The matching--star bound \cref{lem:same-token-matching-star} and the classwise budget theorem \cref{thm:sharp-classwise-homogeneous-token-budget} give the sharp load alternative, and \cref{lem:same-token-bottleneck-routing,thm:homogeneous-overload-geometric-closure} discharge any large homogeneous same-token fibre: it realizes a sparse surplus exit, produces ordinary Type B fan data, or is bounded by fixed homogeneous caps.  In the bounded case \cref{cor:homogeneous-same-token-caps-close} gives \(\sigma(G)=O(\sqrt n)\).
 \end{enumerate}
 
 \noindent\textbf{No leaf degrades to nothing.}  Every failed leaf, stripped of redundancy, leaves a hypothetical counterexample carrying all standing invariants plus one explicit extra constraint.  The quiet-block auxiliary input closes the dense-window reduction, and the main global-smearing lemma closes the global-mode reduction.  In Type A, exits 1--3, 5, and 6 close, exit 4 peels one supported target-defective routed load, exit 7 hands off to Type B, the unsaturated branch is discharged, and route 8 is reduced to the terminal two-carrier trace-basin obstruction by \cref{prop:typeA-route8-carrier-reduction}: each entry first passes to its canonical minimal target-complete carrier core inside the declared $u$-supported response algebra, zero/one-essential-core entries realize exits (4)--(7), each essential carrier has a deletion witness, each witness has declared support by \cref{lem:typeA-deletion-witness-declared}, and in a two-carrier entry each such witness gives a canonical exit-(4) quotient by \cref{lem:typeA-two-carrier-deletion-canonical} and realizes exit (4) by \cref{lem:typeA-carrier-deletion-exit}.  The indexed linear burden is \cref{lem:typeA-route8-burden}.  In Type B, certificate-closed fans have nonnegative local charge and are globally summed through B2, direct fan-window and two-window cycles are structurally removed, and every degree-greater-than-four side leaf supplies two fan-closed ports by \cref{cor:compatible-pair-typeB-routing,prop:triangular-port-typeB-routing}; the hybrid B1 incidence budget pays every resulting positive-deficit fan locally.  Disjoint-carrier failure of B2 is the minimal overlap obstruction of \cref{def:typeB-overlap-obstruction} with the global constraints of \cref{lem:typeB-global-local-reflection}; fan-certificate residual centers, grouped handoff envelopes, and disjoint-carrier failures are bounded by \cref{prop:typeB-bridge-sublinear} after route-8 non-window cores are extracted by \cref{lem:typeB-bridge-with-route8-core,lem:decorated-envelope-with-route8-core}.  In the non-near-cubic branch, the exact token ledger and \cref{thm:sharp-surplus-overload-audit} give the explicit lower bound \(\psi(N_*(G)/(36(4n+15p_{13}+3\sigma(G))))\) for a homogeneous subtype load whenever bounded caps fail; \cref{lem:same-token-bottleneck-routing} then turns that load into a sparse surplus exit, ordinary Type B fan data, or fixed caps implying the near-cubic estimate.  Hence, inside the near-cubic spine or after the surplus-token bottleneck discharge, no linear large-budget deficit remains in the Type A route-8 carrier ledger.

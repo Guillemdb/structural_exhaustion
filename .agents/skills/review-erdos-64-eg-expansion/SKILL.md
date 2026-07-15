@@ -1,14 +1,74 @@
 ---
 name: review-erdos-64-eg-expansion
-description: "Audit and repair one completed round of the Erdős--Gyárfás Problem 64 expansion. Use after implement-next-erdos-64-eg-ct, or when a claimed frontier must be checked for unconditional Lean provenance, exact agreement with proofs/erdos_64_eg/erdos_64_proof.tex, TeX--Lean--web synchronization, practical local computation, sole-HSS trust, and maximal reuse through Core, CT, Routes, and Graph."
+description: "Audit and repair an Erdős--Gyárfás Problem 64 expansion and discharge every partially formalized diagram node before further expansion. Use after implement-next-erdos-64-eg-ct, when any web node is yellow, or when a claimed frontier must be checked for local unconditional Lean provenance, exact predecessor residuals, agreement with proofs/erdos_64_eg/erdos_64_proof.tex, TeX--Lean--web synchronization, practical local computation, sole-HSS trust, and maximal reuse through Core, CT, Routes, and Graph."
 ---
 
-# Review One Erdős 64 Expansion Round
+# Review Erdős 64 Expansion and Clear Partial Nodes
 
 Review the most recently claimed CT stage, repair defects within that stage,
-and stop. Do not implement the next CT. A clean review means that the current
-paper claim, compiled Lean theorem, execution trace, generated proof view, and
-implementation ledger describe the same unconditional result.
+then discharge every yellow diagram node already touched by implemented Lean
+evidence. Stop before the next white frontier CT. A clean review means that the
+current paper claims, compiled Lean theorems, execution traces, generated proof
+view, and implementation ledger describe the same unconditional local results
+and that no partially formalized node remains.
+
+## Enforce the no-yellow gate
+
+Treat every yellow node as blocking unfinished work. Never start or review a
+later white frontier while an implemented proof step still gives an earlier or
+cross-branch node only partial coverage.
+
+Do not implement the next CT during this review. Finish the current node-local
+audit and clear the yellow set first.
+
+Compute the yellow set from the compiled manuscript descriptor before the
+audit and after every repair. A node is yellow exactly when an implemented
+proof step cites it but it is absent from `formalizedNodeIds`. Iterate until
+that set is empty.
+
+Judge completeness locally, never from the status of the whole conjecture or
+of successor nodes. A node is green exactly when Lean:
+
+1. consumes every incoming branch condition and the exact dependent residual
+   produced by its immediate predecessor nodes on the same graph/context;
+2. defines every mathematical object and finite local datum asserted in that
+   node;
+3. executes the applicable framework CT and routes when the node is
+   computational, retaining trace, semantics, totality, and work bounds;
+4. proves the node's complete conclusion and every output field promised to
+   its outgoing edges; and
+5. uses no caller assumption that restates the node's conclusion.
+
+The consumers of those outputs and the final theorem may remain unfinished.
+For a terminal node, prove only its exact closing implication from the incoming
+branch; do not require the other branch or the global theorem. Definitional and
+bookkeeping nodes still require an explicit Lean definition or theorem that
+realizes their full local contract.
+
+For each yellow node, write a local contract row:
+
+| Node and manuscript claim | Exact predecessor output/branch | Required local Lean theorem or run | Current evidence | Missing obligation | Resolution |
+|---|---|---|---|---|---|
+
+Before declaring a mathematical implication missing, reconstruct every
+incoming path to that node from the Chapter 1 diagrams. Track properties as
+typed branch-local residual fields. Check whether similarly named objects on
+different branches carry different predicates, and whether a join node
+explicitly transports the needed property. Never import a property from a
+mutually exclusive branch, a later node, or a same-named object with a
+different residual type. Conversely, do not report a gap if one actual
+incoming branch already supplies the exact field: connect that predecessor
+output to the consumer in Lean.
+
+Repair the missing obligation using the manuscript's stated mathematics. Add
+the node to `formalizedNodeIds` only after its row passes the unconditional,
+practicality, trust, ownership, and synchronization audits below. Do not make a
+node white by deleting an accurate manuscript reference, merge it into a broad
+"official statement" mapping, or call related supporting declarations a full
+implementation. Correct a genuinely erroneous reference, but map its evidence
+to the exact nodes it proves. If a manuscript implication is actually absent,
+keep the proof frontier blocked there and report the precise gap instead of
+advancing.
 
 ## Establish the review authority
 
@@ -44,21 +104,23 @@ the problem boundary, and kernel-checked declarations determine what has
 actually been proved. Generated files are checked projections, never sources
 to edit by hand.
 
-## Freeze the exact CT block
+## Freeze the exact reviewed blocks
 
 Reconstruct the frontier independently from the theorem-bearing endpoint,
-imports, `WebExport.lean`, and the implementation log. Identify the one CT
-added by the reviewed round and all diagram nodes covered by that single CT;
-one CT may encompass several nodes. Follow arrows and prerequisites rather
-than assuming node-number order.
+imports, `WebExport.lean`, and the implementation log. Identify the CT added by
+the reviewed round and all diagram nodes covered by that single CT, then add
+the existing yellow-node debt as separate local blocks. One CT may encompass
+several nodes. Follow arrows and prerequisites rather than assuming node-number
+order. Do not extend into an untouched white node.
 
 Before repairing anything, write an audit row:
 
 | Manuscript labels and nodes | Previous verified Lean output | CT/profile and route | Concrete local universe | Claimed terminal/residual | Exported theorem | Work bound |
 |---|---|---|---|---|---|---|
 
-List every new theorem-level manuscript claim and its exact Lean declaration.
-Exclude later CTs even if the manuscript discusses them nearby.
+List every reviewed theorem-level manuscript claim and its exact Lean
+declaration. Exclude later white CTs even if the manuscript discusses them
+nearby.
 
 ## Audit unconditional Lean provenance
 
@@ -87,8 +149,9 @@ Count the stage as unconditionally verified only if every check below passes.
    the runner. Do not assume the premise that rules out the other terminals.
    If the mathematics is a dichotomy, export the exhaustive dichotomy rather
    than declaring one branch unconditionally.
-6. Check all branches and all nodes belonging to the selected CT block. Do not
-   mark only the first diagram node implemented.
+6. Check all branches and all nodes belonging to each selected CT or local
+   bookkeeping block. Do not mark only the first diagram node implemented and
+   do not leave any cited sibling node yellow.
 
 Search the reviewed dependency cone for `sorry`, `admit`, unsafe declarations,
 new axioms, and proof surrogates. Use `#print axioms` on the endpoint and the
@@ -198,10 +261,11 @@ Verify both navigation directions:
 
 Require every displayed stage to map to exactly one proof step, every label and
 node to exist uniquely, theorem fragments to include their adjacent proof, and
-`explainedDeclarations == displayedDeclarations`. Mark the reviewed step
-`implemented` only after the unconditional audit passes. Keep the first future
-step `next` without a stage ID or verified declaration group. Regenerate with
-`make export`; never hand-edit `generated/examples/erdos-64.json`.
+`explainedDeclarations == displayedDeclarations`. Mark a reviewed node green
+only after its local unconditional audit passes. Require the compiled yellow
+set to be empty before keeping the first future step `next` without a stage ID
+or verified declaration group. Regenerate with `make export`; never hand-edit
+`generated/examples/erdos-64.json`.
 
 Reconcile all of `IMPLEMENTATION_LOG.md`, rather than appending a success
 paragraph. It may list only kernel-checked unconditional claims and must name
@@ -214,7 +278,8 @@ and top-level imports consistent with the same endpoint.
 Fix the root layer first: generic semantics in Core/CT/Routes/Graph, concrete
 instantiation in Erdős, mathematical prose in TeX, and finally the Lean-owned
 web crosswalk and generated projection. Add regression tests for every defect
-found. Repeat the audits until clean; do not advance another CT.
+found. Repeat the audits until the yellow set is empty; do not advance another
+CT.
 
 Run all checks affected by the round, including:
 

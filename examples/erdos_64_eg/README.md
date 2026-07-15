@@ -114,6 +114,14 @@ The verified proof slice contains:
   quarter-units of slack under the explicit marked-fan input `degree ≤ 8`;
   the stored refinement universe has exactly `2c ≤ 2|V|` members and the
   conservative audit is `4|V|²+20|V|+1`;
+- the exact pair-accounting chain at nodes `[130]`--`[141]`: CT15 retains the
+  complete free/blocked local-response split, CT9 routes free pairs by their
+  first selected port and blocked pairs by the deterministic capacity-token
+  priority, the selected `P₁₃` packing proves the exact window-join supply,
+  and 25 token--role labels partition every pair once. A reusable classwise
+  CT9 decision then returns an actual overloaded fibre with its literal token
+  class, or proves `σ²≤(450bmax+1)n`. The two full product scans are bounded
+  by `225|V|³` and use no graph, path, matching, or Boolean-state universe;
 - an executable `K₄` fixture pinning the length-three rooted return and CT1
   terminal, trace, and check count.
 
@@ -132,6 +140,7 @@ The reusable implementation is in
 `StructuralExhaustion.Graph.PackedMinimumDegreeCycle`, together with
 `StructuralExhaustion.Graph.InducedPath`,
 `StructuralExhaustion.Graph.InducedPathPacking`,
+`StructuralExhaustion.Graph.InducedPathWindowLedger`,
 `StructuralExhaustion.Graph.InducedPathAttachment`,
 `StructuralExhaustion.Graph.TriangularFirstLanding`,
 `StructuralExhaustion.Graph.TriangularCrossShoulder`,
@@ -150,10 +159,13 @@ The reusable implementation is in
 `StructuralExhaustion.Graph.FiniteInducedBoundary`,
 `StructuralExhaustion.Graph.LowDegreeReceiverRouting`,
 `StructuralExhaustion.Graph.HighCenterDeletionCharge`,
+`StructuralExhaustion.Graph.SurplusCapacityTokenRouting`,
+`StructuralExhaustion.Graph.SurplusClasswiseOverload`,
 `StructuralExhaustion.Core.FiniteReceiverDischarge`,
 `StructuralExhaustion.Core.FiniteBoundaryTransfer`,
 `StructuralExhaustion.CT10.ExhaustiveClassification`,
 `StructuralExhaustion.CT12.DisjointPacking`, and
+`StructuralExhaustion.CT9.ClasswiseTokenLedger`,
 `StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.CertificateProfile`,
 `StructuralExhaustion.Routes.CT1ToCT12`, and
 `StructuralExhaustion.Routes.CT5ToCT14`,
@@ -179,14 +191,58 @@ target-uncompressibility.
 `Erdos64EG/CT1InducedP13.lean` executes one CT1 block over both diagram nodes
 `[15]` and `[16]`. `Erdos64EG/CT12InducedP13Packing.lean` adds the exact
 packing output, and `Erdos64EG/CT10P13LabelAlgebra.lean` consumes that output
-at node `[18]`. The current theorem-bearing endpoint is
-`exists_verifiedBaselineSpineDemandPrefix`; it retains the complete Type B
+at node `[18]`. The Part X theorem-bearing endpoint is
+`exists_verifiedHomogeneousPatternPrefix`; its predecessor chain retains the complete Type B
 post-ledger and sparse-envelope prefixes, implements manuscript node `[126]`,
 executes the exact baseline-demand definition at node `[129]`, activates every
 CT6 surplus slot through its CT2 return and exact open or triangular local
 response, and retains that activation as the exact predecessor of CT15. The
-next dependency-ready work is the complete free/blocked pair-response block at
-nodes `[130]`--`[132]`; no partial blocker scan is claimed. The preceding
+framework-owned endpoint implements nodes `[130]`--`[132]`: it generates
+each canonically oriented surplus-slot pair once, scans its exact local
+blocker supports, retains the first blocker or a proved clear residual,
+constructs one proof-carrying shortest connector between the two exact
+response supports, and executes CT15 on precisely the free-pair coordinates.
+It then executes the node-`[131]` CT9 route on the identical pair schedule.
+The five dispatch roles are the four admitted structural blocker kinds and
+`freeAnchor`. Nodes `[133]`--`[136]` consume both exact outputs, close the raw
+audit exits on the admitted candidate type, assign every blocked pair its
+capacity token, prove the `15p₁₃+σ_W` window identity, and form the exact
+25-role complete-pair ledger. Nodes `[137]`--`[139]` and `[141]` execute the
+coupled classwise decision: positive excess returns a concrete overloaded
+fibre and its unique window/remainder/primitive route; the other side proves
+the explicit node-`[138]` quadratic surplus bound. The routed overload is
+then consumed by the reusable greedy matching--star extractor at nodes
+`[140]`, `[142]`, and `[143]`.
+
+The other dependency-ready boundaries are also executed: node `[19]` makes
+the exact squared surplus-scale split after node `[18]`; node `[28]` defines
+positive deficiency on the exact node-`[27]` remainder. Nodes `[29]`--`[30]`
+prove the exact `15p₁₃+σ_W` boundary-incidence ceiling, its
+surplus-adjusted form after subtracting `σ_R`, and the integer wedge
+floor. Nodes `[31]`--`[35]` build the literal internal-wedge coordinate family,
+prove that its cardinality is exactly `W₂(R)` and at most `n³`, and execute CT15 to the
+unconditional full-rank terminal. Nodes `[40]`--`[42]` classify an enlarged
+determination support by a boundary-fixing graph embedding and close its
+proper-support constructor through the framework CT3 compression theorem,
+with the node-`[39]` enlarged output literally typed as the proper/whole input
+consumed at node `[40]`, retaining the whole-graph constructor for
+node `[43]`. Nodes `[43]`--`[47]` now consume the admitted whole-support
+quotient produced by the finite determination certificate. Its conditional
+certified-reduction field and minimality force exact injective labels, so the
+literal rank-drop identification closes at node `[46]`. The same block derives
+the one--three repair identity from
+a literal finite connected graph component. Nodes `[78]`--`[80]`
+compute the degree-four fan ledger and assigned-certificate split; nodes
+`[81]`--`[83]` retain an unresolved exact local entry, a full B2 choice with
+its post-ledger split, or a minimal overlap; and node `[75]` charges every
+ordinary residual center to its actual assigned surplus. Exactly 75 Chapter 1
+nodes are green. Node `[46]` is closed. Node `[48]` is the
+Boolean-realization/entropy frontier, node `[144]` is the
+geometric branch frontier, and node `[84]` is the grouped fan-mass frontier.
+The manuscript distinguishes raw quotient proposals from admitted quotients.
+Boundary and target mismatches are proposal-audit exits; every non-injective
+admitted quotient carries a certified smaller counterexample and is ruled out
+by minimality. The preceding
 Type B block composes the previously
 verified marked-fan degree cap with the actual two-port CT14 mass and hybrid
 incidence ledgers, deriving the positive deficit and paying capacity rather
@@ -275,6 +331,11 @@ The manuscript and web companion explicitly leave the stronger `O(n)`
 deficit estimate to a later verified coordinate construction; it is not a
 premise of the current endpoint. The framework profile is independently
 reused by the three-switch CT15 fixture.
+
+The pair-response CT15 machinery is independently instantiated on the
+textbook edge `K₂` in `MantelExample.CT15EdgeResponses`. Its two labelled
+one-vertex supports use the same literal boundaried gluing response and the
+same admissible-quotient verified-stage contract.
 
 The independent even-cycle package instantiates the same graph theorem on the
 textbook complete bipartite graph `K₃,₄`. Deleting its three degree-four

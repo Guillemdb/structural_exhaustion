@@ -3,8 +3,24 @@
 This ledger records the Lean-checked proof content in
 `examples/erdos_64_eg` as of 2026-07-15.
 
-The theorem-bearing endpoint is
-`Erdos64EG.Internal.exists_verifiedBaselineSpineDemandPrefix`:
+The current seventy-seven-node boundary is represented by seven unconditional,
+predecessor-linked endpoint theorems:
+
+- `Erdos64EG.Internal.exists_verifiedSurplusScaleSplitPrefix` for node `[19]`;
+- `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix` for node
+  `[28]`;
+- `Erdos64EG.Internal.exists_verifiedP13CurvaturePrefix` for nodes
+  `[29]`--`[35]`;
+- `Erdos64EG.Internal.exists_verifiedP13ProperDelocalizationPrefix` for nodes
+  `[40]`--`[42]`;
+- `Erdos64EG.Internal.exists_verifiedP13GlobalRankClosurePrefix` for the
+  admitted whole-support closure at nodes `[43]`--`[47]`;
+- `Erdos64EG.Internal.exists_verifiedTypeBResidualCenterLedgerPrefix` for
+  nodes `[75]` and `[80]`--`[83]`; and
+- `Erdos64EG.Internal.exists_verifiedHomogeneousPatternPrefix` for nodes
+  `[140]`, `[142]`, and `[143]`.
+
+For example, the homogeneous-pattern endpoint has the public type:
 
 ```lean
 (object : Object V) → Baseline object → ¬ Target object →
@@ -13,7 +29,7 @@ The theorem-bearing endpoint is
     packedStaticInput.problem.rank ctx.G ≤
         packedStaticInput.problem.rank
           (Graph.PackedFiniteObject.pack object) ∧
-      VerifiedBaselineSpineDemandPrefix ctx
+      VerifiedHomogeneousPatternPrefix ctx
 ```
 
 Natural-number well-ordering selects a counterexample minimal in the
@@ -42,6 +58,27 @@ contains:
   `13,60,122,122,63,17,2`, the exact `C_s` and `Ω₂` relations, and proof
   that every actual nonempty attachment in the selected graph belongs to the
   accepted table; and
+- the exact remainder-curvature stage at nodes `[29]`--`[35]`: every unit of
+  node-`[28]` positive deficiency is injected into the selected-window
+  incidence ledger; its exact cardinality is `15p₁₃+σ_W`; the reusable
+  wedge kernel proves `W₂(R) ≥ 3|R|-2def⁺(R)`; the literal coordinate
+  family consists of a remainder center and a canonical unordered pair of
+  its internal neighbors; its cardinality is exactly `W₂(R)`; and CT15
+  reaches the full-rank ledger with no surviving admitted rank drop; and
+- the proper-delocalization route at nodes `[40]`--`[42]`: an enlarged
+  certificate records its connected proper support, original-support
+  boundary-fixing embedding, strict rank growth, and exact quotient
+  realization. The reusable graph route composes the node-`[39]` enlarged
+  output directly with the proper/whole input type; the proper constructor yields
+  a literal target defect or executes the existing certified CT3 compression,
+  while the whole-graph constructor is retained unchanged for node `[43]`;
+- the whole-support audit at nodes `[43]`--`[47]`: one supplied quotient is
+  split into a literal context defect, exact injective labels, or the explicit
+  response-preserving non-injective residual for which no certified closed
+  representative has been constructed.  The route assumes no representative;
+  node `[46]` records its absence.  Independently, the reusable graph theorem
+  derives `s = p - 2 + 2β - σ` from the literal finite connected component,
+  and the textbook `K₄` transfer instantiates the same theorem;
 - the CT6 ordered surplus stage: one scan of the declared vertex order,
   a first-failure predicate for a non-cubic neighbour of a high centre,
   deletion-critical closure of that failure branch, the exact
@@ -63,6 +100,35 @@ contains:
   return, its open-suppression or triangular response, and the exact local
   support `T(p) ∪ Γ(p)`. The activated schedule is the CT6 schedule and has
   length exactly `σ(G)`.
+- the CT15 free/blocked pair-response block at nodes `[130]`--`[132]`: every
+  unordered pair in the exact activated schedule occurs once; the reusable
+  core ledger gives the exact disjoint partition; every blocked pair retains
+  its first local witness; every free pair retains one shortest connector;
+  and the admitted-response profile executes CT15 with the exact full-rank
+  terminal, trace, soundness, totality, and polynomial work proof.
+- the CT9 total pair route at node `[131]`: every scheduled pair enters one
+  exact first-port/product-role fibre. The dispatch alphabet has the four
+  admitted structural blocker kinds plus `freeAnchor`. A blocked pair retains
+  its canonical first hit and all earlier failed candidates for node `[134]`;
+  a free-anchor fibre member is proved blocker-free, has the displayed first
+  selected port, and retains the shortest connector and both activation
+  supports for the primitive-carrier audit at node `[143]`.
+- the CT9 capacity-token block at nodes `[133]`--`[136]`: the admitted blocker
+  candidate type closes both raw quotient-audit exits; every blocked pair is
+  assigned one deterministic window, remainder-surplus, or primitive token;
+  the selected induced-`P₁₃` packing gives the exact
+  `15 p₁₃ + σ_W` window-incidence supply; and the unchanged complete pair
+  collection is partitioned exactly once among 25 total token--role labels.
+  The exact token supply is bounded by `9n`, and the complete audit uses at
+  most `225n³` checks.
+- the coupled classwise CT9 block at nodes `[137]`--`[139]` and `[141]`: for
+  every fixed threshold triple, the exact complete pair count is compared
+  with the literal 25-role class capacity. Positive excess returns an actual
+  overloaded token--role fibre and its unique window/remainder/primitive
+  class route. The other side proves the unconditional local estimate
+  `σ² ≤ (450 bmax + 1)n`. This computation also uses at most `225n³` checks
+  and does not depend on Boolean-product realization or a baseline-deficit
+  estimate.
 - the CT9 surplus-pair availability stage: the registered CT6-to-CT9 route
   consumes the actual active-ledger residual, preserves the identical branch
   context, and scans exactly the surplus-slot list; its bounded branch proves
@@ -237,7 +303,7 @@ order and do not define a separate graph representation.
 | `thm:p13free`, `cor:p13-exists`, nodes `[15]`–`[16]` | `VerifiedBoundariedReplacementPrefix` and target avoidance on the identical packed minimal context | CT1 target-certificate profile through `Graph.InducedPath.Profile`; HSS is the sole trusted external closure | Literal `P₁₃`-free avoiding terminal and trace; HSS contradiction; induced `P₁₃` realization; exact C1 terminal and trace; totality; composed `VerifiedInducedP13Prefix` retaining all preceding outputs | Zero checks on the proof-carrying avoiding run; one check on a supplied Mathlib induced embedding; degree-zero polynomial budgets; no tuple, path, subgraph, or graph universe is enumerated |
 | `sec:remainder`, node `[17]` and the packing-derived clauses of `[25]`–`[27]` | `VerifiedInducedP13Prefix` on the identical selected packed graph | Registered `CT1.terminal.c1->CT12` route plus the CT12 disjoint-packing profile through `Graph.InducedPathPacking` | The route preserves the branch context, materializes exactly the selected-list CT12 input, and derives its nonemptiness from the CT1 realization; a maximum vertex-disjoint induced-`P₁₃` family; maximal saturation; exact exhausted CT12 run with `p₁₃` iterations; `13 p₁₃ ≤ n`; `|R| + 13 p₁₃ = n`; `R` and every induced subgraph of `R` are `P₁₃`-free; HSS rules out every finite internal subgraph of minimum degree at least three; composed `VerifiedP13PackingPrefix` retaining every prior stage | CT12 visits exactly the selected packing list, once per packed window and hence at most `n` iterations; trace length at most `4n + 3`; the embedding and packing universes are not materialized |
 | `lem:labels` and the definitions of `C_s` and `Ω₂`, node `[18]` | `VerifiedP13PackingPrefix` on the identical selected packed graph | CT10 exact accepted-class profile through `CT10.ExhaustiveClassification` and `Graph.InducedPathAttachment` | Exact legality equivalence; `8192` compact candidates; `399` legal labels; size distribution `13,60,122,122,63,17,2`; legal sizes `1`–`7`; exhaustive terminal, exact typed trace, semantic validity and totality; exact `C_s` and `Ω₂`; every actual attachment accepted; composed `VerifiedP13LabelAlgebraPrefix` retaining the exact CT12 predecessor | `167792 = 8192 + 399 + 399²` primitive candidate/direct/row checks, bounded quadratically in the explicit candidate universe; no graph, path, subgraph, or context universe is enumerated |
-| `lem:sparse-upper-envelope`, `lem:sparse-slack-surplus`, node `[126]` | `VerifiedTypeBPostLedgerPrefix`, retaining the selected packed context, CT2 no-proper-core theorem, and deletion criticality | `Graph.DegeneracyPeeling.Profile` with the exact CT12 list-peeling runner | Actual cubic root; literal complement; induced-core freeness; exhausted terminal; exact typed trace; validity and totality; exactly `n-1` iterations; `e(G-v)≤2(n-1)-3`; `m≤2n-2`; `σ=2m-3n=n-6-2λ`; exact equality with the existing CT6 degree-excess ledger; composed `VerifiedSparseEnvelopePrefix` | Linear CT12 schedule on one proof-selected list. The sharp edge proof recurses only on a strictly smaller explicit support; no graph, subgraph, order, path, or context universe is enumerated |
+| `lem:sparse-upper-envelope`, `lem:sparse-slack-surplus`, node `[126]` | `VerifiedSparseSurplusPrefix` at node `[125]`, retaining the selected packed context, CT2 no-proper-core theorem, deletion criticality, and the exact CT6 degree-excess ledger | `Graph.DegeneracyPeeling.Profile` with the exact CT12 list-peeling runner | Actual cubic root; literal complement; induced-core freeness; exhausted terminal; exact typed trace; validity and totality; exactly `n-1` iterations; `e(G-v)≤2(n-1)-3`; `m≤2n-2`; `σ=2m-3n=n-6-2λ`; exact equality with the existing CT6 degree-excess ledger; composed `VerifiedSparseEnvelopePrefix` | Linear CT12 schedule on one proof-selected list. The sharp edge proof recurses only on a strictly smaller explicit support; no graph, subgraph, order, path, or context universe is enumerated |
 | `lem:sparse-excess-port-extraction`, cubic-endpoint clause of `lem:sparse-port-activation`, nodes `[127]`–`[128]` | `VerifiedP13LabelAlgebraPrefix` and deletion criticality on the identical selected packed graph | CT6 ordered activity profile through `Graph.SurplusPortActivity` | Exact active-ledger terminal and trace; first-failure semantics for the first high centre with a non-cubic neighbour; deletion-critical exclusion of every failure; exact `Σ_v(d(v)-3)` ledger; excess-slot cardinality; composed `VerifiedSparseSurplusPrefix` | One failure test per declared vertex and at most `|V|²` primitive adjacency/degree tests; no enumeration of paths, subgraphs, graphs, or attachment tables |
 | Remaining clauses of `lem:sparse-port-activation`, nodes `[127]`--`[128]` | `VerifiedSparseEnvelopePrefix`, CT2 bridgelessness, and the actual CT6 active ledger on the identical graph | `Graph.SurplusPortActivation` with open suppression and triangular return profiles | One activated demand for every CT6 slot; exact root return; open or triangular response; exact `T(p)`, `Γ(p)` edge/vertex supports; activated schedule length equal to the CT6 residual and to `σ(G)`; composed `VerifiedSurplusPortActivationPrefix` | One local certificate per supplied slot; schedule-linear outer scan; no path-family, cycle-family, subgraph, graph, or pair-universe enumeration |
 | `rem:ct9-surplus-slot-stratification`, pair-availability precursor to node `[130]` | The actual CT6 active-ledger residual in `VerifiedSparseSurplusPrefix` | Registered `CT6.residual.activeLedger->CT9` route and graph-owned capacity-one surplus-slot profile | Exact item count `σ(G)`; context and route provenance; verified total CT9 execution; bounded branch `σ(G) ≤ 1` or overload branch with two distinct slots; composed `VerifiedSurplusPairPrefix` | One partition scan of exactly `σ(G)` supplied slots; no pair, path, subgraph, graph, or response-table enumeration |
@@ -269,12 +335,23 @@ order and do not define a separate graph representation.
 | Exact support and unconditional clauses of `def:typeB-overlap-obstruction` and `lem:typeB-global-local-reflection`, node `[73]` | Failure of the full dependent choice | Derived declared carrier universes plus target avoidance and deletion criticality | Proof-carrying minimal obstruction; reserve-blocked centers retained; every demand center in support; ambient dyadic safety; independent high centers; cubic center neighbors; proper-subfamily choices; composed `VerifiedTypeBOverlapSupportPrefix` | Linear declared-support union; proof-level obstruction selection, no subfamily enumeration |
 | Ordinary high-center completeness split in `def:typeB-bridge-statements`, nodes `[73]`--`[74]` | A literal vertex support and ordinary reserve, with no supplied center list or entry-completeness assertion | Core `FiniteResolution` followed by the derived dependent CT12 family | All support vertices of ambient degree at least four are derived as sites; exact alternative between one literal center with no verified local entry, a full disjoint choice, or a minimal overlap obstruction; composed `VerifiedTypeBResolutionPrefix` | Linear high-center filter; witness-family resolution and CT12 choice are proof-level and enumerate no dependent products |
 | `def:typeB-assigned-ledger`, `def:typeB-candidate-ledger`, `lem:typeB-exact-postledger`, `lem:typeB-postledger-core-hygiene`, `def:typeB-center-deleted-overload`, `prop:typeB-unconditional-deficit`, and `prop:typeB-bridge-reduction`, nodes `[73]`--`[74]` | `VerifiedTypeBResolutionPrefix`, retained through `VerifiedTypeBChoiceLedgerPrefix` and `VerifiedTypeBAssignedChargePrefix` on the identical minimal context | The already executed CT14 fan-mass and hybrid-incidence profiles, the CT12 full choice, and reusable `Graph.AssignedSupportCharge`, `Core.FiniteReceiverDischarge`, `Core.FiniteBoundaryTransfer`, `Graph.FiniteInducedBoundary`, and `Graph.HighCenterDeletionCharge`; no new route | Exact no-double-counted post-ledger split; on a full choice, net nonnegativity, a saturated receiver, or strict boundary overload with a literal landing and `-net ≤ 800 * assignedSurplus`; without any local-choice hypothesis, `-net ≤ 21 * assignedSurplus + receiverOverload`; composed `VerifiedTypeBPostLedgerPrefix` and public `exists_verifiedTypeBPostLedgerPrefix` | CT12 uses at most `|V|` iterations and the inherited CT14 incidence audit is at most `4|V|²+20|V|+1`; the new graph transition consists of finset filters, images, unions, cuts, and sums, while receiver and transfer witnesses are proof-selected and no function, subset, path, subgraph, context, or graph universe is enumerated |
+| `def:sparse-canonical-connector`, `def:surplus-blockers`, `def:sparse-pair-response`, and `lem:sparse-pair-dependence-exit`, nodes `[130]`, `[132]` | `VerifiedBaselineSpineDemandPrefix`, retaining the exact activated CT6 slot schedule from nodes `[127]`--`[128]` on the identical selected graph | Core `FiniteBlockerLedger.FamilyProfile`, `Graph.FiniteConnector`, `Graph.FiniteSupportResponse`, `CT15.AdmissibleQuotient`, and `Graph.SurplusPairResponse` | Every unordered slot pair occurs once; exact disjoint free/blocked partition; first local blocker retained; both exact `Γ` supports and one minimum-distance connector retained for every free pair; raw boundary/target mismatch audit separated from admission; every admitted non-injective quotient yields a certified smaller counterexample and is impossible by minimality; exact CT15 full-rank terminal, trace, validity, totality, and composed `VerifiedSparsePairResponsePrefix` | Pair schedule at most `n^4`; every blocker scan is over the two supplied local supports, returns, fixed role list, and retained cycles; each connector verifies one retained shortest path; no graph, subgraph, path family, quotient proposal family, or context universe is enumerated |
+| Five-role pre-retokenization dispatch in `def:total-surplus-pair-token-route` and the free-anchor clause of `lem:total-pair-token-route-no-overcount`, node `[131]` | `VerifiedSparsePairResponsePrefix` and its exact pair schedule, free subtype, blocked subtype, connectors, canonical first blockers, and the node-`[126]` sparse-envelope bound | `CT9.TokenRoleLedger`, `Graph.SurplusTokenRole`, and `Graph.SurplusPairTokenRouting` | Exact CT9 execution with exhaustive terminal, semantic validity, valid trace, and totality; exact initial selected-port×role partition; five exact dispatch roles; `freeAnchor` iff the blocker scan is negative; free fibre token equals the first selected port; retained connector support transported; canonical blocker first-hit proof transported; composed `VerifiedAllPairTokenRoutingPrefix` | The sparse residual has at most `n` selected-port tokens and hence at most `n²` pairs; the complete five-role scan has the verified bound `5n³`; no Boolean-state, graph, context, path-family, or recursive enumeration |
+| `lem:sparse-pair-dependence-exit`, `def:capacity-token-ledger`, `lem:exact-window-join-identity`, and `lem:total-pair-token-route-no-overcount`, nodes `[133]`--`[136]` | Green `VerifiedAllPairTokenRoutingPrefix`, including the unchanged complete pair list, the blocked canonical first hit, and the free-anchor token | `Graph.InducedPathWindowLedger`, `Graph.SurplusCapacityTokenRouting`, and the reusable CT9 product ledger | Raw audit exits impossible on admitted candidates; total blocked token priority; exact `15p₁₃+σ_W` window supply; exact three-class token sum; exact 25-role complete-pair partition; composed `VerifiedCapacityTokenPrefix` | Window audit at most `13n²`; complete pair×token×role audit at most `225n³`; no graph, path, matching, Boolean-state, or context universe |
+| `prop:exact-25-role-coupled-decision`, nodes `[137]`--`[139]`, `[141]` | Green `VerifiedCapacityTokenPrefix`, hence the exact pair list and its total token/role map on the identical selected graph | Generic `CT9.ClasswiseTokenLedger` and `Graph.SurplusClasswiseOverload` | Exact capacity decision; positive branch with an actual overloaded fibre; literal constructor route to window, remainder, or primitive; negative branch `σ²≤(450bmax+1)n`; composed `VerifiedCoupledClassOverloadPrefix` | At most `225n³` comparisons on the existing finite lists; no matchings, stars, graphs, paths, state cubes, or recursion are generated |
+| `def:near-cubic-spine`, node `[19]` | Green `VerifiedP13LabelAlgebraPrefix` on the same selected graph | Core `QuadraticScaleSplit` with the explicit downstream homogeneous-cap coefficient | Exact exhaustive comparison `C n < σ² ∨ σ² ≤ C n`; composed `VerifiedSurplusScaleSplitPrefix` | One natural-number comparison; no square root, floating point, graph family, or threshold search |
+| `def:deficiency-surplus`, node `[28]` | Green `VerifiedP13PackingPrefix` and its exact selected remainder from nodes `[25]`--`[27]` | Reusable `Graph.AssignedSupportCharge.Profile` | Literal induced-remainder degree and exact sum `def⁺(R)=Σ_v∈R (3-d_R(v))`; retained no-internal-three-core certificate; composed `VerifiedP13PositiveDeficiencyPrefix` | One finite neighbour scan per remainder vertex; no subgraph or support-family enumeration |
+| `lem:stub-positive`, `lem:surplus-aware-window-stub`, `lem:wedge-lower`, `def:curvature-target-rank`, and `lem:target-rank-circuit`, nodes `[29]`--`[35]` | Green `VerifiedP13PositiveDeficiencyPrefix` on the exact node-`[28]` remainder | Reusable `Graph.PositiveDeficiencyWedge`, `Graph.InducedPathWindowLedger`, `Graph.FiniteSupportResponse`, and `CT15.AdmissibleQuotient` | Exact `def⁺(R)≤e(R,W)≤15p₁₃+σ_W`; exact surplus-adjusted inequality after subtracting `σ_R`; exact wedge floor `W₂(R)≥3|R|-2def⁺(R)`; literal raw wedge coordinates with cardinality `W₂(R)` and the proved bound `W₂(R)≤n³`; exact CT15 full-rank terminal and trace; every admitted noninjective quotient is impossible by certified reduction and minimality; composed `VerifiedP13CurvaturePrefix` | Quadratic neighbour-incidence accounting plus one linear scan of at most `n³` actual wedge coordinates; no support, quotient, context, path, subgraph, or graph family is enumerated |
+| `lem:curvature-dependence-routing` and `lem:proper-smearing`, nodes `[40]`--`[42]` | Green curvature rank-drop routing interface from nodes `[36]`--`[39]`, on the identical selected context | Framework-owned `Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperDelocalization` and the existing CT3 compression kernel | A proper enlargement carries an injective graph embedding fixing every boundary vertex, strict packed-rank growth, and an exact quotient realization; the node-`[39]` enlarged constructor has literally the `proper | whole` type consumed at node `[40]`; the combined route retains earlier context defects and executes the proper-support audit without an implicit handoff; a proper support returns an actual distinguishing context or its universal side executes the certified CT3 contradiction; the whole payload is retained unchanged for node `[43]`; composed `VerifiedP13ProperDelocalizationPrefix` | One proof-supplied context-universality audit and constant CT3 execution; no contexts, supports, quotients, subgraphs, or graphs are generated |
+| `lem:smearing-support-repair`, repaired `lem:no-silent-global-smearing`, and the admissible-rank join, nodes `[43]`--`[47]` | Green proper/whole payload from nodes `[40]`--`[42]` | `CT15.AdmissibleQuotient`, `Graph.ClosedRankDrop`, and `Graph.OneThreeRepair` | The whole payload carries the admitted finite quotient and its literal distinct-coordinate identification; the quotient's certified-reduction field and minimality derive injectivity, closing node `[46]`; exact graph-computed identity `s=p-2+2β-σ`; unconditional full-rank join at node `[47]`; composed `VerifiedP13GlobalRankClosurePrefix` | One constant logical admission check and linear finite graph degree sums; no quotient family, context family, representative family, or graph universe is generated |
+| Degree-four local profile and assigned marking, nodes `[78]`--`[80]` | Green `VerifiedFanLabelPackingPrefix` and the actual high-center schedule | `Graph.DegreeFourFanLedger` and `Graph.FiniteCertificateMarking` | Exact higher-center/no-higher split; on the latter branch `d(h)=4`, exact local CT14 ledger, and exhaustive assigned-certificate/residual split; composed `VerifiedDegreeFourTypeBLedgerPrefix` | At most `23(n+1)²` primitive checks over actual centers |
+| Exact local-entry and B2 exhaustion, nodes `[81]`--`[83]` | Green node-`[80]` assigned certificate for every center | Core `FiniteResolution`, CT12 refined-ledger completion, and graph post-ledger charge decomposition | Every resolved entry proves equality with the node-`[80]` certificate; exhaustive unresolved/nonnegative/remaining-negative/minimal-overlap route; minimal obstruction retains all proper-subschedule choices; composed `VerifiedDegreeFourB2RoutingPrefix` | Linear center resolution and one CT12 peel per demand; no dependent-choice product or demand powerset is evaluated |
+| Ordinary Type B residual-center payment, node `[75]` | Green degree-four B2 route on the same `TypeBSupportScope` | Reusable `Graph.HighCenterDeletionCharge` assigned-surplus ledger | Certificate failures, unresolved entries, and every selected minimal-overlap center are literal high centers; their finite count is bounded by the exact assigned surplus; composed `VerifiedTypeBResidualCenterLedgerPrefix` | Finite-set and subschedule cardinality only; no envelope or support family is generated |
+| `lem:same-token-matching-star`, nodes `[140]`, `[142]`, `[143]` | Green actual overloaded token--role fibre and its exact node-`[139]`/`[141]` constructor route | Core `GreedyMatchingStar` and graph `SurplusHomogeneousPattern` | Deterministic maximal matching, exact coverage, sharp `(L-1)(2L-3)` cap, and a literal matching-or-star certificate at the routed class threshold; composed `VerifiedHomogeneousPatternPrefix` | At most `3m²` pair-intersection/incidence checks on the supplied fibre; no matching, star, pair, graph, or path family is generated |
 
-The next dependency-ready manuscript block is the complete free/blocked
-pair-response split at nodes `[130]`--`[132]`. It must construct the canonical
-connector support, all six blocker classes, and the exact local response
-classification before any pair is called free or passed to the token ledger.
-Node `[21]` is reached only after the complete non-near-cubic routing.
+The next green-input frontiers are node `[144]` on the Part X
+matching--star branch and node `[84]` on the degree-four residual fan-mass
+branch. Node `[21]` remains downstream of the node-`[19]` scale split.
 
 ## Node `[79]`: certificate-driven triangular-port return
 
@@ -1078,55 +1155,175 @@ terminal and exact typed trace, and singleton cardinality. Mathlib's
 cycle-avoidance premise of the shared graph theorem, so every actual nonempty
 attachment to the edge is accepted by the same classification contract.
 
-## Next dependency-ready section
+## Current dependency-ready endpoint
 
-The active family and baseline-demand definition are connected on the
-identical selected graph. The next invocation implements the complete
-free/blocked pair-response block at nodes `[130]`--`[132]`; no proper subset
-of the six blocker classes is part of the verified endpoint. The current
-endpoint does not claim a linear baseline-deficit estimate.
+### Node-local coverage audit
 
-The following checks pass on 2026-07-15 for the activation and baseline-demand review:
+The compiled Chapter 1 descriptor has no partially formalized nodes.
+
+- Node `[3]` is unconditionally verified by
+  `Erdos64EG.Internal.officialConclusion_of_notCounterexample`.  Its inputs
+  are the exact negative result of the node-`[2]` predicate on the same graph
+  and the official minimum-degree baseline; its conclusion is the official
+  power-of-two-cycle statement for that graph.  The generic logical step is
+  owned by `Core.target_of_not_isCounterexample`.
+- Nodes `[64]`, `[65]`, and `[66]` are paper-only.  They denote respectively
+  the negative-net-charge Type B continuation, the assigned Type B support
+  join, and the Type A exit-`(7)` handoff.  Their incoming residuals from
+  nodes `[57]`--`[63]` and `[108]` are not outputs of the verified prefix, so
+  no implemented local-port stage claims those nodes.
+- High-centre neighbourhood, port-classification, open-pair, response, and
+  shoulder-ledger declarations are indexed only to the local nodes they
+  prove: `[67]`--`[69]`, `[78]`--`[79]`, and `[130]`.
+
+`exists_verifiedHomogeneousPatternPrefix` is the unconditional endpoint of
+the Part X branch. It chains only green predecessor outputs on the identical
+selected graph:
+
+- `VerifiedAllPairTokenRoutingPrefix` supplies the exact complete pair list,
+  the blocker decision, every canonical first hit, and each free-anchor token;
+- `Graph.SurplusCapacityTokenRouting` refines that same list to the disjoint
+  window/remainder/primitive token sum. The admitted candidate type proves
+  node `[133]`'s raw audit kinds impossible, the priority map is total on every
+  blocked pair, and the 25-role labels partition every pair exactly once;
+- `Graph.InducedPathWindowLedger` uses only the selected maximum `P₁₃`
+  packing and proves the exact node-`[135]` supply `15p₁₃+σ_W`;
+- generic `CT9.ClasswiseTokenLedger` executes the node-`[137]` comparison on
+  the literal complete pair count. Its positive result contains the actual
+  first overloaded label, while its other result contains only the proved
+  aggregate capacity inequality;
+- `Graph.SurplusClasswiseOverload.routeClass` inspects the overloaded token's
+  sum constructor and proves the exhaustive node-`[139]`/`[141]` route; and
+- `noCoupledOverload_quadraticSpine` combines the exact unordered-pair count,
+  25 roles, `|T_cap|≤9n`, and `σ≤n` to prove
+  `σ²≤(450bmax+1)n` at node `[138]`; and
+- `Graph.SurplusHomogeneousPattern.audit` consumes the literal overloaded
+  fibre and its window/remainder/primitive route. Its generic greedy maximal
+  matching covers every supplied pair; the sharp endpoint-incidence cap
+  returns a matching or star of the selected class threshold at nodes
+  `[140]`, `[142]`, and `[143]`.
+
+Six unconditional endpoints cover the green side boundaries without
+changing their residual inputs:
+
+- `exists_verifiedSurplusScaleSplitPrefix` consumes node `[18]` and makes
+  the exact node-`[19]` squared-scale decision;
+- `exists_verifiedP13PositiveDeficiencyPrefix` consumes the node-`[27]`
+  remainder and computes the exact node-`[28]` positive deficiency; and
+- `exists_verifiedP13CurvaturePrefix` consumes that exact remainder and
+  completes nodes `[29]`--`[35]`, including both surplus-aware stub
+  inequalities, the exact wedge family, and its CT15 execution;
+- `exists_verifiedP13ProperDelocalizationPrefix` retains the verified generic
+  rank-drop route at nodes `[36]`--`[39]` and completes the boundary-fixing
+  proper/whole support split at nodes `[40]`--`[42]`; and
+- `exists_verifiedP13GlobalRankClosurePrefix` consumes the exact whole payload
+  at nodes `[43]`--`[47]`, derives injectivity from the already-admitted
+  quotient's certified-reduction field, closes the literal node-`[46]`
+  rank-drop identification, and reaches the unconditional full-rank join; and
+- `exists_verifiedTypeBResidualCenterLedgerPrefix` retains the exact
+  node-`[80]` certificate marking, exhausts nodes `[81]`--`[83]` through
+  unresolved/full-choice/minimal-overlap outcomes, and proves node `[75]`'s
+  ordinary assigned-surplus payment.
+
+No Boolean-product realization, baseline-deficit estimate, global graph
+count, matching enumeration, graph universe, context universe, path family,
+or recursive search tree is an input to these stages. Both complete CT9
+product scans have the explicit bound `225n³`.
+
+`MantelExample.CT15EdgeResponses` independently instantiates the exact
+finite-support response and admissible-quotient CT15 contracts on the textbook
+edge `K₂`, and also instantiates the graph-generic positive-deficiency/wedge
+kernel on its complete two-vertex support.  Its `K4Repair` namespace applies
+the literal graph-level one--three repair theorem to `K₄`, computing four
+internal cubic vertices, no boundary leaves, cycle rank three, and zero
+surplus.
+`MantelExample.CT9EndpointRoleLedger` independently executes the same exact
+token--role CT9 profile on the two labelled endpoints of `K₂`, including
+partition, the exact overloaded terminal and four-node trace, validity,
+totality, and the concrete eight-check budget. The reusable CT9 layer derives
+that terminal and trace for every nonempty zero-capacity product ledger; the
+transfer proof uses only standard Lean axioms.
+`StructuralExhaustion.Examples.CT9ClasswiseTokenLedger` independently
+instantiates the new generic classwise profile on five textbook records, two
+tokens, two roles, and two token classes. It proves exact partition, total
+capacity four, the executable overload/within-capacity decision, and the
+twenty-comparison work count without importing any Erdős declaration.
+`MantelExample.GreedyMatchingStar` independently executes the same public
+`Core.GreedyMatchingStar.verifiedStage` method on the six edges of the
+textbook graph `K₄`, returns a literal size-two matching or star, and proves
+the exact 108-check count and the shared quadratic work certificate.  The
+framework-local `StructuralExhaustion.Examples.GreedyMatchingStar` fixture
+also pins the underlying extractor without serving as the external transfer.
+`StructuralExhaustion.Examples.QuadraticScaleSplit` independently verifies
+both sides of the same squared-scale decision on the concrete comparisons
+`7²>3·16` and `6²≤3·16`.
+
+Exactly 77 Chapter 1 nodes are green. Nodes `[20]` and `[125]` retain the
+strict node-`[19]` scale branch through the typed Part X route. Node `[46]`
+closes the whole-support
+rank-drop payload because its quotient is already admitted and therefore
+injective by certified reduction and minimality. The open Part X frontier is node
+`[144]`, which may consume only the verified matching--star pattern from
+node `[140]`, `[142]`, or `[143]`. The open degree-four Type B frontier is
+node `[84]`, which receives the explicit certificate-failure, unresolved
+local-entry, and minimal-overlap residuals. A linear baseline-deficit estimate
+and the grouped-envelope fan-mass coefficient are not assumed by any green
+endpoint.
+
+The following checks were run on 2026-07-15 for the 77-node boundary:
 
 ```text
-make lint
-  OK: CT1–CT17 expose only automation-first canonical APIs
+lake build StructuralExhaustion
+lake build StructuralExhaustion.Examples.GreedyMatchingStar +  StructuralExhaustion.Examples.QuadraticScaleSplit
+lake build MantelExample.GreedyMatchingStar MantelExample
+lake build Erdos64EG Erdos64EG.Tests Erdos64EG.WebExport
+  passed
 
-make framework-build
-  Framework build completed successfully (3298 jobs)
+make example-export
+  Framework and all four external example packages passed
+  Erdős raw-export validation passed
 
-make erdos-example-build
-  Erdős build completed successfully (3239 jobs)
-
-make example-build
-  Even-cycle build completed successfully (3202 jobs)
-  Erdős build completed successfully (3239 jobs)
-  Greedy-coloring build completed successfully (1307 jobs)
-  Mantel build completed successfully (3105 jobs)
-
-make export
+python3 tools/render_example_catalog.py \
+  --raw-root build/example-exports --root . --source-root . \
+  --catalog generated/lean-machines.json
   Rendered 4 compiled Lean examples
+  Erdős descriptor contains exactly 77 formalized node IDs
+  The five newly implemented nodes belong to one exact composite audit;
+  no green diagram node is partial
+  Nodes 48, 84, and 144 are the explicit frontier steps
 
-python3 tools/validate_repository.py
-  OK: 17 automation-first Lean tactics, 124 nodes, 108 typed edges,
-  37 residual kinds, 9 generated routes, 0 manual node obligations
+npm run test -- --run src/erdos-proof-flow.test.ts \
+  src/components/GraphCanvas.test.ts \
+  src/components/ManuscriptFragmentViewer.test.tsx
+  3 test files and 8 tests passed
 
-python3 tools/verify_lean.py
-  Kernel checked 17 tactics, 124 nodes, 108 typed edges, 37 residual kinds,
-  9 routes, and 4 compiled examples
+UV_CACHE_DIR=/tmp/uv-cache uv run --offline \
+  --with-requirements requirements.txt python -m pytest -q \
+  tests/test_example_catalog.py tests/test_web_api.py tests/test_skills.py
+  28 tests passed; 1 repository-state test failed because the pre-existing
+  modified framework/branch_closure_methodology_extended.tex and generated
+  PDF trigger the retired-architecture vocabulary check
 
-make web-frontend-test
-  13 test files and 27 tests passed; typecheck and production build passed
+lake env lean Erdos64EG/AxiomAuditTemp.lean
+  ClosedRankDrop.rankDrop_impossible, OneThreeRepair.Component.identity, and
+  routeRankDropThroughGlobalClosure use only Lean's standard logical axioms
+  exists_verifiedP13GlobalRankClosurePrefix additionally uses only the
+  permitted HSS theorem
 
-uv run --offline --with-requirements requirements.txt python -m pytest -q \
-  tests/test_repository.py tests/test_example_catalog.py \
-  tests/test_web_api.py tests/test_skills.py
-  50 tests passed
-
-latexmk -pdf -interaction=nonstopmode -halt-on-error \
-  -outdir=build/erdos proofs/erdos_64_eg/erdos_64_proof.tex
-  248-page manuscript passed
+latexmk -pdf -silent -interaction=nonstopmode -halt-on-error \
+  -outdir=/tmp/erdos64-proof-build erdos_64_proof.tex
+  Manuscript passed after three reference-stabilizing runs
 
 git diff --check
   passed
+
+make lint
+make validate
+UV_CACHE_DIR=/tmp/uv-cache uv run --offline \
+  --with-requirements requirements.txt python -m pytest -q
+  Repository-wide validation remains blocked by the checked-in
+  framework/branch_closure_methodology_extended.tex terminology and the
+  generated PDF that the automation-first linter classifies as a retired
+  surface. generated/kernel-verification.json consequently remains failed.
+  The focused Erdős catalog, Lean, web, skill, and manuscript checks above pass.
 ```

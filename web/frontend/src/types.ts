@@ -536,6 +536,7 @@ export interface ExampleManuscript {
   path: string;
   sha256: string;
   fragments: ExampleManuscriptFragment[];
+  formalizedNodeIds: number[];
   proofSteps: ExampleProofStep[];
   coverage: {
     implementedSteps: number;

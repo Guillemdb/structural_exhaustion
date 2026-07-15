@@ -1,6 +1,6 @@
 ---
 name: implement-next-erdos-64-eg-ct
-description: "Advance the repository's Erdős--Gyárfás Problem 64 Lean formalization by exactly one structural-exhaustion CT selected from the manuscript proof flow. Use when continuing proofs/erdos_64_eg/erdos_64_proof.tex: identify the first dependency-ready stage, perform a mandatory framework-first ownership audit, place all reusable logic in Core, CT, Routes, or Graph, keep Erdős code to concrete problem data and thin instantiations, execute the CT from earlier verified outputs, prove transfer in a non-Erdős example, maintain the bidirectional TeX--Lean index and synchronized web theorem companion, build the affected packages, and update the implementation log."
+description: "Advance the repository's Erdős--Gyárfás Problem 64 Lean formalization by exactly one structural-exhaustion CT selected from the manuscript's directed residual flow. Use when continuing proofs/erdos_64_eg/erdos_64_proof.tex: reconstruct every incoming and outgoing branch, consume the exact local residual accumulated from prior nodes, identify the first dependency-ready CT block, perform a mandatory framework-first ownership audit, place reusable logic in Core, CT, Routes, or Graph, keep Erdős code to concrete data and thin instantiations, execute the CT from earlier verified outputs, prove transfer in a non-Erdős example, maintain the bidirectional TeX--Lean index and synchronized web theorem companion, build the affected packages, and update the implementation log."
 ---
 
 # Implement the Next Erdős 64 CT
@@ -40,6 +40,78 @@ Treat the manuscript as the mathematical specification, the official Lean
 statement as the problem boundary, and compiled Lean declarations as the
 implementation authority. Do not infer completion from documentation alone.
 
+## Reconstruct the directed residual flow before selecting a CT
+
+Read the proof as a directed graph of local residual transformations, never as
+a linear sequence of paragraphs or node numbers. A node consumes the exact
+residual accumulated along an incoming branch, performs one local mathematical
+move, and returns a terminal conclusion, a handoff residual, or a refined
+residual for a later node.
+
+Before editing, write a residual-flow ledger covering the complete candidate
+CT block:
+
+| Incoming branch path | Exact accumulated residual | Local certificate/data inspected | Negated earlier exits retained | Node move | Every outgoing branch | Consumer or terminal |
+|---|---|---|---|---|---|---|
+
+Enforce all of the following:
+
+- Trace every incoming arrow across all proof-diagram panels and dependency
+  rows. Record cross-panel handoffs explicitly.
+- Treat the incoming residual as the conjunction of the preceding verified
+  outputs and branch decisions on that path. Construct it from their Lean
+  values; do not restate it as a new assumption.
+- Use a fact at a node only if it was proved on every incoming path or is
+  carried by the particular incoming edge being executed. Never import a
+  theorem available only after the node, on a sibling branch, or after a later
+  rejoin.
+- Treat a terminal exit as closing only its own branch. Treat a handoff such as
+  Type B data as an output routed to its named ledger, not as a contradiction
+  and not as a discarded case.
+- Audit every outgoing edge, including bounded/no-overload, first-failure,
+  target-defect, compression, delocalization, global-support, and handoff
+  alternatives. An unrepresented edge means the CT block is incomplete.
+- Allow one CT to cover several diagram nodes when those nodes are the
+  internal execution flow of the same contract. Implement the entire
+  dependency-ready CT block and all of its terminals/residuals; do not stop at
+  the first diagram box inside it.
+
+Keep this permanent branch guardrail for the current manuscript: node `[19]`
+routes its yes branch to `[20]`, expanded by `[125]`--`[144]`, while its no
+branch reaches `[21]`. The near-cubic estimate at `[138]` is an output of the
+non-near-cubic branch. It is not an input to `[125]`--`[137]`. The three
+terminal forms of Part X are a sparse exit, a Type B handoff, or the derived
+near-cubic spine; account for all three before following the surviving spine.
+
+Distinguish local execution from later aggregate accounting. First classify
+each proof-selected local residual and establish exact disjoint ledgers; only
+then apply the manuscript's finite sums or capacity comparisons. Never replace
+a missing local response, blocker, route, or certificate with a global bound.
+Conversely, do not demand a global estimate while implementing a node whose
+contract only classifies a supplied local residual.
+
+For quotient, rank, context, and suppression branches, carry proof-selected
+certificates:
+
+- Let a rank-drop residual contain or logically unpack to its concrete
+  determination certificate: determined coordinate, finite dependency
+  subfamily, connected support, quotient proposal, and declared support data.
+- Distinguish a quotient proposal from an admissible quotient. Check boundary
+  profile and target response first; call the quotient admissible only after
+  those obligations and the manuscript's representative condition hold.
+- Route context failure with one concrete distinguishing context or response
+  certificate. Route context neutrality with its proved semantic property.
+  Never enumerate an ambient context universe.
+- Consume proof-carrying paths and suppression cycles chosen by the preceding
+  minimality theorem. Check their finite edge lists; never search all paths or
+  cycles merely to obtain a canonical witness.
+
+If the flow lacks an input needed by a consumer, identify the exact missing
+definition or lemma, its intended producer node, its consumer node, and the
+fields of the missing residual. Correct local bookkeeping when the manuscript
+strategy determines those fields. Do not invent a new estimate, assume a
+downstream conclusion, or vaguely report that a global theorem is missing.
+
 ## Find the verified frontier
 
 Use Chapter 1's proof flow, not CT numbering, to choose the next work item.
@@ -48,6 +120,7 @@ Read the architecture load path, the eleven parts under
 arrows and table prerequisites; node numbers alone are not a topological order
 across branch continuations. Then read the full manuscript definitions and
 proofs cited by the first candidate row.
+Enforce a green-predecessor gate from the compiled node-status map and every actual incoming diagram edge, including branch joins: yellow, white, and declared-frontier predecessors block selection and editing. Never substitute a later theorem, sibling-branch fact, or author premise for a predecessor output. Internally order a multi-node CT block so every node consumes earlier green outputs, and publish it only when all its nodes are green and the prefix compiles end to end.
 
 Audit each existing Erdős stage against its Lean declarations. Count a stage
 as unconditionally verified only when all of the following hold:
@@ -68,10 +141,12 @@ caller-supplied contract is not by itself a completed Erdős stage. If an
 earlier stage fails this audit, that stage remains the frontier even when a
 later-numbered CT file exists.
 
-Select the first dependency-ready manuscript stage that fails the audit. Write
-an execution-map row before editing:
+Select the first dependency-ready manuscript stage that fails the audit; that
+stage is the complete dependency-ready CT block, including every diagram node
+and outgoing residual covered by the contract. Write an execution-map row only
+after completing the residual-flow ledger:
 
-| Manuscript labels and nodes | Web proof-step/stage IDs | Prior Lean output | CT/profile | Concrete local input | Expected output | Next consumer | Work bound |
+| Manuscript labels and nodes | Incoming branch path | Exact prior Lean residual | CT/profile | Concrete local input/certificate | All outputs and exits | Next consumers | Work bound |
 |---|---|---|---|---|---|---|---|
 
 Map its mathematical operation to one CT using
@@ -144,6 +219,13 @@ flow. For other CT sequences, use ordinary theorem composition and retain the
 framework's output types. Do not erase an outcome into an application-defined
 Boolean or rebuild a branch context independently.
 
+For every constructor of the new outcome, state which incoming residual fields
+it consumes and which later node receives it. Prove branch-context identity
+when two ledgers or estimates are combined: they must concern the same selected
+graph, packing, local schedules, and earlier execution outputs. A numerical
+identity from another diagram panel is usable only through its proved handoff
+on that identical context.
+
 ## Translate the complete selected stage
 
 Translate every definition, case split, local lemma, finite datum, and
@@ -165,6 +247,11 @@ replacement argument or weaken the manuscript statement to fit an API.
    substituting for the general theorem.
 8. Export the new stage from `Erdos64EG.lean` and update package tests and
    current-state documentation.
+
+Before declaring the stage complete, replay the residual-flow ledger against
+the Lean constructors. Require one typed constructor or proved impossibility
+for every outgoing manuscript edge, and require every nonterminal constructor
+to appear as an input to its named next consumer or registered route.
 
 Do not add `sorry`, `admit`, new axioms, unsafe proof escape hatches, opaque
 proof surrogates, or declarations reserved for later stages.
@@ -255,6 +342,13 @@ ambient contexts, or any recursively expanding graph universe. Permit
 recursion only with a visible structurally decreasing measure. If the current
 contract would require global enumeration, fix the reusable local contract
 instead of hiding the computation in Erdős application code.
+
+A finite scan of the actual residual schedule, including a polynomial schedule
+of actual local pairs, is compatible with structural exhaustion. Keep it lazy
+or streamed when materialization is unnecessary. What is forbidden is replacing
+those local checks by enumeration of ambient mathematical universes or by a
+global search for a proof object that the preceding branch already supplies as
+a certificate.
 
 For manuscript packing stages, distinguish maximum cardinality from maximal
 saturation. Use `Core.FiniteDisjointPacking`,

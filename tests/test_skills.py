@@ -11,11 +11,22 @@ STRATEGY = "design-structural-exhaustion-proof"
 ROUTE = "implement-structural-exhaustion-route"
 ERDOS_NEXT_CT = "implement-next-erdos-64-eg-ct"
 ERDOS_REVIEW = "review-erdos-64-eg-expansion"
+MANUSCRIPT_REPAIR = "repair-structural-exhaustion-manuscript"
+MANUSCRIPT_REPAIR_REVIEW = "red-team-structural-exhaustion-manuscript-repair"
 CT_SKILLS = {
     f"implement-structural-exhaustion-ct{number}": f"CT{number}"
     for number in range(1, 18)
 }
-EXPECTED_SKILLS = {STRATEGY, ROUTE, ERDOS_NEXT_CT, ERDOS_REVIEW, *CT_SKILLS}
+EXPECTED_SKILLS = {
+    STRATEGY,
+    ROUTE,
+    ERDOS_NEXT_CT,
+    ERDOS_REVIEW,
+    MANUSCRIPT_REPAIR,
+    MANUSCRIPT_REPAIR_REVIEW,
+    *CT_SKILLS,
+}
+SKILLS_WITH_REFERENCES = {MANUSCRIPT_REPAIR, MANUSCRIPT_REPAIR_REVIEW}
 
 
 def read_skill(name: str) -> str:
@@ -64,7 +75,9 @@ def test_skill_inventory_and_metadata_are_complete() -> None:
                 "Replace with the first main section",
             )
         )
-        assert not any((directory / child).exists() for child in ("scripts", "references", "assets"))
+        assert not (directory / "scripts").exists()
+        assert not (directory / "assets").exists()
+        assert (directory / "references").exists() == (name in SKILLS_WITH_REFERENCES)
 
         ui = (directory / "agents/openai.yaml").read_text(encoding="utf-8")
         assert ui.startswith("interface:\n")

@@ -861,7 +861,22 @@ class ArtifactRepository:
             explained_declarations: set[str] = set()
             referenced_labels: set[str] = set()
             verified_mathematical_objects: set[str] = set()
-            verified_diagram_nodes: set[int] = set()
+            formalized_node_ids = manuscript.get("formalizedNodeIds")
+            if (
+                not isinstance(formalized_node_ids, list)
+                or any(
+                    not isinstance(node_id, int)
+                    or isinstance(node_id, bool)
+                    or node_id < 1
+                    for node_id in formalized_node_ids
+                )
+                or len(set(formalized_node_ids)) != len(formalized_node_ids)
+            ):
+                raise ArtifactError(
+                    f"example {example_id} has invalid formalized diagram nodes"
+                )
+            formalized_diagram_nodes = set(formalized_node_ids)
+            implemented_reference_nodes: set[int] = set()
             implemented_step_count = 0
             for step in manuscript["proofSteps"]:
                 if not isinstance(step, dict):
@@ -901,18 +916,18 @@ class ArtifactRepository:
                         )
                     local_labels.add(label)
                     referenced_labels.add(label)
+                    node_ids = reference.get("nodeIds")
+                    if not isinstance(node_ids, list) or not all(
+                        isinstance(node_id, int) and not isinstance(node_id, bool)
+                        for node_id in node_ids
+                    ):
+                        raise ArtifactError(
+                            f"example {example_id} proof step has invalid diagram nodes"
+                        )
                     if status == "implemented":
                         if fragment_kinds.get(label) in MATHEMATICAL_OBJECT_KINDS:
                             verified_mathematical_objects.add(label)
-                        node_ids = reference.get("nodeIds")
-                        if not isinstance(node_ids, list) or not all(
-                            isinstance(node_id, int) and not isinstance(node_id, bool)
-                            for node_id in node_ids
-                        ):
-                            raise ArtifactError(
-                                f"example {example_id} proof step has invalid diagram nodes"
-                            )
-                        verified_diagram_nodes.update(node_ids)
+                        implemented_reference_nodes.update(node_ids)
                 local_declarations: set[str] = set()
                 for group in groups:
                     ids = group.get("declarationIds") if isinstance(group, dict) else None
@@ -935,6 +950,10 @@ class ArtifactRepository:
                 raise ArtifactError(
                     f"example {example_id} manuscript does not cover every stage"
                 )
+            if not formalized_diagram_nodes <= implemented_reference_nodes:
+                raise ArtifactError(
+                    f"example {example_id} formalized nodes lack Lean evidence"
+                )
             coverage = manuscript.get("coverage")
             expected_coverage = {
                 "implementedSteps": implemented_step_count,
@@ -944,7 +963,7 @@ class ArtifactRepository:
                 "verifiedMathematicalObjects": len(
                     verified_mathematical_objects
                 ),
-                "verifiedDiagramNodes": len(verified_diagram_nodes),
+                "verifiedDiagramNodes": len(formalized_diagram_nodes),
                 "verifiedWorkflowSteps": implemented_step_count,
             }
             if not isinstance(coverage, dict) or any(
@@ -960,7 +979,7 @@ class ArtifactRepository:
                 or total_objects < len(verified_mathematical_objects)
                 or not isinstance(total_nodes, int)
                 or isinstance(total_nodes, bool)
-                or total_nodes < len(verified_diagram_nodes)
+                or total_nodes < len(formalized_diagram_nodes)
             ):
                 raise ArtifactError(f"example {example_id} manuscript totals are invalid")
             if not manuscript_is_stale:

@@ -71,6 +71,15 @@ theorem bounded : execution.iterations ≤ object.input.vertices.card :=
   Graph.MaximumMatching.run_iterations_le_vertices object
     (Graph.FiniteObject.context object)
 
+/-- Transfer check for the generic complement-floor bookkeeping used by the
+Erdős remainder residual. -/
+theorem unmatched_floor_of_matching_ceiling (ceiling : Nat)
+    (packingBound : Graph.MaximumMatching.matchingNumber object ≤ ceiling) :
+    object.input.vertices.card - 2 * ceiling ≤
+      (Graph.MaximumMatching.remainderVertices object).card :=
+  Graph.InducedPathPacking.remainder_card_ge_of_packingNumber_le
+    object 2 (by decide) ceiling packingBound
+
 end ConcreteK4
 
 end EvenCycleExample.MaximalMatching

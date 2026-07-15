@@ -61,6 +61,45 @@ theorem run_deterministic {P : Core.Problem} (C : Capability P)
     (rightIsRun : right = run C ctx input) : left = right :=
   leftIsRun.trans rightIsRun.symm
 
+/-- If every member has a capacity but one literal member lacks a label,
+CT14 reaches its missing-label residual. -/
+theorem run_terminal_missingLabel_of_bounded_of_missing {P : Core.Problem}
+    (C : Capability P) (ctx : Core.BranchContext P) (input : Input C ctx)
+    (bounded : ∀ member, ∃ value, C.memberCapacity ctx member = some value)
+    (missing : ∃ member, C.memberLabel ctx member = none) :
+    (run C ctx input).terminal = .missingLabel := by
+  let lower : LowerMassState C ctx := ⟨lowerMass C ctx, rfl⟩
+  cases scanned : scanMembers C ctx lower with
+  | unbounded residual =>
+      obtain ⟨value, present⟩ := bounded residual.member
+      have impossible : (some value : Option Nat) = none :=
+        present.symm.trans residual.missing
+      cases impossible
+  | missingLabel residual =>
+      simp [run, runReference, lower, scanned]
+  | complete scan =>
+      obtain ⟨member, absent⟩ := missing
+      obtain ⟨label, present⟩ := scan.labeled member
+      have impossible : (some label : Option C.Label) = none :=
+        present.symm.trans absent
+      cases impossible
+
+/-- Exact trace of the missing-label execution. -/
+theorem run_trace_missingLabel_of_bounded_of_missing {P : Core.Problem}
+    (C : Capability P) (ctx : Core.BranchContext P) (input : Input C ctx)
+    (bounded : ∀ member, ∃ value, C.memberCapacity ctx member = some value)
+    (missing : ∃ member, C.memberLabel ctx member = none) :
+    (run C ctx input).trace =
+      [.entry, .lowerMass, .memberScan, .missingLabelTerminal] := by
+  have terminal := run_terminal_missingLabel_of_bounded_of_missing C ctx input
+    bounded missing
+  generalize resultEquation : run C ctx input = result at terminal ⊢
+  cases result with
+  | mk resultTerminal path outcome =>
+      dsimp only at terminal
+      subst resultTerminal
+      exact Graph.trace_eq_of_path_to_missingLabel path
+
 /-- A fully bounded and labeled aggregate whose exact lower mass fits its
 exact upper capacity must take CT14's capacity-residual branch.  Graph
 profiles only need to prove these semantic premises; they do not need to

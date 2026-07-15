@@ -51,6 +51,27 @@ theorem induceFinset_vertexCount (object : FiniteObject V)
   rw [FinEnum.card_eq_fintypeCard]
   exact Fintype.card_coe vertices
 
+/-- Inducing on a support does not change the degree of a supported vertex
+when every ambient neighbour of that vertex remains in the support.  The
+wrapper fixes the finite instances on both sides, so consumers need not
+reconcile two extensionally equal `Fintype` enumerations. -/
+theorem induceFinset_degree_of_neighborSet_subset
+    (object : FiniteObject V) (vertices : Finset V)
+    (vertex : {value : V // value ∈ vertices})
+    (closed : object.graph.neighborSet vertex.1 ⊆ (vertices : Set V)) :
+    (object.induceFinset vertices).degree vertex = object.degree vertex.1 := by
+  rw [(object.induceFinset vertices).degree_eq_ncard_neighborSet,
+    object.degree_eq_ncard_neighborSet]
+  apply Set.ncard_congr (fun neighbor _ ↦ neighbor.1)
+  · intro neighbor adjacent
+    exact adjacent
+  · intro left right _ _ equal
+    exact Subtype.ext equal
+  · intro neighbor adjacent
+    let supported : {value : V // value ∈ vertices} :=
+      ⟨neighbor, closed adjacent⟩
+    exact ⟨supported, adjacent, rfl⟩
+
 /-- Deleting one supported vertex after inducing is canonically the same as
 inducing once on the erased support. -/
 noncomputable def induceFinsetEraseEquiv (object : FiniteObject V)
