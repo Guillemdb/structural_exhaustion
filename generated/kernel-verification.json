@@ -3,7 +3,7 @@
   "schemaVersion": "2.0.0",
   "status": "kernel_checked",
   "catalogHash": "d3802f6a8c4390187eb9dda9331b19d0727f7056cf6f25ae14695038133dd911",
-  "exampleCatalogHash": "b863ada6532d08c8e0f6100b6d3b33c0a6c87df8a74d0de9ad3dff8339381dff",
+  "exampleCatalogHash": "0a885838c2e7538b842d6bfee09ab1a6fac14c977e6ce2f6cf2186d87c9382b3",
   "toolchain": {
     "pinned": "leanprover/lean4:v4.31.0",
     "observed": "Lean (version 4.31.0, x86_64-unknown-linux-gnu, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)"

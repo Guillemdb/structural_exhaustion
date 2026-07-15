@@ -7,9 +7,6 @@ open StructuralExhaustion
 
 universe u
 
-theorem powerOfTwoLength_four : PowerOfTwoLength 4 := by
-  exact ⟨⟨2, by decide⟩, by decide, by decide⟩
-
 def fourCycleFree
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
     ¬Graph.HasCycleWithLength ctx.G.object.graph

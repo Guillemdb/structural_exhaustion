@@ -59,10 +59,10 @@ The verified proof slice contains:
   `167792` accounted checks, and a graph theorem placing every actual
   nonempty attachment in the table;
 - one CT6 stage covering the exact ordered surplus ledger at nodes
-  `[127]`--`[128]`, followed by a registered CT6-to-CT9 route that scans
-  exactly the surplus slots and separates `σ(G) ≤ 1` from the branch carrying
-  two distinct slots; it does not enumerate pairs or claim the later
-  free/blocked response semantics;
+  `[127]`--`[128]`, followed by exact per-slot activation from the CT2
+  non-bridge theorem. Each slot carries its root return, open-suppression or
+  triangular response, and exact `T(p) ∪ Γ(p)` support; the activated schedule
+  is the CT6 schedule and has length `σ(G)`;
 - one CT15 stage covering the exact baseline-demand definition at node
   `[129]`: it computes the cubic-baseline skeleton count, records the
   canonical empty coordinate family with its full exact deficit, and executes
@@ -182,7 +182,11 @@ packing output, and `Erdos64EG/CT10P13LabelAlgebra.lean` consumes that output
 at node `[18]`. The current theorem-bearing endpoint is
 `exists_verifiedBaselineSpineDemandPrefix`; it retains the complete Type B
 post-ledger and sparse-envelope prefixes, implements manuscript node `[126]`,
-and executes the exact baseline-demand definition at node `[129]`. The preceding
+executes the exact baseline-demand definition at node `[129]`, activates every
+CT6 surplus slot through its CT2 return and exact open or triangular local
+response, and retains that activation as the exact predecessor of CT15. The
+next dependency-ready work is the complete free/blocked pair-response block at
+nodes `[130]`--`[132]`; no partial blocker scan is claimed. The preceding
 Type B block composes the previously
 verified marked-fan degree cap with the actual two-port CT14 mass and hybrid
 incidence ledgers, deriving the positive deficit and paying capacity rather

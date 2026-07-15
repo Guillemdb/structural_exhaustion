@@ -23,10 +23,12 @@ import StructuralExhaustion.Graph.RefinedFanLedger
 import StructuralExhaustion.Graph.WalkMapping
 import StructuralExhaustion.Graph.BridgeContraction
 import StructuralExhaustion.Graph.PackedBridgeReduction
+import StructuralExhaustion.Graph.OpenPortSuppression
 import StructuralExhaustion.Graph.PackedBoundariedGluing
 import StructuralExhaustion.Graph.MaximalPath
 import StructuralExhaustion.Graph.EndpointParityCycle
 import StructuralExhaustion.Graph.SurplusPortActivity
+import StructuralExhaustion.Graph.SurplusPortActivation
 import StructuralExhaustion.Graph.SurplusResidualBudget
 import StructuralExhaustion.Graph.AdjacencyResponse
 import StructuralExhaustion.Graph.AssignedFanCharge

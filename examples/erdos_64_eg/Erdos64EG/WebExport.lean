@@ -10,7 +10,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
   workflowId := "proof-slice"
   title := "Verified Erdős 64 prefix"
   purpose :=
-    "Inspect the exact Mersenne target algebra, lexicographic minimal selection, CT2 criticality and bridge contraction, boundaried replacement, the HSS-forced induced-P13 CT1 stage, the routed maximum-packing CT12 remainder stage, the exhaustive CT10 P13 attachment-label algebra, the ordered CT6 degree-surplus ledger, the routed CT9 surplus-pair split, and the Type B development through its graph-derived high-center choice/overlap trichotomy."
+    "Inspect the exact Mersenne target algebra, lexicographic minimal selection, CT2 criticality and bridge contraction, boundaried replacement, the HSS-forced induced-P13 CT1 stage, the routed maximum-packing CT12 remainder stage, the exhaustive CT10 P13 attachment-label algebra, the ordered CT6 degree-surplus ledger with per-slot activation, the CT15 baseline demand, and the Type B development through its graph-derived high-center choice/overlap trichotomy."
   completion := .partialProof
   stages := [
     {
@@ -784,12 +784,21 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.baseline-spine-demand"
       title := "CT15 baseline-spine demand"
-      summary := "The exact cubic-baseline skeleton count and integer bit budget are computed from n. The canonical empty coordinate family realizes the baseline-demand definition with its full exact deficit, and CT15 certifies its full-rank ledger in linear work. No linear deficit estimate is assumed."
+      summary := "The sparse-envelope output first activates every exact CT6 surplus slot through its CT2-derived return and open-suppression or triangular response. The exact cubic-baseline skeleton count and integer bit budget are then computed from n; CT15 certifies the canonical baseline-demand ledger. No linear deficit estimate is assumed."
       kind := .tactic
       tacticId? := some "CT15"
       primaryDeclaration :=
         `Erdos64EG.Internal.exists_verifiedBaselineSpineDemandPrefix
       evidenceDeclarations := [
+        `StructuralExhaustion.Graph.SurplusPortActivation.verifiedActivatedStageFromMinimality,
+        `StructuralExhaustion.Graph.SurplusPortActivation.activatedSchedule_length_eq_residualTotal,
+        `Erdos64EG.Internal.surplusPortActivationSetup,
+        `Erdos64EG.Internal.activatedSurplusStage,
+        `Erdos64EG.Internal.activeSurplusDemand,
+        `Erdos64EG.Internal.activatedSurplusSchedule_length_eq_sigma,
+        `Erdos64EG.Internal.openResponse_has_mersenne_length,
+        `Erdos64EG.Internal.verifiedSurplusPortActivationPrefix,
+        `Erdos64EG.Internal.exists_verifiedSurplusPortActivationPrefix,
         `StructuralExhaustion.CT15.BaselineDemand.Profile.verifiedStage,
         `StructuralExhaustion.CT15.run_terminal_eq_fullRankLedger_of_noDrop_of_total_le_capacity,
         `StructuralExhaustion.CT15.ledgerTotal_eq_card_of_charge_eq_one,
@@ -1408,9 +1417,12 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       label := "declare and audit the exact baseline demand"
       description := "The retained selected graph supplies n to the cubic-baseline count. The application declares the canonical independent empty family and its exact full deficit; the reusable CT15 profile owns the full-rank execution, exact ledger, trace, soundness, totality, and linear work bound."
       automationDeclarations := [
+        `StructuralExhaustion.Graph.SurplusPortActivation.verifiedActivatedStageFromMinimality,
         `StructuralExhaustion.CT15.BaselineDemand.Profile.verifiedStage
       ]
       evidenceDeclarations := [
+        `Erdos64EG.Internal.verifiedSurplusPortActivationPrefix,
+        `Erdos64EG.Internal.exists_verifiedSurplusPortActivationPrefix,
         `Erdos64EG.Internal.baselineSpineProfile,
         `Erdos64EG.Internal.exists_verifiedBaselineSpineDemandPrefix
       ]
@@ -2080,7 +2092,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         }
       ]
       scopeNotes :=
-        "The CT6 surplus cardinality and cubic-endpoint clauses are implemented. The canonical return/suppression paths Γ(p), the sparse-exit survival routing, and node [129]'s baseline demand remain downstream and are not claimed."
+        "The CT6 surplus cardinality and the per-slot return/suppression or triangular activation are implemented. The exact activated output is retained by node [129]'s baseline-demand stage; the complete pair-response split at nodes [130]--[132] remains downstream."
       workBound := "One ordered centre test per vertex and at most |V|² primitive adjacency/degree tests. No paths, subgraphs, graphs, or attachment tables are enumerated."
     },
     {
@@ -3171,21 +3183,40 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.exists_verifiedSparseEnvelopePrefix
         ]
       }]
-      scopeNotes := "This verifies the complete node [126] block, including both displayed identities. Nodes [127]–[128] remain the already verified CT6 surplus/activation outputs; the first later sparse-branch datum not yet implemented is node [129]'s baseline spine demand."
+      scopeNotes := "This verifies the complete node [126] block, including both displayed identities. Its output is retained unchanged by the activated surplus family and baseline-demand stages."
       workBound := "CT12 performs exactly n-1 peeling iterations on one proof-selected vertex list and has a linear polynomial check budget. The edge theorem uses well-founded recursion on strictly smaller explicit supports; no graph, subgraph, order, path, or context universe is enumerated."
     },
     {
       stepId := "erdos.baseline-spine-demand"
       stageId? := some "proof-slice.baseline-spine-demand"
-      title := "Baseline spine demand"
-      plainExplanation := "Node [129] defines a baseline demand as an independently target-testable finite coordinate family together with its deficit from the cubic skeleton budget. The canonical empty family is an unconditional instance: its exact deficit is the entire executable cubic bit budget. CT15 scans that complete declared family, proves full rank, and returns its exact ledger. This implements the definition without assuming the separate linear-deficit estimate needed by the later entropy sandwich."
+      title := "Activated surplus family and baseline spine demand"
+      plainExplanation := "Nodes [127]--[128] attach the CT2-derived root return and exact open-suppression or triangular response to every slot in the already verified CT6 surplus ledger. Node [129] then defines a baseline demand as an independently target-testable finite coordinate family with explicit deficit. The canonical empty family is an unconditional instance, and CT15 returns its exact full-rank ledger without assuming a later linear-deficit estimate."
       formalStatement := "b_0=\\lfloor\\log_2\\binom{\\binom n2}{\\lceil3n/2\\rceil}\\rfloor,\\qquad |\\mathcal I_{\\rm spine}|=0\\ge b_0-b_0"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
+        { label := "lem:sparse-excess-port-extraction", title := "Excess-port extraction", nodeIds := [127] },
+        { label := "lem:sparse-port-activation", title := "Sparse port activation", nodeIds := [128] },
+        { label := "lem:surviving-active-family", title := "Surviving active family", nodeIds := [127, 128] },
         { label := "def:baseline-spine-demand", title := "Baseline spine demand", nodeIds := [129] }
       ]
       declarationGroups := [{
+        groupId := "surplus-port-activation"
+        title := "Exact per-slot activation on the retained CT6 ledger"
+        role := .compositionProvenance
+        explanation := "The reusable graph layer derives each response from CT2 bridgelessness and packed minimality, retains the exact local support, and proves that the activated schedule is the unchanged CT6 schedule. The Erdős layer supplies only the power-of-two length interpretation and the selected minimal context."
+        declarations := [
+          `StructuralExhaustion.Graph.SurplusPortActivation.verifiedActivatedStageFromMinimality,
+          `StructuralExhaustion.Graph.SurplusPortActivation.activatedSchedule_length_eq_residualTotal,
+          `Erdos64EG.Internal.surplusPortActivationSetup,
+          `Erdos64EG.Internal.activatedSurplusStage,
+          `Erdos64EG.Internal.activeSurplusDemand,
+          `Erdos64EG.Internal.activatedSurplusSchedule_length_eq_sigma,
+          `Erdos64EG.Internal.openResponse_has_mersenne_length,
+          `Erdos64EG.Internal.verifiedSurplusPortActivationPrefix,
+          `Erdos64EG.Internal.exists_verifiedSurplusPortActivationPrefix
+        ]
+      }, {
         groupId := "baseline-spine-demand-ct15"
         title := "Exact finite baseline-demand profile and CT15 ledger"
         role := .semanticTheorem
@@ -3215,17 +3246,18 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       workBound := "CT15 makes two passes over the declared coordinate list plus one comparison. For the canonical empty family this is one constant check; no subsets, target states, graph families, or contexts are enumerated."
     },
     {
-      stepId := "erdos.spine-lower-bound-deficits"
-      title := "Verified spine deficit packages"
-      plainExplanation := "The next unimplemented sparse-branch datum is a concrete nonempty baseline coordinate family together with one of the manuscript's independently proved lower-bound deficit packages."
-      formalStatement := "E_{\\rm spine}(n)=O(n)"
+      stepId := "erdos.free-blocked-pair-response"
+      title := "Complete free/blocked pair-response split"
+      plainExplanation := "The next stage constructs the canonical connector support and exact finite response coordinates, then executes every blocker class and the complete free/blocked routing for nodes [130]--[132]."
+      formalStatement := "\\binom{\\mathcal A_0}{2}=\\Pi_{\\rm free}\\sqcup\\Pi_{\\rm blk}"
       status := .next
       correspondence := .partialCoverage
       manuscriptRefs := [
-        { label := "def:spine-lower-bound-deficits", title := "Spine lower-bound deficits", nodeIds := [129] }
+        { label := "def:surplus-blockers", title := "Sparse surplus blockers", nodeIds := [130, 132] },
+        { label := "def:sparse-pair-response", title := "Sparse pair-response coordinates", nodeIds := [130, 131] }
       ]
-      scopeNotes := "The baseline-demand contract and its unconditional empty instance are verified. No linear deficit estimate or nonempty spine coordinate family is currently claimed."
-      workBound := "Not yet implemented; the next stage must expose only its declared finite coordinate list and a polynomial local audit."
+      scopeNotes := "No proper subset of the six blocker classes is currently claimed as the manuscript split."
+      workBound := "The implementation must use the explicit quadratic pair schedule and finite local coordinates; no ambient context, path, subgraph, or graph universe may be enumerated."
     }
   ]
 }
@@ -3234,7 +3266,7 @@ def descriptor : ExampleDescriptor := {
   exampleId := "erdos-64"
   title := "Erdős Problem 64"
   summary :=
-    "A partial proof with exact Mersenne returns, lexicographic minimal selection, CT2 criticality and bridge contraction, CT3 boundaried uncompressibility, an HSS-forced induced-P13 CT1 stage, a routed maximum-packing CT12 remainder stage, the complete CT10 P13 attachment-label algebra, a polynomial ordered CT6 degree-surplus ledger, a routed CT9 surplus-pair split, framework-native local-port verification, concrete Type B candidate fibres, an unconditional dependent CT12 choice-or-minimal-overlap theorem, an exact high-center local-resolution trichotomy, a no-double-counted induced-core realization of the full Type B charge ledger, and the choice-free Type B receiver-overload deficit bound."
+    "A partial proof with exact Mersenne returns, lexicographic minimal selection, CT2 criticality and bridge contraction, CT3 boundaried uncompressibility, an HSS-forced induced-P13 CT1 stage, a routed maximum-packing CT12 remainder stage, the complete CT10 P13 attachment-label algebra, a polynomial ordered CT6 degree-surplus ledger with exact per-slot return/suppression activation feeding CT15, framework-native local-port verification, concrete Type B candidate fibres, an unconditional dependent CT12 choice-or-minimal-overlap theorem, an exact high-center local-resolution trichotomy, a no-double-counted induced-core realization of the full Type B charge ledger, and the choice-free Type B receiver-overload deficit bound."
   proofStatus := .partialProof
   workflows := [proofSliceWorkflow]
   interfaceBindings := [

@@ -1162,8 +1162,8 @@ The table records every named object in the proof-dependency diagram.  The \emph
 46 & [125]--[128] & Ordered surplus activation & a sparse-pressure survivor yields the full excess-slot ledger; the ordered CT6 audit scans high centres and either returns the first non-cubic incident endpoint or certifies every centre active & deletion criticality rules out the failure terminal; the ledger weight is exactly \(\sum_v(d(v)-3)=\sigma(G)\) & \cref{lem:sparse-excess-port-extraction}, \cref{lem:sparse-port-activation}, \cref{lem:surviving-active-family} \\
 46a & [129] & Baseline spine demand & after the active family has been established, record a declared baseline demand and its exact deficit & a linear deficit bound is a separate downstream estimate, not a premise of the CT6 activation audit or a consequence of the definition & \cref{def:baseline-spine-demand} \\
 46b & [64]--[69], [78], [130] & Finite local-port audit & four-cycle avoidance, selected-port classification, center-fibre overload, overload-only adjacency-response comparison, the exact two-shoulder ledger, the nonadjacent same-center fan-compatibility implication, the all-incident-port high-center dichotomy, and triangular shoulder-completion bookkeeping & scans only declared vertex and neighbour schedules; it does not materialize port pairs, paths, or subsets, and does not establish the later Type B/free-blocked routing & \cref{rem:finite-selected-port-audit,lem:heavy-neighbourhood-normal-form,def:heavy-center-triangular-port,lem:same-center-open-port-compatibility,lem:heavy-center-triangular-alternative,cor:heavy-center-local-dichotomy,lem:triangular-shoulder-completion} \\
-47 & [130]--[132] & Free/blocked pair split & pair-response coordinates split into blocker-free and blocked pairs; free pairs are charged by the entropy sandwich & blocked-pair debt is the only branch passed to the token ledger & \cref{def:sparse-pair-response}, \cref{lem:sparse-pair-dependence-exit}, \cref{prop:sparse-entropy-sandwich-with-blockers} \\
-48 & [132]--[136] & Blocker and token ledger & canonical blockers, primitive carriers, and capacity tokens count blocked pairs exactly once & [136] is the exact token-fibre partition and no-overcounting closure & \cref{def:surplus-blockers}, \cref{def:canonical-sparse-blocker-order}, \cref{def:canonical-blocker-ledger}, \cref{lem:canonical-blocker-ledger-no-overcount}, \cref{def:primitive-sparse-blocker-carrier}, \cref{lem:primitive-carrier-supply}, \cref{def:capacity-token-ledger}, \cref{lem:capacity-token-supply}, \cref{lem:token-ledger-no-overcount} \\
+47 & [130]--[132] & Free/blocked pair split & pair-response coordinates split into blocker-free and blocked pairs; free pairs are charged by the entropy sandwich & blocked-pair debt is the only branch passed to the token ledger & \cref{def:sparse-canonical-connector}, \cref{def:sparse-pair-response}, \cref{lem:sparse-pair-dependence-exit}, \cref{prop:sparse-entropy-sandwich-with-blockers} \\
+48 & [132]--[136] & Blocker and token ledger & canonical blockers, primitive carriers, and capacity tokens count blocked pairs exactly once & [136] is the exact token-fibre partition and no-overcounting closure & \cref{def:surplus-blockers}, \cref{lem:sparse-blocker-values-finite}, \cref{def:canonical-sparse-blocker-order}, \cref{def:canonical-blocker-ledger}, \cref{lem:canonical-blocker-ledger-no-overcount}, \cref{def:primitive-sparse-blocker-carrier}, \cref{lem:primitive-carrier-supply}, \cref{def:capacity-token-ledger}, \cref{lem:capacity-token-supply}, \cref{lem:token-ledger-no-overcount} \\
 49 & [135], [136] & Window-join pressure & the exact packed-window join identity supplies \(15p_{13}+\sigma_W\) and the surplus-aware window-stub pressure & supplies the window/remainder capacity side of the token ledger & \cref{def:window-remainder-surplus-split}, \cref{lem:exact-window-join-identity}, \cref{cor:global-window-join-pressure}, \cref{rem:surplus-pair-sharp-frontier} \\
 50 & [137]--[143] & Coupled high-load split & the single-graph high-load test splits the forced homogeneous pattern into window-incidence, remainder-surplus, and primitive-carrier token classes & [139]--[143] are the three token-class audits & \cref{def:same-token-patterns}, \cref{def:same-token-blocker-roles}, \cref{def:homogeneous-token-charge}, \cref{lem:exact-surplus-pair-charge-partition}, \cref{lem:same-token-matching-star}, \cref{thm:sharp-classwise-homogeneous-token-budget}, \cref{thm:tokenized-surplus-accounting-closure} \\
 51 & [140], [142]--[144] & Geometric bottleneck discharge & a large same-token fibre gives a homogeneous matching or star, then realizes a sparse exit, Type B fan data, or fixed homogeneous caps & [144] sends the branch to a sparse exit, Type B, or [138] & \cref{def:same-token-routing-germs}, \cref{lem:same-token-bottleneck-routing}, \cref{thm:homogeneous-overload-geometric-closure}, \cref{cor:homogeneous-same-token-caps-close} \\
@@ -2616,39 +2616,49 @@ activation stage.
 \end{remark}
 
 \begin{lemma}[Sparse port activation]\label[lemma]{lem:sparse-port-activation}
-For every selected port \(p=(h,x)\in\mathcal P_{\rm exc}\), there is a
-canonical finite response support \(\Gamma(p)\) with the following properties.
+For every selected port \(p=(h,x)\in\mathcal P_{\rm exc}\), fix a
+proof-carrying finite response support \(\Gamma(p)\) with the following
+properties.
 \begin{enumerate}[label=(\alph*), leftmargin=2.2em]
 \item The port support is \(T(p)=\{x,a_p,b_p\}\).
 \item There is a simple \(x\)--\(h\) path \(R_p\subseteq G-hx\).  Its first
 edge after \(x\) is either \(xa_p\) or \(xb_p\).
-\item If \(p\) is open, then \(\Gamma(p)\) contains the lexicographically first
-path \(Q_p\subseteq G-x\) supplied by
+\item If \(p\) is open, let \(Q_p\subseteq G-x\) be one fixed path supplied by
 \cref{lem:single-open-port-suppression-witness}; this path joins \(a_p\) to
 \(b_p\) and has length \(2^{j(p)}-1\) for some \(j(p)\ge2\).
-\item If \(p\) is triangular, then \(\Gamma(p)\) contains the triangle
+\item The response support is the exact edge-labelled subgraph
 \[
-x a_p b_p x
+ E(\Gamma(p))=
+ \begin{cases}
+ E(R_p)\cup E(Q_p)\cup\{xa_p,xb_p\},&p\text{ open},\\
+ E(R_p)\cup\{xa_p,xb_p,a_pb_p\},&p\text{ triangular},
+ \end{cases}
 \]
-and the lexicographically first return path \(R_p\) from (b).
+with vertex set consisting exactly of the endpoints of these edges.  Thus in
+the triangular case the second summand is exactly the response triangle
+\(xa_pb_px\), not an unspecified supergraph of it.
 \end{enumerate}
-The construction of \(\Gamma(p)\) uses only \(G\), the ordered vertex labels,
-and the port \(p\); hence it is canonical.
+The witnesses \(R_p,Q_p\) are fixed once for each selected port.  Every later
+local scan consumes these declared certificates and checks their edge lists;
+it does not search a path family.
 \end{lemma}
 
 \begin{proof}
 By \cref{lem:bridgeless}, the edge \(hx\) is not a bridge.  Therefore \(h\) and
 \(x\) remain connected in \(G-hx\), and there is a simple \(x\)--\(h\) path in
-\(G-hx\).  Choose the lexicographically first such path and call it \(R_p\).
+\(G-hx\).  Fix one such path and call it \(R_p\).
 Since \(d_G(x)=3\) and \(N_G(x)=\{h,a_p,b_p\}\), the first edge of \(R_p\) after
 \(x\) is one of \(xa_p,xb_p\).
 
 If \(p\) is open, \cref{lem:single-open-port-suppression-witness} supplies a
 simple \(a_p\)--\(b_p\) path \(Q_p\subseteq G-x\) of length \(2^{j(p)}-1\);
-choose the lexicographically first such path.  If \(p\) is triangular, then
-\(a_pb_p\in E(G)\), so \(xa_pb_px\) is a triangle.  In that case record this
-triangle together with \(R_p\).  These rules determine a finite subgraph
-\(\Gamma(p)\) canonically from \(G\) and \(p\).
+fix one such certificate.  If \(p\) is triangular, then
+\(a_pb_p\in E(G)\), so \(xa_pb_px\) is a triangle.  In the open case take the
+displayed union of \(R_p,Q_p\), and the two shoulder incidences; in the
+triangular case take the displayed union of \(R_p\) and the three triangle
+edges.  Both unions are connected and finite, contain \(T(p)\), and their edge
+and vertex sets are fixed by the display.  Once the proof-carrying paths are
+fixed, the display determines \(\Gamma(p)\) exactly.
 \end{proof}
 
 \begin{definition}[Active surplus demands]\label[definition]{def:active-surplus-demands}
@@ -2657,7 +2667,7 @@ An \emph{active surplus demand} is a selected surplus port
 \[
 p=(h,x)\in\mathcal P_{\rm exc}
 \]
-equipped with the canonical data \(T(p)\), \(R_p\), and \(\Gamma(p)\) from
+equipped with the fixed declared data \(T(p)\), \(R_p\), and \(\Gamma(p)\) from
 \cref{lem:sparse-port-activation}, and not already removed by a sparse surplus
 exit of \cref{def:named-surplus-exits}.  The response support \(\Gamma(p)\) is
 used only as a carrier of target-response data; no disjointness between
@@ -2686,29 +2696,66 @@ exactly \(|\mathcal P_{\rm exc}|=\sigma(G)\), again by
 \cref{lem:sparse-excess-port-extraction}.
 \end{proof}
 
+\begin{definition}[Canonical local connector support]\label[definition]{def:sparse-canonical-connector}
+For two nonempty connected finite edge-labelled subgraphs \(A,B\subseteq G\),
+run multi-source breadth-first search from \(V(A)\) until \(V(B)\) is reached.
+Among the endpoint pairs at minimum distance choose the lexicographically first
+pair, and among their shortest paths choose the lexicographically first
+predecessor path \(P_G(A,B)\).  Define
+\[
+J_G(A,B):=A\cup P_G(A,B)\cup B.
+\]
+If \(A\cap B\ne\varnothing\), this path has length zero at the least common
+vertex.  For an unordered active pair \(\pi=\{p,q\}\), first order \(p<q\) in
+the selected-port order and put
+\[
+X_\pi:=J_G(\Gamma(p),\Gamma(q)).
+\]
+Thus \(X_\pi\) is a specified connected support, not a minimum Steiner
+subgraph.  It is computed by one multi-source BFS and one predecessor trace,
+and checking it does not enumerate connected subgraphs or paths.
+\end{definition}
+
 \begin{definition}[Sparse surplus blockers]\label[definition]{def:surplus-blockers}
 Let \(\mathcal A_0\) be a finite family of active surplus demands.  A
 \emph{sparse surplus blocker} for an unordered pair
-\(\{p,q\}\subseteq\mathcal A_0\) is one of the following concrete objects.
-\begin{enumerate}[label=(\alph*), leftmargin=2.2em]
-\item a vertex or edge-incidence contained in both declared demand supports
+\(\pi=\{p,q\}\subseteq\mathcal A_0\) is a tagged value \(B=(\tau,b)\), where
 \[
-\bigl(T(p)\cup \Gamma(p)\bigr)
-\cap
-\bigl(T(q)\cup \Gamma(q)\bigr);
+\tau\in\mathsf{BlkTag}:=\{\mathsf{overlap},\mathsf{return},
+\mathsf{shoulder},\mathsf{profile},\mathsf{target},\mathsf{chord}\},
 \]
-\item a common vertex or common edge-incidence of the two canonical return
-paths \(R_p\) and \(R_q\);
-\item a common shoulder endpoint or shared cubic buffer vertex among
-\(\{a_p,b_p,x(p),a_q,b_q,x(q)\}\);
-\item a boundary-degree-profile coordinate which prevents a quotient or
-replacement from staying in a single fibre, in the sense of
+and \(b\) is one of the following concrete finite values of the indicated tag.
+\begin{enumerate}[label=(\alph*), leftmargin=2.2em]
+\item For \(\tau=\mathsf{overlap}\), \(b\) is a vertex or edge-incidence
+contained in both exact demand supports
+\[
+\Gamma(p)\cap\Gamma(q).
+\]
+\item For \(\tau=\mathsf{return}\), \(b\) is a common vertex or common
+edge-incidence of the two canonical return paths \(R_p\) and \(R_q\).
+\item For \(\tau=\mathsf{shoulder}\), \(b\) is a vertex in
+\[
+\{a_p,b_p,x(p)\}\cap\{a_q,b_q,x(q)\},
+\]
+together with its two role labels in
+\(\{\mathsf{leftShoulder},\mathsf{rightShoulder},\mathsf{buffer}\}\).
+\item For \(\tau=\mathsf{profile}\), \(b=(\xi,v)\), where \(\xi\) is a
+boundary-degree-profile coordinate in the declared exact signature on
+\(X_\pi\), \(v\) is its value in the labelled pair state, and this entry
+prevents the proposed quotient or replacement from staying in a single fibre,
+in the sense of
 \cref{lem:degree-profile-fibres};
-\item a target-response coordinate witnessing a target-defective quotient,
-target-complete compression, or delocalization event, in the sense of
+\item For \(\tau=\mathsf{target}\), \(b=(\xi,v)\), where \(\xi\) is a
+target-response coordinate in the declared exact signature on \(X_\pi\),
+\(v\) is its exact finite response-table value, and the entry witnesses a
+target-defective quotient, target-complete compression, or delocalization
+event, in the sense of
 \cref{lem:context-universality,cor:uncompressible,lem:proper-smearing,lem:no-silent-global-smearing};
-\item an arithmetic chord-set obstruction from a suppressed open-port family,
-namely the concrete set \(\mathcal S\) of added shoulder chords in
+\item For \(\tau=\mathsf{chord}\), \(b=(\mathcal Q,C,\mathcal S)\), where
+\(\varnothing\ne\mathcal Q\subseteq\{p,q\}\) is suppressible, \(C\) is a
+proof-carrying simple power-of-two cycle in \(G/\mathcal Q\), and
+\(\varnothing\ne\mathcal S\subseteq\mathcal Q\) is exactly the set of added
+shoulder chords used by \(C\), as in
 \cref{lem:suppressed-family-critical-cycle}.
 \end{enumerate}
 The blocker must be an object explicitly listed above.  A pair is not declared
@@ -2717,14 +2764,34 @@ compatibility must be represented by a finite-capacity object of one of these
 six types.
 \end{definition}
 
+\begin{lemma}[Sparse blocker values are finite]\label[lemma]{lem:sparse-blocker-values-finite}
+For every active pair \(\pi\), the tagged carrier
+\(\mathsf{Blk}(\pi)\) of \cref{def:surplus-blockers} is finite.  A proposed
+member is checked from \(X_\pi\), the two exact response supports, and, only in
+the chord case, the supplied cycle certificate; checking membership does not
+enumerate ambient subgraphs or paths.
+\end{lemma}
+
+\begin{proof}
+The carriers in (a)--(c) are subsets of finite supports.  The exact signature
+of the finite boundaried support \(X_\pi\) has finitely many coordinate labels,
+each with a finite value type, so (d) and (e) are finite.  In (f) there are only
+three nonempty choices for \(\mathcal Q\subseteq\{p,q\}\); a finite graph has
+finitely many simple cycles, and each cycle determines \(\mathcal S\) by
+inspection.  The verifier need not generate those cycles: the tuple contains
+\(C\), and simplicity, length, and the used-chord set are checked by one scan
+of its supplied edge list.
+\end{proof}
+
 \begin{definition}[Canonical sparse-blocker order]\label[definition]{def:canonical-sparse-blocker-order}
 Fix the vertex order used in the lexicographic choices above.  Sparse surplus
 blockers are ordered as follows.  First order by the type number
 (a)--(f) in \cref{def:surplus-blockers}.  Within a type, order vertices by the
 fixed vertex order, edge-incidences lexicographically by their ordered endpoint
 pair and incident end, boundary-profile and target-response coordinates by the
-lexicographic order of their declared labels and supports, and chord sets by the
-lexicographic order of their increasing list of added shoulder chords.
+lexicographic order of their declared labels, finite values, and supports, and
+chord tuples by the lexicographic order of
+\((\mathcal Q,E(C),\mathcal S)\).
 This gives a total order on every finite set of blockers arising from a fixed
 pair of active surplus demands.
 \end{definition}
@@ -2804,19 +2871,23 @@ Each sparse surplus blocker \(B\) has a primitive carrier
 \]
 defined as follows.
 \begin{enumerate}[label=(\alph*), leftmargin=2.2em]
-\item If \(B\) is a vertex, then \(\kappa(B)=B\).
-\item If \(B\) is an edge-incidence, then \(\kappa(B)=B\).
-\item If \(B\) is a common shoulder endpoint or cubic buffer vertex, then
-\(\kappa(B)=B\).
-\item If \(B\) is a boundary-degree-profile coordinate or target-response
-coordinate, then \(\kappa(B)\) is the least vertex, edge-incidence, or selected
-surplus port contained in the declared support of that coordinate.  Paths and
-windows contribute their least contained vertex or edge-incidence.  This carrier
-exists because every sparse pair-response coordinate is supported on
-\(X_\pi\supseteq T(p)\cup T(q)\), and the declared signature of
+\item If \(B=(\mathsf{overlap},b)\), where \(b\) is its vertex or
+edge-incidence value, then \(\kappa(B)=b\).
+\item If \(B=(\mathsf{return},b)\), where \(b\) is its vertex or
+edge-incidence value, then \(\kappa(B)=b\).
+\item If \(B=(\mathsf{shoulder},(v,\ell_p,\ell_q))\), then
+\(\kappa(B)=v\); the finite role labels remain part of the blocker value.
+\item If \(B=(\mathsf{profile},(\xi,v))\) or
+\(B=(\mathsf{target},(\xi,v))\), then \(\kappa(B)\) is the least vertex,
+edge-incidence, or selected surplus port contained in the declared support of
+\(\xi\).  The finite value \(v\) is retained in the blocker value but does not
+alter its carrier.  Paths and windows contribute their least contained vertex
+or edge-incidence.  This carrier exists because every sparse pair-response
+coordinate is supported on \(X_\pi\supseteq\Gamma(p)\cup\Gamma(q)\), and the
+declared signature of
 \cref{def:declared-coordinate-signature} generates quotient coordinates only
 from finite unions of declared supports.
-\item If \(B\) is a suppressed-family chord-set obstruction \(\mathcal S\), then
+\item If \(B=(\mathsf{chord},(\mathcal Q,C,\mathcal S))\), then
 \(\kappa(B)\) is the least selected surplus port whose shoulder chord belongs to
 \(\mathcal S\).  The set \(\mathcal S\) is nonempty by
 \cref{lem:suppressed-family-critical-cycle}.
@@ -2878,11 +2949,13 @@ Thus \(|\mathfrak T_R|=\sigma_R\).  The window-join tokens are
 Thus each window--remainder edge contributes one token and each cross-window
 edge contributes one token at each of its two window ends.
 
-For a sparse surplus blocker \(B\), let \(\operatorname{supp}(B)\) be its
-declared support: the singleton vertex for a vertex blocker, the marked edge
-for an edge-incidence blocker, the declared support of a boundary-profile or
-target-response coordinate, and the union of the shoulder chords for a
-chord-set blocker.  Order the unordered pairs in \(\Pi_{\rm blk}\)
+For a sparse surplus blocker \(B=(\tau,b)\), let
+\(\operatorname{supp}(B)\) be its declared support: the singleton vertex or
+marked edge for an overlap or return value, the singleton carrier vertex for a
+shoulder value, the declared support of \(\xi\) for a profile or target value
+\((\xi,v)\), and the union of the shoulder chords indexed by \(\mathcal S\)
+for a chord value \((\mathcal Q,C,\mathcal S)\).  Order the unordered pairs in
+\(\Pi_{\rm blk}\)
 lexicographically by their two active surplus demands, using the selected-port
 order induced by the fixed vertex order.  This is the \emph{canonical pair
 order}.  For \(\pi\in\Pi_{\rm blk}\), put \(B_\pi=\Phi_{\rm can}(\pi)\).  The
@@ -4436,11 +4509,9 @@ with \(0\).  The denominator-free version follows from
 \begin{definition}[Sparse surplus-pair response coordinates]\label[definition]{def:sparse-pair-response}
 Let \(\mathcal A_0\) be a finite family of active surplus demands.  For an
 unordered pair \(\pi=\{p,q\}\subseteq\mathcal A_0\), let \(X_\pi\) be the
-lexicographically first connected subgraph of \(G\) with the minimum possible
-number of vertices that contains
-\[
-T(p)\cup\Gamma(p)\cup T(q)\cup\Gamma(q).
-\]
+canonical BFS connector support of
+\cref{def:sparse-canonical-connector}.  Since \(T(p)\subseteq\Gamma(p)\) and
+\(T(q)\subseteq\Gamma(q)\), it contains all declared data of both demands.
 Let
 \[
 \partial X_\pi=\{v\in V(X_\pi):v\text{ is incident with an edge of }G-X_\pi\}.
@@ -4452,10 +4523,15 @@ two labelled demands \(p\) and \(q\) inside \(X_\pi\).  This coordinate is part
 of the declared signature by clauses (D2), (D7), and (D8) of
 \cref{def:declared-coordinate-signature}.
 
-For a set \(\Pi\subseteq\binom{\mathcal A_0}{2}\), let \(X_\Pi\) be the
-lexicographically first connected subgraph of \(G\) with the minimum possible
-number of vertices that contains every \(X_\pi\) with \(\pi\in\Pi\).  Each
-\(r_\pi\) is then viewed as a labelled coordinate of
+For a nonempty set \(\Pi\subseteq\binom{\mathcal A_0}{2}\), order its pairs
+lexicographically as \(\pi_1<\cdots<\pi_k\), put \(Y_1=X_{\pi_1}\), and set
+\[
+Y_{i+1}=J_G(Y_i,X_{\pi_{i+1}}),\qquad X_\Pi:=Y_k.
+\]
+Thus the joint support uses \(k-1\) deterministic multi-source BFS joins and no
+minimum-connected-subgraph search.  For \(\Pi=\varnothing\), take
+\(X_\Pi=\varnothing\) and the coordinate family empty.  Each \(r_\pi\) is then
+viewed as a labelled coordinate of
 \(\rho_{\partial X_\Pi}^{\rm ex}(X_\Pi)\) by restriction to its declared
 support.
 \end{definition}
@@ -5165,24 +5241,36 @@ Let \(t\in\mathfrak T_{\rm cap}\), let \(r\in\mathfrak R_{\rm st}\), and let
 \[
 Z(\pi;t,r)
 \]
-is the finite support generated by the declared signature
-\cref{def:declared-coordinate-signature} from the following data:
-the capacity token \(t\), the canonical blocker \(\Phi_{\rm can}(\pi)\), the
-selected port supports \(T(p),T(q)\), and the canonical response supports
-\(\Gamma(p),\Gamma(q)\).
+is constructed from the token support, the declared support of the tagged
+canonical blocker \(\Phi_{\rm can}(\pi)\), and
+\(\Gamma(p),\Gamma(q)\).  Order these finite supports and all their connected
+components by their declared labels, start with the first component, and join
+each subsequent component by \(J_G\) from
+\cref{def:sparse-canonical-connector}.  The resulting connected BFS closure is
+\(Z(\pi;t,r)\); hence it is exact and requires no subgraph search.
 
-A \emph{routing germ} of \(\pi\) at \(t\) is one of the declared connector germs
-in \(Z(\pi;t,r)\) which starts at the primitive carrier of \(t\) and ends at
-one of the two selected port supports \(T(p)\) or \(T(q)\).  If two routing
-germs have a maximal common initial segment and then leave through two distinct
-next incidences, the last vertex of the common initial segment is their
-\emph{first separator}.  If no such vertex exists before both germs enter the
-same declared selected-port support with the same endpoint label, the two germs
-are \emph{parallel}.
+The token root \(c(t)\) is the window endpoint of an \(RW\)-token, the marked
+endpoint of a cross-window token, the vertex \(v\) of a remainder token
+\((v,j)\), the vertex of a primitive vertex token,
+the marked end of a primitive edge-incidence token, or the buffer \(x(p)\) of a
+primitive selected-port token.  For \(u\in\{p,q\}\), the \emph{routing germ}
+\(g(\pi,t,u)\) is the lexicographically first shortest path in \(Z(\pi;t,r)\)
+from \(c(t)\) to \(T(u)\), stopped at its first vertex in \(T(u)\).  It is
+obtained by one BFS inside the supplied support.
+
+For two routing germs with the same root, delete their maximal common initial
+edge word.  If both residual words are nonempty and their first incidences are
+distinct, the last common vertex is their \emph{first separator}.  Otherwise
+one whole germ is an initial segment of the other (equality included), and the
+germs are \emph{parallel}.  These alternatives are disjoint and exhaustive for
+finite rooted paths; in particular the case in which one germ reaches its
+labelled port before the other is not omitted.
 
 The \emph{routing label} of a pair in \(\Pi_{t,r}\) records the same-token role
 \(r\), the subtype of \(t\), the ordered endpoint of the pair under discussion,
 the local open/triangular status of the corresponding selected ports, the
+terminal role of each canonical germ in
+\(\{\mathsf{leftShoulder},\mathsf{rightShoulder},\mathsf{buffer}\}\), the
 boundary-degree profile of the bounded port supports \(T(p),T(q)\), the
 \(P_{13}\)-label entries appearing in the bounded part of the support, and the
 suppressed-chord flag when the blocker has type (f).  These labels form a
@@ -5212,12 +5300,17 @@ we obtain two distinct selected surplus demands whose connector data have the
 same token, the same blocker type, the same token subtype, and the same
 boundary-degree fibre.
 
-Consider the two routing germs from the carrier of \(t\) toward those two
-selected demands.  If the germs are parallel, then the two declared response
-coordinates have the same bounded support data and lie in the same
-boundary-degree fibre.  Identifying them is a nontrivial quotient of declared
-coordinates.  If some outside context distinguishes the two responses, the
-quotient is target-defective by \cref{lem:context-universality}, which is a
+Consider the two canonical routing germs from the token root \(c(t)\) toward
+those two selected demands.  If the germs are parallel, then the two declared response
+coordinates have the same bounded port data and terminal role and lie in the
+same boundary-degree fibre.  By the exhaustive definition of parallel, either
+the rooted paths agree or one ends first.  In the latter case restrict the
+longer path to the shorter terminal vertex; this is the finite
+endpoint-labelled connector coordinate recorded in the declared signature.
+Identifying the two endpoint-labelled coordinates is a nontrivial quotient of
+declared coordinates.  If some outside context distinguishes the two
+responses, the quotient is target-defective by
+\cref{lem:context-universality}, which is a
 sparse surplus exit.  If the identification is target-complete on a proper
 support, then \cref{lem:replacement,cor:uncompressible} give the
 target-complete compression exit.  If the identification becomes valid only

@@ -44,6 +44,7 @@ import Erdos64EG.CT14TypeBBoundaryDeficit
 import Erdos64EG.CT14TypeBUnconditionalDeficit
 import Erdos64EG.CT14TypeBPostLedger
 import Erdos64EG.CT12SparseEnvelope
+import Erdos64EG.CT6SurplusPortActivation
 import Erdos64EG.CT15BaselineSpineDemand
 
 /-!

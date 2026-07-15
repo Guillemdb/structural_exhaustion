@@ -7,6 +7,7 @@ import Erdos64EG.CT12TypeBResolution
 import Erdos64EG.CT14TypeBChoiceLedger
 import Erdos64EG.CT14TypeBPostLedger
 import Erdos64EG.CT12SparseEnvelope
+import Erdos64EG.CT6SurplusPortActivation
 import Erdos64EG.CT15BaselineSpineDemand
 
 namespace Erdos64EG.Tests
@@ -586,6 +587,18 @@ example : (runSparseEnvelopeCT12 ctx).terminal = .exhausted :=
 example : (runSparseEnvelopeCT12 ctx).iterations =
     (sparseEnvelopeRemaining ctx).input.vertices.card :=
   runSparseEnvelopeCT12_iterations ctx
+
+example :
+    (Graph.SurplusPortActivation.activatedSchedule
+      (surplusPortActivationSetup ctx)
+      (activatedSurplusStage ctx).run.residual).length =
+        (ctx.G.object.input.vertices.orderedValues.map
+          (fun center ↦ ctx.G.object.degree center - 3)).sum :=
+  activatedSurplusSchedule_length_eq_sigma ctx
+
+example (slot : ActiveSurplusSlot ctx) :
+    Nonempty (ActiveSurplusDemand ctx slot) :=
+  ⟨activeSurplusDemand ctx slot⟩
 
 example :
     ((sparseEnvelopeProfile ctx).budget

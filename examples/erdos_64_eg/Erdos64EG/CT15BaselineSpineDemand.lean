@@ -1,4 +1,4 @@
-import Erdos64EG.CT12SparseEnvelope
+import Erdos64EG.CT6SurplusPortActivation
 import StructuralExhaustion.CT15.BaselineDemand
 
 namespace Erdos64EG.Internal
@@ -126,7 +126,7 @@ execution. -/
 structure VerifiedBaselineSpineDemandPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
     Prop where
-  previous : VerifiedSparseEnvelopePrefix ctx
+  previous : VerifiedSurplusPortActivationPrefix ctx
   coordinateCount : (baselineSpineProfile ctx).coordinates.card = 0
   exactDeficit :
     (baselineSpineProfile ctx).deficit (sparseEnvelopeContext ctx) =
@@ -158,7 +158,7 @@ structure VerifiedBaselineSpineDemandPrefix
 
 def verifiedBaselineSpineDemandPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (previous : VerifiedSparseEnvelopePrefix ctx) :
+    (previous : VerifiedSurplusPortActivationPrefix ctx) :
     VerifiedBaselineSpineDemandPrefix ctx where
   previous := previous
   coordinateCount := baselineSpineProfile_coordinateCount ctx
@@ -178,7 +178,7 @@ theorem exists_verifiedBaselineSpineDemandPrefix {V : Type u}
           PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
         VerifiedBaselineSpineDemandPrefix.{u} ctx := by
   obtain ⟨ctx, rankLe, previous⟩ :=
-    exists_verifiedSparseEnvelopePrefix object baseline avoids
+    exists_verifiedSurplusPortActivationPrefix object baseline avoids
   exact ⟨ctx, rankLe, verifiedBaselineSpineDemandPrefix ctx previous⟩
 
 end Erdos64EG.Internal
