@@ -3,10 +3,13 @@
 This ledger records the Lean-checked proof content in
 `examples/erdos_64_eg` as of 2026-07-15.
 
-The current seventy-seven-node boundary is represented by seven unconditional,
+The current seventy-eight-node boundary is represented by eight branch-complete,
 predecessor-linked endpoint theorems:
 
 - `Erdos64EG.Internal.exists_verifiedSurplusScaleSplitPrefix` for node `[19]`;
+- `Erdos64EG.Internal.routeSurplusScaleThroughCurvature_exhaustive` for the
+  exact split whose bounded constructor is discharged at node `[21]` and
+  whose strict constructor remains the Part-X residual;
 - `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix` for node
   `[28]`;
 - `Erdos64EG.Internal.exists_verifiedP13CurvaturePrefix` for nodes
@@ -58,6 +61,15 @@ contains:
   `13,60,122,122,63,17,2`, the exact `C_s` and `Ω₂` relations, and proof
   that every actual nonempty attachment in the selected graph belongs to the
   accepted table; and
+- the CT10 node-`[21]` multi-scale curvature stage: the exact bounded
+  node-`[19]` residual is retained; `196` candidate length pairs are
+  exhaustively classified and exactly `91` accepted; fifteen fixed
+  `399 × 399` relation tables are audited bit-for-bit in independent shards;
+  every accepted safe/flat count is rechecked against the reusable
+  `Core.FiniteBitRelationBarrier` profile; the existing scale-`(1,1)` counts
+  `543958,432672,111286` are recovered; and the exact integer certificate
+  proves `2^118 ∏F < ∏S`, with no logarithm, graph-family, or Boolean-product
+  realization in the theorem dependency graph; and
 - the exact remainder-curvature stage at nodes `[29]`--`[35]`: every unit of
   node-`[28]` positive deficiency is injected into the selected-window
   incidence ledger; its exact cardinality is `15p₁₃+σ_W`; the reusable
@@ -1157,6 +1169,72 @@ attachment to the edge is accepted by the same classification contract.
 
 ## Current dependency-ready endpoint
 
+### Part I nodes [22]--[24]: audited repair boundary
+
+Node [21] now supplies the exact 91-row multi-scale curvature computation,
+including the safe/flat products and the strict integer rate floor. It does
+not supply a Boolean product realization.
+
+The reusable repair support is compiled and imported:
+
+- Core.LocalBooleanRealization exhaustively returns either a complete local
+  Boolean realization or the first omitted assignment.
+- Graph.LocalBooleanWindowLedger partitions an explicit finite window family
+  into those two outcomes.
+- P13ActualAttachmentResponse constructs the graph-owned 13-coordinate
+  attachment system of one selected window. It deliberately does not identify
+  those coordinates with the 91 curvature barriers.
+- Graph.InducedPathColdLedger proves the graph-owned node-[151] surplus
+  filter and node-[152] identities: an ambient-cubic selected P₁₃ has
+  exactly 15 external stubs and 13 stubs after the two transit ends.
+- Core.FiniteFirstFailure, Core.FiniteBoundedOverlap, and
+  P13ColdGermLedger provide the finite first-failure, disjoint extraction,
+  and G1/G2/G3 classifier layers.
+- Core.FiniteSequentialFiltration computes either the first exact
+  ratio-failing conditional fibre or a complete telescoping product ledger.
+  P13SequentialEntropyFiltration instantiates its weights with node [21] and
+  proves the exact 118-bit state loss when the complete terminal fibre is
+  nonempty; it does not assume that nonemptiness or a graph state universe.
+- Routes.SequentialRatioFailureHandoff retains a computed P13 failure's exact
+  barrier, index, conditional fibres, strict arithmetic inequality, and
+  branch/profile provenance. P13SequentialRatioFailureAudit records the
+  current 13-coordinate graph interface versus the 91-row node-[21] table.
+  No CT6/CT7/CT10 label is attached without a graph reflection theorem.
+- P13MultiScaleConnectorState constructs the first actual 91-barrier state
+  layer without caller state data. It scans `91 * n^15` literal bounded
+  connector sequences per selected window, verifies outside/simple/adjacent
+  path clauses and the exact safe relations, and returns all connectors
+  present or the first missing barrier. Its flat response is the literal
+  `C_(a+b)` test. Coordinatewise connector choices are explicitly not a
+  global graph completion or commuting product.
+- Graph.InducedPathColdCorridor and P13ColdCorridorProducer construct a
+  canonical deleted-edge return from an actual cold cubic stub. Their quiet
+  result is an honest structural germ bounded by the ambient vertex count,
+  with an explicit short/long scale split; it is not promoted to a
+  constant-size target-relative germ.
+- Routes.LongFiniteSupportHandoff and P13ColdScaleHandoff retain the exact
+  long-corridor length, scale inequality, selected stub/germ, branch context,
+  and canonical finite position enumeration. They are deliberately pre-CT17:
+  no target/offset/value/compatibility semantics or finite scale limit is
+  inferred from length alone.
+- P13ColdGermTerminalRoutes executes a supplied G1 witness through CT1,
+  converts G2 to the literal target-defect residual, and executes G3 through
+  the graph-owned CT3 compression.
+- Routes.TargetDefectHandoff and P13ColdTargetDefectHandoff retain the two
+  pieces and exact distinguishing context. This is a verified residual, not
+  an exit-(4) or contradiction claim.
+
+Nodes [22]--[24] remain non-green. The first missing producer is the
+finite dyadic-scale completion-state system for an actual selected window.
+It must construct a response evaluator and a nonvacuous graph-owned
+multi-scale state family. Cross-window multiplication additionally requires a
+commuting gluing theorem or a different proved global account. The cold side
+still requires a constant target-relative response code or a terminating
+long-scale route, the overlap constant, promotion to a real hit/defect/
+compression payload, and an admitted target-defect consumer.
+Consequently no P13CoverageResidual with the manuscript's numerical ceiling
+is currently constructed, and node [25] is not invoked from node [24].
+
 ### Node-local coverage audit
 
 The compiled Chapter 1 descriptor has no partially formalized nodes.
@@ -1258,7 +1336,7 @@ also pins the underlying extractor without serving as the external transfer.
 both sides of the same squared-scale decision on the concrete comparisons
 `7²>3·16` and `6²≤3·16`.
 
-Exactly 77 Chapter 1 nodes are green. Nodes `[20]` and `[125]` retain the
+Exactly 84 Chapter 1 nodes are green. Nodes `[20]` and `[125]` retain the
 strict node-`[19]` scale branch through the typed Part X route. Node `[46]`
 closes the whole-support
 rank-drop payload because its quotient is already admitted and therefore
@@ -1270,7 +1348,7 @@ local-entry, and minimal-overlap residuals. A linear baseline-deficit estimate
 and the grouped-envelope fan-mass coefficient are not assumed by any green
 endpoint.
 
-The following checks were run on 2026-07-15 for the 77-node boundary:
+The following checks were run on 2026-07-15 for the 78-node boundary:
 
 ```text
 lake build StructuralExhaustion
@@ -1287,10 +1365,11 @@ python3 tools/render_example_catalog.py \
   --raw-root build/example-exports --root . --source-root . \
   --catalog generated/lean-machines.json
   Rendered 4 compiled Lean examples
-  Erdős descriptor contains exactly 77 formalized node IDs
+  Erdős descriptor contains exactly 78 formalized node IDs
   The five newly implemented nodes belong to one exact composite audit;
   no green diagram node is partial
-  Nodes 48, 84, and 144 are the explicit frontier steps
+  Nodes 22, 84, and 144 are the mathematical frontier; only 84 and 144 have
+  non-implemented web steps, while 22 is correctly white rather than yellow
 
 npm run test -- --run src/erdos-proof-flow.test.ts \
   src/components/GraphCanvas.test.ts \
@@ -1327,3 +1406,620 @@ UV_CACHE_DIR=/tmp/uv-cache uv run --offline \
   surface. generated/kernel-verification.json consequently remains failed.
   The focused Erdős catalog, Lean, web, skill, and manuscript checks above pass.
 ```
+
+### 2026-07-16 node-[22] review gate
+
+The review pass removed node `[22]` from the implemented node-`[21]`
+cross-reference. The compiled descriptor therefore has exactly 78 green
+nodes, no partially formalized (yellow) nodes, and leaves `[22]` white.
+`P13PartIVFiniteRouting` is compiled downstream infrastructure only: it
+requires the node-`[24]` coverage residual and cannot produce or bypass
+node `[22]`.
+
+Node `[22]` cannot be promoted honestly from the current contracts. The first
+missing producer must construct a graph-owned finite completion-state family
+for every selected window, all 91 response predicates with reflection to the
+node-`[21]` relations, a nonempty terminal fibre or typed consumers for every
+failure, and a commuting cross-window gluing/global injection. No existing
+CT or route supplies those facts from node `[21]`'s finite arithmetic table.
+
+The following gates passed after the cross-reference correction:
+
+```text
+lake build Erdos64EG.WebExport
+  3405 jobs passed
+
+make export
+  framework and all four examples built; 4 descriptors rendered
+
+generated/examples/erdos-64.json
+  78 formalized node IDs; implemented-step references outside that set: none
+
+git diff --check
+  passed
+```
+
+### 2026-07-16 non-enumerative Part-IV correction
+
+The fixed node-`[21]` curvature computation is now green: it checks only the
+paper's constant local universes (399 legal labels and 91 barriers). It does
+not enumerate graphs or assert a Boolean-product realization. The compiled
+web descriptor contains 78 green nodes, with `[22]`--`[24]` and
+`[48]`--`[56]` still non-green.
+
+Ambient-size connector, short-path, attachment, and Boolean-state prototypes
+remain available as standalone audit modules, but are absent from the Erdős
+production import graph. The default graph umbrella also no longer re-exports
+the experimental cold-search modules. No valid theorem was deleted.
+
+The replacement cold prerequisite is split into verified structural layers:
+
+- `Core.FixedTwoBoundaryCutState` stores only capped boundary roles, two fixed
+  window offsets, thirteen dyadic response bits, and a fixed D4--D7 alphabet;
+- `Graph.InducedPathColdSkeleton` records the same-component cyclic successor
+  and canonical component path as proof-carrying structural data, rather than
+  scanning all stubs or paths; and
+- `P13FixedColdCutState` specializes the target bits to `PowerOfTwoLength` and
+  requires an explicit pair-specific context comparison. Equal coarse codes
+  alone never imply CT3 completeness.
+
+The closure-robust repair has a verified same-context node-`[47]` to
+node-`[55]`/`[56]` arithmetic composition, but its red-team verdict remains
+FAIL because no production theorem yet inhabits
+`P13WindowDensityStructuralTheorem`. The exact missing graph theorem must
+derive the node-`[24]` packing ceiling and strict finite quarter budget from
+the fixed cold-skeleton F2--F5 route. Nodes `[48]`--`[54]` are not used as a
+rank-to-Boolean shortcut.
+
+Current verification:
+
+```text
+lake build StructuralExhaustion
+  3380 jobs passed
+
+lake build StructuralExhaustion.Graph.InducedPathColdSkeleton \
+  StructuralExhaustion.Core.FixedTwoBoundaryCutState \
+  StructuralExhaustion.Examples.FixedTwoBoundaryCutState
+  3126 jobs passed
+
+lake build Erdos64EG.P13FixedColdCutState Erdos64EG Erdos64EG.Tests \
+  Erdos64EG.WebExport
+  3378 jobs passed
+```
+
+### 2026-07-16 node-[158] pointwise actual-attachment fork
+
+Node `[158]` is green.  With the subsequently reviewed nodes `[159]` and
+`[155]`, the Chapter 1 total is exactly 81 green nodes.
+For one supplied selected induced-`P13` window, the production theorem executes
+the literal actual outside-vertex-by-thirteen adjacency classifier. Its hot
+constructor is impossible because the all-true assignment at positions 0 and
+2 produces a four-cycle. The retained cold constructor contains the canonical
+missing assignment, the exact node-`[21]` predecessor, and the same selected
+window.
+
+This is a parallel pointwise branch. It neither proves nor refutes the white
+91-coordinate realization edge `[21]`→`[22]` (now displayed as node `[160]`)
+and supplies no density estimate. The worst-case reference budget for one supplied
+window is at most `8192*n` assignment/state vector comparisons, each comparing
+thirteen adjacency bits, equivalently at most `106496*n` bit comparisons. The
+subsequent corridor/path work is excluded from node `[158]`.
+
+The TeX dependency diagram, detailed and correspondence tables, WebExport
+stage and exact proof step, frontend proof-flow edge, README, and focused count
+test are synchronized to this boundary.
+
+### 2026-07-16 nodes `[159]` and `[155]`: same-window frontier and dyadic closure
+
+Node `[159]` now consumes the exact node-`[158]` cold-fork value and executes
+only the existing graph-owned selected-window route.  Its exhaustive result
+has four constructors: a high-degree position in the selected window, a
+dyadic target hit on the canonical restored root cycle, a first high-degree
+corridor event with its clean prefix, or a quiet `ColdStructuralGerm`.  The
+result retains the identical selected window and canonical external stub.
+The quiet constructor has only the ambient bound `support.length ≤ n`; it is
+not promoted to `ColdBoundedGerm`.
+
+The visible certificate-verification ledger for one supplied window is
+`26 + (15*p13 + windowSurplus) + n`: two possible scans of the thirteen path
+positions, one scan of the existing external-incidence token schedule, and at
+most `n` event checks on the proof-carrying simple return.  This is not a
+constructive runtime claim for the classical return-path certificate.
+
+Node `[155]` is green only for node `[159]`'s computed dyadic constructor.
+`P13ComputedDyadicBranch` records equality with that constructor, and the thin
+adapter reconstructs `ColdDyadicHit` from its exact stub position and restored
+root cycle.  The existing CT1 G1 runner reaches `.c1` with its exact four-node
+trace in one supplied-certificate check, and `ctx.avoids` closes the branch.
+No independent target witness is accepted.
+
+The surplus, corridor-high, and quiet constructors remain typed open
+residuals.  Nodes `[153]`--`[154]`, `[156]`--`[157]`, all aggregate cold-mass
+claims, and node `[160]`'s 91-coordinate completion/commuting-realization
+obligation remain white.  The compiled descriptor has exactly 81 green nodes,
+zero yellow nodes, and no implemented-step reference outside the formalized
+set.
+
+### 2026-07-16 node `[161]`: quiet-germ D1--D3 base-scale split
+
+Node `[161]` consumes only a proof-carrying equality with node `[159]`'s
+computed quiet constructor.  Its input retains the exact node-`[158]` fork,
+selected window, canonical stub, same-window equality, no-event proof, and
+`ColdStructuralGerm`; an arbitrary caller-supplied germ cannot enter this
+route.
+
+The fixed threshold is
+`Qbase = 4^2 * 13^2 * 2^13`.  The theorem
+`p13ColdD1D3BaseThreshold_eq_stateCard` proves that this is exactly the
+`FixedTwoBoundaryCutState.State (Fin 0)` cardinal: two capped boundary-degree
+roles, two window offsets, and thirteen target-response bits.  The empty
+additional coordinate type is not claimed to encode D4--D7.
+
+`runP13SameWindowBaseScaleSplit` executes the existing graph-owned
+`InducedPathColdGermScale.route` once.  Its exhaustive theorem has exactly the
+literal `support.length ≤ Qbase` short residual and the strict
+`Qbase < support.length` long residual.  The visible work ledger is one
+natural-number comparison; node `[159]` already accounts for corridor
+construction and scanning.
+
+The compiled boundary now has exactly 82 green nodes and zero yellow nodes.
+Nodes `[160]`, `[162]`, and `[163]` remain white.  Node `[161]` proves no
+repetition, D4--D7 semantic completeness, bounded-germ promotion, CT3
+compression, or density estimate.
+
+### 2026-07-16 nodes `[162]` and `[163]`: exact short-root and long-prefix consumers
+
+Node `[162]` consumes equality with node `[161]`'s computed short constructor,
+not an arbitrary bounded return.  The retained quiet germ and minimum-degree
+context prove that the exact deleted-return root is cubic.  The graph-owned
+`DeletedEdgeReturnThirdIncidence` runner uses the first return step and restored
+dart as two distinct incidences, selects the declared-order third incidence,
+and returns exactly on-support membership or outside-boundary nonmembership.
+Its conservative visible ledger is at most `2*n + 3 + Qbase` checks on this one
+root and supplied support.
+
+Node `[163]` consumes equality with node `[161]`'s computed strict-long
+constructor on the identical branch context.  The reusable
+`LongFiniteSupportHandoff.route` preserves the literal support length and
+`Qbase` scale, embeds the first `Qbase+1` positions, identifies the unique
+overflow image at `Qbase`, and exposes exhaustive base/overflow and
+prefix/after-prefix classifiers.  Constructing the handoff scans nothing;
+classifying one supplied position uses one natural-number comparison.
+
+The Chapter 1 boundary is exactly 84 green nodes.  Node `[160]` remains the
+white 91-bit realization obligation.  Nodes `[164]`, `[165]`, and `[166]`
+remain white: they must respectively supply long-prefix state-label/repetition
+semantics, a sound non-root-chord consumer, and a sound outside-boundary
+consumer.  Nodes `[162]` and `[163]` do not claim any of those conclusions,
+nor D4--D7 completeness, CT3/CT17 execution, or density.
+
+### 2026-07-16 nodes `[165]` and `[166]`: exact short-return branch consumers
+
+Node `[165]` consumes equality with node `[162]`'s computed on-support
+constructor.  The graph-owned resolver scans only the supplied
+`Qbase`-bounded support, constructs the literal chord at its canonical index,
+and decides that one length.  An accepted power-of-two chord closes through
+the existing certificate-driven CT1 runner.  The surviving constructor retains
+the exact graph-owned deleted-edge return and proves its length is strictly
+smaller.  Its visible work is at most `Qbase + 1`.
+
+Node `[166]` consumes equality with node `[162]`'s computed outside
+constructor.  It retains the same oriented incidence from the literal return
+support to the selected outside endpoint, packages the already certified cubic
+root as a three-leaf star, and proves those leaves own every ambient incidence
+at that root.  This projection performs zero additional primitive checks.
+
+The Chapter 1 boundary is exactly 86 green nodes and has zero yellow nodes.
+Nodes `[160]` and `[164]` remain white.  Node `[167]` is the white proof-level
+normalized one-return rejoin: it must combine the node-`[165]` shorter return
+and node-`[166]` original outside return while retaining the inherited bound,
+strict decrease on the chord branch, the outside incidence, and cubic
+ownership.  Node `[168]` is the separate white packed-support transition from
+that normalized return; no cold-subfamily aggregate or successor/path semantics
+is assigned to it.  Neither green node claims normalization, return iteration
+or termination, D4--D7 completeness, CT3 execution, or density.
+
+### 2026-07-16 node `[167]`: normalized one-return boundary rejoin
+
+Node `[167]` accepts exactly two branch-indexed inputs over the same computed
+node-`[162]` short residual: node `[165]`'s exact rejected-chord computation or
+node `[166]`'s exact outside-boundary computation. On the chord branch it
+selects the exact shorter return and the old first step as the outside
+incidence; on the outside branch it retains the original return and selected
+third endpoint. Both branches retain cubic ownership of every root incidence,
+support at most `Qbase`, and selected length at most the original. The chord
+branch remains strict and the outside branch remains equal. The proof-only
+normalization performs zero additional primitive checks.
+
+The Chapter 1 boundary is exactly 87 green nodes and has zero yellow nodes.
+Nodes `[160]` and `[164]` remain white. Node `[168]` remains the white
+packed-support transition from node `[167]`; it is not a cold-subfamily
+aggregate or successor/path theorem. Node `[167]` constructs no return
+iteration or termination, D4--D7 coordinate, CT3 input, or density estimate.
+
+### 2026-07-16 node `[168]`: normalized-return packed-support transition
+
+Node `[168]` consumes equality with one exact computed node-`[167]` normalized
+return. It views that return in the ambient graph and scans its edge indices
+against the union of all ambient-cubic selected-window supports. The exhaustive
+result is either full containment of the return support in that union or the
+first oriented membership transition, retaining its exact `BoundaryStub`,
+outside endpoint, and induced-remainder component.
+
+If `p` is the selected-window packing number, `n` the ambient order, and `L`
+the one return length, the visible ledger is exactly
+`13*p*n + 13*p + 26*p*L`. The disjoint packing bound `13*p ≤ n` and inherited
+`L ≤ Qbase` give `n^2 + (2*Qbase + 1)*n`.
+
+The Chapter 1 boundary is exactly 88 green nodes and has zero yellow nodes.
+Nodes `[160]` and `[164]` remain white. Node `[169]` is the white all-inside
+packed-return consumer; node `[170]` is the white successor/second-stub and
+component-path producer. The ambient-cubic support union is not the
+manuscript's selected cold subfamily, so node `[168]` proves no cold aggregate,
+successor, second stub, component path, iteration, D4--D7 statement, CT3
+execution, or density estimate.
+
+### 2026-07-16 node `[169]`: ambient-cubic owner sequence and first cross-window edge
+
+Node `[169]` consumes equality with node `[168]`'s exact computed `allInside`
+constructor on the same normalized return. It prepares the ambient-cubic slot
+inventory once, performs exactly one owned-slot lookup per path vertex, stores
+the owner window and position in an aligned table, and compares consecutive
+stored owners. The no-change constructor is impossible: the final endpoint
+fixes the original selected stub window as owner, while the initial stub
+neighbour lies outside that window's support. The surviving constructor is
+therefore the exact first edge with distinct owners. It retains both endpoint
+windows and positions, the literal adjacent path vertices, and two oppositely
+oriented tokens whose subtypes are exactly `crossWindow`.
+
+For packing number `p`, ambient order `n`, and return length `L`, the exact
+local ledger is `13*p*n + |supp Γ'|*13*p + L`: the prepared cubic inventory,
+one finite owner lookup per support vertex, and one comparison of stored
+owners per edge. The packing bound and inherited `Qbase` support and length
+bounds give `n^2 + Qbase*(n+1)`.
+
+The Chapter 1 boundary is exactly 89 green nodes among 171 total and has zero
+yellow nodes. Nodes `[160]`, `[164]`, `[170]`, and `[171]` remain white. The
+owner table ranges over all ambient-cubic selected windows, not the manuscript
+cold subfamily. Node `[169]` proves no successor, target-cycle closure, cold
+aggregate, D4--D7 coordinate, CT3 input, or density estimate; node `[171]` is
+the exact white cross-window-edge consumer.
+
+### 2026-07-16 node `[171]`: cross-window token-pair residual
+
+Node `[171]` consumes the complete computed node-`[169]` first-cross-window
+package and invokes the reusable `InducedPathCrossWindowTokenPair` route. The
+output retains exactly the two source tokens, their endpoint windows and
+positions, and their literal adjacent vertices. It proves the tokens distinct,
+keeps both exact `crossWindow` subtypes, records the two opposite oriented
+contributions, and identifies their common undirected edge. Equality of the
+tokens would identify their owner windows and contradict node `[169]`'s exact
+owner change.
+
+The route is a proof-carrying projection and performs exactly zero additional
+primitive checks. The non-Erdős one-edge owner-change fixture independently
+executes the same route and pins both token endpoints.
+
+The Chapter 1 boundary is exactly 90 green nodes among 171 active nodes and has
+zero yellow nodes. Nodes `[160]`, `[164]`, and `[170]` remain white. Node
+`[171]` is the exact terminal residual of the all-inside branch and constructs
+no repeated owner, second connector, cycle, cold-family
+membership, demand or capacity bound, successor, target closure, CT execution,
+or density estimate.
+
+### 2026-07-16 node `[170]`: component boundary schedule and BFS path
+
+Node `[170]` consumes equality with node `[168]`'s actual computed
+first-transition result, retaining its exact boundary stub, outside endpoint,
+and returned induced-remainder component. The reusable graph package computes
+one outside BFS finset and uses it literally for the proof-carrying return-exit
+scan, component predicate, explicit `WindowIndex × Fin 13` first-hit search,
+complete incident-stub filter, and component object. The selected second stub
+is distinct from the anchor. The actual incident schedule is complete,
+duplicate-free, and has length at least two, so genuine cyclic `List.next`
+provides a fixed-point-free successor in the same component. Declared-order BFS
+then supplies a shortest path between the two outside endpoints.
+
+The full ledger contains the window ledger, `13*p` slot scan, the return-length
+times outside-cardinality component lookups, the outside BFS budget, the
+quadratic component restriction, the actual token-filter cost, and the final
+component BFS budget. Both BFS budgets have separate polynomial bounds, and
+the complete total is at most `50 * localScale^3`. A non-Erdős fixture executes
+the same graph package and checks the computed exit, first-slot provenance,
+cyclic successor, shortest path, and work bound.
+
+The Chapter 1 boundary is exactly 91 green nodes among 172 active nodes and has
+zero yellow nodes. Nodes `[160]`, `[164]`, and `[173]` remain white. Node
+`[173]` is only the component two-boundary observation consumer downstream of
+`[170]`. This short first-transition branch is incompatible with the long
+node-`[163]` prefix branch and its node-`[164]` state-label/repetition consumer;
+there is no edge `[173]`→`[164]`. Node `[170]` proves no D4–D7 label,
+repetition, Boolean or cold-family semantics, return iteration, target closure,
+CT3 execution, or density estimate.
+
+### 2026-07-16 node `[173]`: one component D1--D3 observation
+
+Node `[173]` consumes node `[170]`'s actual component boundary input and
+result. The reusable graph package independently computes the declared-order
+BFS-tree shortest path in that component. Its observation-interface rank is
+zero exactly on equality with this one computed path and one otherwise; it
+does not generate, order, or scan a path family. The two literal capped
+boundary degrees, two literal `Fin 13` offsets, connector length, thirteen
+power-of-two target responses, and unique empty local response project to one
+genuine `State (Fin 0)`. The result honestly retains
+`MissingD4D7Reconstruction`.
+
+Materializing this single state inspects exactly two ambient degree rows and
+thirteen fixed target offsets, for `2*n + 13` visible checks and the linear
+bound `15*(n+1)`. The theorem-independent transfer example executes the same
+graph projection and verifies its exact boundary observations, missing D4--D7
+residual, exact work, and linear bound.
+
+The Chapter 1 boundary is exactly 92 green nodes among 174 active nodes and has
+zero yellow nodes. Nodes `[160]`, `[164]`, `[174]`, and `[175]` remain
+white. Node `[174]` is the dependency-ready cyclic component D1--D3 ledger
+split downstream only of `[173]`; it remains unimplemented in this cycle.
+Node `[175]` is the subsequent white D4--D7 reconstruction or coarse-repeat
+consumer. Neither edge enters node `[164]`. Node `[173]` proves no state
+sequence, repetition, D4--D7 reconstruction, CT3 compression, Boolean or
+cold-family semantics, target closure, or density estimate.
+
+### 2026-07-16 node `[174]`: cyclic component D1--D3 ledger split
+
+Node `[174]` consumes a typed node-`[173]` residual and equality to the actual
+node-`[173]` run, together with node `[170]`'s exact complete incident-stub
+schedule. The retained node-`[173]` state is used exactly at the anchor row.
+Every other row is computed by locally re-anchoring the node-`[170]` schedule,
+whose successor remains the stored cyclic `List.next`. The reusable graph
+runner applies finite code collision only to this observed row list. It returns
+either two distinct rows with equal coarse `State (Fin 0)` values or a proof
+that the schedule length is at most
+`Qbase = 4^2 * 13^2 * 2^13`. The latter uses the proved state-cardinality
+identity without enumerating the state universe.
+
+The local work ledger charges the actual schedule, component restrictions, and
+connector/BFS clauses and proves `visibleChecks ≤ 100 * localScale^4`. The
+theorem-independent `InducedPathComponentD1D3Ledger` example executes the same
+runner. Focused generic, transfer, and Erdős builds pass; the trust audit reports
+only `propext`, `Classical.choice`, and `Quot.sound`.
+
+The current Chapter 1 boundary is exactly 95 green nodes among 176 active nodes and
+has zero yellow nodes. Node `[175]` remains the white D4--D7 reconstruction or
+coarse-repeat consumer. The repeated branch supplies only equality of observed
+coarse states, not full response equivalence or CT8 removal; the bounded branch
+supplies no missing coordinates. Node `[174]` proves no CT3 compression,
+Boolean or cold-family realization, target closure, return iteration,
+termination, or density estimate, and it has no edge to node `[164]`.
+
+### 2026-07-16 nodes `[22]`--`[24]`: exact routing and interface audit
+
+The graph-owned alternative handoff from node `[21]` is now production code.
+`P13Node21PartXIRoute` maps the exact CT12 packing list, retaining for every
+window its classifier-produced thirteen-bit cold residual and computed
+same-window node-`[159]` frontier. The four structural subledgers partition
+exactly `p13` windows. No graph, completion, support, or context family is
+enumerated. This does not substitute the actual-adjacency system for the
+still-missing 91-coordinate completion responses, so nodes `[22]` and `[23]`
+remain white.
+
+The node-`[24]` boundary was strengthened after audit showed that its former
+ceiling could be chosen tautologically as `p13`. It now requires the exact
+finite density inequality
+`118108581006 * U13 ≤ 1500000000 * |V(G)|`, as well as `p13 ≤ U13` and
+the strict-quarter budget. Thus the type now names the manuscript density
+claim honestly. There is still no inhabitant: the non-dyadic node-`[159]`
+outputs lack an aggregate bounded-multiplicity terminal ledger. The long and
+first-transition semantic consumers remain at nodes `[164]` and `[175]`, while
+node `[171]` is the exact unconsumed all-inside token-pair residual.
+
+### 2026-07-16 node `[177]`: finite attachment and germ-shape classifier
+
+Node `[177]` consumes node `[144]`'s actual typed semantic trigger, including
+the identical collision, two literal attachment maps, and the same two
+canonical rooted germs. The reusable core decision scans exactly the declared
+`WindowIndex × Fin 13 × Bool × PortRole` coordinates, of cardinality
+`78*p13`. It returns the first actual predicate mismatch or proves complete
+coordinatewise alignment. Only in the aligned branch does the graph package
+inspect the already stored tree-path comparison, yielding exactly one of
+left-prefix, right-prefix, root-divergence, or after-edge-divergence.
+
+The five returned tags form an exact-selection CT10 profile: all five tags are
+listed, precisely the computed tag is accepted, the public runner and verified
+stage are retained, and the exhaustive trace is proved valid. The total work
+is `234*p13 + 7 ≤ 234*n + 7`. The independent transfer example executes the
+same core/graph/CT10 path. No ambient path, context, quotient, subgraph, graph,
+coloring, or state universe is enumerated.
+
+The Chapter 1 boundary is exactly 96 green nodes among 178 active nodes and
+has zero yellow nodes. Node `[178]` is now the explicit white consumer that
+must turn each exact classifier leaf into a sparse exit, CT3 response result,
+decorated Type B handoff, or fixed-cap conclusion. Node `[177]` proves none of
+those semantic consequences and does not prove the near-cubic spine.
+
+### 2026-07-16 node `[164]`: first-nine observed-label refinement
+
+Node `[164]` now consumes node `[163]` through a proof-carrying source that
+stores equality with its actual forced-prefix run. The graph classifier maps
+only the first nine exact prefix positions to their literal corridor vertices
+and computes `(ambient degree mod 4, selected-packing membership)`. A local
+collision scan retains two distinct actual occurrences with the same one of
+eight labels; it never enumerates the label universe or the full `Qbase+1`
+prefix.
+
+The typed route gives CT10 exactly those two collided occurrences. Its three
+classes are coarse label, compatible response contexts, and certified
+removal; only the coarse row is populated, so the verified exhaustive trace
+promotes the missing compatible-response layer. The combined work bound is
+`144*(|V|+1)+9`. The independent framework example executes the same graph
+and CT10 route, and the trust review reports only the standard Lean axioms.
+
+The old full D4–D7 response-equivalence and CT8-removal claim is isolated at
+new white node `[179]`, the sole downstream consumer of `[164]`. Node `[164]`
+does not assert compatible-context completeness, response equivalence, CT8
+removal, or a smaller object. The Chapter 1 boundary is now exactly 97 green
+nodes among 178 active nodes and has zero yellow nodes.
+
+### 2026-07-16 node `[175]`: D4--D7 availability and CT10 routing
+
+Node `[175]` consumes node `[174]`'s exact generic result and its proved
+agreement with the specialized P13 execution. A repeated coarse pair is
+retained literally and CT10 promotes its first row as a missing refinement.
+On the bounded branch, the graph runner scans only the actual duplicate-free
+incident schedule and returns a reconstructed family or its first typed
+missing D4--D7 row; that row is routed through CT10 on the identical
+`ctx.toBranchContext`.
+
+The route layer is generic over an arbitrary problem and branch context. The
+non-Erdős transfer executes the repeated and bounded-first-missing branches,
+and the combined graph/route work is at most `3*localScale`. No State,
+response, context, graph, or ambient universe is enumerated. Full compatible
+D4--D7 responses, CT8 removal, and certified-smaller-object semantics remain
+white at node `[180]`.
+
+The Chapter 1 boundary is exactly 98 green nodes among 179 active nodes and
+has zero yellow nodes.
+
+### 2026-07-16 nodes `[178]`--`[180]`: reviewed local semantic refinements
+
+Three independently implemented and cross-reviewed consumers advance the
+frontier without strengthening their inputs. Node `[178]` consumes every exact
+node-`[177]` constructor, retains mismatch and prefix leaves, and extracts only
+literal distinct incidences plus the local cubic/high separator split. Node
+`[179]` consumes node `[164]`'s actual collided occurrences and promoted CT10
+obligation, reading precisely their two full degree rows. Node `[180]`
+consumes node `[175]`'s actual execution, eliminates the impossible complete
+anchor reconstruction, and retains its exact missing D4–D7 witnesses.
+
+All three use local clauses only. Their respective work bounds are
+`|V|+1`, `2*|V|+1`, and one constructor inspection bounded by
+`localScale+1`; no ambient response, context, state, graph, or universe family
+is enumerated. Independent transfer fixtures and trust audits pass. The
+stronger consumers are explicit white nodes `[181]`, `[182]`, and `[183]`.
+The Chapter 1 boundary is exactly 101 green nodes among 182 active nodes and
+has zero yellow nodes.
+
+### 2026-07-16 nodes `[181]`--`[183]`: normalized local obligations
+
+Node `[181]` converts only already retained cubic divergence incidences into
+literal four-vertex cubic-star data and leaves high-degree branches as
+`degree >= 4`; it performs zero new checks. Node `[182]` retains node `[180]`'s
+dependent markers and emits fixed noduplicated D4--D7 obligation ledgers; its
+actual computed output has eight slots on the coarse branch and four on the
+bounded branch. Node `[183]` retains both node `[179]` degree constructors and
+the CT10 `responseContexts` obligation, comparing adjacency only on the same
+nine literal prefix coordinates.
+
+Independent review repaired the node-`[182]` output budget and added concrete
+aligned/mismatch transfer executions for node `[183]`. All focused builds and
+trust audits pass. Stronger semantics remain white at nodes `[184]`, `[185]`,
+and `[186]`. The Chapter 1 boundary is exactly 104 green nodes among 185 active
+nodes and has zero yellow nodes.
+
+### 2026-07-16 nodes `[184]`--`[186]`: literal local-clause projections
+
+Node `[184]` consumes all seven constructors of node `[181]` exactly. Its
+cubic leaves expose the stored switch boundary and support; its high leaves
+retain the identical high-center ports, their cardinality, and the proved
+degree lower bound. Node `[185]` consumes node `[182]`'s dependent ledgers,
+focuses the literal D4 head, and retains exactly the D5--D7 tail. Node `[186]`
+consumes node `[183]` and scans only positions 9--17, returning an inherited
+mismatch, a second mismatch, or first-eighteen alignment while preserving the
+node `[179]` degree residual and CT10 response-context obligation.
+
+All three have independent transfer executions and cross-reviews. Their work
+is bounded respectively by `|V|`, six actual tail slots, and eighteen local
+adjacency checks. They do not enumerate an ambient graph, response, context,
+state, or universe family and prove no downstream response or CT8 semantics.
+Those stronger consumers remain white at nodes `[187]`, `[188]`, and `[189]`.
+The Chapter 1 boundary is exactly 107 green nodes among 188 active nodes and
+has zero yellow nodes.
+
+### 2026-07-16 nodes `[187]`--`[189]`: reviewed pending obligations and local scans
+
+Node `[187]` consumes node `[184]` exactly, retains every literal payload, and
+maps its seven constructors to pending sparse-exit, fixed-cap, CT3, or Type B
+obligation tags. The tags contain no certificate. Node `[188]` consumes each
+actual node-`[185]` cursor and emits only a singleton D4 evaluation request,
+retaining its dependent marker and exact D5--D7 tail. Node `[189]` preserves
+both inherited mismatch constructors and otherwise scans only literal
+positions 18--26, yielding a third mismatch or first-twenty-seven alignment.
+
+Independent cross-review confirms exact predecessor provenance and payload
+preservation. Work is bounded by one constructor inspection, two actual
+request slots, and eighteen new local adjacency evaluations respectively.
+No caller-supplied Boolean or ambient graph, response, context, state, or
+universe enumeration occurs. Semantic producers remain white at nodes
+`[190]`, `[191]`, and `[192]`. The Chapter 1 boundary is exactly 110 green
+nodes among 191 active nodes and has zero yellow nodes.
+
+### 2026-07-16 nodes `[190]`--`[192]`: first clauses and evaluator requirements
+
+Node `[190]` consumes node `[187]` exactly. Its cubic leaves expose three
+injective adjacent boundary incidences and its high leaves the first four
+distinct declared ports and adjacent endpoints; mismatch and prefix evidence
+passes unchanged. Node `[191]` retains every node-`[188]` request, marker, and
+D5--D7 tail and exposes exactly the missing graph-local predicate and
+predicate-provenance requirements. Node `[192]` preserves all three inherited
+mismatches and otherwise scans only literal positions 27--35.
+
+Independent cross-review confirms fixed local work bounds of four positions,
+four actual requirement tags, and eighteen adjacency evaluations. No Boolean,
+evaluator, strong semantic certificate, response equivalence, CT8 result, or
+ambient enumeration is introduced. The next producers are white nodes
+`[193]`, `[194]`, and `[195]`. The boundary is exactly 113 green nodes among
+194 active nodes with zero yellow nodes.
+
+### 2026-07-16 nodes `[193]`--`[195]` and root-reachable workflow audit
+
+Nodes `[193]`--`[195]` are implemented as the terminal local residual
+interfaces justified at the manuscript boundary. Node `[193]` retains the
+exact node-`[190]` source and emits only its pairwise local-separator clause;
+node `[194]` retains every node-`[191]` D4 request and records the missing
+graph-derived evaluator construction; node `[195]` retains node `[192]`'s
+three inherited mismatches or its exact first-thirty-six compatible-response
+frontier. None of these nodes claims the absent semantic consumer.
+
+The typed workflow was then audited independently from the displayed diagram.
+Three implemented components were found to be orphaned: the whole-packing
+node-`[21]` Part-XI route, the node-`[84]` local fan-mass endpoint, and the
+node-`[144]` coarse-bottleneck chain. Exact composition links now connect them
+respectively from the multi-scale curvature prefix, the Type B residual-center
+ledger, and the homogeneous-pattern audit. Each target constructor consumes
+the identical predecessor prefix. The regenerated artifact has 96 workflow
+stages, 96 links, and all 96 stages reachable from `proof-slice.official`.
+A frontend regression test enforces this root-reachability invariant.
+
+The Chapter 1 boundary is exactly 116 green nodes among 194 active nodes with
+zero yellow nodes. Independent repair audits keep nodes `[160]` and `[176]`
+white: their current sketches still lack graph-owned all-window/gluing and
+global Type B support-family producers, respectively. No Boolean cube,
+ambient graph family, context universe, or caller-supplied support schedule is
+enumerated.
+
+### 2026-07-16 first non-Boolean producer units beyond the green boundary
+
+Two producer units now advance the open contracts without changing any node
+color. `FinitePrefixExtensionFamily` lifts the symbolic prefix runner to a
+dependent finite family: it returns the first obstructed object with complete
+earlier ledgers or complete ledgers for the whole family. The Erdős lift uses
+the exact CT12 selected-window subtype and order, retains the unchanged
+node-`[21]` prefix, runs the fixed 91-coordinate schedule, and proves the
+visible envelope `91 * p13`. It does not construct the pointwise graph
+completion machine and proves no realization or gluing theorem.
+
+On the rigorous non-Boolean route toward node `[24]`, the fixed-skeleton entry
+producer now traverses the graph-owned selected-window schedule once. For each
+window it computes either the first strict-surplus position or the canonical
+ambient-cubic external stub. It proves exact order and coverage, length
+`p13`, the cubic counts 15 and 13, and a quadratic local-work bound. The next
+required producer must consume these stubs through the fixed D4--D7
+reconstruction/F2--F4 residual routing and bounded-multiplicity aggregation;
+no density cap or quarter-budget statement is assumed.
+
+The node-`[176]` and join-node audit also found that connected remainder
+components are not Type B entries. No such helper was imported or retained as
+node evidence. The first genuine Type B global producer must instead enumerate
+the exact node-`[65]` ordinary and node-`[108]` decorated entry schedules with
+dependent predecessor provenance before building grouped occurrences and the
+coefficient-208 CT14 bridge. Consequently nodes `[76]`, `[85]`, `[160]`, and
+`[176]` remain white.

@@ -1,9 +1,9 @@
 {
   "artifactType": "leanKernelVerification",
   "schemaVersion": "2.0.0",
-  "status": "failed",
+  "status": "kernel_checked",
   "catalogHash": "d3802f6a8c4390187eb9dda9331b19d0727f7056cf6f25ae14695038133dd911",
-  "exampleCatalogHash": "0452fed2c43585dca3749ac79139f901e8835cdbee2ec42df592bfb984841916",
+  "exampleCatalogHash": "ed239df10079dfd6ad9104d38ca26e616bb74eff7f55d1303c60eed392b37c87",
   "toolchain": {
     "pinned": "leanprover/lean4:v4.31.0",
     "observed": "Lean (version 4.31.0, x86_64-unknown-linux-gnu, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)"
@@ -24,124 +24,124 @@
     "automationGraphRoutes": "passed",
     "schemaFreshness": "passed",
     "generatedArtifactFreshness": "passed",
-    "legacyAbsence": "failed"
+    "legacyAbsence": "passed"
   },
   "tactics": [
     {
       "tacticId": "CT1",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 5,
       "transitionCount": 4,
       "terminalCount": 2
     },
     {
       "tacticId": "CT2",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 7,
       "transitionCount": 6,
       "terminalCount": 4
     },
     {
       "tacticId": "CT3",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 9,
       "transitionCount": 8,
       "terminalCount": 4
     },
     {
       "tacticId": "CT4",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 9,
       "transitionCount": 8,
       "terminalCount": 4
     },
     {
       "tacticId": "CT5",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 8,
       "transitionCount": 7,
       "terminalCount": 4
     },
     {
       "tacticId": "CT6",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 4,
       "transitionCount": 3,
       "terminalCount": 2
     },
     {
       "tacticId": "CT7",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 6,
       "transitionCount": 5,
       "terminalCount": 3
     },
     {
       "tacticId": "CT8",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 6,
       "transitionCount": 5,
       "terminalCount": 3
     },
     {
       "tacticId": "CT9",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 5,
       "transitionCount": 4,
       "terminalCount": 2
     },
     {
       "tacticId": "CT10",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 8,
       "transitionCount": 7,
       "terminalCount": 3
     },
     {
       "tacticId": "CT11",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 6,
       "transitionCount": 5,
       "terminalCount": 2
     },
     {
       "tacticId": "CT12",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 8,
       "transitionCount": 8,
       "terminalCount": 3
     },
     {
       "tacticId": "CT13",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 9,
       "transitionCount": 8,
       "terminalCount": 4
     },
     {
       "tacticId": "CT14",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 9,
       "transitionCount": 8,
       "terminalCount": 4
     },
     {
       "tacticId": "CT15",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 8,
       "transitionCount": 7,
       "terminalCount": 3
     },
     {
       "tacticId": "CT16",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 7,
       "transitionCount": 6,
       "terminalCount": 3
     },
     {
       "tacticId": "CT17",
-      "status": "failed",
+      "status": "kernel_checked",
       "nodeCount": 10,
       "transitionCount": 9,
       "terminalCount": 5

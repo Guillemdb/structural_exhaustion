@@ -580,8 +580,8 @@ there by the fan-mass estimate.
 \subsection*{Proof-dependency diagram}
 
 The proof-dependency diagram is split across eleven numbered parts.  Each
-diagram node has a unique bracketed integer, and the integers are consecutive
-in source order.  Continuation arrows refer to later nodes by number rather
+diagram node has a unique stable bracketed integer.  Retired nodes leave gaps,
+so later verified identifiers are never renumbered.  Continuation arrows refer to later nodes by number rather
 than repeating the same node number.  Round nodes are closed branches.
 
 \clearpage
@@ -864,8 +864,9 @@ every node/.style={font=\scriptsize}
 \node[dec] (ledgerq) at (0.00,-1.35) {\textbf{[81]}~exact certificate-tied local entries for every center; full B2 choice?};
 \node[wide] (closedledger) at (-5.20,-4.25) {\textbf{[82]}~full choice:\\nonnegative assigned charge, or a literal negative remaining core for route 8};
 \node[wide] (overlap) at (5.45,-4.25) {\textbf{[83]}~no full choice:\\minimal Type B overlap obstruction};
-\node[wide] (fanmass) at (5.45,-6.95) {\textbf{[84]}~fan-mass route:\\certificate failures, unresolved local entries, and B2 failures charged to assigned surplus};
-\node[wide] (closed) at (0.00,-9.25) {\textbf{[85]}~degree-\(4\) Type B cannot carry linear deficit outside route 8 once the fan-mass residual is sublinear};
+\node[wide] (fanmass) at (5.45,-6.95) {\textbf{[84]}~local selected-center mass:\\exact scope and overlap centers charged to the same assigned surplus};
+\node[wide] (globalmass) at (5.45,-9.35) {\textbf{[176]}~global grouped fan-mass frontier:\\canonical family, incidence control, coefficient \(208\)};
+\node[wide] (closed) at (0.00,-11.75) {\textbf{[85]}~degree-\(4\) Type B cannot carry linear deficit outside route 8 once the global fan-mass residual is sublinear};
 \draw[arrow] (split)--node[right]{no}(profile);
 \draw[arrow] (profile)--(certq);
 \draw[arrow] (certq)--node[left]{yes}(ledgerq);
@@ -875,10 +876,11 @@ every node/.style={font=\scriptsize}
 \draw[arrow] (ledgerq.east)--node[above,pos=.16]{unresolved}++(5.70,0)|-(fanmass.north);
 \draw[arrow] (overlap)--(fanmass);
 \draw[arrow] (closedledger)--(closed);
-\draw[arrow] (fanmass)--(closed);
+\draw[arrow] (fanmass)--(globalmass);
+\draw[arrow] (globalmass)--(closed);
 \end{tikzpicture}%
 }
-\caption[Proof-dependency diagram, Part VII]{Proof-dependency diagram, Part VII.  This panel expands the degree-\(4\) no-branch of [68].  Node [80] fixes the certificate attached to each center.  Node [81] then makes an exhaustive local decision on those exact certificates: an unresolved local entry routes directly to [84]; otherwise CT12 returns either a full disjoint B2 choice or a minimal overlap obstruction.  A full choice gives the exact post-ledger alternative at [82], while the obstruction is retained at [83] and routed to [84].}
+\caption[Proof-dependency diagram, Part VII]{Proof-dependency diagram, Part VII.  This panel expands the degree-\(4\) no-branch of [68].  Node [80] fixes the certificate attached to each center.  Node [81] then makes an exhaustive local decision on those exact certificates: an unresolved local entry routes directly to [84]; otherwise CT12 returns either a full disjoint B2 choice or a minimal overlap obstruction.  A full choice gives the exact post-ledger alternative at [82], while the obstruction is retained at [83] and routed to [84].  Node [84] is only the local CT14 selected-center mass bound.  The construction of the canonical ordinary/grouped support family and its coefficient-(208) incidence bounds is displayed separately at the open node [176].}
 \label{fig:proof-diagram-part-vii}
 \end{figure}
 
@@ -1031,7 +1033,14 @@ every node/.style={font=\scriptsize}
 \node[dec] (rclass) at (5.70,-15.15) {\textbf{[141]}~token in\\\(\mathfrak T_R\)?};
 \node[box] (rres) at (11.90,-15.15) {\textbf{[142]}~remainder-surplus\\geometric audit:\\homogeneous matching/star};
 \node[box] (pres) at (5.70,-17.95) {\textbf{[143]}~primitive-carrier\\geometric audit:\\homogeneous matching/star};
-\node[term] (capcontra) at (11.90,-17.95) {\textbf{[144]}~bottleneck discharge:\\sparse exit, Type B, or near-cubic spine};
+\node[wide] (capcontra) at (11.90,-17.95) {\textbf{[144]}~fixed coarse classification:\\49 literal pairs, 48 codes; exact collision and two rooted germs};
+\node[wide] (semanticclass) at (11.90,-20.55) {\textbf{[177]}~finite attachment alignment:\\mismatch or one of four rooted-germ shapes};
+\node[wide] (semanticbottle) at (5.70,-20.55) {\textbf{[178]}~local semantic consumer:\\retained leaf or cubic/high separator};
+\node[wide] (semanticclosure) at (5.70,-23.15) {\textbf{[181]}~cubic switch normalization /\\retained high-degree residual};
+\node[wide] (semanticstrong) at (5.70,-25.75) {\textbf{[184]}~literal local-separator projection:\\cubic switch data or retained high ports};
+\node[wide] (semanticnext) at (5.70,-28.35) {\textbf{[187]}~exact pending-obligation tags:\\sparse exit / caps / CT3 / Type B};
+\node[wide] (semanticproducer) at (5.70,-30.95) {\textbf{[190]}~first fixed-arity\\local separator clause};
+\node[term] (semanticcertificate) at (5.70,-33.55) {\textbf{[193]}~pairwise local-separator\\clause; residual retained};
 \draw[arrow] (resid)--(slack);
 \draw[arrow] (slack)--(extract);
 \draw[arrow] (extract)--(activate);
@@ -1056,9 +1065,16 @@ every node/.style={font=\scriptsize}
 \draw[arrow] (wres.east)--node[above,pos=0.25]{bottleneck}++(0.95,0)|-(wto144)--(capcontra.70);
 \draw[arrow] (rres.south)--node[right,pos=0.40]{bottleneck}(rto144)--(capcontra.110);
 \draw[arrow] (pres.east)--node[above]{bottleneck}(capcontra.west);
+\draw[arrow] (capcontra)--(semanticclass);
+\draw[arrow] (semanticclass)--(semanticbottle);
+\draw[arrow] (semanticbottle)--(semanticclosure);
+\draw[arrow] (semanticclosure)--(semanticstrong);
+\draw[arrow] (semanticstrong)--(semanticnext);
+\draw[arrow] (semanticnext)--(semanticproducer);
+\draw[arrow] (semanticproducer)--(semanticcertificate);
 \end{tikzpicture}%
 }
-\caption[Proof-dependency diagram, Part X]{Proof-dependency diagram, Part X.  This panel expands the sparse non-near-cubic branch [20].  Nodes [126]--[128] build the full active surplus family, and node [129] records the separate baseline-demand definition with its exact deficit.  Node [130] performs the canonical blocker split.  At [131], every blocker-free pair is assigned to its first selected surplus port, which is already a primitive token, with the distinct role \(\mathsf{freeAnchor}\).  Blocked pairs pass through [132]--[134] and receive their canonical capacity token.  The two routes join at [136], where the 25 token--role labels partition the complete scheduled-pair family without double counting.  Node [137] is the exact coupled CT9 decision of \cref{prop:exact-25-role-coupled-decision}; it consumes the literal pair count \(\binom{\sigma(G)}2\), not a Boolean-realization estimate.  If \(D_{25}=0\), the explicit quadratic surplus bound routes to [138].  If \(D_{25}>0\), CT9 returns an actual overloaded token--role fibre.  Nodes [139] and [141] inspect the literal constructor of that token and route it to the window-incidence, remainder-surplus, or primitive-carrier geometric audit [140], [142], [143].  A free-anchor fibre lies in the primitive class and is a literal same-first-port star.  Node [144] is the downstream geometric bottleneck audit; it is not an input to the node-[131] route.}
+\caption[Proof-dependency diagram, Part X]{Proof-dependency diagram, Part X.  This panel expands the sparse non-near-cubic branch [20].  Nodes [126]--[128] build the full active surplus family, and node [129] records the separate baseline-demand definition with its exact deficit.  Node [130] performs the canonical blocker split.  At [131], every blocker-free pair is assigned to its first selected surplus port, which is already a primitive token, with the distinct role \(\mathsf{freeAnchor}\).  Blocked pairs pass through [132]--[134] and receive their canonical capacity token.  The two routes join at [136], where the 25 token--role labels partition the complete scheduled-pair family without double counting.  Node [137] is the exact coupled CT9 decision of \cref{prop:exact-25-role-coupled-decision}; it consumes the literal pair count \(\binom{\sigma(G)}2\), not a Boolean-realization estimate.  If \(D_{25}=0\), the explicit quadratic surplus bound routes to [138].  If \(D_{25}>0\), CT9 returns an actual overloaded token--role fibre.  Nodes [139] and [141] inspect the literal constructor of that token and route it to the window-incidence, remainder-surplus, or primitive-carrier geometric audit [140], [142], [143].  A free-anchor fibre lies in the primitive class and is a literal same-first-port star.  Node [144] performs the deterministic 49-item/48-code collision classification and retains the exact attachment maps and two rooted germs.  Node [177] scans exactly the retained \(78p_{13}\) attachment coordinates and returns a mismatch or one of four aligned rooted-germ shapes.  Nodes [178] and [181] expose the exact local separator split, and [184] projects its literal cubic-switch data or retained high-center ports.  Node [187] retains each payload with its exact pending sparse-exit, fixed-cap, CT3, or Type B obligation tag; the requested certificates remain open at [190].}
 \label{fig:proof-diagram-part-x}
 \end{figure}
 
@@ -1088,6 +1104,35 @@ every node/.style={font=\scriptsize}
 \node[term] (hit) at (-6.25,-10.15) {\textbf{[155]}~G1: dyadic\\cycle};
 \node[term] (defect) at (0.00,-10.15) {\textbf{[156]}~G2: target defect,\\exit (4), or handoff};
 \node[term] (compress) at (6.25,-10.15) {\textbf{[157]}~G3 or same-interface\\table: compression};
+\node[wide] (actualcold) at (-6.25,5.50) {\textbf{[158]}~pointwise actual 13-bit scan:\\canonical missing assignment};
+\node[wide] (samewindow) at (-6.25,3.20) {\textbf{[159]}~same-window structural frontier:\\surplus / dyadic / corridor-high / quiet germ};
+\node[wide] (realize91) at (6.25,7.50) {\textbf{[160]}~91-bit completion and\\commuting realization (open)};
+\node[wide] (basescale) at (-6.25,0.80) {\textbf{[161]}~quiet-germ D1--D3 base split at\\\(Q_{\rm base}=4^2 13^2 2^{13}\)};
+\node[term] (baseshort) at (-8.80,-1.60) {\textbf{[162]}~short root third incidence:\\on-support / outside};
+\node[term] (baselong) at (-8.80,-3.70) {\textbf{[163]}~forced \(Q_{\rm base}+1\)\\support prefix};
+\node[term] (longsemantic) at (-13.10,-5.80) {\textbf{[164]}~first-nine coarse-label\\collision / CT10 refinement};
+\node[wide] (longfullsemantic) at (-13.10,-8.00) {\textbf{[179]}~two-occurrence exact\\degree refinement};
+\node[wide] (longresponseconsumer) at (-13.10,-10.20) {\textbf{[183]}~first-nine local-clause\\alignment};
+\node[wide] (longfullconsumer) at (-13.10,-12.40) {\textbf{[186]}~first-eighteen local-clause\\alignment};
+\node[wide] (longnextconsumer) at (-13.10,-14.60) {\textbf{[189]}~first-twenty-seven\\local-clause alignment};
+\node[wide] (longsemanticproducer) at (-13.10,-16.80) {\textbf{[192]}~first-thirty-six\\local-clause alignment};
+\node[term] (longfinalproducer) at (-13.10,-19.00) {\textbf{[195]}~compatible-response frontier;\\semantic residual retained};
+\node[term] (chordconsumer) at (-13.10,-1.60) {\textbf{[165]}~on-return chord: CT1\\or shorter return};
+\node[term] (boundaryconsumer) at (-13.10,-3.70) {\textbf{[166]}~outside return: cubic\\boundary-star ownership};
+\node[term] (boundaryrejoin) at (-17.20,-3.70) {\textbf{[167]}~normalized one-return\\boundary rejoin};
+\node[term] (coldskeleton) at (-17.20,-5.80) {\textbf{[168]}~normalized-return\\packed-support transition};
+\node[term] (allinsideconsumer) at (-21.30,-4.70) {\textbf{[169]}~ambient-cubic owner sequence /\\first cross-window edge};
+\node[term] (stubsuccessor) at (-21.30,-6.90) {\textbf{[170]}~component boundary schedule /\\BFS path};
+\node[term] (crosswindowconsumer) at (-25.40,-4.70) {\textbf{[171]}~cross-window\\token-pair handoff};
+\node[term] (componentobservation) at (-25.40,-8.90) {\textbf{[173]}~one component\\D1--D3 observation};
+\node[term] (componentledger) at (-29.50,-8.90) {\textbf{[174]}~cyclic component\\D1--D3 ledger split};
+\node[term] (componentd4d7) at (-33.60,-8.90) {\textbf{[175]}~D4--D7 availability /\\coarse-repeat CT10 routing};
+\node[wide] (componentd4d7sem) at (-33.60,-6.50) {\textbf{[180]}~component D4--D7\\semantic readiness};
+\node[wide] (componentct8consumer) at (-37.70,-6.50) {\textbf{[182]}~fixed D4--D7\\clause schedule};
+\node[wide] (componentfullconsumer) at (-41.80,-6.50) {\textbf{[185]}~D4 obligation cursor:\\literal tail slots};
+\node[wide] (componentnextconsumer) at (-45.90,-6.50) {\textbf{[188]}~singleton D4 requests\\with retained D5--D7 tail};
+\node[wide] (componentsemanticproducer) at (-50.00,-6.50) {\textbf{[191]}~graph-local predicate /\\provenance residual};
+\node[term] (componentfinalproducer) at (-54.10,-6.50) {\textbf{[194]}~D4 evaluator construction\\residual; no Boolean};
 \draw[arrow] (interface)--(route8);
 \draw[arrow] (route8.east)--node[above]{yes}(route8closed.west);
 \draw[arrow] (route8)--node[right]{no}(hot);
@@ -1100,9 +1145,42 @@ every node/.style={font=\scriptsize}
 \draw[arrow] (germcase.south west)--node[above,sloped]{G1}(hit.north);
 \draw[arrow] (germcase)--node[right]{G2}(defect);
 \draw[arrow] (germcase.south east)--node[above,sloped]{G3/finite}(compress.north);
+\draw[arrow] ($(actualcold.north)+(0,0.75)$)--node[right]{from [21]}(actualcold.north);
+\draw[arrow] (actualcold)--(samewindow);
+\draw[arrow] (samewindow.south)--node[left]{dyadic}(hit.north);
+\draw[arrow] (samewindow.south west)--node[left]{quiet}(basescale.north);
+\draw[arrow] (basescale.south west)--node[above,sloped]{short}(baseshort.north);
+\draw[arrow] (basescale.west)--node[left]{long}(baselong.north);
+\draw[arrow] (baseshort.west)--node[above]{on support}(chordconsumer.east);
+\draw[arrow] (baseshort.south west)--node[above,sloped]{outside}(boundaryconsumer.east);
+\draw[arrow] (chordconsumer.south west)--node[above,sloped]{shorter return}(boundaryrejoin.north east);
+\draw[arrow] (boundaryconsumer.west)--node[above]{owned cubic star}(boundaryrejoin.east);
+\draw[arrow] (boundaryrejoin)--node[right]{normalized return}(coldskeleton);
+\draw[arrow] (coldskeleton.north west)--node[above,sloped]{all inside}(allinsideconsumer.east);
+\draw[arrow] (coldskeleton.south west)--node[above,sloped]{first transition}(stubsuccessor.east);
+\draw[arrow] (stubsuccessor.south west)--node[above,sloped]{two-boundary schedule}(componentobservation.east);
+\draw[arrow] (componentobservation.west)--node[above]{one state}(componentledger.east);
+\draw[arrow] (componentledger.west)--node[above]{split residual}(componentd4d7.east);
+\draw[arrow] (componentd4d7)--node[right]{semantic refinement}(componentd4d7sem);
+\draw[arrow] (componentd4d7sem.west)--node[above]{missing clauses}(componentct8consumer.east);
+\draw[arrow] (componentct8consumer.west)--node[above]{discharge}(componentfullconsumer.east);
+\draw[arrow] (componentfullconsumer.west)--node[above]{next clause}(componentnextconsumer.east);
+\draw[arrow] (componentnextconsumer.west)--node[above]{derive locally}(componentsemanticproducer.east);
+\draw[arrow] (componentsemanticproducer.west)--node[above]{construct}(componentfinalproducer.east);
+\draw[arrow] (allinsideconsumer.west)--node[above]{two cross-window tokens}(crosswindowconsumer.east);
+\draw[arrow] (baselong.south west)--node[above,sloped]{prefix}(longsemantic.east);
+\draw[arrow] (longsemantic)--node[right]{exact pair}(longfullsemantic);
+\draw[arrow] (longfullsemantic)--node[right]{response contexts}(longresponseconsumer);
+\draw[arrow] (longresponseconsumer)--node[right]{extend}(longfullconsumer);
+\draw[arrow] (longfullconsumer)--node[right]{next}(longnextconsumer);
+\draw[arrow] (longnextconsumer)--node[right]{semantics}(longsemanticproducer);
+\draw[arrow] (longsemanticproducer)--node[right]{semantics}(longfinalproducer);
+\draw[arrow] ($(realize91.north)+(0,0.75)$)--node[right]{from [21]}(realize91.north);
+\draw[arrow] (realize91.south)--node[right]{to [22]}($(realize91.south)+(0,-0.75)$);
 \end{tikzpicture}%
 }
-\caption[Proof-dependency diagram, Part XI]{Proof-dependency diagram, Part XI.  This panel expands the hot/cold \(P_{13}\)-window interface behind nodes [22]--[24].  If \(\theta<1/78\), the existing route-8 carrier inequality closes at [147].  Otherwise the live-hot entropy cap either yields the density cap [149], or the unpaid cold family has linear size [150].  On the near-cubic spine, only \(o(n)\) cold windows are non-cubic [151]; each ambient-cubic cold window has \(15\) external stubs, and after two corridor ends are absorbed it contributes \(13\) branch-excess units [152].  The first-failure extraction [153] assigns those selected half-edges to bounded cold germs and then uses the bounded-overlap constant \(D_{\rm cold}\) to obtain a linear disjoint family.  The germ trichotomy [154] has no terminal residual: G1 gives a dyadic cycle [155], G2 routes to target defect, exit \textup{(4)}, or the already existing handoff ledgers [156], and G3 together with the finite same-interface table gives a target-complete compression [157].}
+\captionsetup{singlelinecheck=false}
+\caption[Proof-dependency diagram, Part XI]{Proof-dependency diagram, Part XI.  The left-hand graph-owned fork is parallel to the still-open 91-bit obligation [160] on the edge [21]\(\to\)[22].  Node [158] scans the actual thirteen adjacency bits of one selected window and returns a canonical missing assignment.  Node [159] classifies that same window as surplus, dyadic, corridor-high, or quiet.  Only the dyadic constructor closes, at [155], through the existing CT1 run.  On the quiet constructor, node [161] compares the return length with \(Q_{\rm base}=4^2 13^2 2^{13}\).  Its long branch reaches node [163]'s literal forced prefix.  Node [164] inspects only its first nine entries, computes the graph-derived label consisting of degree modulo four and selected-packing membership, retains an actual collision in the eight-label alphabet, and executes CT10 on exactly those two occurrences.  Node [179] refines the two exact occurrences by their full degrees; compatible-response and CT8 semantics remain white at [183].  The short branch passes through nodes [162], [165], [166], and [167] to the packed-support transition [168].  The all-inside result feeds owner-change [169] and terminates at the exact token-pair residual [171].  The first-transition result feeds verified node [170].  There one shared computed outside BFS component supports the proof-carrying exit scan, explicit slot first hit, distinct second boundary stub, complete duplicate-free incident schedule, true cyclic successor, and declared-order shortest BFS path.  Node [173] consumes that exact schedule and independently computes the declared-order BFS-tree shortest path, yielding one genuine \(\operatorname{State}(\operatorname{Fin}(0))\) with \(\operatorname{MissingD4D7}\).  Node [174] retains that exact state as the anchor row and classifies only the observed local rows.  Node [175] consumes that exact split: a coarse repeat is promoted through CT10 on its retained pair, while a bounded schedule returns a reconstructed family or the first typed missing row and routes that row through CT10.  Node [180] eliminates the impossible complete anchor reconstruction and retains the exact missing-clause residuals; full compatible-response and CT8 implications remain white at [182].  No edge from this short branch enters the mutually exclusive long-branch nodes [164], [179], or [183].  The state universe is used only through its proved cardinality and is never enumerated.  No full-response repetition, second connector, cycle, return iteration or termination, CT3 compression, Boolean or cold-family semantics, target closure, density, or bounded-germ conclusion follows.  The main panel expands the separate hot/cold \(P_{13}\)-window interface behind nodes [22]--[24].  If \(\theta<1/78\), route 8 closes at [147].  Otherwise the hot entropy cap yields [149] or a linear unpaid cold family [150], followed by the near-cubic, stub-excess, and bounded-germ stages [151]--[154].  The germ trichotomy [154] remains open beyond its independently verified G1 consumer.}
 \label{fig:proof-diagram-part-xi}
 \end{figure}
 
@@ -1134,6 +1212,24 @@ The table records every named object in the proof-dependency diagram.  The \emph
 14 & [18] & $P_{13}$ label algebra & $399$ labels and relations $C_s$ & finite algebra basis & \cref{lem:labels} \\
 15 & [21] & Curvature enumeration & $543958,432672,111286$ and $c_\Omega$ & verified finite computation & \cref{lem:curv-enum} \\
 16 & [21] & Multi-scale window package & $c_{13}=118.108581006\ldots$ and \((c_{13}-o(1))p_{13}\log_2 n\) independently target-testable window coordinates & controls $P_{13}$ packing density & \cref{lem:p13-window-package}; \cref{app:curv-code} \\
+16a & [158] & Pointwise actual-attachment fork & for one selected window, the exhaustive actual outside-vertex-by-13 adjacency classifier returns a canonical missing assignment and retains that same window & same-window structural trigger [159]; no 91-bit realization or density conclusion & \cref{lem:p13-actual-attachment-cold-fork,rem:p13-actual-attachment-fork-scope} \\
+16b & [159], [155] & Same-window structural frontier & the graph-owned degree/stub/return scan returns exactly window surplus, dyadic target hit, corridor-high handoff, or quiet structural germ; only the dyadic constructor closes by CT1 and target avoidance & surplus and corridor-high handoffs remain open; the quiet germ has only an ambient-size support bound & \cref{lem:p13-same-window-structural-frontier,lem:p13-same-window-dyadic-terminal,rem:p13-same-window-frontier-scope} \\
+16c & [160] & 91-bit realization obligation & construct the finite 91-coordinate completion states and prove commuting simultaneous realization & open; distinct from the actual 13-bit classifier & \cref{rem:p13-91-realization-obligation} \\
+16d & [161] & D1--D3 base-scale split & on the computed quiet constructor, compare the literal support once with \(Q_{\rm base}=4^2 13^2 2^{13}\) and retain exactly support at most \(Q_{\rm base}\) or support greater than \(Q_{\rm base}\) & short and long semantic consumers [162], [163] remain open & \cref{lem:p13-d1d3-base-scale-split,rem:p13-d1d3-base-scale-scope} \\
+16e & [162] & Short-return third incidence & from equality with the computed short constructor, select the declared-order third incidence at the cubic return root and classify its endpoint as on the supplied return support or outside it & exact branch consumers [165], [166] & \cref{lem:p13-short-third-incidence,rem:p13-short-third-incidence-scope} \\
+16f & [163] & Long-support forced prefix & from equality with the computed long constructor, embed the first \(Q_{\rm base}+1\) literal support positions, identify the unique overflow index \(Q_{\rm base}\), and classify supplied positions relative to the prefix & first-nine coarse-label classifier [164] & \cref{lem:p13-long-support-prefix,rem:p13-long-support-prefix-scope} \\
+16g & [164] & First-nine coarse-label classifier & map the first nine exact prefix positions to literal corridor vertices, compute their degree-modulo-four and selected-packing-membership labels, retain an actual eight-label collision, and execute CT10 on the two collided occurrences & promotes the missing compatible-response layer to [179]; no D4--D7 equivalence or CT8 removal & \cref{lem:p13-long-prefix-observed-label,rem:p13-long-prefix-observed-label-scope} \\
+16g$'$ & [179], [183] & Long-prefix degree refinement and semantic consumer & compare the two exact full degree rows, then construct compatible responses or a certified CT8 route & [179] verified locally; stronger consumer open at [183] & \cref{lem:p13-long-prefix-degree-refinement,rem:p13-long-prefix-full-semantics} \\
+16h & [165] & On-return chord resolution & consume equality with node [162]'s computed on-support constructor; an accepted literal chord closes through CT1, while rejection retains the exact strictly shorter deleted-edge return & normalization, iteration, and termination remain open at [167] & \cref{lem:p13-non-root-chord-resolution,rem:p13-non-root-chord-resolution-scope} \\
+16i & [166] & Outside-return cubic boundary star & consume equality with node [162]'s computed outside constructor, orient its one support crossing, and package the cubic return root as a three-leaf finite shape owning every root incidence & exact outside residual feeds normalized rejoin [167] & \cref{lem:p13-outside-boundary-star,rem:p13-outside-boundary-star-scope} \\
+16j & [167] & Normalized one-return boundary rejoin & combine the node-[165] shorter return and node-[166] original outside return into one branch-indexed proof-level residual, retaining length at most the original, strict decrease on the chord branch and equality on the outside branch, one outside incidence, cubic ownership, and the inherited short bound & exact normalized return feeds packed-support transition [168] & \cref{lem:p13-normalized-return-boundary,rem:p13-normalized-return-boundary-scope} \\
+16k & [168] & Normalized-return packed-support transition & scan the one computed node-[167] return against the union of all ambient-cubic selected-window supports; return either full support containment or the first oriented membership transition with its exact boundary stub, outside endpoint, and induced-remainder component & the all-inside output feeds verified owner-change node [169]; the exact first-transition output feeds verified component schedule [170] & \cref{lem:p13-packed-support-transition,rem:p13-packed-support-transition-scope} \\
+16l & [169] & Ambient-cubic owner sequence and first cross-window edge & consume equality with node [168]'s computed all-inside result; prepare the finite slot inventory once, perform and store one owner lookup per return vertex, scan consecutive stored owners, eliminate the single-window case, and retain the first edge with distinct owners and two exact opposite cross-window tokens & exact token pair feeds verified zero-check handoff [171]; the owners range over the ambient-cubic union, not the manuscript cold subfamily & \cref{lem:p13-packed-owner-change,rem:p13-packed-owner-change-scope} \\
+16m & [170] & Component boundary schedule and BFS path & consume equality with node [168]'s exact first-transition result; use one shared computed outside BFS component for the first exit, explicit first slot, distinct second stub, complete incident schedule, true cyclic successor, and declared-order shortest BFS path & feeds verified one-state component observation [173]; this short branch is incompatible with the long [163]--[164] branch & \cref{lem:p13-component-boundary-schedule,rem:p13-component-boundary-schedule-scope} \\
+16n & [171] & Cross-window token-pair residual & consume node [169]'s exact first owner-change edge; project its two distinct endpoint tokens, both exact cross-window subtypes, endpoint windows and positions, opposite oriented contributions, and equality of the underlying literal edge & zero additional primitive checks; this exact all-inside residual has no claimed repeated-owner or second-connector consequence & \cref{lem:p13-cross-window-token-pair,rem:p13-cross-window-token-pair-scope} \\
+16p & [173] & One component D1--D3 observation & consume node [170]'s exact two-boundary schedule; independently compute its declared-order BFS-tree shortest path, package equality to that computed path as the observation rank, and project the two literal degrees, two \(\operatorname{Fin}(13)\) offsets, and connector length to one genuine \(\operatorname{State}(\operatorname{Fin}(0))\) & exact \(\operatorname{MissingD4D7}\) residual feeds verified cyclic component ledger split [174]; no path-family ordering or scan & \cref{lem:p13-component-d1d3-observation,rem:p13-component-d1d3-observation-scope} \\
+16q & [174] & Cyclic component D1--D3 ledger split & retain node [173]'s exact state at the anchor row; re-anchor node [170]'s complete incident schedule at every other row; scan the resulting local rows for a coarse-state collision & exhaustive repeated-or-bounded split; the bounded branch has schedule length at most \(Q_{\rm base}\), and the observed-row work is at most \(100\,\mathrm{localScale}^4\) & \cref{lem:p13-component-d1d3-ledger,rem:p13-component-d1d3-ledger-scope} \\
+16r & [175], [180], [182] & D4--D7 availability, readiness, and semantic consumer & consume node [174]'s exact split, eliminate the impossible complete anchor reconstruction, and retain the exact missing clauses & [175] and [180] verified locally; full compatible-response and CT8 semantics remain open at [182] & \cref{lem:p13-component-d4d7-classifier,lem:p13-component-d4d7-semantic-readiness,rem:p13-component-d4d7-full-semantics} \\
 17 & [22]--[24] & $P_{13}$ density bound & after surplus-token routing supplies \cref{def:near-cubic-spine}, $\theta\le\theta_{\rm win}+o(1)$; high entropy gives $\theta\le0.01198542083\ldots+o(1)$ & window entropy overflow / window-only cap & \cref{lem:p13-window-package}, \cref{prop:p13-density} \\
 18 & [145]--[157] & Hot/cold window branch & if \(\theta<1/78\), route 8 closes; otherwise hot failure forces \(C\ge(\theta-\theta_{\rm win})n-o(n)\), \(b(\mathfrak S_{\rm cold})\ge13C-o(n)\), and \(N_{\rm germ}\ge13C/D_{\rm cold}-o(n)\); bounded germs route to hit, defect, handoff, route 8, same-interface table, or compression & no terminal cold residual after the spine estimate & \cref{def:cold-window-ledger,def:surviving-cold-branch,lem:hot-failure-cold-mass,def:cold-skeleton-excess,lem:cold-window-stub-excess,lem:cold-short-self-return-filter,def:cold-bounded-germ,def:cold-corridor-first-failure,lem:cold-corridor-first-failure,lem:cold-germ-extraction,lem:cold-bounded-germ-trichotomy,def:cold-same-interface-table,lem:cold-same-interface-table,lem:cold-increment-arithmetic,thm:cold-branch-quantitative-closure} \\
 19 & [17], [25]--[27] & Remainder $R$ & exact partition, certified floor $L_R\le|R|$, and componentwise $P_{13}$-freeness & packing maximality and the incoming coverage certificate & \cref{def:p13-remainder-residual,sec:remainder} \\
@@ -1170,7 +1266,7 @@ The table records every named object in the proof-dependency diagram.  The \emph
 48 & [132]--[136] & Blocker and total token ledger & canonical blockers, primitive carriers, and capacity tokens count blocked pairs exactly once; the free-anchor route uses selected ports already in the primitive universe & [136] is the exact complete-pair token--role partition and no-overcounting closure & \cref{def:surplus-blockers}, \cref{lem:sparse-blocker-values-finite}, \cref{def:canonical-sparse-blocker-order}, \cref{def:canonical-blocker-ledger}, \cref{lem:canonical-blocker-ledger-no-overcount}, \cref{def:primitive-sparse-blocker-carrier}, \cref{lem:primitive-carrier-supply}, \cref{def:capacity-token-ledger}, \cref{lem:capacity-token-supply}, \cref{lem:token-ledger-no-overcount}, \cref{def:total-surplus-pair-token-route}, \cref{lem:total-pair-token-route-no-overcount} \\
 49 & [135], [136] & Window-join pressure & the exact packed-window join identity supplies \(15p_{13}+\sigma_W\) and the surplus-aware window-stub pressure & supplies the window/remainder capacity side of the token ledger & \cref{def:window-remainder-surplus-split}, \cref{lem:exact-window-join-identity}, \cref{cor:global-window-join-pressure}, \cref{rem:surplus-pair-sharp-frontier} \\
 50 & [137]--[143] & Coupled high-load split & the single-graph high-load test splits the forced homogeneous pattern into window-incidence, remainder-surplus, and primitive-carrier token classes & [139]--[143] are the three token-class audits & \cref{def:same-token-patterns}, \cref{def:same-token-blocker-roles}, \cref{def:homogeneous-token-charge}, \cref{lem:exact-surplus-pair-charge-partition}, \cref{lem:same-token-matching-star}, \cref{thm:sharp-classwise-homogeneous-token-budget}, \cref{thm:tokenized-surplus-accounting-closure} \\
-51 & [140], [142]--[144] & Geometric bottleneck discharge & a large same-token fibre gives a homogeneous matching or star, then realizes a sparse exit, Type B fan data, or fixed homogeneous caps & [144] sends the branch to a sparse exit, Type B, or [138] & \cref{def:same-token-routing-germs}, \cref{lem:same-token-bottleneck-routing}, \cref{thm:homogeneous-overload-geometric-closure}, \cref{cor:homogeneous-same-token-caps-close} \\
+51 & [140], [142]--[144], [177], [178], [181] & Geometric bottleneck classification and semantic frontier & a large same-token fibre gives a homogeneous matching or star; [144] computes an exact coarse collision; [177] classifies the rooted germs; [178] exposes the local separator split & [178] verified locally; sparse-exit, CT3, Type B, or fixed-cap consumer open at [181] & \cref{lem:same-token-semantic-bottleneck-classification,lem:same-token-local-semantic-consumer,lem:same-token-bottleneck-routing} \\
 \bottomrule
 \end{longtable}
 }
@@ -1398,7 +1494,7 @@ Type B fan-certificate residual centers and B2 failures made sublinear by
 used as load-bearing inputs in \cref{thm:main}.  They record possible repair
 directions if one later replaces a quantitative estimate in invariants 27--29.
 Likewise,
-\cref{cor:quantitative-homogeneous-overload,cor:same-token-pattern-caps-close,cor:quantified-homogeneous-class-overload,cor:sparse-pair-entropy-saturation}
+\cref{cor:quantitative-homogeneous-overload,cor:same-token-pattern-caps-close,cor:quantified-homogeneous-class-overload}
 are recorded for the surplus-token repair path; the proof of
 \cref{thm:main} uses the sharper routed statements
 \cref{thm:tokenized-surplus-accounting-closure,thm:sharp-surplus-overload-audit,thm:homogeneous-overload-geometric-closure}.
@@ -1457,13 +1553,9 @@ Ledger-invariant numbers and diagram-node numbers are separate namespaces.  The 
 \cref{lem:variable-edge-budget} & ENT & [21] \texttt{(enum)} & inv 10 & Budget valid across the edge-count range. & Robustness to edge-count variation. \\
 \cref{lem:near-cubic-budget} & ENT & [21] \texttt{(enum)} & \cref{def:near-cubic-spine} & Near-cubic budget $B_{\mathrm{skel}}=\tfrac32 n\log_2 n+o(n\log n)$. & Pins the $\tfrac32$ constant on the branch where the surplus-token routing has supplied the spine estimate. \\
 \cref{lem:surviving-active-family} & ENT\slash SURP & [125]--[128] \texttt{(active setup)} & inv 10, 14, 15; sparse surplus exits absent & A sparse-pressure survivor has the full active surplus family. & Sets up the active-demand side of the surplus branch. \\
-\cref{def:baseline-spine-demand} & ENT\slash SURP & [129] \texttt{(baseline)} & inv 14, 15; \cref{lem:surviving-active-family} & Defines a declared baseline demand and records its exact deficit. & Supplies the common demand interface for the later sandwich; any linear deficit bound must be proved separately. \\
-\cref{lem:exact-cubic-baseline-budget}, \cref{lem:incremental-skeleton-room} & ENT\slash SURP & auxiliary entropy audit & inv 10, 14, 15; \cref{def:baseline-spine-demand} & Computes the cubic baseline budget and the incremental edge-count room above cubic. & Supplies numerical room only when an independent realization contract is separately present. \\
-\cref{prop:sparse-entropy-sandwich} & ENT\slash SURP & auxiliary entropy audit & inv 10, 14, 15; complete mixed Boolean-state realization; \cref{lem:exact-cubic-baseline-budget}, \cref{lem:incremental-skeleton-room} & Bounds blocker-free surplus-pair responses under the stated complete-realization contract. & Conditional auxiliary result; it is not an input to the node-[131] route. \\
-\cref{prop:sparse-entropy-sandwich-with-blockers} & ENT\slash SURP & auxiliary entropy audit & inv 10, 14, 15; complete mixed Boolean-state realization; \cref{prop:sparse-entropy-sandwich} & Gives the corresponding conditional free-pair estimate in the presence of blockers. & Conditional auxiliary result; it is not an input to the blocker or total-token ledgers. \\
+\cref{def:baseline-spine-demand} & ENT\slash SURP & [129] \texttt{(baseline)} & inv 14, 15; \cref{lem:surviving-active-family} & Defines a declared baseline demand and records its exact deficit. & Retains the exact baseline datum; the surplus proof proceeds through literal token accounting. \\
+\cref{lem:exact-cubic-baseline-budget}, \cref{lem:incremental-skeleton-room} & ENT\slash SURP & auxiliary arithmetic audit & inv 10, 14, 15; \cref{def:baseline-spine-demand} & Computes the cubic baseline budget and the incremental edge-count room above cubic. & Records exact standalone skeleton arithmetic without feeding the surplus-token route. \\
 The pre-retokenization clause of \cref{def:total-surplus-pair-token-route} and the free-anchor clause of \cref{lem:total-pair-token-route-no-overcount} & ENT\slash SURP & [131] \texttt{(free-anchor dispatch)} & \cref{lem:surviving-active-family,def:surplus-blockers,def:sparse-pair-response} & Assigns every blocker-free pair to its first selected surplus port with role \(\mathsf{freeAnchor}\); every blocked pair retains its canonical blocker kind and first-hit record for the downstream capacity-token map.  The five pre-retokenization role fibres partition the complete pair schedule. & Closes node [131] locally and supplies the exact free and blocked inputs for [134]--[136]. \\
-\cref{def:spine-lower-bound-deficits} & ENT\slash SURP & [129] \texttt{(baseline)} & inv 14, 15; \cref{def:baseline-spine-demand} & Records the lower-bound deficit packages. & Supplies the deficit side of the surplus estimates. \\
-\cref{cor:spine-lower-bound-surplus-estimates} & ENT\slash SURP & auxiliary entropy audit & inv 14, 15; \cref{def:spine-lower-bound-deficits} & Converts a separately supplied complete Boolean realization into surplus estimates. & This conditional estimate is not an input to node [137] or [138]. \\
 \cref{def:canonical-blocker-ledger} & ENT\slash SURP & [132]--[134] \texttt{(canonical blockers)} & inv 10, 14, 15; the blocked output of node [130] & Defines the canonical blocker assigned to each blocked response. & Makes the blocked-pair assignment single-valued. \\
 \cref{lem:canonical-blocker-ledger-no-overcount} & ENT\slash SURP & [134] \texttt{(blocker ledger)} & inv 10, 14, 15; \cref{def:canonical-blocker-ledger} & Proves the canonical blocker ledger counts each blocked response once. & Prevents overcounting before capacity tokens are introduced. \\
 \cref{def:primitive-sparse-blocker-carrier}, \cref{lem:primitive-carrier-supply} & ENT\slash SURP & [134] \texttt{(primitive carrier)} & inv 14, 15; \cref{def:canonical-blocker-ledger} & Primitive sparse blocker carriers supply the primitive-carrier token class. & Supplies the primitive-carrier side of the token ledger. \\
@@ -1480,11 +1572,31 @@ The pre-retokenization clause of \cref{def:total-surplus-pair-token-route} and t
 \cref{def:same-token-routing-germs} & ENT\slash SURP & [140], [142], [143] \texttt{(role audits)} & inv 4, 8, 14, 15; \cref{def:same-token-blocker-roles} & Defines the routing germs used in the three role audits. & Names the geometric data audited by the bottleneck lemma. \\
 \cref{lem:same-token-matching-star} & ENT\slash SURP & [140], [142], [143] \texttt{(role audits)} & inv 4, 8, 14, 15; \cref{def:same-token-routing-germs} & A large same-token load contains a matching or star in the active role class. & Produces the combinatorial pattern audited by homogeneous extraction. \\
 \cref{lem:same-token-homogeneous-extraction} & ENT\slash SURP & [140], [142], [143] \texttt{(role audits)} & inv 4, 8, 14, 15; \cref{lem:same-token-matching-star} & The matching or star contains a homogeneous role subpattern. & Produces the geometric pattern audited by the bottleneck lemma. \\
-\cref{lem:same-token-bottleneck-routing}, \cref{thm:homogeneous-overload-geometric-closure} & ENT\slash SURP & [144] \texttt{(bottleneck)} & inv 4, 8, 14, 15; sparse surplus exits and Type B routing where applicable & The homogeneous bottleneck realizes a sparse surplus exit, produces Type B fan data, or falls under fixed homogeneous caps. & Discharges the geometric audit. \\
+\cref{lem:same-token-coarse-bottleneck-classification} & ENT\slash SURP & [144] \texttt{(coarse collision)} & green nodes [140], [142], [143] & Executes the exact 49-item/48-code scan and retains two distinct equal-code pairs, literal attachment maps, and two canonical rooted germs. & Routes the unchanged residual to the verified finite classifier [177] without asserting a semantic conclusion. \\
+\cref{lem:same-token-semantic-bottleneck-classification,rem:same-token-semantic-bottleneck-classification-scope} & ENT\slash SURP & [177] \texttt{(finite classifier)} & green node [144] and its exact typed trigger & Scans the literal \(78p_{13}\) attachment coordinates, returns the first mismatch or full alignment, and then records one of four exact rooted-germ shapes in an exhaustive CT10 table. & Routes the unchanged five-way residual to [178]; it asserts no sparse-exit, CT3, Type B, fixed-cap, or spine conclusion. \\
+\cref{lem:same-token-bottleneck-routing}, \cref{thm:homogeneous-overload-geometric-closure} & ENT\slash SURP & [178] \texttt{(semantic bottleneck)} & inv 4, 8, 14, 15; node [177]; sparse surplus exits and Type B routing where applicable & The homogeneous bottleneck realizes a sparse surplus exit, produces Type B fan data, or falls under fixed homogeneous caps. & Open consumer: each finite-classifier branch still requires its complete certificate. \\
 \cref{cor:homogeneous-same-token-caps-close} & ENT\slash SURP & downstream cap-to-spine consequence & inv 14, 15; \cref{thm:homogeneous-overload-geometric-closure} & Fixed homogeneous caps also route the remaining geometric branch to the near-cubic spine. & This downstream route rejoins the already available node-[138] conclusion. \\
-\cref{prop:nonnear-cubic-sharp-overload-routing} & ENT\slash SURP & [144] \texttt{(bottleneck)} & inv 14, 15; \cref{cor:homogeneous-same-token-caps-close} & Combines the sparse-pressure discharge with the cap-to-spine route. & Closes the non-near-cubic surplus branch or derives the near-cubic spine. \\
+\cref{prop:nonnear-cubic-sharp-overload-routing} & ENT\slash SURP & [178] \texttt{(semantic bottleneck)} & inv 14, 15; \cref{cor:homogeneous-same-token-caps-close} & Combines the sparse-pressure discharge with the cap-to-spine route. & Remains downstream of the open semantic consumer. \\
 \cref{lem:state-count-comparison} & ENT & [22] \texttt{(many)} & inv 1; \cref{lem:skeleton-dominates} & \#realizable states $\le$ \#labelled graphs. & The counting contradiction step. \\
 \cref{lem:p13-window-package} & ENT & [21] \texttt{(enum)} $\to$ [22] \texttt{(many)} & inv 1, 25; \cref{def:near-cubic-spine}; \cref{app:curv-code} & Converts the finite \(91\)-barrier computation into \((c_{13}-o(1))p_{13}\log_2 n\) independent window coordinates. & Names the load-bearing window package used by the density cap. \\
+\cref{lem:p13-actual-attachment-cold-fork,rem:p13-actual-attachment-fork-scope} & ENT\slash EXC & [21] $\to$ [158] \texttt{(actual cold)} $\to$ [159] & one exact selected window and target avoidance & Scans the literal outside-vertex-by-13 adjacency system, eliminates the hot outcome by a four-cycle, and retains the canonical missing assignment on the same window. & Feeds the graph-owned same-window frontier; the separate [160] 91-coordinate realization obligation remains open. \\
+\cref{lem:p13-same-window-structural-frontier,rem:p13-same-window-frontier-scope} & EXC & [158] $\to$ [159] \texttt{(four-way)} & exact cold fork, selected window, minimum degree, and bridgelessness & Computes the first high window position or the canonical cubic stub, deleted-edge return, and first dyadic/high-degree event; otherwise retains only the quiet structural germ. & Dyadic goes to [155]; surplus, corridor-high, and quiet outputs remain typed open residuals. \\
+\cref{lem:p13-same-window-dyadic-terminal} & EXC & [159] $\to$ [155] \texttt{(dyadic)} & the computed dyadic constructor with the same stub, window, offset, and root cycle & Reconstructs the exact cold dyadic hit, executes the one-check CT1 G1 run, and contradicts target avoidance. & Closes only the computed dyadic branch. \\
+\cref{rem:p13-91-realization-obligation} & ENT & [21] $\to$ [160] $\to$ [22] \texttt{(open)} & finite 91-coordinate completion system and commuting gluing semantics & No producer is currently proved. & White obligation; no fact from the 13-bit branch is substituted. \\
+\cref{lem:p13-d1d3-base-scale-split,rem:p13-d1d3-base-scale-scope} & EXC & [159] $\to$ [161] \texttt{(quiet scale)} $\to$ [162], [163] & equality with the computed quiet constructor, retaining the exact fork, window, stub, no-event proof, and structural germ & Executes the graph-owned support comparison at the exact D1--D3 state cardinal and returns the literal non-strict short or strict long residual. & One comparison only; both semantic consumers remain white. \\
+\cref{lem:p13-short-third-incidence,rem:p13-short-third-incidence-scope} & EXC & [161] $\to$ [162] \texttt{(short root)} $\to$ [165], [166] & equality with the computed short result and its exact bounded return & Uses the baseline and quiet no-high proof to make the return root cubic, selects its third declared incidence, and tests that one endpoint against the supplied support. & The on-support and outside outcomes feed the separately verified exact consumers [165] and [166]. \\
+\cref{lem:p13-non-root-chord-resolution,rem:p13-non-root-chord-resolution-scope} & EXC & [162] $\to$ [165] \texttt{(on support)} $\to$ [167] & equality with node [162]'s computed on-support result and the same short return & Scans the supplied support once, constructs the literal chord, closes an accepted power-of-two length through CT1, and otherwise retains the exact strictly shorter return. & The exact shorter residual feeds the separately verified one-return normalization [167]. \\
+\cref{lem:p13-outside-boundary-star,rem:p13-outside-boundary-star-scope} & EXC & [162] $\to$ [166] \texttt{(outside)} $\to$ [167] & equality with node [162]'s computed outside result, including the same return support and selected third incidence & Retains the oriented support crossing, packages the certified cubic root as a three-leaf star, and proves those leaves exhaust its ambient incidences. & The exact outside residual feeds the separately verified one-return normalization [167]. \\
+\cref{lem:p13-normalized-return-boundary,rem:p13-normalized-return-boundary-scope} & EXC & [165], [166] $\to$ [167] $\to$ [168] & one of the two exact predecessor computation packages, indexed by the common node-[162] short residual & Selects one return, one outside adjacent endpoint, and the common cubic star; retains support at most $Q_{\rm base}$, length at most the original, strictness on the chord branch, and equality on the outside branch. & The exact normalized return feeds the separately verified packed-support transition [168]. \\
+\cref{lem:p13-packed-support-transition,rem:p13-packed-support-transition-scope} & EXC & [167] $\to$ [168] $\to$ [169], [170] & equality with node [167]'s computed normalized result and its selected-window endpoint in the all-ambient-cubic packed-support union & Scans one path's edge indices and returns either full support containment or the first oriented transition with its exact boundary stub, outside endpoint, and induced-remainder component. & The all-inside result feeds verified node [169], and the exact first-transition result feeds verified node [170]; the ambient-cubic union is not the manuscript cold subfamily. \\
+\cref{lem:p13-component-boundary-schedule,rem:p13-component-boundary-schedule-scope} & EXC & [168] $\to$ [170] $\to$ [173] & equality with node [168]'s computed first-transition result, including its exact stub, outside endpoint, and returned induced-remainder component & Reuses one computed outside BFS finset for the first exit and incident schedule; performs an explicit slot first-hit search, obtains a distinct second stub, stores the complete cyclic successor, and constructs a declared-order shortest BFS path. & The exact schedule feeds verified one-state observation [173].  This short branch is incompatible with long-prefix [163]--[164]. \\
+\cref{lem:p13-component-d1d3-observation,rem:p13-component-d1d3-observation-scope,lem:p13-component-d1d3-ledger,rem:p13-component-d1d3-ledger-scope} & EXC & [170] $\to$ [173] $\to$ [174] & node [170]'s exact computed two-boundary schedule and node [173]'s typed residual with equality to its actual run & Node [174] retains the node-[173] state at the anchor, computes all other rows by local re-anchoring of the exact schedule, and returns either an observed coarse collision or schedule length at most \(Q_{\rm base}\). & The scan ranges only over observed rows; the state universe is not enumerated. \\
+\cref{lem:p13-component-d4d7-classifier,rem:p13-component-d4d7-classifier-scope} & EXC & [174] $\to$ [175] & node [174]'s exact generic result and equality with its specialized P13 run & Routes a coarse repeat or first missing row through CT10 on the identical branch context; the bounded scan inspects only actual stored rows. & Full D4--D7 compatible responses and CT8 removal remain open at [180]; no edge enters [164] or [179]. \\
+\cref{lem:p13-packed-owner-change,rem:p13-packed-owner-change-scope} & EXC & [168] $\to$ [169] $\to$ [171] & equality with node [168]'s computed all-inside result on the same normalized return, including support containment in the ambient-cubic selected-window union & Prepares the finite slot inventory once, stores one exact owner lookup per path vertex, scans consecutive stored owners, rules out a single owner using the original external stub neighbour, and returns the first distinct-owner edge with two exact opposite cross-window tokens. & The owners are ambient-cubic, not cold-family data; the exact token pair feeds verified zero-check handoff [171], and no successor, target, cold aggregate, or density statement follows. \\
+\cref{lem:p13-cross-window-token-pair,rem:p13-cross-window-token-pair-scope} & EXC & [169] $\to$ [171] & node [169]'s complete computed first-cross-window package, including stored table, first hit, crossing, and exact run equality & Projects the two already computed endpoint tokens, proves them distinct, retains both exact cross-window subtypes, endpoint windows and positions, their opposite oriented contributions, and the common literal undirected edge. & This is the terminal open residual on the all-inside branch; no second connector, repeated-owner structure, cycle, cold-family statement, demand, successor, target, or density conclusion follows. \\
+\cref{lem:p13-long-support-prefix,rem:p13-long-support-prefix-scope} & EXC & [161] $\to$ [163] \texttt{(long prefix)} & equality with the computed strict long result on the identical branch context and support & Routes the exact source to its forced \(Q_{\rm base}+1\) prefix, unique overflow position, and local prefix/after-prefix position classifiers. & The exact prefix feeds verified first-nine classifier [164]; node [163] itself attaches no state label or response semantics. \\
+\cref{lem:p13-long-prefix-observed-label,lem:p13-long-prefix-degree-refinement} & EXC & [163] $\to$ [164] $\to$ [179] & exact forced-prefix run, collided occurrences, and promoted CT10 obligation & Computes the coarse collision, then reads exactly the two full degree rows and returns equality or a congruent nonzero gap. & Work is local; response equivalence and CT8 removal remain isolated at white node [183]. \\
+\cref{rem:p13-long-prefix-full-semantics} & EXC & [183] \texttt{(open semantic consumer)} & node [179]'s exact degree residual and retained CT10 obligation & Must construct compatible D4--D7 responses and either a certified CT8 removal or a typed distinguishing-context route. & Open; no ambient state or context universe may be enumerated. \\
 \cref{def:cold-window-ledger,def:surviving-cold-branch,lem:hot-failure-cold-mass,def:cold-skeleton-excess,lem:cold-window-stub-excess,lem:cold-short-self-return-filter,def:cold-bounded-germ,def:cold-corridor-first-failure,lem:cold-corridor-first-failure,lem:cold-germ-extraction,lem:cold-bounded-germ-trichotomy,def:cold-same-interface-table,lem:cold-same-interface-table,lem:cold-increment-arithmetic,thm:cold-branch-quantitative-closure} & ENT\slash EXC & [145]--[157] \texttt{(cold)} & inv 1, 8, 14, 15, 20, 35, 38; \cref{def:near-cubic-spine}; \cref{lem:p13-window-package}; \cref{thm:large-budget-route8-only} & Quantifies the hot/cold branch: \(\theta<1/78\) is route-8 closed; hot failure gives \(C\ge(\theta-\theta_{\rm win})n-o(n)\), \(b\ge13C-o(n)\), and \(N_{\rm germ}\ge13C/D_{\rm cold}-o(n)\); bounded germs route by hit, defect, same-interface table, handoff, or compression. & Records the terminal cold-window closure used by the downstream large-budget route. \\
 \cref{prop:p13-density} & ENT & [24] \texttt{(theta)} & inv 20; \cref{def:near-cubic-spine}; \cref{lem:p13-window-package}; \cref{lem:independent-target-entropy} & Independent induced-$P_{13}$ density $\theta\le\theta_{\rm win}$ after the surplus-token branch supplies the spine estimate, with sharper high-entropy cap $\theta\le0.011985$. & Kills the high-$P_{13}$ branch on the derived spine branch; forces a large remainder. \\
 \bottomrule
@@ -1606,8 +1718,9 @@ The pre-retokenization clause of \cref{def:total-surplus-pair-token-route} and t
 \cref{lem:typeB-exclusion} & EXC & [65] \texttt{(typeB)}, [71]--[73], [82]--[85] & inv 4, 8, 16, 24, 25; \cref{def:typeB-multiclosed-residual}, \cref{lem:typeB-hybrid-incidence-budget}, \cref{lem:typeB-hybrid-B1} & Applies the refined Type B ledger: certificate-closed fans have nonnegative charge, positive-deficit fans are paid by B1, and B2 failures are isolated as residuals. & Kills Type B outside route 8 and outside the Type B bridge residual. \\
 \cref{def:typeB-residual-mass} & EXC & [75] \texttt{(fanmass)} & inv 4, 14, 16, 24, 35; \cref{def:near-cubic-spine} & Defines the Type B residual mass for fan-certificate residual centers, grouped decorated envelopes, and B2 failures. & Names the global bridge-mass quantity. \\
 \cref{lem:decorated-envelope-with-route8-core} & EXC & [75] \texttt{(fanmass)} & inv 4, 14, 16, 24, 35; \cref{def:typeB-residual-mass} & Extracts a route-8 non-window core from grouped decorated envelopes into \(D_A\). & Keeps decorated-envelope mass separate from Type A route-8 deficit. \\
-\cref{lem:typeB-bridge-with-route8-core} & EXC & [84] \texttt{(fanmass)} & inv 4, 14, 16, 24, 35; \cref{def:typeB-residual-mass} & Extracts a route-8 non-window core from Type B bridge residual data into \(D_A\). & Keeps Type B bridge mass separate from Type A route-8 deficit. \\
-\cref{lem:typeB-processed-boundary-bound,lem:typeB-bridge-deficit-bound}, \cref{prop:typeB-bridge-sublinear} & EXC & [84] \texttt{(fanmass)} & inv 4, 14, 16, 24, 35; \cref{def:near-cubic-spine}; \cref{lem:typeB-hybrid-B1}, \cref{def:typeB-bridge-statements} & Charges residual centers, processed-envelope boundary loss, and B2 failures to high-degree fan-center surplus and obtains \(M_B\le416\sigma(G)=o(|R|)\). & Prevents Type B bridge residuals from carrying the linear large-budget deficit on the derived spine branch. \\
+\cref{lem:typeB-local-selected-fan-mass} & EXC & [84] \texttt{(local fanmass)} & inv 4; nodes [75], [81]--[83] & Charges one exact selected center set in one fixed Type B scope to that scope's assigned high-center surplus. & Retains unresolved, nonnegative, route-8, and minimal-overlap outcomes without constructing a support family. \\
+\cref{lem:typeB-bridge-with-route8-core} & EXC & [176] \texttt{(global fanmass)} & inv 4, 14, 16, 24, 35; \cref{def:typeB-residual-mass} & Extracts a route-8 non-window core from Type B bridge residual data into \(D_A\). & Keeps Type B bridge mass separate from Type A route-8 deficit. \\
+\cref{lem:typeB-processed-boundary-bound,lem:typeB-bridge-deficit-bound}, \cref{prop:typeB-bridge-sublinear} & EXC & [176] \texttt{(global fanmass)} & inv 4, 14, 16, 24, 35; \cref{def:near-cubic-spine}; \cref{lem:typeB-hybrid-B1}, \cref{def:typeB-bridge-statements} & Charges residual centers, processed-envelope boundary loss, and B2 failures to high-degree fan-center surplus and obtains \(M_B\le416\sigma(G)=o(|R|)\). & Open producer contract: construct the canonical ordinary/grouped family and both coefficient-\(208\) incidence bounds before this consequence is available. \\
 \cref{thm:branch-kill} & EXC & [76] \texttt{(branch)}, [85] \texttt{(typeB closed)}, [123] \texttt{(pressure closed)} & inv 20, 27, 28, 29, 35, 39 & Closes the entropy-admissible branch outside explicit Type A target-defect/route-8 and Type B bridge residuals. & Combines the local exclusion theorems before the final pressure descent. \\
 \cref{thm:large-budget-route8-only} & EXC & [123] \texttt{(pressure closed)} & inv 20, 27, 28, 29, 35, 39; \cref{prop:typeB-bridge-sublinear}, \cref{def:typeA-peeling-reduced-ledger}, \cref{lem:typeA-peeling-reduced-reduction}, \cref{lem:typeA-pressure-is-exit4-peel}, \cref{lem:typeA-exit4-finite-descent}, \cref{prop:typeA-route8-carrier-reduction} & Closes the unified Type A target-defect/route-8 ledger by finite exit-\textup{(4)} descent and the terminal two-carrier route-8 no-go. & Sends only the terminal route-8 survivor to node [124], where it is impossible. \\
 \cref{thm:main} & (root goal) & [2] \texttt{(bad)} $\to$ terminal & \cref{thm:p13free} $+$ surplus-token routing $+$ all spine invariants & Every minimal counterexample either closes in the sparse-surplus branch, routes to Type B fan data, or reaches the near-cubic spine and then the terminal two-carrier route-8 no-go, which is empty. & The main closure theorem. \\
@@ -1638,7 +1751,7 @@ If invariant $k$ needs revision, these results are affected; diagram-node number
 12 & Laman slack identity & Rank ids {[4]} & \cref{lem:near-cubic-budget} ([21]), \cref{def:remainder-entropy}, \cref{prop:two-budget} ([52]) & Links rank and sparsity. \\
 13 & Surplus--rank relation & Rank ids {[4]} & \cref{lem:netcharge-superadd} ([56], [58]); net-charge notation throughout the large-budget branch & Translates surplus into charge. \\
 14 & High-degree surplus bound & Surplus branch {[125]--[144]} supplies spine estimate & \cref{def:near-cubic-spine}, \cref{lem:surviving-active-family}, \cref{def:canonical-blocker-ledger}, \cref{lem:canonical-blocker-ledger-no-overcount}, \cref{def:primitive-sparse-blocker-carrier}, \cref{lem:primitive-carrier-supply}, \cref{def:capacity-token-ledger}, \cref{lem:capacity-token-supply}, \cref{lem:token-ledger-no-overcount}, \cref{def:total-surplus-pair-token-route}, \cref{lem:total-pair-token-route-no-overcount}, \cref{def:same-token-patterns}, \cref{def:same-token-blocker-roles}, \cref{def:same-token-routing-germs}, \cref{lem:same-token-matching-star}, \cref{lem:same-token-bottleneck-routing}, \cref{thm:homogeneous-overload-geometric-closure}, \cref{cor:homogeneous-same-token-caps-close}, \cref{cor:forced-homogeneous-same-token-scale}, \cref{lem:capacity-token-high-load}, \cref{thm:tokenized-surplus-accounting-closure}, \cref{def:window-remainder-surplus-split}, \cref{lem:exact-window-join-identity}, \cref{cor:global-window-join-pressure}, \cref{prop:nonnear-cubic-sharp-overload-routing}, \cref{lem:netcharge-superadd} ([56], [58]), \cref{prop:negative-net-charge} ([59]), \cref{prop:typeA-route8-carrier-reduction}, \cref{def:typeA-terminal-two-carrier} ([124]) & Keeps surplus sublinear on the derived spine branch, or derives the exact high-load alternative from the complete pair schedule: blocker-free pairs use their first selected port, blocked pairs use their canonical capacity token, and total role fibres count every pair exactly once.  The \(P_{13}\) join identity quantifies window concentration, and any large homogeneous same-token fibre is a geometric bottleneck routed to sparse exits or Type B. \\
-15 & Near-cubic edge count & Surplus branch {[125]--[144]} supplies spine estimate & \cref{def:near-cubic-spine}, \cref{prop:sparse-entropy-sandwich}, \cref{cor:spine-lower-bound-surplus-estimates}, \cref{thm:homogeneous-overload-geometric-closure}, \cref{prop:nonnear-cubic-sharp-overload-routing}, \cref{lem:near-cubic-budget} ([21]), \cref{lem:skeleton-dominates} ([21]), \cref{lem:dominant-type} ([49], [50]); entropy estimates using $B_{\mathrm{skel}}$ & Fixes the budget coefficient after the near-cubic bound is supplied by the sparse surplus branch. \\
+15 & Near-cubic edge count & Surplus branch {[125]--[144]} supplies spine estimate & \cref{def:near-cubic-spine}, \cref{thm:homogeneous-overload-geometric-closure}, \cref{prop:nonnear-cubic-sharp-overload-routing}, \cref{lem:near-cubic-budget} ([21]), \cref{lem:skeleton-dominates} ([21]), \cref{lem:dominant-type} ([49], [50]); entropy estimates using $B_{\mathrm{skel}}$ & Fixes the budget coefficient after the near-cubic bound is supplied by the exact surplus-token branch. \\
 16 & Certificate-marked fan degree & High-degree {[67]} & \cref{lem:typeB-exclusion} ([65]), \cref{rem:fan-finite} ([70], [71]), \cref{lem:fan-certificate}; related to inv~4 & Auxiliary fan-label cap; fan-certificate residual centers are charged through surplus mass. \\
 17 & Spectral feasibility mask & Spectral {[70]} & \cref{lem:typeB-exclusion} ([70]), \cref{lem:fan-certificate}, \cref{rem:app-typeB-finite-only} & Auxiliary spectral mask. \\
 18 & Spectral equality branch & Spectral {[70]} & \cref{lem:typeB-exclusion} ([70]), \cref{lem:fan-certificate}, \cref{rem:app-typeB-finite-only} & Cubic equality subcase. \\
@@ -4689,27 +4802,6 @@ argument uses only the supplied representative certificate and minimality; it
 does not enumerate proposals, contexts, graphs, or paths.
 \end{proof}
 
-\begin{definition}[Complete mixed Boolean-state realization]\label[definition]{def:sparse-mixed-cube-realization}
-Let \(\mathcal I\) be a finite family of declared Boolean target coordinates.
-A \emph{complete Boolean-state realization} of \(\mathcal I\) consists of a
-finite canonical family \(\mathcal S\) of target-complete states and a response
-map
-\[
-\operatorname{val}:\mathcal S\longrightarrow\{0,1\}^{\mathcal I}
-\]
-such that, for every assignment
-\(\varepsilon:\mathcal I\to\{0,1\}\), there is a state
-\(s\in\mathcal S\) with \(\operatorname{val}(s)=\varepsilon\).  The states
-are required to arise from the labelled graph class used in the skeleton
-count.  For a baseline family \(\mathcal I_{\rm spine}\) and a free-pair set
-\(\Pi_{\rm free}\), the \emph{mixed realization contract} is this datum for
-\[
-\mathcal I_{\rm spine}\cup\{r_\pi:\pi\in\Pi_{\rm free}\}.
-\]
-This is proof-carrying finite data.  Its verifier checks a supplied realization
-map; it does not generate the Boolean cube or enumerate labelled graphs.
-\end{definition}
-
 \begin{proposition}[Sparse pair quotient-rank dichotomy]\label[proposition]{prop:sparse-pair-independence-dichotomy}
 Let \(\mathcal A_0\) be a finite family of active surplus demands.  If \(G\)
 survives the sparse surplus exits and no pair in
@@ -4717,62 +4809,17 @@ survives the sparse surplus exits and no pair in
 \[
 \{r_{\{p,q\}}:\{p,q\}\in\binom{\mathcal A_0}{2}\}
 \]
-is label-injective under every admitted rank quotient.  A complete Boolean-state
-realization in the sense of \cref{def:sparse-mixed-cube-realization} is a
-separate condition.
+is label-injective under every admitted rank quotient.  No entropy or
+simultaneous Boolean-realization conclusion is asserted or used.
 \end{proposition}
 
 \begin{proof}
 Apply \cref{lem:sparse-pair-dependence-exit} with
 \(\Pi=\binom{\mathcal A_0}{2}\).  The no-blocker hypothesis places every pair
 on the free side of the canonical ledger.  The conclusion is label injectivity
-for every admitted quotient.  Full realization of
-\(\{0,1\}^{\binom{\mathcal A_0}{2}}\) is not a consequence of label
-injectivity and is therefore retained as the separate contract of
-\cref{def:sparse-mixed-cube-realization}.
-\end{proof}
-
-\begin{corollary}[Entropy saturation of an unblocked surplus family]\label[corollary]{cor:sparse-pair-entropy-saturation}
-Let \(\mathcal A_0\) be a finite family of active surplus demands.  If \(G\)
-survives the sparse surplus exits and no pair in
-\(\binom{\mathcal A_0}{2}\) has a sparse surplus blocker.  Suppose also that
-the pair-response family has a complete Boolean-state realization.  Then
-\[
-\binom{|\mathcal A_0|}{2}
-\le
-\log_2\binom{\binom n2}{m}.
-\]
-In particular, using \cref{lem:sparse-upper-envelope},
-\[
-\binom{|\mathcal A_0|}{2}=O(n\log n).
-\]
-\end{corollary}
-
-\begin{proof}
-The complete Boolean-state realization makes all pair-response coordinates
-indexed by \(\binom{\mathcal A_0}{2}\) independently target-testable.
-\Cref{lem:independent-target-entropy,lem:skeleton-dominates}
-therefore give
-\[
-2^{\binom{|\mathcal A_0|}{2}}
-\le
-\binom{\binom n2}{m},
-\]
-which is the first displayed inequality after taking logarithms.
-
-By \cref{lem:sparse-upper-envelope}, \(m\le2n-2\).  With
-\(N=\binom n2\), the standard estimate
-\[
-\binom Nm\le\left(\frac{eN}{m}\right)^m
-\]
-and the lower bound \(m\ge3n/2\) from \(\delta(G)\ge3\) give
-\[
-\log_2\binom Nm
-\le
-(2n-2)\log_2\left(\frac{eN}{3n/2}\right)
- =O(n\log n).
-\]
-Combining this with the first inequality proves the second.
+for every admitted quotient.  The downstream proof uses the literal pair
+partition and capacity-token ledger, not an entropy interpretation of this
+quotient-rank statement.
 \end{proof}
 
 \begin{definition}[Baseline spine demand]\label[definition]{def:baseline-spine-demand}
@@ -4918,268 +4965,6 @@ exists, the proposal is not an admissible rank reduction.  Thus every
 functional admissible rank quotient in a surviving minimal counterexample is
 label-injective on the declared family.  This conclusion concerns quotient
 rank only; it does not assert that all Boolean response vectors are realized.
-\end{proof}
-
-\begin{proposition}[Entropy sandwich for independent surplus pairs]\label[proposition]{prop:sparse-entropy-sandwich}
-Let \(\mathcal A_0\) be a finite family of active surplus demands.  Suppose
-\(G\) survives the sparse surplus exits and no pair in
-\(\binom{\mathcal A_0}{2}\) has a sparse surplus blocker.  Suppose also that
-there is a baseline spine demand \(\mathcal I_{\rm spine}\) with deficit
-\(E_{\rm spine}(n)\), and suppose that the mixed family
-\[
-\mathcal I_{\rm spine}\cup
-\{r_{\{p,q\}}:\{p,q\}\in\tbinom{\mathcal A_0}{2}\}
-\]
-has a complete Boolean-state realization in the sense of
-\cref{def:sparse-mixed-cube-realization}.  Then
-\[
-\binom{|\mathcal A_0|}{2}
-\le
-E_{\rm spine}(n)+\left(\frac12\sigma(G)+1\right)\log_2 n.
-\]
-Consequently, if \(E_{\rm spine}(n)=O(n)\) and
-\(|\mathcal A_0|\ge c_1\sigma(G)\) for some fixed \(c_1>0\), then
-\[
-\sigma(G)=O(\sqrt n).
-\]
-\end{proposition}
-
-\begin{proof}
-The supplied mixed realization makes the union
-\[
-\mathcal I_{\rm spine}\cup
-\{r_{\{p,q\}}:\{p,q\}\in\binom{\mathcal A_0}{2}\}
-\]
-independently target-testable.  Therefore
-\cref{lem:independent-target-entropy,lem:skeleton-dominates} give
-\[
-|\mathcal I_{\rm spine}|+\binom{|\mathcal A_0|}{2}
-\le
-\log_2\binom Nm.
-\]
-Since \(|\mathcal I_{\rm spine}|\ge B_0(n)-E_{\rm spine}(n)\),
-\[
-\binom{|\mathcal A_0|}{2}
-\le
-E_{\rm spine}(n)+
-\log_2\binom Nm-\log_2\binom N{m_0}.
-\]
-The first displayed bound now follows from
-\cref{lem:incremental-skeleton-room}.
-
-Assume \(E_{\rm spine}(n)\le C_E n\) and
-\(|\mathcal A_0|\ge c_1\sigma(G)\).  The preceding inequality gives constants
-\(C_1,C_2\), depending only on \(c_1\) and \(C_E\), such that
-\[
-\sigma(G)^2\le C_1n+C_2\sigma(G)\log_2 n+C_2\log_2 n.
-\]
-If \(\sigma(G)\le 2C_2\log_2 n\), then
-\(\sigma(G)=O(\log n)=O(\sqrt n)\).  Otherwise the middle term is at most
-\(\frac12\sigma(G)^2\) after increasing constants, and the inequality gives
-\(\sigma(G)^2\le C_3n\).  Thus \(\sigma(G)=O(\sqrt n)\) in all cases.
-\end{proof}
-
-\begin{proposition}[Entropy sandwich with canonical blockers]\label[proposition]{prop:sparse-entropy-sandwich-with-blockers}
-Let \(\mathcal A_0\) be a finite family of active surplus demands, and let
-\(\Pi_{\rm free}\) be the unblocked pair set from
-\cref{def:canonical-blocker-ledger}.  Suppose \(G\) survives the sparse surplus
-exits and that there is a baseline spine demand \(\mathcal I_{\rm spine}\) with
-deficit \(E_{\rm spine}(n)\).  Suppose also that
-\[
-\mathcal I_{\rm spine}\cup\{r_\pi:\pi\in\Pi_{\rm free}\}
-\]
-has a complete Boolean-state realization in the sense of
-\cref{def:sparse-mixed-cube-realization}.  Then
-\[
-|\Pi_{\rm free}|
-\le
-E_{\rm spine}(n)+\left(\frac12\sigma(G)+1\right)\log_2 n.
-\]
-\end{proposition}
-
-\begin{proof}
-The mixed-realization contract applies to the declared coordinate family
-\[
-\mathcal I_{\rm spine}\cup\{r_\pi:\pi\in\Pi_{\rm free}\}.
-\]
-It therefore realizes every Boolean response vector and is independently
-target-testable.  The definition of \(\Pi_{\rm free}\) separately excludes
-every admitted structural blocker; no property of the blocked branch is used
-in the realization contract.
-
-By \cref{lem:independent-target-entropy,lem:skeleton-dominates},
-\[
-|\mathcal I_{\rm spine}|+|\Pi_{\rm free}|
-\le
-\log_2\binom Nm .
-\]
-Since \(|\mathcal I_{\rm spine}|\ge B_0(n)-E_{\rm spine}(n)\), we have
-\[
-|\Pi_{\rm free}|
-\le
-E_{\rm spine}(n)+
-\log_2\binom Nm-\log_2\binom N{m_0}.
-\]
-\Cref{lem:incremental-skeleton-room} gives
-\[
-\log_2\binom Nm-\log_2\binom N{m_0}
-\le
-\left(\frac12\sigma(G)+1\right)\log_2 n,
-\]
-which proves the result.
-\end{proof}
-
-\begin{definition}[Spine lower-bound deficits]\label[definition]{def:spine-lower-bound-deficits}
-Let
-\[
-c_{13}=118.108581006,\qquad
-K=5.89262883286\ldots,\qquad
-\theta=\frac{p_{13}}n,
-\]
-and put
-\[
-\theta_{\rm he}:=\frac{1.4}{116.808581006}
-=0.01198542083\ldots .
-\]
-The near-cubic branch supplies the following independent-coordinate lower-bound
-packages, whenever their stated hypotheses hold.  We record their deficits
-relative to the exact cubic baseline \(B_0(n)\).
-\begin{enumerate}[label=(\alph*), leftmargin=2.2em]
-\item \emph{Window-only package.}  The packed \(P_{13}\)-windows contribute at
-least
-\[
-L_{\rm win}=c_{13}\theta n\log_2 n
-\]
-independent target coordinates.  By \cref{lem:exact-cubic-baseline-budget},
-its deficit satisfies
-\[
-D_{\rm win}:=B_0(n)-L_{\rm win}
-\le
-\bigl(1.5-c_{13}\theta\bigr)n\log_2 n+O(n).
-\]
-\item \emph{High-remainder-entropy package.}  In the high-entropy branch
-\(\eta(R)\ge\frac1{10}\log_2 n\), the remainder contributes at least
-\(\frac1{10}|R|\log_2 n\) additional independent coordinates.  Since
-\(|R|=n-13p_{13}=(1-13\theta)n\), this package has lower bound
-\[
-L_{\rm he}=
-\left(\frac{1-13\theta}{10}+c_{13}\theta\right)n\log_2 n
-=\bigl(0.1+116.808581006\,\theta\bigr)n\log_2 n,
-\]
-and deficit
-\[
-D_{\rm he}:=B_0(n)-L_{\rm he}
-\le
-\bigl(1.4-116.808581006\,\theta\bigr)n\log_2 n+O(n).
-\]
-\item \emph{High-entropy plus forced-curvature package.}  When the full-rank
-curvature cost of \cref{cor:forced-curvature-cost} is also available in the
-high-entropy branch, the additional lower bound is
-\[
-K|R|-o(n)=K(1-13\theta)n-o(n).
-\]
-The corresponding deficit satisfies
-\[
-D_{\rm he+\Omega}
-\le
-\bigl(1.4-116.808581006\,\theta\bigr)n\log_2 n
--K(1-13\theta)n+o(n)+O(n).
-\]
-\end{enumerate}
-Each deficit is an admissible upper bound for \(E_{\rm spine}(n)\) in
-\cref{def:baseline-spine-demand}, for the corresponding lower-bound package.
-\end{definition}
-
-\begin{corollary}[Surplus estimates from spine lower bounds]\label[corollary]{cor:spine-lower-bound-surplus-estimates}
-Assume \(G\) survives the sparse surplus exits, no pair in
-\(\binom{\mathcal A_0}{2}\) has a sparse surplus blocker, and
-\[
-|\mathcal A_0|\ge c_1\sigma(G)
-\]
-for a fixed \(c_1>0\).  Then the following estimates are rigorous consequences
-of the lower-bound packages in \cref{def:spine-lower-bound-deficits}.
-\begin{enumerate}[label=(\alph*), leftmargin=2.2em]
-\item From the window-only package,
-\[
-\binom{|\mathcal A_0|}{2}
-\le
-D_{\rm win}+\left(\frac12\sigma(G)+1\right)\log_2 n,
-\]
-hence
-\[
-\sigma(G)
-=
-O\!\left(
-\sqrt{\bigl(1.5-c_{13}\theta\bigr)_+\,n\log n+n}+\log n
-\right).
-\]
-In particular, if \(1.5-c_{13}\theta=O(1/\log n)\), then
-\(\sigma(G)=O(\sqrt n)\).
-\item In the high-remainder-entropy package,
-\[
-\binom{|\mathcal A_0|}{2}
-\le
-D_{\rm he}+\left(\frac12\sigma(G)+1\right)\log_2 n,
-\]
-hence
-\[
-\sigma(G)
-=
-O\!\left(
-\sqrt{\bigl(1.4-116.808581006\,\theta\bigr)_+\,n\log n+n}+\log n
-\right).
-\]
-In particular, if
-\[
-1.4-116.808581006\,\theta=O(1/\log n),
-\]
-then \(\sigma(G)=O(\sqrt n)\).
-\item In the high-entropy plus forced-curvature package, if
-\[
-\bigl(1.4-116.808581006\,\theta\bigr)n\log_2 n
--K(1-13\theta)n=O(n),
-\]
-then \(\sigma(G)=O(\sqrt n)\).  If the same expression is \(<-C n\) for a
-sufficiently large fixed constant \(C\), then the branch has no survivor before
-surplus-pair coordinates are added.
-\end{enumerate}
-\end{corollary}
-
-\begin{proof}
-Each package in \cref{def:spine-lower-bound-deficits} is a baseline spine
-demand with deficit bounded above by the corresponding \(D\)-quantity.  Thus
-\cref{prop:sparse-entropy-sandwich} gives the displayed pair inequalities.
-
-We prove the first square-root estimate; the second is identical.  From
-\(|\mathcal A_0|\ge c_1\sigma(G)\), for all sufficiently large \(\sigma(G)\)
-we have
-\[
-\binom{|\mathcal A_0|}{2}\ge \frac{c_1^2}{4}\sigma(G)^2.
-\]
-Combining with the window-only pair inequality gives
-\[
-\sigma(G)^2
-\le
-C\left(
-\bigl(1.5-c_{13}\theta\bigr)_+n\log n+n+\sigma(G)\log n
-\right)
-\]
-for a constant \(C\) depending only on \(c_1\).  If
-\(\sigma(G)\le2C\log n\), then \(\sigma(G)=O(\sqrt n)\) for \(n\ge2\).  Otherwise
-\(C\sigma(G)\log n\le\frac12\sigma(G)^2\), after increasing \(C\), and the
-term is absorbed into the left-hand side.  This proves the window-only bound
-and its \(O(\sqrt n)\) consequence when
-\(1.5-c_{13}\theta=O(1/\log n)\).  Replacing the window-only deficit term by
-\(D_{\rm he}\) in the displayed inequality gives the stated high-entropy
-estimate.
-
-For (c), the stated \(O(n)\) hypothesis says precisely that
-\(D_{\rm he+\Omega}=O(n)\), so
-\cref{prop:sparse-entropy-sandwich} gives \(\sigma(G)=O(\sqrt n)\).  If the
-displayed expression is less than \(-Cn\) for \(C\) larger than the constants
-hidden in \cref{lem:exact-cubic-baseline-budget} and in the \(o(n)\) curvature
-term, then the baseline lower-bound package itself exceeds \(B_0(n)\).  This
-contradicts \cref{lem:independent-target-entropy,lem:skeleton-dominates}.
 \end{proof}
 
 \begin{theorem}[Sharp surplus-overload audit]\label[theorem]{thm:sharp-surplus-overload-audit}
@@ -5375,6 +5160,143 @@ suppressed-chord flag when the blocked role has type (f), and a distinct
 free-anchor flag otherwise.  These labels form a
 finite set; denote its cardinality by \(Q_{\rm geom}\).
 \end{definition}
+
+\begin{lemma}[Fixed coarse bottleneck classification]\label[lemma]{lem:same-token-coarse-bottleneck-classification}
+Let \(\mathcal M=(\pi_0,\ldots,\pi_{48})\) be the literal
+role-homogeneous matching or star supplied by one of nodes [140], [142], or
+[143].  Give each pair its coarse structural code consisting of its token
+subtype, endpoint role, open/triangular bit, and terminal germ role.  This code
+has exactly \(48\) values.  Then the deterministic scan of \(\mathcal M\)
+returns two distinct pairs \(\pi_i,\pi_j\) with the same coarse code.  It
+retains their literal selected-window attachment maps and the two canonical
+shortest rooted germs.
+\end{lemma}
+
+\begin{proof}
+Scan the fixed list in its inherited order, comparing each code with the
+remaining suffix.  If no equality occurred, the \(49\) observed codes would
+be distinct elements of a \(48\)-element set.  Thus the scan returns its first
+collision.  The homogeneous-pattern list is duplicate free, so the two source
+pairs are distinct.  Attachment maps are projections of those two literal
+pairs, and each germ is obtained by the canonical BFS in its supplied local
+support.  No family of paths, contexts, quotients, subgraphs, graphs, or
+colorings is inspected.
+\end{proof}
+
+This classification does not prove equality of the attachment maps, equality
+of external responses, a sparse-exit certificate, or a decorated Type B
+entry.  Its exact residual is passed to the finite classifier at node [177].
+
+\begin{lemma}[Finite semantic-bottleneck classification]\label[lemma]{lem:same-token-semantic-bottleneck-classification}
+For the exact collision and two rooted germs retained at node [144], scan the
+declared coordinates
+\[
+  \mathfrak A
+  =\mathfrak W\times [13]\times\{0,1\}
+       \times\{\mathsf{freeAnchor},\mathsf{blockedPrimitive},
+                    \mathsf{blockedCapacity}\}.
+\]
+Thus \(|\mathfrak A|=78p_{13}\).  The scan returns either its first coordinate
+at which the two literal attachment predicates differ, or a proof that they
+agree on every coordinate of \(\mathfrak A\).  In the latter case, the stored
+tree-path comparison of the two canonical germs is exactly one of
+\[
+  \mathsf{leftPrefix},\quad \mathsf{rightPrefix},\quad
+  \mathsf{divergeAtRoot},\quad \mathsf{divergeAfterEdge}.
+\]
+These five outcomes form an exhaustive CT10 table with exactly one accepted
+tag.  The complete execution uses
+\[
+  234p_{13}+7\le 234|V(G)|+7
+\]
+primitive checks.
+\end{lemma}
+
+\begin{proof}
+Compare the two retained adjacency predicates in the inherited order on
+\(\mathfrak A\).  A first failed Boolean equality supplies the mismatch
+coordinate.  If no comparison fails, the scan's exhaustive alternative gives
+coordinatewise equality and hence equality of the retained attachment maps on
+their whole declared domain.  The canonical rooted-germ comparison is an
+inductive tree-path comparison with precisely the four constructors displayed
+above.  CT10 scans the fixed five-tag table and accepts only the tag returned
+by this classifier.  Each attachment coordinate costs the two predicate
+projections and their equality check, while the fixed table contributes seven
+checks.  Finally \(p_{13}\le |V(G)|\) because the selected induced paths are
+vertex-disjoint.  No ambient family of paths, contexts, quotients, subgraphs,
+graphs, or colorings is enumerated.
+\end{proof}
+
+\begin{remark}[Scope of the finite semantic classifier]\label[remark]{rem:same-token-semantic-bottleneck-classification-scope}
+Node [177] proves only the preceding five-way local classification.  It does
+not turn a mismatch or a rooted-germ shape into a sparse exit, CT3 response
+equivalence, a decorated Type B handoff, a fixed homogeneous cap, or the
+near-cubic spine.  Node [178] performs only the verified local separator
+split below; the stronger branchwise implications remain open at node [181].
+\end{remark}
+
+\begin{lemma}[Local semantic-bottleneck separator split]\label[lemma]{lem:same-token-local-semantic-consumer}
+Consume node [177]'s exact five-way result.  A mismatch or either prefix
+constructor is retained verbatim.  In a root-divergence constructor, the two
+literal root incidences and the first actual third neighbour are retained; in
+an after-edge constructor, three pairwise-distinct literal incidences are
+retained.  In either divergent case the separator is classified as cubic or
+of degree at least four.  This exhaustive local decision uses at most
+\(|V(G)|+1\) primitive checks.
+\end{lemma}
+
+\begin{proof}
+Inspect the constructor returned at node [177].  The first three constructors
+require no new search.  Root divergence scans the actual ordered neighbour
+row only until the first neighbour distinct from the two retained incidences;
+minimum degree three guarantees its existence.  After-edge distinctness
+follows from the two stored canonical tree paths and their no-repetition
+proofs.  The final comparison is the literal separator degree against three.
+No ambient family is enumerated.
+\end{proof}
+
+\begin{lemma}[Cubic switch normalization]\label[lemma]{lem:same-token-cubic-switch-normalization}
+Consume node [178]'s exact local frontier.  Mismatch and aligned-prefix leaves
+are retained unchanged.  Each cubic root or after-edge leaf determines the
+literal four-vertex cubic-star datum carried by its already proved three
+pairwise-distinct incidences, while each high leaf retains only degree at
+least four.  The normalization is exhaustive and performs no new primitive
+check.
+\end{lemma}
+
+\begin{lemma}[Local separator projection]\label[lemma]{lem:same-token-local-separator-projection}
+Consume node [181] exactly.  Each cubic leaf projects its literal cubic-star
+datum to the corresponding switch-boundary shape with the same four-vertex
+support.  Each high leaf exposes only the identical center's declared port
+row, whose cardinality is its degree and is at least four.  Other leaves pass
+through unchanged.  Work is at most \(|V(G)|\), with no ambient scan.
+\end{lemma}
+
+\begin{lemma}[Strong-semantic obligation frontier]\label[lemma]{lem:same-token-strong-semantic-obligation-frontier}
+Consume node [184] exactly and retain its literal payload.  Tag mismatch,
+aligned-prefix, cubic, and high-center leaves respectively with the pending
+sparse-exit, fixed-cap, CT3, and Type B obligations.  These tags are requests,
+not certificates.  The construction inspects one local constructor and proves
+none of the four requested semantic conclusions.
+\end{lemma}
+
+\begin{lemma}[First local separator clause]\label[lemma]{lem:same-token-first-local-separator-clause}
+Consume node [187] exactly.  Mismatch and prefix leaves retain their evidence.
+Each cubic leaf exposes its three injective adjacent boundary incidences, and
+each high leaf exposes the first four distinct declared ports and their
+adjacent endpoints.  At most four fixed local positions are inspected.  No
+pending semantic certificate is discharged.
+\end{lemma}
+
+\begin{lemma}[Pairwise local separator clause]\label[lemma]{lem:same-token-pairwise-local-separator-clause}
+Consume node [190] exactly and retain its pending obligation unchanged.  On a
+cubic leaf, the three boundary vertices are pairwise distinct and the internal
+vertex differs from each boundary vertex.  On a high leaf, the four exposed
+endpoints are pairwise distinct and the centre differs from each endpoint.
+Mismatch and aligned-prefix leaves pass through unchanged.  These conclusions
+use only inherited injectivity and adjacency, require no visible search, and
+do not discharge the retained semantic obligation.
+\end{lemma}
 
 \begin{lemma}[Same-token bottleneck routing]\label[lemma]{lem:same-token-bottleneck-routing}
 Assume \(G\) survives the sparse surplus exits of
@@ -6687,87 +6609,872 @@ Consumed by \cref{lem:p13-window-package}.
 
 \section{Entropy bound on independent \texorpdfstring{$P_{13}$}{P13} windows}\label{sec:entropy-bound}
 
-This section carries out the normalized entropy accounting under
-\cref{def:near-cubic-spine} in the high-entropy
-(window) branch of the routing in \cref{prop:two-budget}, in which the
-remainder contributes its full per-vertex skeleton entropy.  Let $R$ be the
-complement of a maximal disjoint induced-$P_{13}$ packing.  The next lemma is
-the window package consumed by the density bound.
+The finite curvature computation gives the local barrier counts.  Passing from
+those counts to a window entropy term requires an additional realization
+theorem, recorded here as the exact open interface.
 
-\begin{lemma}[Independent multi-scale \(P_{13}\)-window package]\label[lemma]{lem:p13-window-package}
-Assume the sparse surplus exits have been discharged and the near-cubic spine
-estimate of \cref{def:near-cubic-spine} has been supplied.  Let
-\(\mathcal P\) be a maximal vertex-disjoint induced-\(P_{13}\) packing in \(G\).
-Then the canonical multi-scale package attached to \(\mathcal P\) contains a
-family \(\mathcal I_{\rm win}\) of independently target-testable coordinates
-with
+\begin{remark}[Required multi-scale \(P_{13}\)-window realization]\label[remark]{lem:p13-window-package}
+For one selected window, let \(I\) be the declared set of dyadic-scale barrier
+coordinates and let \(\mathcal S\) be the finite family of admissible graph
+completion states.  The entropy step requires a response map
+
 \[
-|\mathcal I_{\rm win}|
-\ge
-\bigl(c_{13}-o(1)\bigr)|\mathcal P|\log_2 n,
-\qquad
-c_{13}=118.108581006\ldots .
+\rho:\mathcal S\longrightarrow\{0,1\}^{I}
 \]
-The package is the disjoint union of the packages attached to the distinct
-packed windows.  Hence no coordinate is counted for two windows.  Moreover, in
-any entropy comparison in which a baseline spine coordinate family is already
-present, \(\mathcal I_{\rm win}\) is adjoined to that family as independent
-target coordinates before \cref{lem:independent-target-entropy} is applied.
+
+such that every assignment is realized:
+
+\[
+\forall \varepsilon:I\to\{0,1\}\quad
+\exists s\in\mathcal S\quad
+\forall i\in I,
+\ \rho(s)_i=\varepsilon_i.
+\]
+
+The verified finite computation supplies the \(91\) relations indexed by
+\((a,b)\), their safe and flat counts, and the inequality corresponding to a
+rate greater than \(118\) bits.  It does not construct the separated dyadic
+scales, the admissible completion-state family \(\mathcal S\), or the response
+map \(\rho\).  Separate nonconstant or injective coordinate responses do not
+imply the displayed simultaneous realization statement.
+
+For several packed windows, vertex-disjointness alone also does not provide a
+product realization.  That step requires a commuting gluing theorem showing
+that independently chosen local completion states combine into one admissible
+global state while preserving every response coordinate.  Accordingly, the
+window entropy term and its cross-window product are not used as proved inputs
+until these two graph-owned constructors have been supplied.
+\end{remark}
+
+\begin{lemma}[Pointwise actual-attachment cold fork]\label[lemma]{lem:p13-actual-attachment-cold-fork}
+Fix one selected induced \(P_{13}\) window.  The finite classifier whose states
+are the actual outside vertices and whose thirteen response coordinates are
+their adjacency bits to the path returns a canonical omitted assignment.  Its
+cold residual retains the exact same selected window.
 \end{lemma}
 
 \begin{proof}
-Fix one packed induced \(P_{13}\), with path vertices \(v_0,\ldots,v_{12}\).
-For an outside path of length \(s\), the finite label relation \(C_s(S,T)\)
-records exactly which ordered pairs of legal \(P_{13}\)-labels can be joined
-without creating a dyadic cycle through the window.  For every ordered pair
-\((a,b)\) with \(a,b\ge1\) and \(a+b\le14\), let \(W_{a,b}\) be the number of
-locally safe triples \((S,A,T)\) with
-\[
-C_a(S,A)=C_b(A,T)=1,
-\]
-and let \(F_{a,b}\) be the number of those triples that remain safe after the
-composed outside path is tested, i.e. with \(C_{a+b}(S,T)=1\).  The
-\((a,b)\)-barrier therefore has flatness cost
-\[
-\gamma_{a,b}=\log_2(W_{a,b}/F_{a,b}).
-\]
-The direct finite computation in \cref{app:curv-code} evaluates these numbers
-for all
-\[
-\{(a,b):a,b\ge1,\ a+b\le14\},
-\]
-and gives
-\[
-\sum_{a,b}\gamma_{a,b}=118.10858100609198\ldots=c_{13}.
-\]
-
-The multi-scale package uses \(\lfloor\log_2 n\rfloor-O(1)\) separated dyadic
-scales for these finite barriers.  The \(O(1)\) loss absorbs endpoint
-collisions with the finitely many reserved boundary and tie-breaking choices
-inside the canonical packing.  At each remaining scale, the target tester is
-the corresponding edge-rooted Mersenne completion through the window.  The
-relations \(C_a,C_b,C_{a+b}\) were defined precisely so that changing the
-barrier state changes that tester and leaves the other displayed coordinates
-fixed.  Thus, for one window, the package supplies
-\[
-\left(\sum_{a,b}\gamma_{a,b}-o(1)\right)\log_2 n
-=
-\bigl(c_{13}-o(1)\bigr)\log_2 n
-\]
-independently target-testable coordinates.
-
-Distinct packed windows are vertex-disjoint, and the canonical assignment of a
-coordinate records the unique packed window through which its tester is routed.
-The product of the target-complete states on the distinct windows is therefore
-again target-complete; equivalently, the tester for one window does not change
-the label state assigned to another packed window.  The window packages are
-therefore independent across \(\mathcal P\), giving the displayed lower bound.
-The same product argument applies when a baseline spine family has already been
-declared: the baseline coordinates and the window coordinates are combined into
-one independently target-testable family, and only then is the labelled
-skeleton bound of \cref{lem:independent-target-entropy,lem:skeleton-dominates}
-applied.  Hence the window coordinates are not counted twice.
+The classifier scans the \(2^{13}\) Boolean assignments against the actual
+outside vertices.  Its hot outcome would realize the all-true assignment.
+The realizing outside vertex would then be adjacent to path positions (0)
+and (2); together with the intervening two path edges these adjacencies form
+a four-cycle, contrary to target avoidance.  Hence the exhaustive classifier
+returns its canonical first missing assignment.  The selected window is passed
+unchanged into the cold residual.
 \end{proof}
+
+\begin{remark}[Scope of the actual-attachment fork]\label[remark]{rem:p13-actual-attachment-fork-scope}
+Node [158] is a pointwise thirteen-coordinate adjacency scan.  It is distinct
+from the still-open simultaneous realization problem for the 91 multi-scale
+coordinates on the edge [21]\(\to\)[22], and it yields no density estimate.
+It retains only the exact selected window as the structural trigger for node
+[159].
+\end{remark}
+
+\begin{lemma}[Same-window structural frontier]\label[lemma]{lem:p13-same-window-structural-frontier}
+Fix the node-[158] cold residual on one selected induced \(P_{13}\) window.
+The graph-owned continuation returns exactly one of the following four
+proof-carrying outputs:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item a path position whose ambient degree is greater than three;
+\item a canonical external stub on the same window and a power-of-two cycle
+obtained by restoring that stub to its deleted-edge return;
+\item a canonical external stub and the first high-degree vertex on its return
+corridor, together with the clean earlier prefix; or
+\item a canonical external stub and a quiet structural germ whose support has
+size at most \(n\), whose root-cycle length is rejected, and whose corridor
+vertices have degree at most three.
+\end{enumerate}
+The visible certificate checks for one supplied window are at most
+\[
+26+15p_{13}+\sigma_W+n.
+\]
+\end{lemma}
+
+\begin{proof}
+First inspect the thirteen path positions.  If one has degree different from
+three, the minimum-degree hypothesis makes the first such position a strict
+surplus output.  Otherwise the exact fifteen-stub identity makes the window
+ambient-cubic and nonempty in the external-incidence schedule; choose its
+first scheduled stub.  Bridgelessness supplies a proof-carrying simple return
+after deleting this stub.  Scan the vertices of that return in order.  The
+first accepted event is either the restored root cycle with power-of-two
+length or the first vertex of degree greater than three.  If no event occurs,
+the negative scan constructs precisely the structural germ in \textup{(iv)}.
+The scan checks at most two passes over the thirteen positions, one pass over
+the \(15p_{13}+\sigma_W\) external-incidence schedule, and at most \(n\)
+vertices of the supplied simple return.
+\end{proof}
+
+\begin{lemma}[Dyadic constructor closes]\label[lemma]{lem:p13-same-window-dyadic-terminal}
+If node [159] returns its dyadic constructor, then the constructor's exact
+stub position and restored root cycle form a cold dyadic hit on the same
+selected window.  The certificate-driven CT1 run reaches its C1 terminal in
+one check, and this branch contradicts target avoidance.
+\end{lemma}
+
+\begin{proof}
+The first-event payload already contains the canonical external stub, the
+clean prefix, and the proof that restoring the deleted edge gives a simple
+cycle of accepted power-of-two length.  Package that same cycle with the
+stub's \(\operatorname{Fin}(13)\) position.  The existing CT1 target-certificate
+runner validates this single supplied cycle and reaches C1.  Hence the ambient
+selected graph contains the forbidden target, contrary to the inherited
+avoiding field.
+\end{proof}
+
+\begin{remark}[Scope of the same-window frontier]\label[remark]{rem:p13-same-window-frontier-scope}
+Node [159] is pointwise and structural.  Its window-surplus and corridor-high
+constructors are typed surplus handoffs, not contradictions.  Its quiet output
+is only an ambient-finite structural germ and is not promoted to a uniformly
+bounded germ.  Thus node [155] is green only for the computed dyadic
+constructor; no cold-mass, density, bounded-overlap, or nodes [153]--[157]
+aggregate conclusion follows.
+\end{remark}
+
+\begin{lemma}[D1--D3 base-scale split]\label[lemma]{lem:p13-d1d3-base-scale-split}
+Suppose the computed node-[159] output is its quiet constructor, with its exact
+fork, selected window, canonical stub, no-event proof, and structural germ.
+Set
+\[
+Q_{\rm base}:=4^2\,13^2\,2^{13}.
+\]
+One support-length comparison returns exactly one of
+\[
+ |\operatorname{supp}(\Gamma)|\le Q_{\rm base}
+ \qquad\text{or}\qquad
+ Q_{\rm base}<|\operatorname{supp}(\Gamma)|,
+\]
+while retaining all of that quiet-constructor data.
+\end{lemma}
+
+\begin{proof}
+The factors in \(Q_{\rm base}\) count two capped boundary-degree roles, two
+window offsets, and thirteen target-response bits.  Equivalently, this is the
+exact normalized fixed two-boundary state cardinal when the additional local
+coordinate type is empty.  Compare the literal support length with this fixed
+natural number.  The non-strict outcome is the short residual and the negated
+outcome is exactly the strict long residual.
+\end{proof}
+
+\begin{remark}[Scope of the D1--D3 split]\label[remark]{rem:p13-d1d3-base-scale-scope}
+Node [161] does not assert that an empty local-coordinate alphabet captures
+D4--D7.  It proves no repeated state, bounded-germ semantics, CT3 compression,
+or density estimate.  Its exact short and long residuals are consumed locally
+at nodes [162] and [163], without adding those missing semantics.  Node [160]
+remains the separate white 91-bit realization obligation.
+\end{remark}
+
+\begin{lemma}[Short-return third incidence]\label[lemma]{lem:p13-short-third-incidence}
+Suppose the computed node-[161] result is its short constructor.  At the root
+of its supplied deleted-edge return, the declared-order third incidence is
+well defined.  Its endpoint lies either on that return support or outside it,
+and these two outcomes are exhaustive.  The visible work is at most
+\[
+2n+3+Q_{\rm base}.
+\]
+\end{lemma}
+
+\begin{proof}
+The minimum-degree hypothesis gives degree at least three at the return root,
+while the quiet germ says that this root is not high; hence its degree is
+exactly three.  The first return step and the restored deleted edge are two
+distinct actual incidences.  The graph-owned root classifier therefore
+selects the unique third incidence in the declared neighbour order.  Test its
+endpoint once against the supplied short support.  Membership gives the
+on-support constructor and nonmembership gives the outside constructor.  The
+declared-neighbour scan, return-certificate allowance, three root checks, and
+support-membership scan give the displayed bound.
+\end{proof}
+
+\begin{remark}[Scope of the short-root split]\label[remark]{rem:p13-short-third-incidence-scope}
+Node [162] inspects only this one root incidence.  Its on-support and outside
+outcomes feed the separately verified local consumers [165] and [166], but
+not their normalized one-return rejoin [167].  It supplies no cold-skeleton
+boundary-response semantics, which remain further downstream at [168].  No
+support-wide scan, D4--D7
+coordinate, CT3 execution, or density claim occurs.
+\end{remark}
+
+\begin{lemma}[On-return chord resolution]\label[lemma]{lem:p13-non-root-chord-resolution}
+Suppose the computed node-[162] result is its on-support constructor, and let
+$i$ be the first position of the selected third endpoint on the supplied
+return.  The literal chord cut out by positions $1$ and $i$ has length
+$i+1$.  If this length is a power of two, the existing CT1 target runner
+reaches C1 and contradicts target avoidance.  Otherwise the surviving output
+retains the exact deleted-edge return obtained by replacing the initial return
+prefix with the selected third incidence, and this return is strictly shorter
+than the supplied return.  The visible work is at most
+\[
+ Q_{\rm base}+1.
+\]
+\end{lemma}
+
+\begin{proof}
+The input stores equality with node [162]'s actual on-support result.  Scan the
+same short support once to find the canonical index $i$.  The selected third
+incidence is distinct from both the first return step and restored endpoint,
+so $1<i<|\Gamma|$.  The standard chord construction therefore gives a simple
+cycle of length $i+1$.  A power-of-two length supplies a concrete target
+certificate to the existing CT1 runner and is impossible in the inherited
+target-avoiding context.  On rejection, retain the suffix beginning at $i$
+and prepend the selected third edge.  Its length is
+$|\Gamma|-i+1<|\Gamma|$, and the runner records equality with this exact
+return.  One bounded support scan and one length decision give the displayed
+work bound.
+\end{proof}
+
+\begin{remark}[Scope of the chord resolution]\label[remark]{rem:p13-non-root-chord-resolution-scope}
+Node [165] closes only the accepted target-length constructor and otherwise
+returns one exact strictly shorter deleted-edge return.  It does not normalize
+the two node-[162] branches into a common residual, iterate the shortening,
+prove termination, reconstruct D4--D7, execute CT3, or derive density.  Its
+exact shorter residual is consumed by the verified proof-level rejoin [167]
+and packed-support transition [168]; its two computed outcomes feed the
+separately verified branch consumers [169] and [170].
+\end{remark}
+
+\begin{lemma}[Outside-return cubic boundary star]\label[lemma]{lem:p13-outside-boundary-star}
+Suppose the computed node-[162] result is its outside constructor.  Orient the
+selected third incidence from the return root $r$ to its endpoint $x_3$.
+Then
+\[
+ r\in\operatorname{supp}(\Gamma),\qquad
+ x_3\notin\operatorname{supp}(\Gamma),\qquad rx_3\in E(G).
+\]
+Together with the first return step $x_1$ and the restored deleted-edge
+endpoint $x_2$, this gives three distinct leaves at the cubic root $r$, and
+every neighbour of $r$ is one of $x_1,x_2,x_3$.  Thus these leaves form a
+finite three-boundary, one-internal-owner star shape.  This projection performs
+zero additional primitive checks beyond node [162].
+\end{lemma}
+
+\begin{proof}
+The input includes equality with the actual node-[162] runner, not merely an
+independently supplied nonmembership proof.  Its outside constructor therefore
+retains the same return support, selected third incidence, and proof that its
+endpoint lies outside.  The return root lies on the supplied path, and the
+selected incidence supplies adjacency and distinction from both the first
+return step and restored endpoint.  Node [162] has already proved that the
+root has degree three.  The generic cubic-star construction packages these
+three incidences, and equality of their three-element boundary with the full
+neighbour set proves the ownership assertion.  All operations project this
+proof-carrying data, so the additional-check ledger is zero.
+\end{proof}
+
+\begin{remark}[Scope of the cubic boundary star]\label[remark]{rem:p13-outside-boundary-star-scope}
+Node [166] certifies only this one oriented support crossing and the exact
+three-incidence ownership at its cubic root.  It does not construct an
+all-inside consumer, successor or second stub, component path, any D4--D7
+coordinate, a CT3 input, or a density estimate.  The exact outside residual is
+consumed by the verified proof-level rejoin [167] and packed-support transition
+[168]; its two computed outcomes feed the separately verified downstream
+consumers [169] and [170].
+\end{remark}
+
+\begin{lemma}[Normalized one-return boundary]\label[lemma]{lem:p13-normalized-return-boundary}
+Fix the common computed node-[162] short residual.  Suppose the input is either
+the exact rejected-chord computation from node [165] or the exact outside
+computation from node [166].  There is a selected deleted-edge return
+\(\Gamma'\), an outside endpoint \(x_{\rm out}\), and the retained cubic star
+at the return root \(r\) such that
+\[
+ |\operatorname{supp}(\Gamma')|\le Q_{\rm base},\qquad
+ |\Gamma'|\le |\Gamma|,\qquad
+ x_{\rm out}\notin\operatorname{supp}(\Gamma'),\qquad
+ rx_{\rm out}\in E(G).
+\]
+The star's three leaves own every incidence at \(r\).  On the rejected-chord
+branch \(|\Gamma'|<|\Gamma|\); on the outside branch
+\(|\Gamma'|=|\Gamma|\).  This normalization performs zero additional
+primitive checks.
+\end{lemma}
+
+\begin{proof}
+The input is indexed by its complete predecessor computation.  On the
+rejected-chord branch select node [165]'s exact shorter return.  Its old first
+return step is absent from the new support, remains adjacent to the common
+root, and becomes \(x_{\rm out}\); strict decrease is inherited from the
+resolver.  On the outside branch keep node [166]'s original return and selected
+third endpoint; its nonmembership and equality of lengths are inherited
+unchanged.  In both cases the same cubic root divergence supplies the
+three-leaf star and exhausts every root incidence.  Walk support has one more
+vertex than walk length, so the original \(Q_{\rm base}\) support bound and
+the branchwise length comparison give the selected support bound.  The
+construction only projects proof-carrying predecessor fields.
+\end{proof}
+
+\begin{remark}[Scope of the normalized return]\label[remark]{rem:p13-normalized-return-boundary-scope}
+Node [167] is a proof-level normalization of one return only.  It does not
+itself scan packed support.  Its exact computed output is consumed by node
+[168], whose exact all-inside branch subsequently feeds verified owner-change
+node [169].  Node [167] itself supplies no owner table or cross-window token,
+successor or second stub, component path [170], iteration or termination
+theorem, D4--D7 coordinate, CT3 input, or density estimate.
+\end{remark}
+
+\begin{lemma}[Normalized-return packed-support transition]\label[lemma]{lem:p13-packed-support-transition}
+Let \(\Gamma'\) be the exact computed normalized return from node [167], and
+let
+\[
+ U_{\rm ac}:=\bigcup_{W:\,W\text{ is an ambient-cubic selected window}}
+   \operatorname{supp}(W).
+\]
+Exactly one of the following proof-carrying outcomes is returned:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item every vertex of \(\operatorname{supp}(\Gamma')\) belongs to \(U_{\rm ac}\);
+\item the first edge whose endpoints have different \(U_{\rm ac}\)-membership
+is oriented from its inside endpoint to its outside endpoint and supplies the
+literal \texttt{BoundaryStub}, its exact outside endpoint, and the exact
+connected component of the induced outside remainder containing that endpoint.
+\end{enumerate}
+If \(p\) is the selected-window packing number, \(n=|V(G)|\), and
+\(L=|\Gamma'|\), the visible work is exactly
+\[
+ 13pn+13p+26pL
+\]
+and is at most
+\[
+ n^2+(2Q_{\rm base}+1)n.
+\]
+\end{lemma}
+
+\begin{proof}
+View the selected deleted-edge return in the ambient graph.  Its final vertex
+is the retained selected-window position, and that window is ambient-cubic, so
+the final vertex belongs to \(U_{\rm ac}\).  Scan the return edge indices in
+their declared order and test membership of both consecutive endpoints in
+\(U_{\rm ac}\).  If no membership change occurs, final membership propagates
+backward across every edge, proving full support containment.  Otherwise the
+first hit has consecutive endpoints with opposite membership; orient it from
+inside to outside.  Membership in the explicit union chooses an ambient-cubic
+selected window and its exact \(\operatorname{Fin}(13)\) position.  Adjacency
+and outside nonmembership then give the literal boundary stub, whose endpoint
+determines the stated induced-remainder component.
+
+Computing thirteen degree tests for each of the \(p\) selected windows costs
+\(13pn\), recording their cubic flags costs \(13p\), and two scans of the
+\(13p\) position list at each of the \(L\) path edges cost \(26pL\).  The
+disjoint selected-window packing bound gives \(13p\le n\), while node [167]
+gives \(L\le Q_{\rm base}\), yielding the polynomial bound.
+\end{proof}
+
+\begin{remark}[Scope of the packed-support transition]\label[remark]{rem:p13-packed-support-transition-scope}
+The union \(U_{\rm ac}\) contains all ambient-cubic selected windows.  It is
+not the manuscript's selected cold subfamily, so node [168] proves no cold
+aggregate or cold-mass statement.  Its exact all-inside output is consumed by
+verified owner-change node [169].  The transition output constructs one exact
+stub, endpoint, and component, but no successor, second stub, or path through
+that component; verified node [170] computes those objects on the exact
+first-transition branch.  There is no
+iteration, termination, D4--D7 reconstruction, CT3 execution, or density
+conclusion.
+\end{remark}
+
+\begin{lemma}[Component boundary schedule and BFS path]\label[lemma]{lem:p13-component-boundary-schedule}
+Suppose node [168] returns its exact first-transition constructor, with
+boundary stub \(b\) and outside endpoint in the induced remainder component
+\(C\).  There is a computed finite list \(\mathcal B_C\) of precisely the
+boundary stubs whose outside endpoint lies in \(C\), and:
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item \(b\in\mathcal B_C\), the list has no duplicates, and
+  \(|\mathcal B_C|\ge2\);
+\item the stored successor \(b^+\) is the genuine cyclic
+  \texttt{List.next} value of \(b\) in \(\mathcal B_C\), so
+  \(b^+\ne b\) and both stubs have outside endpoint in \(C\);
+\item a declared-order BFS in \(C\) returns a path from the outside endpoint
+  of \(b\) to that of \(b^+\), and this path has length equal to their graph
+  distance in \(C\).
+\end{enumerate}
+The second stub is obtained by an explicit first-hit scan of
+\(\operatorname{WindowIndex}\times\operatorname{Fin}(13)\).  The scan stores
+the exact hit and proves that every preceding slot is absent.  The component
+predicate used by this scan, the complete incident-stub filter, and the path
+object is the same computed outside BFS finset.  If \(S\) denotes the sum of
+one plus the cardinalities of all explicitly scanned local collections, the
+complete visible work is at most \(50S^3\).
+\end{lemma}
+
+\begin{proof}
+Retain equality with node [168]'s actual first-transition run, so the anchor
+is its literal boundary stub and the returned component is unchanged.  Delete
+the anchor edge and use the inherited nonbridge certificate to compute its
+return.  Along that return, scan the single stored outside-component
+predicate until its first exit.  The proof-carrying prefix remains in the
+same computed BFS finset, while the crossing edge reaches a deleted-window
+vertex outside it.
+
+Scan the finite window-slot list for the first external incidence entering
+that same finset.  The first-hit certificate supplies the selected slot and
+absence at all earlier slots.  Its stub differs from the anchor because its
+crossing edge avoids the deleted anchor edge.  Filtering the actual finite
+stub enumeration by membership in the same BFS finset is complete and
+duplicate-free, and contains both distinct stubs.  Hence its length is at
+least two.  The generic fixed-point-free theorem for cyclic
+\texttt{List.next} on a duplicate-free list of length at least two gives
+\(b^+\ne b\).  Restricting to the computed component object and running the
+declared-order BFS gives the stated path and shortest-length equality.
+
+The visible ledger includes the window ledger, \(13p\) slot checks, the
+return-length times outside-component lookup, the outside BFS budget, the
+quadratic component restriction, the actual token filter, and the final
+component BFS budget.  The two generic BFS bounds and domination by the local
+scale give \(50S^3\).
+\end{proof}
+
+\begin{remark}[Scope of the component boundary schedule]\label[remark]{rem:p13-component-boundary-schedule-scope}
+Node [170] lies only on node [161]'s short first-transition branch.  Its exact
+schedule and shortest path feed the verified one-state component observation
+[173].  The verified long support-prefix branch [163]--[164] and its white
+full semantic consumer [179] are incompatible alternatives; there is no edge
+from this short branch to [164] or [179].  Node [170] proves no D4--D7 label,
+repetition, Boolean or cold-family semantics, return iteration, target
+closure, CT3 execution, or density estimate.
+\end{remark}
+
+\begin{lemma}[One component D1--D3 observation]\label[lemma]{lem:p13-component-d1d3-observation}
+Let node [170] return its exact component boundary schedule with anchor stub
+\(b\), cyclic successor \(b^+\), and returned component \(C\).  Independently
+run the declared-order BFS tree in the computed finite component object and
+let \(P_C\) be its shortest path from the outside endpoint of \(b\) to that
+of \(b^+\).  Equality with this one computed path defines a rank taking value
+zero on \(P_C\) and one otherwise.  It packages \(P_C\) for the observation
+interface without generating, ordering, or scanning a family of paths.
+
+The two literal capped boundary degrees, the two literal
+\(\operatorname{Fin}(13)\) window offsets, and \(|P_C|\) determine one genuine
+state
+\[
+ s_C\in\operatorname{State}(\operatorname{Fin}(0)).
+\]
+Its thirteen target-response bits are the power-of-two tests at
+\(|P_C|+j\), and its local response is the unique function out of
+\(\operatorname{Fin}(0)\).  The output retains exactly
+\(\operatorname{MissingD4D7}(C,P_C)\).  If \(n=|V(G)|\), materializing this
+one state uses exactly \(2n+13\) visible checks and at most \(15(n+1)\).
+\end{lemma}
+
+\begin{proof}
+Use node [170]'s actual graph input, not a reconstructed component or supplied
+path.  The graph observation package runs the existing declared-order BFS-tree
+constructor on that input.  Its path theorem and shortest-distance equality
+certify the resulting \(P_C\).  The equality-to-\(P_C\) rank is zero on the
+computed path and one on any unequal supplied candidate, so the required
+declared-first inequality follows by simplification; this compares one
+candidate with one stored value and performs no path-family scan.
+
+The existing two-boundary observation map reads the anchor and successor
+degrees and offsets literally and reads the connector length from \(P_C\).
+Project it with the unique \(\operatorname{Fin}(0)\) local response and the
+power-of-two predicate.  This gives the displayed state definitionally.  The
+residual constructor has no D4--D7 field and therefore returns the genuine
+missing-reconstruction witness.  Two degree rows cost \(2n\) checks and the
+fixed target-offset table costs thirteen; all remaining fields are stored
+projections, proving the exact and linear bounds.
+\end{proof}
+
+\begin{remark}[Scope of the component D1--D3 observation]\label[remark]{rem:p13-component-d1d3-observation-scope}
+Node [173] produces one state, not a sequence or repetition theorem.  Its
+missing-reconstruction residual feeds the verified cyclic component D1--D3
+ledger split [174].  Only that split may feed the white D4--D7 reconstruction
+or coarse-repeat consumer [175].  Neither edge enters the mutually exclusive
+long-branch classifier [164] or its semantic consumer [179].  Node [173]
+proves no repetition, D4--D7
+reconstruction, CT3 compression, Boolean or cold-family semantics, target
+closure, or density estimate.
+\end{remark}
+
+\begin{lemma}[Cyclic component D1--D3 ledger split]\label[lemma]{lem:p13-component-d1d3-ledger}
+Let \(\mathcal S_C\) be node [170]'s complete duplicate-free incident-stub
+schedule, with its stored cyclic successor, and let \(s_C\) be the exact
+node-[173] residual.  There is one locally computed D1--D3 row \(s_x\) for
+each \(x\in\mathcal S_C\) such that the anchor row is exactly \(s_C\), every
+row retains its computed connector path and
+\(\operatorname{MissingD4D7}\), and
+\[
+  \bigl(\exists x\ne y\in\mathcal S_C:\ s_x=s_y\bigr)
+  \qquad\text{or}\qquad
+  |\mathcal S_C|\le Q_{\rm base}=4^2 13^2 2^{13}.
+\]
+If \(\Lambda_C\) is the maximum of the local finite input sizes used by the
+schedule and its connector computations, the visible work is at most
+\(100\Lambda_C^4\).
+\end{lemma}
+
+\begin{proof}
+The ledger input retains the typed node-[173] residual together with equality
+to its actual execution.  At the anchor stub, the row constructor returns this
+retained state definitionally.  At every other stub it re-anchors node [170]'s
+exact component-boundary input, uses the stored \texttt{List.next} successor,
+and runs the same declared-order local BFS constructor.  Thus the row list is
+indexed exactly by \(\mathcal S_C\); it does not range over an ambient state
+space.
+
+Apply the finite code-collision classifier to this observed row list.  A
+collision supplies two distinct scheduled rows with equal coarse
+\(\operatorname{State}(\operatorname{Fin}(0))\) values.  In the collision-free
+case, injectivity into that finite code gives
+\(|\mathcal S_C|\le|\operatorname{State}(\operatorname{Fin}(0))|\), and the
+proved cardinality identity rewrites the right-hand side to
+\(4^2 13^2 2^{13}=Q_{\rm base}\).  The explicit ledger charges only the
+incident schedule, component restrictions, and local BFS clauses; its proved
+bound is \(100\Lambda_C^4\).
+\end{proof}
+
+\begin{remark}[Scope of the cyclic D1--D3 ledger]\label[remark]{rem:p13-component-d1d3-ledger-scope}
+Node [174] compares only the coarse states of rows actually produced from the
+local incident schedule.  It does not enumerate the state universe.  Equality
+of two coarse rows is not yet full response equivalence or a CT8 removal
+certificate, and the bounded branch supplies no D4--D7 reconstruction.  Both
+residuals feed the verified finite classifier at node [175].  Node [174] proves no CT3
+compression, second connector, Boolean or cold-family realization, target
+closure, return iteration, termination, or density estimate, and it has no
+edge to the mutually exclusive long-branch nodes [164] and [179].
+\end{remark}
+
+\begin{lemma}[D4--D7 availability and coarse-repeat classifier]\label[lemma]{lem:p13-component-d4d7-classifier}
+Consume node [174]'s exact generic result together with its equality to the
+specialized \(P_{13}\) execution on the same branch context.  Exactly one of
+the following occurs:
+\begin{enumerate}[label=(\alph*), leftmargin=2.2em]
+\item two distinct retained rows have the same coarse D1--D3 state, and CT10
+promotes the first of this exact pair as a missing refinement obligation;
+\item the schedule has length at most \(Q_{\rm base}\) and every actual row
+has graph-derived D4--D7 clauses; or
+\item the schedule has length at most \(Q_{\rm base}\), the local scan returns
+its first actual row without graph-derived D4--D7 clauses, and CT10 consumes
+that exact row on the unchanged branch context.
+\end{enumerate}
+The graph scan and either CT10 route use at most \(3\Lambda_C\) primitive
+checks, where \(\Lambda_C\) is the declared local scale.
+\end{lemma}
+
+\begin{proof}
+Run the graph-owned classifier on node [174]'s retained result.  Its repeated
+constructor already contains the two distinct scheduled rows and their equal
+coarse states.  The associated CT10 input has exactly these two classes and no
+invented D4--D7 datum, so the public runner reaches its promoted terminal.  In
+the bounded constructor, scan the duplicate-free list of actual incident
+stubs in its inherited order with the decidable graph-derived-clause
+predicate.  The finite reconstruction runner returns either a family indexed
+by every scanned row or its first missing row.  The latter is passed literally
+to the second CT10 route.  Both route inputs store the original branch context
+definitionally.  The work ledger charges only the actual schedule and the two
+retained CT10 inputs; it never materializes a state, response, context, graph,
+or universe family.
+\end{proof}
+
+\begin{remark}[Scope of the D4--D7 classifier]\label[remark]{rem:p13-component-d4d7-classifier-scope}
+Node [175] proves availability or exposes one exact missing refinement.  It
+does not turn coarse equality into compatible-response equality, produce a
+CT8 removal or certified smaller object, construct a second connector or
+cycle, or prove target closure.  Node [180] performs only the exact readiness
+split below; the semantic implications remain white at node [182].
+\end{remark}
+
+\begin{lemma}[Component D4--D7 semantic readiness]\label[lemma]{lem:p13-component-d4d7-semantic-readiness}
+Consume node [175]'s exact execution.  The bounded complete-reconstruction
+constructor is impossible because the actual anchor stub belongs to the
+stored schedule while its D4--D7 clause type is empty.  Hence the result is
+either the routed coarse pair, retaining both missing-clause witnesses, or the
+bounded ledger with its routed first actual missing row.  One predecessor
+constructor inspection suffices, and its work is at most \(\Lambda_C+1\).
+\end{lemma}
+
+\begin{proof}
+The source stores equality with the specialized node-[175] run.  Membership of
+the head anchor in the actual stub list contradicts a reconstructed family at
+that row.  The other two constructors already retain, respectively, both
+coarse missing witnesses or the exact first-missing marker and their unchanged
+CT10 routes.  No ambient family is enumerated.
+\end{proof}
+
+\begin{lemma}[Fixed D4--D7 clause schedule]\label[lemma]{lem:p13-component-d4d7-clause-schedule}
+Consume node [180]'s exact result.  Retain each dependent missing-clause marker
+and attach the fixed noduplicated obligation list
+\([D4,D5,D6,D7]\).  The coarse constructor emits two such ledgers and hence
+eight slots; the bounded constructor emits one and hence four.  No clause
+truth, response equivalence, removal operation, smaller object, or CT8 result
+is asserted.
+\end{lemma}
+
+\begin{lemma}[D4 obligation cursor]\label[lemma]{lem:p13-component-d4d7-clause-cursor}
+Consume node [182]'s exact dependent ledgers.  Focus (D4) as the next
+obligation while retaining the exact unevaluated tail ([D5,D6,D7]) and every
+marker.  The actual returned tails contain six slots in the coarse case and
+three in the bounded case.  No clause truth or response semantics is asserted.
+\end{lemma}
+
+\begin{lemma}[Local D4 evaluation request]\label[lemma]{lem:p13-component-d4-local-clause-request}
+Consume node [185] exactly.  For each actual dependent cursor, emit the
+singleton request [D4] while retaining its marker and the literal tail
+[D5,D6,D7].  Thus the coarse branch emits two requests and the bounded branch
+one.  No predicate or truth value is supplied, and no response or CT8
+conclusion follows.
+\end{lemma}
+
+\begin{lemma}[D4 evaluator residual]\label[lemma]{lem:p13-component-d4-evaluator-residual}
+Consume node [188] exactly.  Retain every dependent marker, singleton D4
+request, and literal D5--D7 tail, and expose the two missing inputs: a
+graph-local predicate and a proof of its provenance.  These are obligation
+tags only; no predicate, Boolean, evaluator, response, or CT8 result is
+supplied.  The actual output has at most four tags.
+\end{lemma}
+
+\begin{lemma}[D4 evaluator construction residual]\label[lemma]{lem:p13-component-d4-evaluator-construction-residual}
+Consume node [191] exactly.  Retain each singleton D4 request, its dependent
+marker, and the literal D5--D7 tail.  Refine the missing evaluator obligation
+into the ordered graph-owned requirements: component-local data, a
+graph-owned predicate definition, and a derivation of that predicate.  The
+coarse branch carries two such residuals and the bounded branch one, for at
+most six tags.  No predicate, Boolean, evaluator, compatible response, or CT8
+conclusion is supplied.
+\end{lemma}
+
+\begin{remark}[Open full component semantics]\label[remark]{rem:p13-component-d4d7-full-semantics}
+Node [194] is the verified terminal residual interface for node [191].  A
+future closure proof must construct its three graph-owned inputs from the
+retained local clauses and may not enumerate ambient responses, contexts,
+states, graphs, or universes.
+\end{remark}
+
+\begin{lemma}[First ambient-cubic owner change]\label[lemma]{lem:p13-packed-owner-change}
+Suppose node [168] returns its exact all-inside constructor on the computed
+normalized return \(\Gamma'\).  Assign to every vertex of \(\Gamma'\) its
+unique ambient-cubic selected-window owner and store this owner sequence.
+Then there is a first edge of \(\Gamma'\) whose endpoints have distinct
+owners.  The returned package retains the exact two endpoint windows and
+positions, the literal adjacent vertices, and two opposite tokens, one owned
+by each endpoint window and incident with the other endpoint.  Both token
+subtypes are exactly \texttt{crossWindow}.
+
+Writing \(p\) for the selected-window packing number, \(n=|V(G)|\), and
+\(L=|\Gamma'|\), the local work ledger is exactly
+\[
+  13pn+|\operatorname{supp}(\Gamma')|\,13p+L
+\]
+and is at most
+\[
+  n^2+Q_{\rm base}(n+1).
+\]
+\end{lemma}
+
+\begin{proof}
+The all-inside equality is the literal output of node [168], so it supplies
+containment of this same return support in the prepared union of ambient-cubic
+selected-window supports.  Prepare the finite list of ambient-cubic
+\((W,j)\) slots once.  For each of the \(|\operatorname{supp}(\Gamma')|\)
+path vertices, perform one finite slot lookup and store the resulting window
+and position.  Disjointness of the selected packing makes the owner window
+unique.  Scan consecutive entries of this stored table in path order.
+
+If the scan found no change, every return vertex would have the final
+vertex's selected-window owner.  That owner is the original stub window,
+whereas the first vertex is the original stub neighbour and lies outside the
+support of that window, a contradiction.  Hence the scan returns its first
+owner change.  Each endpoint belongs to its stored selected window and is
+adjacent to the other endpoint.  Since the two owner windows are distinct and
+the selected supports are disjoint, the other endpoint is external to the
+first endpoint's window in each orientation.  These two oriented incidences
+are the asserted tokens; because the opposite endpoints remain in the packed
+selected-window union, both have exact subtype \texttt{crossWindow}.
+
+Preparing the ambient-cubic inventory costs \(13pn\).  The stored owner table
+uses one scan through at most \(13p\) prepared slots per support vertex, and
+the first-change scan makes one stored-owner comparison per edge.  Thus the
+exact ledger is \(13pn+|\operatorname{supp}(\Gamma')|13p+L\).  The packing
+bound \(13p\le n\) and the inherited bounds
+\(|\operatorname{supp}(\Gamma')|\le Q_{\rm base}\) and
+\(L\le Q_{\rm base}\) give \(n^2+Q_{\rm base}(n+1)\).
+\end{proof}
+
+\begin{remark}[Scope of the owner change]\label[remark]{rem:p13-packed-owner-change-scope}
+The owner table ranges over all ambient-cubic selected windows, not the
+manuscript's selected cold subfamily.  Node [169] retains exactly one first
+cross-window edge and its two opposite tokens.  It constructs no boundary
+successor, target-cycle closure, cold aggregate, D4--D7 coordinate, CT3 input,
+or density estimate.  Its exact token pair feeds the verified zero-check
+  residual at [171].
+\end{remark}
+
+\begin{lemma}[Exact cross-window token-pair residual]\label[lemma]{lem:p13-cross-window-token-pair}
+Let node [169] return its complete computed first-cross-window package.  Node
+[171] returns two tokens $t_L,t_R$, their exact endpoint windows and
+positions, and adjacent endpoint vertices $x_L,x_R$, such that
+\begin{enumerate}[label=\textup{(\roman*)}]
+\item $t_L$ and $t_R$ are exactly the two tokens already stored by node
+  [169], and $t_L\ne t_R$;
+\item both token subtypes are exactly \texttt{crossWindow};
+\item $t_L$ is owned at $x_L$ and points to $x_R$, whereas $t_R$ is
+  owned at $x_R$ and points to $x_L$;
+\item the two oriented contributions have the same literal undirected edge,
+  \(\{x_L,x_R\}=\{x_R,x_L\}\).
+\end{enumerate}
+The residual performs exactly zero additional primitive checks after node [169].
+\end{lemma}
+
+\begin{proof}
+Apply the reusable cross-window token-pair route to node [169]'s retained
+first-cross-window structure.  All token, window, position, and endpoint
+fields are projections of that same proof-carrying source.  Their exact
+cross-window subtypes and opposite neighbour equalities are inherited
+verbatim.  If the two tokens were equal, equality of their owner projections
+would identify the two endpoint windows, contradicting the certified owner
+change.  Symmetry of the unordered endpoint pair gives equality of the two
+literal edges.  The route performs no finite search or predicate evaluation,
+so its additional-check ledger is definitionally zero.
+\end{proof}
+
+\begin{remark}[Scope of the token-pair residual]\label[remark]{rem:p13-cross-window-token-pair-scope}
+Node [171] is the exact terminal residual of the all-inside branch.  It constructs no repeated
+owner, second connector, cycle, cold-family membership, demand or capacity
+bound, boundary successor, target closure, CT execution, or density estimate.
+\end{remark}
+
+\begin{lemma}[Forced long-support prefix]\label[lemma]{lem:p13-long-support-prefix}
+Suppose the computed node-[161] result is its long constructor.  The identical
+corridor support contains a canonical initial segment of exactly
+\(Q_{\rm base}+1\) positions.  The first \(Q_{\rm base}\) positions form its
+base and the unique overflow position has literal index \(Q_{\rm base}\).
+Every supplied support position is classified exhaustively as lying in this
+prefix or after it.
+\end{lemma}
+
+\begin{proof}
+The long constructor retains the strict inequality
+\(Q_{\rm base}<|\operatorname{supp}(\Gamma)|\) on the same branch context.
+Thus the order-preserving inclusion of indices
+\(0,\ldots,Q_{\rm base}\) into the literal support is well defined.  Elementary
+finite-index arithmetic splits a prefix position into an index below
+\(Q_{\rm base}\) or the unique equality case, and splits any supplied support
+position according to whether its index is below \(Q_{\rm base}+1\).  The
+handoff itself performs no scan; either local classification uses one natural
+number comparison.
+\end{proof}
+
+\begin{remark}[Scope of the long prefix]\label[remark]{rem:p13-long-support-prefix-scope}
+Node [163] supplies only literal finite positions and their exact inclusion.
+It assigns no normalized state label, proves no repetition, and constructs no
+D4--D7 response, CT17 target, offset, compatibility relation, or density
+estimate.  Its exact prefix feeds the verified first-nine classifier [164].
+\end{remark}
+
+\begin{lemma}[First-nine observed-label refinement]\label[lemma]{lem:p13-long-prefix-observed-label}
+Suppose node [163] is the actual forced-prefix result on the computed long
+branch.  Map its first nine positions, in order, to the identical literal
+corridor support.  Label each resulting vertex by
+\[
+\bigl(d_G(v)\bmod 4,\ \mathbf 1_{v\in V(\mathcal P_{13})}\bigr)
+\in \operatorname{Fin}(4)\times\{0,1\}.
+\]
+Then two distinct first-nine positions have the same label.  The two actual
+occurrences form a CT10 datum table whose coarse-label row is populated and
+whose first missing semantic class is the compatible-response layer.  The
+complete local work is at most
+\(144(|V(G)|+1)+9\) primitive checks.
+\end{lemma}
+
+\begin{proof}
+The exact node-[163] equality identifies every prefix index with the corridor
+entry at the same literal list position.  The displayed label is computed
+from that graph entry and has exactly eight possible values.  The declared
+order on the first nine positions therefore has an actual repeated label;
+the executable scan retains its first collision and never enumerates the
+eight-label universe.  CT10 receives exactly the two collided positions.
+Both lie in the coarse-label class, so the next class,
+compatible response contexts, is the first missing row and is promoted.
+There are at most thirty-six pair comparisons.  Charging both uncached label
+evaluations per comparison gives at most \(144(|V(G)|+1)\) checks, and the
+three-class, two-datum CT10 scan adds at most nine.
+\end{proof}
+
+\begin{remark}[Scope of first-nine refinement]\label[remark]{rem:p13-long-prefix-observed-label-scope}
+Node [164] proves only equality of the displayed graph-derived coarse label
+at two distinct literal prefix occurrences.  It proves no equality of D4--D7
+or target responses, no common compatible-context completeness, and no CT8
+removal or certified smaller object.  Node [179] performs only the exact
+degree refinement below; the stronger obligations remain white at [183].
+\end{remark}
+
+\begin{lemma}[Two-occurrence exact degree refinement]\label[lemma]{lem:p13-long-prefix-degree-refinement}
+Consume node [164]'s exact collided pair and promoted CT10
+\texttt{responseContexts} obligation.  Read the full degrees of precisely the
+two retained literal corridor vertices.  The result records either equality
+of these degrees or their inequality together with the already proved common
+residue modulo four.  Both branches retain distinct occurrences and equal
+selected-packing membership bits.  The visible work is
+\(2|V(G)|+1\le 2(|V(G)|+1)\).
+\end{lemma}
+
+\begin{proof}
+The node-[164] equality fixes both occurrences and their literal vertices.
+Compute their two degree rows and compare the resulting natural numbers once.
+The coarse-label equality supplies the residue and packing-bit equalities in
+both constructors.  Only these two local rows are inspected.
+\end{proof}
+
+\begin{lemma}[First-nine local-clause alignment]\label[lemma]{lem:p13-long-prefix-local-clause-alignment}
+Consume node [179]'s exact degree result and retained CT10
+\texttt{responseContexts} obligation.  Compare adjacency of the two literal
+vertices on precisely the same first nine prefix coordinates.  The result is
+the first mismatching coordinate, together with equality on every preceding
+coordinate, or equality on all nine coordinates.  Both degree constructors
+are retained without interpretation.  Exactly eighteen adjacency evaluations
+are charged.
+\end{lemma}
+
+\begin{lemma}[First-eighteen local-clause alignment]\label[lemma]{lem:p13-long-prefix-extended-clause-alignment}
+Consume node [183] exactly.  An inherited first-nine mismatch passes through
+unchanged.  Otherwise compare only literal positions \(9,\ldots,17\), returning
+the first second-block mismatch with its clean prefix or alignment on both
+fixed nine-coordinate blocks.  At most eighteen new adjacency decisions are
+made; the retained CT10 obligation is not interpreted as response equivalence.
+\end{lemma}
+
+\begin{lemma}[First-twenty-seven local-clause alignment]\label[lemma]{lem:p13-long-prefix-third-block-clause-alignment}
+Consume node [186] exactly.  Either inherited mismatch passes through with
+the same dependent payload.  Otherwise compare only literal positions
+\(18,\ldots,26\), returning the first third-block mismatch with its clean
+prefix or equality on all first twenty-seven coordinates.  At most eighteen
+new adjacency decisions are made, and the retained degree and CT10 provenance
+is unchanged.
+\end{lemma}
+
+\begin{lemma}[First-thirty-six local-clause alignment]\label[lemma]{lem:p13-long-prefix-fourth-block-clause-alignment}
+Consume node [189] exactly.  Each inherited mismatch passes through unchanged.
+Otherwise compare only literal positions \(27,\ldots,35\), returning the
+first fourth-block mismatch with its clean prefix or equality on all first
+thirty-six coordinates.  At most eighteen new adjacency decisions are made,
+with all degree and CT10 provenance retained.
+\end{lemma}
+
+\begin{lemma}[Long-prefix compatible-response frontier]\label[lemma]{lem:p13-long-prefix-compatible-response-frontier}
+Consume node [192] exactly and retain its four possible mismatch leaves and
+its first-thirty-six-aligned leaf, together with the inherited degree and CT10
+provenance.  Each mismatch leaf records the two graph-owned inputs needed for
+a distinguishing-response route.  The aligned leaf records compatible-response
+semantics, its provenance, and a CT8 removal or distinguishing-route input.
+These are obligation tags only.  The construction inspects one local
+constructor and proves no response equivalence, distinguishing context, or
+removal.
+\end{lemma}
+
+\begin{remark}[Open full long-prefix semantics]\label[remark]{rem:p13-long-prefix-full-semantics}
+Node [195] is the verified terminal residual interface for node [192].  A
+future closure proof must construct the missing compatible D4--D7 response
+layer and then provide either a certified CT8 removal or a typed
+distinguishing-context route.  It may inspect only explicit local clauses and
+may not enumerate an ambient response, context, state, graph, or universe
+family.
+\end{remark}
+
+\begin{remark}[Open 91-bit realization obligation]\label[remark]{rem:p13-91-realization-obligation}
+Node [160] denotes the still-white edge from [21] to [22]: one must construct
+the finite 91-coordinate completion-state system and prove that independently
+chosen local responses commute in a simultaneous admissible realization.
+This obligation is logically distinct from nodes [158]--[159].  A missing
+thirteen-bit adjacency assignment neither proves nor refutes it.
+\end{remark}
 
 \begin{definition}[Hot/cold window ledger]\label[definition]{def:cold-window-ledger}
 Set
@@ -6796,22 +7503,19 @@ and
 The value \(1/78\) is the route-8 private-carrier threshold, and \(1/73\) is
 the negative-net-charge threshold.
 
-Fix a maximal vertex-disjoint induced-\(P_{13}\) packing \(\mathcal P\) and the
-canonical entropy comparison used on the branch under discussion.  A packed
-window is \emph{hot} when that comparison contains, for this window, the full
-canonical package of independently target-testable coordinates with rate
-\[
-(c_{\rm hot}-o(1))\log_2 n .
-\]
-Equivalently, hotness is witnessed by the injective list of declared window
-coordinates supplied by \cref{lem:p13-window-package} for that window and
-retained in the current comparison.  A packed window not carrying such a live
-package in the current comparison is \emph{cold}.  We write
+Fix a maximal vertex-disjoint induced-\(P_{13}\) packing \(\mathcal P\).
+Once the local completion-state system required in
+\cref{lem:p13-window-package} has been constructed, a packed window is
+\emph{hot} when its response map realizes every Boolean assignment.  It is
+\emph{cold} when the exhaustive local classifier returns an explicit omitted
+assignment.  The classifier gives the exact partition
 \[
 \mathcal P=\mathcal P_{\rm hot}\sqcup\mathcal P_{\rm cold},
 \qquad
 C:=|\mathcal P_{\rm cold}|.
 \]
+Only a hot certificate may be converted to the Boolean entropy profile.  A
+cold certificate is routed to the local first-failure branch.
 \end{definition}
 
 \begin{definition}[Surviving cold branch]\label[definition]{def:surviving-cold-branch}
@@ -6831,9 +7535,11 @@ On this branch, \(|V_{\ge4}(G)|\le\sigma(G)=o(n)\).  Hence all but \(o(n)\)
 packed \(P_{13}\)-windows are ambient-cubic.
 \end{definition}
 
-\begin{lemma}[Hot failure forces cold mass]\label[lemma]{lem:hot-failure-cold-mass}
-Assume \cref{def:surviving-cold-branch}.  If the live-hot entropy comparison
-does not close, then
+\begin{remark}[Hot-failure counting consequence]\label[remark]{lem:hot-failure-cold-mass}
+After the realization interface of \cref{lem:p13-window-package} has been
+constructed, the following counting implication applies on
+\cref{def:surviving-cold-branch}: if the live-hot entropy comparison does not
+close, then
 \[
 C\ge(\theta-\theta_{\rm win})n-o(n).
 \]
@@ -6845,37 +7551,7 @@ and at the negative-net-charge threshold \(\theta=1/73\),
 \[
 C\ge0.000998452154807083\,n-o(n).
 \]
-\end{lemma}
-
-\begin{proof}
-The hot windows contribute at least
-\[
-\bigl(c_{\rm hot}-o(1)\bigr)|\mathcal P_{\rm hot}|\log_2 n
-\]
-independently target-testable coordinates.  If these coordinates alone exceed
-the near-cubic skeleton budget \(\frac32 n\log_2 n+o(n\log n)\), then
-\cref{lem:independent-target-entropy,lem:skeleton-dominates} close the branch.
-Therefore, on a branch where the hot comparison has not closed,
-\[
-c_{\rm hot}|\mathcal P_{\rm hot}|\log_2 n
-\le
-\frac32 n\log_2 n+o(n\log n).
-\]
-Dividing by \(c_{\rm hot}\log_2 n\) gives
-\[
-|\mathcal P_{\rm hot}|
-\le
-\frac{3}{2c_{\rm hot}}n+o(n)
-=\theta_{\rm win}n+o(n).
-\]
-Since \(p_{13}=|\mathcal P|=\theta n\),
-\[
-C=|\mathcal P|-|\mathcal P_{\rm hot}|
-\ge(\theta-\theta_{\rm win})n-o(n).
-\]
-The two displayed numerical lower bounds are obtained by substituting
-\(\theta=1/78\) and \(\theta=1/73\).
-\end{proof}
+\end{remark}
 
 \begin{definition}[Cold skeleton and branch excess]\label[definition]{def:cold-skeleton-excess}
 Let
@@ -7385,9 +8061,9 @@ for \(k\ge a\) the congruence reduces to the odd modulus \(u\).
 \bottomrule
 \end{longtable}
 
-\begin{theorem}[Cold branch quantitative closure]\label[theorem]{thm:cold-branch-quantitative-closure}
-No terminal cold branch survives after the near-cubic spine estimate has been
-supplied.  More precisely, on \cref{def:surviving-cold-branch}, either the
+\begin{remark}[Pending cold-branch closure]\label[remark]{thm:cold-branch-quantitative-closure}
+The intended cold route has no terminal survivor after the near-cubic spine
+estimate has been supplied.  On \cref{def:surviving-cold-branch}, either the
 route-8 carrier inequality closes \(\theta<1/78\), or the live-hot entropy
 comparison closes, or the hot failure produces a cold family whose branch
 excess yields a bounded germ; that germ is routed by
@@ -7395,54 +8071,15 @@ excess yields a bounded germ; that germ is routed by
 to a
 dyadic cycle, a target-defective quotient or exit-\textup{(4)} route, a Type B
 handoff already in its ledger, a route-8 closure, or a target-complete
-compression.  All these outcomes are excluded on the surviving cold branch.
-\end{theorem}
+compression.  Completing this route requires the graph-owned corridor and
+bounded-germ producers, the overlap bound \(D_{\rm cold}\), and the finite
+context-reflection theorem described above.  Nodes~[151]--[152] establish the
+ambient-cubic filtering and exact \(15\)-stub/\(13\)-excess arithmetic; they
+do not supply those remaining producers.
+\end{remark}
 
-\begin{proof}
-If \(\theta<1/78\), then
-\(\tau(\theta)<3/13\) by \cref{def:cold-window-ledger}; this is exactly the
-private-carrier inequality used in \cref{thm:large-budget-route8-only}, so the
-route-8 branch closes.
-
-Assume next that \(\theta\ge1/78\).  If the live-hot entropy comparison closes,
-\cref{lem:independent-target-entropy,lem:skeleton-dominates} give the density
-cap and the branch has no cold residual.  If it does not close, then
-\cref{lem:hot-failure-cold-mass} gives
-\[
-C\ge(\theta-\theta_{\rm win})n-o(n).
-\]
-The route-8 threshold already gives
-\[
-C\ge0.000120334838333602\,n-o(n),
-\]
-so \(C\) is linear on every remaining branch.  By
-\cref{lem:cold-window-stub-excess},
-\[
-b(\mathfrak S_{\rm cold})\ge13C-o(n),
-\]
-and by \cref{lem:cold-germ-extraction},
-\[
-N_{\rm germ}\ge\frac{13C}{D_{\rm cold}}-o(n).
-\]
-Thus the remaining branch contains bounded candidate germs linearly many times
-unless one of the discarded \(o(n)\) surplus or handoff ledgers is already
-active.  Since \(D_{\rm cold}\) is a fixed constant and
-\(\theta_{\rm win}<1/78\), the displayed lower bound is positive for all
-sufficiently large \(n\); hence at least one bounded candidate germ is present
-on every remaining branch.  A length-changing candidate is impossible by
-\cref{lem:cold-bounded-germ-trichotomy}; an equal-length or exceptional short
-candidate is routed by
-\cref{lem:cold-same-interface-table,lem:cold-increment-arithmetic}.
-The outcomes are precisely the rows of \cref{tab:cold-branch-ledger}: target
-cycle, target defect or exit-\textup{(4)}, already routed Type B or route-8
-handoff, or target-complete compression.  Each is forbidden in
-\cref{def:surviving-cold-branch}.  Hence the cold branch has no terminal
-survivor.
-\end{proof}
-
-\begin{proposition}[Near-cubic $P_{13}$ window density bounds]\label[proposition]{prop:p13-density}
-Under \cref{def:near-cubic-spine}, every maximal independent induced-$P_{13}$
-packing satisfies the window-only bound
+\begin{remark}[Pending near-cubic $P_{13}$ window density bounds]\label[remark]{prop:p13-density}
+The intended window-only conclusion is
 \[
 \theta\le
 \theta_{\rm win}+o(1),
@@ -7455,7 +8092,8 @@ contributes $\frac1{10}\log_2 n$ bits per remainder vertex, the sharper bound is
 \[
 \theta\le 0.01198542083\ldots+o(1).
 \]
-Consequently, under \cref{def:near-cubic-spine},
+Together with the high-entropy remainder contribution, the intended sharper
+conclusion and its remainder consequences are
 \[
 |R|\ge(1-13\theta_{\rm win})n-o(n)
 =0.83489768623\ldots n-o(n),
@@ -7470,52 +8108,20 @@ and
 \frac{15\theta_{\rm win}}{1-13\theta_{\rm win}}
 =0.22817486846\ldots<\frac14 .
 \]
-\end{proposition}
-
-\begin{proof}
-By \cref{lem:p13-window-package}, the window coordinates alone contribute
-\[
-\bigl(118.108581006-o(1)\bigr)\,p_{13}\log_2 n
-\]
-bits.  Since all target-complete window states are realized by labelled
-near-cubic skeletons under \cref{def:near-cubic-spine},
-\cref{lem:independent-target-entropy,lem:skeleton-dominates} give
-\[
-\bigl(118.108581006-o(1)\bigr)\,p_{13}\log_2 n
-\le \frac32 n\log_2 n+o(n\log n).
-\]
-After division by $n\log_2 n$, this is exactly
-$\theta\le\theta_{\rm win}+o(1)$.
-
-In the high-entropy branch of \cref{prop:two-budget}, the \(P_{13}\)-free
-remainder contributes at least
-\[
-\frac{n-13p_{13}}{10}\log_2 n
-\]
-additional independently target-testable bits.  Adding this contribution to
-the window package and comparing with the same skeleton budget gives
-\[
-\frac{n-13p_{13}}{10}\log_2 n
-{}+
-\bigl(118.108581006-o(1)\bigr)p_{13}\log_2 n
-\le
-\frac32 n\log_2 n+o(n\log n).
-\]
-After division by \(n\log_2 n\), with \(\theta=p_{13}/n\), this is
-\begin{equation}\label{eq:feasibility}
+These inequalities follow algebraically once the realization and commuting
+gluing interfaces of \cref{lem:p13-window-package} are proved.  The normalized
+high-entropy comparison would then be
+\begin{equation}
+\label{eq:feasibility}
 \frac{1-13\theta}{10}+118.108581006\,\theta
 =0.1+116.808581006\,\theta
 \le1.5+o(1).
 \end{equation}
-Solving \eqref{eq:feasibility} gives
-\[
-\theta\le \frac{1.4}{116.808581006}+o(1)
-=0.01198542083\ldots+o(1).
-\]
-The lower bound on $|R|$ is
-$|R|=(1-13\theta)n$, and the bound on $15\theta/(1-13\theta)$ follows by
-monotonicity of this expression on $0\le\theta<1/13$.
-\end{proof}
+The displayed numerical bounds are therefore bookkeeping consequences, not
+current inputs to the remainder branch.  Node~[24] remains open until it
+constructs an exact finite ceiling \(U_{13}\) and proves \(p_{13}\le U_{13}\)
+from the completed hot/cold route.
+\end{remark}
 
 \paragraph{Framework branch table.}
 The \(P_{13}\)-window entropy and hot/cold closure uses the following branch
@@ -7550,7 +8156,7 @@ Closed by \cref{thm:large-budget-route8-only}.
 \addlinespace
 Hot branch
 &
-The live-hot entropy comparison applies.
+The graph-owned realization interface is available.
 &
 Hot window bits.
 &
@@ -7558,12 +8164,13 @@ Skeleton entropy.
 &
 Packed windows.
 &
-Gives the density cap of \cref{prop:p13-density}.
+Pending the realization and commuting-gluing producers of
+\cref{lem:p13-window-package}.
 \\
 \addlinespace
 Cold branch
 &
-Hot failure leaves linear cold mass.
+The classifier returns explicit omitted assignments.
 &
 Branch-excess stubs.
 &
@@ -7571,7 +8178,8 @@ First-failure extraction.
 &
 The bounded constant \(D_{\rm cold}\).
 &
-Closed by \cref{thm:cold-branch-quantitative-closure}.
+Pending the corridor, overlap, germ-coverage, and target-defect continuation
+producers of \cref{thm:cold-branch-quantitative-closure}.
 \\
 \addlinespace
 High entropy
@@ -8269,7 +8877,7 @@ The component is connected, so its cycle rank is
 \]
 Substituting $e=s-1+\beta_Z$ into $(\dagger)$ gives $3s+\sigma_Z=2(s-1+\beta_Z)+p=2s-2+2\beta_Z+p$, and solving for $s$ yields
 \[
-s=p-2+2\beta_Z-\sigma_Z. \qedhere
+s=p-2+2\beta_Z-\sigma_Z.
 \]
 \end{proof}
 
@@ -8819,7 +9427,8 @@ For a residual graph to exist, the window, remainder, and forced-curvature deman
 K(1-13\theta)n\le\bigl(1.4-116.808581006\,\theta\bigr)n\log_2 n+o(n\log n).
 \]
 Dividing by $n$, no residual graph exists once
-\begin{equation}\label{eq:entropy-cap}
+\begin{equation}
+\label{eq:entropy-cap}
 \left(1.4-116.808581006\,\theta\right)\log_2 n
 < K(1-13\theta).
 \end{equation}
@@ -13938,9 +14547,37 @@ core to the Type A route-8 ledger.
 A linear large-budget Type B deficit outside route 8 carried solely by
 degree-four bridge residuals.
 &
-[84]\(\to\)[85]\\
+[176]\(\to\)[85]\\
 \bottomrule
 \end{longtable}}
+
+\begin{lemma}[Local selected-center fan-mass bound]\label[lemma]{lem:typeB-local-selected-fan-mass}
+Fix one Type B support scope supplied by the exact local ledger, and let
+\(S\subseteq H_X\) be either the singleton unresolved center or the literal
+set of centers in its minimal-overlap obstruction.  Then
+\[
+ |S|\le \sum_{h\in S}(d_G(h)-3)
+ \le \sum_{h\in H_X}(d_G(h)-3).
+\]
+The same local decision retains the nonnegative and route-\textup{(8)}
+outcomes without changing their payloads.
+\end{lemma}
+
+\begin{proof}
+The center list is the graph-computed list of actual high centers.  Hence
+\(d_G(h)\ge4\) for every \(h\in S\), so each selected center has unit lower
+mass at most its capacity \(d_G(h)-3\).  Summing this pointwise inequality on
+the literal selected list proves the first bound.  That list is duplicate
+free: in the overlap branch it is a sublist of the fixed center enumeration,
+and in the unresolved branch it is a singleton.  The second bound is the
+inclusion \(S\subseteq H_X\).  This computation inspects only the fixed local
+center list; it does not construct a family of supports or envelopes.
+\end{proof}
+
+The global ordinary/grouped aggregation is a separate obligation.  In
+particular, \cref{lem:typeB-local-selected-fan-mass} does not construct the
+canonical support family and does not imply either coefficient-\(208\)
+incidence bound used below.  These are the open node-[176] producer contract.
 
 \begin{definition}[Type B residual fan mass]\label[definition]{def:typeB-residual-mass}
 Let $\mathcal X_B$ be a subcollection of the canonical admissible supports
@@ -14683,7 +15320,7 @@ entry via exit~(4)).  Summing over $X\in\tilde{\mathcal X}$,
 \[
 \tilde N=\sum_{X\in\tilde{\mathcal X}}\sum_w|\mathcal U_X(w)|
 \ \ge\ \sum_{X\in\tilde{\mathcal X}}S_{\rm sil}^{\rm exc}(X)
-\ \ge\ 4\sum_{X\in\tilde{\mathcal X}}\delta(X)=4\tilde D_A. \qedhere
+\ \ge\ 4\sum_{X\in\tilde{\mathcal X}}\delta(X)=4\tilde D_A.
 \]
 \end{proof}
 
@@ -16754,6 +17391,21 @@ The output is:
 118.10858100609198
 (4, 4, 6648206, 1190878, 5457328, 0.284770329720...)
 \end{lstlisting}
+
+The formal companion stores the same fifteen \(399\times399\) Boolean
+matrices as fixed bit rows.  Fifteen independent audit shards recheck every
+entry against the power-of-two attachment predicate and recheck every
+accepted safe and flat count against the generic finite-relation formula.
+In particular, it recovers the first-block counts at \((a,b)=(1,1)\), proves
+that exactly \(91\) pairs are present, and certifies the rounding-free bound
+
+\[
+  2^{118}\prod_{a,b}F_{a,b}<\prod_{a,b}W_{a,b}.
+\]
+
+This is the finite node~[21] certificate.  The construction and routing of
+independent window coordinates belong to the subsequent hot/cold branch at
+nodes~[22]--[24]; they are not premises of the finite computation.
 
 The third block reproduces the Type B fan constants used in
 \cref{rem:fan-finite} and \cref{lem:typeB-exclusion}.  The proof of those

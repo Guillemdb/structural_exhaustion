@@ -15,13 +15,54 @@ import Erdos64EG.CT9AllPairAnchorLedger
 import Erdos64EG.CT9CapacityTokenLedger
 import Erdos64EG.CT9CoupledClassOverload
 import Erdos64EG.CT9HomogeneousPattern
+import Erdos64EG.CT10GeometricBottleneckClassification
+import Erdos64EG.CT10SemanticBottleneckClassification
+import Erdos64EG.SemanticBottleneckLocalConsumer
+import Erdos64EG.SemanticBottleneckSwitchNormalization
+import Erdos64EG.SemanticBottleneckLocalProjection
+import Erdos64EG.SemanticBottleneckStrongFrontier
+import Erdos64EG.SemanticBottleneckFirstClause
+import Erdos64EG.SemanticBottleneckPairwiseClause
 import Erdos64EG.P13RemainderResidual
 import Erdos64EG.SurplusScaleSplit
 import Erdos64EG.SparsePressureEnvelopeRoute
 import Erdos64EG.CT14P13PositiveDeficiency
 import Erdos64EG.CT15RemainderCurvature
+import Erdos64EG.P13DensityConnectedRankPrefix
+import Erdos64EG.P13LargeBudgetNetDeficiency
+import Erdos64EG.P13ClosureRobustPartIV
 import Erdos64EG.CT12DegreeFourB2Routing
 import Erdos64EG.CT14TypeBResidualCenterLedger
+import Erdos64EG.CT14TypeBLocalFanMass
+import Erdos64EG.P13SameWindowStructuralFrontier
+import Erdos64EG.P13Node21PartXIRoute
+import Erdos64EG.P13SameWindowDyadicTerminal
+import Erdos64EG.P13SameWindowBaseScaleSplit
+import Erdos64EG.P13SameWindowShortThirdIncidence
+import Erdos64EG.P13SameWindowNonRootChordResolution
+import Erdos64EG.P13SameWindowOutsideBoundaryStar
+import Erdos64EG.P13SameWindowNormalizedReturnBoundary
+import Erdos64EG.P13SameWindowNormalizedReturnPackedSupportTransition
+import Erdos64EG.P13SameWindowComponentBoundarySchedule
+import Erdos64EG.P13SameWindowComponentD1D3Observation
+import Erdos64EG.P13SameWindowComponentD1D3Ledger
+import Erdos64EG.P13SameWindowComponentD4D7OrCoarseRepeat
+import Erdos64EG.P13SameWindowComponentD4D7SemanticReadiness
+import Erdos64EG.P13SameWindowComponentD4D7ClauseSchedule
+import Erdos64EG.P13SameWindowComponentD4D7ClauseCursor
+import Erdos64EG.P13SameWindowComponentD4LocalClauseRequest
+import Erdos64EG.P13SameWindowComponentD4EvaluatorResidual
+import Erdos64EG.P13SameWindowComponentD4EvaluatorConstructionResidual
+import Erdos64EG.P13SameWindowPackedOwnerChange
+import Erdos64EG.P13SameWindowCrossWindowTokenPair
+import Erdos64EG.P13SameWindowLongSupportPrefix
+import Erdos64EG.P13SameWindowLongPrefixStateLabels
+import Erdos64EG.P13SameWindowLongPrefixDegreeRefinement
+import Erdos64EG.P13SameWindowLongPrefixLocalClauseAlignment
+import Erdos64EG.P13SameWindowLongPrefixExtendedClauseAlignment
+import Erdos64EG.P13SameWindowLongPrefixThirdBlockClauseAlignment
+import Erdos64EG.P13SameWindowLongPrefixFourthBlockClauseAlignment
+import Erdos64EG.P13SameWindowLongPrefixCompatibleResponseFrontier
 
 namespace Erdos64EG.Tests
 
@@ -299,6 +340,44 @@ example : VerifiedP13RemainderContinuation ctx packingPrefix
     (exactPackingCeiling ctx packingPrefix)
     (verifiedP13RemainderResidual ctx packingPrefix
       (exactPackingCeiling ctx packingPrefix))
+
+/-! The strict Part-IV predecessor cannot bypass node `[24]`: even this
+identity ceiling must be packaged against the packing literally retained by
+node `[21]`. -/
+
+variable (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
+
+noncomputable def exactNode21Coverage : P13CoverageResidual ctx
+    (p13MultiScalePackingPrefix node21) where
+  windowCeiling := p13 ctx
+  packing_le := Nat.le_refl _
+
+example (node24 : VerifiedP13WindowDensityOutput ctx node21) :
+    p13WindowDensityRateNumerator * p13 ctx ≤
+      p13WindowDensitySkeletonNumerator *
+        ctx.G.object.input.vertices.card :=
+  node24.packingDensityCap
+
+noncomputable example : P13DensityConnectedGlobalRankPrefix ctx node21
+    (exactNode21Coverage ctx node21) :=
+  p13DensityConnectedGlobalRankPrefix ctx node21
+    (exactNode21Coverage ctx node21)
+
+example (joined : P13DensityConnectedGlobalRankPrefix ctx node21
+    (exactNode21Coverage ctx node21)) :
+    (p13CurvatureResponseProfile ctx).ct15Profile.coordinates.card =
+      (p13RemainderCurvatureProfile ctx).wedgeCount :=
+  densityConnected_fullRankCount joined
+
+example (joined : P13DensityConnectedGlobalRankPrefix ctx node21
+    (exactNode21Coverage ctx node21))
+    (budget : P13QuarterNetBudget ctx (node21 := node21)
+      (exactNode21Coverage ctx node21)) :
+    4 * ((p13RemainderCurvatureProfile ctx).positiveDeficiency -
+        StructuralExhaustion.Graph.InducedPathWindowLedger.remainderSurplus
+          ctx.G.object) <
+      (p13RemainderVertices ctx).card :=
+  p13NetDeficiency_strict_quarter_explicit joined budget
 
 /-! Node `[18]` consumes that exact CT12 prefix.  CT10 exhausts the compact
 `P₁₃` label universe, while the graph layer proves that every actual
@@ -887,5 +966,388 @@ noncomputable example (windowSize remainderSize primitiveSize : Nat)
       windowSize remainderSize primitiveSize
       (coupledOverloadClassRoute ctx windowSize remainderSize primitiveSize overload)) :=
   ⟨homogeneousPatternAudit ctx windowSize remainderSize primitiveSize overload⟩
+
+noncomputable example
+    (overload : (coupledClassProfile ctx 49 49 49).Overload
+      ctx.toBranchContext (coupledClassItems ctx))
+    (homogeneous : Graph.SurplusHomogeneousPattern.Audit
+      (geometricActivationStage ctx) 49 49 49
+      (coupledOverloadClassRoute ctx 49 49 49 overload)) :
+    SemanticBottleneckClassification ctx overload homogeneous :=
+  semanticBottleneckClassification ctx overload homogeneous
+
+example
+    (overload : (coupledClassProfile ctx 49 49 49).Overload
+      ctx.toBranchContext (coupledClassItems ctx))
+    (homogeneous : Graph.SurplusHomogeneousPattern.Audit
+      (geometricActivationStage ctx) 49 49 49
+      (coupledOverloadClassRoute ctx 49 49 49 overload)) :
+    Semantic.Classifier.classificationWork (geometricActivationStage ctx)
+        (canonicalGeometricPredecessor ctx overload homogeneous).collision
+        (canonicalGeometricPredecessor ctx overload homogeneous).semanticTrigger ≤
+      234 * ctx.G.object.input.vertices.card + 7 :=
+  semanticBottleneckClassificationWork_le_vertices ctx overload homogeneous
+
+/-! Focused regression coverage for the reviewed pointwise cold fork and its
+same-window structural continuation.  The dyadic consumer is tested only from
+the proof-carrying computed-constructor package; no independent target cycle
+is accepted. -/
+
+noncomputable example : List (P13Node21PartXIEntry ctx node21) :=
+  p13Node21PartXIRoutes ctx node21
+
+example : (p13Node21PartXIRoutes ctx node21).length = p13 ctx :=
+  p13Node21PartXIRoutes_length ctx node21
+
+example :
+    (p13Node21PartXIRoutesWithTag ctx node21 .surplus).length +
+      (p13Node21PartXIRoutesWithTag ctx node21 .dyadic).length +
+      (p13Node21PartXIRoutesWithTag ctx node21 .corridorHigh).length +
+      (p13Node21PartXIRoutesWithTag ctx node21 .quiet).length = p13 ctx :=
+  p13Node21PartXIRoutes_partition ctx node21
+
+variable (selectedWindow : P13ActualSelectedWindow ctx)
+variable (actualColdFork :
+  P13ActualAttachmentColdFork ctx node21 selectedWindow)
+
+noncomputable example :
+    P13SameWindowStructuralFrontier actualColdFork :=
+  runP13SameWindowStructuralFrontier actualColdFork
+
+example :
+    (∃ position high,
+      runP13SameWindowStructuralFrontier actualColdFork =
+        .surplus position high) ∨
+    (∃ stub same hit targetProof target targetExact,
+      runP13SameWindowStructuralFrontier actualColdFork =
+        .dyadicTargetHit stub same hit targetProof target targetExact) ∨
+    (∃ stub same hit noTarget high handoff handoffExact,
+      runP13SameWindowStructuralFrontier actualColdFork =
+        .corridorHighDegree stub same hit noTarget high handoff handoffExact) ∨
+    (∃ stub same noEvent germ,
+      runP13SameWindowStructuralFrontier actualColdFork =
+        .quiet stub same noEvent germ) :=
+  runP13SameWindowStructuralFrontier_exhaustive actualColdFork
+
+example (branch : P13ComputedDyadicBranch actualColdFork) :
+    branch.g1Run.result.terminal = .c1 :=
+  branch.g1_terminal
+
+example (branch : P13ComputedDyadicBranch actualColdFork) :
+    branch.g1Run.checks = 1 :=
+  branch.g1_checks
+
+example (branch : P13ComputedDyadicBranch actualColdFork) : False :=
+  branch.impossible
+
+variable (quiet : P13SameWindowQuietOutput actualColdFork)
+
+noncomputable example
+    (short : P13SameWindowComputedShort actualColdFork quiet) :
+    P13SameWindowShortThirdIncidence short :=
+  runP13SameWindowShortThirdIncidence short
+
+example (short : P13SameWindowComputedShort actualColdFork quiet) :
+    (∃ member, runP13SameWindowShortThirdIncidence short =
+      .nonRootChord member) ∨
+    (∃ outside, runP13SameWindowShortThirdIncidence short =
+      .outsideBoundary outside) :=
+  runP13SameWindowShortThirdIncidence_exhaustive short
+
+example (short : P13SameWindowComputedShort actualColdFork quiet) :
+    Graph.DeletedEdgeReturnThirdIncidence.visibleChecks short.setup ≤
+      2 * ctx.G.object.input.vertices.card + 3 +
+        p13ColdD1D3BaseThreshold :=
+  p13SameWindowShortThirdIncidence_visibleChecks_le short
+
+variable {short : P13SameWindowComputedShort actualColdFork quiet}
+
+noncomputable example
+    (chord : P13SameWindowComputedNonRootChord short) :
+    P13SameWindowShorterReturn chord :=
+  runP13SameWindowNonRootChordResolution chord
+
+example (chord : P13SameWindowComputedNonRootChord short) :
+    (runP13SameWindowNonRootChordResolution chord).shorter =
+      chord.genericInput.shorterReturn :=
+  runP13SameWindowNonRootChordResolution_shorterExact chord
+
+example (chord : P13SameWindowComputedNonRootChord short) :
+    (runP13SameWindowNonRootChordResolution chord).shorter.path.length <
+      short.setup.returnPath.path.length :=
+  runP13SameWindowNonRootChordResolution_strict chord
+
+example (chord : P13SameWindowComputedNonRootChord short) :
+    Graph.DeletedEdgeReturnChordResolution.visibleChecks chord.genericInput ≤
+      p13ColdD1D3BaseThreshold + 1 :=
+  p13SameWindowNonRootChordResolution_visibleChecks_le chord
+
+noncomputable example
+    (outside : P13SameWindowComputedOutsideBoundary short) :
+    Graph.CubicStar.Data ctx.G.object quiet.stub.neighbor :=
+  outside.cubicStar
+
+noncomputable example
+    (outside : P13SameWindowComputedOutsideBoundary short) :
+    outside.cubicStar.SwitchBoundaryShape :=
+  outside.switchBoundaryShape
+
+example (outside : P13SameWindowComputedOutsideBoundary short)
+    (vertex : ctx.G.Vertex)
+    (adjacent : ctx.G.object.graph.Adj quiet.stub.neighbor vertex) :
+    ∃ index, outside.switchBoundaryShape.boundaryVertex index = vertex :=
+  outside.ownsAllRootIncidences vertex adjacent
+
+example (outside : P13SameWindowComputedOutsideBoundary short) :
+    outside.graphBranch.additionalChecks = 0 :=
+  outside.additionalChecks_eq_zero
+
+noncomputable example
+    (input : P13SameWindowNormalizedBoundaryInput (short := short)) :
+    P13SameWindowNormalizedReturnBoundary input :=
+  runP13SameWindowNormalizedReturnBoundary input
+
+example (input : P13SameWindowNormalizedBoundaryInput (short := short)) :
+    (runP13SameWindowNormalizedReturnBoundary input).selectedReturn.path.support.length ≤
+      p13ColdD1D3BaseThreshold :=
+  runP13SameWindowNormalizedReturnBoundary_support_bounded input
+
+example (input : P13SameWindowNormalizedBoundaryInput (short := short)) :
+    (runP13SameWindowNormalizedReturnBoundary input).selectedReturn.path.length ≤
+      short.setup.returnPath.path.length :=
+  runP13SameWindowNormalizedReturnBoundary_length_le input
+
+example (input : P13SameWindowNormalizedBoundaryInput (short := short)) :
+    let result := runP13SameWindowNormalizedReturnBoundary input
+    result.outsideVertex ∉ result.selectedReturn.path.support ∧
+      ctx.G.object.graph.Adj quiet.stub.neighbor result.outsideVertex :=
+  runP13SameWindowNormalizedReturnBoundary_outside input
+
+example (computed : P13SameWindowComputedShorterBoundary short) :
+    (runP13SameWindowNormalizedReturnBoundary
+      (.rejectedChord computed)).selectedReturn.path.length <
+        short.setup.returnPath.path.length :=
+  runP13SameWindowNormalizedReturnBoundary_rejected_strict computed
+
+example (computed : P13SameWindowComputedOutsideBoundary short) :
+    (runP13SameWindowNormalizedReturnBoundary
+      (.outsideBoundary computed)).selectedReturn.path.length =
+        short.setup.returnPath.path.length :=
+  runP13SameWindowNormalizedReturnBoundary_outside_length computed
+
+noncomputable example
+    {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    (computed : P13SameWindowComputedNormalizedReturnBoundary input) :
+    P13SameWindowNormalizedReturnPackedSupportTransition computed :=
+  runP13SameWindowNormalizedReturnPackedSupportTransition computed
+
+example {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    (computed : P13SameWindowComputedNormalizedReturnBoundary input) :
+    (∃ supportSubset,
+      runP13SameWindowNormalizedReturnPackedSupportTransition computed =
+        .allInside supportSubset) ∨
+    (∃ hit crossing stub stubExact endpoint endpointExact component componentExact,
+      runP13SameWindowNormalizedReturnPackedSupportTransition computed =
+        .firstTransition hit crossing stub stubExact endpoint endpointExact
+          component componentExact) :=
+  runP13SameWindowNormalizedReturnPackedSupportTransition_exhaustive computed
+
+example {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    (computed : P13SameWindowComputedNormalizedReturnBoundary input) :
+    Graph.InducedPathColdSkeletonBoundaryTransition.visibleChecks computed.graphInput =
+      13 * Graph.InducedPathWindowLedger.packingNumber ctx.G.object *
+          ctx.G.object.input.vertices.card +
+        13 * Graph.InducedPathWindowLedger.packingNumber ctx.G.object +
+        26 * Graph.InducedPathWindowLedger.packingNumber ctx.G.object *
+          computed.graphInput.path.length :=
+  p13SameWindowNormalizedReturnPackedSupportTransition_visibleChecks_eq computed
+
+example {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    (computed : P13SameWindowComputedNormalizedReturnBoundary input) :
+    Graph.InducedPathColdSkeletonBoundaryTransition.visibleChecks computed.graphInput ≤
+      ctx.G.object.input.vertices.card ^ 2 +
+        (2 * p13ColdD1D3BaseThreshold + 1) *
+          ctx.G.object.input.vertices.card :=
+  p13SameWindowNormalizedReturnPackedSupportTransition_visibleChecks_le computed
+
+noncomputable example
+    {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    {computed : P13SameWindowComputedNormalizedReturnBoundary input}
+    (transition : P13SameWindowFirstTransitionBoundaryInput computed) :=
+  transition.result
+
+example {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    {computed : P13SameWindowComputedNormalizedReturnBoundary input}
+    (transition : P13SameWindowFirstTransitionBoundaryInput computed) :
+    transition.result.successor ≠ transition.stub ∧
+      Graph.InducedPathColdSkeleton.component transition.result.successor =
+        transition.component :=
+  transition.successor_distinct_and_same_returned_component
+
+example {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    {computed : P13SameWindowComputedNormalizedReturnBoundary input}
+    (transition : P13SameWindowFirstTransitionBoundaryInput computed) :
+    ∃ hit, transition.graphInput.slotScan = .found hit ∧
+      transition.graphInput.windowPosition.1 = hit.value ∧
+      ∀ candidate ∈ hit.before,
+        ¬transition.graphInput.SlotPredicate candidate :=
+  transition.slot_first_hit_provenance
+
+example {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    {computed : P13SameWindowComputedNormalizedReturnBoundary input}
+    (transition : P13SameWindowFirstTransitionBoundaryInput computed) :
+    Graph.InducedPathComponentBoundarySchedule.visibleChecks
+        transition.graphInput ≤
+      50 * Graph.InducedPathComponentBoundarySchedule.localScale
+        transition.graphInput ^ 3 :=
+  transition.visibleChecks_polynomial
+
+noncomputable example
+    {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    {computed : P13SameWindowComputedNormalizedReturnBoundary input}
+    (transition : P13SameWindowFirstTransitionBoundaryInput computed) :
+    P13SameWindowComponentD1D3Residual transition :=
+  runP13SameWindowComponentD1D3Observation transition
+
+example {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    {computed : P13SameWindowComputedNormalizedReturnBoundary input}
+    (transition : P13SameWindowFirstTransitionBoundaryInput computed) :
+    Nonempty
+      (Graph.InducedPathColdSkeleton.TwoStubComponent.MissingD4D7Reconstruction
+        transition.result
+        (Graph.InducedPathComponentD1D3Observation.canonicalPath
+          transition.graphInput)) :=
+  p13SameWindowComponentD1D3_missing_d4_d7 transition
+
+example {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    {computed : P13SameWindowComputedNormalizedReturnBoundary input}
+    (transition : P13SameWindowFirstTransitionBoundaryInput computed) :
+    Graph.InducedPathComponentD1D3Observation.visibleChecks
+        transition.graphInput ≤
+      15 * (ctx.G.object.input.vertices.card + 1) :=
+  p13SameWindowComponentD1D3_visibleChecks_linear transition
+
+noncomputable example
+    {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    {computed : P13SameWindowComputedNormalizedReturnBoundary input}
+    (transition : P13SameWindowFirstTransitionBoundaryInput computed) :
+    transition.D1D3LedgerOutput
+      (computedP13SameWindowComponentD1D3LedgerSource transition) :=
+  transition.runD1D3Ledger
+    (computedP13SameWindowComponentD1D3LedgerSource transition)
+
+example {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    {computed : P13SameWindowComputedNormalizedReturnBoundary input}
+    (transition : P13SameWindowFirstTransitionBoundaryInput computed) :
+    Graph.InducedPathComponentD1D3Ledger.visibleChecks
+        (transition.d1d3LedgerInput
+          (computedP13SameWindowComponentD1D3LedgerSource transition)) ≤
+      100 * Graph.InducedPathComponentD1D3Ledger.localScale
+        (transition.d1d3LedgerInput
+          (computedP13SameWindowComponentD1D3LedgerSource transition)) ^ 4 :=
+  transition.d1d3Ledger_visibleChecks_polynomial
+    (computedP13SameWindowComponentD1D3LedgerSource transition)
+
+noncomputable example
+    {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    {computed : P13SameWindowComputedNormalizedReturnBoundary input}
+    (inside : P13SameWindowComputedAllInside computed) :
+    P13SameWindowFirstCrossWindow inside :=
+  runP13SameWindowPackedOwnerChange inside
+
+example {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    {computed : P13SameWindowComputedNormalizedReturnBoundary input}
+    (inside : P13SameWindowComputedAllInside computed) :
+    Graph.InducedPathColdSkeletonOwnerChange.visibleChecks inside.graphInput ≤
+      ctx.G.object.input.vertices.card ^ 2 +
+        p13ColdD1D3BaseThreshold * (ctx.G.object.input.vertices.card + 1) :=
+  p13SameWindowPackedOwnerChange_visibleChecks_le inside
+
+noncomputable example
+    {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    {computed : P13SameWindowComputedNormalizedReturnBoundary input}
+    {inside : P13SameWindowComputedAllInside computed}
+    (cross : P13SameWindowFirstCrossWindow inside) :
+    P13SameWindowCrossWindowTokenPair cross :=
+  runP13SameWindowCrossWindowTokenPair cross
+
+example
+    {input : P13SameWindowNormalizedBoundaryInput (short := short)}
+    {computed : P13SameWindowComputedNormalizedReturnBoundary input}
+    {inside : P13SameWindowComputedAllInside computed}
+    (cross : P13SameWindowFirstCrossWindow inside) :
+    (runP13SameWindowCrossWindowTokenPair cross).leftToken =
+        cross.crossing.leftToken ∧
+      (runP13SameWindowCrossWindowTokenPair cross).rightToken =
+        cross.crossing.rightToken :=
+  runP13SameWindowCrossWindowTokenPair_source_exact cross
+
+example : Routes.InducedPathCrossWindowTokenPair.additionalChecks = 0 :=
+  p13SameWindowCrossWindowTokenPair_additionalChecks_eq_zero
+
+noncomputable example
+    (long : P13SameWindowLongOutput actualColdFork quiet) :
+    P13SameWindowLongSupportPrefix actualColdFork quiet long :=
+  runP13SameWindowLongSupportPrefix actualColdFork quiet long
+
+example (long : P13SameWindowLongOutput actualColdFork quiet) :
+    (Routes.LongFiniteSupportHandoff.prefixPositions
+      (runP13SameWindowLongSupportPrefix
+        actualColdFork quiet long).handoff.source).card =
+      p13ColdD1D3BaseThreshold + 1 :=
+  p13SameWindowLongSupportPrefix_card actualColdFork quiet long
+
+example (long : P13SameWindowLongOutput actualColdFork quiet)
+    (position : Routes.LongFiniteSupportHandoff.PrefixPosition
+      (runP13SameWindowLongSupportPrefix
+        actualColdFork quiet long).handoff.source) :
+    (∃ index embeddingExact,
+      Routes.LongFiniteSupportHandoff.classifyPrefixPosition
+        (runP13SameWindowLongSupportPrefix
+          actualColdFork quiet long).handoff.source position =
+          .base index embeddingExact) ∨
+    (∃ overflowExact,
+      Routes.LongFiniteSupportHandoff.classifyPrefixPosition
+        (runP13SameWindowLongSupportPrefix
+          actualColdFork quiet long).handoff.source position =
+          .overflow overflowExact) :=
+  p13SameWindowLongSupportPrefixClass_exhaustive
+    actualColdFork quiet long position
+
+noncomputable example
+    (long : P13SameWindowLongOutput actualColdFork quiet) :
+    P13SameWindowLongPrefixStateLabels
+      (p13SameWindowLongPrefixStateSource actualColdFork quiet long) :=
+  runP13SameWindowLongPrefixStateLabels
+    (p13SameWindowLongPrefixStateSource actualColdFork quiet long)
+
+example (long : P13SameWindowLongOutput actualColdFork quiet) :
+    let source := p13SameWindowLongPrefixStateSource actualColdFork quiet long
+    (runP13SameWindowLongPrefixStateLabels source).routed.classification.terminal =
+      CT10.Graph.Terminal.promoted :=
+  runP13SameWindowLongPrefixStateLabels_ct10_terminal
+    (p13SameWindowLongPrefixStateSource actualColdFork quiet long)
+
+example (long : P13SameWindowLongOutput actualColdFork quiet) :
+    Graph.LongPrefixObservedLabel.visibleChecks
+        (p13SameWindowLongPrefixObservedInput
+          (p13SameWindowLongPrefixStateSource actualColdFork quiet long)) +
+      Routes.LongPrefixObservedLabel.semanticChecks
+        (runP13SameWindowLongPrefixStateLabels
+          (p13SameWindowLongPrefixStateSource actualColdFork quiet long)).routed.refinement ≤
+      144 * (ctx.G.object.input.vertices.card + 1) + 9 :=
+  runP13SameWindowLongPrefixStateLabels_totalVisibleChecks
+    (p13SameWindowLongPrefixStateSource actualColdFork quiet long)
+
+noncomputable example
+    (scope : TypeBSupportScope ctx)
+    (noHigher : scope.NoHigherCenter) :
+    scope.LocalFanMassRoute noHigher :=
+  scope.localFanMassRoute noHigher
+
+example (scope : TypeBSupportScope ctx)
+    (selected : Finset scope.Center) :
+    selected.card ≤ scope.highCenterChargeProfile.assignedSurplus :=
+  (scope.localFanMass selected).charged
 
 end Erdos64EG.Tests

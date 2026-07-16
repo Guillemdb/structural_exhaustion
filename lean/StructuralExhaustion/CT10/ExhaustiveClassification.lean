@@ -32,6 +32,15 @@ namespace Profile
 variable {Candidate : Type uCandidate}
 variable (profile : Profile Candidate)
 
+/-- The exact one-class audit associated with an already computed finite
+classification tag.  CT10 still scans the complete declared candidate
+alphabet, but its accepted class is definitionally tied to `selected`. -/
+def exactSelection (candidates : FinEnum Candidate) (selected : Candidate) :
+    Profile Candidate where
+  candidates := candidates
+  Accepts := fun candidate => candidate = selected
+  acceptsDecidable := fun candidate => candidates.decEq candidate selected
+
 /-- A class is precisely a candidate satisfying the supplied predicate. -/
 abbrev Class := {candidate : Candidate // profile.Accepts candidate}
 
@@ -168,10 +177,32 @@ theorem classCount_le_candidateCount :
   simpa [classCount, candidateCount, FinEnum.card_eq_fintypeCard]
     using cardinality
 
+theorem exactSelection_classCount (candidates : FinEnum Candidate)
+    (selected : Candidate) :
+    (exactSelection candidates selected).classCount = 1 := by
+  let equivalence : (exactSelection candidates selected).Class ≃ Unit :=
+    { toFun := fun _ => ()
+      invFun := fun _ => ⟨selected, rfl⟩
+      left_inv := by
+        intro candidate
+        apply Subtype.ext
+        exact candidate.property.symm
+      right_inv := by intro value; cases value; rfl }
+  letI : FinEnum (exactSelection candidates selected).Class :=
+    (exactSelection candidates selected).classes
+  rw [classCount, FinEnum.card_eq_fintypeCard]
+  simpa using Fintype.card_congr equivalence
+
 /-- Primitive predicate-check schedule: classify every supplied candidate,
 then perform CT10's direct scan and row-population scan. -/
 def checks : Nat :=
   profile.candidateCount + profile.classCount + profile.classCount ^ 2
+
+theorem exactSelection_checks (candidates : FinEnum Candidate)
+    (selected : Candidate) :
+    (exactSelection candidates selected).checks = candidates.card + 2 := by
+  rw [checks, exactSelection_classCount]
+  rfl
 
 /-- A uniform quadratic budget in the explicitly supplied candidate count. -/
 def budget : Core.PolynomialCheckBudget Unit where

@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { graphStyles } from "./GraphCanvas";
 
 describe("GraphCanvas proof-flow colors", () => {
-  it("maps all four proof statuses to distinct rendered colors", () => {
+  it("distinguishes verified terminal closures from other implemented nodes", () => {
     const graph = cytoscape({
       headless: true,
       styleEnabled: true,
@@ -46,6 +46,17 @@ describe("GraphCanvas proof-flow colors", () => {
             verified: true,
           },
         },
+        {
+          data: {
+            id: "closed",
+            label: "Unconditionally closed",
+            kind: "proofFlowNode",
+            proofNodeKind: "terminal",
+            status: "implemented",
+            verified: true,
+            closure: "closed",
+          },
+        },
       ],
     });
 
@@ -53,6 +64,7 @@ describe("GraphCanvas proof-flow colors", () => {
     expect(graph.$id("partial").style("background-color")).toBe("rgb(226,189,63)");
     expect(graph.$id("frontier").style("background-color")).toBe("rgb(209,138,44)");
     expect(graph.$id("implemented").style("background-color")).toBe("rgb(57,122,80)");
+    expect(graph.$id("closed").style("background-color")).toBe("rgb(23,107,67)");
     graph.destroy();
   });
 });

@@ -561,7 +561,7 @@ has no formal status. A proposed step enters the system only as a
 worksheet row with declared inputs, quantitative data, schema
 obligations, and a typed output. The schema alphabet is defined in
 \secref{data-lemma-schemas}; the row is accepted only after the relevant
-S-Def, S-Dich, S-Comp, S-Rout, S-Trig, or S-Meas obligation is
+definition, dichotomy, composition, routing, trigger, or S-Meas obligation is
 discharged. When the row fails, the required response is a typed reject,
 a named residual, or an alternative routed payload, not conversational
 assent.
@@ -776,7 +776,7 @@ condition, defining formula or algorithm, and well-formedness
 certificate.  The value \(c(x_1,\ldots,x_k)\) may enter the vocabulary
 record \(\mathcal V\) only when the inputs \(x_i\) are already recorded
 branch-state data and the domain condition has been proved.  This is the
-object-level content of S-Def.  Examples are forming a boundary profile
+object-level content of definition.  Examples are forming a boundary profile
 from a piece, a charge map from a demand/payer rule, an external type
 from a context family, a rank quotient from exact response data, or a
 payload tuple from a residual condition.
@@ -810,7 +810,7 @@ is used as a label alphabet.  Each measure entry records its domain,
 codomain, additivity or monotonicity rules, comparison lemmas, and slack
 or error terms.  Measures include size orders, loop measures, finite
 labels, capacities, ranks, rates, budget functionals, and arithmetic
-offsets.  S-Meas certifies well-founded descent; S-Comp certifies the
+offsets.  S-Meas certifies well-founded descent; composition certifies the
 comparisons made with these measures.
 \end{definition}
 
@@ -835,7 +835,7 @@ P_{i\to j}:S_1\times\cdots\times S_k\longrightarrow
 Each payload entry records the producer CT\(i\), the consumer CT\(j\),
 the ordered tuple of component sorts, the branch-state extension it
 carries, and the trigger condition required by the consumer.  Producing
-the payload requires S-Rout; consuming it requires S-Trig.  A residual
+the payload requires routing; consuming it requires trigger.  A residual
 with no entry in \(\mathrm{Payloads}\) is not a legal output of the
 proof language.
 \end{definition}
@@ -945,7 +945,7 @@ awaiting consumption.  A payload entry has the form
   \mathrm{consumer}=\mathrm{CT}j,\mathrm{status}).
 \]
 The tuple must match the signature in the typed residual payload table.
-Its producer discharges S-Rout, and its consumer discharges S-Trig when
+Its producer discharges routing, and its consumer discharges trigger when
 the payload is consumed.  Queue priority, deferral, and empty-queue
 conditions belong to the runtime policy of
 \secref{part-iii-the-strategy-manual}.
@@ -1133,7 +1133,7 @@ are \(P_{1\to2}\) for a proper reducible piece, \(P_{1\to17}\) for sparse
 target arithmetic, \(P_{7\to12}\) for a peelable exchange-defect load,
 \(P_{13\to14}\) for overlap mass, and \(P_{17\to8}\) for a finite
 survivor list.  A payload is present only after its producer has proved
-S-Rout; the receiving CT may execute only after S-Trig.
+routing; the receiving CT may execute only after trigger.
 
 \item[Audit record.]
 \(\mathcal A_{\rm EG}\) is the collection of proof-dependency diagrams,
@@ -1193,7 +1193,7 @@ been certified in the branch state:
 \begin{itemize}
 \tightlist
 \item
-  S-Def defines \(X\), \(\partial X\), \(\iota_X\), the context class,
+  definition defines \(X\), \(\partial X\), \(\iota_X\), the context class,
   the admissibility predicate, and the gluing constructor from recorded
   data;
 \item
@@ -1249,8 +1249,8 @@ T(G)=1
 \exists i\in I\ \exists w\in W_i(G)\,
   \operatorname{Real}_i(G,w).
 \]
-The proof of this equivalence is an S-Equiv obligation.  Each witness
-space and realization predicate must be defined by S-Def, and every
+The proof of this equivalence is an equivalence obligation.  Each witness
+space and realization predicate must be defined by definition, and every
 negative branch must record the absence of all realized tests as an
 exclusion in \(\mathcal E\).  When the index set, radius, or interface
 bound is produced by a proof-language extension, that extension is part
@@ -1290,7 +1290,7 @@ Two pieces \(X\) and \(Y\) with the same interface are
 \quad\text{for every }K\in\mathrm{Ctx}_{\mathfrak B}(\iota_X).
 \]
 The equality \(\tau(X)=\tau(Y)\) may be used as external equivalence
-only after S-Equiv proves that the type decides every target-relevant
+only after equivalence proves that the type decides every target-relevant
 compatible context.  A compression or replacement argument also requires
 S-Pers for the branch-state data preserved by replacing \(X\) with
 \(Y\), and S-Meas when the replacement is justified by a smaller piece.
@@ -1314,7 +1314,7 @@ activity status, or a pointer to an exact type.
 \end{definition}
 
 \begin{definition}[Legal label]\label{def:legal-label}
-A label assignment is \textbf{legal} when S-Def defines the alphabet,
+A label assignment is \textbf{legal} when definition defines the alphabet,
 domain, assignment map, and projections; S-Det proves that the label of
 each object is a function of recorded branch-state data; and S-Pers
 records which label coordinates persist under the transitions that will
@@ -1344,10 +1344,10 @@ the usual capacity bound.
 \end{definition}
 
 \begin{definition}[Well-formed ledger and ledger closure]\label{def:ledger-closure}
-A ledger is \textbf{well formed} when S-Def defines
+A ledger is \textbf{well formed} when definition defines
 \(\mathcal D\), \(\mathcal P\), \(w\), \(\kappa\), and \(\ell\) from
 recorded data; S-Det proves that \(\pi\) is canonical, including all
-tie-breaks, and total on \(\mathcal D\); and S-Comp proves the
+tie-breaks, and total on \(\mathcal D\); and composition proves the
 multiplicity or capacity estimates that bound every fibre
 \(\pi^{-1}(p)\).  A ledger closes by C4 when the
 branch state proves
@@ -1359,7 +1359,7 @@ branch state proves
 or the corresponding finite-additive inequality in the declared
 codomain \(W\).  A non-closing ledger output must specify which demand,
 payer, tier, or capacity hypothesis failed and route that typed payload
-by S-Rout.
+by routing.
 \end{definition}
 
 \noindent\textbf{Consumed by:} CT4, CT5, CT6, CT9, CT13, and CT15.
@@ -1385,10 +1385,10 @@ the rate-check procedure, provided its admissible range is recorded.
 
 \begin{definition}[Well-formed budget]\label{def:well-formed-budget}
 A budget is \textbf{well formed} when every currency is defined by
-S-Def; every comparison uses an ordered codomain admitted by
+definition; every comparison uses an ordered codomain admitted by
 \(\mathfrak L\); every decomposition, gluing, peel, or exchange has a
 recorded additivity or subadditivity rule; every monotonicity claim is
-proved by S-Comp; and every slack term is entered in the slack table
+proved by composition; and every slack term is entered in the slack table
 with its consumers.  A budget closes by C4 when the recorded
 comparisons force an impossible sign, interval, rank, rate, or capacity
 inequality.  A failed comparison is a legal residual only after the
@@ -1418,10 +1418,10 @@ consumer trigger condition required by CT\(j\).
 
 \begin{definition}[Legal payload exit]\label{def:legal-payload-exit}
 A non-certificate branch exit from CT\(i\) is complete precisely when it
-produces a legal payload instance.  The producer must prove S-Rout,
+produces a legal payload instance.  The producer must prove routing,
 including the tuple entries, their sorts, the branch-state extension,
 and the uniqueness of the declared consumer.  The consumer may execute
-only after S-Trig verifies arity, component types, standing hypotheses,
+only after trigger verifies arity, component types, standing hypotheses,
 interface data, and any certificate handles required by CT\(j\).  A
 residual tuple with no declared consumer is a compile failure, not a
 terminal branch.
@@ -1455,7 +1455,7 @@ ledger, peel, or repair routine that has accepted responsibility for it.
 
 \item[C4: bounded-capacity certificate.]
 The branch proves an impossible inequality in a ledger, budget, rank,
-tier, rate, or aggregate comparison using S-Comp and the relevant
+tier, rate, or aggregate comparison using composition and the relevant
 capacity, additivity, monotonicity, or slack records.
 
 \item[C5: finite verified impossibility certificate.]
@@ -1483,8 +1483,8 @@ contract between the local proof text and the branch state: the proof may
 use an object, split, comparison, payload, or loop step only after the
 corresponding schema has been discharged.
 
-\begin{lemmaschema}[S-Def: definability]\label{schema:s-def}
-\textbf{S-Def}\(\langle X\rangle\) proves that the object \(X\) is
+\begin{lemmaschema}[definition: definability]\label{schema:s-def}
+\textbf{definition}\(\langle X\rangle\) proves that the object \(X\) is
 defined from the recorded branch state using constructors admitted by the
 current proof language.  The certificate names the source data in
 \(\mathcal H_0,\mathcal E,\mathcal I,\mathcal R\), or \(\mathcal V\),
@@ -1492,8 +1492,8 @@ and records every parameter, tie-break, interface, context class, or
 finite alphabet used in the definition.
 \end{lemmaschema}
 
-\begin{lemmaschema}[S-Equiv: response equivalence]\label{schema:s-equiv}
-\textbf{S-Equiv}\(\langle X,Y;\mathcal K\rangle\) proves equality of
+\begin{lemmaschema}[equivalence: response equivalence]\label{schema:s-equiv}
+\textbf{equivalence}\(\langle X,Y;\mathcal K\rangle\) proves equality of
 target-relevant response for the declared context class \(\mathcal K\).
 For a type \(\tau(X)\), it states that the type decides every compatible
 target-relevant context named by the interface.  For a local test family,
@@ -1502,8 +1502,8 @@ realized.  For an exchange pair, it states that the finite context
 generator decides all-context equivalence on the common interface.
 \end{lemmaschema}
 
-\begin{lemmaschema}[S-Dich: exhaustive split]\label{schema:s-dich}
-\textbf{S-Dich}\(\langle\mathcal P_1,\ldots,\mathcal P_m\rangle\)
+\begin{lemmaschema}[dichotomy: exhaustive split]\label{schema:s-dich}
+\textbf{dichotomy}\(\langle\mathcal P_1,\ldots,\mathcal P_m\rangle\)
 proves that the listed branch alternatives cover the current residual
 class \(\mathcal C(\mathfrak B)\).  Each alternative must be stated as a
 condition measurable from the branch state, and each surviving
@@ -1526,23 +1526,23 @@ uses a choice as canonical, charges multiplicity through it, or compares
 objects selected by it.
 \end{lemmaschema}
 
-\begin{lemmaschema}[S-Rout: payload construction]\label{schema:s-rout}
-\textbf{S-Rout}\(\langle P_{i\to j}\rangle\) proves that CT\(i\)
+\begin{lemmaschema}[routing: payload construction]\label{schema:s-rout}
+\textbf{routing}\(\langle P_{i\to j}\rangle\) proves that CT\(i\)
 constructs the advertised payload tuple from the current branch state.
 It records the tuple entries, verifies that each entry belongs to the
 declared vocabulary, and names CT\(j\) as the unique consumer in the
 interlock graph.
 \end{lemmaschema}
 
-\begin{lemmaschema}[S-Trig: consumer trigger]\label{schema:s-trig}
-\textbf{S-Trig}\(\langle P_{i\to j},\mathrm{CT}j\rangle\) proves that
+\begin{lemmaschema}[trigger: consumer trigger]\label{schema:s-trig}
+\textbf{trigger}\(\langle P_{i\to j},\mathrm{CT}j\rangle\) proves that
 the payload \(P_{i\to j}\) satisfies the trigger signature of CT\(j\).
 It checks arity, component types, standing hypotheses, interface data,
 and any required certificate handles before the consumer tactic begins.
 \end{lemmaschema}
 
-\begin{lemmaschema}[S-Comp: comparison]\label{schema:s-comp}
-\textbf{S-Comp}\(\langle \Phi\rangle\) proves the advertised numerical,
+\begin{lemmaschema}[composition: comparison]\label{schema:s-comp}
+\textbf{composition}\(\langle \Phi\rangle\) proves the advertised numerical,
 finite, order, capacity, rank, or arithmetic comparison \(\Phi\).  Its
 conclusion must be one of the certificate inequalities or finite
 impossibility claims listed in C1--C5, or a comparison statement used to
@@ -1575,8 +1575,8 @@ be expressed in the current proof language.
 \subsection{Notation and diagram legend}\label{data-notation-legend}
 Solid arrows in a tactic diagram are intended intra-tactic proof steps,
 including the construction of an intended residual payload.  Dotted
-arrows are checks or post-residual handoffs and require S-Rout at the
-source plus S-Trig at the target.  Dashed arrows are repairable
+arrows are checks or post-residual handoffs and require routing at the
+source plus trigger at the target.  Dashed arrows are repairable
 design-failure routes. Red-dashed arrows mark candidate scope
 obstructions referred to the global audit in
 \secref{the-scope-condition-locally-testable-targets}. Green
@@ -1660,7 +1660,7 @@ instance are defined in \secref{data-branch-states} and
 
 \textbf{Failure-classification convention.} The entry boundary separates
 three audit outcomes. Execution errors \((E)\), such as an
-unfilled S-Equiv or an unrecorded handoff, are audit rejects written to
+unfilled equivalence or an unrecorded handoff, are audit rejects written to
 the defect register. Repairable design failures \((D)\), such as a
 missing finite label or an admissibility gap, are recovery-output
 fields. A local nonexistence is a candidate scope issue for the current
@@ -1697,8 +1697,8 @@ and that the trigger of CT\(j\) accepts exactly that tuple.  Intended
 payloads are the ordinary forward residuals in the tactic graph;
 recovery payloads are dashed design-failure routes in the CT diagrams.
 Concatenating two diagrams is therefore a type check: the producer must
-discharge S-Rout for the tuple, and the receiving tactic must discharge
-S-Trig for the same tuple.  The CT entries use the following payloads.
+discharge routing for the tuple, and the receiving tactic must discharge
+trigger for the same tuple.  The CT entries use the following payloads.
 
 \begingroup
 \tiny
@@ -1838,7 +1838,7 @@ darr/.style={-{Latex[length=1.6mm]},thin,dashed,shorten <=2pt,shorten >=2pt}
 \node[scopebox] (scope) at (7.05,-6.30) {\textbf{Scope candidate}\\current tactic unavailable; global audit required};
 \end{tikzpicture}%
 }
-\caption[Closure-tactic interlock diagram]{Closure-tactic interlock diagram.  The blue chips are the seventeen closure tactics grouped by their role in the library.  Every admitted CT execution exits through one of the displayed interfaces: a canonical certificate C1--C5, an intended residual handoff, a recovery residual handoff, or a candidate obstruction referred to the global scope audit in \secref{the-scope-condition-locally-testable-targets}.  The split inventory and Fig.~\ref{fig:closure-tactic-routing-graph} give the payload names and consumers; following a residual handoff requires S-Rout at the producer and S-Trig at the named consumer.}
+\caption[Closure-tactic interlock diagram]{Closure-tactic interlock diagram.  The blue chips are the seventeen closure tactics grouped by their role in the library.  Every admitted CT execution exits through one of the displayed interfaces: a canonical certificate C1--C5, an intended residual handoff, a recovery residual handoff, or a candidate obstruction referred to the global scope audit in \secref{the-scope-condition-locally-testable-targets}.  The split inventory and Fig.~\ref{fig:closure-tactic-routing-graph} give the payload names and consumers; following a residual handoff requires routing at the producer and trigger at the named consumer.}
 \label{fig:closure-tactic-interlock}
 \end{figure}
 
@@ -1921,7 +1921,7 @@ rglegend/.style={rectangle,draw,dashed,align=left,inner sep=2.5pt,minimum width=
 \node[rglegend] at (7.58,-7.35) {Reading rule: consumer names are CT targets, separated by route class.  Payload names and tuple contents are listed in the split inventory; certificate outputs and scope boundaries are suppressed.};
 \end{tikzpicture}%
 }
-\caption[Closure-tactic routing graph]{Closure-tactic routing graph.  Each row lists one source tactic, its intended residual consumers, and its recovery-route consumers in separate columns.  The typed payload names and tuple contents are listed in the split inventory before Fig.~\ref{fig:closure-tactic-interlock}; following any row entry requires S-Rout at the source and S-Trig at the named target.  Closure outputs and candidate obstructions referred to the global scope audit in \secref{the-scope-condition-locally-testable-targets} are suppressed here so that only inter-tactic dependencies remain.}
+\caption[Closure-tactic routing graph]{Closure-tactic routing graph.  Each row lists one source tactic, its intended residual consumers, and its recovery-route consumers in separate columns.  The typed payload names and tuple contents are listed in the split inventory before Fig.~\ref{fig:closure-tactic-interlock}; following any row entry requires routing at the source and trigger at the named target.  Closure outputs and candidate obstructions referred to the global scope audit in \secref{the-scope-condition-locally-testable-targets} are suppressed here so that only inter-tactic dependencies remain.}
 \label{fig:closure-tactic-routing-graph}
 \end{figure}
 
@@ -2120,13 +2120,13 @@ ID & Purpose & Trigger & Parameters & Audit hooks & Candidate scope obstruction 
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-CT1 & Convert target realization into C1 or target-avoiding payloads. & Local test family, witness spaces, and target equivalence recorded. & Test family, witness extractor, branch-state record. & Reject missing S-Equiv; write target-avoidance row and payload row. & No local test family exists. \\
+CT1 & Convert target realization into C1 or target-avoiding payloads. & Local test family, witness spaces, and target equivalence recorded. & Test family, witness extractor, branch-state record. & Reject missing equivalence; write target-avoidance row and payload row. & No local test family exists. \\
 CT2 & Apply minimality by deletion, replacement, or target-uncompressible routing. & Proper admissible piece in a minimal counterexample. & Size order, admissibility class, replacement family. & Reject undeclared interface; write deletion-critical and uncompressible rows. & No bounded interface exists. \\
-CT3 & Compare external types and route defects, tables, or peelable load. & Certified interface and type slot recorded. & Context universe, type evaluator, replacement table. & Reject unproved S-Equiv; write type-table or defect-account row. & No finite type index exists. \\
+CT3 & Compare external types and route defects, tables, or peelable load. & Certified interface and type slot recorded. & Context universe, type evaluator, replacement table. & Reject unproved equivalence; write type-table or defect-account row. & No finite type index exists. \\
 CT4 & Turn a demand/payer ledger into C4 or a typed capacity residual. & Demand set, payer set, assignment rule, capacity, and lower bound recorded. & Canonical assignment rule, capacity proof, lower-bound estimate. & Reject non-deterministic assignment; write ledger, capacity, or missing-tier rows. & No locally generated demand exists. \\
 CT5 & Sum local witnesses into a global charge, budget, or localized residual. & Linear local-site family with witness extractor recorded. & Site labels, local lower bound, summation domain. & Reject missing locality lemma; write summation and slack rows. & No bounded local witness exists. \\
 CT6 & Split active tests from first-failure dormant structure. & Activity threshold and first-failure extractor recorded. & Activity predicate, threshold, first-failure order. & Reject unrecorded threshold data; write active ledger or witness row. & No bounded first-failure witness exists. \\
-CT7 & Classify a bounded exchange as realizing, distinguishing, or neutral. & Unclassified exchange pair on a certified common interface. & Context generator, response evaluator, size order, table handle. & Reject neutral claim with S-Equiv unfilled; write exchange classification row. & No finite context generator exists. \\
+CT7 & Classify a bounded exchange as realizing, distinguishing, or neutral. & Unclassified exchange pair on a certified common interface. & Context generator, response evaluator, size order, table handle. & Reject neutral claim with equivalence unfilled; write exchange classification row. & No finite context generator exists. \\
 CT8 & Pump a bounded sequence through finite labels or exact types. & Bounded sequence with finite label/type slot recorded. & Label alphabet, equality test, finite threshold. & Reject informal periodicity; write repeat, table, or label-refinement row. & No finite type space exists. \\
 CT9 & Exhaust an overloaded payer fibre by homogeneous extraction. & Payer fibre and capacity bound recorded. & Label map, fibre capacity, extraction target. & Reject unlabelled fibre; write overload and extraction row. & No finite labelling exists. \\
 CT10 & Promote a missing finite datum to a refinement label. & Residual class exposing a finite missing datum. & Candidate datum, refined label alphabet, class table. & Reject datum not extracted from classification; write refinement row. & No finite refinement alphabet exists. \\
@@ -2169,23 +2169,23 @@ ID & Input & Obligations & Certificate & Intended outputs & Recovery outputs \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-CT1 & \(\langle\mathfrak B,T,\mathcal T,W\rangle\) & S-Def\(\langle\mathcal T,W\rangle\); S-Equiv\(\langle T,\mathcal T\rangle\); S-Pers\(\langle T\)-avoidance\(\rangle\); S-Rout; S-Trig. & C1, realized local test. & Target-avoiding payloads to CT2, CT3, CT4, CT5, CT6, CT17. & --- \\
-CT2 & \(P_{1\to2}\) & S-Def\(\langle X,\iota_X,\prec\rangle\); S-Dich (delete, replace, survive); S-Comp\(\langle\prec\rangle\); S-Rout; S-Trig. & C2, minimality contradiction. & --- & Context residual to CT3; target-uncompressible datum to CT10. \\
-CT3 & \(P_{\ast\to3}\) & S-Def\(\langle\iota,\tau\rangle\); S-Equiv\(\langle\tau\)-responses\(\rangle\); S-Pers; S-Rout; S-Trig; S-Comp. & C2, C3, or C5. & Exchange defect to CT7; peelable load to CT12; long type sequence to CT8. & --- \\
-CT4 & \(P_{\ast\to4}\) & S-Def\(\langle\mathcal D,\mathcal P,\pi\rangle\); S-Det\(\langle\pi\rangle\); S-Dich (gap, overload); S-Comp; S-Rout; S-Trig. & C4, bounded-capacity contradiction. & Overcharged fibre to CT9; aggregate mass residual to CT14. & Missing payer tier to CT13. \\
-CT5 & \(P_{1\to5}\) & S-Def\(\langle\mathcal S,w\rangle\); S-Det\(\langle\)site assignment\(\rangle\); S-Comp\(\langle\)summation\(\rangle\); S-Rout; S-Trig. & C4, local-to-global comparison. & Charge ledger to CT4; global deficit to CT11; aggregate residual to CT14. & --- \\
-CT6 & \(P_{1\to6}\) & S-Def\(\langle\)activity threshold\(\rangle\); S-Dich (active, dormant); S-Rout; S-Trig; S-Equiv\(\langle\)first failure\(\rangle\). & C1, first-failure target hit. & Active ledger to CT4; boundary/type witness to CT3; exchange witness to CT7; saturation witness to CT9. & Refinement-gated witness to CT10. \\
-CT7 & \(P_{\ast\to7}\) & S-Def\(\langle\)exchange pair\(\rangle\); S-Equiv\(\langle\)context generator\(\rangle\); S-Dich (realizing, distinguishing, neutral); S-Comp; S-Rout; S-Trig. & C1, C2, or C3. & External-type defect to CT3; peelable defect to CT12. & Neutral label to CT10; whole-object datum to CT16. \\
-CT8 & \(P_{\ast\to8}\) & S-Def (bounded sequence, type); S-Dich (repeat, short); S-Equiv\(\langle\)type equality\(\rangle\); S-Comp; S-Rout; S-Trig. & C2 or C5. & Separating type to CT3; chain exchange to CT7. & Coarse finite label space to CT10. \\
-CT9 & \(P_{\ast\to9}\) & S-Def\(\langle F_p\rangle\); S-Dich (bounded, overloaded); S-Comp\(\langle\)pigeonhole\(\rangle\); S-Rout; S-Trig. & C1, target-hit overload. & Bounded multiplicity to CT4; homogeneous exchange to CT7; long chain to CT8. & Label-refinement residual to CT10. \\
-CT10 & \(P_{\ast\to10}\) & S-Def\(\langle\)refined label\(\rangle\); S-Dich\(\langle\)label classes\(\rangle\); S-Comp\(\langle\)finite table\(\rangle\); S-Rout; S-Trig. & C5, finite class exhaustion. & Promoted response to CT3; class exchange to CT7; rank datum to CT15. & --- \\
-CT11 & \(P_{5\to11}\) & S-Def (budget, decomposition); S-Comp\(\langle\)localization\(\rangle\); S-Rout; S-Trig. & None; route-only tactic. & Local target witness to CT1; localized exchange to CT7; carried mass to CT14. & Admissibility gap to CT10. \\
-CT12 & \(P_{\ast\to12}\) & S-Def\(\langle L,\mu\rangle\); S-Rest; S-Meas; S-Comp\(\langle\)termination\(\rangle\); S-Rout; S-Trig. & C4, loop discharge. & --- & Restored ordinary demand to CT4; tiered demand to CT13. \\
-CT13 & \(P_{\ast\to13}\) & S-Def\(\langle\)tiers\(\rangle\); S-Det\(\langle\)tier assignment\(\rangle\); S-Dich (availability, obstruction); S-Comp; S-Rout; S-Trig. & C4, reconciled tier capacity. & Tier-one account to CT4; overlap fibre to CT9; overlap mass to CT14. & --- \\
-CT14 & \(P_{\ast\to14}\) & S-Def\(\langle\mathcal C\rangle\); S-Comp\(\langle\)lower mass\(\rangle\); S-Comp\(\langle\)upper capacity\(\rangle\); S-Rout; S-Trig. & C4, aggregate capacity contradiction. & --- & Unbounded member or multiplicity gap to CT9; finite missing capacity datum to CT10. \\
-CT15 & \(P_{\ast\to15}\) & S-Def\(\langle\)rank\(\rangle\); S-Dich (rank drop, full rank); S-Comp\(\langle\)rank budget\(\rangle\); S-Rout; S-Trig. & C4, rank-budget contradiction. & Rank defect to CT3; rank exchange to CT7; whole-object rank datum to CT16; rank ledger to CT4. & --- \\
-CT16 & \(P_{\ast\to16}\) & S-Def\(\langle\)closed type\(\rangle\); S-Equiv\(\langle\)closed response\(\rangle\); S-Dich (proper, whole); S-Comp; S-Rout; S-Trig. & C2, exact whole-object identification. & Proper subpiece to CT3; distinct closed data to CT10. & --- \\
-CT17 & \(P_{1\to17}\) & S-Def\(\langle S,\Delta,\Omega\rangle\); S-Dich\(\langle\)scale split\(\rangle\); S-Comp\(\langle\)arithmetic\(\rangle\); S-Rout; S-Trig. & C1 or C5. & Finite survivors to CT8; arithmetic mass to CT14. & Completion class to CT3 or CT10. \\
+CT1 & \(\langle\mathfrak B,T,\mathcal T,W\rangle\) & definition\(\langle\mathcal T,W\rangle\); equivalence\(\langle T,\mathcal T\rangle\); S-Pers\(\langle T\)-avoidance\(\rangle\); routing; trigger. & C1, realized local test. & Target-avoiding payloads to CT2, CT3, CT4, CT5, CT6, CT17. & --- \\
+CT2 & \(P_{1\to2}\) & definition\(\langle X,\iota_X,\prec\rangle\); dichotomy (delete, replace, survive); composition\(\langle\prec\rangle\); routing; trigger. & C2, minimality contradiction. & --- & Context residual to CT3; target-uncompressible datum to CT10. \\
+CT3 & \(P_{\ast\to3}\) & definition\(\langle\iota,\tau\rangle\); equivalence\(\langle\tau\)-responses\(\rangle\); S-Pers; routing; trigger; composition. & C2, C3, or C5. & Exchange defect to CT7; peelable load to CT12; long type sequence to CT8. & --- \\
+CT4 & \(P_{\ast\to4}\) & definition\(\langle\mathcal D,\mathcal P,\pi\rangle\); S-Det\(\langle\pi\rangle\); dichotomy (gap, overload); composition; routing; trigger. & C4, bounded-capacity contradiction. & Overcharged fibre to CT9; aggregate mass residual to CT14. & Missing payer tier to CT13. \\
+CT5 & \(P_{1\to5}\) & definition\(\langle\mathcal S,w\rangle\); S-Det\(\langle\)site assignment\(\rangle\); composition\(\langle\)summation\(\rangle\); routing; trigger. & C4, local-to-global comparison. & Charge ledger to CT4; global deficit to CT11; aggregate residual to CT14. & --- \\
+CT6 & \(P_{1\to6}\) & definition\(\langle\)activity threshold\(\rangle\); dichotomy (active, dormant); routing; trigger; equivalence\(\langle\)first failure\(\rangle\). & C1, first-failure target hit. & Active ledger to CT4; boundary/type witness to CT3; exchange witness to CT7; saturation witness to CT9. & Refinement-gated witness to CT10. \\
+CT7 & \(P_{\ast\to7}\) & definition\(\langle\)exchange pair\(\rangle\); equivalence\(\langle\)context generator\(\rangle\); dichotomy (realizing, distinguishing, neutral); composition; routing; trigger. & C1, C2, or C3. & External-type defect to CT3; peelable defect to CT12. & Neutral label to CT10; whole-object datum to CT16. \\
+CT8 & \(P_{\ast\to8}\) & definition (bounded sequence, type); dichotomy (repeat, short); equivalence\(\langle\)type equality\(\rangle\); composition; routing; trigger. & C2 or C5. & Separating type to CT3; chain exchange to CT7. & Coarse finite label space to CT10. \\
+CT9 & \(P_{\ast\to9}\) & definition\(\langle F_p\rangle\); dichotomy (bounded, overloaded); composition\(\langle\)pigeonhole\(\rangle\); routing; trigger. & C1, target-hit overload. & Bounded multiplicity to CT4; homogeneous exchange to CT7; long chain to CT8. & Label-refinement residual to CT10. \\
+CT10 & \(P_{\ast\to10}\) & definition\(\langle\)refined label\(\rangle\); dichotomy\(\langle\)label classes\(\rangle\); composition\(\langle\)finite table\(\rangle\); routing; trigger. & C5, finite class exhaustion. & Promoted response to CT3; class exchange to CT7; rank datum to CT15. & --- \\
+CT11 & \(P_{5\to11}\) & definition (budget, decomposition); composition\(\langle\)localization\(\rangle\); routing; trigger. & None; route-only tactic. & Local target witness to CT1; localized exchange to CT7; carried mass to CT14. & Admissibility gap to CT10. \\
+CT12 & \(P_{\ast\to12}\) & definition\(\langle L,\mu\rangle\); S-Rest; S-Meas; composition\(\langle\)termination\(\rangle\); routing; trigger. & C4, loop discharge. & --- & Restored ordinary demand to CT4; tiered demand to CT13. \\
+CT13 & \(P_{\ast\to13}\) & definition\(\langle\)tiers\(\rangle\); S-Det\(\langle\)tier assignment\(\rangle\); dichotomy (availability, obstruction); composition; routing; trigger. & C4, reconciled tier capacity. & Tier-one account to CT4; overlap fibre to CT9; overlap mass to CT14. & --- \\
+CT14 & \(P_{\ast\to14}\) & definition\(\langle\mathcal C\rangle\); composition\(\langle\)lower mass\(\rangle\); composition\(\langle\)upper capacity\(\rangle\); routing; trigger. & C4, aggregate capacity contradiction. & --- & Unbounded member or multiplicity gap to CT9; finite missing capacity datum to CT10. \\
+CT15 & \(P_{\ast\to15}\) & definition\(\langle\)rank\(\rangle\); dichotomy (rank drop, full rank); composition\(\langle\)rank budget\(\rangle\); routing; trigger. & C4, rank-budget contradiction. & Rank defect to CT3; rank exchange to CT7; whole-object rank datum to CT16; rank ledger to CT4. & --- \\
+CT16 & \(P_{\ast\to16}\) & definition\(\langle\)closed type\(\rangle\); equivalence\(\langle\)closed response\(\rangle\); dichotomy (proper, whole); composition; routing; trigger. & C2, exact whole-object identification. & Proper subpiece to CT3; distinct closed data to CT10. & --- \\
+CT17 & \(P_{1\to17}\) & definition\(\langle S,\Delta,\Omega\rangle\); dichotomy\(\langle\)scale split\(\rangle\); composition\(\langle\)arithmetic\(\rangle\); routing; trigger. & C1 or C5. & Finite survivors to CT8; arithmetic mass to CT14. & Completion class to CT3 or CT10. \\
 \end{longtable}
 \endgroup
 
@@ -2253,23 +2253,23 @@ ID & Primary schemas \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-CT1 & S-Def, S-Equiv, S-Dich, S-Pers, S-Rout, S-Trig. \\
-CT2 & S-Def, S-Dich, S-Comp, S-Rout, S-Trig. \\
-CT3 & S-Def, S-Equiv, S-Pers, S-Rout, S-Trig. \\
-CT4 & S-Def, S-Det, S-Dich, S-Comp, S-Rout, S-Trig. \\
-CT5 & S-Def, S-Det, S-Comp, S-Rout, S-Trig. \\
-CT6 & S-Def, S-Dich, S-Rout, S-Trig. \\
-CT7 & S-Def, S-Equiv, S-Dich, S-Comp, S-Rout, S-Trig. \\
-CT8 & S-Def, S-Dich, S-Equiv, S-Comp, S-Rout, S-Trig. \\
-CT9 & S-Def, S-Dich, S-Comp, S-Rout, S-Trig. \\
-CT10 & S-Def, S-Dich, S-Rout, S-Trig. \\
-CT11 & S-Def, S-Comp, S-Rout, S-Trig. \\
-CT12 & S-Def, S-Dich, S-Pers, S-Rest, S-Meas, S-Rout, S-Trig. \\
-CT13 & S-Def, S-Det, S-Dich, S-Comp, S-Rout, S-Trig. \\
-CT14 & S-Def, S-Comp, S-Rout, S-Trig. \\
-CT15 & S-Def, S-Dich, S-Comp, S-Rout, S-Trig. \\
-CT16 & S-Def, S-Equiv, S-Dich, S-Rout, S-Trig. \\
-CT17 & S-Def, S-Dich, S-Comp, S-Rout, S-Trig. \\
+CT1 & definition, equivalence, dichotomy, S-Pers, routing, trigger. \\
+CT2 & definition, dichotomy, composition, routing, trigger. \\
+CT3 & definition, equivalence, S-Pers, routing, trigger. \\
+CT4 & definition, S-Det, dichotomy, composition, routing, trigger. \\
+CT5 & definition, S-Det, composition, routing, trigger. \\
+CT6 & definition, dichotomy, routing, trigger. \\
+CT7 & definition, equivalence, dichotomy, composition, routing, trigger. \\
+CT8 & definition, dichotomy, equivalence, composition, routing, trigger. \\
+CT9 & definition, dichotomy, composition, routing, trigger. \\
+CT10 & definition, dichotomy, routing, trigger. \\
+CT11 & definition, composition, routing, trigger. \\
+CT12 & definition, dichotomy, S-Pers, S-Rest, S-Meas, routing, trigger. \\
+CT13 & definition, S-Det, dichotomy, composition, routing, trigger. \\
+CT14 & definition, composition, routing, trigger. \\
+CT15 & definition, dichotomy, composition, routing, trigger. \\
+CT16 & definition, equivalence, dichotomy, routing, trigger. \\
+CT17 & definition, dichotomy, composition, routing, trigger. \\
 \end{longtable}
 \endgroup
 \subsection{CT1 --- Local target tests}\label{ct:1}\label{target-predicate-and-local-tests}
@@ -2308,11 +2308,11 @@ available payloads.
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the target predicate \(T\), the local test family \(\mathcal T\), the witness spaces \(W_i(G)\), and the witness extractor recorded in the branch state.
-\item \textbf{S-Equiv} is instantiated with the equivalence between \(T\) and the existence of a realized local test \(T_i\).
+\item \textbf{definition} is instantiated with the target predicate \(T\), the local test family \(\mathcal T\), the witness spaces \(W_i(G)\), and the witness extractor recorded in the branch state.
+\item \textbf{equivalence} is instantiated with the equivalence between \(T\) and the existence of a realized local test \(T_i\).
 \item \textbf{S-Pers} is instantiated with the transition from the current state to \(\mathfrak B_{\neg T}\), where all local tests are absent.
-\item \textbf{S-Rout} is instantiated with the target-avoiding payloads \(P_{1\to2}\), \(P_{1\to3}\), \(P_{1\to4}\), \(P_{1\to5}\), \(P_{1\to6}\), and \(P_{1\to17}\).
-\item \textbf{S-Trig} is instantiated with the consumer trigger for each target-avoiding payload emitted by CT1.
+\item \textbf{routing} is instantiated with the target-avoiding payloads \(P_{1\to2}\), \(P_{1\to3}\), \(P_{1\to4}\), \(P_{1\to5}\), \(P_{1\to6}\), and \(P_{1\to17}\).
+\item \textbf{trigger} is instantiated with the consumer trigger for each target-avoiding payload emitted by CT1.
 \end{itemize}
 
 \ctpar{Routing}
@@ -2327,8 +2327,8 @@ payloads follows \secref{selection-policy}.
 CT1 is inapplicable when no local test family is available. This is a
 candidate obstruction for the global audit in
 \secref{the-scope-condition-locally-testable-targets}, not a residual branch. The execution error
-is claiming target avoidance without S-Equiv; the audit records it as a
-CT1/S-Equiv defect.
+is claiming target avoidance without equivalence; the audit records it as a
+CT1/equivalence defect.
 
 \begin{figure}[p]
 \centering
@@ -2384,12 +2384,12 @@ every node/.style={font=\scriptsize}
 \draw[bcarr] (next)--node[bclabel,above,sloped]{local sites}(sitelemma);
 \draw[bcarr] (next)--node[bclabel,right]{activity setup}(activelemma);
 \draw[bcarr] (next)--node[bclabel,above,sloped]{sparse offsets}(thicklemma);
-\draw[bchandoff] (minlemma)--node[bclabel,right]{S-Trig for CT2}(minroute);
-\draw[bchandoff] (typelemma)--node[bclabel,right]{S-Trig for CT3}(typeroute);
-\draw[bchandoff] (chargelemma)--node[bclabel,right]{S-Trig for CT4}(chargeroute);
-\draw[bchandoff] (sitelemma)--node[bclabel,right]{S-Trig for CT5}(siteroute);
-\draw[bchandoff] (activelemma)--node[bclabel,right]{S-Trig for CT6}(activeroute);
-\draw[bchandoff] (thicklemma)--node[bclabel,right]{S-Trig for CT17}(thickroute);
+\draw[bchandoff] (minlemma)--node[bclabel,right]{trigger for CT2}(minroute);
+\draw[bchandoff] (typelemma)--node[bclabel,right]{trigger for CT3}(typeroute);
+\draw[bchandoff] (chargelemma)--node[bclabel,right]{trigger for CT4}(chargeroute);
+\draw[bchandoff] (sitelemma)--node[bclabel,right]{trigger for CT5}(siteroute);
+\draw[bchandoff] (activelemma)--node[bclabel,right]{trigger for CT6}(activeroute);
+\draw[bchandoff] (thicklemma)--node[bclabel,right]{trigger for CT17}(thickroute);
 \end{tikzpicture}%
 }
 \caption[Closure-tactic 1: local target tests]{Closure-tactic 1 (local target tests).  The diagram is an object-level proof checklist: the target enters through definitions of \(T\), \(\mathcal T\), and the witness spaces \(W_i(G)\), a scope lemma, an equivalence lemma, a target-realization dichotomy lemma, a realization proposition, a definition of the target-avoiding branch state, a persistence lemma for \(T_i\)-absence, a payload-classification lemma mapping each certified surviving datum to its declared payload, and payload lemmas certifying the inputs to the next closure-tactic diagrams.  The six non-closing exits are typed: \(P_{1\to2}\) routes a proper reducible piece to CT2, \(P_{1\to3}\) routes boundary-response data to CT3, \(P_{1\to4}\) routes a ready demand/payer charge map to CT4, \(P_{1\to5}\) routes a linear local-site family to CT5, \(P_{1\to6}\) routes an activity-threshold setup to CT6, and \(P_{1\to17}\) routes sparse-target offset data to CT17.  Absence of a local test family is a candidate scope obstruction referred to the global audit in \secref{the-scope-condition-locally-testable-targets}.  Line grammar (Fig.~\ref{fig:line-grammar-legend}): solid --- intended execution through the construction of the intended residual; dotted --- checks and the post-residual handoff to the consumer tactic; dashed --- design-failure recovery; red-dashed --- candidate scope obstruction referred to the global audit.}
@@ -2458,11 +2458,11 @@ the uncompressible survivor becomes the next payload.
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the proper piece \(X\), its interface \(\iota_X\), the admissibility class, and the minimality order \(\prec\).
-\item \textbf{S-Dich} is instantiated with the three alternatives that \(X\) can be deleted, replaced, or kept as a surviving residual.
-\item \textbf{S-Comp} is instantiated with the proof that every legal deletion or replacement produces an object strictly smaller in the order \(\prec\).
-\item \textbf{S-Rout} is instantiated with \(P_{2\to3}\) for a context-dependent response and \(P_{2\to10}\) for a target-uncompressible survivor.
-\item \textbf{S-Trig} is instantiated with the CT3 trigger for context residuals and the CT10 trigger for target-uncompressible data.
+\item \textbf{definition} is instantiated with the proper piece \(X\), its interface \(\iota_X\), the admissibility class, and the minimality order \(\prec\).
+\item \textbf{dichotomy} is instantiated with the three alternatives that \(X\) can be deleted, replaced, or kept as a surviving residual.
+\item \textbf{composition} is instantiated with the proof that every legal deletion or replacement produces an object strictly smaller in the order \(\prec\).
+\item \textbf{routing} is instantiated with \(P_{2\to3}\) for a context-dependent response and \(P_{2\to10}\) for a target-uncompressible survivor.
+\item \textbf{trigger} is instantiated with the CT3 trigger for context residuals and the CT10 trigger for target-uncompressible data.
 \end{itemize}
 
 \ctpar{Routing}
@@ -2473,8 +2473,8 @@ with a missing finite label emits \(P_{2\to10}\) to CT10.
 \ctpar{Limit}
 CT2 is inapplicable when the required interface is unbounded. The execution error is an
 undeclared interface or a replacement asserted before context
-universality is proved; the defect register records the missing CT2/S-Def
-or CT2/S-Equiv obligation.
+universality is proved; the defect register records the missing CT2/definition
+or CT2/equivalence obligation.
 
 \begin{figure}[p]
 \centering
@@ -2513,15 +2513,15 @@ every node/.style={font=\scriptsize}
 \draw[bcarr] (profile)--(context);
 \draw[bcrecoverarr] (context)--node[bclabel,above,sloped,text width=2.20cm,align=center]{typed context dependence}(ctxres);
 \draw[bcrecoverarr] (ctxres)--(ctxlemma);
-\draw[bcrecoverarr] (ctxlemma)--node[bclabel,right]{S-Trig for CT3}(ctxroute);
+\draw[bcrecoverarr] (ctxlemma)--node[bclabel,right]{trigger for CT3}(ctxroute);
 \draw[bcarr] (context)--node[bclabel,right,text width=2.10cm,align=center]{yes: all contexts certified}(replace);
 \draw[bcarr] (replace)--node[bclabel,above,pos=0.43,text width=2.40cm,align=center]{yes: smaller equivalent representative}(repout);
 \draw[bcarr] (replace)--node[bclabel,right]{no: target-uncompressible}(uncomp);
 \draw[bcrecoverarr] (uncomp)--(route);
 \draw[bcrecoverarr] (route)--node[bclabel,above,sloped]{criticality datum}(critlemma);
 \draw[bcrecoverarr] (route)--node[bclabel,above,sloped]{missing response}(resplemma);
-\draw[bcrecoverarr] (critlemma)--node[bclabel,right]{S-Trig for CT10}(next);
-\draw[bcrecoverarr] (resplemma)--node[bclabel,right]{S-Trig for CT3}(typeroute);
+\draw[bcrecoverarr] (critlemma)--node[bclabel,right]{trigger for CT10}(next);
+\draw[bcrecoverarr] (resplemma)--node[bclabel,right]{trigger for CT3}(typeroute);
 \end{tikzpicture}%
 }
 \caption[Closure-tactic 2: minimality and replacement]{Closure-tactic 2 (minimality and replacement).  The diagram records the mathematical objects required for the tactic: a minimal-counterexample assumption, an admissible piece with interface data, deletion and replacement lemmas, a context-validity lemma, the corresponding minimality closures, the routed target-uncompressible branch state that survives when both lemmas fail, and payload lemmas certifying the criticality-refinement and response-defect routes.  If the context-validity lemma fails in a typed way, CT2 constructs \(P_{2\to3}\) and routes it to CT3; if minimality leaves a target-uncompressible survivor with a missing finite label, CT2 constructs \(P_{2\to10}\) and routes it to CT10.  An unbounded interface is a candidate scope obstruction referred to the global audit in \secref{the-scope-condition-locally-testable-targets}.  Line grammar (Fig.~\ref{fig:line-grammar-legend}): solid --- intended execution through the construction of the intended residual; dotted --- checks and the post-residual handoff to the consumer tactic; dashed --- design-failure recovery; red-dashed --- candidate scope obstruction referred to the global audit.}
@@ -2603,12 +2603,12 @@ defect payload routed out of the tactic.
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the certified interface \(\iota\), the external-type slot \(\tau\), and the response evaluator used by the current branch state.
-\item \textbf{S-Equiv} is instantiated with the statement that \(\tau\) decides every compatible target-relevant context for the piece under analysis.
+\item \textbf{definition} is instantiated with the certified interface \(\iota\), the external-type slot \(\tau\), and the response evaluator used by the current branch state.
+\item \textbf{equivalence} is instantiated with the statement that \(\tau\) decides every compatible target-relevant context for the piece under analysis.
 \item \textbf{S-Pers} is instantiated with the replacement transition that preserves the residual condition and all branch-state data required downstream.
-\item \textbf{S-Comp} is instantiated with the relevant type inclusion, finite type-table exhaustion, or compression comparison.
-\item \textbf{S-Rout} is instantiated with \(P_{3\to7}\), \(P_{3\to12}\), and \(P_{3\to8}\) for exchange defects, peelable load, and long type sequences.
-\item \textbf{S-Trig} is instantiated with the CT7, CT12, and CT8 triggers for those three outgoing payloads.
+\item \textbf{composition} is instantiated with the relevant type inclusion, finite type-table exhaustion, or compression comparison.
+\item \textbf{routing} is instantiated with \(P_{3\to7}\), \(P_{3\to12}\), and \(P_{3\to8}\) for exchange defects, peelable load, and long type sequences.
+\item \textbf{trigger} is instantiated with the CT7, CT12, and CT8 triggers for those three outgoing payloads.
 \end{itemize}
 
 \ctpar{Routing}
@@ -2619,7 +2619,7 @@ data to CT7, peelable load to CT12, or a repeated-type sequence to CT8.
 \ctpar{Limit}
 CT3 is inapplicable when the interface has infinite type index. The
 execution error is asserting type inclusion without checking the recorded
-components; the audit records CT3/S-Equiv or CT3/S-Rout.
+components; the audit records CT3/equivalence or CT3/routing.
 
 \begin{figure}[p]
 \centering
@@ -2660,18 +2660,18 @@ every node/.style={font=\scriptsize}
 \draw[bcarr] (defectlemma)--node[bclabel,above,text width=2.10cm,align=center]{already-routed account}(routedclose);
 \draw[bcarr] (defectlemma)--node[bclabel,left,text width=2.05cm,align=center]{defect payload}(exchlemma);
 \draw[bcarr] (defectlemma)--node[bclabel,right,text width=1.85cm,align=center]{load payload}(peellemma);
-\draw[bchandoff] (exchlemma)--node[bclabel,right]{S-Trig for CT7}(defect);
-\draw[bchandoff] (peellemma)--node[bclabel,right]{S-Trig for CT12}(peelroute);
+\draw[bchandoff] (exchlemma)--node[bclabel,right]{trigger for CT7}(defect);
+\draw[bchandoff] (peellemma)--node[bclabel,right]{trigger for CT12}(peelroute);
 \draw[bcarr] (distinguish)--node[bclabel,right,text width=2.20cm,align=center]{no: unresolved type residual}(residual);
 \draw[bcarr] (residual)--(persist);
 \draw[bcarr] (persist)--(next);
 \draw[bcarr] (next)--node[bclabel,above,sloped,text width=2.65cm,align=center]{long repeated type sequence}(repeatlemma);
 \draw[bcarr] (next)--node[bclabel,above,sloped,text width=2.45cm,align=center]{case: finite table complete}(tablelemma);
-\draw[bchandoff] (repeatlemma)--node[bclabel,right]{S-Trig for CT8}(pumproute);
+\draw[bchandoff] (repeatlemma)--node[bclabel,right]{trigger for CT8}(pumproute);
 \draw[bcarr] (tablelemma)--node[bclabel,right]{input certified}(tableclose);
 \end{tikzpicture}%
 }
-\caption[Closure-tactic 3: external-type compression]{Closure-tactic 3 (external-type compression).  The diagram records the objects needed to make external-type compression airtight: the external-type definition, replacement-family definition, replacement-inclusion lemma, separating-context dichotomy, residual branch-state definition, persistence lemma, routing theorem, and payload lemmas certifying defect routing, peelable defect-load routing with a well-founded measure, pumping, or finite-table closure.  Its terminal exits are C2 (replacement), C3 (an accepted routed-defect account), and C5 (finite-table exhaustion); its typed exits are \(P_{3\to7}\) for a separating-context defect, \(P_{3\to12}\) for a routed load with measure, and \(P_{3\to8}\) for a long repeated-type sequence.  S-Equiv must certify the recorded profile before comparison begins; infinite type index is a candidate scope obstruction referred to the global audit in \secref{the-scope-condition-locally-testable-targets}.  Line grammar (Fig.~\ref{fig:line-grammar-legend}): solid --- intended execution through the construction of the intended residual; dotted --- checks and the post-residual handoff to the consumer tactic; dashed --- design-failure recovery; red-dashed --- candidate scope obstruction referred to the global audit.}
+\caption[Closure-tactic 3: external-type compression]{Closure-tactic 3 (external-type compression).  The diagram records the objects needed to make external-type compression airtight: the external-type definition, replacement-family definition, replacement-inclusion lemma, separating-context dichotomy, residual branch-state definition, persistence lemma, routing theorem, and payload lemmas certifying defect routing, peelable defect-load routing with a well-founded measure, pumping, or finite-table closure.  Its terminal exits are C2 (replacement), C3 (an accepted routed-defect account), and C5 (finite-table exhaustion); its typed exits are \(P_{3\to7}\) for a separating-context defect, \(P_{3\to12}\) for a routed load with measure, and \(P_{3\to8}\) for a long repeated-type sequence.  equivalence must certify the recorded profile before comparison begins; infinite type index is a candidate scope obstruction referred to the global audit in \secref{the-scope-condition-locally-testable-targets}.  Line grammar (Fig.~\ref{fig:line-grammar-legend}): solid --- intended execution through the construction of the intended residual; dotted --- checks and the post-residual handoff to the consumer tactic; dashed --- design-failure recovery; red-dashed --- candidate scope obstruction referred to the global audit.}
 \label{fig:ct3-external-type-compression}
 \end{figure}
 \FloatBarrier
@@ -2753,12 +2753,12 @@ and packaged as \(P_{4\to13}\).
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the demand set \(\mathcal D\), payer set \(\mathcal P\), charge map \(\pi\), capacity data, and lower-bound target.
+\item \textbf{definition} is instantiated with the demand set \(\mathcal D\), payer set \(\mathcal P\), charge map \(\pi\), capacity data, and lower-bound target.
 \item \textbf{S-Det} is instantiated with the canonical definition of \(\pi\), including every tie-break used to choose a payer.
-\item \textbf{S-Dich} is instantiated with the alternatives that certified capacity closes the branch or an overload fibre remains.
-\item \textbf{S-Comp} is instantiated with the bounded-capacity inequality comparing total demand with available payer capacity.
-\item \textbf{S-Rout} is instantiated with \(P_{4\to9}\) for an overcharged fibre, \(P_{4\to14}\) for aggregate residual mass, and \(P_{4\to13}\) for a demand with no available payer.
-\item \textbf{S-Trig} is instantiated with the CT9 trigger for overload data, the CT14 trigger for aggregate mass data, and the CT13 trigger for a tier-interaction obstruction.
+\item \textbf{dichotomy} is instantiated with the alternatives that certified capacity closes the branch or an overload fibre remains.
+\item \textbf{composition} is instantiated with the bounded-capacity inequality comparing total demand with available payer capacity.
+\item \textbf{routing} is instantiated with \(P_{4\to9}\) for an overcharged fibre, \(P_{4\to14}\) for aggregate residual mass, and \(P_{4\to13}\) for a demand with no available payer.
+\item \textbf{trigger} is instantiated with the CT9 trigger for overload data, the CT14 trigger for aggregate mass data, and the CT13 trigger for a tier-interaction obstruction.
 \end{itemize}
 
 \ctpar{Routing}
@@ -2802,18 +2802,18 @@ every node/.style={font=\scriptsize}
 \draw[bcarr] (input)--(assign);
 \draw[bcrecoverarr] (assign)--node[bclabel,above,sloped,text width=1.85cm,align=center]{no available payer}(nopayer);
 \draw[bcrecoverarr] (nopayer)--(tierrepair);
-\draw[bcrecoverarr] (tierrepair)--node[bclabel,right]{S-Trig for CT13}(tierroute);
+\draw[bcrecoverarr] (tierrepair)--node[bclabel,right]{trigger for CT13}(tierroute);
 \draw[bcarr] (assign)--(canon);
 \draw[bcarr] (canon)--node[bclabel,right,pos=.45]{map certified}(mult);
 \draw[bcarr] (mult)--node[bclabel,above]{no: overcharged fibre}(overtrig);
-\draw[bchandoff] (overtrig)--node[bclabel,right]{S-Trig for CT9}(overload);
+\draw[bchandoff] (overtrig)--node[bclabel,right]{trigger for CT9}(overload);
 \draw[bcarr] (mult)--node[bclabel,right]{yes: bounded fibres}(cap);
 \draw[bcarr] (lower)--(contr);
 \draw[bcarr] (cap)--(contr);
 \draw[bcarr] (contr)--node[bclabel,above,pos=.42,yshift=2pt]{yes: demand \(>\) capacity}(out);
 \draw[bcarr] (contr)--node[bclabel,right]{no: compatible bound}(open);
 \draw[bcarr] (open)--(masslemma);
-\draw[bchandoff] (masslemma)--node[bclabel,right]{S-Trig for CT14}(aggregate);
+\draw[bchandoff] (masslemma)--node[bclabel,right]{trigger for CT14}(aggregate);
 \end{tikzpicture}%
 }
 \caption[Closure-tactic 4: charging schemes]{Closure-tactic 4 (charging schemes).  The tactic is certified by definitions of the demand set, payer set, and canonical charge map; a determinism lemma; a bounded-fibre dichotomy lemma; capacity and demand lower-bound lemmas; and a comparison theorem that either closes the branch or routes a typed residual.  An overcharged fibre is packaged as \(P_{4\to9}\) and consumed by CT9; a compatible but unresolved aggregate mass account is packaged as \(P_{4\to14}\) and consumed by CT14.  A demand with no available payer constructs the recovery payload \(P_{4\to13}\) for CT13; absence of an admissible locally generated demand family is a candidate scope obstruction referred to the global audit in \secref{the-scope-condition-locally-testable-targets}.  Line grammar (Fig.~\ref{fig:line-grammar-legend}): solid --- intended execution through the construction of the intended residual; dotted --- checks and the post-residual handoff to the consumer tactic; dashed --- design-failure recovery; red-dashed --- candidate scope obstruction referred to the global audit.}
@@ -2898,11 +2898,11 @@ its own lemma.
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the local-site family \(\mathcal S\), its site labels, the witness extractor, and the locality record.
+\item \textbf{definition} is instantiated with the local-site family \(\mathcal S\), its site labels, the witness extractor, and the locality record.
 \item \textbf{S-Det} is instantiated with the canonical site-to-payer assignment used when local witnesses form a charge map.
-\item \textbf{S-Comp} is instantiated with the local-to-global summation and the resulting global capacity comparison.
-\item \textbf{S-Rout} is instantiated with \(P_{5\to4}\), \(P_{5\to11}\), and \(P_{5\to14}\) for charge ledgers, additive deficits, and local-mass shortfalls.
-\item \textbf{S-Trig} is instantiated with the CT4, CT11, and CT14 triggers for the outgoing local-to-global payloads.
+\item \textbf{composition} is instantiated with the local-to-global summation and the resulting global capacity comparison.
+\item \textbf{routing} is instantiated with \(P_{5\to4}\), \(P_{5\to11}\), and \(P_{5\to14}\) for charge ledgers, additive deficits, and local-mass shortfalls.
+\item \textbf{trigger} is instantiated with the CT4, CT11, and CT14 triggers for the outgoing local-to-global payloads.
 \end{itemize}
 
 \ctpar{Routing}
@@ -2912,8 +2912,8 @@ shortfall routes to CT14.
 
 \ctpar{Limit}
 CT5 is inapplicable when no bounded local witnesses are available. The
-execution error is a missing locality lemma; the audit records CT5/S-Def
-or CT5/S-Comp.
+execution error is a missing locality lemma; the audit records CT5/definition
+or CT5/composition.
 
 \begin{figure}[p]
 \centering
@@ -2947,19 +2947,19 @@ every node/.style={font=\scriptsize}
 \draw[bcscopearr] (auditroute)--node[bclabel,above,pos=.30,yshift=3pt]{no bounded witnesses}(bad);
 \draw[bcarr] (auditroute)--node[bclabel,left,text width=2.05cm,align=center]{additive nonlocal deficit}(nonlocalres);
 \draw[bcarr] (nonlocalres)--(loclemma);
-\draw[bchandoff] (loclemma)--node[bclabel,right]{S-Trig for CT11}(locroute);
+\draw[bchandoff] (loclemma)--node[bclabel,right]{trigger for CT11}(locroute);
 \draw[bcarr] (audit)--node[bclabel,right]{yes: local ledger}(charge);
 \draw[bcarr] (charge)--(sum);
 \draw[bcarr] (sum)--(capacity);
 \draw[bcarr] (capacity)--node[bclabel,above]{local charge map}(chargemap);
-\draw[bchandoff] (chargemap)--node[bclabel,above]{S-Trig for CT4}(chargeroute);
+\draw[bchandoff] (chargemap)--node[bclabel,above]{trigger for CT4}(chargeroute);
 \draw[bcarr] (capacity) to[bend left=18] node[bclabel,above,sloped]{yes: capacity gap}(out);
 \draw[bcarr] (capacity)--node[bclabel,right]{no: shortfall remains}(shortfall);
 \draw[bcarr] (shortfall)--(masslemma);
-\draw[bchandoff] (masslemma)--node[bclabel,right]{S-Trig for CT14}(massroute);
+\draw[bchandoff] (masslemma)--node[bclabel,right]{trigger for CT14}(massroute);
 \end{tikzpicture}%
 }
-\caption[Closure-tactic 5: local-to-global bookkeeping]{Closure-tactic 5 (local-to-global bookkeeping).  The tactic consumes \(P_{1\to5}\), namely a linear local-site family with site labels, witness extractor, and locality record.  The nodes labelled \(P_{5\to4}\), \(P_{5\to11}\), \(P_{5\to14}\), and \(P_{5\to C4}\) are the payload-construction points: the local witnesses either assemble a demand/payer charge map for CT4, an additive global-deficit residual for CT11, an aggregate shortfall residual for CT14, or a completed C4 comparison.  The dotted exits may be concatenated with the next diagram exactly when the displayed S-Trig obligation is discharged.  An estimate with no bounded witnesses is a candidate scope obstruction referred to the global audit in \secref{the-scope-condition-locally-testable-targets}.  Line grammar (Fig.~\ref{fig:line-grammar-legend}): solid --- intended execution through the construction of the intended residual; dotted --- checks and the post-residual handoff to the consumer tactic; dashed --- design-failure recovery; red-dashed --- candidate scope obstruction referred to the global audit.}
+\caption[Closure-tactic 5: local-to-global bookkeeping]{Closure-tactic 5 (local-to-global bookkeeping).  The tactic consumes \(P_{1\to5}\), namely a linear local-site family with site labels, witness extractor, and locality record.  The nodes labelled \(P_{5\to4}\), \(P_{5\to11}\), \(P_{5\to14}\), and \(P_{5\to C4}\) are the payload-construction points: the local witnesses either assemble a demand/payer charge map for CT4, an additive global-deficit residual for CT11, an aggregate shortfall residual for CT14, or a completed C4 comparison.  The dotted exits may be concatenated with the next diagram exactly when the displayed trigger obligation is discharged.  An estimate with no bounded witnesses is a candidate scope obstruction referred to the global audit in \secref{the-scope-condition-locally-testable-targets}.  Line grammar (Fig.~\ref{fig:line-grammar-legend}): solid --- intended execution through the construction of the intended residual; dotted --- checks and the post-residual handoff to the consumer tactic; dashed --- design-failure recovery; red-dashed --- candidate scope obstruction referred to the global audit.}
 \label{fig:ct5-local-global-bookkeeping}
 \end{figure}
 \FloatBarrier
@@ -3013,11 +3013,11 @@ converted into linear dormant mass with the unused margin recorded.
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the activity threshold, activity predicate, first-failure order, and first-failure extractor.
-\item \textbf{S-Dich} is instantiated with the active branch and the dormant branch produced by the monitored family.
-\item \textbf{S-Equiv} is instantiated with the assertion that the first-failure witness carries target-relevant data.
-\item \textbf{S-Rout} is instantiated with \(P_{6\to4}\), \(P_{6\to3}\), \(P_{6\to7}\), \(P_{6\to9}\), and \(P_{6\to10}\) for active demand, boundary response, exchange data, saturation data, and the refinement recovery residual.
-\item \textbf{S-Trig} is instantiated with the CT4, CT3, CT7, CT9, and CT10 triggers for those active, dormant, or recovery outputs.
+\item \textbf{definition} is instantiated with the activity threshold, activity predicate, first-failure order, and first-failure extractor.
+\item \textbf{dichotomy} is instantiated with the active branch and the dormant branch produced by the monitored family.
+\item \textbf{equivalence} is instantiated with the assertion that the first-failure witness carries target-relevant data.
+\item \textbf{routing} is instantiated with \(P_{6\to4}\), \(P_{6\to3}\), \(P_{6\to7}\), \(P_{6\to9}\), and \(P_{6\to10}\) for active demand, boundary response, exchange data, saturation data, and the refinement recovery residual.
+\item \textbf{trigger} is instantiated with the CT4, CT3, CT7, CT9, and CT10 triggers for those active, dormant, or recovery outputs.
 \end{itemize}
 
 \ctpar{Routing}
@@ -3030,7 +3030,7 @@ additional finite refinement routes as the recovery residual
 \ctpar{Limit}
 CT6 is inapplicable when no bounded first-failure witness is available. The
 execution error is using threshold data not recorded in the branch state;
-the defect is CT6/S-Def.
+the defect is CT6/definition.
 
 \begin{figure}[p]
 \centering
@@ -3062,22 +3062,22 @@ every node/.style={font=\scriptsize}
 \draw[bcarr] (input)--(active);
 \draw[bcarr] (active)--node[bclabel,pos=.43,above]{yes: active}(hot);
 \draw[bcarr] (hot)--(hotout);
-\draw[bchandoff] (hotout)--node[bclabel,right]{S-Trig for CT4}(hotroute);
+\draw[bchandoff] (hotout)--node[bclabel,right]{trigger for CT4}(hotroute);
 \draw[bcarr] (active)--node[bclabel,right]{no: dormant mass}(cold);
 \draw[bcarr] (cold)--(witness);
 \draw[bcscopearr] (witness)--node[bclabel,above,pos=.35,yshift=2pt,text width=2.15cm,align=center]{no bounded witness}(scopebad);
 \draw[bcrecoverarr] (witness)--node[bclabel,above,sloped,text width=2.20cm,align=center]{bounded only after refinement}(refineres);
 \draw[bcrecoverarr] (refineres)--(refinelemma);
-\draw[bcrecoverarr] (refinelemma)--node[bclabel,right]{S-Trig for CT10}(refineroute);
+\draw[bcrecoverarr] (refinelemma)--node[bclabel,right]{trigger for CT10}(refineroute);
 \draw[bcarr] (witness)--(coldroute);
 \draw[bcarr] (coldroute)--node[bclabel,pos=.38,above]{hit}(hitlemma);
 \draw[bcarr] (coldroute)--node[bclabel,pos=.34,left]{same-interface witness}(exlemma);
 \draw[bcarr] (coldroute)--node[bclabel,pos=.34,right]{boundary-response witness}(typelemma);
 \draw[bcarr] (coldroute)--node[bclabel,pos=.38,above]{saturated-payer witness}(chargellemma);
 \draw[bcarr] (hitlemma)--(hitout);
-\draw[bchandoff] (exlemma)--node[bclabel,right]{S-Trig for CT7}(exchangefig);
-\draw[bchandoff] (typelemma)--node[bclabel,right]{S-Trig for CT3}(typefig);
-\draw[bchandoff] (chargellemma)--node[bclabel,right]{S-Trig for CT9}(chargefig);
+\draw[bchandoff] (exlemma)--node[bclabel,right]{trigger for CT7}(exchangefig);
+\draw[bchandoff] (typelemma)--node[bclabel,right]{trigger for CT3}(typefig);
+\draw[bchandoff] (chargellemma)--node[bclabel,right]{trigger for CT9}(chargefig);
 \end{tikzpicture}%
 }
 \caption[Closure-tactic 6: active/dormant dichotomy]{Closure-tactic 6 (active/dormant dichotomy).  The tactic is made rigorous by an activity-threshold definition, an active/dormant dichotomy lemma, an active-demand trigger for charging, a first-failure witness lemma, and a routing theorem whose cases certify direct target closure or construct typed payloads.  The active side builds \(P_{6\to4}\) for CT4; the dormant first-failure witness builds \(P_{6\to7}\), \(P_{6\to3}\), or \(P_{6\to9}\) according to whether the witness is same-interface, boundary-response, or saturated-payer data.  A bounded witness that appears only after refinement constructs the recovery residual \(P_{6\to10}\); absence of any bounded first-failure witness is a candidate scope obstruction referred to the global audit in \secref{the-scope-condition-locally-testable-targets}.  Line grammar (Fig.~\ref{fig:line-grammar-legend}): solid --- intended execution through the construction of the intended residual; dotted --- checks and the post-residual handoff to the consumer tactic; dashed --- design-failure recovery; red-dashed --- candidate scope obstruction referred to the global audit.}
@@ -3155,14 +3155,14 @@ response evaluator restricted to \(\iota\)-completions, the size order,
 and a same-interface table handle.
 
 \ctpar{Execution}
-First verify S-Def for \((A,A',\iota,\delta)\): the objects share the
+First verify definition for \((A,A',\iota,\delta)\): the objects share the
 interface, the exchange changes only declared support, and the response
 evaluator is defined on \(\iota\)-completions.  Build
 \(\mathcal G(\iota)\) from the recorded type components and test target
 realization over it; a realizing context gives C1.  Next test separating
 contexts.  A separator is packaged as \(P_{7\to3}\) when it is an
 external-type defect, and as \(P_{7\to12}\) when it carries a routed
-load measure.  On the separator-free branch, prove S-Equiv for generator
+load measure.  On the separator-free branch, prove equivalence for generator
 completeness before invoking neutral compression.  A smaller neutral
 representative gives C2; the remaining neutral cases emit
 \(P_{7\to10}\) or \(P_{7\to16}\) according to whether the missing datum
@@ -3171,12 +3171,12 @@ is a refinement label or a whole-object closed type.
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the exchange pair \((A,A',\iota,\delta)\), the common interface, and the response evaluator on \(\iota\)-completions.
-\item \textbf{S-Equiv} is instantiated with the completeness of the finite context generator \(\mathcal G(\iota)\) for all target-relevant compatible contexts.
-\item \textbf{S-Dich} is instantiated with the realizing, distinguishing, and neutral alternatives for the bounded exchange.
-\item \textbf{S-Comp} is instantiated with the compression comparison for a smaller neutral representative.
-\item \textbf{S-Rout} is instantiated with \(P_{7\to3}\), \(P_{7\to12}\), \(P_{7\to10}\), and \(P_{7\to16}\) for external-type defects, peelable load, neutral labels, and whole-object data.
-\item \textbf{S-Trig} is instantiated with the CT3, CT12, CT10, and CT16 triggers for those exchange outputs.
+\item \textbf{definition} is instantiated with the exchange pair \((A,A',\iota,\delta)\), the common interface, and the response evaluator on \(\iota\)-completions.
+\item \textbf{equivalence} is instantiated with the completeness of the finite context generator \(\mathcal G(\iota)\) for all target-relevant compatible contexts.
+\item \textbf{dichotomy} is instantiated with the realizing, distinguishing, and neutral alternatives for the bounded exchange.
+\item \textbf{composition} is instantiated with the compression comparison for a smaller neutral representative.
+\item \textbf{routing} is instantiated with \(P_{7\to3}\), \(P_{7\to12}\), \(P_{7\to10}\), and \(P_{7\to16}\) for external-type defects, peelable load, neutral labels, and whole-object data.
+\item \textbf{trigger} is instantiated with the CT3, CT12, CT10, and CT16 triggers for those exchange outputs.
 \end{itemize}
 
 \ctpar{Routing}
@@ -3186,8 +3186,8 @@ CT3 or CT12; neutral residuals route to CT10 or CT16.
 
 \ctpar{Limit}
 CT7 is inapplicable when no finite context generator is available. The
-execution error is declaring neutrality with S-Equiv unfilled; the audit
-records CT7/S-Equiv.
+execution error is declaring neutrality with equivalence unfilled; the audit
+records CT7/equivalence.
 
 \begin{figure}[p]
 \centering
@@ -3222,17 +3222,17 @@ every node/.style={font=\scriptsize}
 \draw[bcarr] (distinguish)--node[bclabel,above,pos=.42,yshift=2pt]{yes: separating context}(deflemma);
 \draw[bcarr] (deflemma)--node[bclabel,above,text width=2.00cm,align=center]{already routed}(routedclose);
 \draw[bcarr] (deflemma)--node[bclabel,left,text width=1.80cm,align=center]{external-type defect}(extlemma);
-\draw[bchandoff] (extlemma)--node[bclabel,left]{S-Trig for CT3}(defect);
+\draw[bchandoff] (extlemma)--node[bclabel,left]{trigger for CT3}(defect);
 \draw[bcarr] (deflemma)--node[bclabel,right,text width=1.85cm,align=center]{routed load}(peellemma);
-\draw[bchandoff] (peellemma)--node[bclabel,right]{S-Trig for CT12}(peeldefect);
+\draw[bchandoff] (peellemma)--node[bclabel,right]{trigger for CT12}(peeldefect);
 \draw[bcarr] (distinguish)--node[bclabel,right]{no: target-equivalent}(neutral);
 \draw[bcrecoverarr] (neutral.east) -- node[bclabel,above,text width=2.25cm,align=center,pos=.55]{no: equivalent but no smaller} ++(1.35,0) |- (neutralres.west);
 \draw[bcscopearr] (neutral.west)--node[bclabel,above,pos=.50,text width=2.05cm,align=center]{infinite context index}(scopebad.east);
 \draw[bcrecoverarr] (neutralres)--(neutralroute);
 \draw[bcrecoverarr] (neutralroute)--node[bclabel,above,sloped]{refinement label}(reflemma);
 \draw[bcrecoverarr] (neutralroute)--node[bclabel,above,sloped]{whole-object data}(exactlemma);
-\draw[bcrecoverarr] (reflemma)--node[bclabel,right]{S-Trig for CT10}(refroute);
-\draw[bcrecoverarr] (exactlemma)--node[bclabel,right]{S-Trig for CT16}(exactroute);
+\draw[bcrecoverarr] (reflemma)--node[bclabel,right]{trigger for CT10}(refroute);
+\draw[bcrecoverarr] (exactlemma)--node[bclabel,right]{trigger for CT16}(exactroute);
 \draw[bcarr] (neutral)--node[bclabel,right]{yes: compressive}(complemma);
 \draw[bcarr] (complemma)--(compress);
 \end{tikzpicture}%
@@ -3269,7 +3269,7 @@ declared outputs are
 P_{7\to3}\mid P_{7\to12}\mid P_{7\to10}\mid P_{7\to16}\ }.
 \]
 
-The context-generator and S-Equiv completeness proofs are part of this
+The context-generator and equivalence completeness proofs are part of this
 contract. Exchanges of increment zero enter a designated finite
 same-interface table, where each entry is assigned one of the declared
 outputs.
@@ -3308,12 +3308,12 @@ scope boundary.
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the bounded sequence \(S_0,\ldots,S_m\), the finite label or exact-type alphabet, and the equality test.
-\item \textbf{S-Dich} is instantiated with the split between a repeated exact type and a short finite survivor list.
-\item \textbf{S-Equiv} is instantiated with the claim that repeated types have equal response in all compatible contexts.
-\item \textbf{S-Comp} is instantiated with the finite threshold, the finite enumeration, or the repeated-type compression comparison.
-\item \textbf{S-Rout} is instantiated with \(P_{8\to3}\) for separating type data, \(P_{8\to7}\) for chain exchange data, and \(P_{8\to10}\) for a coarse finite label design.
-\item \textbf{S-Trig} is instantiated with the CT3 trigger for separating types, the CT7 trigger for chain exchanges, and the CT10 trigger for finite label refinement.
+\item \textbf{definition} is instantiated with the bounded sequence \(S_0,\ldots,S_m\), the finite label or exact-type alphabet, and the equality test.
+\item \textbf{dichotomy} is instantiated with the split between a repeated exact type and a short finite survivor list.
+\item \textbf{equivalence} is instantiated with the claim that repeated types have equal response in all compatible contexts.
+\item \textbf{composition} is instantiated with the finite threshold, the finite enumeration, or the repeated-type compression comparison.
+\item \textbf{routing} is instantiated with \(P_{8\to3}\) for separating type data, \(P_{8\to7}\) for chain exchange data, and \(P_{8\to10}\) for a coarse finite label design.
+\item \textbf{trigger} is instantiated with the CT3 trigger for separating types, the CT7 trigger for chain exchanges, and the CT10 trigger for finite label refinement.
 \end{itemize}
 
 \ctpar{Routing}
@@ -3324,7 +3324,7 @@ a finite missing label datum routes to CT10 as \(P_{8\to10}\).
 \ctpar{Limit}
 CT8 is inapplicable when no finite type space is available. A finite but
 coarse label design is the typed recovery \(P_{8\to10}\).  The execution
-error is informal periodicity; the audit records CT8/S-Equiv or CT8/S-Dich.
+error is informal periodicity; the audit records CT8/equivalence or CT8/dichotomy.
 
 \begin{figure}[p]
 \centering
@@ -3355,7 +3355,7 @@ every node/.style={font=\scriptsize}
 \draw[bcscopearr] (types)--node[bclabel,above,pos=.40,yshift=2pt,text width=2.15cm,align=center]{no finite type space}(scopebad);
 \draw[bcrecoverarr] (types)--node[bclabel,above,sloped,text width=1.95cm,align=center]{finite but too coarse}(labelres);
 \draw[bcrecoverarr] (labelres)--(labeldesign);
-\draw[bcrecoverarr] (labeldesign)--node[bclabel,right]{S-Trig for CT10}(labelroute);
+\draw[bcrecoverarr] (labeldesign)--node[bclabel,right]{trigger for CT10}(labelroute);
 \draw[bcarr] (types)--(repeat);
 \draw[bcarr] (repeat)--node[bclabel,above]{no: below threshold}(short);
 \draw[bcarr] (short)--(shortroute);
@@ -3364,8 +3364,8 @@ every node/.style={font=\scriptsize}
 \draw[bcarr] (defect)--(defectroute);
 \draw[bcarr] (defectroute)--node[bclabel,above]{type datum}(typelemma);
 \draw[bcarr] (defectroute)--node[bclabel,above]{exchange datum}(exlemma);
-\draw[bchandoff] (typelemma)--node[bclabel,right]{S-Trig for CT3}(typeroute);
-\draw[bchandoff] (exlemma)--node[bclabel,right]{S-Trig for CT7}(exroute);
+\draw[bchandoff] (typelemma)--node[bclabel,right]{trigger for CT3}(typeroute);
+\draw[bchandoff] (exlemma)--node[bclabel,right]{trigger for CT7}(exroute);
 \draw[bcarr] (equal)--node[bclabel,left]{yes: indistinguishable}(complemma);
 \draw[bcarr] (complemma)--(compress);
 \end{tikzpicture}%
@@ -3435,11 +3435,11 @@ lemma.
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the payer \(p\), the fibre \(F_p=\pi^{-1}(p)\), the finite label map on the fibre, and the capacity bound.
-\item \textbf{S-Dich} is instantiated with the bounded-fibre branch and the overloaded-fibre branch.
-\item \textbf{S-Comp} is instantiated with the pigeonhole or homogeneous-extraction comparison used to prove bounded multiplicity.
-\item \textbf{S-Rout} is instantiated with \(P_{9\to4}\), \(P_{9\to7}\), \(P_{9\to8}\), and \(P_{9\to10}\) for bounded multiplicity, homogeneous exchange, long-chain data, and finite-label recovery.
-\item \textbf{S-Trig} is instantiated with the CT4, CT7, CT8, and CT10 triggers for those overload or recovery outputs.
+\item \textbf{definition} is instantiated with the payer \(p\), the fibre \(F_p=\pi^{-1}(p)\), the finite label map on the fibre, and the capacity bound.
+\item \textbf{dichotomy} is instantiated with the bounded-fibre branch and the overloaded-fibre branch.
+\item \textbf{composition} is instantiated with the pigeonhole or homogeneous-extraction comparison used to prove bounded multiplicity.
+\item \textbf{routing} is instantiated with \(P_{9\to4}\), \(P_{9\to7}\), \(P_{9\to8}\), and \(P_{9\to10}\) for bounded multiplicity, homogeneous exchange, long-chain data, and finite-label recovery.
+\item \textbf{trigger} is instantiated with the CT4, CT7, CT8, and CT10 triggers for those overload or recovery outputs.
 \end{itemize}
 
 \ctpar{Routing}
@@ -3451,7 +3451,7 @@ extraction, CT9 emits the recovery residual \(P_{9\to10}\).
 \ctpar{Limit}
 CT9 is inapplicable when no finite labelling is available. The execution error
 is an unlabelled fibre or an undeclared tie-break; the audit records
-CT9/S-Def.
+CT9/definition.
 
 \begin{figure}[p]
 \centering
@@ -3483,10 +3483,10 @@ every node/.style={font=\scriptsize}
 \draw[bcscopearr] (fiberdef)--node[bclabel,above,pos=.40,yshift=2pt,text width=2.15cm,align=center]{no finite labelling}(scopebad);
 \draw[bcrecoverarr] (fiberdef)--node[bclabel,above,sloped,text width=1.95cm,align=center]{labels too coarse}(labelres);
 \draw[bcrecoverarr] (labelres)--(labellemma);
-\draw[bcrecoverarr] (labellemma)--node[bclabel,right]{S-Trig for CT10}(labelroute);
+\draw[bcrecoverarr] (labellemma)--node[bclabel,right]{trigger for CT10}(labelroute);
 \draw[bcarr] (fiberdef)--(fiber);
 \draw[bcarr] (fiber)--node[bclabel,above]{no: all fibres bounded}(bounded);
-\draw[bchandoff] (bounded)--node[bclabel,right]{S-Trig for CT4}(boundedroute);
+\draw[bchandoff] (bounded)--node[bclabel,right]{trigger for CT4}(boundedroute);
 \draw[bcarr] (fiber)--node[bclabel,right]{yes: overcharged fibre}(overload);
 \draw[bcarr] (overload)--(mono);
 \draw[bcarr] (mono)--(extract);
@@ -3495,8 +3495,8 @@ every node/.style={font=\scriptsize}
 \draw[bcarr] (route)--node[bclabel,right]{same-interface object}(exchangelemma);
 \draw[bcarr] (route)--node[bclabel,above]{long chain}(pumplemma);
 \draw[bcarr] (hitlemma)--(hitout);
-\draw[bchandoff] (exchangelemma)--node[bclabel,right]{S-Trig for CT7}(exchangeout);
-\draw[bchandoff] (pumplemma)--node[bclabel,right]{S-Trig for CT8}(pumpout);
+\draw[bchandoff] (exchangelemma)--node[bclabel,right]{trigger for CT7}(exchangeout);
+\draw[bchandoff] (pumplemma)--node[bclabel,right]{trigger for CT8}(pumpout);
 \end{tikzpicture}%
 }
 \caption[Closure-tactic 9: overload exhaustion]{Closure-tactic 9 (overload exhaustion).  The tactic proves bounded multiplicity by defining payer fibres, splitting on overload, extracting a homogeneous overloaded subfamily, and applying a routing theorem whose payload lemmas close by target hit or route to exchange or pumping.  If all fibres are bounded, CT9 returns \(P_{9\to4}\) to CT4 as the bounded-multiplicity proof.  An overloaded homogeneous fibre constructs \(P_{9\to7}\) when it yields a same-interface object and \(P_{9\to8}\) when it yields a long chain.  The pigeonhole step is valid once the labelled fibre is finite; a failed finite-label design constructs the recovery residual \(P_{9\to10}\), while absence of any finite labelling is a candidate scope obstruction referred to the global audit in \secref{the-scope-condition-locally-testable-targets}.  Line grammar (Fig.~\ref{fig:line-grammar-legend}): solid --- intended execution through the construction of the intended residual; dotted --- checks and the post-residual handoff to the consumer tactic; dashed --- design-failure recovery; red-dashed --- candidate scope obstruction referred to the global audit.}
@@ -3560,11 +3560,11 @@ next invariant, together with its finite alphabet and trigger payload.
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the residual class, the promoted finite datum, the refined alphabet \(\Lambda'\), and the class table.
-\item \textbf{S-Dich} is instantiated with the refined label-class alternatives produced by \(\Lambda'\).
-\item \textbf{S-Comp} is instantiated with the finite class-exhaustion check inside each refined label class.
-\item \textbf{S-Rout} is instantiated with \(P_{10\to3}\), \(P_{10\to7}\), and \(P_{10\to15}\) for promoted response data, class exchanges, and rank data.
-\item \textbf{S-Trig} is instantiated with the CT3, CT7, and CT15 triggers for the promoted payloads.
+\item \textbf{definition} is instantiated with the residual class, the promoted finite datum, the refined alphabet \(\Lambda'\), and the class table.
+\item \textbf{dichotomy} is instantiated with the refined label-class alternatives produced by \(\Lambda'\).
+\item \textbf{composition} is instantiated with the finite class-exhaustion check inside each refined label class.
+\item \textbf{routing} is instantiated with \(P_{10\to3}\), \(P_{10\to7}\), and \(P_{10\to15}\) for promoted response data, class exchanges, and rank data.
+\item \textbf{trigger} is instantiated with the CT3, CT7, and CT15 triggers for the promoted payloads.
 \end{itemize}
 
 \ctpar{Routing}
@@ -3574,7 +3574,7 @@ CT3, class exchanges route to CT7, and rank data routes to CT15.
 \ctpar{Limit}
 CT10 is inapplicable when every adequate refinement alphabet is infinite. The execution
 error is failing to extract the promoted datum from the classification;
-the audit records CT10/S-Def or CT10/S-Rout.
+the audit records CT10/definition or CT10/routing.
 
 \begin{figure}[p]
 \centering
@@ -3610,13 +3610,13 @@ every node/.style={font=\scriptsize}
 \draw[bcarr] (closeprop)--(classclose);
 \draw[bcarr] (outcome)--node[bclabel,left]{case: exchange/type datum}(routelemma);
 \draw[bcarr] (routelemma)--(closeroute);
-\draw[bchandoff] (closeroute)--node[bclabel,above]{S-Trig for CT7}(exchangefig);
-\draw[bchandoff] (closeroute) to[bend left=10] node[bclabel,left,pos=.72]{S-Trig for CT3}(typefig);
+\draw[bchandoff] (closeroute)--node[bclabel,above]{trigger for CT7}(exchangefig);
+\draw[bchandoff] (closeroute) to[bend left=10] node[bclabel,left,pos=.72]{trigger for CT3}(typefig);
 \draw[bcarr] (outcome)--node[bclabel,above]{case: missing datum}(promote);
 \draw[bcarr] (promote)--(next);
 \draw[bcarr] (next)--(nextfig);
-\draw[bchandoff] (nextfig) to[bend left=10] node[bclabel,above,sloped,pos=.58]{S-Trig for CT3}(typefig);
-\draw[bchandoff] (nextfig)--node[bclabel,right,pos=.55]{S-Trig for CT15}(rankgen);
+\draw[bchandoff] (nextfig) to[bend left=10] node[bclabel,above,sloped,pos=.58]{trigger for CT3}(typefig);
+\draw[bchandoff] (nextfig)--node[bclabel,right,pos=.55]{trigger for CT15}(rankgen);
 \end{tikzpicture}%
 }
 \caption[Closure-tactic 10: default refinement]{Closure-tactic 10 (default refinement).  The tactic is certified by a residual-class definition, a finite-label definition, a label-exhaustion lemma, a finite exchange-support lemma, a classification theorem for each label class, payload lemmas for exchange or response-type routes, and a missing-datum extraction lemma that promotes the next invariant.  A bounded class exchange constructs \(P_{10\to7}\); a response or type datum constructs \(P_{10\to3}\); and a rank datum constructs \(P_{10\to15}\).  The extracted datum is the promoted residual; an infinite refinement alphabet is a candidate scope obstruction referred to the global audit in \secref{the-scope-condition-locally-testable-targets}.  Line grammar (Fig.~\ref{fig:line-grammar-legend}): solid --- intended execution through the construction of the intended residual; dotted --- checks and the post-residual handoff to the consumer tactic; dashed --- design-failure recovery; red-dashed --- candidate scope obstruction referred to the global audit.}
@@ -3666,10 +3666,10 @@ fall outside the tactic library.
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the additive budget, the admissible decomposition, the admissibility class, and the localized piece data.
-\item \textbf{S-Comp} is instantiated with the summation and averaging comparison that produces a connected local piece with negative budget.
-\item \textbf{S-Rout} is instantiated with \(P_{11\to1}\), \(P_{11\to7}\), \(P_{11\to10}\), and \(P_{11\to14}\) for target-test data, localized exchange data, admissibility gaps, and carried mass.
-\item \textbf{S-Trig} is instantiated with the CT1, CT7, CT10, and CT14 triggers for those localized outputs.
+\item \textbf{definition} is instantiated with the additive budget, the admissible decomposition, the admissibility class, and the localized piece data.
+\item \textbf{composition} is instantiated with the summation and averaging comparison that produces a connected local piece with negative budget.
+\item \textbf{routing} is instantiated with \(P_{11\to1}\), \(P_{11\to7}\), \(P_{11\to10}\), and \(P_{11\to14}\) for target-test data, localized exchange data, admissibility gaps, and carried mass.
+\item \textbf{trigger} is instantiated with the CT1, CT7, CT10, and CT14 triggers for those localized outputs.
 \end{itemize}
 
 \ctpar{Routing}
@@ -3680,7 +3680,7 @@ CT14.  CT11 is route-only; it has no certificate sink of its own.
 \ctpar{Limit}
 CT11 is inapplicable when no additive bounded local type is available. The
 execution error is invoking localization before admissibility closure is
-proved; the audit records CT11/S-Def.
+proved; the audit records CT11/definition.
 
 \begin{figure}[p]
 \centering
@@ -3714,7 +3714,7 @@ every node/.style={font=\scriptsize}
 \draw[bcscopearr] (toolroute)--node[bclabel,above,pos=.42,yshift=2pt]{no finite type}(bad);
 \draw[bcrecoverarr] (toolroute)--node[bclabel,right,text width=1.85cm,align=center]{typed local piece}(toolres);
 \draw[bcrecoverarr] (toolres)--(toollemma);
-\draw[bcrecoverarr] (toollemma)--node[bclabel,right]{S-Trig for CT10}(toolfix);
+\draw[bcrecoverarr] (toollemma)--node[bclabel,right]{trigger for CT10}(toolfix);
 \draw[bcarr] (closed)--node[bclabel,right]{yes: admissible pieces}(sum);
 \draw[bcarr] (sum)--(local);
 \draw[bcarr] (local)--node[bclabel,right]{yes: local deficit}(object);
@@ -3723,9 +3723,9 @@ every node/.style={font=\scriptsize}
 \draw[bcarr] (nextroute)--node[bclabel,above]{target witness}(targetlemma);
 \draw[bcarr] (nextroute)--node[bclabel,left]{local exchange}(exchangelemma);
 \draw[bcarr] (nextroute)--node[bclabel,above]{carried mass}(aggregatelemma);
-\draw[bchandoff] (targetlemma)--node[bclabel,right]{S-Trig for CT1}(targetroute);
-\draw[bchandoff] (exchangelemma)--node[bclabel,right]{S-Trig for CT7}(exchangeroute);
-\draw[bchandoff] (aggregatelemma)--node[bclabel,right]{S-Trig for CT14}(aggregateroute);
+\draw[bchandoff] (targetlemma)--node[bclabel,right]{trigger for CT1}(targetroute);
+\draw[bchandoff] (exchangelemma)--node[bclabel,right]{trigger for CT7}(exchangeroute);
+\draw[bchandoff] (aggregatelemma)--node[bclabel,right]{trigger for CT14}(aggregateroute);
 \end{tikzpicture}%
 }
 \caption[Closure-tactic 11: localization lemma]{Closure-tactic 11 (localization lemma).  The tactic is certified by an additive-budget definition, an admissible-decomposition lemma, an admissibility lemma, a summation lemma, the localization lemma itself, a localized-deficit-piece definition, and payload lemmas routing the piece to target tests, exchange, or aggregate closure.  A typed admissibility gap constructs \(P_{11\to10}\); a localized target witness constructs \(P_{11\to1}\); a localized exchange constructs \(P_{11\to7}\); and carried mass constructs \(P_{11\to14}\).  Absence of finite local type data is a candidate scope obstruction referred to the global audit in \secref{the-scope-condition-locally-testable-targets}.  Line grammar (Fig.~\ref{fig:line-grammar-legend}): solid --- intended execution through the construction of the intended residual; dotted --- checks and the post-residual handoff to the consumer tactic; dashed --- design-failure recovery; red-dashed --- candidate scope obstruction referred to the global audit.}
@@ -3809,13 +3809,13 @@ by the surrounding charging argument.
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the routed load account, the peel move, and the measure \(L\).
+\item \textbf{definition} is instantiated with the routed load account, the peel move, and the measure \(L\).
 \item \textbf{S-Det} is instantiated with the canonical choice of the eligible unit peeled on each non-closing pass.
 \item \textbf{S-Rest} is instantiated with the transition from the pre-peel branch state to the restored post-peel branch state.
 \item \textbf{S-Meas} is instantiated with the proof that \(L\) is defined from recorded data, takes values in the nonnegative integers, and decreases on every non-closing pass.
-\item \textbf{S-Comp} is instantiated with the termination or discharge comparison that closes the unsaturated branch.
-\item \textbf{S-Rout} is instantiated with \(P_{12\to4}\) and \(P_{12\to13}\) for ordinary charge demand and tier-interaction demand.
-\item \textbf{S-Trig} is instantiated with the CT4 and CT13 triggers for demand created by a peel pass.
+\item \textbf{composition} is instantiated with the termination or discharge comparison that closes the unsaturated branch.
+\item \textbf{routing} is instantiated with \(P_{12\to4}\) and \(P_{12\to13}\) for ordinary charge demand and tier-interaction demand.
+\item \textbf{trigger} is instantiated with the CT4 and CT13 triggers for demand created by a peel pass.
 \end{itemize}
 
 \ctpar{Routing}
@@ -3864,8 +3864,8 @@ every node/.style={font=\scriptsize}
 \draw[bcrecoverarr] (statefix)--(repairroute);
 \draw[bcrecoverarr] (repairroute)--node[bclabel,above,sloped]{ordinary demand}(chargelemma);
 \draw[bcrecoverarr] (repairroute)--node[bclabel,above,sloped]{tier interaction}(tierlemma);
-\draw[bcrecoverarr] (chargelemma)--node[bclabel,right]{S-Trig for CT4}(chargeroute);
-\draw[bcrecoverarr] (tierlemma)--node[bclabel,right]{S-Trig for CT13}(tierroute);
+\draw[bcrecoverarr] (chargelemma)--node[bclabel,right]{trigger for CT4}(chargeroute);
+\draw[bcrecoverarr] (tierlemma)--node[bclabel,right]{trigger for CT13}(tierroute);
 \draw[bcarr] (restore)--node[bclabel,right]{yes: certificate valid}(measure);
 \draw[bcloop] (measure.west) -- ++(-2.05,0) |- node[bclabel,pos=.25,left]{repeat with \(L'\)} (sat.west);
 \end{tikzpicture}%
@@ -3908,12 +3908,12 @@ C4 when the accounts reconcile; an unreconciled fibre constructs
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the tier-one account, the fallback tier data, and the availability hypothesis.
+\item \textbf{definition} is instantiated with the tier-one account, the fallback tier data, and the availability hypothesis.
 \item \textbf{S-Det} is instantiated with the tier assignments and the canonical minimal obstruction selected when availability fails.
-\item \textbf{S-Dich} is instantiated with the alternatives that the tier-one scheme is available or a fallback obstruction must be charged.
-\item \textbf{S-Comp} is instantiated with the reconciliation lemma and the combined tier-capacity comparison.
-\item \textbf{S-Rout} is instantiated with \(P_{13\to4}\), \(P_{13\to9}\), and \(P_{13\to14}\) for tier-one accounts, overlap fibres, and overlap mass.
-\item \textbf{S-Trig} is instantiated with the CT4, CT9, and CT14 triggers for those tiered-charging outputs.
+\item \textbf{dichotomy} is instantiated with the alternatives that the tier-one scheme is available or a fallback obstruction must be charged.
+\item \textbf{composition} is instantiated with the reconciliation lemma and the combined tier-capacity comparison.
+\item \textbf{routing} is instantiated with \(P_{13\to4}\), \(P_{13\to9}\), and \(P_{13\to14}\) for tier-one accounts, overlap fibres, and overlap mass.
+\item \textbf{trigger} is instantiated with the CT4, CT9, and CT14 triggers for those tiered-charging outputs.
 \end{itemize}
 
 \ctpar{Routing}
@@ -3923,7 +3923,7 @@ overlap fibre routes to CT9, and overlap mass routes to CT14.
 \ctpar{Limit}
 CT13 is inapplicable when no measurable tier resource is available. The
 execution error is an unrecorded tier overlap; the audit records
-CT13/S-Det or CT13/S-Rout.
+CT13/S-Det or CT13/routing.
 
 \begin{figure}[p]
 \centering
@@ -3952,15 +3952,15 @@ every node/.style={font=\scriptsize}
 \draw[bcscopearr] (input)--node[bclabel,above,sloped,text width=1.95cm,align=center]{no measurable tier data}(scopebad);
 \draw[bcarr] (avail)--node[bclabel,above]{yes: tier 1 available}(tierone);
 \draw[bcarr] (tierone)--(capone);
-\draw[bchandoff] (capone)--node[bclabel,right]{S-Trig for CT4}(caproute);
+\draw[bchandoff] (capone)--node[bclabel,right]{trigger for CT4}(caproute);
 \draw[bcarr] (avail)--node[bclabel,right]{no: obstruction exists}(minobs);
 \draw[bcarr] (minobs)--(tiertwo);
 \draw[bcarr] (tiertwo)--(reconcile);
 \draw[bcarr] (reconcile)--node[bclabel,above]{no: overlap residual}(overlaproute);
 \draw[bcarr] (overlaproute)--node[bclabel,right,text width=1.80cm,align=center]{named overlap}(overlapres);
 \draw[bcarr] (overlapres)--(overlaplemma);
-\draw[bchandoff] (overlaplemma)--node[bclabel,right]{S-Trig for CT9}(overroute);
-\draw[bchandoff] (overlaplemma)--node[bclabel,right]{S-Trig for CT14}(massroute);
+\draw[bchandoff] (overlaplemma)--node[bclabel,right]{trigger for CT9}(overroute);
+\draw[bchandoff] (overlaplemma)--node[bclabel,right]{trigger for CT14}(massroute);
 \draw[bcarr] (reconcile)--node[bclabel,right]{yes: accounts reconciled}(combined);
 \draw[bcarr] (combined)--(captwo);
 \end{tikzpicture}%
@@ -4035,10 +4035,10 @@ capacity-classification datum, package the residual class and datum as
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the residual class \(\mathcal C\), its recorded branch state, and the mass and capacity records attached to the class.
-\item \textbf{S-Comp} is instantiated with the lower-mass estimate, upper-capacity estimate, carried-charge multiplicity bound, and final aggregate contradiction.
-\item \textbf{S-Rout} is instantiated with \(P_{14\to9}\) for a named unbounded-capacity member or multiplicity gap and \(P_{14\to10}\) for a bounded missing capacity-classification datum.
-\item \textbf{S-Trig} is instantiated with the CT9 trigger for the unbounded-member overload payload and the CT10 trigger for finite capacity-label refinement.
+\item \textbf{definition} is instantiated with the residual class \(\mathcal C\), its recorded branch state, and the mass and capacity records attached to the class.
+\item \textbf{composition} is instantiated with the lower-mass estimate, upper-capacity estimate, carried-charge multiplicity bound, and final aggregate contradiction.
+\item \textbf{routing} is instantiated with \(P_{14\to9}\) for a named unbounded-capacity member or multiplicity gap and \(P_{14\to10}\) for a bounded missing capacity-classification datum.
+\item \textbf{trigger} is instantiated with the CT9 trigger for the unbounded-member overload payload and the CT10 trigger for finite capacity-label refinement.
 \end{itemize}
 
 \ctpar{Routing}
@@ -4050,7 +4050,7 @@ to CT10 as \(P_{14\to10}\).
 A bounded missing capacity classifier yields \(P_{14\to10}\). CT14 is
 inapplicable when no finitely describable bounded-capacity description is
 available. The execution error is failing to record per-member
-multiplicity; the audit records CT14/S-Comp.
+multiplicity; the audit records CT14/composition.
 
 \begin{figure}[p]
 \centering
@@ -4083,8 +4083,8 @@ every node/.style={font=\scriptsize}
 \draw[bcscopearr] (multroute)--node[bclabel,above]{no finite description}(scopebad);
 \draw[bcrecoverarr] (unbounded)--(overlemma);
 \draw[bcrecoverarr] (refine)--(refinelemma);
-\draw[bcrecoverarr] (overlemma)--node[bclabel,right]{S-Trig for CT9}(overroute);
-\draw[bcrecoverarr] (refinelemma)--node[bclabel,right]{S-Trig for CT10}(refineroute);
+\draw[bcrecoverarr] (overlemma)--node[bclabel,right]{trigger for CT9}(overroute);
+\draw[bcrecoverarr] (refinelemma)--node[bclabel,right]{trigger for CT10}(refineroute);
 \draw[bcarr] (mult)--node[bclabel,right]{yes: same units}(compare);
 \draw[bcarr] (compare)--(closed);
 \end{tikzpicture}%
@@ -4151,11 +4151,11 @@ certified ledger is emitted as \(P_{15\to4}\).
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the target-relative rank map, the dependence classifier, and the full-rank ledger.
-\item \textbf{S-Dich} is instantiated with the rank-drop branch and the full-rank branch.
-\item \textbf{S-Comp} is instantiated with the rank-budget comparison on certified independent coordinates.
-\item \textbf{S-Rout} is instantiated with \(P_{15\to3}\), \(P_{15\to4}\), \(P_{15\to7}\), and \(P_{15\to16}\) for rank defects, full-rank ledgers, rank exchanges, and rank delocalization.
-\item \textbf{S-Trig} is instantiated with the CT3, CT4, CT7, and CT16 triggers for those rank-forcing outputs.
+\item \textbf{definition} is instantiated with the target-relative rank map, the dependence classifier, and the full-rank ledger.
+\item \textbf{dichotomy} is instantiated with the rank-drop branch and the full-rank branch.
+\item \textbf{composition} is instantiated with the rank-budget comparison on certified independent coordinates.
+\item \textbf{routing} is instantiated with \(P_{15\to3}\), \(P_{15\to4}\), \(P_{15\to7}\), and \(P_{15\to16}\) for rank defects, full-rank ledgers, rank exchanges, and rank delocalization.
+\item \textbf{trigger} is instantiated with the CT3, CT4, CT7, and CT16 triggers for those rank-forcing outputs.
 \end{itemize}
 
 \ctpar{Routing}
@@ -4165,7 +4165,7 @@ routes to CT4 or closes by C4.
 \ctpar{Limit}
 CT15 is inapplicable when no finite target-relative rank is available. The
 execution error is charging incidental rank; the audit records
-CT15/S-Def.
+CT15/definition.
 
 \begin{figure}[p]
 \centering
@@ -4206,16 +4206,16 @@ every node/.style={font=\scriptsize}
 \draw[bcarr] (structroute)--node[bclabel,above]{rank defect}(typelemma);
 \draw[bcarr] (structroute)--node[bclabel,right]{rank exchange}(exchangelemma);
 \draw[bcarr] (structroute)--node[bclabel,above]{delocalized dependence}(wholelemma);
-\draw[bchandoff] (typelemma)--node[bclabel,left]{S-Trig for CT3}(typeroute);
-\draw[bchandoff] (exchangelemma)--node[bclabel,right]{S-Trig for CT7}(exchangeroute);
-\draw[bchandoff] (wholelemma)--node[bclabel,right]{S-Trig for CT16}(wholeroute);
+\draw[bchandoff] (typelemma)--node[bclabel,left]{trigger for CT3}(typeroute);
+\draw[bchandoff] (exchangelemma)--node[bclabel,right]{trigger for CT7}(exchangeroute);
+\draw[bchandoff] (wholelemma)--node[bclabel,right]{trigger for CT16}(wholeroute);
 \draw[bcarr] (rank)--node[bclabel,above]{no: independent}(full);
 \draw[bcarr] (full)--(charge);
 \draw[bcarr] (charge)--(compare);
 \draw[bcarr] (compare)--node[bclabel,above]{yes: demand \(>\) cap}(budget);
 \draw[bcarr] (compare)--node[bclabel,right]{no: ledger remains}(ledger);
 \draw[bcarr] (ledger)--(chargelemma);
-\draw[bchandoff] (chargelemma)--node[bclabel,right]{S-Trig for CT4}(chargeroute);
+\draw[bchandoff] (chargelemma)--node[bclabel,right]{trigger for CT4}(chargeroute);
 \end{tikzpicture}%
 }
 \caption[Closure-tactic 15: rank forcing]{Closure-tactic 15 (rank forcing).  The tactic is certified by a target-relative rank definition and target-meaning lemma, a rank-drop dichotomy lemma, a structural-dependence lemma, payload lemmas for \(P_{15\to3}\), \(P_{15\to7}\), and \(P_{15\to16}\), and full-rank charge and comparison lemmas that either close or route the ledger as \(P_{15\to4}\).  Redesigning the rank is a repairable design step; absence of a finite-description target-relative rank is a candidate scope obstruction referred to the global audit in \secref{the-scope-condition-locally-testable-targets}.  Line grammar (Fig.~\ref{fig:line-grammar-legend}): solid --- intended execution through the construction of the intended residual; dotted --- checks and the post-residual handoff to the consumer tactic; dashed --- design-failure recovery; red-dashed --- candidate scope obstruction referred to the global audit.}
@@ -4275,11 +4275,11 @@ tactic and return to ordinary external types.
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the delocalized whole-object datum, the computable closed-type slot, and the literal equality test.
-\item \textbf{S-Equiv} is instantiated with closed response equality and the no-silent-identification rule for the empty-context case.
-\item \textbf{S-Dich} is instantiated with the split between proper support and whole-object support.
-\item \textbf{S-Rout} is instantiated with \(P_{16\to3}\) for proper-piece context data and \(P_{16\to10}\) for distinct closed data.
-\item \textbf{S-Trig} is instantiated with the CT3 and CT10 triggers for the whole-object exits.
+\item \textbf{definition} is instantiated with the delocalized whole-object datum, the computable closed-type slot, and the literal equality test.
+\item \textbf{equivalence} is instantiated with closed response equality and the no-silent-identification rule for the empty-context case.
+\item \textbf{dichotomy} is instantiated with the split between proper support and whole-object support.
+\item \textbf{routing} is instantiated with \(P_{16\to3}\) for proper-piece context data and \(P_{16\to10}\) for distinct closed data.
+\item \textbf{trigger} is instantiated with the CT3 and CT10 triggers for the whole-object exits.
 \end{itemize}
 
 \ctpar{Routing}
@@ -4290,7 +4290,7 @@ CT3.  Distinct closed data routes to CT10.
 CT16 is inapplicable when the required closed type is not finitely
 computable. The execution error is identifying two whole-object records
 solely because there is no nonempty outside context; the audit records
-CT16/S-Equiv.
+CT16/equivalence.
 
 \begin{figure}[p]
 \centering
@@ -4314,14 +4314,14 @@ every node/.style={font=\scriptsize}
 \node[bcclosed,text width=3.05cm,minimum width=3.05cm] (out) at (0,-17.55) {\textbf{C2}\\whole-object identification};
 \draw[bcarr] (input)--(whole);
 \draw[bcarr] (whole)--node[bclabel,above]{proper piece}(proper);
-\draw[bchandoff] (proper)--node[bclabel,right]{S-Trig for CT3}(replace);
+\draw[bchandoff] (proper)--node[bclabel,right]{trigger for CT3}(replace);
 \draw[bcarr] (whole)--node[bclabel,right]{yes: whole object}(closedtype);
 \draw[bcarr] (closedtype)--(compute);
 \draw[bcscopearr] (compute)--node[bclabel,above,pos=.40,yshift=2pt,text width=2.25cm,align=center]{not finitely computable}(scopebad);
 \draw[bcarr] (compute)--(equal);
 \draw[bcarr] (equal)--node[bclabel,above]{distinct closed data}(distinct);
 \draw[bcarr] (distinct)--(defaultlemma);
-\draw[bchandoff] (defaultlemma)--node[bclabel,right]{S-Trig for CT10}(defaultroute);
+\draw[bchandoff] (defaultlemma)--node[bclabel,right]{trigger for CT10}(defaultroute);
 \draw[bcarr] (equal)--node[bclabel,right]{yes: literal equality}(idlemma);
 \draw[bcarr] (idlemma)--(out);
 \end{tikzpicture}%
@@ -4380,11 +4380,11 @@ typed by its completion class.
 \ctpar{Soundness obligations}
 \begin{itemize}
 \tightlist
-\item \textbf{S-Def} is instantiated with the sparse target set \(S\), the bounded offset family \(\Delta\), the completion classes \(\Omega\), and the target arithmetic data.
-\item \textbf{S-Dich} is instantiated with the finite-range branch and the repeated-increment branch of the scale split.
-\item \textbf{S-Comp} is instantiated with the finite survivor enumeration or the large-scale arithmetic comparison.
-\item \textbf{S-Rout} is instantiated with \(P_{17\to3}\), \(P_{17\to10}\), \(P_{17\to8}\), and \(P_{17\to14}\) for type separation, label separation, finite survivor sequences, and residual mass.
-\item \textbf{S-Trig} is instantiated with the CT3, CT10, CT8, and CT14 triggers for those target-thickening outputs.
+\item \textbf{definition} is instantiated with the sparse target set \(S\), the bounded offset family \(\Delta\), the completion classes \(\Omega\), and the target arithmetic data.
+\item \textbf{dichotomy} is instantiated with the finite-range branch and the repeated-increment branch of the scale split.
+\item \textbf{composition} is instantiated with the finite survivor enumeration or the large-scale arithmetic comparison.
+\item \textbf{routing} is instantiated with \(P_{17\to3}\), \(P_{17\to10}\), \(P_{17\to8}\), and \(P_{17\to14}\) for type separation, label separation, finite survivor sequences, and residual mass.
+\item \textbf{trigger} is instantiated with the CT3, CT10, CT8, and CT14 triggers for those target-thickening outputs.
 \end{itemize}
 
 \ctpar{Routing}
@@ -4395,7 +4395,7 @@ CT3 or CT10, finite survivor sequences to CT8, and residual mass to CT14.
 \ctpar{Limit}
 CT17 is inapplicable when no bounded offset family with arithmetic leverage
 is available. The execution error is pooling incompatible offsets without a
-class record; the audit records CT17/S-Def.
+class record; the audit records CT17/definition.
 
 \begin{figure}[p]
 \centering
@@ -4431,8 +4431,8 @@ every node/.style={font=\scriptsize}
 \draw[bcrecoverarr] (compres)--(compchoice);
 \draw[bcrecoverarr] (compchoice)--node[bclabel,right]{type separation}(typelemma);
 \draw[bcrecoverarr] (compchoice)--node[bclabel,above,sloped]{label separation}(labellemma);
-\draw[bcrecoverarr] (typelemma)--node[bclabel,right]{S-Trig for CT3}(typeroute);
-\draw[bcrecoverarr] (labellemma)--node[bclabel,right]{S-Trig for CT10}(labelroute);
+\draw[bcrecoverarr] (typelemma)--node[bclabel,right]{trigger for CT3}(typeroute);
+\draw[bcrecoverarr] (labellemma)--node[bclabel,right]{trigger for CT10}(labelroute);
 \draw[bcarr] (compatible)--node[bclabel,right]{yes: common branch state}(block);
 \draw[bcarr] (block)--(scale);
 \draw[bcarr] (scale)--node[bclabel,above]{case: finite range}(finite);
@@ -4440,11 +4440,11 @@ every node/.style={font=\scriptsize}
 \draw[bcarr] (finite)--(empty);
 \draw[bcarr] (empty)--node[bclabel,above]{yes: no survivors}(targetclose);
 \draw[bcarr] (empty)--node[bclabel,above]{finite survivors}(finitelemma);
-\draw[bchandoff] (finitelemma)--node[bclabel,right]{S-Trig for CT8}(finitefig);
+\draw[bchandoff] (finitelemma)--node[bclabel,right]{trigger for CT8}(finitefig);
 \draw[bcarr] (orbit)--(arithq);
 \draw[bcarr] (arithq)--node[bclabel,above]{yes: all blocks hit}(arithclose);
 \draw[bcarr] (arithq)--node[bclabel,above]{residual mass}(masslemma);
-\draw[bchandoff] (masslemma)--node[bclabel,right]{S-Trig for CT14}(arith);
+\draw[bchandoff] (masslemma)--node[bclabel,right]{trigger for CT14}(arith);
 \end{tikzpicture}%
 }
 \caption[Closure-tactic 17: target thickening]{Closure-tactic 17 (target thickening).  The tactic is certified by target and offset definitions, a compatibility lemma, a thickening lemma, a scale-split theorem, a finite survivor-list certificate, and an arithmetic criterion.  Its terminal exits are C5 when the finite survivor list is exhausted and C1 when the large-scale arithmetic criterion forces a target hit.  Otherwise it constructs \(P_{17\to8}\) for finite-state pumping or \(P_{17\to14}\) for downstream aggregate closure; named incompatible completion classes construct \(P_{17\to3}\) or \(P_{17\to10}\).  Absence of a bounded offset family with arithmetic leverage is a candidate scope obstruction referred to the global audit in \secref{the-scope-condition-locally-testable-targets}.  Line grammar (Fig.~\ref{fig:line-grammar-legend}): solid --- intended execution through the construction of the intended residual; dotted --- checks and the post-residual handoff to the consumer tactic; dashed --- design-failure recovery; red-dashed --- candidate scope obstruction referred to the global audit.}
@@ -5543,7 +5543,7 @@ CT & Policy skip or delay & Reason \\
 \bottomrule\noalign{}
 \endlastfoot
 CT3 & Delay until the interface and context universe are explicit. & External types without declared contexts are disguised global arguments. \\
-CT7 & Delay in dense or unbounded-interface settings unless a finite context generator is known. & The exchange classifier is useful only when S-Equiv is locally decidable. \\
+CT7 & Delay in dense or unbounded-interface settings unless a finite context generator is known. & The exchange classifier is useful only when equivalence is locally decidable. \\
 CT8 & Delay until the label space and threshold are finite. & Pumping is a finite-state argument, not an informal periodicity claim. \\
 CT11 & Delay until additivity and admissibility closure are known. & Localization consumes a budget structure; it cannot manufacture additivity. \\
 CT12 and CT13 & Use after ordinary charge and type routes have been exhausted or queued. & Loops and tiers require measures, restored state, and slack discipline. \\
@@ -5749,7 +5749,7 @@ CT10, CT13, CT17 and branch-state predicates for all CTs.
 
 \textbf{15.3 Types and generators.} Produce certified finite context
 generators, exact external types, and closed whole-object types. The
-audit obligation is S-Equiv: the generator or type must decide all
+audit obligation is equivalence: the generator or type must decide all
 compatible contexts relevant to the target. Feeds: CT3, CT7, CT8, CT16.
 
 \textbf{15.4 Budgets and rates.} Choose currencies, put the budget in
@@ -5880,7 +5880,7 @@ Combinator & Signature & Obligations & Formal counterpart \\
 \bottomrule\noalign{}
 \endlastfoot
 Sequencing / spine & ordered invocations \(I_1,\ldots,I_m\) with later triggers depending on earlier outputs & ladder order, no backward hypothesis consumption, S-Meas on cycles & proof script with dependency order \\
-Typed handoff & payload \(P_{i\to j}\) emitted by CT\(i\) and consumed by CT\(j\) & S-Rout at source, S-Trig at target, branch-table row & typed term passed between lemmas \\
+Typed handoff & payload \(P_{i\to j}\) emitted by CT\(i\) and consumed by CT\(j\) & routing at source, trigger at target, branch-table row & typed term passed between lemmas \\
 Black-box isolation & external theorem plus constants and interface contract & cited theorem, constant interlock, trust-base register & imported axiom or theorem namespace \\
 \end{longtable}
 \endgroup
@@ -5913,7 +5913,7 @@ every node/.style={font=\scriptsize}
 \node[bcbox,bclemma,text width=3.05cm,minimum width=3.05cm]
   (seq) at (-3.75,-7.85) {\textbf{Sequencing / spine}\\ladder order\\\(S\)-Meas on every cycle};
 \node[bcbox,bclemma,text width=3.05cm,minimum width=3.05cm]
-  (handoff) at (0,-7.85) {\textbf{Typed handoff}\\S-Rout, S-Trig, branch-table row};
+  (handoff) at (0,-7.85) {\textbf{Typed handoff}\\routing, trigger, branch-table row};
 \node[bcbox,bclemma,text width=3.05cm,minimum width=3.05cm]
   (blackbox) at (3.75,-7.85) {\textbf{Black-box isolation}\\exact interface and citation\\constants, trust base};
 \node[bcroute,bcrouteneutral,bcoutputroute,text width=2.95cm,minimum width=2.95cm]
@@ -6502,7 +6502,7 @@ existing pattern composition fail to close it or advance its declared
 measure. A routing execution error requiring a new interface triggers a
 level-3 interface review, but is reclassified as \((D)\) only after the
 payload-table entry and unique consumer are declared, the producer's
-S-Rout obligation is discharged, and the consumer's S-Trig obligation is
+routing obligation is discharged, and the consumer's trigger obligation is
 recorded for discharge at admission. A candidate scope obstruction
 reaches level 4 and is classified as an
 intrinsic scope obstruction \((S)\) only after the audit proves that the
@@ -6604,13 +6604,13 @@ level's exit test fails.
     \secref{the-default-refinement}.
   \item
     \textbf{Routing or schema defect.} Compare the worksheet input and
-    output with the tactic signature, S-Rout, S-Trig, and the declared
+    output with the tactic signature, routing, trigger, and the declared
     consumer's trigger. Discharge a missing schema obligation when the
     required datum is already present. When the route is already
     declared, construct the payload exactly as declared and verify that
     the producer output field, payload-table row, and consumer signature
-    agree. Reverify the producer's S-Rout certificate, and record and
-    verify the consumer's S-Trig obligation for discharge when that
+    agree. Reverify the producer's routing certificate, and record and
+    verify the consumer's trigger obligation for discharge when that
     consumer is admitted; then regenerate the affected interlock and
     repair graphs. An untyped output, an output with no
     unique declared consumer, or a repair requiring a new producer
@@ -6621,7 +6621,7 @@ level's exit test fails.
     \textbf{Progress or termination defect.} Verify S-Meas on every
     cyclic or recursive non-closing transition, and verify S-Rest when a
     transition restores branch state. An acyclic handoff requires
-    S-Rout and S-Trig but need not decrease a measure. Repair a
+    routing and trigger but need not decrease a measure. Repair a
     stationary cycle by splitting it at the next routing principle,
     refining its descriptor, or applying the existing peel, tier, or
     well-founded measure. A cycle with no decreasing measure cannot be
@@ -6640,12 +6640,12 @@ level's exit test fails.
 
   \emph{Exit test.} Re-run admission and selection, the invariant and
   budget checklists, the moves \(\times\) budgets audit, affected
-  worksheets, and S-Rout and S-Trig for each regenerated route. Every
+  worksheets, and routing and trigger for each regenerated route. Every
   leaf must return C1--C5 or a typed payload to an existing consumer.
   Keep at level 2 any execution error correctable without an interface
   change. Send an interface-changing routing reject to level-3 review;
   it remains \((E)\) until its payload-table row, unique consumer,
-  producer's S-Rout certificate, and consumer's S-Trig obligation are
+  producer's routing certificate, and consumer's trigger obligation are
   recorded. Move a legal, expressible residual unmatched by the taxonomy
   to level 3. Record an inexpressible datum as a candidate scope
   obstruction and send it to the level-4 audit.
@@ -6692,13 +6692,13 @@ level's exit test fails.
   obligations, certificates, outputs, audit hooks, and scope obstruction,
   and update the master CT ledger, signature and obligation matrices,
   parameter-slot mapping, and index card. Discharge the producer's
-  S-Rout obligation, and record and verify the consumer's S-Trig
+  routing obligation, and record and verify the consumer's trigger
   obligation for discharge when that consumer is admitted. Then
   regenerate the dependency, interlock, and repair graphs together with
   the branch table and worksheets. Once the payload-table entry, unique
-  consumer, and S-Rout certificate are present, reclassify the routing
+  consumer, and routing certificate are present, reclassify the routing
   reject from \((E)\) to \((D)\) and admit its payload; the consumer
-  discharges S-Trig when it accepts that payload.
+  discharges trigger when it accepts that payload.
 
   \emph{Exit test.} Every outcome of the new pattern must close at
   C1--C5 or enter an existing consumer through a typed payload, and every
@@ -6719,7 +6719,7 @@ level's exit test fails.
   whether the proposed datum admits a finitely encoded descriptor
   hierarchy, canonical extraction from the branch state,
   compatibility with the declared gluing or decomposition operations,
-  finite certificate semantics, the applicable S-Pers and S-Equiv
+  finite certificate semantics, the applicable S-Pers and equivalence
   obligations, and a well-founded progress measure. These conditions
   decide whether the obstruction is repairable at level 4 or terminal.
   For cut and energy residuals, the witnessed set or Rayleigh function
@@ -6747,8 +6747,8 @@ level's exit test fails.
   parameter-slot mapping, index card, tactic output fields, payload
   table, consumer signatures, branch table, worksheet fields, assurance
   checks, quick-reference card, and limitations.
-  Discharge each producer's S-Rout obligation, and record and verify each consumer's
-  S-Trig obligation for discharge at admission; then regenerate the
+  Discharge each producer's routing obligation, and record and verify each consumer's
+  trigger obligation for discharge at admission; then regenerate the
   interlock and repair graphs before using the new language.
 
   \emph{Exit test.} Re-run the level-2 closure procedure in the extended
@@ -6847,7 +6847,7 @@ Each entry has a fixed schema.
   collapse, phantom ledger entry, double-charged token, currency mismatch
   between accounts, and unrecorded exit dependence. For tactic
   invocations, the classification also records the CT instance and
-  schema name, for example CT7-3/S-Equiv or CT12-1/S-Rest.
+  schema name, for example CT7-3/equivalence or CT12-1/S-Rest.
 \item
   \textbf{Residual and surviving theorem.} The current residual class,
   initially \(\mathcal C_B\), its inherited upstream invariants, and the
@@ -6948,7 +6948,7 @@ Failure family & What breaks & First repair move & Prevention rule \\
 \bottomrule\noalign{}
 \endlastfoot
 Execution error \((E)\), level 1 & A finite computation, constant, precision, or certificate is wrong or stale. & Recompute at the consumed precision, refresh all dependent values, and update the constant interlock, slack table, or certificate row. & Record the source computation, the exact precision, and every consumer before the value is used. \\
-Structural execution error \((E)\), level 2 & A hypothesis, branch state, route, or schema obligation is missing, outdated, or inconsistent. & Restage the missing invariant, repair the route table, or discharge the schema against the current branch state. & Keep the dependency graph and reverse index current, and verify S-Rout and S-Trig at every handoff. \\
+Structural execution error \((E)\), level 2 & A hypothesis, branch state, route, or schema obligation is missing, outdated, or inconsistent. & Restage the missing invariant, repair the route table, or discharge the schema against the current branch state. & Keep the dependency graph and reverse index current, and verify routing and trigger at every handoff. \\
 Repairable design failure \((D)\), level 2 & A legal typed residual has appeared, but the current tactic library has not yet consumed it. & Send the residual to an existing consumer by a declared payload, or move the residual to CT4, CT10, CT13, CT14, CT15, or CT17 as appropriate. & Declare the output field, payload tuple, and unique consumer at the moment the residual is introduced. \\
 Pattern gap \((D)\), level 3 & The residual is legal and expressible, but no existing pattern closes it. & Abstract the recurring residual into a reusable pattern, then register the new combinator or CT entry and regenerate the dependency graphs. & Watch for repeated residual signatures, repeated nondecrease, or repeated routing defects across branches. \\
 Language gap \((S)\), level 4 & The needed object cannot be expressed with the current finite interfaces, labels, or descriptors. & Extend the language with a finitely encoded descriptor hierarchy and a well-founded progress measure, or record the obstruction as terminal. & Check expressibility before proof search begins: if the needed datum has no declared descriptor, no local repair will finish the job. \\
@@ -7100,7 +7100,7 @@ decomposition iterates the same dichotomy: certify an expanding core or
 extract a cut and recurse on the sides, using volume as the
 well-founded measure and charging boundary edges across the recursion
 \citep{saranurak-wang-2019-expander-decomposition}. Cheeger's
-inequality supplies the S-Equiv bridge between the analytic spectral
+inequality supplies the equivalence bridge between the analytic spectral
 statement and the combinatorial cut certificate. In the vocabulary of
 this document, these results supply mathematical ingredients; the
 citations do not by themselves discharge the descriptor, routing, or
@@ -7122,9 +7122,9 @@ outcome would close by a flow or expander certificate. A negative outcome
 would emit a typed sparse-cut residual whose routes are: bounded separator,
 recursive decomposition on the two sides, expander-core handoff, flow
 dual certificate, or contradiction with an additive boundary ledger. The
-soundness obligations are ordinary schema obligations: S-Def for the
-descriptor, S-Equiv for Cheeger/Rayleigh conversion, S-Rout and S-Trig
-for the emitted cut payload, S-Comp for boundary ledgers, and S-Meas for
+soundness obligations are ordinary schema obligations: definition for the
+descriptor, equivalence for Cheeger/Rayleigh conversion, routing and trigger
+for the emitted cut payload, composition for boundary ledgers, and S-Meas for
 the volume decrease in the recursion.
 
 This sketch leaves one asymmetry visible. Decomposition-grade spectral
@@ -7305,7 +7305,7 @@ entropy (\secref{budgets-currencies-and-the-normal-form}). & --- \\
 \textbf{Defect} (\emph{target-defective}) & Two pieces sharing a coarse
 candidate label but distinguished by some outside context. If a context
 separates pieces assigned the same alleged exact external type, the type
-definition or its S-Equiv proof has failed. A certified defect enters the
+definition or its equivalence proof has failed. A certified defect enters the
 designated defect account. & --- \\
 \textbf{Defect register} & The structured record of every defect
 discovered during audit: identifier, node location, classification,
@@ -7380,8 +7380,8 @@ obstruction \\
 checkable conditions whose disjunction is equivalent to the target
 predicate; \emph{realized} if some configuration satisfies it. & Local
 certificate/witness \\
-\textbf{Lemma schema} & A reusable obligation shape such as S-Def,
-S-Equiv, S-Dich, S-Rout, or S-Trig; a worksheet instantiates it by a
+\textbf{Lemma schema} & A reusable obligation shape such as definition,
+equivalence, dichotomy, routing, or trigger; a worksheet instantiates it by a
 named lemma, proposition, theorem, computation, or pending defect row. &
 Proof obligation schema \\
 \textbf{Localization lemma} & The generic consequence of budget
@@ -8740,9 +8740,9 @@ Parameters:    slot (1) size order := (|V|,|E|)
                synthesized by parameter-synthesis rule
                slot (2) deletion move := delete uv
                inventory item: minimality
-Obligations:   S-Def<piece uv, deletion> := Lemma C.2, proved
-               S-Dich<delta preserved> := degree check, proved
-               S-Comp<smaller object> := lexicographic order, proved
+Obligations:   definition<piece uv, deletion> := Lemma C.2, proved
+               dichotomy<delta preserved> := degree check, proved
+               composition<smaller object> := lexicographic order, proved
 Outcome:       C2, deletion-minimality variant
 Artifacts:     branch-table row 2; invariant I1:
                every edge has a degree-3 endpoint
@@ -8762,9 +8762,9 @@ Parameters:    slot (1) label map := position mod 2
                synthesized by parameter-synthesis rule
                slot (2) extraction target := pair
                synthesized by parameter-synthesis rule
-Obligations:   S-Dich<3 demands, 2 classes> := pigeonhole, proved
-               S-Rout<pair payload> := positions distinct, proved
-               S-Trig<pair -> CT1> := Lemma C.6, proved
+Obligations:   dichotomy<3 demands, 2 classes> := pigeonhole, proved
+               routing<pair payload> := positions distinct, proved
+               trigger<pair -> CT1> := Lemma C.6, proved
 Outcome:       emitted <parity theta at (x_i,x_j)> -> CT1-2
 Artifacts:     branch-table row 6; no slack consumed
 Open items:    none

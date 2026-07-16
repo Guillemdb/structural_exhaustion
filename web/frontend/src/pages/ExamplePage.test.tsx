@@ -402,7 +402,7 @@ describe("ExamplePage", () => {
     expect(within(progress).getByText("verified workflow steps")).toBeVisible();
     expect(screen.getByText("3 indexed steps")).toBeVisible();
     expect(screen.getByText("Verified EG proof flow")).toBeVisible();
-    expect(screen.getByText("157-node proof dependency map")).toBeVisible();
+    expect(screen.getByText("194-node proof dependency map")).toBeVisible();
     expect(screen.getByRole("button", {
       name: /Node 1: finite simple graph G\. Formalized in Lean/,
     })).toBeVisible();
@@ -411,7 +411,7 @@ describe("ExamplePage", () => {
     })).toBeVisible();
     expect(screen.getByText("partially formalized")).toBeVisible();
     expect(screen.getByRole("button", {
-      name: /Node 157: G3 or same-interface table: compression\. Paper proof only/,
+      name: /Node 157: G3 compression after target-complete promotion; producer open\. Paper proof only/,
     })).toBeVisible();
 
     fireEvent.click(screen.getByRole("button", { name: /Part XI.*formalized/ }));

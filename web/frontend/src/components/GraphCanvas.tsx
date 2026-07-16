@@ -247,6 +247,14 @@ export const graphStyles: cytoscape.StylesheetJson = [
     },
   },
   {
+    selector: 'node[kind = "proofFlowNode"][status = "implemented"][closure = "closed"]',
+    style: {
+      "background-color": "#176b43",
+      "border-color": "#9fd6b7",
+      color: "#ffffff",
+    },
+  },
+  {
     selector: 'node[kind = "proofFlowNode"][status = "partial"]',
     style: {
       "background-color": "#e2bd3f",

@@ -7,8 +7,46 @@ import Erdos64EG.CT12InducedP13Packing
 import Erdos64EG.P13RemainderResidual
 import Erdos64EG.CT10P13LabelAlgebra
 import Erdos64EG.SurplusScaleSplit
+import Erdos64EG.CT10P13MultiScaleCurvature
+import Erdos64EG.P13ActualAttachmentColdFork
+import Erdos64EG.P13SameWindowStructuralFrontier
+import Erdos64EG.P13Node21PartXIRoute
+import Erdos64EG.P13SelectedWindowPrefixFamily
+import Erdos64EG.P13FixedSkeletonEntrySchedule
+import Erdos64EG.P13FixedSkeletonBranchExcessCorridors
+import Erdos64EG.P13SameWindowDyadicTerminal
+import Erdos64EG.P13SameWindowBaseScaleSplit
+import Erdos64EG.P13SameWindowShortThirdIncidence
+import Erdos64EG.P13SameWindowNonRootChordResolution
+import Erdos64EG.P13SameWindowOutsideBoundaryStar
+import Erdos64EG.P13SameWindowNormalizedReturnBoundary
+import Erdos64EG.P13SameWindowNormalizedReturnPackedSupportTransition
+import Erdos64EG.P13SameWindowComponentBoundarySchedule
+import Erdos64EG.P13SameWindowComponentD1D3Observation
+import Erdos64EG.P13SameWindowComponentD1D3Ledger
+import Erdos64EG.P13SameWindowComponentD4D7OrCoarseRepeat
+import Erdos64EG.P13SameWindowComponentD4D7SemanticReadiness
+import Erdos64EG.P13SameWindowComponentD4D7ClauseSchedule
+import Erdos64EG.P13SameWindowComponentD4D7ClauseCursor
+import Erdos64EG.P13SameWindowComponentD4LocalClauseRequest
+import Erdos64EG.P13SameWindowComponentD4EvaluatorResidual
+import Erdos64EG.P13SameWindowComponentD4EvaluatorConstructionResidual
+import Erdos64EG.P13SameWindowPackedOwnerChange
+import Erdos64EG.P13SameWindowCrossWindowTokenPair
+import Erdos64EG.P13SameWindowLongSupportPrefix
+import Erdos64EG.P13SameWindowLongPrefixStateLabels
+import Erdos64EG.P13SameWindowLongPrefixDegreeRefinement
+import Erdos64EG.P13SameWindowLongPrefixLocalClauseAlignment
+import Erdos64EG.P13SameWindowLongPrefixExtendedClauseAlignment
+import Erdos64EG.P13SameWindowLongPrefixThirdBlockClauseAlignment
+import Erdos64EG.P13SameWindowLongPrefixFourthBlockClauseAlignment
+import Erdos64EG.P13SameWindowLongPrefixCompatibleResponseFrontier
 import Erdos64EG.CT14P13PositiveDeficiency
 import Erdos64EG.CT15RemainderCurvature
+import Erdos64EG.P13DensityConnectedRankPrefix
+import Erdos64EG.P13LargeBudgetNetDeficiency
+import Erdos64EG.P13ClosureRobustPartIV
+import Erdos64EG.P13PartIWindowDensityTriage
 import Erdos64EG.CT6SparseSurplus
 import Erdos64EG.TypeBEntryRouting
 import Erdos64EG.CT9SurplusPairs
@@ -51,6 +89,7 @@ import Erdos64EG.CT14TypeBUnconditionalDeficit
 import Erdos64EG.CT14TypeBPostLedger
 import Erdos64EG.CT12DegreeFourB2Routing
 import Erdos64EG.CT14TypeBResidualCenterLedger
+import Erdos64EG.CT14TypeBLocalFanMass
 import Erdos64EG.CT12SparseEnvelope
 import Erdos64EG.SparsePressureEnvelopeRoute
 import Erdos64EG.CT6SurplusPortActivation
@@ -60,6 +99,14 @@ import Erdos64EG.CT9AllPairAnchorLedger
 import Erdos64EG.CT9CapacityTokenLedger
 import Erdos64EG.CT9CoupledClassOverload
 import Erdos64EG.CT9HomogeneousPattern
+import Erdos64EG.CT10GeometricBottleneckClassification
+import Erdos64EG.CT10SemanticBottleneckClassification
+import Erdos64EG.SemanticBottleneckLocalConsumer
+import Erdos64EG.SemanticBottleneckSwitchNormalization
+import Erdos64EG.SemanticBottleneckLocalProjection
+import Erdos64EG.SemanticBottleneckStrongFrontier
+import Erdos64EG.SemanticBottleneckFirstClause
+import Erdos64EG.SemanticBottleneckPairwiseClause
 
 /-!
 Structural-exhaustion implementation of the current Erdős Problem 64 proof
@@ -184,6 +231,17 @@ The next graph-owned CT9 consumer covers nodes `[140]`, `[142]`, and `[143]`:
 it projects the actual overloaded fibre and runs a deterministic greedy
 maximal-matching scan.  The sharp `(L-1)(2L-3)` bound produces a matching or
 star of the class threshold without enumerating either pattern family.
+Node `[144]` then consumes that exact overloaded homogeneous audit and runs
+the fixed 49-item/48-code classifier.  It retains the first actual equal-code
+pair, literal attachment maps, two canonical rooted germs, and an exact typed
+handoff to the separate semantic bottleneck frontier.  It does not rerun the
+capacity decision or assert the still-open sparse-exit/Type B conclusion.
+The repaired node `[84]` now consumes the exact node-`[75]`/`[81]`--`[83]`
+local scope.  Its CT14 scan charges any literal selected high-center set to
+the same scope's assigned surplus and retains the nonnegative, route-8, and
+minimal-overlap branches exactly.  The unsupported global grouped-family
+coefficient is a separate downstream frontier rather than an assumption of
+this local node.
 At the other green boundaries, a core squared-scale decision implements node
 `[19]`, the graph charge profile implements node `[28]` on the exact packed
 remainder, and the degree-four Type B chain implements nodes `[80]`--`[83]`

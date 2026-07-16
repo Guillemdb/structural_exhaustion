@@ -82,6 +82,21 @@ theorem windowIndex_card_eq_packingNumber (object : FiniteObject V) :
   change (windows object).toFinset.card = (windows object).length
   rw [List.toFinset_card_of_nodup (windows_nodup object)]
 
+/-- Every declared position of a selected window belongs to the exact packed
+covered set. -/
+theorem selectedWindow_mem_covered (object : FiniteObject V)
+    (windowIndex : WindowIndex object) (position : Fin 13) :
+    selectedWindow object windowIndex position ∈
+      InducedPathPacking.coveredVertices object 13 positive_thirteen := by
+  rw [InducedPathPacking.mem_coveredVertices_iff]
+  refine ⟨selectedWindow object windowIndex, ?_, ?_⟩
+  · let profile := InducedPathPacking.profile object 13 positive_thirteen
+    apply (profile.mem_values_iff (selectedWindow object windowIndex)).2
+    rw [← selectedWindows_eq_maximum object]
+    exact windowIndex.2
+  · exact (InducedPathPacking.mem_support_iff object 13
+      (selectedWindow object windowIndex) _).2 ⟨position, rfl⟩
+
 /-- Degree in the fixed thirteen-vertex source path. -/
 def pathDegree (position : Fin 13) : Nat :=
   if position.val = 0 ∨ position.val = 12 then 1 else 2
@@ -126,6 +141,33 @@ abbrev Token (object : FiniteObject V) :=
     Sigma fun position : Fin 13 =>
       {neighbor : V // neighbor ∈
         externalNeighbors object windowIndex position}
+
+/-- An external-incidence token never returns to the support of its own
+selected induced path.  This is a property of the induced embedding, not of
+the later cold-window classification. -/
+theorem token_neighbor_not_mem_own_support (object : FiniteObject V)
+    (token : Token object) :
+    token.2.2.1 ∉ InducedPathPacking.support object 13
+      (selectedWindow object token.1) := by
+  letI : FinEnum V := object.input.vertices
+  letI : DecidableEq V := object.input.vertices.decEq
+  letI : DecidableRel object.graph.Adj := object.input.decideAdj
+  intro member
+  rw [InducedPathPacking.mem_support_iff] at member
+  rcases member with ⟨other, equal⟩
+  have adjacent : object.graph.Adj
+      (selectedWindow object token.1 token.2.1) token.2.2.1 := by
+    have ambient := (Finset.mem_sdiff.mp token.2.2.2).1
+    simpa [ambientNeighbors, SimpleGraph.mem_neighborFinset] using ambient
+  have sourceAdjacent : (SimpleGraph.pathGraph 13).Adj token.2.1 other := by
+    apply (selectedWindow object token.1).map_adj_iff.mp
+    simpa [equal] using adjacent
+  have internal : token.2.2.1 ∈ internalNeighbors object token.1 token.2.1 := by
+    unfold internalNeighbors
+    rw [Finset.mem_image]
+    refine ⟨other, ?_, equal⟩
+    simp [sourceAdjacent]
+  exact (Finset.mem_sdiff.mp token.2.2.2).2 internal
 
 /-- Exact finite token enumeration. -/
 @[reducible] noncomputable def tokens (object : FiniteObject V) :

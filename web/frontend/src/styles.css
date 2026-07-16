@@ -1638,6 +1638,11 @@ summary:focus-visible {
   background: #397a50;
 }
 
+.proof-flow-legend .proof-flow-legend__closed {
+  border-color: #176b43;
+  background: #176b43;
+}
+
 .proof-flow-legend .proof-flow-legend__partial {
   border-color: #c79e16;
   background: #e2bd3f;
@@ -1760,6 +1765,12 @@ summary:focus-visible {
   border-color: #397a50;
   color: #fff;
   background: #397a50;
+}
+
+.proof-flow-node-chip--closed {
+  border-color: #176b43;
+  color: #fff;
+  background: #176b43;
 }
 
 .proof-flow-node-chip--partial {
@@ -1891,6 +1902,11 @@ summary:focus-visible {
 .proof-flow-status--implemented {
   color: #fff;
   background: #397a50;
+}
+
+.proof-flow-status--closed {
+  color: #fff;
+  background: #176b43;
 }
 
 .proof-flow-status--partial {

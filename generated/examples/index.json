@@ -55,7 +55,7 @@
         }
       ],
       "detailFile": "erdos-64.json",
-      "detailHash": "32b9074d39020c30b8d5b89be6a890344e664bbe82a7eb0a8da1d88d997c714e"
+      "detailHash": "2fb5383844945ef9acad5369bd692e797d1242c0d5f89d816d4a29dce559eca1"
     },
     {
       "exampleId": "even-cycle",
@@ -110,7 +110,7 @@
         }
       ],
       "detailFile": "even-cycle.json",
-      "detailHash": "14cb10b1ad35c8b7fb89f30d3e1724f13c1a48b3eba708721c65139769d76df6"
+      "detailHash": "f83cb6d767b5fe0573a6b395c158410caebfece26ce6f1ca76cd4b8ed2dfeb69"
     },
     {
       "exampleId": "greedy-coloring",

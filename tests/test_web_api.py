@@ -33,7 +33,7 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         "terminals": 55,
         "residualKinds": 37,
         "routes": 9,
-        "implementedTransitions": 34,
+        "implementedTransitions": 33,
         "manualObligations": 0,
     }
     assert [item["tacticId"] for item in response["tactics"]] == [
@@ -77,6 +77,8 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         ("erdos-64", "CT3", "CT1", "frameworkComposition"),
         ("erdos-64", "CT1", "CT12", "registeredRoute"),
         ("erdos-64", "CT12", "CT10", "frameworkComposition"),
+        ("erdos-64", "CT15", "CT3", "frameworkComposition"),
+        ("erdos-64", "CT3", "CT15", "frameworkComposition"),
         ("erdos-64", "CT10", "CT6", "frameworkComposition"),
         ("erdos-64", "CT6", "CT9", "registeredRoute"),
         ("erdos-64", "CT9", "CT1", "sharedProblem"),
@@ -87,6 +89,9 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         ("erdos-64", "CT5", "CT7", "sharedProblem"),
         ("erdos-64", "CT7", "CT10", "sharedProblem"),
         ("erdos-64", "CT10", "CT5", "sharedProblem"),
+        ("erdos-64", "CT10", "CT14", "frameworkComposition"),
+        ("erdos-64", "CT14", "CT12", "frameworkComposition"),
+        ("erdos-64", "CT12", "CT14", "frameworkComposition"),
         ("erdos-64", "CT5", "CT2", "sharedProblem"),
         ("erdos-64", "CT2", "CT1", "frameworkComposition"),
         ("erdos-64", "CT1", "CT10", "frameworkComposition"),
@@ -97,6 +102,7 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         ("erdos-64", "CT1", "CT9", "frameworkComposition"),
         ("erdos-64", "CT9", "CT14", "frameworkComposition"),
         ("erdos-64", "CT12", "CT15", "frameworkComposition"),
+        ("erdos-64", "CT15", "CT9", "frameworkComposition"),
         ("even-cycle", "CT6", "CT9", "registeredRoute"),
         ("greedy-coloring", "CT12", "CT4", "scheduleAudit"),
     ]
@@ -296,7 +302,7 @@ def test_api_and_spa_are_served_from_one_application(tmp_path: Path) -> None:
             framework = await get("/api/v1/framework")
             assert framework.status_code == 200
             assert framework.json()["totals"]["routes"] == 9
-            assert framework.json()["totals"]["implementedTransitions"] == 34
+            assert framework.json()["totals"]["implementedTransitions"] == 33
             assert any(
                 transition["sourceTacticId"] == "CT10"
                 and transition["targetTacticId"] == "CT6"
@@ -333,6 +339,8 @@ def test_api_and_spa_are_served_from_one_application(tmp_path: Path) -> None:
             assert erdos.status_code == 200
             assert erdos.json()["example"]["schemaVersion"] == "1.4.0"
             assert erdos.json()["example"]["manuscript"]["fragments"]
+            assert erdos.json()["example"]["manuscript"]["coverage"]["verifiedDiagramNodes"] == 113
+            assert erdos.json()["example"]["manuscript"]["coverage"]["totalDiagramNodes"] == 194
 
             missing_example = await get("/api/v1/examples/not-an-example")
             assert missing_example.status_code == 404

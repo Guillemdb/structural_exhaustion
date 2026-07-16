@@ -135,7 +135,8 @@ private theorem edgeFinset_card_eq_ncard {V : Type u} [Fintype V]
   rw [SimpleGraph.edgeFinset_card, ← Nat.card_eq_fintype_card]
   rfl
 
-private def pieceEmbedding (piece : Piece T) (outside : Context T) :
+/-- Include a piece vertex into the common vertex type of a literal gluing. -/
+def pieceEmbedding (piece : Piece T) (outside : Context T) :
     (T ⊕ piece.Internal) ↪ (T ⊕ (piece.Internal ⊕ outside.Internal)) where
   toFun
     | .inl boundary => .inl boundary
@@ -144,7 +145,8 @@ private def pieceEmbedding (piece : Piece T) (outside : Context T) :
     intro left right equality
     cases left <;> cases right <;> simp_all
 
-private def contextEmbedding (piece : Piece T) (outside : Context T) :
+/-- Include a context vertex into the common vertex type of a literal gluing. -/
+def contextEmbedding (piece : Piece T) (outside : Context T) :
     (T ⊕ outside.Internal) ↪ (T ⊕ (piece.Internal ⊕ outside.Internal)) where
   toFun
     | .inl boundary => .inl boundary
@@ -159,6 +161,83 @@ def glueGraph (piece : Piece T) (outside : Context T) :
     SimpleGraph (T ⊕ (piece.Internal ⊕ outside.Internal)) :=
   piece.graph.map (pieceEmbedding piece outside) ⊔
     outside.graph.map (contextEmbedding piece outside)
+
+/-- Adjacency in a literal gluing is exactly adjacency contributed by the
+piece or by the normalized outside context.  The witnesses expose the public
+vertex embeddings, so reconstruction proofs need not unfold the gluing
+implementation. -/
+theorem glueGraph_adj_iff (piece : Piece T) (outside : Context T)
+    (left right : T ⊕ (piece.Internal ⊕ outside.Internal)) :
+    (glueGraph piece outside).Adj left right ↔
+      (∃ pieceLeft pieceRight,
+        piece.graph.Adj pieceLeft pieceRight ∧
+          pieceEmbedding piece outside pieceLeft = left ∧
+          pieceEmbedding piece outside pieceRight = right) ∨
+      (∃ contextLeft contextRight,
+        outside.graph.Adj contextLeft contextRight ∧
+          contextEmbedding piece outside contextLeft = left ∧
+          contextEmbedding piece outside contextRight = right) := by
+  rw [glueGraph]
+  constructor
+  · rintro (pieceAdjacent | contextAdjacent)
+    · exact Or.inl ((SimpleGraph.map_adj (pieceEmbedding piece outside)
+        piece.graph left right).1 pieceAdjacent)
+    · exact Or.inr ((SimpleGraph.map_adj (contextEmbedding piece outside)
+        outside.graph left right).1 contextAdjacent)
+  · rintro (pieceAdjacent | contextAdjacent)
+    · exact Or.inl ((SimpleGraph.map_adj (pieceEmbedding piece outside)
+        piece.graph left right).2 pieceAdjacent)
+    · exact Or.inr ((SimpleGraph.map_adj (contextEmbedding piece outside)
+        outside.graph left right).2 contextAdjacent)
+
+/-- Build a reconstruction isomorphism once a vertex equivalence has been
+checked against the public adjacency contract of `glueGraph`. -/
+def glueGraphIsoOfEquiv {V : Type u} (piece : Piece T) (outside : Context T)
+    (ambient : SimpleGraph V)
+    (vertexEquiv : (T ⊕ (piece.Internal ⊕ outside.Internal)) ≃ V)
+    (mapAdj : ∀ left right,
+      (glueGraph piece outside).Adj left right ↔
+        ambient.Adj (vertexEquiv left) (vertexEquiv right)) :
+    glueGraph piece outside ≃g ambient where
+  toEquiv := vertexEquiv
+  map_rel_iff' := by
+    intro left right
+    exact (mapAdj left right).symm
+
+/-- Reconstruct an ambient graph from a vertex partition and exact edge
+ownership.  `pieceSound` and `contextSound` say that locally owned edges are
+ambient edges; `ambientOwned` says that every ambient edge belongs to one of
+those two finite sides. -/
+def glueGraphIsoOfOwnedPartition {V : Type u} (piece : Piece T)
+    (outside : Context T) (ambient : SimpleGraph V)
+    (vertexEquiv : (T ⊕ (piece.Internal ⊕ outside.Internal)) ≃ V)
+    (pieceSound : ∀ left right, piece.graph.Adj left right →
+      ambient.Adj
+        (vertexEquiv (pieceEmbedding piece outside left))
+        (vertexEquiv (pieceEmbedding piece outside right)))
+    (contextSound : ∀ left right, outside.graph.Adj left right →
+      ambient.Adj
+        (vertexEquiv (contextEmbedding piece outside left))
+        (vertexEquiv (contextEmbedding piece outside right)))
+    (ambientOwned : ∀ left right,
+      ambient.Adj (vertexEquiv left) (vertexEquiv right) →
+        (∃ pieceLeft pieceRight,
+          piece.graph.Adj pieceLeft pieceRight ∧
+            pieceEmbedding piece outside pieceLeft = left ∧
+            pieceEmbedding piece outside pieceRight = right) ∨
+        (∃ contextLeft contextRight,
+          outside.graph.Adj contextLeft contextRight ∧
+            contextEmbedding piece outside contextLeft = left ∧
+            contextEmbedding piece outside contextRight = right)) :
+    glueGraph piece outside ≃g ambient :=
+  glueGraphIsoOfEquiv piece outside ambient vertexEquiv fun left right => by
+    rw [glueGraph_adj_iff]
+    constructor
+    · rintro (⟨pieceLeft, pieceRight, adjacent, rfl, rfl⟩ |
+          ⟨contextLeft, contextRight, adjacent, rfl, rfl⟩)
+      · exact pieceSound pieceLeft pieceRight adjacent
+      · exact contextSound contextLeft contextRight adjacent
+    · exact ambientOwned left right
 
 /-- The glued graph with its deterministic finite input. -/
 noncomputable def glue (piece : Piece T) (outside : Context T) : PackedFiniteObject where
@@ -550,6 +629,94 @@ theorem glue_preserves_minDegree [Nonempty T] (threshold : Nat)
           rw [glue_degree_contextInternal boundaries replacement outside]
           exact sourceDegree
 
+/-- For preservation of a minimum-degree threshold, exact local boundary
+degrees carry more information than necessary.  Degrees below the threshold
+must agree exactly; degrees at or above it may all share one capped value. -/
+theorem glue_preserves_minDegree_of_cappedBoundaryDegree [Nonempty T]
+    (threshold : Nat) (source replacement : Piece T) (outside : Context T)
+    (cappedBoundaryDegreeEq : ∀ boundary,
+      min (replacement.boundaryDegree boundaries boundary) threshold =
+        min (source.boundaryDegree boundaries boundary) threshold)
+    (replacementInternal : replacement.InternalBaseline boundaries threshold)
+    (sourceBaseline : threshold ≤
+      (letI : FinEnum T := boundaries
+       letI : FinEnum source.Internal := source.internalVertices
+       letI : FinEnum outside.Internal := outside.internalVertices
+       letI : FinEnum (T ⊕ (source.Internal ⊕ outside.Internal)) := inferInstance
+       letI : Fintype (T ⊕ (source.Internal ⊕ outside.Internal)) :=
+         @FinEnum.instFintype _ inferInstance
+       letI : DecidableRel (glueGraph source outside).Adj := Classical.decRel _
+       (glueGraph source outside).minDegree)) :
+    threshold ≤
+      (letI : FinEnum T := boundaries
+       letI : FinEnum replacement.Internal := replacement.internalVertices
+       letI : FinEnum outside.Internal := outside.internalVertices
+       letI : FinEnum (T ⊕ (replacement.Internal ⊕ outside.Internal)) :=
+         inferInstance
+       letI : Fintype (T ⊕ (replacement.Internal ⊕ outside.Internal)) :=
+         @FinEnum.instFintype _ inferInstance
+       letI : DecidableRel (glueGraph replacement outside).Adj := Classical.decRel _
+       (glueGraph replacement outside).minDegree) := by
+  letI : FinEnum T := boundaries
+  letI : FinEnum source.Internal := source.internalVertices
+  letI : FinEnum replacement.Internal := replacement.internalVertices
+  letI : FinEnum outside.Internal := outside.internalVertices
+  letI : FinEnum (T ⊕ (source.Internal ⊕ outside.Internal)) := inferInstance
+  letI : FinEnum (T ⊕ (replacement.Internal ⊕ outside.Internal)) := inferInstance
+  letI : Fintype (T ⊕ (source.Internal ⊕ outside.Internal)) :=
+    @FinEnum.instFintype _ inferInstance
+  letI : Fintype (T ⊕ (replacement.Internal ⊕ outside.Internal)) :=
+    @FinEnum.instFintype _ inferInstance
+  letI : DecidableRel source.graph.Adj := source.decideAdj
+  letI : DecidableRel replacement.graph.Adj := replacement.decideAdj
+  letI : DecidableRel outside.graph.Adj := outside.decideAdj
+  letI : DecidableRel (glueGraph source outside).Adj := Classical.decRel _
+  letI : DecidableRel (glueGraph replacement outside).Adj := Classical.decRel _
+  apply (glueGraph replacement outside).le_minDegree_of_forall_le_degree threshold
+  intro vertex
+  cases vertex with
+  | inl boundary =>
+      have sourceDegree := sourceBaseline.trans
+        ((glueGraph source outside).minDegree_le_degree (.inl boundary))
+      rw [glue_degree_boundary boundaries source outside boundary] at sourceDegree
+      rw [glue_degree_boundary boundaries replacement outside boundary]
+      let replacementLocal := replacement.graph.degree (.inl boundary)
+      let sourceLocal := source.graph.degree (.inl boundary)
+      let outsideLocal := outside.graph.degree (.inl boundary)
+      have capped : min replacementLocal threshold = min sourceLocal threshold := by
+        simpa [replacementLocal, sourceLocal, Piece.boundaryDegree] using
+          cappedBoundaryDegreeEq boundary
+      change threshold ≤ sourceLocal + outsideLocal at sourceDegree
+      change threshold ≤ replacementLocal + outsideLocal
+      by_cases sourceHigh : threshold ≤ sourceLocal
+      · by_cases replacementHigh : threshold ≤ replacementLocal
+        · omega
+        · have replacementLow : replacementLocal ≤ threshold := by omega
+          rw [Nat.min_eq_left replacementLow,
+            Nat.min_eq_right sourceHigh] at capped
+          omega
+      · have sourceLow : sourceLocal ≤ threshold := by omega
+        by_cases replacementHigh : threshold ≤ replacementLocal
+        · rw [Nat.min_eq_right replacementHigh,
+            Nat.min_eq_left sourceLow] at capped
+          omega
+        · have replacementLow : replacementLocal ≤ threshold := by omega
+          rw [Nat.min_eq_left replacementLow,
+            Nat.min_eq_left sourceLow] at capped
+          omega
+  | inr internal =>
+      cases internal with
+      | inl replacementInternalVertex =>
+          rw [glue_degree_pieceInternal boundaries replacement outside]
+          exact replacementInternal replacementInternalVertex
+      | inr outsideInternalVertex =>
+          have sourceDegree := sourceBaseline.trans
+            ((glueGraph source outside).minDegree_le_degree
+              (.inr (.inr outsideInternalVertex)))
+          rw [glue_degree_contextInternal boundaries source outside] at sourceDegree
+          rw [glue_degree_contextInternal boundaries replacement outside]
+          exact sourceDegree
+
 /-! ## Transport across a concrete reconstruction isomorphism -/
 
 private theorem iso_degree_eq {V W : Type u} [Fintype V] [Fintype W]
@@ -658,9 +825,59 @@ theorem glue_preserves_problemBaseline (source replacement : Piece T)
   simpa only [PackedMinimumDegreeCycle.StaticInput.problem, glue,
     FiniteObject.minDegree] using replacementBaseline
 
+/-- Problem-baseline wrapper for the capped local-degree theorem. -/
+theorem glue_preserves_problemBaseline_of_cappedBoundaryDegree
+    (source replacement : Piece T) (outside : Context T)
+    (profileEq : ∀ boundary,
+      min (replacement.boundaryDegree boundaries boundary) input.minimumDegree =
+        min (source.boundaryDegree boundaries boundary) input.minimumDegree)
+    (internal : replacement.InternalBaseline boundaries input.minimumDegree)
+    (sourceBaseline : input.problem.Baseline
+      (glue boundaries source outside)) :
+    input.problem.Baseline (glue boundaries replacement outside) := by
+  have sourceBaseline' : input.minimumDegree ≤
+      (letI : FinEnum T := boundaries
+       letI : FinEnum source.Internal := source.internalVertices
+       letI : FinEnum outside.Internal := outside.internalVertices
+       letI : FinEnum (T ⊕ (source.Internal ⊕ outside.Internal)) := inferInstance
+       letI : Fintype (T ⊕ (source.Internal ⊕ outside.Internal)) :=
+         @FinEnum.instFintype _ inferInstance
+       letI : DecidableRel (glueGraph source outside).Adj := Classical.decRel _
+       (glueGraph source outside).minDegree) := by
+    simpa only [PackedMinimumDegreeCycle.StaticInput.problem, glue,
+      FiniteObject.minDegree] using sourceBaseline
+  have replacementBaseline :=
+    glue_preserves_minDegree_of_cappedBoundaryDegree boundaries
+      input.minimumDegree source replacement outside profileEq internal
+      sourceBaseline'
+  simpa only [PackedMinimumDegreeCycle.StaticInput.problem, glue,
+    FiniteObject.minDegree] using replacementBaseline
+
 /-- Boundary-degree profile used by the literal replacement theorem. -/
 def BoundaryDegreeProfile (piece : Piece T) : T → Nat :=
   piece.boundaryDegree boundaries
+
+/-- Fixed-range boundary profile sufficient for preservation of a specified
+minimum-degree threshold.  At threshold three, every coordinate has exactly
+four possible values: `0`, `1`, `2`, and `≥ 3`. -/
+def CappedBoundaryDegreeProfile (threshold : Nat) (piece : Piece T) :
+    T → Fin (threshold + 1) := fun boundary =>
+  ⟨min (piece.boundaryDegree boundaries boundary) threshold, by omega⟩
+
+omit [Nonempty T] in
+theorem cappedBoundaryDegreeProfile_eq_iff (threshold : Nat)
+    (left right : Piece T) :
+    CappedBoundaryDegreeProfile boundaries threshold left =
+        CappedBoundaryDegreeProfile boundaries threshold right ↔
+      ∀ boundary,
+        min (left.boundaryDegree boundaries boundary) threshold =
+          min (right.boundaryDegree boundaries boundary) threshold := by
+  constructor
+  · intro equal boundary
+    exact congrArg (fun profile => (profile boundary).1) equal
+  · intro equal
+    funext boundary
+    exact Fin.ext (equal boundary)
 
 /-- Universal equality of target response against every literal outside
 context. -/

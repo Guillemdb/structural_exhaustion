@@ -24,7 +24,11 @@ function partForNode(nodeId: number | null) {
     part.nodes.some((node) => node.nodeId === nodeId)) ?? ERDOS_PROOF_FLOW_PARTS[0];
 }
 
-function statusLabel(status: "implemented" | "partial" | "next" | "notStarted") {
+function statusLabel(
+  status: "implemented" | "partial" | "next" | "notStarted",
+  unconditionallyClosed = false,
+) {
+  if (unconditionallyClosed) return "Unconditionally closed in Lean";
   if (status === "implemented") return "Formalized in Lean";
   if (status === "partial") return "Partially formalized in Lean";
   if (status === "next") return "Current formalization frontier";
@@ -61,6 +65,15 @@ export function ErdosProofFlowDiagram({
   const activeStatus = activeNode
     ? statuses.get(activeNode.nodeId) ?? "notStarted"
     : null;
+  const activePartForNode = activeNode ? partForNode(activeNode.nodeId) : null;
+  const activeUnconditionallyClosed = Boolean(
+    activeNode
+      && activeStatus === "implemented"
+      && activeNode.kind === "terminal"
+      && !activePartForNode?.continuations.some(
+        (continuation) => continuation.source === activeNode.nodeId,
+      ),
+  );
   const activeSteps = activeNode
     ? (nodeSteps.get(activeNode.nodeId) ?? [])
       .map((stepId) => manuscript.proofSteps.find((step) => step.stepId === stepId))
@@ -78,12 +91,13 @@ export function ErdosProofFlowDiagram({
       <div className="proof-flow__intro">
         <div>
           <span className="eyebrow">All eleven Chapter 1 diagrams</span>
-          <strong>157-node proof dependency map</strong>
+          <strong>{ERDOS_PROOF_FLOW_NODES.length}-node proof dependency map</strong>
         </div>
         <p>
           Every numbered cell below is a paper node. Green means that the complete
-          displayed assertion is formalized in Lean, yellow marks partial Lean
-          coverage, amber marks the declared next frontier, and white is paper-only.
+          displayed assertion is formalized in Lean; darker green marks a verified
+          terminal leaf that closes its branch unconditionally. Yellow marks partial
+          Lean coverage, amber marks the declared next frontier, and white is paper-only.
         </p>
       </div>
 
@@ -109,12 +123,17 @@ export function ErdosProofFlowDiagram({
               <div className="proof-flow-part-card__nodes">
                 {part.nodes.map((node) => {
                   const status = statuses.get(node.nodeId) ?? "notStarted";
+                  const unconditionallyClosed = status === "implemented"
+                    && node.kind === "terminal"
+                    && !part.continuations.some(
+                      (continuation) => continuation.source === node.nodeId,
+                    );
                   return (
                     <button
                       type="button"
-                      className={`proof-flow-node-chip proof-flow-node-chip--${status} ${activeNodeId === node.nodeId ? "is-active" : ""}`}
-                      aria-label={`Node ${node.nodeId}: ${node.label}. ${statusLabel(status)}`}
-                      title={`[${node.nodeId}] ${node.label} — ${statusLabel(status)}`}
+                      className={`proof-flow-node-chip proof-flow-node-chip--${status} ${unconditionallyClosed ? "proof-flow-node-chip--closed" : ""} ${activeNodeId === node.nodeId ? "is-active" : ""}`}
+                      aria-label={`Node ${node.nodeId}: ${node.label}. ${statusLabel(status, unconditionallyClosed)}`}
+                      title={`[${node.nodeId}] ${node.label} — ${statusLabel(status, unconditionallyClosed)}`}
                       onClick={() => onNodeSelect(node.nodeId)}
                       key={node.nodeId}
                     >
@@ -163,8 +182,8 @@ export function ErdosProofFlowDiagram({
         {activeNode && activeStatus ? (
           <>
             <div>
-              <span className={`proof-flow-status proof-flow-status--${activeStatus}`}>
-                {statusLabel(activeStatus)}
+              <span className={`proof-flow-status proof-flow-status--${activeUnconditionallyClosed ? "closed" : activeStatus}`}>
+                {statusLabel(activeStatus, activeUnconditionallyClosed)}
               </span>
               <strong>[{activeNode.nodeId}] {activeNode.label}</strong>
             </div>

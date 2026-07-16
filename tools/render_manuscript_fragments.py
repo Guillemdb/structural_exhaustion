@@ -393,6 +393,10 @@ def _inline_converter(
                 raise ManuscriptRenderError("pandoc math node is malformed")
             if math_kind.get("t") not in {"InlineMath", "DisplayMath"}:
                 raise ManuscriptRenderError("pandoc returned an unknown math mode")
+            # Pandoc can retain an equation's structural label in the emitted
+            # math payload.  The fragment index already records that label;
+            # KaTeX should receive only the mathematical expression.
+            tex = LABEL_PATTERN.sub("", tex).strip()
             return [{
                 "kind": "math",
                 "display": math_kind["t"] == "DisplayMath",
