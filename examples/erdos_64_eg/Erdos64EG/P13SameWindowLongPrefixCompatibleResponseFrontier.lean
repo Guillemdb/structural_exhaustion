@@ -1,5 +1,6 @@
 import Erdos64EG.P13SameWindowLongPrefixFourthBlockClauseAlignment
 import StructuralExhaustion.Graph.LongPrefixCompatibleResponseFrontier
+import StructuralExhaustion.Graph.LongPrefixCT8Response
 
 namespace Erdos64EG.Internal
 
@@ -11,12 +12,12 @@ universe u
 /-!
 # Node [195]: honest compatible-response frontier
 
-Node 195 consumes node 192 exactly.  It preserves all four local-mismatch
-leaves and the first-thirty-six-aligned leaf, but does not reinterpret a local
-adjacency mismatch as a distinguishing response context or agreement on the
-fixed schedule as compatible-response equivalence.  The missing graph-owned
-semantic and CT8 inputs are exposed as a terminal residual interface at the
-manuscript boundary.
+Node 195 consumes node 192 exactly and preserves all four local-mismatch
+leaves and the first-thirty-six-aligned leaf.  Its immediate local consumer
+turns each mismatch into a distinguishing adjacency response on the same
+fixed schedule.  Agreement on that schedule is not reinterpreted as complete
+D4--D7 response equivalence: the aligned branch retains the missing semantic
+and certified-reduction inputs at the manuscript boundary.
 -/
 
 variable {ctx : Core.MinimalCounterexampleContext
@@ -108,6 +109,47 @@ noncomputable def runP13SameWindowLongPrefixCompatibleResponseFrontier
   responseContexts :=
     P13SameWindowLongPrefixCompatibleResponseFrontierSource.retained_ct10_responseContexts
       source195
+
+/-- First genuine semantic consumer after node [195].  Each of the four
+fixed-block mismatch leaves becomes an actual distinguishing adjacency
+response on the same corridor.  The aligned leaf retains its four proofs and
+stops at the exact D4--D7-semantics and certified-reduction requirements. -/
+noncomputable def resolveP13SameWindowLongPrefixCompatibleResponseFrontier
+    (source195 : P13SameWindowLongPrefixCompatibleResponseFrontierSource
+      (source192 := source192)) :
+    LongPrefixCT8Response.Resolution source195.graphSource :=
+  LongPrefixCT8Response.resolve source195.graphSource
+    (runP13SameWindowLongPrefixCompatibleResponseFrontier source195).frontier
+
+theorem resolveP13SameWindowLongPrefixCompatibleResponseFrontier_exhaustive
+    (source195 : P13SameWindowLongPrefixCompatibleResponseFrontierSource
+      (source192 := source192)) :
+    (∃ separator,
+      resolveP13SameWindowLongPrefixCompatibleResponseFrontier source195 =
+        .distinguishing separator) ∨
+    (∃ requirement,
+      resolveP13SameWindowLongPrefixCompatibleResponseFrontier source195 =
+        .aligned requirement) := by
+  cases equation :
+      resolveP13SameWindowLongPrefixCompatibleResponseFrontier source195 with
+  | distinguishing separator => exact Or.inl ⟨separator, rfl⟩
+  | aligned requirement => exact Or.inr ⟨requirement, rfl⟩
+
+/-- The post-node-[195] resolver inspects only the retained constructor.
+Mismatch response inequalities are proof transport from prior scans, and the
+aligned branch merely records requirements. -/
+def p13SameWindowLongPrefixResponseVisibleChecks : Nat :=
+  LongPrefixCompatibleResponseFrontier.visibleChecks
+
+theorem p13SameWindowLongPrefixResponseVisibleChecks_eq :
+    p13SameWindowLongPrefixResponseVisibleChecks = 1 := rfl
+
+theorem p13SameWindowLongPrefixResponseVisibleChecks_polynomial :
+    p13SameWindowLongPrefixResponseVisibleChecks ≤
+      ctx.G.object.input.vertices.card + 1 := by
+  unfold p13SameWindowLongPrefixResponseVisibleChecks
+    LongPrefixCompatibleResponseFrontier.visibleChecks
+  omega
 
 theorem runP13SameWindowLongPrefixCompatibleResponseFrontier_exhaustive
     (source195 : P13SameWindowLongPrefixCompatibleResponseFrontierSource

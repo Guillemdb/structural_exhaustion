@@ -245,10 +245,34 @@ a literal finite connected graph component. Nodes `[78]`--`[80]`
 compute the degree-four fan ledger and assigned-certificate split; nodes
 `[81]`--`[83]` retain an unresolved exact local entry, a full B2 choice with
 its post-ledger split, or a minimal overlap; and node `[75]` charges every
-ordinary residual center to its actual assigned surplus. Exactly 96 Chapter 1
-nodes are green. Nodes `[84]` and `[144]` now close their exact local finite
-classifiers. Node `[48]` is the ignored Boolean-realization/entropy frontier;
-node `[176]` is the global grouped fan-mass producer frontier. Green node
+ordinary residual center to its actual assigned surplus. Exactly 126 Chapter 1
+nodes are green. Nodes `[84]` and `[144]` close their exact local finite
+classifiers. Node `[48]` is the repaired finite curvature/product dichotomy:
+only its realized constructor enters entropy, while its open constructor
+retains the missing realization and a conditional large-budget consumer.
+Node `[49]` then defines the exact real normalized entropy of that supplied
+state family, its executable floor-log numerator, and a linear local work
+bound without enumerating any ambient graph family.
+Node `[50]` performs the paper's entropy threshold as the exact finite split
+`n^|R| ≤ N_R^10` or its strict reverse, retaining the same node-`[49]` proof
+on both constructors and making one arithmetic comparison.
+Node `[51]` consumes only that stored high constructor and proves the total-bit
+handoff `(|R|/10) log₂ n ≤ log₂ N_R`; the strict low constructor is preserved
+unchanged and no node-`[52]` joint accounting is assumed.
+Node `[52]` makes the missing same-context product responsibility explicit.
+Its realized constructor combines node `[24]`'s actual global completions with
+node `[48]`'s exact state schedule, proves recovery of both coordinates, and
+injects the supplied pairs into the literal baseline-skeleton code without
+scanning the product. Its open constructor retains the exact missing producers
+and reaches the large-budget route only after a separate same-context quarter
+budget is supplied; it proves no node-`[54]` closure.
+Node `[53]` consumes only node `[50]`'s stored strict-low constructor. The
+node-`[48]` telescoping ledger and nonempty terminal fibre give
+`A ≤ B*N_R`; symbolic tenth-power transport with `N_R^10 < U` proves
+`A^10 < B^10*U`. Thus the reverse small-budget edge is impossible, while the
+surviving edge still consumes rather than creates the node-`[55]` quarter
+budget. The arithmetic performs zero semantic checks and evaluates no power.
+Node `[176]` is the global grouped fan-mass producer frontier. Green node
 `[177]` is the exact finite attachment/germ-shape classifier, and node `[178]`
 is its semantic sparse-exit/CT3/Type-B/fixed-cap frontier.
 The manuscript distinguishes raw quotient proposals from admitted quotients.
@@ -369,11 +393,13 @@ the first ratio-failing fibre or a telescoping complete ledger without a
 caller-selected outcome. The concrete cold producer turns an actual cubic
 stub into a canonical deleted-edge return and returns a dyadic hit, a surplus
 handoff, or an ambient-finite structural germ. G2 has an exact
-context-preserving typed handoff. Nodes `[22]`--`[24]` remain open until the
-graph-owned dyadic state/response producer, terminal-fibre nonemptiness,
-cross-window commuting account, constant target-relative germ code (or a
-sound long-scale route), and a real target-defect consumer are proved.
-No numerical packing ceiling is accepted as an input.
+context-preserving typed handoff. Nodes `[22]`--`[24]` now implement their
+directed handoff responsibilities: the exact density dichotomy, its strict
+overflow payload, and its complementary finite-cap payload. The graph-owned
+completion/response producer, cross-window commuting account, constant
+target-relative germ code (or a sound long-scale route), and target-defect
+consumer remain explicit downstream requirements. No numerical packing
+ceiling is accepted as an external input.
 
 Node `[158]` is a separate green pointwise branch from node `[21]`: for one
 exact selected window it scans the actual outside-vertex-by-thirteen adjacency
@@ -385,8 +411,9 @@ dyadic root-cycle hit, a first corridor-high event, or a quiet
 `ColdStructuralGerm`. The dyadic constructor alone is routed to the existing
 one-check CT1 G1 consumer, making node `[155]` green on precisely that branch.
 The two surplus handoffs and the quiet germ remain open; the germ has only an
-ambient-size support bound. This does not discharge or alter white node `[160]`,
-the 91-coordinate realization edge `[21]`→`[22]`, and yields no density bound.
+ambient-size support bound. This does not discharge the three realization
+producers named by green handoff node `[160]`, the 91-coordinate requirement
+edge `[21]`→`[22]`, or any later entropy contradiction.
 
 On node `[159]`'s computed quiet constructor, green node `[161]` performs one
 support-length comparison at `Qbase = 4²·13²·2¹³`. This constant is exactly
@@ -456,8 +483,19 @@ implications pass through green node `[182]`'s fixed clause schedule and remain
 white at node `[185]`.
 This short first-transition branch is incompatible with the verified long
 `[163]`--`[164]` prefix branch, and no edge from `[173]`, `[174]`, or `[175]`
-enters `[164]` or its degree-refinement consumer `[179]`. Node `[160]` also
-remains white. Green node `[164]` inspects only the first nine literal
+enters `[164]` or its degree-refinement consumer `[179]`. Node `[160]` is green
+as an exact proof-level dichotomy: its positive output carries the complete
+graph-owned realization/gluing package, while its open output carries that
+package's exact absence and the named producers that remain to be built. Only
+the realized output enters node `[22]`.
+Green node `[48]` consumes the exact node-`[24]` coverage and node-`[47]`
+full-rank ledger. It proves the finite surplus-error curvature inequality and
+then returns a graph-semantic conditional-fibre realization or the exact open
+realization requirement. The realized branch injects its local states into
+the labelled baseline-skeleton family; the open branch has only a typed
+consumer for a separately proved quarter budget. Neither branch enumerates a
+graph family, context universe, subset family, or Boolean cube.
+Green node `[164]` inspects only the first nine literal
 node-`[163]` prefix occurrences, retains an actual collision in the eight
 degree-residue/packing-membership labels, and executes CT10 on those two
 occurrences. Its visible work is at most `144*(n+1)+9`; it proves no D4–D7
@@ -467,8 +505,8 @@ full degree rows and returns equality or a congruent nonzero gap; green node
 extends that scan to exactly the first eighteen coordinates while preserving
 the same CT10 obligation. Green node `[189]` extends only through literal
 positions 18--26, so the full response consumer remains white at `[192]`.
-The current diagram has exactly 116 green nodes among 194 active nodes and no
-yellow nodes. Green node `[177]` consumes
+The current diagram has exactly 126 green nodes among 194 active nodes and no
+yellow nodes; all 1308 displayed declarations are explained. Green node `[177]` consumes
 node `[144]`'s exact typed trigger and
 scans only its `78*p13` attachment coordinates. It returns the first mismatch
 or full alignment and one of four stored rooted-germ shapes, retaining an
@@ -500,23 +538,25 @@ are retained, and the surplus/dyadic/corridor-high/quiet subledgers partition
 exactly `p13` entries. This is not the still-open 91-coordinate completion
 system and supplies no entropy or density estimate.
 
-The exported typed workflow is also root-connected: all 96 implemented stages
-are reachable from `proof-slice.official`. The three explicit composition
+The exported typed workflow is also root-connected: all 98 implemented stages
+are reachable from `proof-slice.official`. The explicit composition
 links retain the exact node-`[21]` prefix for the whole-packing Part-XI route,
 the Type B residual-center ledger for node `[84]`, and the homogeneous-pattern
 audit for node `[144]`. A frontend regression test rejects any future orphaned
 implemented stage.
 
-The next non-Boolean producer layer is now explicit but does not change the
-green boundary. A dependent family runner executes the fixed 91-coordinate
+The next non-Boolean producer layer is now explicit. A dependent family runner executes the fixed 91-coordinate
 symbolic prefix schedule over the exact CT12 selected-window order and returns
 the first obstruction or complete per-window ledgers, with envelope
-`91*p13`; the graph completion and gluing semantics remain open at `[160]`.
+`91*p13`; node `[160]` packages the graph completion and gluing semantics in
+its realized constructor and routes exact nonexistence to named downstream
+requirements in its open constructor.
 Separately, the fixed-skeleton entry schedule computes for every selected
 window either its first strict-surplus position or its canonical
 ambient-cubic external stub, proving exact coverage, the cubic counts 15 and
 13, and quadratic local work. Fixed D4--D7 reconstruction, F2--F4 routing,
-and bounded-multiplicity aggregation are still required before node `[24]`.
+and bounded-multiplicity aggregation are still required after node `[24]` for
+the dependent Part-IV closure.
 
 The node-`[24]` Lean boundary now also requires the density statement itself:
 `118108581006 * U13 ≤ 1500000000 * n`, in addition to `p13 ≤ U13` and the
@@ -545,8 +585,9 @@ paper-prescribed cold-skeleton producer is structural: it carries a declared
 cyclic successor and a proof-carrying canonical component path, without an
 ambient attachment or context scan. Its exact remaining obligation is the
 graph-derived D4--D7 projection together with packed reconstruction and
-all-compatible-context response transport. Until that theorem is proved,
-nodes `[22]`--`[24]` and the dependent Part IV closure remain open.
+all-compatible-context response transport. Until that theorem is proved, the
+requirements carried by nodes `[160]`, `[23]`, and `[24]` and the dependent
+Part IV closure remain open; the nodes themselves are verified handoffs.
 
 From the repository root:
 

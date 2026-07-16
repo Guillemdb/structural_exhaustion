@@ -155,7 +155,7 @@ structure DeclaredLocalSemantics
     (data : TwoStubComponent object DeclaredSuccessor)
     {tieBreak : PathTieBreak data}
     (canonical : CanonicalComponentPath data tieBreak) where
-  LocalCoordinate : Type
+  LocalCoordinate : Type u
   coordinates : FinEnum LocalCoordinate
   localResponse : LocalCoordinate → Bool
 

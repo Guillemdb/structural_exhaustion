@@ -2023,3 +2023,694 @@ the exact node-`[65]` ordinary and node-`[108]` decorated entry schedules with
 dependent predecessor provenance before building grouped occurrences and the
 coefficient-208 CT14 bridge. Consequently nodes `[76]`, `[85]`, `[160]`, and
 `[176]` remain white.
+
+### 2026-07-16 Part-I fixed-skeleton branch-excess producer
+
+The paper's exact `15 - 2 = 13` step is now constructive rather than only
+arithmetic. `Graph.InducedPathColdBranchExcess` enumerates the fifteen literal
+external incidences of one ambient-cubic selected window, removes exactly its
+first two transit stubs, and proves that the remaining thirteen stubs are
+duplicate-free and owned by the same window. A graph-generic transfer example
+executes this producer independently of the Erdős application.
+
+`P13FixedSkeletonBranchExcessCorridors` filters the exact CT12 window order to
+ambient-cubic windows and constructs thirteen literal sources per window. Its
+deleted-edge-return F1/F4/F5 run is retained only as a provisional diagnostic:
+it returns to the original window, makes F2/F3 empty, and treats high degree as
+F4. It is not the paper's outside-component successor corridor and supplies no
+node-status evidence.
+
+`Graph.InducedPathBranchExcessComponentEntry` repairs the structural handoff.
+For each literal source it performs one endpoint-membership decision and
+returns either an exact `InducedPathComponentBoundarySchedule.Input` or a
+typed cross-window residual. `P13FixedSkeletonComponentEntries` maps that
+dichotomy over the complete thirteen-per-window schedule and proves a lossless
+component/cross-window partition and a linear decision bound. On the component
+branch it exposes the complete incident schedule, true cyclic successor,
+same-component proof, and computed shortest component path. A graph-generic
+non-Erdős transfer instantiates the same producer.
+
+`P13FixedSkeletonComponentD1D3` consumes that exact two-ledger result. On each
+component constructor it executes the graph-owned D1--D3 projection, retaining
+the source token, two boundary degrees, two window offsets, connector length,
+thirteen target-offset bits, and the typed missing-D4--D7 marker. Cross-window
+constructors pass unchanged. The complete projection ledger has a proved
+quadratic visible envelope and enumerates no response or context universe.
+
+`Graph.InducedPathComponentD4` then constructs the first missing declared
+clause as an actual finite family: one boundary-window role and one internal
+length-two wedge of the stored active support, evaluated by the exact
+`omegaTwo` relation on its three graph-derived attachment labels.
+`P13FixedSkeletonComponentD4` maps that construction over every observed
+component while retaining the exact D1--D3 source. The local scan has a proved
+`4*n^3` envelope including wedge classification and response evaluation, a
+non-Erdős transfer, and the standard Lean trust base.
+
+The next genuine paper obligation is graph-owned D5--D7 on these exact
+component observations and the complete initial-prefix
+F1/F2/F3/F4/F5 consumer. Bounded overlap and the node-24 density certificate
+are not invoked before that bound is proved. The exact outer
+`P13PartIWindowDensityTriage` also computes certificate, density-overflow, or
+quarter-obstruction leaves from node 21 without manufacturing either missing
+inequality. Nodes `[22]`--`[24]` remain non-green.
+
+The provisional deleted-edge-return verification ledger has the explicit
+bound `n^2`:
+each return support is a simple path of length at most `n`, while
+`13 * card(cubic windows) ≤ 13 * p13 ≤ n`. The subsequent
+`P13FixedSkeletonF5ScaleRouting` performs one local comparison on every
+provisional F5 entry at the fixed `Q_base` threshold. It materializes no
+fixed-state universe, but it is not connected to the corrected manuscript
+corridor and is not counted as F5 implementation.
+
+### 2026-07-16 direct cross-window handoff and local D7 support
+
+The deleted-endpoint branch now has an exact consumer rather than a bare
+membership residual. `Routes.InducedPathCrossWindowIncidencePair` recovers the
+unique ambient-cubic selected-window slot containing the endpoint, proves that
+its owner differs from the source window, and constructs the reverse external
+incidence. The output retains two distinct cross-window tokens, their opposite
+orientations, and equality of the underlying literal edge. The route uses the
+stored endpoint-membership proof and packing disjointness; it performs no
+owner-change path scan and no ambient window or context enumeration.
+`P13FixedSkeletonCrossWindowIncidencePairs` maps this handoff over the complete
+thirteen-per-window source schedule while passing component entries unchanged.
+
+The D4 evaluator now also materializes the normalized two-boundary state and
+proves exact boundary-degree, window-offset, target-response, and local D4
+response projections. For D7, `Graph.InducedPathComponentD7` filters the
+already graph-owned sparse-pair supports to those literally contained in the
+component's active interface. `P13FixedSkeletonComponentD7Support` recomputes
+that schedule on the identical minimal context and retains exact D4
+provenance. This is a genuine D7 support schedule, not yet a D7 Boolean
+evaluator: the existing sparse-pair response is context-indexed.
+
+The manuscript and web companion now expose the maximal honest post-node
+`[194]` handoff without adding a numbered diagram node. The exact node-`[194]`
+marker is consumed by `P13SameWindowFirstTransitionBoundaryInput.runD4Evaluation`;
+its exhaustive theorem identifies the graph-owned `Omega_2` response on each
+actual support wedge and preserves the remaining coordinate tail
+`[D5, D6, D7]`. The visible work is bounded by `8 * n^3` in the coarse case
+and `4 * n^3` in the bounded case. Boolean D7 semantics, compatible-context
+responses, removal, and the smaller-object/CT8 conclusion remain open.
+
+Independent D5 and D6 audits found no dependency-ready producer from the
+component path alone. D5 first needs a proved Type A support and canonical
+cubic-to-receiver trace family. D6 first needs a proved Type B assigned
+support, fan-window/certificate data, candidate and overlap ledgers, and
+proof-carrying handoff arms. Substituting the component BFS path for either
+package would be branch leakage. Full framework and Erdős test builds pass;
+the generated status remains honestly at 116 green nodes and zero yellow
+nodes, with nodes `[22]`--`[24]` still white.
+
+The first missing D5 prerequisite is now reusable rather than merely named.
+`Graph.TypeACanonicalReceiverTrace.SupportProfile` packages an exact connected
+Type A support, ambient cubicity, internal subcubicity, and internal
+three-core-freeness. For every internal cubic vertex, the producer runs the
+declared-order BFS in the induced support, selects the first low-degree vertex
+in the first occupied layer, and retains the canonical tree trace. Lean proves
+that the endpoint has internal degree at most two, every strict prefix vertex
+has internal degree exactly three, the trace is a path, and it is shortest to
+the receiver set. This scans only the supplied support and has a polynomial
+work envelope. It does not yet manufacture the missing Type A support from a
+component entry or claim the later port/channel/basin coordinates.
+
+### 2026-07-16 nodes `[61]`--`[63]`: exact local split and Type A ancestry
+
+The Type A trace prerequisite now has a same-context application route.
+`TypeBEntryRouting.VerifiedNode61Residual` retains the exact sparse-surplus
+predecessor, connected negative support, and a proof that every support vertex
+belongs to the selected `P13` remainder. Node `[62]` scans only the literal
+high-center finset of that support and exhaustively returns either an actual
+degree-at-least-four witness or equality of that finset with the empty set.
+The first result enters the existing node-`[64]` Type B handoff using the same
+support; the second enters `TypeANode63Support`.
+
+On the no-high branch Lean derives ambient degree exactly three from the
+minimum-degree baseline, embeds the support into the exact remainder, proves
+`P13`-freeness and ambient power-cycle avoidance, and invokes the sole HSS
+theorem to obtain internal-three-core freeness. These results construct the
+graph-owned Type A support profile and its finite canonical trace-incidence
+schedule. A generic non-Erdős example validates the coordinate layer.
+
+Node `[61]` is no longer allowed to preselect a negative cell in the CT
+execution. `Graph.OrderedSupportComponents` computes the first-occurrence
+component order of the literal remainder and proves connectivity, disjointness,
+coverage, and a linear scan bound. `P13NegativeSupportLocalization` proves that
+internal component degrees equal remainder degrees, expands the local charges
+pointwise, sums them over the canonical partition, and bounds the true integer
+charge by the upstream natural net numerator (including the truncated-
+subtraction case). The genuine strict-quarter handoff therefore supplies a
+negative total, and CT11 selects the first negative component. No component
+schedule or negative support is a caller field. Nodes `[61]`--`[64]` now have a
+complete typed implementation conditional only on the genuine node-`[24]`
+predecessor, so they remain white until nodes `[22]`--`[24]` are closed. No
+component family, graph universe, context universe, or Boolean state cube is
+enumerated.
+
+### 2026-07-16 per-window component/cross-window majority
+
+`Core.LocalBinaryMajority` now owns the reusable lossless binary-list
+partition and odd-majority runner. It filters only the supplied finite list,
+proves that the two filtered lengths sum to the original length, and returns a
+proof that one side of a list of length `2r+1` has at least `r+1` entries. A
+non-Erdős five-entry fixture exercises the producer.
+
+`P13FixedSkeletonWindowMajority` instantiates that runner separately for each
+actual ambient-cubic selected window. It reconstructs the exact thirteen
+branch-excess sources from `p13WindowBranchExcessCorridors`, executes the
+existing component-entry route on each source, proves `A+X=13`, identifies the
+complementary ledger exactly with the cross-window tag, and returns the
+exhaustive alternative `7≤A` or `7≤X`. The visible universe is exactly the
+thirteen entries of the supplied window. This local counting split does not
+claim D5--D7 semantics, cross-window quantitative closure, or completion of
+nodes `[22]`--`[24]`.
+
+### 2026-07-16 cross-heavy oriented-incidence ledger
+
+`Core.LocalInjectiveLedger` now owns the reusable aggregation step for an
+explicit list of local schedules. Local label injectivity and label separation
+between distinct indices imply a duplicate-free global label list; a proved
+per-index lower bound sums over exactly the stored indices. A non-Erdős
+two-block fixture proves the transfer independently.
+
+`P13FixedSkeletonCrossHeavyLedger` filters the actual ambient-cubic selected
+windows by the computed cross-heavy inequality and aggregates only their
+actual cross-window branch-excess entries. The literal oriented window token
+is injective within one window because the branch-excess stub list is
+duplicate-free, and tokens from distinct windows are separated by their
+stored owner coordinate. Consequently the complete oriented ledger is
+duplicate-free and
+`7 * card(cross-heavy windows) ≤ card(oriented cross incidences)`.
+
+This is the earliest dependency-ready no-overcounting statement. The ledger
+does not quotient orientations to unordered edges: that next step requires an
+exact factor-two/reverse-closure theorem for the selected branch-excess
+subschedule. It also supplies no response-preserving commuting gluing. Those
+are the exact remaining inputs before the cross-heavy side can contribute to
+node `[22]` or the later density closure, so nodes `[22]`--`[24]` remain white.
+
+### 2026-07-16 exact reverse-closure split on the cross-heavy ledger
+
+`Core.FiniteReverseClosure` scans one supplied duplicate-free item list and
+classifies it without enlarging the universe. It retains either a proof that
+every item has its declared reverse key in that same list or the first missing
+item together with its clean-prefix certificate. On the proof-carrying closed
+subledger only, actual unordered key pairs have fibres of size at most two, so
+Lean proves `card(closed items) ≤ 2 * card(actual pair labels)`. A separate
+non-Erdős fixture covers both the closed and first-missing outcomes.
+
+`P13FixedSkeletonCrossHeavyReverseClosure` instantiates this scan on exactly
+`p13CrossHeavyOrientedTokens`. Every token source is reconstructed from the
+literal nested window/entry membership proofs, and its reverse token is the
+existing cross-window incidence-pair route output. Thus the application now
+returns the exhaustive split: all selected orientations are reverse-closed,
+or a first concrete selected orientation is missing its reverse. The
+factor-two theorem is deliberately asserted only for the filtered closed
+subledger; it does not assume away the missing branch. The missing-reverse
+residual is now consumed one local owner at a time. Its reverse-pair route
+retains the exact destination-owner slot and local token. The generic
+`Core.LocalPrefixTail` classifier splits membership in that owner's literal
+fifteen-token order into the first two transit positions or the remaining
+thirteen branch-excess positions. A non-cross-heavy destination owner is
+rigorously routed to the component-heavy `7`-of-`13` branch. If the owner is
+cross-heavy as well, Lean reconstructs the destination owner's canonical
+branch-excess stub, corridor, and component-entry decision. The reverse
+endpoint is a selected-window vertex and hence lies in the deleted support, so
+the local decision is necessarily `crossWindow`; exact list membership then
+places the reverse in `p13CrossHeavyOrientedTokens`. Thus the former selection-
+mismatch constructor is contradictory. A genuinely missing reverse now has
+only the transit or non-cross-heavy/component-heavy outcomes. The all-closed
+branch still needs response-preserving commuting gluing, and the transit and
+component-heavy residuals still need their later manuscript consumers.
+Therefore this result does not close nodes `[22]`--`[24]` or change their
+status.
+
+`P13FixedSkeletonCrossHeavyMissingLedger` now lifts that resolved dichotomy
+over exactly the filtered `missingItems` subledger. Each attached token keeps
+its original missing-list membership, canonical source occurrence, proved
+missing reverse, and resolved local outcome. Every non-transit item projects
+to its exact destination owner together with the proof that this owner is not
+cross-heavy and has at least seven component entries.
+
+For transit items the ledger filters once more by the exact destination owner.
+Equality of two reverse tokens forces equality of their opposite source tokens
+by owner-slot uniqueness and selected-window position injectivity, so the
+reverse-token labels of one fibre are duplicate-free. Every such label belongs
+to the literal `take 2` of that owner's fifteen-token order. The reusable
+`Core.LocalFiniteCapacity` transfer therefore proves that every destination-
+owner transit fibre has cardinality at most two. Only the actual missing list,
+owner fibre, and local two-token capacity list are inspected; no graph or
+universe is enumerated. This aggregation does not implement the deliberately
+open commuting/Boolean-realization branch.
+
+The owner fibres now form an exact global partition. The reusable
+`Core.LocalFibreCapacity` profile stores the transit-missing list, the literal
+ambient-cubic owner order, the graph-computed owner map, and a local Boolean
+owner equality backed by that finite enumeration's `DecidableEq`. Coverage is
+proved because every retained destination owner belongs to this exact owner
+order; disjointness is equality of the stored owner coordinate. Summing the
+two-per-owner fibre bound gives
+`card(transit missing) ≤ 2 * card(ambient-cubic windows)`. The constructor-
+derived Boolean transit tag also gives a lossless transit/non-transit length
+partition, and membership in the non-transit schedule still projects to the
+exact non-cross-heavy component-heavy owner. No classical predicate cube,
+ambient token universe, commuting response, or Boolean realization is used.
+
+The ambient-cubic filtering loss is now connected to the same exact source
+schedule. `p13_le_ambientCubic_add_totalSurplus` specializes the reusable
+window-surplus injection to the complete CT12 packing, identifies its filtered
+cardinality with `p13AmbientCubicWindows`, and proves
+`p13 ≤ cubicWindows + totalSurplus`. Thus every discarded non-cubic window is
+paid by a distinct graph-computed surplus unit; no asymptotic loss or caller
+bound is assumed.
+
+### 2026-07-16 first exact D6 subfamily
+
+`Graph.TypeBFanCenterCoordinate` constructs the earliest dependency-ready D6
+coordinates: the declared neighbor schedule of one proved high fan center,
+with literal center--endpoint support, adjacency, exact degree cardinality,
+and a linear work bound. `TypeBFanCenterCoordinates` consumes the exact
+branch-tagged node-`[65]` input. The ordinary constructor uses node `[64]`'s
+high-center witness, while the decorated constructor uses node `[66]`'s stored
+handoff center. A non-Erdős transfer verifies the graph layer. This is not full
+D6: fan-safe pairs, certificate labels, closed fan-window pairs, hybrid
+incidences, candidate/overlap ledgers, and decorated-arm responses remain
+separate exact-producer obligations.
+
+### 2026-07-16 induced-core whole-port assignment
+
+`Graph.InducedCoreFanAssignment` derives the assignment judgment rather than
+accepting it from the application: an actual endpoint--shoulder carrier is
+assigned exactly when it is a graph edge and both endpoints lie in the finite
+node-`[64]` core. Its fixed-order classifier inspects the two literal
+shoulders of one actual port and returns both assignment proofs, the first
+missing assignment, or the second missing assignment after retaining the
+first proof. `TypeBFanWholePortAssignment` instantiates the P13
+window/remainder profile, retains both incidence ledgers, and turns a two-sided
+success on an open port into the exact `FanClosedPort.FanClosed` input. No
+assignment or certificate predicate is supplied by the caller.
+
+### 2026-07-16 local compatible-pair and CT5 assembly
+
+The already verified `Graph.HighCenterPort.VerifiedStage.dichotomy` supplies
+either an existential compatible pair of actual open ports or the exact
+degree-minus-two triangular bound. No second scan of an open-port Cartesian
+square is performed. On the compatible branch the application proof-selects
+the two witnesses from that retained existential and performs only the four
+literal induced-core carrier decisions. `Graph.FanClosedPairAssembly`
+generically combines two proved closed ports into the four-field
+`AssignedPair` and verified constant-work CT5 stage, with a separate
+non-Erdős transfer example.
+
+`TypeBFanCompatiblePairAssignment` consumes the local CT10 dichotomy at the
+exact node-`[64]` high center. It preserves the triangular result and every
+first-missing carrier result. Only a compatible pair whose two ports both pass the
+whole-port assignment classifier reaches the proof-carrying `AssignedPair`
+and CT5-ready branch. Its visible work is the linear incident-port CT10
+classification plus four carrier decisions. Fan certificates and marked labels
+remain later availability obligations and are not assumed here.
+
+The node-`[64]` connector now performs the manuscript's degree split before
+the compatible-pair branch. Degree exactly four is retained as its own typed
+handoff toward nodes `[78]`--`[80]`; only the proved degree-above-four branch
+enters the node-`[69]` local dichotomy. Thus a degree-four compatible witness
+cannot leak into the node-`[70]`/`[71]` chain.
+
+### 2026-07-16 marked-fan certificate requirement frontier
+
+`Graph.FanCertificateRequirement` identifies literal port zero as the first
+label obligation in the actual high-center neighbour order. It performs no
+checks and enumerates neither labels nor attachment maps. The application
+`TypeBFanCertificateRequirement` exposes the exact legal-P13-label completion
+type at that port and forwards all degree-four, triangular, and carrier-
+assignment residuals unchanged. A CT5-ready compatible pair reaches a
+`certificateRequired` constructor only. This is deliberately a white/request-
+only frontier: it does not claim that a label is absent, does not assert an
+availability dichotomy, and does not manufacture or assume a `MarkedFan`.
+
+### 2026-07-16 node-64 degree-four ledger connector
+
+`TypeBDegreeFourLedgerConnector` consumes only the exact degree-four residual
+split from node `[64]`. It instantiates `Graph.DegreeFourFanLedger` with the
+same center, deletion-criticality proof, literal degree equality, and the
+induced-core carrier assignment already derived on this branch. CT14 therefore
+scans exactly four actual ports and proves the full node-`[79]` closed-count,
+deficit, sign, trace, totality, and polynomial ledger without importing the
+later global `TypeBSupportScope`. A separate non-Erdős example verifies this
+generic transfer.
+
+The next node-`[80]` datum remains an honest
+`CertificateMarkingRequirement`. Its future completion is a proof-carrying
+decision: either an actual `MarkedFan` with center exactly `h`, or a proof that
+no such marked fan exists. In particular, there is no trivially constructible
+`Option.none` branch and absence is not inferred from failed construction. All degree-above-four routes,
+including triangular, carrier-missing, and certificate-required branches, are
+forwarded unchanged.
+
+### 2026-07-16 exact Type A completion-port coordinates
+
+`Graph.TypeACompletionPortCoordinate` implements the next dependency-ready
+declared coordinate after the canonical receiver traces. It scans the proved
+receiver subtype of the supplied Type A support and then only each receiver's
+actual ordered neighbor list, whose length is exactly three by ambient
+cubicity, filtering the endpoints outside that same support. Every coordinate
+therefore retains the literal receiver, outside endpoint, ambient adjacency,
+internal receiver-degree bound, ambient degree three, and exact oriented-port
+identity. Its primitive-check ledger charges one receiver test per support
+vertex and three actual-neighbour tests per retained receiver, hence at most
+four checks per support vertex and a linear bound; it enumerates no vertex-pair, path, support, context, state, or graph
+universe. A separate non-Erdős framework example checks the shared API.
+
+`TypeACompletionPortCoordinates` is the thin Erdős instantiation. It consumes
+the proof-carrying `TypeANode63Support.VerifiedNode63Residual` directly and
+transports both endpoints through its exact `profile_support` equality back to
+the node-`[61]` support. Anchored-return existence, first-entry channels,
+connector lengths, theta constraints, and silent-basin/carrier data require
+later proof-carrying producers and are not asserted by this coordinate stage.
+No diagram node changes status.
+
+### 2026-07-16 anchored returns through exact Type A ports
+
+`Graph.TypeAAnchoredReturnCoordinate` is the next manuscript producer. For one
+exact completion-port incidence it consumes the proved non-bridge judgment and
+uses Mathlib's reachability-to-simple-path theorem to select a path from the
+outside endpoint back to the receiver in the graph with that port edge
+deleted. The retained result is therefore exactly an anchored return: its
+endpoint types, simplicity, and port-edge avoidance are Lean theorems. This
+uses proof choice on a proved existential and performs no walk enumeration or
+additional finite scan. A separate non-Erdős example consumes the same public
+producer.
+
+`TypeAAnchoredReturnCoordinates` constructs the producer from the already
+verified CT2 theorem `dart_not_bridge` for every port in the exact node-`[63]`
+schedule. Thus anchored-return existence is not a caller premise and every
+return remains indexed by the node-`[61]` support and its node-`[63]` profile.
+First-entry receiver selection and internal receiver-entry channel extraction
+are the next local producers; they are not asserted here. No diagram node
+changes status.
+
+### 2026-07-16 first-entry receiver on an anchored Type A return
+
+`Graph.TypeAFirstEntryCoordinate` scans only the stored support list of one
+already selected anchored return, in traversal order. The proof-carrying first
+hit retains the exact clean outside prefix, its last vertex as the predecessor,
+and the literal predecessor--entry edge. The terminal receiver proves that the
+scan cannot return absence. Since the predecessor is outside the Type A support
+but adjacent to the first entry, while every support vertex has ambient degree
+three, a strict neighbor-set cardinality argument proves that the first entry
+has induced degree at most two. This is the full local content of
+`lem:typeA-first-entry`; no path or return family is enumerated.
+
+`TypeAFirstEntryCoordinates` applies the producer to the exact node-`[63]`
+anchored return and transports the clean-prefix predecessor outside the
+node-`[61]` support. Internal receiver-entry channel extraction is the next
+local producer and is not assumed here. No diagram node changes status.
+
+### 2026-07-16 Type A degree-two entry budget
+
+`Graph.TypeAEntryBudgetCoordinate` proves the exact local content of
+`lem:typeA-entry-budget`. It partitions the three actual ambient incidences of
+each receiver into internal incidences and completion ports, proving that a
+degree-two receiver has exactly one port. For an arbitrary proof-supplied
+anchored return, the first-entry edge is converted into an exact coordinate in
+the already constructed completion-port schedule. If its receiver were the
+terminal receiver, port uniqueness would identify it with the deleted port,
+contradicting adjacency in the port-edge-deleted return graph.
+
+The family of all distinct first-entry edges is represented as a logical
+subset of the existing local coordinate schedule; anchored returns and paths
+are not enumerated. Its cardinality is bounded by the sum, over nonterminal
+receivers, of the exact outside-incidence count, and this count is proved equal
+to `3 - d_X(r)`, the manuscript quantity `q(r)`. The entry-budget layer adds
+zero primitive checks to the earlier receiver/actual-neighbour schedule, so
+the combined visible work remains at most four checks per ambient vertex.
+`TypeAEntryBudgetCoordinates` consumes the exact node-`[63]` profile, anchored
+return, and first-entry producers; the framework example provides a separate
+non-Erdős transfer. No diagram node changes status.
+
+### 2026-07-16 Type A connector and channel spectrum
+
+`Graph.TypeAReceiverEntryChannel` extracts the manuscript connector `Γ` by
+taking the prefix of the already stored anchored return through its computed
+first support hit. Its support is proved exactly equal to
+`hit.before ++ [entry]`; hence every nonterminal connector vertex is outside
+the Type A support. A receiver-entry channel is a proof-carrying simple path
+in the induced support graph. The framework maps such a channel into the
+literal port-edge-deleted graph, proves that it avoids the deleted edge, and
+proves by support separation that `Γ ∘ Q` is simple and has length
+`g(Γ) + |Q|`. The semantic spectrum contains exactly the lengths represented
+by supplied channels. Extraction and assembly perform zero new graph or
+target-predicate checks. Extracting `Γ` does traverse the stored clean prefix
+once: the explicit counter is `hit.before.length + 1`, proved at most the
+stored return support length and at most the ambient vertex count. The
+framework example exercises the same graph theorem and traversal bound
+independently of the Erdős target.
+
+`TypeAReceiverEntryChannels` consumes the exact node-`[61]` support,
+node-`[63]` profile, completion port, stored anchored return, and computed
+first entry. For every supplied channel, the assembled return and the
+minimal-counterexample target-avoidance field prove
+`g(Γ) + |Q| ∉ MersenneSet`, the first assertion of
+`lem:typeA-spectral-pressure`. Its interval consequence is stated using
+integer endpoint inequalities, so the manuscript band
+`[μ-b, μ-a] ∩ ℤ_{≥1}` is not weakened by natural-number subtraction. No path
+or channel family is enumerated, and no diagram node changes status.
+
+### 2026-07-16 raw Type A continuation-germ prerequisite
+
+`Core.RootedPathFamily` and `Graph.TypeADeclaredContinuationCoordinate`
+formalize only the raw content needed before
+`def:typeA-continuation-classes`.  Each supplied coordinate retains its actual
+anchored return, computed first entry, extracted connector, internal channel,
+finite declared support, declared value, and boundary-fibre image.  The family
+runner is an ordinary executable definition that scans the supplied connector
+list against its first connector and keeps the least observed branch index.
+Its separator output contains the exact two coordinates, common prefix and
+tails beginning at the two distinct next incidences, outside separator vertex, distinct next
+incidences with deleted-graph and ambient adjacency, and a theorem that no
+family coordinate branches earlier.  The public certificate also retains the
+exact identity of its right coordinate with the family anchor and exports the
+corresponding selected-pair and arbitrary-family-pair no-earlier theorems, so
+the anchor-relative global proof cannot be attached to an unrelated right
+coordinate.  The uniform output proves exact
+connector coincidence and same-fibre identification.  The scan performs at
+most the total stored connector-tail length in primitive equality checks (and
+therefore at most `4L` for four tails of length at most `L`); it enumerates no
+pair family, path, channel, context, state, or graph universe.  A separate
+non-Erdős framework fixture checks the same public classifier and work bound.
+
+There is intentionally no Erdős wrapper at this point: the actual D2 declared
+response semantics and the proof-carrying four-return residual have not yet
+been constructed.  No absorption, survival, CT3, or node-`[107]` conclusion is
+asserted, and no diagram node changes status.
+
+### 2026-07-16 typed nodes `[160]`, `[22]`--`[24]` handoff
+
+Part I now records the manuscript's directed dichotomy at node `[160]` without
+pretending to derive Boolean realization from the 91-row count.  The positive
+constructor carries finite local completion states interpreted as actual
+finite graphs on the fixed vertex type, exact selected-window embeddings,
+local-support preservation, minimum degree, target avoidance, and response
+bits computed from node `[21]`'s barrier relation. It proves realization of
+every supplied 91-coordinate assignment, finite graph-owned global states,
+support-commuting gluing, and exact restriction/recovery laws on the same
+selected windows.  The open
+constructor carries the exact negation of nonemptiness of that package and
+names the three downstream producers still owed: local completion states,
+simultaneous response realization, and commuting cross-window gluing.  The
+split is proof-level and enumerates no state, assignment, Boolean cube, path,
+graph, or context universe.
+
+Only the realized constructor is an input to node `[22]`; the open constructor
+remains at node `[160]` and cannot leak into either density successor.
+
+Node `[22]` consumes that exact handoff and performs the manuscript's finite
+packing-density dichotomy.  Its strict constructor is node `[23]`, which
+retains the exact reverse cross-multiplied inequality and the open entropy
+terminal consumer.  Its complementary constructor is node `[24]`, which
+retains the exact packing ceiling and window-only cap and explicitly names
+the normalized high-entropy refinement
+`116808581006 * p13 ≤ 1400000000 * n` as a later requirement.  Both
+constructors store the unchanged node-`[160]` handoff, so neither can bypass
+the realization/gluing frontier.
+
+Independent review also removed an unjustified `Nodup` requirement from the
+raw Type A continuation-coordinate family: the paper supplies distinct routed
+load occurrences, not necessarily distinct projected D2 tuples.  The
+classifier never used coordinate-level distinctness.
+
+The regenerated Chapter 1 descriptor has exactly 120 green nodes among 194
+active nodes and zero yellow nodes.  Focused Erdős tests, the web export, and
+the raw-to-compiled descriptor pipeline pass.
+
+### 2026-07-16 repaired node `[48]` finite curvature/product split
+
+Node `[48]` now follows the repaired Part-IV manuscript responsibility rather
+than identifying CT15 full rank with simultaneous Boolean realization.  From
+the exact node-`[24]` packing cap and the same-context node-`[47]` coordinate
+ledger, `P13ForcedCurvatureCost` proves the finite ordinary and high-entropy
+wedge inequalities with the retained total-surplus error.  No asymptotic
+`o(|R|)` term is introduced without a fixed authored scale certificate.
+
+The product-cost successor requires actual graph-completion contexts,
+injectivity of their semantic interpretation, and an injective code into the
+exact labelled baseline-skeleton count.  A Core-owned conditional-fibre
+ledger filters only one supplied local state list along the declared
+coordinate order and telescopes the exact `543958/111286` inequalities.  Its
+non-Erdős transfer is the textbook triangle-free cycle `C₅`, using actual
+neighbourhood and common-neighbourhood fibres and the Mantel theorem on the
+same graph.
+
+The exhaustive node-`[48]` output has a realized constructor, which alone may
+feed node `[49]`, and an open realization requirement.  The open constructor
+has a typed same-context consumer into the node-`[55]`/`[56]` route, but only
+after the independent quarter-budget predicate is proved; it manufactures no
+entropy or budget assertion.  The TeX diagram and corollary, Lean tests,
+WebExport declaration index, and compiled descriptor are synchronized.  The
+regenerated Chapter 1 descriptor has exactly 121 green nodes among 194 active
+nodes and zero yellow nodes.
+
+### 2026-07-16 node `[49]` finite realized-state entropy
+
+Node `[49]` consumes exactly node `[48]`'s realized conditional-fibre payload.
+It neither widens that family to all remainder graphs nor enumerates graphs,
+subsets, contexts, assignments, or Boolean cubes. The Core-owned profile
+defines the exact supplied count `N_R`, its executable `Nat.log2` numerator,
+and the literal real normalization `Real.logb 2 N_R / |R|`; the floor theorem
+identifies the executable numerator with the natural floor of the real
+logarithm. The Erdős contract retains the unchanged predecessor, proves
+`N_R > 0` from the terminal nonempty fibre, and derives the labelled-skeleton
+capacity from node `[48]`'s actual edge-set encoding.
+
+The bookkeeping performs zero semantic predicate calls. Length, logarithm,
+and quotient formation are separately bounded by `2*N_R + 1` local
+list/arithmetic steps. The non-Erdős Mantel transfer instantiates the same
+contract on the five actual vertices of `C₅`, including its real entropy and
+work bounds. Independent review verified the TeX--Lean--Web mapping and sole
+standard Lean trust. The regenerated Chapter 1 descriptor has exactly 122
+green nodes among 194 active nodes and zero yellow nodes.
+
+### 2026-07-16 node `[50]` exact entropy-scale split
+
+Node `[50]` consumes the exact dependent node-`[49]` proof and performs the
+paper's high/low entropy threshold in denominator-free form:
+`n^|R| ≤ N_R^10` or `N_R^10 < n^|R|`. Both constructors retain the identical
+verified node-`[49]` payload. The Core-owned runner makes exactly one natural
+power comparison and enumerates no graph, state, support, subset, context,
+function, assignment, or Boolean universe.
+
+The non-Erdős transfer uses the actual Mantel `C₅`: its five supplied vertex
+states exercise the upper branch, while the actual degree-two neighborhood at
+vertex zero exercises the strict lower branch. The manuscript definition and
+diagram, Lean endpoint, Web declaration group, and generated descriptor agree.
+Independent review found only standard Lean trust. The regenerated Chapter 1
+descriptor has exactly 123 green nodes among 194 active nodes and zero yellow
+nodes.
+
+### 2026-07-16 node `[51]` high-power remainder bits
+
+Node `[51]` is the narrow arithmetic successor of node `[50]`'s actual high
+constructor. The total route pattern-matches the stored node-`[50]` outcome:
+the high side retains the exact node-`[49]` and node-`[50]` predecessors and
+derives `(|R|/10) * log₂ n ≤ log₂ N_R`; the strict low side is returned
+unchanged for its separate consumer. No normalized division by `|R|`, joint
+window/remainder injection, or node-`[52]` entropy cap is asserted.
+
+Core owns the reusable passage from a natural power inequality to the weighted
+real-log budget, using node-`[49]`'s positive state count. The concrete Mantel
+`C₅` upper branch consumes that same theorem. The transfer performs no finite
+scan and enumerates no graph, state, subset, context, function, assignment, or
+Boolean universe. Independent review verified the TeX--Lean--Web mapping,
+declaration coverage, and standard Lean trust. The regenerated Chapter 1
+descriptor has exactly 124 green nodes among 194 active nodes and zero yellow
+nodes.
+
+### 2026-07-16 node `[52]` joint window--remainder accounting frontier
+
+Node `[52]` consumes the exact node-`[51]` high-power constructor and preserves
+its dependent node-`[49]` and node-`[50]` provenance. Its realized constructor
+uses node-`[24]`'s actual `LocalCompletion`, `GlobalCompletion`, and `glue`,
+node-`[48]`'s exact realized state schedule, recovery laws for both coordinates,
+and an injective encoding into the literal `P13BaselineSkeleton`. The
+Core-owned `FiniteJointCapacity.Profile.left_mul_right_le_codeCard` derives the
+product-capacity inequality without materializing or scanning the Cartesian
+product.
+
+The exhaustive alternative is an exact open requirement naming the missing
+multiscale window states, joint window--remainder commutation, injective
+baseline encoding, and finite-cap arithmetic. Its node-`[55]` handoff consumes
+an independently proved same-context `P13QuarterNetBudget`; it manufactures no
+budget, high-entropy cap, or node-`[54]` contradiction. The non-Erdős Mantel
+transfer applies the same Core profile to the five vertices and two incidence
+orientations of the actual triangle-free cycle `C₅`, encoded by its ten
+darts. Focused Core, Mantel, Erdős Tests/WebExport, and LaTeX builds pass.
+Independent review found no admissions, unsafe declarations, external axioms,
+or nonlocal enumeration. The regenerated Chapter 1 descriptor has exactly 125
+green nodes among 194 active nodes and zero yellow nodes, with all 1267
+displayed declarations explained.
+
+### 2026-07-16 node `[53]` exact low-entropy forced-cost fit
+
+Node `[53]` is constructed only from node `[50]`'s actual strict-low
+constructor. The route retains the exact node-`[49]` outcome payload, its
+equality to the verified predecessor, the strict power inequality, and the
+equality identifying the stored node-`[50]` outcome. The node-`[48]`
+conditional-fibre ledger and its nonempty terminal fibre prove
+`A ≤ B*N_R`, where `A = 543958^|Ω|` and `B = 111286^|Ω|` use the
+literal curvature-coordinate schedule. The Core-owned
+`FinitePoweredBudgetTransfer.Profile.forced_pow_lt_flat_pow_mul_upper` then
+combines this with `N_R^10 < U` to prove `A^10 < B^10*U` symbolically.
+
+Consequently the printed reverse small-budget edge is impossible on this exact
+incoming branch. The surviving large-budget payload exposes only a function
+that consumes an independently proved same-context `P13QuarterNetBudget`; it
+does not manufacture node `[55]`, node `[56]`, or a high-entropy node-`[54]`
+closure. The non-Erdős transfer uses the same Core profile on the actual five
+vertices and ten darts of the Mantel cycle `C₅`. Focused Core, Mantel,
+Erdős Tests/WebExport, and LaTeX builds pass. Independent review found only
+standard Lean trust and no admissions, unsafe declarations, evaluated huge
+powers, or ambient enumeration. The regenerated Chapter 1 descriptor has
+exactly 126 green nodes among 194 active nodes and zero yellow nodes, with all
+1283 displayed declarations explained.
+
+### 2026-07-16 node `[195]` exact long-prefix response handoff
+
+The post-frontier repair converts each of node `[195]`'s four literal
+nine-coordinate mismatch constructors into an actual graph-response
+separator. The reusable graph profile uses exactly the already scanned 36
+local corridor coordinates, at offsets `0`, `9`, `18`, and `27`, and proves
+the corresponding adjacency responses differ. It performs one constructor
+inspection and enumerates no graph, state, support, context, assignment, or
+Boolean universe.
+
+The fully aligned constructor remains an explicit typed requirement rather
+than a claimed CT8 removal. It records precisely the two missing producers:
+complete D4--D7 response semantics on the same local data and an exact-pair
+certified reduction for the correct full-degree-plus-marked-bit exact type.
+The prospective 73 checks are reserved for that future CT8 execution and are
+not charged as current work. Lean, TeX, and Web metadata agree; focused
+builds and independent review pass. The regenerated descriptor remains at
+exactly 126 green nodes among 194 active nodes and zero yellow nodes, with all
+1295 displayed declarations explained.
+
+### 2026-07-16 post-frontier exact-type and D7 response connectors
+
+The aligned node-`[195]` leaf now inspects its retained node-`[179]` degree
+constructor before any CT8 use. A congruent nonzero degree gap proves the full
+degree-and-marked exact types differ and exits the repetition route. Exact
+degree, together with the retained marked-bit equality, proves equality of
+the full exact type and constructs the ordered repeated pair on the literal
+two-occurrence sequence. This gate performs one constructor inspection; it
+does not claim complete D4--D7 semantics, removal, or CT8 execution.
+
+On the short component cone, D7 support enumeration now retains D7 in the
+pending tail. The graph-owned response restriction uses exactly that finite
+coordinate schedule and the existing sparse-pair support, but leaves the
+outside gluing context universally supplied. It proves literal supported-piece
+and pointwise sparse-pair-response provenance for every supplied context,
+without choosing or enumerating contexts or collapsing the response to a
+context-free Boolean. Consequently D7 remains pending until a compatible-
+response bridge is proved. The current generated descriptor remains at 126
+green nodes and zero yellow nodes, with all 1308 displayed declarations
+explained.

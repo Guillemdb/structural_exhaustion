@@ -1,4 +1,5 @@
 import Erdos64EG.CT14PositiveDeficitCandidate
+import Erdos64EG.P13WeightedHotColdInterface
 import Erdos64EG.CT14CertificateClosedCandidate
 import Erdos64EG.CT12TypeBDemandSystem
 import Erdos64EG.CT12TypeBCompletion
@@ -27,10 +28,44 @@ import Erdos64EG.P13RemainderResidual
 import Erdos64EG.SurplusScaleSplit
 import Erdos64EG.SparsePressureEnvelopeRoute
 import Erdos64EG.CT14P13PositiveDeficiency
+import Erdos64EG.TypeANode63Support
+import Erdos64EG.TypeACompletionPortCoordinates
+import Erdos64EG.TypeAAnchoredReturnCoordinates
+import Erdos64EG.TypeAFirstEntryCoordinates
+import Erdos64EG.TypeAEntryBudgetCoordinates
+import Erdos64EG.TypeAReceiverEntryChannels
+import Erdos64EG.TypeBFanIncidenceSupportClassification
+import Erdos64EG.TypeBFanWindowLandingCoordinate
+import Erdos64EG.TypeBFanIncidenceCoordinateLedger
+import Erdos64EG.TypeBFanHybridReadiness
+import Erdos64EG.TypeBFanWholePortAssignment
+import Erdos64EG.TypeBFanCompatiblePairAssignment
+import Erdos64EG.TypeBFanCertificateRequirement
+import Erdos64EG.TypeBDegreeFourLedgerConnector
+import Erdos64EG.P13NegativeSupportLocalization
 import Erdos64EG.CT15RemainderCurvature
 import Erdos64EG.P13DensityConnectedRankPrefix
 import Erdos64EG.P13LargeBudgetNetDeficiency
 import Erdos64EG.P13ClosureRobustPartIV
+import Erdos64EG.P13PartIWindowDensityTriage
+import Erdos64EG.P13ForcedCurvatureCost
+import Erdos64EG.P13FiniteRemainderEntropy
+import Erdos64EG.P13EntropyScaleSplit
+import Erdos64EG.P13HighEntropyRemainderBits
+import Erdos64EG.P13JointWindowRemainderAccounting
+import Erdos64EG.P13LowEntropyForcedCostFit
+import Erdos64EG.P13FixedSkeletonBranchExcessCorridors
+import Erdos64EG.P13FixedSkeletonComponentEntries
+import Erdos64EG.P13FixedSkeletonWindowMajority
+import Erdos64EG.P13FixedSkeletonCrossHeavyLedger
+import Erdos64EG.P13FixedSkeletonCrossHeavyReverseClosure
+import Erdos64EG.P13FixedSkeletonCrossHeavyMissingReverse
+import Erdos64EG.P13FixedSkeletonCrossHeavyMissingLedger
+import Erdos64EG.P13FixedSkeletonCrossWindowIncidencePairs
+import Erdos64EG.P13FixedSkeletonComponentD1D3
+import Erdos64EG.P13FixedSkeletonComponentD4
+import Erdos64EG.P13FixedSkeletonComponentD7Support
+import Erdos64EG.P13FixedSkeletonF5ScaleRouting
 import Erdos64EG.CT12DegreeFourB2Routing
 import Erdos64EG.CT14TypeBResidualCenterLedger
 import Erdos64EG.CT14TypeBLocalFanMass
@@ -53,6 +88,10 @@ import Erdos64EG.P13SameWindowComponentD4D7ClauseCursor
 import Erdos64EG.P13SameWindowComponentD4LocalClauseRequest
 import Erdos64EG.P13SameWindowComponentD4EvaluatorResidual
 import Erdos64EG.P13SameWindowComponentD4EvaluatorConstructionResidual
+import Erdos64EG.P13SameWindowComponentD4Evaluator
+import Erdos64EG.P13SameWindowComponentD4D7Support
+import Erdos64EG.P13SameWindowComponentD7Response
+import Erdos64EG.P13SameWindowComponentD5Availability
 import Erdos64EG.P13SameWindowPackedOwnerChange
 import Erdos64EG.P13SameWindowCrossWindowTokenPair
 import Erdos64EG.P13SameWindowLongSupportPrefix
@@ -63,12 +102,18 @@ import Erdos64EG.P13SameWindowLongPrefixExtendedClauseAlignment
 import Erdos64EG.P13SameWindowLongPrefixThirdBlockClauseAlignment
 import Erdos64EG.P13SameWindowLongPrefixFourthBlockClauseAlignment
 import Erdos64EG.P13SameWindowLongPrefixCompatibleResponseFrontier
+import Erdos64EG.P13SameWindowLongPrefixAlignedDegreeGate
 
 namespace Erdos64EG.Tests
 
 open StructuralExhaustion
 open StructuralExhaustion.Graph
 open Erdos64EG.Internal
+
+#check InducedPathComponentD7Response.coordinates_exact
+#check InducedPathComponentD7Response.response_true_iff
+#check InducedPathComponentD7Response.response_eq_sparsePairResponse
+#check P13SameWindowFirstTransitionBoundaryInput.runD7Response_predecessor_exact
 
 /-!
 Small executable smoke fixture for the first slice.  `K₄` satisfies the
@@ -346,6 +391,278 @@ identity ceiling must be packaged against the packing literally retained by
 node `[21]`. -/
 
 variable (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
+
+noncomputable example : P13PartIWindowDensityOutcome ctx node21 :=
+  runP13PartIWindowDensityTriage ctx node21
+
+example :
+    (p13WeightedHotWindows ctx node21).length +
+      (p13WeightedColdWindows ctx node21).length = p13 ctx :=
+  p13WeightedHotCount_add_coldCount ctx node21
+
+noncomputable example (cold : P13WeightedColdWindow ctx node21) :
+    P13SelectedWindowCorridorRoute ctx cold.window :=
+  cold.corridorRoute
+
+example : P13Node160RealizationRequirement ctx node21 :=
+  p13Node160RealizationRequirement node21
+
+noncomputable example : P13Node160RealizationOutcome ctx node21 :=
+  p13Node160RealizationDichotomy node21
+
+example :
+    (∃ package, p13Node160RealizationDichotomy node21 = .realized package) ∨
+      (∃ requirement absent, p13Node160RealizationDichotomy node21 =
+        .openRequirement requirement absent) :=
+  p13Node160RealizationDichotomy_exhaustive node21
+
+noncomputable example : P13Node22DensityOutcome ctx node21 :=
+  runP13Node22DensityDecision ctx node21
+
+example :
+    (∃ node23, runP13Node22DensityDecision ctx node21
+        = .tooLarge node23) ∨
+      (∃ node24, runP13Node22DensityDecision ctx node21
+        = .withinCap node24) :=
+  runP13Node22DensityDecision_exhaustive ctx node21
+
+example (node23 : VerifiedP13Node23DensityOverflow ctx node21) :
+    p13WindowDensitySkeletonNumerator * ctx.G.object.input.vertices.card <
+      p13WindowDensityRateNumerator * node23.coverage.windowCeiling :=
+  node23.strict
+
+example (node23 : VerifiedP13Node23DensityOverflow ctx node21) :
+    node23.entropyOverflow.conclusion = False :=
+  node23.entropyOverflow.conclusionExact
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21) :
+    p13WindowDensityRateNumerator * p13 ctx ≤
+      p13WindowDensitySkeletonNumerator * ctx.G.object.input.vertices.card :=
+  node24.packingDensityCap
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21) :
+    node24.highEntropy.conclusion =
+      P13HighEntropyFiniteCap ctx node24.coverage.windowCeiling :=
+  node24.highEntropy.conclusionExact
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21) :
+    (p13CurvatureResponseProfile ctx).ct15Profile.coordinates.card =
+      (p13RemainderCurvatureProfile ctx).wedgeCount :=
+  node24.globalRankPrefix_fullRankCount
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21) :
+    p13WindowWedgeRateNumerator * (p13RemainderVertices ctx).card ≤
+      p13WindowRemainderRateDenominator *
+          (p13CurvatureResponseProfile ctx).ct15Profile.coordinates.card +
+        2 * p13WindowRemainderRateDenominator *
+          Graph.InducedPathWindowLedger.totalSurplus ctx.G.object :=
+  (verifiedP13Node48FiniteCost node24).scaledCost
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
+    (high : node24.highEntropy.conclusion) :
+    p13HighEntropyWedgeRateNumerator * (p13RemainderVertices ctx).card ≤
+      p13WindowRemainderRateDenominator *
+          (p13CurvatureResponseProfile ctx).ct15Profile.coordinates.card +
+        2 * p13WindowRemainderRateDenominator *
+          Graph.InducedPathWindowLedger.totalSurplus ctx.G.object :=
+  (verifiedP13Node48FiniteCost node24).highEntropyScaledCost high
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
+    (realized : P13CurvatureProductCostRealization ctx node21 node24) :
+    543958 ^ (p13CurvatureResponseProfile ctx).ct15Profile.coordinates.card ≤
+      111286 ^ (p13CurvatureResponseProfile ctx).ct15Profile.coordinates.card *
+        baselineSpineStateCount ctx :=
+  realized.safeFlatProductBound
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
+    (requirement : P13CurvatureProductCostRequirement ctx node21 node24)
+    (budget : P13QuarterNetBudget ctx (node21 := node21) node24.coverage) :
+    P13QuarterNetDeficiencyHandoff ctx node21 node24.coverage :=
+  (p13Node48OpenLargeBudgetHandoff requirement).consume budget
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21) :
+    (∃ payload, runP13Node48 node24 = .realized payload) ∨
+      (∃ requirement, runP13Node48 node24 = .openRequirement requirement) :=
+  runP13Node48_exhaustive node24
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
+    (realized : P13CurvatureProductCostRealization ctx node21 node24) :
+    0 < p13RemainderStateCount realized :=
+  (verifiedP13Node49FiniteEntropy realized).countPos
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
+    (realized : P13CurvatureProductCostRealization ctx node21 node24) :
+    p13RemainderStateCount realized ≤ baselineSpineStateCount ctx :=
+  (verifiedP13Node49FiniteEntropy realized).countLeSkeleton
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
+    (realized : P13CurvatureProductCostRealization ctx node21 node24) :
+    (p13RemainderStateEntropyProfile realized).semanticChecks = 0 :=
+  (verifiedP13Node49FiniteEntropy realized).semanticChecks
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
+    (realized : P13CurvatureProductCostRealization ctx node21 node24) :
+    p13RemainderEntropy realized =
+      Real.logb 2 (p13RemainderStateCount realized) /
+        (p13RemainderVertices ctx).card :=
+  (verifiedP13Node49FiniteEntropy realized).normalizedEntropyExact
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
+    (realized : P13CurvatureProductCostRealization ctx node21 node24) :
+    (p13RemainderStateEntropyProfile realized).arithmeticWork ≤
+      2 * p13RemainderStateCount realized + 1 :=
+  (verifiedP13Node49FiniteEntropy realized).arithmeticWork
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
+    (realized : P13CurvatureProductCostRealization ctx node21 node24)
+    (node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized) :
+    ctx.G.object.input.vertices.card ^ (p13RemainderVertices ctx).card ≤
+          p13RemainderStateCount realized ^ 10 ∨
+      p13RemainderStateCount realized ^ 10 <
+        ctx.G.object.input.vertices.card ^ (p13RemainderVertices ctx).card :=
+  (verifiedP13Node50EntropyScaleSplit node49).total
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
+    (realized : P13CurvatureProductCostRealization ctx node21 node24)
+    (node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized) :
+    (p13EntropyScaleProfile realized).checks = 1 :=
+  (verifiedP13Node50EntropyScaleSplit node49).work
+
+noncomputable example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
+    (realized : P13CurvatureProductCostRealization ctx node21 node24)
+    (node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized)
+    (node50 : VerifiedP13Node50EntropyScaleSplit
+      ctx node21 node24 realized node49) :
+    P13Node50To51Route ctx node21 node24 realized node49 node50 :=
+  routeP13Node50To51 node50
+
+noncomputable example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
+    (realized : P13CurvatureProductCostRealization ctx node21 node24)
+    (node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized)
+    (node50 : VerifiedP13Node50EntropyScaleSplit
+      ctx node21 node24 realized node49)
+    (node51 : VerifiedP13Node51HighEntropyBits
+      ctx node21 node24 realized node49 node50) :
+    P13Node52Outcome ctx node21 node24 realized node49 node50 node51 :=
+  runP13Node52 node51
+
+example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
+    (realized : P13CurvatureProductCostRealization ctx node21 node24)
+    (node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized)
+    (node50 : VerifiedP13Node50EntropyScaleSplit
+      ctx node21 node24 realized node49)
+    (node51 : VerifiedP13Node51HighEntropyBits
+      ctx node21 node24 realized node49 node50) :
+    (∃ payload, runP13Node52 node51 = .realized payload) ∨
+      (∃ requirement, runP13Node52 node51 = .openRequirement requirement) :=
+  runP13Node52_exhaustive node51
+
+example :
+    (verifiedP13BranchExcessCorridorPrefix ctx node21).corridors.length =
+      13 * (p13AmbientCubicWindows ctx).card :=
+  VerifiedP13BranchExcessCorridorPrefix.corridors_length
+    (verifiedP13BranchExcessCorridorPrefix ctx node21)
+
+example : p13 ctx ≤ (p13AmbientCubicWindows ctx).card +
+    Graph.InducedPathWindowLedger.totalSurplus ctx.G.object :=
+  p13_le_ambientCubic_add_totalSurplus ctx
+
+example :
+    (p13BranchExcessCorridorsWithTag ctx .targetHit).length +
+      (p13BranchExcessCorridorsWithTag ctx .surplus).length +
+      (p13BranchExcessCorridorsWithTag ctx .germ).length =
+      13 * (p13AmbientCubicWindows ctx).card :=
+  p13BranchExcessCorridors_partition ctx
+
+example (window : P13AmbientCubicWindow ctx) :
+    (p13WindowComponentEntries ctx window).length +
+        (p13WindowCrossWindowEntries ctx window).length = 13 :=
+  p13WindowComponentCrossWindow_partition ctx window
+
+example (window : P13AmbientCubicWindow ctx) :
+    7 ≤ (p13WindowComponentEntries ctx window).length ∨
+      7 ≤ (p13WindowCrossWindowEntries ctx window).length :=
+  VerifiedP13BranchExcessComponentPrefix.windowMajority_exhaustive
+    (verifiedP13BranchExcessComponentPrefix ctx node21) window
+
+example : (p13CrossHeavyProfile ctx).labels.Nodup :=
+  VerifiedP13BranchExcessComponentPrefix.crossHeavyLedger_nodup
+    (verifiedP13BranchExcessComponentPrefix ctx node21)
+
+example : 7 * (p13CrossHeavyWindows ctx).length ≤
+    (p13CrossHeavyOrientedTokens ctx).length :=
+  VerifiedP13BranchExcessComponentPrefix.crossHeavyLedger_lower
+    (verifiedP13BranchExcessComponentPrefix ctx node21)
+
+noncomputable example := runP13CrossHeavyReverseClosure ctx
+
+example :
+    (p13CrossHeavyReverseProfile ctx).closedItems.length ≤
+      2 * (p13CrossHeavyReverseProfile ctx).pairLabels.length :=
+  p13CrossHeavyClosed_factorTwo ctx
+
+example :
+    (∀ token ∈ p13CrossHeavyOrientedTokens ctx,
+      (p13CrossHeavyReverseProfile ctx).reversePresent token) ∨
+      (∃ hit : Core.FiniteSearch.FirstHit (p13CrossHeavyOrientedTokens ctx)
+        (fun token =>
+          ¬ (p13CrossHeavyReverseProfile ctx).reversePresent token), True) :=
+  p13CrossHeavyReverseClosure_exhaustive ctx
+
+noncomputable example
+    (hit : Core.FiniteSearch.FirstHit (p13CrossHeavyOrientedTokens ctx)
+      (fun token =>
+        ¬ (p13CrossHeavyReverseProfile ctx).reversePresent token)) :=
+  consumeP13CrossHeavyFirstMissing hit
+
+example
+    (occurrence : P13CrossHeavyOccurrence ctx)
+    (ownerCrossHeavy : occurrence.reverseOwner ∈ p13CrossHeavyWindows ctx)
+    (branchExcess : occurrence.incidencePair.rightLocalToken ∈
+      Graph.InducedPathColdBranchExcess.branchExcessTokens
+        ctx.G.object occurrence.reverseOwner.1) :
+    occurrence.reverseToken ∈ p13CrossHeavyOrientedTokens ctx :=
+  p13CrossHeavyBranchExcessReverse_mem occurrence ownerCrossHeavy branchExcess
+
+example (owner : P13AmbientCubicWindow ctx) :
+    (p13CrossHeavyTransitFibre ctx owner).length ≤ 2 :=
+  p13CrossHeavyTransitFibre_length_le_two ctx owner
+
+example : (p13CrossHeavyTransitMissingTokens ctx).length ≤
+    2 * (p13AmbientCubicWindows ctx).card :=
+  p13CrossHeavyTransitMissingTokens_global_bound ctx
+
+example :
+    (p13CrossHeavyTransitMissingTokens ctx).length +
+      (p13CrossHeavyNonTransitMissingTokens ctx).length =
+        (p13CrossHeavyMissingTokens ctx).length :=
+  p13CrossHeavyMissing_partition ctx
+
+example (item : P13CrossHeavyMissingToken ctx)
+    (notTransit : ¬ item.IsTransit) :
+    item.occurrence.reverseOwner ∉ p13CrossHeavyWindows ctx ∧
+      7 ≤ (p13WindowComponentEntries ctx
+        item.occurrence.reverseOwner).length :=
+  item.nonTransit_componentHeavy notTransit
+
+example {item : P13CrossHeavyMissingToken ctx}
+    (member : item ∈ p13CrossHeavyNonTransitMissingTokens ctx) :
+    item.occurrence.reverseOwner ∉ p13CrossHeavyWindows ctx ∧
+      7 ≤ (p13WindowComponentEntries ctx
+        item.occurrence.reverseOwner).length :=
+  p13CrossHeavyNonTransitMissingToken_componentHeavy member
+
+example :
+    (p13BranchExcessScaleEntriesWithTag ctx .target).length +
+      (p13BranchExcessScaleEntriesWithTag ctx .surplus).length +
+      (p13BranchExcessScaleEntriesWithTag ctx .short).length +
+      (p13BranchExcessScaleEntriesWithTag ctx .long).length =
+      13 * (p13AmbientCubicWindows ctx).card :=
+  p13BranchExcessScaleEntries_partition ctx
+
+example : p13BranchExcessCorridorChecks ctx ≤
+    ctx.G.object.input.vertices.card ^ 2 :=
+  p13BranchExcessCorridorChecks_quadratic ctx
 
 noncomputable def exactNode21Coverage : P13CoverageResidual ctx
     (p13MultiScalePackingPrefix node21) where
@@ -1349,5 +1666,310 @@ example (scope : TypeBSupportScope ctx)
     (selected : Finset scope.Center) :
     selected.card ≤ scope.highCenterChargeProfile.assignedSurplus :=
   (scope.localFanMass selected).charged
+
+noncomputable example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx) :
+    TypeANode63Support.VerifiedNode62Routed node61 :=
+  TypeANode63Support.routeNode62 node61
+
+example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx)
+    (high : node61.support.HighSurplusWitness) :
+    (TypeBEntryRouting.node64 ctx node61 high).node61 = node61 :=
+  rfl
+
+example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx)
+    (high : node61.support.HighSurplusWitness) :
+    (TypeBEntryRouting.node64 ctx node61 high).support.core ⊆
+      p13RemainderVertices ctx :=
+  (TypeBEntryRouting.node64 ctx node61 high).core_subset_remainder ctx
+
+noncomputable example
+    (node64 : TypeBEntryRouting.VerifiedNode64Residual ctx)
+    (coordinate : TypeBFanShoulderIncidenceCoordinates.Coordinate node64) :
+    TypeBFanIncidenceSupportClassification.Route node64 coordinate :=
+  TypeBFanIncidenceSupportClassification.route node64 coordinate
+
+noncomputable example
+    (node64 : TypeBEntryRouting.VerifiedNode64Residual ctx)
+    (coordinate : TypeBFanShoulderIncidenceCoordinates.Coordinate node64)
+    (outside : TypeBFanIncidenceSupportClassification.EndpointOutsideResidual
+      node64 coordinate) :
+    TypeBFanWindowLandingCoordinate.MissingSourceOwnerResidual
+      node64 coordinate outside :=
+  TypeBFanWindowLandingCoordinate.windowLanding node64 coordinate outside
+
+noncomputable example
+    (node64 : TypeBEntryRouting.VerifiedNode64Residual ctx)
+    (coordinate : TypeBFanShoulderIncidenceCoordinates.Coordinate node64) :
+    TypeBFanIncidenceCoordinateLedger.IncidenceLedger node64 coordinate :=
+  TypeBFanIncidenceCoordinateLedger.ledger node64 coordinate
+
+noncomputable example
+    (node64 : TypeBEntryRouting.VerifiedNode64Residual ctx)
+    (coordinate : TypeBFanShoulderIncidenceCoordinates.Coordinate node64) :
+    TypeBFanHybridReadiness.Readiness node64 coordinate :=
+  TypeBFanHybridReadiness.classify node64 coordinate
+
+noncomputable example
+    (node64 : TypeBEntryRouting.VerifiedNode64Residual ctx) :
+    TypeBFanHybridReadiness.Readiness node64
+      (Graph.TypeBFanShoulderIncidenceCoordinate.firstCoordinate ctx.G.object
+        (TypeBFanShoulderIncidenceCoordinates.profile node64)) :=
+  TypeBFanHybridReadiness.first node64
+
+noncomputable example
+    (node64 : TypeBEntryRouting.VerifiedNode64Residual ctx)
+    (port : TypeBFanWholePortAssignment.Port node64) :
+    TypeBFanWholePortAssignment.Availability node64 port :=
+  TypeBFanWholePortAssignment.classify node64 port
+
+example : TypeBFanWholePortAssignment.visibleChecks = 2 :=
+  TypeBFanWholePortAssignment.visibleChecks_eq_two
+
+noncomputable example
+    (node64 : TypeBEntryRouting.VerifiedNode64Residual ctx)
+    (port : Graph.FanClosedPort.OpenPort
+      (TypeBFanShoulderIncidenceCoordinates.profile node64).centerHigh
+      (TypeBFanShoulderIncidenceCoordinates.profile node64).deletionCritical) :
+    TypeBFanWholePortAssignment.OpenPortAvailability node64 port :=
+  TypeBFanWholePortAssignment.classifyOpen node64 port
+
+noncomputable example
+    (node64 : TypeBEntryRouting.VerifiedNode64Residual ctx) :
+    TypeBFanCompatiblePairAssignment.Route node64 :=
+  TypeBFanCompatiblePairAssignment.route node64
+
+example (node64 : TypeBEntryRouting.VerifiedNode64Residual ctx) :
+    TypeBFanCompatiblePairAssignment.visibleChecks node64 ≤
+      2 * ctx.G.object.input.vertices.card + 6 :=
+  TypeBFanCompatiblePairAssignment.visibleChecks_linear node64
+
+noncomputable example
+    (node64 : TypeBEntryRouting.VerifiedNode64Residual ctx) :
+    TypeBFanCertificateRequirement.Route node64 :=
+  TypeBFanCertificateRequirement.route node64
+
+example
+    (node64 : TypeBEntryRouting.VerifiedNode64Residual ctx)
+    (ready : TypeBFanCompatiblePairAssignment.ReadyPair node64) :
+    (TypeBFanCertificateRequirement.labelRequired node64 ready).request.port.1 = 0 :=
+  TypeBFanCertificateRequirement.labelRequired_port_index node64 ready
+
+noncomputable example
+    (node64 : TypeBEntryRouting.VerifiedNode64Residual ctx) :
+    TypeBDegreeFourLedgerConnector.Route node64 :=
+  TypeBDegreeFourLedgerConnector.route node64
+
+example
+    (node64 : TypeBEntryRouting.VerifiedNode64Residual ctx)
+    (degreeFour : TypeBFanCompatiblePairAssignment.DegreeFourResidual node64) :
+    TypeBDegreeFourLedgerConnector.degreeFourChecks node64 ≤
+      17 * (ctx.G.object.input.vertices.card + 1) :=
+  TypeBDegreeFourLedgerConnector.degreeFourChecks_polynomial node64 degreeFour
+
+example
+    (node64 : TypeBEntryRouting.VerifiedNode64Residual ctx)
+    (fan : MarkedFan ctx)
+    (centerExact : fan.center = node64.highSurplus.center) :
+    TypeBDegreeFourLedgerConnector.MarkingDecision node64 :=
+  .marked fan centerExact
+
+example
+    (node64 : TypeBEntryRouting.VerifiedNode64Residual ctx)
+    (absent : ¬∃ fan : MarkedFan ctx,
+      fan.center = node64.highSurplus.center) :
+    TypeBDegreeFourLedgerConnector.MarkingDecision node64 :=
+  .unmarked absent
+
+noncomputable example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx)
+    (noHigh : Graph.NegativeSupportHandoff.highCenters ctx.G.object
+      node61.support.core = ∅) :
+    FinEnum (TypeANode63Support.TraceCoordinate node61 noHigh) :=
+  TypeANode63Support.traceCoordinates node61 noHigh
+
+noncomputable example
+    (decomposition : P13NegativeSupportLocalization.Decomposition ctx) :
+    TypeBEntryRouting.VerifiedNode61Residual ctx :=
+  P13NegativeSupportLocalization.node61 ctx decomposition
+
+example (decomposition : P13NegativeSupportLocalization.Decomposition ctx) :
+    (P13NegativeSupportLocalization.run ctx decomposition).terminal =
+      .localized :=
+  P13NegativeSupportLocalization.run_terminal_localized ctx decomposition
+
+noncomputable example
+    (ledger : P13NegativeSupportLocalization.CanonicalQuarterLedger ctx) :
+    TypeANode63Support.VerifiedNode62Routed
+      (P13NegativeSupportLocalization.canonicalNode61 ctx ledger) :=
+  TypeANode63Support.routeCanonicalNode61Node62 ledger
+
+noncomputable example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx)
+    (node63 : TypeANode63Support.VerifiedNode63Residual node61) :
+    FinEnum (TypeACompletionPortCoordinates.Coordinate node61 node63) :=
+  TypeACompletionPortCoordinates.coordinates node61 node63
+
+example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx)
+    (node63 : TypeANode63Support.VerifiedNode63Residual node61)
+    (port : TypeACompletionPortCoordinates.Coordinate node61 node63) :
+    (port.receiver ctx.G.object node63.typeAProfile).1 ∈ node61.support.core ∧
+      port.outside ctx.G.object node63.typeAProfile ∉ node61.support.core ∧
+      ctx.G.object.graph.Adj
+        (port.receiver ctx.G.object node63.typeAProfile).1
+        (port.outside ctx.G.object node63.typeAProfile) :=
+  ⟨TypeACompletionPortCoordinates.receiver_mem_node61_support
+      node61 node63 port,
+    TypeACompletionPortCoordinates.outside_not_mem_node61_support
+      node61 node63 port,
+    TypeACompletionPortCoordinates.port_is_actual_ambient_edge
+      node61 node63 port⟩
+
+example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx)
+    (node63 : TypeANode63Support.VerifiedNode63Residual node61) :
+    Graph.TypeACompletionPortCoordinate.visibleChecks ctx.G.object
+        node63.typeAProfile ≤ 4 * ctx.G.object.input.vertices.card :=
+  TypeACompletionPortCoordinates.visibleChecks_polynomial node61 node63
+
+noncomputable example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx)
+    (node63 : TypeANode63Support.VerifiedNode63Residual node61)
+    (port : TypeACompletionPortCoordinates.Coordinate node61 node63) :
+    Graph.TypeAAnchoredReturnCoordinate.AnchoredReturn ctx.G.object
+      node63.typeAProfile port :=
+  TypeAAnchoredReturnCoordinates.anchoredReturn node61 node63 port
+
+example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx)
+    (node63 : TypeANode63Support.VerifiedNode63Residual node61)
+    (port : TypeACompletionPortCoordinates.Coordinate node61 node63) :
+    (TypeAAnchoredReturnCoordinates.anchoredReturn node61 node63 port).path
+      ctx.G.object node63.typeAProfile |>.IsPath :=
+  TypeAAnchoredReturnCoordinates.anchoredReturn_isPath node61 node63 port
+
+example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx)
+    (node63 : TypeANode63Support.VerifiedNode63Residual node61)
+    (port : TypeACompletionPortCoordinates.Coordinate node61 node63) :
+    let first := TypeAFirstEntryCoordinates.firstEntry node61 node63 port
+    first.predecessor ctx.G.object node63.typeAProfile port
+        (TypeAAnchoredReturnCoordinates.anchoredReturn node61 node63 port) ∉
+      node61.support.core :=
+  TypeAFirstEntryCoordinates.firstEntry_predecessor_outside node61 node63 port
+
+example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx)
+    (node63 : TypeANode63Support.VerifiedNode63Residual node61)
+    (terminal candidate : TypeACompletionPortCoordinates.Coordinate node61 node63)
+    (degreeTwo : (node63.typeAProfile.supportObject ctx.G.object).degree
+      (terminal.receiver ctx.G.object node63.typeAProfile) = 2)
+    (sameReceiver : candidate.receiver ctx.G.object node63.typeAProfile =
+      terminal.receiver ctx.G.object node63.typeAProfile) :
+    candidate = terminal :=
+  TypeAEntryBudgetCoordinates.completion_port_unique_of_degree_two
+    node61 node63 terminal candidate degreeTwo sameReceiver
+
+example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx)
+    (node63 : TypeANode63Support.VerifiedNode63Residual node61)
+    (terminal : TypeACompletionPortCoordinates.Coordinate node61 node63)
+    (degreeTwo : (node63.typeAProfile.supportObject ctx.G.object).degree
+      (terminal.receiver ctx.G.object node63.typeAProfile) = 2) :
+    (Graph.TypeAEntryBudgetCoordinate.possibleFirstEntryEdges ctx.G.object
+      node63.typeAProfile terminal).ncard ≤
+      Graph.TypeAEntryBudgetCoordinate.otherReceiverDeficiencySum ctx.G.object
+        node63.typeAProfile terminal :=
+  TypeAEntryBudgetCoordinates.external_first_entry_edge_budget
+    node61 node63 terminal degreeTwo
+
+example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx)
+    (node63 : TypeANode63Support.VerifiedNode63Residual node61) :
+    Graph.TypeACompletionPortCoordinate.visibleChecks ctx.G.object
+        node63.typeAProfile + Graph.TypeAEntryBudgetCoordinate.additionalChecks ≤
+      4 * ctx.G.object.input.vertices.card :=
+  TypeAEntryBudgetCoordinates.visibleChecks_polynomial node61 node63
+
+noncomputable example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx)
+    (node63 : TypeANode63Support.VerifiedNode63Residual node61)
+    (port : TypeACompletionPortCoordinates.Coordinate node61 node63) :
+    let connector := TypeAReceiverEntryChannels.connector node61 node63 port
+    connector.path.support =
+      (TypeAFirstEntryCoordinates.firstEntry node61 node63 port).hit.before ++
+        [(TypeAFirstEntryCoordinates.firstEntry node61 node63 port).entry
+          ctx.G.object node63.typeAProfile port
+          (TypeAAnchoredReturnCoordinates.anchoredReturn node61 node63 port)] :=
+  TypeAReceiverEntryChannels.connector_support_exact node61 node63 port
+
+example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx)
+    (node63 : TypeANode63Support.VerifiedNode63Residual node61)
+    (port : TypeACompletionPortCoordinates.Coordinate node61 node63)
+    (channel : TypeAReceiverEntryChannels.Channel node61 node63 port) :
+    ¬MersenneLength
+      ((TypeAReceiverEntryChannels.connector node61 node63 port).length
+          ctx.G.object node63.typeAProfile port
+          (TypeAAnchoredReturnCoordinates.anchoredReturn node61 node63 port)
+          (TypeAFirstEntryCoordinates.firstEntry node61 node63 port) +
+        channel.length ctx.G.object node63.typeAProfile port
+          (TypeAAnchoredReturnCoordinates.anchoredReturn node61 node63 port)
+          (TypeAFirstEntryCoordinates.firstEntry node61 node63 port)) :=
+  TypeAReceiverEntryChannels.spectral_pressure node61 node63 port channel
+
+example
+    (node61 : TypeBEntryRouting.VerifiedNode61Residual ctx)
+    (node63 : TypeANode63Support.VerifiedNode63Residual node61)
+    (port : TypeACompletionPortCoordinates.Coordinate node61 node63) :
+    Graph.TypeAReceiverEntryChannel.connectorTraversalChecks ctx.G.object
+      node63.typeAProfile port
+      (TypeAAnchoredReturnCoordinates.anchoredReturn node61 node63 port)
+      (TypeAFirstEntryCoordinates.firstEntry node61 node63 port) ≤
+        ctx.G.object.input.vertices.card :=
+  TypeAReceiverEntryChannels.connectorTraversalChecks_le_vertexCount
+    node61 node63 port
+
+section LongPrefixAlignedDegreeGate
+
+variable {previous : VerifiedP13MultiScaleCurvaturePrefix ctx}
+variable {window : P13ActualSelectedWindow ctx}
+variable {fork : P13ActualAttachmentColdFork ctx previous window}
+variable {quiet : P13SameWindowQuietOutput fork}
+variable {long : P13SameWindowLongOutput fork quiet}
+variable {source164 : P13SameWindowLongPrefixStateSource fork quiet long}
+variable {source179 : P13SameWindowLongPrefixDegreeSource
+  (source164 := source164)}
+variable {source183 : P13SameWindowLongPrefixLocalClauseSource
+  (source179 := source179)}
+variable {source186 : P13SameWindowLongPrefixExtendedClauseSource
+  (source183 := source183)}
+variable {source189 : P13SameWindowLongPrefixThirdBlockClauseSource
+  (source186 := source186)}
+variable {source192 : P13SameWindowLongPrefixFourthBlockClauseSource
+  (source189 := source189)}
+
+example
+    (source195 : P13SameWindowLongPrefixCompatibleResponseFrontierSource
+      (source192 := source192)) :
+    (∃ separator,
+      runP13SameWindowLongPrefixAlignedDegreeGate source195 =
+        .distinguishing separator) ∨
+    (∃ requirement residual,
+      runP13SameWindowLongPrefixAlignedDegreeGate source195 =
+        .degreeGap requirement residual) ∨
+    (∃ requirement residual,
+      runP13SameWindowLongPrefixAlignedDegreeGate source195 =
+        .exactPair requirement residual) :=
+  runP13SameWindowLongPrefixAlignedDegreeGate_exhaustive source195
+
+example : LongPrefixAlignedDegreeGate.visibleChecks ≤
+    ctx.G.object.input.vertices.card + 1 :=
+  runP13SameWindowLongPrefixAlignedDegreeGate_visibleChecks
+
+end LongPrefixAlignedDegreeGate
 
 end Erdos64EG.Tests

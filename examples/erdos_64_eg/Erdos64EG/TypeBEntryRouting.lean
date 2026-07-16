@@ -16,53 +16,152 @@ remain inside the same finite support. -/
 abbrev NegativeSupport :=
   Graph.NegativeSupportHandoff.ConnectedNegativeSupport ctx.G.object
 
+/-- Provenance-carrying node `[61]` residual.  The localized support is a
+literal connected negative support on the selected minimal graph, and every
+counted vertex lies in the exact maximum-`P13`-packing remainder.  The
+localization theorem which supplies `support` remains a predecessor obligation;
+this structure prevents later Type A/Type B code from silently replacing it by
+an unrelated support. -/
+structure VerifiedNode61Residual where
+  previous : VerifiedSparseSurplusPrefix ctx
+  support : NegativeSupport ctx
+  core_subset_remainder : support.core ⊆ p13RemainderVertices ctx
+  remainder_neighbor_closed : ∀ ⦃vertex neighbor : ctx.G.Vertex⦄,
+    vertex ∈ support.core → neighbor ∈ p13RemainderVertices ctx →
+      ctx.G.object.graph.Adj vertex neighbor → neighbor ∈ support.core
+
+/-- Exact node `[61]` handoff once negative-charge localization has selected
+its connected remainder component. -/
+def node61
+    (previous : VerifiedSparseSurplusPrefix ctx)
+    (support : NegativeSupport ctx)
+    (core_subset_remainder : support.core ⊆ p13RemainderVertices ctx)
+    (remainder_neighbor_closed : ∀ ⦃vertex neighbor : ctx.G.Vertex⦄,
+      vertex ∈ support.core → neighbor ∈ p13RemainderVertices ctx →
+        ctx.G.object.graph.Adj vertex neighbor → neighbor ∈ support.core) :
+    VerifiedNode61Residual ctx where
+  previous := previous
+  support := support
+  core_subset_remainder := core_subset_remainder
+  remainder_neighbor_closed := remainder_neighbor_closed
+
+/-- Exhaustive node `[62]` result on the exact node-`[61]` support. -/
+inductive VerifiedNode62Residual (node61 : VerifiedNode61Residual ctx) where
+  | high (witness : node61.support.HighSurplusWitness)
+  | noHigh
+      (highCenters_empty :
+        Graph.NegativeSupportHandoff.highCenters ctx.G.object
+          node61.support.core = ∅)
+
+/-- Node `[62]` scans only the actual vertices of the localized support.  It
+either returns a literal high center or proves that the same finite high-center
+set is empty. -/
+noncomputable def node62 (node61 : VerifiedNode61Residual ctx) :
+    VerifiedNode62Residual ctx node61 := by
+  let centers := Graph.NegativeSupportHandoff.highCenters ctx.G.object
+    node61.support.core
+  by_cases nonempty : centers.Nonempty
+  · let center := nonempty.choose
+    have centerMember : center ∈ centers := nonempty.choose_spec
+    have facts : center ∈ node61.support.core ∧
+        4 ≤ ctx.G.object.degree center := by
+      letI : DecidableEq ctx.G.Vertex := ctx.G.object.input.vertices.decEq
+      simpa [centers, Graph.NegativeSupportHandoff.highCenters] using centerMember
+    exact .high {
+      center := center
+      center_mem := facts.1
+      high := facts.2 }
+  · exact .noHigh (Finset.not_nonempty_iff_eq_empty.mp nonempty)
+
+theorem node62_high_or_empty (node61 : VerifiedNode61Residual ctx) :
+    Nonempty node61.support.HighSurplusWitness ∨
+      Graph.NegativeSupportHandoff.highCenters ctx.G.object
+        node61.support.core = ∅ := by
+  cases node62 ctx node61 with
+  | high witness => exact Or.inl ⟨witness⟩
+  | noHigh empty => exact Or.inr empty
+
+/-- Node `[62]` performs one local degree test per vertex of the already
+localized support. -/
+noncomputable def node62Checks (node61 : VerifiedNode61Residual ctx) : Nat :=
+  node61.support.core.card
+
+theorem node62Checks_linear (node61 : VerifiedNode61Residual ctx) :
+    node62Checks ctx node61 ≤ ctx.G.object.input.vertices.card := by
+  unfold node62Checks
+  rw [← ctx.G.object.card_vertexFinset]
+  apply Finset.card_le_card
+  intro vertex _member
+  exact ctx.G.object.mem_vertexFinset vertex
+
 /-- Complete node `[64]` residual.  The local support comes from node `[61]`,
 the high-center witness is the yes output of node `[62]`, and the earlier
 surplus audit is retained on the identical minimal-counterexample context. -/
 structure VerifiedNode64Residual where
-  previous : VerifiedSparseSurplusPrefix ctx
-  support : NegativeSupport ctx
-  highSurplus : support.HighSurplusWitness
-  routed : Routes.NegativeSupportHandoff.OrdinaryResidual support
+  node61 : VerifiedNode61Residual ctx
+  highSurplus : node61.support.HighSurplusWitness
+  routed : Routes.NegativeSupportHandoff.OrdinaryResidual node61.support
+
+namespace VerifiedNode64Residual
+
+/-- The earlier surplus prefix is not rebuilt at node `[64]`; it is projected
+from the retained node-`[61]` residual. -/
+abbrev previous (residual : VerifiedNode64Residual ctx) :=
+  residual.node61.previous
+
+/-- The ordinary Type B support is definitionally the localized node-`[61]`
+support. -/
+abbrev support (residual : VerifiedNode64Residual ctx) :=
+  residual.node61.support
+
+/-- Remainder provenance survives the high-center split unchanged. -/
+theorem core_subset_remainder (residual : VerifiedNode64Residual ctx) :
+    residual.support.core ⊆ p13RemainderVertices ctx :=
+  residual.node61.core_subset_remainder
+
+theorem remainder_neighbor_closed (residual : VerifiedNode64Residual ctx)
+    {vertex neighbor : ctx.G.Vertex}
+    (vertexMember : vertex ∈ residual.support.core)
+    (neighborRemainder : neighbor ∈ p13RemainderVertices ctx)
+    (adjacent : ctx.G.object.graph.Adj vertex neighbor) :
+    neighbor ∈ residual.support.core :=
+  residual.node61.remainder_neighbor_closed vertexMember neighborRemainder adjacent
+
+end VerifiedNode64Residual
 
 /-- Route the exact node `[62]` witness without changing its graph or local
 support. -/
 def node64
-    (previous : VerifiedSparseSurplusPrefix ctx)
-    (support : NegativeSupport ctx)
-    (highSurplus : support.HighSurplusWitness) :
+    (node61 : VerifiedNode61Residual ctx)
+    (highSurplus : node61.support.HighSurplusWitness) :
     VerifiedNode64Residual ctx where
-  previous := previous
-  support := support
+  node61 := node61
   highSurplus := highSurplus
-  routed := Routes.NegativeSupportHandoff.ordinary support highSurplus
+  routed := Routes.NegativeSupportHandoff.ordinary node61.support highSurplus
 
 @[simp]
 theorem node64_support
-    (previous : VerifiedSparseSurplusPrefix ctx)
-    (support : NegativeSupport ctx)
-    (highSurplus : support.HighSurplusWitness) :
-    (node64 ctx previous support highSurplus).support = support :=
+    (node61 : VerifiedNode61Residual ctx)
+    (highSurplus : node61.support.HighSurplusWitness) :
+    (node64 ctx node61 highSurplus).support = node61.support :=
   rfl
 
 @[simp]
 theorem node64_center
-    (previous : VerifiedSparseSurplusPrefix ctx)
-    (support : NegativeSupport ctx)
-    (highSurplus : support.HighSurplusWitness) :
-    (node64 ctx previous support highSurplus).routed.highSurplus.center =
+    (node61 : VerifiedNode61Residual ctx)
+    (highSurplus : node61.support.HighSurplusWitness) :
+    (node64 ctx node61 highSurplus).routed.highSurplus.center =
       highSurplus.center :=
   rfl
 
 /-- The yes-branch center is one of the canonically assigned high centers of
 the same negative support; the assigned family is not rebuilt at node `[65]`. -/
 theorem node64_center_mem_assignedCenters
-    (previous : VerifiedSparseSurplusPrefix ctx)
-    (support : NegativeSupport ctx)
-    (highSurplus : support.HighSurplusWitness) :
-    (node64 ctx previous support highSurplus).routed.highSurplus.center ∈
+    (node61 : VerifiedNode61Residual ctx)
+    (highSurplus : node61.support.HighSurplusWitness) :
+    (node64 ctx node61 highSurplus).routed.highSurplus.center ∈
       (Graph.NegativeSupportHandoff.chargeProfile ctx.G.object
-        support.core).assignedCenters := by
+        node61.support.core).assignedCenters := by
   exact highSurplus.center_mem_highCenters
 
 /-- Exact producer type of the dashed node `[108] -> [66]` handoff.  The four

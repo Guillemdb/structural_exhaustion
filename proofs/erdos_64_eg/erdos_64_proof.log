@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2026.4.6)  16 JUL 2026 12:20
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2026.4.6)  16 JUL 2026 21:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1007,7 +1007,7 @@ re/texmf/fonts/enc/dvips/lm/lm-rm.enc}])
 
 [16]
 
-LaTeX Warning: Float too large for page by 49.25676pt on input line 885.
+LaTeX Warning: Float too large for page by 49.25676pt on input line 890.
 
 
 
@@ -1016,66 +1016,66 @@ LaTeX Warning: Float too large for page by 49.25676pt on input line 885.
 [18]
 
 [19]
-LaTeX Font Info:    Trying to load font information for U+euf on input line 107
-0.
+LaTeX Font Info:    Trying to load font information for U+euf on input line 108
+1.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/ueuf.fd
 File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
 )
 LaTeX Font Info:    Trying to load font information for OT1+lmss on input line 
-1070.
+1081.
 
 (/usr/share/texmf/tex/latex/lm/ot1lmss.fd
 File: ot1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 
-LaTeX Warning: Float too large for page by 204.41861pt on input line 1073.
+LaTeX Warning: Float too large for page by 348.5308pt on input line 1084.
 
 
 
 [20]
 
 [21]
-Overfull \hbox (1.35223pt too wide) in paragraph at lines 1178--1178
+Overfull \hbox (1.35223pt too wide) in paragraph at lines 1201--1201
  []|\T1/lmr/bx/n/8 Item| 
  []
 
 
-Overfull \hbox (1.59377pt too wide) in paragraph at lines 1190--1191
-[]|[][]\T1/lmr/m/n/8 Definition 3.102[][]|  
+Overfull \hbox (1.59377pt too wide) in paragraph at lines 1213--1214
+[]|[][]\T1/lmr/m/n/8 Definition 3.106[][]|  
  []
 
 
-Overfull \hbox (3.05792pt too wide) in paragraph at lines 1216--1217
-[]|[][]\T1/lmr/m/n/8 Definitions 7.42[][], 
+Overfull \hbox (3.05792pt too wide) in paragraph at lines 1239--1240
+[]|[][]\T1/lmr/m/n/8 Definitions 7.51[][], 
  []
 
 
-Overfull \hbox (3.05792pt too wide) in paragraph at lines 1221--1222
-[]|[][]\T1/lmr/m/n/8 Definitions 3.91[][], 
+Overfull \hbox (3.05792pt too wide) in paragraph at lines 1244--1245
+[]|[][]\T1/lmr/m/n/8 Definitions 3.95[][], 
  []
 
 
-Overfull \hbox (0.69676pt too wide) in paragraph at lines 1226--1227
-[]|[][]\T1/lmr/m/n/8 Definitions 3.91[][] 
+Overfull \hbox (0.69676pt too wide) in paragraph at lines 1249--1250
+[]|[][]\T1/lmr/m/n/8 Definitions 3.95[][] 
  []
 
 
-Overfull \hbox (3.71869pt too wide) in paragraph at lines 1226--1227
+Overfull \hbox (3.71869pt too wide) in paragraph at lines 1249--1250
 \T1/lmr/m/n/8 and [][]Lemma 10.9[][]|  
  []
 
 
-Overfull \hbox (3.53654pt too wide) in paragraph at lines 1232--1233
-[]|[][]\T1/lmr/m/n/8 Proposition 11.6[][]|  
+Overfull \hbox (3.53654pt too wide) in paragraph at lines 1255--1256
+[]|[][]\T1/lmr/m/n/8 Proposition 11.9[][]|  
  []
 
 
-Overfull \hbox (3.95493pt too wide) in paragraph at lines 1238--1239
+Overfull \hbox (3.95493pt too wide) in paragraph at lines 1261--1262
 []|[][]\T1/lmr/m/n/8 Definition 14.19[][], 
  []
 
 
-Overfull \hbox (3.95493pt too wide) in paragraph at lines 1241--1242
+Overfull \hbox (3.95493pt too wide) in paragraph at lines 1264--1265
 []|[][]\T1/lmr/m/n/8 Definition 14.46[][], 
  []
 
@@ -1093,347 +1093,67 @@ Overfull \hbox (3.95493pt too wide) in paragraph at lines 1241--1242
 
 
 ] [23] [24] [25] [26] [27] [28] [29] [30]
-Overfull \hbox (1.38318pt too wide) in paragraph at lines 1295--1295
+Overfull \hbox (1.38318pt too wide) in paragraph at lines 1318--1318
 \T1/lmr/m/n/8 uncompressibility|  
  []
 
 [31]
 
 [32]
-Overfull \hbox (0.85843pt too wide) in paragraph at lines 1367--1367
+Overfull \hbox (0.85843pt too wide) in paragraph at lines 1390--1390
 []|\T1/lmr/m/n/8 Delocalization 
  []
 
 [33] [34] [35] [36]
 
 [37]
-Overfull \hbox (2.2704pt too wide) in paragraph at lines 1499--1499
+Overfull \hbox (2.2704pt too wide) in paragraph at lines 1522--1522
  []|\T1/lmr/bx/n/8 Stage| 
  []
 
 
-Overfull \hbox (15.42957pt too wide) in paragraph at lines 1502--1502
+Overfull \hbox (15.42957pt too wide) in paragraph at lines 1525--1525
 \T1/lmtt/m/n/8 (target/ret/cycle)|  
  []
 
 
-Overfull \hbox (2.4837pt too wide) in paragraph at lines 1503--1503
+Overfull \hbox (2.4837pt too wide) in paragraph at lines 1526--1526
 []|[][]\T1/lmr/m/n/8 Definition 2.5[][]|  
  []
 
 
-Overfull \hbox (2.2704pt too wide) in paragraph at lines 1512--1512
+Overfull \hbox (2.2704pt too wide) in paragraph at lines 1535--1535
  []|\T1/lmr/bx/n/8 Stage| 
  []
 
 
-Overfull \hbox (8.99403pt too wide) in paragraph at lines 1521--1521
-[]|[][]\T1/lmr/m/n/8 Corollary 3.101[][]|  
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1541--1541
+[]|[][]\T1/lmr/m/n/8 Lemma 3.101[][]|  
  []
 
 
-Overfull \hbox (2.2704pt too wide) in paragraph at lines 1530--1530
- []|\T1/lmr/bx/n/8 Stage| 
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1542--1542
+[]|[][]\T1/lmr/m/n/8 Lemma 3.102[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1533--1533
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1543--1543
 []|[][]\T1/lmr/m/n/8 Lemma 3.103[][]|  
  []
 
 
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1537--1537
- []|\T1/lmr/m/n/8 ENT/ 
+Overfull \hbox (8.99403pt too wide) in paragraph at lines 1544--1544
+[]|[][]\T1/lmr/m/n/8 Corollary 3.105[][]|  
  []
 
 
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1537--1537
- \T1/lmr/m/n/8 SURP| 
+Overfull \hbox (2.2704pt too wide) in paragraph at lines 1553--1553
+ []|\T1/lmr/bx/n/8 Stage| 
  []
 
 
-Overfull \hbox (6.7337pt too wide) in paragraph at lines 1538--1538
-[]|[][]\T1/lmr/m/n/8 Definition 3.69[][]|  
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1538--1538
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1538--1538
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1539--1539
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1539--1539
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (5.44633pt too wide) in paragraph at lines 1540--1540
-\T1/lmr/m/n/8 retokenization 
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1540--1540
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1540--1540
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (6.7337pt too wide) in paragraph at lines 1541--1541
-[]|[][]\T1/lmr/m/n/8 Definition 3.37[][]|  
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1541--1541
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1541--1541
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1542--1542
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1542--1542
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (9.09486pt too wide) in paragraph at lines 1543--1543
-[]|[][]\T1/lmr/m/n/8 Definition 3.39[][], 
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1543--1543
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1543--1543
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (6.7337pt too wide) in paragraph at lines 1544--1544
-[]|[][]\T1/lmr/m/n/8 Definition 3.41[][]|  
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1544--1544
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1544--1544
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1545--1545
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1545--1545
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1546--1546
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1546--1546
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (2.4837pt too wide) in paragraph at lines 1547--1547
-[]|[][]\T1/lmr/m/n/8 Definition 8.3[][]|  
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1547--1547
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1547--1547
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1548--1548
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1548--1548
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (4.74403pt too wide) in paragraph at lines 1549--1549
-[]|[][]\T1/lmr/m/n/8 Corollary 13.6[][]|  
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1549--1549
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1549--1549
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (6.7337pt too wide) in paragraph at lines 1550--1550
-[]|[][]\T1/lmr/m/n/8 Definition 3.46[][]|  
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1550--1550
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1550--1550
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (6.7337pt too wide) in paragraph at lines 1551--1551
-[]|[][]\T1/lmr/m/n/8 Definition 3.47[][]|  
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1551--1551
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1551--1551
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (12.92648pt too wide) in paragraph at lines 1552--1552
-[]|[][]\T1/lmr/m/n/8 Proposition 3.59[][]|  
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1552--1552
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1552--1552
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (3.08505pt too wide) in paragraph at lines 1553--1553
-[]|[][]\T1/lmr/m/n/8 Theorem 3.63[][]|  
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1553--1553
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1553--1553
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (6.7337pt too wide) in paragraph at lines 1554--1554
-[]|[][]\T1/lmr/m/n/8 Definition 3.74[][]|  
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1554--1554
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1554--1554
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1555--1555
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1555--1555
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1556--1556
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1556--1556
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1557--1557
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1557--1557
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1558--1558
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1558--1558
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (1.3984pt too wide) in paragraph at lines 1559--1559
- []|\T1/lmr/m/n/8 ENT/ 
- []
-
-
-Overfull \hbox (1.98474pt too wide) in paragraph at lines 1559--1559
- \T1/lmr/m/n/8 SURP| 
- []
-
-
-Overfull \hbox (4.74403pt too wide) in paragraph at lines 1560--1560
-[]|[][]\T1/lmr/m/n/8 Corollary 3.50[][]|  
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1556--1556
+[]|[][]\T1/lmr/m/n/8 Lemma 3.107[][]|  
  []
 
 
@@ -1447,8 +1167,8 @@ Overfull \hbox (1.98474pt too wide) in paragraph at lines 1560--1560
  []
 
 
-Overfull \hbox (12.92648pt too wide) in paragraph at lines 1561--1561
-[]|[][]\T1/lmr/m/n/8 Proposition 3.83[][]|  
+Overfull \hbox (6.7337pt too wide) in paragraph at lines 1561--1561
+[]|[][]\T1/lmr/m/n/8 Definition 3.69[][]|  
  []
 
 
@@ -1462,23 +1182,258 @@ Overfull \hbox (1.98474pt too wide) in paragraph at lines 1561--1561
  []
 
 
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1562--1562
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1562--1562
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (5.44633pt too wide) in paragraph at lines 1563--1563
+\T1/lmr/m/n/8 retokenization 
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1563--1563
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1563--1563
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (6.7337pt too wide) in paragraph at lines 1564--1564
+[]|[][]\T1/lmr/m/n/8 Definition 3.37[][]|  
+ []
+
+
 Overfull \hbox (1.3984pt too wide) in paragraph at lines 1564--1564
  []|\T1/lmr/m/n/8 ENT/ 
  []
 
 
-Overfull \hbox (0.87804pt too wide) in paragraph at lines 1575--1575
-[]|[][]\T1/lmr/m/n/8 Lemmas 7.21[][] 
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1564--1564
+ \T1/lmr/m/n/8 SURP| 
  []
 
 
-Overfull \hbox (0.87804pt too wide) in paragraph at lines 1580--1580
-[]|[][]\T1/lmr/m/n/8 Lemmas 7.36[][] 
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1565--1565
+ []|\T1/lmr/m/n/8 ENT/ 
  []
 
 
-Overfull \hbox (12.44786pt too wide) in paragraph at lines 1582--1582
-[]|[][]\T1/lmr/m/n/8 Definitions 7.42[][], 
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1565--1565
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (9.09486pt too wide) in paragraph at lines 1566--1566
+[]|[][]\T1/lmr/m/n/8 Definition 3.39[][], 
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1566--1566
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1566--1566
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (6.7337pt too wide) in paragraph at lines 1567--1567
+[]|[][]\T1/lmr/m/n/8 Definition 3.41[][]|  
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1567--1567
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1567--1567
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1568--1568
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1568--1568
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1569--1569
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1569--1569
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (2.4837pt too wide) in paragraph at lines 1570--1570
+[]|[][]\T1/lmr/m/n/8 Definition 8.3[][]|  
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1570--1570
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1570--1570
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1571--1571
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1571--1571
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (4.74403pt too wide) in paragraph at lines 1572--1572
+[]|[][]\T1/lmr/m/n/8 Corollary 13.6[][]|  
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1572--1572
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1572--1572
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (6.7337pt too wide) in paragraph at lines 1573--1573
+[]|[][]\T1/lmr/m/n/8 Definition 3.46[][]|  
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1573--1573
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1573--1573
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (6.7337pt too wide) in paragraph at lines 1574--1574
+[]|[][]\T1/lmr/m/n/8 Definition 3.47[][]|  
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1574--1574
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1574--1574
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (12.92648pt too wide) in paragraph at lines 1575--1575
+[]|[][]\T1/lmr/m/n/8 Proposition 3.59[][]|  
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1575--1575
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1575--1575
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (3.08505pt too wide) in paragraph at lines 1576--1576
+[]|[][]\T1/lmr/m/n/8 Theorem 3.63[][]|  
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1576--1576
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1576--1576
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (6.7337pt too wide) in paragraph at lines 1577--1577
+[]|[][]\T1/lmr/m/n/8 Definition 3.74[][]|  
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1577--1577
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1577--1577
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1578--1578
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1578--1578
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1579--1579
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1579--1579
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1580--1580
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1580--1580
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1581--1581
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1581--1581
+ \T1/lmr/m/n/8 SURP| 
  []
 
 
@@ -1487,499 +1442,554 @@ Overfull \hbox (1.3984pt too wide) in paragraph at lines 1582--1582
  []
 
 
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1582--1582
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (4.74403pt too wide) in paragraph at lines 1583--1583
+[]|[][]\T1/lmr/m/n/8 Corollary 3.50[][]|  
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1583--1583
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1583--1583
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (12.92648pt too wide) in paragraph at lines 1584--1584
+[]|[][]\T1/lmr/m/n/8 Proposition 3.87[][]|  
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1584--1584
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (1.98474pt too wide) in paragraph at lines 1584--1584
+ \T1/lmr/m/n/8 SURP| 
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1587--1587
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
+Overfull \hbox (0.87804pt too wide) in paragraph at lines 1598--1598
+[]|[][]\T1/lmr/m/n/8 Lemmas 7.21[][] 
+ []
+
+
+Overfull \hbox (0.87804pt too wide) in paragraph at lines 1603--1603
+[]|[][]\T1/lmr/m/n/8 Lemmas 7.41[][] 
+ []
+
+
+Overfull \hbox (12.44786pt too wide) in paragraph at lines 1605--1605
+[]|[][]\T1/lmr/m/n/8 Definitions 7.51[][], 
+ []
+
+
+Overfull \hbox (1.3984pt too wide) in paragraph at lines 1605--1605
+ []|\T1/lmr/m/n/8 ENT/ 
+ []
+
+
 
 [38] [39] [40] [41] [42]
-Overfull \hbox (2.2704pt too wide) in paragraph at lines 1592--1592
+Overfull \hbox (2.2704pt too wide) in paragraph at lines 1615--1615
  []|\T1/lmr/bx/n/8 Stage| 
  []
 
 
-Overfull \hbox (2.9289pt too wide) in paragraph at lines 1597--1597
+Overfull \hbox (2.9289pt too wide) in paragraph at lines 1620--1620
  []|\T1/lmr/m/n/8 REM/ 
  []
 
 
-Overfull \hbox (3.04346pt too wide) in paragraph at lines 1597--1597
+Overfull \hbox (3.04346pt too wide) in paragraph at lines 1620--1620
  \T1/lmr/m/n/8 CURV| 
  []
 
 
-Overfull \hbox (2.2704pt too wide) in paragraph at lines 1607--1607
+Overfull \hbox (2.2704pt too wide) in paragraph at lines 1630--1630
  []|\T1/lmr/bx/n/8 Stage| 
  []
 
 
-Overfull \hbox (3.04346pt too wide) in paragraph at lines 1610--1610
+Overfull \hbox (3.04346pt too wide) in paragraph at lines 1633--1633
  []|\T1/lmr/m/n/8 CURV| 
  []
 
 
-Overfull \hbox (3.04346pt too wide) in paragraph at lines 1611--1611
+Overfull \hbox (3.04346pt too wide) in paragraph at lines 1634--1634
  []|\T1/lmr/m/n/8 CURV| 
  []
 
 
-Overfull \hbox (3.04346pt too wide) in paragraph at lines 1612--1612
+Overfull \hbox (3.04346pt too wide) in paragraph at lines 1635--1635
  []|\T1/lmr/m/n/8 CURV| 
  []
 
 
-Overfull \hbox (3.04346pt too wide) in paragraph at lines 1613--1613
+Overfull \hbox (3.04346pt too wide) in paragraph at lines 1636--1636
  []|\T1/lmr/m/n/8 CURV| 
  []
 
 
-Overfull \hbox (3.04346pt too wide) in paragraph at lines 1614--1614
+Overfull \hbox (3.04346pt too wide) in paragraph at lines 1637--1637
  []|\T1/lmr/m/n/8 CURV| 
  []
 
 
-Overfull \hbox (3.04346pt too wide) in paragraph at lines 1615--1615
+Overfull \hbox (3.04346pt too wide) in paragraph at lines 1638--1638
  []|\T1/lmr/m/n/8 CURV| 
  []
 
 
-Overfull \hbox (3.04346pt too wide) in paragraph at lines 1616--1616
+Overfull \hbox (3.04346pt too wide) in paragraph at lines 1639--1639
  []|\T1/lmr/m/n/8 CURV| 
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1617--1617
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1640--1640
 []|[][]\T1/lmr/m/n/8 Lemma 10.10[][]|  
  []
 
 
-Overfull \hbox (3.04346pt too wide) in paragraph at lines 1617--1617
+Overfull \hbox (3.04346pt too wide) in paragraph at lines 1640--1640
  []|\T1/lmr/m/n/8 CURV| 
  []
 
 
-Overfull \hbox (8.99403pt too wide) in paragraph at lines 1618--1618
+Overfull \hbox (8.99403pt too wide) in paragraph at lines 1641--1641
 []|[][]\T1/lmr/m/n/8 Corollary 10.11[][]|  
  []
 
 
-Overfull \hbox (3.04346pt too wide) in paragraph at lines 1618--1618
+Overfull \hbox (3.04346pt too wide) in paragraph at lines 1641--1641
  []|\T1/lmr/m/n/8 CURV| 
  []
 
 
-Overfull \hbox (1.9849pt too wide) in paragraph at lines 1619--1619
+Overfull \hbox (1.9849pt too wide) in paragraph at lines 1642--1642
  []|\T1/lmr/m/n/8 2BUD| 
  []
 
 
-Overfull \hbox (1.9849pt too wide) in paragraph at lines 1620--1620
+Overfull \hbox (1.9849pt too wide) in paragraph at lines 1643--1643
  []|\T1/lmr/m/n/8 2BUD| 
  []
 
 
-Overfull \hbox (12.92648pt too wide) in paragraph at lines 1621--1621
-[]|[][]\T1/lmr/m/n/8 Proposition 11.6[][]|  
+Overfull \hbox (6.7337pt too wide) in paragraph at lines 1644--1644
+[]|[][]\T1/lmr/m/n/8 Definition 11.3[][]|  
  []
 
 
-Overfull \hbox (1.9849pt too wide) in paragraph at lines 1621--1621
+Overfull \hbox (1.9849pt too wide) in paragraph at lines 1644--1644
  []|\T1/lmr/m/n/8 2BUD| 
  []
 
 
-Overfull \hbox (12.92648pt too wide) in paragraph at lines 1622--1622
-[]|[][]\T1/lmr/m/n/8 Proposition 12.2[][]|  
- []
-
-
-Overfull \hbox (1.9849pt too wide) in paragraph at lines 1622--1622
+Overfull \hbox (1.9849pt too wide) in paragraph at lines 1645--1645
  []|\T1/lmr/m/n/8 2BUD| 
  []
 
 
-Overfull \hbox (1.9849pt too wide) in paragraph at lines 1623--1623
+Overfull \hbox (1.9849pt too wide) in paragraph at lines 1646--1646
  []|\T1/lmr/m/n/8 2BUD| 
  []
 
 [43]
-Overfull \hbox (2.2704pt too wide) in paragraph at lines 1632--1632
+Overfull \hbox (2.2704pt too wide) in paragraph at lines 1655--1655
  []|\T1/lmr/bx/n/8 Stage| 
  []
 
 
-Overfull \hbox (6.7337pt too wide) in paragraph at lines 1635--1635
+Overfull \hbox (6.7337pt too wide) in paragraph at lines 1658--1658
 []|[][]\T1/lmr/m/n/8 Definition 13.2[][]|  
  []
 
 
-Overfull \hbox (6.7337pt too wide) in paragraph at lines 1636--1636
+Overfull \hbox (6.7337pt too wide) in paragraph at lines 1659--1659
 []|[][]\T1/lmr/m/n/8 Definition 13.3[][]|  
  []
 
 
-Overfull \hbox (12.92648pt too wide) in paragraph at lines 1638--1638
+Overfull \hbox (12.92648pt too wide) in paragraph at lines 1661--1661
 []|[][]\T1/lmr/m/n/8 Proposition 13.8[][]|  
  []
 
 
-Overfull \hbox (9.09486pt too wide) in paragraph at lines 1639--1639
+Overfull \hbox (9.09486pt too wide) in paragraph at lines 1662--1662
 []|[][]\T1/lmr/m/n/8 Definition 14.3[][], 
  []
 
 
-Overfull \hbox (6.7337pt too wide) in paragraph at lines 1640--1640
+Overfull \hbox (6.7337pt too wide) in paragraph at lines 1663--1663
 []|[][]\T1/lmr/m/n/8 Definition 14.5[][]|  
  []
 
 
-Overfull \hbox (13.34486pt too wide) in paragraph at lines 1643--1643
+Overfull \hbox (13.34486pt too wide) in paragraph at lines 1666--1666
 []|[][]\T1/lmr/m/n/8 Definition 14.10[][], 
  []
 
 
-Overfull \hbox (4.1362pt too wide) in paragraph at lines 1643--1643
+Overfull \hbox (4.1362pt too wide) in paragraph at lines 1666--1666
 [][]\T1/lmr/m/n/8 Lemma 14.12[][], 
  []
 
 
-Overfull \hbox (10.9837pt too wide) in paragraph at lines 1644--1644
+Overfull \hbox (10.9837pt too wide) in paragraph at lines 1667--1667
 []|[][]\T1/lmr/m/n/8 Definition 14.16[][]|  
  []
 
 
-Overfull \hbox (10.9837pt too wide) in paragraph at lines 1645--1645
+Overfull \hbox (10.9837pt too wide) in paragraph at lines 1668--1668
 []|[][]\T1/lmr/m/n/8 Definition 14.33[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1646--1646
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1669--1669
 []|[][]\T1/lmr/m/n/8 Lemma 14.34[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1647--1647
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1670--1670
 []|[][]\T1/lmr/m/n/8 Lemma 14.38[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1648--1648
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1671--1671
 []|[][]\T1/lmr/m/n/8 Lemma 14.35[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1649--1649
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1672--1672
 []|[][]\T1/lmr/m/n/8 Lemma 14.36[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1650--1650
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1673--1673
 []|[][]\T1/lmr/m/n/8 Lemma 14.37[][]|  
  []
 
 
-Overfull \hbox (10.9837pt too wide) in paragraph at lines 1651--1651
+Overfull \hbox (10.9837pt too wide) in paragraph at lines 1674--1674
 []|[][]\T1/lmr/m/n/8 Definition 14.11[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1652--1652
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1675--1675
 []|[][]\T1/lmr/m/n/8 Lemma 14.23[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1653--1653
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1676--1676
 []|[][]\T1/lmr/m/n/8 Lemma 14.24[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1654--1654
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1677--1677
 []|[][]\T1/lmr/m/n/8 Lemma 14.25[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1655--1655
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1678--1678
 []|[][]\T1/lmr/m/n/8 Lemma 14.39[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1656--1656
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1679--1679
 []|[][]\T1/lmr/m/n/8 Lemma 14.27[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1657--1657
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1680--1680
 []|[][]\T1/lmr/m/n/8 Lemma 14.28[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1658--1658
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1681--1681
 []|[][]\T1/lmr/m/n/8 Lemma 14.32[][]|  
  []
 
 
-Overfull \hbox (4.1362pt too wide) in paragraph at lines 1659--1659
+Overfull \hbox (4.1362pt too wide) in paragraph at lines 1682--1682
 []|[][]\T1/lmr/m/n/8 Lemma 14.30[][], 
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1659--1659
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1682--1682
 [][]\T1/lmr/m/n/8 Lemma 14.31[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1660--1660
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1683--1683
 []|[][]\T1/lmr/m/n/8 Lemma 14.40[][]|  
  []
 
 
-Overfull \hbox (10.9837pt too wide) in paragraph at lines 1661--1661
+Overfull \hbox (10.9837pt too wide) in paragraph at lines 1684--1684
 []|[][]\T1/lmr/m/n/8 Definition 14.46[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1662--1662
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1685--1685
 []|[][]\T1/lmr/m/n/8 Lemma 14.47[][]|  
  []
 
 
-Overfull \hbox (10.9837pt too wide) in paragraph at lines 1663--1663
+Overfull \hbox (10.9837pt too wide) in paragraph at lines 1686--1686
 []|[][]\T1/lmr/m/n/8 Definition 14.48[][]|  
  []
 
 
-Overfull \hbox (10.9837pt too wide) in paragraph at lines 1664--1664
+Overfull \hbox (10.9837pt too wide) in paragraph at lines 1687--1687
 []|[][]\T1/lmr/m/n/8 Definition 14.50[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1665--1665
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1688--1688
 []|[][]\T1/lmr/m/n/8 Lemma 14.56[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1666--1666
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1689--1689
 []|[][]\T1/lmr/m/n/8 Lemma 14.58[][]|  
  []
 
 
-Overfull \hbox (17.17648pt too wide) in paragraph at lines 1667--1667
+Overfull \hbox (17.17648pt too wide) in paragraph at lines 1690--1690
 []|[][]\T1/lmr/m/n/8 Proposition 14.59[][]|  
  []
 
 
-Overfull \hbox (13.34486pt too wide) in paragraph at lines 1668--1668
+Overfull \hbox (13.34486pt too wide) in paragraph at lines 1691--1691
 []|[][]\T1/lmr/m/n/8 Definition 14.51[][], 
  []
 
 
-Overfull \hbox (4.1362pt too wide) in paragraph at lines 1668--1668
+Overfull \hbox (4.1362pt too wide) in paragraph at lines 1691--1691
 [][]\T1/lmr/m/n/8 Lemma 14.52[][], 
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1668--1668
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1691--1691
 [][]\T1/lmr/m/n/8 Lemma 14.53[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1669--1669
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1692--1692
 []|[][]\T1/lmr/m/n/8 Lemma 14.54[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1670--1670
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1693--1693
 []|[][]\T1/lmr/m/n/8 Lemma 14.55[][]|  
  []
 
 
-Overfull \hbox (13.34486pt too wide) in paragraph at lines 1671--1671
+Overfull \hbox (13.34486pt too wide) in paragraph at lines 1694--1694
 []|[][]\T1/lmr/m/n/8 Definition 14.60[][], 
  []
 
 
-Overfull \hbox (3.10167pt too wide) in paragraph at lines 1671--1671
+Overfull \hbox (3.10167pt too wide) in paragraph at lines 1694--1694
 []|[][]\T1/lmr/m/n/8 Proposition 14.59[][], 
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1672--1672
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1695--1695
 []|[][]\T1/lmr/m/n/8 Lemma 14.43[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1673--1673
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1696--1696
 []|[][]\T1/lmr/m/n/8 Lemma 14.45[][]|  
  []
 
 
-Overfull \hbox (3.43471pt too wide) in paragraph at lines 1674--1674
+Overfull \hbox (3.43471pt too wide) in paragraph at lines 1697--1697
 []|[][]\T1/lmr/m/n/8 Remark 14.67[][]|  
  []
 
 
-Overfull \hbox (13.34486pt too wide) in paragraph at lines 1675--1675
+Overfull \hbox (13.34486pt too wide) in paragraph at lines 1698--1698
 []|[][]\T1/lmr/m/n/8 Definition 14.68[][], 
  []
 
 
-Overfull \hbox (13.34486pt too wide) in paragraph at lines 1676--1676
+Overfull \hbox (13.34486pt too wide) in paragraph at lines 1699--1699
 []|[][]\T1/lmr/m/n/8 Definition 14.73[][], 
  []
 
 
-Overfull \hbox (4.1362pt too wide) in paragraph at lines 1676--1676
+Overfull \hbox (4.1362pt too wide) in paragraph at lines 1699--1699
 [][]\T1/lmr/m/n/8 Lemma 14.75[][], 
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1676--1676
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1699--1699
 [][]\T1/lmr/m/n/8 Lemma 14.76[][]|  
  []
 
 
-Overfull \hbox (4.1362pt too wide) in paragraph at lines 1677--1677
+Overfull \hbox (4.1362pt too wide) in paragraph at lines 1700--1700
 []|[][]\T1/lmr/m/n/8 Lemma 14.77[][], 
  []
 
 
-Overfull \hbox (4.1362pt too wide) in paragraph at lines 1677--1677
+Overfull \hbox (4.1362pt too wide) in paragraph at lines 1700--1700
 [][]\T1/lmr/m/n/8 Lemma 14.78[][], 
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1677--1677
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1700--1700
 [][]\T1/lmr/m/n/8 Lemma 14.79[][]|  
  []
 
 
-Overfull \hbox (17.17648pt too wide) in paragraph at lines 1678--1678
+Overfull \hbox (17.17648pt too wide) in paragraph at lines 1701--1701
 []|[][]\T1/lmr/m/n/8 Proposition 14.80[][]|  
  []
 
 
-Overfull \hbox (8.99403pt too wide) in paragraph at lines 1679--1679
+Overfull \hbox (8.99403pt too wide) in paragraph at lines 1702--1702
 []|[][]\T1/lmr/m/n/8 Corollary 14.81[][]|  
  []
 
 
-Overfull \hbox (8.99403pt too wide) in paragraph at lines 1680--1680
+Overfull \hbox (8.99403pt too wide) in paragraph at lines 1703--1703
 []|[][]\T1/lmr/m/n/8 Corollary 14.82[][]|  
  []
 
 
-Overfull \hbox (10.9837pt too wide) in paragraph at lines 1681--1681
+Overfull \hbox (10.9837pt too wide) in paragraph at lines 1704--1704
 []|[][]\T1/lmr/m/n/8 Definition 14.95[][] 
  []
 
 
-Overfull \hbox (13.34486pt too wide) in paragraph at lines 1682--1682
+Overfull \hbox (13.34486pt too wide) in paragraph at lines 1705--1705
 []|[][]\T1/lmr/m/n/8 Definition 14.83[][], 
  []
 
 
-Overfull \hbox (4.1362pt too wide) in paragraph at lines 1682--1682
+Overfull \hbox (4.1362pt too wide) in paragraph at lines 1705--1705
 [][]\T1/lmr/m/n/8 Lemma 14.87[][], 
  []
 
 
-Overfull \hbox (4.1362pt too wide) in paragraph at lines 1682--1682
+Overfull \hbox (4.1362pt too wide) in paragraph at lines 1705--1705
 [][]\T1/lmr/m/n/8 Lemma 14.89[][], 
  []
 
 
-Overfull \hbox (10.9837pt too wide) in paragraph at lines 1683--1683
+Overfull \hbox (10.9837pt too wide) in paragraph at lines 1706--1706
 []|[][]\T1/lmr/m/n/8 Definition 14.19[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1684--1684
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1707--1707
 []|[][]\T1/lmr/m/n/8 Lemma 14.26[][]|  
  []
 
 
-Overfull \hbox (10.9837pt too wide) in paragraph at lines 1685--1685
+Overfull \hbox (10.9837pt too wide) in paragraph at lines 1708--1708
 []|[][]\T1/lmr/m/n/8 Definition 14.18[][]|  
  []
 
 
-Overfull \hbox (3.43471pt too wide) in paragraph at lines 1686--1686
+Overfull \hbox (3.43471pt too wide) in paragraph at lines 1709--1709
 []|[][]\T1/lmr/m/n/8 Remark 14.67[][]|  
  []
 
 
-Overfull \hbox (2.4837pt too wide) in paragraph at lines 1687--1687
+Overfull \hbox (2.4837pt too wide) in paragraph at lines 1710--1710
 []|[][]\T1/lmr/m/n/8 Definition 3.7[][]|  
  []
 
 
-Overfull \hbox (6.7337pt too wide) in paragraph at lines 1688--1688
+Overfull \hbox (6.7337pt too wide) in paragraph at lines 1711--1711
 []|[][]\T1/lmr/m/n/8 Definition 3.15[][]|  
  []
 
 
-Overfull \hbox (9.09486pt too wide) in paragraph at lines 1690--1690
+Overfull \hbox (9.09486pt too wide) in paragraph at lines 1713--1713
 []|[][]\T1/lmr/m/n/8 Definition 3.10[][], 
  []
 
 
-Overfull \hbox (4.74403pt too wide) in paragraph at lines 1691--1691
+Overfull \hbox (4.74403pt too wide) in paragraph at lines 1714--1714
 []|[][]\T1/lmr/m/n/8 Corollary 3.14[][]|  
  []
 
 
-Overfull \hbox (4.74403pt too wide) in paragraph at lines 1693--1693
+Overfull \hbox (4.74403pt too wide) in paragraph at lines 1716--1716
 []|[][]\T1/lmr/m/n/8 Corollary 3.13[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1698--1698
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1721--1721
 []|[][]\T1/lmr/m/n/8 Lemma 14.70[][]|  
  []
 
 
-Overfull \hbox (10.9837pt too wide) in paragraph at lines 1699--1699
+Overfull \hbox (10.9837pt too wide) in paragraph at lines 1722--1722
 []|[][]\T1/lmr/m/n/8 Definition 14.71[][]|  
  []
 
 
-Overfull \hbox (1.77504pt too wide) in paragraph at lines 1700--1700
+Overfull \hbox (1.77504pt too wide) in paragraph at lines 1723--1723
 []|[][]\T1/lmr/m/n/8 Lemma 14.98[][]|  
  []
 
 
-Overfull \hbox (15.2337pt too wide) in paragraph at lines 1701--1701
+Overfull \hbox (15.2337pt too wide) in paragraph at lines 1724--1724
 []|[][]\T1/lmr/m/n/8 Definition 14.101[][]|  
  []
 
 
-Overfull \hbox (6.02504pt too wide) in paragraph at lines 1702--1702
+Overfull \hbox (6.02504pt too wide) in paragraph at lines 1725--1725
 []|[][]\T1/lmr/m/n/8 Lemma 14.104[][]|  
  []
 
 
-Overfull \hbox (6.02504pt too wide) in paragraph at lines 1703--1703
+Overfull \hbox (6.02504pt too wide) in paragraph at lines 1726--1726
 []|[][]\T1/lmr/m/n/8 Lemma 14.100[][]|  
  []
 
 
-Overfull \hbox (6.02504pt too wide) in paragraph at lines 1704--1704
+Overfull \hbox (6.02504pt too wide) in paragraph at lines 1727--1727
 []|[][]\T1/lmr/m/n/8 Lemma 14.106[][]|  
  []
 
 
-Overfull \hbox (9.37804pt too wide) in paragraph at lines 1705--1705
+Overfull \hbox (9.37804pt too wide) in paragraph at lines 1728--1728
 []|[][]\T1/lmr/m/n/8 Lemmas 14.102[][] 
  []
 
 
-Overfull \hbox (3.08505pt too wide) in paragraph at lines 1706--1706
+Overfull \hbox (3.08505pt too wide) in paragraph at lines 1729--1729
 []|[][]\T1/lmr/m/n/8 Theorem 15.1[][]|  
  []
 
 
-Overfull \hbox (7.33505pt too wide) in paragraph at lines 1707--1707
+Overfull \hbox (7.33505pt too wide) in paragraph at lines 1730--1730
 []|[][]\T1/lmr/m/n/8 Theorem 15.48[][]|  
  []
 
 [44] [45] [46] [47] [48]
-Overfull \hbox (1.70805pt too wide) in paragraph at lines 1719--1719
+Overfull \hbox (1.70805pt too wide) in paragraph at lines 1742--1742
  []|\T1/lmr/bx/n/8 Inv.| 
  []
 
@@ -1988,7 +1998,7 @@ Overfull \hbox (1.70805pt too wide) in paragraph at lines 1719--1719
 [51]
 
 [52]
-Overfull \hbox (16.82625pt too wide) in paragraph at lines 1892--1893
+Overfull \hbox (16.82625pt too wide) in paragraph at lines 1915--1916
 []|\T1/lmr/m/n/10.95 Counterexample 
  []
 
@@ -2013,13 +2023,13 @@ Overfull \hbox (16.82625pt too wide) in paragraph at lines 1892--1893
 [61]
 
 [62]
-Overfull \hbox (1.71556pt too wide) in paragraph at lines 2644--2646
+Overfull \hbox (7.31209pt too wide) in paragraph at lines 2667--2669
 []\T1/lmr/m/it/10.95 a non-triv-ial target-complete com-pres-sion of a proper a
-tom, for-bid-den by [][]Lemma 3.99[][] and [][]Corol-
+tom, for-bid-den by [][]Lemma 3.103[][] and [][]Corol-
  []
 
 
-Overfull \hbox (8.0684pt too wide) in paragraph at lines 2648--2650
+Overfull \hbox (8.0684pt too wide) in paragraph at lines 2671--2673
 []\T1/lmr/m/it/10.95 an open-port sup-pres-sion cy-cle whose chord set vi-o-lat
 es the arith-metic con-clu-sion of [][]Lemma 3.25[][]. 
  []
@@ -2077,7 +2087,7 @@ es the arith-metic con-clu-sion of [][]Lemma 3.25[][].
 [87]
 
 [88]
-Overfull \hbox (1.56326pt too wide) in paragraph at lines 4793--4796
+Overfull \hbox (1.56326pt too wide) in paragraph at lines 4816--4819
 \T1/lmr/m/it/10.95 is label-injective un-der ev-ery ad-mit-ted rank quo-tient. 
 No en-tropy or si-mul-ta-ne-ous Boolean-realization
  []
@@ -2109,41 +2119,29 @@ No en-tropy or si-mul-ta-ne-ous Boolean-realization
 [100]
 
 [101]
-Overfull \hbox (6.79124pt too wide) in paragraph at lines 5790--5791
-[]\T1/lmr/bx/n/10.95 Lemma 3.97 \T1/lmr/m/n/10.95 (Bound-ary de-gree pro-files 
-can-not be quo-tien-t-merged)\T1/lmr/bx/n/10.95 . []\T1/lmr/m/it/10.95 Let $\OM
-L/lmm/m/it/10.95 X[]$ \T1/lmr/m/it/10.95 and $\OML/lmm/m/it/10.95 X[]$ \T1/lmr/
-m/it/10.95 be $\OML/lmm/m/it/10.95 T$\T1/lmr/m/it/10.95 -boundaried
- []
-
-
 
 [102]
 
-[103]
-
-[104]
+[103] [104]
 
 [105]
 
 [106]
 
-[107] [108]
+[107]
+
+[108]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 6270.
-
-
-[109]
+(Font)              <14.4> on input line 6327.
+ [109]
 
 [110]
 
 [111]
-Overfull \hbox (6.52563pt too wide) in paragraph at lines 6551--6552
+Overfull \hbox (6.52563pt too wide) in paragraph at lines 6608--6609
 \OT1/lmr/m/n/10.95 118\OML/lmm/m/it/10.95 :\OT1/lmr/m/n/10.95 108581006 []$\T1/
 lmr/m/n/10.95 .|  
  []
-
-
 
 [112]
 
@@ -2180,45 +2178,49 @@ lmr/m/n/10.95 .|
 [128]
 
 [129]
-Overfull \hbox (2.46556pt too wide) in paragraph at lines 7915--7915
- []|\T1/lmr/bx/n/10.95 Case| 
- []
-
-
-Overfull \hbox (2.46556pt too wide) in paragraph at lines 7919--7919
- []|\T1/lmr/bx/n/10.95 Case| 
- []
-
-
 
 [130]
 
-[131] [132]
+[131]
+Overfull \hbox (2.46556pt too wide) in paragraph at lines 8097--8097
+ []|\T1/lmr/bx/n/10.95 Case| 
+ []
 
-[133]
 
-[134]
+Overfull \hbox (2.46556pt too wide) in paragraph at lines 8101--8101
+ []|\T1/lmr/bx/n/10.95 Case| 
+ []
+
+
+
+[132]
+
+[133] [134]
 
 [135]
 
 [136]
 
-[137] [138]
+[137]
 
-[139]
-Overfull \hbox (4.01591pt too wide) in paragraph at lines 8668--8669
+[138]
+
+[139] [140]
+
+[141]
+Overfull \hbox (4.01591pt too wide) in paragraph at lines 8852--8853
 []\T1/lmr/m/n/10.95 if the de-ter-mi-na-tion fails for some out-side con-text, 
 it is not pre-served un-der context-universality
  []
 
 
 
-[140]
-
-[141]
-
 [142]
-Overfull \hbox (26.05666pt too wide) in paragraph at lines 8793--8794
+
+[143]
+
+[144]
+Overfull \hbox (26.05666pt too wide) in paragraph at lines 8977--8978
 []\T1/lmr/bx/n/10.95 Lemma 10.10 \T1/lmr/m/n/10.95 (Forc-ing of full ad-mis-si-
 ble quo-tien-t-rank)\T1/lmr/bx/n/10.95 . []\T1/lmr/m/it/10.95 In a min-i-mal co
 un-terex-am-ple, the manuscript's
@@ -2226,16 +2228,9 @@ un-terex-am-ple, the manuscript's
 
 
 
-[143] [144]
-
 [145]
 
 [146]
-Overfull \hbox (4.05206pt too wide) in paragraph at lines 9253--9254
-[]|\T1/lmr/m/n/10.95 Nonrepetitive 
- []
-
-
 
 [147]
 
@@ -2244,18 +2239,19 @@ Overfull \hbox (4.05206pt too wide) in paragraph at lines 9253--9254
 [149]
 
 [150]
+Overfull \hbox (4.05206pt too wide) in paragraph at lines 9547--9548
+[]|\T1/lmr/m/n/10.95 Nonrepetitive 
+ []
 
 [151]
 
-[152]
+[152] [153]
 
-[153] [154]
+[154]
 
 [155]
 
-[156]
-
-[157]
+[156] [157]
 
 [158]
 
@@ -2284,24 +2280,24 @@ Overfull \hbox (4.05206pt too wide) in paragraph at lines 9253--9254
 [170]
 
 [171]
-Overfull \hbox (22.29398pt too wide) in paragraph at lines 11020--11024
-[]\T1/lmr/m/n/10.95 If a com-ple-tion port con-tains four vis-i-ble receiver-en
-try re-turns from un-peeled loads, [][]Lemma 14.35[][]
- []
-
-
-Overfull \hbox (11.0674pt too wide) in paragraph at lines 11025--11029
-[]\T1/lmr/m/n/10.95 If no com-ple-tion port con-tains four vis-i-ble receiver-e
-ntry re-turns from un-peeled loads, [][]Lemma 14.36[][]
- []
-
-
 
 [172]
 
 [173]
 
 [174]
+Overfull \hbox (22.29398pt too wide) in paragraph at lines 11314--11318
+[]\T1/lmr/m/n/10.95 If a com-ple-tion port con-tains four vis-i-ble receiver-en
+try re-turns from un-peeled loads, [][]Lemma 14.35[][]
+ []
+
+
+Overfull \hbox (11.0674pt too wide) in paragraph at lines 11319--11323
+[]\T1/lmr/m/n/10.95 If no com-ple-tion port con-tains four vis-i-ble receiver-e
+ntry re-turns from un-peeled loads, [][]Lemma 14.36[][]
+ []
+
+
 
 [175]
 
@@ -2312,7 +2308,15 @@ ntry re-turns from un-peeled loads, [][]Lemma 14.36[][]
 [178]
 
 [179]
-Overfull \hbox (24.02107pt too wide) in paragraph at lines 11741--11749
+
+[180]
+
+[181]
+
+[182]
+
+[183]
+Overfull \hbox (24.02107pt too wide) in paragraph at lines 12035--12043
 []\T1/lmr/m/n/10.95 The wit-ness dis-tin-guishes the core state $\OML/lmm/m/it/
 10.95 ^^Z[]\OT1/lmr/m/n/10.95 (\OML/lmm/m/it/10.95 B[]\OT1/lmr/m/n/10.95 )\OMS/
 lmsy/m/n/10.95 j[]$ \T1/lmr/m/n/10.95 from the smaller re-stric-tion $\OML/lmm/
@@ -2322,25 +2326,9 @@ m/it/10.95 ^^Z[]\OT1/lmr/m/n/10.95 (\OML/lmm/m/it/10.95 B[]\OT1/lmr/m/n/10.95 )
 
 
 
-[180]
-
-[181]
-
-[182]
-
-[183]
-
 [184]
 
 [185]
-Overfull \hbox (6.06862pt too wide) in paragraph at lines 12285--12287
-\T1/lmr/m/n/10.95 and [][]Lemma 14.39[][].|  
- []
-
-
-Overfull \hbox (5.85645pt too wide) in paragraph at lines 12350--12352
-[]|[][]\T1/lmr/m/n/10.95 Proposition 14.62[][].|  
- []
 
 [186]
 
@@ -2349,6 +2337,16 @@ Overfull \hbox (5.85645pt too wide) in paragraph at lines 12350--12352
 [188]
 
 [189]
+Overfull \hbox (6.06862pt too wide) in paragraph at lines 12579--12581
+\T1/lmr/m/n/10.95 and [][]Lemma 14.39[][].|  
+ []
+
+
+Overfull \hbox (5.85645pt too wide) in paragraph at lines 12644--12646
+[]|[][]\T1/lmr/m/n/10.95 Proposition 14.62[][].|  
+ []
+
+
 
 [190]
 
@@ -2367,7 +2365,13 @@ Overfull \hbox (5.85645pt too wide) in paragraph at lines 12350--12352
 [197]
 
 [198]
-Overfull \hbox (6.91724pt too wide) detected at line 13294
+
+[199]
+
+[200]
+
+[201]
+Overfull \hbox (6.91724pt too wide) detected at line 13588
 \OML/lmm/m/it/10.95 a[]\OT1/lmr/m/n/10.95 (\OML/lmm/m/it/10.95 u\OT1/lmr/m/n/10
 .95 ) = []\OMS/lmsy/m/n/10.95 f\OML/lmm/m/it/10.95 z \OMS/lmsy/m/n/10.95 2 \OML
 /lmm/m/it/10.95 N[]\OT1/lmr/m/n/10.95 (\OML/lmm/m/it/10.95 u\OT1/lmr/m/n/10.95 
@@ -2380,36 +2384,21 @@ sy/m/n/10.95 ^^@ \OT1/lmr/m/n/10.95 4[]1 + \OML/lmm/m/it/10.95 a[]\OT1/lmr/m/n/
 
 
 
-[199]
+[202]
 
-[200]
-Overfull \hbox (2.2062pt too wide) in paragraph at lines 13449--13456
+[203]
+
+[204]
+Overfull \hbox (2.2062pt too wide) in paragraph at lines 13743--13750
 [][]\T1/lmr/m/it/10.95 Propo-si-tion 14.80[][], an un-marked fan cen-ter is a f
 an-certificate resid-ual cen-ter. If the fan is certificate-
  []
 
 
 
-[201]
-
-[202]
-Overfull \hbox (0.53152pt too wide) in paragraph at lines 13619--13619
- [][]\T1/lmr/m/n/8 replacement 
- []
-
-
-
-[203]
-
-[204]
-
 [205]
-Overfull \hbox (2.84644pt too wide) in paragraph at lines 13840--13844
-\T1/lmr/m/it/10.95 The sec-ond bracket equals $\OT1/lmr/m/n/10.95 4 [][] \OML/l
-mm/m/it/10.95 ^^N[]\OT1/lmr/m/n/10.95 (\OML/lmm/m/it/10.95 h\OT1/lmr/m/n/10.95 
-)$ \T1/lmr/m/it/10.95 and is there-fore non-neg-a-tive. Con-se-quently ei-ther 
-$\OMS/lmsy/m/n/10.95 N\OT1/lmr/m/n/10.95 (\OML/lmm/m/it/10.95 X\OT1/lmr/m/n/10.
-95 ) \OMS/lmsy/m/n/10.95 ^^U
+Overfull \hbox (0.53152pt too wide) in paragraph at lines 13913--13913
+ [][]\T1/lmr/m/n/8 replacement 
  []
 
 
@@ -2419,50 +2408,61 @@ $\OMS/lmsy/m/n/10.95 N\OT1/lmr/m/n/10.95 (\OML/lmm/m/it/10.95 X\OT1/lmr/m/n/10.
 [207]
 
 [208]
+Overfull \hbox (2.84644pt too wide) in paragraph at lines 14134--14138
+\T1/lmr/m/it/10.95 The sec-ond bracket equals $\OT1/lmr/m/n/10.95 4 [][] \OML/l
+mm/m/it/10.95 ^^N[]\OT1/lmr/m/n/10.95 (\OML/lmm/m/it/10.95 h\OT1/lmr/m/n/10.95 
+)$ \T1/lmr/m/it/10.95 and is there-fore non-neg-a-tive. Con-se-quently ei-ther 
+$\OMS/lmsy/m/n/10.95 N\OT1/lmr/m/n/10.95 (\OML/lmm/m/it/10.95 X\OT1/lmr/m/n/10.
+95 ) \OMS/lmsy/m/n/10.95 ^^U
+ []
+
+
 
 [209]
 
 [210]
-Overfull \hbox (9.68884pt too wide) in paragraph at lines 14285--14286
+
+[211]
+
+[212]
+
+[213]
+
+[214]
+Overfull \hbox (9.68884pt too wide) in paragraph at lines 14579--14580
 []|\T1/lmr/m/n/8 [68]$\OMS/lmsy/m/n/8 !$\T1/lmr/m/n/8 [78]$\OMS/lmsy/m/n/8 !$\T
 1/lmr/m/n/8 [79]|  
  []
 
 
-Overfull \hbox (9.68884pt too wide) in paragraph at lines 14325--14326
+Overfull \hbox (9.68884pt too wide) in paragraph at lines 14619--14620
 []|\T1/lmr/m/n/8 [80]$\OMS/lmsy/m/n/8 !$\T1/lmr/m/n/8 [81]$\OMS/lmsy/m/n/8 !$\T
 1/lmr/m/n/8 [84]|  
  []
 
-[211] [212]
-
-[213]
-
-[214]
-
-[215]
-
-[216]
+[215] [216]
 
 [217]
-Overfull \hbox (11.33144pt too wide) in paragraph at lines 14912--14914
-[]|[][]\T1/lmr/m/n/10.95 Proposition 14.107[][].|  
- []
 
 [218]
 
 [219]
-Overfull \hbox (5.85645pt too wide) in paragraph at lines 15049--15051
-[]|[][]\T1/lmr/m/n/10.95 Proposition 14.97[][].|  
- []
 
 [220]
 
 [221]
+Overfull \hbox (11.33144pt too wide) in paragraph at lines 15206--15208
+[]|[][]\T1/lmr/m/n/10.95 Proposition 14.107[][].|  
+ []
 
 [222]
 
 [223]
+Overfull \hbox (5.85645pt too wide) in paragraph at lines 15343--15345
+[]|[][]\T1/lmr/m/n/10.95 Proposition 14.97[][].|  
+ []
+
+
 
 [224]
 
@@ -2473,12 +2473,6 @@ Overfull \hbox (5.85645pt too wide) in paragraph at lines 15049--15051
 [227]
 
 [228]
-Overfull \hbox (3.98444pt too wide) in paragraph at lines 15745--15749
-\T1/lmr/m/n/10.95 By [][]Lemma 15.21[][] and the hy-poth-e-sis that the type (A
-2) units have routed to their proper-compression
- []
-
-
 
 [229]
 
@@ -2487,10 +2481,9 @@ Overfull \hbox (3.98444pt too wide) in paragraph at lines 15745--15749
 [231]
 
 [232]
-Overfull \hbox (3.83363pt too wide) in paragraph at lines 16142--16146
-[]\T1/lmr/bx/n/10.95 Definition 15.32 \T1/lmr/m/n/10.95 (Ze-ro-shadow prim-i-ti
-ve ex-cess)\T1/lmr/bx/n/10.95 . []\T1/lmr/m/it/10.95 As-sume the branch of [][]
-Lemma 15.26[][]. A primitive-
+Overfull \hbox (3.98444pt too wide) in paragraph at lines 16039--16043
+\T1/lmr/m/n/10.95 By [][]Lemma 15.21[][] and the hy-poth-e-sis that the type (A
+2) units have routed to their proper-compression
  []
 
 
@@ -2502,6 +2495,13 @@ Lemma 15.26[][]. A primitive-
 [235]
 
 [236]
+Overfull \hbox (3.83363pt too wide) in paragraph at lines 16436--16440
+[]\T1/lmr/bx/n/10.95 Definition 15.32 \T1/lmr/m/n/10.95 (Ze-ro-shadow prim-i-ti
+ve ex-cess)\T1/lmr/bx/n/10.95 . []\T1/lmr/m/it/10.95 As-sume the branch of [][]
+Lemma 15.26[][]. A primitive-
+ []
+
+
 
 [237]
 
@@ -2510,7 +2510,15 @@ Lemma 15.26[][]. A primitive-
 [239]
 
 [240]
-Overfull \hbox (4.65512pt too wide) in paragraph at lines 16913--16923
+
+[241]
+
+[242]
+
+[243]
+
+[244]
+Overfull \hbox (4.65512pt too wide) in paragraph at lines 17207--17217
 []\T1/lmr/m/n/10.95 The sec-ond al-ter-na-tive can-not oc-cur in-finitely many 
 times, be-cause the in-te-ger $\OT1/lmr/m/n/10.95 ^^C[]$ \T1/lmr/m/n/10.95 of [
 ][]Lemma 15.47[][]
@@ -2518,215 +2526,215 @@ times, be-cause the in-te-ger $\OT1/lmr/m/n/10.95 ^^C[]$ \T1/lmr/m/n/10.95 of [
 
 
 
-[241]
-Overfull \hbox (4.14572pt too wide) in paragraph at lines 17073--17073
+[245]
+Overfull \hbox (4.14572pt too wide) in paragraph at lines 17367--17367
  []\T1/lmr/m/n/8 pressure/route- 
  []
 
 
-Overfull \hbox (7.10095pt too wide) in paragraph at lines 17073--17073
+Overfull \hbox (7.10095pt too wide) in paragraph at lines 17367--17367
  [][]\T1/lmr/m/n/6 extract 
  []
 
 
-Overfull \hbox (0.59363pt too wide) in paragraph at lines 17093--17095
+Overfull \hbox (0.59363pt too wide) in paragraph at lines 17387--17389
 \T1/lmr/m/n/10.95 and [][]Lemma 15.4[][].|  
  []
 
 
-Overfull \hbox (10.17566pt too wide) in paragraph at lines 17119--17121
+Overfull \hbox (10.17566pt too wide) in paragraph at lines 17413--17415
 []|[][]\T1/lmr/m/n/10.95 Propositions 15.22[][], 
  []
 
 
-Overfull \hbox (2.8148pt too wide) in paragraph at lines 17145--17147
+Overfull \hbox (2.8148pt too wide) in paragraph at lines 17439--17441
 []|[][]\T1/lmr/m/n/10.95 Proposition 14.62[][] 
  []
 
-[242] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+[246] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
 )
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 17158.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 17452.
 
 
 
-[243]
-
-[244]
-
-[245]
-
-[246]
-LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
-17385.
- (/usr/share/texmf/tex/latex/lm/ts1lmtt.fd
-File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-Overfull \hbox (6.06862pt too wide) in paragraph at lines 17469--17471
-\T1/lmr/m/n/10.95 and [][]Lemma 14.98[][].|  
- []
-
-
-
-[247{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}]
+[247]
 
 [248]
 
 [249]
 
-[250] [251
+[250]
+LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
+17679.
+ (/usr/share/texmf/tex/latex/lm/ts1lmtt.fd
+File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+Overfull \hbox (6.06862pt too wide) in paragraph at lines 17763--17765
+\T1/lmr/m/n/10.95 and [][]Lemma 14.98[][].|  
+ []
+
+
+
+[251{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}]
+
+[252]
+
+[253]
+
+[254] [255
 
 ]
-Overfull \hbox (1.18613pt too wide) in paragraph at lines 17581--17581
+Overfull \hbox (1.18613pt too wide) in paragraph at lines 17875--17875
 []|[][]\T1/lmr/m/n/8 Theorem 5.1[][] 
  []
 
 
-Overfull \hbox (1.53578pt too wide) in paragraph at lines 17593--17593
-[]|[][]\T1/lmr/m/n/8 Remark 7.57[][] 
+Overfull \hbox (1.53578pt too wide) in paragraph at lines 17887--17887
+[]|[][]\T1/lmr/m/n/8 Remark 7.66[][] 
  []
 
 
-Overfull \hbox (1.67586pt too wide) in paragraph at lines 17594--17594
+Overfull \hbox (1.67586pt too wide) in paragraph at lines 17888--17888
 []|\T1/lmr/bx/n/8 Framework- 
  []
 
 
-Overfull \hbox (6.06725pt too wide) in paragraph at lines 17594--17594
+Overfull \hbox (6.06725pt too wide) in paragraph at lines 17888--17888
 \T1/lmr/bx/n/8 independent. 
  []
 
 
-Overfull \hbox (4.12611pt too wide) in paragraph at lines 17607--17607
+Overfull \hbox (4.12611pt too wide) in paragraph at lines 17901--17901
 []|[][]\T1/lmr/m/n/8 Lemma 10.10[][]|  
  []
 
 
-Overfull \hbox (0.84796pt too wide) in paragraph at lines 17607--17607
+Overfull \hbox (0.84796pt too wide) in paragraph at lines 17901--17901
 \T1/lmr/m/n/8 ([][]Lemma 10.9[][], 
  []
 
 
-Overfull \hbox (1.84976pt too wide) in paragraph at lines 17608--17608
+Overfull \hbox (1.84976pt too wide) in paragraph at lines 17902--17902
 []|\T1/lmr/m/n/8 qualitative 
  []
 
 
-Overfull \hbox (15.27756pt too wide) in paragraph at lines 17609--17609
+Overfull \hbox (15.27756pt too wide) in paragraph at lines 17903--17903
 []|[][]\T1/lmr/m/n/8 Proposition 12.2[][] 
  []
 
 
 
-[252]
-Overfull \hbox (15.27756pt too wide) in paragraph at lines 17621--17621
+[256]
+Overfull \hbox (15.27756pt too wide) in paragraph at lines 17915--17915
 []|[][]\T1/lmr/m/n/8 Proposition 13.8[][] 
  []
 
 
-Overfull \hbox (4.12611pt too wide) in paragraph at lines 17622--17622
+Overfull \hbox (4.12611pt too wide) in paragraph at lines 17916--17916
 []|[][]\T1/lmr/m/n/8 Lemma 14.45[][] 
  []
 
 
-Overfull \hbox (4.12611pt too wide) in paragraph at lines 17623--17623
+Overfull \hbox (4.12611pt too wide) in paragraph at lines 17917--17917
 []|[][]\T1/lmr/m/n/8 Lemma 14.98[][] 
  []
 
 
-Overfull \hbox (6.48727pt too wide) in paragraph at lines 17623--17623
+Overfull \hbox (6.48727pt too wide) in paragraph at lines 17917--17917
 [][]\T1/lmr/m/n/8 Lemma 14.75[][], 
  []
 
 
-Overfull \hbox (6.48727pt too wide) in paragraph at lines 17623--17623
+Overfull \hbox (6.48727pt too wide) in paragraph at lines 17917--17917
 [][]\T1/lmr/m/n/8 Lemma 14.76[][], 
  []
 
 
-Overfull \hbox (6.48727pt too wide) in paragraph at lines 17623--17623
+Overfull \hbox (6.48727pt too wide) in paragraph at lines 17917--17917
 [][]\T1/lmr/m/n/8 Lemma 14.77[][], 
  []
 
 
-Overfull \hbox (6.48727pt too wide) in paragraph at lines 17623--17623
+Overfull \hbox (6.48727pt too wide) in paragraph at lines 17917--17917
 [][]\T1/lmr/m/n/8 Lemma 14.78[][], 
  []
 
 
-Overfull \hbox (6.48727pt too wide) in paragraph at lines 17623--17623
+Overfull \hbox (6.48727pt too wide) in paragraph at lines 17917--17917
 [][]\T1/lmr/m/n/8 Lemma 14.79[][], 
  []
 
 
-Overfull \hbox (6.48727pt too wide) in paragraph at lines 17623--17623
+Overfull \hbox (6.48727pt too wide) in paragraph at lines 17917--17917
 [][]\T1/lmr/m/n/8 Lemma 14.87[][], 
  []
 
 
-Overfull \hbox (6.48727pt too wide) in paragraph at lines 17623--17623
+Overfull \hbox (6.48727pt too wide) in paragraph at lines 17917--17917
 [][]\T1/lmr/m/n/8 Lemma 14.89[][], 
  []
 
 
-Overfull \hbox (10.73727pt too wide) in paragraph at lines 17623--17623
+Overfull \hbox (10.73727pt too wide) in paragraph at lines 17917--17917
 [][]\T1/lmr/m/n/8 Lemma 14.102[][], 
  []
 
 
-Overfull \hbox (10.73727pt too wide) in paragraph at lines 17623--17623
+Overfull \hbox (10.73727pt too wide) in paragraph at lines 17917--17917
 [][]\T1/lmr/m/n/8 Lemma 14.104[][], 
  []
 
 
-Overfull \hbox (10.73727pt too wide) in paragraph at lines 17623--17623
+Overfull \hbox (10.73727pt too wide) in paragraph at lines 17917--17917
 [][]\T1/lmr/m/n/8 Lemma 14.105[][], 
  []
 
 
-Overfull \hbox (10.73727pt too wide) in paragraph at lines 17623--17623
+Overfull \hbox (10.73727pt too wide) in paragraph at lines 17917--17917
 [][]\T1/lmr/m/n/8 Lemma 14.106[][], 
  []
 
 
-Overfull \hbox (4.12611pt too wide) in paragraph at lines 17623--17623
+Overfull \hbox (4.12611pt too wide) in paragraph at lines 17917--17917
 [][]\T1/lmr/m/n/8 Lemma 14.66[][]|  
  []
 
 
-Overfull \hbox (1.6214pt too wide) in paragraph at lines 17623--17623
+Overfull \hbox (1.6214pt too wide) in paragraph at lines 17917--17917
 []|\T1/lmr/m/n/8 certificate- 
  []
 
 
-Overfull \hbox (5.43613pt too wide) in paragraph at lines 17624--17624
+Overfull \hbox (5.43613pt too wide) in paragraph at lines 17918--17918
 []|[][]\T1/lmr/m/n/8 Theorem 15.1[][]|  
  []
 
 
-Overfull \hbox (7.46123pt too wide) in paragraph at lines 17624--17624
+Overfull \hbox (7.46123pt too wide) in paragraph at lines 17918--17918
 \T1/lmr/m/n/8 pressure/route- 
  []
 
 
-Overfull \hbox (9.68613pt too wide) in paragraph at lines 17625--17625
+Overfull \hbox (9.68613pt too wide) in paragraph at lines 17919--17919
 []|[][]\T1/lmr/m/n/8 Theorem 15.48[][]|  
  []
 
 
-Overfull \hbox (15.69594pt too wide) in paragraph at lines 17626--17626
+Overfull \hbox (15.69594pt too wide) in paragraph at lines 17920--17920
 []|[][]\T1/lmr/m/n/8 Definition 14.50[][], 
  []
 
 
 
-[253] [254] [255] [256]
+[257] [258] [259] [260]
 
-[257]
+[261]
 
-[258]
-Overfull \hbox (2.30202pt too wide) in paragraph at lines 17775--17776
+[262]
+Overfull \hbox (2.30202pt too wide) in paragraph at lines 18069--18070
 \T1/lmr/m/n/10.95 charge, about $\OT1/lmr/m/n/10.95 4\OML/lmm/m/it/10.95 :\OT1/
 lmr/m/n/10.95 1\OMS/lmsy/m/n/10.95 ^^B$ \T1/lmr/m/n/10.95 slack); [60] net-char
 ge (cov-ered by [30], about $\OT1/lmr/m/n/10.95 9\OML/lmm/m/it/10.95 :\OT1/lmr/
@@ -2735,11 +2743,11 @@ m/n/10.95 6%$ \T1/lmr/m/n/10.95 slack); [32]/[47] \T1/lmtt/m/n/10.95 fullrank
 
 
 
-[259]
+[263]
 
-[260]
+[264]
 
-[261] (./erdos_64_proof.aux)
+[265] (./erdos_64_proof.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -2748,13 +2756,13 @@ Package rerunfilecheck Info: File `erdos_64_proof.out' has not changed.
 (rerunfilecheck)             Checksum: 2ADDC432986799BC7244BE465DD0C29B;7651.
  ) 
 Here is how much of TeX's memory you used:
- 34163 strings out of 473197
- 627109 string characters out of 5718606
- 1476423 words of memory out of 5000000
- 55630 multiletter control sequences out of 15000+600000
+ 34295 strings out of 473197
+ 630971 string characters out of 5718606
+ 1478616 words of memory out of 5000000
+ 55742 multiletter control sequences out of 15000+600000
  702056 words of font info for 129 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,15n,91p,3131b,2158s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,15n,91p,3219b,2158s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/euler/eufm10.pfb><
 /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/euler/eufm7.pfb></usr
 /share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/pub
@@ -2781,10 +2789,10 @@ type1/public/lm/lmtti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/symbols/msam10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
 sfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/ams
 fonts/symbols/msbm7.pfb>
-Output written on erdos_64_proof.pdf (261 pages, 1871227 bytes).
+Output written on erdos_64_proof.pdf (265 pages, 1888695 bytes).
 PDF statistics:
- 5427 PDF objects out of 6186 (max. 8388607)
- 5007 compressed objects within 51 object streams
- 1306 named destinations out of 1440 (max. 500000)
+ 5454 PDF objects out of 6186 (max. 8388607)
+ 5030 compressed objects within 51 object streams
+ 1326 named destinations out of 1440 (max. 500000)
  245 words of extra memory for PDF output out of 10000 (max. 10000000)
 
