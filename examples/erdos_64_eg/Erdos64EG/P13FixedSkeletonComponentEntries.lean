@@ -1,4 +1,5 @@
 import Erdos64EG.P13FixedSkeletonBranchExcessCorridors
+import StructuralExhaustion.Core.ExactHandoff
 import StructuralExhaustion.Graph.InducedPathBranchExcessComponentEntry
 
 namespace Erdos64EG.Internal
@@ -181,14 +182,13 @@ theorem p13BranchExcessComponentEntryChecks_linear
 caller fields. -/
 structure VerifiedP13BranchExcessComponentPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type u where
-  previous : VerifiedP13MultiScaleCurvaturePrefix ctx
-  previousExact : previous = node21
+    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type u
+    extends Core.ExactHandoff node21 where
 
 def verifiedP13BranchExcessComponentPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) :
-    VerifiedP13BranchExcessComponentPrefix ctx node21 := ⟨node21, rfl⟩
+    VerifiedP13BranchExcessComponentPrefix ctx node21 := ⟨⟨node21, rfl⟩⟩
 
 namespace VerifiedP13BranchExcessComponentPrefix
 

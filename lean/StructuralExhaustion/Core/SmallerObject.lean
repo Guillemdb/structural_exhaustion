@@ -79,6 +79,15 @@ def witness {P : Problem.{uAmbient, uBranch}}
   baseline := input.reducedBaseline
   avoids := fun reducedTarget => ctx.avoids (input.targetMonotone reducedTarget)
 
+/-- Close any already certified reduction by the minimal-counterexample
+kernel.  Applications project their inherited reduction and invoke this
+theorem; they never rebuild its baseline or target-transport argument. -/
+theorem impossible {P : Problem.{uAmbient, uBranch}}
+    {Target : P.Ambient → Prop}
+    {ctx : MinimalCounterexampleContext P Target}
+    (input : CertifiedReduction ctx) : False :=
+  input.witness.contradiction
+
 end CertifiedReduction
 
 end StructuralExhaustion.Core

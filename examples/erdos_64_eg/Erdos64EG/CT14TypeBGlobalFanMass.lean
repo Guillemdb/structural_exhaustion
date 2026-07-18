@@ -1,4 +1,5 @@
 import Erdos64EG.CT14TypeBLocalFanMass
+import StructuralExhaustion.Core.ExactHandoff
 import StructuralExhaustion.Graph.NegativeSupportHandoff
 
 namespace Erdos64EG.Internal
@@ -8,46 +9,21 @@ open StructuralExhaustion
 universe u
 
 /-!
-# P13 node [176]: global Type B fan-mass frontier
+# Original node [84]: global Type B fan-mass payload
 
-Node `[84]` proves the local fan-mass route for every predecessor-supplied
-Type B scope.  The manuscript's node `[176]` additionally needs a canonical
-finite family containing the ordinary Type B supports and the grouped
-decorated Type A exit-`(7)` envelopes.  This module makes that additional
-producer explicit.
+Node `[84]` consumes a canonical finite family containing the ordinary Type B
+supports and the grouped decorated Type A exit-`(7)` envelopes.  This module
+defines the exact semantic producer and executes the support-indexed CT14
+payload used on the existing `[84] -> [85]` edge.
 
-The realized branch executes the reusable support-indexed CT14 profile.  The
-open branch retains the exact green node `[84]` predecessor and names every
-missing semantic producer.  No ambient vertex subset, graph, or context
-universe is enumerated: the only scans are over the producer's three finite
-schedules.
+No ambient vertex subset, graph, or context universe is enumerated: the only
+scans are over the producer's three finite schedules.
 -/
 
-namespace P13Node176
+namespace Node84GlobalFanMass
 
 variable
   {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
-
-/-- The precise producer obligations introduced by the manuscript between
-the local node `[84]` endpoint and the global node `[176]` aggregate. -/
-inductive MissingProducer
-  | canonicalOrdinarySupportFamily
-  | groupedDecoratedExitSevenEnvelopeFamily
-  | supportCenterOccurrenceFamily
-  | ordinaryCoefficient208IncidenceBound
-  | groupedCoefficient208IncidenceBound
-  | routeEightNonWindowCoreExtraction
-  | withinRoleCenterDisjointness
-  deriving DecidableEq, Repr
-
-def missingProducers : List MissingProducer :=
-  [.canonicalOrdinarySupportFamily,
-    .groupedDecoratedExitSevenEnvelopeFamily,
-    .supportCenterOccurrenceFamily,
-    .ordinaryCoefficient208IncidenceBound,
-    .groupedCoefficient208IncidenceBound,
-    .routeEightNonWindowCoreExtraction,
-    .withinRoleCenterDisjointness]
 
 /-- An ordinary support is literal node-`[84]` input data together with the
 exact route selected by that predecessor. -/
@@ -106,7 +82,7 @@ structure RouteEightExtraction
   nonWindowCore : Finset ctx.G.Vertex
   coreExact : nonWindowCore = source.scope.coreVertices
 
-/-- Concrete semantic producer for the realized side of node `[176]`.
+/-- Concrete semantic producer for the global accounting inside node `[84]`.
 
 `Support`, `Center`, and `Occurrence` are the actual finite types scanned by
 the graph-owned profile.  The provenance fields identify each support with
@@ -114,9 +90,8 @@ the relevant manuscript family, identify each center with an actual high
 vertex of `G`, and identify every extracted support with the exact route-`(8)`
 core supplied after node `[84]`. -/
 structure Realization
-    (node84 : VerifiedTypeBLocalFanMassPrefix ctx) : Type (u + 1) where
-  previous : VerifiedTypeBLocalFanMassPrefix ctx
-  previousExact : previous = node84
+    (node84 : VerifiedTypeBLocalFanMassPrefix ctx) : Type (u + 1)
+    extends Core.ExactHandoff node84 where
   Support : Type u
   Center : Type u
   Occurrence : Type u
@@ -234,7 +209,7 @@ noncomputable def stage
 
 end Realization
 
-/-- Green realized output of node `[176]`.  The CT14 terminal, exact trace,
+/-- Verified global output of node `[84]`.  The CT14 terminal, exact trace,
 validity, totality, manuscript mass bound, and local quadratic check ledger
 are all exposed rather than hidden behind the runner. -/
 structure Verified
@@ -287,58 +262,21 @@ noncomputable def verify
   }
 
 /-- A conditional handoff toward node `[85]`.  It records only the exact
-verified node-`[176]` output; it does not assert the sublinearity and global
+verified global node-`[84]` output; it does not assert the sublinearity and global
 deficit hypotheses still required to prove node `[85]`. -/
 structure ConditionalNode85Handoff
     {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
-    (node176 : Verified node84) where
-  previous : Verified node84
-  previousExact : previous = node176
+    (global : Verified node84) extends Core.ExactHandoff global where
   massBound : previous.realization.producer.profile.residualMass ≤
     416 * previous.realization.producer.profile.globalSurplus
 
 def Verified.toConditionalNode85Handoff
     {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
-    (node176 : Verified node84) : ConditionalNode85Handoff node176 where
-  previous := node176
+    (global : Verified node84) : ConditionalNode85Handoff global where
+  previous := global
   previousExact := rfl
-  massBound := node176.residualMassBound
+  massBound := global.residualMassBound
 
-/-- Typed open side of node `[176]`. -/
-structure Requirement
-    (node84 : VerifiedTypeBLocalFanMassPrefix ctx) : Type (u + 1) where
-  previous : VerifiedTypeBLocalFanMassPrefix ctx
-  previousExact : previous = node84
-  missing : List MissingProducer
-  missingExact : missing = missingProducers
-  absent : ¬ Nonempty (Realization node84)
-
-inductive Outcome
-    (node84 : VerifiedTypeBLocalFanMassPrefix ctx) : Type (u + 1)
-  | realized (result : Verified node84)
-  | openRequirement (requirement : Requirement node84)
-
-noncomputable def run
-    (node84 : VerifiedTypeBLocalFanMassPrefix ctx) : Outcome node84 := by
-  classical
-  by_cases available : Nonempty (Realization node84)
-  · exact .realized (verify available.some)
-  · exact .openRequirement {
-      previous := node84
-      previousExact := rfl
-      missing := missingProducers
-      missingExact := rfl
-      absent := available
-    }
-
-theorem outcome_total
-    (node84 : VerifiedTypeBLocalFanMassPrefix ctx) :
-    (∃ result, run node84 = .realized result) ∨
-      (∃ requirement, run node84 = .openRequirement requirement) := by
-  cases result : run node84 with
-  | realized verified => exact Or.inl ⟨verified, rfl⟩
-  | openRequirement requirement => exact Or.inr ⟨requirement, rfl⟩
-
-end P13Node176
+end Node84GlobalFanMass
 
 end Erdos64EG.Internal

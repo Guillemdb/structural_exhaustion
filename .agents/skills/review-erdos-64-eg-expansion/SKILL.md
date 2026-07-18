@@ -12,6 +12,36 @@ current paper claims, compiled Lean theorems, execution traces, generated proof
 view, and implementation ledger describe the same unconditional local results
 and that no partially formalized node remains.
 
+## Reject every diagram-topology change
+
+Treat `original_erdos_64_proof.tex` as the immutable authority for the set of
+diagram nodes, directed edges, branch labels, joins, and exits. Never add,
+rename, split, merge, or delete a node, edge, case, or branch, and never edit
+that file. Reject any expansion or repair that represents an implementation
+gap, exceptional value, residual subtype, or bookkeeping distinction as new
+proof flow.
+
+Review is status- and provenance-correcting, not code-destructive. Preserve
+all existing Lean declarations, fixtures, tests, and reusable framework
+support when a node is demoted or found ahead of the dependency frontier.
+Track such material as conditional support until its exact predecessors are
+green. Never delete proof code to make the dashboard agree with the diagram;
+deletion requires a separate explicit user instruction.
+
+Require every public Lean outcome constructor and routed residual to carry an
+exact correspondence to one existing directed edge: source node, target node,
+branch label, producer theorem, and consumer field. An internal helper type may
+refine the payload of an existing edge only if it introduces no public outcome,
+new consumer, or additional case split. If the exact existing-edge connector
+cannot be proved, keep the affected node yellow and report that implication as
+the blocker. Never accept a new node or edge as a manuscript repair.
+
+Permit edits to `proofs/erdos_64_eg/erdos_64_proof.tex` only when they make the
+mathematics and the existing handoffs rigorous without changing the topology
+of the original diagram. As an explicit review check, compare the node IDs,
+directed endpoints, and branch labels in the live diagram against
+`original_erdos_64_proof.tex`; any difference fails the review.
+
 ## Enforce the no-yellow gate
 
 Treat every yellow node as blocking unfinished work. Never start or review a
@@ -45,10 +75,27 @@ branch; do not require the other branch or the global theorem. Definitional and
 bookkeeping nodes still require an explicit Lean definition or theorem that
 realizes their full local contract.
 
-For each yellow node, write a local contract row:
+Treat each diagram node as an obligation ledger, never as one coarse status
+bit. Before reviewing or implementing it, extract every distinct assertion and
+property established by the original paper: incoming provenance, defined
+objects, hypotheses retained on each branch, numerical inequalities, semantic
+claims, finite executions, outgoing payload fields, terminal implications,
+and local work bounds. Give every obligation a stable task ID.
+This complete obligation ledger must include every asserted object and every
+unfinished task. Removing a node from `formalizedNodeIds` alone is never a
+valid demotion.
 
-| Node and manuscript claim | Exact predecessor output/branch | Required local Lean theorem or run | Current evidence | Missing obligation | Resolution |
-|---|---|---|---|---|---|
+For every touched node, maintain this complete contract table:
+
+| Task ID | Original-paper obligation/property | Exact predecessor output/branch | Required local Lean theorem or run | Current evidence | Status | Missing producer or resolution |
+|---|---|---|---|---|---|---|
+
+Statuses are `proved`, `partial`, or `missing`. A node is green only when every
+task is `proved` and every proof consumes a green exact predecessor. One proved
+subclaim never promotes the whole node. When any node is demoted, immediately
+populate or update its full task ledger, including what remains proved, and
+publish that ledger in the web companion before continuing. Never represent a
+demotion only by deleting the node from `formalizedNodeIds`.
 
 Before declaring a mathematical implication missing, reconstruct every
 incoming path to that node from the Chapter 1 diagrams. Track properties as
@@ -214,7 +261,67 @@ If the current API forces impractical computation, fix the reusable contract
 and add regression coverage. Do not hide the computation in Erdős-specific
 code.
 
+Reject elaboration-time combinatorial expansion as firmly as runtime global
+enumeration. In particular, reject graph-specific whole-state `Fintype`
+synthesis, whole-state `Fintype.equivFin`, expanded power/product reduction,
+client-side `rfl` proofs that normalize symbolic cardinalities, and attempts to
+raise recursion, heartbeat, timeout, or memory limits. These are failures even
+when the resulting declaration is logically harmless.
+
+Require large finite states to use the framework's bundled symbolic encoding:
+the bound, encoder, injectivity proof, positivity facts when needed, and exact
+cardinality certificate must be composed in Core and projected by the graph
+application. Audit that the Erdős file supplies only fixed local component
+encodings and never reconstructs the product plumbing. Validate with one
+single-process, hard-timeout focused check; treat a silent timeout or material
+RSS blow-up as a yellow-node implementation defect and repair the reusable
+framework path before continuing.
+
+When a state has D4--D7 or analogous observed columns, require one
+`Core.FiniteObservedColumn.FourEncoding` value. Its `qCols` projection must be
+the sole column-product cardinality, and the state must be propagated through
+`stateEncodingOfColumnBundle`; any application-local reconstruction of the
+four bounds, code-cardinality product, or encoders is a review failure.
+
+Require all later consumers to obtain the column factor from the returned
+`ColumnStateFiniteEncoding.qCols`, alongside that same bundle's `finite.bound`,
+`finite.encode`, and `finite.encode_injective`. Reject application structures,
+arguments, or equalities that separately carry `Q_cols`, and reject
+application-level re-elaboration of the expanded product formula. A retained
+manuscript-facing name is acceptable only as a reducible projection alias.
+
+Audit dependent field alignment syntactically. A corridor/profile must use one
+canonical `FiniteEncoding` projection for all three fields:
+`encoding.finite.bound`, `encoding.finite.encode`, and
+`encoding.finite.encode_injective`. Reject a second casted encoder, client-side
+expanded product, or independently restated `Fin` index. Manuscript-facing
+names may alias `encoding.finite.bound`; derived allowances and positivity must
+come from `FiniteEncoding` methods on that same sub-bundle.
+
+Audit rank definitions extensionally. If the paper takes a maximum over
+subfamilies surviving every functional admissible quotient, require the exact
+`CT15.AdmissibleQuotient.Profile.targetRank` object and its attained-family
+theorem. A CT15 coordinate count or pairwise nonidentification result does not
+prove equality with that maximum without an explicit bridge theorem.
+
 ## Audit framework ownership and transfer
+
+Treat the framework's public automation and established composition patterns
+as binding implementation specifications. Reject an Erdős-local reconstruction
+of accumulated ledgers, residual refinement, routing, provenance, support
+recognition, CT execution, traces, work accounting, or other reusable plumbing.
+If the needed automation is absent, require one general framework implementation
+and fixture before the thin problem-specific instantiation. A mathematically
+correct node remains yellow while this abstraction debt exists.
+
+Reject repeated exact-edge and zero-work plumbing. Every unchanged predecessor
+must be carried by `Core.ExactHandoff expected`; an Erdős structure declaring
+its own `previous` plus equality certificate fails review. Every proof-only
+projection or inherited decision must use
+`Core.PolynomialCheckBudget.zero size`; a locally assembled zero-check record
+or arithmetic bound fails review. Verify that extending these generic carriers
+does not introduce a diagram outcome and that application fields contain only
+the new mathematical payload of the original node.
 
 Classify every declaration introduced or materially changed by the round:
 
@@ -251,6 +358,14 @@ authoritative crosswalk. For every implemented proof step `p` mapped to stage
 interface-binding declarations, and incoming-link evidence including
 `automationDeclarations`. Require the union of `p`'s
 `ExampleDeclarationGroup`s to equal `D(s)` exactly.
+
+Keep a web-visible obligation list for every touched node. It must enumerate
+all original-paper tasks, mark each task proved/partial/missing, and attach the
+Lean declaration groups proving completed tasks. For a demoted node, preserve
+completed tasks and state the precise missing producer for each unfinished
+task. Require the compiled yellow set and the keys of the remaining-obligation
+view to agree exactly. The web may project this ledger, but it may not invent
+mathematical obligations independently of the Lean-owned crosswalk.
 
 Verify both navigation directions:
 

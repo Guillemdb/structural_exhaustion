@@ -87,4 +87,58 @@ theorem selected_supports_disjoint :
     (overlapProfile.selected : Set (Fin 4)).PairwiseDisjoint support :=
   overlapProfile.selected_pairwise
 
+/-- The same fixture through the local support-size/point-multiplicity API
+used by bounded cold-germ extraction. -/
+def localMultiplicityProfile :
+    Core.FiniteBoundedOverlap.LocalMultiplicityProfile (Fin 2) (Fin 4) where
+  packing := packingProfile
+  supportSizeBound := 1
+  pointMultiplicityBound := 4
+  support_card_le := fun item => by
+    simp only [packingProfile, support, Finset.card_singleton]
+    exact Nat.le_refl 1
+  point_multiplicity_bounded := by
+    intro vertex
+    letI : Fintype (Fin 4) := Fintype.ofFinite (Fin 4)
+    calc
+      ((Finset.univ : Finset (Fin 4)).filter fun item =>
+          vertex ∈ packingProfile.support item).card ≤
+          (Finset.univ : Finset (Fin 4)).card :=
+        Finset.card_le_card
+          (Finset.filter_subset
+            (fun item => vertex ∈ packingProfile.support item) Finset.univ)
+      _ = 4 := by
+        rw [Finset.card_univ]
+        exact (@Fintype.card_congr (Fin 4) (Fin 4)
+          (Fintype.ofFinite (Fin 4)) (Fin.fintype 4) (Equiv.refl _)).trans
+            (Fintype.card_fin 4)
+
+theorem local_multiplicity_extracts_disjoint :
+    localMultiplicityProfile.toProfile.itemCount /
+        (1 * 4 + 1) ≤
+      localMultiplicityProfile.toProfile.selected.card := by
+  exact localMultiplicityProfile.extracted_div_bound
+
+theorem local_multiplicity_selected_disjoint :
+    (localMultiplicityProfile.toProfile.selected : Set (Fin 4)).PairwiseDisjoint
+      support := by
+  exact localMultiplicityProfile.extracted_pairwise
+
+/-- Two routed occurrences may be removed before the same bounded-overlap
+extraction is applied to the remaining four supplied items. -/
+theorem routed_loss_still_extracts_disjoint :
+    (localMultiplicityProfile.toProfile.itemCount + 2 - 2) /
+        localMultiplicityProfile.toProfile.overlapBound ≤
+      localMultiplicityProfile.toProfile.selected.card := by
+  apply localMultiplicityProfile.toProfile.supply_sub_loss_div_le_selected
+  omega
+
+theorem routed_loss_multiplicative_ledger :
+    localMultiplicityProfile.toProfile.itemCount + 2 ≤
+      localMultiplicityProfile.toProfile.selected.card *
+        localMultiplicityProfile.toProfile.overlapBound + 2 := by
+  apply localMultiplicityProfile.toProfile.supply_le_selected_mul_add_loss
+  · omega
+  · omega
+
 end StructuralExhaustion.Examples.FiniteColdGermLedger

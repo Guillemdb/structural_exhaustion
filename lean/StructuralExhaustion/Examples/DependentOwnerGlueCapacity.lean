@@ -1,0 +1,40 @@
+import StructuralExhaustion.Core.DependentOwnerGlueCapacity
+
+namespace StructuralExhaustion.Examples.DependentOwnerGlueCapacity
+
+open StructuralExhaustion.Core
+
+def profile : Core.DependentOwnerGlueCapacity.Profile where
+  Owner := Fin 2
+  owners := inferInstance
+  Local := fun _ => Fin 2
+  locals := fun _ => inferInstance
+  Global := Fin 2 × Fin 2
+  Code := Fin 2 × Fin 2
+  codes := inferInstance
+  glue := fun choice => (choice 0, choice 1)
+  restrict := fun global owner => if owner = 0 then global.1 else global.2
+  recover := by
+    intro choice owner
+    fin_cases owner <;> simp
+  code := id
+  codeInjectiveOnGlue := by
+    intro left right equal
+    exact equal
+
+example : Function.Injective profile.glue := profile.glue_injective
+
+example : Function.Injective (fun choice => profile.code (profile.glue choice)) :=
+  profile.code_glue_injective
+
+example : Nat.card (∀ owner, profile.Local owner) ≤ profile.codes.card :=
+  profile.localProduct_le_codeCard
+
+/-- Two owners each pay one binary unit, so the dependent glue carries their
+sum into the four-element code family without enumerating choice tuples. -/
+example : 2 ^ profile.weightSum (fun _ => 1) ≤ profile.codes.card := by
+  apply profile.base_pow_sumWeight_le_codeCard_pow 2 1 (fun _ => 1)
+  intro owner
+  simp [profile]
+
+end StructuralExhaustion.Examples.DependentOwnerGlueCapacity

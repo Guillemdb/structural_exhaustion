@@ -1,0 +1,18 @@
+import Erdos64EG.P13WeightedColdRestrictedF5Germ
+
+namespace Erdos64EG.Internal
+
+open StructuralExhaustion
+
+universe u
+
+#check P13WeightedColdRestrictedPrefixPackage.TerminalF5Support
+#check P13WeightedColdRestrictedPrefixPackage.RepeatedF5Support
+#check P13WeightedColdRestrictedPrefixPackage.terminalF5Support
+#check P13WeightedColdRestrictedPrefixPackage.repeatedF5Support
+#check P13WeightedColdRestrictedPrefixPackage.terminalSupport_or_repeatedF2_or_repeatedSupport
+#check P13WeightedColdRestrictedPrefixPackage.terminalSupport_or_repeatedSupport_of_f2_clear
+
+#print axioms P13WeightedColdRestrictedPrefixPackage.terminalSupport_or_repeatedSupport_of_f2_clear
+
+end Erdos64EG.Internal

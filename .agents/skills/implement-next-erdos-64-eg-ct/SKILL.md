@@ -40,6 +40,22 @@ Treat the manuscript as the mathematical specification, the official Lean
 statement as the problem boundary, and compiled Lean declarations as the
 implementation authority. Do not infer completion from documentation alone.
 
+## Keep the original diagram topology immutable
+
+Treat `original_erdos_64_proof.tex` as closed and never edit that file. Never
+add, rename, split, merge, or remove a diagram node, edge, case, label, join, or
+exit. Every public outcome implements an existing directed edge and records its
+source node, target node, branch label, producer, and consumer. An internal
+helper may refine its payload but cannot create an outcome, new consumer, or
+split. Add same-edge support; if unjustified, stop at the last verified node.
+
+Preserve all existing Lean declarations, fixtures, tests, and framework
+support while enforcing this topology. If dependency review demotes a node or
+shows that code was implemented ahead of its diagram frontier, retain that
+code as conditional support and correct only its provenance/status tracking.
+Never delete working or partial proof code merely to restore sequential proof
+order; deletion requires a separate explicit user instruction.
+
 ## Reconstruct the directed residual flow before selecting a CT
 
 Read the proof as a directed graph of local residual transformations, never as
@@ -48,11 +64,21 @@ residual accumulated along an incoming branch, performs one local mathematical
 move, and returns a terminal conclusion, a handoff residual, or a refined
 residual for a later node.
 
-Before editing, write a residual-flow ledger covering the complete candidate
-CT block:
+Before editing, write a residual-flow ledger for the complete candidate block:
 
 | Incoming branch path | Exact accumulated residual | Local certificate/data inspected | Negated earlier exits retained | Node move | Every outgoing branch | Consumer or terminal |
 |---|---|---|---|---|---|---|
+
+Expand every selected node into a complete obligation ledger with a stable task ID:
+
+| Task ID | Verbatim mathematical obligation/property from the original paper | Exact incoming producer | Lean declaration to prove it | Outgoing consumer | Status |
+|---|---|---|---|---|---|
+
+Include every asserted object, retained hypothesis, condition, inequality, semantic
+equivalence, execution/trace/totality fact, output, terminal implication, and
+work bound. Green requires every task from exact green predecessors. Never let
+one theorem stand for omitted properties. After demotion retain proved tasks,
+mark every unfinished task, and synchronize the web ledger before continuing.
 
 Enforce all of the following:
 
@@ -169,36 +195,40 @@ file. Use the most general valid owner:
 | Mathlib graph objects and parameters such as a degree threshold, length predicate, boundary type, or graph-local certificate | `lean/StructuralExhaustion/Graph` |
 | Power-of-two/Mersenne arithmetic, the pinned official statement, fixed Erdős constants, or concrete manuscript data | `examples/erdos_64_eg` |
 
-Parameterization is the decisive test. If a definition or theorem remains
-meaningful after replacing the power-of-two predicate, degree three, or the
-Erdős target by parameters, it does not belong in the Erdős package. Move it
-to the appropriate framework layer before instantiating it. This includes:
+Treat compiled framework APIs and their documented composition patterns as a
+binding implementation specification. Use the existing ledger,
+runner, route, provenance, trace, work-bound, and residual refinement automation
+whenever it applies. Never reproduce its state accumulation, routing, support
+recognition, accounting, or proof composition in Erdős-specific code.
 
-- target encodings and positive/avoiding runner wrappers;
-- transport through `TargetBridge` or `MinimalityKernel`;
-- CT-to-CT composition, residual extraction, route construction, and
-  provenance;
-- graph deletion, boundary, response, criticality, independence, and
-  rank-minimal-prefix theorems; and
-- structures bundling generic CT terminals, traces, route results, and
-  structural consequences.
+Two framework patterns are mandatory for every new or migrated node:
 
-Search `lean/StructuralExhaustion` and every non-Erdős example for an existing
-constructor before adding a declaration. If two examples contain the same
-proof shape with only predicates or constants changed, stop and extract that
-shape into the framework. Do not use an application-local namespace as a
-staging area for generic code.
+- If the node retains an incoming residual unchanged, extend
+  `Core.ExactHandoff expected`. Never redeclare `previous`, `previousExact`,
+  `exactPrevious`, or an equivalent equality bundle in Erdős code.
+- If the node performs no primitive inspection, use
+  `Core.PolynomialCheckBudget.zero size`. Never construct a local zero-check
+  budget, duplicate its coefficient/degree fields, or discharge its bound with
+  application arithmetic.
 
-An Erdős CT module may contain concrete manuscript types, finite data,
-deciders, arithmetic/reflection proofs, public-statement bridges, and named
-thin instantiations of framework APIs. A named wrapper around a generic
-method must be an `abbrev`, direct definition, or one-line theorem delegation;
-it must not reconstruct the generic proof. Keep concrete smoke fixtures and
-export metadata in the example.
+These carriers are internal plumbing, not diagram nodes or edges. Add only the
+node's new manuscript-specific fields around them, and obtain inherited facts
+through their projections and transport theorems.
 
-Write the reusable API and its framework fixture first. Then make the Erdős
-module consume it. Do not count the stage complete while reusable logic
-remains in `examples/erdos_64_eg`.
+Parameterize every declaration. If replacing the target, degree three, path
+length, or fixed constants leaves it meaningful, extract it to Core, its CT,
+Routes, or Graph before specialization. This covers target bridges, CT
+composition, residual/provenance plumbing, graph-local semantics, and bundles
+of generic terminals, traces, and consequences.
+
+Search `lean/StructuralExhaustion` and non-Erdős examples before adding code.
+If an automation is missing but reusable, implement it once at framework level
+with a framework fixture and non-Erdős transfer, then consume it here. Erdős
+modules may contain only concrete manuscript data, deciders, fixed arithmetic
+or reflection, official bridges, fixtures, export metadata, and thin
+instantiations (`abbrev`, direct definitions, or one-line delegations). A local
+reimplementation or application namespace used as generic staging blocks the
+stage even if it compiles.
 
 ## Preserve provenance through the CT chain
 
@@ -276,9 +306,10 @@ Before implementing the stage:
    the same invocation. Do not weaken or silently reinterpret the paper to fit
    a Lean API. If the correction is not mathematically justified, leave the
    stage unimplemented and report the discrepancy.
-4. Preserve proof-diagram node numbers. Add a new node only when the
-   manuscript gains a genuinely new proof step; update the detailed dependency
-   table and every affected arrow or prerequisite at the same time.
+4. Preserve the complete proof-diagram topology from
+   `original_erdos_64_proof.tex`. Never add, rename, split, merge, or remove a
+   node or edge. A missing proof step blocks implementation until it is proved
+   as a lemma or connector on an existing edge.
 
 After the Lean stage is proved, update
 `examples/erdos_64_eg/Erdos64EG/WebExport.lean` in the same change:
@@ -295,6 +326,11 @@ After the Lean stage is proved, update
   explanation, a genuine TeX mathematical statement rather than Lean pretty
   printing, the precise correspondence kind, scope limitations, and the
   practical work bound.
+- Publish the node's complete obligation ledger in the web companion. Each
+  task must have a stable ID, the original-paper property, proved/partial/
+  missing status, exact Lean evidence for proved tasks, and the missing
+  producer for unfinished tasks. A status demotion must update this ledger in
+  the same change; removing a node from `formalizedNodeIds` alone is invalid.
 - Classify declarations into `ExampleDeclarationGroup`s by their actual role:
   mathematical definition, semantic theorem, encoding bridge, execution,
   trace audit, soundness/totality, work bound, provenance, framework
@@ -343,12 +379,63 @@ recursion only with a visible structurally decreasing measure. If the current
 contract would require global enumeration, fix the reusable local contract
 instead of hiding the computation in Erdős application code.
 
-A finite scan of the actual residual schedule, including a polynomial schedule
-of actual local pairs, is compatible with structural exhaustion. Keep it lazy
-or streamed when materialization is unnecessary. What is forbidden is replacing
-those local checks by enumeration of ambient mathematical universes or by a
-global search for a proof object that the preceding branch already supplies as
-a certificate.
+Treat large symbolic finite cardinalities as opaque proof data. Never ask an
+Erdős module to synthesize a `Fintype` for a deeply nested state, construct
+`Fintype.equivFin` for the whole state, normalize a power/product cardinality,
+or prove a client-side `rfl` equality between an expanded cardinal formula and
+`Fin`'s bound. Do not raise `maxRecDepth`, heartbeats, or memory limits to make
+such elaboration pass.
+
+Use a framework-owned bundled finite encoding carrying, in one value, the
+symbolic bound, encoder, injectivity certificate, and exact symbolic-cardinality
+certificate. Build it compositionally from component encodings. Define the
+client bound by projection from that bundle and consume its certificates by
+projection; keep the expanded paper formula behind the framework certificate.
+If this bundle or a positive-bound/product certificate is missing, add the
+generic Core abstraction and a non-Erdős fixture first. The Erdős file may only
+supply its fixed component alphabets and thin profile instantiation.
+
+For D4--D7 or analogous observed-coordinate columns, the mandatory path is
+`Core.FiniteObservedColumn.FourEncoding.ofFintype`, its projected column
+encoders, its framework-computed `qCols`, and
+`Core.FiniteStructuralCutState.stateEncodingOfColumnBundle`. Never define or
+propagate `Q_cols` by restating four bounds, four padded-code cardinalities, or
+four `Fin` equivalences in an application file.
+
+Treat the returned `ColumnStateFiniteEncoding` as the sole downstream owner of
+that factor.  Project `encoding.qCols`, `encoding.finite.bound`,
+`encoding.finite.encode`, and `encoding.finite.encode_injective` from the same
+value.  A manuscript-facing `Q_cols` name, when unavoidable for indexing, may
+only be a reducible alias of `encoding.qCols`; it must never be an independent
+definition, theorem argument, structure field, or manually transported
+equality.  Keep the expanded product identity behind
+`stateEncodingOfColumnBundle_productCard`; do not re-elaborate it in an
+application module.
+
+For dependent constructions, use the canonical `FiniteEncoding` sub-bundle
+exactly: set a profile's `stateBound` to `encoding.finite.bound`, its encoder to
+`encoding.finite.encode`, and its injectivity field to
+`encoding.finite.encode_injective`. Define manuscript names such as `Q` as thin
+aliases of that same bound projection and derive exchange/support bounds via
+`FiniteEncoding` methods. Never insert a second casted encoder, transparent
+expanded product, or separately restated `Fin` index; those layers force later
+consumers to unfold the whole encoding.
+
+For curvature or response ranks defined by universal functional quotients,
+use `CT15.AdmissibleQuotient.Profile.Survives` and its attained
+`Profile.targetRank` maximum. Never reinterpret that manuscript rank as the
+runner's count of coordinates lacking pairwise identifications; connecting
+those objects requires a separate equivalence theorem.
+
+Before accepting a finite-state change, run a single-process, hard-timeout
+module check. A silent timeout, recursion-depth failure, or large RSS increase
+is an implementation defect: bisect at declaration boundaries and replace the
+normalizing/typeclass path with symbolic framework composition. Never solve it
+by evaluating, enumerating, or globally expanding the finite universe.
+
+A finite polynomial scan of the actual residual schedule is allowed and should
+remain lazy when possible. Never replace local checks by ambient-universe
+enumeration or search for a proof object already supplied by the prior branch.
 
 For manuscript packing stages, distinguish maximum cardinality from maximal
 saturation. Use `Core.FiniteDisjointPacking`,
@@ -379,31 +466,17 @@ reserve bounded reflection for the fixed finite counts.
 
 ## Place reusable changes correctly
 
-- Keep only theorem-specific data, arithmetic, official-statement bridges,
-  thin instantiations, fixtures, and export names in `examples/erdos_64_eg`.
-- Put reusable graph definitions and theorems in
-  `lean/StructuralExhaustion/Graph`.
-- Put target-independent execution and finite machinery in `Core` or the
-  owning CT, and put every reusable residual-to-trigger composition in
-  `Routes`.
-- Change a CT or `Core` contract only after demonstrating an API design error:
-  the manuscript's local operation cannot be expressed without proof
-  injection, global enumeration, or loss of a required invariant.
-- Make any framework repair problem-independent, preserve automation-first
-  ownership of execution, and add regression coverage. Never put Erdős names
-  or constants in `Core` or a generic CT.
-
-Difficulty proving an Erdős lemma is not evidence of a core design error.
-After a framework change, rebuild every existing user of the changed API.
-
-Before leaving this section, audit the Erdős diff declaration by declaration.
-For every new non-fixture definition or theorem, state which fixed Erdős datum
-prevents it from being generalized. If there is no such datum, extract it.
+Keep concrete data in `examples/erdos_64_eg`, reusable graph results in
+`lean/StructuralExhaustion/Graph`, finite machinery in `Core` or its CT, and
+compositions in `Routes`. Change a framework contract only for a demonstrated
+API design error, then rebuild all consumers. Never put Erdős names or
+constants in `Core`. For every non-fixture Erdős declaration, identify the
+fixed datum preventing generalization or extract it.
 
 ## Require a non-Erdős transfer instantiation
 
 Before finishing, locate a non-Erdős problem instantiation of the selected CT.
-It qualifies only if it:
+It must:
 
 - lives outside `examples/erdos_64_eg` and formalizes a named, standard
   textbook graph theorem;
@@ -412,20 +485,14 @@ It qualifies only if it:
   practical work bound; and
 - builds as an external example package.
 
-When this invocation adds or extends a reusable graph/core/route profile, the
-non-Erdős package must consume that exact new profile or method. Merely using
-the same CT through a separately implemented adapter does not establish
-transfer. Remove duplicated application proofs and make both examples thin
-instantiations of the shared declaration.
+When adding or extending a reusable profile, the non-Erdős package must consume
+that exact method. A separate adapter is insufficient; extract duplicated
+proofs so both examples are thin instantiations.
 
-The generic `lean/StructuralExhaustion/Examples/CTNAutomationFirst.lean`
-fixture is useful regression coverage but does not alone satisfy this
-problem-transfer requirement. If no qualifying example exists, implement the
-simplest natural textbook example. Prefer extending an existing external
-example when mathematically appropriate; otherwise add a small package and
-wire it into the repository build and example catalog. Reuse the generalized
-graph/core material instead of copying the Erdős adapter. Never introduce a
-large graph universe or exponential search merely to obtain redundancy.
+The generic `CTNAutomationFirst.lean` fixture does not alone satisfy this
+problem-transfer requirement. If needed, implement the simplest natural
+textbook example and ensure it builds as an external example package. Reuse the
+generalized graph/core material; never add global or exponential search.
 
 ## Validate and record the completed frontier
 
@@ -492,8 +559,7 @@ Do not list a conditional author interface as an unconditionally verified
 stage. Do not write comparisons with older versions or claims about future
 proof completion. If validation fails, leave the verified frontier unchanged.
 
-Stop after this one CT is fully implemented, tested, built, exported, and
-recorded in TeX, Lean, and the generated web projection. Do not start a second CT.
-Report the exact manuscript-to-CT mapping, both directions of the
-TeX--Lean index, and the declarations that connect its input to the preceding
-verified output.
+Stop after this CT is implemented, tested, built, exported, and recorded in
+TeX, Lean, and the generated web projection. Do not start a second CT. Report
+its mapping, both TeX--Lean index directions, and the declarations connecting
+it to the preceding output.

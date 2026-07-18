@@ -133,4 +133,21 @@ example : table.fan.Valid :=
 example : Graph.HighSeparatorPortClassification.checks = 10 :=
   Graph.HighSeparatorPortClassification.checks_eq_ten
 
+/-- The complete first semantic split is reusable outside the Erdős
+instantiation and consumes only the two declared `K₃,₄` ports. -/
+noncomputable example :
+    Graph.HighSeparatorPortClassification.PairSemanticOutcome object center
+      centerHigh deletionCritical firstPort secondPort :=
+  Graph.HighSeparatorPortClassification.classifyPairSemantics object center
+    centerHigh deletionCritical firstPort secondPort portsNe
+
+example : Nonempty
+    (Graph.HighSeparatorPortClassification.PairSemanticOutcome object center
+      centerHigh deletionCritical firstPort secondPort) :=
+  Graph.HighSeparatorPortClassification.classifyPairSemantics_total object center
+    centerHigh deletionCritical firstPort secondPort portsNe
+
+example : Graph.HighSeparatorPortClassification.pairSemanticChecks = 10 :=
+  Graph.HighSeparatorPortClassification.pairSemanticChecks_eq_ten
+
 end StructuralExhaustion.Examples.HighSeparatorPortClassificationK34

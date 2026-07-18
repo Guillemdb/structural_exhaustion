@@ -260,6 +260,7 @@ export const graphStyles: cytoscape.StylesheetJson = [
       "background-color": "#e2bd3f",
       "border-color": "#f3e3a4",
       color: "#3f3210",
+      height: 82,
     },
   },
   {

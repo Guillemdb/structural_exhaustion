@@ -8,15 +8,21 @@ open StructuralExhaustion
 universe u
 
 /-!
-# CT6: full surplus-port activation
+# CT6: surplus-port activation
 
-This is the problem-specific instantiation of the framework activation at
+This is the problem-specific instantiation of the framework activation used at
 manuscript nodes `[127]`--`[128]`.  It consumes the same selected packed graph,
 the verified sparse envelope at `[126]`, and the same CT6 surplus residual
 retained in that prefix.  Every
 surplus slot receives its exact port support, deleted-root-edge return, and
 open or triangular response.  Open responses are consequences of suppression
 and packed minimality; no response witness is an input to this stage.
+
+The local activation results below do not by themselves prove the node-`[125]`
+statement that the graph survives every named sparse exit.  The separate
+`SparsePressureActivationRoute` module preserves the literal node-`[125]`
+scale residual through node `[126]`; the sparse-exit-survival producer remains
+an obligation of node `[125]`.
 -/
 
 /-- The framework hypotheses specialized to the Erdős--Gyárfás target. -/
@@ -68,6 +74,16 @@ theorem activatedSurplusSchedule_length_eq_sigma
     (packedStaticInput.fixedContext ctx).baseline
     (surplusPortActivationSetup ctx).deletionCritical
 
+/-- The actual node-[128] slot/path ledger is cubic.  It reads only the
+selected surplus-slot schedule and the simple path certificates already
+carried by each active demand. -/
+theorem activatedSurplusWork_le_cubic
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
+    (activatedSurplusStage ctx).activationChecks ≤
+      ctx.G.object.input.vertices.card ^ 2 *
+        (2 * ctx.G.object.input.vertices.card + 1) :=
+  (activatedSurplusStage ctx).activationChecks_le_cubic
+
 /-- In the open branch, the framework predecessor-accepted response has the
 exact Mersenne length asserted in the manuscript. -/
 theorem openResponse_has_mersenne_length
@@ -85,7 +101,8 @@ theorem openResponse_has_mersenne_length
   refine ⟨exponent, lower, ?_⟩
   omega
 
-/-- Exact verified prefix through the full `[125]`--`[128]` CT block. -/
+/-- Verified local activation prefix through nodes `[127]`--`[128]`, assuming
+the exact node-`[126]` sparse-envelope prefix. -/
 structure VerifiedSurplusPortActivationPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
     Prop where
@@ -98,6 +115,9 @@ structure VerifiedSurplusPortActivationPrefix
       (activatedSurplusStage ctx).run.residual).length =
         (ctx.G.object.input.vertices.orderedValues.map
           (fun center => ctx.G.object.degree center - 3)).sum
+  work : (activatedSurplusStage ctx).activationChecks ≤
+      ctx.G.object.input.vertices.card ^ 2 *
+        (2 * ctx.G.object.input.vertices.card + 1)
 
 noncomputable def verifiedSurplusPortActivationPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
@@ -106,6 +126,7 @@ noncomputable def verifiedSurplusPortActivationPrefix
   previous := previous
   activated := fun slot ↦ ⟨activeSurplusDemand ctx slot⟩
   scheduleLength := activatedSurplusSchedule_length_eq_sigma ctx
+  work := activatedSurplusWork_le_cubic ctx
 
 theorem exists_verifiedSurplusPortActivationPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)

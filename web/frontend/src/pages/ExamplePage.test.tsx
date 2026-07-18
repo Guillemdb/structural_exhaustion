@@ -3,6 +3,7 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 
 import { fetchExample } from "../api";
+import { proofFlowObligationProgress } from "../erdos-proof-flow";
 import type { ExampleResponse, GraphElement, SelectedGraphElement } from "../types";
 import { ExamplePage, ExampleWorkspace } from "./ExamplePage";
 
@@ -175,7 +176,7 @@ const response: ExampleResponse = {
       title: "Synthetic proof",
       path: "proofs/synthetic.tex",
       sha256: "b".repeat(64),
-      formalizedNodeIds: [1],
+      formalizedNodeIds: [1, 157],
       fragments: [
         {
           label: "lem:activity",
@@ -281,7 +282,7 @@ const response: ExampleResponse = {
               declarationIds: ["ct6-trace"],
             },
           ],
-          scopeNotes: "Synthetic composite correspondence.",
+          scopeNotes: "The complete counterexample closure remains to be proved before this node is green.",
           workBound: "No additional scan.",
         },
         {
@@ -397,22 +398,66 @@ describe("ExamplePage", () => {
     });
     expect(within(progress).getByText("2/14")).toBeVisible();
     expect(within(progress).getByText("paper objects mapped to verified Lean")).toBeVisible();
-    expect(within(progress).getByText("1/20")).toBeVisible();
-    expect(within(progress).getByText("Chapter 1 flow nodes verified")).toBeVisible();
+    expect(within(progress).getByText("2/157")).toBeVisible();
+    expect(within(progress).getByText("framework nodes implemented")).toBeVisible();
+    const taskProgress = proofFlowObligationProgress(response.example.manuscript!);
+    expect(within(progress).getByText(
+      `${taskProgress.proved}/${taskProgress.total}`,
+    )).toBeVisible();
+    expect(within(progress).getByText("tasks implemented")).toBeVisible();
     expect(within(progress).getByText("verified workflow steps")).toBeVisible();
     expect(screen.getByText("3 indexed steps")).toBeVisible();
     expect(screen.getByText("Verified EG proof flow")).toBeVisible();
-    expect(screen.getByText("194-node proof dependency map")).toBeVisible();
-    expect(screen.getByRole("button", {
-      name: /Node 1: finite simple graph G\. Formalized in Lean/,
-    })).toBeVisible();
-    expect(screen.getByRole("button", {
-      name: /Node 2: counterexample.*Partially formalized in Lean/,
-    })).toBeVisible();
+    expect(screen.getByText("157-node proof dependency map")).toBeVisible();
+    expect(screen.getByLabelText(
+      /Node 1: finite simple graph G\. Formalized in Lean/,
+    )).toBeVisible();
+    expect(screen.getByLabelText(
+      /Node 2: counterexample.*Partially formalized in Lean/,
+    )).toBeVisible();
     expect(screen.getByText("partially formalized")).toBeVisible();
-    expect(screen.getByRole("button", {
-      name: /Node 157: G3 compression after target-complete promotion; producer open\. Paper proof only/,
-    })).toBeVisible();
+    expect(document.querySelector('[aria-label^="Node 157:"]')).toBeVisible();
+
+    fireEvent.click(screen.getByLabelText(
+      /Node 2: counterexample.*Partially formalized in Lean/,
+    ));
+    expect(screen.getByLabelText(
+      /\d+ of \d+ obligations proved; \d+ remaining/,
+    )).toBeVisible();
+    const implementedProgress = screen.getByRole("region", {
+      name: "Implemented Lean progress",
+    });
+    expect(implementedProgress).toBeVisible();
+    expect(within(implementedProgress).getByText("Overload declarations")).toBeVisible();
+    expect(within(implementedProgress).getByText(
+      "The CT6 trace is the displayed evidence for this fixture stage.",
+    )).toBeVisible();
+    expect(screen.getByRole("region", {
+      name: "Remaining obligations before green",
+    })).toHaveTextContent(
+      "The complete counterexample closure remains to be proved before this node is green.",
+    );
+    const partialLedger = screen.getByRole("region", {
+      name: "Original-paper obligation ledger",
+    });
+    expect(within(partialLedger).getByText("partial")).toBeVisible();
+    expect(within(partialLedger).queryByText("proved")).not.toBeInTheDocument();
+    expect(within(partialLedger).getAllByRole("listitem")).toHaveLength(1);
+
+    fireEvent.click(screen.getByLabelText(
+      /Node 1: finite simple graph G\. Formalized in Lean/,
+    ));
+    const fullImplementation = screen.getByRole("region", { name: "Full Lean implementation" });
+    expect(fullImplementation).toBeVisible();
+    expect(within(fullImplementation).getByText("Activity declarations")).toBeVisible();
+    const completeLedger = screen.getByRole("region", {
+      name: "Original-paper obligation ledger",
+    });
+    expect(within(completeLedger).getAllByText("proved").length).toBeGreaterThan(0);
+    expect(within(completeLedger).queryByText("missing")).not.toBeInTheDocument();
+    expect(screen.queryByRole("region", {
+      name: "Remaining obligations before green",
+    })).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: /Part XI.*formalized/ }));
     expect(screen.getByRole("heading", { name: "Hot/cold window interface" })).toBeVisible();

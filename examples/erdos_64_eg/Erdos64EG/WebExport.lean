@@ -1,5 +1,19 @@
 import Erdos64EG
 import Erdos64EG.Tests
+import Erdos64EG.P13Node24To26
+import Erdos64EG.P13Node27To28
+import Erdos64EG.P13Node28To29
+import Erdos64EG.P13Node29To30
+import Erdos64EG.P13Node30To31
+import Erdos64EG.P13Node31To32
+import Erdos64EG.P13Node32To33
+import Erdos64EG.P13Node32To34
+import Erdos64EG.P13Node33To35
+import Erdos64EG.P13Node35To36
+import Erdos64EG.P13Node36To37
+import Erdos64EG.P13Node36To38
+import Erdos64EG.P13Node38To39
+import Erdos64EG.P13Node24AsymptoticTransport
 import StructuralExhaustion.Canonical.ExampleExport
 
 namespace Erdos64EG.WebExport
@@ -176,10 +190,26 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.verifiedP13RemainderResidual,
         `Erdos64EG.Internal.p13Remainder_large,
         `Erdos64EG.Internal.p13Remainder_node26_exact,
+        `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder,
+        `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.node25,
+        `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.large,
+        `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.thirteen_le_order,
+        `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.ratio_ge_main_sub_oOne,
+        `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.node26,
+        `Erdos64EG.Internal.VerifiedP13Node27NoInternalThreeCore,
+        `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.node27,
+        `Erdos64EG.Internal.p13Node27LocalChecks_polynomial,
+        `Erdos64EG.Internal.verifiedP13PackingPrefix,
         `Erdos64EG.Internal.p13PackingPrefix_previous,
         `Erdos64EG.Internal.p13PackingPrefix_routeId,
         `Erdos64EG.Internal.p13PackingPrefix_routedInputExact,
-        `Erdos64EG.Internal.p13PackingPrefix_nonempty
+        `Erdos64EG.Internal.p13PackingPrefix_nonempty,
+        `Erdos64EG.Internal.p13Node24To26LocalChecks_polynomial,
+        `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingPrefix,
+        `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingRoute_id,
+        `StructuralExhaustion.Routes.CT1ToCT12.routeContract,
+        `Erdos64EG.Internal.inducedP13PackingProfile,
+        `StructuralExhaustion.CT12.DisjointPacking.Profile.verifiedStage
       ]
     },
     {
@@ -236,13 +266,124 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       summary := "The graph-owned induced-support charge profile is instantiated on the exact selected P13 remainder, so node [28] is definitionally the sum of max(0,3-d_R(v)) on that same graph."
       kind := .theorem
       primaryDeclaration :=
-        `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix
+        `Erdos64EG.Internal.VerifiedP13Node27NoInternalThreeCore.node28
       evidenceDeclarations := [
         `StructuralExhaustion.Graph.AssignedSupportCharge.Profile.internalDegree,
         `StructuralExhaustion.Graph.AssignedSupportCharge.Profile.positiveDeficiency,
         `Erdos64EG.Internal.p13RemainderDeficiencyProfile,
         `Erdos64EG.Internal.p13Remainder_internalDegree_eq,
-        `Erdos64EG.Internal.p13Remainder_positiveDeficiency_eq
+        `Erdos64EG.Internal.p13Remainder_positiveDeficiency_eq,
+        `Erdos64EG.Internal.VerifiedP13PositiveDeficiencyPrefix,
+        `Erdos64EG.Internal.verifiedP13PositiveDeficiencyPrefix,
+        `Erdos64EG.Internal.VerifiedP13Node28PositiveDeficiency,
+        `Erdos64EG.Internal.p13Node28LocalChecks_le_square
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-external-incidence-supply"
+      title := "Exact external-incidence supply"
+      summary := "The literal node-[28] remainder deficiency injects into its R--W boundary incidences, those incidences embed in the selected-window token schedule, and the exact schedule identity gives 15p13+sigma_W together with its surplus-adjusted form."
+      kind := .theorem
+      primaryDeclaration :=
+        `Erdos64EG.Internal.VerifiedP13Node28PositiveDeficiency.node29
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node29ExternalIncidenceSupply,
+        `Erdos64EG.Internal.p13Curvature_positiveDeficiency_eq_previous,
+        `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.positiveDeficiency_le_boundaryIncidences,
+        `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderBoundaryIncidences_le_tokenCount,
+        `StructuralExhaustion.Graph.InducedPathWindowLedger.tokenCount_eq_fifteen_mul_packing_add_surplus,
+        `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_le_fifteen_mul_packing_add_surplus,
+        `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_sub_remainderSurplus_le,
+        `StructuralExhaustion.Graph.InducedPathWindowLedger.window_add_remainder_eq_totalSurplus,
+        `StructuralExhaustion.Graph.InducedPathWindowLedger.checks_le_thirteen_mul_square,
+        `Erdos64EG.Internal.P13NearCubicSpineBound.ofBoundedSurplus
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-wedge-lower"
+      title := "Exact remainder wedge lower bound"
+      summary := "The graph-owned degree-count identity is applied to every supplied finite component support and to the exact remainder. Node [29]'s incidence supply gives the finite window-only error, while the reusable real transport handles both manuscript rates without scanning another universe."
+      kind := .theorem
+      primaryDeclaration :=
+        `Erdos64EG.Internal.VerifiedP13Node29ExternalIncidenceSupply.node30
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node30WedgeLower,
+        `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.three_mul_card_le_wedgeCount_add_twice_deficiency,
+        `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeFloor,
+        `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeRate_of_deficiencyRate,
+        `Erdos64EG.Internal.p13Remainder_wedgeFloor,
+        `Erdos64EG.Internal.p13Node30OmegaWindow,
+        `Erdos64EG.Internal.p13Node30OmegaWindow_gt_printed,
+        `Erdos64EG.Internal.p13Node30HighEntropyDeficiencyRate,
+        `Erdos64EG.Internal.p13Node30OmegaHighEntropy,
+        `Erdos64EG.Internal.p13Node30OmegaHighEntropy_eq
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-curvature-target-rank"
+      title := "Exact curvature target-rank definition"
+      summary := "The literal raw remainder wedges form the declared coordinate schedule. The framework defines survival as label-injectivity under every functional admissible quotient and defines target rank as the attained maximum surviving cardinality, without enumerating subfamilies, quotients, or contexts."
+      kind := .theorem
+      primaryDeclaration :=
+        `Erdos64EG.Internal.VerifiedP13Node30WedgeLower.node31
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.declaredCoordinates,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.Survives,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.targetRank,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.targetRank_le_coordinates,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.exists_surviving_card_eq_targetRank,
+        `Erdos64EG.Internal.p13CurvatureCoordinates,
+        `Erdos64EG.Internal.p13CurvatureCoordinates_card_eq_wedgeCount,
+        `Erdos64EG.Internal.p13CurvatureCoordinates_card_le_cube,
+        `Erdos64EG.Internal.p13CurvatureResponseProfile,
+        `StructuralExhaustion.Graph.FiniteSupportResponse.Profile.response_true_iff,
+        `Erdos64EG.Internal.p13CurvatureTargetRank
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-curvature-rank-decision"
+      title := "Exact curvature rank-loss dichotomy"
+      summary := "The exact node-[31] maximum is compared with the complete raw wedge cardinality. The two original edges are exhaustive: strict rank loss, or equality with the full schedule. This proof-level comparison evaluates no family of subfamilies, quotients, or contexts."
+      kind := .theorem
+      primaryDeclaration :=
+        `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank.node32
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node32RankDecision,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.RankDecision,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.rankDecision,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.rankDecision_exhaustive,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.rankDecisionBudget
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-curvature-dependence-open"
+      title := "Finite functional curvature dependence"
+      summary := "On the strict-loss edge, failure of universal quotient-survival supplies one admitted quotient and two distinct declared raw wedges with the same quotient value. The resulting singleton-basis pair circuit is the finite functional dependence carried into Branch D."
+      kind := .theorem
+      primaryDeclaration :=
+        `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node33
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.basis,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.basis_subset_declared,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.determined_not_mem_basis,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.pairCircuit_nonempty_of_rankDrop,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.pairCircuitOfRankDrop
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-full-curvature-rank"
+      title := "Exact full-curvature-rank residual"
+      summary := "On node [32]'s no edge, the target rank equals the complete raw wedge cardinality. An actual maximal surviving family has size W2(R), so the displayed near-full asymptotic residual follows from a stronger exact finite equality."
+      kind := .theorem
+      primaryDeclaration :=
+        `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node34
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node34FullCurvatureRank,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.exists_surviving_card_eq_targetRank,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.rankDecisionBudget
       ]
     },
     {
@@ -273,35 +414,285 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       ]
     },
     {
-      stageId := "proof-slice.p13-realization-requirement"
-      title := "Node [160] realization/open-requirement dichotomy"
-      summary := "A proof-level dichotomy either carries the full same-context local-completion, simultaneous-response, and commuting-gluing package or retains its exact absence with the named downstream requirements."
+      stageId := "proof-slice.p13-weighted-live-cold"
+      title := "Weighted live/cold P₁₃ window interface"
+      summary := "The exact packing is processed in order. A recoverable graph-semantic extension is accepted into the accumulated hot aggregate, or the identical window and prior aggregate are retained as a cold rejection. The sequential cold list is partitioned by ambient cubicity and routed to the thirteen-stub schedule."
       kind := .adapter
       primaryDeclaration :=
-        `Erdos64EG.Internal.p13Node160RealizationDichotomy
+        `Erdos64EG.Internal.p13SequentialWeightedHotCount_add_coldCount
       evidenceDeclarations := [
-        `Erdos64EG.Internal.P13Node160RealizationRequirement,
-        `Erdos64EG.Internal.p13Node160RealizationRequirement,
-        `Erdos64EG.Internal.P13Node160LocalGraphCompletion,
-        `Erdos64EG.Internal.p13Node160LocalResponse,
-        `Erdos64EG.Internal.P13Node160GlobalGraphCompletion,
-        `Erdos64EG.Internal.p13Node160GlobalResponse,
-        `Erdos64EG.Internal.P13Node160RealizationPackage,
-        `Erdos64EG.Internal.P13Node160RealizationOutcome,
-        `Erdos64EG.Internal.p13Node160RealizationDichotomy_exhaustive
+        `StructuralExhaustion.Core.VariableConditionalFibreProductCost.Profile.complete_product_le,
+        `StructuralExhaustion.Core.VariableConditionalFibreProductCost.Profile.checks_le_state_mul_coordinate,
+        `Erdos64EG.Internal.P13WeightedLiveWindowPackage,
+        `Erdos64EG.Internal.P13WeightedLiveWindowPackage.product_le,
+        `Erdos64EG.Internal.P13WeightedLiveWindowPackage.checks_local,
+        `Erdos64EG.Internal.P13WeightedHotWindow,
+        `StructuralExhaustion.Core.SequentialCompatibleExtensionLedger.run,
+        `Erdos64EG.Internal.P13SequentialHotAggregate,
+        `Erdos64EG.Internal.P13SequentialCompatibleExtension,
+        `Erdos64EG.Internal.P13SequentialWeightedColdWindow,
+        `Erdos64EG.Internal.p13SequentialFinal_localProduct_le_fixedCapacity,
+        `Erdos64EG.Internal.p13SequentialFinal_retainedCount,
+        `Erdos64EG.Internal.p13SequentialWeightedColdWindows_window_nodup,
+        `Erdos64EG.Internal.p13SequentialHotBudget_total_le_budget_add_cold,
+        `Erdos64EG.Internal.p13WeightedCold_cubic_nonCubic_length,
+        `Erdos64EG.Internal.p13WeightedColdNonCubic_length_le_totalSurplus,
+        `Erdos64EG.Internal.p13WeightedColdNonCubic_length_sq_le_nearCubicBudget,
+        `Erdos64EG.Internal.p13WeightedColdBranchExcessStubs_length,
+        `Erdos64EG.Internal.p13WeightedColdBranchExcessStubs_nodup,
+        `Erdos64EG.Internal.P13WeightedColdBranchExcessStub.sameWindow,
+        `Erdos64EG.Internal.p13WeightedColdBranchExcessSchedule_length,
+        `Erdos64EG.Internal.p13WeightedColdBranchExcessSchedule_nodup,
+        `Erdos64EG.Internal.p13WeightedColdRestrictedEntries_sources,
+        `Erdos64EG.Internal.p13WeightedColdRestrictedEntries_sources_nodup,
+        `Erdos64EG.Internal.p13WeightedColdRestrictedComponentSchedule_sources,
+        `Erdos64EG.Internal.p13WeightedColdRestrictedComponentSchedule_sources_nodup,
+        `Erdos64EG.Internal.thirteen_mul_weightedCold_le_branchExcess_add_surplus,
+        `Erdos64EG.Internal.verifiedP13WeightedColdNearCubicPayment,
+        `Erdos64EG.Internal.P13WeightedColdBranchExcessStub.corridor
+      ]
+    },
+    {
+      stageId := "proof-slice.type-a-nodes57-63-local-provenance"
+      title := "Nodes [57]--[63] dependency-indexed Type-A chain"
+      summary := "The complete local node-[57]--[63] contracts retain the literal node-[56] strict-quarter input, localize its negative component, and run only the two original node-[62] routes. The chain remains conditional because node [56] is not yet green."
+      kind := .adapter
+      primaryDeclaration :=
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.node57
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.node58,
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.node59,
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.node60_impossible,
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.canonicalLedger,
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.node61,
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.node62,
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.localChecks_linear
+      ]
+    },
+    {
+      stageId := "proof-slice.type-a-nodes86-88-local-thresholds"
+      title := "Nodes [86]--[88] local Type-A thresholds"
+      summary := "From a supplied exact node-[63] Type-A residual, the local chain proves zero assigned surplus, the strict quarter deficiency, the P13-free diameter-eleven Moore bound, and the three original receiver thresholds. It stays conditional on the yellow node-[63] predecessor."
+      kind := .adapter
+      primaryDeclaration :=
+        `Erdos64EG.Internal.TypeANodes86To88Thresholds.node86
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.TypeANodes86To88Thresholds.VerifiedNode86Residual.assignedSurplus_eq_zero,
+        `Erdos64EG.Internal.TypeANodes86To88Thresholds.VerifiedNode86Residual.four_deficiency_lt_card,
+        `Erdos64EG.Internal.TypeANodes86To88Thresholds.node87_p13Free,
+        `Erdos64EG.Internal.TypeANodes86To88Thresholds.node87_diameterAtMostEleven,
+        `Erdos64EG.Internal.TypeANodes86To88Thresholds.node87_supportCardAtMost6142_of_diameter,
+        `Erdos64EG.Internal.TypeANodes86To88Thresholds.node87,
+        `Erdos64EG.Internal.TypeANodes86To88Thresholds.node87Checks_polynomial,
+        `Erdos64EG.Internal.TypeANodes86To88Thresholds.q,
+        `Erdos64EG.Internal.TypeANodes86To88Thresholds.threshold,
+        `Erdos64EG.Internal.TypeANodes86To88Thresholds.node88,
+        `Erdos64EG.Internal.TypeANodes86To88Thresholds.node88Checks_constant
+      ]
+    },
+    {
+      stageId := "proof-slice.type-a-node89-local-saturation"
+      title := "Node [89] local receiver-saturation decision"
+      summary := "On a supplied exact node-[88] residual, one finite receiver-fibre decision returns exactly the original no edge to [90] or yes edge to [93], with exact predecessor identity and polynomial local work. Node [89] remains dependency-blocked by node [88]."
+      kind := .adapter
+      primaryDeclaration :=
+        `Erdos64EG.Internal.TypeANode89SaturationDecision.run
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.TypeANode89SaturationDecision.input,
+        `Erdos64EG.Internal.TypeANode89SaturationDecision.routing,
+        `Erdos64EG.Internal.TypeANode89SaturationDecision.routedReceiver_eq_canonical,
+        `Erdos64EG.Internal.TypeANode89SaturationDecision.ToNode93,
+        `Erdos64EG.Internal.TypeANode89SaturationDecision.ToNode90,
+        `Erdos64EG.Internal.TypeANode89SaturationDecision.run_exhaustive,
+        `Erdos64EG.Internal.TypeANode89SaturationDecision.localCheckCount_polynomial,
+        `Erdos64EG.Internal.TypeANode89SaturationDecision.workBudget
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-node153-produced-support-coverage"
+      title := "Node [153] prior produced-support coverage"
+      summary := "A framework-owned persistent ledger aggregates ordinary, decorated, and route-8 occurrences without deduplication. F4 recognizes exact occurrences; the list ledger is only a compatibility projection. The graph-owned global producers remain explicit upstream obligations."
+      kind := .adapter
+      primaryDeclaration :=
+        `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.outside_all_produced_occurrences
+      evidenceDeclarations := [
+        `StructuralExhaustion.Core.FiniteResidualLedger.Ledger,
+        `StructuralExhaustion.Core.ResidualRefinement.Ledger.append,
+        `StructuralExhaustion.Core.ResidualRefinement.Ledger.fact_of_mem_events,
+        `StructuralExhaustion.Graph.FiniteResidualSupportLedger.View.recognize_exact,
+        `StructuralExhaustion.Graph.ResidualSupportRefinement.Profile.recognize_exact,
+        `StructuralExhaustion.Graph.ResidualSupportRefinement.Profile.FirstHit.get,
+        `Erdos64EG.Internal.P13ProducedPriorSupportLedger.PersistentLedger.recognize_exact,
+        `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.persistentBase,
+        `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.persistentBase_event_origin,
+        `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.CompleteState,
+        `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.ordinaryOccurrence_mem,
+        `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.decoratedOccurrence_mem,
+        `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.routeEightOccurrence_mem,
+        `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.P13WeightedColdRestrictedPrefixPackage.exists_localCorridorSurvivor_of_completeProducedLedger
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-node153-exact-continuation"
+      title := "Node [153] restricted corridor and exact local F2--F5 continuation"
+      summary := "The existing component edge retains its actual component and lexicographically first simple corridor. Its stored literal stages are then scanned in the paper's F1, F2, F3, F4, F5 order. The prior-support connector preserves every occurrence supplied by the exact producer schedules; the upstream global ordinary/realization producer and ColdBoundedGerm producer remain absent."
+      kind := .adapter
+      primaryDeclaration :=
+        `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.runExactContinuation
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.StageF2,
+        `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.StageF3,
+        `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.ExactF5,
+        `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.f4_absent,
+        `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.repeatedStageF2,
+        `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.repeatedStageF3,
+        `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.exactF5OfClear,
+        `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.exactLaterSemantics,
+        `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.runExactContinuation_total,
+        `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.exactContinuation_checks,
+        `StructuralExhaustion.Graph.FiniteLexFirstSimplePath.Profile.firstPath,
+        `StructuralExhaustion.Graph.FiniteLexFirstSimplePath.Profile.firstPath_isPath,
+        `StructuralExhaustion.Graph.FiniteLexFirstSimplePath.Profile.firstPath_head,
+        `StructuralExhaustion.Graph.FiniteLexFirstSimplePath.Profile.firstPath_getLast,
+        `StructuralExhaustion.Graph.FiniteLexFirstSimplePath.Profile.no_earlier_path,
+        `StructuralExhaustion.Graph.FiniteLexFirstSimplePath.Profile.firstPath_length_lt,
+        `Erdos64EG.Internal.restricted_component_payload,
+        `Erdos64EG.Internal.restricted_component_declaredOrderCorridor,
+        `Erdos64EG.Internal.p13RestrictedLexFirstCorridorProfile,
+        `Erdos64EG.Internal.p13RestrictedLexFirstCorridor,
+        `Erdos64EG.Internal.restricted_component_lexFirstCorridor
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-node154-local-classifier"
+      title := "Node [154] local G1--G3 classifier"
+      summary := "For one supplied bounded germ, the original priority classifier tests its literal hit first and, only when absent, scans the germ's declared finite response codes. The three outcomes are exhaustive with an exact local trace and a linear code-schedule work bound; this stage does not produce the bounded germ."
+      kind := .adapter
+      primaryDeclaration :=
+        `Erdos64EG.P13ColdGermLedger.ColdBoundedGerm.classify_exhaustive_with_trace
+      evidenceDeclarations := [
+        `StructuralExhaustion.Core.FinitePriorityOptionScanWork.trace,
+        `StructuralExhaustion.Core.FinitePriorityOptionScanWork.checks,
+        `StructuralExhaustion.Core.FinitePriorityOptionScanWork.checks_le_codes_add_one,
+        `Erdos64EG.P13ColdGermLedger.ColdBoundedGerm.classify,
+        `Erdos64EG.P13ColdGermLedger.ColdBoundedGerm.classifyTrace,
+        `Erdos64EG.P13ColdGermLedger.ColdBoundedGerm.classifyTrace_length_le_three,
+        `Erdos64EG.P13ColdGermLedger.ColdBoundedGerm.classifyChecks,
+        `Erdos64EG.P13ColdGermLedger.ColdBoundedGerm.classifyChecks_le_codes_add_one
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-node146-route8-threshold"
+      title := "Node [146] route-8 density threshold"
+      summary := "One exact comparison decides 78 p13 < n, proves its equivalence with theta < 1/78 and tau(theta) < 3/13, and retains the canonical node-[145] ledger on both original outgoing edges."
+      kind := .adapter
+      primaryDeclaration :=
+        `Erdos64EG.Internal.runP13Node146
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.p13PackingTheta,
+        `Erdos64EG.Internal.p13Route8Tau,
+        `Erdos64EG.Internal.p13VertexCount_pos,
+        `Erdos64EG.Internal.p13Route8BelowThreshold_iff_theta,
+        `Erdos64EG.Internal.p13Route8Tau_lt_three_thirteenths_iff,
+        `Erdos64EG.Internal.p13Route8_denominator_pos_of_below,
+        `Erdos64EG.Internal.P13Node146To147,
+        `Erdos64EG.Internal.P13Node146To148,
+        `Erdos64EG.Internal.runP13Node146_exhaustive,
+        `Erdos64EG.Internal.p13Node146LocalCheckCount_polynomial,
+        `Erdos64EG.Internal.p13Node146WorkBudget,
+        `Erdos64EG.Internal.p13Node146WorkBudget_checks
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-node147-private-carrier-arithmetic"
+      title := "Node [147] private-carrier arithmetic prefix"
+      summary := "The exact node-[146] yes payload yields the strict numerical margin required by the route-8 carrier squeeze; the structural carrier and basin ledgers remain missing, so node [147] stays partial."
+      kind := .adapter
+      primaryDeclaration :=
+        `Erdos64EG.Internal.p13Node147ArithmeticPrefix
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.p13Route8CollisionCoefficientGap,
+        `Erdos64EG.Internal.p13Route8CollisionMargin_pos,
+        `Erdos64EG.Internal.P13Node147ArithmeticPrefix,
+        `Erdos64EG.Internal.p13Node147ArithmeticCheckCount_polynomial
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-node148-live-hot-decision"
+      title := "Node [148] live-hot entropy decision"
+      summary := "The exact node-[146] no payload and final recoverable hot aggregate execute the corrected total-demand comparison and return exactly the original node-[149] or node-[150] residual."
+      kind := .adapter
+      primaryDeclaration :=
+        `Erdos64EG.Internal.runP13Node148
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.p13Node148_hotDemand_le_allowance,
+        `Erdos64EG.Internal.p13Node148_totalDemand_eq_hot_add_cold,
+        `Erdos64EG.Internal.p13Node148_totalDemand_le_allowance_add_cold,
+        `Erdos64EG.Internal.P13Node148To149,
+        `Erdos64EG.Internal.P13Node148To150,
+        `Erdos64EG.Internal.runP13Node148_exhaustive,
+        `Erdos64EG.Internal.p13Node148LocalCheckCount_polynomial,
+        `Erdos64EG.Internal.p13Node148WorkBudget_checks
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-node149-density-cap"
+      title := "Node [149] normalized P₁₃ density cap"
+      summary := "The exact node-[148] yes payload retains its complete dependent predecessor and yields theta ≤ theta_win plus one explicit graph-order error tending to zero."
+      kind := .theorem
+      primaryDeclaration :=
+        `Erdos64EG.Internal.VerifiedP13Node149DensityCap.theta_le_thetaWindow_add_oOne
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.verifiedP13Node149DensityCap,
+        `Erdos64EG.Internal.VerifiedP13Node149DensityCap.correctedThetaCap,
+        `Erdos64EG.Internal.p13Node149ThetaWindow_eq_exact,
+        `Erdos64EG.Internal.p13SequentialHotNormalizationError_real_upper,
+        `Erdos64EG.Internal.p13SequentialHotNormalizationRealEnvelope_isLittleO,
+        `Erdos64EG.Internal.p13Node149ThetaError_tendsto_zero,
+        `Erdos64EG.Internal.VerifiedP13Node149DensityCap.correctedRemainderCap,
+        `Erdos64EG.Internal.VerifiedP13Node149DensityCap.localCheckCount_polynomial
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-node150-cold-mass"
+      title := "Node [150] normalized cold-mass handoff"
+      summary := "The exact node-[148] no payload yields the paper's two printed cold-mass coefficients with a uniform vanishing normalization error; the surviving-spine exclusions required by node [151] remain missing."
+      kind := .adapter
+      primaryDeclaration :=
+        `Erdos64EG.Internal.p13Node150FiniteColdMass
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.p13Node150_manuscriptRoute8ColdMassCrossMultiplied,
+        `Erdos64EG.Internal.p13Node150_manuscriptNegativeNetColdMassCrossMultiplied,
+        `Erdos64EG.Internal.p13ManuscriptRoute8ColdMassCoefficient_printedBracket,
+        `Erdos64EG.Internal.p13ManuscriptNegativeNetColdMassCoefficient_printedBracket,
+        `Erdos64EG.Internal.p13ManuscriptDyadicHotNormalizationError_real_upper,
+        `Erdos64EG.Internal.p13ManuscriptDyadicHotNormalizationRealEnvelope_isLittleO,
+        `Erdos64EG.Internal.p13ManuscriptDyadicHotNormalization_div_nlog_tendsto_zero,
+        `Erdos64EG.Internal.P13Node150FiniteColdMass,
+        `Erdos64EG.Internal.p13Node150LocalCheckCount_polynomial
       ]
     },
     {
       stageId := "proof-slice.p13-density-handoff"
-      title := "Nodes [22]--[24] finite density handoff"
-      summary := "One exact natural-number comparison splits the node-[21] packing into the strict density-overflow payload of node [23] or the complementary finite density-ceiling payload of node [24]."
+      title := "Nodes [22]--[24] corrected finite density handoff"
+      summary := "One exact natural-number comparison retains the scale-loss and skeleton-normalization error, returning either the strict node-[23] overflow payload or the complementary corrected node-[24] finite cap."
       kind := .adapter
       primaryDeclaration :=
-        `Erdos64EG.Internal.runP13Node22DensityDecision
+        `Erdos64EG.Internal.runP13Node22FiniteDensityDecision
       evidenceDeclarations := [
-        `Erdos64EG.Internal.runP13Node22DensityDecision_exhaustive,
-        `Erdos64EG.Internal.VerifiedP13Node23DensityOverflow.strict,
-        `Erdos64EG.Internal.VerifiedP13Node24DensityHandoff.packingDensityCap
+        `Erdos64EG.Internal.runP13Node22FiniteDensityDecision_exhaustive,
+        `Erdos64EG.Internal.VerifiedP13Node23FiniteOverflow.strict,
+        `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.thetaWindowCorrected,
+        `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.remainderCorrected,
+        `Erdos64EG.Internal.p13Node24NormalizationEnvelope_isLittleO,
+        `Erdos64EG.Internal.p13Node24ThetaError_tendsto_zero,
+        `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.theta_le_thetaWindow_add_oOne,
+        `Erdos64EG.Internal.p13Node24RemainderError_tendsto_zero,
+        `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.remainder_ratio_ge_main_sub_oOne,
+        `Erdos64EG.Internal.p13Node24TauError_tendsto_zero,
+        `Erdos64EG.Internal.p13Node24Tau_denominator_eventually_positive,
+        `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.tau_le_tauWindow_add_oOne,
+        `Erdos64EG.Internal.p13WindowTauExact_lt_quarter
       ]
     },
     {
@@ -326,7 +717,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-structural-frontier"
       title := "Same-window P₁₃ structural frontier"
-      summary := "From the exact node-[158] cold fork, the graph-owned degree, stub, deleted-edge-return, and first-event runners return exactly window surplus, a dyadic target hit, a corridor-high handoff, or a quiet ambient-finite structural germ."
+      summary := "From the exact node-[153] cold fork, the graph-owned degree, stub, deleted-edge-return, and first-event runners return exactly window surplus, a dyadic target hit, a corridor-high handoff, or a quiet ambient-finite structural germ."
       kind := .theorem
       primaryDeclaration :=
         `Erdos64EG.Internal.runP13SameWindowStructuralFrontier_exhaustive
@@ -347,7 +738,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-node21-partxi-route"
       title := "Whole-packing same-context Part-XI route"
-      summary := "Every exact node-[21] packed window retains its classifier-produced thirteen-bit cold residual and computed node-[159] frontier; the four structural subledgers partition exactly p13 windows without being identified with the open 91-coordinate response system."
+      summary := "Every exact node-[21] packed window retains its classifier-produced thirteen-bit cold residual and computed node-[153] frontier; the four structural subledgers partition exactly p13 windows without being identified with the open 91-coordinate response system."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.p13Node21PartXIRoutes_partition
       evidenceDeclarations := [
@@ -362,7 +753,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-base-scale-split"
       title := "Quiet-germ D1--D3 base-scale split"
-      summary := "Equality with the computed node-[159] quiet constructor permits one graph-owned support comparison at Qbase=4²·13²·2¹³, retaining exactly the literal short or strict long residual."
+      summary := "Equality with the computed node-[153] quiet constructor permits one graph-owned support comparison at Qbase=4²·13²·2¹³, retaining exactly the literal short or strict long residual."
       kind := .theorem
       primaryDeclaration :=
         `Erdos64EG.Internal.runP13SameWindowBaseScaleSplit_exhaustive
@@ -382,7 +773,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-short-third-incidence"
       title := "Short-return third-root incidence"
-      summary := "Equality with node [161]'s computed short constructor fixes one bounded deleted-edge return; the graph root classifier selects its declared-order third incidence and returns exactly on-support or outside-boundary membership."
+      summary := "Equality with node [153]'s computed short constructor fixes one bounded deleted-edge return; the graph root classifier selects its declared-order third incidence and returns exactly on-support or outside-boundary membership."
       kind := .theorem
       primaryDeclaration :=
         `Erdos64EG.Internal.runP13SameWindowShortThirdIncidence_exhaustive
@@ -404,7 +795,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-outside-boundary-star"
       title := "Outside-return cubic boundary-star ownership"
-      summary := "Equality with node [162]'s computed outside constructor orients its one support-crossing incidence and packages the already cubic return root as a three-leaf star owning every root incidence."
+      summary := "Equality with node [153]'s computed outside constructor orients its one support-crossing incidence and packages the already cubic return root as a three-leaf star owning every root incidence."
       kind := .theorem
       primaryDeclaration :=
         `Erdos64EG.Internal.P13SameWindowComputedOutsideBoundary.ownsAllRootIncidences
@@ -429,7 +820,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-non-root-chord-resolution"
       title := "On-return chord resolution"
-      summary := "Equality with node [162]'s computed on-support constructor locates the selected endpoint once; an accepted local chord closes through CT1, while the surviving residual is the exact strictly shorter deleted-edge return."
+      summary := "Equality with node [153]'s computed on-support constructor locates the selected endpoint once; an accepted local chord closes through CT1, while the surviving residual is the exact strictly shorter deleted-edge return."
       kind := .theorem
       primaryDeclaration :=
         `Erdos64EG.Internal.runP13SameWindowNonRootChordResolution
@@ -455,7 +846,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-normalized-return-boundary"
       title := "Normalized one-return boundary rejoin"
-      summary := "The exact node-[165] shorter-return and node-[166] outside-boundary computations rejoin into one branch-indexed return with an outside root incidence, cubic ownership, inherited Qbase bound, and strict-or-equal length evidence."
+      summary := "The exact node-[153] shorter-return and node-[153] outside-boundary computations rejoin into one branch-indexed return with an outside root incidence, cubic ownership, inherited Qbase bound, and strict-or-equal length evidence."
       kind := .theorem
       primaryDeclaration :=
         `Erdos64EG.Internal.runP13SameWindowNormalizedReturnBoundary
@@ -485,7 +876,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-packed-support-transition"
       title := "Normalized-return packed-support transition"
-      summary := "One exact node-[167] return is scanned against the union of all ambient-cubic selected-window supports, yielding either full containment or the first membership transition with its exact boundary stub, outside endpoint, and induced-remainder component."
+      summary := "One exact node-[153] return is scanned against the union of all ambient-cubic selected-window supports, yielding either full containment or the first membership transition with its exact boundary stub, outside endpoint, and induced-remainder component."
       kind := .theorem
       primaryDeclaration :=
         `Erdos64EG.Internal.runP13SameWindowNormalizedReturnPackedSupportTransition_exhaustive
@@ -519,7 +910,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-component-boundary-schedule"
       title := "Component boundary schedule and BFS path"
-      summary := "The exact node-[168] first-transition stub is expanded by one computed deleted-edge return: a shared outside-component BFS supplies the first exit, an explicit first slot supplies a distinct second stub, the complete incident-stub list has a true cyclic successor, and declared-order BFS supplies a shortest component path."
+      summary := "The exact node-[153] first-transition stub is expanded by one computed deleted-edge return: a shared outside-component BFS supplies the first exit, an explicit first slot supplies a distinct second stub, the complete incident-stub list has a true cyclic successor, and declared-order BFS supplies a shortest component path."
       kind := .theorem
       primaryDeclaration :=
         `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.successor_distinct_and_same_returned_component
@@ -561,7 +952,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-component-d1d3-observation"
       title := "One component D1--D3 observation"
-      summary := "The exact node-[170] two-boundary schedule is projected to one genuine State (Fin 0): two literal boundary degrees, two literal window offsets, and the independently computed declared-order BFS-tree shortest-path length. The empty local response explicitly retains MissingD4D7 reconstruction."
+      summary := "The exact node-[153] two-boundary schedule is projected to one genuine State (Fin 0): two literal boundary degrees, two literal window offsets, and the independently computed declared-order BFS-tree shortest-path length. The empty local response explicitly retains MissingD4D7 reconstruction."
       kind := .theorem
       primaryDeclaration :=
         `Erdos64EG.Internal.p13SameWindowComponentD1D3_missing_d4_d7
@@ -594,7 +985,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-component-d1d3-ledger"
       title := "Cyclic component D1--D3 ledger split"
-      summary := "The exact node-[173] residual supplies the retained anchor state. The complete node-[170] incident schedule is scanned in its stored cyclic order, producing either two observed rows with the same coarse D1--D3 state or a proof that the schedule has length at most Qbase."
+      summary := "The exact node-[153] residual supplies the retained anchor state. The complete node-[153] incident schedule is scanned in its stored cyclic order, producing either two observed rows with the same coarse D1--D3 state or a proof that the schedule has length at most Qbase."
       kind := .theorem
       primaryDeclaration :=
         `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.runD1D3Ledger
@@ -628,7 +1019,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-component-d4d7-classifier"
       title := "D4--D7 availability and coarse-repeat routing"
-      summary := "The exact node-[174] result is consumed on the same context. A coarse repeat is promoted through CT10 on its retained pair; a bounded schedule scans only its actual rows and returns a reconstructed family or the first typed missing D4--D7 row, with that residual routed through CT10."
+      summary := "The exact node-[153] result is consumed on the same context. A coarse repeat is promoted through CT10 on its retained pair; a bounded schedule scans only its actual rows and returns a reconstructed family or the first typed missing D4--D7 row, with that residual routed through CT10."
       kind := .tactic
       tacticId? := some "CT10"
       primaryDeclaration :=
@@ -652,7 +1043,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-component-d4d7-readiness"
       title := "Component D4--D7 semantic readiness"
-      summary := "The exact node-[175] execution is inspected once. The impossible complete-reconstruction constructor is eliminated from the actual anchor row; the remaining coarse and bounded branches retain their exact CT10 routes and typed missing D4--D7 witnesses."
+      summary := "The exact node-[153] execution is inspected once. The impossible complete-reconstruction constructor is eliminated from the actual anchor row; the remaining coarse and bounded branches retain their exact CT10 routes and typed missing D4--D7 witnesses."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.runD4D7SemanticReadiness_exhaustive
       evidenceDeclarations := [
@@ -671,7 +1062,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-packed-owner-change"
       title := "Ambient-cubic owner sequence and first cross-window edge"
-      summary := "Equality with node [168]'s all-inside constructor prepares one stored unique ambient-cubic owner per return vertex; the impossible single-window branch is eliminated and the first owner change returns two exact cross-window tokens."
+      summary := "Equality with node [153]'s all-inside constructor prepares one stored unique ambient-cubic owner per return vertex; the impossible single-window branch is eliminated and the first owner change returns two exact cross-window tokens."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.runP13SameWindowPackedOwnerChange_exact
       evidenceDeclarations := [
@@ -696,7 +1087,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-cross-window-token-pair"
       title := "Exact cross-window token-pair residual"
-      summary := "The exact node-[169] first owner-change edge is projected without a new search into a typed pair of distinct opposite oriented contributions of the same literal edge; both retained token subtypes remain exactly cross-window."
+      summary := "The exact node-[153] first owner-change edge is projected without a new search into a typed pair of distinct opposite oriented contributions of the same literal edge; both retained token subtypes remain exactly cross-window."
       kind := .theorem
       primaryDeclaration :=
         `Erdos64EG.Internal.runP13SameWindowCrossWindowTokenPair_source_exact
@@ -712,7 +1103,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-long-support-prefix"
       title := "Exact long-support forced prefix"
-      summary := "Equality with node [161]'s computed long constructor forces the first Qbase+1 literal support positions, their unique overflow index, and exact local prefix/after-prefix classifiers on the identical branch context."
+      summary := "Equality with node [153]'s computed long constructor forces the first Qbase+1 literal support positions, their unique overflow index, and exact local prefix/after-prefix classifiers on the identical branch context."
       kind := .theorem
       primaryDeclaration :=
         `Erdos64EG.Internal.p13SameWindowLongSupportPrefixClass_exhaustive
@@ -744,7 +1135,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-long-prefix-state-labels"
       title := "First-nine observed-label refinement"
-      summary := "The exact node-[163] source maps its first nine literal prefix positions to corridor vertices, computes only degree modulo four and selected-packing membership, retains an actual collision in the eight-label alphabet, and executes CT10 on exactly the two collided occurrences."
+      summary := "The exact node-[153] source maps its first nine literal prefix positions to corridor vertices, computes only degree modulo four and selected-packing membership, retains an actual collision in the eight-label alphabet, and executes CT10 on exactly the two collided occurrences."
       kind := .theorem
       primaryDeclaration :=
         `Erdos64EG.Internal.runP13SameWindowLongPrefixStateLabels_ct10_terminal
@@ -780,7 +1171,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-long-prefix-degree-refinement"
       title := "Two-occurrence exact degree refinement"
-      summary := "The exact node-[164] collision and promoted CT10 response-context obligation are retained. Only the two literal corridor degree rows are read, yielding equal full degrees or a nonzero degree gap with the same residue modulo four."
+      summary := "The exact node-[153] collision and promoted CT10 response-context obligation are retained. Only the two literal corridor degree rows are read, yielding equal full degrees or a nonzero degree gap with the same residue modulo four."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.runP13SameWindowLongPrefixDegreeRefinement_exhaustive
       evidenceDeclarations := [
@@ -801,7 +1192,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-same-window-dyadic-terminal"
       title := "Computed dyadic frontier branch closes"
-      summary := "The dyadic constructor of node [159] is converted, without a fresh witness, to the exact cold dyadic hit; the established one-check CT1 G1 run reaches C1 and contradicts target avoidance."
+      summary := "The dyadic constructor of node [153] is converted, without a fresh witness, to the exact cold dyadic hit; the established one-check CT1 G1 run reaches C1 and contradicts target avoidance."
       kind := .theorem
       primaryDeclaration :=
         `Erdos64EG.Internal.P13ComputedDyadicBranch.impossible
@@ -821,30 +1212,81 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     },
     {
       stageId := "proof-slice.p13-curvature-rank"
-      title := "Exact remainder curvature CT15"
-      summary := "The exact node-[28] remainder is scanned for boundary incidences and raw length-two wedges; CT15 evaluates the literal wedge supports and certified-reduction admissibility forces its full-rank ledger."
-      kind := .tactic
-      tacticId? := some "CT15"
+      title := "Exact Branch-D cross-panel handoff"
+      summary := "Node [35] is definitionally the node-[33] rank-reducing residual. The same admitted quotient, distinct raw coordinates, singleton determining basis, identification equation, and rank-loss provenance cross the panel boundary with zero new computation."
+      kind := .theorem
       primaryDeclaration :=
-        `Erdos64EG.Internal.exists_verifiedP13CurvaturePrefix
+        `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node35
       evidenceDeclarations := [
-        `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.positiveDeficiency_le_boundaryIncidences,
-        `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeFloor,
-        `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeCount_le_cube,
-        `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderBoundaryIncidences_le_tokenCount,
-        `StructuralExhaustion.Graph.InducedPathWindowLedger.tokenCount_eq_fifteen_mul_packing_add_surplus,
-        `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_le_fifteen_mul_packing_add_surplus,
-        `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_sub_remainderSurplus_le,
-        `Erdos64EG.Internal.p13CurvatureCoordinates,
-        `Erdos64EG.Internal.p13CurvatureCoordinates_card_eq_wedgeCount,
-        `Erdos64EG.Internal.p13CurvatureCoordinates_card_le_cube,
-        `Erdos64EG.Internal.p13CurvatureResponseProfile,
-        `StructuralExhaustion.Graph.FiniteSupportResponse.Profile.run,
-        `Erdos64EG.Internal.runP13CurvatureCT15_terminal,
-        `Erdos64EG.Internal.runP13CurvatureCT15_trace,
-        `Erdos64EG.Internal.no_p13Curvature_rankDrop,
-        `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix,
-        `Erdos64EG.Internal.exists_verifiedP13CurvaturePrefix
+        `Erdos64EG.Internal.VerifiedP13Node35BranchD,
+        `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node35_eq,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.basis,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.basis_subset_declared,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.determined_not_mem_basis
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-curvature-context-validity"
+      title := "Admitted-quotient outside-context decision"
+      summary := "Node [36] consumes the exact node-[35] pair circuit. The framework's two-edge context decision retains a concrete mismatch on the defect edge or universal response equality on the other edge; admissibility of this quotient proves the universal constructor with zero context scans."
+      kind := .theorem
+      primaryDeclaration :=
+        `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node36
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node36ContextValidity,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.ContextDecision,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.contextUniversal,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.contextDecision,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.contextDecision_isUniversal,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.noContextDefect,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.contextDecisionBudget
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-curvature-target-defect-terminal"
+      title := "Target-defective quotient terminal"
+      summary := "The no edge of node [36] retains one concrete outside context with unequal exact responses. The framework packages that witness as a context defect and closes it against the admitted pair circuit's universal-response theorem, without inspecting another context."
+      kind := .theorem
+      primaryDeclaration :=
+        `Erdos64EG.Internal.VerifiedP13Node36ContextValidity.node37
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.P13Node37TargetDefect,
+        `Erdos64EG.Internal.P13Node37TargetDefect.targetDefective,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.ContextDefect,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.ContextDefect.toExists,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.ContextDefect.impossible
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-curvature-proper-representative-decision"
+      title := "Smaller proper representative decision"
+      summary := "On node [36]'s universal edge, the admitted pair circuit is non-injective because it identifies distinct raw wedges. The framework projects the quotient's certified strictly smaller baseline representative and target transport, so node [38] takes its existing yes edge without candidate search."
+      kind := .theorem
+      primaryDeclaration :=
+        `Erdos64EG.Internal.VerifiedP13Node36ContextValidity.node38
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node38ProperRepresentativeDecision,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.proposal_not_injective,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.smallerRepresentative,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.RepresentativeDecision,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.representativeDecision,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.representativeDecision_isAvailable,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.representativeDecisionBudget,
+        `StructuralExhaustion.Core.CertifiedReduction
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-curvature-proper-compression-terminal"
+      title := "Proper atom compression terminal"
+      summary := "The exact node-[38] yes payload already contains a certified strictly smaller baseline object and one-way target transport. The framework turns it into a smaller target-avoiding counterexample and contradicts minimality, with no further inspection."
+      kind := .theorem
+      primaryDeclaration :=
+        `Erdos64EG.Internal.VerifiedP13Node38ProperRepresentativeDecision.node39
+      evidenceDeclarations := [
+        `StructuralExhaustion.Core.CertifiedReduction.witness,
+        `StructuralExhaustion.Core.CertifiedReduction.impossible,
+        `StructuralExhaustion.Core.CertifiedReductionWitness.contradiction,
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.properCompression_impossible
       ]
     },
     {
@@ -1556,6 +1998,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.activatedSurplusStage,
         `Erdos64EG.Internal.activeSurplusDemand,
         `Erdos64EG.Internal.activatedSurplusSchedule_length_eq_sigma,
+        `Erdos64EG.Internal.activatedSurplusWork_le_cubic,
         `Erdos64EG.Internal.openResponse_has_mersenne_length,
         `Erdos64EG.Internal.verifiedSurplusPortActivationPrefix,
         `Erdos64EG.Internal.exists_verifiedSurplusPortActivationPrefix,
@@ -1774,7 +2217,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.semantic-bottleneck-local-consumer"
       title := "Local semantic-bottleneck separator split"
-      summary := "All five exact node-[177] leaves are consumed. Mismatch and prefix leaves are retained verbatim; root and after-edge divergences expose literal distinct incidences and split only on the locally read separator degree."
+      summary := "All five exact node-[144] leaves are consumed. Mismatch and prefix leaves are retained verbatim; root and after-edge divergences expose literal distinct incidences and split only on the locally read separator degree."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.exists_verifiedSemanticBottleneckLocalConsumerPrefix
       evidenceDeclarations := [
@@ -1792,7 +2235,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.semantic-bottleneck-switch-normalization"
       title := "Cubic switch normalization"
-      summary := "The exact node-[178] frontier is normalized without new checks: mismatch and prefix leaves are unchanged, cubic divergence leaves become literal four-vertex cubic-star data, and high leaves retain only degree at least four."
+      summary := "The exact node-[144] frontier is normalized without new checks: mismatch and prefix leaves are unchanged, cubic divergence leaves become literal four-vertex cubic-star data, and high leaves retain only degree at least four."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.exists_verifiedSemanticBottleneckSwitchNormalizationPrefix
       evidenceDeclarations := [
@@ -1809,7 +2252,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-component-d4d7-clause-schedule"
       title := "Fixed D4--D7 clause schedule"
-      summary := "The exact node-[180] markers are retained and assigned the fixed noduplicated D4,D5,D6,D7 obligation order. Coarse output has two ledgers and bounded output one; no clause truth is asserted."
+      summary := "The exact node-[153] markers are retained and assigned the fixed noduplicated D4,D5,D6,D7 obligation order. Coarse output has two ledgers and bounded output one; no clause truth is asserted."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.exists_verifiedD4D7ClauseSchedulePrefix
       evidenceDeclarations := [
@@ -1826,7 +2269,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-long-prefix-local-clause-alignment"
       title := "First-nine local-clause alignment"
-      summary := "The exact node-[179] result and CT10 response-context obligation are retained. Adjacency of the two literal vertices is compared on the same nine prefix coordinates, producing the first mismatch or alignment on exactly those nine clauses."
+      summary := "The exact node-[153] result and CT10 response-context obligation are retained. Adjacency of the two literal vertices is compared on the same nine prefix coordinates, producing the first mismatch or alignment on exactly those nine clauses."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.runP13SameWindowLongPrefixLocalClauseAlignment_exhaustive
       evidenceDeclarations := [
@@ -1843,7 +2286,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.semantic-bottleneck-local-projection"
       title := "Local separator projection"
-      summary := "The exact node-[181] leaves are projected to literal cubic switch-boundary data or the identical high-center port row; mismatch and prefix leaves are unchanged."
+      summary := "The exact node-[144] leaves are projected to literal cubic switch-boundary data or the identical high-center port row; mismatch and prefix leaves are unchanged."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.exists_verifiedSemanticBottleneckLocalProjectionPrefix
       evidenceDeclarations := [
@@ -1860,7 +2303,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-component-d4d7-clause-cursor"
       title := "D4 obligation cursor"
-      summary := "The exact node-[182] ledgers retain their dependent markers, focus D4 as the next obligation, and preserve the exact D5,D6,D7 tail without asserting truth."
+      summary := "The exact node-[153] ledgers retain their dependent markers, focus D4 as the next obligation, and preserve the exact D5,D6,D7 tail without asserting truth."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.exists_verifiedD4D7ClauseCursorPrefix
       evidenceDeclarations := [
@@ -1893,7 +2336,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.semantic-bottleneck-strong-frontier"
       title := "Strong-semantic obligation frontier"
-      summary := "Every exact node-[184] leaf is retained and tagged with its next pending obligation. The tags are requests, not sparse-exit, CT3, Type B, or fixed-cap certificates."
+      summary := "Every exact node-[144] leaf is retained and tagged with its next pending obligation. The tags are requests, not sparse-exit, CT3, Type B, or fixed-cap certificates."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.exists_verifiedSemanticBottleneckStrongFrontierPrefix
       evidenceDeclarations := [
@@ -1912,7 +2355,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-component-d4-local-clause-request"
       title := "Graph-derived D4 evaluation request"
-      summary := "The exact node-[185] cursors emit one singleton D4 request per actual marker while retaining the dependent marker and literal D5,D6,D7 tail. No truth value is supplied."
+      summary := "The exact node-[153] cursors emit one singleton D4 request per actual marker while retaining the dependent marker and literal D5,D6,D7 tail. No truth value is supplied."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.exists_verifiedD4LocalClauseRequestPrefix
       evidenceDeclarations := [
@@ -1948,7 +2391,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.semantic-bottleneck-first-clause"
       title := "First local separator clause"
-      summary := "Node [190] retains the exact node-[187] payload and tag. Cubic leaves expose their three boundary incidences and high leaves their first four distinct declared ports; no requested semantic certificate is claimed."
+      summary := "Node [144] retains the exact node-[144] payload and tag. Cubic leaves expose their three boundary incidences and high leaves their first four distinct declared ports; no requested semantic certificate is claimed."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.exists_verifiedSemanticBottleneckFirstClausePrefix
       evidenceDeclarations := [
@@ -1967,7 +2410,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-component-d4-evaluator-residual"
       title := "D4 evaluator residual"
-      summary := "Each exact node-[188] request retains its dependent marker and D5--D7 tail and exposes exactly the missing graph-local predicate and provenance requirements. No evaluator or Boolean is accepted."
+      summary := "Each exact node-[153] request retains its dependent marker and D5--D7 tail and exposes exactly the missing graph-local predicate and provenance requirements. No evaluator or Boolean is accepted."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.exists_verifiedD4EvaluatorResidualPrefix
       evidenceDeclarations := [
@@ -2003,7 +2446,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.semantic-bottleneck-pairwise-clause"
       title := "Pairwise local separator clause"
-      summary := "The exact node-[190] certificate yields only pairwise boundary or endpoint inequalities and retains the pending semantic obligation unchanged. This is the manuscript-boundary residual interface."
+      summary := "The exact node-[144] certificate yields only pairwise boundary or endpoint inequalities and retains the pending semantic obligation unchanged. This is the manuscript-boundary residual interface."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.exists_verifiedSemanticBottleneckPairwiseClausePrefix
       evidenceDeclarations := [
@@ -2023,7 +2466,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-component-d4-evaluator-construction-residual"
       title := "Graph-owned D4 evaluator construction residual"
-      summary := "The exact node-[191] requests retain their markers and D5--D7 tails and are refined into the three graph-owned construction requirements. No predicate, evaluator, or Boolean is supplied."
+      summary := "The exact node-[153] requests retain their markers and D5--D7 tails and are refined into the three graph-owned construction requirements. No predicate, evaluator, or Boolean is supplied."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.exists_verifiedD4EvaluatorConstructionPrefix
       evidenceDeclarations := [
@@ -2037,8 +2480,8 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     },
     {
       stageId := "proof-slice.p13-component-d4-evaluation"
-      title := "Graph-owned D4 evaluation after node [194]"
-      summary := "The exact node-[194] marker fixes one component path. The evaluator scans only its literal support wedges, computes the omegaTwo response for the two boundary-window roles, and retains D5--D7 unchanged."
+      title := "Graph-owned D4 evaluation after node [153]"
+      summary := "The exact node-[153] marker fixes one component path. The evaluator scans only its literal support wedges, computes the omegaTwo response for the two boundary-window roles, and retains D5--D7 unchanged."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.runD4Evaluation_exhaustive
       evidenceDeclarations := [
@@ -2061,7 +2504,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-long-prefix-compatible-response-frontier"
       title := "Long-prefix compatible-response frontier"
-      summary := "The exact five node-[192] leaves are retained. Each of the four mismatch leaves is now converted to a proved distinguishing adjacency response on one of the same 36 literal corridor positions; the aligned leaf stops at complete D4--D7 semantics and an exact-pair certified reduction."
+      summary := "The exact five node-[153] leaves are retained. Each of the four mismatch leaves is now converted to a proved distinguishing adjacency response on one of the same 36 literal corridor positions; the aligned leaf stops at complete D4--D7 semantics and an exact-pair certified reduction."
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.resolveP13SameWindowLongPrefixCompatibleResponseFrontier_exhaustive
       evidenceDeclarations := [
@@ -2094,10 +2537,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     },
     {
       stageId := "proof-slice.p13-forced-curvature-cost-split"
-      title := "Finite curvature magnitude and product-cost split"
-      summary := "The exact node-[24] coverage and node-[47] rank ledger yield a finite surplus-error inequality, followed by a realized/open conditional-fibre dichotomy with an exact labelled-skeleton capacity and a typed quarter-budget consumer."
+      title := "Finite curvature magnitude support"
+      summary := "Conditional on the exact node-[24] coverage and node-[47] rank ledger, Lean proves the finite surplus-error inequality and verifies the capacity consequences of any supplied conditional-fibre realization. It does not construct that realization or add an open branch."
       kind := .theorem
-      primaryDeclaration := `Erdos64EG.Internal.verifiedP13Node48Contract
+      primaryDeclaration := `Erdos64EG.Internal.verifiedP13Node48FiniteCost
       evidenceDeclarations := [
         `StructuralExhaustion.Core.ConditionalFibreProductCost.Profile.Certificate.power_le_flat_mul_skeleton,
         `StructuralExhaustion.Core.ConditionalFibreProductCost.Profile.checks_le_state_mul_coordinate,
@@ -2108,15 +2551,9 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.VerifiedP13Node48FiniteCost,
         `Erdos64EG.Internal.verifiedP13Node48FiniteCost,
         `Erdos64EG.Internal.P13CurvatureProductCostRealization,
-        `Erdos64EG.Internal.P13CurvatureProductCostRequirement,
-        `Erdos64EG.Internal.P13Node48Outcome,
         `Erdos64EG.Internal.P13CurvatureProductCostRealization.states_length_le_baseline,
         `Erdos64EG.Internal.P13CurvatureProductCostRealization.safeFlatProductBound,
-        `Erdos64EG.Internal.P13CurvatureProductCostRealization.localChecks_le_state_mul_coordinate,
-        `Erdos64EG.Internal.p13Node48OpenLargeBudgetHandoff,
-        `Erdos64EG.Internal.runP13Node48,
-        `Erdos64EG.Internal.runP13Node48_exhaustive,
-        `Erdos64EG.Internal.verifiedP13Node48Contract
+        `Erdos64EG.Internal.P13CurvatureProductCostRealization.localChecks_le_state_mul_coordinate
       ]
     },
     {
@@ -2174,24 +2611,16 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     },
     {
       stageId := "proof-slice.p13-joint-accounting-frontier"
-      title := "Joint window--remainder accounting frontier"
-      summary := "Node [52] consumes the exact node-[51] high-bit payload and records whether a same-context multiscale-window × exact-remainder injection into the literal baseline skeleton has been supplied. Its open constructor has only a conditional quarter-budget route."
+      title := "Conditional joint window--remainder capacity"
+      summary := "For a supplied same-context multiscale-window × exact-remainder injection into the literal baseline skeleton, Lean proves the finite joint-capacity inequality. The missing realization remains an explicit node-[52] obligation, not an outcome."
       kind := .theorem
-      primaryDeclaration := `Erdos64EG.Internal.runP13Node52
+      primaryDeclaration := `Erdos64EG.Internal.p13Node52_jointCapacity
       evidenceDeclarations := [
         `StructuralExhaustion.Core.FiniteJointCapacity.Profile.left_mul_right_le_codeCard,
         `StructuralExhaustion.Core.FiniteJointCapacity.Profile.checks_eq_zero,
         `Erdos64EG.Internal.P13Node52JointAccountingRealization,
         `Erdos64EG.Internal.p13Node52JointCapacityProfile,
-        `Erdos64EG.Internal.p13Node52_jointCapacity,
-        `Erdos64EG.Internal.P13Node52OpenProducer,
-        `Erdos64EG.Internal.P13Node52JointAccountingRequirement,
-        `Erdos64EG.Internal.P13Node52OpenLargeBudgetHandoff,
-        `Erdos64EG.Internal.p13Node52OpenLargeBudgetHandoff,
-        `Erdos64EG.Internal.P13Node52Outcome,
-        `Erdos64EG.Internal.runP13Node52,
-        `Erdos64EG.Internal.runP13Node52_exhaustive,
-        `Erdos64EG.Internal.p13Node52Checks_eq_zero
+        `Erdos64EG.Internal.p13Node52_jointCapacity
       ]
     },
     {
@@ -2384,25 +2813,148 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       ]
     },
     {
-      linkId := "proof-slice.p13-multiscale-realization-requirement"
+      linkId := "proof-slice.p13-multiscale-weighted-live-cold"
       sourceStageId := "proof-slice.p13-multiscale-curvature"
-      targetStageId := "proof-slice.p13-realization-requirement"
+      targetStageId := "proof-slice.p13-weighted-live-cold"
       kind := .frameworkComposition
-      label := "split realized versus open 91-coordinate package"
-      description := "The exact node-[21] predecessor enters a proof-level dichotomy: the realized branch supplies the complete finite local and commuting-global package, while the open branch proves that package absent and retains its three named producers."
+      label := "accumulate compatible hot or reject same-window cold"
+      description := "Every exact node-[21] selected window is processed against the current recoverable hot aggregate. A compatible extension is retained; failure preserves the identical window and prior aggregate for the graph-owned cold corridor route."
       evidenceDeclarations := [
-        `Erdos64EG.Internal.p13Node160RealizationDichotomy_exhaustive
+        `Erdos64EG.Internal.p13SequentialWeightedHotCount_add_coldCount,
+        `Erdos64EG.Internal.P13WeightedColdBranchExcessStub.corridor
       ]
     },
     {
-      linkId := "proof-slice.p13-realization-requirement-density-handoff"
-      sourceStageId := "proof-slice.p13-realization-requirement"
+      linkId := "proof-slice.p13-density-type-a-57-63-local"
+      sourceStageId := "proof-slice.p13-density-handoff"
+      targetStageId := "proof-slice.type-a-nodes57-63-local-provenance"
+      kind := .frameworkComposition
+      label := "conditional original Part-V chain"
+      description := "The local chain exposes exactly what follows once the original node-[56] strict-quarter payload is produced; this workflow link records conditional provenance and does not bypass that missing predecessor."
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.node57
+      ]
+    },
+    {
+      linkId := "proof-slice.type-a-63-to-86-88-local"
+      sourceStageId := "proof-slice.type-a-nodes57-63-local-provenance"
+      targetStageId := "proof-slice.type-a-nodes86-88-local-thresholds"
+      kind := .frameworkComposition
+      label := "conditional existing [63] to [86] continuation"
+      description := "The threshold block accepts only the exact Type-A node-[63] support retained by the preceding conditional chain; it introduces no alternate diagram edge."
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.TypeANodes86To88Thresholds.node86
+      ]
+    },
+    {
+      linkId := "proof-slice.type-a-88-to-89-local"
+      sourceStageId := "proof-slice.type-a-nodes86-88-local-thresholds"
+      targetStageId := "proof-slice.type-a-node89-local-saturation"
+      kind := .frameworkComposition
+      label := "conditional existing [88] to [89] handoff"
+      description := "The saturation decision is indexed by the literal node-[88] threshold residual and returns only the two original node-[89] outcomes."
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.TypeANode89SaturationDecision.run
+      ]
+    },
+    {
+      linkId := "proof-slice.p13-weighted-live-cold-node153-exact-local"
+      sourceStageId := "proof-slice.p13-weighted-live-cold"
+      targetStageId := "proof-slice.p13-node153-produced-support-coverage"
+      kind := .frameworkComposition
+      label := "conditional cold-corridor continuation"
+      description := "The exact local runner consumes a supplied node-[153] corridor survivor; the missing branch-total produced-support and ColdBoundedGerm producers remain explicit and are not bypassed by this workflow link."
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.outside_all_produced_occurrences
+      ]
+    },
+    {
+      linkId := "proof-slice.p13-node153-coverage-exact-local"
+      sourceStageId := "proof-slice.p13-node153-produced-support-coverage"
+      targetStageId := "proof-slice.p13-node153-exact-continuation"
+      kind := .frameworkComposition
+      label := "conditional occurrence-complete F4 ledger"
+      description := "The exact local continuation consumes the occurrence-preserving prior-support ledger through the typed LocalCorridorSurvivor connector; missing graph-owned global schedule producers remain upstream."
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.P13WeightedColdRestrictedPrefixPackage.exists_localCorridorSurvivor_of_completeProducedLedger,
+        `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.runExactContinuation
+      ]
+    },
+    {
+      linkId := "proof-slice.p13-node153-node154-local-classifier"
+      sourceStageId := "proof-slice.p13-node153-exact-continuation"
+      targetStageId := "proof-slice.p13-node154-local-classifier"
+      kind := .frameworkComposition
+      label := "conditional existing F5-to-G1--G3 handoff"
+      description := "This is the original node-[153] to node-[154] edge. The local classifier consumes a supplied bounded F5 germ; the graph-owned producer of that germ remains an explicit missing node-[153] obligation and is not fabricated by this link."
+      evidenceDeclarations := [
+        `Erdos64EG.P13ColdGermLedger.ColdBoundedGerm.classify_exhaustive_with_trace
+      ]
+    },
+    {
+      linkId := "proof-slice.p13-weighted-live-cold-node146-threshold"
+      sourceStageId := "proof-slice.p13-weighted-live-cold"
+      targetStageId := "proof-slice.p13-node146-route8-threshold"
+      kind := .frameworkComposition
+      label := "decide the original route-8 density threshold"
+      description := "The exact node-[145] packing-order ledger is retained on both outcomes while one cross-multiplied comparison selects the existing edge to node [147] or [148]."
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.runP13Node146_exhaustive
+      ]
+    },
+    {
+      linkId := "proof-slice.p13-node146-node147-arithmetic"
+      sourceStageId := "proof-slice.p13-node146-route8-threshold"
+      targetStageId := "proof-slice.p13-node147-private-carrier-arithmetic"
+      kind := .frameworkComposition
+      label := "yes: retain the strict route-8 margin"
+      description := "The literal node-[146] yes payload supplies the denominator-safe tau bound and its equivalent positive collision coefficient; the existing route-8 carrier ledger is still required for terminal closure."
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.p13Node147ArithmeticPrefix
+      ]
+    },
+    {
+      linkId := "proof-slice.p13-node146-node148-hot-decision"
+      sourceStageId := "proof-slice.p13-node146-route8-threshold"
+      targetStageId := "proof-slice.p13-node148-live-hot-decision"
+      kind := .frameworkComposition
+      label := "no: execute the live-hot comparison"
+      description := "The exact node-[146] no payload is retained as an index while the already constructed final hot aggregate pays the hot demand and one corrected comparison selects the existing edge to node [149] or [150]."
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.runP13Node148_exhaustive
+      ]
+    },
+    {
+      linkId := "proof-slice.p13-node148-node149-density-cap"
+      sourceStageId := "proof-slice.p13-node148-live-hot-decision"
+      targetStageId := "proof-slice.p13-node149-density-cap"
+      kind := .frameworkComposition
+      label := "yes: normalize the finite density cap"
+      description := "The exact predecessor-indexed node-[148] yes payload is normalized with the uniform graph-order error envelope to the original node-[149] density conclusion."
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node149DensityCap.theta_le_thetaWindow_add_oOne
+      ]
+    },
+    {
+      linkId := "proof-slice.p13-node148-node150-cold-mass"
+      sourceStageId := "proof-slice.p13-node148-live-hot-decision"
+      targetStageId := "proof-slice.p13-node150-cold-mass"
+      kind := .frameworkComposition
+      label := "no: retain the exact cold shortfall"
+      description := "The exact node-[148] no payload is indexed unchanged while the failed hot comparison is converted into both manuscript cold-mass lower bounds. The separate surviving-spine state remains explicit."
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.p13Node150FiniteColdMass
+      ]
+    },
+    {
+      linkId := "proof-slice.p13-multiscale-density-handoff"
+      sourceStageId := "proof-slice.p13-multiscale-curvature"
       targetStageId := "proof-slice.p13-density-handoff"
       kind := .frameworkComposition
-      label := "preserve node [160] across the density split"
-      description := "Only node [160]'s realized graph-completion package enters node [22]; its open constructor remains at node [160]. Both node-[23]/[24] constructors preserve the realized package unchanged."
+      label := "retain node [21] across the arithmetic split"
+      description := "The node-[22] runner uses the exact node-[21] packing and returns the strict-overflow or complementary finite-cap payload. The weighted hot/cold branch is the later semantic consumer of these arithmetic residuals."
       evidenceDeclarations := [
-        `Erdos64EG.Internal.runP13Node22DensityDecision_exhaustive
+        `Erdos64EG.Internal.runP13Node22FiniteDensityDecision_exhaustive
       ]
     },
     {
@@ -2411,7 +2963,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-node21-partxi-route"
       kind := .frameworkComposition
       label := "retain the exact node-[21] prefix"
-      description := "The Part-XI route is indexed by the identical VerifiedP13MultiScaleCurvaturePrefix. It maps the graph-owned CT12 packing once and stores the computed actual-attachment fork and structural frontier for every selected window; it does not claim the open 91-coordinate realization branch."
+      description := "The Part-XI route is indexed by the identical VerifiedP13MultiScaleCurvaturePrefix. It maps the graph-owned CT12 packing once and stores the computed actual-attachment fork and structural frontier for every selected window; it supplies auxiliary same-window geometry and no weighted density payment."
       evidenceDeclarations := [
         `Erdos64EG.Internal.p13Node21PartXIEntry,
         `Erdos64EG.Internal.p13Node21PartXIRoutes,
@@ -2439,7 +2991,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-same-window-structural-frontier"
       kind := .frameworkComposition
       label := "same selected window, graph-owned corridor"
-      description := "The exact node-[158] cold-fork value indexes the result. The framework first classifies the thirteen actual degrees, then selects the canonical cubic stub when appropriate and scans only its proof-carrying deleted-edge return."
+      description := "The exact node-[153] cold-fork value indexes the result. The framework first classifies the thirteen actual degrees, then selects the canonical cubic stub when appropriate and scans only its proof-carrying deleted-edge return."
       automationDeclarations := [
         `StructuralExhaustion.Graph.InducedPathColdStubSelection.classify,
         `StructuralExhaustion.Graph.InducedPathColdCorridor.runFirstFailure
@@ -2456,7 +3008,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-same-window-base-scale-split"
       kind := .frameworkComposition
       label := "computed quiet constructor"
-      description := "The input retains equality with node [159]'s computed quiet constructor, including the exact fork, selected window, canonical stub, no-event proof, and structural germ. The framework performs only the support-length comparison."
+      description := "The input retains equality with node [153]'s computed quiet constructor, including the exact fork, selected window, canonical stub, no-event proof, and structural germ. The framework performs only the support-length comparison."
       automationDeclarations := [
         `StructuralExhaustion.Graph.InducedPathColdGermScale.route
       ]
@@ -2471,7 +3023,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-same-window-short-third-incidence"
       kind := .frameworkComposition
       label := "computed short constructor"
-      description := "The input records equality with node [161]'s computed short result. The baseline and quiet germ make the exact return root cubic; the graph runner selects only its third declared incidence and tests that endpoint against the retained bounded support."
+      description := "The input records equality with node [153]'s computed short result. The baseline and quiet germ make the exact return root cubic; the graph runner selects only its third declared incidence and tests that endpoint against the retained bounded support."
       automationDeclarations := [
         `StructuralExhaustion.Graph.RootIncidence.classify,
         `StructuralExhaustion.Graph.DeletedEdgeReturnThirdIncidence.run
@@ -2487,7 +3039,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-same-window-outside-boundary-star"
       kind := .frameworkComposition
       label := "computed outside constructor"
-      description := "The input records equality with node [162]'s exact outside result. The reusable graph layer retains that same support crossing, packages the already certified cubic root, and proves its three displayed leaves own all root incidences."
+      description := "The input records equality with node [153]'s exact outside result. The reusable graph layer retains that same support crossing, packages the already certified cubic root, and proves its three displayed leaves own all root incidences."
       automationDeclarations := [
         `StructuralExhaustion.Graph.DeletedEdgeReturnBoundaryStar.OutsideRun.orientedBoundary,
         `StructuralExhaustion.Graph.DeletedEdgeReturnBoundaryStar.OutsideRun.cubicStar,
@@ -2505,7 +3057,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-same-window-non-root-chord-resolution"
       kind := .frameworkComposition
       label := "computed on-support constructor"
-      description := "The input records equality with node [162]'s exact on-support result. The graph resolver scans only that supplied short support, constructs its literal chord, and otherwise returns the exact shorter deleted-edge return."
+      description := "The input records equality with node [153]'s exact on-support result. The graph resolver scans only that supplied short support, constructs its literal chord, and otherwise returns the exact shorter deleted-edge return."
       automationDeclarations := [
         `StructuralExhaustion.Graph.DeletedEdgeReturnChordResolution.run
       ]
@@ -2520,7 +3072,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-same-window-normalized-return-boundary"
       kind := .frameworkComposition
       label := "exact rejected-chord shorter return"
-      description := "The branch input retains equality with node [165]'s actual runner and its exact strictly shorter return. The graph normalizer chooses that return and the old first step as its outside incidence."
+      description := "The branch input retains equality with node [153]'s actual runner and its exact strictly shorter return. The graph normalizer chooses that return and the old first step as its outside incidence."
       automationDeclarations := [
         `StructuralExhaustion.Graph.DeletedEdgeReturnNormalizedBoundary.normalize
       ]
@@ -2535,7 +3087,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-same-window-normalized-return-boundary"
       kind := .frameworkComposition
       label := "exact outside-boundary cubic star"
-      description := "The branch input retains equality with node [166]'s computed outside result. The graph normalizer keeps the original return, selected outside endpoint, and the same cubic root ownership."
+      description := "The branch input retains equality with node [153]'s computed outside result. The graph normalizer keeps the original return, selected outside endpoint, and the same cubic root ownership."
       automationDeclarations := [
         `StructuralExhaustion.Graph.DeletedEdgeReturnNormalizedBoundary.normalize
       ]
@@ -2550,7 +3102,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-same-window-packed-support-transition"
       kind := .frameworkComposition
       label := "exact computed normalized return"
-      description := "The input stores equality with node [167]'s actual normalized result. Its return is viewed in the ambient graph, and its selected-window endpoint is proved to lie in the union of all ambient-cubic selected-window supports before the one-path transition scan."
+      description := "The input stores equality with node [153]'s actual normalized result. Its return is viewed in the ambient graph, and its selected-window endpoint is proved to lie in the union of all ambient-cubic selected-window supports before the one-path transition scan."
       automationDeclarations := [
         `StructuralExhaustion.Graph.InducedPathColdSkeletonBoundaryTransition.run
       ]
@@ -2565,7 +3117,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-same-window-component-boundary-schedule"
       kind := .frameworkComposition
       label := "exact first-transition constructor"
-      description := "The input retains equality with node [168]'s actual first-transition result and its exact stub, endpoint, and returned component. The graph layer uses that same computed outside BFS component for the exit scan, incident schedule, second stub, and shortest component path."
+      description := "The input retains equality with node [153]'s actual first-transition result and its exact stub, endpoint, and returned component. The graph layer uses that same computed outside BFS component for the exit scan, incident schedule, second stub, and shortest component path."
       automationDeclarations := [
         `StructuralExhaustion.Graph.InducedPathComponentBoundarySchedule.Input.exitCertificate
       ]
@@ -2581,7 +3133,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-same-window-component-d1d3-observation"
       kind := .frameworkComposition
       label := "exact computed two-boundary schedule"
-      description := "The consumer receives node [170]'s actual graph input and result. It independently runs the declared-order BFS tree on that computed component, then packages equality to that one computed shortest path as a rank; it does not order or scan a path family."
+      description := "The consumer receives node [153]'s actual graph input and result. It independently runs the declared-order BFS tree on that computed component, then packages equality to that one computed shortest path as a rank; it does not order or scan a path family."
       evidenceDeclarations := [
         `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.result,
         `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.componentPath,
@@ -2594,8 +3146,8 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       sourceStageId := "proof-slice.p13-same-window-component-d1d3-observation"
       targetStageId := "proof-slice.p13-same-window-component-d1d3-ledger"
       kind := .frameworkComposition
-      label := "retained exact node-[173] state"
-      description := "The ledger source contains the typed node-[173] residual together with equality to the actual node-[173] run. The anchor row is that retained state exactly; only non-anchor rows re-anchor node [170]'s complete local schedule."
+      label := "retained exact node-[153] state"
+      description := "The ledger source contains the typed node-[153] residual together with equality to the actual node-[153] run. The anchor row is that retained state exactly; only non-anchor rows re-anchor node [153]'s complete local schedule."
       evidenceDeclarations := [
         `Erdos64EG.Internal.P13SameWindowComponentD1D3LedgerSource.node173Exact,
         `Erdos64EG.Internal.computedP13SameWindowComponentD1D3LedgerSource,
@@ -2609,8 +3161,8 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       sourceStageId := "proof-slice.p13-same-window-component-d1d3-ledger"
       targetStageId := "proof-slice.p13-same-window-component-d4d7-classifier"
       kind := .frameworkComposition
-      label := "consume the exact node-[174] split"
-      description := "The source retains node [174]'s generic result and proves equality with the actual specialized P13 run. Both CT10 inputs preserve the identical branch context; no D4--D7 semantics are supplied by the caller."
+      label := "consume the exact node-[153] split"
+      description := "The source retains node [153]'s generic result and proves equality with the actual specialized P13 run. Both CT10 inputs preserve the identical branch context; no D4--D7 semantics are supplied by the caller."
       automationDeclarations := [
         `StructuralExhaustion.Routes.InducedPathComponentD4D7ToCT10.coarseRouteContract,
         `StructuralExhaustion.Routes.InducedPathComponentD4D7ToCT10.missingRouteContract
@@ -2625,8 +3177,8 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       sourceStageId := "proof-slice.p13-same-window-component-d4d7-classifier"
       targetStageId := "proof-slice.p13-same-window-component-d4d7-readiness"
       kind := .frameworkComposition
-      label := "consume the exact node-[175] execution"
-      description := "The readiness source stores equality with the actual specialized node-[175] run. It eliminates only the constructor contradicted by the retained anchor stub and preserves every remaining local witness and CT10 route."
+      label := "consume the exact node-[153] execution"
+      description := "The readiness source stores equality with the actual specialized node-[153] run. It eliminates only the constructor contradicted by the retained anchor stub and preserves every remaining local witness and CT10 route."
       evidenceDeclarations := [
         `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.d4d7SemanticReadiness_exact_node175,
         `StructuralExhaustion.Graph.InducedPathComponentD4D7SemanticReadiness.source_exact
@@ -2638,7 +3190,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-same-window-packed-owner-change"
       kind := .frameworkComposition
       label := "exact all-inside constructor"
-      description := "The input stores equality with node [168]'s actual all-inside result. The graph layer prepares the finite owner inventory and one stored unique owner for each vertex of that same return."
+      description := "The input stores equality with node [153]'s actual all-inside result. The graph layer prepares the finite owner inventory and one stored unique owner for each vertex of that same return."
       automationDeclarations := [`StructuralExhaustion.Graph.InducedPathColdSkeletonOwnerChange.run]
       evidenceDeclarations := [
         `Erdos64EG.Internal.runP13SameWindowNormalizedReturnPackedSupportTransition,
@@ -2651,7 +3203,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-same-window-cross-window-token-pair"
       kind := .frameworkComposition
       label := "exact first cross-window edge"
-      description := "The source is node [169]'s complete first-cross-window package. The typed route only projects its two already computed endpoint tokens and records their opposite orientations on the same literal edge."
+      description := "The source is node [153]'s complete first-cross-window package. The typed route only projects its two already computed endpoint tokens and records their opposite orientations on the same literal edge."
       automationDeclarations := [
         `StructuralExhaustion.Routes.InducedPathCrossWindowTokenPair.route
       ]
@@ -2666,7 +3218,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-same-window-long-support-prefix"
       kind := .frameworkComposition
       label := "computed long constructor"
-      description := "The input records equality with node [161]'s computed strict-long result. The generic route preserves the identical branch context and source while exposing the forced initial support segment."
+      description := "The input records equality with node [153]'s computed strict-long result. The generic route preserves the identical branch context and source while exposing the forced initial support segment."
       automationDeclarations := [
         `StructuralExhaustion.Routes.LongFiniteSupportHandoff.route
       ]
@@ -2681,7 +3233,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-same-window-long-prefix-state-labels"
       kind := .frameworkComposition
       label := "exact first-nine prefix occurrences"
-      description := "The source stores equality with node [163]'s actual run. The route inspects only the first nine literal corridor occurrences and passes exactly the collided pair to the CT10 refinement table."
+      description := "The source stores equality with node [153]'s actual run. The route inspects only the first nine literal corridor occurrences and passes exactly the collided pair to the CT10 refinement table."
       automationDeclarations := [
         `StructuralExhaustion.Routes.LongPrefixObservedLabel.route
       ]
@@ -2697,7 +3249,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-same-window-long-prefix-degree-refinement"
       kind := .frameworkComposition
       label := "retain the exact collided occurrences"
-      description := "The degree source contains the actual node-[164] result and its promoted CT10 response-context residual. The consumer reads exactly the two corridor vertices selected by that collision."
+      description := "The degree source contains the actual node-[153] result and its promoted CT10 response-context residual. The consumer reads exactly the two corridor vertices selected by that collision."
       evidenceDeclarations := [
         `Erdos64EG.Internal.P13SameWindowLongPrefixDegreeSource.exact_node164,
         `Erdos64EG.Internal.P13SameWindowLongPrefixDegreeSource.exact_ct10_promotion_responseContexts
@@ -2720,24 +3272,173 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       ]
     },
     {
-      linkId := "proof-slice.positive-deficiency-curvature"
+      linkId := "proof-slice.positive-deficiency-external-incidence"
       sourceStageId := "proof-slice.p13-positive-deficiency"
-      targetStageId := "proof-slice.p13-curvature-rank"
+      targetStageId := "proof-slice.p13-external-incidence-supply"
       kind := .frameworkComposition
-      label := "same exact remainder"
-      description := "The graph accounting kernel consumes the unchanged CT12 remainder. Its boundary ledger is a subledger of the selected-window tokens, its raw wedge schedule has exactly W₂ entries, and CT15 scans precisely that schedule."
+      label := "literal node-[28] remainder"
+      description := "The node-[29] constructor consumes the dependent node-[28] value itself. The graph accounting kernel injects its deficiency into the unchanged remainder boundary and then into the already selected window-token schedule."
       automationDeclarations := [
-        `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_le_tokenCount,
-        `StructuralExhaustion.Graph.FiniteSupportResponse.Profile.run
+        `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_le_tokenCount
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix,
-        `Erdos64EG.Internal.exists_verifiedP13CurvaturePrefix
+        `Erdos64EG.Internal.VerifiedP13Node27NoInternalThreeCore.node28,
+        `Erdos64EG.Internal.VerifiedP13Node28PositiveDeficiency.node29
+      ]
+    },
+    {
+      linkId := "proof-slice.external-incidence-wedge"
+      sourceStageId := "proof-slice.p13-external-incidence-supply"
+      targetStageId := "proof-slice.p13-wedge-lower"
+      kind := .frameworkComposition
+      label := "exact node-[29] deficiency supply"
+      description := "The dependent node-[30] constructor receives the node-[29] value itself. The graph-owned degree-count theorem converts its exact deficiency ceiling into the componentwise and aggregate wedge floors."
+      automationDeclarations := [
+        `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeFloor
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node28PositiveDeficiency.node29,
+        `Erdos64EG.Internal.VerifiedP13Node29ExternalIncidenceSupply.node30
+      ]
+    },
+    {
+      linkId := "proof-slice.wedge-curvature-target-rank"
+      sourceStageId := "proof-slice.p13-wedge-lower"
+      targetStageId := "proof-slice.p13-curvature-target-rank"
+      kind := .frameworkComposition
+      label := "exact node-[30] wedge payload"
+      description := "The dependent node-[31] constructor receives node [30] itself. The framework forms the literal wedge-coordinate family and its proof-level maximum surviving cardinality under all admissible functional quotients."
+      automationDeclarations := [
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.targetRank
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node29ExternalIncidenceSupply.node30,
+        `Erdos64EG.Internal.VerifiedP13Node30WedgeLower.node31
+      ]
+    },
+    {
+      linkId := "proof-slice.curvature-target-rank-decision"
+      sourceStageId := "proof-slice.p13-curvature-target-rank"
+      targetStageId := "proof-slice.p13-curvature-rank-decision"
+      kind := .frameworkComposition
+      label := "node-[31] declared rank object"
+      description := "The node-[32] constructor receives node [31] itself and applies the framework's exact strict-loss-or-equality split to the same declared coordinate cardinality."
+      automationDeclarations := [
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.rankDecision
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node30WedgeLower.node31,
+        `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank.node32
+      ]
+    },
+    {
+      linkId := "proof-slice.curvature-rank-drop-dependence"
+      sourceStageId := "proof-slice.p13-curvature-rank-decision"
+      targetStageId := "proof-slice.p13-curvature-dependence-open"
+      kind := .frameworkComposition
+      label := "node-[32] yes: strict rank loss"
+      description := "The dependent node-[33] constructor retains node [32] and its strict-loss proof. The framework extracts a singleton-basis functional pair circuit from failure of universal survival."
+      automationDeclarations := [
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.pairCircuitOfRankDrop
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank.node32,
+        `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node33
+      ]
+    },
+    {
+      linkId := "proof-slice.curvature-rank-decision-routing"
+      sourceStageId := "proof-slice.p13-curvature-rank-decision"
+      targetStageId := "proof-slice.p13-full-curvature-rank"
+      kind := .frameworkComposition
+      label := "node-[32] no: exact full rank"
+      description := "The dependent node-[34] constructor retains node [32]'s equality edge and the framework's attained maximal family on the same literal wedge schedule."
+      automationDeclarations := [
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.exists_surviving_card_eq_targetRank
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank.node32,
+        `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node34
+      ]
+    },
+    {
+      linkId := "proof-slice.curvature-dependence-cross-panel"
+      sourceStageId := "proof-slice.p13-curvature-dependence-open"
+      targetStageId := "proof-slice.p13-curvature-rank"
+      kind := .frameworkComposition
+      label := "Branch D payload retained for node [35]"
+      description := "The cross-panel handoff retains the admitted quotient, distinct raw coordinates, and singleton determining basis unchanged for the later context/support classification."
+      automationDeclarations := [
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.basis
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node33,
+        `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node35
+      ]
+    },
+    {
+      linkId := "proof-slice.curvature-context-validity"
+      sourceStageId := "proof-slice.p13-curvature-rank"
+      targetStageId := "proof-slice.p13-curvature-context-validity"
+      kind := .frameworkComposition
+      label := "node-[35] admitted quotient"
+      description := "The dependent node-[36] constructor receives node [35] itself and projects the framework-owned outside-context decision from the same admitted pair circuit."
+      automationDeclarations := [
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.contextDecision
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node35,
+        `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node36
+      ]
+    },
+    {
+      linkId := "proof-slice.curvature-target-defect-terminal"
+      sourceStageId := "proof-slice.p13-curvature-context-validity"
+      targetStageId := "proof-slice.p13-curvature-target-defect-terminal"
+      kind := .frameworkComposition
+      label := "node-[36] no: concrete context mismatch"
+      description := "The terminal receives node [36] and exactly one framework ContextDefect witness; the generic eliminator closes only this impossible defect edge."
+      automationDeclarations := [
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.ContextDefect.impossible
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node36,
+        `Erdos64EG.Internal.VerifiedP13Node36ContextValidity.node37
+      ]
+    },
+    {
+      linkId := "proof-slice.curvature-proper-representative-decision"
+      sourceStageId := "proof-slice.p13-curvature-context-validity"
+      targetStageId := "proof-slice.p13-curvature-proper-representative-decision"
+      kind := .frameworkComposition
+      label := "node-[36] yes: universal response"
+      description := "The dependent node-[38] constructor receives node [36] itself and projects the certified smaller representative already required by admission of its non-injective quotient."
+      automationDeclarations := [
+        `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.representativeDecision
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node36,
+        `Erdos64EG.Internal.VerifiedP13Node36ContextValidity.node38
+      ]
+    },
+    {
+      linkId := "proof-slice.curvature-proper-compression-terminal"
+      sourceStageId := "proof-slice.p13-curvature-proper-representative-decision"
+      targetStageId := "proof-slice.p13-curvature-proper-compression-terminal"
+      kind := .frameworkComposition
+      label := "node-[38] yes: certified compression"
+      description := "Node [39] consumes the exact CertifiedReduction field retained by node [38]. Core constructs its target-avoiding witness and closes this original terminal edge by minimality."
+      automationDeclarations := [
+        `StructuralExhaustion.Core.CertifiedReduction.impossible
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.VerifiedP13Node36ContextValidity.node38,
+        `Erdos64EG.Internal.VerifiedP13Node38ProperRepresentativeDecision.node39
       ]
     },
     {
       linkId := "proof-slice.curvature-proper-delocalization"
-      sourceStageId := "proof-slice.p13-curvature-rank"
+      sourceStageId := "proof-slice.p13-curvature-proper-representative-decision"
       targetStageId := "proof-slice.proper-delocalization"
       kind := .frameworkComposition
       label := "rank-drop support classification"
@@ -2774,8 +3475,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       evidenceDeclarations := [
         `Erdos64EG.Internal.VerifiedP13Node24DensityHandoff.globalRankPrefix,
         `Erdos64EG.Internal.VerifiedP13Node24DensityHandoff.globalRankPrefix_fullRankCount,
-        `Erdos64EG.Internal.verifiedP13Node48FiniteCost,
-        `Erdos64EG.Internal.verifiedP13Node48Contract
+        `Erdos64EG.Internal.verifiedP13Node48FiniteCost
       ]
     },
     {
@@ -2822,12 +3522,11 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-joint-accounting-frontier"
       kind := .frameworkComposition
       label := "exact high-bit payload"
-      description := "Node [52] retains the exact node-[51] proof. A supplied realization must use node-[24] global completions, node-[48] remainder states, and one injective literal baseline-skeleton code; otherwise the exact absence requirement is retained."
+      description := "A supplied realization retains the exact node-[51] proof and must use node-[24] global completions, node-[48] remainder states, and one injective literal baseline-skeleton code. No absence outcome is manufactured."
       evidenceDeclarations := [
         `Erdos64EG.Internal.P13Node52JointAccountingRealization.previous,
         `Erdos64EG.Internal.P13Node52JointAccountingRealization.exactPrevious,
-        `Erdos64EG.Internal.p13Node52OpenLargeBudgetHandoff,
-        `Erdos64EG.Internal.runP13Node52
+        `Erdos64EG.Internal.p13Node52_jointCapacity
       ]
     },
     {
@@ -3501,7 +4200,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.semantic-bottleneck-classification"
       kind := .frameworkComposition
       label := "consume the exact typed semantic trigger"
-      description := "Node [177] receives node [144]'s actual collision trigger, unchanged attachment maps, and identical two rooted germs. It scans only the declared attachment coordinates and retains the exact five-way residual."
+      description := "Node [144] receives node [144]'s actual collision trigger, unchanged attachment maps, and identical two rooted germs. It scans only the declared attachment coordinates and retains the exact five-way residual."
       evidenceDeclarations := [
         `StructuralExhaustion.Graph.SurplusPatternCoarseRouting.semanticBottleneckTrigger_source_exact,
         `StructuralExhaustion.Graph.SurplusPatternSemanticBottleneck.classify_source_exact,
@@ -3515,8 +4214,8 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       sourceStageId := "proof-slice.semantic-bottleneck-classification"
       targetStageId := "proof-slice.semantic-bottleneck-local-consumer"
       kind := .frameworkComposition
-      label := "consume all five exact node-[177] leaves"
-      description := "The consumer stores equality with node [177]'s actual classification and performs only the finite incidence/degree checks exposed by the selected leaf."
+      label := "consume all five exact node-[144] leaves"
+      description := "The consumer stores equality with node [144]'s actual classification and performs only the finite incidence/degree checks exposed by the selected leaf."
       evidenceDeclarations := [
         `Erdos64EG.Internal.semanticBottleneckLocalConsumer_previous_exact,
         `Erdos64EG.Internal.semanticBottleneckLocalConsumer_frontier_exact
@@ -3527,8 +4226,8 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       sourceStageId := "proof-slice.semantic-bottleneck-local-consumer"
       targetStageId := "proof-slice.semantic-bottleneck-switch-normalization"
       kind := .frameworkComposition
-      label := "normalize the exact node-[178] switch"
-      description := "The source stores equality with node [178]'s actual frontier; normalization only repackages its already proved incidences and degree branch."
+      label := "normalize the exact node-[144] switch"
+      description := "The source stores equality with node [144]'s actual frontier; normalization only repackages its already proved incidences and degree branch."
       evidenceDeclarations := [`Erdos64EG.Internal.semanticBottleneckNormalizationSource_node178_exact]
     },
     {
@@ -3537,7 +4236,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-component-d4d7-clause-schedule"
       kind := .frameworkComposition
       label := "schedule the exact missing-clause markers"
-      description := "The source stores equality with node [180]'s actual result and retains each dependent marker while assigning only the fixed four-slot obligation order."
+      description := "The source stores equality with node [153]'s actual result and retains each dependent marker while assigning only the fixed four-slot obligation order."
       evidenceDeclarations := [`Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.d4d7ClauseSchedule_exact_node180]
     },
     {
@@ -3546,7 +4245,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-long-prefix-local-clause-alignment"
       kind := .frameworkComposition
       label := "compare the exact pair on nine literal coordinates"
-      description := "The source stores equality with node [179]'s actual runner and reuses the exact first-nine occurrence map and retained CT10 obligation."
+      description := "The source stores equality with node [153]'s actual runner and reuses the exact first-nine occurrence map and retained CT10 obligation."
       evidenceDeclarations := [
         `Erdos64EG.Internal.P13SameWindowLongPrefixLocalClauseSource.exact_node179,
         `Erdos64EG.Internal.P13SameWindowLongPrefixLocalClauseSource.retained_ct10_responseContexts
@@ -3557,8 +4256,8 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       sourceStageId := "proof-slice.semantic-bottleneck-switch-normalization"
       targetStageId := "proof-slice.semantic-bottleneck-local-projection"
       kind := .frameworkComposition
-      label := "project the exact node-[181] leaves"
-      description := "The source stores equality with node [181]'s actual normalized result and projects only its literal cubic support or declared high ports."
+      label := "project the exact node-[144] leaves"
+      description := "The source stores equality with node [144]'s actual normalized result and projects only its literal cubic support or declared high ports."
       evidenceDeclarations := [`Erdos64EG.Internal.semanticBottleneckLocalProjectionSource_node181_exact]
     },
     {
@@ -3566,7 +4265,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       sourceStageId := "proof-slice.p13-component-d4d7-clause-schedule"
       targetStageId := "proof-slice.p13-component-d4d7-clause-cursor"
       kind := .frameworkComposition
-      label := "focus D4 in the exact node-[182] ledgers"
+      label := "focus D4 in the exact node-[153] ledgers"
       description := "The cursor preserves every dependent marker and the exact D5--D7 tail; it supplies no clause truth."
       evidenceDeclarations := [`Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.d4d7ClauseCursor_exact_node182]
     },
@@ -3576,7 +4275,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-long-prefix-extended-clause-alignment"
       kind := .frameworkComposition
       label := "extend only to literal positions 9--17"
-      description := "The source stores equality with node [183]'s actual result and retains the nested degree and CT10 provenance."
+      description := "The source stores equality with node [153]'s actual result and retains the nested degree and CT10 provenance."
       evidenceDeclarations := [`Erdos64EG.Internal.P13SameWindowLongPrefixExtendedClauseSource.exact_node183]
     },
     {
@@ -3585,7 +4284,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.semantic-bottleneck-strong-frontier"
       kind := .frameworkComposition
       label := "tag each exact leaf's pending obligation"
-      description := "The exact node-[184] projection and payload pass unchanged; the tag records which theorem remains to be proved and supplies no certificate."
+      description := "The exact node-[144] projection and payload pass unchanged; the tag records which theorem remains to be proved and supplies no certificate."
       evidenceDeclarations := [`Erdos64EG.Internal.semanticBottleneckStrongFrontierSource_node184_exact]
     },
     {
@@ -3603,7 +4302,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-long-prefix-third-block-clause-alignment"
       kind := .frameworkComposition
       label := "extend only to literal positions 18--26"
-      description := "The exact node-[186] result passes through with all nested degree and CT10 provenance; only the third nine-coordinate block is newly inspected."
+      description := "The exact node-[153] result passes through with all nested degree and CT10 provenance; only the third nine-coordinate block is newly inspected."
       evidenceDeclarations := [`Erdos64EG.Internal.P13SameWindowLongPrefixThirdBlockClauseSource.exact_node186]
     },
     {
@@ -3612,7 +4311,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.semantic-bottleneck-first-clause"
       kind := .frameworkComposition
       label := "expose the first literal separator clause"
-      description := "The exact node-[187] payload and obligation tag are retained while only fixed-arity incidence data are exposed."
+      description := "The exact node-[144] payload and obligation tag are retained while only fixed-arity incidence data are exposed."
       evidenceDeclarations := [`Erdos64EG.Internal.semanticBottleneckFirstClauseSource_node187_exact]
     },
     {
@@ -3630,7 +4329,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-long-prefix-fourth-block-clause-alignment"
       kind := .frameworkComposition
       label := "extend only to literal positions 27--35"
-      description := "The exact node-[189] result and nested CT10 provenance pass through; only the fourth nine-coordinate block is inspected."
+      description := "The exact node-[153] result and nested CT10 provenance pass through; only the fourth nine-coordinate block is inspected."
       evidenceDeclarations := [`Erdos64EG.Internal.P13SameWindowLongPrefixFourthBlockClauseSource.exact_node189]
     },
     {
@@ -3639,7 +4338,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.semantic-bottleneck-pairwise-clause"
       kind := .frameworkComposition
       label := "derive only literal pairwise inequalities"
-      description := "The exact node-[190] certificate and pending tag pass through; injectivity and adjacency yield only the fixed-arity pairwise clauses."
+      description := "The exact node-[144] certificate and pending tag pass through; injectivity and adjacency yield only the fixed-arity pairwise clauses."
       evidenceDeclarations := [`Erdos64EG.Internal.semanticBottleneckPairwiseClauseSource_node190_exact]
     },
     {
@@ -3648,8 +4347,20 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-component-d4-evaluator-construction-residual"
       kind := .frameworkComposition
       label := "name the graph-owned construction inputs"
-      description := "Each exact node-[191] residual is retained and refined into component-local data, graph-owned predicate definition, and predicate derivation requirements."
+      description := "Each exact node-[153] residual is retained and refined into component-local data, graph-owned predicate definition, and predicate derivation requirements."
       evidenceDeclarations := [`Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.exact_node191]
+    },
+    {
+      linkId := "proof-slice.d4-construction-residual-evaluation"
+      sourceStageId := "proof-slice.p13-component-d4-evaluator-construction-residual"
+      targetStageId := "proof-slice.p13-component-d4-evaluation"
+      kind := .frameworkComposition
+      label := "construct and run the graph-owned D4 evaluator"
+      description := "The graph-owned construction inputs at node [153] determine the literal D4 evaluator; its exhaustive run preserves the D5--D7 tail and records exact local-response provenance."
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.runD4Evaluation,
+        `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.runD4Evaluation_exhaustive
+      ]
     },
     {
       linkId := "proof-slice.fourth-block-compatible-response-frontier"
@@ -3657,27 +4368,114 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-long-prefix-compatible-response-frontier"
       kind := .frameworkComposition
       label := "freeze the exact response residual"
-      description := "All five node-[192] leaves, degree provenance, and CT10 response-context tag are retained while the missing graph-owned semantic inputs are made explicit."
+      description := "All five node-[153] leaves, degree provenance, and CT10 response-context tag are retained while the missing graph-owned semantic inputs are made explicit."
       evidenceDeclarations := [`Erdos64EG.Internal.P13SameWindowLongPrefixCompatibleResponseFrontierSource.exact_node192]
     }
   ]
 }
 
+private def p13Node39ProofStep : ExampleProofStepDescriptor := {
+  stepId := "erdos.p13-curvature-proper-compression-terminal"
+  stageId? := some "proof-slice.p13-curvature-proper-compression-terminal"
+  title := "Proper atom compression contradicts minimality"
+  plainExplanation := "Node [39] consumes node [38]'s exact certified smaller representative. Core uses its preserved baseline and target transport together with the selected graph's target avoidance to obtain a strictly smaller counterexample, contradicting the inherited minimality context."
+  formalStatement := "H\prec G\wedge\operatorname{Baseline}(H)\wedge(\operatorname{Target}(H)\Rightarrow\operatorname{Target}(G))\wedge\neg\operatorname{Target}(G)\Longrightarrow\bot"
+  status := .implemented
+  correspondence := .exact
+  manuscriptRefs := [
+    { label := "cor:uncompressible", title := "Proper atom compression terminal", nodeIds := [39] }
+  ]
+  declarationGroups := [{
+    groupId := "p13-node39-proper-compression-terminal"
+    title := "Exact certified reduction and minimality closure"
+    role := .semanticTheorem
+    explanation := "The node-local theorem is indexed by the exact node-[38] value and projects its CertifiedReduction. Core alone constructs the smaller avoiding witness and derives the contradiction; CT15 exposes the same reusable closure on any admitted pair circuit."
+    declarations := [
+      `Erdos64EG.Internal.VerifiedP13Node38ProperRepresentativeDecision,
+      `Erdos64EG.Internal.VerifiedP13Node38ProperRepresentativeDecision.node39,
+      `StructuralExhaustion.Core.CertifiedReduction.witness,
+      `StructuralExhaustion.Core.CertifiedReduction.impossible,
+      `StructuralExhaustion.Core.CertifiedReductionWitness.contradiction,
+      `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.properCompression_impossible
+    ]
+  }]
+  scopeNotes := "Node [39] closes only node [38]'s yes edge. The node-[38] no edge toward enlarged connected support remains the original node-[40] branch and is not consumed by this terminal."
+  workBound := "Zero executable checks. The representative, baseline, decrease, and target transport are inherited; no candidate, coordinate, quotient, context, support, path, subgraph, graph, or state family is enumerated."
+}
+
+private def p13Node38ProofStep : ExampleProofStepDescriptor := {
+  stepId := "erdos.p13-curvature-proper-representative-decision"
+  stageId? := some "proof-slice.p13-curvature-proper-representative-decision"
+  title := "Smaller proper representative is available"
+  plainExplanation := "Node [36]'s universal edge retains the admitted quotient identifying two distinct raw wedges. That identification makes the quotient map non-injective. The representative clause that made the quotient admissible therefore supplies a certified strictly smaller baseline object whose target response transports back to the selected graph, so the original node-[38] decision takes its yes edge."
+  formalStatement := "\\operatorname{TargetComplete}(q)\\wedge\\neg\\operatorname{Inj}(q)\\Longrightarrow\\exists H,\\ H\\prec G"
+  status := .implemented
+  correspondence := .exact
+  manuscriptRefs := [
+    { label := "lem:curvature-dependence-routing", title := "Proper representative decision", nodeIds := [38] }
+  ]
+  declarationGroups := [{
+    groupId := "p13-node38-proper-representative"
+    title := "Exact universal predecessor and certified smaller representative"
+    role := .semanticTheorem
+    explanation := "The dependent adapter retains node [36]. The framework proves non-injectivity from the pair circuit and projects the quotient's CertifiedReduction, including strict rank decrease, baseline preservation, and target transport, through a zero-check two-edge decision."
+    declarations := [
+      `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node36,
+      `Erdos64EG.Internal.VerifiedP13Node38ProperRepresentativeDecision,
+      `Erdos64EG.Internal.VerifiedP13Node36ContextValidity.node38,
+      `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.proposal_not_injective,
+      `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.smallerRepresentative,
+      `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.RepresentativeDecision,
+      `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.representativeDecision,
+      `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.representativeDecision_isAvailable,
+      `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.representativeDecisionBudget,
+      `StructuralExhaustion.Core.CertifiedReduction
+    ]
+  }]
+  scopeNotes := "Node [38] performs only the original representative decision and retains its certified yes payload. Node [39] closes that proper-compression edge; the no edge toward enlarged connected support remains the separate node-[40] responsibility."
+  workBound := "Zero executable checks. The representative is stored in quotient admissibility; no candidate, coordinate, quotient, context, support, path, subgraph, graph, or state family is enumerated."
+}
+
+private def p13Node37ProofStep : ExampleProofStepDescriptor := {
+  stepId := "erdos.p13-curvature-target-defect-terminal"
+  stageId? := some "proof-slice.p13-curvature-target-defect-terminal"
+  title := "Target-defective quotient closes"
+  plainExplanation := "If node [36] took its no edge, it would carry one outside context in which the two quotient-identified raw wedges have different exact target responses. That is precisely the target-defective quotient payload. Because the quotient at node [35] was already admitted and therefore universally target-complete, the retained mismatch contradicts its response equality and closes this branch."
+  formalStatement := "\\rho(a,K)\\ne\\rho(b,K)\\ \\wedge\\ \\forall K',\\rho(a,K')=\\rho(b,K')\\Longrightarrow\\bot"
+  status := .implemented
+  correspondence := .exact
+  manuscriptRefs := [
+    { label := "lem:curvature-dependence-routing", title := "Target-defective quotient", nodeIds := [37] }
+  ]
+  declarationGroups := [{
+    groupId := "p13-node37-target-defect-terminal"
+    title := "Concrete defect witness and exact terminal elimination"
+    role := .semanticTheorem
+    explanation := "The node-local payload contains one context and its response mismatch. The generic CT15 circuit API exposes that existential witness and eliminates it using the same admitted quotient's universal-response theorem; the Erdős endpoint additionally requires the exact node-[36] predecessor."
+    declarations := [
+      `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node36,
+      `Erdos64EG.Internal.P13Node37TargetDefect,
+      `Erdos64EG.Internal.P13Node37TargetDefect.targetDefective,
+      `Erdos64EG.Internal.VerifiedP13Node36ContextValidity.node37,
+      `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.ContextDefect,
+      `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.ContextDefect.toExists,
+      `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.ContextDefect.impossible
+    ]
+  }]
+  scopeNotes := "Node [37] closes only node [36]'s no edge. It neither closes nor consumes the universal yes edge, and it constructs no proper representative or enlarged support; those remain nodes [38]--[40]."
+  workBound := "Zero executable checks after the supplied mismatch witness. No context, coordinate, quotient, support, path, subgraph, graph, or state family is enumerated."
+}
+
 private def erdosManuscript : ExampleManuscriptDescriptor := {
   title := "Erdős--Gyárfás Problem 64 proof"
   path := "proofs/erdos_64_eg/erdos_64_proof.tex"
-  /- Whole-node status for the Chapter 1 web diagram.  Manuscript references
-  below may additionally index partial Lean coverage; those nodes remain
-  yellow until every assertion displayed in the diagram cell is proved. -/
+  /- Whole-node status against the claims in `original_erdos_64_proof.tex`.
+  A node is listed only when Lean proves the original cell's complete claim,
+  not merely a later repaired prefix or replacement.  Implemented proof-step
+  references absent from this list are displayed yellow as partial coverage. -/
   formalizedNodeIds := [
     1, 2, 3,
-    4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
-    25, 26, 27, 28,
-    29, 30, 31, 32, 33, 34, 35,
-    36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53,
-    67, 68, 69, 70, 71, 72, 73, 74, 75, 78, 79, 80, 81, 82, 83, 84,
-    125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136,
-    137, 138, 139, 140, 141, 142, 143, 144, 155, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 173, 174, 175, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195
+    4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39
   ]
   proofSteps := [
     {
@@ -4156,7 +4954,16 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
             `Erdos64EG.Internal.P13CoverageResidual,
             `Erdos64EG.Internal.verifiedP13RemainderResidual,
             `Erdos64EG.Internal.p13Remainder_large,
-            `Erdos64EG.Internal.p13Remainder_node26_exact
+            `Erdos64EG.Internal.p13Remainder_node26_exact,
+            `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder,
+            `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.node25,
+            `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.large,
+            `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.thirteen_le_order,
+            `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.ratio_ge_main_sub_oOne,
+            `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.node26,
+            `Erdos64EG.Internal.VerifiedP13Node27NoInternalThreeCore,
+            `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.node27,
+            `Erdos64EG.Internal.p13Node27LocalChecks_polynomial
           ]
         },
         {
@@ -4185,6 +4992,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
             `Erdos64EG.Internal.p13PackingPrefix_routeId,
             `Erdos64EG.Internal.p13PackingPrefix_routedInputExact,
             `Erdos64EG.Internal.p13PackingPrefix_nonempty,
+            `Erdos64EG.Internal.p13Node24To26LocalChecks_polynomial,
             `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingPrefix,
             `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingRoute_id,
             `StructuralExhaustion.Routes.CT1ToCT12.routeContract
@@ -4203,8 +5011,8 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         }
       ]
       scopeNotes :=
-        "The packing and P₁₃-free remainder clauses are implemented. Nodes [25]--[26] consume the exact predecessor ceiling p₁₃ ≤ U₁₃ and derive the certified finite floor |V(G)| - 13U₁₃ ≤ |R| on the identical CT12 remainder. Producing the numerical ceiling remains node [24]'s separate task."
-      workBound := "Exactly p₁₃ CT12 iterations, at most |V(G)|; the universe of embeddings and packings is not materialized."
+        "Nodes [25]--[27] consume the literal corrected node-[24] no-edge payload, retain the identical node-[21] CT12 packing and remainder, prove the exact finite floor and hereditary P₁₃-freeness, derive 13≤|V(G)| from the retained nonempty packing, transport node [24]'s normalized large-remainder estimate across the panel boundary, and project the already proved HSS consequence onto the exact node-[26] remainder."
+      workBound := "Exactly p₁₃ CT12 iterations, at most |V(G)|; node [27] performs zero further checks, and the universe of embeddings and packings is not materialized."
     },
     {
       stepId := "erdos.p13-labels"
@@ -4402,47 +5210,428 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           ]
         }
       ]
-      scopeNotes := "Node [21] is complete on the exact bounded node-[19] constructor. Node [160] isolates the still-open positive realization/gluing package in its verified realized/open dichotomy and is not cited by this step. The next nodes [22]--[24] perform only their exact finite density split and proof-carrying handoffs. The strict constructor remains the already verified Part-X sparse-pressure route."
+      scopeNotes := "Node [21] is complete on the exact bounded node-[19] constructor. The weighted live/cold interface is a separate same-window branch contract, not an extra numbered node. Nodes [22]--[24] perform only their exact finite density split and proof-carrying handoffs. The strict constructor remains the already verified Part-X sparse-pressure route."
       workBound := "Fifteen fixed 399×399 bit relations and 91 quadratic barrier scans, split into 15 independently cached audit shards. The public CT10 classification uses 196 candidate checks; no graph family or Boolean cube is enumerated."
     },
     {
-      stepId := "erdos.p13-realization-requirement"
-      stageId? := some "proof-slice.p13-realization-requirement"
-      title := "Typed node-[160] realization/open-requirement dichotomy"
-      plainExplanation := "Node [160] follows the manuscript handoff without deriving Boolean realization from the 91-row count. The independently defined local states are finite graphs on the fixed vertex type with the selected window, local support preservation, minimum degree, target avoidance, and responses computed from the node-[21] curvature relation. A proof-level split either carries simultaneous realization and support-commuting global gluing for those states, or retains the exact nonexistence of that package with the named downstream producers."
-      formalStatement := "[21]\\longrightarrow\\mathsf{RealizedPackage}\\;\\lor\\;\\bigl(\\neg\\,\\mathsf{Nonempty}(\\mathsf{RealizedPackage})\\wedge\\mathsf{OpenRequirement}\\bigr)"
+      stepId := "erdos.p13-weighted-live-cold"
+      stageId? := some "proof-slice.p13-weighted-live-cold"
+      title := "Weighted live/cold same-window handoff"
+      plainExplanation := "The original safe/flat strategy is formalized as a sequential conditional-fibre package with coordinate-dependent factors. Failure retains the identical selected window. The negative list is filtered without substitution by the ambient-cubic predicate; each retained entry owns exactly fifteen external stubs, drops its two transit stubs, and passes exactly thirteen selected excess incidences to the corridor runner."
+      formalStatement := "\\mathcal P=\\mathcal P_{\\rm hot}\\sqcup\\mathcal P_{\\rm cold},\\qquad |\\mathcal E_{\\rm br}|=13|\\mathcal P_{\\rm cold}^{\\rm cub}|"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "rem:p13-91-realization-obligation", title := "Open 91-coordinate realization obligation", nodeIds := [160] }
+        { label := "rem:p13-weighted-live-cold-handoff", title := "Formal weighted live/cold and branch-excess handoff", nodeIds := [145, 151, 152, 153] }
       ]
       declarationGroups := [{
-        groupId := "p13-realization-requirement-provenance"
-        title := "Exact realized package or certified open requirement"
+        groupId := "p13-weighted-live-cold-provenance"
+        title := "Exact weighted package or same-window cold residual"
         role := .compositionProvenance
-        explanation := "Local and global completion meanings are fixed before the certificate: they carry actual finite graphs, graph-local support preservation, baseline and target admissibility, and node-[21] barrier responses. The certificate supplies only finite interpreted families, realization, restriction/recovery, and support-level commuting gluing. The complementary constructor stores the exact package negation and predecessor-owned requirement."
+        explanation := "The variable-factor ledger telescopes the 91 safe/flat factors. The packing-order runner carries a dependent joint state with recoverable local choices and a bounded injective spine code. Each failed compatible extension retains its exact prior aggregate and window; that sequential rejection list is consumed by the cold corridor runner."
         declarations := [
-          `Erdos64EG.Internal.P13Node160RealizationRequirement,
-          `Erdos64EG.Internal.P13Node160LocalGraphCompletion,
-          `Erdos64EG.Internal.p13Node160LocalResponse,
-          `Erdos64EG.Internal.P13Node160GlobalGraphCompletion,
-          `Erdos64EG.Internal.p13Node160GlobalResponse,
-          `Erdos64EG.Internal.P13Node160RealizationPackage,
-          `Erdos64EG.Internal.P13Node160RealizationOutcome,
-          `Erdos64EG.Internal.p13Node160RealizationRequirement,
-          `Erdos64EG.Internal.p13Node160RealizationDichotomy,
-          `Erdos64EG.Internal.p13Node160RealizationDichotomy_exhaustive
+          `StructuralExhaustion.Core.VariableConditionalFibreProductCost.Profile.complete_product_le,
+          `StructuralExhaustion.Core.VariableConditionalFibreProductCost.Profile.checks_le_state_mul_coordinate,
+          `Erdos64EG.Internal.P13WeightedLiveWindowPackage,
+          `Erdos64EG.Internal.P13WeightedLiveWindowPackage.product_le,
+          `Erdos64EG.Internal.P13WeightedLiveWindowPackage.checks_local,
+          `Erdos64EG.Internal.P13WeightedHotWindow,
+          `StructuralExhaustion.Core.SequentialCompatibleExtensionLedger.run,
+          `Erdos64EG.Internal.P13SequentialHotAggregate,
+          `Erdos64EG.Internal.P13SequentialCompatibleExtension,
+          `Erdos64EG.Internal.P13SequentialWeightedColdWindow,
+          `Erdos64EG.Internal.p13SequentialFinal_localProduct_le_fixedCapacity,
+          `Erdos64EG.Internal.p13SequentialFinal_retainedCount,
+          `Erdos64EG.Internal.p13SequentialWeightedHotCount_add_coldCount,
+          `Erdos64EG.Internal.p13SequentialWeightedColdWindows_window_nodup,
+          `Erdos64EG.Internal.p13SequentialHotBudget_total_le_budget_add_cold,
+          `Erdos64EG.Internal.p13WeightedCold_cubic_nonCubic_length,
+          `Erdos64EG.Internal.p13WeightedColdNonCubic_length_le_totalSurplus,
+          `Erdos64EG.Internal.p13WeightedColdNonCubic_length_sq_le_nearCubicBudget,
+          `Erdos64EG.Internal.p13WeightedColdBranchExcessStubs_length,
+          `Erdos64EG.Internal.p13WeightedColdBranchExcessStubs_nodup,
+          `Erdos64EG.Internal.P13WeightedColdBranchExcessStub.sameWindow,
+          `Erdos64EG.Internal.p13WeightedColdBranchExcessSchedule_length,
+          `Erdos64EG.Internal.p13WeightedColdBranchExcessSchedule_nodup,
+          `Erdos64EG.Internal.p13WeightedColdRestrictedEntries_sources,
+          `Erdos64EG.Internal.p13WeightedColdRestrictedEntries_sources_nodup,
+          `Erdos64EG.Internal.p13WeightedColdRestrictedComponentSchedule_sources,
+          `Erdos64EG.Internal.p13WeightedColdRestrictedComponentSchedule_sources_nodup,
+          `Erdos64EG.Internal.thirteen_mul_weightedCold_le_branchExcess_add_surplus,
+          `Erdos64EG.Internal.verifiedP13WeightedColdNearCubicPayment,
+          `Erdos64EG.Internal.P13WeightedColdBranchExcessStub.corridor
         ]
       }]
-      scopeNotes := "Green means the node's exact dichotomy and both output contracts are implemented. It does not claim the positive package is inhabited: the open constructor remains at node [160], and only the realized constructor may enter node [22]."
-      workBound := "Proof-level excluded-middle split only; no states, assignments, paths, graphs, contexts, or Boolean cubes are enumerated."
+      scopeNotes := "This verifies the accumulated compatible-extension interface, dependent joint-state capacity, exact sequential cold cubic/non-cubic partition, the injection of every discarded non-cubic cold window into a distinct inherited surplus unit, the exact node-[21] square-root budget on that loss, and the duplicate-free fifteen-to-thirteen branch-excess schedule. The complete node-[152]-to-[153] classifier retains the identical source schedule exactly once across both original component and cross-window outcomes. On the existing component outcome it constructs the actual restricted outside connected component, the literal cyclic successor stub, and a declared-order shortest return corridor; the cross-window outcome is preserved unchanged. The manuscript's stronger lexicographically first simple-path selector and the graph-owned terminal ColdBoundedGerm producer remain open."
+      workBound := "The proof-level extension split traverses the declared packing once. Package checks and all cold geometry remain local; no ambient graph, context, state-subset, or Boolean universe is enumerated."
+    },
+    {
+      stepId := "erdos.type-a-nodes57-63-local-provenance"
+      stageId? := some "proof-slice.type-a-nodes57-63-local-provenance"
+      title := "Nodes [57]--[63] local Type-A chain"
+      plainExplanation := "Every local constructor in the original Part-V chain is implemented: the quarter-unit charge is retained, its negative component is localized, and node [62] returns only the paper's existing Type-A or Type-B route. These declarations accept the still-yellow node-[56] payload, so they do not make any of nodes [57]--[63] unconditionally reachable."
+      formalStatement := "[56]\\Longrightarrow[57]\\Longrightarrow[58]\\Longrightarrow[59]\\Longrightarrow[61]\\Longrightarrow([63]\\text{ or }[64])"
+      status := .implemented
+      correspondence := .partialCoverage
+      manuscriptRefs := [{ label := "fig:proof-diagram-part-v", title := "Large-budget discharge chain", nodeIds := [57, 58, 59, 60, 61, 62, 63] }]
+      declarationGroups := [{
+        groupId := "type-a-57-63-local-chain"
+        title := "Exact conditional chain and linear schedule"
+        role := .compositionProvenance
+        explanation := "The indexed payloads preserve each immediate predecessor and the identical remainder/support; the only scan is the canonical component list plus the selected support."
+        declarations := [
+          `Erdos64EG.Internal.TypeANodes57To63Provenance.node57,
+          `Erdos64EG.Internal.TypeANodes57To63Provenance.node58,
+          `Erdos64EG.Internal.TypeANodes57To63Provenance.node59,
+          `Erdos64EG.Internal.TypeANodes57To63Provenance.node60_impossible,
+          `Erdos64EG.Internal.TypeANodes57To63Provenance.canonicalLedger,
+          `Erdos64EG.Internal.TypeANodes57To63Provenance.node61,
+          `Erdos64EG.Internal.TypeANodes57To63Provenance.node62,
+          `Erdos64EG.Internal.TypeANodes57To63Provenance.localChecks_linear
+        ]
+      }]
+      scopeNotes := "All local contracts are present, but every cell stays yellow because the exact node-[56] strict-quarter producer is not green. No new node, edge, or case is introduced."
+      workBound := "One canonical component scan plus one selected-support degree scan; at most twice the ambient vertex count."
+    },
+    {
+      stepId := "erdos.type-a-nodes86-88-local-thresholds"
+      stageId? := some "proof-slice.type-a-nodes86-88-local-thresholds"
+      title := "Nodes [86]--[88] local Type-A thresholds"
+      plainExplanation := "Given the exact node-[63] Type-A residual, Lean derives zero assigned surplus and strict quarter deficiency, obtains diameter at most eleven from P13-freeness, applies the local subcubic Moore count, and computes the three receiver thresholds. The predecessor is not yet green, so these are conditional local contracts."
+      formalStatement := "[63]\\Longrightarrow \\sigma(X)=0,\\ 4\\operatorname{def}^{+}(X)<|X|,\\ |X|\\le6142,\\ H_j=4(j+1)"
+      status := .implemented
+      correspondence := .partialCoverage
+      manuscriptRefs := [{ label := "fig:proof-diagram-part-viii", title := "Type-A threshold chain", nodeIds := [86, 87, 88] }]
+      declarationGroups := [{
+        groupId := "type-a-86-88-local-thresholds"
+        title := "Conditional diameter, Moore, and threshold proofs"
+        role := .compositionProvenance
+        explanation := "All objects are indexed by the identical selected support. The Moore proof uses one proof-selected shortest path and a bounded BFS/layer schedule, never a graph universe."
+        declarations := [
+          `Erdos64EG.Internal.TypeANodes86To88Thresholds.node86,
+          `Erdos64EG.Internal.TypeANodes86To88Thresholds.VerifiedNode86Residual.assignedSurplus_eq_zero,
+          `Erdos64EG.Internal.TypeANodes86To88Thresholds.VerifiedNode86Residual.four_deficiency_lt_card,
+          `Erdos64EG.Internal.TypeANodes86To88Thresholds.node87_p13Free,
+          `Erdos64EG.Internal.TypeANodes86To88Thresholds.node87_diameterAtMostEleven,
+          `Erdos64EG.Internal.TypeANodes86To88Thresholds.node87_supportCardAtMost6142_of_diameter,
+          `Erdos64EG.Internal.TypeANodes86To88Thresholds.node87,
+          `Erdos64EG.Internal.TypeANodes86To88Thresholds.node87Checks_polynomial,
+          `Erdos64EG.Internal.TypeANodes86To88Thresholds.q,
+          `Erdos64EG.Internal.TypeANodes86To88Thresholds.threshold,
+          `Erdos64EG.Internal.TypeANodes86To88Thresholds.node88,
+          `Erdos64EG.Internal.TypeANodes86To88Thresholds.node88Checks_constant
+        ]
+      }]
+      scopeNotes := "Nodes [86]--[88] remain yellow solely because their immediate dependency chain begins at yellow node [63]. The declarations create no alternate route."
+      workBound := "A quadratic local BFS/layer envelope for node [87], then three fixed arithmetic checks at node [88]."
+    },
+    {
+      stepId := "erdos.type-a-node89-local-saturation"
+      stageId? := some "proof-slice.type-a-node89-local-saturation"
+      title := "Node [89] local receiver-saturation decision"
+      plainExplanation := "The exact node-[88] support defines canonical receiver traces and their loads. One exhaustive local decision returns the existing unsaturated edge to node [90] or a literal saturated receiver on the existing edge to node [93]."
+      formalStatement := "(\\forall w,\\ L(w)\\le4q(w)-1)\\quad\\text{or}\\quad(\\exists w,\\ L(w)\\ge4q(w))"
+      status := .implemented
+      correspondence := .partialCoverage
+      manuscriptRefs := [{ label := "fig:proof-diagram-part-viii", title := "Type-A saturation decision", nodeIds := [89] }]
+      declarationGroups := [{
+        groupId := "type-a-89-local-saturation"
+        title := "Exact conditional receiver-fibre dichotomy"
+        role := .executionAudit
+        explanation := "Both payloads retain the literal node-[88] input. The runner scans only actual support vertices and their canonical receiver fibres and exposes a polynomial work certificate."
+        declarations := [
+          `Erdos64EG.Internal.TypeANode89SaturationDecision.run,
+          `Erdos64EG.Internal.TypeANode89SaturationDecision.input,
+          `Erdos64EG.Internal.TypeANode89SaturationDecision.routing,
+          `Erdos64EG.Internal.TypeANode89SaturationDecision.routedReceiver_eq_canonical,
+          `Erdos64EG.Internal.TypeANode89SaturationDecision.ToNode93,
+          `Erdos64EG.Internal.TypeANode89SaturationDecision.ToNode90,
+          `Erdos64EG.Internal.TypeANode89SaturationDecision.run_exhaustive,
+          `Erdos64EG.Internal.TypeANode89SaturationDecision.localCheckCount_polynomial,
+          `Erdos64EG.Internal.TypeANode89SaturationDecision.workBudget
+        ]
+      }]
+      scopeNotes := "The eight local obligations are implemented conditionally, but node [89] remains yellow because node [88] is not reachable from a green predecessor."
+      workBound := "One receiver test per support vertex and one actual cubic-source/receiver fibre comparison; quadratic local envelope."
+    },
+    {
+      stepId := "erdos.p13-node153-produced-support-coverage"
+      stageId? := some "proof-slice.p13-node153-produced-support-coverage"
+      title := "Node [153] prior produced-support coverage"
+      plainExplanation := "The ordinary Type-B occurrence schedule and the node-[84] grouped/extracted schedules populate one persistent, occurrence-indexed ledger. Equal event values remain distinct occurrences. F4 scans this ledger directly; its old list input is derived by exact materialization only for compatibility with the existing structural runner."
+      formalStatement := "\\operatorname{Occ}(L_{F4})=\\operatorname{Occ}(L_{\\rm ord})\\uplus\\operatorname{Occ}(L_{\\rm dec})\\uplus\\operatorname{Occ}(L_8)"
+      status := .implemented
+      correspondence := .partialCoverage
+      manuscriptRefs := [{ label := "def:cold-corridor-first-failure", title := "Cold corridor F4 produced-support test", nodeIds := [153] }]
+      declarationGroups := [{
+        groupId := "p13-node153-produced-support-coverage"
+        title := "Persistent occurrence-preserving three-family aggregation"
+        role := .compositionProvenance
+        explanation := "The reusable Core ledger owns occurrence identity, append, restriction, dependent views, and exact finite checks. The Graph view recognizes the first exact support occurrence and proves total absence occurrence-by-occurrence. The Erdős layer only supplies the three event constructors and their declared supports."
+        declarations := [
+          `StructuralExhaustion.Core.FiniteResidualLedger.Ledger,
+          `StructuralExhaustion.Core.ResidualRefinement.Ledger.append,
+          `StructuralExhaustion.Core.ResidualRefinement.Ledger.fact_of_mem_events,
+          `StructuralExhaustion.Graph.FiniteResidualSupportLedger.View.recognize_exact,
+          `StructuralExhaustion.Graph.ResidualSupportRefinement.Profile.recognize_exact,
+          `StructuralExhaustion.Graph.ResidualSupportRefinement.Profile.FirstHit.get,
+          `Erdos64EG.Internal.P13ProducedPriorSupportLedger.PersistentLedger.recognize_exact,
+          `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.persistentBase,
+          `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.persistentBase_event_origin,
+          `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.CompleteState,
+          `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.ordinaryOccurrence_mem,
+          `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.decoratedOccurrence_mem,
+          `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.routeEightOccurrence_mem,
+          `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.outside_all_produced_occurrences,
+          `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.P13WeightedColdRestrictedPrefixPackage.exists_localCorridorSurvivor_of_completeProducedLedger
+        ]
+      }]
+      scopeNotes := "The aggregation and F4 recognition are exact relative to their producer occurrences, including duplicate event values. Node [153] remains yellow because the immutable manuscript flow supplies no pre-node-[24] graph-owned schedule of the later node-[64]/[84]/[108] occurrences, and the ColdBoundedGerm producer remains open. Candidate components are not substituted for actual produced occurrences."
+      workBound := "Linear in the three actual producer schedules; no support deduplication or ambient universe scan."
+    },
+    {
+      stepId := "erdos.p13-node153-exact-continuation"
+      stageId? := some "proof-slice.p13-node153-exact-continuation"
+      title := "Node [153] exact local F2--F5 continuation"
+      plainExplanation := "For a supplied local corridor survivor, the runner tests the manuscript's F1 through F4 predicates in stage order. If every stored stage is clear, the actual corridor execution yields exactly the original F5 terminal or repeated support."
+      formalStatement := "\\operatorname{scan}_{s\\in S}(F1,F2,F3,F4);\\ \\text{if clear, return }F5_{\\rm terminal}\\text{ or }F5_{\\rm repeat}"
+      status := .implemented
+      correspondence := .partialCoverage
+      manuscriptRefs := [
+        { label := "def:cold-corridor-first-failure", title := "Cold structural corridor and first-failure scan", nodeIds := [153] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node153-exact-local-continuation"
+        title := "Exact conditional F2--F5 runner"
+        role := .executionAudit
+        explanation := "F2 retains one proof-selected distinguishing context rather than scanning a context universe; F3 requires universal response and a proper representative; F4 reuses the inherited produced-support event; the clear branch runs the literal structural corridor."
+        declarations := [
+          `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.runExactContinuation,
+          `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.StageF2,
+          `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.StageF3,
+          `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.ExactF5,
+          `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.f4_absent,
+          `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.repeatedStageF2,
+          `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.repeatedStageF3,
+          `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.exactF5OfClear,
+          `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.exactLaterSemantics,
+          `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.runExactContinuation_total,
+          `Erdos64EG.Internal.P13WeightedColdRestrictedPrefixPackage.exactContinuation_checks,
+          `Erdos64EG.Internal.P13ProducedPriorSupportLedgerCoverage.P13WeightedColdRestrictedPrefixPackage.exists_localCorridorSurvivor_of_completeProducedLedger
+        ]
+      }, {
+        groupId := "p13-node153-restricted-component-corridor"
+        title := "Actual component and lexicographically first simple corridor"
+        role := .compositionProvenance
+        explanation := "The restricted-component schedule exposes the actual connected component and genuine cyclic List.next successor. The thin Erdős specialization instantiates the reusable finite lex-first path profile on exactly that component and those endpoints, proving simplicity, exact source and target, absence of an earlier simple path, and the local carrier bound."
+        declarations := [
+          `StructuralExhaustion.Graph.FiniteLexFirstSimplePath.Profile.firstPath,
+          `StructuralExhaustion.Graph.FiniteLexFirstSimplePath.Profile.firstPath_isPath,
+          `StructuralExhaustion.Graph.FiniteLexFirstSimplePath.Profile.firstPath_head,
+          `StructuralExhaustion.Graph.FiniteLexFirstSimplePath.Profile.firstPath_getLast,
+          `StructuralExhaustion.Graph.FiniteLexFirstSimplePath.Profile.no_earlier_path,
+          `StructuralExhaustion.Graph.FiniteLexFirstSimplePath.Profile.firstPath_length_lt,
+          `Erdos64EG.Internal.restricted_component_payload,
+          `Erdos64EG.Internal.restricted_component_declaredOrderCorridor,
+          `Erdos64EG.Internal.p13RestrictedLexFirstCorridorProfile,
+          `Erdos64EG.Internal.p13RestrictedLexFirstCorridor,
+          `Erdos64EG.Internal.restricted_component_lexFirstCorridor
+        ]
+      }]
+      scopeNotes := "The actual restricted component and lex-first corridor are proved on the existing component edge. The three-family aggregation and exact LocalCorridorSurvivor connector remain relative to their producer schedules; node [153] stays yellow until the graph-owned complete ordinary node-[64] schedule, unconditional node-[84] realization, and ColdBoundedGerm producer are supplied."
+      workBound := "The selected corridor has edge length below its supplied component cardinality, followed by one scan of the literal stored stage list. Distinguishing contexts are proof-selected; no ambient graph or context universe is enumerated."
+    },
+    {
+      stepId := "erdos.p13-node154-local-classifier"
+      stageId? := some "proof-slice.p13-node154-local-classifier"
+      title := "Node [154] local G1--G3 exhaustiveness and work"
+      plainExplanation := "Given one bounded germ, the classifier checks its already supplied dyadic hit first. Only a negative hit check enables the exact finite response-code scan, which returns the first distinction or proves neutrality and constructs the silent exchange."
+      formalStatement := "G1\\;\\vee\\;G2\\;\\vee\\;G3,\\qquad W_{154}\\le |\\mathcal C_{\\rm germ}|+1"
+      status := .implemented
+      correspondence := .partialCoverage
+      manuscriptRefs := [{ label := "def:cold-bounded-germ", title := "Cold germ classifier", nodeIds := [154] }]
+      declarationGroups := [{
+        groupId := "p13-node154-local-priority-classifier"
+        title := "Exact G1--G3 priority trace and local work"
+        role := .executionAudit
+        explanation := "The reusable Core ledger counts one optional-hit test and at most one pass over the supplied code schedule. The Erdős instantiation proves all three original constructors exhaustive with their exact trace; symbolic coverage handles arbitrary outside contexts without enumerating them."
+        declarations := [
+          `StructuralExhaustion.Core.FinitePriorityOptionScanWork.trace,
+          `StructuralExhaustion.Core.FinitePriorityOptionScanWork.checks,
+          `StructuralExhaustion.Core.FinitePriorityOptionScanWork.checks_le_codes_add_one,
+          `Erdos64EG.P13ColdGermLedger.ColdBoundedGerm.classify,
+          `Erdos64EG.P13ColdGermLedger.ColdBoundedGerm.classifyTrace,
+          `Erdos64EG.P13ColdGermLedger.ColdBoundedGerm.classifyTrace_length_le_three,
+          `Erdos64EG.P13ColdGermLedger.ColdBoundedGerm.classifyChecks,
+          `Erdos64EG.P13ColdGermLedger.ColdBoundedGerm.classifyChecks_le_codes_add_one,
+          `Erdos64EG.P13ColdGermLedger.ColdBoundedGerm.classify_exhaustive_with_trace
+        ]
+      }]
+      scopeNotes := "This proves only the local node-[154] classifier contract for a supplied ColdBoundedGerm. The graph-owned node-[153] producer and equal-length/length-changing routing obligations XI-154-01/02 remain open."
+      workBound := "At most one literal-hit check plus one pass over the declared finite germ response-code schedule; no ambient context, graph, piece, or completion universe is enumerated."
+    },
+    {
+      stepId := "erdos.p13-node146-route8-threshold"
+      stageId? := some "proof-slice.p13-node146-route8-threshold"
+      title := "Exact node [146] route-8 threshold"
+      plainExplanation := "The exact node-[145] ledger is preserved while one natural-number comparison decides whether the packing density is below 1/78. The yes payload proves the denominator-safe tau bound and routes to node [147]; the no payload proves theta is at least 1/78 and routes to node [148]."
+      formalStatement := "78p_{13}<n\\iff\\theta<\\frac1{78}\\iff\\tau(\\theta)<\\frac3{13}"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "def:cold-window-ledger", title := "Route-8 density threshold", nodeIds := [146] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node146-threshold"
+        title := "Exact threshold decision and both typed routes"
+        role := .executionAudit
+        explanation := "The runner derives positivity of the actual graph order from the inherited minimum-degree baseline, proves the two rational equivalences without dividing by a nonpositive denominator, and returns exactly the two original outgoing payloads with constant work."
+        declarations := [
+          `Erdos64EG.Internal.runP13Node146,
+          `Erdos64EG.Internal.p13PackingTheta,
+          `Erdos64EG.Internal.p13Route8Tau,
+          `Erdos64EG.Internal.p13VertexCount_pos,
+          `Erdos64EG.Internal.p13Route8BelowThreshold_iff_theta,
+          `Erdos64EG.Internal.p13Route8Tau_lt_three_thirteenths_iff,
+          `Erdos64EG.Internal.p13Route8_denominator_pos_of_below,
+          `Erdos64EG.Internal.P13Node146To147,
+          `Erdos64EG.Internal.P13Node146To148,
+          `Erdos64EG.Internal.runP13Node146_exhaustive,
+          `Erdos64EG.Internal.p13Node146LocalCheckCount_polynomial,
+          `Erdos64EG.Internal.p13Node146WorkBudget,
+          `Erdos64EG.Internal.p13Node146WorkBudget_checks
+        ]
+      }]
+      scopeNotes := "This is exactly node [146]. It does not assume or prove the node-[147] private-carrier collision or the node-[148] hot-entropy decision."
+      workBound := "One comparison of 78 p13 with n; constant primitive-check budget and no graph, context, state, or assignment enumeration."
+    },
+    {
+      stepId := "erdos.p13-node147-private-carrier-arithmetic"
+      stageId? := some "proof-slice.p13-node147-private-carrier-arithmetic"
+      title := "Node [147] private-carrier arithmetic prefix"
+      plainExplanation := "The node-[146] yes residual proves the strict coefficient gap needed by the private-carrier squeeze. The Type-A route-8 collection, basin injection, and matching upper/lower carrier budgets have not yet reached this node, so the terminal contradiction is not claimed."
+      formalStatement := "\\tau(\\theta)<\\frac3{13}\\Longrightarrow\\tau(\\theta)<12\\left(\\frac14-\\tau(\\theta)\\right)"
+      status := .implemented
+      correspondence := .partialCoverage
+      manuscriptRefs := [
+        { label := "thm:large-budget-route8-only", title := "Route-8 private-carrier closure", nodeIds := [147] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node147-arithmetic"
+        title := "Dependency-ready strict collision margin"
+        role := .executionAudit
+        explanation := "This proves exactly the arithmetic prefix available from node [146] and records zero new local scans. It deliberately does not manufacture the absent carrier ledger."
+        declarations := [
+          `Erdos64EG.Internal.p13Node147ArithmeticPrefix,
+          `Erdos64EG.Internal.P13Node147ArithmeticPrefix,
+          `Erdos64EG.Internal.p13Route8CollisionCoefficientGap,
+          `Erdos64EG.Internal.p13Route8CollisionMargin_pos,
+          `Erdos64EG.Internal.p13Node147ArithmeticCheckCount_polynomial
+        ]
+      }]
+      scopeNotes := "Four of nine audited node-[147] obligations are proved. The five structural route-8 carrier obligations remain explicit in the web ledger."
+      workBound := "Zero new scans; fixed rational arithmetic only."
+    },
+    {
+      stepId := "erdos.p13-node148-live-hot-decision"
+      stageId? := some "proof-slice.p13-node148-live-hot-decision"
+      title := "Exact node [148] live-hot decision"
+      plainExplanation := "The runner consumes the identical node-[146] no residual, retains the final recoverable hot aggregate, proves that it pays the hot demand, and uses one corrected total-demand comparison to return exactly node [149] or node [150]."
+      formalStatement := "D_{\\rm tot}\\le A_{\\rm skel}+E_{\\rm norm}\\quad\\text{or}\\quad D_{\\rm tot}-A_{\\rm skel}-E_{\\rm norm}\\le D_{\\rm cold}"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "def:cold-window-ledger", title := "Live-hot entropy decision", nodeIds := [148] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node148-hot-decision"
+        title := "Exact predecessor-indexed hot/cold split"
+        role := .executionAudit
+        explanation := "Both outgoing payloads are indexed by the literal node-[146] no input. Exact hot/cold partition and hot payment turn a failed total cap into a cold shortfall without enumerating any assignment universe."
+        declarations := [
+          `Erdos64EG.Internal.runP13Node148,
+          `Erdos64EG.Internal.p13Node148_hotDemand_le_allowance,
+          `Erdos64EG.Internal.p13Node148_totalDemand_eq_hot_add_cold,
+          `Erdos64EG.Internal.p13Node148_totalDemand_le_allowance_add_cold,
+          `Erdos64EG.Internal.P13Node148To149,
+          `Erdos64EG.Internal.P13Node148To150,
+          `Erdos64EG.Internal.runP13Node148_exhaustive,
+          `Erdos64EG.Internal.p13Node148LocalCheckCount_polynomial,
+          `Erdos64EG.Internal.p13Node148WorkBudget_checks
+        ]
+      }]
+      scopeNotes := "This is exactly node [148]. It does not prove node [149]'s asymptotic density conclusion or node [150]'s normalized cold-mass lower bound."
+      workBound := "One corrected natural-number comparison, reusing the local packing-order ledger and final recoverable aggregate."
+    },
+    {
+      stepId := "erdos.p13-node149-density-cap"
+      stageId? := some "proof-slice.p13-node149-density-cap"
+      title := "Original node [149] normalized density cap"
+      plainExplanation := "The terminal consumes the identical node-[148] yes residual, retains its node-[146] predecessor index, and divides the corrected finite cap by the positive binary-log budget. The complete natural-number correction is uniformly bounded by an o(n log n) graph-order envelope, so the displayed additive density error tends to zero."
+      formalStatement := "\\theta\\le\\theta_{\\rm win}+o(1)"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "prop:p13-density", title := "P13 density cap", nodeIds := [149] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node149-normalized-density"
+        title := "Exact predecessor and uniform asymptotic normalization"
+        role := .compositionProvenance
+        explanation := "The finite cap keeps both scale and skeleton errors. Reusable binary-log lemmas bound literal Nat subtraction, prove the combined graph-order envelope is little-o, and normalize it to one explicit term tending to zero."
+        declarations := [
+          `Erdos64EG.Internal.verifiedP13Node149DensityCap,
+          `Erdos64EG.Internal.VerifiedP13Node149DensityCap.correctedThetaCap,
+          `Erdos64EG.Internal.p13Node149ThetaWindow_eq_exact,
+          `Erdos64EG.Internal.p13SequentialHotNormalizationError_real_upper,
+          `Erdos64EG.Internal.p13SequentialHotNormalizationRealEnvelope_isLittleO,
+          `Erdos64EG.Internal.p13Node149ThetaError_tendsto_zero,
+          `Erdos64EG.Internal.VerifiedP13Node149DensityCap.theta_le_thetaWindow_add_oOne,
+          `Erdos64EG.Internal.VerifiedP13Node149DensityCap.correctedRemainderCap,
+          `Erdos64EG.Internal.VerifiedP13Node149DensityCap.localCheckCount_polynomial
+        ]
+      }]
+      scopeNotes := "All six audited node-[149] obligations are proved. This terminal introduces no new branch and performs no graph, state, context, or assignment scan."
+      workBound := "Zero new local checks; fixed field normalization of the predecessor's exact natural-number inequality."
+    },
+    {
+      stepId := "erdos.p13-node150-cold-mass"
+      stageId? := some "proof-slice.p13-node150-cold-mass"
+      title := "Node [150] normalized cold-mass prefix"
+      plainExplanation := "The literal node-[148] no residual is retained as an index. Exact manuscript-rate certificates prove both printed threshold coefficients, and the discrete binary-log error is divided by the positive budget to one term tending to zero."
+      formalStatement := "C\\ge(\\theta-\\theta_{\\rm win})n-o(n)"
+      status := .implemented
+      correspondence := .partialCoverage
+      manuscriptRefs := [
+        { label := "lem:hot-failure-cold-mass", title := "Hot failure forces cold mass", nodeIds := [150] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node150-cold-mass"
+        title := "Exact predecessor, printed coefficients, and vanishing correction"
+        role := .compositionProvenance
+        explanation := "Eight of nine obligations are proved. The payload is indexed by the exact node-[148] input, both original decimal bounds use the longer manuscript constant, and the common error tends to zero. Only the upstream surviving-cold exclusions and near-cubic spine state are absent."
+        declarations := [
+          `Erdos64EG.Internal.p13Node150FiniteColdMass,
+          `Erdos64EG.Internal.p13Node150_manuscriptRoute8ColdMassCrossMultiplied,
+          `Erdos64EG.Internal.p13Node150_manuscriptNegativeNetColdMassCrossMultiplied,
+          `Erdos64EG.Internal.p13ManuscriptRoute8ColdMassCoefficient_printedBracket,
+          `Erdos64EG.Internal.p13ManuscriptNegativeNetColdMassCoefficient_printedBracket,
+          `Erdos64EG.Internal.p13ManuscriptDyadicHotNormalizationError_real_upper,
+          `Erdos64EG.Internal.p13ManuscriptDyadicHotNormalizationRealEnvelope_isLittleO,
+          `Erdos64EG.Internal.p13ManuscriptDyadicHotNormalization_div_nlog_tendsto_zero,
+          `Erdos64EG.Internal.P13Node150FiniteColdMass,
+          `Erdos64EG.Internal.p13Node150LocalCheckCount_polynomial
+        ]
+      }]
+      scopeNotes := "Node [150] remains yellow at 8/9. Its outgoing node-[151] handoff still needs the complete surviving-cold branch exclusions and exact near-cubic spine payload."
+      workBound := "Zero new scans; fixed rational arithmetic and reuse of the already computed cold list."
     },
     {
       stepId := "erdos.p13-density-handoff"
       stageId? := some "proof-slice.p13-density-handoff"
-      title := "Exact nodes [22]--[24] density handoff"
-      plainExplanation := "Following the diagram literally, node [22] accepts only node [160]'s realized graph-completion package and performs one exact finite comparison on the packing retained by node [21]. The strict reverse is the node-[23] overflow payload passed to the later entropy consumer; the complementary inequality is the node-[24] finite density-ceiling payload passed to the remainder and hot/cold consumers."
-      formalStatement := "118108581006\\,p_{13}>1500000000\\,n\\quad\\lor\\quad118108581006\\,p_{13}\\le1500000000\\,n"
+      title := "Corrected nodes [22]--[24] finite density handoff"
+      plainExplanation := "Node [22] performs the exact finite comparison with both normalization corrections visible. The strict branch supplies node [23]'s cold trigger; the complementary branch supplies node [24]'s corrected cap, its uniform o(1) normalization, and the resulting remainder and fractional-linear incidence transports."
+      formalStatement := "118108581006\\,p_{13}\\log_2 n\\,S\\le B_{\\rm print}(G)+E_{\\rm norm}(G)\\quad\\text{or its strict reverse}"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
@@ -4453,16 +5642,26 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-density-decision"
           title := "Same-context finite comparison and successor payloads"
           role := .compositionProvenance
-          explanation := "The runner uses the actual packing number as the exact ceiling datum and returns proof-carrying strict-overflow or within-cap constructors. Both retain equality to the identical node-[21] predecessor and exact coverage object."
+          explanation := "The runner uses the actual node-[21] packing and returns proof-carrying strict-overflow or corrected-cap constructors. The exact scale-loss and powered-skeleton normalization errors remain explicit. On the corrected-cap constructor, the uniform envelope is o(n log n), so Lean proves the normalized window-density, remainder, and fractional-linear incidence conclusions with explicit vanishing errors."
           declarations := [
-            `Erdos64EG.Internal.runP13Node22DensityDecision,
-            `Erdos64EG.Internal.runP13Node22DensityDecision_exhaustive,
-            `Erdos64EG.Internal.VerifiedP13Node23DensityOverflow.strict,
-            `Erdos64EG.Internal.VerifiedP13Node24DensityHandoff.packingDensityCap
+            `Erdos64EG.Internal.runP13Node22FiniteDensityDecision,
+            `Erdos64EG.Internal.runP13Node22FiniteDensityDecision_exhaustive,
+            `Erdos64EG.Internal.VerifiedP13Node23FiniteOverflow.strict,
+            `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.thetaWindowCorrected,
+            `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.remainderCorrected,
+            `Erdos64EG.Internal.p13Node24NormalizationEnvelope_isLittleO,
+            `Erdos64EG.Internal.p13Node24ThetaError_tendsto_zero,
+            `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.theta_le_thetaWindow_add_oOne,
+            `Erdos64EG.Internal.p13Node24RemainderError_tendsto_zero,
+            `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.remainder_ratio_ge_main_sub_oOne,
+            `Erdos64EG.Internal.p13Node24TauError_tendsto_zero,
+            `Erdos64EG.Internal.p13Node24Tau_denominator_eventually_positive,
+            `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.tau_le_tauWindow_add_oOne,
+            `Erdos64EG.Internal.p13WindowTauExact_lt_quarter
           ]
         }
       ]
-      scopeNotes := "These nodes implement only their directed branch responsibilities. Node [23] retains the exact overflow input for the later entropy contradiction; it does not claim that contradiction here. Node [24] retains the exact complementary finite cap; the later strict-quarter and high-entropy refinements remain separate consumers. No completion state, Boolean assignment, graph family, or ambient universe is enumerated."
+      scopeNotes := "Nodes [22]--[24] are complete as local Part-I cells. Node [23] owns only the strict reverse corrected finite-cap payload on the node-[22] yes edge; the downstream Part-XI cold closure is tracked at its own nodes. Node [24] proves the corrected finite/asymptotic window and remainder handoffs and emits the high-entropy proposition as a typed downstream obligation without proving node [52]. No completion-state, Boolean-assignment, graph-family, or ambient-universe enumeration occurs."
       workBound := "One proof-level natural-number dichotomy on the exact graph order and packing number; no finite universe is scanned."
     },
     {
@@ -4474,8 +5673,8 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-actual-attachment-cold-fork", title := "Pointwise actual-attachment cold fork", nodeIds := [158] },
-        { label := "rem:p13-actual-attachment-fork-scope", title := "Scope of the actual-attachment fork", nodeIds := [158] }
+        { label := "lem:p13-actual-attachment-cold-fork", title := "Pointwise actual-attachment cold fork", nodeIds := [153] },
+        { label := "rem:p13-actual-attachment-fork-scope", title := "Scope of the actual-attachment fork", nodeIds := [153] }
       ]
       declarationGroups := [
         {
@@ -4523,20 +5722,20 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           ]
         }
       ]
-      scopeNotes := "Node [158] is a pointwise actual thirteen-bit adjacency scan. The production same-context adapter maps every exact node-[21] packed window through this cold fork and node [159], and proves that its four structural subledgers partition exactly p13 windows. This neither proves nor refutes the still-white node-[160] 91-coordinate realization edge [21]→[22], and it yields no entropy or density bound."
-      workBound := "Worst-case reference budget for one supplied selected window: at most 8192·n assignment/state vector comparisons, each comparing thirteen adjacency bits; equivalently at most 106496·n bit comparisons. The subsequent corridor/path work at node [159] is excluded."
+      scopeNotes := "Node [153] is a pointwise actual thirteen-bit adjacency scan. The production same-context adapter maps every exact node-[21] packed window through this cold fork and node [153], and proves that its four structural subledgers partition exactly p13 windows. This auxiliary scan neither constructs nor refutes the weighted live package, and it yields no entropy or density bound."
+      workBound := "Worst-case reference budget for one supplied selected window: at most 8192·n assignment/state vector comparisons, each comparing thirteen adjacency bits; equivalently at most 106496·n bit comparisons. The subsequent corridor/path work at node [153] is excluded."
     },
     {
       stepId := "erdos.p13-node21-partxi-route"
       stageId? := some "proof-slice.p13-node21-partxi-route"
       title := "Exact whole-packing route into Part XI"
-      plainExplanation := "The production adapter maps the exact CT12 packing list. Each entry retains the node-[21] prefix, classifier-produced thirteen-bit cold residual, identical selected window, and computed node-[159] structural frontier. Filtering by the four honest constructors gives an exact partition of all p13 windows."
+      plainExplanation := "The production adapter maps the exact CT12 packing list. Each entry retains the node-[21] prefix, classifier-produced thirteen-bit cold residual, identical selected window, and computed node-[153] structural frontier. Filtering by the four honest constructors gives an exact partition of all p13 windows."
       formalStatement := "|P_surplus| + |P_dyadic| + |P_high| + |P_quiet| = p13"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-actual-attachment-cold-fork", title := "Pointwise actual-attachment cold fork", nodeIds := [158] },
-        { label := "lem:p13-same-window-structural-frontier", title := "Same-window structural frontier", nodeIds := [159] }
+        { label := "lem:p13-actual-attachment-cold-fork", title := "Pointwise actual-attachment cold fork", nodeIds := [153] },
+        { label := "lem:p13-same-window-structural-frontier", title := "Same-window structural frontier", nodeIds := [153] }
       ]
       declarationGroups := [{
         groupId := "p13-node21-partxi-route-execution"
@@ -4553,20 +5752,20 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.p13Node21PartXIRoutes_partition
         ]
       }]
-      scopeNotes := "This is the exact valid parallel handoff from node [21] into nodes [158]--[159]. It uses thirteen literal adjacency bits, not node [160]'s still-missing 91 multi-scale completion responses, and it assigns no entropy or density payment to any constructor."
-      workBound := "One traversal of the exact packing list plus the already charged fixed thirteen-bit cold fork and node-[159] local work for each supplied window; no additional candidate universe is materialized."
+      scopeNotes := "This is an exact auxiliary handoff from node [21] into nodes [153]--[153]. It uses thirteen literal adjacency bits, not the 91-row weighted safe/flat package, and it assigns no entropy or density payment to any constructor."
+      workBound := "One traversal of the exact packing list plus the already charged fixed thirteen-bit cold fork and node-[153] local work for each supplied window; no additional candidate universe is materialized."
     },
     {
       stepId := "erdos.p13-same-window-structural-frontier"
       stageId? := some "proof-slice.p13-same-window-structural-frontier"
       title := "Same-window P13 structural frontier"
-      plainExplanation := "The exact node-[158] cold fork indexes a graph-owned continuation on the same selected window. It returns exactly one of four constructors: a high-degree window position, a dyadic root-cycle hit, the first high-degree corridor vertex with its clean prefix, or a quiet structural germ carrying only an ambient-size support bound."
+      plainExplanation := "The exact node-[153] cold fork indexes a graph-owned continuation on the same selected window. It returns exactly one of four constructors: a high-degree window position, a dyadic root-cycle hit, the first high-degree corridor vertex with its clean prefix, or a quiet structural germ carrying only an ambient-size support bound."
       formalStatement := "\\mathcal R(P)\\in\\{\\operatorname{surplus}(i),\\operatorname{dyadic}(s,C),\\operatorname{corridorHigh}(s,x),\\operatorname{quiet}(s,\\Gamma)\\}"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-same-window-structural-frontier", title := "Same-window structural frontier", nodeIds := [159] },
-        { label := "rem:p13-same-window-frontier-scope", title := "Scope of the same-window frontier", nodeIds := [159] }
+        { label := "lem:p13-same-window-structural-frontier", title := "Same-window structural frontier", nodeIds := [153] },
+        { label := "rem:p13-same-window-frontier-scope", title := "Scope of the same-window frontier", nodeIds := [153] }
       ]
       declarationGroups := [
         {
@@ -4585,7 +5784,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-same-window-four-way-execution"
           title := "Cold-fork-indexed four-way execution"
           role := .tacticExecution
-          explanation := "The result type is indexed by the exact node-[158] cold fork. The thin runner flattens the graph result into precisely the four published constructors and proves their exhaustive disjunction."
+          explanation := "The result type is indexed by the exact node-[153] cold fork. The thin runner flattens the graph result into precisely the four published constructors and proves their exhaustive disjunction."
           declarations := [
             `Erdos64EG.Internal.p13ActualAttachmentColdFork,
             `Erdos64EG.Internal.P13SameWindowStructuralFrontier,
@@ -4617,20 +5816,20 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           ]
         }
       ]
-      scopeNotes := "Node [159] is green only for this pointwise four-way classifier. The window-surplus and corridor-high outputs remain typed open handoffs, and the quiet output is only ColdStructuralGerm, not a constant ColdBoundedGerm. No density, cold-mass, bounded-overlap, or aggregate nodes-[153]–[157] claim follows. Node [160]'s separate realized/open dichotomy supplies no positive package here."
+      scopeNotes := "Node [153] is green only for this pointwise four-way classifier. The window-surplus and corridor-high outputs remain typed open handoffs, and the quiet output is only ColdStructuralGerm, not a constant ColdBoundedGerm. No density, cold-mass, bounded-overlap, or aggregate nodes-[153]–[157] claim follows, and no weighted package is constructed here."
       workBound := "For one supplied selected window, at most 26 + (15·p13 + σW) + n visible local checks: two possible thirteen-position passes, one scan of the existing token schedule, and at most n event checks on the proof-carrying simple return."
     },
     {
       stepId := "erdos.p13-same-window-base-scale-split"
       stageId? := some "proof-slice.p13-same-window-base-scale-split"
       title := "Quiet-germ D1–D3 base-scale split"
-      plainExplanation := "When the computed node-[159] result is its quiet constructor, the proof-carrying input retains the exact cold fork, selected window, canonical stub, no-event proof, structural germ, and equality to that run output. One graph-owned comparison at Qbase=4²·13²·2¹³ returns either the literal support bound at most Qbase or the strict long-support inequality."
+      plainExplanation := "When the computed node-[153] result is its quiet constructor, the proof-carrying input retains the exact cold fork, selected window, canonical stub, no-event proof, structural germ, and equality to that run output. One graph-owned comparison at Qbase=4²·13²·2¹³ returns either the literal support bound at most Qbase or the strict long-support inequality."
       formalStatement := "Q_{\\rm base}=4^2 13^2 2^{13},\\qquad |\\operatorname{supp}(\\Gamma)|\\le Q_{\\rm base}\\;\\lor\\;Q_{\\rm base}<|\\operatorname{supp}(\\Gamma)|"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-d1d3-base-scale-split", title := "D1–D3 base-scale split", nodeIds := [161] },
-        { label := "rem:p13-d1d3-base-scale-scope", title := "Scope of the D1–D3 split", nodeIds := [161] }
+        { label := "lem:p13-d1d3-base-scale-split", title := "D1–D3 base-scale split", nodeIds := [153] },
+        { label := "rem:p13-d1d3-base-scale-scope", title := "Scope of the D1–D3 split", nodeIds := [153] }
       ]
       declarationGroups := [
         {
@@ -4648,7 +5847,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-quiet-run-provenance"
           title := "Computed quiet-constructor provenance"
           role := .compositionProvenance
-          explanation := "The scale input cannot be an arbitrary germ: it stores equality with the actual node-[159] quiet output and retains its fork, window, canonical stub, no-event proof, and germ."
+          explanation := "The scale input cannot be an arbitrary germ: it stores equality with the actual node-[153] quiet output and retains its fork, window, canonical stub, no-event proof, and germ."
           declarations := [
             `Erdos64EG.Internal.runP13SameWindowStructuralFrontier,
             `Erdos64EG.Internal.P13SameWindowQuietOutput
@@ -4672,27 +5871,27 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-d1d3-base-scale-work"
           title := "One-comparison work ledger"
           role := .workBound
-          explanation := "Node [161] charges only the single natural-number support comparison; construction and scanning of the proof-carrying corridor were already charged at node [159]."
+          explanation := "Node [153] charges only the single natural-number support comparison; construction and scanning of the proof-carrying corridor were already charged at node [153]."
           declarations := [
             `Erdos64EG.Internal.p13SameWindowBaseScaleComparisonCount,
             `Erdos64EG.Internal.p13SameWindowBaseScaleComparisonCount_eq_one
           ]
         }
       ]
-      scopeNotes := "Node [161] is only the exact D1–D3 support split on the computed quiet branch. It proves no repetition, D4–D7 semantic completeness, bounded-germ promotion, CT3 compression, or density estimate. Its literal short and long residuals feed the separately verified local nodes [162] and [163], while node [160]'s separate realized/open dichotomy supplies no positive package here."
+      scopeNotes := "Node [153] is only the exact D1–D3 support split on the computed quiet branch. It proves no repetition, D4–D7 semantic completeness, bounded-germ promotion, CT3 compression, weighted package, or density estimate. Its literal short and long residuals feed the separately verified local nodes [153] and [153]."
       workBound := "Exactly one natural-number comparison of the retained support length with the fixed constant Qbase=4²·13²·2¹³. No graph, path, state, response, or context universe is enumerated."
     },
     {
       stepId := "erdos.p13-same-window-short-third-incidence"
       stageId? := some "proof-slice.p13-same-window-short-third-incidence"
       title := "Short-return third-root incidence"
-      plainExplanation := "Equality with node [161]'s computed short constructor fixes the exact bounded deleted-edge return. Minimum degree and the quiet no-high proof make its root cubic. The first return step and restored dart are two distinct incidences, so the declared-order root classifier selects the third and tests only whether that endpoint lies on the supplied return support."
+      plainExplanation := "Equality with node [153]'s computed short constructor fixes the exact bounded deleted-edge return. Minimum degree and the quiet no-high proof make its root cubic. The first return step and restored dart are two distinct incidences, so the declared-order root classifier selects the third and tests only whether that endpoint lies on the supplied return support."
       formalStatement := "x_3\\in\\operatorname{supp}(\\Gamma)\\;\\lor\\;x_3\\notin\\operatorname{supp}(\\Gamma)"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-short-third-incidence", title := "Short-return third incidence", nodeIds := [162] },
-        { label := "rem:p13-short-third-incidence-scope", title := "Scope of the short-root split", nodeIds := [162] }
+        { label := "lem:p13-short-third-incidence", title := "Short-return third incidence", nodeIds := [153] },
+        { label := "rem:p13-short-third-incidence-scope", title := "Scope of the short-root split", nodeIds := [153] }
       ]
       declarationGroups := [
         {
@@ -4712,7 +5911,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-short-root-provenance"
           title := "Exact computed-short provenance"
           role := .compositionProvenance
-          explanation := "The input stores equality with node [161]'s short result. The identical quiet germ supplies root membership and the no-high fact, while the residual supplies the exact Qbase support bound."
+          explanation := "The input stores equality with node [153]'s short result. The identical quiet germ supplies root membership and the no-high fact, while the residual supplies the exact Qbase support bound."
           declarations := [
             `Erdos64EG.Internal.runP13SameWindowBaseScaleSplit,
             `Erdos64EG.Internal.P13SameWindowComputedShort,
@@ -4744,20 +5943,20 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           ]
         }
       ]
-      scopeNotes := "Node [162] classifies only the third incidence at one computed short-return root. Its two constructors feed the separately verified exact consumers [165] and [166]. It performs no support-wide scan, one-return normalization, boundary response construction, D4–D7 reconstruction, CT3 execution, or density argument."
+      scopeNotes := "Node [153] classifies only the third incidence at one computed short-return root. Its two constructors feed the separately verified exact consumers [153] and [153]. It performs no support-wide scan, one-return normalization, boundary response construction, D4–D7 reconstruction, CT3 execution, or density argument."
       workBound := "At most 2·n+3+Qbase visible checks. Only one selected root and its supplied bounded support are inspected; no vertex family, graph family, or context universe is enumerated."
     },
     {
       stepId := "erdos.p13-same-window-non-root-chord-resolution"
       stageId? := some "proof-slice.p13-same-window-non-root-chord-resolution"
       title := "On-return chord resolution"
-      plainExplanation := "Equality with node [162]'s computed on-support constructor locates the selected third endpoint at its canonical support index. The resulting literal chord either has target length and closes through the existing CT1 certificate runner, or its rejection supplies the exact strictly shorter return after the same deleted root edge."
+      plainExplanation := "Equality with node [153]'s computed on-support constructor locates the selected third endpoint at its canonical support index. The resulting literal chord either has target length and closes through the existing CT1 certificate runner, or its rejection supplies the exact strictly shorter return after the same deleted root edge."
       formalStatement := "x_3\\in\\operatorname{supp}(\\Gamma)\\Longrightarrow\\bigl(C_{2^j}\\subseteq G\\bigr)\\;\\lor\\;|\\Gamma'|<|\\Gamma|"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-non-root-chord-resolution", title := "On-return chord resolution", nodeIds := [165] },
-        { label := "rem:p13-non-root-chord-resolution-scope", title := "Scope of the chord resolution", nodeIds := [165] }
+        { label := "lem:p13-non-root-chord-resolution", title := "On-return chord resolution", nodeIds := [153] },
+        { label := "rem:p13-non-root-chord-resolution-scope", title := "Scope of the chord resolution", nodeIds := [153] }
       ]
       declarationGroups := [
         {
@@ -4780,7 +5979,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-chord-resolution-provenance"
           title := "Exact computed on-support provenance"
           role := .compositionProvenance
-          explanation := "The Erdős input stores equality with node [162]'s computed on-support constructor and passes that same short return to the graph resolver."
+          explanation := "The Erdős input stores equality with node [153]'s computed on-support constructor and passes that same short return to the graph resolver."
           declarations := [
             `Erdos64EG.Internal.runP13SameWindowShortThirdIncidence,
             `Erdos64EG.Internal.P13SameWindowComputedNonRootChord,
@@ -4821,20 +6020,20 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           ]
         }
       ]
-      scopeNotes := "Node [165] proves exactly the CT1 closure of an accepted local chord and, on the surviving branch, the exact strictly shorter deleted-edge return. That residual feeds the verified one-return normalization [167] and packed-support transition [168]. It does not iterate the return, prove termination, or construct the successor/path semantics still white at [170]."
+      scopeNotes := "Node [153] proves exactly the CT1 closure of an accepted local chord and, on the surviving branch, the exact strictly shorter deleted-edge return. That residual feeds the verified one-return normalization [153] and packed-support transition [153]. It does not iterate the return, prove termination, or construct the successor/path semantics still white at [153]."
       workBound := "At most Qbase+1 visible checks: one scan of the supplied short support and one power-of-two length decision. No graph, path, cycle, state, response, or context family is enumerated."
     },
     {
       stepId := "erdos.p13-same-window-outside-boundary-star"
       stageId? := some "proof-slice.p13-same-window-outside-boundary-star"
       title := "Outside-return cubic boundary-star ownership"
-      plainExplanation := "Equality with node [162]'s computed outside constructor fixes one oriented incidence from the literal return support to its selected third endpoint outside. The already certified cubic root gives a three-leaf star, and cubicity proves those three leaves own every incidence at that root."
+      plainExplanation := "Equality with node [153]'s computed outside constructor fixes one oriented incidence from the literal return support to its selected third endpoint outside. The already certified cubic root gives a three-leaf star, and cubicity proves those three leaves own every incidence at that root."
       formalStatement := "N_G(r)=\\{x_1,x_2,x_3\\},\\qquad r\\in\\operatorname{supp}(\\Gamma),\\quad x_3\\notin\\operatorname{supp}(\\Gamma)"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-outside-boundary-star", title := "Outside-return cubic boundary star", nodeIds := [166] },
-        { label := "rem:p13-outside-boundary-star-scope", title := "Scope of the cubic boundary star", nodeIds := [166] }
+        { label := "lem:p13-outside-boundary-star", title := "Outside-return cubic boundary star", nodeIds := [153] },
+        { label := "rem:p13-outside-boundary-star-scope", title := "Scope of the cubic boundary star", nodeIds := [153] }
       ]
       declarationGroups := [
         {
@@ -4857,7 +6056,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-outside-boundary-star-provenance"
           title := "Exact computed-outside provenance"
           role := .compositionProvenance
-          explanation := "The Erdős input stores equality with node [162]'s computed outside constructor, so the same short residual, return support, selected incidence, and branch context are retained without accepting an independent nonmembership proof."
+          explanation := "The Erdős input stores equality with node [153]'s computed outside constructor, so the same short residual, return support, selected incidence, and branch context are retained without accepting an independent nonmembership proof."
           declarations := [
             `Erdos64EG.Internal.runP13SameWindowShortThirdIncidence,
             `Erdos64EG.Internal.P13SameWindowComputedOutsideBoundary,
@@ -4885,27 +6084,27 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-outside-boundary-star-work"
           title := "Zero additional checks"
           role := .workBound
-          explanation := "This node projects proof-carrying node-[162] data; it performs no new primitive scan."
+          explanation := "This node projects proof-carrying node-[153] data; it performs no new primitive scan."
           declarations := [
             `StructuralExhaustion.Graph.DeletedEdgeReturnBoundaryStar.OutsideRun.additionalChecks_eq_zero,
             `Erdos64EG.Internal.P13SameWindowComputedOutsideBoundary.additionalChecks_eq_zero
           ]
         }
       ]
-      scopeNotes := "Node [166] proves only one oriented return-support crossing and exact ownership of the cubic root's three incidences. That residual feeds the verified one-return normalization [167] and packed-support transition [168]. It supplies no all-inside consumer, successor/second stub/path, D4–D7 state, CT3 input, or density estimate."
-      workBound := "Zero additional primitive checks beyond node [162]. No support-wide, vertex-family, component, path-family, state, response, or context scan is performed."
+      scopeNotes := "Node [153] proves only one oriented return-support crossing and exact ownership of the cubic root's three incidences. That residual feeds the verified one-return normalization [153] and packed-support transition [153]. It supplies no all-inside consumer, successor/second stub/path, D4–D7 state, CT3 input, or density estimate."
+      workBound := "Zero additional primitive checks beyond node [153]. No support-wide, vertex-family, component, path-family, state, response, or context scan is performed."
     },
     {
       stepId := "erdos.p13-same-window-normalized-return-boundary"
       stageId? := some "proof-slice.p13-same-window-normalized-return-boundary"
       title := "Normalized one-return boundary rejoin"
-      plainExplanation := "The exact rejected-chord computation from node [165] and exact outside-boundary computation from node [166] are the only two inputs. The graph normalizer chooses the shorter return and old first step on the chord branch, or the original return and selected third endpoint on the outside branch, while retaining the common cubic root ownership and Qbase bound."
+      plainExplanation := "The exact rejected-chord computation from node [153] and exact outside-boundary computation from node [153] are the only two inputs. The graph normalizer chooses the shorter return and old first step on the chord branch, or the original return and selected third endpoint on the outside branch, while retaining the common cubic root ownership and Qbase bound."
       formalStatement := "|\\Gamma'|\\le |\\Gamma|,\\quad |\\operatorname{supp}(\\Gamma')|\\le Q_{\\rm base},\\quad r x_{\\rm out}\\in E(G),\\quad x_{\\rm out}\\notin\\operatorname{supp}(\\Gamma')"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-normalized-return-boundary", title := "Normalized one-return boundary", nodeIds := [167] },
-        { label := "rem:p13-normalized-return-boundary-scope", title := "Scope of the normalized return", nodeIds := [167] }
+        { label := "lem:p13-normalized-return-boundary", title := "Normalized one-return boundary", nodeIds := [153] },
+        { label := "rem:p13-normalized-return-boundary-scope", title := "Scope of the normalized return", nodeIds := [153] }
       ]
       declarationGroups := [
         {
@@ -4929,7 +6128,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-normalized-return-provenance"
           title := "Exact branch-indexed predecessor provenance"
           role := .compositionProvenance
-          explanation := "The chord input stores equality with node [165]'s actual runner; the outside input retains node [166]'s exact graph branch. Both are assembled from the same computed node-[162] short residual."
+          explanation := "The chord input stores equality with node [153]'s actual runner; the outside input retains node [153]'s exact graph branch. Both are assembled from the same computed node-[153] short residual."
           declarations := [
             `Erdos64EG.Internal.runP13SameWindowNonRootChordResolution,
             `Erdos64EG.Internal.P13SameWindowComputedOutsideBoundary.graphBranch,
@@ -4966,20 +6165,20 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           ]
         }
       ]
-      scopeNotes := "Node [167] is only a proof-level one-return normalization. Its exact output feeds verified packed-support transition [168], whose all-inside branch then feeds verified owner-change node [169]. Node [167] itself supplies no owner table or cross-window token, successor/second stub/component path [170], iteration or termination argument, D4–D7 coordinate, CT3 input, or density theorem."
+      scopeNotes := "Node [153] is only a proof-level one-return normalization. Its exact output feeds verified packed-support transition [153], whose all-inside branch then feeds verified owner-change node [153]. Node [153] itself supplies no owner table or cross-window token, successor/second stub/component path [153], iteration or termination argument, D4–D7 coordinate, CT3 input, or density theorem."
       workBound := "Zero additional primitive checks. The node selects from proof-carrying predecessor data and does not scan a support, vertex set, component family, state family, response family, or context family."
     },
     {
       stepId := "erdos.p13-same-window-packed-support-transition"
       stageId? := some "proof-slice.p13-same-window-packed-support-transition"
       title := "Normalized-return packed-support transition"
-      plainExplanation := "Equality with node [167]'s computed normalized result fixes one ambient simple return ending in a selected ambient-cubic window support. A graph-owned ordered edge scan either proves every return-support vertex lies in the union of all ambient-cubic selected-window supports, or returns the first membership transition with its oriented crossing, exact BoundaryStub, outside endpoint, and induced-remainder component."
+      plainExplanation := "Equality with node [153]'s computed normalized result fixes one ambient simple return ending in a selected ambient-cubic window support. A graph-owned ordered edge scan either proves every return-support vertex lies in the union of all ambient-cubic selected-window supports, or returns the first membership transition with its oriented crossing, exact BoundaryStub, outside endpoint, and induced-remainder component."
       formalStatement := "\\operatorname{supp}(\\Gamma')\\subseteq U_{\\rm ac}\\quad\\lor\\quad\\exists\\text{ first }uv:\\quad u\\in U_{\\rm ac},\\quad v\\notin U_{\\rm ac}"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-packed-support-transition", title := "Normalized-return packed-support transition", nodeIds := [168] },
-        { label := "rem:p13-packed-support-transition-scope", title := "Scope of the packed-support transition", nodeIds := [168] }
+        { label := "lem:p13-packed-support-transition", title := "Normalized-return packed-support transition", nodeIds := [153] },
+        { label := "rem:p13-packed-support-transition-scope", title := "Scope of the packed-support transition", nodeIds := [153] }
       ]
       declarationGroups := [
         {
@@ -5004,9 +6203,9 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         },
         {
           groupId := "p13-packed-support-transition-provenance"
-          title := "Exact node-[167] return provenance"
+          title := "Exact node-[153] return provenance"
           role := .compositionProvenance
-          explanation := "The Erdős input stores equality with node [167]'s computed result, preserves its Qbase-bounded return as one ambient simple path, and proves its selected-window endpoint belongs to the ambient-cubic support union."
+          explanation := "The Erdős input stores equality with node [153]'s computed result, preserves its Qbase-bounded return as one ambient simple path, and proves its selected-window endpoint belongs to the ambient-cubic support union."
           declarations := [
             `Erdos64EG.Internal.runP13SameWindowNormalizedReturnBoundary,
             `Erdos64EG.Internal.P13SameWindowComputedNormalizedReturnBoundary,
@@ -5043,20 +6242,20 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           ]
         }
       ]
-      scopeNotes := "The union is over all ambient-cubic selected windows, not the manuscript's selected cold subfamily. Its all-inside branch feeds verified owner-change node [169], while its exact first-transition branch feeds verified component boundary schedule [170]. No aggregate cold mass, iteration, D4–D7 statement, CT3 execution, or density estimate follows."
+      scopeNotes := "The union is over all ambient-cubic selected windows, not the manuscript's selected cold subfamily. Its all-inside branch feeds verified owner-change node [153], while its exact first-transition branch feeds verified component boundary schedule [153]. No aggregate cold mass, iteration, D4–D7 statement, CT3 execution, or density estimate follows."
       workBound := "Exactly 13pn+13p+26pL visible checks, where p is the selected-window packing number and L is the one supplied return length; at most n²+(2Qbase+1)n. No graph, path, coloring, state, response, or context family is enumerated."
     },
     {
       stepId := "erdos.p13-same-window-component-boundary-schedule"
       stageId? := some "proof-slice.p13-same-window-component-boundary-schedule"
       title := "Component boundary schedule and BFS path"
-      plainExplanation := "Equality with node [168]'s computed first-transition result fixes the exact boundary stub and returned outside component. The same computed outside BFS finset drives a proof-carrying exit scan, the explicit finite window-slot search, the complete incident-stub schedule, its true cyclic successor, and the declared-order shortest BFS path between the two retained boundary neighbours."
+      plainExplanation := "Equality with node [153]'s computed first-transition result fixes the exact boundary stub and returned outside component. The same computed outside BFS finset drives a proof-carrying exit scan, the explicit finite window-slot search, the complete incident-stub schedule, its true cyclic successor, and the declared-order shortest BFS path between the two retained boundary neighbours."
       formalStatement := "s^+(b)\\ne b,\\quad C(s^+(b))=C(b),\\quad P_C(b,s^+(b))\\text{ is a shortest declared-order BFS path}"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-component-boundary-schedule", title := "Component boundary schedule and BFS path", nodeIds := [170] },
-        { label := "rem:p13-component-boundary-schedule-scope", title := "Scope of the component boundary schedule", nodeIds := [170] }
+        { label := "lem:p13-component-boundary-schedule", title := "Component boundary schedule and BFS path", nodeIds := [153] },
+        { label := "rem:p13-component-boundary-schedule-scope", title := "Scope of the component boundary schedule", nodeIds := [153] }
       ]
       declarationGroups := [
         {
@@ -5086,9 +6285,9 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         },
         {
           groupId := "p13-component-boundary-provenance"
-          title := "Exact node-[168] first-transition provenance"
+          title := "Exact node-[153] first-transition provenance"
           role := .compositionProvenance
-          explanation := "The thin Erdős adapter retains the actual node-[168] run, exact first-transition stub, outside endpoint, and returned component; it supplies only the inherited nonbridge fact needed for the second return."
+          explanation := "The thin Erdős adapter retains the actual node-[153] run, exact first-transition stub, outside endpoint, and returned component; it supplies only the inherited nonbridge fact needed for the second return."
           declarations := [
             `Erdos64EG.Internal.runP13SameWindowNormalizedReturnPackedSupportTransition,
             `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput,
@@ -5117,20 +6316,20 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           ]
         }
       ]
-      scopeNotes := "Node [170] belongs only to node [161]'s short first-transition branch and feeds verified one-state component observation [173]. That branch is incompatible with the verified long node-[163]--[164] branch and its white full-semantic consumer [179]; there is no edge from this short branch to [164] or [179]. Node [170] supplies no D4–D7 label, repetition, Boolean or cold-family semantics, iteration, target closure, CT3 execution, or density estimate."
+      scopeNotes := "Node [153] belongs only to node [153]'s short first-transition branch and feeds verified one-state component observation [153]. That branch is incompatible with the verified long node-[153]--[153] branch and its white full-semantic consumer [153]; there is no edge from this short branch to [153] or [153]. Node [153] supplies no D4–D7 label, repetition, Boolean or cold-family semantics, iteration, target closure, CT3 execution, or density estimate."
       workBound := "The visible ledger includes 13p slot checks, L·|C| exit-component lookups, both explicit BFS budgets, |C|² component restriction, token filtering, and the declared-order component BFS; it is at most 50·localScale³."
     },
     {
       stepId := "erdos.p13-same-window-component-d1d3-observation"
       stageId? := some "proof-slice.p13-same-window-component-d1d3-observation"
       title := "One component D1--D3 observation"
-      plainExplanation := "Node [173] consumes node [170]'s exact two-boundary component schedule and independently computes its declared-order BFS-tree shortest path. Equality to that one computed path gives the observation interface's rank; no path family is ordered or scanned. The two literal degrees, two Fin 13 offsets, and connector length form one genuine State (Fin 0), while the empty local response honestly retains MissingD4D7 reconstruction."
+      plainExplanation := "This node-[153] support stage consumes its predecessor's exact two-boundary component schedule and independently computes its declared-order BFS-tree shortest path. Equality to that one computed path gives the observation interface's rank; no path family is ordered or scanned. The two literal degrees, two Fin 13 offsets, and connector length form one genuine State (Fin 0), while the empty local response honestly retains MissingD4D7 reconstruction."
       formalStatement := "s_C\\in\\operatorname{State}(\\operatorname{Fin}(0)),\\qquad \\operatorname{MissingD4D7}(s_C)"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-component-d1d3-observation", title := "One component D1--D3 observation", nodeIds := [173] },
-        { label := "rem:p13-component-d1d3-observation-scope", title := "Scope of the component D1--D3 observation", nodeIds := [173] }
+        { label := "lem:p13-component-d1d3-observation", title := "One component D1--D3 observation", nodeIds := [153] },
+        { label := "rem:p13-component-d1d3-observation-scope", title := "Scope of the component D1--D3 observation", nodeIds := [153] }
       ]
       declarationGroups := [
         {
@@ -5157,9 +6356,9 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         },
         {
           groupId := "p13-component-d1d3-provenance"
-          title := "Exact node-[170] schedule and independently computed path"
+          title := "Exact node-[153] schedule and independently computed path"
           role := .compositionProvenance
-          explanation := "The adapter consumes node [170]'s actual result and graph input. Its connector is the independently computed declared-order BFS-tree shortest path, and equality with that value is used only to package the existing observation rank."
+          explanation := "The adapter consumes node [153]'s actual result and graph input. Its connector is the independently computed declared-order BFS-tree shortest path, and equality with that value is used only to package the existing observation rank."
           declarations := [
             `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.result,
             `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.componentPath,
@@ -5193,20 +6392,20 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           ]
         }
       ]
-      scopeNotes := "Node [173] constructs one state only. Its MissingD4D7 residual feeds the verified cyclic component D1–D3 ledger split [174], which in turn feeds the white D4–D7 reconstruction/coarse-repeat consumer [175]. Neither edge enters long-branch node [164] or [179]. Node [173] itself proves no state sequence, repetition, D4–D7 reconstruction, CT3 compression, Boolean or cold-family semantics, target closure, or density estimate."
-      workBound := "Exactly 2n+13 visible checks and at most 15(n+1). The independently computed BFS path is inherited from node [170]; no path family is generated, ordered, or scanned."
+      scopeNotes := "Node [153] constructs one state only. Its MissingD4D7 residual feeds the verified cyclic component D1–D3 ledger split [153], which in turn feeds the white D4–D7 reconstruction/coarse-repeat consumer [153]. Neither edge enters long-branch node [153] or [153]. Node [153] itself proves no state sequence, repetition, D4–D7 reconstruction, CT3 compression, Boolean or cold-family semantics, target closure, or density estimate."
+      workBound := "Exactly 2n+13 visible checks and at most 15(n+1). The independently computed BFS path is inherited from node [153]; no path family is generated, ordered, or scanned."
     },
     {
       stepId := "erdos.p13-same-window-component-d1d3-ledger"
       stageId? := some "proof-slice.p13-same-window-component-d1d3-ledger"
       title := "Cyclic component D1--D3 ledger split"
-      plainExplanation := "Node [174] requires the exact typed node-[173] residual and retains its state as the anchor row. It traverses node [170]'s complete incident-stub schedule with the stored true cyclic successor and computes one local D1--D3 row per scheduled stub. A finite collision search over only those observed rows returns either two distinct rows with the same coarse state or a proof that the schedule has length at most Qbase."
+      plainExplanation := "Node [153] requires the exact typed node-[153] residual and retains its state as the anchor row. It traverses node [153]'s complete incident-stub schedule with the stored true cyclic successor and computes one local D1--D3 row per scheduled stub. A finite collision search over only those observed rows returns either two distinct rows with the same coarse state or a proof that the schedule has length at most Qbase."
       formalStatement := "(\\exists i\\ne j,\\ s_i=s_j)\\ \\lor\\ |\\mathcal S_C|\\le Q_{\\rm base}"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-component-d1d3-ledger", title := "Cyclic component D1--D3 ledger split", nodeIds := [174] },
-        { label := "rem:p13-component-d1d3-ledger-scope", title := "Scope of the cyclic D1--D3 ledger", nodeIds := [174] }
+        { label := "lem:p13-component-d1d3-ledger", title := "Cyclic component D1--D3 ledger split", nodeIds := [153] },
+        { label := "rem:p13-component-d1d3-ledger-scope", title := "Scope of the cyclic D1--D3 ledger", nodeIds := [153] }
       ]
       declarationGroups := [
         {
@@ -5229,9 +6428,9 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         },
         {
           groupId := "p13-component-d1d3-ledger-provenance"
-          title := "Exact node-[173] anchor and node-[170] schedule"
+          title := "Exact node-[153] anchor and node-[153] schedule"
           role := .compositionProvenance
-          explanation := "The source type stores node [173]'s residual and equality to its actual run. The anchor row is projected from that retained value, while every other row is computed from node [170]'s exact complete incident schedule."
+          explanation := "The source type stores node [153]'s residual and equality to its actual run. The anchor row is projected from that retained value, while every other row is computed from node [153]'s exact complete incident schedule."
           declarations := [
             `Erdos64EG.Internal.P13SameWindowComponentD1D3LedgerSource,
             `Erdos64EG.Internal.P13SameWindowComponentD1D3LedgerSource.node173Exact,
@@ -5247,7 +6446,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-component-d1d3-ledger-execution"
           title := "Exhaustive repetition-or-bounded split"
           role := .semanticTheorem
-          explanation := "The thin Erdős adapter runs the observed-row classifier and rewrites the exact state-cardinality bound to Qbase. Both constructors are retained for the still-open node-[175] consumer."
+          explanation := "The thin Erdős adapter runs the observed-row classifier and rewrites the exact state-cardinality bound to Qbase. Both constructors are retained for the still-open node-[153] consumer."
           declarations := [
             `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.D1D3LedgerRepetition,
             `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.D1D3LedgerOutput,
@@ -5268,26 +6467,26 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           ]
         }
       ]
-      scopeNotes := "Node [174] proves only the local exhaustive split. Its repeated branch records equality of two observed coarse D1--D3 states but does not prove full response equivalence or CT3 removability; its bounded branch proves only schedule length at most Qbase. The D4--D7 reconstruction or coarse-repeat consumer remains white node [175]. No edge enters long-branch node [164] or [179], and no ambient State universe is enumerated."
+      scopeNotes := "Node [153] proves only the local exhaustive split. Its repeated branch records equality of two observed coarse D1--D3 states but does not prove full response equivalence or CT3 removability; its bounded branch proves only schedule length at most Qbase. The D4--D7 reconstruction or coarse-repeat consumer remain an open internal obligation of node [153]. No edge enters long-branch node [153] or [153], and no ambient State universe is enumerated."
       workBound := "At most 100·localScale^4 visible checks over the exact incident schedule and local BFS clauses. The Qbase state-cardinality equality is proof-only."
     },
     {
       stepId := "erdos.p13-same-window-component-d4d7-classifier"
       stageId? := some "proof-slice.p13-same-window-component-d4d7-classifier"
       title := "D4--D7 availability and coarse-repeat routing"
-      plainExplanation := "Node [175] consumes the exact node-[174] result. A repeated coarse row pair is passed unchanged to a promoted CT10 refinement; a bounded schedule scans only its stored rows and returns a complete D4--D7 family or its first typed missing row, which is also routed through CT10 on the actual branch context."
-      formalStatement := "\\text{node-[174] result}\\Longrightarrow\\text{routed coarse repeat, reconstructed rows, or routed first missing row}"
+      plainExplanation := "Node [153] consumes the exact node-[153] result. A repeated coarse row pair is passed unchanged to a promoted CT10 refinement; a bounded schedule scans only its stored rows and returns a complete D4--D7 family or its first typed missing row, which is also routed through CT10 on the actual branch context."
+      formalStatement := "\\text{node-[153] result}\\Longrightarrow\\text{routed coarse repeat, reconstructed rows, or routed first missing row}"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-component-d4d7-classifier", title := "D4--D7 availability and coarse-repeat classifier", nodeIds := [175] },
-        { label := "rem:p13-component-d4d7-classifier-scope", title := "Scope of the D4--D7 classifier", nodeIds := [175] }
+        { label := "lem:p13-component-d4d7-classifier", title := "D4--D7 availability and coarse-repeat classifier", nodeIds := [153] },
+        { label := "rem:p13-component-d4d7-classifier-scope", title := "Scope of the D4--D7 classifier", nodeIds := [153] }
       ]
       declarationGroups := [{
         groupId := "p13-component-d4d7-classifier-total"
         title := "Exact node-174 consumer, two CT10 routes, and local work"
         role := .semanticTheorem
-        explanation := "The graph runner consumes only node [174]'s observed split. Both generic CT10 routes preserve the actual context and promote an explicit retained row; the thin P13 adapter proves generic and specialized predecessor equality and the combined local work bound."
+        explanation := "The graph runner consumes only node [153]'s observed split. Both generic CT10 routes preserve the actual context and promote an explicit retained row; the thin P13 adapter proves generic and specialized predecessor equality and the combined local work bound."
         declarations := [
           `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.runD4D7OrCoarseRepeat_exhaustive,
           `StructuralExhaustion.Graph.InducedPathComponentD4D7OrCoarseRepeat.run,
@@ -5307,23 +6506,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `StructuralExhaustion.Routes.InducedPathComponentD4D7ToCT10.missingRouteContract
         ]
       }]
-      scopeNotes := "Node [175] classifies only the availability of graph-derived D4--D7 clauses and retains exact refinement residuals. It proves no full D4--D7 compatible-response equivalence, CT8 removal, certified smaller object, second connector, cycle, or target closure; those implications remain white node [180]."
+      scopeNotes := "Node [153] classifies only the availability of graph-derived D4--D7 clauses and retains exact refinement residuals. It proves no full D4--D7 compatible-response equivalence, CT8 removal, certified smaller object, second connector, cycle, or target closure; those implications remain an open internal obligation of node [153]."
       workBound := "At most 3·localScale primitive checks over the actual incident schedule and two retained CT10 inputs. The State, response, context, graph, and universe families are never enumerated."
     },
     {
       stepId := "erdos.p13-same-window-component-d4d7-semantics"
       stageId? := some "proof-slice.p13-same-window-component-d4d7-readiness"
       title := "Component D4--D7 semantic readiness"
-      plainExplanation := "Node [180] consumes node [175]'s exact execution. The complete-reconstruction constructor is impossible at the retained anchor row; the surviving coarse and bounded constructors preserve their CT10 objects and explicit missing D4--D7 witnesses."
-      formalStatement := "\\text{node-[175] execution}\\Longrightarrow\\text{coarse missing pair or bounded first-missing row}"
+      plainExplanation := "This node-[153] support stage consumes its predecessor's exact execution. The complete-reconstruction constructor is impossible at the retained anchor row; the surviving coarse and bounded constructors preserve their CT10 objects and explicit missing D4--D7 witnesses."
+      formalStatement := "\\text{node-[153] execution}\\Longrightarrow\\text{coarse missing pair or bounded first-missing row}"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-component-d4d7-semantic-readiness", title := "Component D4--D7 semantic readiness", nodeIds := [180] }
+        { label := "lem:p13-component-d4d7-semantic-readiness", title := "Component D4--D7 semantic readiness", nodeIds := [153] }
       ]
       declarationGroups := [{
         groupId := "p13-component-d4d7-readiness-total"
-        title := "Exact node-[175] residual and local constructor elimination"
+        title := "Exact node-[153] residual and local constructor elimination"
         role := .semanticTheorem
         explanation := "The graph theorem proves anchor membership and eliminates the impossible reconstructed constructor. The Erdős adapter exposes exact predecessor equality, the exhaustive two-way residual, and its one-check work bound."
         declarations := [
@@ -5341,23 +6540,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.exists_verifiedD4D7SemanticReadinessPrefix
         ]
       }]
-      scopeNotes := "Node [180] proves readiness only. It does not construct compatible-response equivalence, a remove operation, a smaller object, or CT8 execution; those remain white node [182]."
+      scopeNotes := "Node [153] proves readiness only. It does not construct compatible-response equivalence, a remove operation, a smaller object, or CT8 execution; those remain an open internal obligation of node [153]."
       workBound := "One predecessor-constructor inspection, bounded by localScale+1. No response, context, state, graph, or universe family is enumerated."
     },
     {
       stepId := "erdos.p13-same-window-component-ct8-consumer"
       stageId? := some "proof-slice.p13-component-d4d7-clause-schedule"
       title := "Fixed D4--D7 clause schedule"
-      plainExplanation := "Node [182] retains every exact node-[180] missing marker and assigns only the fixed noduplicated D4,D5,D6,D7 obligation order. It deliberately asserts no clause truth."
-      formalStatement := "\\text{node-[180] marker}\\Longrightarrow[D4,D5,D6,D7]\\text{ obligation ledger}"
+      plainExplanation := "Node [153] retains every exact node-[153] missing marker and assigns only the fixed noduplicated D4,D5,D6,D7 obligation order. It deliberately asserts no clause truth."
+      formalStatement := "\\text{node-[153] marker}\\Longrightarrow[D4,D5,D6,D7]\\text{ obligation ledger}"
       status := .implemented
       correspondence := .exact
-      manuscriptRefs := [{ label := "lem:p13-component-d4d7-clause-schedule", title := "Fixed D4--D7 clause schedule", nodeIds := [182] }]
+      manuscriptRefs := [{ label := "lem:p13-component-d4d7-clause-schedule", title := "Fixed D4--D7 clause schedule", nodeIds := [153] }]
       declarationGroups := [{
         groupId := "p13-d4d7-clause-schedule-total"
         title := "Exact markers, fixed schedule, and actual emitted-slot bound"
         role := .semanticTheorem
-        explanation := "The graph layer constructs a four-slot ledger from each retained marker. The application proves exact node-[180] equality, exhaustiveness, and that the computed output emits eight slots on the coarse branch or four on the bounded branch."
+        explanation := "The graph layer constructs a four-slot ledger from each retained marker. The application proves exact node-[153] equality, exhaustiveness, and that the computed output emits eight slots on the coarse branch or four on the bounded branch."
         declarations := [
           `StructuralExhaustion.Graph.InducedPathComponentD4D7ClauseSchedule.clauseOrder_nodup,
           `StructuralExhaustion.Graph.InducedPathComponentD4D7ClauseSchedule.run,
@@ -5369,18 +6568,18 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.exists_verifiedD4D7ClauseSchedulePrefix
         ]
       }]
-      scopeNotes := "Node [182] schedules obligations only. It proves no clause predicate, response equivalence, removal, smaller object, or CT8 execution; those remain white node [185]."
+      scopeNotes := "Node [153] schedules obligations only. It proves no clause predicate, response equivalence, removal, smaller object, or CT8 execution; those remain an open internal obligation of node [153]."
       workBound := "At most eight actual emitted slots; ambient universes are not inspected."
     },
     {
       stepId := "erdos.p13-component-d4d7-semantic-consumer"
       stageId? := some "proof-slice.p13-component-d4d7-clause-cursor"
       title := "D4 obligation cursor"
-      plainExplanation := "Node [185] consumes node [182]'s exact ledgers, focuses D4 as the next obligation, and retains D5--D7 as an exact unevaluated tail."
+      plainExplanation := "This node-[153] support stage consumes its predecessor's exact ledgers, focuses D4 as the next obligation, and retains D5--D7 as an exact unevaluated tail."
       formalStatement := "[D4,D5,D6,D7]\\Longrightarrow D4\\ \\text{ focused with tail }[D5,D6,D7]"
       status := .implemented
       correspondence := .exact
-      manuscriptRefs := [{ label := "lem:p13-component-d4d7-clause-cursor", title := "D4 obligation cursor", nodeIds := [185] }]
+      manuscriptRefs := [{ label := "lem:p13-component-d4d7-clause-cursor", title := "D4 obligation cursor", nodeIds := [153] }]
       declarationGroups := [{
         groupId := "p13-d4d7-cursor"
         title := "Exact cursor and tail"
@@ -5395,23 +6594,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.runD4D7ClauseCursor_remainingSlots_le_six,
         `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.exists_verifiedD4D7ClauseCursorPrefix
       ] }]
-      scopeNotes := "Node [185] asserts no D4 truth or response/CT8 semantics; those remain white node [188]."
+      scopeNotes := "Node [153] asserts no D4 truth or response/CT8 semantics; those remain an open internal obligation of node [153]."
       workBound := "At most six retained tail slots."
     },
     {
       stepId := "erdos.p13-component-d4d7-d4-consumer"
       stageId? := some "proof-slice.p13-component-d4-local-clause-request"
       title := "Graph-derived D4 evaluation request"
-      plainExplanation := "Node [188] preserves node [185]'s exact dependent cursor and emits a singleton request for the actual D4 head while retaining D5--D7 unchanged."
+      plainExplanation := "Node [153] preserves node [153]'s exact dependent cursor and emits a singleton request for the actual D4 head while retaining D5--D7 unchanged."
       formalStatement := "D4::[D5,D6,D7]\\Longrightarrow\\text{request }[D4]\\text{ with tail }[D5,D6,D7]"
       status := .implemented
       correspondence := .exact
-      manuscriptRefs := [{ label := "lem:p13-component-d4-local-clause-request", title := "Local D4 evaluation request", nodeIds := [188] }]
+      manuscriptRefs := [{ label := "lem:p13-component-d4-local-clause-request", title := "Local D4 evaluation request", nodeIds := [153] }]
       declarationGroups := [{
         groupId := "p13-d4-local-request"
         title := "Exact dependent D4 requests"
         role := .semanticTheorem
-        explanation := "The framework request stores only the actual cursor, singleton D4 slot, and exact tail. The application proves exact node-[185] provenance, exhaustiveness, and two actual requests on the coarse branch or one on the bounded branch."
+        explanation := "The framework request stores only the actual cursor, singleton D4 slot, and exact tail. The application proves exact node-[153] provenance, exhaustiveness, and two actual requests on the coarse branch or one on the bounded branch."
         declarations := [
           `StructuralExhaustion.Graph.InducedPathComponentD4LocalClauseRequest.request,
           `StructuralExhaustion.Graph.InducedPathComponentD4LocalClauseRequest.run,
@@ -5423,18 +6622,18 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.exists_verifiedD4LocalClauseRequestPrefix
         ]
       }]
-      scopeNotes := "Node [188] supplies no predicate, truth value, response equivalence, or CT8 result; graph-derived semantics remain white node [191]."
+      scopeNotes := "Node [153] supplies no predicate, truth value, response equivalence, or CT8 result; graph-derived semantics remain an open internal obligation of node [153]."
       workBound := "At most two actual singleton request slots; no ambient universe is enumerated."
     },
     {
       stepId := "erdos.p13-component-d4-semantics"
       stageId? := some "proof-slice.p13-component-d4-evaluator-residual"
       title := "D4 evaluator residual"
-      plainExplanation := "Node [191] preserves every exact node [188] request and exposes the missing graph-local predicate and provenance requirements without accepting an evaluator."
+      plainExplanation := "Node [153] preserves every exact node [153] request and exposes the missing graph-local predicate and provenance requirements without accepting an evaluator."
       formalStatement := "\\text{D4 request}\\Longrightarrow[\\text{graph-local predicate},\\text{provenance}]"
       status := .implemented
       correspondence := .exact
-      manuscriptRefs := [{ label := "lem:p13-component-d4-evaluator-residual", title := "D4 evaluator residual", nodeIds := [191] }]
+      manuscriptRefs := [{ label := "lem:p13-component-d4-evaluator-residual", title := "D4 evaluator residual", nodeIds := [153] }]
       declarationGroups := [{
         groupId := "p13-d4-evaluator-residual"
         title := "Exact evaluator requirements"
@@ -5451,23 +6650,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.P13SameWindowFirstTransitionBoundaryInput.exists_verifiedD4EvaluatorResidualPrefix
         ]
       }]
-      scopeNotes := "No Boolean, predicate, evaluator, response equivalence, or CT8 result is supplied; node [194] records the terminal construction residual."
+      scopeNotes := "No Boolean, predicate, evaluator, response equivalence, or CT8 result is supplied; node [153] records the terminal construction residual."
       workBound := "At most four actual requirement tags."
     },
     {
       stepId := "erdos.p13-component-d4-evaluator-producer"
       stageId? := some "proof-slice.p13-component-d4-evaluator-construction-residual"
       title := "Graph-owned D4 evaluator construction residual"
-      plainExplanation := "Node [194] preserves every exact node-[191] request, marker, and D5--D7 tail and records the three graph-owned inputs still needed to construct the D4 evaluator."
-      formalStatement := "\\text{node-[191] residual}\\Longrightarrow[\\text{component data},\\text{predicate definition},\\text{derivation}]"
+      plainExplanation := "Node [153] preserves every exact node-[153] request, marker, and D5--D7 tail and records the three graph-owned inputs still needed to construct the D4 evaluator."
+      formalStatement := "\\text{node-[153] residual}\\Longrightarrow[\\text{component data},\\text{predicate definition},\\text{derivation}]"
       status := .implemented
       correspondence := .exact
-      manuscriptRefs := [{ label := "lem:p13-component-d4-evaluator-construction-residual", title := "D4 evaluator construction residual", nodeIds := [194] }]
+      manuscriptRefs := [{ label := "lem:p13-component-d4-evaluator-construction-residual", title := "D4 evaluator construction residual", nodeIds := [153] }]
       declarationGroups := [{
         groupId := "p13-d4-evaluator-construction-residual"
         title := "Exact graph-owned construction requirements"
         role := .semanticTheorem
-        explanation := "The graph layer retains node [191] exactly and appends only the ordered construction tags; the application proves the coarse and bounded leaves exhaustively."
+        explanation := "The graph layer retains node [153] exactly and appends only the ordered construction tags; the application proves the coarse and bounded leaves exhaustively."
         declarations := [
           `StructuralExhaustion.Graph.InducedPathComponentD4EvaluatorConstructionResidual.residual,
           `StructuralExhaustion.Graph.InducedPathComponentD4EvaluatorConstructionResidual.constructionInputs,
@@ -5483,12 +6682,12 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
     {
       stepId := "erdos.p13-component-d4-evaluation"
       stageId? := some "proof-slice.p13-component-d4-evaluation"
-      title := "Graph-owned D4 evaluation after node [194]"
-      plainExplanation := "Without adding a numbered diagram node, the exact node-[194] marker determines the component path and its local D4 coordinate family. The evaluator computes omegaTwo on actual attachment labels and retains the literal D5,D6,D7 tail."
-      formalStatement := "\\text{node-[194] marker}\\Longrightarrow\\text{exact local D4 response with tail }[D5,D6,D7]"
+      title := "Graph-owned D4 evaluation after node [153]"
+      plainExplanation := "Without adding a numbered diagram node, the exact node-[153] marker determines the component path and its local D4 coordinate family. The evaluator computes omegaTwo on actual attachment labels and retains the literal D5,D6,D7 tail."
+      formalStatement := "\\text{node-[153] marker}\\Longrightarrow\\text{exact local D4 response with tail }[D5,D6,D7]"
       status := .implemented
       correspondence := .exact
-      manuscriptRefs := [{ label := "lem:p13-component-d4-evaluator", title := "Graph-owned D4 evaluation after node [194]", nodeIds := [194] }]
+      manuscriptRefs := [{ label := "lem:p13-component-d4-evaluator", title := "Graph-owned D4 evaluation after node [153]", nodeIds := [153] }]
       declarationGroups := [
         {
           groupId := "p13-component-d4-local-family"
@@ -5507,7 +6706,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-component-d4-exact-execution"
           title := "Exact post-frontier execution"
           role := .semanticTheorem
-          explanation := "The graph evaluator retains the node-[194] residual definitionally, proves response provenance, and preserves D5--D7. The Erdős adapter returns two exact evaluations on the coarse branch and one on the bounded branch."
+          explanation := "The graph evaluator retains the node-[153] residual definitionally, proves response provenance, and preserves D5--D7. The Erdős adapter returns two exact evaluations on the coarse branch and one on the bounded branch."
           declarations := [
             `StructuralExhaustion.Graph.InducedPathComponentD4Evaluator.run,
             `StructuralExhaustion.Graph.InducedPathComponentD4Evaluator.Evaluation.semantics_and_response_provenance,
@@ -5529,20 +6728,20 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           ]
         }
       ]
-      scopeNotes := "Node [194] remains the last numbered diagram node. This stage proves D4 only: D5, D6, Boolean D7 semantics, compatible-response equality, removal, a smaller object, and CT8 remain open."
+      scopeNotes := "This support stage belongs to original node [153]. This stage proves D4 only: D5, D6, Boolean D7 semantics, compatible-response equality, removal, a smaller object, and CT8 remain open."
       workBound := "At most 8n^3 checks on the coarse leaf and 4n^3 on the bounded leaf, including raw-wedge classification and boundary-role response evaluation; no ambient response, context, state, graph, or universe family is enumerated."
     },
     {
       stepId := "erdos.p13-same-window-packed-owner-change"
       stageId? := some "proof-slice.p13-same-window-packed-owner-change"
       title := "Ambient-cubic owner sequence and first cross-window edge"
-      plainExplanation := "Equality with node [168]'s all-inside result fixes the same normalized return. A once-prepared finite inventory assigns and stores the unique ambient-cubic selected-window owner of every return vertex. The single-window result contradicts the original external stub neighbour, so the surviving result is the first owner-change edge with two exact opposite cross-window tokens."
+      plainExplanation := "Equality with node [153]'s all-inside result fixes the same normalized return. A once-prepared finite inventory assigns and stores the unique ambient-cubic selected-window owner of every return vertex. The single-window result contradicts the original external stub neighbour, so the surviving result is the first owner-change edge with two exact opposite cross-window tokens."
       formalStatement := "\\exists i<|\\Gamma'|:\\quad W_i\\ne W_{i+1}\\quad\\text{and two exact cross-window tokens}"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-packed-owner-change", title := "First ambient-cubic owner change", nodeIds := [169] },
-        { label := "rem:p13-packed-owner-change-scope", title := "Scope of the owner change", nodeIds := [169] }
+        { label := "lem:p13-packed-owner-change", title := "First ambient-cubic owner change", nodeIds := [153] },
+        { label := "rem:p13-packed-owner-change-scope", title := "Scope of the owner change", nodeIds := [153] }
       ]
       declarationGroups := [
         {
@@ -5568,7 +6767,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-packed-owner-provenance"
           title := "Exact all-inside provenance"
           role := .compositionProvenance
-          explanation := "The input stores equality with node [168]'s computed all-inside constructor and passes that same Qbase-bounded path and containment proof into the generic owner preparation."
+          explanation := "The input stores equality with node [153]'s computed all-inside constructor and passes that same Qbase-bounded path and containment proof into the generic owner preparation."
           declarations := [
             `Erdos64EG.Internal.runP13SameWindowNormalizedReturnPackedSupportTransition,
             `Erdos64EG.Internal.P13SameWindowComputedAllInside,
@@ -5598,20 +6797,20 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           ]
         }
       ]
-      scopeNotes := "Owners range over all ambient-cubic selected windows, not the manuscript cold subfamily. Its exact first-cross-window package feeds verified zero-check handoff node [171]. Node [169] constructs no boundary successor, target-cycle closure, cold aggregate, D4–D7 coordinate, CT3 input, or density estimate."
+      scopeNotes := "Owners range over all ambient-cubic selected windows, not the manuscript cold subfamily. Its exact first-cross-window package feeds verified zero-check handoff node [153]. Node [153] constructs no boundary successor, target-cycle closure, cold aggregate, D4–D7 coordinate, CT3 input, or density estimate."
       workBound := "At most n²+Qbase(n+1) visible checks using one prepared slot inventory, one stored owner lookup per path vertex, and one stored-owner comparison per edge."
     },
     {
       stepId := "erdos.p13-same-window-cross-window-token-pair"
       stageId? := some "proof-slice.p13-same-window-cross-window-token-pair"
       title := "Exact cross-window token-pair residual"
-      plainExplanation := "Node [171] consumes node [169]'s complete first-cross-window package. A reusable typed route projects the two already computed endpoint tokens, proves they are distinct opposite oriented contributions of the same literal edge, and retains both exact cross-window subtypes without performing another search. This is the terminal residual of the computed all-inside branch."
+      plainExplanation := "This node-[153] support stage consumes its predecessor's complete first-cross-window package. A reusable typed route projects the two already computed endpoint tokens, proves they are distinct opposite oriented contributions of the same literal edge, and retains both exact cross-window subtypes without performing another search. This is the terminal residual of the computed all-inside branch."
       formalStatement := "t_L\\ne t_R\\quad\\land\\quad \\operatorname{subtype}(t_L)=\\operatorname{subtype}(t_R)=\\mathtt{crossWindow}\\quad\\land\\quad e(t_L)=e(t_R)"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-cross-window-token-pair", title := "Exact cross-window token-pair residual", nodeIds := [171] },
-        { label := "rem:p13-cross-window-token-pair-scope", title := "Scope of the token-pair residual", nodeIds := [171] }
+        { label := "lem:p13-cross-window-token-pair", title := "Exact cross-window token-pair residual", nodeIds := [153] },
+        { label := "rem:p13-cross-window-token-pair-scope", title := "Scope of the token-pair residual", nodeIds := [153] }
       ]
       declarationGroups := [
         {
@@ -5629,7 +6828,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-cross-window-token-pair-provenance"
           title := "Exact node-169 provenance"
           role := .compositionProvenance
-          explanation := "The input is the complete computed node-[169] first-cross-window residual, including its stored table, first hit, crossing, and exact run equality."
+          explanation := "The input is the complete computed node-[153] first-cross-window residual, including its stored table, first hit, crossing, and exact run equality."
           declarations := [
             `Erdos64EG.Internal.P13SameWindowFirstCrossWindow,
             `Erdos64EG.Internal.runP13SameWindowPackedOwnerChange_exact
@@ -5650,26 +6849,26 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-cross-window-token-pair-work"
           title := "Zero additional checks"
           role := .workBound
-          explanation := "All fields are proof-carrying projections from node [169]; the residual adds no primitive predicate evaluation."
+          explanation := "All fields are proof-carrying projections from node [153]; the residual adds no primitive predicate evaluation."
           declarations := [
             `Erdos64EG.Internal.p13SameWindowCrossWindowTokenPair_additionalChecks_eq_zero
           ]
         }
       ]
-      scopeNotes := "Node [171] is the exact terminal residual of the computed all-inside branch. It proves no second connector, repeated-owner structure, cycle, cold-family membership, demand or capacity bound, successor, target closure, CT execution, or density estimate."
-      workBound := "Exactly zero additional primitive checks after node [169]; no graph, path, connector, cycle, state, demand, or context family is enumerated."
+      scopeNotes := "Node [153] is the exact terminal residual of the computed all-inside branch. It proves no second connector, repeated-owner structure, cycle, cold-family membership, demand or capacity bound, successor, target closure, CT execution, or density estimate."
+      workBound := "Exactly zero additional primitive checks after node [153]; no graph, path, connector, cycle, state, demand, or context family is enumerated."
     },
     {
       stepId := "erdos.p13-same-window-long-support-prefix"
       stageId? := some "proof-slice.p13-same-window-long-support-prefix"
       title := "Exact long-support forced prefix"
-      plainExplanation := "Equality with node [161]'s computed long constructor retains Qbase below the literal support length on the identical branch context. The generic handoff embeds the first Qbase+1 positions, identifies Qbase as the unique overflow index, and classifies any supplied support position as inside that prefix or after it."
+      plainExplanation := "Equality with node [153]'s computed long constructor retains Qbase below the literal support length on the identical branch context. The generic handoff embeds the first Qbase+1 positions, identifies Qbase as the unique overflow index, and classifies any supplied support position as inside that prefix or after it."
       formalStatement := "Q_{\\rm base}<|\\operatorname{supp}(\\Gamma)|\\Longrightarrow\\{0,\\ldots,Q_{\\rm base}\\}\\hookrightarrow\\operatorname{supp}(\\Gamma)"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-long-support-prefix", title := "Forced long-support prefix", nodeIds := [163] },
-        { label := "rem:p13-long-support-prefix-scope", title := "Scope of the long prefix", nodeIds := [163] }
+        { label := "lem:p13-long-support-prefix", title := "Forced long-support prefix", nodeIds := [153] },
+        { label := "rem:p13-long-support-prefix-scope", title := "Scope of the long prefix", nodeIds := [153] }
       ]
       declarationGroups := [
         {
@@ -5692,7 +6891,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-long-prefix-provenance"
           title := "Exact computed-long source"
           role := .compositionProvenance
-          explanation := "The input stores equality with node [161]'s long result. The thin source and result retain the literal corridor length, exact Qbase scale, strict inequality, and identical ambient graph."
+          explanation := "The input stores equality with node [153]'s long result. The thin source and result retain the literal corridor length, exact Qbase scale, strict inequality, and identical ambient graph."
           declarations := [
             `Erdos64EG.Internal.runP13SameWindowBaseScaleSplit,
             `Erdos64EG.Internal.P13SameWindowLongOutput,
@@ -5730,26 +6929,26 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           ]
         }
       ]
-      scopeNotes := "Node [163] provides only literal finite positions and exact inclusions. It assigns no normalized state labels and supplies no D4–D7 response, CT17 target/offset/compatibility semantics, or density estimate. Its exact prefix feeds verified first-nine classifier [164]."
+      scopeNotes := "Node [153] provides only literal finite positions and exact inclusions. It assigns no normalized state labels and supplies no D4–D7 response, CT17 target/offset/compatibility semantics, or density estimate. Its exact prefix feeds verified first-nine classifier [153]."
       workBound := "Zero scans to construct the forced prefix; one natural-number comparison for each supplied position classification. No support family, state universe, graph family, or context universe is enumerated."
     },
     {
       stepId := "erdos.p13-same-window-long-prefix-state-labels"
       stageId? := some "proof-slice.p13-same-window-long-prefix-state-labels"
       title := "First-nine coarse-label collision and CT10 refinement"
-      plainExplanation := "Node [164] consumes node [163]'s actual run, maps only its first nine exact positions to the literal corridor, computes the graph-derived degree-modulo-four and selected-packing-membership label, retains a collision in the eight-label alphabet, and promotes the missing compatible-response layer through CT10."
+      plainExplanation := "This node-[153] support stage consumes its predecessor's actual run, maps only its first nine exact positions to the literal corridor, computes the graph-derived degree-modulo-four and selected-packing-membership label, retains a collision in the eight-label alphabet, and promotes the missing compatible-response layer through CT10."
       formalStatement := "\\exists i\\ne j<9,\\ (d_G(v_i)\\bmod 4,\\mathbf 1_{v_i\\in V(\\mathcal P_{13})})=(d_G(v_j)\\bmod 4,\\mathbf 1_{v_j\\in V(\\mathcal P_{13})})"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-long-prefix-observed-label", title := "First-nine observed-label refinement", nodeIds := [164] },
-        { label := "rem:p13-long-prefix-observed-label-scope", title := "Scope of first-nine refinement", nodeIds := [164] }
+        { label := "lem:p13-long-prefix-observed-label", title := "First-nine observed-label refinement", nodeIds := [153] },
+        { label := "rem:p13-long-prefix-observed-label-scope", title := "Scope of first-nine refinement", nodeIds := [153] }
       ]
       declarationGroups := [{
         groupId := "p13-long-prefix-observed-label-total"
         title := "Exact local collision, route, CT10 trace, and work"
         role := .semanticTheorem
-        explanation := "The graph layer scans only nine actual occurrences; the route preserves node [163]'s exact source and gives CT10 precisely the two collided positions. The exhaustive trace promotes responseContexts, while the work ledger remains linear in the local graph size."
+        explanation := "The graph layer scans only nine actual occurrences; the route preserves node [153]'s exact source and gives CT10 precisely the two collided positions. The exhaustive trace promotes responseContexts, while the work ledger remains linear in the local graph size."
         declarations := [
           `Erdos64EG.Internal.runP13SameWindowLongPrefixStateLabels_ct10_terminal,
           `StructuralExhaustion.Graph.LongPrefixObservedLabel.Input,
@@ -5784,25 +6983,25 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.p13SameWindowLongPrefixObservedVertex_exact
         ]
       }]
-      scopeNotes := "Node [164] proves only equality of one graph-derived coarse label at two distinct literal first-nine occurrences. Node [179] refines their full degrees; D4–D7 response equivalence, CT8 removal, and a certified smaller object remain white node [183]."
+      scopeNotes := "Node [153] proves only equality of one graph-derived coarse label at two distinct literal first-nine occurrences. Node [153] refines their full degrees; D4–D7 response equivalence, CT8 removal, and a certified smaller object remain an open internal obligation of node [153]."
       workBound := "At most 144(|V|+1)+9 primitive checks: the fixed first-nine collision scan plus the three-class CT10 scan on two retained occurrences. No ambient label, response, context, state, graph, or universe family is enumerated."
     },
     {
       stepId := "erdos.p13-same-window-long-prefix-full-semantics"
       stageId? := some "proof-slice.p13-same-window-long-prefix-degree-refinement"
       title := "Two-occurrence exact degree refinement"
-      plainExplanation := "Node [179] retains node [164]'s actual collided pair and promoted CT10 response-context obligation, reads only the two literal corridor degree rows, and returns equal full degrees or a nonzero degree gap with the already proved common residue modulo four."
+      plainExplanation := "Node [153] retains node [153]'s actual collided pair and promoted CT10 response-context obligation, reads only the two literal corridor degree rows, and returns equal full degrees or a nonzero degree gap with the already proved common residue modulo four."
       formalStatement := "d_G(v_i)=d_G(v_j)\\quad\\lor\\quad d_G(v_i)\\ne d_G(v_j)\\ \\wedge\\ d_G(v_i)\\equiv d_G(v_j)\\pmod 4"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:p13-long-prefix-degree-refinement", title := "Two-occurrence exact degree refinement", nodeIds := [179] }
+        { label := "lem:p13-long-prefix-degree-refinement", title := "Two-occurrence exact degree refinement", nodeIds := [153] }
       ]
       declarationGroups := [{
         groupId := "p13-long-prefix-degree-total"
         title := "Exact collision provenance and two local degree rows"
         role := .semanticTheorem
-        explanation := "The source re-exposes the exact node-[164] result, promoted CT10 response-context field, and literal vertices. The classifier compares their full degrees and preserves distinctness, packing-bit equality, and residue equality in both branches."
+        explanation := "The source re-exposes the exact node-[153] result, promoted CT10 response-context field, and literal vertices. The classifier compares their full degrees and preserves distinctness, packing-bit equality, and residue equality in both branches."
         declarations := [
           `Erdos64EG.Internal.P13SameWindowLongPrefixDegreeSource.exact_node164,
           `Erdos64EG.Internal.P13SameWindowLongPrefixDegreeSource.exact_ct10_promotion_responseContexts,
@@ -5819,21 +7018,21 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.runP13SameWindowLongPrefixDegreeRefinement_ambient_preserved
         ]
       }]
-      scopeNotes := "Node [179] proves only exact degree refinement. It does not construct D4--D7 responses, response equivalence, CT8 removal, or a smaller object; those remain white node [183]."
+      scopeNotes := "Node [153] proves only exact degree refinement. It does not construct D4--D7 responses, response equivalence, CT8 removal, or a smaller object; those remain an open internal obligation of node [153]."
       workBound := "Exactly 2|V|+1 visible local degree checks, at most 2(|V|+1). No response, context, state, graph, or universe enumeration."
     },
     {
       stepId := "erdos.p13-same-window-long-prefix-response-consumer"
       stageId? := some "proof-slice.p13-long-prefix-local-clause-alignment"
       title := "First-nine local-clause alignment"
-      plainExplanation := "Node [183] retains the exact node-[179] degree branch and CT10 obligation, then compares adjacency of its two literal vertices on exactly the same nine prefix coordinates."
+      plainExplanation := "Node [153] retains the exact node-[153] degree branch and CT10 obligation, then compares adjacency of its two literal vertices on exactly the same nine prefix coordinates."
       formalStatement := "(\\exists\\text{ first mismatch below }9)\\ \\lor\\ (\\forall i<9,\\ A(v,i)=A(w,i))"
       status := .implemented
       correspondence := .exact
-      manuscriptRefs := [{ label := "lem:p13-long-prefix-local-clause-alignment", title := "First-nine local-clause alignment", nodeIds := [183] }]
+      manuscriptRefs := [{ label := "lem:p13-long-prefix-local-clause-alignment", title := "First-nine local-clause alignment", nodeIds := [153] }]
       declarationGroups := [{
         groupId := "p13-long-prefix-local-alignment-total"
-        title := "Exact node-[179] source and nine local adjacency clauses"
+        title := "Exact node-[153] source and nine local adjacency clauses"
         role := .semanticTheorem
         explanation := "The first-hit classifier returns a sound first mismatch with a clean prefix or alignment limited to the nine supplied coordinates. Both degree constructors are retained without semantic interpretation."
         declarations := [
@@ -5847,23 +7046,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.runP13SameWindowLongPrefixLocalClauseAlignment_ambient_preserved
         ]
       }]
-      scopeNotes := "Node [183] proves alignment on nine clauses only, not D4--D7 response equivalence or CT8 removal; those remain white node [186]."
+      scopeNotes := "Node [153] proves alignment on nine clauses only, not D4--D7 response equivalence or CT8 removal; those remain an open internal obligation of node [153]."
       workBound := "Exactly 18 local adjacency evaluations. No ambient response, context, state, graph, or universe enumeration."
     },
     {
       stepId := "erdos.p13-long-prefix-full-response-consumer"
       stageId? := some "proof-slice.p13-long-prefix-extended-clause-alignment"
       title := "First-eighteen local-clause alignment"
-      plainExplanation := "Node [186] passes through an inherited mismatch or scans only literal positions 9--17 after first-nine alignment, yielding a second mismatch or first-eighteen alignment."
+      plainExplanation := "Node [153] passes through an inherited mismatch or scans only literal positions 9--17 after first-nine alignment, yielding a second mismatch or first-eighteen alignment."
       formalStatement := "\\text{mismatch below 18}\\ \\lor\\ \\forall i<18,\\ A(v,i)=A(w,i)"
       status := .implemented
       correspondence := .exact
-      manuscriptRefs := [{ label := "lem:p13-long-prefix-extended-clause-alignment", title := "First-eighteen local-clause alignment", nodeIds := [186] }]
+      manuscriptRefs := [{ label := "lem:p13-long-prefix-extended-clause-alignment", title := "First-eighteen local-clause alignment", nodeIds := [153] }]
       declarationGroups := [{
         groupId := "p13-extended-local-alignment"
         title := "Exact second-block scan"
         role := .semanticTheorem
-        explanation := "The runner retains nested node-[179]/CT10 provenance and scans exactly the second nine literal coordinates."
+        explanation := "The runner retains nested node-[153]/CT10 provenance and scans exactly the second nine literal coordinates."
         declarations := [
         `StructuralExhaustion.Graph.LongPrefixExtendedClauseAlignment.run,
         `StructuralExhaustion.Graph.LongPrefixExtendedClauseAlignment.run_exhaustive,
@@ -5874,23 +7073,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         `Erdos64EG.Internal.runP13SameWindowLongPrefixExtendedClauseAlignment_visibleChecks,
         `Erdos64EG.Internal.runP13SameWindowLongPrefixExtendedClauseAlignment_ambient_preserved
       ] }]
-      scopeNotes := "Node [186] proves first-eighteen adjacency alignment only, not full response equivalence or CT8; those remain white node [189]."
+      scopeNotes := "Node [153] proves first-eighteen adjacency alignment only, not full response equivalence or CT8; those remain an open internal obligation of node [153]."
       workBound := "At most 18 new adjacency evaluations."
     },
     {
       stepId := "erdos.p13-long-prefix-response-semantics"
       stageId? := some "proof-slice.p13-long-prefix-third-block-clause-alignment"
       title := "First-twenty-seven local-clause alignment"
-      plainExplanation := "Node [189] passes through either inherited mismatch unchanged or scans only literal positions 18--26 after first-eighteen alignment."
+      plainExplanation := "Node [153] passes through either inherited mismatch unchanged or scans only literal positions 18--26 after first-eighteen alignment."
       formalStatement := "\\text{mismatch below 27}\\ \\lor\\ \\forall i<27,\\ A(v,i)=A(w,i)"
       status := .implemented
       correspondence := .exact
-      manuscriptRefs := [{ label := "lem:p13-long-prefix-third-block-clause-alignment", title := "First-twenty-seven local-clause alignment", nodeIds := [189] }]
+      manuscriptRefs := [{ label := "lem:p13-long-prefix-third-block-clause-alignment", title := "First-twenty-seven local-clause alignment", nodeIds := [153] }]
       declarationGroups := [{
         groupId := "p13-third-block-local-alignment"
         title := "Exact third-block scan"
         role := .semanticTheorem
-        explanation := "The runner preserves node-[186], degree, and CT10 provenance; earlier mismatches pass through and only the third nine-coordinate block is newly scanned."
+        explanation := "The runner preserves node-[153], degree, and CT10 provenance; earlier mismatches pass through and only the third nine-coordinate block is newly scanned."
         declarations := [
           `StructuralExhaustion.Graph.LongPrefixThirdBlockClauseAlignment.run,
           `StructuralExhaustion.Graph.LongPrefixThirdBlockClauseAlignment.run_exhaustive,
@@ -5904,23 +7103,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.runP13SameWindowLongPrefixThirdBlockClauseAlignment_ambient_preserved
         ]
       }]
-      scopeNotes := "Node [189] proves only first-twenty-seven adjacency alignment, not response equivalence or CT8; those remain white node [192]."
+      scopeNotes := "Node [153] proves only first-twenty-seven adjacency alignment, not response equivalence or CT8; those remain an open internal obligation of node [153]."
       workBound := "At most 18 new local adjacency evaluations."
     },
     {
       stepId := "erdos.p13-long-prefix-full-semantics"
       stageId? := some "proof-slice.p13-long-prefix-fourth-block-clause-alignment"
       title := "First-thirty-six local-clause alignment"
-      plainExplanation := "Node [192] passes through all earlier mismatch leaves and otherwise scans only literal positions 27--35."
+      plainExplanation := "Node [153] passes through all earlier mismatch leaves and otherwise scans only literal positions 27--35."
       formalStatement := "\\text{mismatch below 36}\\ \\lor\\ \\forall i<36,\\ A(v,i)=A(w,i)"
       status := .implemented
       correspondence := .exact
-      manuscriptRefs := [{ label := "lem:p13-long-prefix-fourth-block-clause-alignment", title := "First-thirty-six local-clause alignment", nodeIds := [192] }]
+      manuscriptRefs := [{ label := "lem:p13-long-prefix-fourth-block-clause-alignment", title := "First-thirty-six local-clause alignment", nodeIds := [153] }]
       declarationGroups := [{
         groupId := "p13-fourth-block-local-alignment"
         title := "Exact fourth-block scan"
         role := .semanticTheorem
-        explanation := "The exact node-[189] result, degree residual, and CT10 obligation are retained; only the fourth nine-coordinate block is newly scanned."
+        explanation := "The exact node-[153] result, degree residual, and CT10 obligation are retained; only the fourth nine-coordinate block is newly scanned."
         declarations := [
           `StructuralExhaustion.Graph.LongPrefixFourthBlockClauseAlignment.run,
           `StructuralExhaustion.Graph.LongPrefixFourthBlockClauseAlignment.run_exhaustive,
@@ -5934,23 +7133,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.runP13SameWindowLongPrefixFourthBlockClauseAlignment_ambient_preserved
         ]
       }]
-      scopeNotes := "Node [192] proves only first-thirty-six adjacency alignment; node [195] records the terminal response/CT8 residual."
+      scopeNotes := "Node [153] proves only first-thirty-six adjacency alignment; node [153] records the terminal response/CT8 residual."
       workBound := "At most 18 new local adjacency evaluations."
     },
     {
       stepId := "erdos.p13-long-prefix-response-producer"
       stageId? := some "proof-slice.p13-long-prefix-compatible-response-frontier"
       title := "Long-prefix compatible-response frontier"
-      plainExplanation := "Node [195] retains all five node-[192] leaves and their degree and CT10 provenance. A local consumer turns every fixed-block mismatch into a proved distinguishing adjacency response with exact first-hit and offset provenance. The fully aligned leaf retains its four alignment proofs and exposes only the complete D4--D7 response semantics and exact-pair certified reduction still needed for CT8."
-      formalStatement := "\\text{node-[192] leaf}\\Longrightarrow\\text{distinguishing fixed response}\\;\\lor\\;\\text{aligned CT8 requirement}"
+      plainExplanation := "Node [153] retains all five node-[153] leaves and their degree and CT10 provenance. A local consumer turns every fixed-block mismatch into a proved distinguishing adjacency response with exact first-hit and offset provenance. The fully aligned leaf retains its four alignment proofs and exposes only the complete D4--D7 response semantics and exact-pair certified reduction still needed for CT8."
+      formalStatement := "\\text{node-[153] leaf}\\Longrightarrow\\text{distinguishing fixed response}\\;\\lor\\;\\text{aligned CT8 requirement}"
       status := .implemented
       correspondence := .exact
-      manuscriptRefs := [{ label := "lem:p13-long-prefix-compatible-response-frontier", title := "Compatible-response frontier", nodeIds := [195] }]
+      manuscriptRefs := [{ label := "lem:p13-long-prefix-compatible-response-frontier", title := "Compatible-response frontier", nodeIds := [153] }]
       declarationGroups := [{
         groupId := "p13-long-prefix-compatible-response-frontier"
         title := "Exact five-leaf residual frontier"
         role := .semanticTheorem
-        explanation := "The graph layer retains the exact predecessor, maps the four first-hit mismatch constructors to literal response contexts at offsets 0, 9, 18, and 27, and keeps the aligned constructor as a two-producer CT8 requirement. The application retains node [192], degree provenance, and the CT10 response-context tag."
+        explanation := "The graph layer retains the exact predecessor, maps the four first-hit mismatch constructors to literal response contexts at offsets 0, 9, 18, and 27, and keeps the aligned constructor as a two-producer CT8 requirement. The application retains node [153], degree provenance, and the CT10 response-context tag."
         declarations := [
           `StructuralExhaustion.Graph.LongPrefixCompatibleResponseFrontier.run,
           `StructuralExhaustion.Graph.LongPrefixCompatibleResponseFrontier.run_exhaustive,
@@ -5986,7 +7185,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       stepId := "erdos.p13-same-window-dyadic-terminal"
       stageId? := some "proof-slice.p13-same-window-dyadic-terminal"
       title := "Computed dyadic frontier constructor closes"
-      plainExplanation := "When the computed node-[159] result is its dyadic constructor, the adapter uses that constructor's canonical stub position and restored root cycle—without accepting another witness—to build the exact cold dyadic hit. The existing one-check CT1 G1 runner reaches C1, contradicting the inherited target-avoidance field."
+      plainExplanation := "When the computed node-[153] result is its dyadic constructor, the adapter uses that constructor's canonical stub position and restored root cycle—without accepting another witness—to build the exact cold dyadic hit. The existing one-check CT1 G1 runner reaches C1, contradicting the inherited target-avoidance field."
       formalStatement := "\\mathcal R(P)=\\operatorname{dyadic}(s,C)\\Longrightarrow \\operatorname{Target}(G)\\Longrightarrow\\bot"
       status := .implemented
       correspondence := .exact
@@ -5998,7 +7197,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-computed-dyadic-provenance"
           title := "Computed constructor and exact cold hit"
           role := .compositionProvenance
-          explanation := "The branch object records equality with the computed node-[159] dyadic constructor. Its cold hit has exactly the same window, stub offset, first-hit payload, and restored root-cycle walk."
+          explanation := "The branch object records equality with the computed node-[153] dyadic constructor. Its cold hit has exactly the same window, stub offset, first-hit payload, and restored root-cycle walk."
           declarations := [
             `Erdos64EG.Internal.runP13SameWindowStructuralFrontier,
             `Erdos64EG.Internal.P13ComputedDyadicBranch,
@@ -6023,7 +7222,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-computed-dyadic-execution"
           title := "One-check C1 execution and closure"
           role := .executionAudit
-          explanation := "The thin node-[159] consumer exposes the exact C1 terminal, typed trace, one-check count, and final contradiction."
+          explanation := "The thin node-[153] consumer exposes the exact C1 terminal, typed trace, one-check count, and final contradiction."
           declarations := [
             `Erdos64EG.Internal.P13ComputedDyadicBranch.g1Run,
             `Erdos64EG.Internal.P13ComputedDyadicBranch.g1_terminal,
@@ -6033,8 +7232,8 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           ]
         }
       ]
-      scopeNotes := "Node [155] is green only as the consumer of node [159]'s computed dyadic constructor. This does not construct a bounded germ, close the surplus or quiet constructors, or validate the separate aggregate G1 producer claimed after nodes [153]–[154]."
-      workBound := "One supplied-certificate CT1 check after the already accounted node-[159] scan; no cycle, walk, graph, or context family is enumerated."
+      scopeNotes := "Node [155] is green only as the consumer of node [153]'s computed dyadic constructor. This does not construct a bounded germ, close the surplus or quiet constructors, or validate the separate aggregate G1 producer claimed after nodes [153]–[154]."
+      workBound := "One supplied-certificate CT1 check after the already accounted node-[153] scan; no cycle, walk, graph, or context family is enumerated."
     },
     {
       stepId := "erdos.p13-positive-deficiency"
@@ -6059,67 +7258,275 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.p13Remainder_internalDegree_eq,
           `Erdos64EG.Internal.p13Remainder_positiveDeficiency_eq,
           `Erdos64EG.Internal.exists_verifiedP13PackingPrefix,
-          `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix
+          `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix,
+          `Erdos64EG.Internal.VerifiedP13PositiveDeficiencyPrefix,
+          `Erdos64EG.Internal.verifiedP13PositiveDeficiencyPrefix,
+          `Erdos64EG.Internal.VerifiedP13Node28PositiveDeficiency,
+          `Erdos64EG.Internal.VerifiedP13Node27NoInternalThreeCore.node28,
+          `Erdos64EG.Internal.p13Node28LocalChecks_le_square
         ]
       }]
-      scopeNotes := "Node [28] is complete and consumes only the green node-[27] remainder. Its exact output is consumed unchanged by the green node-[29] incidence ledger."
+      scopeNotes := "Node [28] is complete and is indexed by the literal green node-[27] output on the identical graph, packing, and remainder. Its exact output is the required predecessor for node [29]."
       workBound := "One induced-neighbour scan per remainder vertex, bounded quadratically in the declared graph order; no subgraph or support family is enumerated."
+    },
+    {
+      stepId := "erdos.p13-external-incidence-supply"
+      stageId? := some "proof-slice.p13-external-incidence-supply"
+      title := "External-incidence supply on the exact remainder"
+      plainExplanation := "The exact node-[28] positive deficiency is charged vertex by vertex to actual edges leaving R. Every R--W edge appears in the selected-window token schedule, whose exact cardinality is 15p₁₃+σ_W. Subtracting the same remainder surplus gives the second inequality, while the bounded node-[21] certificate supplies the paper's near-cubic error term."
+      formalStatement := "\\operatorname{def}^{+}(R)\\le e(R,W)\\le15p_{13}+\\sigma_W,\\qquad \\operatorname{def}^{+}(R)-\\sigma_R\\le15p_{13}+\\sigma_W-\\sigma_R"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "lem:stub-positive", title := "External-incidence supply", nodeIds := [29] },
+        { label := "lem:surplus-aware-window-stub", title := "Exact surplus-aware stub bound", nodeIds := [29] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node29-exact-incidence-ledger"
+        title := "Exact predecessor, incidence accounting, and spine bound"
+        role := .semanticTheorem
+        explanation := "The dependent constructor retains the literal node-[28] value. Framework graph lemmas own the boundary injection, token embedding, exact token identity, surplus partition, and quadratic work bound; the earlier bounded-surplus residual is projected unchanged."
+        declarations := [
+          `Erdos64EG.Internal.VerifiedP13Node29ExternalIncidenceSupply,
+          `Erdos64EG.Internal.VerifiedP13Node27NoInternalThreeCore.node28,
+          `Erdos64EG.Internal.VerifiedP13Node28PositiveDeficiency.node29,
+          `Erdos64EG.Internal.p13Curvature_positiveDeficiency_eq_previous,
+          `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.positiveDeficiency_le_boundaryIncidences,
+          `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderBoundaryIncidences_le_tokenCount,
+          `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_le_tokenCount,
+          `StructuralExhaustion.Graph.InducedPathWindowLedger.tokenCount_eq_fifteen_mul_packing_add_surplus,
+          `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_le_fifteen_mul_packing_add_surplus,
+          `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_sub_remainderSurplus_le,
+          `StructuralExhaustion.Graph.InducedPathWindowLedger.window_add_remainder_eq_totalSurplus,
+          `StructuralExhaustion.Graph.InducedPathWindowLedger.checks_le_thirteen_mul_square,
+          `Erdos64EG.Internal.P13NearCubicSpineBound.ofBoundedSurplus
+        ]
+      }]
+      scopeNotes := "Node [29] is complete on the identical graph, packing, and remainder supplied by green node [28]. It performs only external-incidence accounting; it does not define wedges, curvature coordinates, rank, or any node-[30]--[35] conclusion."
+      workBound := "At most 13n² checks: scan the thirteen positions of each already selected window against the declared ambient vertex schedule. No path, packing, support, subgraph, graph, Boolean-state, or context universe is enumerated."
+    },
+    {
+      stepId := "erdos.p13-wedge-lower"
+      stageId? := some "proof-slice.p13-wedge-lower"
+      title := "Exact wedge lower bound on the remainder"
+      plainExplanation := "For every supplied component support, the degree-count identity bounds its number of length-two wedges by three times its order minus twice its positive deficiency. Applying the same theorem to the exact remainder gives the aggregate form. Node [29]'s incidence ceiling supplies the finite window error, and the generic real transport gives both coefficients printed in the manuscript."
+      formalStatement := "W_2(C)\\ge3|V(C)|-2\\operatorname{def}^{+}(C),\\qquad W_2(R)\\ge(3-2\\tau)|R|-2\\varepsilon"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "lem:wedge-lower", title := "Wedge lower bound", nodeIds := [30] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node30-exact-wedge-lower"
+        title := "Exact predecessor, degree count, and rate transport"
+        role := .semanticTheorem
+        explanation := "The dependent constructor retains the literal node-[29] value. The graph-owned wedge identity proves every component and aggregate floor; the node-[29] incidence supply yields the finite window error, while a generic real transport proves the window-only and conditional high-entropy rates."
+        declarations := [
+          `Erdos64EG.Internal.VerifiedP13Node30WedgeLower,
+          `Erdos64EG.Internal.VerifiedP13Node28PositiveDeficiency.node29,
+          `Erdos64EG.Internal.VerifiedP13Node29ExternalIncidenceSupply.node30,
+          `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.three_mul_card_le_wedgeCount_add_twice_deficiency,
+          `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeFloor,
+          `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeRate_of_deficiencyRate,
+          `Erdos64EG.Internal.p13Remainder_wedgeFloor,
+          `Erdos64EG.Internal.p13Node30OmegaWindow,
+          `Erdos64EG.Internal.p13Node30OmegaWindow_gt_printed,
+          `Erdos64EG.Internal.p13Node30HighEntropyDeficiencyRate,
+          `Erdos64EG.Internal.p13Node30OmegaHighEntropy,
+          `Erdos64EG.Internal.p13Node30OmegaHighEntropy_eq
+        ]
+      }]
+      scopeNotes := "Node [30] is complete on the exact green node-[29] remainder. The sharper high-entropy inequality is exported as an implication from its separately produced deficiency premise; node [30] neither assumes that later branch nor constructs the curvature-rank objects of nodes [31]--[35]."
+      workBound := "One induced-neighbour scan for each remainder vertex, bounded by n². The rate transports are arithmetic consequences and enumerate no components, supports, paths, quotients, contexts, subgraphs, graphs, or state universes."
+    },
+    {
+      stepId := "erdos.p13-curvature-target-rank"
+      stageId? := some "proof-slice.p13-curvature-target-rank"
+      title := "Curvature target-rank on the exact wedge family"
+      plainExplanation := "The raw coordinate family consists exactly of a remainder center and a canonical unordered pair of its internal neighbours, so its cardinality is W₂(R). A subfamily survives precisely when every functional admissible quotient is label-injective on it. The framework defines rΩ(R) as the largest attained surviving cardinality and proves that an actual maximal family realizes it."
+      formalStatement := "r_\\Omega(R)=\\max\\{|\\mathcal A|:\\mathcal A\\subseteq\\mathcal W_2(R),\\ \\mathcal A\\text{ survives every functional admissible quotient}\\}"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "def:curvature-target-rank", title := "Curvature target-rank", nodeIds := [31] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node31-functional-quotient-rank"
+        title := "Literal wedge coordinates and attained quotient-survival maximum"
+        role := .mathematicalDefinition
+        explanation := "The dependent adapter retains node [30] exactly. Framework definitions own the declared coordinate set, universal quotient-survival predicate, bounded maximum, upper bound, and maximal-family witness; the Erdős layer supplies only the literal raw wedges, their three-vertex supports, exact target response, and the manuscript name rΩ(R)."
+        declarations := [
+          `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank,
+          `Erdos64EG.Internal.VerifiedP13Node29ExternalIncidenceSupply.node30,
+          `Erdos64EG.Internal.VerifiedP13Node30WedgeLower.node31,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.declaredCoordinates,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.Survives,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.targetRank,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.targetRank_le_coordinates,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.exists_surviving_card_eq_targetRank,
+          `Erdos64EG.Internal.p13CurvatureCoordinates,
+          `Erdos64EG.Internal.p13CurvatureCoordinates_card_eq_wedgeCount,
+          `Erdos64EG.Internal.p13CurvatureCoordinates_card_le_cube,
+          `Erdos64EG.Internal.p13CurvatureResponseProfile,
+          `StructuralExhaustion.Graph.FiniteSupportResponse.Profile.response_true_iff,
+          `Erdos64EG.Internal.p13CurvatureTargetRank
+        ]
+      }]
+      scopeNotes := "Node [31] only defines and bounds the exact target-rank object. It does not execute the rank-drop decision, assert full rank, or construct a dependence certificate; those are responsibilities of nodes [32]--[35]."
+      workBound := "The explicit coordinate schedule contains exactly W₂(R) and at most n³ actual wedges. The maximum is a proof-level bounded cardinality definition: no subfamily powerset, quotient family, outside-context family, support family, path family, subgraph family, or graph universe is evaluated."
+    },
+    {
+      stepId := "erdos.p13-curvature-rank-decision"
+      stageId? := some "proof-slice.p13-curvature-rank-decision"
+      title := "Exact rank-loss decision"
+      plainExplanation := "The node-[31] target rank is at most the number of raw wedges. Comparing those two natural numbers gives exactly the original yes/no flow: either some rank is lost, or every raw coordinate survives and the rank equals W₂(R)."
+      formalStatement := "r_\\Omega(R)<W_2(R)\\quad\\lor\\quad r_\\Omega(R)=W_2(R)"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "lem:target-rank-circuit", title := "Rank-loss decision and circuit input", nodeIds := [32] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node32-exact-rank-decision"
+        title := "Exact predecessor and exhaustive two-edge rank split"
+        role := .semanticTheorem
+        explanation := "The dependent adapter retains node [31] itself. The framework owns the dropped/full constructors, exhaustive comparison, and zero-scan work certificate; the exact wedge-cardinality theorem transports the two constructors to rΩ(R)<W₂(R) or equality."
+        declarations := [
+          `Erdos64EG.Internal.VerifiedP13Node32RankDecision,
+          `Erdos64EG.Internal.VerifiedP13Node30WedgeLower.node31,
+          `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank.node32,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.RankDecision,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.rankDecision,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.rankDecision_exhaustive,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.rankDecisionBudget
+        ]
+      }]
+      scopeNotes := "The finite exact split rigorously refines the diagram's asymptotic wording without changing its topology: every strict loss takes the existing yes edge to node [33], and equality takes the existing no edge to node [34]. Node [32] does not construct the dependence circuit or assert that either edge is impossible."
+      workBound := "Zero executable scans after node [31]. The decision compares a proof-level maximum with its declared cardinality and evaluates no coordinate subfamily, quotient, outside context, support, path, subgraph, graph, or state universe."
+    },
+    {
+      stepId := "erdos.p13-curvature-dependence-open"
+      stageId? := some "proof-slice.p13-curvature-dependence-open"
+      title := "Rank-reducing curvature dependence"
+      plainExplanation := "On node [32]'s strict-loss edge, the full declared wedge family cannot survive every functional admissible quotient. Therefore one admitted quotient identifies two distinct declared raw wedges. Taking one as the determined coordinate and the other as a singleton basis gives the finite functional dependence carried by Branch D."
+      formalStatement := "r_\\Omega(R)<W_2(R)\\Longrightarrow\\exists q,a,b,\\ a\\ne b,\\ q(a)=q(b)"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "lem:target-rank-circuit", title := "Target-rank circuit extraction", nodeIds := [33] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node33-functional-pair-circuit"
+        title := "Exact strict-loss predecessor and finite dependence circuit"
+        role := .semanticTheorem
+        explanation := "The adapter retains node [32] and its yes-edge inequality. The framework owns the non-survival argument, admitted quotient, distinct declared coordinates, singleton basis, and zero-scan extraction; the Erdős layer only transports the exact W₂(R) cardinality."
+        declarations := [
+          `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence,
+          `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank.node32,
+          `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node33,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.basis,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.basis_subset_declared,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.determined_not_mem_basis,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.pairCircuit_nonempty_of_rankDrop,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.pairCircuitOfRankDrop
+        ]
+      }]
+      scopeNotes := "Node [33] constructs only the finite rank-reducing dependence promised on the yes edge. Its quotient, distinct coordinates, and singleton basis are retained for the existing cross-panel Branch-D node [35]; context validity, proper representatives, enlarged support, and closure belong to nodes [35]--[46]."
+      workBound := "Zero executable searches: the circuit is proof-selected from failure of universal survival. No coordinate powerset, quotient proposal family, outside-context family, support family, path family, subgraph family, graph universe, or state universe is generated."
+    },
+    {
+      stepId := "erdos.p13-full-curvature-rank"
+      stageId? := some "proof-slice.p13-full-curvature-rank"
+      title := "Full-curvature-rank residual"
+      plainExplanation := "On node [32]'s no edge, the target rank equals the total number of raw remainder wedges. The maximal-family theorem supplies an actual surviving family of that size, so there is no strict rank loss and the manuscript's weaker near-full asymptotic residual follows immediately."
+      formalStatement := "r_\\Omega(R)=W_2(R)\\quad\\Longrightarrow\\quad r_\\Omega(R)\\ge W_2(R)-o(W_2(R))"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "lem:full-rank", title := "Forcing of full admissible quotient-rank", nodeIds := [34] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node34-exact-full-rank"
+        title := "Exact no-edge predecessor and maximal surviving family"
+        role := .semanticTheorem
+        explanation := "The dependent adapter retains node [32] and its equality edge. The framework's attained-maximum theorem supplies a literal surviving family of size W₂(R); the residual records equality, the lower bound, absence of strict loss, and a zero-scan work certificate."
+        declarations := [
+          `Erdos64EG.Internal.VerifiedP13Node34FullCurvatureRank,
+          `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank.node32,
+          `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node34,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.exists_surviving_card_eq_targetRank,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.rankDecisionBudget
+        ]
+      }]
+      scopeNotes := "Node [34] is complete on the exact node-[32] no edge. It does not consume or close Branch D, execute the curvature-cost node [48], or perform the later join at node [47]."
+      workBound := "Zero new executable scans. The maximal family is proof-selected by the framework; no coordinate powerset, quotient family, context family, support family, path family, subgraph family, graph universe, or state universe is evaluated."
     },
     {
       stepId := "erdos.remainder-curvature-rank"
       stageId? := some "proof-slice.p13-curvature-rank"
-      title := "Exact remainder incidence, wedge, and curvature rank"
-      plainExplanation := "The framework consumes the exact node-[28] remainder. Every deficient unit is charged to a literal edge leaving that remainder, every such edge occurs in the selected-window token schedule, and the exact identity for that schedule gives 15p₁₃+σ_W. The raw coordinate type is one center plus a canonical unordered pair of its internal remainder neighbours, so its cardinality is exactly W₂(R). CT15 scans those coordinates and certified-reduction admissibility makes the full-rank terminal unconditional."
-      formalStatement := "\\operatorname{def}^{+}(R)\\le15p_{13}+\\sigma_W,\\quad \\operatorname{def}^{+}(R)-\\sigma_R\\le15p_{13}+\\sigma_W-\\sigma_R,\\quad W_2(R)\\ge3|R|-2\\operatorname{def}^{+}(R),\\quad r_\\Omega(R)=W_2(R)"
+      title := "Exact Branch-D cross-panel handoff"
+      plainExplanation := "The Part-II node-[33] rank-reducing dependence crosses to the repeated Branch-D box [35] without changing its carrier. The admitted quotient, distinct raw wedges, singleton basis, quotient identification, and strict-rank-loss provenance are definitionally the same values."
+      formalStatement := "\\mathcal D_{35}=\\mathcal D_{33}"
       status := .implemented
-      correspondence := .composite
+      correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:stub-positive", title := "External-incidence supply", nodeIds := [29] },
-        { label := "lem:surplus-aware-window-stub", title := "Exact surplus-aware stub bound", nodeIds := [29] },
-        { label := "lem:wedge-lower", title := "Wedge lower bound", nodeIds := [30] },
-        { label := "def:curvature-target-rank", title := "Curvature target-rank", nodeIds := [31] },
-        { label := "lem:target-rank-circuit", title := "Rank decision", nodeIds := [32, 33, 34, 35] },
-        { label := "lem:full-rank", title := "Forcing of full curvature rank", nodeIds := [34] }
+        { label := "lem:target-rank-circuit", title := "Rank-dependence routing", nodeIds := [35] }
       ]
       declarationGroups := [
         {
-          groupId := "remainder-deficiency-wedge-kernel"
-          title := "Framework-owned exact graph accounting"
-          role := .semanticTheorem
-          explanation := "The reusable graph profile owns internal degree, boundary incidence, positive deficiency, raw wedge count, the deficiency injection, and the exact finite wedge floor."
-          declarations := [
-            `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.positiveDeficiency_le_boundaryIncidences,
-            `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeFloor,
-            `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeCount_le_cube,
-            `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderBoundaryIncidences_le_tokenCount,
-            `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_le_tokenCount,
-            `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_le_fifteen_mul_packing_add_surplus,
-            `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_sub_remainderSurplus_le,
-            `StructuralExhaustion.Graph.InducedPathWindowLedger.tokenCount_eq_fifteen_mul_packing_add_surplus
-          ]
-        },
-        {
           groupId := "remainder-curvature-ct15"
-          title := "Literal wedge coordinates and CT15 execution"
+          title := "Identity transport of the proof-carrying Branch-D residual"
           role := .compositionProvenance
-          explanation := "The Erdős layer supplies only the exact remainder and the three-vertex support of each actual wedge. The generic response profile and admissible-quotient CT15 runner own the decision, trace, validity, and linear coordinate scan."
+          explanation := "The node-[35] alias and connector reuse node [33] definitionally. The inherited framework pair circuit continues to expose its singleton declared basis and proves that the determined coordinate is outside that basis."
           declarations := [
-            `Erdos64EG.Internal.p13CurvatureCoordinates,
-            `Erdos64EG.Internal.p13CurvatureCoordinates_card_eq_wedgeCount,
-            `Erdos64EG.Internal.p13CurvatureCoordinates_card_le_cube,
-            `Erdos64EG.Internal.p13CurvatureResponseProfile,
-            `StructuralExhaustion.Graph.FiniteSupportResponse.Profile.run,
-            `Erdos64EG.Internal.runP13CurvatureCT15_terminal,
-            `Erdos64EG.Internal.runP13CurvatureCT15_trace,
-            `Erdos64EG.Internal.no_p13Curvature_rankDrop,
-            `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix,
-            `Erdos64EG.Internal.exists_verifiedP13CurvaturePrefix
+            `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node33,
+            `Erdos64EG.Internal.VerifiedP13Node35BranchD,
+            `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node35,
+            `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node35_eq,
+            `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.basis,
+            `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.basis_subset_declared,
+            `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.determined_not_mem_basis
           ]
         }
       ]
-      scopeNotes := "Nodes [29]--[35] are complete on the unchanged green node-[28] remainder. The exact finite inequalities are stronger than their normalized o(n) manuscript corollaries. The rank-drop constructor is proved empty for the selected minimal graph, so the existing conditional nodes [36]--[39] have a valid but unreachable input rather than an assumed certificate."
-      workBound := "At most quadratic neighbour-incidence work on the supplied graph plus one linear CT15 scan of the literal wedge schedule; the graph kernel proves that schedule has at most n³ coordinates. No connected-support, path, quotient, context, subgraph, or graph family is enumerated."
+      scopeNotes := "Node [35] performs only the exact cross-panel transport. It does not run the outside-context decision at node [36], assert the separated-tester hypotheses, choose a determination support, or close any node [36]--[46] branch. Node [34] is the separate no-rank-loss edge."
+      workBound := "Zero checks and zero copied fields: the dependent connector is identity on node [33]. No coordinate, quotient, context, support, path, subgraph, graph, or state family is enumerated."
     },
+    {
+      stepId := "erdos.p13-curvature-context-validity"
+      stageId? := some "proof-slice.p13-curvature-context-validity"
+      title := "Outside-context validity of the admitted dependence"
+      plainExplanation := "The admitted quotient carried by node [35] identifies two raw wedges. Its audited target-completeness field proves that their exact target responses agree in every declared outside context. The generic decision still exposes the original target-defect constructor, but this admitted payload takes the universal edge and admits no concrete distinguishing context."
+      formalStatement := "\\bigl(\\exists K,\\ \\rho(a,K)\\ne\\rho(b,K)\\bigr)\\ \\lor\\ \\bigl(\\forall K,\\ \\rho(a,K)=\\rho(b,K)\\bigr)"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "lem:curvature-dependence-routing", title := "Outside-context validity decision", nodeIds := [36] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node36-context-validity"
+        title := "Exact predecessor and framework-owned two-edge context decision"
+        role := .semanticTheorem
+        explanation := "The adapter retains node [35] itself. The generic pair-circuit API owns the defect/universal decision type, projects universal response from quotient admissibility, proves absence of a mismatch, and supplies the zero-check work certificate."
+        declarations := [
+          `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node35,
+          `Erdos64EG.Internal.VerifiedP13Node36ContextValidity,
+          `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node36,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.ContextDecision,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.contextUniversal,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.contextDecision,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.contextDecision_isUniversal,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.noContextDefect,
+          `StructuralExhaustion.CT15.AdmissibleQuotient.Profile.PairCircuit.contextDecisionBudget
+        ]
+      }]
+      scopeNotes := "Node [36] performs only the original outside-context validity test. For this already admitted quotient the universal edge is proved; node [37] will record the impossible defect terminal separately, while the proper-representative/support location decision remains node [38]."
+      workBound := "Zero executable checks. Outside contexts occur only under a universal proposition inherited from quotient admission; no context, coordinate, quotient, support, path, subgraph, graph, or state family is generated."
+    },
+    p13Node37ProofStep,
+    p13Node38ProofStep,
+    p13Node39ProofStep,
     {
       stepId := "erdos.proper-delocalization-closure"
       stageId? := some "proof-slice.proper-delocalization"
@@ -6207,21 +7614,21 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
     {
       stepId := "erdos.forced-curvature-cost-split"
       stageId? := some "proof-slice.p13-forced-curvature-cost-split"
-      title := "Finite curvature magnitude and product-cost split"
-      plainExplanation := "Node [48] first derives the exact finite curvature inequality from the same node-[24] coverage and node-[47] rank ledger. It then separates a graph-semantic conditional-fibre realization from an explicit missing-realization requirement. Only the realized branch may enter node [49]; the open branch has a typed same-context consumer that requires the independent node-[55] quarter budget."
-      formalStatement := "250825743018|R|\\le98608581006r_\\Omega(R)+197217162012s(G),\\quad \\mathsf{Realized}\\;\\lor\\;\\mathsf{OpenRequirement}"
+      title := "Finite curvature magnitude support"
+      plainExplanation := "Conditional on the exact node-[24] coverage and node-[47] rank ledger, the verified support theorem derives the finite curvature inequality. A separately supplied graph-semantic conditional-fibre realization has verified labelled-skeleton capacity consequences, but Lean does not construct that realization or invent a complementary branch."
+      formalStatement := "250825743018|R|\\le98608581006r_\\Omega(R)+197217162012s(G)"
       status := .implemented
-      correspondence := .exact
+      correspondence := .partialCoverage
       manuscriptRefs := [
         { label := "cor:forced-curvature-cost", title := "Finite curvature magnitude and product-cost split", nodeIds := [48] },
         { label := "rem:curvature-provenance", title := "Product-realization provenance", nodeIds := [48] }
       ]
       declarationGroups := [
         {
-          groupId := "p13-node48-split"
-          title := "Same-context finite cost and exhaustive branch"
+          groupId := "p13-node48-support"
+          title := "Conditional finite cost and realization consequences"
           role := .compositionProvenance
-          explanation := "The Erdős layer executes the repaired proof-level dichotomy and proves that its two constructors are exhaustive. The attached workflow stage indexes the finite inequality, labelled-skeleton capacity, conditional-fibre product theorem, and typed quarter-budget consumer."
+          explanation := "The Erdős layer proves the finite inequality from the typed inputs and verifies capacity for any supplied realization. It supplies no realization dichotomy or open outcome."
           declarations := [
             `Erdos64EG.Internal.VerifiedP13Node24DensityHandoff.globalRankPrefix,
             `Erdos64EG.Internal.VerifiedP13Node24DensityHandoff.globalRankPrefix_fullRankCount,
@@ -6234,19 +7641,13 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
             `Erdos64EG.Internal.VerifiedP13Node48FiniteCost,
             `Erdos64EG.Internal.verifiedP13Node48FiniteCost,
             `Erdos64EG.Internal.P13CurvatureProductCostRealization,
-            `Erdos64EG.Internal.P13CurvatureProductCostRequirement,
-            `Erdos64EG.Internal.P13Node48Outcome,
             `Erdos64EG.Internal.P13CurvatureProductCostRealization.states_length_le_baseline,
             `Erdos64EG.Internal.P13CurvatureProductCostRealization.safeFlatProductBound,
-            `Erdos64EG.Internal.P13CurvatureProductCostRealization.localChecks_le_state_mul_coordinate,
-            `Erdos64EG.Internal.p13Node48OpenLargeBudgetHandoff,
-            `Erdos64EG.Internal.runP13Node48,
-            `Erdos64EG.Internal.runP13Node48_exhaustive,
-            `Erdos64EG.Internal.verifiedP13Node48Contract
+            `Erdos64EG.Internal.P13CurvatureProductCostRealization.localChecks_le_state_mul_coordinate
           ]
         }
       ]
-      scopeNotes := "Node [48] is fully implemented with its repaired single-input/single-output responsibility. The open constructor is green because it correctly records and routes the missing realization; it does not assert that node [55]'s independent quarter budget has already been proved. The realized branch now feeds nodes [49]--[53] through the exact high/low split; the high-entropy joint-capacity arithmetic and nodes [54]--[56] remain downstream."
+      scopeNotes := "Node [48] remains yellow. The finite arithmetic and conditional capacity consequences are proved, but the original simultaneous independently target-testable rank semantics and graph-owned realization producer are missing."
       workBound := "The arithmetic uses the retained local wedge and surplus ledgers. The product checker scans one supplied state list once per declared coordinate; it enumerates no graph family, context universe, subset family, assignment cube, or Boolean universe."
     },
     {
@@ -6355,20 +7756,20 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
     {
       stepId := "erdos.joint-window-remainder-accounting-frontier"
       stageId? := some "proof-slice.p13-joint-accounting-frontier"
-      title := "Joint window--remainder accounting frontier"
-      plainExplanation := "Node [52] is repaired as the exact realized/open frontier for the missing same-context joint accounting. A realization uses actual node-[24] global completions, exact node-[48] remainder states, recoverable coordinates, and an injective literal baseline-skeleton code. The open branch records absence and can consume—but never create—the independent node-[55] quarter budget."
-      formalStatement := "\\mathsf{JointAccountingRealized}_{52}\\;\\lor\\;\\mathsf{OpenJointAccountingRequirement}_{52}"
+      title := "Conditional joint window--remainder capacity"
+      plainExplanation := "For a supplied realization using actual node-[24] global completions, exact node-[48] remainder states, recoverable coordinates, and an injective literal baseline-skeleton code, Lean proves the joint finite capacity. It does not construct a realized/open split."
+      formalStatement := "\\mathsf{JointAccountingRealized}_{52}\\Longrightarrow N_{\\rm win}N_R\\le N_{\\rm skel}"
       status := .implemented
-      correspondence := .exact
+      correspondence := .partialCoverage
       manuscriptRefs := [
         { label := "def:joint-accounting-frontier", title := "Joint-accounting frontier", nodeIds := [52] }
       ]
       declarationGroups := [
         {
-          groupId := "p13-node52-joint-frontier"
-          title := "Same-context realized/open joint accounting"
+          groupId := "p13-node52-conditional-capacity"
+          title := "Capacity of a supplied same-context realization"
           role := .compositionProvenance
-          explanation := "Core proves the product-capacity inequality without materializing a product. The Erdős realization supplies graph-semantic gluing and recoverability; the open constructor names each missing producer and retains a typed conditional large-budget consumer."
+          explanation := "Core proves the product-capacity inequality without materializing a product. The Erdős realization type records the graph-semantic gluing and recoverability that a future producer must construct."
           declarations := [
             `StructuralExhaustion.Core.FiniteJointCapacity.Profile.left_mul_right_le_codeCard,
             `StructuralExhaustion.Core.FiniteJointCapacity.Profile.checks_eq_zero,
@@ -6376,19 +7777,11 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
             `Erdos64EG.Internal.P13Node52JointAccountingRealization.previous,
             `Erdos64EG.Internal.P13Node52JointAccountingRealization.exactPrevious,
             `Erdos64EG.Internal.p13Node52JointCapacityProfile,
-            `Erdos64EG.Internal.p13Node52_jointCapacity,
-            `Erdos64EG.Internal.P13Node52OpenProducer,
-            `Erdos64EG.Internal.P13Node52JointAccountingRequirement,
-            `Erdos64EG.Internal.P13Node52OpenLargeBudgetHandoff,
-            `Erdos64EG.Internal.p13Node52OpenLargeBudgetHandoff,
-            `Erdos64EG.Internal.P13Node52Outcome,
-            `Erdos64EG.Internal.runP13Node52,
-            `Erdos64EG.Internal.runP13Node52_exhaustive,
-            `Erdos64EG.Internal.p13Node52Checks_eq_zero
+            `Erdos64EG.Internal.p13Node52_jointCapacity
           ]
         }
       ]
-      scopeNotes := "Node [52] is green only for the repaired frontier responsibility. Its realized payload proves a joint finite capacity but not the authored window lower demand, finite high cap, or overflow contradiction; node [54] remains open. Its open branch reaches node [55] only after a separately proved same-context quarter budget."
+      scopeNotes := "Node [52] remains yellow. Conditional capacity is proved, but the original same-context joint realization, window lower demand, finite high cap, and entropy contradiction are not produced."
       workBound := "Zero semantic checks to select the proof-level dichotomy and zero pair scans in Core capacity transport. No Cartesian product, graph family, state universe, subset family, context universe, function space, assignment cube, or Boolean universe is generated or scanned."
     },
     {
@@ -6890,7 +8283,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.exists_verifiedTypeBLocalFanMassPrefix
         ]
       }]
-      scopeNotes := "Node [84] consumes exactly green node [75] and nodes [81]--[83]. It proves only the local per-scope mass statement. The unsupported canonical ordinary/grouped family and coefficient 208 are isolated at white node [176]."
+      scopeNotes := "Node [84] consumes exactly green node [75] and nodes [81]--[83]. It proves only the local per-scope mass statement. The unsupported canonical ordinary/grouped family and coefficient 208 are retained as an open internal obligation of node [84]."
       workBound := "Exactly 4k+1 CT14 profile calls on k actual high centers; the list-membership comparison ledger is at most 5(k+1)^2. No support family, subset family, path family, graph family, or global matching is enumerated."
     },
     {
@@ -6901,8 +8294,8 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       status := .next
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:typeB-processed-boundary-bound", title := "Processed-envelope boundary bound", nodeIds := [176] },
-        { label := "prop:typeB-bridge-sublinear", title := "Global grouped Type B fan-mass discharge", nodeIds := [176] }
+        { label := "lem:typeB-processed-boundary-bound", title := "Processed-envelope boundary bound", nodeIds := [84] },
+        { label := "prop:typeB-bridge-sublinear", title := "Global grouped Type B fan-mass discharge", nodeIds := [84] }
       ]
       declarationGroups := []
       scopeNotes := "This node has no constructor from the local node-[84] prefix. It must supply an actual support-indexed producer; the coefficient and grouped-family realization are not assumptions."
@@ -7751,7 +9144,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         groupId := "surplus-port-activation"
         title := "Exact per-slot activation on the retained CT6 ledger"
         role := .compositionProvenance
-        explanation := "The reusable graph layer derives each response from CT2 bridgelessness and packed minimality, retains the exact local support, and proves that the activated schedule is the unchanged CT6 schedule. The Erdős layer supplies only the power-of-two length interpretation and the selected minimal context."
+        explanation := "The reusable graph layer derives each response from CT2 bridgelessness and packed minimality, retains the exact local support, proves that the activated schedule is the unchanged CT6 schedule, and bounds one pass over only those slots and their supplied path certificates cubically. The Erdős layer supplies only the power-of-two length interpretation and the selected minimal context."
         declarations := [
           `StructuralExhaustion.Graph.SurplusPortActivation.verifiedActivatedStageFromMinimality,
           `StructuralExhaustion.Graph.SurplusPortActivation.activatedSchedule_length_eq_residualTotal,
@@ -7759,6 +9152,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.activatedSurplusStage,
           `Erdos64EG.Internal.activeSurplusDemand,
           `Erdos64EG.Internal.activatedSurplusSchedule_length_eq_sigma,
+          `Erdos64EG.Internal.activatedSurplusWork_le_cubic,
           `Erdos64EG.Internal.openResponse_has_mersenne_length,
           `Erdos64EG.Internal.verifiedSurplusPortActivationPrefix,
           `Erdos64EG.Internal.exists_verifiedSurplusPortActivationPrefix
@@ -8029,7 +9423,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.exists_verifiedGeometricBottleneckClassificationPrefix
         ]
       }]
-      scopeNotes := "Node [144] consumes only the exact green predecessor overload and homogeneous audit. It has no quadratic branch and does not assert attachment alignment, a sparse exit, Type B entry, CT3 response equivalence, or the near-cubic spine. Its exact trigger is consumed by the verified finite classifier at node [177]; the stronger semantic obligations remain isolated at white node [178]."
+      scopeNotes := "Node [144] consumes only the exact green predecessor overload and homogeneous audit. It has no quadratic branch and does not assert attachment alignment, a sparse exit, Type B entry, CT3 response equivalence, or the near-cubic spine. Its exact trigger is consumed by the verified finite classifier at node [144]; the stronger semantic obligations remain retained as an open internal obligation of node [144]."
       workBound := "For 49 literal pairs: 2401 comparisons, at most 4802 uncached coarse-code projections, and two rooted BFS/germ budgets. No path family, context family, quotient family, subgraph family, graph family, or coloring family is enumerated."
     },
     {
@@ -8041,8 +9435,8 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:same-token-semantic-bottleneck-classification", title := "Finite semantic-bottleneck classification", nodeIds := [177] },
-        { label := "rem:same-token-semantic-bottleneck-classification-scope", title := "Semantic-classifier scope", nodeIds := [177] }
+        { label := "lem:same-token-semantic-bottleneck-classification", title := "Finite semantic-bottleneck classification", nodeIds := [144] },
+        { label := "rem:same-token-semantic-bottleneck-classification-scope", title := "Semantic-classifier scope", nodeIds := [144] }
       ]
       declarationGroups := [{
         groupId := "same-token-semantic-classification"
@@ -8068,19 +9462,19 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `StructuralExhaustion.Graph.SurplusPatternCoarseRouting.semanticBottleneckTrigger_source_exact
         ]
       }]
-      scopeNotes := "Node [177] proves only the exhaustive finite mismatch/alignment and four-shape classification. It does not turn any leaf into a sparse exit, CT3 response equivalence, decorated Type B handoff, fixed cap, or near-cubic spine; those implications remain at white node [178]."
+      scopeNotes := "Node [144] proves only the exhaustive finite mismatch/alignment and four-shape classification. It does not turn any leaf into a sparse exit, CT3 response equivalence, decorated Type B handoff, fixed cap, or near-cubic spine; those implications remain an open internal obligation of node [144]."
       workBound := "Exactly 234p+7 primitive checks, bounded by 234|V|+7: three local predicate comparisons per one of 78p retained coordinates and seven CT10 table checks. No ambient path, context, quotient, subgraph, graph, coloring, or universe is enumerated."
     },
     {
       stepId := "erdos.same-token-semantic-consumer"
       stageId? := some "proof-slice.semantic-bottleneck-local-consumer"
       title := "Local semantic-bottleneck separator split"
-      plainExplanation := "Node [178] consumes all five exact node-[177] leaves. Mismatch and prefix leaves remain unchanged; root and after-edge divergence expose literal distinct incidences and branch only on the locally computed separator degree."
-      formalStatement := "\\text{node-[177] leaf}\\Longrightarrow\\text{retained leaf or cubic/high local separator}"
+      plainExplanation := "Node [144] consumes all five exact node-[144] leaves. Mismatch and prefix leaves remain unchanged; root and after-edge divergence expose literal distinct incidences and branch only on the locally computed separator degree."
+      formalStatement := "\\text{node-[144] leaf}\\Longrightarrow\\text{retained leaf or cubic/high local separator}"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:same-token-local-semantic-consumer", title := "Local semantic-bottleneck separator split", nodeIds := [178] }
+        { label := "lem:same-token-local-semantic-consumer", title := "Local semantic-bottleneck separator split", nodeIds := [144] }
       ]
       declarationGroups := [{
         groupId := "same-token-local-consumer-total"
@@ -8099,25 +9493,25 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.exists_verifiedSemanticBottleneckLocalConsumerPrefix
         ]
       }]
-      scopeNotes := "Node [178] proves no sparse exit, CT3 response equivalence, decorated Type B handoff, fixed cap, or near-cubic spine. Those stronger implications remain white node [181]."
+      scopeNotes := "Node [144] proves no sparse exit, CT3 response equivalence, decorated Type B handoff, fixed cap, or near-cubic spine. Those stronger implications remain an open internal obligation of node [144]."
       workBound := "At most |V|+1 local incidence/degree checks. No path, context, quotient, subgraph, graph, coloring, or universe family is enumerated."
     },
     {
       stepId := "erdos.same-token-geometric-closure-consumer"
       stageId? := some "proof-slice.semantic-bottleneck-switch-normalization"
       title := "Cubic switch normalization"
-      plainExplanation := "Node [181] consumes node [178] exactly. Cubic divergence leaves become literal four-vertex cubic-star data; high leaves retain degree at least four, and mismatch/prefix leaves pass through unchanged."
-      formalStatement := "\\text{node-[178] frontier}\\Longrightarrow\\text{literal cubic star or retained residual}"
+      plainExplanation := "This node-[144] support stage consumes its predecessor exactly. Cubic divergence leaves become literal four-vertex cubic-star data; high leaves retain degree at least four, and mismatch/prefix leaves pass through unchanged."
+      formalStatement := "\\text{node-[144] frontier}\\Longrightarrow\\text{literal cubic star or retained residual}"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:same-token-cubic-switch-normalization", title := "Cubic switch normalization", nodeIds := [181] }
+        { label := "lem:same-token-cubic-switch-normalization", title := "Cubic switch normalization", nodeIds := [144] }
       ]
       declarationGroups := [{
         groupId := "same-token-switch-normalization-total"
         title := "Exact seven-way normalized frontier"
         role := .semanticTheorem
-        explanation := "The graph layer repackages only already proved incidences and degree branches. The application proves exact node-[178] provenance, result equality, totality, and zero new checks."
+        explanation := "The graph layer repackages only already proved incidences and degree branches. The application proves exact node-[144] provenance, result equality, totality, and zero new checks."
         declarations := [
           `StructuralExhaustion.Graph.SurplusPatternSemanticNormalization.normalize,
           `StructuralExhaustion.Graph.SurplusPatternSemanticNormalization.normalize_total,
@@ -8129,23 +9523,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.exists_verifiedSemanticBottleneckSwitchNormalizationPrefix
         ]
       }]
-      scopeNotes := "Node [181] proves no sparse exit, CT3 equivalence, Type B handoff, fixed cap, or near-cubic spine; those remain white node [184]."
+      scopeNotes := "Node [144] proves no sparse exit, CT3 equivalence, Type B handoff, fixed cap, or near-cubic spine; those remain an open internal obligation of node [144]."
       workBound := "Zero new primitive checks; no ambient family is enumerated."
     },
     {
       stepId := "erdos.same-token-normalized-geometric-consumer"
       stageId? := some "proof-slice.semantic-bottleneck-local-projection"
       title := "Local separator projection"
-      plainExplanation := "Node [184] consumes node [181] exactly, projecting cubic leaves to literal switch-boundary support and high leaves to their declared local port rows."
-      formalStatement := "\\text{node-[181]}\\Longrightarrow\\text{switch boundary or high-port row}"
+      plainExplanation := "This node-[144] support stage consumes its predecessor exactly, projecting cubic leaves to literal switch-boundary support and high leaves to their declared local port rows."
+      formalStatement := "\\text{node-[144]}\\Longrightarrow\\text{switch boundary or high-port row}"
       status := .implemented
       correspondence := .exact
-      manuscriptRefs := [{ label := "lem:same-token-local-separator-projection", title := "Local separator projection", nodeIds := [184] }]
+      manuscriptRefs := [{ label := "lem:same-token-local-separator-projection", title := "Local separator projection", nodeIds := [144] }]
       declarationGroups := [{
         groupId := "same-token-local-projection"
         title := "Exact cubic/high projection"
         role := .semanticTheorem
-        explanation := "All seven node-[181] leaves are retained with literal local support and port cardinality."
+        explanation := "All seven node-[144] leaves are retained with literal local support and port cardinality."
         declarations := [
         `StructuralExhaustion.Graph.SurplusPatternSemanticLocalProjection.project,
         `StructuralExhaustion.Graph.SurplusPatternSemanticLocalProjection.project_total,
@@ -8156,23 +9550,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         `Erdos64EG.Internal.semanticBottleneckLocalProjection_visibleChecks_linear,
         `Erdos64EG.Internal.exists_verifiedSemanticBottleneckLocalProjectionPrefix
       ] }]
-      scopeNotes := "Node [184] proves no sparse exit, response equality, CT3, Type B, fixed cap, fan safety, or target closure; those remain white node [187]."
+      scopeNotes := "Node [144] proves no sparse exit, response equality, CT3, Type B, fixed cap, fan safety, or target closure; those remain an open internal obligation of node [144]."
       workBound := "At most |V| local declared-port checks."
     },
     {
       stepId := "erdos.same-token-local-projection-consumer"
       stageId? := some "proof-slice.semantic-bottleneck-strong-frontier"
       title := "Strong-semantic obligation frontier"
-      plainExplanation := "Node [187] retains every exact node [184] payload and tags it with the next required theorem: sparse exit, fixed caps, CT3, or Type B. The tags are not certificates."
-      formalStatement := "\\text{node-[184] leaf}\\Longrightarrow\\text{retained payload with pending obligation tag}"
+      plainExplanation := "Node [144] retains every exact node [144] payload and tags it with the next required theorem: sparse exit, fixed caps, CT3, or Type B. The tags are not certificates."
+      formalStatement := "\\text{node-[144] leaf}\\Longrightarrow\\text{retained payload with pending obligation tag}"
       status := .implemented
       correspondence := .exact
-      manuscriptRefs := [{ label := "lem:same-token-strong-semantic-obligation-frontier", title := "Strong-semantic obligation frontier", nodeIds := [187] }]
+      manuscriptRefs := [{ label := "lem:same-token-strong-semantic-obligation-frontier", title := "Strong-semantic obligation frontier", nodeIds := [144] }]
       declarationGroups := [{
         groupId := "same-token-strong-obligation-frontier"
         title := "Exact seven-leaf obligation tagging"
         role := .semanticTheorem
-        explanation := "The classifier retains the exact projected payload and records only its required downstream theorem. The application proves node-[184] equality, retention, totality, and constant local work."
+        explanation := "The classifier retains the exact projected payload and records only its required downstream theorem. The application proves node-[144] equality, retention, totality, and constant local work."
         declarations := [
           `StructuralExhaustion.Graph.SurplusPatternStrongSemanticFrontier.classify,
           `StructuralExhaustion.Graph.SurplusPatternStrongSemanticFrontier.classify_total,
@@ -8186,18 +9580,18 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.exists_verifiedSemanticBottleneckStrongFrontierPrefix
         ]
       }]
-      scopeNotes := "Node [187] proves no sparse exit, CT3 equivalence, Type B handoff, or fixed cap; those remain white node [190]."
+      scopeNotes := "Node [144] proves no sparse exit, CT3 equivalence, Type B handoff, or fixed cap; those remain an open internal obligation of node [144]."
       workBound := "One constructor inspection; no ambient family is enumerated."
     },
     {
       stepId := "erdos.same-token-strong-semantic-consumer"
       stageId? := some "proof-slice.semantic-bottleneck-first-clause"
       title := "First local separator clause"
-      plainExplanation := "Node [190] retains node [187]'s exact payload and tag. Cubic leaves expose three exact boundary incidences; high leaves expose four distinct adjacent declared ports."
-      formalStatement := "\\text{node-[187] payload}\\Longrightarrow\\text{fixed-arity literal separator data}"
+      plainExplanation := "Node [144] retains node [144]'s exact payload and tag. Cubic leaves expose three exact boundary incidences; high leaves expose four distinct adjacent declared ports."
+      formalStatement := "\\text{node-[144] payload}\\Longrightarrow\\text{fixed-arity literal separator data}"
       status := .implemented
       correspondence := .exact
-      manuscriptRefs := [{ label := "lem:same-token-first-local-separator-clause", title := "First local separator clause", nodeIds := [190] }]
+      manuscriptRefs := [{ label := "lem:same-token-first-local-separator-clause", title := "First local separator clause", nodeIds := [144] }]
       declarationGroups := [{
         groupId := "same-token-first-local-clause"
         title := "Exact fixed-arity incidence clause"
@@ -8216,23 +9610,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.exists_verifiedSemanticBottleneckFirstClausePrefix
         ]
       }]
-      scopeNotes := "Node [190] discharges no sparse-exit, CT3, Type B, fixed-cap, response, or target conclusion; node [193] records the terminal pairwise-clause residual."
+      scopeNotes := "Node [144] discharges no sparse-exit, CT3, Type B, fixed-cap, response, or target conclusion; node [144] records the terminal pairwise-clause residual."
       workBound := "At most four literal local positions."
     },
     {
       stepId := "erdos.same-token-first-clause-consumer"
       stageId? := some "proof-slice.semantic-bottleneck-pairwise-clause"
       title := "Pairwise local separator clause"
-      plainExplanation := "Node [193] preserves node [190] and the pending obligation exactly, deriving only pairwise boundary or endpoint inequalities from the retained fixed-arity local data."
-      formalStatement := "\\text{node-[190] local clause}\\Longrightarrow\\text{pairwise local inequalities plus unchanged residual}"
+      plainExplanation := "Node [144] preserves node [144] and the pending obligation exactly, deriving only pairwise boundary or endpoint inequalities from the retained fixed-arity local data."
+      formalStatement := "\\text{node-[144] local clause}\\Longrightarrow\\text{pairwise local inequalities plus unchanged residual}"
       status := .implemented
       correspondence := .exact
-      manuscriptRefs := [{ label := "lem:same-token-pairwise-local-separator-clause", title := "Pairwise local separator clause", nodeIds := [193] }]
+      manuscriptRefs := [{ label := "lem:same-token-pairwise-local-separator-clause", title := "Pairwise local separator clause", nodeIds := [144] }]
       declarationGroups := [{
         groupId := "same-token-pairwise-local-clause"
         title := "Pairwise fixed-arity separator facts"
         role := .semanticTheorem
-        explanation := "The local graph layer derives pairwise distinctness and center-to-boundary inequalities; the application proves exact node-[190] and pending-obligation provenance."
+        explanation := "The local graph layer derives pairwise distinctness and center-to-boundary inequalities; the application proves exact node-[144] and pending-obligation provenance."
         declarations := [
           `StructuralExhaustion.Graph.LocalSeparatorPairwiseClause.cubic,
           `StructuralExhaustion.Graph.LocalSeparatorPairwiseClause.high,

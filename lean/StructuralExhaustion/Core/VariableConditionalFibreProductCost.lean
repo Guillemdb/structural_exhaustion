@@ -1,4 +1,5 @@
 import StructuralExhaustion.Core.FiniteSequentialFiltration
+import StructuralExhaustion.Core.UniformFiniteFibreProduct
 
 namespace StructuralExhaustion.Core.VariableConditionalFibreProductCost
 

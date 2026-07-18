@@ -129,6 +129,36 @@ noncomputable def localFanMass (selected : Finset scope.Center) :
   expandedWork := rfl
   quadraticWork := scope.localFanMassExpandedChecks_quadratic selected
 
+/-! ## Exact incoming-edge connectors for node `[84]`
+
+These lemmas do not add a fourth branch to the manuscript.  They expose the
+local CT14 payload carried by each of the three existing edges into `[84]`.
+In particular, every selected center is an element of the predecessor's
+actual `highCenters` subtype; no ambient vertex set or family of graphs is
+enumerated.
+-/
+
+/-- The node-`[80]` certificate-failure edge supplies its literal center,
+the node-`[81]` unresolved residual derived from that failure, and the exact
+singleton fan mass charged to the scope's assigned surplus. -/
+theorem certificateFailure_localFanMass
+    (noHigher : scope.NoHigherCenter) (center : scope.Center)
+    (residual : scope.FanCertificateResidualCenter noHigher center) :
+    scope.UnresolvedCenter ∧ scope.LocalFanMass {center} := by
+  exact ⟨scope.certificateResidual_is_unresolved noHigher center residual,
+    scope.localFanMass {center}⟩
+
+/-- The direct unresolved edge out of node `[81]` retains a concrete missing
+center and therefore supplies the exact singleton fan-mass payload expected
+by node `[84]`. -/
+theorem unresolved_localFanMass
+    (unresolved : scope.UnresolvedCenter) :
+    ∃ center : scope.Center,
+      (¬Nonempty (scope.LocalEntryAt center)) ∧
+        scope.LocalFanMass {center} := by
+  rcases unresolved with ⟨center, missing⟩
+  exact ⟨center, missing, scope.localFanMass {center}⟩
+
 /-- Exact selected center set of a minimal overlap.  `Demand` and
 `scope.Center` are definitionally the same subtype because `assignedSupport`
 retains `scope.highCenters`. -/
@@ -160,6 +190,19 @@ theorem overlapCenters_card_eq_selected_length
   apply List.toFinset_card_of_nodup
   exact obstruction.sublist.nodup
     (scope.assignedSupport resolution).demands.nodup_orderedValues
+
+/-- The node-`[83]` minimal-overlap edge supplies fan mass on exactly its
+duplicate-free selected-center schedule.  The selected-cardinality equality
+is part of `LocalFanMass.countExact` together with
+`overlapCenters_card_eq_selected_length`; no replacement center set is used.
+-/
+theorem minimalOverlap_localFanMass
+    (noHigher : scope.NoHigherCenter)
+    (result : scope.B2MinimalOverlap noHigher) :
+    scope.LocalFanMass
+      (scope.overlapCenters result.resolution result.obstruction) :=
+  scope.localFanMass
+    (scope.overlapCenters result.resolution result.obstruction)
 
 /-- The strongest branch-total local result available from nodes
 `[75]`, `[81]`, `[82]`, and `[83]`. -/

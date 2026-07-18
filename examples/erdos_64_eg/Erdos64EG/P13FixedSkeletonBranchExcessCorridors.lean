@@ -1,4 +1,5 @@
 import Erdos64EG.P13FixedSkeletonEntrySchedule
+import StructuralExhaustion.Core.ExactHandoff
 import Erdos64EG.P13SelectedWindowCorridor
 import StructuralExhaustion.Graph.InducedPathColdBranchExcess
 
@@ -275,14 +276,13 @@ theorem p13BranchExcessCorridorChecks_quadratic
 field and therefore cannot be supplied by an application. -/
 structure VerifiedP13BranchExcessCorridorPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type u where
-  previous : VerifiedP13MultiScaleCurvaturePrefix ctx
-  previousExact : previous = node21
+    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type u
+    extends Core.ExactHandoff node21 where
 
 def verifiedP13BranchExcessCorridorPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) :
-    VerifiedP13BranchExcessCorridorPrefix ctx node21 := ⟨node21, rfl⟩
+    VerifiedP13BranchExcessCorridorPrefix ctx node21 := ⟨⟨node21, rfl⟩⟩
 
 namespace VerifiedP13BranchExcessCorridorPrefix
 

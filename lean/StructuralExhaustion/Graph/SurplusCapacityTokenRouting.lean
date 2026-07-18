@@ -317,6 +317,122 @@ theorem blocked_token (pair : BlockedPair stage) :
   | isTrue _ => rfl
   | isFalse notBlocked => exact (notBlocked pair.2).elim
 
+/-! ## Original blocked-pair ledger
+
+The manuscript's node `[136]` partitions only the positive blocker branch.
+The complete-pair ledger below is useful for later bookkeeping, but it does
+not replace this exact predecessor-indexed CT9 execution. -/
+
+@[implicit_reducible]
+noncomputable def blockedPairs : FinEnum (BlockedPair stage) :=
+  SurplusPairResponse.blockedPairEnumeration stage
+
+noncomputable def blockedRole (pair : BlockedPair stage) :
+    SurplusTokenRole.AdmittedRole :=
+  (SurplusTokenRole.admittedKind
+      (SurplusPairResponse.canonicalBlocker stage pair).value,
+    tokenSubtype (ctx := ctx) (setup := setup) (blockedToken stage pair))
+
+noncomputable def blockedCapability : CT9.Capability input.problem :=
+  CT9.TokenRoleLedger.capability input.problem (BlockedPair stage)
+    (tokens (ctx := ctx) (setup := setup)) SurplusTokenRole.admittedRoleEnum
+    (blockedToken stage) (blockedRole stage)
+
+noncomputable def blockedInput : CT9.Input (blockedCapability stage) :=
+  CT9.TokenRoleLedger.input (capacity := fun _ _ => 0)
+    ctx.toBranchContext (blockedPairs stage).toOrderedCollection
+
+noncomputable def blockedRun :=
+  CT9.TokenRoleLedger.run
+    (tokens (ctx := ctx) (setup := setup)) SurplusTokenRole.admittedRoleEnum
+    (blockedToken stage) (blockedRole stage) ctx.toBranchContext
+    (blockedPairs stage).toOrderedCollection
+
+/-- Exact original node-`[136]` identity: every admitted blocked pair occurs
+in one and only one capacity-token/admitted-role fibre. -/
+theorem blocked_noOvercounting :
+    (blockedInput stage).items.values.length =
+      ((blockedCapability stage).labels.orderedValues.map fun labelValue =>
+        CT9.fibreCount (blockedCapability stage) (blockedInput stage)
+          labelValue).sum :=
+  CT9.TokenRoleLedger.noOvercounting
+    (tokens (ctx := ctx) (setup := setup)) SurplusTokenRole.admittedRoleEnum
+    (blockedToken stage) (blockedRole stage) ctx.toBranchContext
+    (blockedPairs stage).toOrderedCollection
+
+theorem blocked_role_card : SurplusTokenRole.admittedRoleEnum.card = 24 :=
+  SurplusTokenRole.admittedRole_card
+
+noncomputable def blockedChecks : Nat :=
+  CT9.TokenRoleLedger.checks
+    (tokens (ctx := ctx) (setup := setup)) SurplusTokenRole.admittedRoleEnum
+    (blockedPairs stage).toOrderedCollection
+
+theorem blockedChecks_eq :
+    blockedChecks stage = (blockedPairs stage).card *
+      ((tokens (ctx := ctx) (setup := setup)).card * 24) := by
+  rw [blockedChecks, CT9.TokenRoleLedger.checks_enumeration_eq,
+    SurplusTokenRole.admittedRole_card]
+
+/-- Complete CT9 execution certificate for the original blocked-pair branch.
+Only the already produced blocked subtype is scanned. -/
+noncomputable def blockedVerifiedStage :
+    CT9.TokenRoleLedger.VerifiedStage
+      (tokens (ctx := ctx) (setup := setup))
+      SurplusTokenRole.admittedRoleEnum (blockedToken stage)
+      (blockedRole stage) ctx.toBranchContext
+      (blockedPairs stage).toOrderedCollection :=
+  CT9.TokenRoleLedger.verifiedStage
+    (tokens (ctx := ctx) (setup := setup)) SurplusTokenRole.admittedRoleEnum
+    (blockedToken stage) (blockedRole stage) ctx.toBranchContext
+    (blockedPairs stage).toOrderedCollection
+
+/-- Original manuscript role, including the two raw audit kinds.  The local
+candidate theorem proves that those twelve product rows are empty, but keeping
+them in the label universe gives the literal `Q_st = 36` accounting. -/
+noncomputable def blockedFullRole (pair : BlockedPair stage) :
+    SurplusTokenRole.Role :=
+  ((SurplusPairResponse.canonicalBlocker stage pair).value.kind,
+    tokenSubtype (ctx := ctx) (setup := setup) (blockedToken stage pair))
+
+theorem blockedFullRole_kind_ne_audit (pair : BlockedPair stage) :
+    (blockedFullRole stage pair).1 ≠ .profile ∧
+      (blockedFullRole stage pair).1 ≠ .target := by
+  exact SurplusPairBlocker.Pair.candidate_kind_ne_profile_target
+    (SurplusPairResponse.canonicalBlocker stage pair).value
+
+noncomputable def blockedFullCapability : CT9.Capability input.problem :=
+  CT9.TokenRoleLedger.capability input.problem (BlockedPair stage)
+    (tokens (ctx := ctx) (setup := setup)) SurplusTokenRole.roleEnum
+    (blockedToken stage) (blockedFullRole stage)
+
+noncomputable def blockedFullInput : CT9.Input (blockedFullCapability stage) :=
+  CT9.TokenRoleLedger.input (capacity := fun _ _ => 0)
+    ctx.toBranchContext (blockedPairs stage).toOrderedCollection
+
+theorem blockedFull_noOvercounting :
+    (blockedFullInput stage).items.values.length =
+      ((blockedFullCapability stage).labels.orderedValues.map fun labelValue =>
+        CT9.fibreCount (blockedFullCapability stage) (blockedFullInput stage)
+          labelValue).sum :=
+  CT9.TokenRoleLedger.noOvercounting
+    (tokens (ctx := ctx) (setup := setup)) SurplusTokenRole.roleEnum
+    (blockedToken stage) (blockedFullRole stage) ctx.toBranchContext
+    (blockedPairs stage).toOrderedCollection
+
+theorem blocked_full_role_card : SurplusTokenRole.roleEnum.card = 36 :=
+  SurplusTokenRole.role_card
+
+noncomputable def blockedFullVerifiedStage :
+    CT9.TokenRoleLedger.VerifiedStage
+      (tokens (ctx := ctx) (setup := setup)) SurplusTokenRole.roleEnum
+      (blockedToken stage) (blockedFullRole stage) ctx.toBranchContext
+      (blockedPairs stage).toOrderedCollection :=
+  CT9.TokenRoleLedger.verifiedStage
+    (tokens (ctx := ctx) (setup := setup)) SurplusTokenRole.roleEnum
+    (blockedToken stage) (blockedFullRole stage) ctx.toBranchContext
+    (blockedPairs stage).toOrderedCollection
+
 theorem role_card : SurplusTokenRole.totalRoleEnum.card = 25 :=
   SurplusTokenRole.totalRole_card
 

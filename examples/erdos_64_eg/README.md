@@ -16,6 +16,30 @@ The internal ambient type is the framework's `Graph.FiniteObject`: the same
 Mathlib `SimpleGraph` together with the explicit `FinEnum`/adjacency data
 needed by deterministic search.
 
+## Current audited status
+
+The status authority is the compiled `formalizedNodeIds` list exported from
+`Erdos64EG/WebExport.lean`, not historical progress notes later in this file.
+Under the exact-predecessor and complete-obligation policy, the current green
+set is nodes `[1]`--`[22]`, `[145]`, `[146]`, `[148]`, and `[149]`. Node `[146]` consumes the
+canonical node-[145] ledger, executes the exact `78p13 < n` decision, proves
+the denominator-safe `theta`/`tau` equivalence, and retains both original
+outgoing payloads with a constant work certificate. Node `[148]` consumes the
+literal no payload, retains the exact final hot aggregate, and returns exactly
+the original `[149]` or `[150]` residual. Node `[149]` consumes that exact yes
+residual and proves the normalized `theta <= theta_win + o(1)` density cap:
+the complete finite error has a graph-order-only `o(n log n)` envelope, whose
+explicit normalized density term tends to zero. Node `[147]` remains yellow at 4/9:
+its arithmetic margin is proved, but the Type-A carrier ledger is not yet
+connected. Node `[150]` remains yellow at 8/9: its exact cold-mass bounds,
+both printed coefficients, and vanishing normalization error are proved; only
+the surviving-cold exclusions and exact near-cubic spine payload for `[151]`
+are absent. Conditional Lean support at demoted
+nodes remains indexed as proved tasks, while every missing original-paper
+producer is displayed separately in the web obligation ledger with
+`proved / total` and remaining counts. The immutable Chapter 1 topology is
+exactly nodes `[1]`--`[157]`; internal helpers are not proof-diagram nodes.
+
 The verified proof slice contains:
 
 - a proved equivalence between the finite executable length predicate and
@@ -272,9 +296,10 @@ node-`[48]` telescoping ledger and nonempty terminal fibre give
 `A^10 < B^10*U`. Thus the reverse small-budget edge is impossible, while the
 surviving edge still consumes rather than creates the node-`[55]` quarter
 budget. The arithmetic performs zero semantic checks and evaluates no power.
-Node `[176]` is the global grouped fan-mass producer frontier. Green node
-`[177]` is the exact finite attachment/germ-shape classifier, and node `[178]`
-is its semantic sparse-exit/CT3/Type-B/fixed-cap frontier.
+The global grouped fan-mass producer is an internal obligation of the original
+node `[84] -> [85]` edge.  The attachment/germ-shape classifier and its
+semantic sparse-exit/CT3/Type-B/fixed-cap payload remain internal support for
+the original node `[144]`; they are not additional diagram nodes.
 The manuscript distinguishes raw quotient proposals from admitted quotients.
 Boundary and target mismatches are proposal-audit exits; every non-injective
 admitted quotient carries a certified smaller counterexample and is ruled out
@@ -505,8 +530,11 @@ full degree rows and returns equality or a congruent nonzero gap; green node
 extends that scan to exactly the first eighteen coordinates while preserving
 the same CT10 obligation. Green node `[189]` extends only through literal
 positions 18--26, so the full response consumer remains white at `[192]`.
-The current diagram has exactly 126 green nodes among 194 active nodes and no
-yellow nodes; all 1308 displayed declarations are explained. Green node `[177]` consumes
+The current diagram has 193 active nodes. Green is reserved for complete Lean
+implementations of the corresponding cells in `original_erdos_64_proof.tex`;
+implemented but incomplete original cells are yellow, and all supplemental
+nodes above `[157]` are grey. The exact counts are generated from the Lean-owned
+crosswalk. Green node `[177]` consumes
 node `[144]`'s exact typed trigger and
 scans only its `78*p13` attachment coordinates. It returns the first mismatch
 or full alignment and one of four stored rooted-germ shapes, retaining an
@@ -557,6 +585,23 @@ ambient-cubic external stub, proving exact coverage, the cubic counts 15 and
 13, and quadratic local work. Fixed D4--D7 reconstruction, F2--F4 routing,
 and bounded-multiplicity aggregation are still required after node `[24]` for
 the dependent Part-IV closure.
+
+Prior F4 supports now use the reusable framework persistent-residual ledger.
+Occurrences are primary, so two producer steps remain distinct even when
+their event values or declared supports coincide. The graph specialization
+performs exact first-hit recognition and proves the negative branch for every
+literal occurrence; the older list ledger is only a compatibility
+materialization for the existing D6 structural runner. The Erdős adapter
+canonically tags the ordinary, decorated, and route-8 schedules and proves
+their provenance. That provenance is now the first property in a
+`Core.ResidualRefinement.Ledger`: later nodes receive the accumulated state
+and add only their new property, while the framework preserves the exact
+events, occurrence identities, and every prior proof. This closes the
+reusable-ledger design obligation, but not
+the causal producer obligation: the current immutable diagram produces the
+actual node-`[64]`, node-`[84]`, and node-`[108]` occurrences downstream of
+node `[24]`, so pre-node-`[24]` component candidates cannot rigorously populate
+the node-`[153]` F4 ledger.
 
 The node-`[24]` Lean boundary now also requires the density statement itself:
 `118108581006 * U13 ≤ 1500000000 * n`, in addition to `p13 ≤ U13` and the

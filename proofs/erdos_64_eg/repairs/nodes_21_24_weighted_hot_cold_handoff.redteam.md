@@ -328,3 +328,214 @@ the full density closure additionally fails at scale aggregation,
 cross-window state counting, the exact constant, and the still-open cold
 consumer.  Node [21] may remain verified; the weighted connector and nodes
 [22]--[24] must remain frozen/open until those obligations are discharged.
+
+## Second audit: synchronization-only weighted interface
+
+### Proposed narrower claim
+
+This second audit considers only a synchronization change that would:
+
+1. remove the Boolean node-[160] package from the load-bearing flow;
+2. describe the compiled weighted live/cold interface;
+3. expose the exact same-window geometric corridor route on the cold
+   constructor; and
+4. explicitly leave graph-owned package construction, cross-window
+   aggregation, density closure, and F2--F5 closure pending.
+
+No claim that nodes [22]--[24] are proved is part of this narrower proposal.
+The newly inspected declarations are
+
+- `Core.VariableConditionalFibreProductCost.Profile`, its exact variable
+  product theorem, and its local work bound; and
+- `P13WeightedLiveWindowPackage`, `P13WeightedHotWindow`,
+  `P13WeightedColdWindow`, `classifyP13WeightedWindow`, the hot/cold count
+  identity, and `P13WeightedColdWindow.corridorRoute`.
+
+The focused command
+
+```text
+lake build Erdos64EG.P13WeightedHotColdInterface
+```
+
+passes, with only pre-existing unused-variable warnings in replayed modules.
+
+### Claims that pass
+
+| Narrow claim | Evidence | Verdict |
+|---|---|---|
+| Variable factors telescope on one supplied ordered carrier | `Profile.complete_product_le` | pass |
+| Checker scans only successive local fibres | `checks_le_state_mul_coordinate` | pass |
+| A positive entry retains its exact selected window and complete ledger | dependent fields of `P13WeightedLiveWindowPackage` and `P13WeightedHotWindow` | pass |
+| The proof-level sum split is exhaustive | `classifyP13WeightedWindow` | pass as classical proposition split |
+| Hot/cold lists partition the selected packing | `p13WeightedHotCount_add_coldCount` | pass |
+| A cold entry preserves the identical window into graph geometry | `P13WeightedColdWindow.corridorRoute` | pass |
+| The source can honestly state that aggregation and F2--F5 remain pending | no declaration claims either closure | pass |
+
+The same-window route is notably clean: it ignores no window identity,
+classifies that exact window by actual graph degrees, and either returns a
+literal surplus position or constructs the actual corridor first-failure
+result.  It does not pretend that package absence itself already proves F2,
+F3, F4, F5, or compression.
+
+### New blocking countermodel: vacuous live package
+
+The compiled positive package currently has no nontrivial scale requirement.
+In particular, it permits
+
+```text
+State             = Unit
+states.values     = [()]
+Coordinate        = Empty
+coordinates.values = []
+scaleMultiplicity = 0.
+```
+
+Then:
+
+- `coordinateKeyInjective` is vacuous;
+- every `barrierMultiplicity` equality is `0 = 0`;
+- `connector`, `accepts`, and `acceptsSemantic` have no coordinate input and
+  are vacuous;
+- `profile.barriers = []`;
+- `CompleteLedger.nil` supplies `ledger`; and
+- the final state list is `[()]`, so `finalNonempty` holds.
+
+Thus `P13WeightedLiveWindowPackage ctx node21 window` is inhabited without one
+barrier, one separated scale, or one graph connector test.  Consequently the
+classical classifier can classify every window as live using a zero-cost
+package, and `packageAbsent` is not the intended structural cold condition.
+The theorem `product_le` then proves only `1 <= 1`; it records none of node
+[21]'s rate.
+
+This is a smallest finite countermodel to the name and intended semantics of
+the interface.  Explicitly leaving density closure pending does not cure it:
+the proposed synchronization would still say that the two constructors are
+the paper's weighted live/cold alternatives, while the positive constructor
+does not require a live payment.
+
+At minimum the package needs:
+
+1. `0 < scaleMultiplicity` to exclude the empty schedule;
+2. a graph-derived scale schedule and a proved lower bound on
+   `scaleMultiplicity` appropriate to the manuscript, rather than an
+   arbitrary natural-number label;
+3. a theorem rewriting `profile.safeProduct` and `profile.flatProduct` as the
+   node-[21] products raised to that multiplicity; and
+4. if the intended live rate is `(c13-o(1)) log_2 n`, the exact separated-scale
+   lower bound that yields that asymptotic rate.
+
+The first item is sufficient only to make “live” nonempty in a minimal sense;
+it is not sufficient for nodes [22]--[24].
+
+### Second verdict
+
+- **Synchronization-only correction: FAIL in the current compiled form.**
+  Removing the Boolean node-[160] claim, exposing variable-factor accounting,
+  preserving the exact window on the cold route, and marking all downstream
+  results pending are each correct.  The positive `live` contract is vacuous
+  because zero coordinates and zero scale multiplicity satisfy it.  Calling
+  the resulting split the manuscript's weighted live/cold interface would
+  therefore overstate the compiled theorem.
+- **Full nodes [22]--[24]: FAIL unchanged.**
+
+After the live package is strengthened with a nonzero graph-derived schedule,
+the same synchronization-only change can be re-audited independently of the
+still-open density theorem.  It may pass while nodes [22]--[24] remain frozen,
+provided the manuscript states only the exact local interface, the
+same-window route, and the named pending obligations.
+
+## Third audit: strengthened current weighted interface
+
+### Current bytes and change from the second audit
+
+This audit reopened the current
+`examples/erdos_64_eg/Erdos64EG/P13WeightedHotColdInterface.lean`, SHA-256
+
+```text
+7b00de39fda11a770bae030a6bee3f3f8d3febe4f2f2a17ee499d65887272abb
+```
+
+rather than relying on the preceding snapshot.  The positive package now
+contains all of the following fields:
+
+- `scaleMultiplicityPositive : 0 < scaleMultiplicity`;
+- `scaleMultiplicity + scaleLoss = Nat.log 2 |V(G)|`;
+- `scaleLoss ≤ 30`;
+- every scheduled coordinate has scale below `Nat.log 2 |V(G)|`;
+- every one of the 91 barriers occurs exactly `scaleMultiplicity` times;
+- `(barrierIndex, separatedScale)` is injective; and
+- the graph-owned connector code is injective in the state.
+
+The previous zero-coordinate countermodel is therefore rejected.  Indeed,
+`P13BarrierIndex` has an inhabitant because its verified ordered
+classification has cardinality 91.  For any such index, an empty coordinate
+list would make
+
+```text
+(coordinates.values.map barrierIndex).count index = 0,
+```
+
+whereas `barrierMultiplicity` identifies this count with the strictly positive
+`scaleMultiplicity`.  This is impossible.  The exact log-scale equation also
+prevents the multiplicity from being an unconstrained dummy rate.
+
+### Narrow contract audit
+
+| Obligation | Current evidence | Verdict |
+|---|---|---|
+| Nonvacuous coordinate schedule | positive multiplicity plus every-barrier count | pass |
+| Manuscript-scale schedule up to fixed endpoint loss | `scaleCountExact`, `scaleLossBound` | pass for interface synchronization |
+| No duplicate barrier/scale key | `coordinateKeyInjective` | pass |
+| Graph-owned local test meaning | connector sequences plus `acceptsSemantic` | pass |
+| Distinct supplied states have distinct connector codes | `connectorCodeInjective` | pass |
+| Exact weighted payment on a live package | complete ledger, terminal nonemptiness, `product_le` | pass |
+| Local practical execution | `checks_local` | pass relative to the supplied carrier |
+| Exact packing partition | `p13WeightedHotCount_add_coldCount` | pass |
+| Cold branch preserves the selected window | dependent `cold.window` index in `corridorRoute` | pass |
+| No Boolean realization claim | no Boolean cube or assignment appears in the interface | pass |
+| Package construction claimed | deliberately absent | correctly pending |
+| Cross-window aggregation claimed | deliberately absent | correctly pending |
+| F2--F5 or compression closure claimed | deliberately absent | correctly pending |
+| Nodes [22]--[24] claimed green | excluded from narrow proposal | correctly pending |
+
+The classification remains a classical proof split over existence of the
+strengthened package, not an executable search through graphs or assignments.
+That is honest for the proposed synchronization remark so long as the source
+calls it a proof-level interface and does not describe `packageAbsent` as a
+computed first ratio failure.  The negative constructor retains the exact
+window, and the corridor route is graph-owned and executable on that window.
+It need not claim that package absence alone has already selected F2--F5.
+
+The fixed loss of at most 30 scales is sufficient for the narrow asymptotic
+interface statement: it is an `O(1)` endpoint loss from `log_2 n`.  Turning
+the local products into the exact printed `118.108581006...` global entropy
+and multiplying them across windows remain separate obligations, as the
+proposed source change explicitly says.
+
+### Focused check
+
+```text
+lake build Erdos64EG.P13WeightedHotColdInterface
+```
+
+passes on the current bytes, with only pre-existing unused-variable warnings
+in replayed modules.
+
+### Third verdict
+
+- **Synchronization-only weighted live/cold correction: PASS.**  The current
+  positive package is nonvacuous, retains the exact variable-factor ledger on
+  a graph-owned connector schedule, and records the logarithmic scale count up
+  to a fixed loss.  The negative branch preserves the identical selected
+  window into the exact graph corridor route.  The source may replace the
+  Boolean node-[160] claim by an unnumbered remark describing precisely these
+  compiled contracts and marking package construction, global aggregation,
+  and F2--F5 closure pending.
+- **Full nodes [22]--[24] density closure: FAIL unchanged.**  This PASS does
+  not prove existence of a live package for any window, a cross-window product
+  theorem, the exact global entropy comparison, node [23]'s contradiction, or
+  node [24]'s density/high-entropy conclusions.
+
+This third verdict supersedes the second verdict for the current file hash.
+It authorizes only truthful TeX--Lean--web synchronization of the frozen
+weighted interface, not promotion of nodes [22]--[24].

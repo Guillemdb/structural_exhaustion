@@ -1,5 +1,6 @@
 import Mathlib.Tactic
 import StructuralExhaustion.Graph.PackedBridgeReduction
+import StructuralExhaustion.Graph.FinitePathCertificateWork
 import StructuralExhaustion.Graph.OpenPortSuppression
 import StructuralExhaustion.Graph.SurplusPortActivity
 import StructuralExhaustion.Graph.TriangularPortReturn
@@ -653,6 +654,52 @@ theorem portEndpoint_mem_GammaVertices
   · change endpoint ∈ s(endpoint, first)
     simp only [Sym2.mem_iff, true_or]
 
+theorem firstShoulder_mem_GammaVertices
+    (demand : ActiveDemand setup slot) :
+    SurplusPortActivity.firstShoulder ctx.G.object slot setup.deletionCritical ∈
+      demand.GammaVertices := by
+  rw [demand.mem_GammaVertices_iff]
+  let endpoint := SurplusPortActivity.portEndpoint ctx.G.object slot
+  let first := SurplusPortActivity.firstShoulder ctx.G.object slot
+    setup.deletionCritical
+  refine ⟨s(endpoint, first), ?_, ?_⟩
+  · cases responseEq : demand.response <;>
+      simp [GammaEdges, responseEq, openGammaEdges,
+        triangularGammaEdges, triangle, endpoint, first,
+        SurplusPortActivity.portEndpoint,
+        SurplusPortActivity.firstShoulder,
+        SurplusPortActivity.secondShoulder]
+  · change first ∈ s(endpoint, first)
+    simp only [Sym2.mem_iff, or_true]
+
+theorem secondShoulder_mem_GammaVertices
+    (demand : ActiveDemand setup slot) :
+    SurplusPortActivity.secondShoulder ctx.G.object slot setup.deletionCritical ∈
+      demand.GammaVertices := by
+  rw [demand.mem_GammaVertices_iff]
+  let endpoint := SurplusPortActivity.portEndpoint ctx.G.object slot
+  let second := SurplusPortActivity.secondShoulder ctx.G.object slot
+    setup.deletionCritical
+  refine ⟨s(endpoint, second), ?_, ?_⟩
+  · cases responseEq : demand.response <;>
+      simp [GammaEdges, responseEq, openGammaEdges,
+        triangularGammaEdges, triangle, endpoint, second,
+        SurplusPortActivity.portEndpoint,
+        SurplusPortActivity.firstShoulder,
+        SurplusPortActivity.secondShoulder]
+  · change second ∈ s(endpoint, second)
+    simp only [Sym2.mem_iff, or_true]
+
+theorem portSupport_subset_GammaVertices
+    (demand : ActiveDemand setup slot) :
+    PortSupport setup slot ⊆ demand.GammaVertices := by
+  intro vertex member
+  rw [mem_portSupport_iff] at member
+  rcases member with rfl | rfl | rfl
+  · exact demand.portEndpoint_mem_GammaVertices
+  · exact demand.firstShoulder_mem_GammaVertices
+  · exact demand.secondShoulder_mem_GammaVertices
+
 theorem GammaVertices_nonempty (demand : ActiveDemand setup slot) :
     demand.GammaVertices.Nonempty :=
   ⟨SurplusPortActivity.portEndpoint ctx.G.object slot,
@@ -821,6 +868,77 @@ structure VerifiedActivatedStage
       (rootReturn setup slot).path.snd =
         SurplusPortActivity.secondShoulder ctx.G.object slot
           setup.deletionCritical
+
+namespace VerifiedActivatedStage
+
+variable {input : PackedMinimumDegreeCycle.StaticInput}
+  {ctx : Core.MinimalCounterexampleContext input.problem input.Target}
+  {setup : Setup input ctx}
+
+/-- Path-support cost retained by one actual activated slot.  The triangular
+branch adds no searched path: its literal three-edge cycle is constructed
+directly. -/
+noncomputable def responsePathLength (stage : VerifiedActivatedStage input ctx setup)
+    (slot : Slot setup) : Nat :=
+  match (stage.demand slot).response with
+  | .open _ response => response.path.length
+  | .triangular _ _ => 0
+
+noncomputable def slotPathLength (stage : VerifiedActivatedStage input ctx setup)
+    (slot : Slot setup) : Nat :=
+  (rootReturn setup slot).path.length + stage.responsePathLength slot
+
+/-- Exact work ledger: one descriptor test per selected slot, plus only the
+two proof-carrying path supports selected in that slot. -/
+noncomputable def activationChecks
+    (stage : VerifiedActivatedStage input ctx setup) : Nat :=
+  FinitePathCertificateWork.scheduledChecks
+    (activatedSchedule setup stage.run.residual) stage.slotPathLength
+
+theorem rootPathLength_le_vertices
+    (_stage : VerifiedActivatedStage input ctx setup) (slot : Slot setup) :
+    (rootReturn setup slot).path.length ≤
+      ctx.G.object.input.vertices.card :=
+  FinitePathCertificateWork.pathLength_le_vertices
+    ctx.G.object.input.vertices (rootReturn setup slot).path
+    (rootReturn setup slot).isPath
+
+theorem responsePathLength_le_vertices
+    (stage : VerifiedActivatedStage input ctx setup) (slot : Slot setup) :
+    stage.responsePathLength slot ≤ ctx.G.object.input.vertices.card := by
+  cases responseEq : (stage.demand slot).response with
+  | «open» isOpen response =>
+      simpa [responsePathLength, responseEq] using
+        FinitePathCertificateWork.pathLength_le_vertices
+          ctx.G.object.input.vertices response.path response.pathIsSimple
+  | triangular isTriangular returnStage =>
+      simp [responsePathLength, responseEq]
+
+theorem slotPathLength_le_twice_vertices
+    (stage : VerifiedActivatedStage input ctx setup) (slot : Slot setup) :
+    stage.slotPathLength slot ≤ 2 * ctx.G.object.input.vertices.card := by
+  dsimp [slotPathLength]
+  have rootLe := stage.rootPathLength_le_vertices slot
+  have responseLe := stage.responsePathLength_le_vertices slot
+  omega
+
+/-- The node-[128] activation ledger is cubic in the declared vertex count.
+It scans only the selected surplus slots and their supplied path certificates;
+no ambient graph or response-context universe is enumerated. -/
+theorem activationChecks_le_cubic
+    (stage : VerifiedActivatedStage input ctx setup) :
+    stage.activationChecks ≤
+      ctx.G.object.input.vertices.card ^ 2 *
+        (2 * ctx.G.object.input.vertices.card + 1) := by
+  apply FinitePathCertificateWork.scheduledChecks_le_of_length_le
+  · intro slot _member
+    exact stage.slotPathLength_le_twice_vertices slot
+  · change (SurplusPortActivity.portSlots ctx.G.object).orderedValues.length ≤
+      ctx.G.object.input.vertices.card ^ 2
+    rw [FinEnum.orderedValues_length]
+    exact SurplusPortActivity.portSlots_card_le_square ctx.G.object
+
+end VerifiedActivatedStage
 
 noncomputable def verifiedActivatedStage
     (input : PackedMinimumDegreeCycle.StaticInput)

@@ -57,11 +57,8 @@ theorem coordinate_support_subset_active (coordinate : ownership.Coordinate) :
     coordinate.support ctx.G.object ownership.profile ⊆
       InducedPathComponentD4.activeSupport componentInput := by
   intro vertex member
-  have singleton : vertex = coordinate.ambientVertex ctx.G.object ownership.profile := by
-    simpa [TypeATraceIncidenceCoordinate.Coordinate.support] using member
-  subst vertex
   rw [← ownership.supportExact]
-  exact coordinate.ambientVertex_mem_profile ctx.G.object ownership.profile
+  exact coordinate.support_subset_profile ctx.G.object ownership.profile member
 
 theorem coordinates_quadratic :
     (ownership.coordinates componentInput).card ≤

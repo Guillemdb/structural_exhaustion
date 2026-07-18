@@ -112,6 +112,22 @@ theorem wedgeFloor :
     profile.three_mul_card_le_wedgeCount_add_twice_deficiency
   omega
 
+/-- Real-arithmetic transport of the exact wedge floor.  An application may
+supply any proved deficiency-rate estimate and explicit additive error; the
+graph layer converts it to the corresponding wedge-rate estimate without
+enumerating components or coordinates. -/
+theorem wedgeRate_of_deficiencyRate
+    (rate error : ℝ)
+    (deficiencyRate : (profile.positiveDeficiency : ℝ) ≤
+      rate * profile.core.card + error) :
+    (3 - 2 * rate) * profile.core.card ≤
+      profile.wedgeCount + 2 * error := by
+  have floorReal :
+      (3 : ℝ) * profile.core.card ≤
+        profile.wedgeCount + 2 * profile.positiveDeficiency := by
+    exact_mod_cast profile.three_mul_card_le_wedgeCount_add_twice_deficiency
+  nlinarith
+
 theorem internalDegree_le_vertexCount (vertex : V) :
     profile.internalDegree vertex ≤ object.input.vertices.card := by
   letI : FinEnum V := object.input.vertices

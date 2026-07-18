@@ -1,5 +1,6 @@
 import StructuralExhaustion.CT15.Automation
 import StructuralExhaustion.CT15.BaselineDemand
+import StructuralExhaustion.CT15.AdmissibleQuotient
 
 namespace StructuralExhaustion.Examples.CT15AutomationFirst
 
@@ -190,5 +191,105 @@ theorem threeSwitch_linear_work :
         ((threeSwitchDemand.budget branch).size () + 1) ^
           (threeSwitchDemand.budget branch).degree :=
   threeSwitchDemand.linearWork branch
+
+/-! ## Exact functional-quotient target rank, without quotient enumeration -/
+
+def falseTarget (_ : problem.Ambient) : Prop := False
+
+noncomputable def minimalBranch :
+    Core.MinimalCounterexampleContext problem falseTarget where
+  G := ()
+  baseline := trivial
+  state := ()
+  avoids := id
+  minimal := by
+    intro H smaller _baseline
+    exact (Nat.not_lt_zero _ smaller).elim
+
+noncomputable def boolResponseSystem : CT15.AdmissibleQuotient.ResponseSystem where
+  Coordinate := Bool
+  BoundaryValue := Unit
+  Context := Unit
+  boundary := fun _ => ()
+  response := fun _ _ => false
+
+noncomputable def boolQuotientRankProfile :
+    CT15.AdmissibleQuotient.Profile minimalBranch where
+  system := boolResponseSystem
+  coordinates := bools
+
+theorem boolDeclaredSurvives :
+    boolQuotientRankProfile.Survives
+      boolQuotientRankProfile.declaredCoordinates := by
+  refine ⟨Finset.Subset.rfl, ?_⟩
+  intro proposal quotient
+  exact quotient.injective.injOn
+
+theorem boolFunctionalQuotientRank_eq_declaredCard :
+    boolQuotientRankProfile.targetRank =
+      boolQuotientRankProfile.coordinates.card := by
+  apply Nat.le_antisymm
+  · exact boolQuotientRankProfile.targetRank_le_coordinates
+  · have lower := boolQuotientRankProfile.surviving_card_le_targetRank
+      boolDeclaredSurvives
+    rw [boolQuotientRankProfile.declaredCoordinates_card] at lower
+    exact lower
+
+theorem boolRankDecision_full :
+    ∃ equality : boolQuotientRankProfile.targetRank =
+      boolQuotientRankProfile.coordinates.card,
+      boolQuotientRankProfile.rankDecision = .full equality := by
+  simp [CT15.AdmissibleQuotient.Profile.rankDecision,
+    boolFunctionalQuotientRank_eq_declaredCard]
+
+noncomputable example
+    (rankDrop : boolQuotientRankProfile.targetRank <
+      boolQuotientRankProfile.coordinates.card) :
+    boolQuotientRankProfile.PairCircuit :=
+  boolQuotientRankProfile.pairCircuitOfRankDrop rankDrop
+
+noncomputable example
+    (rankDrop : boolQuotientRankProfile.targetRank <
+      boolQuotientRankProfile.coordinates.card) :
+    let circuit := boolQuotientRankProfile.pairCircuitOfRankDrop rankDrop
+    circuit.contextDecision = .universal circuit.contextUniversal := by
+  rfl
+
+noncomputable example
+    (rankDrop : boolQuotientRankProfile.targetRank <
+      boolQuotientRankProfile.coordinates.card) :
+    let circuit := boolQuotientRankProfile.pairCircuitOfRankDrop rankDrop
+    ¬∃ context,
+      boolResponseSystem.response circuit.basisCoordinate context ≠
+        boolResponseSystem.response circuit.determined context := by
+  exact (boolQuotientRankProfile.pairCircuitOfRankDrop rankDrop).noContextDefect
+
+noncomputable example
+    (rankDrop : boolQuotientRankProfile.targetRank <
+      boolQuotientRankProfile.coordinates.card)
+    (defect :
+      (boolQuotientRankProfile.pairCircuitOfRankDrop rankDrop).ContextDefect) :
+    False :=
+  defect.impossible
+
+noncomputable example
+    (rankDrop : boolQuotientRankProfile.targetRank <
+      boolQuotientRankProfile.coordinates.card) :
+    let circuit := boolQuotientRankProfile.pairCircuitOfRankDrop rankDrop
+    circuit.representativeDecision =
+      .available circuit.smallerRepresentative := by
+  rfl
+
+/-- A non-Erdős transfer of the framework-owned proper-compression closure. -/
+noncomputable example
+    (rankDrop : boolQuotientRankProfile.targetRank <
+      boolQuotientRankProfile.coordinates.card) : False :=
+  CT15.AdmissibleQuotient.Profile.PairCircuit.properCompression_impossible
+    (boolQuotientRankProfile.pairCircuitOfRankDrop rankDrop)
+
+example : ∃ family : Finset boolQuotientRankProfile.system.Coordinate,
+    boolQuotientRankProfile.Survives family ∧
+      family.card = boolQuotientRankProfile.targetRank :=
+  boolQuotientRankProfile.exists_surviving_card_eq_targetRank
 
 end StructuralExhaustion.Examples.CT15AutomationFirst

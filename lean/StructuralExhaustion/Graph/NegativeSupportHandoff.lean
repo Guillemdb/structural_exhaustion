@@ -105,6 +105,22 @@ namespace Arm
 variable {object : FiniteObject V} {core : Finset V} {center : V}
     (arm : Arm object core center)
 
+/-- Transport an already proved arm across an equality of counted cores.  No
+path or semantic datum is rebuilt. -/
+def castCore {other : Finset V} (equal : core = other) :
+    Arm object other center :=
+  equal ▸ arm
+
+@[simp] theorem castCore_first {other : Finset V} (equal : core = other) :
+    (arm.castCore equal).first = arm.first := by
+  subst other
+  rfl
+
+@[simp] theorem castCore_terminal {other : Finset V} (equal : core = other) :
+    (arm.castCore equal).terminal = arm.terminal := by
+  subst other
+  rfl
+
 /-- Primitive inspection count for a retained arm. -/
 def checks : Nat := arm.path.support.length + 2
 

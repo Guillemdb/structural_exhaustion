@@ -1,5 +1,36 @@
 import Erdos64EG.CT14PositiveDeficitCandidate
 import Erdos64EG.P13WeightedHotColdInterface
+import Erdos64EG.P13SequentialWeightedHotColdLedger
+import Erdos64EG.P13ExactWeightedRate
+import Erdos64EG.P13ExactHotNormalizationTests
+import Erdos64EG.P13Node24DensityArithmeticTests
+import Erdos64EG.P13Node24To26Tests
+import Erdos64EG.P13Node27To28Tests
+import Erdos64EG.P13Node28To29Tests
+import Erdos64EG.P13Node29To30Tests
+import Erdos64EG.P13Node30To31Tests
+import Erdos64EG.P13Node31To32Tests
+import Erdos64EG.P13Node32To33Tests
+import Erdos64EG.P13Node32To34Tests
+import Erdos64EG.P13Node33To35Tests
+import Erdos64EG.P13Node35To36Tests
+import Erdos64EG.P13Node36To37Tests
+import Erdos64EG.P13Node36To38Tests
+import Erdos64EG.P13Node38To39Tests
+import Erdos64EG.P13Node146Route8ThresholdTests
+import Erdos64EG.P13Node147PrivateCarrierCollisionTests
+import Erdos64EG.P13Node148LiveHotDecisionTests
+import Erdos64EG.P13Node149DensityCapTests
+import Erdos64EG.P13Node150ColdMassTests
+import Erdos64EG.P13NearCubicSpineHandoffTests
+import Erdos64EG.P13Node150To151Tests
+import Erdos64EG.P13WeightedColdRestrictedExactContinuationTests
+import Erdos64EG.P13ColdSpanEscapingIncidenceCounterexample
+import Erdos64EG.TypeANodes86To88ThresholdsTests
+import Erdos64EG.TypeANode89SaturationDecisionTests
+import Erdos64EG.TypeANodes57To63ProvenanceTests
+import Erdos64EG.P13WeightedColdBranchExcess
+import Erdos64EG.P13ColdGermTableConsumers
 import Erdos64EG.CT14CertificateClosedCandidate
 import Erdos64EG.CT12TypeBDemandSystem
 import Erdos64EG.CT12TypeBCompletion
@@ -19,6 +50,10 @@ import Erdos64EG.CT9HomogeneousPattern
 import Erdos64EG.CT10GeometricBottleneckClassification
 import Erdos64EG.CT10SemanticBottleneckClassification
 import Erdos64EG.SemanticBottleneckLocalConsumer
+import Erdos64EG.SemanticBottleneckDetailedSeparator
+import Erdos64EG.SemanticBottleneckHighCompatibleOrigin
+import Erdos64EG.SemanticBottleneckOpenEndpointFailure
+import Erdos64EG.SemanticBottleneckAttachmentMismatch
 import Erdos64EG.SemanticBottleneckSwitchNormalization
 import Erdos64EG.SemanticBottleneckLocalProjection
 import Erdos64EG.SemanticBottleneckStrongFrontier
@@ -103,12 +138,20 @@ import Erdos64EG.P13SameWindowLongPrefixThirdBlockClauseAlignment
 import Erdos64EG.P13SameWindowLongPrefixFourthBlockClauseAlignment
 import Erdos64EG.P13SameWindowLongPrefixCompatibleResponseFrontier
 import Erdos64EG.P13SameWindowLongPrefixAlignedDegreeGate
+import Erdos64EG.P13WeightedColdRestrictedF1CompletionTests
+import Erdos64EG.P13WeightedColdRestrictedF1HandoffTests
 
 namespace Erdos64EG.Tests
 
 open StructuralExhaustion
 open StructuralExhaustion.Graph
 open Erdos64EG.Internal
+
+#check P13ColdGermTableConsumers.routeOutcome
+#check P13ColdGermTableConsumers.routeGerm_targetDefective
+#check P13ColdGermTableConsumers.GermTable.routeRow_targetDefective
+#check P13ColdGermTableConsumers.GermTable.verifiedRowRouting
+#check P13ColdGermTableConsumers.GermTable.verifiedRowRouting_targetDefective
 
 #check InducedPathComponentD7Response.coordinates_exact
 #check InducedPathComponentD7Response.response_true_iff
@@ -400,21 +443,102 @@ example :
       (p13WeightedColdWindows ctx node21).length = p13 ctx :=
   p13WeightedHotCount_add_coldCount ctx node21
 
+example :
+    (p13SequentialWeightedHotWindows ctx node21).length +
+      (p13SequentialWeightedColdWindows ctx node21).length = p13 ctx :=
+  p13SequentialWeightedHotCount_add_coldCount ctx node21
+
+example :
+    Nat.card (∀ owner,
+      P13RetainedLocalChoice
+        (p13SequentialFinalHotAggregate ctx node21).retained owner) ≤
+      max 1 (baselineSpineStateCount ctx) :=
+  p13SequentialFinal_localProduct_le_fixedCapacity ctx node21
+
+example :
+    (p13SequentialFinalHotAggregate ctx node21).retained.length =
+      (p13SequentialWeightedHotWindows ctx node21).length :=
+  p13SequentialFinal_retainedCount ctx node21
+
+example (rate budget : Nat)
+    (hotBound : rate * (p13WeightedHotWindows ctx node21).length ≤ budget) :
+    rate * p13 ctx ≤
+      budget + rate * (p13WeightedColdWindows ctx node21).length :=
+  p13WeightedHotBudget_total_le_budget_add_cold
+    ctx node21 rate budget hotBound
+
+example (rate budget : Nat)
+    (hotBound : rate *
+      (p13SequentialWeightedHotWindows ctx node21).length ≤ budget) :
+    rate * p13 ctx ≤ budget +
+      rate * (p13SequentialWeightedColdWindows ctx node21).length :=
+  p13SequentialHotBudget_total_le_budget_add_cold
+    ctx node21 rate budget hotBound
+
+example (cold : P13SequentialWeightedColdWindow ctx node21) :
+    ¬Nonempty
+      (P13SequentialCompatibleExtension cold.currentAggregate cold.window) :=
+  cold.extensionAbsent
+
+example (rate budget : Nat)
+    (hotBound : rate * (p13WeightedHotWindows ctx node21).length ≤ budget)
+    (overflow : budget < rate * p13 ctx) :
+    0 < (p13WeightedColdWindows ctx node21).length :=
+  p13WeightedHotOverflow_forces_cold_nonempty
+    ctx node21 rate budget hotBound overflow
+
+example (hot : P13WeightedHotWindow ctx node21) :
+    2 ^ (118 * hot.package.scaleMultiplicity) <
+      hot.package.profile.states.values.length :=
+  hot.package.stateCount_gt_ratePower
+
+noncomputable example :
+    Core.FixedPointRepeatedSquareLower.ScaledDyadicRateLower
+      ((p13BarrierSafeProduct : ℚ) / p13BarrierFlatProduct)
+      118108581006 1000000000 :=
+  p13ExactWeightedRateCertificate
+
 noncomputable example (cold : P13WeightedColdWindow ctx node21) :
     P13SelectedWindowCorridorRoute ctx cold.window :=
   cold.corridorRoute
 
-example : P13Node160RealizationRequirement ctx node21 :=
-  p13Node160RealizationRequirement node21
-
-noncomputable example : P13Node160RealizationOutcome ctx node21 :=
-  p13Node160RealizationDichotomy node21
+example :
+    (p13WeightedColdCubicWindows (ctx := ctx) (node21 := node21)).length +
+      (p13WeightedColdNonCubicWindows
+        (ctx := ctx) (node21 := node21)).length =
+        (p13SequentialWeightedColdWindows ctx node21).length :=
+  p13WeightedCold_cubic_nonCubic_length
 
 example :
-    (∃ package, p13Node160RealizationDichotomy node21 = .realized package) ∨
-      (∃ requirement absent, p13Node160RealizationDichotomy node21 =
-        .openRequirement requirement absent) :=
-  p13Node160RealizationDichotomy_exhaustive node21
+    (p13WeightedColdBranchExcessSchedule
+      (ctx := ctx) (node21 := node21)).length =
+      13 * (p13WeightedColdCubicWindows
+        (ctx := ctx) (node21 := node21)).length :=
+  p13WeightedColdBranchExcessSchedule_length
+
+example :
+    (p13WeightedColdNonCubicWindows
+      (ctx := ctx) (node21 := node21)).length ≤
+        Graph.InducedPathWindowLedger.totalSurplus ctx.G.object :=
+  p13WeightedColdNonCubic_length_le_totalSurplus
+
+example :
+    13 * (p13SequentialWeightedColdWindows ctx node21).length ≤
+      (p13WeightedColdBranchExcessSchedule
+        (ctx := ctx) (node21 := node21)).length +
+        13 * Graph.InducedPathWindowLedger.totalSurplus ctx.G.object :=
+  thirteen_mul_weightedCold_le_branchExcess_add_surplus
+
+example :
+    (p13WeightedColdNonCubicWindows
+      (ctx := ctx) (node21 := node21)).length ^ 2 ≤
+        surplusScaleCoefficient node21.previous.windowSize
+            node21.previous.remainderSize node21.previous.primitiveSize *
+          ctx.G.object.input.vertices.card :=
+  p13WeightedColdNonCubic_length_sq_le_nearCubicBudget
+
+noncomputable example : P13WeightedColdNearCubicPayment ctx node21 :=
+  verifiedP13WeightedColdNearCubicPayment
 
 noncomputable example : P13Node22DensityOutcome ctx node21 :=
   runP13Node22DensityDecision ctx node21
@@ -434,6 +558,14 @@ example (node23 : VerifiedP13Node23DensityOverflow ctx node21) :
 example (node23 : VerifiedP13Node23DensityOverflow ctx node21) :
     node23.entropyOverflow.conclusion = False :=
   node23.entropyOverflow.conclusionExact
+
+example (node23 : VerifiedP13Node23DensityOverflow ctx node21)
+    (hotBound : p13WindowDensityRateNumerator *
+        (p13WeightedHotWindows ctx node21).length ≤
+      p13WindowDensitySkeletonNumerator *
+        ctx.G.object.input.vertices.card) :
+    0 < (p13WeightedColdWindows ctx node21).length :=
+  node23.hotBudget_forces_cold_nonempty hotBound
 
 example (node24 : VerifiedP13Node24DensityHandoff ctx node21) :
     p13WindowDensityRateNumerator * p13 ctx ≤
@@ -473,17 +605,6 @@ example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
       111286 ^ (p13CurvatureResponseProfile ctx).ct15Profile.coordinates.card *
         baselineSpineStateCount ctx :=
   realized.safeFlatProductBound
-
-example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
-    (requirement : P13CurvatureProductCostRequirement ctx node21 node24)
-    (budget : P13QuarterNetBudget ctx (node21 := node21) node24.coverage) :
-    P13QuarterNetDeficiencyHandoff ctx node21 node24.coverage :=
-  (p13Node48OpenLargeBudgetHandoff requirement).consume budget
-
-example (node24 : VerifiedP13Node24DensityHandoff ctx node21) :
-    (∃ payload, runP13Node48 node24 = .realized payload) ∨
-      (∃ requirement, runP13Node48 node24 = .openRequirement requirement) :=
-  runP13Node48_exhaustive node24
 
 example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
     (realized : P13CurvatureProductCostRealization ctx node21 node24) :
@@ -535,27 +656,6 @@ noncomputable example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
       ctx node21 node24 realized node49) :
     P13Node50To51Route ctx node21 node24 realized node49 node50 :=
   routeP13Node50To51 node50
-
-noncomputable example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
-    (realized : P13CurvatureProductCostRealization ctx node21 node24)
-    (node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized)
-    (node50 : VerifiedP13Node50EntropyScaleSplit
-      ctx node21 node24 realized node49)
-    (node51 : VerifiedP13Node51HighEntropyBits
-      ctx node21 node24 realized node49 node50) :
-    P13Node52Outcome ctx node21 node24 realized node49 node50 node51 :=
-  runP13Node52 node51
-
-example (node24 : VerifiedP13Node24DensityHandoff ctx node21)
-    (realized : P13CurvatureProductCostRealization ctx node21 node24)
-    (node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized)
-    (node50 : VerifiedP13Node50EntropyScaleSplit
-      ctx node21 node24 realized node49)
-    (node51 : VerifiedP13Node51HighEntropyBits
-      ctx node21 node24 realized node49 node50) :
-    (∃ payload, runP13Node52 node51 = .realized payload) ∨
-      (∃ requirement, runP13Node52 node51 = .openRequirement requirement) :=
-  runP13Node52_exhaustive node51
 
 example :
     (verifiedP13BranchExcessCorridorPrefix ctx node21).corridors.length =
@@ -1304,6 +1404,18 @@ example
         (canonicalGeometricPredecessor ctx overload homogeneous).semanticTrigger ≤
       234 * ctx.G.object.input.vertices.card + 7 :=
   semanticBottleneckClassificationWork_le_vertices ctx overload homogeneous
+
+noncomputable example
+    (overload : (coupledClassProfile ctx 49 49 49).Overload
+      ctx.toBranchContext (coupledClassItems ctx))
+    (homogeneous : Graph.SurplusHomogeneousPattern.Audit
+      (geometricActivationStage ctx) 49 49 49
+      (coupledOverloadClassRoute ctx 49 49 49 overload)) :
+    SemanticBottleneckDetailedSeparator ctx overload homogeneous :=
+  semanticBottleneckDetailedSeparator ctx overload homogeneous
+
+example : Semantic.DetailedSeparator.checks = 10 :=
+  semanticBottleneckDetailedSeparator_checks_eq_ten
 
 /-! Focused regression coverage for the reviewed pointwise cold fork and its
 same-window structural continuation.  The dyadic consumer is tested only from

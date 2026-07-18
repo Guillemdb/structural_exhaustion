@@ -1,0 +1,19 @@
+import Erdos64EG.P13Node24AsymptoticTransport
+
+namespace Erdos64EG.Internal
+
+#check p13Node24ThetaError_tendsto_zero
+#check p13Node24NormalizationEnvelope_isLittleO
+#check p13Node24RemainderError_tendsto_zero
+#check VerifiedP13Node24FiniteDensityHandoff.theta_le_thetaWindow_add_oOne
+#check VerifiedP13Node24FiniteDensityHandoff.remainder_ratio_ge_main_sub_oOne
+#check p13Node24TauError_tendsto_zero
+#check p13Node24Tau_denominator_eventually_positive
+#check VerifiedP13Node24FiniteDensityHandoff.tau_le_tauWindow_add_oOne
+
+#print axioms p13Node24ThetaError_tendsto_zero
+#print axioms VerifiedP13Node24FiniteDensityHandoff.remainder_ratio_ge_main_sub_oOne
+#print axioms p13Node24TauError_tendsto_zero
+#print axioms VerifiedP13Node24FiniteDensityHandoff.tau_le_tauWindow_add_oOne
+
+end Erdos64EG.Internal

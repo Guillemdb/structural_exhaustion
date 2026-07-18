@@ -1,0 +1,18 @@
+import Erdos64EG.P13Node24To26
+
+namespace Erdos64EG.Internal
+
+#check VerifiedP13Node24FiniteDensityHandoff.node25
+#check VerifiedP13Node25LargeRemainder.large
+#check VerifiedP13Node25LargeRemainder.node26
+#check VerifiedP13Node25LargeRemainder.node27
+#check VerifiedP13Node27NoInternalThreeCore.noInternalThreeCore
+#check VerifiedP13Node27NoInternalThreeCore.noInternalSubgraphThreeCore
+#check p13Node27LocalChecks_polynomial
+#check VerifiedP13Node25LargeRemainder.thirteen_le_order
+#check VerifiedP13Node25LargeRemainder.ratio_ge_main_sub_oOne
+#print axioms VerifiedP13Node24FiniteDensityHandoff.node25
+#print axioms VerifiedP13Node25LargeRemainder.ratio_ge_main_sub_oOne
+#print axioms VerifiedP13Node25LargeRemainder.node27
+
+end Erdos64EG.Internal

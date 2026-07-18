@@ -316,6 +316,95 @@ def test_erdos_next_ct_skill_requires_transfer_and_current_state_log() -> None:
         assert prohibited_global_search in normalized
 
 
+def test_erdos_skills_freeze_the_original_diagram_topology() -> None:
+    for name in (ERDOS_NEXT_CT, ERDOS_REVIEW):
+        normalized = " ".join(read_skill(name).split())
+        for guardrail in (
+            "`original_erdos_64_proof.tex`",
+            "Never add, rename, split, merge",
+            "never edit that file",
+            "existing directed edge",
+            "source node",
+            "target node",
+            "branch label",
+            "internal helper",
+            "new consumer",
+        ):
+            assert guardrail.lower() in normalized.lower()
+
+    review = " ".join(read_skill(ERDOS_REVIEW).split())
+    assert "any difference fails the review" in review.lower()
+
+
+def test_erdos_skills_require_complete_node_obligation_ledgers() -> None:
+    for name in (ERDOS_NEXT_CT, ERDOS_REVIEW):
+        normalized = " ".join(read_skill(name).split()).lower()
+        for requirement in (
+            "complete obligation ledger",
+            "stable task id",
+            "every asserted object",
+            "every unfinished task",
+            "removing a node from `formalizednodeids` alone",
+            "web",
+        ):
+            assert requirement in normalized
+
+
+def test_erdos_skills_require_framework_automation_patterns() -> None:
+    for name in (ERDOS_NEXT_CT, ERDOS_REVIEW):
+        normalized = " ".join(read_skill(name).split()).lower()
+        for requirement in (
+            "binding implementation specification",
+            "residual refinement",
+            "routing",
+            "provenance",
+            "support recognition",
+            "thin",
+        ):
+            assert requirement in normalized
+
+    red_team = " ".join(
+        read_skill("red-team-structural-exhaustion-manuscript-repair").split()
+    ).lower()
+    assert "attack framework-pattern deviations" in red_team
+    assert "blocks pass" in red_team
+    assert "application-local abstractions" in red_team
+
+
+def test_live_erdos_diagram_preserves_original_topology() -> None:
+    def diagram_source(path: Path) -> str:
+        source = path.read_text(encoding="utf-8")
+        start = source.index(r"\subsection*{Proof-dependency diagram}")
+        end = source.index(r"\subsection*{Detailed dependency table}", start)
+        return source[start:end]
+
+    def normalized_commands(pattern: str, source: str) -> list[str]:
+        return [
+            " ".join(command.split())
+            for command in re.findall(pattern, source, re.DOTALL)
+        ]
+
+    def node_anchors(source: str) -> list[tuple[str, str | None]]:
+        nodes = normalized_commands(r"(\\node\b.*?;)", source)
+        result: list[tuple[str, str | None]] = []
+        for node in nodes:
+            anchor = re.search(r"\\node(?:\[[^]]*\])?\s*\(([^)]+)\)", node)
+            assert anchor is not None
+            node_id = re.search(r"\\textbf\{\[([0-9]+)\]\}", node)
+            result.append((anchor.group(1), node_id.group(1) if node_id else None))
+        return result
+
+    original = diagram_source(ROOT / "original_erdos_64_proof.tex")
+    live = diagram_source(ROOT / "proofs/erdos_64_eg/erdos_64_proof.tex")
+
+    # This also rejects unnumbered progress boxes disguised as internal nodes.
+    assert node_anchors(live) == node_anchors(original)
+    # Endpoints, direction, and every branch label are immutable.
+    assert normalized_commands(r"(\\draw\b.*?;)", live) == normalized_commands(
+        r"(\\draw\b.*?;)", original
+    )
+
+
 def test_erdos_expansion_review_skill_audits_and_repairs_the_full_claim() -> None:
     skill = read_skill(ERDOS_REVIEW)
     normalized = " ".join(skill.split())

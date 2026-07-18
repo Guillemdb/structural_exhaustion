@@ -16,9 +16,9 @@ variable (profile : SupportProfile object)
 
 This is the first finite subfamily of manuscript clause D5.  A coordinate is
 one actual position on the canonical Type A receiver trace of one internal
-cubic source.  Its support is the singleton containing that literal ambient
-vertex, and its value records the internal degree and whether the position is
-the selected receiver.
+cubic source.  Its declared support is the complete parent trace (the label is
+the trace together with its position), and its value records the literal
+ambient vertex, internal degree, and terminal role.
 
 The schedule is the dependent sum of the declared cubic-source order and each
 stored trace order.  It does not enumerate paths, supports, contexts, or graph
@@ -64,7 +64,49 @@ noncomputable def ambientVertex (coordinate : Coordinate object profile) : V :=
 
 noncomputable def support (coordinate : Coordinate object profile) : Finset V := by
   letI : DecidableEq V := object.input.vertices.decEq
-  exact {coordinate.ambientVertex object profile}
+  exact ((SupportProfile.trace object profile
+    (coordinate.source object profile)).support.map
+      (fun vertex => vertex.1)).toFinset
+
+theorem ambientVertex_mem_support (coordinate : Coordinate object profile) :
+    coordinate.ambientVertex object profile ∈ coordinate.support object profile := by
+  letI : DecidableEq V := object.input.vertices.decEq
+  rw [support, List.mem_toFinset, List.mem_map]
+  refine ⟨coordinate.vertex object profile, ?_, rfl⟩
+  exact (SupportProfile.trace object profile
+    (coordinate.source object profile)).getVert_mem_support
+      (coordinate.position object profile)
+
+theorem support_subset_profile (coordinate : Coordinate object profile) :
+    coordinate.support object profile ⊆ profile.support := by
+  letI : DecidableEq V := object.input.vertices.decEq
+  intro vertex member
+  rw [support, List.mem_toFinset, List.mem_map] at member
+  rcases member with ⟨supportVertex, _supportMember, rfl⟩
+  exact supportVertex.2
+
+theorem source_mem_support (coordinate : Coordinate object profile) :
+    (coordinate.source object profile).1.1 ∈ coordinate.support object profile := by
+  letI : DecidableEq V := object.input.vertices.decEq
+  rw [support, List.mem_toFinset, List.mem_map]
+  refine ⟨(coordinate.source object profile).1, ?_, rfl⟩
+  exact (SupportProfile.trace object profile
+    (coordinate.source object profile)).start_mem_support
+
+theorem support_card_eq_length_add_one
+    (coordinate : Coordinate object profile) :
+    (coordinate.support object profile).card =
+      (SupportProfile.trace object profile
+        (coordinate.source object profile)).length + 1 := by
+  letI : DecidableEq V := object.input.vertices.decEq
+  let trace := SupportProfile.trace object profile
+    (coordinate.source object profile)
+  have traceNodup : trace.support.Nodup :=
+    (profile.trace_isPath object (coordinate.source object profile)).support_nodup
+  have ambientNodup : (trace.support.map (fun vertex => vertex.1)).Nodup := by
+    exact traceNodup.map fun left right equal => Subtype.ext equal
+  rw [support, List.toFinset_card_of_nodup ambientNodup, List.length_map]
+  exact trace.length_support
 
 noncomputable def internalDegree (coordinate : Coordinate object profile) : Nat :=
   (profile.supportObject object).degree (coordinate.vertex object profile)

@@ -22,8 +22,9 @@ node-[47] rank prefix.  It scans no new universe.
 
 The numerical inequality below is deliberately kept separate from the claim
 that rank independence realizes a simultaneous product of curvature states.
-The latter is a stronger semantic requirement and is represented by the
-realized/open split at the end of the file.
+The latter is a stronger semantic requirement.  This file retains its exact
+payload and consequences only as conditional support; it exposes no absence
+outcome because the original diagram has only `[47] -> [48] -> [49]`.
 -/
 
 /-- Common denominator after eliminating the thirteen vertices occupied by
@@ -535,120 +536,5 @@ theorem localChecks_le_state_mul_coordinate
   exact Core.ConditionalFibreProductCost.Profile.checks_le_state_mul_coordinate _
 
 end P13CurvatureProductCostRealization
-
-/-- Typed negative branch.  It records the exact missing product-cost
-semantics and cannot be consumed as if realization had succeeded. -/
-structure P13CurvatureProductCostRequirement
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
-    (node24 : VerifiedP13Node24DensityHandoff ctx node21) : Type u where
-  previous : VerifiedP13Node48FiniteCost ctx node21 node24
-  absent : ¬Nonempty (P13CurvatureProductCostRealization ctx node21 node24)
-
-/-- Exact open-branch connector.  It does not manufacture the independent
-node-[55] quarter budget: once that budget is proved for the same coverage,
-the connector consumes it and returns the manuscript's node-[56] handoff. -/
-structure P13Node48OpenLargeBudgetHandoff
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
-    (node24 : VerifiedP13Node24DensityHandoff ctx node21) : Type u where
-  previous : P13CurvatureProductCostRequirement ctx node21 node24
-  consume : P13QuarterNetBudget ctx (node21 := node21) node24.coverage →
-    P13QuarterNetDeficiencyHandoff ctx node21 node24.coverage
-
-/-- Route the open realization requirement to its declared large-budget
-consumer, retaining the exact node-[47] context. -/
-def p13Node48OpenLargeBudgetHandoff
-    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
-    {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
-    {node24 : VerifiedP13Node24DensityHandoff ctx node21}
-    (requirement : P13CurvatureProductCostRequirement ctx node21 node24) :
-    P13Node48OpenLargeBudgetHandoff ctx node21 node24 where
-  previous := requirement
-  consume := fun budget =>
-    p13QuarterNetDeficiencyHandoff requirement.previous.previous budget
-
-/-- Repaired exhaustive node-[48] split.  The realized constructor alone may
-feed entropy consumers; the open constructor is routed to the closure-robust
-large-budget side once its independent quarter-budget producer is available.
--/
-inductive P13Node48Outcome
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
-    (node24 : VerifiedP13Node24DensityHandoff ctx node21) : Type (u + 2) where
-  | realized (payload : P13CurvatureProductCostRealization ctx node21 node24)
-  | openRequirement
-      (requirement : P13CurvatureProductCostRequirement ctx node21 node24)
-
-/-- Proof-level dichotomy only: it does not enumerate assignments, graphs,
-contexts, or completion states. -/
-noncomputable def runP13Node48
-    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
-    {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
-    (node24 : VerifiedP13Node24DensityHandoff ctx node21) :
-    P13Node48Outcome ctx node21 node24 := by
-  by_cases available :
-      Nonempty (P13CurvatureProductCostRealization ctx node21 node24)
-  · exact .realized (Classical.choice available)
-  · exact .openRequirement ⟨verifiedP13Node48FiniteCost node24, available⟩
-
-/-- The repaired split has exactly its two declared successors. -/
-theorem runP13Node48_exhaustive
-    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
-    {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
-    (node24 : VerifiedP13Node24DensityHandoff ctx node21) :
-    (∃ payload, runP13Node48 node24 = .realized payload) ∨
-      (∃ requirement, runP13Node48 node24 = .openRequirement requirement) := by
-  cases outcome : runP13Node48 node24 with
-  | realized payload => exact Or.inl ⟨payload, rfl⟩
-  | openRequirement requirement => exact Or.inr ⟨requirement, rfl⟩
-
-/-- Single exported contract for the repaired manuscript node.  It collects
-the exact finite magnitude, exhaustive branch split, realized product bound,
-and open-branch consumer without asserting that either conditional payload is
-available unconditionally. -/
-structure VerifiedP13Node48Contract
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
-    (node24 : VerifiedP13Node24DensityHandoff ctx node21) : Type (u + 2) where
-  finiteCost : VerifiedP13Node48FiniteCost ctx node21 node24
-  exhaustive :
-    (∃ payload, runP13Node48 node24 = .realized payload) ∨
-      (∃ requirement, runP13Node48 node24 = .openRequirement requirement)
-  realizedProduct : ∀
-      (realized : P13CurvatureProductCostRealization ctx node21 node24),
-    543958 ^ (p13CurvatureResponseProfile ctx).ct15Profile.coordinates.card ≤
-      111286 ^ (p13CurvatureResponseProfile ctx).ct15Profile.coordinates.card *
-        baselineSpineStateCount ctx
-  openConsumer : ∀
-      (requirement : P13CurvatureProductCostRequirement ctx node21 node24),
-    P13Node48OpenLargeBudgetHandoff ctx node21 node24
-  localWork : ∀
-      (realized : P13CurvatureProductCostRealization ctx node21 node24),
-    let profile : Graph.ConditionalFibreProductCost.Profile := {
-      State := realized.State
-      Coordinate := P13CurvatureCoordinate ctx
-      states := realized.states
-      coordinates := (p13CurvatureCoordinates ctx).toOrderedCollection
-      accepts := realized.accepts
-      safe := 543958
-      flat := 111286
-      skeletonCount := baselineSpineStateCount ctx
-    }
-    profile.checks ≤
-      profile.states.values.length * profile.coordinates.values.length
-
-/-- Construct the complete node-[48] contract from the exact node-[24]
-handoff. -/
-noncomputable def verifiedP13Node48Contract
-    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
-    {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
-    (node24 : VerifiedP13Node24DensityHandoff ctx node21) :
-    VerifiedP13Node48Contract ctx node21 node24 where
-  finiteCost := verifiedP13Node48FiniteCost node24
-  exhaustive := runP13Node48_exhaustive node24
-  realizedProduct := fun realized => realized.safeFlatProductBound
-  openConsumer := p13Node48OpenLargeBudgetHandoff
-  localWork := fun realized => realized.localChecks_le_state_mul_coordinate
 
 end Erdos64EG.Internal

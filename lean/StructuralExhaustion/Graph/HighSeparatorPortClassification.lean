@@ -379,4 +379,159 @@ def checks : Nat := classifierBudget.total
 
 theorem checks_eq_ten : checks = 10 := rfl
 
+/-! ## First semantic split for a distinct high-separator pair
+
+The literal compatibility table already contains enough information to close
+all shared-shoulder failures and every endpoint-in-shoulders failure involving
+a triangular port by a four-cycle.  The only endpoint failures not covered by
+those square constructions are open--open.  Keeping those failures as typed
+residuals prevents the local port classifier from being mistaken for a full
+fan assignment or Type-B handoff.
+-/
+
+/-- The exact endpoint-field failures left after every available square exit
+has been taken.  Both ports are proved open in either constructor. -/
+inductive OpenEndpointFailure
+    (centerHigh : 4 ≤ object.degree center)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    (first second : Port object center) : Type u where
+  | firstEndpointInSecondShoulders
+      (firstOpen : HighCenterPort.portType object center centerHigh
+        deletionCritical first = .open)
+      (secondOpen : HighCenterPort.portType object center centerHigh
+        deletionCritical second = .open)
+      (member : HighCenterPort.endpoint object center first ∈
+        HighCenterPort.shoulderVertices object center second)
+  | secondEndpointInFirstShoulders
+      (firstOpen : HighCenterPort.portType object center centerHigh
+        deletionCritical first = .open)
+      (secondOpen : HighCenterPort.portType object center centerHigh
+        deletionCritical second = .open)
+      (member : HighCenterPort.endpoint object center second ∈
+        HighCenterPort.shoulderVertices object center first)
+
+/-- Total first semantic outcome for two distinct declared ports.  A
+compatible result is only the local `FanCompatible` predicate; no canonical
+surplus-slot, fan assignment, safety, or Type-B conclusion is asserted. -/
+inductive PairSemanticOutcome
+    (centerHigh : 4 ≤ object.degree center)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    (first second : Port object center) : Type u where
+  | fourCycle (witness : HasCycleWithLength object.graph
+      HighCenterStructure.FourLength)
+  | compatible (exact : HighCenterPort.FanCompatible object center first second)
+  | openEndpointFailure
+      (residual : OpenEndpointFailure object center centerHigh
+        deletionCritical first second)
+
+/-- Execute the complete locally justified square split.  The procedure
+inspects only the already declared two-port type and compatibility tables. -/
+noncomputable def classifyPairSemantics
+    (centerHigh : 4 ≤ object.degree center)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    (first second : Port object center) (distinct : first ≠ second) :
+    PairSemanticOutcome object center centerHigh deletionCritical first second := by
+  cases fanDecision : classifyFan object center first second with
+  | compatible exact => exact .compatible exact
+  | failed failure =>
+      cases failure with
+      | shouldersNotDisjoint firstOutside secondOutside failed =>
+          exact .fourCycle
+            (hasFourCycle_of_shouldersNotDisjoint object center distinct failed)
+      | firstEndpointInSecondShoulders member =>
+          cases types : classifyPairCase object center centerHigh deletionCritical
+              first second with
+          | openOpen firstOpen secondOpen =>
+              exact .openEndpointFailure
+                (.firstEndpointInSecondShoulders firstOpen secondOpen member)
+          | openTriangular firstOpen secondTriangular =>
+              exact .fourCycle
+                (hasFourCycle_of_endpoint_mem_shoulders_of_triangular object center
+                  centerHigh deletionCritical distinct member secondTriangular)
+          | triangularOpen firstTriangular secondOpen =>
+              exact .fourCycle
+                (hasFourCycle_of_endpoint_mem_opposite_shoulders_of_triangular_first
+                  object center centerHigh deletionCritical distinct member
+                  firstTriangular)
+          | triangularTriangular firstTriangular secondTriangular =>
+              exact .fourCycle
+                (hasFourCycle_of_endpoint_mem_shoulders_of_triangular object center
+                  centerHigh deletionCritical distinct member secondTriangular)
+      | secondEndpointInFirstShoulders firstOutside member =>
+          cases types : classifyPairCase object center centerHigh deletionCritical
+              first second with
+          | openOpen firstOpen secondOpen =>
+              exact .openEndpointFailure
+                (.secondEndpointInFirstShoulders firstOpen secondOpen member)
+          | openTriangular firstOpen secondTriangular =>
+              exact .fourCycle
+                (hasFourCycle_of_opposite_endpoint_mem_shoulders_of_triangular_second
+                  object center centerHigh deletionCritical distinct member
+                  secondTriangular)
+          | triangularOpen firstTriangular secondOpen =>
+              exact .fourCycle
+                (hasFourCycle_of_endpoint_mem_shoulders_of_triangular_first
+                  object center centerHigh deletionCritical distinct member
+                  firstTriangular)
+          | triangularTriangular firstTriangular secondTriangular =>
+              exact .fourCycle
+                (hasFourCycle_of_endpoint_mem_shoulders_of_triangular_first
+                  object center centerHigh deletionCritical distinct member
+                  firstTriangular)
+
+theorem classifyPairSemantics_total
+    (centerHigh : 4 ≤ object.degree center)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    (first second : Port object center) (distinct : first ≠ second) :
+    Nonempty (PairSemanticOutcome object center centerHigh deletionCritical
+      first second) :=
+  ⟨classifyPairSemantics object center centerHigh deletionCritical first second
+    distinct⟩
+
+/-- Exact residual on a branch where the length-four target has already been
+excluded.  This is still only a two-port local conclusion. -/
+inductive PairSurvivor
+    (centerHigh : 4 ≤ object.degree center)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    (first second : Port object center) : Type u where
+  | compatible (exact : HighCenterPort.FanCompatible object center first second)
+  | openEndpointFailure
+      (residual : OpenEndpointFailure object center centerHigh
+        deletionCritical first second)
+
+/-- Eliminate exactly the square constructors using an inherited four-cycle
+exclusion.  No Type-B semantics are manufactured on the compatible side. -/
+noncomputable def classifyPairSurvivor
+    (centerHigh : 4 ≤ object.degree center)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    (fourFree : ¬HasCycleWithLength object.graph HighCenterStructure.FourLength)
+    (first second : Port object center) (distinct : first ≠ second) :
+    PairSurvivor object center centerHigh deletionCritical first second := by
+  cases outcome : classifyPairSemantics object center centerHigh
+      deletionCritical first second distinct with
+  | fourCycle witness => exact (fourFree witness).elim
+  | compatible exact => exact .compatible exact
+  | openEndpointFailure residual => exact .openEndpointFailure residual
+
+theorem classifyPairSurvivor_total
+    (centerHigh : 4 ≤ object.degree center)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    (fourFree : ¬HasCycleWithLength object.graph HighCenterStructure.FourLength)
+    (first second : Port object center) (distinct : first ≠ second) :
+    Nonempty (PairSurvivor object center centerHigh deletionCritical first second) :=
+  ⟨classifyPairSurvivor object center centerHigh deletionCritical fourFree first
+    second distinct⟩
+
+/-- The semantic split reuses the same fixed ten-predicate table. -/
+def pairSemanticChecks : Nat := checks
+
+theorem pairSemanticChecks_eq_ten : pairSemanticChecks = 10 := rfl
+
 end StructuralExhaustion.Graph.HighSeparatorPortClassification

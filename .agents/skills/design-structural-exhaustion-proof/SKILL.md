@@ -65,6 +65,17 @@ Search for an existing constructor before defining a raw capability. In particul
 - `CT11.NegativeBudgetProfile`;
 - `CT12.ListPeeling`;
 - `Core.FiniteSaturation.Machine`.
+- `Core.FiniteObservedColumn.FourEncoding`, its framework-computed `qCols`, and
+  `Core.FiniteStructuralCutState.stateEncodingOfColumnBundle` for finite
+  coordinate columns. Applications supply only the four alphabets, observed
+  lists, and `Nodup`; never redeclare column bounds, padded code types,
+  symbolic cardinalities, their product, or per-column `Fin` encoders.
+- `Core.ExactHandoff` for every diagram edge that retains its predecessor
+  unchanged while adding local facts. Extend this carrier instead of declaring
+  application fields such as `previous` and `previousExact` again.
+- `Core.PolynomialCheckBudget.zero` for proof-only projections, inherited
+  decisions, and zero-copy handoffs. Do not rebuild a zero-check polynomial
+  record or its arithmetic proof in an application or CT profile.
 
 Read the matching external example when one exists: `examples/even_cycle`, `examples/erdos_64_eg`, `examples/greedy_coloring`, or `examples/mantel`.
 

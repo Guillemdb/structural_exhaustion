@@ -145,9 +145,10 @@ three outputs.  This adapter neither constructs the germ nor supplies its
 finite-context coverage theorem; those remain predecessor obligations. -/
 noncomputable def route
     (germ : ColdBoundedGerm
-      (input := input) (boundaries := boundaries) (ctx := ctx)) :
+      (input := input) (boundaries := boundaries) (ctx := ctx))
+    (lengthChanging : germ.increment ≠ 0) :
     TargetDefectResidual
       (input := input) (boundaries := boundaries) (ctx := ctx) :=
-  targetDefect_of_outcome germ germ.classify
+  targetDefect_of_outcome germ (germ.classify lengthChanging)
 
 end Erdos64EG.P13ColdGermTerminalRoutes

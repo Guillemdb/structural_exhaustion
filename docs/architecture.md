@@ -111,6 +111,98 @@ arbitrary finite subgraph on an explicit host support. The reusable
 minimum-degree monotonicity bridge proves that its induced closure has at
 least the same minimum degree, without enumerating subgraphs.
 
+`Core.FiniteResidualLedger` is the persistent branch-state event log.  Its
+primary keys are finite producer occurrences rather than event values, so two
+equal residual values emitted at different proof steps remain distinct.  The
+ledger supports exact singleton emission, tagged append, occurrence
+embeddings, restriction, event projections, and dependent certified views.
+Later stages enrich the same occurrence identities through those views; they
+do not rebuild an ad hoc event list.  `Graph.FiniteResidualSupportLedger`
+specializes one such view to declared finite vertex supports.  Its ordered
+recognizer returns the exact first producer occurrence and an occurrence-total
+absence certificate, with one membership check per recorded occurrence.
+Applications define only their concrete event language, support projection,
+and proof-carrying emitters.
+
+`Core.ExactHandoff` is the canonical unchanged-edge carrier.  A diagram node
+that adds a local property while retaining its incoming residual extends this
+proof-indexed structure; the framework stores the predecessor and its equality
+with the exact edge value once.  Application structures contain only their new
+mathematical payload and use `ExactHandoff.property` when an inherited theorem
+must be transported.  This carrier is bookkeeping, not a new proof outcome.
+
+`Core.PolynomialCheckBudget.zero` is the canonical work certificate for such
+proof-only projections and inherited decisions.  It fixes a uniform linear
+envelope with zero primitive checks, avoiding repeated budget records and
+application-level arithmetic proofs.  Executable local scans continue to use
+their owning CT or graph profile's actual check count.
+
+`Core.FiniteObservedColumn.Encoding` is the canonical finite-coordinate-column
+pattern.  From one finite alphabet it owns the duplicate-free observation
+bound, padded symbolic code, exact symbolic cardinality, `Fin` equivalence,
+injectivity, and observed-list encoder.  A structural state is assembled with
+`Core.FiniteStructuralCutState.stateEncodingOfColumns`, which propagates all
+column bounds and encoders automatically without enumerating or synthesizing
+the product state.  Applications supply only the actual observed lists and
+their `Nodup` proofs; they do not redeclare per-column bounds, code spaces,
+cardinal formulas, or `Fin` encoders.
+
+The standard four-column case is represented by
+`Core.FiniteObservedColumn.FourEncoding`. Its `qCols` field computation is the
+single authority for the combined column cardinality, and
+`Core.FiniteStructuralCutState.stateEncodingOfColumnBundle` propagates all four
+codes into the structural state.  The returned
+`ColumnStateFiniteEncoding` retains that same `qCols` projection alongside the
+complete bound, encoder, and injectivity certificate. Graph applications
+therefore project `encoding.qCols`; they never restate or transport a
+`Q_cols` product themselves.
+
+`CT15.AdmissibleQuotient.Profile` also provides the exact
+functional-quotient rank layer. `Survives` means label-injectivity on a
+declared subfamily under every admissible quotient; `targetRank` is the
+attained largest surviving cardinality. The bound is searched only at the
+proof level over possible natural-number cardinalities. It does not evaluate
+a coordinate powerset, quotient family, or outside-context universe, and it
+must not be conflated with the CT15 runner's separate pairwise-dependence
+count without an explicit equivalence theorem.
+
+Its proof-selected `PairCircuit` also owns the next context-validity pattern.
+`ContextDecision` exposes exactly a concrete distinguishing context or
+universal response equality.  For an already admitted quotient,
+`contextDecision` projects the universal constructor from admissibility and
+`noContextDefect` excludes the other constructor with zero checks; applications
+never enumerate outside contexts merely to route this decision.
+If a caller is handling the defect edge propositionally,
+`PairCircuit.ContextDefect` retains its one concrete context and response
+mismatch, while its generic `impossible` theorem closes the edge against that
+same admitted quotient without a second audit.
+The following smaller-representative test is also framework-owned:
+`PairCircuit.proposal_not_injective` reads the retained distinct identification,
+and `smallerRepresentative` projects the `Core.CertifiedReduction` required by
+admissibility.  `RepresentativeDecision` therefore routes the available
+certificate with zero checks and no candidate-representative universe.
+
+`Core.ResidualRefinement` is the proof-state layer over that occurrence log.
+Its `State Residual facts` keeps one stable residual carrier together with a
+typed list of every property proved so far.  A `State.Node` receives that
+current state, may retrieve any earlier fact, and supplies only its new local
+theorem; `Node.run` retains the carrier and prepends the theorem
+automatically.  `ResidualRefinement.Ledger` performs the same operation over
+every actual occurrence.  It starts from a proof-carrying producer, supports
+tagged branch append and occurrence restriction, and runs later refinements
+without rebuilding event lists or repeating provenance fields.  Only an
+actual manuscript edge that changes the residual carrier uses an explicit
+typed `State.Route` adapter.
+
+`Graph.ResidualSupportRefinement` packages the graph pattern used by later
+support-routing arguments.  An application supplies only a decidable vertex
+type and `Event → Finset Vertex`.  The profile derives the exact
+occurrence-indexed support view, ordered first-hit/total-absence decision,
+linear check ledger, and any required compatibility list.  A successful hit
+contains the current `ResidualRefinement.State`, so producer origin and every
+earlier graph theorem remain available through `FirstHit.get`; recognizing a
+support never starts a second provenance proof.
+
 The repository has one explicitly trusted external theorem declaration:
 `Graph.External.HegdeSandeepShashank.p13Free_hasPowerOfTwoCycle`. It records
 the cited finite `P₁₃`-free minimum-degree-three theorem exactly. The linter,

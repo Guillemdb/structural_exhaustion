@@ -19,6 +19,42 @@ Read `lean/StructuralExhaustion/CT15/Automation.lean`, `Spec.lean`, `Capability.
 
 Supply coordinate type, target-dependence predicate, charge and capacity functions, explicit coordinate `FinEnum`, and target-dependence decider. The framework owns rank contributions, computed rank, first-drop search, full-rank ledger entries and total, capacity comparison, residuals, C4 certificate, typed execution, soundness, and totality.
 
+When the manuscript defines rank as the maximum subfamily surviving every
+functional admissible quotient, first use
+`CT15.AdmissibleQuotient.Profile.Survives` and `Profile.targetRank`. This exact
+proof-level maximum evaluates neither a subfamily powerset nor a quotient
+family. Do not replace it with the count of coordinates avoiding a pairwise
+identification predicate unless a theorem proves the two rank notions equal.
+Use `Profile.rankDecision` for the exact strict-loss/full-cardinality
+dichotomy on that maximum. It is proof-level and has a zero-scan work budget;
+do not run the coordinatewise CT15 interpreter merely to decide this rank
+object.
+Build every proof-level zero-scan certificate with
+`Core.PolynomialCheckBudget.zero`; do not repeat the budget record in CT15
+profiles or applications. When a downstream node retains a CT15 residual or
+decision unchanged, extend `Core.ExactHandoff` and add only its new semantic
+fields.
+On the strict-loss edge, use `Profile.pairCircuitOfRankDrop` to retain an
+actual admitted quotient, two distinct declared coordinates with equal code,
+and the singleton functional basis. This is proof-selected from failure of
+universal survival; never enumerate coordinate subfamilies or quotient
+proposals to manufacture the circuit.
+For the following outside-context validity node, use
+`PairCircuit.ContextDecision` and `PairCircuit.contextDecision`.  An admitted
+pair circuit projects `contextUniversal` directly from quotient admissibility,
+retains the exact concrete-defect/universal decision type, proves
+`noContextDefect`, and has the zero-check `contextDecisionBudget`.  Never scan
+or materialize the context type to execute this diagram diamond.
+On the defect terminal, retain the supplied witness with
+`PairCircuit.ContextDefect`; use `toExists` for the manuscript's
+target-defective payload and `impossible` to close that edge against the same
+admitted quotient.  Do not search again for a distinguishing context.
+For the representative decision, use `PairCircuit.proposal_not_injective`,
+`smallerRepresentative`, and `RepresentativeDecision`.  Admission already
+stores the `Core.CertifiedReduction`; project its strict decrease, baseline,
+and target transport with the zero-check `representativeDecisionBudget`
+instead of enumerating candidate representatives.
+
 ## Workflow
 
 1. Make coordinates the finite local rank components from the manuscript.

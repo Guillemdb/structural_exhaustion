@@ -89,6 +89,21 @@ Compare TeX statements with Lean declarations literally. Check theorem hypothese
 
 The only allowed external theorem for the Erdős--Gyárfás proof is its registered HSS interface. Any other unproved mathematical input is blocking.
 
+### 6a. Attack framework-pattern deviations
+
+Treat the framework's public automation and composition patterns as binding,
+not optional style. Search the problem-specific diff for reimplemented ledgers,
+residual refinement, routing, provenance, support recognition, CT runners,
+trace/totality plumbing, work accounting, or any proof shape meaningful after
+parameterization. Such duplication is required cleanup and blocks PASS.
+
+If a reusable automation is missing, require it once in Core, the owning CT,
+Routes, or Graph, with a generic fixture and non-problem transfer. Require the
+application to contain only concrete data, fixed arithmetic/reflection,
+official bridges, and thin instantiation. Reject application-local abstractions
+even when correct and kernel-checked; do not accept “the framework API was
+inconvenient” as justification for deviating from its implementation pattern.
+
 ### 7. Issue a verdict
 
 Classify findings as:

@@ -1670,6 +1670,33 @@ summary:focus-visible {
   background: #f6f2e9;
 }
 
+.proof-flow-view-switch {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-self: center;
+  padding: 3px;
+  border: 1px solid #cec6b7;
+  border-radius: 9px;
+  background: #ebe6db;
+}
+
+.proof-flow-view-switch button {
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 6px;
+  color: #68767b;
+  background: transparent;
+  cursor: pointer;
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.proof-flow-view-switch button[aria-pressed="true"] {
+  color: #fff;
+  background: var(--navy);
+  box-shadow: 0 2px 6px rgba(25, 63, 87, 0.2);
+}
+
 .proof-flow__intro span,
 .proof-flow__intro strong {
   display: block;
@@ -1738,13 +1765,16 @@ summary:focus-visible {
 
 .proof-flow-part-card__nodes {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(24px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
   gap: 3px;
 }
 
 .proof-flow-node-chip {
+  display: grid;
+  place-content: center;
+  gap: 1px;
   min-width: 0;
-  height: 23px;
+  min-height: 27px;
   padding: 0 2px;
   border: 1px solid #a9b2b4;
   border-radius: 4px;
@@ -1753,6 +1783,13 @@ summary:focus-visible {
   cursor: pointer;
   font-size: 7px;
   font-weight: 800;
+}
+
+.proof-flow-node-chip > small {
+  font-size: 5px;
+  font-weight: 900;
+  line-height: 1;
+  opacity: 0.82;
 }
 
 .proof-flow-node-chip:hover,
@@ -1832,6 +1869,31 @@ summary:focus-visible {
   font-size: 9px;
 }
 
+.proof-flow-paper-view {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid #d8d2c5;
+  border-radius: 9px;
+  background: #dcd9d1;
+}
+
+.proof-flow-paper-view img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid #c9c4ba;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(33, 38, 40, 0.12);
+}
+
+.proof-flow-paper-view figcaption {
+  color: var(--muted);
+  font-size: 8px;
+  text-align: center;
+}
+
 .proof-flow-continuations {
   display: flex;
   flex-wrap: wrap;
@@ -1880,11 +1942,292 @@ summary:focus-visible {
   line-height: 1.3;
 }
 
+.proof-flow-selection__obligation-progress {
+  display: inline-flex;
+  gap: 7px;
+  align-items: baseline;
+  margin-top: 8px;
+  padding: 6px 8px;
+  border: 1px solid #c79e16;
+  border-radius: 8px;
+  color: #3f3210;
+  background: #f6dfa0;
+}
+
+.proof-flow-selection__obligation-progress b {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.proof-flow-selection__obligation-progress small {
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
 .proof-flow-selection p {
   margin: 0;
   color: var(--muted);
   font-size: 8px;
   line-height: 1.45;
+}
+
+.proof-flow-obligation-ledger {
+  grid-column: 1 / -1;
+  padding: 11px;
+  border: 1px solid #d7d1c3;
+  border-left: 3px solid var(--navy);
+  border-radius: 9px;
+  background: #fff;
+}
+
+.proof-flow-obligation-ledger > header,
+.proof-flow-obligation-ledger li > div {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.proof-flow-obligation-ledger > header {
+  margin-bottom: 8px;
+}
+
+.proof-flow-obligation-ledger h3 {
+  margin: 2px 0 0;
+  color: var(--navy);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 11px;
+}
+
+.proof-flow-obligation-ledger header span,
+.proof-flow-obligation-ledger header > strong {
+  color: var(--muted);
+  font-size: 6px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.proof-flow-obligation-ledger > ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.proof-flow-obligation-ledger li {
+  padding: 8px;
+  border: 1px solid #e4e0d7;
+  border-radius: 7px;
+  background: #fbfaf6;
+}
+
+.proof-flow-obligation-ledger li strong {
+  color: #334d59;
+  font-size: 7px;
+}
+
+.proof-flow-obligation-ledger li p,
+.proof-flow-obligation-ledger li small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 7px;
+  line-height: 1.5;
+}
+
+.proof-obligation-status {
+  flex: 0 0 auto;
+  padding: 3px 5px;
+  border-radius: 999px;
+  font-size: 6px;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.proof-obligation-status--proved { color: #356047; background: #deebe1; }
+.proof-obligation-status--partial { color: #80561f; background: #f5e5cb; }
+.proof-obligation-status--missing { color: #863f35; background: #f4dfda; }
+
+.proof-flow-progress {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  align-items: start;
+  padding-top: 2px;
+}
+
+.proof-flow-progress > section {
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid #d9d5ca;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.proof-flow-progress > section > header {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 9px;
+}
+
+.proof-flow-progress > section > header span {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--muted);
+  font-size: 6px;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.proof-flow-progress h3,
+.proof-flow-progress h4 {
+  margin: 0;
+  color: var(--navy);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.proof-flow-progress h3 {
+  font-size: 11px;
+}
+
+.proof-flow-progress h4 {
+  font-size: 9px;
+}
+
+.proof-flow-progress > section > header > strong {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 6px;
+  font-weight: 800;
+}
+
+.proof-flow-progress__implemented {
+  border-left: 3px solid #397a50 !important;
+}
+
+.proof-flow-progress__implemented--partial {
+  border-left-color: #c79e16 !important;
+}
+
+.proof-flow-progress__remaining {
+  border-left: 3px solid #d18a2c !important;
+  background: #fffaf0 !important;
+}
+
+.proof-flow-progress__steps {
+  display: grid;
+  gap: 8px;
+}
+
+.proof-flow-progress__steps article,
+.proof-flow-progress__remaining > ul > li {
+  padding: 8px;
+  border: 1px solid #e4e0d7;
+  border-radius: 7px;
+  background: #fbfaf6;
+}
+
+.proof-flow-progress__steps article > p,
+.proof-flow-progress__remaining li > p,
+.proof-flow-progress__remaining li > small {
+  display: block;
+  margin-top: 4px;
+  font-size: 7px;
+  line-height: 1.5;
+}
+
+.proof-flow-progress__remaining > ul,
+.proof-flow-evidence-list,
+.proof-flow-evidence-list details ul {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.proof-flow-evidence-list {
+  margin-top: 7px;
+}
+
+.proof-flow-evidence-list > li {
+  padding-top: 6px;
+  border-top: 1px solid #e6e1d8;
+}
+
+.proof-flow-evidence-list > li > strong,
+.proof-flow-progress__remaining li > strong {
+  color: #334d59;
+  font-size: 7px;
+}
+
+.proof-flow-evidence-list details {
+  margin-top: 5px;
+}
+
+.proof-flow-progress__scope-audit {
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px solid #e4dccb;
+}
+
+.proof-flow-progress__scope-audit > summary {
+  color: #8a6429;
+  cursor: pointer;
+  font-size: 7px;
+  font-weight: 800;
+}
+
+.proof-flow-progress__scope-audit > ul {
+  display: grid;
+  gap: 6px;
+  margin: 7px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.proof-flow-progress__scope-audit li {
+  padding: 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.proof-flow-evidence-list summary {
+  color: var(--teal);
+  cursor: pointer;
+  font-size: 7px;
+  font-weight: 800;
+}
+
+.proof-flow-evidence-list details ul {
+  margin-top: 5px;
+}
+
+.proof-flow-evidence-list code {
+  display: block;
+  overflow: hidden;
+  padding: 3px 5px;
+  border-radius: 4px;
+  background: #eef0eb;
+  font-size: 6px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 800px) {
+  .proof-flow-progress {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .proof-flow-status {
@@ -3353,6 +3696,14 @@ summary:focus-visible {
   .proof-flow-detail > header {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .proof-flow-view-switch {
+    align-self: stretch;
+  }
+
+  .proof-flow-view-switch button {
+    flex: 1;
   }
 
   .proof-flow-overview,

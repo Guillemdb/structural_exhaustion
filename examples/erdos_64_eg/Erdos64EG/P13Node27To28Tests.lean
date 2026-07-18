@@ -1,0 +1,12 @@
+import Erdos64EG.P13Node27To28
+
+namespace Erdos64EG.Internal
+
+#check VerifiedP13Node27NoInternalThreeCore.node28
+#check VerifiedP13Node28PositiveDeficiency.previousExact
+#check VerifiedP13Node28PositiveDeficiency.exactFormula
+#check VerifiedP13Node28PositiveDeficiency.noInternalThreeCore
+#check p13Node28LocalChecks_le_square
+#print axioms VerifiedP13Node27NoInternalThreeCore.node28
+
+end Erdos64EG.Internal

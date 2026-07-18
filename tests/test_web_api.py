@@ -77,7 +77,6 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         ("erdos-64", "CT3", "CT1", "frameworkComposition"),
         ("erdos-64", "CT1", "CT12", "registeredRoute"),
         ("erdos-64", "CT12", "CT10", "frameworkComposition"),
-        ("erdos-64", "CT15", "CT3", "frameworkComposition"),
         ("erdos-64", "CT3", "CT15", "frameworkComposition"),
         ("erdos-64", "CT10", "CT6", "frameworkComposition"),
         ("erdos-64", "CT6", "CT9", "registeredRoute"),
@@ -101,9 +100,10 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         ("erdos-64", "CT14", "CT1", "frameworkComposition"),
         ("erdos-64", "CT1", "CT9", "frameworkComposition"),
         ("erdos-64", "CT9", "CT14", "frameworkComposition"),
-        ("erdos-64", "CT12", "CT15", "frameworkComposition"),
-        ("erdos-64", "CT15", "CT9", "frameworkComposition"),
-        ("even-cycle", "CT6", "CT9", "registeredRoute"),
+            ("erdos-64", "CT12", "CT15", "frameworkComposition"),
+            ("erdos-64", "CT15", "CT9", "frameworkComposition"),
+            ("erdos-64", "CT9", "CT10", "frameworkComposition"),
+            ("even-cycle", "CT6", "CT9", "registeredRoute"),
         ("greedy-coloring", "CT12", "CT4", "scheduleAudit"),
     ]
     assert all(
@@ -339,8 +339,8 @@ def test_api_and_spa_are_served_from_one_application(tmp_path: Path) -> None:
             assert erdos.status_code == 200
             assert erdos.json()["example"]["schemaVersion"] == "1.4.0"
             assert erdos.json()["example"]["manuscript"]["fragments"]
-            assert erdos.json()["example"]["manuscript"]["coverage"]["verifiedDiagramNodes"] == 113
-            assert erdos.json()["example"]["manuscript"]["coverage"]["totalDiagramNodes"] == 194
+            assert erdos.json()["example"]["manuscript"]["coverage"]["verifiedDiagramNodes"] == 39
+            assert erdos.json()["example"]["manuscript"]["coverage"]["totalDiagramNodes"] == 157
 
             missing_example = await get("/api/v1/examples/not-an-example")
             assert missing_example.status_code == 404

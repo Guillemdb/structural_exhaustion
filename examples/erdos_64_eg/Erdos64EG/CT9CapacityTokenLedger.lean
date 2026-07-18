@@ -154,6 +154,66 @@ theorem capacityTokenSupply_le_nine_mul_vertices
   exact (capacityTokenSupply_le_eight_mul_vertices_add_surplus ctx).trans
     (by have := totalSurplus_le_vertexCount ctx; omega)
 
+/-! The original node `[136]` consumes only the admitted blocked branch.
+The complete 25-role ledger below is an additional exact refinement, not a
+replacement for this predecessor-indexed execution. -/
+
+/-- Original node `[136]`: the actual blocked-pair subtype is partitioned
+exactly once by its canonical capacity token and its 24 realizable admitted
+roles.  The manuscript's larger 36-role display is the same identity padded
+by the twelve impossible profile/target audit rows. -/
+theorem blockedCapacityLedger_noOvercounting
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
+    (Graph.SurplusCapacityTokenRouting.blockedInput
+      (capacityTokenActivationStage ctx)).items.values.length =
+      ((Graph.SurplusCapacityTokenRouting.blockedCapability
+        (capacityTokenActivationStage ctx)).labels.orderedValues.map
+        fun labelValue => CT9.fibreCount
+          (Graph.SurplusCapacityTokenRouting.blockedCapability
+            (capacityTokenActivationStage ctx))
+          (Graph.SurplusCapacityTokenRouting.blockedInput
+            (capacityTokenActivationStage ctx)) labelValue).sum :=
+  Graph.SurplusCapacityTokenRouting.blocked_noOvercounting
+    (capacityTokenActivationStage ctx)
+
+theorem blockedCapacityRoleCount
+    (_ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
+    Graph.SurplusTokenRole.admittedRoleEnum.card = 24 :=
+  Graph.SurplusTokenRole.admittedRole_card
+
+/-- Literal original 36-row version of node `[136]`.  The profile/target
+audit rows are present in the finite label table and empty because node
+`[133]` has already excluded them. -/
+theorem blockedFullCapacityLedger_noOvercounting
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
+    (Graph.SurplusCapacityTokenRouting.blockedFullInput
+      (capacityTokenActivationStage ctx)).items.values.length =
+      ((Graph.SurplusCapacityTokenRouting.blockedFullCapability
+        (capacityTokenActivationStage ctx)).labels.orderedValues.map
+        fun labelValue => CT9.fibreCount
+          (Graph.SurplusCapacityTokenRouting.blockedFullCapability
+            (capacityTokenActivationStage ctx))
+          (Graph.SurplusCapacityTokenRouting.blockedFullInput
+            (capacityTokenActivationStage ctx)) labelValue).sum :=
+  Graph.SurplusCapacityTokenRouting.blockedFull_noOvercounting
+    (capacityTokenActivationStage ctx)
+
+theorem blockedFullCapacityRoleCount
+    (_ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
+    Graph.SurplusTokenRole.roleEnum.card = 36 :=
+  Graph.SurplusTokenRole.role_card
+
+theorem blockedCapacityLedgerChecks
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
+    Graph.SurplusCapacityTokenRouting.blockedChecks
+        (capacityTokenActivationStage ctx) =
+      (Graph.SurplusCapacityTokenRouting.blockedPairs
+        (capacityTokenActivationStage ctx)).card *
+        ((Graph.SurplusCapacityTokenRouting.tokens
+          (ctx := ctx) (setup := surplusPortActivationSetup ctx)).card * 24) :=
+  Graph.SurplusCapacityTokenRouting.blockedChecks_eq
+    (capacityTokenActivationStage ctx)
+
 /-- Node `[136]`: all scheduled pairs occur in exactly one of the 25 actual
 capacity-token/role fibres. -/
 theorem totalCapacityLedger_noOvercounting
@@ -225,6 +285,50 @@ structure VerifiedCapacityTokenPrefix
       (ctx.G.object.input.vertices.card + 2 * ctx.G.object.edgeCount +
         Graph.InducedPathWindowLedger.totalSurplus ctx.G.object) +
       15 * p13 ctx + Graph.InducedPathWindowLedger.totalSurplus ctx.G.object
+  blockedRouting : CT9.TokenRoleLedger.VerifiedStage
+    (Graph.SurplusCapacityTokenRouting.tokens
+      (ctx := ctx) (setup := surplusPortActivationSetup ctx))
+    Graph.SurplusTokenRole.admittedRoleEnum
+    (Graph.SurplusCapacityTokenRouting.blockedToken
+      (capacityTokenActivationStage ctx))
+    (Graph.SurplusCapacityTokenRouting.blockedRole
+      (capacityTokenActivationStage ctx))
+    ctx.toBranchContext
+    (Graph.SurplusCapacityTokenRouting.blockedPairs
+      (capacityTokenActivationStage ctx)).toOrderedCollection
+  blockedLedger :
+    (Graph.SurplusCapacityTokenRouting.blockedInput
+      (capacityTokenActivationStage ctx)).items.values.length =
+      ((Graph.SurplusCapacityTokenRouting.blockedCapability
+        (capacityTokenActivationStage ctx)).labels.orderedValues.map
+        fun labelValue => CT9.fibreCount
+          (Graph.SurplusCapacityTokenRouting.blockedCapability
+            (capacityTokenActivationStage ctx))
+          (Graph.SurplusCapacityTokenRouting.blockedInput
+            (capacityTokenActivationStage ctx)) labelValue).sum
+  blockedRoleCount : Graph.SurplusTokenRole.admittedRoleEnum.card = 24
+  blockedFullRouting : CT9.TokenRoleLedger.VerifiedStage
+    (Graph.SurplusCapacityTokenRouting.tokens
+      (ctx := ctx) (setup := surplusPortActivationSetup ctx))
+    Graph.SurplusTokenRole.roleEnum
+    (Graph.SurplusCapacityTokenRouting.blockedToken
+      (capacityTokenActivationStage ctx))
+    (Graph.SurplusCapacityTokenRouting.blockedFullRole
+      (capacityTokenActivationStage ctx))
+    ctx.toBranchContext
+    (Graph.SurplusCapacityTokenRouting.blockedPairs
+      (capacityTokenActivationStage ctx)).toOrderedCollection
+  blockedFullLedger :
+    (Graph.SurplusCapacityTokenRouting.blockedFullInput
+      (capacityTokenActivationStage ctx)).items.values.length =
+      ((Graph.SurplusCapacityTokenRouting.blockedFullCapability
+        (capacityTokenActivationStage ctx)).labels.orderedValues.map
+        fun labelValue => CT9.fibreCount
+          (Graph.SurplusCapacityTokenRouting.blockedFullCapability
+            (capacityTokenActivationStage ctx))
+          (Graph.SurplusCapacityTokenRouting.blockedFullInput
+            (capacityTokenActivationStage ctx)) labelValue).sum
+  blockedFullRoleCount : Graph.SurplusTokenRole.roleEnum.card = 36
   exactLedger :
     (Graph.SurplusCapacityTokenRouting.ct9Input
       (capacityTokenActivationStage ctx)).items.values.length =
@@ -251,6 +355,14 @@ noncomputable def verifiedCapacityTokenPrefix
   auditExit := sparsePairAuditExit_closed ctx
   windowJoin := exactWindowJoinIdentity ctx
   exactSupply := capacityTokenSupply_exact ctx
+  blockedRouting := Graph.SurplusCapacityTokenRouting.blockedVerifiedStage
+    (capacityTokenActivationStage ctx)
+  blockedLedger := blockedCapacityLedger_noOvercounting ctx
+  blockedRoleCount := blockedCapacityRoleCount ctx
+  blockedFullRouting := Graph.SurplusCapacityTokenRouting.blockedFullVerifiedStage
+    (capacityTokenActivationStage ctx)
+  blockedFullLedger := blockedFullCapacityLedger_noOvercounting ctx
+  blockedFullRoleCount := blockedFullCapacityRoleCount ctx
   exactLedger := totalCapacityLedger_noOvercounting ctx
   roleCount := totalCapacityRoleCount ctx
   windowChecks := windowJoinChecks_quadratic ctx

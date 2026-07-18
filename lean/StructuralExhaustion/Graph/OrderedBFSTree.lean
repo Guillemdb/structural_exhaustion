@@ -676,6 +676,37 @@ theorem treeWalk_shortest (preconnected : object.graph.Preconnected)
     exact profile.depth_le_walk_length preconnected vertex path
   · exact SimpleGraph.dist_le (profile.treeWalk preconnected vertex)
 
+/-- Proof-carrying declared-order BFS tie-break.  The lexicographic word is
+read backwards from the target: at every positive layer, the predecessor is
+the first admissible parent in the declared ambient vertex order.  This is
+equivalent to lexicographic minimization of the reversed parent word and does
+not enumerate a family of shortest paths. -/
+structure DeclaredOrderShortestPath
+    (preconnected : object.graph.Preconnected) (vertex : V) where
+  path : object.graph.Walk profile.root vertex
+  pathExact : path = profile.treeWalk preconnected vertex
+  isPath : path.IsPath
+  shortest : path.length = object.graph.dist profile.root vertex
+  parentFirst : ∀ current (nonroot : current ≠ profile.root),
+    ∃ before after : List V,
+      object.input.vertices.orderedValues =
+          before ++ profile.treeParent preconnected current nonroot :: after ∧
+        ∀ candidate ∈ before,
+          ¬profile.ParentPredicate
+            (profile.parentLevel preconnected current) current candidate
+
+/-- The canonical declared-order shortest path certificate produced by the
+single shared BFS parent map. -/
+noncomputable def declaredOrderShortestPath
+    (preconnected : object.graph.Preconnected) (vertex : V) :
+    profile.DeclaredOrderShortestPath preconnected vertex where
+  path := profile.treeWalk preconnected vertex
+  pathExact := rfl
+  isPath := profile.treeWalk_isPath preconnected vertex
+  shortest := profile.treeWalk_shortest preconnected vertex
+  parentFirst := fun current nonroot =>
+    profile.treeParent_is_first preconnected current nonroot
+
 theorem treeWalk_getVert_depth (preconnected : object.graph.Preconnected)
     (vertex : V) (index : Nat)
     (bound : index ≤ (profile.treeWalk preconnected vertex).length) :

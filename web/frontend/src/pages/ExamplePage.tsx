@@ -9,6 +9,10 @@ import { GraphCanvas } from "../components/GraphCanvas";
 import { LeanSourceViewer } from "../components/LeanSourceViewer";
 import { ErrorState, LoadingState } from "../components/LoadState";
 import { ProofRoadmap } from "../components/ProofRoadmap";
+import {
+  ORIGINAL_ERDOS_PROOF_NODE_IDS,
+  proofFlowObligationProgress,
+} from "../erdos-proof-flow";
 import { exampleGraphElements } from "../graph-data";
 import type {
   ExampleLink,
@@ -57,6 +61,13 @@ export function ExampleWorkspace({
 }) {
   const { example } = response;
   const isErdos = mode === "erdos";
+  const implementedOriginalNodeCount = example.manuscript
+    ? new Set(example.manuscript.formalizedNodeIds.filter((nodeId) =>
+        ORIGINAL_ERDOS_PROOF_NODE_IDS.has(nodeId))).size
+    : 0;
+  const obligationProgress = example.manuscript
+    ? proofFlowObligationProgress(example.manuscript)
+    : null;
   const pendingNavigation = useRef<{
     stageId: string;
     declarationId: string | null;
@@ -268,9 +279,13 @@ export function ExampleWorkspace({
             <strong>{example.manuscript.coverage.verifiedMathematicalObjects}/{example.manuscript.coverage.totalMathematicalObjects}</strong>
             <span>paper objects mapped to verified Lean</span>
           </div>
-          <div title="Unique bracketed node IDs referenced by implemented Lean proof steps, out of all numbered nodes in the Chapter 1 proof-flow diagram.">
-            <strong>{example.manuscript.coverage.verifiedDiagramNodes}/{example.manuscript.coverage.totalDiagramNodes}</strong>
-            <span>Chapter 1 flow nodes verified</span>
+          <div title="Implemented nodes from the original proof, out of all nodes in the original proof. Supplemental grey nodes are excluded.">
+            <strong>{implementedOriginalNodeCount}/{ORIGINAL_ERDOS_PROOF_NODE_IDS.size}</strong>
+            <span>framework nodes implemented</span>
+          </div>
+          <div title="Fully proved original-paper obligations, out of every task in the per-node obligation ledgers. Partial and missing obligations remain unfinished.">
+            <strong>{obligationProgress?.proved ?? 0}/{obligationProgress?.total ?? 0}</strong>
+            <span>tasks implemented</span>
           </div>
           <div title="Manuscript-indexed workflow steps whose status is implemented and whose Lean stage is present.">
             <strong>{example.manuscript.coverage.verifiedWorkflowSteps}</strong>
