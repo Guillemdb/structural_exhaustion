@@ -1,4 +1,8 @@
 import Erdos64EG.OfficialStatement
+import Erdos64EG.Node4MinimalSelection
+import Erdos64EG.Node5TargetAlgebra
+import Erdos64EG.Node8NoProperCore
+import Erdos64EG.Node9DeletionCriticality
 import Erdos64EG.CT1
 import Erdos64EG.CT2
 import Erdos64EG.CT3

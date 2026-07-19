@@ -1,4 +1,5 @@
 import StructuralExhaustion.Core.Problem
+import StructuralExhaustion.Core.ResidualRefinement
 
 namespace StructuralExhaustion.Core
 
@@ -38,5 +39,61 @@ theorem not_isCounterexample_iff
     exact target_of_not_isCounterexample notCounterexample baseline
   · intro closes counterexample
     exact counterexample.2 (closes counterexample.1)
+
+/-! ## Accumulated node executor
+
+The first manuscript diamond is common to every structural-exhaustion proof.
+The executor below owns its decision and its negative terminal, so examples do
+not construct branch sums or transport the initial residual themselves.
+-/
+
+namespace CounterexampleBranch
+
+open ResidualRefinement
+
+variable {Residual : Type*}
+variable {P : Problem.{uAmbient, uBranch}}
+variable {Target : P.Ambient → Prop}
+
+/-- The positive and negative predicates of the initial counterexample
+decision, stated on an arbitrary stable residual carrying one ambient object. -/
+abbrev Yes (object : Residual → P.Ambient) (residual : Residual) : Prop :=
+  IsCounterexample P Target (object residual)
+
+abbrev No (object : Residual → P.Ambient) (residual : Residual) : Prop :=
+  ¬IsCounterexample P Target (object residual)
+
+/-- Framework-owned exhaustive counterexample decision. -/
+noncomputable def decision
+    (object : Residual → P.Ambient) {facts : List (Residual → Prop)} :
+    ResidualRefinement.State.DecisionNode (facts := facts)
+      (Yes (P := P) (Target := Target) object)
+      (No (P := P) (Target := Target) object) :=
+  ResidualRefinement.State.DecisionNode.complement _ fun _state =>
+    Classical.propDecidable _
+
+/-- The exact negative branch terminal: the retained baseline and the literal
+negative decision proof imply the target on the same residual. -/
+abbrev Closed (object : Residual → P.Ambient) (residual : Residual) : Prop :=
+  Target (object residual)
+
+/-- Execute the initial paper diamond and close only its negative edge.  The
+positive edge retains the counterexample proof; the negative edge retains both
+its branch proof and the target conclusion. -/
+noncomputable def run
+    (object : Residual → P.Ambient)
+    (baseline : ∀ residual, P.Baseline (object residual))
+    {facts : List (Residual → Prop)}
+    (state : ResidualRefinement.State Residual facts) :
+    ResidualRefinement.State.BranchResult state
+      (Yes (P := P) (Target := Target) object :: facts)
+      (Closed (Target := Target) object ::
+        No (P := P) (Target := Target) object :: facts) :=
+  (decision (P := P) (Target := Target) object).run state |>.mapNo
+      (property := Closed (Target := Target) object) fun branch =>
+    target_of_not_isCounterexample branch.state.latest
+      (baseline branch.state.residual)
+
+end CounterexampleBranch
 
 end StructuralExhaustion.Core

@@ -1,5 +1,6 @@
 import Mathlib.Data.Nat.Find
 import StructuralExhaustion.Core.Context
+import StructuralExhaustion.Core.ResidualRefinement
 
 namespace StructuralExhaustion.Core
 
@@ -49,5 +50,49 @@ theorem exists_minimalCounterexample
     ⟨ctx.G, ctx.baseline, ctx.avoids, rfl⟩
 
 end AvoidingContext
+
+/-! ## Accumulated-ledger minimal selection
+
+Minimal-counterexample selection is a proof-producing successor, not a change
+of residual carrier.  The selected context is therefore stored as the one new
+stage payload while the framework keeps the complete incoming ledger.
+-/
+
+/-- The thin output of one rank-minimal counterexample selection.  The bound
+is indexed by the stable residual rather than by a copied predecessor. -/
+structure MinimalCounterexampleSelection
+    (P : Problem.{uAmbient, uBranch}) (Target : P.Ambient → Prop)
+    (rankBound : Nat) where
+  context : MinimalCounterexampleContext P Target
+  rank_le : P.rank context.G ≤ rankBound
+
+namespace ResidualRefinement.State.StageNode
+
+universe uResidual uInput
+
+/-- Select a minimal counterexample from an exact target-avoiding stage already
+present in the accumulated ledger.  Applications provide only the projection
+from their branch-local input to the generic avoiding context and the equality
+identifying its rank with the stable residual's declared bound. -/
+noncomputable def selectMinimalCounterexample
+    {P : Problem.{uAmbient, uBranch}} {Target : P.Ambient → Prop}
+    {Residual : Type uResidual} {facts : List (Residual → Prop)}
+    {Input : Residual → Sort uInput}
+    (query : ResidualRefinement.State.LedgerQuery (facts := facts) Input)
+    (avoiding : ∀ residual, Input residual → AvoidingContext P Target)
+    (rankBound : Residual → Nat)
+    (rank_eq : ∀ residual input,
+      P.rank (avoiding residual input).G = rankBound residual)
+    (stateOf : (G : P.Ambient) → P.BranchState G) :
+    ResidualRefinement.State.StageNode (facts := facts)
+      (fun residual => MinimalCounterexampleSelection P Target (rankBound residual)) :=
+  ResidualRefinement.State.StageNode.derive query fun state input => by
+    let witness :=
+      (avoiding state.residual input).exists_minimalCounterexample stateOf
+    let context := Classical.choose witness
+    have rankLe := Classical.choose_spec witness
+    exact ⟨context, rankLe.trans_eq (rank_eq state.residual input)⟩
+
+end ResidualRefinement.State.StageNode
 
 end StructuralExhaustion.Core

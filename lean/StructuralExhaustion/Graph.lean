@@ -48,6 +48,7 @@ import StructuralExhaustion.Graph.MaximumMatching
 import StructuralExhaustion.Graph.EdgeRootedReturn
 import StructuralExhaustion.Graph.MinimumDegreeCycle
 import StructuralExhaustion.Graph.MinimumDegreeCycleRouted
+import StructuralExhaustion.Graph.MinimumDegreeCycleCriticality
 import StructuralExhaustion.Graph.PackedMinimumDegreeCycle
 import StructuralExhaustion.Graph.RefinedFanLedger
 import StructuralExhaustion.Graph.WalkMapping

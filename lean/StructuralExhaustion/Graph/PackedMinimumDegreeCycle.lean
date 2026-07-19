@@ -413,6 +413,51 @@ theorem properSubgraphCT2Run_polynomial (input : StaticInput)
   change 1 ≤ 1 * (1 + 1) ^ 0
   decide
 
+/-- Exact CT2 evidence introduced by the no-proper-core step, without any
+later edge-deletion or high-degree consequences. -/
+structure NoProperCoreCertificate (input : StaticInput)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target) : Prop where
+  noProperCore : ∀ subgraph : PackedFiniteObject.ProperSubgraph ctx.G,
+    ¬ input.problem.Baseline subgraph.value
+  properCoreTerminal : ∀
+    (subgraph : PackedFiniteObject.ProperSubgraph ctx.G)
+    (baseline : input.problem.Baseline subgraph.value),
+    (input.properSubgraphCT2Run ctx subgraph baseline).terminal = .deletionC2
+  properCoreTrace : ∀
+    (subgraph : PackedFiniteObject.ProperSubgraph ctx.G)
+    (baseline : input.problem.Baseline subgraph.value),
+    (input.properSubgraphCT2Run ctx subgraph baseline).trace =
+      [.entry, .deletionDecision, .deletionC2Terminal]
+  properCoreTotal : ∀
+    (subgraph : PackedFiniteObject.ProperSubgraph ctx.G)
+    (baseline : input.problem.Baseline subgraph.value),
+    ∃ run : CT2.CertifiedReductionRun ctx
+        (input.properSubgraphCT2Input ctx subgraph baseline),
+      run.terminal = .deletionC2 ∧
+        run.trace = [.entry, .deletionDecision, .deletionC2Terminal]
+  properCoreChecks : ∀
+    (subgraph : PackedFiniteObject.ProperSubgraph ctx.G)
+    (baseline : input.problem.Baseline subgraph.value),
+    (input.properSubgraphCT2Run ctx subgraph baseline).checks = 1
+  properCorePolynomial : ∀
+    (subgraph : PackedFiniteObject.ProperSubgraph ctx.G)
+    (baseline : input.problem.Baseline subgraph.value),
+    (input.properSubgraphCT2Run ctx subgraph baseline).checks ≤
+      (CT2.certifiedReductionBudget ctx).coefficient *
+        ((CT2.certifiedReductionBudget ctx).size
+            (input.properSubgraphCT2Input ctx subgraph baseline) + 1) ^
+          (CT2.certifiedReductionBudget ctx).degree
+
+def noProperCoreCertificate (input : StaticInput)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target) :
+    NoProperCoreCertificate input ctx where
+  noProperCore := input.noProperCore ctx
+  properCoreTerminal := input.properSubgraphCT2Run_terminal ctx
+  properCoreTrace := input.properSubgraphCT2Run_trace ctx
+  properCoreTotal := input.properSubgraphCT2Run_total ctx
+  properCoreChecks := input.properSubgraphCT2Run_checks ctx
+  properCorePolynomial := input.properSubgraphCT2Run_polynomial ctx
+
 /-- Framework-owned output combining the no-proper-core CT2 stage with the
 already established edge-rooted CT1 and local dart-deletion CT2 stages on the
 same selected graph. -/
@@ -486,6 +531,31 @@ theorem exists_edgeRootedNoProperCorePrefix (input : StaticInput)
   obtain ⟨ctx, rankLe⟩ :=
     initial.exists_minimalCounterexample (fun _packed => ())
   exact ⟨ctx, rankLe, input.edgeRootedNoProperCorePrefix ctx⟩
+
+/-- The reusable output of packed minimality followed by the proper-core CT2
+closure.  It stores only the newly selected packed context, its rank bound,
+and the CT2 certificate; applications need not package this handoff. -/
+structure SelectedNoProperCore (input : StaticInput)
+    {V : Type u} (object : FiniteObject V) : Type (u + 2) where
+  context : Core.MinimalCounterexampleContext
+    (StaticInput.problem.{u} input) (StaticInput.Target.{u} input)
+  rank_le : (StaticInput.problem.{u} input).rank context.G ≤
+    (StaticInput.problem.{u} input).rank (PackedFiniteObject.pack object)
+  certificate : NoProperCoreCertificate input context
+
+/-- Framework-owned packed-minimality/CT2 executor from one current avoiding
+context.  Natural-number well-ordering is proof-level and no graph or
+subgraph universe is enumerated. -/
+noncomputable def selectNoProperCore (input : StaticInput)
+    {V : Type u} (object : FiniteObject V)
+    (baseline : input.minimumDegree ≤ object.minDegree)
+    (avoids : ¬ HasCycleWithLength object.graph input.LengthOK) :
+    SelectedNoProperCore input object := by
+  let witness :=
+    input.exists_edgeRootedNoProperCorePrefix object baseline avoids
+  let context := Classical.choose witness
+  have verified := Classical.choose_spec witness
+  exact ⟨context, verified.1, input.noProperCoreCertificate context⟩
 
 /-- Native work certificate used by every proper-subgraph run in this graph
 profile. -/

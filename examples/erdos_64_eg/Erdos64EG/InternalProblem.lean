@@ -135,4 +135,33 @@ theorem officialConclusion_of_notCounterexample {V : Type u}
   (target_iff_official_conclusion object).mp
     (target_of_notCounterexample object notCounterexample baseline)
 
+/-! ## Framework-owned execution of diagram nodes [2]--[3] -/
+
+/-- Stable root carrier for the official graph and its theorem hypothesis.
+Node `[1]` is the unique place where this residual is initialized. -/
+structure InitialResidual (V : Type u) where
+  object : Object V
+  baseline : Baseline object
+
+/-- Execute the exact node-`[2]` counterexample decision and the node-`[3]`
+negative terminal.  The framework retains the literal decision branch and the
+single accumulated ledger; the Erdős application supplies only its graph and
+minimum-degree predicate. -/
+noncomputable def runInitialCounterexampleDecision {V : Type u}
+    (residual : InitialResidual V) :=
+  Core.CounterexampleBranch.run
+    (P := problem V) (Target := @Target V)
+    InitialResidual.object (fun current => current.baseline)
+    (Core.ResidualRefinement.State.initial residual)
+
+/-- Node `[2]` has exactly the original two exhaustive outcomes. -/
+theorem runInitialCounterexampleDecision_exhaustive {V : Type u}
+    (residual : InitialResidual V) :
+    match runInitialCounterexampleDecision residual with
+    | .yesBranch branch => IsCounterexample branch.state.residual.object
+    | .noBranch branch => Target branch.state.residual.object := by
+  cases runInitialCounterexampleDecision residual with
+  | yesBranch branch => exact branch.state.proofs.head
+  | noBranch branch => exact branch.state.proofs.head
+
 end Erdos64EG.Internal
