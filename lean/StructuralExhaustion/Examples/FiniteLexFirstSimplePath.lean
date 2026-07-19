@@ -17,6 +17,7 @@ def lineObject : FiniteObject (Fin 4) where
   }
 
 theorem zero_three_reachable : lineObject.graph.Reachable 0 3 := by
+  letI : DecidableRel lineObject.graph.Adj := lineObject.input.decideAdj
   exact (show lineObject.graph.Adj 0 3 from by decide).reachable
 
 noncomputable def profile :

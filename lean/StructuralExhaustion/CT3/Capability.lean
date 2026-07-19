@@ -36,7 +36,7 @@ structure Capability {P : Core.Problem.{uAmbient, uBranch}}
     localCheckBound contexts candidates rows ≤
       workCoefficient * (inputSize G + 1) ^ workDegree
 
-/-- Route-facing CT3 trigger.  The shared context is an index, so route
+/-- Transition-facing CT3 trigger.  The shared context is an index, so a transition
 construction cannot replace or realign it. -/
 structure Trigger {P : Core.Problem.{uAmbient, uBranch}}
     (S : Spec P) (_context : Core.BranchContext P) where
@@ -54,13 +54,6 @@ def polynomialBudget {P : Core.Problem.{uAmbient, uBranch}}
   coefficient := capability.workCoefficient
   degree := capability.workDegree
   bounded := capability.workBound
-
-/-- CT3's generic router interface. -/
-def tacticInterface {P : Core.Problem.{uAmbient, uBranch}}
-    {S : Spec P} (_capability : Capability S) :
-    Core.Routing.TacticInterface where
-  Context := Core.BranchContext P
-  Trigger := Trigger S
 
 end Capability
 

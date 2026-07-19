@@ -101,12 +101,41 @@ theorem openResponse_has_mersenne_length
   refine ⟨exponent, lower, ?_⟩
   omega
 
-/-- Verified local activation prefix through nodes `[127]`--`[128]`, assuming
-the exact node-`[126]` sparse-envelope prefix. -/
-structure VerifiedSurplusPortActivationPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedSparseEnvelopePrefix ctx
+/-- Complete node-`[126]` ledger presented to the framework as the literal
+source of the CT12→CT6 activation edge. -/
+abbrev SurplusPortActivationSource
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.ResidualStage .ct12 (VerifiedSparseEnvelopePrefix ctx)
+
+/-- Framework-owned CT12→CT6 execution on the selected graph. -/
+noncomputable def surplusPortActivationTransitionStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (source : SurplusPortActivationSource ctx) :=
+  Routes.Accumulated.advanceCurrent
+    (Graph.SurplusPortActivity.capability
+      (fixedPackedInput ctx) ctx.G.object).executableInterface
+    (Graph.SurplusPortActivity.activityAdapter
+      (fixedPackedInput ctx) ctx.G.object
+      (packedStaticInput.fixedContext ctx).baseline)
+    source
+
+/-- Exact transition ledger returned by the canonical CT12→CT6 executor. -/
+abbrev SurplusPortActivationTransitionLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (source : SurplusPortActivationSource ctx) :=
+  Routes.Accumulated.OutputLedger (sourceTactic := .ct12)
+    (Graph.SurplusPortActivity.capability
+      (fixedPackedInput ctx) ctx.G.object).executableInterface
+    (Graph.SurplusPortActivity.activityAdapter
+      (fixedPackedInput ctx) ctx.G.object
+      (packedStaticInput.fixedContext ctx).baseline) source
+
+/-- The mathematical node-`[127]`--`[128]` obligations attached to the exact
+CT6 execution.  Predecessor provenance remains framework-owned. -/
+structure SurplusPortActivationFacts
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {source : SurplusPortActivationSource ctx}
+    (_stage : SurplusPortActivationTransitionLedger ctx source) : Prop where
   activated : ∀ slot : ActiveSurplusSlot ctx,
     Nonempty (ActiveSurplusDemand ctx slot)
   scheduleLength :
@@ -119,24 +148,47 @@ structure VerifiedSurplusPortActivationPrefix
       ctx.G.object.input.vertices.card ^ 2 *
         (2 * ctx.G.object.input.vertices.card + 1)
 
+abbrev SurplusPortActivationLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (source : SurplusPortActivationSource ctx) :=
+  Core.Routing.LedgerExtension
+    (SurplusPortActivationTransitionLedger ctx source)
+    (SurplusPortActivationFacts ctx)
+
+/-- Verified local prefix through nodes `[127]`--`[128]`, carrying the entire
+node-`[126]` ledger through the executable CT12→CT6 edge. -/
+abbrev VerifiedSurplusPortActivationPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Sigma (SurplusPortActivationLedger ctx)
+
 noncomputable def verifiedSurplusPortActivationPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedSparseEnvelopePrefix ctx) :
-    VerifiedSurplusPortActivationPrefix ctx where
-  previous := previous
-  activated := fun slot ↦ ⟨activeSurplusDemand ctx slot⟩
-  scheduleLength := activatedSurplusSchedule_length_eq_sigma ctx
-  work := activatedSurplusWork_le_cubic ctx
+    VerifiedSurplusPortActivationPrefix ctx :=
+  let source : SurplusPortActivationSource ctx :=
+    Core.Routing.ResidualStage.exact (tactic := .ct12) previous
+  let stage := surplusPortActivationTransitionStage ctx source
+  ⟨source, ⟨stage, {
+    activated := fun slot ↦ ⟨activeSurplusDemand ctx slot⟩
+    scheduleLength := activatedSurplusSchedule_length_eq_sigma ctx
+    work := activatedSurplusWork_le_cubic ctx
+  }⟩⟩
+
+/-- Canonical CT6 continuation stage with all activation facts accumulated. -/
+noncomputable def surplusPortActivationLedgerStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedSurplusPortActivationPrefix ctx) :=
+  verified.2.previous.ledgerStage.extend verified.2.added
 
 theorem exists_verifiedSurplusPortActivationPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedSurplusPortActivationPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedSurplusPortActivationPrefix ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedSparseEnvelopePrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedSurplusPortActivationPrefix ctx previous⟩
+  exact ⟨ctx, verifiedSurplusPortActivationPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

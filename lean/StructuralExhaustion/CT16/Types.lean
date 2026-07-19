@@ -15,19 +15,10 @@ structure Capability (P : Core.Problem.{uAmbient, uBranch}) where
   closedCode : P.Ambient → ClosedCode
   targetCode : ClosedCode
 
-/-- Route-facing invocation; the branch context is an index and is never
+/-- Transition-facing invocation; the branch context is an index and is never
 duplicated inside a residual. -/
 structure Input {P : Core.Problem.{uAmbient, uBranch}}
     (_capability : Capability P) (_context : Core.BranchContext P) where
-
-namespace Capability
-
-def tacticInterface {P : Core.Problem.{uAmbient, uBranch}}
-    (capability : Capability P) : Core.Routing.TacticInterface where
-  Context := Core.BranchContext P
-  Trigger := Input capability
-
-end Capability
 
 structure ProperSupportResidual {P : Core.Problem.{uAmbient, uBranch}}
     (capability : Capability P) (context : Core.BranchContext P) where

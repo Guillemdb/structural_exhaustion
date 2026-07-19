@@ -1,4 +1,5 @@
 import StructuralExhaustion.CT2.Graph
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT2
 
@@ -76,5 +77,23 @@ def runReference : ExecutionResult capability ctx input :=
 /-- The public runner is the audited reference semantics. -/
 def run : ExecutionResult capability ctx input :=
   runReference capability ctx input
+
+namespace Capability
+
+/-- Canonical executable entry for the full CT2 replacement profile.  The
+route chooses a seed through `Capability.discover`; execution consumes that
+exact context-indexed input without rebuilding it in the application. -/
+def executableInterface
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {Target : P.Ambient → Prop}
+    (capability : Capability.{uAmbient, uBranch, uPiece, uInterface,
+      uAbstract, uContext, uCandidate} P Target) :
+    Core.Routing.ExecutableInterface .ct2 where
+  Context := Core.MinimalCounterexampleContext P Target
+  Trigger := Input capability
+  Result := fun context input => ExecutionResult capability context input
+  execute := fun context input => run capability context input
+
+end Capability
 
 end StructuralExhaustion.CT2

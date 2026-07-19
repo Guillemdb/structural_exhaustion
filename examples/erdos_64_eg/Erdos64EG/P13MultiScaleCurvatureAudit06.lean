@@ -1,33 +1,4 @@
-import Erdos64EG.P13MultiScaleCurvatureCertificate
+import Erdos64EG.P13MultiScaleCurvatureRowAudit06
+import Erdos64EG.P13MultiScaleCurvatureCountAudit06
 
-namespace Erdos64EG.Internal
-
-open StructuralExhaustion
-open P13MultiScaleCurvatureCertificate
-
-set_option maxRecDepth 100000
-set_option maxHeartbeats 0
-
-/-! Independent audit shard for connector length `6`. -/
-
-theorem p13MultiScaleRows_codeAudit_06 : ∀ source target : Fin 399,
-    (row 6 source).getLsb target =
-      @decide (P13CodeCompatibleSparse 6
-        (p13CurvatureCodes.getD source.1 0#13)
-        (p13CurvatureCodes.getD target.1 0#13))
-        (p13CodeCompatibleSparseDecidable 6 _ _) := by
-  native_decide
-
-theorem p13MultiScaleSafeCounts_audit_06 : ∀ right : Fin 15,
-    if 0 < 6 ∧ 0 < right.1 ∧ 6 + right.1 ≤ 14 then
-      safeCount 6 right.1 = profile.safeCount 6 right.1
-    else safeCount 6 right.1 = 0 := by
-  native_decide
-
-theorem p13MultiScaleFlatCounts_audit_06 : ∀ right : Fin 15,
-    if 0 < 6 ∧ 0 < right.1 ∧ 6 + right.1 ≤ 14 then
-      flatCount 6 right.1 = profile.flatCount 6 right.1
-    else flatCount 6 right.1 = 0 := by
-  native_decide
-
-end Erdos64EG.Internal
+/-! Memory-safe aggregate for connector length `6`. -/

@@ -1,5 +1,6 @@
 import Erdos64EG.P13Node148LiveHotDecision
 import StructuralExhaustion.Core.ExactHandoff
+import StructuralExhaustion.Core.ZeroWorkBudget
 import Erdos64EG.P13ExactManuscriptHotRate
 
 namespace Erdos64EG.Internal
@@ -370,8 +371,8 @@ theorem p13Node150LocalCheckCount_polynomial
 def p13Node150WorkBudget
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
     Core.PolynomialCheckBudget Unit :=
-  Core.PolynomialCheckBudget.constant
-    (fun _ => ctx.G.object.input.vertices.card) 0
+  Core.PolynomialCheckBudget.zero
+    (fun _ => ctx.G.object.input.vertices.card)
 
 @[simp] theorem p13Node150WorkBudget_checks
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :

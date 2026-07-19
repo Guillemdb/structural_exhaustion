@@ -79,10 +79,20 @@ end ConcreteCT3
 /-- Exact output of CT3 nodes `[11]`--`[14]`, retaining the preceding verified
 minimal-counterexample prefix and only the airtight literal graph stage. -/
 structure VerifiedBoundariedReplacementPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget) : Prop where
-  previous : VerifiedNoProperCorePrefix ctx
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget) : Type (u + 1)
+    extends Core.ExactHandoff
+      (packedStaticInput.edgeRootedNoProperCorePrefix ctx) where
   concrete : ∀ {T : Type u} (boundaries : FinEnum T) [Nonempty T],
     ConcreteCT3.VerifiedStage ctx boundaries
+
+instance verifiedBoundariedReplacementPrefix_subsingleton
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget) :
+    Subsingleton (VerifiedBoundariedReplacementPrefix ctx) where
+  allEq := by
+    rintro ⟨handoff, concrete⟩ ⟨other, otherConcrete⟩
+    have handoffEq : handoff = other := Subsingleton.elim _ _
+    subst handoffEq
+    rfl
 
 /-- Extend the already verified prefix without replacing its selected graph
 or branch context. -/
@@ -91,6 +101,7 @@ def verifiedBoundariedReplacementPrefix
     (previous : VerifiedNoProperCorePrefix ctx) :
     VerifiedBoundariedReplacementPrefix ctx where
   previous := previous
+  previousExact := Subsingleton.elim _ _
   concrete := fun boundaries =>
     Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.verifiedStage
       packedStaticInput boundaries ctx
@@ -211,9 +222,10 @@ theorem rankDrop_routed
 
 structure VerifiedRankDropRoutingPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
+    (prior : VerifiedBoundariedReplacementPrefix ctx)
     {T : Type u} (boundaries : FinEnum T) [Nonempty T]
-    (atom : ConcreteCT3.ProperAtom ctx boundaries) (Enlarged : Type u) : Prop where
-  previous : VerifiedBoundariedReplacementPrefix ctx
+    (atom : ConcreteCT3.ProperAtom ctx boundaries) (Enlarged : Type u) : Type (u + 1)
+    extends Core.ExactHandoff prior where
   stage : ConcreteCT3.RankDropVerifiedStage ctx boundaries atom Enlarged
 
 /-- Complete node `[36]`--`[39]` stage, indexed by the exact selected graph and
@@ -223,17 +235,19 @@ noncomputable def verifiedRankDropRoutingStage
     (previous : VerifiedBoundariedReplacementPrefix ctx)
     {T : Type u} (boundaries : FinEnum T) [Nonempty T]
     (atom : ConcreteCT3.ProperAtom ctx boundaries) (Enlarged : Type u) :
-    VerifiedRankDropRoutingPrefix ctx boundaries atom Enlarged where
+    VerifiedRankDropRoutingPrefix ctx previous boundaries atom Enlarged where
   previous := previous
+  previousExact := rfl
   stage :=
     Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.verifiedStage
       packedStaticInput boundaries atom Enlarged
 
-theorem rankDropRoutingPrefix_previous
+def rankDropRoutingPrefix_previous
     (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
     {T : Type u} (boundaries : FinEnum T) [Nonempty T]
     {atom : ConcreteCT3.ProperAtom ctx boundaries} {Enlarged : Type u}
-    (verified : VerifiedRankDropRoutingPrefix ctx boundaries atom Enlarged) :
+    {prior : VerifiedBoundariedReplacementPrefix ctx}
+    (verified : VerifiedRankDropRoutingPrefix ctx prior boundaries atom Enlarged) :
     VerifiedBoundariedReplacementPrefix ctx :=
   verified.previous
 
@@ -241,7 +255,8 @@ theorem rankDropRoutingPrefix_stage
     (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
     {T : Type u} (boundaries : FinEnum T) [Nonempty T]
     {atom : ConcreteCT3.ProperAtom ctx boundaries} {Enlarged : Type u}
-    (verified : VerifiedRankDropRoutingPrefix ctx boundaries atom Enlarged) :
+    {prior : VerifiedBoundariedReplacementPrefix ctx}
+    (verified : VerifiedRankDropRoutingPrefix ctx prior boundaries atom Enlarged) :
     ConcreteCT3.RankDropVerifiedStage ctx boundaries atom Enlarged :=
   verified.stage
 
@@ -256,19 +271,20 @@ theorem exists_verifiedBoundariedReplacementPrefix {V : Type u}
           packedStaticInput)
         (Graph.PackedMinimumDegreeCycle.StaticInput.Target.{u}
           packedStaticInput),
-      (Graph.PackedMinimumDegreeCycle.StaticInput.problem.{u}
-        packedStaticInput).rank ctx.G ≤
+      ∃ _ : VerifiedBoundariedReplacementPrefix ctx,
+        (Graph.PackedMinimumDegreeCycle.StaticInput.problem.{u}
+          packedStaticInput).rank ctx.G ≤
           (Graph.PackedMinimumDegreeCycle.StaticInput.problem.{u}
             packedStaticInput).rank
-            (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedBoundariedReplacementPrefix ctx := by
+            (Graph.PackedFiniteObject.pack object) := by
   obtain ⟨ctx, rankLe, previous⟩ :=
     exists_verifiedNoProperCorePrefix object baseline avoids
-  exact ⟨ctx, rankLe, {
+  exact ⟨ctx, {
     previous := previous
+    previousExact := Subsingleton.elim _ _
     concrete := fun boundaries =>
       Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.verifiedStage
         packedStaticInput boundaries ctx
-  }⟩
+  }, rankLe⟩
 
 end Erdos64EG.Internal

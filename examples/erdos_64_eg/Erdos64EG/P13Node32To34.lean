@@ -34,7 +34,7 @@ structure VerifiedP13Node34FullCurvatureRank
     (node32 : VerifiedP13Node32RankDecision
       ctx node21 node24 node26 node27 node28 node29 node30 node31)
     (fullRank : p13CurvatureTargetRank ctx =
-      (p13RemainderCurvatureProfile ctx).wedgeCount) : Type (u + 1)
+      (p13RemainderCurvatureProfile ctx).wedgeCount) : Type (u + 3)
     extends Core.ExactHandoff node32 where
   fullRankExact : p13CurvatureTargetRank ctx =
     (p13RemainderCurvatureProfile ctx).wedgeCount
@@ -45,13 +45,13 @@ structure VerifiedP13Node34FullCurvatureRank
       p13CurvatureTargetRank ctx
   maximalFamily :
     ∃ family : Finset (P13CurvatureCoordinate ctx),
-      (p13CurvatureResponseProfile ctx).ct15Profile.Survives family ∧
+      (p13CurvatureFunctionalRankProfile ctx).Survives family ∧
         family.card = (p13RemainderCurvatureProfile ctx).wedgeCount
   localWork :
-    (p13CurvatureResponseProfile ctx).ct15Profile.rankDecisionBudget.checks () ≤
-      (p13CurvatureResponseProfile ctx).ct15Profile.rankDecisionBudget.coefficient *
-        ((p13CurvatureResponseProfile ctx).ct15Profile.rankDecisionBudget.size () + 1) ^
-          (p13CurvatureResponseProfile ctx).ct15Profile.rankDecisionBudget.degree
+    (p13CurvatureFunctionalRankProfile ctx).rankDecisionBudget.checks () ≤
+      (p13CurvatureFunctionalRankProfile ctx).rankDecisionBudget.coefficient *
+        ((p13CurvatureFunctionalRankProfile ctx).rankDecisionBudget.size () + 1) ^
+          (p13CurvatureFunctionalRankProfile ctx).rankDecisionBudget.degree
 
 /-- Execute only the manuscript's full-rank no edge. -/
 noncomputable def VerifiedP13Node32RankDecision.node34
@@ -82,10 +82,11 @@ noncomputable def VerifiedP13Node32RankDecision.node34
     fullRankLower := fullRank.ge
     maximalFamily := by
       obtain ⟨family, survives, familyCard⟩ :=
-        (p13CurvatureResponseProfile ctx).ct15Profile.exists_surviving_card_eq_targetRank
+        (p13CurvatureFunctionalRankProfile ctx).rankProfile
+          |>.exists_surviving_card_eq_targetRank
       exact ⟨family, survives, familyCard.trans fullRank⟩
     localWork :=
-      (p13CurvatureResponseProfile ctx).ct15Profile.rankDecisionBudget.bounded ()
+      (p13CurvatureFunctionalRankProfile ctx).rankDecisionBudget.bounded ()
   }
 
 end Erdos64EG.Internal

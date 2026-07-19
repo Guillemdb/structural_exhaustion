@@ -45,41 +45,19 @@ be checked with:
 ```bash
 lake env lean EvenCycleExample/Run.lean
 lake env lean EvenCycleExample/Concrete.lean
-lake env lean EvenCycleExample/CT2Audit.lean
-lake env lean EvenCycleExample/CT12MaximalMatching.lean
-lake env lean EvenCycleExample/CT14HighCenterDeletionCharge.lean
 ```
 
 ## API boundary
 
 - `Problem.lean` selects the graph layer's canonical
-  `Graph.EndpointParityCycle.Profile.evenCycle`. Its embedded
-  `Graph.MinimumDegreeCycle.StaticInput` remains the single source for the
-  problem, target, CT1 encoding, and deletion-only CT2 API.
-- `CT1Instance.lean` only publishes names for that generated CT1 API.
-- `CT6Instance.lean`, `CT9Instance.lean`, and `CT6CT9.lean` publish thin names
-  for the generated greedy path, CT6 active ledger, typed CT6→CT9 route,
-  parity overload, endpoint positions, and Mathlib chord-cycle certificate.
-- `Run.lean` exposes the theorem and the final CT1 validation run.
-- `CT2Audit.lean` instantiates the packed proper-subgraph CT2 profile and the
-  dart-deletion CT2 capability, exposing the no-proper-core theorem, exact
-  constant-work trace, and degree-three endpoint invariant.
-- `CT3SeriesReduction.lean` implements the textbook Duffin parity-series
-  response table and independently instantiates the certificate-driven
-  boundaried replacement profile, including its compression terminal, typed
-  trace, minimality contradiction, totality, and one-check work bound.
-- `CT1InducedEdge.lean` is the external `K₄` fixture for the graph layer's
-  reusable induced-edge CT1 profile, pinning its terminal, exact trace, and
-  constant work count.
-- `CT12MaximalMatching.lean` is the external `K₄` fixture for
-  `Graph.MaximumMatching`, whose graph-owned implementation specializes the
-  induced-path packing profile to order two and proves the maximum, partition,
-  CT12 audit, and edgeless-remainder results.
-- `CT14HighCenterDeletionCharge.lean` instantiates
-  `Graph.HighCenterDeletionCharge` on the textbook `K₃,₄`. Its three
-  degree-four vertices are deleted, the retained four-vertex graph is proved
-  edgeless and internal-three-core-free, and the exact generic
-  `21 * assignedSurplus + receiverOverload` theorem is reused without HSS.
+  `Graph.EndpointParityCycle.Profile.evenCycle`. This is the only
+  problem-specific selection: it fixes the minimum-degree threshold and the
+  even-length predicate.
+- `CT1Instance.lean`, `CT6Instance.lean`, `CT9Instance.lean`, and
+  `CT6CT9.lean` publish names for the profile-generated CT1, CT6, registered
+  CT6→CT9 route, parity overload, and chord-cycle certificate.
+- `Run.lean` exposes the public theorem and final CT1 validation run without
+  defining a search, route, capability, or certificate constructor.
 - `Concrete.lean` runs the pipeline on Mathlib's complete graph on four
   explicitly scheduled vertices and checks the exact terminals, traces,
   maximal path, and cycle.

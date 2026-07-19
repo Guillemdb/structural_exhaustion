@@ -87,19 +87,52 @@ def safe_filename(value: str) -> str:
     return re.sub(r"[^A-Za-z0-9_.-]+", "_", value)
 
 
-def route_schema(route: dict) -> dict:
+def transition_profile_schema(profile: dict) -> dict:
     return {
         "$schema": DRAFT,
-        "$id": f"{SCHEMA_ORIGIN}/routes/{safe_filename(route['routeId'])}.schema.json",
-        "title": f"{route['routeId']} generated route contract",
+        "$id": (
+            f"{SCHEMA_ORIGIN}/transition-profiles/"
+            f"{safe_filename(profile['profileId'])}.schema.json"
+        ),
+        "title": f"{profile['profileId']} executable transition profile",
         "allOf": [
-            {"$ref": "../../lean-machine-catalog.schema.json#/$defs/routeRule"},
-            {"const": route},
+            {
+                "$ref": (
+                    "../../lean-machine-catalog.schema.json"
+                    "#/$defs/transitionProfile"
+                )
+            },
+            {"const": profile},
         ],
         "x-leanSourceOfTruth": {
             "kind": "compiledLeanEnvironment",
             "catalog": "generated/lean-machines.json",
-            "registry": "StructuralExhaustion.Canonical.routes",
+            "registry": "StructuralExhaustion.Canonical.transitionProfiles",
+        },
+    }
+
+
+def transition_family_schema(family: dict) -> dict:
+    return {
+        "$schema": DRAFT,
+        "$id": (
+            f"{SCHEMA_ORIGIN}/transition-families/"
+            f"{safe_filename(family['familyId'])}.schema.json"
+        ),
+        "title": f"{family['familyId']} CT transition family",
+        "allOf": [
+            {
+                "$ref": (
+                    "../../lean-machine-catalog.schema.json"
+                    "#/$defs/transitionFamily"
+                )
+            },
+            {"const": family},
+        ],
+        "x-leanSourceOfTruth": {
+            "kind": "compiledLeanEnvironment",
+            "catalog": "generated/lean-machines.json",
+            "registry": "StructuralExhaustion.Canonical.transitionFamilies",
         },
     }
 
@@ -238,7 +271,8 @@ def render_schemas(root: Path, catalog: dict) -> dict:
     generated_root = root / "schemas/generated"
     expected: set[Path] = set()
     tactic_index: list[dict] = []
-    route_paths: list[str] = []
+    transition_family_paths: list[str] = []
+    transition_profile_paths: list[str] = []
 
     for tactic in catalog["tactics"]:
         tactic_id = tactic["tacticId"]
@@ -281,24 +315,35 @@ def render_schemas(root: Path, catalog: dict) -> dict:
             }
         )
 
-    for route in catalog["routes"]:
+    for family in catalog["transitionFamilies"]:
         path = Path(
-            f"schemas/generated/routes/{safe_filename(route['routeId'])}.schema.json"
+            "schemas/generated/transition-families/"
+            f"{safe_filename(family['familyId'])}.schema.json"
         )
-        write_json(root / path, route_schema(route))
+        write_json(root / path, transition_family_schema(family))
         expected.add(root / path)
-        route_paths.append(path.as_posix())
+        transition_family_paths.append(path.as_posix())
+
+    for profile in catalog["transitionProfiles"]:
+        path = Path(
+            "schemas/generated/transition-profiles/"
+            f"{safe_filename(profile['profileId'])}.schema.json"
+        )
+        write_json(root / path, transition_profile_schema(profile))
+        expected.add(root / path)
+        transition_profile_paths.append(path.as_posix())
 
     index = {
         "artifactType": "leanDerivedSchemaIndex",
-        "schemaVersion": "2.0.0",
+        "schemaVersion": "3.0.0",
         "canonicalCatalog": "generated/lean-machines.json",
         "genericSchemas": sorted(
             path.relative_to(root).as_posix()
             for path in (root / "schemas").glob("*.schema.json")
         ),
         "tactics": tactic_index,
-        "routes": route_paths,
+        "transitionFamilies": transition_family_paths,
+        "transitionProfiles": transition_profile_paths,
     }
     index_path = generated_root / "index.json"
     write_json(index_path, index)
@@ -323,7 +368,9 @@ def main() -> int:
     residual_count = sum(len(item["residualSchemas"]) for item in index["tactics"])
     print(
         f"Rendered {node_count} node, {residual_count} residual, "
-        f"{len(index['routes'])} route, and {3 * len(index['tactics'])} "
+        f"{len(index['transitionFamilies'])} transition family, "
+        f"{len(index['transitionProfiles'])} transition profile, and "
+        f"{3 * len(index['tactics'])} "
         "tactic-level schemas from compiled Lean"
     )
     return 0

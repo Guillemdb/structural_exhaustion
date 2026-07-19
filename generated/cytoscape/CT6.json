@@ -309,17 +309,16 @@
       "data": {
         "id": "CT6.residual.activeLedger->CT9",
         "label": "CT6.residual.activeLedger->CT9",
-        "kind": "generatedRoute",
-        "route": {
-          "triggerConstructor": "StructuralExhaustion.Routes.CT6ToCT9.buildTrigger",
+        "kind": "transitionProfile",
+        "transitionProfile": {
+          "transitionConstructor": "StructuralExhaustion.Routes.CT6ToCT9.transition",
           "targetTacticId": "CT9",
+          "targetExecutableInterface": "StructuralExhaustion.CT9.Capability.executableInterface",
+          "sourceTacticId": "CT6",
           "sourceResidualKind": "CT6.residual.activeLedger",
-          "soundnessTheorem": "StructuralExhaustion.Routes.CT6ToCT9.enabled_generates",
           "selectionClass": "forced",
-          "routeId": "CT6.residual.activeLedger->CT9",
-          "provenanceTheorem": "StructuralExhaustion.Routes.CT6ToCT9.generated_route_id",
-          "discovery": "StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter.discover",
-          "contextPreservationTheorem": "StructuralExhaustion.Routes.CT6ToCT9.branchContext_preserved",
+          "profileId": "CT6.residual.activeLedger->CT9",
+          "familyId": "CT6->CT9",
           "authoringBoundary": {
             "semanticDiscovery": {
               "kind": "problemSemanticAdapter",
@@ -330,14 +329,16 @@
               "semanticDiscoveryAdapter"
             ],
             "frameworkOwnedResponsibilities": [
-              "routeRuleConstruction",
+              "exactSourceLedger",
+              "semanticDiscovery",
               "targetContextConstruction",
               "triggerConstruction",
-              "soundnessProof",
-              "contextPreservationProof",
-              "provenanceProof"
+              "targetExecution",
+              "accumulatedLedgerOutput",
+              "transitionProvenance"
             ]
-          }
+          },
+          "advanceExecutor": "StructuralExhaustion.Routes.CT6ToCT9.advance"
         }
       }
     }

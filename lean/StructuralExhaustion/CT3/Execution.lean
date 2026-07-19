@@ -1,5 +1,6 @@
 import StructuralExhaustion.CT3.Graph
 import StructuralExhaustion.CT3.Nodes
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT3
 
@@ -113,5 +114,24 @@ def OutcomeClaim {P : Core.Problem.{uAmbient, uBranch}}
       RowMatches S input certificate.row
   | .novelRow residual =>
       ∀ row, ¬ RowMatches S input row
+
+namespace Capability
+
+/-- Canonical executable CT3 entry.  The transition supplies one piece at the
+literal inherited branch context; the framework constructs the indexed CT3
+input and executes the public reference runner. -/
+def executableInterface
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {S : Spec.{uAmbient, uBranch, uPiece, uContext, uCandidate, uRow} P}
+    (capability : Capability S) :
+    Core.Routing.ExecutableInterface .ct3 where
+  Context := Core.BranchContext P
+  Trigger := Trigger S
+  Result := fun context trigger =>
+    ExecutionResult S capability ⟨context, trigger.piece⟩
+  execute := fun context trigger =>
+    run S capability ⟨context, trigger.piece⟩
+
+end Capability
 
 end StructuralExhaustion.CT3

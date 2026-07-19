@@ -1,14 +1,16 @@
 {
   "artifactType": "leanDerivedSchemaIndex",
-  "schemaVersion": "2.0.0",
+  "schemaVersion": "3.0.0",
   "canonicalCatalog": "generated/lean-machines.json",
   "genericSchemas": [
     "schemas/automation-profile.schema.json",
     "schemas/capability-concept.schema.json",
     "schemas/capability-spec.schema.json",
+    "schemas/erdos-proof-history.schema.json",
     "schemas/example-catalog-raw.schema.json",
     "schemas/example-detail.schema.json",
     "schemas/example-index.schema.json",
+    "schemas/framework-documentation.schema.json",
     "schemas/kernel-verification.schema.json",
     "schemas/lean-derived-manifest.schema.json",
     "schemas/lean-derived-schema-index.schema.json",
@@ -18,8 +20,10 @@
     "schemas/node-spec.schema.json",
     "schemas/provisioned-ref.schema.json",
     "schemas/residual-kind.schema.json",
-    "schemas/route-rule.schema.json",
     "schemas/tactic-spec.schema.json",
+    "schemas/transition-family.schema.json",
+    "schemas/transition-manifest.schema.json",
+    "schemas/transition-profile.schema.json",
     "schemas/verification-result.schema.json"
   ],
   "tactics": [
@@ -372,15 +376,25 @@
       ]
     }
   ],
-  "routes": [
-    "schemas/generated/routes/CT1.residual.avoiding-_CT2.schema.json",
-    "schemas/generated/routes/CT1.residual.avoiding-_CT2.localDeletion.schema.json",
-    "schemas/generated/routes/CT1.terminal.c1-_CT12.schema.json",
-    "schemas/generated/routes/CT2.residual.separatingContext-_CT3.schema.json",
-    "schemas/generated/routes/CT2.residual.criticality-_CT10.schema.json",
-    "schemas/generated/routes/CT5.residual.chargeLedger-_CT14.schema.json",
-    "schemas/generated/routes/CT6.residual.activeLedger-_CT9.schema.json",
-    "schemas/generated/routes/CT9.residual.overload-_CT7.schema.json",
-    "schemas/generated/routes/CT14.residual.capacity-_CT14.schema.json"
+  "transitionFamilies": [
+    "schemas/generated/transition-families/CT1-_CT2.schema.json",
+    "schemas/generated/transition-families/CT1-_CT12.schema.json",
+    "schemas/generated/transition-families/CT2-_CT3.schema.json",
+    "schemas/generated/transition-families/CT2-_CT10.schema.json",
+    "schemas/generated/transition-families/CT5-_CT14.schema.json",
+    "schemas/generated/transition-families/CT6-_CT9.schema.json",
+    "schemas/generated/transition-families/CT9-_CT7.schema.json",
+    "schemas/generated/transition-families/CT14-_CT14.schema.json"
+  ],
+  "transitionProfiles": [
+    "schemas/generated/transition-profiles/CT1.residual.avoiding-_CT2.schema.json",
+    "schemas/generated/transition-profiles/CT1.residual.avoiding-_CT2.localDeletion.schema.json",
+    "schemas/generated/transition-profiles/CT1.terminal.c1-_CT12.schema.json",
+    "schemas/generated/transition-profiles/CT2.residual.separatingContext-_CT3.schema.json",
+    "schemas/generated/transition-profiles/CT2.residual.criticality-_CT10.schema.json",
+    "schemas/generated/transition-profiles/CT5.residual.chargeLedger-_CT14.schema.json",
+    "schemas/generated/transition-profiles/CT6.residual.activeLedger-_CT9.schema.json",
+    "schemas/generated/transition-profiles/CT9.residual.overload-_CT7.schema.json",
+    "schemas/generated/transition-profiles/CT14.residual.capacity-_CT14.schema.json"
   ]
 }

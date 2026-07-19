@@ -11,6 +11,7 @@ import pytest
 from web.backend.app.main import create_app
 from web.backend.app.repository import (
     ArtifactError,
+    _validate_erdos_proof_history,
     _validate_manuscript_svg,
     _validate_tactic_graph,
     ArtifactRepository,
@@ -32,7 +33,8 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         "transitions": 108,
         "terminals": 55,
         "residualKinds": 37,
-        "routes": 9,
+        "transitionFamilies": 8,
+        "transitionProfiles": 9,
         "implementedTransitions": 33,
         "manualObligations": 0,
     }
@@ -51,7 +53,9 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
     assert detail["internals"]["sources"]
     assert set(repository._internals) == {"CT6"}
     assert "internalDeclarations" not in repository.tactic_response("CT6")["tactic"]
-    assert {route["sourceTacticId"] for route in response["routes"]} == {
+    assert {
+        family["sourceTacticId"] for family in response["transitionFamilies"]
+    } == {
         "CT1",
         "CT2",
         "CT5",
@@ -75,15 +79,15 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         ("erdos-64", "CT1", "CT2", "frameworkComposition"),
         ("erdos-64", "CT2", "CT3", "frameworkComposition"),
         ("erdos-64", "CT3", "CT1", "frameworkComposition"),
-        ("erdos-64", "CT1", "CT12", "registeredRoute"),
+        ("erdos-64", "CT1", "CT12", "registeredTransition"),
         ("erdos-64", "CT12", "CT10", "frameworkComposition"),
         ("erdos-64", "CT3", "CT15", "frameworkComposition"),
         ("erdos-64", "CT10", "CT6", "frameworkComposition"),
-        ("erdos-64", "CT6", "CT9", "registeredRoute"),
+        ("erdos-64", "CT6", "CT9", "registeredTransition"),
         ("erdos-64", "CT9", "CT1", "sharedProblem"),
         ("erdos-64", "CT1", "CT10", "sharedProblem"),
         ("erdos-64", "CT10", "CT9", "sharedProblem"),
-        ("erdos-64", "CT9", "CT7", "registeredRoute"),
+        ("erdos-64", "CT9", "CT7", "registeredTransition"),
         ("erdos-64", "CT7", "CT5", "sharedProblem"),
         ("erdos-64", "CT5", "CT7", "sharedProblem"),
         ("erdos-64", "CT7", "CT10", "sharedProblem"),
@@ -96,14 +100,14 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         ("erdos-64", "CT1", "CT10", "frameworkComposition"),
         ("erdos-64", "CT10", "CT9", "sharedProblem"),
         ("erdos-64", "CT9", "CT5", "sharedProblem"),
-        ("erdos-64", "CT5", "CT14", "registeredRoute"),
+        ("erdos-64", "CT5", "CT14", "registeredTransition"),
         ("erdos-64", "CT14", "CT1", "frameworkComposition"),
         ("erdos-64", "CT1", "CT9", "frameworkComposition"),
         ("erdos-64", "CT9", "CT14", "frameworkComposition"),
-            ("erdos-64", "CT12", "CT15", "frameworkComposition"),
-            ("erdos-64", "CT15", "CT9", "frameworkComposition"),
-            ("erdos-64", "CT9", "CT10", "frameworkComposition"),
-            ("even-cycle", "CT6", "CT9", "registeredRoute"),
+        ("erdos-64", "CT12", "CT15", "frameworkComposition"),
+        ("erdos-64", "CT15", "CT9", "frameworkComposition"),
+        ("erdos-64", "CT9", "CT10", "frameworkComposition"),
+        ("even-cycle", "CT6", "CT9", "registeredTransition"),
         ("greedy-coloring", "CT12", "CT4", "scheduleAudit"),
     ]
     assert all(
@@ -148,18 +152,27 @@ def test_artifact_repository_projects_all_compiled_examples() -> None:
         link
         for workflow in even_cycle["example"]["workflows"]
         for link in workflow["links"]
-        if link["kind"] == "registeredRoute"
+        if link["kind"] == "registeredTransition"
     ]
-    assert [link["routeId"] for link in registered] == [
+    assert [link["transitionProfileId"] for link in registered] == [
         "CT6.residual.activeLedger->CT9"
     ]
+    profiles = {
+        profile["profileId"]: profile
+        for profile in repository.catalog["transitionProfiles"]
+    }
+    assert all(
+        link["automationDeclarationIds"]
+        == [profiles[link["transitionProfileId"]]["advanceExecutor"]]
+        for link in registered
+    )
 
     other_registered = [
-        (example_id, link["routeId"])
+        (example_id, link["transitionProfileId"])
         for example_id in ("greedy-coloring", "mantel", "erdos-64")
         for workflow in repository.examples[example_id]["workflows"]
         for link in workflow["links"]
-        if link["kind"] == "registeredRoute"
+        if link["kind"] == "registeredTransition"
     ]
     assert other_registered == [
         ("erdos-64", "CT1.terminal.c1->CT12"),
@@ -181,6 +194,74 @@ def test_artifact_repository_projects_all_compiled_examples() -> None:
         block["kind"] == "figure"
         for fragment in manuscript["fragments"]
         for block in fragment["blocks"]
+    )
+
+
+def test_registered_transition_requires_the_full_ledger_advance_executor() -> None:
+    repository = ArtifactRepository(ROOT)
+    detail = json.loads(json.dumps(repository.examples["even-cycle"]))
+    link = next(
+        link
+        for workflow in detail["workflows"]
+        for link in workflow["links"]
+        if link["kind"] == "registeredTransition"
+    )
+    profile = repository.transition_profile_by_id[link["transitionProfileId"]]
+    link["automationDeclarationIds"] = [profile["transitionConstructor"]]
+
+    with pytest.raises(ArtifactError, match="full-ledger advance executor"):
+        repository._validate_example_detail(detail)
+
+
+def test_artifact_repository_projects_auditable_erdos_history() -> None:
+    repository = ArtifactRepository(ROOT)
+    response = repository.erdos_proof_history_response()
+
+    assert response["artifactType"] == "frameworkExplorerErdosProofHistory"
+    assert response["exampleId"] == "erdos-64"
+    assert response["snapshots"]
+    latest = response["snapshots"][-1]
+    assert latest["formalizedNodeCount"] == len(latest["formalizedNodeIds"])
+    assert latest["frameworkLeverage"]["declarationFootprint"]["total"] == (
+        latest["frameworkLeverage"]["declarationFootprint"]["framework"]
+        + latest["frameworkLeverage"]["declarationFootprint"]["author"]
+        + latest["frameworkLeverage"]["declarationFootprint"]["external"]
+    )
+    assert "timeSaved" not in latest
+
+
+def test_erdos_history_rejects_derived_or_inconsistent_claims() -> None:
+    repository = ArtifactRepository(ROOT)
+    history = json.loads(json.dumps(repository.erdos_proof_history))
+    history["snapshots"][0]["formalizedNodeCount"] += 1
+
+    with pytest.raises(ArtifactError, match="node count disagrees"):
+        _validate_erdos_proof_history(history)
+
+
+def test_artifact_repository_projects_lean_owned_framework_documentation() -> None:
+    repository = ArtifactRepository(ROOT)
+    response = repository.documentation_response()
+
+    assert response["schemaVersion"] == "1.0.0"
+    assert len(response["capabilities"]) == 16
+    assert [guide["tacticId"] for guide in response["tacticGuides"]] == [
+        f"CT{number}" for number in range(1, 18)
+    ]
+    assert {capability["layer"] for capability in response["capabilities"]} == {
+        "core",
+        "graph",
+    }
+    references = [
+        example
+        for capability in response["capabilities"]
+        for example in capability["examples"]
+    ]
+    assert references
+    assert all(reference["exampleId"] != "erdos-64" for reference in references)
+    assert any(
+        reference["workflow"]["workflowId"] == "coloring"
+        for reference in references
     )
 
 
@@ -301,13 +382,19 @@ def test_api_and_spa_are_served_from_one_application(tmp_path: Path) -> None:
 
             framework = await get("/api/v1/framework")
             assert framework.status_code == 200
-            assert framework.json()["totals"]["routes"] == 9
+            assert framework.json()["totals"]["transitionFamilies"] == 8
+            assert framework.json()["totals"]["transitionProfiles"] == 9
             assert framework.json()["totals"]["implementedTransitions"] == 33
             assert any(
                 transition["sourceTacticId"] == "CT10"
                 and transition["targetTacticId"] == "CT6"
                 for transition in framework.json()["implementedTransitions"]
             )
+
+            documentation = await get("/api/v1/documentation")
+            assert documentation.status_code == 200
+            assert len(documentation.json()["capabilities"]) == 16
+            assert len(documentation.json()["tacticGuides"]) == 17
 
             tactic = await get("/api/v1/tactics/ct6")
             assert tactic.status_code == 200
@@ -341,6 +428,11 @@ def test_api_and_spa_are_served_from_one_application(tmp_path: Path) -> None:
             assert erdos.json()["example"]["manuscript"]["fragments"]
             assert erdos.json()["example"]["manuscript"]["coverage"]["verifiedDiagramNodes"] == 39
             assert erdos.json()["example"]["manuscript"]["coverage"]["totalDiagramNodes"] == 157
+
+            erdos_history = await get("/api/v1/examples/erdos-64/history")
+            assert erdos_history.status_code == 200
+            assert erdos_history.json()["exampleId"] == "erdos-64"
+            assert erdos_history.json()["snapshots"]
 
             missing_example = await get("/api/v1/examples/not-an-example")
             assert missing_example.status_code == 404

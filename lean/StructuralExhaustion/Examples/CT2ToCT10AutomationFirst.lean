@@ -8,10 +8,27 @@ open StructuralExhaustion
 open StructuralExhaustion.Examples.CT2AutomationFirst
 open StructuralExhaustion.Routes.CT2ToCT10
 
+/-- Complete CT2 execution ledger restricted to its criticality terminal. -/
+abbrev CriticalityLedger :=
+  {result : CT2.ExecutionResult criticalityCapability context criticalityInput //
+    result.terminal = .criticality}
+
+def criticalityLedger : CriticalityLedger := ⟨criticalityResult, rfl⟩
+
+def currentCriticality (ledger : CriticalityLedger) :
+    CT2.CriticalityResidual criticalityCapability context criticalityInput := by
+  rcases ledger with ⟨result, terminal⟩
+  cases result with
+  | mk terminalId path outcome =>
+      cases outcome with
+      | deletionC2 witness => cases terminal
+      | replacementC2 witness => cases terminal
+      | separating residual => cases terminal
+      | criticality residual => exact residual
+
 def source : CT2.CriticalityResidual
     criticalityCapability context criticalityInput :=
-  match criticalityResult.outcome with
-  | .criticality residual => residual
+  currentCriticality criticalityLedger
 
 inductive Datum where
   | critical
@@ -39,22 +56,29 @@ def enabledDiscovery : DataDiscovery
   discover := fun _ => .enabled ()
   data := fun _ _ => datumCollection
 
-abbrev enabledRule := rule targetCapability enabledDiscovery
+abbrev enabledTransition := transition targetCapability enabledDiscovery
 
-theorem enabled_discovery : enabledRule.discover source = .enabled () :=
+abbrev enabledLedgerTransition :=
+  enabledTransition.onLedger currentCriticality
+
+abbrev sourceStage : Core.Routing.ResidualStage .ct2 CriticalityLedger :=
+  Core.Routing.ResidualStage.exact criticalityLedger
+
+theorem enabled_discovery :
+    enabledLedgerTransition.discover sourceStage = .enabled () :=
   rfl
 
-def enabledTrigger : CT10.Trigger targetCapability (targetContext source) :=
-  buildTrigger targetCapability enabledDiscovery source ()
+def enabledStage : enabledLedgerTransition.EnabledStage sourceStage :=
+  enabledLedgerTransition.runEnabled sourceStage () enabled_discovery
 
-def enabledInput : CT10.Input targetCapability :=
-  buildInput targetCapability enabledDiscovery source ()
+def enabledLedger := enabledStage.ledgerStage
 
-def generatedRoute := enabledRule.generate source ()
+def enabledOutcome :=
+  advance targetCapability enabledDiscovery currentCriticality sourceStage
 
 theorem enabled_attempt_materializes :
-    (enabledRule.attempt source).generated? = some generatedRoute :=
-  enabled_generates targetCapability enabledDiscovery source () enabled_discovery
+    enabledOutcome = .enabled enabledStage :=
+  rfl
 
 theorem preserves_branch :
     targetContext source = context.toBranchContext :=
@@ -71,19 +95,20 @@ theorem preserves_state : (targetContext source).state = context.state :=
   state_preserved source
 
 theorem materialized_context_is_preserved :
-    enabledInput.context = context.toBranchContext :=
-  input_context_preserved targetCapability enabledDiscovery source ()
+    enabledLedgerTransition.targetContext sourceStage = context.toBranchContext :=
+  rfl
 
 theorem materialized_data_is_discovered :
-    enabledInput.data = datumCollection :=
-  input_data_preserved targetCapability enabledDiscovery source ()
+    (enabledLedgerTransition.trigger sourceStage enabledStage.execution.seed).data =
+      datumCollection :=
+  rfl
 
 theorem generated_provenance :
-    generatedRoute.routeId = "CT2.residual.criticality->CT10" :=
-  generated_route_id targetCapability enabledDiscovery source ()
+    enabledTransition.profileId = transitionId :=
+  rfl
 
-/-- The generated trigger is directly consumable by CT10. -/
-def targetResult := CT10.run targetCapability enabledInput
+/-- The CT10 execution is retained in the complete enabled ledger. -/
+def targetResult := enabledStage.targetResult
 
 theorem target_executes : targetResult.terminal = .exhaustive :=
   rfl
@@ -97,18 +122,36 @@ def disabledDiscovery : DataDiscovery
   discover := fun _ => .disabled fun seed => nomatch seed
   data := fun _ seed => nomatch seed
 
-abbrev disabledRule := rule targetCapability disabledDiscovery
+abbrev disabledTransition := transition targetCapability disabledDiscovery
 
-def rejectNoSeed : disabledRule.Seed source → False :=
+abbrev disabledLedgerTransition :=
+  disabledTransition.onLedger currentCriticality
+
+abbrev disabledSourceStage : Core.Routing.ResidualStage .ct2 CriticalityLedger :=
+  Core.Routing.ResidualStage.exact criticalityLedger
+
+def rejectNoSeed : disabledLedgerTransition.Seed disabledSourceStage → False :=
   fun seed => nomatch seed
 
 theorem disabled_discovery :
-    disabledRule.discover source = .disabled rejectNoSeed := by
+    disabledLedgerTransition.discover disabledSourceStage =
+      .disabled rejectNoSeed := by
   congr
 
+def disabledOutcome :=
+  advance targetCapability disabledDiscovery currentCriticality
+    disabledSourceStage
+
 theorem disabled_attempt_generates_nothing :
-    (disabledRule.attempt source).generated? = none :=
-  disabled_generates_none targetCapability disabledDiscovery source
-    rejectNoSeed disabled_discovery
+    disabledOutcome = .disabled rejectNoSeed disabled_discovery :=
+  rfl
+
+theorem disabled_has_no_seed :
+    IsEmpty (disabledDiscovery.Seed
+      (currentCriticality disabledSourceStage.output)) :=
+  disabled_sound targetCapability disabledDiscovery currentCriticality
+    disabledSourceStage <| by
+    intro stage _enabled
+    exact nomatch stage.execution.seed
 
 end StructuralExhaustion.Examples.CT2ToCT10AutomationFirst

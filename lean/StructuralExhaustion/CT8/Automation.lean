@@ -1,6 +1,23 @@
 import StructuralExhaustion.CT8.Theorems
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT8
+
+namespace Capability
+
+/-- Canonical executable CT8 entry.  The dependent trigger is the exact
+input already indexed by the inherited branch context, and execution invokes
+only CT8's public reference runner. -/
+def executableInterface
+    {P : Core.Problem.{uAmbient, uBranch}}
+    (capability : Capability.{uAmbient, uBranch, uState, uType, uResponseContext} P) :
+    Core.Routing.ExecutableInterface .ct8 where
+  Context := Core.BranchContext P
+  Trigger := Input capability
+  Result := fun context input => ExecutionResult capability context input
+  execute := fun context input => run capability context input
+
+end Capability
 
 def responseSeparationResidualKindId := "CT8.residual.responseSeparation"
 def removalResidualKindId := "CT8.residual.removal"
@@ -37,7 +54,8 @@ def capabilityContract : Core.CapabilityContract where
     ⟨"Input.remove", .userOperator⟩]
   requiredInstances := []
   derivedOperations := ["CT8.findRepeated", "CT8.analyzeResponses",
-    "CT8.runReference", responseSeparationResidualKindId, removalResidualKindId]
+    "CT8.runReference", "CT8.Capability.executableInterface",
+    responseSeparationResidualKindId, removalResidualKindId]
 def nodeAutomationContracts : List Core.NodeAutomationContract := [
   ⟨"CT8.entry", .definitional, [],
     [⟨"context", .derivedFromPredecessor⟩,

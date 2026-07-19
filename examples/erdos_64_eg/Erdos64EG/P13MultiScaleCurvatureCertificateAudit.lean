@@ -19,6 +19,32 @@ namespace Erdos64EG.Internal
 open StructuralExhaustion
 open P13MultiScaleCurvatureCertificate
 
+theorem p13MultiScaleRows_rowAudit (length : Fin 15)
+    (source : Fin 399) :
+    row length.1 source = semanticRow length.1 source := by
+  fin_cases length
+  · exact p13MultiScaleRows_rowAudit_00 source
+  · exact p13MultiScaleRows_rowAudit_01 source
+  · exact p13MultiScaleRows_rowAudit_02 source
+  · exact p13MultiScaleRows_rowAudit_03 source
+  · exact p13MultiScaleRows_rowAudit_04 source
+  · exact p13MultiScaleRows_rowAudit_05 source
+  · exact p13MultiScaleRows_rowAudit_06 source
+  · exact p13MultiScaleRows_rowAudit_07 source
+  · exact p13MultiScaleRows_rowAudit_08 source
+  · exact p13MultiScaleRows_rowAudit_09 source
+  · exact p13MultiScaleRows_rowAudit_10 source
+  · exact p13MultiScaleRows_rowAudit_11 source
+  · exact p13MultiScaleRows_rowAudit_12 source
+  · exact p13MultiScaleRows_rowAudit_13 source
+  · exact p13MultiScaleRows_rowAudit_14 source
+
+def p13MultiScaleSemanticCertificate :
+    Core.FiniteBitRelationBarrier.SemanticCertificate profile
+      (Fin 15) (fun length => length.1)
+      (fun length => semanticRelation length.1) where
+  rowExact := p13MultiScaleRows_rowAudit
+
 theorem p13MultiScaleRows_codeAudit (length : Fin 15)
     (source target : Fin 399) :
     (row length.1 source).getLsb target =
@@ -26,22 +52,9 @@ theorem p13MultiScaleRows_codeAudit (length : Fin 15)
         (p13CurvatureCodes.getD source.1 0#13)
         (p13CurvatureCodes.getD target.1 0#13))
         (p13CodeCompatibleSparseDecidable length.1 _ _) := by
-  fin_cases length
-  · exact p13MultiScaleRows_codeAudit_00 source target
-  · exact p13MultiScaleRows_codeAudit_01 source target
-  · exact p13MultiScaleRows_codeAudit_02 source target
-  · exact p13MultiScaleRows_codeAudit_03 source target
-  · exact p13MultiScaleRows_codeAudit_04 source target
-  · exact p13MultiScaleRows_codeAudit_05 source target
-  · exact p13MultiScaleRows_codeAudit_06 source target
-  · exact p13MultiScaleRows_codeAudit_07 source target
-  · exact p13MultiScaleRows_codeAudit_08 source target
-  · exact p13MultiScaleRows_codeAudit_09 source target
-  · exact p13MultiScaleRows_codeAudit_10 source target
-  · exact p13MultiScaleRows_codeAudit_11 source target
-  · exact p13MultiScaleRows_codeAudit_12 source target
-  · exact p13MultiScaleRows_codeAudit_13 source target
-  · exact p13MultiScaleRows_codeAudit_14 source target
+  change (profile.row length.1 source).getLsb target =
+    semanticRelation length.1 source target
+  exact p13MultiScaleSemanticCertificate.getLsb_eq length source target
 
 theorem p13MultiScaleSafeCounts_audit (left right : Fin 15) :
     if 0 < left.1 ∧ 0 < right.1 ∧ left.1 + right.1 ≤ 14 then

@@ -58,7 +58,7 @@ export const graphStyles: cytoscape.StylesheetJson = [
     },
   },
   {
-    selector: 'node[kind = "routedTactic"]',
+    selector: 'node[kind = "transitionTargetTactic"]',
     style: {
       "background-color": "#755d91",
       "border-color": "#e8dff0",
@@ -266,9 +266,10 @@ export const graphStyles: cytoscape.StylesheetJson = [
   {
     selector: 'node[kind = "proofFlowNode"][status = "next"]',
     style: {
-      "background-color": "#d18a2c",
-      "border-color": "#f2ddbd",
-      color: "#ffffff",
+      "background-color": "#fbfaf6",
+      "border-color": "#d18a2c",
+      "border-width": 5,
+      color: "#263b46",
     },
   },
   {
@@ -297,7 +298,7 @@ export const graphStyles: cytoscape.StylesheetJson = [
     },
   },
   {
-    selector: 'edge[kind = "route"]',
+    selector: 'edge[kind = "transitionProfile"]',
     style: {
       width: 2.5,
       "line-color": "#755d91",
@@ -328,7 +329,10 @@ export const graphStyles: cytoscape.StylesheetJson = [
     },
   },
   {
-    selector: 'edge[kind = "implementedTransition"][relationshipKind = "registeredRoute"]',
+    selector: [
+      'edge[kind = "implementedTransition"][relationshipKind = "registeredRoute"]',
+      'edge[kind = "implementedTransition"][relationshipKind = "registeredTransition"]',
+    ].join(", "),
     style: {
       "line-color": "#755d91",
       "target-arrow-color": "#755d91",
@@ -347,6 +351,7 @@ export const graphStyles: cytoscape.StylesheetJson = [
   {
     selector: [
       'edge[kind = "registeredRoute"]',
+      'edge[kind = "registeredTransition"]',
       'edge[kind = "frameworkComposition"]',
       'edge[kind = "proofData"]',
       'edge[kind = "validation"]',
@@ -364,7 +369,7 @@ export const graphStyles: cytoscape.StylesheetJson = [
     },
   },
   {
-    selector: 'edge[kind = "registeredRoute"]',
+    selector: 'edge[kind = "registeredRoute"], edge[kind = "registeredTransition"]',
     style: {
       width: 3,
       "line-color": "#755d91",
@@ -547,7 +552,7 @@ export function GraphCanvas({
         role="img"
         aria-label={
           mode === "framework"
-            ? "Registered routes and implemented proof transitions between closure tactics"
+            ? "Registered transition profiles and implemented proof transitions between closure tactics"
             : mode === "example"
               ? "Composition diagram for the selected example workflow"
               : mode === "proofFlow"

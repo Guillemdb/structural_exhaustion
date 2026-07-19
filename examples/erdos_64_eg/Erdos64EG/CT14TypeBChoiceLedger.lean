@@ -159,31 +159,31 @@ theorem totalLocalQuarterBalance_nonnegative
 
 end TypeBAssignedSupport
 
-structure VerifiedTypeBChoiceLedgerPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedTypeBResolutionPrefix ctx
-  nonnegative : ∀ (support : TypeBAssignedSupport ctx)
-    (choice : support.completionProfile.FullChoice),
-    0 ≤ support.totalLocalQuarterBalance choice
+/-- Same-ledger theorem extension attaching the exact local-balance sum to
+the completed CT12 residual. -/
+abbrev VerifiedTypeBChoiceLedgerPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.LedgerExtension (VerifiedTypeBResolutionPrefix ctx)
+    (fun _previous => ∀ (support : TypeBAssignedSupport ctx)
+      (choice : support.completionProfile.FullChoice),
+      0 ≤ support.totalLocalQuarterBalance choice)
 
 noncomputable def verifiedTypeBChoiceLedgerPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedTypeBResolutionPrefix ctx) :
-    VerifiedTypeBChoiceLedgerPrefix ctx where
-  previous := previous
-  nonnegative := fun support choice =>
-    support.totalLocalQuarterBalance_nonnegative choice
+    VerifiedTypeBChoiceLedgerPrefix ctx :=
+  ⟨previous, fun support choice =>
+    support.totalLocalQuarterBalance_nonnegative choice⟩
 
 theorem exists_verifiedTypeBChoiceLedgerPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedTypeBChoiceLedgerPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedTypeBChoiceLedgerPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedTypeBResolutionPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedTypeBChoiceLedgerPrefix ctx previous⟩
+  exact ⟨ctx, verifiedTypeBChoiceLedgerPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

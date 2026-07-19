@@ -1,4 +1,4 @@
 interface:
-  display_name: "Structural Exhaustion CT Routing"
-  short_description: "Implement typed CT residual routes"
-  default_prompt: "Use $implement-structural-exhaustion-route to implement the typed route required by this CT residual and consumer."
+  display_name: "Structural Exhaustion CT Transitions"
+  short_description: "Implement full-ledger CT transitions"
+  default_prompt: "Use $implement-structural-exhaustion-route to implement this schema-9 CT transition through its public advance executor and full accumulated ledger."

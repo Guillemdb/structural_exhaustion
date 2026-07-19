@@ -124,6 +124,13 @@ def test_renderer_is_byte_deterministic_and_hashes_exact_details(tmp_path: Path)
     for summary in first_index["examples"]:
         detail = first / "generated/examples" / summary["detailFile"]
         assert hashlib.sha256(detail.read_bytes()).hexdigest() == summary["detailHash"]
+        hydrated = json.loads(detail.read_text(encoding="utf-8"))
+        descriptor_source = hydrated["sourceOfTruth"]["descriptorSource"]
+        descriptor_path = ROOT / descriptor_source["path"]
+        assert descriptor_path.name == "WebExport.lean"
+        assert descriptor_source["sha256"] == hashlib.sha256(
+            descriptor_path.read_bytes()
+        ).hexdigest()
 
 
 def test_renderer_rejects_links_outside_their_workflow() -> None:
@@ -137,7 +144,7 @@ def test_renderer_rejects_links_outside_their_workflow() -> None:
             "kind": "proofData",
             "label": "dangling",
             "description": "This endpoint is not declared.",
-            "routeId": None,
+            "transitionProfileId": None,
             "automationDeclarations": [],
             "evidenceDeclarations": [],
         }
@@ -146,14 +153,14 @@ def test_renderer_rejects_links_outside_their_workflow() -> None:
         hydrate_example(raw, ROOT, CATALOG)
 
 
-def test_renderer_checks_registered_route_tactic_endpoints() -> None:
+def test_renderer_checks_registered_transition_tactic_endpoints() -> None:
     raw = raw_example("EvenCycleExample", "even-cycle")
     workflow = raw["example"]["workflows"][0]
     workflow["stages"] = [
         {
             "stageId": "main.ct1",
             "title": "Wrong source",
-            "summary": "CT1 cannot source the registered CT6 route.",
+            "summary": "CT1 cannot source the registered CT6 transition.",
             "kind": "tactic",
             "tacticId": "CT1",
             "primaryDeclaration": declaration("EvenCycleExample", "EvenCycleExample.ct1"),
@@ -171,18 +178,67 @@ def test_renderer_checks_registered_route_tactic_endpoints() -> None:
     ]
     workflow["links"] = [
         {
-            "linkId": "main.route",
+            "linkId": "main.transition",
             "sourceStageId": "main.ct1",
             "targetStageId": "main.ct9",
-            "kind": "registeredRoute",
+            "kind": "registeredTransition",
             "label": "invalid source",
             "description": "The declared source tactic does not own this residual.",
-            "routeId": "CT6.residual.activeLedger->CT9",
+            "transitionProfileId": "CT6.residual.activeLedger->CT9",
             "automationDeclarations": [],
             "evidenceDeclarations": [],
         }
     ]
     with pytest.raises(ExampleCatalogError, match="expects CT6 -> CT9"):
+        hydrate_example(raw, ROOT, CATALOG)
+
+
+def test_renderer_requires_registered_transition_advance_executor() -> None:
+    raw = raw_example("EvenCycleExample", "even-cycle")
+    workflow = raw["example"]["workflows"][0]
+    workflow["stages"] = [
+        {
+            "stageId": "main.ct6",
+            "title": "CT6",
+            "summary": "The registered transition source.",
+            "kind": "tactic",
+            "tacticId": "CT6",
+            "primaryDeclaration": declaration(
+                "EvenCycleExample", "EvenCycleExample.ct6"
+            ),
+            "evidenceDeclarations": [],
+        },
+        {
+            "stageId": "main.ct9",
+            "title": "CT9",
+            "summary": "The registered transition target.",
+            "kind": "tactic",
+            "tacticId": "CT9",
+            "primaryDeclaration": declaration(
+                "EvenCycleExample", "EvenCycleExample.ct9"
+            ),
+            "evidenceDeclarations": [],
+        },
+    ]
+    workflow["links"] = [
+        {
+            "linkId": "main.transition",
+            "sourceStageId": "main.ct6",
+            "targetStageId": "main.ct9",
+            "kind": "registeredTransition",
+            "label": "wrong automation owner",
+            "description": "Static construction cannot replace full-ledger advance.",
+            "transitionProfileId": "CT6.residual.activeLedger->CT9",
+            "automationDeclarations": [
+                declaration(
+                    "StructuralExhaustion.Routes.CT6ToCT9",
+                    "StructuralExhaustion.Routes.CT6ToCT9.transition",
+                )
+            ],
+            "evidenceDeclarations": [],
+        }
+    ]
+    with pytest.raises(ExampleCatalogError, match="full-ledger advance executor"):
         hydrate_example(raw, ROOT, CATALOG)
 
 
@@ -220,7 +276,7 @@ def cross_ct_fixture() -> tuple[dict, dict]:
         "kind": "frameworkComposition",
         "label": "compiled transition",
         "description": "The framework executes the next CT.",
-        "routeId": None,
+        "transitionProfileId": None,
         "automationDeclarations": [],
         "evidenceDeclarations": [],
     }
@@ -251,6 +307,7 @@ def manuscript_for_single_stage(raw: dict) -> dict:
         "title": "Synthetic manuscript mapping",
         "path": "proofs/erdos_64_eg/erdos_64_proof.tex",
         "formalizedNodeIds": [1],
+        "nodeObligations": [],
         "proofSteps": [
             {
                 "stepId": "main.statement",
@@ -341,6 +398,73 @@ def test_renderer_validates_manuscript_labels_nodes_and_complete_coverage() -> N
         "label"
     ] = "lem:does-not-exist"
     with pytest.raises(ExampleCatalogError, match="unknown manuscript label"):
+        hydrate_example(raw, ROOT, CATALOG)
+
+
+def test_renderer_preserves_lean_owned_node_obligations() -> None:
+    raw = raw_example("EvenCycleExample", "even-cycle")
+    manuscript = manuscript_for_single_stage(raw)
+    manuscript["nodeObligations"] = [
+        {
+            "nodeId": 1,
+            "obligationId": "N1-STATEMENT",
+            "title": "N1-STATEMENT",
+            "statement": "State the exact manuscript boundary.",
+            "status": "proved",
+            "evidenceStepIds": ["main.statement"],
+        }
+    ]
+    raw["example"]["manuscript"] = manuscript
+
+    detail = hydrate_example(raw, ROOT, CATALOG)
+
+    assert detail["manuscript"]["nodeObligations"] == manuscript["nodeObligations"]
+
+
+def test_renderer_rejects_green_node_with_unfinished_obligation() -> None:
+    raw = raw_example("EvenCycleExample", "even-cycle")
+    manuscript = manuscript_for_single_stage(raw)
+    manuscript["nodeObligations"] = [
+        {
+            "nodeId": 1,
+            "obligationId": "N1-OPEN",
+            "title": "N1-OPEN",
+            "statement": "An unfinished paper responsibility.",
+            "status": "missing",
+            "evidenceStepIds": [],
+        }
+    ]
+    raw["example"]["manuscript"] = manuscript
+
+    with pytest.raises(ExampleCatalogError, match="green status disagrees"):
+        hydrate_example(raw, ROOT, CATALOG)
+
+
+def test_renderer_rejects_partial_obligation_with_unimplemented_evidence() -> None:
+    raw = raw_example("EvenCycleExample", "even-cycle")
+    manuscript = manuscript_for_single_stage(raw)
+    unfinished_step = dict(manuscript["proofSteps"][0])
+    unfinished_step.update({
+        "stepId": "main.unfinished",
+        "status": "next",
+        "correspondence": "partial",
+        "declarationGroups": [],
+    })
+    unfinished_step.pop("stageId", None)
+    manuscript["proofSteps"].append(unfinished_step)
+    manuscript["nodeObligations"] = [
+        {
+            "nodeId": 1,
+            "obligationId": "N1-PARTIAL",
+            "title": "N1-PARTIAL",
+            "statement": "A claimed partial responsibility.",
+            "status": "partial",
+            "evidenceStepIds": ["main.unfinished"],
+        }
+    ]
+    raw["example"]["manuscript"] = manuscript
+
+    with pytest.raises(ExampleCatalogError, match="uses unimplemented step"):
         hydrate_example(raw, ROOT, CATALOG)
 
 

@@ -177,13 +177,50 @@ theorem coupledClassChecks_cubic
       Nat.mul_le_mul pairBound (Nat.mul_le_mul tokenBound (le_refl 25))
     _ = 225 * ctx.G.object.input.vertices.card ^ 3 := by ring
 
-/-- Verified prefix through the coupled CT9 decision and both token-class
-tests.  Thresholds remain explicit inputs so the later geometric CT can reuse
-the same execution without rebuilding this ledger. -/
-structure VerifiedCoupledClassOverloadPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedCapacityTokenPrefix ctx
+/-- Pointwise authored threshold triples.  The family is a dependent function;
+the framework never enumerates this type. -/
+abbrev CoupledClassThreshold := Nat × Nat × Nat
+
+/-- Canonical pointwise CT9→CT9 profile for every authored threshold triple. -/
+noncomputable def coupledClassPointwiseProfile
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedCapacityTokenPrefix ctx) :
+    Routes.Accumulated.PointwiseAdapter .ct9 .ct9 CoupledClassThreshold
+      (CapacityTokenLedger ctx previous.1) where
+  Source := fun _threshold => CapacityTokenLedger ctx previous.1
+  target := fun threshold =>
+    (coupledClassProfile ctx threshold.1 threshold.2.1
+      threshold.2.2).capability.executableInterface
+  adapter := fun threshold => {
+    targetContext := fun _source =>
+      ((coupledClassProfile ctx threshold.1 threshold.2.1 threshold.2.2).input
+        ctx.toBranchContext (coupledClassItems ctx)).context
+    trigger := fun _source =>
+      ⟨((coupledClassProfile ctx threshold.1 threshold.2.1 threshold.2.2).input
+        ctx.toBranchContext (coupledClassItems ctx)).items⟩
+  }
+  current := fun _threshold => id
+
+noncomputable def coupledClassTransitionStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedCapacityTokenPrefix ctx) :=
+  Routes.Accumulated.advancePointwise
+    (coupledClassPointwiseProfile ctx previous)
+    (capacityTokenLedgerStage ctx previous)
+
+abbrev CoupledClassTransitionLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedCapacityTokenPrefix ctx) :=
+  Routes.Accumulated.PointwiseOutputLedger
+    (coupledClassPointwiseProfile ctx previous)
+    (capacityTokenLedgerStage ctx previous)
+
+/-- Coupled-overload obligations accumulated on the literal pointwise CT9
+execution. -/
+structure CoupledClassOverloadFacts
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {previous : VerifiedCapacityTokenPrefix ctx}
+    (_stage : CoupledClassTransitionLedger ctx previous) : Prop where
   stage : ∀ windowSize remainderSize primitiveSize, Nonempty (
     Graph.SurplusClasswiseOverload.VerifiedStage
       (coupledClassActivationStage ctx)
@@ -198,27 +235,48 @@ structure VerifiedCoupledClassOverloadPrefix
       windowSize remainderSize primitiveSize ≤
         225 * ctx.G.object.input.vertices.card ^ 3
 
+abbrev CoupledClassOverloadLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedCapacityTokenPrefix ctx) :=
+  Core.Routing.LedgerExtension
+    (CoupledClassTransitionLedger ctx previous)
+    (CoupledClassOverloadFacts ctx)
+
+/-- Verified prefix through the coupled CT9 decision and both token-class
+tests. -/
+abbrev VerifiedCoupledClassOverloadPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Sigma (CoupledClassOverloadLedger ctx)
+
 noncomputable def verifiedCoupledClassOverloadPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedCapacityTokenPrefix ctx) :
-    VerifiedCoupledClassOverloadPrefix ctx where
-  previous := previous
-  stage := fun windowSize remainderSize primitiveSize => ⟨
-    Graph.SurplusClasswiseOverload.verifiedStage
-      (coupledClassActivationStage ctx)
-      windowSize remainderSize primitiveSize⟩
-  exactPairCount := coupledPairCount_eq_chooseSurplus ctx
-  polynomial := coupledClassChecks_cubic ctx
+    VerifiedCoupledClassOverloadPrefix ctx :=
+  let stage := coupledClassTransitionStage ctx previous
+  ⟨previous, ⟨stage, {
+    stage := fun windowSize remainderSize primitiveSize => ⟨
+      Graph.SurplusClasswiseOverload.verifiedStage
+        (coupledClassActivationStage ctx)
+        windowSize remainderSize primitiveSize⟩
+    exactPairCount := coupledPairCount_eq_chooseSurplus ctx
+    polynomial := coupledClassChecks_cubic ctx
+  }⟩⟩
+
+/-- Canonical complete CT9 stage after the coupled overload decision. -/
+noncomputable def coupledClassOverloadLedgerStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedCoupledClassOverloadPrefix ctx) :=
+  verified.2.previous.ledgerStage.extend verified.2.added
 
 theorem exists_verifiedCoupledClassOverloadPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedCoupledClassOverloadPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedCoupledClassOverloadPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedCapacityTokenPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedCoupledClassOverloadPrefix ctx previous⟩
+  exact ⟨ctx, verifiedCoupledClassOverloadPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

@@ -392,7 +392,7 @@ noncomputable def CanonicalQuarterLedger.toQuarterDecomposition
   coverage := ledger.coverage
   pressure := ledger.pressure
   previous := verifiedSparseSurplusPrefix ctx
-    ledger.node21.previous.previous.previous
+    ledger.node21.previous.previous.residual
   cells := Canonical.cells ctx
   covers := Canonical.covers ctx
   pairwise_disjoint := Canonical.pairwise_disjoint ctx

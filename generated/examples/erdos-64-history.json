@@ -1,0 +1,151 @@
+{
+  "artifactType": "erdosProofHistory",
+  "schemaVersion": "1.0.0",
+  "exampleId": "erdos-64",
+  "snapshots": [
+    {
+      "artifactSha256": "33a96cf4f96c8866aa1355360beffedca214fc7168a80ccb6c8f95ecbbf659ec",
+      "manuscriptSha256": "afee2c3f215a72ea0cb2c4c035eb07e992f18cbe623584089e9a877acb839cbd",
+      "formalizedNodeIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38
+      ],
+      "formalizedNodeCount": 38,
+      "obligations": {
+        "proved": 96,
+        "total": 146
+      },
+      "implementedWorkflowSteps": 132,
+      "frameworkLeverage": {
+        "automatedLinkCount": 80,
+        "registeredTransitionCount": 5,
+        "interfaceBindingCount": 29,
+        "declarationFootprint": {
+          "framework": 593,
+          "author": 976,
+          "external": 1,
+          "total": 1570
+        }
+      },
+      "provenance": {
+        "recordedAt": "2026-07-19T07:59:51Z",
+        "gitCommit": "d6c6f80afd0f73201a7cf52128032180f5cf1aaa",
+        "workingTree": "dirty"
+      }
+    },
+    {
+      "artifactSha256": "3dabf1f22a0921ccce9965297d521efce996af417ed0b0c879e6f1c5986437bf",
+      "manuscriptSha256": "afee2c3f215a72ea0cb2c4c035eb07e992f18cbe623584089e9a877acb839cbd",
+      "formalizedNodeIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50
+      ],
+      "formalizedNodeCount": 50,
+      "obligations": {
+        "proved": 149,
+        "total": 149
+      },
+      "implementedWorkflowSteps": 132,
+      "frameworkLeverage": {
+        "automatedLinkCount": 80,
+        "registeredTransitionCount": 5,
+        "interfaceBindingCount": 29,
+        "declarationFootprint": {
+          "framework": 593,
+          "author": 976,
+          "external": 1,
+          "total": 1570
+        }
+      },
+      "provenance": {
+        "recordedAt": "2026-07-19T09:06:57Z",
+        "gitCommit": "d6c6f80afd0f73201a7cf52128032180f5cf1aaa",
+        "workingTree": "dirty"
+      }
+    }
+  ]
+}

@@ -1,4 +1,6 @@
 import StructuralExhaustion.Core.FiniteResidualLedger
+import StructuralExhaustion.Core.ExactHandoff
+import StructuralExhaustion.Core.WorkBudget
 
 namespace StructuralExhaustion.Core.ResidualRefinement
 
@@ -41,6 +43,25 @@ inductive Member (wanted : Residual → Prop) :
   | there {other rest} : Member wanted rest →
       Member wanted (other :: rest)
 
+/-- Type-directed access to an accumulated property.  The newest occurrence
+of a repeated property wins, matching the stack discipline of `State.add`.
+Explicit `Member` values remain available when a consumer intentionally needs
+an older duplicate. -/
+class Contains (wanted : Residual → Prop)
+    (facts : List (Residual → Prop)) where
+  member : Member wanted facts
+
+instance (priority := high) containsHere
+    {wanted : Residual → Prop} {rest : List (Residual → Prop)} :
+    Contains wanted (wanted :: rest) where
+  member := .here
+
+instance (priority := low) containsThere
+    {wanted other : Residual → Prop}
+    {rest : List (Residual → Prop)}
+    [Contains wanted rest] : Contains wanted (other :: rest) where
+  member := .there (Contains.member (wanted := wanted) (facts := rest))
+
 def get {wanted : Residual → Prop} {facts : List (Residual → Prop)}
     (proofs : Proofs residual facts) (member : Member wanted facts) :
     wanted residual := by
@@ -60,6 +81,11 @@ namespace State
 
 variable {Residual : Type uResidual}
 variable {facts : List (Residual → Prop)}
+
+/-- A proof-level certificate stage available at a stable residual. -/
+def Available (Stage : Residual → Sort uTarget)
+    (residual : Residual) : Prop :=
+  Nonempty (Stage residual)
 
 def initial (residual : Residual) : State Residual [] where
   residual := residual
@@ -92,15 +118,201 @@ def get {property : Residual → Prop}
     (member : Proofs.Member property facts) : property state.residual :=
   state.proofs.get member
 
+/-- Retrieve an accumulated fact by its predicate type.  Adding unrelated
+properties to a refinement chain no longer changes consumer code. -/
+def require {property : Residual → Prop}
+    (state : State Residual facts)
+    [Proofs.Contains property facts] : property state.residual :=
+  state.get (Proofs.Contains.member (wanted := property) (facts := facts))
+
 /-- The complete contract of one ordinary proof node.  Application code
 supplies only `prove`; state extension is framework-owned. -/
 structure Node (property : Residual → Prop) where
   prove : (state : State Residual facts) → property state.residual
 
+/-- A data-bearing proof stage.  The framework stores availability as one
+accumulated fact while the application supplies only the stage producer. -/
+structure StageNode (Stage : Residual → Sort uTarget) where
+  produce : (state : State Residual facts) → Stage state.residual
+
+/-- One literal accumulated stage together with a successor whose type may
+depend on that exact retrieved value.  This is the framework-owned carrier
+for a diagram edge whose target payload is predecessor-indexed but whose
+predecessor has no separately named canonical value at the stable residual. -/
+structure DependentSuccessor
+    (Previous : Residual → Sort uInput)
+    (Next : (residual : Residual) → Previous residual → Sort uTarget)
+    (residual : Residual) where
+  previous : Previous residual
+  output : Next residual previous
+
+/-- Package a canonical data producer as an exact-output stage.  Applications
+name only the mathematical output; the framework supplies the retained value
+and reflexive exactness certificate. -/
+def StageNode.exact {Output : Residual → Sort uTarget}
+    (produce : (residual : Residual) → Output residual) :
+    StageNode (facts := facts)
+      (fun residual => ExactHandoff (produce residual)) where
+  produce := fun state => ExactHandoff.refl (produce state.residual)
+
+/-- Build a theorem node by naming only the accumulated fact it consumes. -/
+def Node.usingFact {required property : Residual → Prop}
+    [Proofs.Contains required facts]
+    (prove : (state : State Residual facts) →
+      required state.residual → property state.residual) :
+    Node (facts := facts) property where
+  prove := fun state => prove state state.require
+
+/-- Build a data-bearing node by naming only the accumulated proposition it
+consumes. -/
+def StageNode.usingFact {required : Residual → Prop}
+    {Stage : Residual → Sort uTarget}
+    [Proofs.Contains required facts]
+    (produce : (state : State Residual facts) →
+      required state.residual → Stage state.residual) :
+    StageNode (facts := facts) Stage where
+  produce := fun state => produce state state.require
+
+/-- Build a data-bearing node by naming only its immediate certificate
+dependency.  The complete earlier prefix remains accumulated but does not
+appear in the application declaration. -/
+noncomputable def StageNode.usingStage
+    {Required : Residual → Sort uInput}
+    {Stage : Residual → Sort uTarget}
+    [Proofs.Contains (Available Required) facts]
+    (produce : (state : State Residual facts) →
+      Required state.residual → Stage state.residual) :
+    StageNode (facts := facts) Stage where
+  produce := fun state => produce state
+    (Classical.choice (state.require (property := Available Required)))
+
+/-- Retrieve one accumulated stage, construct its dependent successor from
+that literal value, and retain both in one framework-owned payload.  The full
+fact ledger remains in `State`; applications supply only the mathematical
+successor producer. -/
+noncomputable def StageNode.mapStage
+    {Previous : Residual → Sort uInput}
+    {Next : (residual : Residual) → Previous residual → Sort uTarget}
+    [Proofs.Contains (Available Previous) facts]
+    (produceNext : (residual : Residual) →
+      (previous : Previous residual) → Next residual previous) :
+    StageNode (facts := facts) (DependentSuccessor Previous Next) :=
+  StageNode.usingStage (Required := Previous) fun state previous =>
+    ⟨previous, produceNext state.residual previous⟩
+
+def StageNode.asNode {Stage : Residual → Sort uTarget}
+    (node : StageNode (facts := facts) Stage) :
+    Node (facts := facts) (Available Stage) where
+  prove := fun state => ⟨node.produce state⟩
+
+/-- Recover an available proof certificate by type.  This is noncomputable
+only because accumulated proof data live under `Nonempty`; it performs no
+finite search. -/
+noncomputable def requireStage {Stage : Residual → Sort uTarget}
+    (state : State Residual facts)
+    [Proofs.Contains (Available Stage) facts] : Stage state.residual :=
+  Classical.choice (state.require (property := Available Stage))
+
+/-- Build a data-bearing node from one accumulated proposition and one
+accumulated certificate stage. Retrieval and `Nonempty` elimination are
+framework-owned; the application supplies only the mathematical producer. -/
+noncomputable def StageNode.usingFactAndStage
+    {required : Residual → Prop}
+    {Required : Residual → Sort uInput}
+    {Stage : Residual → Sort uTarget}
+    [Proofs.Contains required facts]
+    [Proofs.Contains (Available Required) facts]
+    (produce : (state : State Residual facts) →
+      required state.residual → Required state.residual →
+        Stage state.residual) :
+    StageNode (facts := facts) Stage where
+  produce := fun state => produce state
+    (state.require (property := required))
+    (state.requireStage (Stage := Required))
+
+/-- Build a data-bearing node from one accumulated branch fact and one exact
+dependent predecessor.  The framework retrieves both inputs, evaluates the
+successor on the literal predecessor value, transports it to the predecessor
+named by the incoming edge, and hands the transported mathematical output to
+`finish`.  Application code therefore never eliminates predecessor equality
+or invokes `ExactHandoff.mapDependent` itself. -/
+noncomputable def StageNode.usingFactAndExactStage
+    {required : Residual → Prop}
+    {Previous : Residual → Sort uInput}
+    {expected : (residual : Residual) → Previous residual}
+    {Next : (residual : Residual) → required residual →
+      Previous residual → Sort uTarget}
+    {Stage : Residual → Sort uTarget}
+    [Proofs.Contains required facts]
+    [Proofs.Contains
+      (Available (fun residual => ExactHandoff (expected residual))) facts]
+    (produceNext : (residual : Residual) →
+      (proof : required residual) → (previous : Previous residual) →
+        Next residual proof previous)
+    (finish : (residual : Residual) → (proof : required residual) →
+      Next residual proof (expected residual) → Stage residual) :
+    StageNode (facts := facts) Stage where
+  produce := fun state =>
+    let proof := state.require (property := required)
+    let previous := state.requireStage
+      (Stage := fun residual => ExactHandoff (expected residual))
+    finish state.residual proof
+      (previous.mapDependent (produceNext state.residual proof)).output
+
+/-- Canonical dependent successor construction from an exact accumulated
+stage. The framework retrieves the literal predecessor, runs the supplied
+successor on it, and transports the result to the value named by the incoming
+edge. When the application uses the produced expression itself as the next
+canonical name, this is the entire node handoff. -/
+noncomputable def StageNode.mapExactStage
+    {Previous : Residual → Sort uInput}
+    {expected : (residual : Residual) → Previous residual}
+    {Next : (residual : Residual) → Previous residual → Sort uTarget}
+    [Proofs.Contains
+      (Available (fun residual => ExactHandoff (expected residual))) facts]
+    (produceNext : (residual : Residual) →
+      (previous : Previous residual) → Next residual previous) :
+    StageNode (facts := facts)
+      (fun residual => ExactHandoff
+        (produceNext residual (expected residual))) where
+  produce := fun state =>
+    let previous := state.requireStage
+      (Stage := fun residual => ExactHandoff (expected residual))
+    previous.mapDependent (produceNext state.residual)
+
+/-- Variant of `mapExactStage` for an application that has a separately named
+canonical successor.  Only the final equality between the produced expression
+and that name remains application-supplied. -/
+noncomputable def StageNode.usingExactStage
+    {Previous : Residual → Sort uInput}
+    {expected : (residual : Residual) → Previous residual}
+    {Next : (residual : Residual) → Previous residual → Sort uTarget}
+    {nextExpected : (residual : Residual) →
+      Next residual (expected residual)}
+    [Proofs.Contains
+      (Available (fun residual => ExactHandoff (expected residual))) facts]
+    (produceNext : (residual : Residual) →
+      (previous : Previous residual) → Next residual previous)
+    (produceExpected : ∀ residual,
+      produceNext residual (expected residual) = nextExpected residual) :
+    StageNode (facts := facts)
+      (fun residual => ExactHandoff (nextExpected residual)) :=
+  let canonical := StageNode.mapExactStage (facts := facts)
+    (expected := expected) produceNext
+  { produce := fun state =>
+      (canonical.produce state).castExpected
+        (produceExpected state.residual) }
+
 def Node.run {property : Residual → Prop}
     (node : Node (facts := facts) property) (state : State Residual facts) :
     State Residual (property :: facts) :=
   state.add property (node.prove state)
+
+def StageNode.run {Stage : Residual → Sort uTarget}
+    (node : StageNode (facts := facts) Stage)
+    (state : State Residual facts) :
+    State Residual (Available Stage :: facts) :=
+  node.asNode.run state
 
 @[simp] theorem Node.run_residual {property : Residual → Prop}
     (node : Node (facts := facts) property) (state : State Residual facts) :
@@ -121,19 +333,240 @@ structure DecisionNode (yes no : Residual → Prop) where
   no_of_not_yes : (state : State Residual facts) →
     ¬ yes state.residual → no state.residual
 
+/-- Canonical decision between a predicate and its literal complement. -/
+def DecisionNode.complement (property : Residual → Prop)
+    (decideProperty : (state : State Residual facts) →
+      Decidable (property state.residual)) :
+    DecisionNode (facts := facts) property
+      (fun residual => ¬property residual) where
+  yesDecidable := decideProperty
+  no_of_not_yes := fun _state absent => absent
+
+/-- A refinement state kernel-certified to retain one named residual. -/
+structure ExactState (expected : Residual)
+    (branchFacts : List (Residual → Prop)) where
+  state : State Residual branchFacts
+  residualExact : state.residual = expected
+
+namespace ExactState
+
+variable {expected : Residual}
+variable {branchFacts : List (Residual → Prop)}
+
+def add (branch : ExactState expected branchFacts)
+    (property : Residual → Prop)
+    (proof : property branch.state.residual) :
+    ExactState expected (property :: branchFacts) where
+  state := branch.state.add property proof
+  residualExact := branch.residualExact
+
+def runNode {property : Residual → Prop}
+    (branch : ExactState expected branchFacts)
+    (node : Node (facts := branchFacts) property) :
+    ExactState expected (property :: branchFacts) :=
+  branch.add property (node.prove branch.state)
+
+def runStage {Stage : Residual → Sort uTarget}
+    (branch : ExactState expected branchFacts)
+    (node : StageNode (facts := branchFacts) Stage) :
+    ExactState expected (Available Stage :: branchFacts) :=
+  branch.runNode node.asNode
+
+def require {property : Residual → Prop}
+    (branch : ExactState expected branchFacts)
+    [Proofs.Contains property branchFacts] :
+    property branch.state.residual :=
+  branch.state.require
+
+noncomputable def requireStage {Stage : Residual → Sort uTarget}
+    (branch : ExactState expected branchFacts)
+    [Proofs.Contains (Available Stage) branchFacts] :
+    Stage branch.state.residual :=
+  branch.state.requireStage
+
+end ExactState
+
 inductive DecisionResult (state : State Residual facts)
     (yes no : Residual → Prop) where
-  | yesBranch : State Residual (yes :: facts) →
+  | yesBranch : ExactState state.residual (yes :: facts) →
       DecisionResult state yes no
-  | noBranch : State Residual (no :: facts) →
+  | noBranch : ExactState state.residual (no :: facts) →
       DecisionResult state yes no
+
+/-- A branch result whose two continuations may have accumulated different
+fact schemas.  The incoming state remains an index, so composition cannot
+silently switch to an unrelated residual. -/
+inductive BranchResult (state : State Residual facts)
+    (yesFacts noFacts : List (Residual → Prop)) where
+  | yesBranch : ExactState state.residual yesFacts →
+      BranchResult state yesFacts noFacts
+  | noBranch : ExactState state.residual noFacts →
+      BranchResult state yesFacts noFacts
+
+namespace DecisionResult
+
+variable {yes no : Residual → Prop}
+variable {state : State Residual facts}
+
+/-- Eliminate a decision without re-running or reconstructing it. -/
+def fold {Output : Sort uTarget}
+    (result : DecisionResult state yes no)
+    (onYes : ExactState state.residual (yes :: facts) → Output)
+    (onNo : ExactState state.residual (no :: facts) → Output) : Output :=
+  match result with
+  | .yesBranch branch => onYes branch
+  | .noBranch branch => onNo branch
+
+/-- Refine both existing manuscript branches while retaining their complete
+incoming fact bundles. -/
+def mapBranches
+    {yesFacts noFacts : List (Residual → Prop)}
+    (result : DecisionResult state yes no)
+    (onYes : ExactState state.residual (yes :: facts) →
+      ExactState state.residual yesFacts)
+    (onNo : ExactState state.residual (no :: facts) →
+      ExactState state.residual noFacts) :
+    BranchResult state yesFacts noFacts :=
+  result.fold
+    (fun branch => .yesBranch (onYes branch))
+    (fun branch => .noBranch (onNo branch))
+
+/-- Add one theorem only on the yes edge of an existing decision. -/
+def mapYes {property : Residual → Prop}
+    (result : DecisionResult state yes no)
+    (prove : (branch : ExactState state.residual (yes :: facts)) →
+      property branch.state.residual) :
+    BranchResult state (property :: yes :: facts) (no :: facts) :=
+  result.mapBranches
+    (fun branch => branch.add property (prove branch)) id
+
+/-- Add one data-bearing stage only on the yes edge. -/
+def mapYesStage {Stage : Residual → Sort uTarget}
+    (result : DecisionResult state yes no)
+    (node : State.StageNode (facts := yes :: facts) Stage) :
+    BranchResult state (State.Available Stage :: yes :: facts) (no :: facts) :=
+  result.mapBranches (fun branch => branch.runStage node) id
+
+/-- Add one theorem only on the no edge of an existing decision. -/
+def mapNo {property : Residual → Prop}
+    (result : DecisionResult state yes no)
+    (prove : (branch : ExactState state.residual (no :: facts)) →
+      property branch.state.residual) :
+    BranchResult state (yes :: facts) (property :: no :: facts) :=
+  result.mapBranches id
+    (fun branch => branch.add property (prove branch))
+
+/-- Add one data-bearing stage only on the no edge. -/
+def mapNoStage {Stage : Residual → Sort uTarget}
+    (result : DecisionResult state yes no)
+    (node : State.StageNode (facts := no :: facts) Stage) :
+    BranchResult state (yes :: facts) (State.Available Stage :: no :: facts) :=
+  result.mapBranches id (fun branch => branch.runStage node)
+
+/-- Continue both existing decision edges with their respective data-bearing
+nodes in one framework operation.  The branch schemas, retained residual,
+and stage availability facts are composed automatically; applications name
+only the two mathematical producers already present in the manuscript. -/
+def mapStages {YesStage NoStage : Residual → Sort uTarget}
+    (result : DecisionResult state yes no)
+    (yesNode : State.StageNode (facts := yes :: facts) YesStage)
+    (noNode : State.StageNode (facts := no :: facts) NoStage) :
+    BranchResult state
+      (State.Available YesStage :: yes :: facts)
+      (State.Available NoStage :: no :: facts) :=
+  result.mapBranches
+    (fun branch => branch.runStage yesNode)
+    (fun branch => branch.runStage noNode)
+
+end DecisionResult
+
+namespace BranchResult
+
+variable {state : State Residual facts}
+variable {yesFacts noFacts : List (Residual → Prop)}
+
+/-- Compose already refined branches without rebuilding their provenance. -/
+def mapBranches
+    {nextYesFacts nextNoFacts : List (Residual → Prop)}
+    (result : BranchResult state yesFacts noFacts)
+    (onYes : ExactState state.residual yesFacts →
+      ExactState state.residual nextYesFacts)
+    (onNo : ExactState state.residual noFacts →
+      ExactState state.residual nextNoFacts) :
+    BranchResult state nextYesFacts nextNoFacts :=
+  match result with
+  | .yesBranch branch => .yesBranch (onYes branch)
+  | .noBranch branch => .noBranch (onNo branch)
+
+/-- Continue only the yes branch of an already composed result. -/
+def mapYes {property : Residual → Prop}
+    (result : BranchResult state yesFacts noFacts)
+    (prove : (branch : ExactState state.residual yesFacts) →
+      property branch.state.residual) :
+    BranchResult state (property :: yesFacts) noFacts :=
+  result.mapBranches
+    (fun branch => branch.add property (prove branch)) id
+
+/-- Continue the yes branch with one data-bearing proof stage. -/
+def mapYesStage {Stage : Residual → Sort uTarget}
+    (result : BranchResult state yesFacts noFacts)
+    (node : State.StageNode (facts := yesFacts) Stage) :
+    BranchResult state (State.Available Stage :: yesFacts) noFacts :=
+  result.mapBranches (fun branch => branch.runStage node) id
+
+/-- Continue only the no branch of an already composed result. -/
+def mapNo {property : Residual → Prop}
+    (result : BranchResult state yesFacts noFacts)
+    (prove : (branch : ExactState state.residual noFacts) →
+      property branch.state.residual) :
+    BranchResult state yesFacts (property :: noFacts) :=
+  result.mapBranches id
+    (fun branch => branch.add property (prove branch))
+
+/-- Continue the no branch with one data-bearing proof stage. -/
+def mapNoStage {Stage : Residual → Sort uTarget}
+    (result : BranchResult state yesFacts noFacts)
+    (node : State.StageNode (facts := noFacts) Stage) :
+    BranchResult state yesFacts (State.Available Stage :: noFacts) :=
+  result.mapBranches id (fun branch => branch.runStage node)
+
+end BranchResult
 
 def DecisionNode.run {yes no : Residual → Prop}
     (node : DecisionNode (facts := facts) yes no)
     (state : State Residual facts) : DecisionResult state yes no :=
   match node.yesDecidable state with
-  | .isTrue proof => .yesBranch (state.add yes proof)
-  | .isFalse proof => .noBranch (state.add no (node.no_of_not_yes state proof))
+  | .isTrue proof => .yesBranch ⟨state.add yes proof, rfl⟩
+  | .isFalse proof =>
+      .noBranch ⟨state.add no (node.no_of_not_yes state proof), rfl⟩
+
+/-- Generic strict-or-equal decision under a proved upper bound. The
+framework owns decidability, antisymmetry, and exhaustiveness. -/
+def DecisionNode.ltOrEq {Value : Type uInput} [LinearOrder Value]
+    (left right : Residual → Value)
+    (upper : (state : State Residual facts) →
+      left state.residual ≤ right state.residual) :
+    DecisionNode (facts := facts)
+      (fun residual => left residual < right residual)
+      (fun residual => left residual = right residual) where
+  yesDecidable := fun _state => inferInstance
+  no_of_not_yes := fun state notStrict =>
+    le_antisymm (upper state) (le_of_not_gt notStrict)
+
+/-- Strict-or-equal decision whose upper bound is supplied by one accumulated
+certificate stage. The application names only that stage and its local bound. -/
+noncomputable def DecisionNode.ltOrEqUsingStage
+    {Value : Type uInput} [LinearOrder Value]
+    {Required : Residual → Sort uTarget}
+    [Proofs.Contains (State.Available Required) facts]
+    (left right : Residual → Value)
+    (upper : (state : State Residual facts) → Required state.residual →
+      left state.residual ≤ right state.residual) :
+    DecisionNode (facts := facts)
+      (fun residual => left residual < right residual)
+      (fun residual => left residual = right residual) :=
+  DecisionNode.ltOrEq left right fun state =>
+    upper state (state.requireStage (Stage := Required))
 
 /-- The only explicit work required when the manuscript really changes the
 residual carrier: construct the target residual and transport the facts that
@@ -177,6 +610,49 @@ structure Producer (Input : Type uInput) (property : Residual → Prop) where
   emit : Input → Residual
   prove : ∀ input, property (emit input)
 
+/-- A producer whose emitted value or proof depends on the literal occurrence,
+not merely on the input value stored there.  This is essential when duplicate
+values have distinct provenance witnesses. -/
+structure IndexedProducer {Input : Type uInput}
+    (inputs : FiniteResidualLedger.Ledger.{uOccurrence, uInput} Input)
+    (property : Residual → Prop) where
+  emit : inputs.Occurrence → Residual
+  prove : ∀ occurrence, property (emit occurrence)
+
+/-- Start a refinement ledger from an occurrence-aware producer. Occurrence
+identity and order are inherited definitionally from the input schedule. -/
+noncomputable def produceIndexed {Input : Type uInput}
+    {property : Residual → Prop}
+    (inputs : FiniteResidualLedger.Ledger.{uOccurrence, uInput} Input)
+    (producer : IndexedProducer (Residual := Residual) inputs property) :
+    Ledger.{uOccurrence, uResidual} Residual [property] where
+  residuals := {
+    Occurrence := inputs.Occurrence
+    occurrences := inputs.occurrences
+    event := producer.emit }
+  proofs := fun occurrence => .cons (producer.prove occurrence) .nil
+
+@[simp] theorem produceIndexed_residual {Input : Type uInput}
+    {property : Residual → Prop}
+    (inputs : FiniteResidualLedger.Ledger.{uOccurrence, uInput} Input)
+    (producer : IndexedProducer (Residual := Residual) inputs property)
+    (occurrence : inputs.Occurrence) :
+    (produceIndexed inputs producer).residuals.event occurrence =
+      producer.emit occurrence :=
+  rfl
+
+/-- Install one occurrence-local theorem on an existing exact residual
+schedule. This is the canonical provenance-seeding operation when the residual
+carrier is already final and only its producer-origin proof is new. -/
+noncomputable def certify
+    (residuals : FiniteResidualLedger.Ledger.{uOccurrence, uResidual}
+      Residual) {property : Residual → Prop}
+    (prove : ∀ occurrence, property (residuals.event occurrence)) :
+    Ledger.{uOccurrence, uResidual} Residual [property] :=
+  produceIndexed residuals {
+    emit := residuals.event
+    prove := prove }
+
 /-- Start a refinement ledger from an exact producer schedule.  This is the
 initial `ledger.add(theorem)` operation: occurrence identity is inherited from
 the input schedule and the producer supplies only its local theorem. -/
@@ -184,9 +660,10 @@ noncomputable def produce {Input : Type uInput}
     {property : Residual → Prop}
     (inputs : FiniteResidualLedger.Ledger.{uOccurrence, uInput} Input)
     (producer : Producer (Residual := Residual) Input property) :
-    Ledger.{uOccurrence, uResidual} Residual [property] where
-  residuals := inputs.map producer.emit
-  proofs := fun occurrence => .cons (producer.prove (inputs.event occurrence)) .nil
+    Ledger.{uOccurrence, uResidual} Residual [property] :=
+  produceIndexed inputs {
+    emit := fun occurrence => producer.emit (inputs.event occurrence)
+    prove := fun occurrence => producer.prove (inputs.event occurrence) }
 
 @[simp] theorem produce_residual {Input : Type uInput}
     {property : Residual → Prop}
@@ -202,28 +679,21 @@ def state (ledger : Ledger.{uOccurrence, uResidual} Residual facts)
   residual := ledger.residuals.event occurrence
   proofs := ledger.proofs occurrence
 
-/-- Ordered residual values for compatibility with an older list-indexed
-consumer.  This is a view of the occurrence ledger, never an independently
-authored list. -/
-noncomputable def events
-    (ledger : Ledger.{uOccurrence, uResidual} Residual facts) : List Residual :=
-  ledger.residuals.entries.map ledger.residuals.event
-
-theorem event_mem_events
+/-- Type-directed occurrence-local fact access. -/
+theorem require
     (ledger : Ledger.{uOccurrence, uResidual} Residual facts)
+    {property : Residual → Prop} [Proofs.Contains property facts]
     (occurrence : ledger.residuals.Occurrence) :
-    ledger.residuals.event occurrence ∈ ledger.events :=
-  List.mem_map_of_mem (ledger.residuals.occurrence_mem occurrence)
+    property (ledger.residuals.event occurrence) :=
+  (ledger.state occurrence).require
 
-/-- Any named position in the accumulated fact schema is automatically
-available to every value read from the compatibility list. -/
-theorem fact_of_mem_events
+/-- Retrieve accumulated data at one literal occurrence by its stage type. -/
+noncomputable def requireStage {Stage : Residual → Sort uTarget}
     (ledger : Ledger.{uOccurrence, uResidual} Residual facts)
-    {property : Residual → Prop} (position : Proofs.Member property facts)
-    {residual : Residual} (member : residual ∈ ledger.events) :
-    property residual := by
-  rcases List.mem_map.mp member with ⟨occurrence, _occurrenceMem, rfl⟩
-  exact (ledger.proofs occurrence).get position
+    [Proofs.Contains (State.Available Stage) facts]
+    (occurrence : ledger.residuals.Occurrence) :
+    Stage (ledger.residuals.event occurrence) :=
+  (ledger.state occurrence).requireStage
 
 /-- Add one occurrence-local theorem to the whole ledger.  This is the direct
 Lean `ledger.add` surface: the caller proves only the new property from the
@@ -276,6 +746,20 @@ theorem refine_latest {property : Residual → Prop}
       node.prove (ledger.state occurrence) :=
   rfl
 
+/-- Run one data-bearing proof stage over every actual occurrence. -/
+noncomputable def refineStage {Stage : Residual → Sort uTarget}
+    (ledger : Ledger.{uOccurrence, uResidual} Residual facts)
+    (node : State.StageNode (facts := facts) Stage) :
+    Ledger.{uOccurrence, uResidual} Residual
+      (State.Available Stage :: facts) :=
+  ledger.refine node.asNode
+
+@[simp] theorem refineStage_residuals {Stage : Residual → Sort uTarget}
+    (ledger : Ledger.{uOccurrence, uResidual} Residual facts)
+    (node : State.StageNode (facts := facts) Stage) :
+    (ledger.refineStage node).residuals = ledger.residuals :=
+  rfl
+
 /-- Compose two branches already carrying the same accumulated fact schema.
 The sum tag preserves literal occurrence identity, and no proof field is
 reconstructed by application code. -/
@@ -296,6 +780,189 @@ noncomputable def restrict
     Ledger.{uOccurrence, uResidual} Residual facts where
   residuals := ledger.residuals.restrict keep keepDecidable
   proofs := fun occurrence => ledger.proofs occurrence.1
+
+/-- The two occurrence ledgers produced by one manuscript decision.  Each
+branch retains the original occurrence through an explicit projection, and
+`coverage` certifies that no input occurrence is lost. -/
+structure DecisionSplit (ledger : Ledger.{uOccurrence, uResidual} Residual facts)
+    (yes no : Residual → Prop) where
+  yesBranch : Ledger.{uOccurrence, uResidual} Residual (yes :: facts)
+  noBranch : Ledger.{uOccurrence, uResidual} Residual (no :: facts)
+  yesOriginal : yesBranch.residuals.Occurrence →
+    ledger.residuals.Occurrence
+  noOriginal : noBranch.residuals.Occurrence →
+    ledger.residuals.Occurrence
+  yesOriginal_injective : Function.Injective yesOriginal
+  noOriginal_injective : Function.Injective noOriginal
+  yesResidualExact : ∀ occurrence,
+    yesBranch.residuals.event occurrence =
+      ledger.residuals.event (yesOriginal occurrence)
+  noResidualExact : ∀ occurrence,
+    noBranch.residuals.event occurrence =
+      ledger.residuals.event (noOriginal occurrence)
+  disjoint : ∀ yesOccurrence noOccurrence,
+    yesOriginal yesOccurrence ≠ noOriginal noOccurrence
+  coverage : ∀ occurrence : ledger.residuals.Occurrence,
+    (∃ branchOccurrence, yesOriginal branchOccurrence = occurrence) ∨
+      (∃ branchOccurrence, noOriginal branchOccurrence = occurrence)
+
+/-- Partition only the ledger's literal occurrence schedule through an
+existing decision node.  No residual value is deduplicated and no ambient
+state or graph universe is constructed. -/
+noncomputable def decide {yes no : Residual → Prop}
+    (ledger : Ledger.{uOccurrence, uResidual} Residual facts)
+    (node : State.DecisionNode (facts := facts) yes no) :
+    DecisionSplit ledger yes no := by
+  let yesKeep : ledger.residuals.Occurrence → Prop := fun occurrence =>
+    yes (ledger.state occurrence).residual
+  let noKeep : ledger.residuals.Occurrence → Prop := fun occurrence =>
+    ¬ yes (ledger.state occurrence).residual
+  let yesDecidable : ∀ occurrence, Decidable (yesKeep occurrence) :=
+    fun occurrence => node.yesDecidable (ledger.state occurrence)
+  let noDecidable : ∀ occurrence, Decidable (noKeep occurrence) :=
+    fun occurrence => by
+      exact @instDecidableNot _ (node.yesDecidable (ledger.state occurrence))
+  let yesRestricted := ledger.restrict yesKeep yesDecidable
+  let noRestricted := ledger.restrict noKeep noDecidable
+  let yesBranch := yesRestricted.add (property := yes) fun occurrence => by
+    exact occurrence.property
+  let noBranch := noRestricted.add (property := no) fun occurrence => by
+    exact node.no_of_not_yes (ledger.state occurrence.1) occurrence.property
+  refine {
+    yesBranch := yesBranch
+    noBranch := noBranch
+    yesOriginal := fun occurrence => occurrence.1
+    noOriginal := fun occurrence => occurrence.1
+    yesOriginal_injective := fun _left _right equal => Subtype.ext equal
+    noOriginal_injective := fun _left _right equal => Subtype.ext equal
+    yesResidualExact := fun _occurrence => rfl
+    noResidualExact := fun _occurrence => rfl
+    disjoint := ?_
+    coverage := ?_
+  }
+  · intro yesOccurrence noOccurrence same
+    exact noOccurrence.property (by
+      simpa [yesKeep, noKeep, same] using yesOccurrence.property)
+  intro occurrence
+  cases node.yesDecidable (ledger.state occurrence) with
+  | isTrue proof =>
+      exact Or.inl ⟨⟨occurrence, proof⟩, rfl⟩
+  | isFalse proof =>
+      exact Or.inr ⟨⟨occurrence, proof⟩, rfl⟩
+
+/-- Every original occurrence has exactly one preimage in exactly one branch.
+This is the reusable partition theorem consumed by downstream ledgers. -/
+theorem DecisionSplit.uniqueCoverage {yes no : Residual → Prop}
+    {ledger : Ledger.{uOccurrence, uResidual} Residual facts}
+    (split : DecisionSplit ledger yes no)
+    (occurrence : ledger.residuals.Occurrence) :
+    (∃! branchOccurrence,
+      split.yesOriginal branchOccurrence = occurrence) ∨
+    (∃! branchOccurrence,
+      split.noOriginal branchOccurrence = occurrence) := by
+  rcases split.coverage occurrence with yesCovered | noCovered
+  · rcases yesCovered with ⟨branchOccurrence, exactOriginal⟩
+    exact Or.inl ⟨branchOccurrence, exactOriginal, fun other otherExact =>
+      split.yesOriginal_injective (otherExact.trans exactOriginal.symm)⟩
+  · rcases noCovered with ⟨branchOccurrence, exactOriginal⟩
+    exact Or.inr ⟨branchOccurrence, exactOriginal, fun other otherExact =>
+      split.noOriginal_injective (otherExact.trans exactOriginal.symm)⟩
+
+/-- No input occurrence can be represented on both sides of the split. -/
+theorem DecisionSplit.not_both {yes no : Residual → Prop}
+    {ledger : Ledger.{uOccurrence, uResidual} Residual facts}
+    (split : DecisionSplit ledger yes no)
+    (yesOccurrence : split.yesBranch.residuals.Occurrence)
+    (noOccurrence : split.noBranch.residuals.Occurrence) :
+    split.yesOriginal yesOccurrence ≠ split.noOriginal noOccurrence :=
+  split.disjoint yesOccurrence noOccurrence
+
+/-- The tagged occurrence carrier of both exact decision branches. -/
+abbrev DecisionSplit.BranchOccurrence {yes no : Residual → Prop}
+    {ledger : Ledger.{uOccurrence, uResidual} Residual facts}
+    (split : DecisionSplit ledger yes no) :=
+  Sum split.yesBranch.residuals.Occurrence
+    split.noBranch.residuals.Occurrence
+
+/-- Forget a decision-branch tag while retaining the literal original
+occurrence. -/
+def DecisionSplit.original {yes no : Residual → Prop}
+    {ledger : Ledger.{uOccurrence, uResidual} Residual facts}
+    (split : DecisionSplit ledger yes no) :
+    split.BranchOccurrence → ledger.residuals.Occurrence
+  | .inl occurrence => split.yesOriginal occurrence
+  | .inr occurrence => split.noOriginal occurrence
+
+theorem DecisionSplit.original_injective {yes no : Residual → Prop}
+    {ledger : Ledger.{uOccurrence, uResidual} Residual facts}
+    (split : DecisionSplit ledger yes no) :
+    Function.Injective split.original := by
+  intro left right equal
+  cases left with
+  | inl left =>
+      cases right with
+      | inl right =>
+          exact congrArg Sum.inl (split.yesOriginal_injective equal)
+      | inr right =>
+          exact False.elim (split.disjoint left right equal)
+  | inr left =>
+      cases right with
+      | inl right =>
+          exact False.elim (split.disjoint right left equal.symm)
+      | inr right =>
+          exact congrArg Sum.inr (split.noOriginal_injective equal)
+
+theorem DecisionSplit.original_surjective {yes no : Residual → Prop}
+    {ledger : Ledger.{uOccurrence, uResidual} Residual facts}
+    (split : DecisionSplit ledger yes no) :
+    Function.Surjective split.original := by
+  intro occurrence
+  rcases split.coverage occurrence with yesCovered | noCovered
+  · rcases yesCovered with ⟨branchOccurrence, exactOriginal⟩
+    exact ⟨.inl branchOccurrence, exactOriginal⟩
+  · rcases noCovered with ⟨branchOccurrence, exactOriginal⟩
+    exact ⟨.inr branchOccurrence, exactOriginal⟩
+
+/-- A ledger decision is an exact partition of the original occurrence
+schedule. The equivalence is proof-level and never enumerates another carrier. -/
+noncomputable def DecisionSplit.occurrenceEquiv {yes no : Residual → Prop}
+    {ledger : Ledger.{uOccurrence, uResidual} Residual facts}
+    (split : DecisionSplit ledger yes no) :
+    split.BranchOccurrence ≃ ledger.residuals.Occurrence :=
+  Equiv.ofBijective split.original
+    ⟨split.original_injective, split.original_surjective⟩
+
+/-- Global uniqueness form of decision coverage: exactly one tagged branch
+occurrence represents each original occurrence. -/
+theorem DecisionSplit.globallyUniqueCoverage {yes no : Residual → Prop}
+    {ledger : Ledger.{uOccurrence, uResidual} Residual facts}
+    (split : DecisionSplit ledger yes no)
+    (occurrence : ledger.residuals.Occurrence) :
+    ∃! branchOccurrence : split.BranchOccurrence,
+      split.original branchOccurrence = occurrence := by
+  rcases split.original_surjective occurrence with
+    ⟨branchOccurrence, exactOriginal⟩
+  exact ⟨branchOccurrence, exactOriginal, fun other otherExact =>
+    split.original_injective (otherExact.trans exactOriginal.symm)⟩
+
+/-- Conservative executable envelope for materializing both restricted branch
+enumerations: at most two predicate checks per literal input occurrence. -/
+noncomputable def decideBudget
+    (ledger : Ledger.{uOccurrence, uResidual} Residual facts) :
+    PolynomialCheckBudget Unit where
+  size := fun _ => ledger.residuals.checks
+  checks := fun _ => 2 * ledger.residuals.checks
+  coefficient := 2
+  degree := 1
+  bounded := by
+    intro _unit
+    simp
+    omega
+
+@[simp] theorem decideBudget_checks
+    (ledger : Ledger.{uOccurrence, uResidual} Residual facts) :
+    ledger.decideBudget.checks () = 2 * ledger.residuals.checks :=
+  rfl
 
 /-- Route every occurrence through one explicit carrier-changing adapter.
 Occurrence identity and enumeration remain unchanged. -/

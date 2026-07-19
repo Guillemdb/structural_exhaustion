@@ -5,7 +5,7 @@ namespace Erdos64EG.Internal
 
 open StructuralExhaustion
 
-universe u
+universe u v
 
 /-!
 # CT9: canonical capacity tokens and the complete 25-role ledger
@@ -265,11 +265,47 @@ theorem capacityLedgerChecks_cubic
       Nat.mul_le_mul pairBound (Nat.mul_le_mul tokenBound (le_refl 25))
     _ = 225 * ctx.G.object.input.vertices.card ^ 3 := by ring
 
-/-- Verified prefix through the whole nodes `[133]`--`[136]` CT block. -/
-structure VerifiedCapacityTokenPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedAllPairTokenRoutingPrefix ctx
+/-- Mathematical adapter for the canonical CT9→CT9 capacity-token
+refinement. -/
+noncomputable def capacityTokenAdapter
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {Source : Sort v} :
+    Routes.Accumulated.Adapter Source
+      (Graph.SurplusCapacityTokenRouting.capability
+        (capacityTokenActivationStage ctx)).executableInterface where
+  targetContext := fun _source =>
+    (Graph.SurplusCapacityTokenRouting.ct9Input
+      (capacityTokenActivationStage ctx)).context
+  trigger := fun _source =>
+    ⟨(Graph.SurplusCapacityTokenRouting.ct9Input
+      (capacityTokenActivationStage ctx)).items⟩
+
+noncomputable def capacityTokenTransitionStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedAllPairTokenRoutingPrefix ctx) :=
+  Routes.Accumulated.advanceCurrent
+    (Graph.SurplusCapacityTokenRouting.capability
+      (capacityTokenActivationStage ctx)).executableInterface
+    (capacityTokenAdapter
+      (Source := AllPairTokenRoutingLedger ctx previous.1) ctx)
+    (allPairTokenRoutingLedgerStage ctx previous)
+
+abbrev CapacityTokenTransitionLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedAllPairTokenRoutingPrefix ctx) :=
+  Routes.Accumulated.OutputLedger (sourceTactic := .ct9)
+    (Graph.SurplusCapacityTokenRouting.capability
+      (capacityTokenActivationStage ctx)).executableInterface
+    (capacityTokenAdapter
+      (Source := AllPairTokenRoutingLedger ctx previous.1) ctx)
+    (allPairTokenRoutingLedgerStage ctx previous)
+
+/-- Mathematical obligations of nodes `[133]`--`[136]`, accumulated on the
+literal refined CT9 execution. -/
+structure CapacityTokenFacts
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {previous : VerifiedAllPairTokenRoutingPrefix ctx}
+    (_stage : CapacityTokenTransitionLedger ctx previous) : Prop where
   routing : Graph.SurplusCapacityTokenRouting.VerifiedStage
     (capacityTokenActivationStage ctx)
   auditExit : ∀ pair : Graph.SurplusPairResponse.BlockedPair
@@ -346,37 +382,57 @@ structure VerifiedCapacityTokenPrefix
     (capacityTokenActivationStage ctx) ≤
       225 * ctx.G.object.input.vertices.card ^ 3
 
+abbrev CapacityTokenLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedAllPairTokenRoutingPrefix ctx) :=
+  Core.Routing.LedgerExtension
+    (CapacityTokenTransitionLedger ctx previous)
+    (CapacityTokenFacts ctx)
+
+/-- Verified prefix through the whole nodes `[133]`--`[136]` CT block. -/
+abbrev VerifiedCapacityTokenPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Sigma (CapacityTokenLedger ctx)
+
 noncomputable def verifiedCapacityTokenPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedAllPairTokenRoutingPrefix ctx) :
-    VerifiedCapacityTokenPrefix ctx where
-  previous := previous
-  routing := capacityTokenRoutingStage ctx
-  auditExit := sparsePairAuditExit_closed ctx
-  windowJoin := exactWindowJoinIdentity ctx
-  exactSupply := capacityTokenSupply_exact ctx
-  blockedRouting := Graph.SurplusCapacityTokenRouting.blockedVerifiedStage
-    (capacityTokenActivationStage ctx)
-  blockedLedger := blockedCapacityLedger_noOvercounting ctx
-  blockedRoleCount := blockedCapacityRoleCount ctx
-  blockedFullRouting := Graph.SurplusCapacityTokenRouting.blockedFullVerifiedStage
-    (capacityTokenActivationStage ctx)
-  blockedFullLedger := blockedFullCapacityLedger_noOvercounting ctx
-  blockedFullRoleCount := blockedFullCapacityRoleCount ctx
-  exactLedger := totalCapacityLedger_noOvercounting ctx
-  roleCount := totalCapacityRoleCount ctx
-  windowChecks := windowJoinChecks_quadratic ctx
-  ledgerChecks := capacityLedgerChecks_cubic ctx
+    VerifiedCapacityTokenPrefix ctx :=
+  let stage := capacityTokenTransitionStage ctx previous
+  ⟨previous, ⟨stage, {
+    routing := capacityTokenRoutingStage ctx
+    auditExit := sparsePairAuditExit_closed ctx
+    windowJoin := exactWindowJoinIdentity ctx
+    exactSupply := capacityTokenSupply_exact ctx
+    blockedRouting := Graph.SurplusCapacityTokenRouting.blockedVerifiedStage
+      (capacityTokenActivationStage ctx)
+    blockedLedger := blockedCapacityLedger_noOvercounting ctx
+    blockedRoleCount := blockedCapacityRoleCount ctx
+    blockedFullRouting := Graph.SurplusCapacityTokenRouting.blockedFullVerifiedStage
+      (capacityTokenActivationStage ctx)
+    blockedFullLedger := blockedFullCapacityLedger_noOvercounting ctx
+    blockedFullRoleCount := blockedFullCapacityRoleCount ctx
+    exactLedger := totalCapacityLedger_noOvercounting ctx
+    roleCount := totalCapacityRoleCount ctx
+    windowChecks := windowJoinChecks_quadratic ctx
+    ledgerChecks := capacityLedgerChecks_cubic ctx
+  }⟩⟩
+
+/-- Canonical complete CT9 stage after node `[136]`. -/
+noncomputable def capacityTokenLedgerStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedCapacityTokenPrefix ctx) :=
+  verified.2.previous.ledgerStage.extend verified.2.added
 
 theorem exists_verifiedCapacityTokenPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedCapacityTokenPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedCapacityTokenPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedAllPairTokenRoutingPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedCapacityTokenPrefix ctx previous⟩
+  exact ⟨ctx, verifiedCapacityTokenPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

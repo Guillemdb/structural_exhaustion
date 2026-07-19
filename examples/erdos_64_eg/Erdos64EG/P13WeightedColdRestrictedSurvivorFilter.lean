@@ -101,13 +101,15 @@ theorem exists_d5Available_of_noHigh (stage : package.Stage)
 single supplied produced-prior ledger. -/
 theorem exists_d6Complete_of_outsideProducedSupports
     (ledger : package.PriorD6Ledger) (stage : package.Stage)
-    (outside : ∀ event ∈ ledger.entries,
+    (outside : ∀ occurrence : package.D6Key ledger,
       package.currentAmbientEndpoint stage ∉
-        P13ProducedPriorSupportLedger.eventSupport event) :
+        P13ProducedPriorSupportLedger.eventSupport
+          (package.d6Entry ledger occurrence)) :
     ∃ complete : package.D6Complete ledger stage,
       package.runD6 ledger stage = .complete complete := by
   rcases package.runD6_total ledger stage with ⟨hit, exactHit⟩ | complete
-  · exact False.elim (outside hit.event hit.eventMem hit.endpointMem)
+  · exact False.elim (outside hit.hit.occurrence (by
+      simpa [hit.eventExact] using hit.endpointMem))
   · exact complete
 
 /-- Exact local survivor at one literal prefix. -/
@@ -134,17 +136,18 @@ theorem exists_localCorridorSurvivor_of_branchExclusions
       WalkTypeAD5Projection.NoHigh (package.ambientPrefix stage)
         (minimumDegreeThree (ctx := ctx)))
     (outsideProduced : ∀ stage : package.Stage,
-      ∀ event ∈ (prior.ledger (package := package)).entries,
+      ∀ occurrence : package.D6Key prior,
         package.currentAmbientEndpoint stage ∉
-          P13ProducedPriorSupportLedger.eventSupport event) :
-    Nonempty (package.LocalCorridorSurvivor (prior.ledger (package := package))) := by
+          P13ProducedPriorSupportLedger.eventSupport
+            (package.d6Entry prior occurrence)) :
+    Nonempty (package.LocalCorridorSurvivor prior) := by
   classical
   refine ⟨⟨fun stage => ?_⟩⟩
   let d5Exists := package.exists_d5Available_of_noHigh stage (subcubic stage)
   let available := d5Exists.choose
   have d5Exact := d5Exists.choose_spec
   let d6Exists := package.exists_d6Complete_of_outsideProducedSupports
-    (prior.ledger (package := package)) stage (outsideProduced stage)
+    prior stage (outsideProduced stage)
   let priorComplete := d6Exists.choose
   have d6Exact := d6Exists.choose_spec
   exact ⟨available, d5Exact, priorComplete, d6Exact⟩
@@ -167,7 +170,7 @@ theorem LocalCorridorSurvivor.outsideRecordedPriorSupports
     (stage : package.Stage) (key : package.D6Key ledger) :
     package.currentAmbientEndpoint stage ∉
       P13ProducedPriorSupportLedger.eventSupport
-        ((package.d6Profile ledger).entry key) :=
+        (package.d6Entry ledger key) :=
   (survivor.clear stage).priorComplete.endpointOutside key
 
 end P13WeightedColdRestrictedPrefixPackage

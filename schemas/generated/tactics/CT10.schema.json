@@ -6260,6 +6260,10 @@
               "provision": "framework_constant"
             },
             {
+              "ref": "CT10.Capability.executableInterface",
+              "provision": "framework_constant"
+            },
+            {
               "ref": "CT10.residual.direct",
               "provision": "framework_constant"
             },
@@ -6453,6 +6457,10 @@
       },
       {
         "ref": "CT10.runReference",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT10.Capability.executableInterface",
         "provision": "framework_constant"
       },
       {

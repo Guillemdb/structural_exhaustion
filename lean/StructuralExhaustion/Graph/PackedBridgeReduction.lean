@@ -117,6 +117,54 @@ structure BridgeReductionStage (input : StaticInput)
   checks : ∀ dart (bridge : ctx.G.object.graph.IsBridge dart.edge),
     (input.bridgeCT2Run minimumDegreeAtLeastTwo ctx dart bridge).checks = 1
 
+/-- Proof-indexed local universe for the bridge-contraction audit.  This is a
+dependent function index, not an enumeration of darts or graphs. -/
+abbrev BridgeReductionIndex (input : StaticInput)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target) :=
+  { dart : ctx.G.object.graph.Dart //
+    ctx.G.object.graph.IsBridge dart.edge }
+
+/-- One public certificate-driven CT2 execution for every hypothetical
+bridge.  Packaging these executions pointwise performs no ambient scan: an
+execution is produced only when its dart and bridge proof are supplied. -/
+def bridgeReductionFamily (input : StaticInput)
+    (minimumDegreeAtLeastTwo : 2 ≤ input.minimumDegree)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target) :
+    Core.Routing.PointwiseExecutableFamily .ct2 where
+  Index := input.BridgeReductionIndex ctx
+  entry := fun _index =>
+    CT2.certifiedReductionExecutableInterface input.problem input.Target
+  context := fun _index => ctx
+  trigger := fun index =>
+    input.bridgeCT2Input minimumDegreeAtLeastTwo ctx index.1 index.2
+
+/-- Reconstruct the graph-level bridgeless certificate from the literal
+pointwise CT2 executions returned by an accumulated transition. -/
+def bridgeReductionStageOfExecutions (input : StaticInput)
+    (minimumDegreeAtLeastTwo : 2 ≤ input.minimumDegree)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target)
+    (runs : (index : input.BridgeReductionIndex ctx) →
+      CT2.CertifiedReductionRun ctx
+        (input.bridgeCT2Input minimumDegreeAtLeastTwo ctx index.1 index.2)) :
+    input.BridgeReductionStage minimumDegreeAtLeastTwo ctx where
+  bridgeless := by
+    intro dart bridge
+    exact (runs ⟨dart, bridge⟩).verified
+  terminal := by
+    intro dart bridge
+    exact CT2.runCertifiedReduction_terminal ctx
+      (input.bridgeCT2Input minimumDegreeAtLeastTwo ctx dart bridge)
+  trace := by
+    intro dart bridge
+    exact CT2.runCertifiedReduction_trace ctx
+      (input.bridgeCT2Input minimumDegreeAtLeastTwo ctx dart bridge)
+  total := by
+    intro dart bridge
+    exact input.bridgeCT2Run_total minimumDegreeAtLeastTwo ctx dart bridge
+  checks := by
+    intro dart bridge
+    exact input.bridgeCT2Run_checks minimumDegreeAtLeastTwo ctx dart bridge
+
 def bridgeReductionStage (input : StaticInput)
     (minimumDegreeAtLeastTwo : 2 ≤ input.minimumDegree)
     (ctx : Core.MinimalCounterexampleContext input.problem input.Target) :

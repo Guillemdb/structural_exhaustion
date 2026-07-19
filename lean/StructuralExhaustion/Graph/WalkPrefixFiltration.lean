@@ -1,4 +1,4 @@
-import StructuralExhaustion.Core.Enumeration
+import StructuralExhaustion.Core.EnumerationCombinators
 import StructuralExhaustion.Graph.FiniteObject
 import Mathlib.Combinatorics.SimpleGraph.Walk.Counting
 
@@ -39,6 +39,44 @@ noncomputable def stages : Core.OrderedCollection profile.Stage :=
 /-- The canonical stage schedule is the increasing `Fin` order. -/
 theorem stages_values_eq_finRange :
     profile.stages.values = List.finRange path.support.length := rfl
+
+/-- Canonical schedule of nonzero prefix positions.  The graph profile owns
+the tail operation so applications never rewrite `drop` through a deeply
+dependent path package. -/
+noncomputable def positiveStages : Core.OrderedCollection profile.Stage where
+  values := profile.stages.values.drop 1
+  nodup := profile.stages.nodup.sublist (List.drop_sublist 1 _)
+  decEq := profile.stages.decEq
+
+theorem positiveStages_values_eq_finRange_drop :
+    profile.positiveStages.values =
+      (List.finRange path.support.length).drop 1 :=
+  rfl
+
+theorem positiveStages_mem_positive {stage : profile.Stage}
+    (member : stage ∈ profile.positiveStages.values) : 0 < stage.val := by
+  change stage ∈ (List.finRange path.support.length).drop 1 at member
+  obtain ⟨index, inBounds, valueEq⟩ := List.mem_drop_iff_getElem.mp member
+  have valEq := congrArg Fin.val valueEq
+  rw [List.getElem_finRange] at valEq
+  simp only [Fin.val_cast] at valEq
+  omega
+
+theorem positiveStages_getElem_val (index : Nat)
+    (inBounds : index < profile.positiveStages.values.length) :
+    profile.positiveStages.values[index].val = index + 1 := by
+  change index < ((List.finRange path.support.length).drop 1).length at inBounds
+  change ((List.finRange path.support.length).drop 1)[index].val = index + 1
+  exact Core.Enumeration.finRange_drop_one_getElem_val _ index inBounds
+
+theorem positiveStages_pairwise_val_lt :
+    profile.positiveStages.values.Pairwise
+      (fun earlier later => earlier.val < later.val) := by
+  rw [List.pairwise_iff_getElem]
+  intro first second firstBound secondBound ordered
+  rw [profile.positiveStages_getElem_val first firstBound,
+    profile.positiveStages_getElem_val second secondBound]
+  omega
 
 /-- Literal initial support through the indexed path vertex. -/
 def prefixSupport (stage : profile.Stage) : List V :=

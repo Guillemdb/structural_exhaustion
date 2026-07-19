@@ -204,7 +204,7 @@ noncomputable def d5ReturnProducer (stage : package.Stage)
     (noHigh : WalkTypeAD5Projection.NoHigh (package.ambientPrefix stage)
       (minimumDegreeThree (ctx := ctx))) :
     WalkTypeAD5Projection.Profile.ReturnProducer (package.D5Profile stage noHigh) where
-  notBridge := fun port => dart_not_bridge ctx
+  notBridge := fun port => minimality_dart_not_bridge ctx
     (TypeAAnchoredReturnCoordinate.dart ctx.G.object
       (package.D5Profile stage noHigh) port)
 

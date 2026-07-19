@@ -8292,6 +8292,10 @@
               "provision": "framework_constant"
             },
             {
+              "ref": "CT4.Capability.executableInterface",
+              "provision": "framework_constant"
+            },
+            {
               "ref": "CT4.residual.missingPayer",
               "provision": "framework_constant"
             },
@@ -8498,6 +8502,10 @@
       },
       {
         "ref": "CT4.runReference",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT4.Capability.executableInterface",
         "provision": "framework_constant"
       },
       {

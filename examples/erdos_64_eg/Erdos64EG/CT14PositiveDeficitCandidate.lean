@@ -154,12 +154,11 @@ noncomputable def reserveFreeCandidate (reserve : TypeBIncidenceReserve ctx)
 end PositiveDeficitMarkedFan
 
 /-- The verified prefix exposes the graph-constructed positive candidate
-fibre and its reserve-free existence theorem. -/
-structure VerifiedPositiveDeficitCandidatePrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedLocalB1Prefix ctx
-  candidateExists : ∀ (entry : PositiveDeficitMarkedFan ctx)
+fibre as one same-prefix theorem extension. -/
+abbrev VerifiedPositiveDeficitCandidatePrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.LedgerExtension (VerifiedLocalB1Prefix ctx)
+    (fun _previous => ∀ (entry : PositiveDeficitMarkedFan ctx)
     (reserve : PositiveDeficitMarkedFan.TypeBIncidenceReserve ctx),
     (∀ incidence : Graph.HybridFanIncidence.Incidence
       (object := ctx.G.object) (center := entry.fan.center)
@@ -167,26 +166,24 @@ structure VerifiedPositiveDeficitCandidatePrefix
       ¬reserve.Used (Graph.HybridFanIncidence.carrier
         (object := ctx.G.object) (center := entry.fan.center)
         (p13FanWindowProfile ctx entry.Assigned entry.assignedDecidable)
-        incidence)) → Nonempty (entry.Candidate reserve)
+        incidence)) → Nonempty (entry.Candidate reserve))
 
 noncomputable def verifiedPositiveDeficitCandidatePrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedLocalB1Prefix ctx) :
-    VerifiedPositiveDeficitCandidatePrefix ctx where
-  previous := previous
-  candidateExists := fun entry reserve reserveFree =>
-    ⟨entry.reserveFreeCandidate reserve reserveFree⟩
+    VerifiedPositiveDeficitCandidatePrefix ctx :=
+  ⟨previous, fun entry reserve reserveFree =>
+    ⟨entry.reserveFreeCandidate reserve reserveFree⟩⟩
 
 theorem exists_verifiedPositiveDeficitCandidatePrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedPositiveDeficitCandidatePrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedPositiveDeficitCandidatePrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedLocalB1Prefix object baseline avoids
-  exact ⟨ctx, rankLe,
-    verifiedPositiveDeficitCandidatePrefix ctx previous⟩
+  exact ⟨ctx, verifiedPositiveDeficitCandidatePrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

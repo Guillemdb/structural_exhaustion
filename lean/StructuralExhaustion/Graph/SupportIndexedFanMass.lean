@@ -94,12 +94,6 @@ def input (profile : Profile Support Center Occurrence)
     (context : Core.BranchContext problem) :
     CT14.Input (profile.capability problem) context := ⟨⟩
 
-def run (profile : Profile Support Center Occurrence)
-    {problem : Core.Problem.{uAmbient, uBranch}}
-    (context : Core.BranchContext problem) :
-    CT14.ExecutionResult (profile.capability problem) context :=
-  CT14.run (profile.capability problem) context (profile.input context)
-
 def residualMass (profile : Profile Support Center Occurrence) : Nat := by
   letI : FinEnum Support := profile.supports
   exact ∑ support : Support, profile.retainedDeficit support
@@ -227,20 +221,22 @@ theorem residualMass_le_two_mul_coefficient_mul_globalSurplus :
     _ = (2 * profile.coefficient) * profile.globalSurplus := by
       ac_rfl
 
-theorem run_terminal
+theorem canonical_terminal
     {problem : Core.Problem.{uAmbient, uBranch}}
     (context : Core.BranchContext problem) :
-    (profile.run context).terminal = .capacity :=
+    (CT14.run (profile.capability problem) context
+      (profile.input context)).terminal = .capacity :=
   CT14.run_terminal_capacity_of_complete
     (profile.capability problem) context (profile.input context)
     (fun support ↦ ⟨profile.retainedCapacity support, rfl⟩)
     (fun support ↦ ⟨profile.role support, rfl⟩)
     (profile.lowerMass_le_upperCapacity context)
 
-theorem run_trace
+theorem canonical_trace
     {problem : Core.Problem.{uAmbient, uBranch}}
     (context : Core.BranchContext problem) :
-    (profile.run context).trace =
+    (CT14.run (profile.capability problem) context
+      (profile.input context)).trace =
       [.entry, .lowerMass, .memberScan, .upperCapacity, .comparison,
         .capacityTerminal] :=
   CT14.run_trace_capacity_of_complete
@@ -249,18 +245,19 @@ theorem run_trace
     (fun support ↦ ⟨profile.role support, rfl⟩)
     (profile.lowerMass_le_upperCapacity context)
 
-structure VerifiedStage {problem : Core.Problem.{uAmbient, uBranch}}
-    (context : Core.BranchContext problem) : Prop where
-  terminal : (profile.run context).terminal = .capacity
-  trace : (profile.run context).trace =
+structure VerifiedExecutionStage {problem : Core.Problem.{uAmbient, uBranch}}
+    (context : Core.BranchContext problem)
+    (execution : CT14.ExecutionResult (profile.capability problem) context) :
+    Prop where
+  exactRun : execution = CT14.run (profile.capability problem) context
+    (profile.input context)
+  terminal : execution.terminal = .capacity
+  trace : execution.trace =
     [.entry, .lowerMass, .memberScan, .upperCapacity, .comparison,
       .capacityTerminal]
-  verified : (profile.run context).outcome.Valid
+  verified : execution.outcome.Valid
   traceValid : @CT14.Graph.ValidTrace problem (profile.capability problem)
-    context (profile.run context).trace
-  total : ∃ result : CT14.ExecutionResult (profile.capability problem) context,
-    result.outcome.Valid ∧ @CT14.Graph.ValidTrace problem
-      (profile.capability problem) context result.trace
+    context execution.trace
   massBound : profile.residualMass ≤
     (2 * profile.coefficient) * profile.globalSurplus
   workExact : profile.checks =
@@ -269,16 +266,23 @@ structure VerifiedStage {problem : Core.Problem.{uAmbient, uBranch}}
   quadraticWorkBound : profile.checks ≤
     3 * (profile.supports.card + 1) * (profile.occurrences.card + 1)
 
-def verifiedStage {problem : Core.Problem.{uAmbient, uBranch}}
-    (context : Core.BranchContext problem) : profile.VerifiedStage context where
-  terminal := profile.run_terminal context
-  trace := profile.run_trace context
-  verified := CT14.run_verified (profile.capability problem) context
-    (profile.input context)
-  traceValid := CT14.run_trace_valid (profile.capability problem) context
-    (profile.input context)
-  total := CT14.run_total (profile.capability problem) context
-    (profile.input context)
+def verifiedExecutionStage {problem : Core.Problem.{uAmbient, uBranch}}
+    (context : Core.BranchContext problem)
+    (execution : CT14.ExecutionResult (profile.capability problem) context)
+    (exactRun : execution = CT14.run (profile.capability problem) context
+      (profile.input context)) :
+    profile.VerifiedExecutionStage context execution where
+  exactRun := exactRun
+  terminal := by rw [exactRun]; exact profile.canonical_terminal context
+  trace := by rw [exactRun]; exact profile.canonical_trace context
+  verified := by
+    rw [exactRun]
+    exact CT14.run_verified (profile.capability problem) context
+      (profile.input context)
+  traceValid := by
+    rw [exactRun]
+    exact CT14.run_trace_valid (profile.capability problem) context
+      (profile.input context)
   massBound := profile.residualMass_le_two_mul_coefficient_mul_globalSurplus
   workExact := rfl
   quadraticWorkBound := by

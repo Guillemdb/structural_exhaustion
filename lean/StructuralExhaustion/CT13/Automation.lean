@@ -1,6 +1,21 @@
 import StructuralExhaustion.CT13.Theorems
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT13
+
+namespace Capability
+
+/-- Canonical executable CT13 entry.  A transition supplies the inherited
+branch context and the unique empty invocation; CT13 owns the complete
+tier-one/fallback/reconciliation execution. -/
+def executableInterface {P : Core.Problem} (C : Capability P) :
+    Core.Routing.ExecutableInterface .ct13 where
+  Context := Core.BranchContext P
+  Trigger := Input C
+  Result := fun ctx _input => ExecutionResult C ctx
+  execute := fun ctx input => run C ctx input
+
+end Capability
 
 def residualKindContracts : List Core.ResidualKindContract := [
   {
@@ -66,7 +81,8 @@ def capabilityContract : Core.CapabilityContract where
     "StructuralExhaustion.CT13.computeFallback",
     "StructuralExhaustion.CT13.reconcile",
     "StructuralExhaustion.CT13.compare",
-    "StructuralExhaustion.CT13.runReference"
+    "StructuralExhaustion.CT13.runReference",
+    "StructuralExhaustion.CT13.Capability.executableInterface"
   ]
 
 def nodeAutomationContracts : List Core.NodeAutomationContract := [

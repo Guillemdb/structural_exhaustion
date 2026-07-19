@@ -49,24 +49,38 @@ abbrev canonicalDeletionRule (V : Type u) :
       (capability V) :=
   (routedProfile V).routedClosure
 
-abbrev localRoute {V : Type u}
+abbrev ct1Ledger {V : Type u}
     (ctx : Core.MinimalCounterexampleContext
       (problem V) (HasEvenCycle (V := V))) :=
-  (routedProfile V).route ctx
+  (routedProfile V).sourceLedger ctx
 
-theorem localRoute_disabled {V : Type u}
+abbrev currentAvoiding {V : Type u}
+    (ctx : Core.MinimalCounterexampleContext
+      (problem V) (HasEvenCycle (V := V))) :=
+  (routedProfile V).currentAvoiding ctx
+
+abbrev localTransition {V : Type u}
+    (ctx : Core.MinimalCounterexampleContext
+      (problem V) (HasEvenCycle (V := V))) :=
+  (routedProfile V).transition ctx
+
+abbrev localLedgerTransition {V : Type u}
+    (ctx : Core.MinimalCounterexampleContext
+      (problem V) (HasEvenCycle (V := V))) :=
+  (localTransition ctx).onLedger (currentAvoiding ctx)
+
+theorem localTransition_not_enabled {V : Type u}
     (ctx : Core.MinimalCounterexampleContext
       (problem V) (HasEvenCycle (V := V))) :
-    ∃ reject, (localRoute ctx).discover (ct1AvoidingSource ctx) =
-      .disabled reject :=
-  (routedProfile V).discover_disabled ctx
+    ∀ stage : (localLedgerTransition ctx).EnabledStage (ct1Ledger ctx),
+      (routedProfile V).outcome ctx ≠ .enabled stage :=
+  (routedProfile V).transition_not_enabled ctx
 
-theorem localRoute_id {V : Type u}
+theorem localTransition_profile_id {V : Type u}
     (ctx : Core.MinimalCounterexampleContext
       (problem V) (HasEvenCycle (V := V))) :
-    (localRoute ctx).routeId =
-      "CT1.residual.avoiding->CT2.localDeletion" :=
-  rfl
+    (localTransition ctx).profileId =
+      Routes.CT1ToCT2.LocalDeletion.transitionId := rfl
 
 /-- CT2 derives the heavy-edge invariant; it is not an authored obligation. -/
 theorem degree_three_endpoint {V : Type u}

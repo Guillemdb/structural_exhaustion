@@ -180,15 +180,10 @@ theorem p13SequentialHot_manuscript_normalized_with_error
       have localRate := package.exactManuscriptStatePowerLower
       have localCard : Nat.card (P13RetainedLocalChoice aggregate.retained owner) =
           package.states.values.length := by
-        letI : DecidableEq package.State := package.states.decEq
         let enumeration := aggregate.localChoices owner
-        letI : Fintype (P13RetainedLocalChoice aggregate.retained owner) :=
-          @FinEnum.instFintype _ enumeration
         calc
           Nat.card (P13RetainedLocalChoice aggregate.retained owner) =
-              enumeration.card := by
-            simpa [Nat.card_eq_fintype_card] using
-              (@FinEnum.card_eq_fintypeCard _ enumeration _).symm
+              enumeration.card := Core.Enumeration.natCard_eq enumeration
           _ = package.states.values.length := by
             dsimp [enumeration, P13SequentialHotAggregate.localChoices]
             rw [FinEnum.card_ofList]
@@ -317,15 +312,10 @@ theorem p13SequentialHot_manuscriptDyadic_normalized_with_error
       have localRate := package.exactManuscriptDyadicStatePowerLower
       have localCard : Nat.card (P13RetainedLocalChoice aggregate.retained owner) =
           package.states.values.length := by
-        letI : DecidableEq package.State := package.states.decEq
         let enumeration := aggregate.localChoices owner
-        letI : Fintype (P13RetainedLocalChoice aggregate.retained owner) :=
-          @FinEnum.instFintype _ enumeration
         calc
           Nat.card (P13RetainedLocalChoice aggregate.retained owner) =
-              enumeration.card := by
-            simpa [Nat.card_eq_fintype_card] using
-              (@FinEnum.card_eq_fintypeCard _ enumeration _).symm
+              enumeration.card := Core.Enumeration.natCard_eq enumeration
           _ = package.states.values.length := by
             dsimp [enumeration, P13SequentialHotAggregate.localChoices]
             rw [FinEnum.card_ofList]

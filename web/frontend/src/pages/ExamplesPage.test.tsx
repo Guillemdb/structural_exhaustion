@@ -55,12 +55,8 @@ describe("ExamplesPage", () => {
     render(<MemoryRouter><ExamplesPage /></MemoryRouter>);
 
     expect(await screen.findByRole("heading", { name: "Even cycle" })).toBeVisible();
-    expect(screen.getByText("Erdős 6-4")).toBeVisible();
-    expect(screen.getByText("partial")).toBeVisible();
-    expect(screen.getByRole("link", { name: /Erdős 6-4/ })).toHaveAttribute(
-      "href",
-      "/erdos-gyarfas",
-    );
+    expect(screen.queryByText("Erdős 6-4")).not.toBeInTheDocument();
+    expect(screen.getByText("1 examples")).toBeVisible();
 
     fireEvent.change(screen.getByRole("searchbox", { name: "Search examples" }), {
       target: { value: "CT9" },

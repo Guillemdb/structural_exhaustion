@@ -24,7 +24,7 @@ def p13MultiScalePackingPrefix
     {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) :
     VerifiedP13PackingPrefix ctx :=
-  node21.previous.previous.previous.previous
+  p13LabelAlgebraPrefix_previous ctx node21.previous.previous.residual
 
 /-- The complete same-context prefix required before Part IV.  In particular,
 `coverage` is the exact output still owed by node `[24]`; it is not inferred
@@ -39,7 +39,7 @@ structure P13DensityConnectedGlobalRankPrefix
   remainder : VerifiedP13RemainderResidual ctx
     (p13MultiScalePackingPrefix node21) coverage
   positiveDeficiency : VerifiedP13PositiveDeficiencyPrefix ctx
-  samePacking : positiveDeficiency.previous =
+  samePacking : positiveDeficiency.1 =
     p13MultiScalePackingPrefix node21
   globalRank : VerifiedP13GlobalRankClosurePrefix ctx
 

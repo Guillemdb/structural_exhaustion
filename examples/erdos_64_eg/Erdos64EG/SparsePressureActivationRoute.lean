@@ -19,23 +19,29 @@ is a separate, currently missing node-[125] obligation.
 -/
 
 structure VerifiedSurplusPortActivationFromPressure
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) where
-  previous : VerifiedSparseEnvelopeFromPressure ctx
-  activation : VerifiedSurplusPortActivationPrefix ctx
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (entry : SparsePressureEntryResidual ctx)
+    extends Core.ExactHandoff
+      (verifiedSparseEnvelopeFromPressure ctx entry) where
+  activation : Core.ExactHandoff
+    (verifiedSurplusPortActivationPrefix ctx previous.envelope.output)
 
 noncomputable def verifiedSurplusPortActivationFromPressure
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : SparsePressureEntryResidual ctx) :
-    VerifiedSurplusPortActivationFromPressure ctx where
-  previous := verifiedSparseEnvelopeFromPressure ctx previous
-  activation := verifiedSurplusPortActivationPrefix ctx
-    (verifiedSparseEnvelopeFromPressure ctx previous).envelope
+    VerifiedSurplusPortActivationFromPressure ctx previous := by
+  let envelope := verifiedSparseEnvelopeFromPressure ctx previous
+  exact {
+    toExactHandoff := Core.ExactHandoff.refl envelope
+    activation := Core.ExactHandoff.refl
+      (verifiedSurplusPortActivationPrefix ctx envelope.envelope.output)
+  }
 
 theorem verifiedSurplusPortActivationFromPressure_sameEnvelope
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : SparsePressureEntryResidual ctx) :
-    (verifiedSurplusPortActivationFromPressure ctx previous).activation.previous =
-      (verifiedSurplusPortActivationFromPressure ctx previous).previous.envelope :=
+    (verifiedSurplusPortActivationFromPressure ctx previous).activation.output.1.output =
+      (verifiedSurplusPortActivationFromPressure ctx previous).previous.envelope.output :=
   rfl
 
 theorem verifiedSurplusPortActivationFromPressure_sameNode20

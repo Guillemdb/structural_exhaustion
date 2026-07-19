@@ -62,7 +62,9 @@ describe("GraphCanvas proof-flow colors", () => {
 
     expect(graph.$id("paper").style("background-color")).toBe("rgb(251,250,246)");
     expect(graph.$id("partial").style("background-color")).toBe("rgb(226,189,63)");
-    expect(graph.$id("frontier").style("background-color")).toBe("rgb(209,138,44)");
+    expect(graph.$id("frontier").style("background-color")).toBe("rgb(251,250,246)");
+    expect(graph.$id("frontier").style("border-color")).toBe("rgb(209,138,44)");
+    expect(graph.$id("frontier").style("border-width")).toBe("5px");
     expect(graph.$id("implemented").style("background-color")).toBe("rgb(57,122,80)");
     expect(graph.$id("closed").style("background-color")).toBe("rgb(23,107,67)");
     graph.destroy();

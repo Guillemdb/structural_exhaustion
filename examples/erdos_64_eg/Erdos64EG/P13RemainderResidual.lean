@@ -39,7 +39,7 @@ def P13CoverageResidual.remainderFloor
 structure VerifiedP13RemainderResidual
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedP13PackingPrefix ctx)
-    (density : P13CoverageResidual ctx previous) : Prop where
+    (density : P13CoverageResidual ctx previous) : Type (u + 2) where
   packing : VerifiedP13PackingPrefix ctx
   exactPartition :
     (p13RemainderVertices ctx).card + 13 * p13 ctx =
@@ -65,12 +65,13 @@ noncomputable def verifiedP13RemainderResidual
     ctx.G.object 13 (by decide) density.windowCeiling density.packing_le
   remainderFree := p13Remainder_free ctx
   componentwiseFree := p13Remainder_componentwise_free ctx
-  noInternalThreeCore := previous.noInternalThreeCore
-  noInternalSubgraphThreeCore := previous.noInternalSubgraphThreeCore
+  noInternalThreeCore := previous.2.output.added.noInternalThreeCore
+  noInternalSubgraphThreeCore :=
+    previous.2.output.added.noInternalSubgraphThreeCore
 
 /-- Node `[25]` retains the exact CT12 predecessor, rather than rebuilding a
 look-alike packing or remainder. -/
-theorem p13RemainderResidual_previous
+def p13RemainderResidual_previous
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedP13PackingPrefix ctx)
     (density : P13CoverageResidual ctx previous)
@@ -94,7 +95,7 @@ abbrev VerifiedP13RemainderContinuation
     (density : P13CoverageResidual ctx previous) :=
   VerifiedP13RemainderResidual ctx previous density
 
-theorem p13Remainder_node26_exact
+def p13Remainder_node26_exact
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedP13PackingPrefix ctx)
     (density : P13CoverageResidual ctx previous)

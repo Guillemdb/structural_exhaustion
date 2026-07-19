@@ -31,10 +31,8 @@ theorem residualCenters_card_le_assignedSurplus
     residualCenters.card ≤ scope.highCenterChargeProfile.assignedSurplus := by
   classical
   have subsetCard : residualCenters.card ≤ scope.highCenters.card := by
-    calc
-      residualCenters.card ≤ Fintype.card scope.Center :=
-        Finset.card_le_univ residualCenters
-      _ = scope.highCenters.card := Fintype.card_coe _
+    simpa only [scope.centers_card] using
+      Core.Enumeration.finset_card_le scope.centers residualCenters
   exact subsetCard.trans
     scope.highCenterDeletionProfile.centers_card_le_assignedSurplus
 
@@ -99,12 +97,10 @@ theorem minimalOverlap_has_assignedSurplus
 
 end TypeBSupportScope
 
-/-- Verified endpoint for the ordinary assigned-surplus content of node
-`[75]`, explicitly linked to the green node-[80] and node-[83] outputs. -/
-structure VerifiedTypeBResidualCenterLedgerPrefix
+/-- Node-local assigned-surplus obligations. -/
+structure VerifiedTypeBResidualCenterLedger
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
     Prop where
-  previous : VerifiedDegreeFourB2RoutingPrefix ctx
   anyResidualSet : ∀ (scope : TypeBSupportScope ctx)
     (centers : Finset scope.Center),
       centers.card ≤ scope.highCenterChargeProfile.assignedSurplus
@@ -119,28 +115,34 @@ structure VerifiedTypeBResidualCenterLedgerPrefix
       obstruction.selected.length ≤
         scope.highCenterChargeProfile.assignedSurplus
 
+/-- Same-ledger extension of the exact node-[81] CT12 residual. -/
+abbrev VerifiedTypeBResidualCenterLedgerPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.LedgerExtension (VerifiedDegreeFourB2RoutingPrefix ctx)
+    (fun _previous => VerifiedTypeBResidualCenterLedger ctx)
+
 noncomputable def verifiedTypeBResidualCenterLedgerPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedDegreeFourB2RoutingPrefix ctx) :
-    VerifiedTypeBResidualCenterLedgerPrefix ctx where
-  previous := previous
-  anyResidualSet := fun scope centers =>
-    scope.residualCenters_card_le_assignedSurplus centers
-  certificateResidual := fun scope noHigher center residual =>
-    scope.certificateResidual_charged noHigher center residual
-  overlap := fun scope resolution obstruction =>
-    scope.minimalOverlapCenters_charged resolution obstruction
+    VerifiedTypeBResidualCenterLedgerPrefix ctx :=
+  ⟨previous, {
+    anyResidualSet := fun scope centers =>
+      scope.residualCenters_card_le_assignedSurplus centers
+    certificateResidual := fun scope noHigher center residual =>
+      scope.certificateResidual_charged noHigher center residual
+    overlap := fun scope resolution obstruction =>
+      scope.minimalOverlapCenters_charged resolution obstruction
+  }⟩
 
 theorem exists_verifiedTypeBResidualCenterLedgerPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedTypeBResidualCenterLedgerPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedTypeBResidualCenterLedgerPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedDegreeFourB2RoutingPrefix object baseline avoids
-  exact ⟨ctx, rankLe,
-    verifiedTypeBResidualCenterLedgerPrefix ctx previous⟩
+  exact ⟨ctx, verifiedTypeBResidualCenterLedgerPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

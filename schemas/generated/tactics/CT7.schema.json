@@ -5770,6 +5770,10 @@
               "provision": "framework_constant"
             },
             {
+              "ref": "CT7.Capability.executableInterface",
+              "provision": "framework_constant"
+            },
+            {
               "ref": "CT7.residual.distinguishingContext",
               "provision": "framework_constant"
             }
@@ -5945,6 +5949,10 @@
       },
       {
         "ref": "CT7.runReference",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT7.Capability.executableInterface",
         "provision": "framework_constant"
       },
       {

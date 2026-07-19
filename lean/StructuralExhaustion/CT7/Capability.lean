@@ -15,15 +15,4 @@ structure Input {P : Core.Problem} (S : Spec P)
   left : S.Object
   right : S.Object
 
-namespace Capability
-
-/-- Route-facing CT7 trigger.  A route inherits the shared context and adds
-only the two representatives. -/
-def tacticInterface {P : Core.Problem} {S : Spec P}
-    (_capability : Capability S) : Core.Routing.TacticInterface where
-  Context := Core.BranchContext P
-  Trigger := Input S
-
-end Capability
-
 end StructuralExhaustion.CT7

@@ -1,6 +1,24 @@
 import StructuralExhaustion.CT10.Theorems
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT10
+
+namespace Capability
+
+/-- Canonical executable CT10 entry.  The route contributes only the exact
+local datum collection, while `Input.ofTrigger` preserves the predecessor's
+branch context by construction. -/
+def executableInterface {P : Core.Problem.{uAmbient, uBranch}}
+    (capability : Capability.{uAmbient, uBranch, uDatum, uClass, uPromotion} P) :
+    Core.Routing.ExecutableInterface .ct10 where
+  Context := Core.BranchContext P
+  Trigger := Trigger capability
+  Result := fun context trigger =>
+    ExecutionResult capability (Input.ofTrigger context trigger)
+  execute := fun context trigger =>
+    run capability (Input.ofTrigger context trigger)
+
+end Capability
 
 def directResidualKindId := "CT10.residual.direct"
 def promotedResidualKindId := "CT10.residual.promoted"
@@ -37,7 +55,8 @@ def capabilityContract : Core.CapabilityContract where
     ⟨"Capability.promote", .userOperator⟩]
   requiredInstances := ["Capability.directDecidable"]
   derivedOperations := ["CT10.row", "CT10.analyzeDirect", "CT10.analyzeMissing",
-    "CT10.runReference", directResidualKindId, promotedResidualKindId]
+    "CT10.runReference", "CT10.Capability.executableInterface",
+    directResidualKindId, promotedResidualKindId]
 
 def nodeAutomationContracts : List Core.NodeAutomationContract := [
   ⟨"CT10.entry", .definitional, [],

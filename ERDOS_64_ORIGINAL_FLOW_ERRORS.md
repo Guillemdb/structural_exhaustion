@@ -174,6 +174,153 @@ exact Type-B/route-8 key for F4 and terminal/repeated-state germ for F5 must be
 constructed downstream by the same producer chain.  No ambient context
 universe may be enumerated.
 
+## Node [31]: exact functional-admissible quotient universe
+
+The manuscript defines `r_Ω(R)` over all and only carrier-indexed quotients
+that are both admissible and functional on the exact response profile.  The
+previous Lean candidate at node [31] was instead a
+`CT15.SupportStratifiedRank.Candidate`: it required a complete support
+certificate for every code collision but did not itself contain proofs of
+manuscript admissibility and functionality.  Neither inclusion between these
+two candidate universes had been proved, so their target ranks could not be
+identified.
+
+The framework now contains the exact neutral contract
+`CT15.FunctionalAdmissibleRank`.  Its candidate has precisely the data named
+by the paper: a carrier, a raw quotient proposal, admissibility, and the
+functional axiom.  `Realization`, `ImageValue`, and `qImage` are
+carrier-and-proposal indexed, and the determining function is defined only on
+vectors actually attained by realizations.  In particular, the framework does
+not equate realizations with outside contexts or quotient-image values with
+Boolean target responses.  The singleton collision lemma is derived solely
+from the quotient law that equal quotient codes have equal realized images.
+
+`Graph.SupportStratifiedFunctionalRank` now supplies the graph specialization.
+Its carrier is the existing proof-carrying connected boundaried interface; raw
+proposals retain their own exact-profile realization and quotient-image types;
+admission requires declared-coordinate support, boundary preservation,
+context universality, and the proper/whole representative clause.  The Erdős
+wedge schedule instantiates this contract as
+`p13CurvatureFunctionalRankProfile`, and Lean proves that its attained maximum
+is at most `W2(R)`.
+
+The public node-[31] rank, node-[32] decision, and node-[34] residual now use
+this canonical maximum.  This exposes a specification-level consequence of
+the current admission clause.  Every carrier is classified as an eligible
+proper interface or the whole graph, and admission already supplies the
+corresponding representative whenever the proposal code is non-injective.
+Minimality therefore makes every admitted candidate code injective, and Lean
+proves
+`p13CanonicalCurvatureTargetRank_eq_wedgeCount`.  Hence node [32]'s strict
+rank-loss edge is uninhabited.
+
+This is not being hidden with a vacuous green node [33].  Although Lean can
+eliminate the contradictory rank-drop premise, `False.elim` does not construct
+the manuscript's promised functional dependence, declared support, or
+minimal-carrier certificate.  The paper must distinguish admission before the
+representative-availability test from final admission after that test, or
+accept that nodes [33]--[46] are unreachable and remove their claimed role.
+Either change affects the mathematical specification and must pass the
+separate manuscript-repair/red-team workflow; no new diagram case is needed.
+
+## Nodes [35]--[40]: admitted quotient used before support localization
+
+The Chapter 1 Part-III flow requires the node-[33] rank dependence to produce
+an inclusion-minimal connected determination certificate.  Node [35] must
+retain its boundaried support and declared support data.  Node [36] then tests
+that raw determination against outside contexts, and nodes [38]--[40]
+distinguish support equal to the original proper atom from a strict connected
+enlargement.
+
+The current Lean `CT15.AdmissibleQuotient.PairCircuit` is downstream of those
+tests: its `Admissible` field already contains target-completeness against every
+context and a `CertifiedReduction` for every non-injective code.  Consequently
+the old node-[35] alias contains no connected support, node [36] is forced to
+the universal constructor, node [38] is forced to the smaller-representative
+constructor, and no value can be routed to node [40].  This is useful
+conditional compression code, but it does not implement the original
+three-case localization.
+
+The reusable graph layer already provides the correct consumer contract in
+`Graph.BoundariedRankDrop`: `RankDropRouting.Certificate`, `contextAudit`, and
+`SupportLocation`.  The missing theorem is the producer from the exact
+node-[33] rank residual to that certificate on the same selected graph.  It
+must construct the proper atom, boundary enumeration, quotient realization,
+minimal connected support, boundary-degree equality, and either the at-atom
+replacement data or the enlarged-support payload.  It may be proof-selected
+from finite graph data, but it may not enumerate contexts, supports, subgraphs,
+or graphs.  Until this producer is proved, nodes [35]--[39] are yellow and node
+[40] is blocked.  The existing declarations are retained as conditional
+support.
+
+The universal context quantifier is intentional, not a misspelling: it is the
+replacement strategy's definition of target-completeness. The original prose
+does, however, omit a necessary interface qualifier when it calls `q`
+admissible immediately before testing it. The strategy-consistent reading is
+support-stratified: `q` may be admissible for the certificate's
+final minimal carrier `X`, while nodes [36]--[40] ask whether the same
+determination already descends to the original atom `C`.  Those are different
+boundary profiles and different outside-context types.  Failure at the
+`C`-interface is compatible with universality at the larger `X`-interface.
+The current Lean response system uses one support and one context type for both
+roles and therefore collapses this distinction.
+
+The framework now owns the abstract nested-interface carrier in
+`Core.SupportStratifiedDetermination`: original and final supports, inclusion,
+connectedness, the actual determination predicate, minimality, coordinate
+support, quotient code, boundary profile, carrier-relative universality, and
+the representative indexed by the final support.  Its route audits the
+original interface before the at-atom/enlarged split and has zero executable
+work.  What remains is the graph specialization producing this carrier from
+the exact node-[33] curvature certificate and feeding the existing boundaried
+CT3 route. `CT15.FunctionalAdmissibleRank` now specifies the exact
+functional-admissible universe, while `CT15.CertifiedDeterminationRank` computes rank over
+proof-carrying candidates, and `CT15.SupportStratifiedRank` requires every
+nontrivial quotient-code collision to retain the exact nested-interface
+certificate for that coordinate pair. Both layers have compiled non-Erdos
+fixtures and enumerate no supports, contexts, graphs, or coordinate powersets.
+
+The July 2026 sequential audit sharpens this row.  The current certificate
+does prove the exact node-[33] collision, singleton basis, (C\subseteq X),
+connectedness of (X), carrier-level determination, abstract inclusion
+minimality, both boundary profiles, equality of the restricted and carrier
+quotient codes, carrier-relative universality, and the representative on
+(X).  These are nine genuine node-[35] obligations, but they are not the
+complete manuscript cell.  The remaining obligations are:
+
+- the finite declared support datum \(\mathcal P\);
+- the lexicographically first smallest connected carrier generated by the
+  coordinate supports and \(\mathcal P\), rather than only abstract
+  inclusion-minimality among determining supports;
+- an exact realized functional quotient \(q\) on
+  \(\rho^{\rm ex}_{T_X}(X)\), its raw restriction \(q_C\), and the
+  commutative realization/transport laws;
+- equivalence of the proof-carrying CT15 candidate family with the complete
+  functional admissible quotient universe quantified over in the manuscript;
+- the separated-wedge tester theorem and carrier invariants 37--38;
+- a genuine full-ledger framework stage from [33] to [35]; and
+- the bridge to
+  `Graph.BoundariedRankDrop.RankDropRouting.Certificate` on the identical
+  graph and interfaces.
+
+There is also a precise proof gap in
+`lem:separated-testers`.  The written argument proves only that a dyadic
+closure which is not internal to one closed ball must leave that ball.  It
+does not prove that the *entire support* of every separating tester is
+contained in the complement of both closed balls.  A tester may meet a ball
+and then leave it.  The required conclusion would follow from an additional
+normalization theorem replacing every separating tester by one whose complete
+context support is outside the two balls while preserving its exact response,
+or from a paper-strategy structural accounting theorem that routes every
+non-normalizable intersection to target defect/compression.  No such theorem
+is currently stated or proved.  Lean must not manufacture it by treating
+"leaves the ball" as "has support outside the ball".
+
+Accordingly node [35] is tracked as 9/18 obligations, and nodes [36]--[46]
+retain their locally verified conditional consumers but remain yellow until
+the exact node-[35] producer is complete.  Node [47] remains independent on
+the separate fully verified node-[34] full-rank edge.
+
 ## Node [144]: repeated routing code to sparse exit or Type-B handoff
 
 The exact predecessor cone through nodes [125]--[143] is implemented.  It

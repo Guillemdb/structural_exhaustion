@@ -35,27 +35,42 @@ structure VerifiedP13Node33RankReducingDependence
     (node32 : VerifiedP13Node32RankDecision
       ctx node21 node24 node26 node27 node28 node29 node30 node31)
     (rankDrop : p13CurvatureTargetRank ctx <
-      (p13RemainderCurvatureProfile ctx).wedgeCount) : Type (u + 1)
+      (p13RemainderCurvatureProfile ctx).wedgeCount) : Type (u + 3)
     extends Core.ExactHandoff node32 where
   rankDropExact : p13CurvatureTargetRank ctx <
     (p13RemainderCurvatureProfile ctx).wedgeCount
-  circuit : (p13CurvatureResponseProfile ctx).ct15Profile.PairCircuit
+  circuit : (p13CurvatureDeterminationRankProfile ctx).PairCircuit
   circuitExact : circuit =
-    (p13CurvatureResponseProfile ctx).ct15Profile.pairCircuitOfRankDrop (by
-      change (p13CurvatureResponseProfile ctx).ct15Profile.targetRank <
-        (p13CurvatureCoordinates ctx).card
-      rw [p13CurvatureCoordinates_card_eq_wedgeCount ctx]
-      exact rankDrop)
+    (p13CurvatureDeterminationRankProfile ctx).pairCircuitOfRankDrop (by
+      exact False.elim (no_p13CanonicalCurvature_rankDrop ctx rankDrop))
+  certificate : (p13CurvatureDeterminationSupportProfile ctx).Certificate
+  certificateExact : certificate =
+    CT15.SupportStratifiedRank.Profile.certificate
+      (p13CurvatureDeterminationRankProfile ctx) circuit
+  carrierExact : certificate.carrier = circuit.candidate.carrier
   finiteBasis : circuit.basis.card = 1
   properDependence : circuit.basisCoordinate ≠ circuit.determined
   quotientIdentifies :
-    circuit.proposal.code circuit.basisCoordinate =
-      circuit.proposal.code circuit.determined
+    circuit.candidate.quotientCode circuit.basisCoordinate =
+      circuit.candidate.quotientCode circuit.determined
+  originalEligible :
+    (p13CurvatureDeterminationSupportProfile ctx).originalEligible
+      certificate.original
+  carrierConnected :
+    (p13CurvatureDeterminationSupportProfile ctx).connected certificate.carrier
+  supportMinimal : ∀ support,
+    (p13CurvatureDeterminationSupportProfile ctx).connected support →
+    (p13CurvatureDeterminationSupportProfile ctx).determines support
+      certificate.basisCoordinate certificate.determined →
+    (p13CurvatureDeterminationSupportProfile ctx).supportLe support
+      certificate.carrier →
+    (p13CurvatureDeterminationSupportProfile ctx).supportLe certificate.carrier
+      support
   localWork :
-    (p13CurvatureResponseProfile ctx).ct15Profile.rankDecisionBudget.checks () ≤
-      (p13CurvatureResponseProfile ctx).ct15Profile.rankDecisionBudget.coefficient *
-        ((p13CurvatureResponseProfile ctx).ct15Profile.rankDecisionBudget.size () + 1) ^
-          (p13CurvatureResponseProfile ctx).ct15Profile.rankDecisionBudget.degree
+    (p13CurvatureDeterminationRankProfile ctx).rankDecisionBudget.checks () ≤
+      (p13CurvatureDeterminationRankProfile ctx).rankDecisionBudget.coefficient *
+        ((p13CurvatureDeterminationRankProfile ctx).rankDecisionBudget.size () + 1) ^
+          (p13CurvatureDeterminationRankProfile ctx).rankDecisionBudget.degree
 
 /-- Execute only the manuscript's strict-loss edge to Branch D. -/
 noncomputable def VerifiedP13Node32RankDecision.node33
@@ -78,27 +93,6 @@ noncomputable def VerifiedP13Node32RankDecision.node33
       (p13RemainderCurvatureProfile ctx).wedgeCount) :
     VerifiedP13Node33RankReducingDependence
       ctx node21 node24 node26 node27 node28 node29 node30 node31 node32 rankDrop := by
-  have coordinateDrop :
-      (p13CurvatureResponseProfile ctx).ct15Profile.targetRank <
-        (p13CurvatureCoordinates ctx).card := by
-    change p13CurvatureTargetRank ctx < (p13CurvatureCoordinates ctx).card
-    rw [p13CurvatureCoordinates_card_eq_wedgeCount ctx]
-    exact rankDrop
-  let circuit :=
-    (p13CurvatureResponseProfile ctx).ct15Profile.pairCircuitOfRankDrop
-      coordinateDrop
-  exact {
-    previous := node32
-    previousExact := rfl
-    rankDropExact := rankDrop
-    circuit := circuit
-    circuitExact := rfl
-    finiteBasis := by simp [circuit,
-      CT15.AdmissibleQuotient.Profile.PairCircuit.basis]
-    properDependence := circuit.distinct
-    quotientIdentifies := circuit.determines
-    localWork :=
-      (p13CurvatureResponseProfile ctx).ct15Profile.rankDecisionBudget.bounded ()
-  }
+  exact False.elim (no_p13CanonicalCurvature_rankDrop ctx rankDrop)
 
 end Erdos64EG.Internal

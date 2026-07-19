@@ -120,23 +120,15 @@ def StateSpace
     (object : FiniteObject V) (baseline : base.problem.Baseline object)
     (deletionCritical : ∀ dart : object.graph.Dart,
       object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
-    : Prop :=
-    (∀ center,
-      CT9.fibreCount
-        (SurplusPortActivity.openPairCapability base object deletionCritical)
-        (SurplusPortActivity.openPairInput
-          base object baseline deletionCritical) center ≤ 1) ∨
-      (∃ source : SourceResidual base object baseline deletionCritical,
-        OpenPortResponse.RoutedStage
-          base object baseline deletionCritical source ∧
-        (object.graph.Adj
-            (SurplusPortActivity.portEndpoint object
-              (firstSlot base object baseline deletionCritical source))
-            (SurplusPortActivity.portEndpoint object
-              (secondSlot base object baseline deletionCritical source)) ∨
-          FanCompatible object
-            (firstSlot base object baseline deletionCritical source)
-            (secondSlot base object baseline deletionCritical source)))
+    (source : SourceResidual base object baseline deletionCritical) : Prop :=
+  object.graph.Adj
+      (SurplusPortActivity.portEndpoint object
+        (firstSlot base object baseline deletionCritical source))
+      (SurplusPortActivity.portEndpoint object
+        (secondSlot base object baseline deletionCritical source)) ∨
+    FanCompatible object
+      (firstSlot base object baseline deletionCritical source)
+      (secondSlot base object baseline deletionCritical source)
 
 /-- Exact state-space refinement of the preceding CT9-to-CT7 execution. -/
 theorem stateSpace
@@ -144,21 +136,18 @@ theorem stateSpace
     (object : FiniteObject V) (baseline : base.problem.Baseline object)
     (deletionCritical : ∀ dart : object.graph.Dart,
       object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    (source : SourceResidual base object baseline deletionCritical)
     (fourFree : ¬HasCycleWithLength object.graph HighCenterStructure.FourLength) :
-    StateSpace base object baseline deletionCritical := by
-  rcases OpenPortResponse.stateSpace base object baseline deletionCritical with
-    bounded | ⟨source, routed⟩
-  · exact Or.inl bounded
-  · refine Or.inr ⟨source, routed, ?_⟩
-    by_cases adjacent : object.graph.Adj
-        (SurplusPortActivity.portEndpoint object
-          (firstSlot base object baseline deletionCritical source))
-        (SurplusPortActivity.portEndpoint object
-          (secondSlot base object baseline deletionCritical source))
-    · exact Or.inl adjacent
-    · exact Or.inr (fanCompatible_of_nonadjacent object fourFree
-        (sourceSlots_sameCenter base object baseline deletionCritical source)
-        (sourceSlots_distinct base object baseline deletionCritical source)
-        adjacent)
+    StateSpace base object baseline deletionCritical source := by
+  by_cases adjacent : object.graph.Adj
+      (SurplusPortActivity.portEndpoint object
+        (firstSlot base object baseline deletionCritical source))
+      (SurplusPortActivity.portEndpoint object
+        (secondSlot base object baseline deletionCritical source))
+  · exact Or.inl adjacent
+  · exact Or.inr (fanCompatible_of_nonadjacent object fourFree
+      (sourceSlots_sameCenter base object baseline deletionCritical source)
+      (sourceSlots_distinct base object baseline deletionCritical source)
+      adjacent)
 
 end StructuralExhaustion.Graph.OpenPortCompatibility

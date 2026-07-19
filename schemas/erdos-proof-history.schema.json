@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/erdos-proof-history.schema.json",
+  "title": "Append-only Erdős Problem 64 proof history",
+  "description": "Auditable snapshots of proof progress and framework reuse. The recorded quantities are provenance and reuse evidence, not estimates of time saved.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["artifactType", "schemaVersion", "exampleId", "snapshots"],
+  "properties": {
+    "artifactType": {"const": "erdosProofHistory"},
+    "schemaVersion": {"const": "1.0.0"},
+    "exampleId": {"const": "erdos-64"},
+    "snapshots": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/snapshot"}
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "nonnegativeInteger": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifactSha256",
+        "manuscriptSha256",
+        "formalizedNodeIds",
+        "formalizedNodeCount",
+        "obligations",
+        "implementedWorkflowSteps",
+        "frameworkLeverage",
+        "provenance"
+      ],
+      "properties": {
+        "artifactSha256": {"$ref": "#/$defs/sha256"},
+        "manuscriptSha256": {"$ref": "#/$defs/sha256"},
+        "formalizedNodeIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "integer", "minimum": 1}
+        },
+        "formalizedNodeCount": {"$ref": "#/$defs/nonnegativeInteger"},
+        "obligations": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["proved", "total"],
+          "properties": {
+            "proved": {"$ref": "#/$defs/nonnegativeInteger"},
+            "total": {"$ref": "#/$defs/nonnegativeInteger"}
+          }
+        },
+        "implementedWorkflowSteps": {"$ref": "#/$defs/nonnegativeInteger"},
+        "frameworkLeverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "automatedLinkCount",
+            "registeredTransitionCount",
+            "interfaceBindingCount",
+            "declarationFootprint"
+          ],
+          "properties": {
+            "automatedLinkCount": {"$ref": "#/$defs/nonnegativeInteger"},
+            "registeredTransitionCount": {"$ref": "#/$defs/nonnegativeInteger"},
+            "interfaceBindingCount": {"$ref": "#/$defs/nonnegativeInteger"},
+            "declarationFootprint": {
+              "description": "Distinct displayed declarations by owning Lean package; this is not a line-of-code or elapsed-time estimate.",
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["framework", "author", "external", "total"],
+              "properties": {
+                "framework": {"$ref": "#/$defs/nonnegativeInteger"},
+                "author": {"$ref": "#/$defs/nonnegativeInteger"},
+                "external": {
+                  "description": "Declarations kept outside both framework and Erdős-owned trust boundaries.",
+                  "$ref": "#/$defs/nonnegativeInteger"
+                },
+                "total": {"$ref": "#/$defs/nonnegativeInteger"}
+              }
+            }
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["recordedAt", "gitCommit", "workingTree"],
+          "properties": {
+            "recordedAt": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            "gitCommit": {
+              "oneOf": [
+                {"type": "string", "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"},
+                {"type": "null"}
+              ]
+            },
+            "workingTree": {"enum": ["clean", "dirty", "unknown"]},
+            "sourceDateEpoch": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    }
+  }
+}

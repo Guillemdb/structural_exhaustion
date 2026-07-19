@@ -62,12 +62,10 @@ structure P13Node144NearCubicHandoff
       ctx.toBranchContext (coupledClassItems ctx))
     (homogeneous : Graph.SurplusHomogeneousPattern.Audit
       (geometricActivationStage ctx) 49 49 49
-      (coupledOverloadClassRoute ctx 49 49 49 overload))
-    (previous : SemanticBottleneckPairwiseClause ctx overload homogeneous
-      (semanticBottleneckPairwiseClauseSource ctx overload homogeneous)) :
-    Prop where
-  previousExact : previous = semanticBottleneckPairwiseClause ctx overload
-    homogeneous (semanticBottleneckPairwiseClauseSource ctx overload homogeneous)
+      (coupledOverloadClassRoute ctx 49 49 49 overload)) :
+    Type (u + 1) extends Core.ExactHandoff
+      (semanticBottleneckPairwiseClause ctx overload homogeneous
+        (semanticBottleneckPairwiseClauseSource ctx overload homogeneous)) where
   spine : P13NearCubicSpineBound ctx 49 49 49
 
 namespace P13Node144NearCubicHandoff
@@ -79,9 +77,7 @@ theorem surplus_sq_le
     {homogeneous : Graph.SurplusHomogeneousPattern.Audit
       (geometricActivationStage ctx) 49 49 49
       (coupledOverloadClassRoute ctx 49 49 49 overload)}
-    {previous : SemanticBottleneckPairwiseClause ctx overload homogeneous
-      (semanticBottleneckPairwiseClauseSource ctx overload homogeneous)}
-    (handoff : P13Node144NearCubicHandoff ctx overload homogeneous previous) :
+    (handoff : P13Node144NearCubicHandoff ctx overload homogeneous) :
     (Graph.InducedPathWindowLedger.totalSurplus ctx.G.object) ^ 2 ≤
       surplusScaleCoefficient 49 49 49 *
         ctx.G.object.input.vertices.card :=

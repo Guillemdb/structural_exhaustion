@@ -5960,21 +5960,21 @@
       "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 38,
+          "line": 39,
           "column": 4
         },
         "end": {
-          "line": 38,
+          "line": 39,
           "column": 9
         }
       },
       "range": {
         "start": {
-          "line": 38,
+          "line": 39,
           "column": 0
         },
         "end": {
-          "line": 39,
+          "line": 40,
           "column": 19
         }
       },
@@ -6114,21 +6114,21 @@
       "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 77,
+          "line": 78,
           "column": 4
         },
         "end": {
-          "line": 77,
+          "line": 78,
           "column": 7
         }
       },
       "range": {
         "start": {
-          "line": 76,
+          "line": 77,
           "column": 0
         },
         "end": {
-          "line": 78,
+          "line": 79,
           "column": 35
         }
       },
@@ -7970,21 +7970,21 @@
       "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 31,
+          "line": 32,
           "column": 10
         },
         "end": {
-          "line": 31,
+          "line": 32,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 31,
+          "line": 32,
           "column": 0
         },
         "end": {
-          "line": 34,
+          "line": 35,
           "column": 52
         }
       },
@@ -8017,21 +8017,21 @@
       "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 33,
+          "line": 34,
           "column": 2
         },
         "end": {
-          "line": 33,
+          "line": 34,
           "column": 6
         }
       },
       "range": {
         "start": {
-          "line": 33,
+          "line": 34,
           "column": 2
         },
         "end": {
-          "line": 33,
+          "line": 34,
           "column": 6
         }
       },
@@ -8059,21 +8059,21 @@
       "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 32,
+          "line": 33,
           "column": 2
         },
         "end": {
-          "line": 32,
+          "line": 33,
           "column": 10
         }
       },
       "range": {
         "start": {
-          "line": 32,
+          "line": 33,
           "column": 2
         },
         "end": {
-          "line": 32,
+          "line": 33,
           "column": 10
         }
       },
@@ -8309,21 +8309,21 @@
       "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 44,
+          "line": 45,
           "column": 4
         },
         "end": {
-          "line": 44,
+          "line": 45,
           "column": 16
         }
       },
       "range": {
         "start": {
-          "line": 43,
+          "line": 44,
           "column": 0
         },
         "end": {
-          "line": 74,
+          "line": 75,
           "column": 9
         }
       },
@@ -9013,21 +9013,21 @@
       "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 31,
+          "line": 32,
           "column": 10
         },
         "end": {
-          "line": 31,
+          "line": 32,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 31,
+          "line": 32,
           "column": 10
         },
         "end": {
-          "line": 31,
+          "line": 32,
           "column": 25
         }
       },
@@ -9390,21 +9390,21 @@
       "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 27,
+          "line": 28,
           "column": 4
         },
         "end": {
-          "line": 27,
+          "line": 28,
           "column": 15
         }
       },
       "range": {
         "start": {
-          "line": 27,
+          "line": 28,
           "column": 2
         },
         "end": {
-          "line": 29,
+          "line": 30,
           "column": 29
         }
       },
@@ -9433,21 +9433,21 @@
       "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 18,
+          "line": 19,
           "column": 4
         },
         "end": {
-          "line": 18,
+          "line": 19,
           "column": 14
         }
       },
       "range": {
         "start": {
-          "line": 18,
+          "line": 19,
           "column": 2
         },
         "end": {
-          "line": 20,
+          "line": 21,
           "column": 28
         }
       },
@@ -9476,21 +9476,21 @@
       "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 21,
+          "line": 22,
           "column": 4
         },
         "end": {
-          "line": 21,
+          "line": 22,
           "column": 17
         }
       },
       "range": {
         "start": {
-          "line": 21,
+          "line": 22,
           "column": 2
         },
         "end": {
-          "line": 23,
+          "line": 24,
           "column": 31
         }
       },
@@ -9519,21 +9519,21 @@
       "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 24,
+          "line": 25,
           "column": 4
         },
         "end": {
-          "line": 24,
+          "line": 25,
           "column": 14
         }
       },
       "range": {
         "start": {
-          "line": 24,
+          "line": 25,
           "column": 2
         },
         "end": {
-          "line": 26,
+          "line": 27,
           "column": 28
         }
       },
@@ -9792,21 +9792,21 @@
       "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 17,
+          "line": 18,
           "column": 10
         },
         "end": {
-          "line": 17,
+          "line": 18,
           "column": 20
         }
       },
       "range": {
         "start": {
-          "line": 17,
+          "line": 18,
           "column": 0
         },
         "end": {
-          "line": 29,
+          "line": 30,
           "column": 29
         }
       },
@@ -11257,8 +11257,8 @@
       "sourceId": "StructuralExhaustion/CT2/Capability.lean",
       "moduleName": "StructuralExhaustion.CT2.Capability",
       "path": "lean/StructuralExhaustion/CT2/Capability.lean",
-      "sha256": "67b1b78e2dd4bb4e4b7471bf26e6562f8df53a1a7dbf70dcb80fbf60d9a7b2bf",
-      "content": "import StructuralExhaustion.CT2.Observation\nimport StructuralExhaustion.CT2.ReductionOps\nimport StructuralExhaustion.CT2.ReplacementSystem\n\nnamespace StructuralExhaustion.CT2\n\nuniverse uAmbient uBranch uPiece uInterface uAbstract uContext uCandidate\n\n/-! One reusable CT2 capability kit.  It contains mathematical vocabulary,\nfinite enumerators, and primitive operations, never a node implementation. -/\n\nstructure Capability (P : Core.Problem.{uAmbient, uBranch})\n    (Target : P.Ambient → Prop) where\n  pieces : PieceSystem.{uAmbient, uBranch, uPiece} P\n  interfaces : InterfaceSystem.{uAmbient, uBranch, uPiece, uInterface} pieces\n  contexts : ContextSystem.{uAmbient, uBranch, uPiece, uInterface,\n    uAbstract, uContext} interfaces\n  observable : Observable P Target\n  reductions : ReductionOps pieces\n  replacements : ReplacementSystem.{uAmbient, uBranch, uPiece, uInterface,\n    uAbstract, uContext, uCandidate} contexts\n\n/-- CT2 is invoked only after generic piece discovery has constructed a seed. -/\nstructure Input\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop}\n    (capability : Capability.{uAmbient, uBranch, uPiece, uInterface,\n      uAbstract, uContext, uCandidate} P Target)\n    (context : Core.MinimalCounterexampleContext P Target) where\n  seed : Seed capability.pieces context\n\nnamespace Capability\n\n/-- CT2's route-facing interface: shared minimal context plus a discovered\nproper admissible seed. -/\ndef tacticInterface\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop}\n    (capability : Capability.{uAmbient, uBranch, uPiece, uInterface,\n      uAbstract, uContext, uCandidate} P Target) : Core.Routing.TacticInterface where\n  Context := Core.MinimalCounterexampleContext P Target\n  Trigger := Input capability\n\n/-- Generic capability discovery; disabled results carry exact impossibility. -/\ndef discover\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop}\n    (capability : Capability.{uAmbient, uBranch, uPiece, uInterface,\n      uAbstract, uContext, uCandidate} P Target)\n    (ctx : Core.MinimalCounterexampleContext P Target) :\n    Core.Routing.Discovery (Input capability ctx) :=\n  match capability.pieces.discover ctx with\n  | .enabled seed => .enabled ⟨seed⟩\n  | .disabled reject => .disabled fun input => reject input.seed\n\nend Capability\n\nend StructuralExhaustion.CT2\n"
+      "sha256": "0ed7c39d37ad0506109ea826e058790464012c49ed587524b41dbbd4621191f7",
+      "content": "import StructuralExhaustion.CT2.Observation\nimport StructuralExhaustion.CT2.ReductionOps\nimport StructuralExhaustion.CT2.ReplacementSystem\n\nnamespace StructuralExhaustion.CT2\n\nuniverse uAmbient uBranch uPiece uInterface uAbstract uContext uCandidate\n\n/-! One reusable CT2 capability kit.  It contains mathematical vocabulary,\nfinite enumerators, and primitive operations, never a node implementation. -/\n\nstructure Capability (P : Core.Problem.{uAmbient, uBranch})\n    (Target : P.Ambient → Prop) where\n  pieces : PieceSystem.{uAmbient, uBranch, uPiece} P\n  interfaces : InterfaceSystem.{uAmbient, uBranch, uPiece, uInterface} pieces\n  contexts : ContextSystem.{uAmbient, uBranch, uPiece, uInterface,\n    uAbstract, uContext} interfaces\n  observable : Observable P Target\n  reductions : ReductionOps pieces\n  replacements : ReplacementSystem.{uAmbient, uBranch, uPiece, uInterface,\n    uAbstract, uContext, uCandidate} contexts\n\n/-- CT2 is invoked only after generic piece discovery has constructed a seed. -/\nstructure Input\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop}\n    (capability : Capability.{uAmbient, uBranch, uPiece, uInterface,\n      uAbstract, uContext, uCandidate} P Target)\n    (context : Core.MinimalCounterexampleContext P Target) where\n  seed : Seed capability.pieces context\n\nnamespace Capability\n\n/-- Generic capability discovery; disabled results carry exact impossibility. -/\ndef discover\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop}\n    (capability : Capability.{uAmbient, uBranch, uPiece, uInterface,\n      uAbstract, uContext, uCandidate} P Target)\n    (ctx : Core.MinimalCounterexampleContext P Target) :\n    Core.Routing.Discovery (Input capability ctx) :=\n  match capability.pieces.discover ctx with\n  | .enabled seed => .enabled ⟨seed⟩\n  | .disabled reject => .disabled fun input => reject input.seed\n\nend Capability\n\nend StructuralExhaustion.CT2\n"
     },
     {
       "sourceId": "StructuralExhaustion/CT2/ContextSystem.lean",
@@ -11271,8 +11271,8 @@
       "sourceId": "StructuralExhaustion/CT2/Execution.lean",
       "moduleName": "StructuralExhaustion.CT2.Execution",
       "path": "lean/StructuralExhaustion/CT2/Execution.lean",
-      "sha256": "e5a2fa070d87de2339f909a09613353c22dd74ecbdbd6e7d1ef83e9b34b8f382",
-      "content": "import StructuralExhaustion.CT2.Graph\n\nnamespace StructuralExhaustion.CT2\n\nuniverse uAmbient uBranch uPiece uInterface uAbstract uContext uCandidate\n\nvariable {P : Core.Problem.{uAmbient, uBranch}}\nvariable {Target : P.Ambient → Prop}\nvariable (capability : Capability.{uAmbient, uBranch, uPiece, uInterface,\n  uAbstract, uContext, uCandidate} P Target)\nvariable (ctx : Core.MinimalCounterexampleContext P Target)\nvariable (input : Input capability ctx)\n\n/-! Pure reference execution.  The framework, not a proof instance, constructs\nevery node result, graph edge, and trace. -/\n\ninductive RawOutcome : Graph.Terminal → Type _ where\n  | deletionC2\n      (witness : DeletionWitness capability ctx input) :\n      RawOutcome .deletionC2\n  | replacementC2\n      (witness : ReplacementWitness capability ctx input) :\n      RawOutcome .replacementC2\n  | separating\n      (residual : SeparatingContextResidual capability ctx input) :\n      RawOutcome .separating\n  | criticality\n      (residual : CriticalityResidual capability ctx input) :\n      RawOutcome .criticality\n\nstructure ExecutionResult where\n  terminal : Graph.Terminal\n  path : Graph.Path capability ctx input .entry terminal.nodeId\n  outcome : RawOutcome capability ctx input terminal\n\nnamespace ExecutionResult\n\ndef trace (result : ExecutionResult capability ctx input) : List Graph.NodeId :=\n  result.path.trace\n\nend ExecutionResult\n\n/-- The canonical exhaustive CT2 interpreter. -/\ndef runReference : ExecutionResult capability ctx input :=\n  match analyzeDeletion capability ctx input with\n  | .closes witness => {\n      terminal := .deletionC2\n      path := .cons .beginDeletion\n        (.cons (.deletionCloses witness) (.nil .deletionC2Terminal))\n      outcome := .deletionC2 witness\n    }\n  | .critical deletionCritical =>\n      match analyzeReplacements capability ctx input deletionCritical with\n      | .closes witness => {\n          terminal := .replacementC2\n          path := .cons .beginDeletion\n            (.cons (.deletionCritical deletionCritical)\n              (.cons (.replacementCloses witness) (.nil .replacementC2Terminal)))\n          outcome := .replacementC2 witness\n        }\n      | .separating residual => {\n          terminal := .separating\n          path := .cons .beginDeletion\n            (.cons (.deletionCritical deletionCritical)\n              (.cons (.replacementSeparating residual) (.nil .separatingTerminal)))\n          outcome := .separating residual\n        }\n      | .critical residual => {\n          terminal := .criticality\n          path := .cons .beginDeletion\n            (.cons (.deletionCritical deletionCritical)\n              (.cons (.replacementCritical residual) (.nil .criticalityTerminal)))\n          outcome := .criticality residual\n        }\n\n/-- The public runner is the audited reference semantics. -/\ndef run : ExecutionResult capability ctx input :=\n  runReference capability ctx input\n\nend StructuralExhaustion.CT2\n"
+      "sha256": "82e08e6a7ca6ac691f0bdba10a413c11e5ca390c9def8280730e4e1a3c2794b6",
+      "content": "import StructuralExhaustion.CT2.Graph\nimport StructuralExhaustion.Core.CTTransition\n\nnamespace StructuralExhaustion.CT2\n\nuniverse uAmbient uBranch uPiece uInterface uAbstract uContext uCandidate\n\nvariable {P : Core.Problem.{uAmbient, uBranch}}\nvariable {Target : P.Ambient → Prop}\nvariable (capability : Capability.{uAmbient, uBranch, uPiece, uInterface,\n  uAbstract, uContext, uCandidate} P Target)\nvariable (ctx : Core.MinimalCounterexampleContext P Target)\nvariable (input : Input capability ctx)\n\n/-! Pure reference execution.  The framework, not a proof instance, constructs\nevery node result, graph edge, and trace. -/\n\ninductive RawOutcome : Graph.Terminal → Type _ where\n  | deletionC2\n      (witness : DeletionWitness capability ctx input) :\n      RawOutcome .deletionC2\n  | replacementC2\n      (witness : ReplacementWitness capability ctx input) :\n      RawOutcome .replacementC2\n  | separating\n      (residual : SeparatingContextResidual capability ctx input) :\n      RawOutcome .separating\n  | criticality\n      (residual : CriticalityResidual capability ctx input) :\n      RawOutcome .criticality\n\nstructure ExecutionResult where\n  terminal : Graph.Terminal\n  path : Graph.Path capability ctx input .entry terminal.nodeId\n  outcome : RawOutcome capability ctx input terminal\n\nnamespace ExecutionResult\n\ndef trace (result : ExecutionResult capability ctx input) : List Graph.NodeId :=\n  result.path.trace\n\nend ExecutionResult\n\n/-- The canonical exhaustive CT2 interpreter. -/\ndef runReference : ExecutionResult capability ctx input :=\n  match analyzeDeletion capability ctx input with\n  | .closes witness => {\n      terminal := .deletionC2\n      path := .cons .beginDeletion\n        (.cons (.deletionCloses witness) (.nil .deletionC2Terminal))\n      outcome := .deletionC2 witness\n    }\n  | .critical deletionCritical =>\n      match analyzeReplacements capability ctx input deletionCritical with\n      | .closes witness => {\n          terminal := .replacementC2\n          path := .cons .beginDeletion\n            (.cons (.deletionCritical deletionCritical)\n              (.cons (.replacementCloses witness) (.nil .replacementC2Terminal)))\n          outcome := .replacementC2 witness\n        }\n      | .separating residual => {\n          terminal := .separating\n          path := .cons .beginDeletion\n            (.cons (.deletionCritical deletionCritical)\n              (.cons (.replacementSeparating residual) (.nil .separatingTerminal)))\n          outcome := .separating residual\n        }\n      | .critical residual => {\n          terminal := .criticality\n          path := .cons .beginDeletion\n            (.cons (.deletionCritical deletionCritical)\n              (.cons (.replacementCritical residual) (.nil .criticalityTerminal)))\n          outcome := .criticality residual\n        }\n\n/-- The public runner is the audited reference semantics. -/\ndef run : ExecutionResult capability ctx input :=\n  runReference capability ctx input\n\nnamespace Capability\n\n/-- Canonical executable entry for the full CT2 replacement profile.  The\nroute chooses a seed through `Capability.discover`; execution consumes that\nexact context-indexed input without rebuilding it in the application. -/\ndef executableInterface\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop}\n    (capability : Capability.{uAmbient, uBranch, uPiece, uInterface,\n      uAbstract, uContext, uCandidate} P Target) :\n    Core.Routing.ExecutableInterface .ct2 where\n  Context := Core.MinimalCounterexampleContext P Target\n  Trigger := Input capability\n  Result := fun context input => ExecutionResult capability context input\n  execute := fun context input => run capability context input\n\nend Capability\n\nend StructuralExhaustion.CT2\n"
     },
     {
       "sourceId": "StructuralExhaustion/CT2/Graph.lean",
@@ -11376,8 +11376,8 @@
       "sourceId": "StructuralExhaustion/Core/SmallerObject.lean",
       "moduleName": "StructuralExhaustion.Core.SmallerObject",
       "path": "lean/StructuralExhaustion/Core/SmallerObject.lean",
-      "sha256": "ada13f4706ff2d4aecde89f6188f2d99c76de6f20e5db25b83d082f182497139",
-      "content": "import StructuralExhaustion.Core.Context\n\nnamespace StructuralExhaustion.Core\n\nuniverse uAmbient uBranch\n\n/-- An ambient object bundled with the rank decrease needed by every generic\nminimality argument. -/\nstructure SmallerObject (P : Problem.{uAmbient, uBranch}) (G : P.Ambient) where\n  value : P.Ambient\n  decreases : P.rank value < P.rank G\n\nnamespace SmallerObject\n\n/-- A smaller baseline object satisfies the target in a minimal-counterexample\ncontext. -/\ntheorem target_of_baseline {P : Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop} (ctx : MinimalCounterexampleContext P Target)\n    (smaller : SmallerObject P ctx.G) (baseline : P.Baseline smaller.value) :\n    Target smaller.value :=\n  ctx.minimal smaller.value smaller.decreases baseline\n\n/-- A smaller target-avoiding baseline object contradicts minimality. -/\ntheorem counterexample_impossible {P : Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop} (ctx : MinimalCounterexampleContext P Target)\n    (smaller : SmallerObject P ctx.G) (baseline : P.Baseline smaller.value)\n    (avoids : ¬ Target smaller.value) : False :=\n  avoids (target_of_baseline ctx smaller baseline)\n\nend SmallerObject\n\n/-!\n`CertifiedReduction` is the tactic-independent semantic kernel shared by\ncertificate-driven closure profiles.  A CT may attach its own typed graph and\ntrace to this datum, while minimality, baseline preservation, and target\ntransport are proved only once here.\n-/\n\n/-- One explicitly supplied smaller object that retains the baseline and whose\ntarget predicate transports back to the source object. -/\nstructure CertifiedReduction {P : Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop}\n    (ctx : MinimalCounterexampleContext P Target) where\n  reduction : SmallerObject P ctx.G\n  reducedBaseline : P.Baseline reduction.value\n  targetMonotone : Target reduction.value → Target ctx.G\n\n/-- The target-avoiding baseline witness forced by a certified reduction. -/\nstructure CertifiedReductionWitness {P : Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop}\n    (ctx : MinimalCounterexampleContext P Target)\n    (input : CertifiedReduction ctx) : Prop where\n  baseline : P.Baseline input.reduction.value\n  avoids : ¬ Target input.reduction.value\n\nnamespace CertifiedReductionWitness\n\n/-- A certified smaller counterexample contradicts the inherited minimality\nkernel. -/\ntheorem contradiction {P : Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop}\n    {ctx : MinimalCounterexampleContext P Target}\n    {input : CertifiedReduction ctx}\n    (witness : CertifiedReductionWitness ctx input) : False :=\n  SmallerObject.counterexample_impossible ctx input.reduction\n    witness.baseline witness.avoids\n\nend CertifiedReductionWitness\n\nnamespace CertifiedReduction\n\n/-- Construct the target-avoiding witness using the source's avoidance and\nthe certified one-way target transport. -/\ndef witness {P : Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop}\n    {ctx : MinimalCounterexampleContext P Target}\n    (input : CertifiedReduction ctx) :\n    CertifiedReductionWitness ctx input where\n  baseline := input.reducedBaseline\n  avoids := fun reducedTarget => ctx.avoids (input.targetMonotone reducedTarget)\n\nend CertifiedReduction\n\nend StructuralExhaustion.Core\n"
+      "sha256": "a18b70a8b11d9291e785557f2ecff964a9344452dd8d51ec7bc0c6b70d4fbe69",
+      "content": "import StructuralExhaustion.Core.Context\n\nnamespace StructuralExhaustion.Core\n\nuniverse uAmbient uBranch\n\n/-- An ambient object bundled with the rank decrease needed by every generic\nminimality argument. -/\nstructure SmallerObject (P : Problem.{uAmbient, uBranch}) (G : P.Ambient) where\n  value : P.Ambient\n  decreases : P.rank value < P.rank G\n\nnamespace SmallerObject\n\n/-- A smaller baseline object satisfies the target in a minimal-counterexample\ncontext. -/\ntheorem target_of_baseline {P : Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop} (ctx : MinimalCounterexampleContext P Target)\n    (smaller : SmallerObject P ctx.G) (baseline : P.Baseline smaller.value) :\n    Target smaller.value :=\n  ctx.minimal smaller.value smaller.decreases baseline\n\n/-- A smaller target-avoiding baseline object contradicts minimality. -/\ntheorem counterexample_impossible {P : Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop} (ctx : MinimalCounterexampleContext P Target)\n    (smaller : SmallerObject P ctx.G) (baseline : P.Baseline smaller.value)\n    (avoids : ¬ Target smaller.value) : False :=\n  avoids (target_of_baseline ctx smaller baseline)\n\nend SmallerObject\n\n/-!\n`CertifiedReduction` is the tactic-independent semantic kernel shared by\ncertificate-driven closure profiles.  A CT may attach its own typed graph and\ntrace to this datum, while minimality, baseline preservation, and target\ntransport are proved only once here.\n-/\n\n/-- One explicitly supplied smaller object that retains the baseline and whose\ntarget predicate transports back to the source object. -/\nstructure CertifiedReduction {P : Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop}\n    (ctx : MinimalCounterexampleContext P Target) where\n  reduction : SmallerObject P ctx.G\n  reducedBaseline : P.Baseline reduction.value\n  targetMonotone : Target reduction.value → Target ctx.G\n\n/-- The target-avoiding baseline witness forced by a certified reduction. -/\nstructure CertifiedReductionWitness {P : Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop}\n    (ctx : MinimalCounterexampleContext P Target)\n    (input : CertifiedReduction ctx) : Prop where\n  baseline : P.Baseline input.reduction.value\n  avoids : ¬ Target input.reduction.value\n\nnamespace CertifiedReductionWitness\n\n/-- A certified smaller counterexample contradicts the inherited minimality\nkernel. -/\ntheorem contradiction {P : Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop}\n    {ctx : MinimalCounterexampleContext P Target}\n    {input : CertifiedReduction ctx}\n    (witness : CertifiedReductionWitness ctx input) : False :=\n  SmallerObject.counterexample_impossible ctx input.reduction\n    witness.baseline witness.avoids\n\nend CertifiedReductionWitness\n\nnamespace CertifiedReduction\n\n/-- Construct the target-avoiding witness using the source's avoidance and\nthe certified one-way target transport. -/\ndef witness {P : Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop}\n    {ctx : MinimalCounterexampleContext P Target}\n    (input : CertifiedReduction ctx) :\n    CertifiedReductionWitness ctx input where\n  baseline := input.reducedBaseline\n  avoids := fun reducedTarget => ctx.avoids (input.targetMonotone reducedTarget)\n\n/-- Close any already certified reduction by the minimal-counterexample\nkernel.  Applications project their inherited reduction and invoke this\ntheorem; they never rebuild its baseline or target-transport argument. -/\ntheorem impossible {P : Problem.{uAmbient, uBranch}}\n    {Target : P.Ambient → Prop}\n    {ctx : MinimalCounterexampleContext P Target}\n    (input : CertifiedReduction ctx) : False :=\n  input.witness.contradiction\n\nend CertifiedReduction\n\nend StructuralExhaustion.Core\n"
     }
   ]
 }

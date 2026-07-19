@@ -1370,21 +1370,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 63,
+                "line": 54,
                 "column": 10
               },
               "end": {
-                "line": 63,
+                "line": 54,
                 "column": 25
               }
             },
             "range": {
               "start": {
-                "line": 63,
+                "line": 54,
                 "column": 0
               },
               "end": {
-                "line": 66,
+                "line": 57,
                 "column": 56
               }
             },
@@ -1409,21 +1409,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 32,
+                "line": 23,
                 "column": 10
               },
               "end": {
-                "line": 32,
+                "line": 23,
                 "column": 31
               }
             },
             "range": {
               "start": {
-                "line": 32,
+                "line": 23,
                 "column": 0
               },
               "end": {
-                "line": 35,
+                "line": 26,
                 "column": 51
               }
             },
@@ -1447,21 +1447,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 37,
+                "line": 28,
                 "column": 10
               },
               "end": {
-                "line": 37,
+                "line": 28,
                 "column": 27
               }
             },
             "range": {
               "start": {
-                "line": 37,
+                "line": 28,
                 "column": 0
               },
               "end": {
-                "line": 39,
+                "line": 30,
                 "column": 66
               }
             },
@@ -1522,21 +1522,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 41,
+                "line": 32,
                 "column": 10
               },
               "end": {
-                "line": 41,
+                "line": 32,
                 "column": 25
               }
             },
             "range": {
               "start": {
-                "line": 41,
+                "line": 32,
                 "column": 0
               },
               "end": {
-                "line": 45,
+                "line": 36,
                 "column": 48
               }
             },
@@ -1634,21 +1634,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 83,
+                "line": 74,
                 "column": 10
               },
               "end": {
-                "line": 83,
+                "line": 74,
                 "column": 22
               }
             },
             "range": {
               "start": {
-                "line": 83,
+                "line": 74,
                 "column": 0
               },
               "end": {
-                "line": 87,
+                "line": 78,
                 "column": 71
               }
             },
@@ -1673,21 +1673,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 53,
+                "line": 44,
                 "column": 10
               },
               "end": {
-                "line": 53,
+                "line": 44,
                 "column": 30
               }
             },
             "range": {
               "start": {
-                "line": 53,
+                "line": 44,
                 "column": 0
               },
               "end": {
-                "line": 56,
+                "line": 47,
                 "column": 44
               }
             },
@@ -1711,21 +1711,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 58,
+                "line": 49,
                 "column": 10
               },
               "end": {
-                "line": 58,
+                "line": 49,
                 "column": 36
               }
             },
             "range": {
               "start": {
-                "line": 58,
+                "line": 49,
                 "column": 0
               },
               "end": {
-                "line": 61,
+                "line": 52,
                 "column": 47
               }
             },
@@ -2367,21 +2367,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 65,
+                "line": 56,
                 "column": 4
               },
               "end": {
-                "line": 65,
+                "line": 56,
                 "column": 10
               }
             },
             "range": {
               "start": {
-                "line": 65,
+                "line": 56,
                 "column": 2
               },
               "end": {
-                "line": 65,
+                "line": 56,
                 "column": 64
               }
             },
@@ -2405,21 +2405,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 66,
+                "line": 57,
                 "column": 4
               },
               "end": {
-                "line": 66,
+                "line": 57,
                 "column": 9
               }
             },
             "range": {
               "start": {
-                "line": 66,
+                "line": 57,
                 "column": 2
               },
               "end": {
-                "line": 66,
+                "line": 57,
                 "column": 56
               }
             },
@@ -2446,21 +2446,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 32,
+                "line": 23,
                 "column": 10
               },
               "end": {
-                "line": 32,
+                "line": 23,
                 "column": 31
               }
             },
             "range": {
               "start": {
-                "line": 32,
+                "line": 23,
                 "column": 10
               },
               "end": {
-                "line": 32,
+                "line": 23,
                 "column": 31
               }
             },
@@ -2486,21 +2486,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 37,
+                "line": 28,
                 "column": 10
               },
               "end": {
-                "line": 37,
+                "line": 28,
                 "column": 27
               }
             },
             "range": {
               "start": {
-                "line": 37,
+                "line": 28,
                 "column": 10
               },
               "end": {
-                "line": 37,
+                "line": 28,
                 "column": 27
               }
             },
@@ -2563,21 +2563,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 41,
+                "line": 32,
                 "column": 10
               },
               "end": {
-                "line": 41,
+                "line": 32,
                 "column": 25
               }
             },
             "range": {
               "start": {
-                "line": 41,
+                "line": 32,
                 "column": 10
               },
               "end": {
-                "line": 41,
+                "line": 32,
                 "column": 25
               }
             },
@@ -2602,21 +2602,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 86,
+                "line": 77,
                 "column": 4
               },
               "end": {
-                "line": 86,
+                "line": 77,
                 "column": 9
               }
             },
             "range": {
               "start": {
-                "line": 86,
+                "line": 77,
                 "column": 2
               },
               "end": {
-                "line": 86,
+                "line": 77,
                 "column": 65
               }
             },
@@ -2641,21 +2641,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 87,
+                "line": 78,
                 "column": 4
               },
               "end": {
-                "line": 87,
+                "line": 78,
                 "column": 12
               }
             },
             "range": {
               "start": {
-                "line": 87,
+                "line": 78,
                 "column": 2
               },
               "end": {
-                "line": 87,
+                "line": 78,
                 "column": 71
               }
             },
@@ -2683,21 +2683,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 53,
+                "line": 44,
                 "column": 10
               },
               "end": {
-                "line": 53,
+                "line": 44,
                 "column": 30
               }
             },
             "range": {
               "start": {
-                "line": 53,
+                "line": 44,
                 "column": 10
               },
               "end": {
-                "line": 53,
+                "line": 44,
                 "column": 30
               }
             },
@@ -2725,21 +2725,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 58,
+                "line": 49,
                 "column": 10
               },
               "end": {
-                "line": 58,
+                "line": 49,
                 "column": 36
               }
             },
             "range": {
               "start": {
-                "line": 58,
+                "line": 49,
                 "column": 10
               },
               "end": {
-                "line": 58,
+                "line": 49,
                 "column": 36
               }
             },
@@ -3540,21 +3540,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 44,
+                "line": 35,
                 "column": 2
               },
               "end": {
-                "line": 44,
+                "line": 35,
                 "column": 6
               }
             },
             "range": {
               "start": {
-                "line": 44,
+                "line": 35,
                 "column": 2
               },
               "end": {
-                "line": 44,
+                "line": 35,
                 "column": 6
               }
             },
@@ -4697,21 +4697,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 89,
+                "line": 80,
                 "column": 4
               },
               "end": {
-                "line": 89,
+                "line": 80,
                 "column": 15
               }
             },
             "range": {
               "start": {
-                "line": 89,
+                "line": 80,
                 "column": 0
               },
               "end": {
-                "line": 96,
+                "line": 87,
                 "column": 52
               }
             },
@@ -4748,21 +4748,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 47,
+                "line": 38,
                 "column": 4
               },
               "end": {
-                "line": 47,
+                "line": 38,
                 "column": 15
               }
             },
             "range": {
               "start": {
-                "line": 47,
+                "line": 38,
                 "column": 0
               },
               "end": {
-                "line": 51,
+                "line": 42,
                 "column": 47
               }
             },
@@ -4841,21 +4841,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 68,
+                "line": 59,
                 "column": 4
               },
               "end": {
-                "line": 68,
+                "line": 59,
                 "column": 15
               }
             },
             "range": {
               "start": {
-                "line": 68,
+                "line": 59,
                 "column": 0
               },
               "end": {
-                "line": 81,
+                "line": 72,
                 "column": 69
               }
             },
@@ -5177,21 +5177,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 83,
+                "line": 74,
                 "column": 10
               },
               "end": {
-                "line": 83,
+                "line": 74,
                 "column": 22
               }
             },
             "range": {
               "start": {
-                "line": 83,
+                "line": 74,
                 "column": 0
               },
               "end": {
-                "line": 87,
+                "line": 78,
                 "column": 71
               }
             },
@@ -5220,21 +5220,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 63,
+                "line": 54,
                 "column": 10
               },
               "end": {
-                "line": 63,
+                "line": 54,
                 "column": 25
               }
             },
             "range": {
               "start": {
-                "line": 63,
+                "line": 54,
                 "column": 0
               },
               "end": {
-                "line": 66,
+                "line": 57,
                 "column": 56
               }
             },
@@ -5472,21 +5472,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 83,
+                "line": 74,
                 "column": 10
               },
               "end": {
-                "line": 83,
+                "line": 74,
                 "column": 22
               }
             },
             "range": {
               "start": {
-                "line": 83,
+                "line": 74,
                 "column": 0
               },
               "end": {
-                "line": 87,
+                "line": 78,
                 "column": 71
               }
             },
@@ -5513,21 +5513,21 @@
             "sourceFile": "StructuralExhaustion/CT16/Types.lean",
             "selectionRange": {
               "start": {
-                "line": 63,
+                "line": 54,
                 "column": 10
               },
               "end": {
-                "line": 63,
+                "line": 54,
                 "column": 25
               }
             },
             "range": {
               "start": {
-                "line": 63,
+                "line": 54,
                 "column": 0
               },
               "end": {
-                "line": 66,
+                "line": 57,
                 "column": 56
               }
             },
@@ -5793,6 +5793,10 @@
             {
               "ref": "literal closed-code comparison",
               "provision": "framework_constant"
+            },
+            {
+              "ref": "StructuralExhaustion.CT16.Capability.executableInterface",
+              "provision": "framework_constant"
             }
           ],
           "capabilityId": "CT16.reference"
@@ -5976,6 +5980,10 @@
       },
       {
         "ref": "literal closed-code comparison",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "StructuralExhaustion.CT16.Capability.executableInterface",
         "provision": "framework_constant"
       }
     ],

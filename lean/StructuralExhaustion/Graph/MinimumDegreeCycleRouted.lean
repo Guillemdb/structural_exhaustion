@@ -153,9 +153,11 @@ theorem routedDart_has_tight_endpoint
     ctx.G.degree dart.fst = input.minimumDegree ∨
       ctx.G.degree dart.snd = input.minimumDegree := by
   let profile := input.certificateDeletionProfile encoding
-  obtain ⟨reject, disabled⟩ := profile.discover_disabled ctx
   have notEligible :=
-    Routes.CT1ToCT2.LocalDeletion.disabled_sound disabled dart
+    Routes.CT1ToCT2.LocalDeletion.disabled_sound profile.capability
+      (profile.targetMinimality ctx) profile.routedClosure
+      (profile.currentAvoiding ctx) (profile.sourceLedger ctx)
+      (profile.transition_not_enabled ctx) dart
   have notSlack : ¬(input.minimumDegree + 1 ≤ ctx.G.degree dart.fst ∧
       input.minimumDegree + 1 ≤ ctx.G.degree dart.snd) := by
     rcases notEligible with notProper | notAdmissible
@@ -198,13 +200,14 @@ structure RoutedDeletionPrefix
     ((input.certificateDeletionProfile encoding).runAvoiding ctx).result.trace =
       [.entry, .equivalenceCertification, .realizationDecision,
         .avoidingTerminal]
-  routeId :
-    ((input.certificateDeletionProfile encoding).route ctx).routeId =
-      "CT1.residual.avoiding->CT2.localDeletion"
-  routeDisabled : ∃ reject,
-    ((input.certificateDeletionProfile encoding).route ctx).discover
-      ((input.certificateDeletionProfile encoding).avoidingSource ctx) =
-        .disabled reject
+  transitionProfileId :
+    ((input.certificateDeletionProfile encoding).transition ctx).profileId =
+      Routes.CT1ToCT2.LocalDeletion.transitionId
+  transitionNotEnabled : ∀ stage :
+    (((input.certificateDeletionProfile encoding).transition ctx).onLedger
+      ((input.certificateDeletionProfile encoding).currentAvoiding ctx)).EnabledStage
+        ((input.certificateDeletionProfile encoding).sourceLedger ctx),
+    (input.certificateDeletionProfile encoding).outcome ctx ≠ .enabled stage
   dartHasTightEndpoint : ∀ dart : ctx.G.graph.Dart,
     ctx.G.degree dart.fst = input.minimumDegree ∨
       ctx.G.degree dart.snd = input.minimumDegree
@@ -224,9 +227,9 @@ def routedDeletionPrefix
     ((input.certificateDeletionProfile encoding).runAvoiding ctx).terminal_eq
   ct1Trace :=
     ((input.certificateDeletionProfile encoding).runAvoiding ctx).trace_eq
-  routeId := rfl
-  routeDisabled :=
-    (input.certificateDeletionProfile encoding).discover_disabled ctx
+  transitionProfileId := rfl
+  transitionNotEnabled :=
+    (input.certificateDeletionProfile encoding).transition_not_enabled ctx
   dartHasTightEndpoint := input.routedDart_has_tight_endpoint encoding ctx
   highDegreeIndependent := input.routedHighDegree_independent encoding ctx
 

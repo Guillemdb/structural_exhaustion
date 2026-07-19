@@ -1,4 +1,5 @@
 import StructuralExhaustion.Core.FiniteResidualLedger
+import StructuralExhaustion.Core.EnumerationCombinators
 
 namespace StructuralExhaustion.Graph.FiniteResidualSupportLedger
 
@@ -25,6 +26,48 @@ variable
 def Meets (view : View ledger Vertex)
     (vertex : Vertex) (occurrence : ledger.Occurrence) : Prop :=
   vertex ∈ view.support occurrence
+
+/-- An already-produced occurrence is locally active exactly when its entire
+declared support lies in the supplied finite interface.  The occurrence,
+not the possibly duplicated event value, is the canonical key. -/
+def SupportedIn (view : View ledger Vertex)
+    (active : Finset Vertex) (occurrence : ledger.Occurrence) : Prop :=
+  view.support occurrence ⊆ active
+
+noncomputable def supportedInDecidable (view : View ledger Vertex)
+    (active : Finset Vertex) (occurrence : ledger.Occurrence) :
+    Decidable (view.SupportedIn active occurrence) := by
+  letI : DecidableEq Vertex := view.vertexDecEq
+  unfold SupportedIn
+  infer_instance
+
+/-- Exact occurrence-indexed local projection.  This is the accumulated-ledger
+replacement for list positions in older support runners. -/
+abbrev ActiveOccurrence (view : View ledger Vertex)
+    (active : Finset Vertex) :=
+  {occurrence : ledger.Occurrence // view.SupportedIn active occurrence}
+
+@[implicit_reducible] noncomputable def activeOccurrences
+    (view : View ledger Vertex) (active : Finset Vertex) :
+    FinEnum (view.ActiveOccurrence active) :=
+  Core.Enumeration.subtype ledger.occurrences
+    (view.SupportedIn active) (view.supportedInDecidable active)
+
+theorem mem_activeOccurrences_iff (view : View ledger Vertex)
+    (active : Finset Vertex) (occurrence : ledger.Occurrence) :
+    view.SupportedIn active occurrence ↔
+      ∃ retained : view.ActiveOccurrence active,
+        retained.1 = occurrence := by
+  constructor
+  · intro contained
+    exact ⟨⟨occurrence, contained⟩, rfl⟩
+  · rintro ⟨retained, rfl⟩
+    exact retained.2
+
+theorem activeOccurrence_support_subset (view : View ledger Vertex)
+    (active : Finset Vertex) (occurrence : view.ActiveOccurrence active) :
+    view.support occurrence.1 ⊆ active :=
+  occurrence.2
 
 noncomputable def meetsDecidable (view : View ledger Vertex)
     (vertex : Vertex) (occurrence : ledger.Occurrence) :
@@ -104,6 +147,14 @@ theorem recognize_exact (view : View ledger Vertex) (vertex : Vertex) :
       exact ⟨hit.eventExact, hit.occurrence_mem view vertex,
         hit.vertexMember, hit.beforeAbsent⟩
   | absent absentProof => exact absentProof
+
+/-- Restricting to locally active occurrences cannot create more keys than
+the exact producer schedule contains. -/
+theorem activeOccurrences_card_le_occurrences
+    (view : View ledger Vertex) (active : Finset Vertex) :
+    (view.activeOccurrences active).card ≤ ledger.occurrences.card :=
+  Core.Enumeration.subtype_card_le ledger.occurrences
+    (view.SupportedIn active) (view.supportedInDecidable active)
 
 theorem absent_all (view : View ledger Vertex) (vertex : Vertex)
     (none : ∀ occurrence : ledger.Occurrence,

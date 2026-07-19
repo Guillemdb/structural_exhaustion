@@ -132,26 +132,23 @@ theorem coarse_total (ctx : Core.BranchContext P)
           (coarseInput P ctx source) result.trace :=
   CT10.run_total (coarseCapability P source) (coarseInput P ctx source)
 
-def coarseRouteId := "Graph.residual.d4d7.coarseRepeat->CT10"
-theorem coarse_provenance : coarseRouteId =
+def coarseHandoffId := "Graph.residual.d4d7.coarseRepeat->CT10"
+theorem coarse_handoff_provenance : coarseHandoffId =
     "Graph.residual.d4d7.coarseRepeat->CT10" := rfl
 
-def coarseRouteContract : Core.RouteContract where
-  routeId := coarseRouteId
+def coarseHandoffContract : Core.SemanticHandoffContract where
+  handoffId := coarseHandoffId
   sourceResidualKind := "Graph.residual.d4d7.coarseRepeat"
-  targetTacticId := "CT10"
+  targetConsumerId := "CT10.executableInterface"
   discovery := "exact retained collision pair"
-  triggerConstructor :=
+  consumerInputConstructor :=
     "StructuralExhaustion.Routes.InducedPathComponentD4D7ToCT10.coarseInput"
   soundnessTheorem :=
     "StructuralExhaustion.Routes.InducedPathComponentD4D7ToCT10.coarse_valid"
   contextPreservationTheorem :=
     "StructuralExhaustion.Routes.InducedPathComponentD4D7ToCT10.coarse_context_preserved"
   provenanceTheorem :=
-    "StructuralExhaustion.Routes.InducedPathComponentD4D7ToCT10.coarse_provenance"
-  selectionClass := .forced
-  semanticDiscovery := .capabilityDiscovery
-  problemSpecificInputs := [.targetCapability]
+    "StructuralExhaustion.Routes.InducedPathComponentD4D7ToCT10.coarse_handoff_provenance"
 
 /-! ## Exact first-missing-row CT10 consumer -/
 
@@ -222,29 +219,26 @@ theorem missing_total (ctx : Core.BranchContext P)
           (missingInput P ctx source) result.trace :=
   CT10.run_total (missingCapability P source) (missingInput P ctx source)
 
-def missingRouteId := "Graph.residual.d4d7.firstMissing->CT10"
-theorem missing_provenance : missingRouteId =
+def missingHandoffId := "Graph.residual.d4d7.firstMissing->CT10"
+theorem missing_handoff_provenance : missingHandoffId =
     "Graph.residual.d4d7.firstMissing->CT10" := rfl
 
-def missingRouteContract : Core.RouteContract where
-  routeId := missingRouteId
+def missingHandoffContract : Core.SemanticHandoffContract where
+  handoffId := missingHandoffId
   sourceResidualKind := "Graph.residual.d4d7.firstMissing"
-  targetTacticId := "CT10"
+  targetConsumerId := "CT10.executableInterface"
   discovery := "exact first missing row in the retained schedule"
-  triggerConstructor :=
+  consumerInputConstructor :=
     "StructuralExhaustion.Routes.InducedPathComponentD4D7ToCT10.missingInput"
   soundnessTheorem :=
     "StructuralExhaustion.Routes.InducedPathComponentD4D7ToCT10.missing_valid"
   contextPreservationTheorem :=
     "StructuralExhaustion.Routes.InducedPathComponentD4D7ToCT10.missing_context_preserved"
   provenanceTheorem :=
-    "StructuralExhaustion.Routes.InducedPathComponentD4D7ToCT10.missing_provenance"
-  selectionClass := .forced
-  semanticDiscovery := .capabilityDiscovery
-  problemSpecificInputs := [.targetCapability]
+    "StructuralExhaustion.Routes.InducedPathComponentD4D7ToCT10.missing_handoff_provenance"
 
-def routeContracts : List Core.RouteContract :=
-  [coarseRouteContract, missingRouteContract]
+def handoffContracts : List Core.SemanticHandoffContract :=
+  [coarseHandoffContract, missingHandoffContract]
 
 /-- Conservative work for either mutually exclusive route: three checks
 cover the two-class coarse promotion, while the first-missing consumer scans

@@ -1,6 +1,8 @@
 import StructuralExhaustion.Core.AutomationFirst
 import StructuralExhaustion.Core.CounterexampleBranch
 import StructuralExhaustion.Core.ExactHandoff
+import StructuralExhaustion.Core.CTTransition
+import StructuralExhaustion.Core.SupportStratifiedDetermination
 import StructuralExhaustion.Core.ZeroWorkBudget
 import StructuralExhaustion.Core.BooleanStateEntropy
 import StructuralExhaustion.Core.BinaryLogNormalization
@@ -10,7 +12,6 @@ import StructuralExhaustion.Core.FiniteBoundedOverlap
 import StructuralExhaustion.Core.FiniteFirstFailure
 import StructuralExhaustion.Core.FiniteFirstFailureLedger
 import StructuralExhaustion.Core.FiniteObservedColumn
-import StructuralExhaustion.Core.FiniteProducedSupportLedger
 import StructuralExhaustion.Core.FiniteResidualLedger
 import StructuralExhaustion.Core.ResidualRefinement
 import StructuralExhaustion.Core.CertifiedResidualLedger
@@ -84,6 +85,11 @@ import StructuralExhaustion.CT13.Automation
 import StructuralExhaustion.CT14.Automation
 import StructuralExhaustion.CT15.Automation
 import StructuralExhaustion.CT15.AdmissibleQuotient
+import StructuralExhaustion.CT15.CertifiedDeterminationRank
+import StructuralExhaustion.CT15.FunctionalAdmissibleRank
+import StructuralExhaustion.CT15.SupportStratifiedRank
+import StructuralExhaustion.Graph.SupportStratifiedDetermination
+import StructuralExhaustion.Graph.SupportStratifiedFunctionalRank
 import StructuralExhaustion.CT15.BaselineDemand
 import StructuralExhaustion.CT16.Automation
 import StructuralExhaustion.CT17.Automation
@@ -95,6 +101,7 @@ import StructuralExhaustion.Routes.CT5ToCT14
 import StructuralExhaustion.Routes.CT6ToCT9
 import StructuralExhaustion.Routes.CT9ToCT7
 import StructuralExhaustion.Routes.CT14ToCT14
+import StructuralExhaustion.Routes.Accumulated
 import StructuralExhaustion.Routes.NegativeSupportHandoff
 import StructuralExhaustion.Routes.TargetDefectHandoff
 import StructuralExhaustion.Routes.LongFiniteSupportHandoff
@@ -103,9 +110,17 @@ import StructuralExhaustion.Routes.SequentialRatioFailureHandoff
 import StructuralExhaustion.Routes.InducedPathCrossWindowTokenPair
 import StructuralExhaustion.Routes.InducedPathCrossWindowIncidencePair
 import StructuralExhaustion.Canonical.Registry
+import StructuralExhaustion.Canonical.DocumentationRegistry
 import StructuralExhaustion.Core.AutomationFirstExamples
 import StructuralExhaustion.Examples.EnumerationCombinators
 import StructuralExhaustion.Examples.ExactHandoff
+import StructuralExhaustion.Examples.CTTransition
+import StructuralExhaustion.Examples.WorkBudget
+import StructuralExhaustion.Examples.SupportStratifiedDetermination
+import StructuralExhaustion.Examples.SupportStratifiedFunctionalRank
+import StructuralExhaustion.Examples.CertifiedDeterminationRank
+import StructuralExhaustion.Examples.FunctionalAdmissibleRank
+import StructuralExhaustion.Examples.SupportStratifiedRank
 import StructuralExhaustion.Examples.GreedyMatchingStar
 import StructuralExhaustion.Examples.QuadraticScaleSplit
 import StructuralExhaustion.Examples.BooleanStateEntropy
@@ -236,7 +251,6 @@ import StructuralExhaustion.Core.DependentOwnerGlueCapacity
 import StructuralExhaustion.Examples.DependentOwnerGlueCapacity
 import StructuralExhaustion.Core.SequentialCompatibleExtensionLedger
 import StructuralExhaustion.Examples.SequentialCompatibleExtensionLedger
-import StructuralExhaustion.Examples.FiniteProducedSupportLedger
 import StructuralExhaustion.Examples.FiniteResidualLedger
 import StructuralExhaustion.Examples.FiniteSameInterfaceExchange
 import StructuralExhaustion.Examples.ResidualRefinement

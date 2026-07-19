@@ -6592,6 +6592,10 @@
               "provision": "framework_constant"
             },
             {
+              "ref": "CT12.Capability.executableInterface",
+              "provision": "framework_constant"
+            },
+            {
               "ref": "CT12.residual.demand",
               "provision": "framework_constant"
             },
@@ -6770,6 +6774,10 @@
       },
       {
         "ref": "CT12.run_trace_bounded",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT12.Capability.executableInterface",
         "provision": "framework_constant"
       },
       {

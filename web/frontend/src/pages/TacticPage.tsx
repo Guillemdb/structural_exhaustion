@@ -7,7 +7,7 @@ import { ErrorState, LoadingState } from "../components/LoadState";
 import { GraphCanvas } from "../components/GraphCanvas";
 import { Inspector } from "../components/Inspector";
 import { NodeInternalsInspector } from "../components/NodeInternalsInspector";
-import { RouteList } from "../components/RouteList";
+import { TransitionProfileList } from "../components/TransitionProfileList";
 import { expandedMachineGraphElements, machineGraphElements } from "../graph-data";
 import type {
   FrameworkResponse,
@@ -22,7 +22,7 @@ export function TacticPage() {
   const [response, setResponse] = useState<TacticResponse | null>(null);
   const [framework, setFramework] = useState<FrameworkResponse | null>(null);
   const [selected, setSelected] = useState<SelectedGraphElement | null>(null);
-  const [showOutboundRoutes, setShowOutboundRoutes] = useState(false);
+  const [showOutboundTransitionProfiles, setShowOutboundTransitionProfiles] = useState(false);
   const [internals, setInternals] = useState<TacticInternalsResponse | null>(null);
   const [expandedNodeId, setExpandedNodeId] = useState<string | null>(null);
   const [expandedDeclarations, setExpandedDeclarations] = useState<Set<string>>(
@@ -30,7 +30,7 @@ export function TacticPage() {
   );
   const [internalsLoading, setInternalsLoading] = useState(false);
   const [internalsError, setInternalsError] = useState<string | null>(null);
-  const [routesBeforeInternals, setRoutesBeforeInternals] = useState(false);
+  const [transitionProfilesBeforeInternals, setTransitionProfilesBeforeInternals] = useState(false);
   const internalsRequest = useRef<AbortController | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -65,8 +65,8 @@ export function TacticPage() {
   }, [tacticId]);
 
   useEffect(() => {
-    if (response && response.outboundRoutes.length === 0) {
-      setShowOutboundRoutes(false);
+    if (response && response.outboundTransitionProfiles.length === 0) {
+      setShowOutboundTransitionProfiles(false);
     }
   }, [response]);
 
@@ -81,16 +81,23 @@ export function TacticPage() {
       );
     }
     return machineGraphElements(response, {
-          includeOutboundRoutes: showOutboundRoutes,
+          includeOutboundTransitionProfiles: showOutboundTransitionProfiles,
           targetTactics: framework?.tactics,
     });
-  }, [expandedDeclarations, expandedNodeId, framework, internals, response, showOutboundRoutes]);
+  }, [
+    expandedDeclarations,
+    expandedNodeId,
+    framework,
+    internals,
+    response,
+    showOutboundTransitionProfiles,
+  ]);
 
   const openInternals = async (nodeId: string) => {
     if (!response || internalsLoading) return;
-    const restoreRoutes = showOutboundRoutes;
-    setRoutesBeforeInternals(restoreRoutes);
-    setShowOutboundRoutes(false);
+    const restoreTransitionProfiles = showOutboundTransitionProfiles;
+    setTransitionProfilesBeforeInternals(restoreTransitionProfiles);
+    setShowOutboundTransitionProfiles(false);
     setInternalsError(null);
     setInternalsLoading(true);
     try {
@@ -110,7 +117,7 @@ export function TacticPage() {
     } catch (reason: unknown) {
       if (!(reason instanceof DOMException && reason.name === "AbortError")) {
         setInternalsError(reason instanceof Error ? reason.message : String(reason));
-        setShowOutboundRoutes(restoreRoutes);
+        setShowOutboundTransitionProfiles(restoreTransitionProfiles);
       }
     } finally {
       setInternalsLoading(false);
@@ -121,14 +128,14 @@ export function TacticPage() {
     const nodeId = expandedNodeId;
     setExpandedNodeId(null);
     setExpandedDeclarations(new Set());
-    setShowOutboundRoutes(routesBeforeInternals);
+    setShowOutboundTransitionProfiles(transitionProfilesBeforeInternals);
     if (nodeId) {
       setSelected({ id: nodeId, group: "node", data: { id: nodeId } });
     }
   };
 
   const handleGraphSelect = (next: SelectedGraphElement | null) => {
-    const nextTactic = next?.group === "node" && next.data.kind === "routedTactic"
+    const nextTactic = next?.group === "node" && next.data.kind === "transitionTargetTactic"
       ? next.data.tacticId
       : undefined;
     if (typeof nextTactic === "string") {
@@ -172,7 +179,7 @@ export function TacticPage() {
       <div className="tactic-titlebar">
         <div>
           <nav className="breadcrumbs" aria-label="Breadcrumb">
-            <Link to="/framework">Framework</Link><span>/</span><strong>{tactic.tacticId}</strong>
+            <Link to="/framework/tactics">Tactics</Link><span>/</span><strong>{tactic.tacticId}</strong>
           </nav>
           <h1><span>{tactic.tacticId}</span>{tactic.title}</h1>
         </div>
@@ -235,20 +242,23 @@ export function TacticPage() {
                   </button>
                 ) : null}
               </div>
-              <label className="route-toggle">
+              <label className="transition-profile-toggle">
                 <input
                   type="checkbox"
-                  checked={showOutboundRoutes}
-                  disabled={expandedNodeId !== null || response.outboundRoutes.length === 0}
+                  checked={showOutboundTransitionProfiles}
+                  disabled={
+                    expandedNodeId !== null
+                    || response.outboundTransitionProfiles.length === 0
+                  }
                   onChange={(event) => {
-                    setShowOutboundRoutes(event.currentTarget.checked);
+                    setShowOutboundTransitionProfiles(event.currentTarget.checked);
                     setSelected(null);
                   }}
                 />
                 <span>
-                  {response.outboundRoutes.length === 0
-                    ? "No outbound CT routes"
-                    : "Show routes to other CTs"}
+                  {response.outboundTransitionProfiles.length === 0
+                    ? "No outbound CT transition profiles"
+                    : "Show transition profiles to other CTs"}
                 </span>
               </label>
               <div className="legend" aria-label="Node legend">
@@ -267,7 +277,9 @@ export function TacticPage() {
                     <span><i className="legend__residual" /> residual</span>
                     <span><i className="legend__certificate" /> certificate</span>
                     <span><i className="legend__transition" /> typed transition</span>
-                    {showOutboundRoutes ? <span><i className="legend__route" /> CT route</span> : null}
+                    {showOutboundTransitionProfiles ? (
+                      <span><i className="legend__transition-profile" /> CT transition profile</span>
+                    ) : null}
                   </>
                 )}
               </div>
@@ -280,9 +292,12 @@ export function TacticPage() {
             selectedId={selected?.id}
             onSelect={handleGraphSelect}
           />
-          <div className="machine-routes">
-            <span className="eyebrow">Cross-CT routes</span>
-            <RouteList inbound={response.inboundRoutes} outbound={response.outboundRoutes} />
+          <div className="machine-transition-profiles">
+            <span className="eyebrow">Cross-CT transition profiles</span>
+            <TransitionProfileList
+              inbound={response.inboundTransitionProfiles}
+              outbound={response.outboundTransitionProfiles}
+            />
           </div>
         </section>
 
@@ -303,8 +318,8 @@ export function TacticPage() {
             tactic={tactic}
             node={node}
             edge={edge}
-            inboundRoutes={response.inboundRoutes}
-            outboundRoutes={response.outboundRoutes}
+            inboundTransitionProfiles={response.inboundTransitionProfiles}
+            outboundTransitionProfiles={response.outboundTransitionProfiles}
           />
         )}
       </main>

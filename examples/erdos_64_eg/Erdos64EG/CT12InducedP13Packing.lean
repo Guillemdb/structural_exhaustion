@@ -215,43 +215,58 @@ theorem p13Remainder_internalSubgraphThreeCore_free
 
 /-- Generic graph/framework prefix for the maximum induced-`P₁₃` packing. -/
 abbrev GenericP13PackingPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedInducedP13Prefix ctx) :=
   packedStaticInput.InducedPathPackingPrefix 13 thirteen_positive ctx
+    (fun ledger => ledger.added.inducedPathStage) previous.2
 
 /-- Exact output of the CT12 stage, retaining nodes `[5]`--`[16]` and adding
 all packing-derived clauses of `[17]`, `[25]`--`[27]` that are independent of
 the later density estimate, including the arbitrary-subgraph form of the
 minimum-degree-three exclusion. -/
-structure VerifiedP13PackingPrefix
+structure P13PackingFacts
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedInducedP13Prefix ctx
-  generic : GenericP13PackingPrefix ctx
+    Type (u + 1) where
   noInternalThreeCore : (p13Remainder ctx).InternalMinDegreeFree 3
   noInternalSubgraphThreeCore :
     ¬(p13Remainder ctx).HasInternalSubgraphMinDegreeAtLeast 3
+
+abbrev P13PackingLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedInducedP13Prefix ctx) :=
+  Core.Routing.LedgerExtension
+    (Graph.PackedMinimumDegreeCycle.StaticInput.InducedPathPackingLedgerType
+      packedStaticInput 13 thirteen_positive ctx
+        (fun ledger => ledger.added.inducedPathStage) previous.2)
+    (fun _ledger => P13PackingFacts ctx)
+
+/-- Exact full CT12 ledger through the packing stage. -/
+abbrev VerifiedP13PackingPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Sigma fun previous : VerifiedInducedP13Prefix ctx =>
+    Core.Routing.ResidualStage .ct12 (P13PackingLedger ctx previous)
 
 /-- Extend the exact HSS-forced CT1 prefix through CT12 on the same selected
 minimal context. -/
 noncomputable def verifiedP13PackingPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedInducedP13Prefix ctx) :
-    VerifiedP13PackingPrefix ctx where
-  previous := previous
-  generic :=
-    packedStaticInput.inducedPathPackingPrefix 13 thirteen_positive ctx
-      previous.inducedPathStage
-  noInternalThreeCore := p13Remainder_internalThreeCore_free ctx
-  noInternalSubgraphThreeCore :=
-    p13Remainder_internalSubgraphThreeCore_free ctx
+    VerifiedP13PackingPrefix ctx :=
+  let generic := packedStaticInput.inducedPathPackingPrefix
+    13 thirteen_positive ctx (fun ledger => ledger.added.inducedPathStage)
+      previous.2
+  ⟨previous, generic.extend {
+    noInternalThreeCore := p13Remainder_internalThreeCore_free ctx
+    noInternalSubgraphThreeCore :=
+      p13Remainder_internalSubgraphThreeCore_free ctx }⟩
 
 /-- Provenance: the CT12 result consumes and retains the exact preceding CT1
 prefix. -/
-theorem p13PackingPrefix_previous
+def p13PackingPrefix_previous
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedP13PackingPrefix ctx) :
     VerifiedInducedP13Prefix ctx :=
-  verified.previous
+  verified.1
 
 /-- The composed prefix contains the complete reusable graph-level CT12
 stage. -/
@@ -260,33 +275,26 @@ theorem p13PackingPrefix_stage
     (verified : VerifiedP13PackingPrefix ctx) :
     Graph.InducedPathPacking.VerifiedStage ctx.G.object 13 thirteen_positive
       ctx.toBranchContext :=
-  verified.generic.packingStage
+  verified.2.output.previous.added.packingStage
 
-/-- The CT1→CT12 composition is the registered framework route, not an
-Erdős-local transition. -/
-theorem p13PackingPrefix_routeId
+/-- The CT1→CT12 composition is the registered framework transition, not an
+Erdős-local handoff. -/
+theorem p13PackingPrefix_transitionProfileId
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedP13PackingPrefix ctx) :
-    ((Routes.CT1ToCT12.rule
-      (CT12.ListPeeling.capability packedStaticInput.problem
-        (Graph.InducedPathPacking.Window ctx.G.object 13))
-      (packedStaticInput.inducedPathPackingAdapter 13 thirteen_positive ctx)
-      ).generate
-        (packedStaticInput.inducedPathC1Source 13 ctx
-          verified.generic.previous) ()).routeId =
-      "CT1.terminal.c1->CT12" :=
-  verified.generic.routeId_eq
+    (packedStaticInput.inducedPathPackingTransition 13 thirteen_positive ctx).profileId =
+      Routes.CT1ToCT12.transitionId :=
+  verified.2.output.previous.added.transitionProfileId
 
-/-- The route materializes exactly the selected-list input audited by the
-CT12 disjoint-packing profile. -/
-theorem p13PackingPrefix_routedInputExact
+/-- The transition executes exactly the selected-list CT12 run audited by the
+disjoint-packing profile. -/
+theorem p13PackingPrefix_routedExecutionExact
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedP13PackingPrefix ctx) :
-    packedStaticInput.inducedPathPackingRouteInput 13 thirteen_positive ctx
-        verified.generic.previous =
-      (Graph.InducedPathPacking.profile ctx.G.object 13 thirteen_positive).input
+    verified.2.output.previous.previous.targetResult =
+      (Graph.InducedPathPacking.profile ctx.G.object 13 thirteen_positive).run
         ctx.toBranchContext :=
-  verified.generic.routedInputExact
+  verified.2.output.previous.added.routedExecutionExact
 
 /-- The selected packing is nonempty because the preceding CT1 stage retains
 an induced `P₁₃` realization. -/
@@ -294,7 +302,7 @@ theorem p13PackingPrefix_nonempty
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedP13PackingPrefix ctx) :
     p13Windows ctx ≠ [] :=
-  verified.generic.packingNonempty
+  verified.2.output.previous.added.packingNonempty
 
 /-- Starting only from the official internal counterexample data, retain one
 selected graph and the entire verified proof through this CT12 stage. -/
@@ -302,11 +310,11 @@ theorem exists_verifiedP13PackingPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedP13PackingPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedP13PackingPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedInducedP13Prefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedP13PackingPrefix ctx previous⟩
+  exact ⟨ctx, verifiedP13PackingPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

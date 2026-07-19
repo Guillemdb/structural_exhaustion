@@ -1,6 +1,7 @@
 import Erdos64EG.CT14TypeBResidualCenterLedger
 import StructuralExhaustion.Graph.SelectedSurplusMass
 import StructuralExhaustion.Graph.SupportIndexedFanMass
+import StructuralExhaustion.Routes.Accumulated
 
 namespace Erdos64EG.Internal
 
@@ -49,13 +50,6 @@ noncomputable def localFanMassProfile (selected : Finset scope.Center) :
     positive := scope.centerSurplus_positive
   }
 
-abbrev LocalFanMassStage (selected : Finset scope.Center) :=
-  (scope.localFanMassProfile selected).VerifiedStage ctx.toBranchContext
-
-noncomputable def localFanMassStage (selected : Finset scope.Center) :
-    scope.LocalFanMassStage selected :=
-  (scope.localFanMassProfile selected).verifiedStage ctx.toBranchContext
-
 /-- Conservative equality-comparison ledger for the list-backed selected-set
 membership tests.  Each of the four CT14 item scans may inspect the complete
 selected set. -/
@@ -67,11 +61,8 @@ theorem localFanMassExpandedChecks_quadratic
     (selected : Finset scope.Center) :
     scope.localFanMassExpandedChecks selected ≤
       5 * (scope.centers.card + 1) ^ 2 := by
-  letI : FinEnum scope.Center := scope.centers
-  have selectedBound : selected.card ≤ scope.centers.card := by
-    calc
-      selected.card ≤ Fintype.card scope.Center := Finset.card_le_univ selected
-      _ = scope.centers.card := by rw [FinEnum.card_eq_fintypeCard]
+  have selectedBound : selected.card ≤ scope.centers.card :=
+    Core.Enumeration.finset_card_le scope.centers selected
   unfold localFanMassExpandedChecks
   nlinarith
 
@@ -102,7 +93,6 @@ theorem localFanMass_totalSurplus_eq_assignedSurplus
 
 /-- Exact CT14 payload for one predecessor-supplied local center set. -/
 structure LocalFanMass (selected : Finset scope.Center) : Prop where
-  stage : scope.LocalFanMassStage selected
   countExact :
     (scope.localFanMassProfile selected).selectedCount = selected.card
   surplusExact :
@@ -118,13 +108,12 @@ structure LocalFanMass (selected : Finset scope.Center) : Prop where
 
 noncomputable def localFanMass (selected : Finset scope.Center) :
     scope.LocalFanMass selected where
-  stage := scope.localFanMassStage selected
   countExact := scope.localFanMass_selectedCount_eq_card selected
   surplusExact := scope.localFanMass_totalSurplus_eq_assignedSurplus selected
   charged := by
     rw [← scope.localFanMass_selectedCount_eq_card selected,
       ← scope.localFanMass_totalSurplus_eq_assignedSurplus selected]
-    exact (scope.localFanMassStage selected).localBound
+    exact (scope.localFanMassProfile selected).selectedCount_le_totalSurplus
   work := rfl
   expandedWork := rfl
   quadraticWork := scope.localFanMassExpandedChecks_quadratic selected
@@ -235,33 +224,150 @@ noncomputable def localFanMassRoute (noHigher : scope.NoHigherCenter) :
 
 end TypeBSupportScope
 
-/-- Green local endpoint replacing the over-strong reading of node `[84]`.
-Its predecessor field is the exact node-[75] endpoint, which itself retains
-nodes `[81]`--`[83]`. -/
-structure VerifiedTypeBLocalFanMassPrefix
+/-- One exact selected-center request at node `[84]`. -/
+structure TypeBLocalFanMassRequest
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    where
+  scope : TypeBSupportScope ctx
+  selected : Finset scope.Center
+
+noncomputable def typeBLocalFanMassTarget
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (request : TypeBLocalFanMassRequest ctx) :=
+  ((request.scope.localFanMassProfile request.selected).capability
+    PackedProblem.{u}).executableInterface
+
+noncomputable def typeBLocalFanMassAdapter
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (request : TypeBLocalFanMassRequest ctx) :
+    Routes.Accumulated.Adapter (VerifiedTypeBResidualCenterLedgerPrefix ctx)
+      (typeBLocalFanMassTarget ctx request) where
+  targetContext := fun _source => ctx.toBranchContext
+  trigger := fun _source => ⟨⟩
+
+noncomputable def typeBLocalFanMassPointwiseAdapter
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedTypeBResidualCenterLedgerPrefix ctx
+    Routes.Accumulated.PointwiseAdapter .ct12 .ct14
+      (TypeBLocalFanMassRequest ctx)
+      (VerifiedTypeBResidualCenterLedgerPrefix ctx) where
+  Source := fun _request => VerifiedTypeBResidualCenterLedgerPrefix ctx
+  target := typeBLocalFanMassTarget ctx
+  adapter := typeBLocalFanMassAdapter ctx
+  current := fun _request ledger => ledger
+
+noncomputable def typeBLocalFanMassTransitionFamily
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Routes.Accumulated.pointwiseFamily (typeBLocalFanMassPointwiseAdapter ctx)
+
+abbrev TypeBLocalFanMassTransitionLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (source : Core.Routing.ResidualStage .ct12
+      (VerifiedTypeBResidualCenterLedgerPrefix ctx)) :=
+  Routes.Accumulated.PointwiseOutputLedger
+    (typeBLocalFanMassPointwiseAdapter ctx) source
+
+noncomputable def typeBLocalFanMassTransitionStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (source : Core.Routing.ResidualStage .ct12
+      (VerifiedTypeBResidualCenterLedgerPrefix ctx)) :=
+  Routes.Accumulated.advancePointwise
+    (typeBLocalFanMassPointwiseAdapter ctx) source
+
+noncomputable def typeBLocalFanMassLocalResult
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {source : Core.Routing.ResidualStage .ct12
+      (VerifiedTypeBResidualCenterLedgerPrefix ctx)}
+    (execution : TypeBLocalFanMassTransitionLedger ctx source)
+    (request : TypeBLocalFanMassRequest ctx) :=
+  (execution.localStage request).targetResult
+
+@[simp] theorem typeBLocalFanMassLocalResult_transition
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (source : Core.Routing.ResidualStage .ct12
+      (VerifiedTypeBResidualCenterLedgerPrefix ctx))
+    (request : TypeBLocalFanMassRequest ctx) :
+    typeBLocalFanMassLocalResult ctx
+        (typeBLocalFanMassTransitionStage ctx source) request =
+      CT14.run
+        ((request.scope.localFanMassProfile request.selected).capability
+          PackedProblem.{u})
+        ctx.toBranchContext
+        ((request.scope.localFanMassProfile request.selected).input
+          ctx.toBranchContext) :=
+  rfl
+
+structure TypeBLocalFanMassFacts
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {source : Core.Routing.ResidualStage .ct12
+      (VerifiedTypeBResidualCenterLedgerPrefix ctx)}
+    (execution : TypeBLocalFanMassTransitionLedger ctx source) : Prop where
+  verified : ∀ request : TypeBLocalFanMassRequest ctx,
+    (request.scope.localFanMassProfile request.selected).VerifiedExecutionStage
+      ctx.toBranchContext
+      (typeBLocalFanMassLocalResult ctx execution request)
   route : ∀ (scope : TypeBSupportScope ctx)
     (noHigher : scope.NoHigherCenter), scope.LocalFanMassRoute noHigher
+
+abbrev TypeBLocalFanMassLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (source : Core.Routing.ResidualStage .ct12
+      (VerifiedTypeBResidualCenterLedgerPrefix ctx)) :=
+  Core.Routing.LedgerExtension
+    (TypeBLocalFanMassTransitionLedger ctx source)
+    (TypeBLocalFanMassFacts ctx)
+
+noncomputable def typeBLocalFanMassLedgerStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (source : Core.Routing.ResidualStage .ct12
+      (VerifiedTypeBResidualCenterLedgerPrefix ctx)) :
+    Core.Routing.ResidualStage .ct14
+      (TypeBLocalFanMassLedger ctx source) := by
+  let execution := typeBLocalFanMassTransitionStage ctx source
+  let executionStage : Core.Routing.ResidualStage .ct14
+      (TypeBLocalFanMassTransitionLedger ctx source) :=
+    execution.ledgerStage
+  exact executionStage.extend {
+    verified := fun request => by
+      apply Graph.SelectedSurplusMass.Profile.verifiedExecutionStage
+      change typeBLocalFanMassLocalResult ctx execution request = _
+      rw [typeBLocalFanMassLocalResult_transition]
+    route := fun scope noHigher => scope.localFanMassRoute noHigher
+  }
+
+/-- Green local endpoint replacing the over-strong reading of node `[84]`.
+The exact CT12 predecessor is retained by the pointwise CT12→CT14 ledger. -/
+abbrev VerifiedTypeBLocalFanMassPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.LedgerExtension (VerifiedTypeBResidualCenterLedgerPrefix ctx)
+    (fun previous => Core.Routing.ResidualStage .ct14
+      (TypeBLocalFanMassLedger ctx
+        (Core.Routing.ResidualStage.exact previous)))
 
 noncomputable def verifiedTypeBLocalFanMassPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedTypeBResidualCenterLedgerPrefix ctx) :
-    VerifiedTypeBLocalFanMassPrefix ctx where
-  previous := previous
-  route := fun scope noHigher => scope.localFanMassRoute noHigher
+    VerifiedTypeBLocalFanMassPrefix ctx :=
+  ⟨previous, typeBLocalFanMassLedgerStage ctx
+    (Core.Routing.ResidualStage.exact previous)⟩
+
+/-- Canonical projection of the node-local facts from the accumulated CT14
+ledger.  Consumers use this projection rather than reconstructing nested
+handoff fields. -/
+def typeBLocalFanMassFacts
+    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
+    (verified : VerifiedTypeBLocalFanMassPrefix ctx) :=
+  verified.added.output.added
 
 theorem exists_verifiedTypeBLocalFanMassPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedTypeBLocalFanMassPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedTypeBLocalFanMassPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedTypeBResidualCenterLedgerPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedTypeBLocalFanMassPrefix ctx previous⟩
+  exact ⟨ctx, verifiedTypeBLocalFanMassPrefix ctx previous, rankLe⟩
 
 /-! ## Separate downstream global aggregate frontier -/
 

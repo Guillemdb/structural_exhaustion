@@ -1,4 +1,6 @@
 import type {
+  DocumentationResponse,
+  ErdosProofHistoryResponse,
   ExampleResponse,
   ExamplesResponse,
   FrameworkResponse,
@@ -37,6 +39,10 @@ export function fetchFramework(signal?: AbortSignal): Promise<FrameworkResponse>
   return getJson<FrameworkResponse>("/api/v1/framework", signal);
 }
 
+export function fetchDocumentation(signal?: AbortSignal): Promise<DocumentationResponse> {
+  return getJson<DocumentationResponse>("/api/v1/documentation", signal);
+}
+
 export function fetchTactic(
   tacticId: string,
   signal?: AbortSignal,
@@ -64,6 +70,15 @@ export function fetchExample(
 ): Promise<ExampleResponse> {
   return getJson<ExampleResponse>(
     `/api/v1/examples/${encodeURIComponent(exampleId)}`,
+    signal,
+  );
+}
+
+export function fetchErdosProofHistory(
+  signal?: AbortSignal,
+): Promise<ErdosProofHistoryResponse> {
+  return getJson<ErdosProofHistoryResponse>(
+    "/api/v1/examples/erdos-64/history",
     signal,
   );
 }

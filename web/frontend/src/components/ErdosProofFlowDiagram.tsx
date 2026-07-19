@@ -22,6 +22,9 @@ interface ErdosProofFlowDiagramProps {
   manuscript: ExampleManuscript;
   activeNodeId: number | null;
   onNodeSelect: (nodeId: number) => void;
+  onEdgeSelect?: (sourceNodeId: number, targetNodeId: number) => void;
+  showSelectionDetails?: boolean;
+  defaultView?: "implemented" | "paper" | "compare";
 }
 
 function partForNode(nodeId: number | null) {
@@ -45,8 +48,13 @@ export function ErdosProofFlowDiagram({
   manuscript,
   activeNodeId,
   onNodeSelect,
+  onEdgeSelect,
+  showSelectionDetails = true,
+  defaultView = "implemented",
 }: ErdosProofFlowDiagramProps) {
-  const [diagramView, setDiagramView] = useState<"implemented" | "paper">("implemented");
+  const [diagramView, setDiagramView] = useState<"implemented" | "paper" | "compare">(
+    defaultView,
+  );
   const [activePartNumber, setActivePartNumber] = useState(
     () => partForNode(activeNodeId).part,
   );
@@ -69,6 +77,10 @@ export function ErdosProofFlowDiagram({
   const activeNode = activeNodeId === null
     ? null
     : ERDOS_PROOF_FLOW_NODES.find((node) => node.nodeId === activeNodeId) ?? null;
+  const activeNodeInPart = activeNode
+    && activePart.nodes.some((node) => node.nodeId === activeNode.nodeId)
+    ? activeNode
+    : null;
   const activeStatus = activeNode
     ? statuses.get(activeNode.nodeId) ?? "notStarted"
     : null;
@@ -98,10 +110,43 @@ export function ErdosProofFlowDiagram({
     : null;
 
   const handleGraphSelect = (selection: SelectedGraphElement | null) => {
-    if (!selection || selection.group !== "node") return;
-    const nodeId = proofFlowNodeNumber(selection.id);
-    if (nodeId !== null) onNodeSelect(nodeId);
+    if (!selection) return;
+    if (selection.group === "node") {
+      const nodeId = proofFlowNodeNumber(selection.id);
+      if (nodeId !== null) onNodeSelect(nodeId);
+      return;
+    }
+
+    const sourceNodeId = typeof selection.data.source === "string"
+      ? proofFlowNodeNumber(selection.data.source)
+      : null;
+    const targetNodeId = typeof selection.data.target === "string"
+      ? proofFlowNodeNumber(selection.data.target)
+      : null;
+    if (sourceNodeId !== null && targetNodeId !== null) {
+      onEdgeSelect?.(sourceNodeId, targetNodeId);
+    }
   };
+
+  const graphView = (
+    <GraphCanvas
+      mode="proofFlow"
+      elements={elements}
+      selectedId={activeNodeId === null ? null : proofFlowNodeElementId(activeNodeId)}
+      onSelect={handleGraphSelect}
+    />
+  );
+  const paperView = (
+    <figure className="proof-flow-paper-view">
+      <img
+        src={`/assets/erdos-original/part-${activePart.part}.svg`}
+        alt={`Original reference-paper proof-dependency diagram, Part ${activePart.roman}`}
+      />
+      <figcaption>
+        Original reference manuscript · page {activePart.part + 10} · Part {activePart.roman}
+      </figcaption>
+    </figure>
+  );
 
   return (
     <div className="proof-flow" aria-label="Complete Chapter 1 proof dependency diagram">
@@ -113,7 +158,9 @@ export function ErdosProofFlowDiagram({
         <p>
           {diagramView === "implemented"
             ? "Green means that Lean verifies the complete claim prescribed by the corresponding cell of the original proof; darker green marks a verified terminal leaf that closes its branch unconditionally. Yellow marks partial Lean coverage, amber marks the declared next frontier, and white is paper-only."
-            : "This is the typeset page from the original reference manuscript, preserving its exact TikZ geometry, labels, arrows, mathematical notation, and caption for direct comparison with the implemented flowchart."}
+            : diagramView === "paper"
+              ? "This is the typeset page from the original reference manuscript, preserving its exact TikZ geometry, labels, arrows, mathematical notation, and caption for direct comparison with the implemented flowchart."
+              : "The interactive Lean map and the exact typeset paper diagram are shown together. Select a numbered node on the left to keep its original-paper counterpart identified on the right."}
         </p>
         <div className="proof-flow-view-switch" role="group" aria-label="Diagram view">
           <button
@@ -129,6 +176,13 @@ export function ErdosProofFlowDiagram({
             onClick={() => setDiagramView("paper")}
           >
             Original paper
+          </button>
+          <button
+            type="button"
+            aria-pressed={diagramView === "compare"}
+            onClick={() => setDiagramView("compare")}
+          >
+            Compare side by side
           </button>
         </div>
       </div>
@@ -197,24 +251,44 @@ export function ErdosProofFlowDiagram({
           </div>
           <span>{activePart.nodes[0]?.nodeId}–{activePart.nodes.at(-1)?.nodeId}</span>
         </header>
-        {diagramView === "implemented" ? (
-          <GraphCanvas
-            mode="proofFlow"
-            elements={elements}
-            selectedId={activeNodeId === null ? null : proofFlowNodeElementId(activeNodeId)}
-            onSelect={handleGraphSelect}
-          />
-        ) : (
-          <figure className="proof-flow-paper-view">
-            <img
-              src={`/assets/erdos-original/part-${activePart.part}.svg`}
-              alt={`Original reference-paper proof-dependency diagram, Part ${activePart.roman}`}
-            />
-            <figcaption>
-              Original reference manuscript · page {activePart.part + 10} · Part {activePart.roman}
-            </figcaption>
-          </figure>
-        )}
+        {diagramView === "implemented" ? graphView : null}
+        {diagramView === "paper" ? paperView : null}
+        {diagramView === "compare" ? (
+          <div className="proof-flow-compare" aria-label="Implemented and original proof diagrams">
+            <section>
+              <h3>Interactive Lean map</h3>
+              {graphView}
+            </section>
+            <section>
+              <h3>Original paper</h3>
+              {paperView}
+              <aside
+                className="proof-flow-paper-callout"
+                aria-label="Selected paper node"
+                aria-live="polite"
+              >
+                <span>Selected correspondence</span>
+                {activeNodeInPart ? (
+                  <>
+                    <strong>[{activeNodeInPart.nodeId}] {activeNodeInPart.label}</strong>
+                    <p>
+                      This numbered cell is the original-paper counterpart of the selected
+                      node in the interactive map.
+                    </p>
+                  </>
+                ) : activeNode ? (
+                  <p>
+                    The selected node [{activeNode.nodeId}] belongs to Part{" "}
+                    {partForNode(activeNode.nodeId).roman}. Select a node in the current map
+                    to identify its paper cell here.
+                  </p>
+                ) : (
+                  <p>Select a numbered node in the interactive map to identify its paper cell.</p>
+                )}
+              </aside>
+            </section>
+          </div>
+        ) : null}
         {activePart.continuations.length ? (
           <nav className="proof-flow-continuations" aria-label={`Part ${activePart.roman} continuations`}>
             <strong>Cross-part continuations</strong>
@@ -231,7 +305,8 @@ export function ErdosProofFlowDiagram({
         ) : null}
       </section>
 
-      <section className="proof-flow-selection" aria-live="polite">
+      {showSelectionDetails ? (
+        <section className="proof-flow-selection" aria-live="polite">
         {activeNode && activeStatus ? (
           <>
             <div className="proof-flow-selection__heading">
@@ -388,7 +463,8 @@ export function ErdosProofFlowDiagram({
         ) : (
           <p>Select any numbered node to inspect its formalization status.</p>
         )}
-      </section>
+        </section>
+      ) : null}
     </div>
   );
 }

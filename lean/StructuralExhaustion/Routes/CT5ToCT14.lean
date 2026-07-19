@@ -6,121 +6,73 @@ namespace StructuralExhaustion.Routes.CT5ToCT14
 open StructuralExhaustion
 
 universe uSite uWitness uMember uLabel
-universe uAmbient uBranch
+universe uAmbient uBranch uLedger
+
+/-- Stable identity of this executable transition profile. -/
+def transitionId : String := "CT5.residual.chargeLedger->CT14"
 
 /-!
-# CT5 charge-ledger to CT14 aggregate-mass route
+# CT5 charge-ledger to CT14 aggregate-mass transition
 
 A CT5 charge residual has completed its local witness ledger on one branch
-context.  CT14's member universe is already fixed by its target capability and
-its trigger carries no additional author datum.  The framework therefore owns
-the unique context-preserving transition; no semantic adapter or application
-choice is required.
+context. CT14's member universe is fixed by its target capability and its
+trigger carries no additional author datum. The framework therefore owns the
+unique context-preserving transition and target execution.
 -/
 
-def targetContext
-    {P : Core.Problem.{uAmbient, uBranch}}
-    {S : CT5.Spec.{uSite, uWitness} P}
-    {sourceCapability : CT5.Capability S}
-    {input : CT5.Input P}
-    (_source : CT5.ChargeLedgerResidual S sourceCapability input) :
-    Core.BranchContext P :=
-  input
-
-def rule
+/-- The sole public CT5→CT14 transition. No semantic adapter is needed: the
+source residual already fixes the inherited context and CT14 has an empty
+trigger. -/
+def transition
     {P : Core.Problem.{uAmbient, uBranch}}
     {S : CT5.Spec.{uSite, uWitness} P}
     {sourceCapability : CT5.Capability S}
     {input : CT5.Input P}
     (targetCapability : CT14.Capability.{uMember, uLabel} P) :
-    Core.Routing.RouteRule
+    Core.Routing.CTTransition .ct5 .ct14
       (CT5.ChargeLedgerResidual S sourceCapability input)
-      targetCapability.tacticInterface where
-  routeId := "CT5.residual.chargeLedger->CT14"
-  targetContext := targetContext
-  Seed := fun _source => Unit
-  discover := targetCapability.discover
-  buildTrigger := fun _source _seed => ⟨⟩
+      targetCapability.executableInterface :=
+  Core.Routing.CTTransition.ofTotalResidual
+    transitionId (fun _source => input)
+    (fun _source => ⟨⟩)
 
-def buildInput
+/-- Execute CT14 while retaining the complete incoming CT5 ledger. The
+enabled stage, rather than a reconstructed target input, is the only handoff
+that may continue downstream. -/
+def advance
     {P : Core.Problem.{uAmbient, uBranch}}
     {S : CT5.Spec.{uSite, uWitness} P}
     {sourceCapability : CT5.Capability S}
     {input : CT5.Input P}
     (targetCapability : CT14.Capability.{uMember, uLabel} P)
-    (source : CT5.ChargeLedgerResidual S sourceCapability input) :
-    CT14.Input targetCapability (targetContext source) :=
-  (rule targetCapability).buildTrigger source ()
+    {Ledger : Sort uLedger}
+    (current : Ledger → CT5.ChargeLedgerResidual S sourceCapability input)
+    (source : Core.Routing.ResidualStage .ct5 Ledger) :
+    ((transition targetCapability).onLedger current).EnabledStage source :=
+  (transition targetCapability).runEnabledOnLedger current source () rfl
 
-theorem branchContext_preserved
+@[simp] theorem transition_profile_id
     {P : Core.Problem.{uAmbient, uBranch}}
     {S : CT5.Spec.{uSite, uWitness} P}
     {sourceCapability : CT5.Capability S}
     {input : CT5.Input P}
-    (source : CT5.ChargeLedgerResidual S sourceCapability input) :
-    targetContext source = input :=
-  rfl
-
-theorem ambient_preserved
-    {P : Core.Problem.{uAmbient, uBranch}}
-    {S : CT5.Spec.{uSite, uWitness} P}
-    {sourceCapability : CT5.Capability S}
-    {input : CT5.Input P}
-    (source : CT5.ChargeLedgerResidual S sourceCapability input) :
-    (targetContext source).G = input.G :=
-  rfl
-
-theorem baseline_preserved
-    {P : Core.Problem.{uAmbient, uBranch}}
-    {S : CT5.Spec.{uSite, uWitness} P}
-    {sourceCapability : CT5.Capability S}
-    {input : CT5.Input P}
-    (source : CT5.ChargeLedgerResidual S sourceCapability input) :
-    (targetContext source).baseline = input.baseline :=
-  rfl
-
-theorem state_preserved
-    {P : Core.Problem.{uAmbient, uBranch}}
-    {S : CT5.Spec.{uSite, uWitness} P}
-    {sourceCapability : CT5.Capability S}
-    {input : CT5.Input P}
-    (source : CT5.ChargeLedgerResidual S sourceCapability input) :
-    (targetContext source).state = input.state :=
-  rfl
-
-theorem enabled_generates
-    {P : Core.Problem.{uAmbient, uBranch}}
-    {S : CT5.Spec.{uSite, uWitness} P}
-    {sourceCapability : CT5.Capability S}
-    {input : CT5.Input P}
-    (targetCapability : CT14.Capability.{uMember, uLabel} P)
-    (source : CT5.ChargeLedgerResidual S sourceCapability input) :
-    ((rule targetCapability).attempt source).generated? =
-      some ((rule targetCapability).generate source ()) :=
-  rfl
-
-theorem generated_route_id
-    {P : Core.Problem.{uAmbient, uBranch}}
-    {S : CT5.Spec.{uSite, uWitness} P}
-    {sourceCapability : CT5.Capability S}
-    {input : CT5.Input P}
-    (targetCapability : CT14.Capability.{uMember, uLabel} P)
-    (source : CT5.ChargeLedgerResidual S sourceCapability input) :
-    ((rule targetCapability).generate source ()).routeId =
+    (targetCapability : CT14.Capability.{uMember, uLabel} P) :
+    (transition (S := S) (sourceCapability := sourceCapability)
+      (input := input) targetCapability).profileId =
       "CT5.residual.chargeLedger->CT14" :=
   rfl
 
-def routeContract : Core.RouteContract where
-  routeId := "CT5.residual.chargeLedger->CT14"
-  sourceResidualKind := "CT5.residual.chargeLedger"
+/-- Machine-readable executable profile for the CT5→CT14 family. -/
+def transitionContract : Core.CTTransitionProfileContract where
+  profileId := transitionId
+  sourceTacticId := "CT5"
   targetTacticId := "CT14"
-  discovery := "StructuralExhaustion.CT14.Capability.discover"
-  triggerConstructor := "StructuralExhaustion.Routes.CT5ToCT14.buildInput"
-  soundnessTheorem := "StructuralExhaustion.Routes.CT5ToCT14.enabled_generates"
-  contextPreservationTheorem :=
-    "StructuralExhaustion.Routes.CT5ToCT14.branchContext_preserved"
-  provenanceTheorem :=
-    "StructuralExhaustion.Routes.CT5ToCT14.generated_route_id"
+  sourceResidualKind := "CT5.residual.chargeLedger"
+  targetExecutableInterface :=
+    "StructuralExhaustion.CT14.Capability.executableInterface"
+  transitionConstructor :=
+    "StructuralExhaustion.Routes.CT5ToCT14.transition"
+  advanceExecutor := "StructuralExhaustion.Routes.CT5ToCT14.advance"
   selectionClass := .forced
   semanticDiscovery := .capabilityDiscovery
   problemSpecificInputs := [.targetCapability]

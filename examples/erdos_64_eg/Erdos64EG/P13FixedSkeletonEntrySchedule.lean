@@ -52,7 +52,7 @@ noncomputable def p13FixedSkeletonEntrySchedule
 not a field, so an application cannot replace it by caller data. -/
 structure VerifiedP13FixedSkeletonEntryPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type u where
+    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 4) where
   previous : VerifiedP13MultiScaleCurvaturePrefix ctx
   samePrevious : previous = node21
 

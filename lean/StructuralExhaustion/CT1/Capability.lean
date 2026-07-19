@@ -56,12 +56,6 @@ def polynomialBudget {P : Core.Problem} {S : Spec P}
   degree := capability.workDegree
   bounded := capability.workBound
 
-/-- CT1 consumes an inherited branch and requires no route-specific seed. -/
-def tacticInterface {P : Core.Problem} {S : Spec P}
-    (_capability : Capability S) : Core.Routing.TacticInterface where
-  Context := Core.BranchContext P
-  Trigger := fun _ => Unit
-
 end Capability
 
 end StructuralExhaustion.CT1

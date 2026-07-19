@@ -44,21 +44,33 @@ def targetCapability : CT7.Capability targetSpec where
 
 def adapter : Routes.CT9ToCT7.ObjectAdapter Nat Nat := ⟨id⟩
 
-def routedInput : CT7.Input targetSpec context :=
-  Routes.CT9ToCT7.buildInput targetCapability adapter
-    (fun _label => rfl) source
+abbrev routedTransition := Routes.CT9ToCT7.transition
+  (sourceCapability := sourceCapability) (sourceInput := sourceInput)
+  targetCapability adapter (fun _label => rfl)
 
-def targetResult :=
-  CT7.run targetSpec targetCapability context routedInput
+abbrev sourceStage : Core.Routing.ResidualStage .ct9
+    (CT9.OverloadResidual sourceCapability sourceInput) :=
+  Core.Routing.ResidualStage.exact source
+
+abbrev routedExecution := routedTransition.onLedger id
+
+def routedStage : routedExecution.EnabledStage sourceStage :=
+  Routes.CT9ToCT7.advance targetCapability adapter
+    (fun _label => rfl) id sourceStage
+
+def routedLedger := routedStage.ledgerStage
+
+def routedInput : CT7.Input targetSpec context :=
+  routedTransition.trigger sourceStage ()
+
+def targetResult := routedStage.targetResult
 
 theorem route_id :
-    ((Routes.CT9ToCT7.rule targetCapability adapter
-      (fun _label => rfl)).generate source ()).routeId =
-        "CT9.residual.overload->CT7" :=
-  Routes.CT9ToCT7.generated_route_id _ _ _ source
+    routedTransition.profileId = "CT9.residual.overload->CT7" :=
+  Routes.CT9ToCT7.transition_profile_id _ _ _
 
-theorem route_context : Routes.CT9ToCT7.targetContext source = context :=
-  Routes.CT9ToCT7.branchContext_preserved source
+theorem route_context : routedTransition.targetContext sourceStage = context :=
+  rfl
 
 theorem source_distinct :
     (Routes.CT9ToCT7.sourcePair source rfl).first ≠
@@ -71,9 +83,7 @@ theorem mapped_objects :
       routedInput.right =
         adapter.object (Routes.CT9ToCT7.sourcePair source rfl).second :=
   by
-    simpa [routedInput] using
-      (Routes.CT9ToCT7.input_objects_are_mapped_pair
-        targetCapability adapter (fun _label => rfl) source)
+    exact ⟨rfl, rfl⟩
 
 theorem target_terminal : targetResult.terminal = .distinguishing := by
   decide

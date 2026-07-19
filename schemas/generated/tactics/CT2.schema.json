@@ -6517,21 +6517,21 @@
             "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 38,
+                "line": 39,
                 "column": 4
               },
               "end": {
-                "line": 38,
+                "line": 39,
                 "column": 9
               }
             },
             "range": {
               "start": {
-                "line": 38,
+                "line": 39,
                 "column": 0
               },
               "end": {
-                "line": 39,
+                "line": 40,
                 "column": 19
               }
             },
@@ -6665,21 +6665,21 @@
             "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 77,
+                "line": 78,
                 "column": 4
               },
               "end": {
-                "line": 77,
+                "line": 78,
                 "column": 7
               }
             },
             "range": {
               "start": {
-                "line": 76,
+                "line": 77,
                 "column": 0
               },
               "end": {
-                "line": 78,
+                "line": 79,
                 "column": 35
               }
             },
@@ -8431,21 +8431,21 @@
             "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 31,
+                "line": 32,
                 "column": 10
               },
               "end": {
-                "line": 31,
+                "line": 32,
                 "column": 25
               }
             },
             "range": {
               "start": {
-                "line": 31,
+                "line": 32,
                 "column": 0
               },
               "end": {
-                "line": 34,
+                "line": 35,
                 "column": 52
               }
             },
@@ -8476,21 +8476,21 @@
             "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 33,
+                "line": 34,
                 "column": 2
               },
               "end": {
-                "line": 33,
+                "line": 34,
                 "column": 6
               }
             },
             "range": {
               "start": {
-                "line": 33,
+                "line": 34,
                 "column": 2
               },
               "end": {
-                "line": 33,
+                "line": 34,
                 "column": 6
               }
             },
@@ -8516,21 +8516,21 @@
             "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 32,
+                "line": 33,
                 "column": 2
               },
               "end": {
-                "line": 32,
+                "line": 33,
                 "column": 10
               }
             },
             "range": {
               "start": {
-                "line": 32,
+                "line": 33,
                 "column": 2
               },
               "end": {
-                "line": 32,
+                "line": 33,
                 "column": 10
               }
             },
@@ -8754,21 +8754,21 @@
             "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 44,
+                "line": 45,
                 "column": 4
               },
               "end": {
-                "line": 44,
+                "line": 45,
                 "column": 16
               }
             },
             "range": {
               "start": {
-                "line": 43,
+                "line": 44,
                 "column": 0
               },
               "end": {
-                "line": 74,
+                "line": 75,
                 "column": 9
               }
             },
@@ -9424,21 +9424,21 @@
             "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 31,
+                "line": 32,
                 "column": 10
               },
               "end": {
-                "line": 31,
+                "line": 32,
                 "column": 25
               }
             },
             "range": {
               "start": {
-                "line": 31,
+                "line": 32,
                 "column": 10
               },
               "end": {
-                "line": 31,
+                "line": 32,
                 "column": 25
               }
             },
@@ -9781,21 +9781,21 @@
             "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 27,
+                "line": 28,
                 "column": 4
               },
               "end": {
-                "line": 27,
+                "line": 28,
                 "column": 15
               }
             },
             "range": {
               "start": {
-                "line": 27,
+                "line": 28,
                 "column": 2
               },
               "end": {
-                "line": 29,
+                "line": 30,
                 "column": 29
               }
             },
@@ -9822,21 +9822,21 @@
             "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 18,
+                "line": 19,
                 "column": 4
               },
               "end": {
-                "line": 18,
+                "line": 19,
                 "column": 14
               }
             },
             "range": {
               "start": {
-                "line": 18,
+                "line": 19,
                 "column": 2
               },
               "end": {
-                "line": 20,
+                "line": 21,
                 "column": 28
               }
             },
@@ -9863,21 +9863,21 @@
             "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 21,
+                "line": 22,
                 "column": 4
               },
               "end": {
-                "line": 21,
+                "line": 22,
                 "column": 17
               }
             },
             "range": {
               "start": {
-                "line": 21,
+                "line": 22,
                 "column": 2
               },
               "end": {
-                "line": 23,
+                "line": 24,
                 "column": 31
               }
             },
@@ -9904,21 +9904,21 @@
             "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 24,
+                "line": 25,
                 "column": 4
               },
               "end": {
-                "line": 24,
+                "line": 25,
                 "column": 14
               }
             },
             "range": {
               "start": {
-                "line": 24,
+                "line": 25,
                 "column": 2
               },
               "end": {
-                "line": 26,
+                "line": 27,
                 "column": 28
               }
             },
@@ -10165,21 +10165,21 @@
             "sourceFile": "StructuralExhaustion/CT2/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 17,
+                "line": 18,
                 "column": 10
               },
               "end": {
-                "line": 17,
+                "line": 18,
                 "column": 20
               }
             },
             "range": {
               "start": {
-                "line": 17,
+                "line": 18,
                 "column": 0
               },
               "end": {
-                "line": 29,
+                "line": 30,
                 "column": 29
               }
             },
@@ -11752,7 +11752,7 @@
             ],
             "derivedOperations": [
               {
-                "ref": "StructuralExhaustion.CT2.LocalDeletionCapability.tacticInterface",
+                "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.executableInterface",
                 "provision": "framework_constant"
               },
               {
@@ -11776,7 +11776,7 @@
                 "provision": "framework_constant"
               },
               {
-                "ref": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.rule",
+                "ref": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.transition",
                 "provision": "framework_constant"
               }
             ],
@@ -13057,7 +13057,7 @@
       ],
       "derivedOperations": [
         {
-          "ref": "StructuralExhaustion.CT2.LocalDeletionCapability.tacticInterface",
+          "ref": "StructuralExhaustion.CT2.LocalDeletionClosureRule.executableInterface",
           "provision": "framework_constant"
         },
         {
@@ -13081,7 +13081,7 @@
           "provision": "framework_constant"
         },
         {
-          "ref": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.rule",
+          "ref": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.transition",
           "provision": "framework_constant"
         }
       ],

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/transition-profiles/CT1.residual.avoiding-_CT2.localDeletion.schema.json",
+  "title": "CT1.residual.avoiding->CT2.localDeletion executable transition profile",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/transitionProfile"
+    },
+    {
+      "const": {
+        "transitionConstructor": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.transition",
+        "targetTacticId": "CT2",
+        "targetExecutableInterface": "StructuralExhaustion.CT2.LocalDeletionClosureRule.executableInterface",
+        "sourceTacticId": "CT1",
+        "sourceResidualKind": "CT1.residual.avoiding",
+        "selectionClass": "priority",
+        "profileId": "CT1.residual.avoiding->CT2.localDeletion",
+        "familyId": "CT1->CT2",
+        "authoringBoundary": {
+          "semanticDiscovery": {
+            "kind": "capabilityDiscovery",
+            "adapterType": null
+          },
+          "problemSpecificInputs": [
+            "targetCapability",
+            "minimalityKernel"
+          ],
+          "frameworkOwnedResponsibilities": [
+            "exactSourceLedger",
+            "semanticDiscovery",
+            "targetContextConstruction",
+            "triggerConstruction",
+            "targetExecution",
+            "accumulatedLedgerOutput",
+            "transitionProvenance"
+          ]
+        },
+        "advanceExecutor": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.advance"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "registry": "StructuralExhaustion.Canonical.transitionProfiles"
+  }
+}

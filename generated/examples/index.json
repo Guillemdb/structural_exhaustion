@@ -55,62 +55,29 @@
         }
       ],
       "detailFile": "erdos-64.json",
-      "detailHash": "6713498764f930a58e49b10f48cd4949a16860b26e7bb15c8473f7213f58f408"
+      "detailHash": "3dabf1f22a0921ccce9965297d521efce996af417ed0b0c879e6f1c5986437bf"
     },
     {
       "exampleId": "even-cycle",
       "title": "Even cycle",
-      "summary": "A complete minimum-degree-three proof with a registered CT6→CT9 route, CT1 validation, and separate CT2, CT3, induced-path CT1, maximum-packing CT12, and high-center-deletion reuse workflows.",
+      "summary": "A complete minimum-degree-three proof that selects one graph profile and delegates CT6, the registered CT6→CT9 route, certificate construction, and CT1 validation to the framework.",
       "proofStatus": "complete",
       "tacticIds": [
         "CT1",
-        "CT2",
-        "CT3",
         "CT6",
-        "CT9",
-        "CT12"
+        "CT9"
       ],
-      "workflowCount": 6,
+      "workflowCount": 1,
       "workflows": [
         {
           "workflowId": "main",
           "title": "Minimum degree three gives an even cycle",
-          "purpose": "Follow the complete CT6→CT9 construction, its cycle certificate, and the independent CT1 validation lane.",
-          "completion": "complete"
-        },
-        {
-          "workflowId": "ct2-audit",
-          "title": "Deletion-critical CT2 audit",
-          "purpose": "Inspect the proper-subgraph and single-edge CT2 audits in a hypothetical lexicographically minimal counterexample.",
-          "completion": "complete"
-        },
-        {
-          "workflowId": "ct3-series",
-          "title": "Parity-series CT3 compression",
-          "purpose": "Inspect the independent Duffin-style series reduction and its four exact response coordinates.",
-          "completion": "complete"
-        },
-        {
-          "workflowId": "ct1-induced-edge",
-          "title": "Every edge is an induced P₂",
-          "purpose": "Validate the textbook induced-edge fact through the same certificate-driven induced-path CT1 profile used by the Erdős P₁₃ stage.",
-          "completion": "complete"
-        },
-        {
-          "workflowId": "ct12-maximal-matching",
-          "title": "Maximum matching by induced-P₂ packing",
-          "purpose": "Instantiate the reusable maximum disjoint-packing CT12 profile on the textbook family of graph edges.",
-          "completion": "complete"
-        },
-        {
-          "workflowId": "high-center-deletion",
-          "title": "High-center deletion charge on K₃,₄",
-          "purpose": "Instantiate the reusable Type-B-to-Type-A charge transition on a textbook complete bipartite graph without using an external theorem.",
+          "purpose": "Follow the framework-owned CT6→CT9 construction, its cycle certificate, and the independent CT1 validation lane.",
           "completion": "complete"
         }
       ],
       "detailFile": "even-cycle.json",
-      "detailHash": "f83cb6d767b5fe0573a6b395c158410caebfece26ce6f1ca76cd4b8ed2dfeb69"
+      "detailHash": "32f7e1f8daed9e951b777ec493b11ce3de5cd3e0e63ee48aad4d4b6ebf8bfe7d"
     },
     {
       "exampleId": "greedy-coloring",
@@ -132,7 +99,7 @@
         }
       ],
       "detailFile": "greedy-coloring.json",
-      "detailHash": "8f742fc8a39405e8cbaaca0e5763e2510f459f7d9ab3d01068c301ac17720539"
+      "detailHash": "f448a5ffb88b84491769ff42cd97c63dda96f5b6223ad8589d73e421cc5e0a46"
     },
     {
       "exampleId": "mantel",
@@ -164,7 +131,7 @@
         }
       ],
       "detailFile": "mantel.json",
-      "detailHash": "a7da693916a3da33e973d684970248d0d54324d73ac1e518d5d8881fe37282d0"
+      "detailHash": "51ed7314fe3b0a4e406457fcfddda19ea9461ebe3c198da2fa1420c9a9e768cc"
     }
   ]
 }

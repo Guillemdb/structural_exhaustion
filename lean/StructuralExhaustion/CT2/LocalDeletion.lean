@@ -1,4 +1,5 @@
 import StructuralExhaustion.CT2.Graph
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT2
 
@@ -27,16 +28,6 @@ structure LocalDeletionInput
   seed : Seed capability.pieces ctx
 
 namespace LocalDeletionCapability
-
-/-- Route-facing interface for the local deletion profile.  Unlike the full
-CT2 capability, this interface does not require a target decision procedure. -/
-def tacticInterface
-    {P : Core.Problem.{uAmbient, uBranch}}
-    (Target : P.Ambient → Prop)
-    (capability : LocalDeletionCapability.{uAmbient, uBranch, uPiece} P) :
-    Core.Routing.TacticInterface where
-  Context := Core.MinimalCounterexampleContext P Target
-  Trigger := LocalDeletionInput capability
 
 /-- Discover the first proper admissible local deletion piece using only the
 declared finite piece schedule and its two primitive deciders. -/
@@ -235,6 +226,17 @@ def run (rule : LocalDeletionClosureRule (Target := Target) capability)
       (.nil .deletionC2Terminal))
   checks := 1
   checks_eq := rfl
+
+/-- Canonical executable CT2 entry specialized to local deletion.  This is a
+profile of the same `.ct2` interface used by the full replacement runner; its
+smaller capability surface is retained in the trigger and result indices. -/
+def executableInterface
+    (rule : LocalDeletionClosureRule (Target := Target) capability) :
+    Core.Routing.ExecutableInterface .ct2 where
+  Context := Core.MinimalCounterexampleContext P Target
+  Trigger := LocalDeletionInput capability
+  Result := fun context input => LocalDeletionRun capability context input
+  execute := fun context input => rule.run context input
 
 theorem run_terminal
     (rule : LocalDeletionClosureRule (Target := Target) capability)

@@ -1,6 +1,6 @@
 import Erdos64EG.CT14TypeBLocalFanMass
-import StructuralExhaustion.Core.ExactHandoff
 import StructuralExhaustion.Graph.NegativeSupportHandoff
+import StructuralExhaustion.Routes.Accumulated
 
 namespace Erdos64EG.Internal
 
@@ -32,7 +32,7 @@ structure OrdinarySupportSource
   scope : TypeBSupportScope ctx
   noHigher : scope.NoHigherCenter
   route : scope.LocalFanMassRoute noHigher
-  routeExact : previous.route scope noHigher = route
+  routeExact : (typeBLocalFanMassFacts previous).route scope noHigher = route
 
 namespace OrdinarySupportSource
 
@@ -90,8 +90,7 @@ the relevant manuscript family, identify each center with an actual high
 vertex of `G`, and identify every extracted support with the exact route-`(8)`
 core supplied after node `[84]`. -/
 structure Realization
-    (node84 : VerifiedTypeBLocalFanMassPrefix ctx) : Type (u + 1)
-    extends Core.ExactHandoff node84 where
+    (node84 : VerifiedTypeBLocalFanMassPrefix ctx) : Type (u + 1) where
   Support : Type u
   Center : Type u
   Occurrence : Type u
@@ -100,7 +99,7 @@ structure Realization
   GroupedFamily : Type u
   ordinaryFamilySchedule : FinEnum OrdinaryFamily
   groupedFamilySchedule : FinEnum GroupedFamily
-  canonicalOrdinarySource : OrdinaryFamily → OrdinarySupportSource previous
+  canonicalOrdinarySource : OrdinaryFamily → OrdinarySupportSource node84
   canonicalGroupedSource : GroupedFamily → GroupedExitSevenEnvelopeSource
   ordinaryFamilySupport : OrdinaryFamily → Support
   groupedFamilySupport : GroupedFamily → Support
@@ -109,7 +108,7 @@ structure Realization
   familySupportsDisjoint : ∀ ordinary grouped,
     ordinaryFamilySupport ordinary ≠ groupedFamilySupport grouped
   ordinarySource : ∀ support,
-    producer.profile.role support = .ordinary → OrdinarySupportSource previous
+    producer.profile.role support = .ordinary → OrdinarySupportSource node84
   groupedSource : ∀ support,
     producer.profile.role support = .grouped → GroupedExitSevenEnvelopeSource
   ordinaryFamilyRole : ∀ ordinary,
@@ -199,83 +198,89 @@ structure Realization
       RouteEightExtraction
         (ordinarySource support (extractedRoleOrdinary support extracted))
 
-namespace Realization
+noncomputable def target
+    {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
+    (realization : Realization node84) :=
+  (realization.producer.profile.capability PackedProblem.{u}).executableInterface
 
-noncomputable def stage
+noncomputable def adapter
     {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
     (realization : Realization node84) :
-    realization.producer.profile.VerifiedStage ctx.toBranchContext :=
-  realization.producer.profile.verifiedStage ctx.toBranchContext
+    Routes.Accumulated.Adapter (VerifiedTypeBLocalFanMassPrefix ctx)
+      (target realization) where
+  targetContext := fun _source => ctx.toBranchContext
+  trigger := fun _source => ⟨⟩
 
-end Realization
+noncomputable def transitionStage
+    {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
+    (realization : Realization node84) :=
+  Routes.Accumulated.advanceCurrent (target realization) (adapter realization)
+    (Core.Routing.ResidualStage.exact (tactic := .ct14) node84)
 
-/-- Verified global output of node `[84]`.  The CT14 terminal, exact trace,
-validity, totality, manuscript mass bound, and local quadratic check ledger
-are all exposed rather than hidden behind the runner. -/
-structure Verified
-    (node84 : VerifiedTypeBLocalFanMassPrefix ctx) : Type (u + 1) where
-  realization : Realization node84
-  stage : realization.producer.profile.VerifiedStage ctx.toBranchContext
-  terminal :
-    (realization.producer.profile.run ctx.toBranchContext).terminal = .capacity
-  trace :
-    (realization.producer.profile.run ctx.toBranchContext).trace =
-      [.entry, .lowerMass, .memberScan, .upperCapacity, .comparison,
-        .capacityTerminal]
-  valid :
-    (realization.producer.profile.run ctx.toBranchContext).outcome.Valid
-  traceValid : @CT14.Graph.ValidTrace PackedProblem
-    (realization.producer.profile.capability PackedProblem)
-    ctx.toBranchContext
-    (realization.producer.profile.run ctx.toBranchContext).trace
-  total : ∃ result : CT14.ExecutionResult
-      (realization.producer.profile.capability PackedProblem)
-      ctx.toBranchContext,
-    result.outcome.Valid ∧ @CT14.Graph.ValidTrace PackedProblem
-      (realization.producer.profile.capability PackedProblem)
-      ctx.toBranchContext result.trace
+abbrev TransitionLedger
+    {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
+    (realization : Realization node84) :=
+  Routes.Accumulated.OutputLedger (sourceTactic := .ct14)
+    (target realization) (adapter realization)
+    (Core.Routing.ResidualStage.exact (tactic := .ct14) node84)
+
+structure Facts
+    {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
+    (realization : Realization node84)
+    (execution : TransitionLedger realization) : Prop where
+  verified : realization.producer.profile.VerifiedExecutionStage
+    ctx.toBranchContext execution.targetResult
   residualMassBound : realization.producer.profile.residualMass ≤
     416 * realization.producer.profile.globalSurplus
-  workExact : realization.producer.profile.checks =
-    2 * realization.producer.profile.supports.card *
-        realization.producer.profile.occurrences.card +
-      2 * realization.producer.profile.supports.card + 1
-  quadraticWork : realization.producer.profile.checks ≤
-    3 * (realization.producer.profile.supports.card + 1) *
-      (realization.producer.profile.occurrences.card + 1)
+
+abbrev Ledger
+    {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
+    (realization : Realization node84) :=
+  Core.Routing.LedgerExtension (TransitionLedger realization)
+    (Facts realization)
+
+noncomputable def ledgerStage
+    {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
+    (realization : Realization node84) :
+    Core.Routing.ResidualStage .ct14 (Ledger realization) := by
+  let execution := transitionStage realization
+  exact execution.ledgerStage.extend {
+    verified := Graph.SupportIndexedFanMass.Profile.verifiedExecutionStage
+      realization.producer.profile ctx.toBranchContext execution.targetResult rfl
+    residualMassBound := globalFanMass_bound_of_producer realization.producer
+  }
+
+/-- Verified global output of node `[84]`, consisting only of the semantic
+producer and its framework-owned accumulated CT14 ledger. -/
+structure Verified
+    (node84 : VerifiedTypeBLocalFanMassPrefix ctx) : Type (u + 3) where
+  realization : Realization node84
+  ledgerStage : Core.Routing.ResidualStage .ct14 (Ledger realization)
+
+def Verified.facts
+    {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
+    (global : Verified node84) :=
+  global.ledgerStage.output.added
 
 noncomputable def verify
     {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
-    (realization : Realization node84) : Verified node84 := by
-  let stage := realization.stage
-  exact {
-    realization := realization
-    stage := stage
-    terminal := stage.terminal
-    trace := stage.trace
-    valid := stage.verified
-    traceValid := stage.traceValid
-    total := stage.total
-    residualMassBound := globalFanMass_bound_of_producer realization.producer
-    workExact := stage.workExact
-    quadraticWork := stage.quadraticWorkBound
-  }
+    (realization : Realization node84) : Verified node84 :=
+  ⟨realization, ledgerStage realization⟩
 
 /-- A conditional handoff toward node `[85]`.  It records only the exact
 verified global node-`[84]` output; it does not assert the sublinearity and global
 deficit hypotheses still required to prove node `[85]`. -/
-structure ConditionalNode85Handoff
+abbrev ConditionalNode85Handoff
     {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
-    (global : Verified node84) extends Core.ExactHandoff global where
-  massBound : previous.realization.producer.profile.residualMass ≤
-    416 * previous.realization.producer.profile.globalSurplus
+    (global : Verified node84) :=
+  Core.Routing.LedgerExtension (Verified node84)
+    (fun previous => previous.realization.producer.profile.residualMass ≤
+      416 * previous.realization.producer.profile.globalSurplus)
 
 def Verified.toConditionalNode85Handoff
     {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
-    (global : Verified node84) : ConditionalNode85Handoff global where
-  previous := global
-  previousExact := rfl
-  massBound := global.residualMassBound
+    (global : Verified node84) : ConditionalNode85Handoff global :=
+  ⟨global, global.facts.residualMassBound⟩
 
 end Node84GlobalFanMass
 

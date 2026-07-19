@@ -53,7 +53,7 @@ noncomputable def StageF2.routeTargetDefect
     {stage : package.Stage}
     (f2 : package.StageF2 survivor stage) :
     package.StageF2RoutedHandoff f2 where
-  residual := Routes.TargetDefectHandoff.route packedStaticInput
+  residual := Routes.TargetDefectHandoff.handoff packedStaticInput
     twoBoundaryEnumeration ctx (f2.targetDefectSource package)
   exactSource := rfl
 

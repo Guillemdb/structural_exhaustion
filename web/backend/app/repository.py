@@ -8,6 +8,7 @@ import logging
 import os
 import re
 import xml.etree.ElementTree as ET
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable
 
@@ -31,6 +32,11 @@ ENVIRONMENT_MATHEMATICAL_LABEL_PATTERN = re.compile(
     r"(?:\[[^\]]*\])?\s*\\label(?:\[[^\]]+\])?\{([^}]+)\}"
 )
 DIAGRAM_NODE_PATTERN = re.compile(r"\\textbf\{\[([0-9]+)\]\}")
+SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
+GIT_COMMIT_PATTERN = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
+UTC_TIMESTAMP_PATTERN = re.compile(
+    r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$"
+)
 
 
 class ArtifactError(RuntimeError):
@@ -62,6 +68,165 @@ def _canonical_object_hash(value: object) -> str:
         value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
     ).encode("utf-8")
     return hashlib.sha256(payload).hexdigest()
+
+
+def _validate_erdos_proof_history(value: dict[str, Any]) -> None:
+    """Validate append-only engineering telemetry without deriving proof status."""
+
+    def exact_keys(
+        item: Any,
+        required: set[str],
+        label: str,
+        optional: set[str] | None = None,
+    ) -> dict[str, Any]:
+        if not isinstance(item, dict):
+            raise ArtifactError(f"{label} must be an object")
+        allowed = required | (optional or set())
+        if set(item) != allowed and not (
+            required <= set(item) and set(item) <= allowed
+        ):
+            raise ArtifactError(f"{label} has malformed fields")
+        return item
+
+    def natural(item: Any, label: str) -> int:
+        if not isinstance(item, int) or isinstance(item, bool) or item < 0:
+            raise ArtifactError(f"{label} must be a nonnegative integer")
+        return item
+
+    exact_keys(
+        value,
+        {"artifactType", "schemaVersion", "exampleId", "snapshots"},
+        "Erdos proof history",
+    )
+    if (
+        value.get("artifactType") != "erdosProofHistory"
+        or value.get("schemaVersion") != "1.0.0"
+        or value.get("exampleId") != "erdos-64"
+    ):
+        raise ArtifactError("Erdos proof history has an unsupported identity")
+    snapshots = value.get("snapshots")
+    if not isinstance(snapshots, list):
+        raise ArtifactError("Erdos proof history snapshots must be a list")
+
+    artifact_hashes: set[str] = set()
+    for index, raw_snapshot in enumerate(snapshots):
+        label = f"Erdos proof history snapshot {index}"
+        snapshot = exact_keys(
+            raw_snapshot,
+            {
+                "artifactSha256",
+                "manuscriptSha256",
+                "formalizedNodeIds",
+                "formalizedNodeCount",
+                "obligations",
+                "implementedWorkflowSteps",
+                "frameworkLeverage",
+                "provenance",
+            },
+            label,
+        )
+        artifact_hash = snapshot.get("artifactSha256")
+        manuscript_hash = snapshot.get("manuscriptSha256")
+        if not isinstance(artifact_hash, str) or not SHA256_PATTERN.fullmatch(
+            artifact_hash
+        ):
+            raise ArtifactError(f"{label} has an invalid artifact hash")
+        if artifact_hash in artifact_hashes:
+            raise ArtifactError("Erdos proof history repeats an artifact hash")
+        artifact_hashes.add(artifact_hash)
+        if not isinstance(manuscript_hash, str) or not SHA256_PATTERN.fullmatch(
+            manuscript_hash
+        ):
+            raise ArtifactError(f"{label} has an invalid manuscript hash")
+
+        node_ids = snapshot.get("formalizedNodeIds")
+        if not isinstance(node_ids, list) or any(
+            not isinstance(node_id, int)
+            or isinstance(node_id, bool)
+            or node_id < 1
+            for node_id in node_ids
+        ):
+            raise ArtifactError(f"{label} has invalid formalized node IDs")
+        if node_ids != sorted(set(node_ids)):
+            raise ArtifactError(f"{label} formalized node IDs must be sorted and unique")
+        if natural(snapshot.get("formalizedNodeCount"), f"{label} node count") != len(
+            node_ids
+        ):
+            raise ArtifactError(f"{label} formalized node count disagrees with its IDs")
+
+        obligations = exact_keys(
+            snapshot.get("obligations"), {"proved", "total"}, f"{label} obligations"
+        )
+        proved = natural(obligations.get("proved"), f"{label} proved obligations")
+        total = natural(obligations.get("total"), f"{label} total obligations")
+        if proved > total:
+            raise ArtifactError(f"{label} proves more obligations than it records")
+        natural(
+            snapshot.get("implementedWorkflowSteps"),
+            f"{label} implemented workflow steps",
+        )
+
+        leverage = exact_keys(
+            snapshot.get("frameworkLeverage"),
+            {
+                "automatedLinkCount",
+                "registeredTransitionCount",
+                "interfaceBindingCount",
+                "declarationFootprint",
+            },
+            f"{label} framework leverage",
+        )
+        for field in (
+            "automatedLinkCount",
+            "registeredTransitionCount",
+            "interfaceBindingCount",
+        ):
+            natural(leverage.get(field), f"{label} {field}")
+        footprint = exact_keys(
+            leverage.get("declarationFootprint"),
+            {"framework", "author", "external", "total"},
+            f"{label} declaration footprint",
+        )
+        framework_count = natural(
+            footprint.get("framework"), f"{label} framework declaration count"
+        )
+        author_count = natural(
+            footprint.get("author"), f"{label} author declaration count"
+        )
+        external_count = natural(
+            footprint.get("external"), f"{label} external declaration count"
+        )
+        declaration_total = natural(
+            footprint.get("total"), f"{label} total declaration count"
+        )
+        if framework_count + author_count + external_count != declaration_total:
+            raise ArtifactError(f"{label} declaration footprint does not add up")
+
+        provenance = exact_keys(
+            snapshot.get("provenance"),
+            {"recordedAt", "gitCommit", "workingTree"},
+            f"{label} provenance",
+            {"sourceDateEpoch"},
+        )
+        recorded_at = provenance.get("recordedAt")
+        if not isinstance(recorded_at, str) or not UTC_TIMESTAMP_PATTERN.fullmatch(
+            recorded_at
+        ):
+            raise ArtifactError(f"{label} has an invalid recorded timestamp")
+        try:
+            datetime.fromisoformat(recorded_at.removesuffix("Z") + "+00:00")
+        except ValueError as error:
+            raise ArtifactError(f"{label} has an invalid recorded timestamp") from error
+        git_commit = provenance.get("gitCommit")
+        if git_commit is not None and (
+            not isinstance(git_commit, str)
+            or not GIT_COMMIT_PATTERN.fullmatch(git_commit)
+        ):
+            raise ArtifactError(f"{label} has an invalid Git commit")
+        if provenance.get("workingTree") not in {"clean", "dirty", "unknown"}:
+            raise ArtifactError(f"{label} has an invalid working-tree state")
+        if "sourceDateEpoch" in provenance:
+            natural(provenance["sourceDateEpoch"], f"{label} source date epoch")
 
 
 def _xml_local_name(value: str) -> str:
@@ -237,7 +402,7 @@ def _validate_tactic_graph(
         for data in data_items
         if "source" not in data
         and "target" not in data
-        and data.get("kind") != "generatedRoute"
+        and data.get("kind") != "transitionProfile"
     }
     if actual_nodes != expected_nodes:
         raise ArtifactError(
@@ -349,7 +514,20 @@ class ArtifactRepository:
         ).resolve()
         self.catalog_path = self.root / "generated/lean-machines.json"
         self.catalog = _load_object(self.catalog_path)
+        if self.catalog.get("schemaVersion") != "9.0.0" or set(self.catalog) != {
+            "artifactType",
+            "schemaVersion",
+            "sourceOfTruth",
+            "provisionTaxonomy",
+            "tactics",
+            "transitionFamilies",
+            "transitionProfiles",
+        }:
+            raise ArtifactError("web explorer requires the schema-9 transition catalog")
         self.catalog_hash = _sha256(self.catalog_path)
+        self.documentation_path = self.root / "generated/framework-documentation.json"
+        self.documentation = _load_object(self.documentation_path)
+        self.documentation_hash = _sha256(self.documentation_path)
         self.manifest = _load_object(self.root / "generated/manifest.json")
         self.verification = _load_object(
             self.root / "generated/kernel-verification.json"
@@ -359,11 +537,14 @@ class ArtifactRepository:
         )
 
         tactics = self.catalog.get("tactics")
-        routes = self.catalog.get("routes")
+        transition_families = self.catalog.get("transitionFamilies")
+        transition_profiles = self.catalog.get("transitionProfiles")
         if not isinstance(tactics, list) or not tactics:
             raise ArtifactError("compiled catalog has no tactic list")
-        if not isinstance(routes, list):
-            raise ArtifactError("compiled catalog has no route list")
+        if not isinstance(transition_families, list) or not transition_families:
+            raise ArtifactError("compiled catalog has no transition-family list")
+        if not isinstance(transition_profiles, list) or not transition_profiles:
+            raise ArtifactError("compiled catalog has no transition-profile list")
 
         self.tactics: dict[str, dict[str, Any]] = {}
         self.graphs: dict[str, dict[str, Any]] = {}
@@ -412,8 +593,23 @@ class ArtifactRepository:
             if isinstance(residual, dict)
             and isinstance(residual.get("residualKindId"), str)
         }
-        self.routes = [self._route_view(route) for route in routes]
-        self.route_by_id = {route["routeId"]: route for route in self.routes}
+        self.transition_profiles = [
+            self._transition_profile_view(profile)
+            for profile in transition_profiles
+        ]
+        self.transition_profile_by_id = {
+            profile["profileId"]: profile for profile in self.transition_profiles
+        }
+        if len(self.transition_profile_by_id) != len(self.transition_profiles):
+            raise ArtifactError("compiled catalog repeats a transition profile")
+        self.transition_families = [
+            self._transition_family_view(family)
+            for family in transition_families
+        ]
+        if len({family["familyId"] for family in self.transition_families}) != len(
+            self.transition_families
+        ):
+            raise ArtifactError("compiled catalog repeats a transition family")
 
         self.example_root = (self.root / "generated/examples").resolve()
         self.example_index_path = self.example_root / "index.json"
@@ -433,7 +629,114 @@ class ArtifactRepository:
         self.examples: dict[str, dict[str, Any]] = {}
         for raw_summary in raw_examples:
             self._load_example(raw_summary)
+        self.erdos_proof_history_path = self.example_root / "erdos-64-history.json"
+        if self.erdos_proof_history_path.is_file():
+            self.erdos_proof_history = _load_object(self.erdos_proof_history_path)
+            _validate_erdos_proof_history(self.erdos_proof_history)
+            erdos_detail_path = self.example_root / "erdos-64.json"
+            snapshots = self.erdos_proof_history["snapshots"]
+            if not snapshots or snapshots[-1]["artifactSha256"] != _sha256(
+                erdos_detail_path
+            ):
+                self._handle_stale_hash(
+                    "Erdos proof history does not record the current example artifact"
+                )
+        else:
+            self.erdos_proof_history = {
+                "artifactType": "erdosProofHistory",
+                "schemaVersion": "1.0.0",
+                "exampleId": "erdos-64",
+                "snapshots": [],
+            }
         self.implemented_transitions = self._implemented_transition_views()
+        self.documentation_capabilities, self.documentation_tactic_guides = (
+            self._validate_documentation()
+        )
+
+    def _validate_documentation(
+        self,
+    ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+        if (
+            self.documentation.get("artifactType")
+            != "structuralExhaustionFrameworkDocumentation"
+            or self.documentation.get("schemaVersion") != "1.0.0"
+        ):
+            raise ArtifactError("framework documentation has an unsupported schema")
+        source = self.documentation.get("sourceOfTruth")
+        capabilities = self.documentation.get("capabilities")
+        guides = self.documentation.get("tacticGuides")
+        if not isinstance(source, dict) or not isinstance(capabilities, list) or not isinstance(guides, list):
+            raise ArtifactError("framework documentation has malformed top-level data")
+        capability_ids: set[str] = set()
+        projected: list[dict[str, Any]] = []
+        for capability in capabilities:
+            if not isinstance(capability, dict):
+                raise ArtifactError("framework documentation contains a non-object capability")
+            capability_id = capability.get("capabilityId")
+            layer = capability.get("layer")
+            declarations = capability.get("declarations")
+            related_tactics = capability.get("relatedTacticIds")
+            related_capabilities = capability.get("relatedCapabilityIds")
+            references = capability.get("examples")
+            if (
+                not isinstance(capability_id, str)
+                or not capability_id
+                or capability_id in capability_ids
+                or layer not in {"core", "graph"}
+                or not isinstance(declarations, list)
+                or not declarations
+                or not all(isinstance(item, str) and item for item in declarations)
+                or not isinstance(related_tactics, list)
+                or not set(related_tactics).issubset(self.tactics)
+                or not isinstance(related_capabilities, list)
+                or not isinstance(references, list)
+            ):
+                raise ArtifactError("framework documentation has an invalid capability")
+            capability_ids.add(capability_id)
+            enriched_references: list[dict[str, Any]] = []
+            for reference in references:
+                if not isinstance(reference, dict):
+                    raise ArtifactError(f"documentation capability {capability_id} has an invalid example")
+                example_id = reference.get("exampleId")
+                workflow_id = reference.get("workflowId")
+                if example_id == "erdos-64":
+                    raise ArtifactError("general framework documentation must not embed the Erdos proof")
+                example = self.examples.get(example_id)
+                if example is None:
+                    self._handle_stale_hash(
+                        f"documentation capability {capability_id} references an unknown example"
+                    )
+                    continue
+                workflow = next(
+                    (
+                        item
+                        for item in example.get("workflows", [])
+                        if item.get("workflowId") == workflow_id
+                    ),
+                    None,
+                )
+                if workflow is None:
+                    self._handle_stale_hash(
+                        f"documentation capability {capability_id} references an unknown workflow"
+                    )
+                    continue
+                enriched_references.append(
+                    {
+                        **reference,
+                        "exampleTitle": example.get("title"),
+                        "workflow": workflow,
+                    }
+                )
+            projected.append({**capability, "examples": enriched_references})
+        for capability in projected:
+            if not set(capability["relatedCapabilityIds"]).issubset(capability_ids):
+                raise ArtifactError(
+                    f"documentation capability {capability['capabilityId']} has a dangling relationship"
+                )
+        guide_ids = [guide.get("tacticId") for guide in guides if isinstance(guide, dict)]
+        if len(guide_ids) != len(guides) or len(set(guide_ids)) != len(guide_ids) or set(guide_ids) != set(self.tactics):
+            raise ArtifactError("framework documentation tactic guides do not cover CT1-CT17")
+        return projected, guides
 
     def _handle_stale_hash(self, message: str) -> None:
         """Reject stale hashes normally, but retain safe embedded data in web-dev mode."""
@@ -452,17 +755,61 @@ class ArtifactRepository:
         self.artifact_warnings.append(warning)
         LOGGER.warning("STALE ARTIFACT: %s", warning["message"])
 
-    def _route_view(self, route: Any) -> dict[str, Any]:
-        if not isinstance(route, dict):
-            raise ArtifactError("compiled catalog contains an invalid route")
-        residual = route.get("sourceResidualKind")
-        target = route.get("targetTacticId")
+    def _transition_profile_view(self, profile: Any) -> dict[str, Any]:
+        if not isinstance(profile, dict):
+            raise ArtifactError("compiled catalog contains an invalid transition profile")
+        profile_id = profile.get("profileId")
+        residual = profile.get("sourceResidualKind")
+        source = profile.get("sourceTacticId")
+        target = profile.get("targetTacticId")
         owner = self.residual_owner.get(residual)
-        if owner is None or target not in self.tactics:
+        family_id = f"{source}->{target}"
+        target_interface = profile.get("targetExecutableInterface")
+        constructor = profile.get("transitionConstructor")
+        advance = profile.get("advanceExecutor")
+        if (
+            not isinstance(profile_id, str)
+            or owner != source
+            or target not in self.tactics
+            or profile.get("familyId") != family_id
+            or not isinstance(target_interface, str)
+            or not target_interface.startswith(f"StructuralExhaustion.{target}.")
+            or not target_interface.endswith("executableInterface")
+            or not isinstance(constructor, str)
+            or not constructor.startswith("StructuralExhaustion.Routes.")
+            or not constructor.endswith(".transition")
+            or not isinstance(advance, str)
+            or not advance.startswith("StructuralExhaustion.Routes.")
+            or not advance.endswith(".advance")
+        ):
             raise ArtifactError(
-                f"route {route.get('routeId', '<unknown>')} has invalid endpoints"
+                f"transition profile {profile_id or '<unknown>'} is malformed"
             )
-        return {**route, "sourceTacticId": owner}
+        return profile
+
+    def _transition_family_view(self, family: Any) -> dict[str, Any]:
+        if not isinstance(family, dict):
+            raise ArtifactError("compiled catalog contains an invalid transition family")
+        source = family.get("sourceTacticId")
+        target = family.get("targetTacticId")
+        family_id = family.get("familyId")
+        profile_ids = family.get("profileIds")
+        expected_ids = [
+            profile["profileId"]
+            for profile in self.transition_profiles
+            if profile["familyId"] == family_id
+        ]
+        if (
+            source not in self.tactics
+            or target not in self.tactics
+            or family_id != f"{source}->{target}"
+            or not isinstance(profile_ids, list)
+            or profile_ids != expected_ids
+        ):
+            raise ArtifactError(
+                f"transition family {family_id or '<unknown>'} is malformed"
+            )
+        return family
 
     def _load_example(self, raw_summary: Any) -> None:
         if not isinstance(raw_summary, dict):
@@ -487,6 +834,29 @@ class ArtifactRepository:
         detail = _load_object(detail_path)
         if detail.get("exampleId") != example_id:
             raise ArtifactError(f"example detail id does not match {example_id}")
+        source_of_truth = detail.get("sourceOfTruth")
+        descriptor_source = (
+            source_of_truth.get("descriptorSource")
+            if isinstance(source_of_truth, dict)
+            else None
+        )
+        if descriptor_source is not None:
+            if not isinstance(descriptor_source, dict):
+                raise ArtifactError(f"example {example_id} has malformed descriptor provenance")
+            descriptor_path = descriptor_source.get("path")
+            descriptor_hash = descriptor_source.get("sha256")
+            if not isinstance(descriptor_path, str) or not isinstance(descriptor_hash, str):
+                raise ArtifactError(f"example {example_id} has malformed descriptor provenance")
+            candidate = (self.root / descriptor_path).resolve()
+            if (
+                candidate != self.root
+                and self.root not in candidate.parents
+            ) or candidate.suffix != ".lean" or not candidate.is_file():
+                raise ArtifactError(f"example {example_id} has an unsafe descriptor source")
+            if _sha256(candidate) != descriptor_hash:
+                self._handle_stale_hash(
+                    f"example {example_id} descriptor source has changed since export"
+                )
         self._validate_example_detail(detail)
         self.example_summaries_by_id[example_id] = self._example_summary(raw_summary)
         self.examples[example_id] = detail
@@ -534,6 +904,7 @@ class ArtifactRepository:
 
         allowed_kinds = {
             "registeredRoute",
+            "registeredTransition",
             "frameworkComposition",
             "proofData",
             "validation",
@@ -568,6 +939,11 @@ class ArtifactRepository:
                         raise ArtifactError(
                             f"example {example_id} has an unsupported CT relationship"
                         )
+                    projected_relationship_kind = (
+                        "registeredTransition"
+                        if relationship_kind == "registeredRoute"
+                        else relationship_kind
+                    )
                     transition_id = (
                         f"implemented:{example_id}:{workflow_id}:{link['linkId']}"
                     )
@@ -581,10 +957,13 @@ class ArtifactRepository:
                             "transitionId": transition_id,
                             "sourceTacticId": source_tactic,
                             "targetTacticId": target_tactic,
-                            "relationshipKind": relationship_kind,
+                            "relationshipKind": projected_relationship_kind,
                             "automationClass": (
-                                "registeredRoute"
-                                if relationship_kind == "registeredRoute"
+                                "registeredTransition"
+                                if relationship_kind in {
+                                    "registeredRoute",
+                                    "registeredTransition",
+                                }
                                 else "frameworkAudit"
                                 if relationship_kind == "scheduleAudit"
                                 else "frameworkExecutor"
@@ -611,7 +990,9 @@ class ArtifactRepository:
                             "targetDeclarationId": target.get(
                                 "primaryDeclarationId"
                             ),
-                            "routeId": link.get("routeId"),
+                            "transitionProfileId": link.get(
+                                "transitionProfileId", link.get("routeId")
+                            ),
                             "evidenceDeclarationIds": link.get(
                                 "evidenceDeclarationIds", []
                             ),
@@ -717,6 +1098,37 @@ class ArtifactRepository:
             for link in workflow["links"]:
                 if not isinstance(link, dict):
                     raise ArtifactError(f"example {example_id} has a malformed link")
+                relationship_kind = link.get("kind")
+                if relationship_kind not in {
+                    "registeredRoute",
+                    "registeredTransition",
+                    "frameworkComposition",
+                    "proofData",
+                    "validation",
+                    "scheduleAudit",
+                    "sharedProblem",
+                }:
+                    raise ArtifactError(
+                        f"example {example_id} has an unsupported link kind"
+                    )
+                expected_link_fields = {
+                    "linkId",
+                    "sourceStageId",
+                    "targetStageId",
+                    "kind",
+                    "label",
+                    "summary",
+                    "automationDeclarationIds",
+                    "evidenceDeclarationIds",
+                }
+                if relationship_kind == "registeredTransition":
+                    expected_link_fields.add("transitionProfileId")
+                if relationship_kind == "registeredRoute":
+                    expected_link_fields.add("routeId")
+                if set(link) != expected_link_fields:
+                    raise ArtifactError(
+                        f"example {example_id} link fields do not match its kind"
+                    )
                 link_id = link.get("linkId")
                 if not isinstance(link_id, str) or link_id in link_ids:
                     raise ArtifactError(f"example {example_id} repeats link {link_id}")
@@ -761,14 +1173,50 @@ class ArtifactRepository:
                     raise ArtifactError(
                         f"example {example_id} link automation is not framework-owned"
                     )
-                if link.get("kind") == "registeredRoute":
-                    route = self.route_by_id.get(link.get("routeId"))
-                    if route is None:
-                        raise ArtifactError(f"example {example_id} has an unknown route")
-                    if source_stage.get("tacticId") not in (None, route["sourceTacticId"]):
-                        raise ArtifactError(f"example {example_id} route source disagrees")
-                    if target_stage.get("tacticId") not in (None, route["targetTacticId"]):
-                        raise ArtifactError(f"example {example_id} route target disagrees")
+                if relationship_kind == "registeredTransition":
+                    profile = self.transition_profile_by_id.get(
+                        link.get("transitionProfileId")
+                    )
+                    if profile is None:
+                        raise ArtifactError(
+                            f"example {example_id} has an unknown transition profile"
+                        )
+                    if source_stage.get("tacticId") != profile["sourceTacticId"]:
+                        raise ArtifactError(
+                            f"example {example_id} transition source disagrees"
+                        )
+                    if target_stage.get("tacticId") != profile["targetTacticId"]:
+                        raise ArtifactError(
+                            f"example {example_id} transition target disagrees"
+                        )
+                    if automation != [profile["advanceExecutor"]]:
+                        raise ArtifactError(
+                            f"example {example_id} transition does not use its "
+                            "canonical full-ledger advance executor"
+                        )
+                elif relationship_kind == "registeredRoute":
+                    # Compatibility for committed example artifacts produced by
+                    # schema 1.3.  Route IDs became transition-profile IDs in
+                    # schema 1.4; the endpoints must still agree with the
+                    # current compiled profile.  Legacy routes deliberately do
+                    # not claim the newer full-ledger `advance` executor.
+                    profile = self.transition_profile_by_id.get(link.get("routeId"))
+                    if profile is None:
+                        raise ArtifactError(
+                            f"example {example_id} has an unknown legacy route"
+                        )
+                    if source_stage.get("tacticId") != profile["sourceTacticId"]:
+                        raise ArtifactError(
+                            f"example {example_id} legacy route source disagrees"
+                        )
+                    if target_stage.get("tacticId") != profile["targetTacticId"]:
+                        raise ArtifactError(
+                            f"example {example_id} legacy route target disagrees"
+                        )
+                elif "transitionProfileId" in link:
+                    raise ArtifactError(
+                        f"example {example_id} non-transition link names a profile"
+                    )
                 link_ids.add(link_id)
 
         for binding in bindings:
@@ -942,6 +1390,77 @@ class ArtifactRepository:
                     local_declarations.update(ids)
                 explained_declarations.update(local_declarations)
                 proof_step_ids.add(step_id)
+            node_obligations = manuscript.get("nodeObligations", [])
+            if not isinstance(node_obligations, list):
+                raise ArtifactError(
+                    f"example {example_id} has malformed node obligations"
+                )
+            obligation_ids: set[str] = set()
+            obligations_by_node: dict[int, list[dict[str, Any]]] = {}
+            proof_steps_by_id = {
+                step.get("stepId"): step
+                for step in manuscript["proofSteps"]
+                if isinstance(step, dict)
+            }
+            for obligation in node_obligations:
+                if not isinstance(obligation, dict):
+                    raise ArtifactError(
+                        f"example {example_id} has a malformed node obligation"
+                    )
+                node_id = obligation.get("nodeId")
+                obligation_id = obligation.get("obligationId")
+                status = obligation.get("status")
+                evidence_step_ids = obligation.get("evidenceStepIds")
+                if (
+                    not isinstance(node_id, int)
+                    or isinstance(node_id, bool)
+                    or node_id < 1
+                    or not isinstance(obligation_id, str)
+                    or not obligation_id
+                    or obligation_id in obligation_ids
+                    or status not in {"proved", "partial", "missing"}
+                    or not isinstance(evidence_step_ids, list)
+                    or len(set(evidence_step_ids)) != len(evidence_step_ids)
+                ):
+                    raise ArtifactError(
+                        f"example {example_id} has an invalid node obligation"
+                    )
+                obligation_ids.add(obligation_id)
+                if status == "missing" and evidence_step_ids:
+                    raise ArtifactError(
+                        f"example {example_id} missing obligation claims evidence"
+                    )
+                if status != "missing" and not evidence_step_ids:
+                    raise ArtifactError(
+                        f"example {example_id} non-missing obligation lacks evidence"
+                    )
+                for step_id in evidence_step_ids:
+                    step = proof_steps_by_id.get(step_id)
+                    if not isinstance(step_id, str) or step is None:
+                        raise ArtifactError(
+                            f"example {example_id} obligation has dangling evidence"
+                        )
+                    if status != "missing" and step.get("status") != "implemented":
+                        raise ArtifactError(
+                            f"example {example_id} non-missing obligation uses unfinished evidence"
+                        )
+                    if not any(
+                        node_id in reference.get("nodeIds", [])
+                        for reference in step.get("manuscriptRefs", [])
+                        if isinstance(reference, dict)
+                    ):
+                        raise ArtifactError(
+                            f"example {example_id} obligation evidence cites another node"
+                        )
+                obligations_by_node.setdefault(node_id, []).append(obligation)
+            for node_id, obligations in obligations_by_node.items():
+                all_proved = all(
+                    obligation["status"] == "proved" for obligation in obligations
+                )
+                if all_proved != (node_id in formalized_diagram_nodes):
+                    raise ArtifactError(
+                        f"example {example_id} node status disagrees with obligations"
+                    )
             if referenced_labels != fragment_labels:
                 raise ArtifactError(
                     f"example {example_id} rendered manuscript label coverage is stale"
@@ -1065,15 +1584,29 @@ class ArtifactRepository:
                 "transitions": sum(item["transitionCount"] for item in summaries),
                 "terminals": sum(item["terminalCount"] for item in summaries),
                 "residualKinds": sum(item["residualCount"] for item in summaries),
-                "routes": len(self.routes),
+                "transitionFamilies": len(self.transition_families),
+                "transitionProfiles": len(self.transition_profiles),
                 "implementedTransitions": len(self.implemented_transitions),
                 "manualObligations": sum(
                     item["manualObligationCount"] for item in summaries
                 ),
             },
             "tactics": summaries,
-            "routes": self.routes,
+            "transitionFamilies": self.transition_families,
+            "transitionProfiles": self.transition_profiles,
             "implementedTransitions": self.implemented_transitions,
+        }
+
+    def documentation_response(self) -> dict[str, Any]:
+        return {
+            "artifactType": "frameworkExplorerDocumentation",
+            "artifactWarnings": self.artifact_warnings,
+            "schemaVersion": self.documentation["schemaVersion"],
+            "catalogHash": self.documentation_hash,
+            "sourceOfTruth": self.documentation["sourceOfTruth"],
+            "verification": self.verification_status,
+            "capabilities": self.documentation_capabilities,
+            "tacticGuides": self.documentation_tactic_guides,
         }
 
     def tactic_response(self, tactic_id: str) -> dict[str, Any] | None:
@@ -1093,11 +1626,15 @@ class ArtifactRepository:
             "verification": self.verification_status,
             "tactic": overview_tactic,
             "graph": self.graphs[tactic_id],
-            "inboundRoutes": [
-                route for route in self.routes if route["targetTacticId"] == tactic_id
+            "inboundTransitionProfiles": [
+                profile
+                for profile in self.transition_profiles
+                if profile["targetTacticId"] == tactic_id
             ],
-            "outboundRoutes": [
-                route for route in self.routes if route["sourceTacticId"] == tactic_id
+            "outboundTransitionProfiles": [
+                profile
+                for profile in self.transition_profiles
+                if profile["sourceTacticId"] == tactic_id
             ],
         }
 
@@ -1260,4 +1797,13 @@ class ArtifactRepository:
             "tactics": [
                 summaries[tactic_id] for tactic_id in example.get("tacticIds", [])
             ],
+        }
+
+    def erdos_proof_history_response(self) -> dict[str, Any]:
+        return {
+            "artifactType": "frameworkExplorerErdosProofHistory",
+            "artifactWarnings": self.artifact_warnings,
+            "schemaVersion": self.erdos_proof_history["schemaVersion"],
+            "exampleId": self.erdos_proof_history["exampleId"],
+            "snapshots": self.erdos_proof_history["snapshots"],
         }

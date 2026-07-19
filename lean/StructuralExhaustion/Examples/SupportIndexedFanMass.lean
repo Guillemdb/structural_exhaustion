@@ -93,6 +93,12 @@ def problem : Core.Problem where
 
 def context : Core.BranchContext problem := ⟨(), trivial, ()⟩
 
+def execution : CT14.ExecutionResult (profile.capability problem) context :=
+  CT14.run (profile.capability problem) context (profile.input context)
+
+def stage : profile.VerifiedExecutionStage context execution :=
+  profile.verifiedExecutionStage context execution rfl
+
 example : profile.globalSurplus = 5 := by native_decide
 example : profile.carriedTokenMass = 8 := by native_decide
 example : profile.residualMass = 16 := by native_decide
@@ -105,17 +111,15 @@ example : profile.residualMass ≤
     (2 * profile.coefficient) * profile.globalSurplus :=
   profile.residualMass_le_two_mul_coefficient_mul_globalSurplus
 
-example : (profile.run context).terminal = .capacity :=
-  profile.run_terminal context
+example : execution.terminal = .capacity := stage.terminal
 
-example : (profile.run context).outcome.Valid :=
-  (profile.verifiedStage context).verified
+example : execution.outcome.Valid := stage.verified
 
 example : profile.checks = 25 := by native_decide
 
 example : profile.checks ≤
     3 * (profile.supports.card + 1) * (profile.occurrences.card + 1) :=
-  (profile.verifiedStage context).quadraticWorkBound
+  stage.quadraticWorkBound
 
 end FanMass
 

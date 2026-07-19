@@ -21,7 +21,7 @@ The CT15 rank-drop decision belongs to node `[32]`, not this file.
 noncomputable def p13CurvatureTargetRank
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
     Nat :=
-  (p13CurvatureResponseProfile ctx).ct15Profile.targetRank
+  p13CanonicalCurvatureTargetRank ctx
 
 /-- Complete node-[31] payload indexed by the literal node-[30] output. -/
 structure VerifiedP13Node31CurvatureTargetRank
@@ -35,7 +35,7 @@ structure VerifiedP13Node31CurvatureTargetRank
     (node29 : VerifiedP13Node29ExternalIncidenceSupply
       ctx node21 node24 node26 node27 node28)
     (node30 : VerifiedP13Node30WedgeLower
-      ctx node21 node24 node26 node27 node28 node29) : Type (u + 1)
+      ctx node21 node24 node26 node27 node28 node29) : Type (u + 3)
     extends Core.ExactHandoff node30 where
   coordinateCount :
     (p13CurvatureCoordinates ctx).card =
@@ -52,7 +52,7 @@ structure VerifiedP13Node31CurvatureTargetRank
       (p13RemainderCurvatureProfile ctx).wedgeCount
   maximumWitness :
     ∃ family : Finset (P13CurvatureCoordinate ctx),
-      (p13CurvatureResponseProfile ctx).ct15Profile.Survives family ∧
+      (p13CurvatureFunctionalRankProfile ctx).Survives family ∧
         family.card = p13CurvatureTargetRank ctx
 
 /-- Execute only the manuscript's definitional `[30] -> [31]` edge. -/
@@ -78,10 +78,10 @@ noncomputable def VerifiedP13Node30WedgeLower.node31
   targetRankUpper := by
     calc
       p13CurvatureTargetRank ctx ≤ (p13CurvatureCoordinates ctx).card :=
-        (p13CurvatureResponseProfile ctx).ct15Profile.targetRank_le_coordinates
+        (p13CurvatureFunctionalRankProfile ctx).rankProfile.targetRank_le_coordinates
       _ = (p13RemainderCurvatureProfile ctx).wedgeCount :=
         p13CurvatureCoordinates_card_eq_wedgeCount ctx
   maximumWitness :=
-    (p13CurvatureResponseProfile ctx).ct15Profile.exists_surviving_card_eq_targetRank
+    exists_p13CanonicalCurvature_surviving_card_eq_targetRank ctx
 
 end Erdos64EG.Internal

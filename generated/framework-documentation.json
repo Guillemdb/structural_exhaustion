@@ -1,0 +1,473 @@
+{"tacticGuides":
+ [{"useWhen": "A target has a finite witness or certificate search.",
+   "tacticId": "CT1",
+   "role": "Realization",
+   "leanEntry":
+   "Define a target encoding or certificate encoding, then run the generated CT1 capability."},
+  {"useWhen": "Minimality should rule out a deletion or an exhaustive local replacement.",
+   "tacticId": "CT2",
+   "role": "Reduction",
+   "leanEntry":
+   "Choose deletion-only, local-deletion, or certified-reduction profiles before defining a raw capability."},
+  {"useWhen": "Two local pieces can be compared through exact finite response coordinates.",
+   "tacticId": "CT3",
+   "role": "Compression",
+   "leanEntry": "Supply a target-compression contract or literal packed replacement certificate."},
+  {"useWhen": "Demands must be assigned to eligible payers under a capacity bound.",
+   "tacticId": "CT4",
+   "role": "Charging",
+   "leanEntry": "Use the functional-cardinality profile when eligibility is functional."},
+  {"useWhen": "Local witnesses either fail support or contribute to a global ledger.",
+   "tacticId": "CT5",
+   "role": "Aggregation",
+   "leanEntry": "Provide finite sites, dependent witnesses, support decisions, and contributions."},
+  {"useWhen":
+   "The first failed local condition matters, or every condition being active yields a ledger.",
+   "tacticId": "CT6",
+   "role": "Ordered failure",
+   "leanEntry": "Provide the observable failure order and a decidable failure predicate."},
+  {"useWhen": "Two objects must be separated by a finite context or certified response-neutral.",
+   "tacticId": "CT7",
+   "role": "Context classification",
+   "leanEntry": "Provide exact realization and response functions over finite contexts."},
+  {"useWhen": "Repeated exact types in a finite state sequence permit comparison or removal.",
+   "tacticId": "CT8",
+   "role": "Repetition",
+   "leanEntry": "Enumerate exact types and response contexts and supply the removal operation."},
+  {"useWhen": "A finite label partition must contain a fibre beyond its capacity.",
+   "tacticId": "CT9",
+   "role": "Overload",
+   "leanEntry":
+   "Supply items, labels, the label map, and capacity; use parity capacity-one when applicable."},
+  {"useWhen": "A finite refinement table yields a direct case, a missing class, or promotion.",
+   "tacticId": "CT10",
+   "role": "Classification",
+   "leanEntry": "Use exhaustive classification for a decidable accepted-candidate table."},
+  {"useWhen": "A negative finite total must have a locally negative cell.",
+   "tacticId": "CT11",
+   "role": "Localization",
+   "leanEntry": "Use `NegativeBudgetProfile` for universally admissible cells."},
+  {"useWhen": "A structurally decreasing process peels objects until exhaustion or saturation.",
+   "tacticId": "CT12",
+   "role": "Peeling",
+   "leanEntry": "Prefer list peeling or disjoint packing for the standard schedule shapes."},
+  {"useWhen": "A first payer tier may fail and requires canonical fallback and reconciliation.",
+   "tacticId": "CT13",
+   "role": "Tiered charging",
+   "leanEntry": "Provide both payer tiers, fallback costs, and the deficit comparison."},
+  {"useWhen": "Member lower masses must be compared with optional capacities and multiplicities.",
+   "tacticId": "CT14",
+   "role": "Aggregate capacity",
+   "leanEntry": "Enumerate members and labels and supply lower mass and capacity data."},
+  {"useWhen": "Target-relative coordinates either exhibit a rank drop or fill a capacity ledger.",
+   "tacticId": "CT15",
+   "role": "Rank forcing",
+   "leanEntry": "Provide finite coordinates, target dependence, charge, and capacity."},
+  {"useWhen": "Whole-support exhaustion produces a closed code to compare with a target code.",
+   "tacticId": "CT16",
+   "role": "Closed type",
+   "leanEntry": "Supply support decisions, code computation, and target-code equality."},
+  {"useWhen": "Bounded offsets, scales, survivors, and orbit arithmetic can be exhausted locally.",
+   "tacticId": "CT17",
+   "role": "Target thickening",
+   "leanEntry": "Provide the finite compatibility and scale universes with arithmetic deciders."}],
+ "sourceOfTruth":
+ {"registry": "StructuralExhaustion.Canonical.Documentation.capabilities",
+  "kind": "compiledLeanEnvironment"},
+ "schemaVersion": "1.0.0",
+ "capabilities":
+ [{"title": "Problems and branch contexts",
+   "relatedTacticIds": [],
+   "relatedCapabilityIds": [],
+   "mathematician":
+   {"summary":
+    "Separate the ambient object, baseline hypothesis, rank, and accumulated branch state from any particular closure tactic.",
+    "result":
+    "A stable context that can be passed between tactics without silently changing the selected object or hypotheses.",
+    "inputs":
+    "An object class, a baseline property, a well-founded rank, and the facts currently retained on the branch."},
+   "leanUser":
+   {"summary":
+    "`Core.Problem` and its indexed contexts are the shared carrier for every CT input and typed route.",
+    "result": "Definitionally aligned contexts and projections used by CT capabilities and routes.",
+    "inputs":
+    "Define the four problem fields once, then construct `BranchContext`, `AvoidingContext`, or `MinimalCounterexampleContext`."},
+   "layer": "core",
+   "examples": [],
+   "depth": "walkthrough",
+   "declarations":
+   ["StructuralExhaustion.Core.Problem",
+    "StructuralExhaustion.Core.BranchContext",
+    "StructuralExhaustion.Core.AvoidingContext",
+    "StructuralExhaustion.Core.MinimalCounterexampleContext"],
+   "category": "Model the branch",
+   "capabilityId": "core.problem-context"},
+  {"title": "Finite enumerations and observable order",
+   "relatedTacticIds": [],
+   "relatedCapabilityIds": [],
+   "mathematician":
+   {"summary":
+    "Turn the finite local universe used by a proof step into explicit data, distinguishing genuine sets from first-hit search orders.",
+    "result":
+    "An exhaustive finite carrier whose coverage and order are available to later proofs.",
+    "inputs": "A finite type or a duplicate-free local schedule."},
+   "leanUser":
+   {"summary":
+    "Use `FinEnum` for total finite universes, `OrderedCollection` when first-hit order is observable, and `Finset` for unordered sums.",
+    "result": "Reusable enumerations, membership theorems, and deterministic schedules.",
+    "inputs": "An explicit equivalence with `Fin n` or a duplicate-free list."},
+   "layer": "core",
+   "examples": [],
+   "depth": "walkthrough",
+   "declarations":
+   ["FinEnum",
+    "StructuralExhaustion.Core.OrderedCollection",
+    "StructuralExhaustion.Core.DependentEnumeration"],
+   "category": "Make local work explicit",
+   "capabilityId": "core.finite-enumeration"},
+  {"title": "Certified finite search",
+   "relatedTacticIds": [],
+   "relatedCapabilityIds": ["core.finite-enumeration"],
+   "mathematician":
+   {"summary":
+    "Search a declared finite family and retain either the first witness or a proof that no witness exists.",
+    "result": "A sound witness or an exhaustive negative certificate.",
+    "inputs": "A finite schedule and a decidable local predicate."},
+   "leanUser":
+   {"summary":
+    "`Core.FiniteSearch` packages deterministic first-hit computation with soundness and completeness theorems.",
+    "result": "An evidence-carrying result with deterministic reference semantics.",
+    "inputs": "A `FinEnum` or list and a `DecidablePred`."},
+   "layer": "core",
+   "examples": [],
+   "depth": "index",
+   "declarations":
+   ["StructuralExhaustion.Core.FiniteSearch.search",
+    "StructuralExhaustion.Core.FiniteSearch.search_sound",
+    "StructuralExhaustion.Core.FiniteSearch.search_complete"],
+   "category": "Make local work explicit",
+   "capabilityId": "core.finite-search"},
+  {"title": "Exact predecessor handoff",
+   "relatedTacticIds": [],
+   "relatedCapabilityIds": [],
+   "mathematician":
+   {"summary":
+    "Advance a proof while recording that the next stage uses the exact predecessor already established, not a recomputed lookalike.",
+    "result":
+    "A successor carrying both new information and equality to the canonical predecessor.",
+    "inputs": "A verified predecessor and the next fact or dependent stage produced from it."},
+   "leanUser":
+   {"summary":
+    "`ExactHandoff`, `ExactPropertyHandoff`, and `ExactStageHandoff` encode zero-copy predecessor provenance.",
+    "result": "Typed handoffs suitable for sequential proof nodes and generated workflow evidence.",
+    "inputs":
+    "The expected value plus a property, producer, or dependent stage computed from the retrieved value."},
+   "layer": "core",
+   "examples": [],
+   "depth": "walkthrough",
+   "declarations":
+   ["StructuralExhaustion.Core.ExactHandoff",
+    "StructuralExhaustion.Core.ExactPropertyHandoff",
+    "StructuralExhaustion.Core.ExactStageHandoff"],
+   "category": "Preserve provenance",
+   "capabilityId": "core.exact-handoff"},
+  {"title": "Residual refinement and occurrence ledgers",
+   "relatedTacticIds": [],
+   "relatedCapabilityIds": ["core.exact-handoff", "core.finite-enumeration"],
+   "mathematician":
+   {"summary":
+    "Accumulate local decisions on one stable residual while retaining exactly which occurrence produced each fact.",
+    "result": "A sequential state with inherited facts, coverage, and uniquely indexed provenance.",
+    "inputs": "A residual, an explicit schedule, and decidable refinements."},
+   "leanUser":
+   {"summary":
+    "Use `ResidualRefinement.State.StageNode` for dependent proof prefixes and `FiniteResidualLedger.Ledger` for occurrence-sensitive schedules.",
+    "result": "Composable nodes, indexed productions, and global coverage theorems.",
+    "inputs":
+    "A stable residual carrier, fact predicates, stage producers, and a finite event schedule."},
+   "layer": "core",
+   "examples": [],
+   "depth": "walkthrough",
+   "declarations":
+   ["StructuralExhaustion.Core.ResidualRefinement.State",
+    "StructuralExhaustion.Core.ResidualRefinement.State.StageNode",
+    "StructuralExhaustion.Core.FiniteResidualLedger.Ledger"],
+   "category": "Preserve provenance",
+   "capabilityId": "core.residual-refinement"},
+  {"title": "Well-founded saturation",
+   "relatedTacticIds": [],
+   "relatedCapabilityIds": ["core.finite-search", "core.work-budget"],
+   "mathematician":
+   {"summary":
+    "Repeatedly take the first enabled local move until no move remains, with termination visible in the proof.",
+    "result": "A saturated terminal state and a bounded list of chosen moves.",
+    "inputs": "Candidate moves, an enabledness test, a step operation, and a decreasing measure."},
+   "leanUser":
+   {"summary":
+    "`FiniteSaturation.Machine` owns first-enabled selection, well-founded execution, and terminal saturation.",
+    "result": "An execution, exact choice trace, saturation theorem, and iteration bound.",
+    "inputs": "A candidate enumeration, decision procedure, step, and strict decrease proof."},
+   "layer": "core",
+   "examples": [],
+   "depth": "index",
+   "declarations":
+   ["StructuralExhaustion.Core.FiniteSaturation.Machine",
+    "StructuralExhaustion.Core.FiniteSaturation.Machine.execute",
+    "StructuralExhaustion.Core.FiniteSaturation.Machine.Execution.terminal_saturated"],
+   "category": "Close finite processes",
+   "capabilityId": "core.finite-saturation"},
+  {"title": "Maximum finite disjoint packing",
+   "relatedTacticIds": ["CT12"],
+   "relatedCapabilityIds": ["core.finite-enumeration"],
+   "mathematician":
+   {"summary":
+    "Select a maximum family of pairwise disjoint nonempty supports and turn maximality into a saturation statement.",
+    "result":
+    "A maximum packing that intersects every omitted item and is bounded by the host size.",
+    "inputs": "Finite items, their nonempty finite supports, and a finite host."},
+   "leanUser":
+   {"summary":
+    "`FiniteDisjointPacking.Profile` proof-selects a maximum packing without exposing an executable powerset search.",
+    "result": "The selected values, maximum/saturation proofs, and symbolic cardinality bounds.",
+    "inputs": "Finite vertex and item types plus a nonempty support map."},
+   "layer": "core",
+   "examples":
+   [{"workflowId": "ct12-maximal-matching",
+     "title": "Maximum matching by induced-P2 packing",
+     "exampleId": "even-cycle"}],
+   "depth": "walkthrough",
+   "declarations":
+   ["StructuralExhaustion.Core.FiniteDisjointPacking.Profile",
+    "StructuralExhaustion.Core.FiniteDisjointPacking.Profile.maximum_saturated"],
+   "category": "Close finite processes",
+   "capabilityId": "core.disjoint-packing"},
+  {"title": "Counted work and polynomial budgets",
+   "relatedTacticIds": [],
+   "relatedCapabilityIds": [],
+   "mathematician":
+   {"summary":
+    "Make the number of primitive local checks part of the theorem rather than an informal complexity claim.",
+    "result":
+    "A certified polynomial envelope that composes across sequential and branching computations.",
+    "inputs": "An input-size measure and an exact or compositional check count."},
+   "leanUser":
+   {"summary":
+    "`Counted` tracks exact checks; `PolynomialCheckBudget` supplies constant, zero, sum, scale, branch, and pullback combinators.",
+    "result":
+    "Reusable complexity certificates without re-proving arithmetic for framework composition.",
+    "inputs":
+    "A counted computation and proofs bounding its checks by a declared size polynomial."},
+   "layer": "core",
+   "examples": [],
+   "depth": "walkthrough",
+   "declarations":
+   ["StructuralExhaustion.Core.Counted",
+    "StructuralExhaustion.Core.PolynomialCheckBudget",
+    "StructuralExhaustion.Core.PolynomialCheckBudget.add",
+    "StructuralExhaustion.Core.PolynomialCheckBudget.branch"],
+   "category": "Certify execution",
+   "capabilityId": "core.work-budget"},
+  {"title": "Finite Mathlib graph input",
+   "relatedTacticIds": [],
+   "relatedCapabilityIds": ["core.problem-context", "core.finite-enumeration"],
+   "mathematician":
+   {"summary":
+    "Use an ordinary finite simple graph while making the vertex order and adjacency decisions needed by deterministic proof machines explicit.",
+    "result":
+    "Graph invariants, ordered neighborhoods, darts, degrees, and a shared structural-exhaustion problem context.",
+    "inputs": "A Mathlib simple graph with a finite vertex enumeration."},
+   "leanUser":
+   {"summary":
+    "`Graph.FiniteObject` bundles a `SimpleGraph` with `FiniteInput`; it does not introduce a second graph representation.",
+    "result": "Canonical graph problem/context values and reusable finite graph operations.",
+    "inputs": "A Mathlib graph, explicit `FinEnum` vertices, and decidable adjacency."},
+   "layer": "graph",
+   "examples": [],
+   "depth": "walkthrough",
+   "declarations":
+   ["StructuralExhaustion.Graph.FiniteObject",
+    "StructuralExhaustion.Graph.FiniteObject.problem",
+    "StructuralExhaustion.Graph.FiniteObject.context"],
+   "category": "Represent graphs",
+   "capabilityId": "graph.finite-object"},
+  {"title": "Proof-carrying induced paths",
+   "relatedTacticIds": ["CT1"],
+   "relatedCapabilityIds": ["graph.finite-object"],
+   "mathematician":
+   {"summary":
+    "Treat an induced path embedding itself as the finite certificate, avoiding enumeration of vertex tuples or subgraphs.",
+    "result": "Target realization or an exact induced-path-free residual.",
+    "inputs": "A literal Mathlib induced graph embedding of a path."},
+   "leanUser":
+   {"summary":
+    "`Graph.InducedPath.Profile` supplies CT1 encoding, exact executions, reflection, traces, totality, and constant certificate work.",
+    "result": "A reusable CT1 profile with certificate-driven positive and avoiding runs.",
+    "inputs": "A target predicate, path order, and proof-carrying embedding."},
+   "layer": "graph",
+   "examples":
+   [{"workflowId": "ct1-induced-edge",
+     "title": "Every edge is an induced P2",
+     "exampleId": "even-cycle"}],
+   "depth": "walkthrough",
+   "declarations":
+   ["StructuralExhaustion.Graph.InducedPath.Profile",
+    "StructuralExhaustion.Graph.InducedPath.Profile.encoding",
+    "StructuralExhaustion.Graph.InducedPath.Profile.run"],
+   "category": "Certificates and local structure",
+   "capabilityId": "graph.induced-path"},
+  {"title": "Endpoint-parity cycle pipeline",
+   "relatedTacticIds": ["CT6", "CT9", "CT1"],
+   "relatedCapabilityIds": ["graph.finite-object"],
+   "mathematician":
+   {"summary":
+    "Close a maximal path, overload two parity classes at an endpoint, and convert equal-parity neighbors into an even cycle.",
+    "result": "An explicit even-cycle certificate.",
+    "inputs": "A finite graph of minimum degree at least three and an endpoint-maximal path."},
+   "leanUser":
+   {"summary":
+    "`EndpointParityCycle.Profile` composes maximal-path selection, CT6, the registered CT6-to-CT9 route, CT9, chord construction, and CT1 validation.",
+    "result": "Aligned runs, typed traces, a cycle certificate, and final CT1 validation.",
+    "inputs": "A `FiniteObject` and the reusable minimum-degree/even-cycle profile."},
+   "layer": "graph",
+   "examples":
+   [{"workflowId": "main",
+     "title": "Minimum degree three forces an even cycle",
+     "exampleId": "even-cycle"}],
+   "depth": "walkthrough",
+   "declarations":
+   ["StructuralExhaustion.Graph.EndpointParityCycle.Profile",
+    "StructuralExhaustion.Graph.EndpointParityCycle.Profile.ct6Run",
+    "StructuralExhaustion.Graph.EndpointParityCycle.Profile.evenCycle"],
+   "category": "Paths and cycles",
+   "capabilityId": "graph.endpoint-parity-cycle"},
+  {"title": "Ranked proper-subgraph reduction",
+   "relatedTacticIds": ["CT2"],
+   "relatedCapabilityIds": ["graph.finite-object", "core.work-budget"],
+   "mathematician":
+   {"summary":
+    "Choose a smaller finite graph by lexicographic vertex/edge rank and transport cycle information through an injective graph map.",
+    "result": "A certified minimality contradiction or deletion-critical residual.",
+    "inputs": "A selected packed proper subgraph and preservation proofs."},
+   "leanUser":
+   {"summary":
+    "`PackedMinimumDegreeCycle` owns varying vertex types, lexicographic rank, cycle transport, and certificate-driven CT2 execution.",
+    "result": "Constant-work CT2 reduction, exact trace, and non-properness consequences.",
+    "inputs": "One proof-specified proper subgraph; no universe of graphs or subgraphs."},
+   "layer": "graph",
+   "examples":
+   [{"workflowId": "ct2-audit",
+     "title": "Proper-subgraph and deletion audit",
+     "exampleId": "even-cycle"}],
+   "depth": "walkthrough",
+   "declarations":
+   ["StructuralExhaustion.Graph.PackedFiniteObject",
+    "StructuralExhaustion.Graph.PackedFiniteObject.ProperSubgraph"],
+   "category": "Reduction and replacement",
+   "capabilityId": "graph.packed-reduction"},
+  {"title": "Literal boundaried replacement",
+   "relatedTacticIds": ["CT3"],
+   "relatedCapabilityIds": ["graph.packed-reduction", "core.exact-handoff"],
+   "mathematician":
+   {"summary":
+    "Replace a graph piece only after proving that it has the same response in every compatible outside context.",
+    "result": "Literal glued-graph transport and a certified uncompressibility conclusion.",
+    "inputs":
+    "Finite boundary labels, a piece, a smaller replacement, and a compatible outside graph."},
+   "leanUser":
+   {"summary":
+    "`PackedBoundariedGluing` derives whole-object decrease, baseline preservation, and target transport before invoking certified CT3 compression.",
+    "result": "A one-check CT3 stage with exact response and minimality consequences.",
+    "inputs":
+    "Packed boundaried pieces, boundary-degree data, gluing semantics, and one replacement certificate."},
+   "layer": "graph",
+   "examples":
+   [{"workflowId": "ct3-series",
+     "title": "Two-terminal series replacement",
+     "exampleId": "even-cycle"}],
+   "depth": "walkthrough",
+   "declarations":
+   ["StructuralExhaustion.Graph.PackedBoundariedGluing.BoundariedGraph",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.Context",
+    "StructuralExhaustion.Graph.PackedBoundariedGluing.glueGraph"],
+   "category": "Reduction and replacement",
+   "capabilityId": "graph.boundaried-gluing"},
+  {"title": "Maximum matching from induced-edge packing",
+   "relatedTacticIds": ["CT12"],
+   "relatedCapabilityIds": ["core.disjoint-packing", "graph.induced-path"],
+   "mathematician":
+   {"summary":
+    "Specialize maximum disjoint support packing to edges; maximal saturation makes the unmatched remainder edgeless.",
+    "result": "A maximum matching, a vertex partition, and an edgeless unmatched remainder.",
+    "inputs": "A finite simple graph."},
+   "leanUser":
+   {"summary":
+    "`Graph.MaximumMatching` specializes induced-path packing at order two and audits the selected edge list with CT12.",
+    "result": "Maximum and partition theorems, exact CT12 exhaustion, and linear trace bounds.",
+    "inputs":
+    "A `FiniteObject`; the framework supplies edge supports and the selected maximum family."},
+   "layer": "graph",
+   "examples":
+   [{"workflowId": "ct12-maximal-matching",
+     "title": "Maximum matching by induced-P2 packing",
+     "exampleId": "even-cycle"}],
+   "depth": "walkthrough",
+   "declarations":
+   ["StructuralExhaustion.Graph.MaximumMatching.maximum",
+    "StructuralExhaustion.Graph.MaximumMatching.partition",
+    "StructuralExhaustion.Graph.MaximumMatching.remainder_no_edges"],
+   "category": "Packing and construction",
+   "capabilityId": "graph.maximum-matching"},
+  {"title": "Verified greedy coloring",
+   "relatedTacticIds": ["CT12", "CT4", "CT1"],
+   "relatedCapabilityIds": ["graph.finite-object", "core.finite-saturation"],
+   "mathematician":
+   {"summary":
+    "Peel vertices in a fixed order, choose a color missing from later neighbors, and assemble the choices into a proper coloring.",
+    "result":
+    "A proper coloring, with the maximum-degree-plus-one theorem as the canonical instance.",
+    "inputs": "A finite graph and a color bound larger than every later-neighbor set."},
+   "leanUser":
+   {"summary":
+    "`Graph.GreedyColoring` combines a CT12 list audit, repeated CT4 functional-cardinality runs, and CT1 certificate validation.",
+    "result": "A Mathlib `Colorable` proof plus exact CT12, CT4, and CT1 executions.",
+    "inputs":
+    "Only a `FiniteObject`; the graph layer generates the schedule, step profiles, fold, and target encoding."},
+   "layer": "graph",
+   "examples":
+   [{"workflowId": "coloring",
+     "title": "Deterministic greedy coloring",
+     "exampleId": "greedy-coloring"}],
+   "depth": "walkthrough",
+   "declarations":
+   ["StructuralExhaustion.Graph.GreedyColoring.colorOrder",
+    "StructuralExhaustion.Graph.GreedyColoring.peelingRun",
+    "StructuralExhaustion.Graph.GreedyColoring.colorable_maxDegree_succ"],
+   "category": "Packing and construction",
+   "capabilityId": "graph.greedy-coloring"},
+  {"title": "Mantel localization",
+   "relatedTacticIds": ["CT11"],
+   "relatedCapabilityIds": ["graph.finite-object", "core.work-budget"],
+   "mathematician":
+   {"summary":
+    "Turn failure of a global edge bound into a negative sum, localize it to one oriented edge, and contradict triangle-free neighborhood disjointness.",
+    "result":
+    "Mantel's theorem, together with the exact offending-edge residual used in the contradiction.",
+    "inputs":
+    "A finite triangle-free graph and a hypothetical violation of the quarter-square edge bound."},
+   "leanUser":
+   {"summary":
+    "`Graph.Mantel` owns the degree identities and Cauchy-Schwarz estimate, then invokes CT11's negative-budget profile.",
+    "result":
+    "The CT11 run, localized residual, contradiction theorem, and final Mathlib-native edge bound.",
+    "inputs": "A `FiniteObject` and `CliqueFree 3`; the application supplies no CT11 capability."},
+   "layer": "graph",
+   "examples":
+   [{"workflowId": "proof", "title": "Mantel bound by CT11 localization", "exampleId": "mantel"}],
+   "depth": "walkthrough",
+   "declarations":
+   ["StructuralExhaustion.Graph.Mantel.profile",
+    "StructuralExhaustion.Graph.Mantel.run",
+    "StructuralExhaustion.Graph.Mantel.edgeCount_le_card_sq_div_four_of_triangleFree"],
+   "category": "Extremal counting",
+   "capabilityId": "graph.mantel"}],
+ "artifactType": "structuralExhaustionFrameworkDocumentation"}

@@ -12,11 +12,4 @@ structure Capability {P : Core.Problem} (S : Spec P) where
 
 abbrev Input (P : Core.Problem) := Core.BranchContext P
 
-namespace Capability
-def tacticInterface {P : Core.Problem} {S : Spec P}
-    (_capability : Capability S) : Core.Routing.TacticInterface where
-  Context := Core.BranchContext P
-  Trigger := fun _ => Unit
-end Capability
-
 end StructuralExhaustion.CT4

@@ -4,24 +4,11 @@ import StructuralExhaustion.CT2.LocalDeletion
 
 namespace StructuralExhaustion.Routes.CT1ToCT2
 
-universe uAmbient uBranch uIndex uWitness
+universe uAmbient uBranch uIndex uWitness uLedger
 universe uPiece uInterface uAbstract uContext uCandidate
 
-/-- Stable audit contract for the framework-generated CT1→CT2 route. -/
-def contract : Core.RouteContract where
-  routeId := "CT1.residual.avoiding->CT2"
-  sourceResidualKind := "CT1.residual.avoiding"
-  targetTacticId := "CT2"
-  discovery := "StructuralExhaustion.CT2.Capability.discover"
-  triggerConstructor := "StructuralExhaustion.Routes.CT1ToCT2.buildTrigger"
-  soundnessTheorem := "StructuralExhaustion.Routes.CT1ToCT2.enabled_sound"
-  contextPreservationTheorem :=
-    "StructuralExhaustion.Routes.CT1ToCT2.branchContext_preserved"
-  provenanceTheorem :=
-    "StructuralExhaustion.Routes.CT1ToCT2.generated_route_id"
-  selectionClass := .priority
-  semanticDiscovery := .capabilityDiscovery
-  problemSpecificInputs := [.targetCapability, .minimalityKernel]
+/-- Stable identity of the full CT1→CT2 replacement profile. -/
+def transitionId : String := "CT1.residual.avoiding->CT2"
 
 /-- Existentially package the predecessor equivalence index of CT1's sole
 semantic residual.  The inherited branch remains a dependent index. -/
@@ -59,36 +46,36 @@ def targetContext
   Core.MinimalCounterexampleContext.ofAvoiding
     source.state.toAvoidingContext minimality
 
-/-- The unique framework route CT1→CT2.  Discovery is CT2's generic
-capability search.  Its discovered value already has the exact target trigger
-type, so trigger construction is the identity and its context is enforced by
-Lean. -/
-def rule
+/-- Canonical executable CT1→CT2 transition for the full replacement
+profile.  Discovery, trigger construction, execution, and predecessor
+retention are all owned by the transition kernel. -/
+def transition
     {P : Core.Problem.{uAmbient, uBranch}}
     {S : CT1.Spec.{uIndex, uWitness} P} {input : CT1.Input P}
     (capability : CT2.Capability.{uAmbient, uBranch, uPiece, uInterface,
       uAbstract, uContext, uCandidate} P (CT1.Target S))
     (minimality : Core.MinimalityKernel P (CT1.Target S) input.context) :
-    Core.Routing.RouteRule
-      (PackedAvoiding S input) capability.tacticInterface where
-  routeId := "CT1.residual.avoiding->CT2"
-  targetContext := targetContext minimality
-  Seed := fun source => CT2.Input capability (targetContext minimality source)
-  discover := fun source => capability.discover (targetContext minimality source)
-  buildTrigger := fun _source trigger => trigger
+    Core.Routing.CTTransition .ct1 .ct2 (PackedAvoiding S input)
+      capability.executableInterface :=
+  Core.Routing.CTTransition.ofAdapter transitionId (targetContext minimality)
+    (fun source => CT2.Input capability (targetContext minimality source))
+    (fun source => capability.discover (targetContext minimality source))
+    (fun _source trigger => trigger)
 
-/-- Public trigger constructor.  Its dependent result has the exact target
-context, so no separate admission theorem is needed. -/
-def buildTrigger
+/-- Discover and execute the full CT2 profile from an exact CT1 residual.
+The enabled outcome is the complete `EnabledStage`; every later edge chains
+from its framework-owned `ledgerStage`, not from the bare result projection. -/
+def advance
     {P : Core.Problem.{uAmbient, uBranch}}
     {S : CT1.Spec.{uIndex, uWitness} P} {input : CT1.Input P}
     (capability : CT2.Capability.{uAmbient, uBranch, uPiece, uInterface,
       uAbstract, uContext, uCandidate} P (CT1.Target S))
     (minimality : Core.MinimalityKernel P (CT1.Target S) input.context)
-    (source : PackedAvoiding S input)
-    (seed : (rule capability minimality).Seed source) :
-    CT2.Input capability (targetContext minimality source) :=
-  (rule capability minimality).buildTrigger source seed
+    {Ledger : Sort uLedger} (current : Ledger → PackedAvoiding S input)
+    (source : Core.Routing.ResidualStage .ct1 Ledger) :
+    ((transition capability minimality).onLedger current).Outcome source :=
+  Core.Routing.CTTransition.runOnLedger
+    (transition capability minimality) current source
 
 /-- The complete inherited branch context is preserved definitionally. -/
 theorem branchContext_preserved
@@ -131,106 +118,132 @@ theorem avoidance_preserved
     (targetContext minimality source).avoids = source.state.targetAvoiding :=
   rfl
 
-/-- Every enabled route contains the exact proper/admissible seed certified by
-CT2 discovery. -/
+/-- Every enabled transition contains the exact proper/admissible CT2 input
+selected by generic capability discovery. -/
 theorem enabled_sound
     {P : Core.Problem.{uAmbient, uBranch}}
     {S : CT1.Spec.{uIndex, uWitness} P} {input : CT1.Input P}
-    {capability : CT2.Capability.{uAmbient, uBranch, uPiece, uInterface,
-      uAbstract, uContext, uCandidate} P (CT1.Target S)}
-    {minimality : Core.MinimalityKernel P (CT1.Target S) input.context}
-    {source : PackedAvoiding S input}
-    {trigger : (rule capability minimality).Seed source}
-    (_enabled :
-      (rule capability minimality).discover source = .enabled trigger) :
-    capability.pieces.Proper trigger.seed.piece ∧
+    (capability : CT2.Capability.{uAmbient, uBranch, uPiece, uInterface,
+      uAbstract, uContext, uCandidate} P (CT1.Target S))
+    (minimality : Core.MinimalityKernel P (CT1.Target S) input.context)
+    {Ledger : Sort uLedger} (current : Ledger → PackedAvoiding S input)
+    (source : Core.Routing.ResidualStage .ct1 Ledger)
+    (stage : ((transition capability minimality).onLedger current).EnabledStage
+      source) :
+    capability.pieces.Proper stage.execution.seed.seed.piece ∧
       capability.pieces.Admissible
-        (targetContext minimality source).state trigger.seed.piece :=
-  ⟨trigger.seed.proper, trigger.seed.admissible⟩
+        (targetContext minimality (current source.output)).state
+          stage.execution.seed.seed.piece :=
+  ⟨stage.execution.seed.seed.proper, stage.execution.seed.seed.admissible⟩
 
 /-- Disabled discovery is an exact mathematical absence result, not a scope
 tag: every enumerated piece fails properness or admissibility. -/
 theorem disabled_sound
     {P : Core.Problem.{uAmbient, uBranch}}
     {S : CT1.Spec.{uIndex, uWitness} P} {input : CT1.Input P}
-    {capability : CT2.Capability.{uAmbient, uBranch, uPiece, uInterface,
-      uAbstract, uContext, uCandidate} P (CT1.Target S)}
-    {minimality : Core.MinimalityKernel P (CT1.Target S) input.context}
-    {source : PackedAvoiding S input}
-    {reject : (rule capability minimality).Seed source → False}
-    (_disabled :
-      (rule capability minimality).discover source = .disabled reject) :
-    ∀ piece : capability.pieces.Piece (targetContext minimality source).G,
+    (capability : CT2.Capability.{uAmbient, uBranch, uPiece, uInterface,
+      uAbstract, uContext, uCandidate} P (CT1.Target S))
+    (minimality : Core.MinimalityKernel P (CT1.Target S) input.context)
+    {Ledger : Sort uLedger} (current : Ledger → PackedAvoiding S input)
+    (source : Core.Routing.ResidualStage .ct1 Ledger)
+    (notEnabled : ∀ stage :
+      ((transition capability minimality).onLedger current).EnabledStage source,
+      advance capability minimality current source ≠ .enabled stage) :
+    ∀ piece : capability.pieces.Piece
+      (targetContext minimality (current source.output)).G,
       ¬ capability.pieces.Proper piece ∨
         ¬ capability.pieces.Admissible
-          (targetContext minimality source).state piece := by
+          (targetContext minimality (current source.output)).state piece := by
   intro piece
   cases properDecision : capability.pieces.properDecidable piece with
   | isFalse notProper => exact Or.inl notProper
   | isTrue proper =>
       cases admissibleDecision : capability.pieces.admissibleDecidable
-          (targetContext minimality source).state piece with
+          (targetContext minimality (current source.output)).state piece with
       | isFalse notAdmissible => exact Or.inr notAdmissible
       | isTrue admissible =>
-          exact (reject ⟨⟨piece, proper, admissible⟩⟩).elim
+          cases outcomeEq : advance capability minimality current source with
+          | enabled stage => exact (notEnabled stage outcomeEq).elim
+          | disabled reject _discovered =>
+              exact (reject ⟨⟨piece, proper, admissible⟩⟩).elim
 
-/-- Stable route provenance is fixed by the framework rule. -/
-theorem generated_route_id
+@[simp] theorem transition_profile_id
     {P : Core.Problem.{uAmbient, uBranch}}
     {S : CT1.Spec.{uIndex, uWitness} P} {input : CT1.Input P}
     (capability : CT2.Capability.{uAmbient, uBranch, uPiece, uInterface,
       uAbstract, uContext, uCandidate} P (CT1.Target S))
-    (minimality : Core.MinimalityKernel P (CT1.Target S) input.context)
-    (source : PackedAvoiding S input)
-    (seed : (rule capability minimality).Seed source) :
-    ((rule capability minimality).generate source seed).routeId =
-      "CT1.residual.avoiding->CT2" :=
-  rfl
+    (minimality : Core.MinimalityKernel P (CT1.Target S) input.context) :
+    (transition capability minimality).profileId = transitionId := rfl
+
+/-- Executable full-profile contract for the CT1→CT2 family. -/
+def transitionContract : Core.CTTransitionProfileContract where
+  profileId := transitionId
+  sourceTacticId := "CT1"
+  targetTacticId := "CT2"
+  sourceResidualKind := "CT1.residual.avoiding"
+  targetExecutableInterface :=
+    "StructuralExhaustion.CT2.Capability.executableInterface"
+  transitionConstructor :=
+    "StructuralExhaustion.Routes.CT1ToCT2.transition"
+  advanceExecutor := "StructuralExhaustion.Routes.CT1ToCT2.advance"
+  selectionClass := .priority
+  semanticDiscovery := .capabilityDiscovery
+  problemSpecificInputs := [.targetCapability, .minimalityKernel]
 
 end StructuralExhaustion.Routes.CT1ToCT2
 
 namespace StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion
 
-universe uAmbient uBranch uIndex uWitness uPiece uCode
+universe uAmbient uBranch uIndex uWitness uPiece uCode uLedger
 
 open StructuralExhaustion.Routes.CT1ToCT2
+
+/-- Stable identity of the local-deletion CT1→CT2 profile. -/
+def transitionId : String := "CT1.residual.avoiding->CT2.localDeletion"
 
 /-!
 # CT1 avoidance to local-deletion CT2
 
-This route is the target-decision-free profile of CT1-to-CT2.  It preserves
+This transition is the target-decision-free profile of CT1-to-CT2.  It preserves
 the CT1 branch through the shared minimality kernel and searches only the
 consumer's declared local piece enumeration.
 -/
 
-/-- Route a CT1 avoiding residual to the local deletion CT2 interface. -/
-def rule
-    {P : Core.Problem.{uAmbient, uBranch}}
-    {S : CT1.Spec.{uIndex, uWitness} P} {input : CT1.Input P}
-    (capability : CT2.LocalDeletionCapability.{uAmbient, uBranch, uPiece} P)
-    (minimality : Core.MinimalityKernel P (CT1.Target S) input.context) :
-    Core.Routing.RouteRule
-      (PackedAvoiding S input)
-      (capability.tacticInterface (CT1.Target S)) where
-  routeId := "CT1.residual.avoiding->CT2.localDeletion"
-  targetContext := CT1ToCT2.targetContext minimality
-  Seed := fun source => CT2.LocalDeletionInput capability
-    (CT1ToCT2.targetContext minimality source)
-  discover := fun source => capability.discover
-    (CT1ToCT2.targetContext minimality source)
-  buildTrigger := fun _source trigger => trigger
-
-/-- Construct the exact local-deletion trigger selected by discovery. -/
-def buildTrigger
+/-- Canonical CT1→CT2 local-deletion profile.  It inhabits the same typed
+CT pair as the full replacement profile while retaining its smaller trigger
+and result types through the closure rule's executable interface. -/
+def transition
     {P : Core.Problem.{uAmbient, uBranch}}
     {S : CT1.Spec.{uIndex, uWitness} P} {input : CT1.Input P}
     (capability : CT2.LocalDeletionCapability.{uAmbient, uBranch, uPiece} P)
     (minimality : Core.MinimalityKernel P (CT1.Target S) input.context)
-    (source : PackedAvoiding S input)
-    (seed : (rule capability minimality).Seed source) :
-    CT2.LocalDeletionInput capability
-      (CT1ToCT2.targetContext minimality source) :=
-  (rule capability minimality).buildTrigger source seed
+    (closure : CT2.LocalDeletionClosureRule (Target := CT1.Target S)
+      capability) :
+    Core.Routing.CTTransition .ct1 .ct2 (PackedAvoiding S input)
+      closure.executableInterface :=
+  Core.Routing.CTTransition.ofAdapter transitionId
+    (CT1ToCT2.targetContext minimality)
+    (fun source => CT2.LocalDeletionInput capability
+      (CT1ToCT2.targetContext minimality source))
+    (fun source => capability.discover
+      (CT1ToCT2.targetContext minimality source))
+    (fun _source trigger => trigger)
+
+/-- Discover and execute local deletion from an exact CT1 residual.  An
+enabled caller continues through the returned stage's `ledgerStage`, thereby
+retaining the CT1 predecessor as well as the CT2 execution. -/
+def advance
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {S : CT1.Spec.{uIndex, uWitness} P} {input : CT1.Input P}
+    (capability : CT2.LocalDeletionCapability.{uAmbient, uBranch, uPiece} P)
+    (minimality : Core.MinimalityKernel P (CT1.Target S) input.context)
+    (closure : CT2.LocalDeletionClosureRule (Target := CT1.Target S)
+      capability)
+    {Ledger : Sort uLedger} (current : Ledger → PackedAvoiding S input)
+    (source : Core.Routing.ResidualStage .ct1 Ledger) :
+    ((transition capability minimality closure).onLedger current).Outcome source :=
+  Core.Routing.CTTransition.runOnLedger
+    (transition capability minimality closure) current source
 
 /-- The complete inherited branch context is definitionally preserved. -/
 theorem branchContext_preserved
@@ -276,64 +289,95 @@ theorem avoidance_preserved
       source.state.targetAvoiding :=
   CT1ToCT2.avoidance_preserved minimality source
 
-/-- Enabled discovery returns exactly one proper admissible local piece. -/
+/-- Enabled execution returns exactly one proper admissible local piece and
+the canonical local-deletion run on that piece. -/
 theorem enabled_sound
     {P : Core.Problem.{uAmbient, uBranch}}
     {S : CT1.Spec.{uIndex, uWitness} P} {input : CT1.Input P}
-    {capability : CT2.LocalDeletionCapability.{uAmbient, uBranch, uPiece} P}
-    {minimality : Core.MinimalityKernel P (CT1.Target S) input.context}
-    {source : PackedAvoiding S input}
-    {trigger : (rule capability minimality).Seed source}
-    (_enabled : (rule capability minimality).discover source =
-      .enabled trigger) :
-    capability.pieces.Proper trigger.seed.piece ∧
+    (capability : CT2.LocalDeletionCapability.{uAmbient, uBranch, uPiece} P)
+    (minimality : Core.MinimalityKernel P (CT1.Target S) input.context)
+    (closure : CT2.LocalDeletionClosureRule (Target := CT1.Target S)
+      capability)
+    {Ledger : Sort uLedger} (current : Ledger → PackedAvoiding S input)
+    (source : Core.Routing.ResidualStage .ct1 Ledger)
+    (stage : ((transition capability minimality closure).onLedger current).EnabledStage
+      source)
+    (ran : advance capability minimality closure current source = .enabled stage) :
+    capability.pieces.Proper stage.execution.seed.seed.piece ∧
       capability.pieces.Admissible
-        (CT1ToCT2.targetContext minimality source).state trigger.seed.piece :=
-  ⟨trigger.seed.proper, trigger.seed.admissible⟩
+        (CT1ToCT2.targetContext minimality (current source.output)).state
+          stage.execution.seed.seed.piece ∧
+      stage.targetResult = closure.executableInterface.execute
+        (((transition capability minimality closure).onLedger current).targetContext
+          source)
+        (((transition capability minimality closure).onLedger current).trigger source
+          stage.execution.seed) := by
+  have proper := stage.execution.seed.seed.proper
+  have admissible := stage.execution.seed.seed.admissible
+  unfold advance Core.Routing.CTTransition.runOnLedger at ran
+  unfold Core.Routing.CTTransition.run at ran
+  split at ran
+  · cases ran
+    exact ⟨proper, admissible, rfl⟩
+  · contradiction
 
 /-- Disabled discovery proves that every declared piece fails properness or
 admissibility. -/
 theorem disabled_sound
     {P : Core.Problem.{uAmbient, uBranch}}
     {S : CT1.Spec.{uIndex, uWitness} P} {input : CT1.Input P}
-    {capability : CT2.LocalDeletionCapability.{uAmbient, uBranch, uPiece} P}
-    {minimality : Core.MinimalityKernel P (CT1.Target S) input.context}
-    {source : PackedAvoiding S input}
-    {reject : (rule capability minimality).Seed source → False}
-    (_disabled : (rule capability minimality).discover source =
-      .disabled reject) :
+    (capability : CT2.LocalDeletionCapability.{uAmbient, uBranch, uPiece} P)
+    (minimality : Core.MinimalityKernel P (CT1.Target S) input.context)
+    (closure : CT2.LocalDeletionClosureRule (Target := CT1.Target S)
+      capability)
+    {Ledger : Sort uLedger} (current : Ledger → PackedAvoiding S input)
+    (source : Core.Routing.ResidualStage .ct1 Ledger)
+    (notEnabled : ∀ stage :
+      ((transition capability minimality closure).onLedger current).EnabledStage source,
+      advance capability minimality closure current source ≠ .enabled stage) :
     ∀ piece : capability.pieces.Piece
-        (CT1ToCT2.targetContext minimality source).G,
+        (CT1ToCT2.targetContext minimality (current source.output)).G,
       ¬ capability.pieces.Proper piece ∨
         ¬ capability.pieces.Admissible
-          (CT1ToCT2.targetContext minimality source).state piece := by
+          (CT1ToCT2.targetContext minimality (current source.output)).state piece := by
   intro piece
   cases capability.pieces.properDecidable piece with
   | isFalse notProper => exact Or.inl notProper
   | isTrue proper =>
       cases capability.pieces.admissibleDecidable
-          (CT1ToCT2.targetContext minimality source).state piece with
+          (CT1ToCT2.targetContext minimality (current source.output)).state piece with
       | isFalse notAdmissible => exact Or.inr notAdmissible
       | isTrue admissible =>
-          exact (reject ⟨⟨piece, proper, admissible⟩⟩).elim
+          cases outcomeEq : advance capability minimality closure current source with
+          | enabled stage => exact (notEnabled stage outcomeEq).elim
+          | disabled reject _discovered =>
+              exact (reject ⟨⟨piece, proper, admissible⟩⟩).elim
 
-/-- A valid local deletion closure forces route discovery to be disabled:
+/-- A valid local deletion closure forces transition discovery to be disabled:
 an enabled trigger executes the deletion-C2 path and contradicts minimality. -/
-theorem discover_disabled_of_closure
+theorem advance_not_enabled_of_closure
     {P : Core.Problem.{uAmbient, uBranch}}
     {S : CT1.Spec.{uIndex, uWitness} P} {input : CT1.Input P}
     {capability : CT2.LocalDeletionCapability.{uAmbient, uBranch, uPiece} P}
     (minimality : Core.MinimalityKernel P (CT1.Target S) input.context)
-    (source : PackedAvoiding S input)
+    {Ledger : Sort uLedger} (current : Ledger → PackedAvoiding S input)
+    (source : Core.Routing.ResidualStage .ct1 Ledger)
     (closure : CT2.LocalDeletionClosureRule (Target := CT1.Target S)
       capability) :
-    ∃ reject, (rule capability minimality).discover source =
-      .disabled reject := by
-  cases discovery : (rule capability minimality).discover source with
-  | enabled trigger =>
-      exact (closure.run (CT1ToCT2.targetContext minimality source)
-        (buildTrigger capability minimality source trigger)).verified.elim
-  | disabled reject => exact ⟨reject, rfl⟩
+    ∀ stage :
+      ((transition capability minimality closure).onLedger current).EnabledStage source,
+      advance capability minimality closure current source ≠ .enabled stage := by
+  intro stage ran
+  exact stage.targetResult.verified
+
+@[simp] theorem transition_profile_id
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {S : CT1.Spec.{uIndex, uWitness} P} {input : CT1.Input P}
+    (capability : CT2.LocalDeletionCapability.{uAmbient, uBranch, uPiece} P)
+    (minimality : Core.MinimalityKernel P (CT1.Target S) input.context)
+    (closure : CT2.LocalDeletionClosureRule (Target := CT1.Target S)
+      capability) :
+    (transition capability minimality closure).profileId = transitionId := rfl
 
 /-! ## Certificate-target composition profile -/
 
@@ -410,14 +454,49 @@ def routedClosure
     apply profile.closure.targetMonotone state piece proper admissible baseline
     exact profile.encoding.bridge.publicTarget_of_target reducedTarget
 
-/-- The framework-owned local route for the profile's actual CT1 residual. -/
-abbrev route
+/-- Read the local avoiding residual from the complete certified CT1 run. -/
+def currentAvoiding
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (profile : CertificateProfile.{uAmbient, uBranch, uPiece, uCode}
+      PublicTarget)
+    (ctx : Core.MinimalCounterexampleContext P PublicTarget)
+    (previous : CT1.CertifiedAvoidingRun profile.encoding.spec
+      (profile.input ctx)) :
+    PackedAvoiding profile.encoding.spec (profile.input ctx) :=
+  PackedAvoiding.ofResult previous.result previous.terminal_eq
+
+/-- Exact complete CT1 run ledger consumed by the local transition. -/
+def sourceLedger
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (profile : CertificateProfile.{uAmbient, uBranch, uPiece, uCode}
+      PublicTarget)
+    (ctx : Core.MinimalCounterexampleContext P PublicTarget) :
+    Core.Routing.ResidualStage .ct1
+      (CT1.CertifiedAvoidingRun profile.encoding.spec (profile.input ctx)) :=
+  Core.Routing.ResidualStage.exact (profile.runAvoiding ctx)
+
+/-- Framework-owned executable local-deletion transition. -/
+abbrev transition
     {P : Core.Problem.{uAmbient, uBranch}}
     {PublicTarget : P.Ambient → Prop}
     (profile : CertificateProfile.{uAmbient, uBranch, uPiece, uCode}
       PublicTarget)
     (ctx : Core.MinimalCounterexampleContext P PublicTarget) :=
-  rule profile.capability (profile.targetMinimality ctx)
+  LocalDeletion.transition profile.capability (profile.targetMinimality ctx)
+    profile.routedClosure
+
+/-- Exhaustive transition result retaining the complete CT1 source ledger. -/
+def outcome
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (profile : CertificateProfile.{uAmbient, uBranch, uPiece, uCode}
+      PublicTarget)
+    (ctx : Core.MinimalCounterexampleContext P PublicTarget) :=
+  LocalDeletion.advance profile.capability (profile.targetMinimality ctx)
+    profile.routedClosure (profile.currentAvoiding ctx)
+      (profile.sourceLedger ctx)
 
 /-- The context presented to CT2, definitionally inherited from CT1. -/
 abbrev routedContext
@@ -429,48 +508,43 @@ abbrev routedContext
   CT1ToCT2.targetContext (profile.targetMinimality ctx)
     (profile.avoidingSource ctx)
 
-/-- Every valid certificate-target/local-deletion profile produces an exact
-disabled route result on a minimal counterexample. -/
-theorem discover_disabled
+/-- Minimality and the closure theorem rule out every enabled local-deletion
+transition stage. -/
+theorem transition_not_enabled
     {P : Core.Problem.{uAmbient, uBranch}}
     {PublicTarget : P.Ambient → Prop}
     (profile : CertificateProfile.{uAmbient, uBranch, uPiece, uCode}
       PublicTarget)
     (ctx : Core.MinimalCounterexampleContext P PublicTarget) :
-    ∃ reject, (profile.route ctx).discover (profile.avoidingSource ctx) =
-      .disabled reject :=
-  discover_disabled_of_closure (profile.targetMinimality ctx)
-    (profile.avoidingSource ctx) profile.routedClosure
+    ∀ stage : ((profile.transition ctx).onLedger
+        (profile.currentAvoiding ctx)).EnabledStage (profile.sourceLedger ctx),
+      profile.outcome ctx ≠ .enabled stage :=
+  advance_not_enabled_of_closure (profile.targetMinimality ctx)
+    (profile.currentAvoiding ctx) (profile.sourceLedger ctx)
+      profile.routedClosure
+
+@[simp] theorem transition_profile_id
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (profile : CertificateProfile.{uAmbient, uBranch, uPiece, uCode}
+      PublicTarget)
+    (ctx : Core.MinimalCounterexampleContext P PublicTarget) :
+    (profile.transition ctx).profileId = LocalDeletion.transitionId := rfl
 
 end CertificateProfile
 
-/-- Stable provenance of every enabled generated route. -/
-theorem generated_route_id
-    {P : Core.Problem.{uAmbient, uBranch}}
-    {S : CT1.Spec.{uIndex, uWitness} P} {input : CT1.Input P}
-    (capability : CT2.LocalDeletionCapability.{uAmbient, uBranch, uPiece} P)
-    (minimality : Core.MinimalityKernel P (CT1.Target S) input.context)
-    (source : PackedAvoiding S input)
-    (seed : (rule capability minimality).Seed source) :
-    ((rule capability minimality).generate source seed).routeId =
-      "CT1.residual.avoiding->CT2.localDeletion" :=
-  rfl
-
-/-- Machine-readable contract for the target-decision-free CT1-to-CT2 route. -/
-def contract : Core.RouteContract where
-  routeId := "CT1.residual.avoiding->CT2.localDeletion"
-  sourceResidualKind := "CT1.residual.avoiding"
+/-- Executable local-deletion profile contract for the CT1→CT2 family. -/
+def transitionContract : Core.CTTransitionProfileContract where
+  profileId := transitionId
+  sourceTacticId := "CT1"
   targetTacticId := "CT2"
-  discovery :=
-    "StructuralExhaustion.CT2.LocalDeletionCapability.discover"
-  triggerConstructor :=
-    "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.buildTrigger"
-  soundnessTheorem :=
-    "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.enabled_sound"
-  contextPreservationTheorem :=
-    "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.branchContext_preserved"
-  provenanceTheorem :=
-    "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.generated_route_id"
+  sourceResidualKind := "CT1.residual.avoiding"
+  targetExecutableInterface :=
+    "StructuralExhaustion.CT2.LocalDeletionClosureRule.executableInterface"
+  transitionConstructor :=
+    "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.transition"
+  advanceExecutor :=
+    "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.advance"
   selectionClass := .priority
   semanticDiscovery := .capabilityDiscovery
   problemSpecificInputs := [.targetCapability, .minimalityKernel]

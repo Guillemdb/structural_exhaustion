@@ -7239,6 +7239,10 @@
             {
               "ref": "StructuralExhaustion.CT14.runReference",
               "provision": "framework_constant"
+            },
+            {
+              "ref": "StructuralExhaustion.CT14.Capability.executableInterface",
+              "provision": "framework_constant"
             }
           ],
           "capabilityId": "StructuralExhaustion.CT14.reference"
@@ -7425,6 +7429,10 @@
       },
       {
         "ref": "StructuralExhaustion.CT14.runReference",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "StructuralExhaustion.CT14.Capability.executableInterface",
         "provision": "framework_constant"
       }
     ],

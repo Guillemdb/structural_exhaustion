@@ -9,14 +9,11 @@ universe u
 /-!
 # Exact proper-compression terminal `[38] -> [39]`
 
-Node `[38]` has already retained the certified strictly smaller representative
-required by admission of its non-injective quotient.  Node `[39]` applies the
-framework minimality closure to that exact predecessor field.  It performs no
-new inspection and creates no additional branch.
+Only the literal at-original constructor transports the carrier representative
+to the proper atom.  The graph specialization then executes its stored CT3
+compression and closes by minimality.
 -/
 
-/-- The original node-[39] proper-atom compression terminal, indexed by the
-exact node-[38] yes-edge payload. -/
 theorem VerifiedP13Node38ProperRepresentativeDecision.node39
     {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
     {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
@@ -42,7 +39,14 @@ theorem VerifiedP13Node38ProperRepresentativeDecision.node39
         node35}
     (node38 : VerifiedP13Node38ProperRepresentativeDecision
       ctx node21 node24 node26 node27 node28 node29 node30 node31 node32 rankDrop
-        node35 node36) : False :=
-  node38.representative.impossible
+        node35 node36)
+    (equal : node35.certificate.carrier = node35.certificate.original)
+    (edge : node38.location = .atOriginal equal) : False := by
+  let edgeWitness := edge
+  clear edgeWitness
+  let representative := node35.certificate.originalRepresentative equal
+  exact
+    Graph.SupportStratifiedDetermination.Representative.impossible_of_originalEligible
+      node35.originalEligible representative
 
 end Erdos64EG.Internal

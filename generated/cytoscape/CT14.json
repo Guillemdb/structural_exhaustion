@@ -716,17 +716,16 @@
       "data": {
         "id": "CT14.residual.capacity->CT14",
         "label": "CT14.residual.capacity->CT14",
-        "kind": "generatedRoute",
-        "route": {
-          "triggerConstructor": "StructuralExhaustion.Routes.CT14ToCT14.buildInput",
+        "kind": "transitionProfile",
+        "transitionProfile": {
+          "transitionConstructor": "StructuralExhaustion.Routes.CT14ToCT14.transition",
           "targetTacticId": "CT14",
+          "targetExecutableInterface": "StructuralExhaustion.CT14.Capability.executableInterface",
+          "sourceTacticId": "CT14",
           "sourceResidualKind": "CT14.residual.capacity",
-          "soundnessTheorem": "StructuralExhaustion.Routes.CT14ToCT14.enabled_generates",
           "selectionClass": "forced",
-          "routeId": "CT14.residual.capacity->CT14",
-          "provenanceTheorem": "StructuralExhaustion.Routes.CT14ToCT14.generated_route_id",
-          "discovery": "StructuralExhaustion.CT14.Capability.discover",
-          "contextPreservationTheorem": "StructuralExhaustion.Routes.CT14ToCT14.branchContext_preserved",
+          "profileId": "CT14.residual.capacity->CT14",
+          "familyId": "CT14->CT14",
           "authoringBoundary": {
             "semanticDiscovery": {
               "kind": "capabilityDiscovery",
@@ -736,14 +735,16 @@
               "targetCapability"
             ],
             "frameworkOwnedResponsibilities": [
-              "routeRuleConstruction",
+              "exactSourceLedger",
+              "semanticDiscovery",
               "targetContextConstruction",
               "triggerConstruction",
-              "soundnessProof",
-              "contextPreservationProof",
-              "provenanceProof"
+              "targetExecution",
+              "accumulatedLedgerOutput",
+              "transitionProvenance"
             ]
-          }
+          },
+          "advanceExecutor": "StructuralExhaustion.Routes.CT14ToCT14.advance"
         }
       }
     }

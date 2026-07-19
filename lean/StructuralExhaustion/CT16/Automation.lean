@@ -1,6 +1,25 @@
 import StructuralExhaustion.CT16.Theorems
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT16
+
+universe uAmbient uBranch uCoordinate uCode
+
+namespace Capability
+
+/-- Canonical executable CT16 entry.  The transition contributes only the
+inherited branch context and empty invocation; exhaustive support and exact
+closed-code comparison remain owned by CT16's public runner. -/
+def executableInterface
+    {P : Core.Problem.{uAmbient, uBranch}}
+    (C : Capability.{uAmbient, uBranch, uCoordinate, uCode} P) :
+    Core.Routing.ExecutableInterface .ct16 where
+  Context := Core.BranchContext P
+  Trigger := Input C
+  Result := fun ctx _input => ExecutionResult C ctx
+  execute := fun ctx input => run C ctx input
+
+end Capability
 
 def residualKindContracts : List Core.ResidualKindContract := [
   ⟨"CT16.residual.properSupport", "StructuralExhaustion.CT16.ProperSupportResidual",
@@ -20,7 +39,8 @@ def capabilityContract : Core.CapabilityContract := ⟨"CT16.reference", "CT16",
    ⟨"Capability.targetCode", .userDefinition⟩,
    ⟨"Capability.codeDecidableEq", .instanceBridge⟩],
   ["Capability.inSupportDecidable", "Capability.codeDecidableEq"],
-  ["exhaustive support scan", "literal closed-code comparison"]⟩
+  ["exhaustive support scan", "literal closed-code comparison",
+   "StructuralExhaustion.CT16.Capability.executableInterface"]⟩
 def nodeAutomationContracts : List Core.NodeAutomationContract := [
   {
     nodeId := "CT16.entry"

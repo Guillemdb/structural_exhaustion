@@ -21,7 +21,7 @@ def source : Routes.SequentialRatioFailureHandoff.Source context failingProfile 
   run_eq := failing_result
 
 def residual : Routes.SequentialRatioFailureHandoff.Residual context failingProfile :=
-  Routes.SequentialRatioFailureHandoff.route source
+  Routes.SequentialRatioFailureHandoff.handoff source
 
 example : residual.source = source := rfl
 
@@ -43,7 +43,7 @@ example : List.Sublist residual.afterStates residual.beforeStates :=
 example : failingProfile.run = Outcome.firstFailure residual.source.failure :=
   Routes.SequentialRatioFailureHandoff.routed_run_eq source
 
-example : Routes.SequentialRatioFailureHandoff.routeId =
+example : Routes.SequentialRatioFailureHandoff.handoffId =
     "finite-sequential-ratio-failure->arithmetic-handoff" :=
   rfl
 

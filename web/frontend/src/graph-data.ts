@@ -2,14 +2,14 @@ import type {
   FrameworkResponse,
   GraphElement,
   ExampleWorkflow,
-  RouteRecord,
+  TransitionProfileRecord,
   TacticSummary,
   TacticResponse,
   TacticInternalsResponse,
 } from "./types";
 
-export function routeLabel(route: RouteRecord): string {
-  return route.sourceResidualKind.replace(`${route.sourceTacticId}.residual.`, "");
+export function transitionProfileLabel(profile: TransitionProfileRecord): string {
+  return profile.sourceResidualKind.replace(`${profile.sourceTacticId}.residual.`, "");
 }
 
 export function frameworkGraphElements(framework: FrameworkResponse): GraphElement[] {
@@ -23,13 +23,13 @@ export function frameworkGraphElements(framework: FrameworkResponse): GraphEleme
       terminalCount: tactic.terminalCount,
     },
   }));
-  const edges = framework.routes.map((route) => ({
+  const edges = framework.transitionProfiles.map((profile) => ({
     data: {
-      id: route.routeId,
-      source: route.sourceTacticId,
-      target: route.targetTacticId,
-      label: routeLabel(route),
-      kind: "route",
+      id: profile.profileId,
+      source: profile.sourceTacticId,
+      target: profile.targetTacticId,
+      label: transitionProfileLabel(profile),
+      kind: "transitionProfile",
     },
   }));
   const implementedEdges = (framework.implementedTransitions ?? []).map((transition) => ({
@@ -51,30 +51,33 @@ export function frameworkGraphElements(framework: FrameworkResponse): GraphEleme
 }
 
 interface MachineGraphOptions {
-  includeOutboundRoutes?: boolean;
+  includeOutboundTransitionProfiles?: boolean;
   targetTactics?: TacticSummary[];
 }
 
-function normalizedRouteSuffix(value: string): string {
+function normalizedTransitionProfileSuffix(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
-function routeSourceNode(response: TacticResponse, route: RouteRecord): string | undefined {
-  const residualSuffix = route.sourceResidualKind.split(".residual.").at(-1);
+function transitionProfileSourceNode(
+  response: TacticResponse,
+  profile: TransitionProfileRecord,
+): string | undefined {
+  const residualSuffix = profile.sourceResidualKind.split(".residual.").at(-1);
   if (!residualSuffix) return undefined;
 
-  const normalizedSuffix = normalizedRouteSuffix(residualSuffix);
+  const normalizedSuffix = normalizedTransitionProfileSuffix(residualSuffix);
   return response.tactic.nodes.find(
     (node) =>
       node.nodeKind === "residual" &&
-      normalizedRouteSuffix(node.nodeId).endsWith(normalizedSuffix),
+      normalizedTransitionProfileSuffix(node.nodeId).endsWith(normalizedSuffix),
   )?.nodeId;
 }
 
-function outboundRouteLabel(route: RouteRecord): string {
-  const base = routeLabel(route);
-  const routeTarget = `->${route.targetTacticId}`;
-  const variant = route.routeId.split(routeTarget)[1]?.replace(/^\./, "");
+function outboundTransitionProfileLabel(profile: TransitionProfileRecord): string {
+  const base = transitionProfileLabel(profile);
+  const profileTarget = `->${profile.targetTacticId}`;
+  const variant = profile.profileId.split(profileTarget)[1]?.replace(/^\./, "");
   return variant ? `${base} · ${variant}` : base;
 }
 
@@ -83,9 +86,12 @@ export function machineGraphElements(
   options: MachineGraphOptions = {},
 ): GraphElement[] {
   const machineElements = response.graph.elements.filter(
-    (element) => element.data.kind !== "generatedRoute",
+    (element) => element.data.kind !== "transitionProfile",
   );
-  if (!options.includeOutboundRoutes || response.outboundRoutes.length === 0) {
+  if (
+    !options.includeOutboundTransitionProfiles
+    || response.outboundTransitionProfiles.length === 0
+  ) {
     return machineElements;
   }
 
@@ -93,37 +99,37 @@ export function machineGraphElements(
     (options.targetTactics ?? []).map((tactic) => [tactic.tacticId, tactic.title]),
   );
   const targetNodes = new Map<string, GraphElement>();
-  const routeEdges: GraphElement[] = [];
+  const transitionEdges: GraphElement[] = [];
 
-  for (const route of response.outboundRoutes) {
-    const source = routeSourceNode(response, route);
+  for (const profile of response.outboundTransitionProfiles) {
+    const source = transitionProfileSourceNode(response, profile);
     if (!source) continue;
 
-    const target = `route-target:${route.targetTacticId}`;
+    const target = `transition-target:${profile.targetTacticId}`;
     if (!targetNodes.has(target)) {
-      const title = tacticTitles.get(route.targetTacticId);
+      const title = tacticTitles.get(profile.targetTacticId);
       targetNodes.set(target, {
         data: {
           id: target,
-          label: title ? `${route.targetTacticId}\n${title}` : route.targetTacticId,
-          kind: "routedTactic",
-          tacticId: route.targetTacticId,
+          label: title ? `${profile.targetTacticId}\n${title}` : profile.targetTacticId,
+          kind: "transitionTargetTactic",
+          tacticId: profile.targetTacticId,
         },
       });
     }
-    routeEdges.push({
+    transitionEdges.push({
       data: {
-        id: route.routeId,
+        id: profile.profileId,
         source,
         target,
-        label: outboundRouteLabel(route),
-        kind: "route",
-        routeId: route.routeId,
+        label: outboundTransitionProfileLabel(profile),
+        kind: "transitionProfile",
+        transitionProfileId: profile.profileId,
       },
     });
   }
 
-  return [...machineElements, ...targetNodes.values(), ...routeEdges];
+  return [...machineElements, ...targetNodes.values(), ...transitionEdges];
 }
 
 function internalStepId(nodeId: string, stepId: string): string {
@@ -290,7 +296,7 @@ export function exampleGraphElements(workflow: ExampleWorkflow): GraphElement[] 
       target: link.targetStageId,
       label: link.label,
       kind: link.kind,
-      routeId: link.routeId ?? undefined,
+      transitionProfileId: link.transitionProfileId ?? undefined,
     },
   }));
   return [...nodes, ...edges];

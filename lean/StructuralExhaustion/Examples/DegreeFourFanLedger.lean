@@ -1,4 +1,5 @@
 import StructuralExhaustion.Graph.DegreeFourFanLedger
+import StructuralExhaustion.Routes.Accumulated
 
 namespace StructuralExhaustion.Examples.DegreeFourFanLedger
 
@@ -16,15 +17,40 @@ variable (assignedDecidable : ∀ carrier, Decidable (Assigned carrier))
 variable {P : Core.Problem.{uAmbient, uBranch}} (context : Core.BranchContext P)
 variable (degreeFour : object.degree center = 4)
 
-/-- Non-Erdős transfer of the exact actual-port CT14 ledger. -/
-example : Graph.DegreeFourFanLedger.VerifiedStage object center centerHigh
-    deletionCritical Assigned assignedDecidable context degreeFour :=
-  Graph.DegreeFourFanLedger.verifiedStage object center centerHigh
-    deletionCritical Assigned assignedDecidable context degreeFour
+noncomputable def target :=
+  ((Graph.DegreeFourFanLedger.profile object center centerHigh
+    deletionCritical Assigned assignedDecidable).capability P).executableInterface
+
+noncomputable def adapter : Routes.Accumulated.Adapter Unit
+    (target object center centerHigh deletionCritical Assigned
+      assignedDecidable (P := P)) where
+  targetContext := fun _source => context
+  trigger := fun _source => ⟨⟩
+
+def source : Core.Routing.ResidualStage .ct9 Unit :=
+  Core.Routing.ResidualStage.exact ()
+
+noncomputable def transitionStage :=
+  Routes.Accumulated.advance
+    (target object center centerHigh deletionCritical Assigned
+      assignedDecidable (P := P))
+    (adapter object center centerHigh deletionCritical Assigned
+      assignedDecidable context)
+    id source
+
+/-- Non-Erdős transfer from the literal accumulated CT14 result. -/
+example : Graph.DegreeFourFanLedger.VerifiedExecutionStage object center
+    centerHigh deletionCritical Assigned assignedDecidable context degreeFour
+    (transitionStage object center centerHigh deletionCritical Assigned
+      assignedDecidable context).targetResult :=
+  Graph.DegreeFourFanLedger.verifiedExecutionStage object center centerHigh
+    deletionCritical Assigned assignedDecidable context degreeFour _ rfl
 
 example : Graph.DegreeFourFanLedger.checks object center ≤
     17 * (object.input.vertices.card + 1) :=
-  (Graph.DegreeFourFanLedger.verifiedStage object center centerHigh
-    deletionCritical Assigned assignedDecidable context degreeFour).polynomial
+  (Graph.DegreeFourFanLedger.verifiedExecutionStage object center centerHigh
+    deletionCritical Assigned assignedDecidable context degreeFour
+    (transitionStage object center centerHigh deletionCritical Assigned
+      assignedDecidable context).targetResult rfl).polynomial
 
 end StructuralExhaustion.Examples.DegreeFourFanLedger

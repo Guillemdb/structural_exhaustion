@@ -7061,8 +7061,8 @@
       "sourceId": "StructuralExhaustion/CT15/Capability.lean",
       "moduleName": "StructuralExhaustion.CT15.Capability",
       "path": "lean/StructuralExhaustion/CT15/Capability.lean",
-      "sha256": "5b06c634c153c3136abc3c1ceb0b62e0e7d8159dc5e25597de02dd293cb663cb",
-      "content": "import StructuralExhaustion.CT15.Spec\n\nnamespace StructuralExhaustion.CT15\n\nuniverse uAmbient uBranch uCoordinate\n\n/-- The complete executable capability.  It contains only the exact\ncoordinate enumerator and the decider for primitive dependence semantics. -/\nstructure Capability {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec P) where\n  coordinates : FinEnum S.Coordinate\n  targetDependentDecidable : (ctx : Core.BranchContext P) →\n    (coordinate : S.Coordinate) → Decidable (S.TargetDependent ctx coordinate)\n\n/-- CT15 consumes the shared branch context directly. -/\nabbrev Input (P : Core.Problem.{uAmbient, uBranch}) := Core.BranchContext P\n\nnamespace Capability\n\ndef tacticInterface {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec P} (_capability : Capability S) :\n    Core.Routing.TacticInterface where\n  Context := Core.BranchContext P\n  Trigger := fun _ => Unit\n\nend Capability\n\nend StructuralExhaustion.CT15\n"
+      "sha256": "6364cc6559772d4b04dbd98dd9fa2171348d3295936ebe30b3485a84a680b522",
+      "content": "import StructuralExhaustion.CT15.Spec\n\nnamespace StructuralExhaustion.CT15\n\nuniverse uAmbient uBranch uCoordinate\n\n/-- The complete executable capability.  It contains only the exact\ncoordinate enumerator and the decider for primitive dependence semantics. -/\nstructure Capability {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec P) where\n  coordinates : FinEnum S.Coordinate\n  targetDependentDecidable : (ctx : Core.BranchContext P) →\n    (coordinate : S.Coordinate) → Decidable (S.TargetDependent ctx coordinate)\n\n/-- CT15 consumes the shared branch context directly. -/\nabbrev Input (P : Core.Problem.{uAmbient, uBranch}) := Core.BranchContext P\n\nend StructuralExhaustion.CT15\n"
     },
     {
       "sourceId": "StructuralExhaustion/CT15/Execution.lean",

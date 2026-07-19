@@ -62,7 +62,7 @@ def literalPackedReplacementCapabilityProfile : Core.CapabilityProfile where
     "StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.verifiedStage"
   ]
 
-/-- Complete router-facing contracts for CT3's semantic residuals. -/
+/-- Complete transition-facing contracts for CT3's semantic residuals. -/
 def residualKindContracts : List Core.ResidualKindContract := [
   {
     residualKindId := "CT3.residual.distinguishingContext"

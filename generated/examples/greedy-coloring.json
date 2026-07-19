@@ -4,7 +4,11 @@
   "sourceOfTruth": {
     "rootModule": "GreedyColoringExample",
     "kind": "compiledLeanEnvironment",
-    "descriptor": "GreedyColoringExample.WebExport.descriptor"
+    "descriptor": "GreedyColoringExample.WebExport.descriptor",
+    "descriptorSource": {
+      "path": "examples/greedy_coloring/GreedyColoringExample/WebExport.lean",
+      "sha256": "d5cfaaa86370e2ffe4aa2abe974b409a2180bef1f918e3c79e934efb46eb2181"
+    }
   },
   "exampleId": "greedy-coloring",
   "title": "Greedy coloring",
@@ -126,7 +130,7 @@
           "targetStageId": "coloring.certificate",
           "kind": "frameworkComposition",
           "label": "repeated reverse fold",
-          "summary": "Problem-specific recursion repeatedly invokes CT4 and inserts each selected color into the partial coloring.",
+          "summary": "The framework-owned reverse fold repeatedly invokes CT4 and inserts each selected color into the partial coloring.",
           "automationDeclarationIds": [],
           "evidenceDeclarationIds": [
             "StructuralExhaustion.Graph.GreedyColoring.colorOrder"
@@ -207,13 +211,13 @@
       "kind": "theorem",
       "type": "∀ {left right : ConcreteK4.Vertex},\n  ConcreteK4.graph.Adj left right → ConcreteK4.generatedColoring left ≠ ConcreteK4.generatedColoring right",
       "sourceId": "GreedyColoringExample.Concrete",
-      "startLine": 49,
+      "startLine": 48,
       "startColumn": 1,
-      "endLine": 52,
+      "endLine": 51,
       "endColumn": 35,
-      "selectionStartLine": 49,
+      "selectionStartLine": 48,
       "selectionStartColumn": 9,
-      "selectionEndLine": 49,
+      "selectionEndLine": 48,
       "selectionEndColumn": 27
     },
     {
@@ -222,13 +226,13 @@
       "kind": "theorem",
       "type": "[ConcreteK4.generatedColoring 0, ConcreteK4.generatedColoring 1, ConcreteK4.generatedColoring 2,\n    ConcreteK4.generatedColoring 3] =\n  [3, 2, 1, 0]",
       "sourceId": "GreedyColoringExample.Concrete",
-      "startLine": 44,
+      "startLine": 43,
       "startColumn": 1,
-      "endLine": 47,
+      "endLine": 46,
       "endColumn": 16,
-      "selectionStartLine": 44,
+      "selectionStartLine": 43,
       "selectionStartColumn": 9,
-      "selectionEndLine": 44,
+      "selectionEndLine": 43,
       "selectionEndColumn": 24
     },
     {
@@ -237,13 +241,13 @@
       "kind": "theorem",
       "type": "ConcreteK4.peelingExecution.iterations = 4",
       "sourceId": "GreedyColoringExample.Concrete",
-      "startLine": 58,
+      "startLine": 57,
       "startColumn": 1,
-      "endLine": 59,
+      "endLine": 58,
       "endColumn": 16,
-      "selectionStartLine": 58,
+      "selectionStartLine": 57,
       "selectionStartColumn": 9,
-      "selectionEndLine": 58,
+      "selectionEndLine": 57,
       "selectionEndColumn": 30
     },
     {
@@ -252,13 +256,13 @@
       "kind": "theorem",
       "type": "ConcreteK4.peelingExecution.terminal = StructuralExhaustion.CT12.Graph.Terminal.exhausted",
       "sourceId": "GreedyColoringExample.Concrete",
-      "startLine": 54,
+      "startLine": 53,
       "startColumn": 1,
-      "endLine": 56,
+      "endLine": 55,
       "endColumn": 57,
-      "selectionStartLine": 54,
+      "selectionStartLine": 53,
       "selectionStartColumn": 9,
-      "selectionEndLine": 54,
+      "selectionEndLine": 53,
       "selectionEndColumn": 32
     },
     {
@@ -267,13 +271,13 @@
       "kind": "theorem",
       "type": "ConcreteK4.validationRun.result.terminal = StructuralExhaustion.CT1.Graph.Terminal.c1",
       "sourceId": "GreedyColoringExample.Concrete",
-      "startLine": 70,
+      "startLine": 69,
       "startColumn": 1,
-      "endLine": 71,
+      "endLine": 70,
       "endColumn": 28,
-      "selectionStartLine": 70,
+      "selectionStartLine": 69,
       "selectionStartColumn": 9,
-      "selectionEndLine": 70,
+      "selectionEndLine": 69,
       "selectionEndColumn": 24
     },
     {
@@ -282,13 +286,13 @@
       "kind": "theorem",
       "type": "ConcreteK4.validationRun.result.trace =\n  [StructuralExhaustion.CT1.Graph.NodeId.entry, StructuralExhaustion.CT1.Graph.NodeId.equivalenceCertification,\n    StructuralExhaustion.CT1.Graph.NodeId.realizationDecision, StructuralExhaustion.CT1.Graph.NodeId.c1Terminal]",
       "sourceId": "GreedyColoringExample.Concrete",
-      "startLine": 73,
+      "startLine": 72,
       "startColumn": 1,
-      "endLine": 76,
+      "endLine": 75,
       "endColumn": 25,
-      "selectionStartLine": 73,
+      "selectionStartLine": 72,
       "selectionStartColumn": 9,
-      "selectionEndLine": 73,
+      "selectionEndLine": 72,
       "selectionEndColumn": 24
     },
     {
@@ -297,13 +301,13 @@
       "kind": "theorem",
       "type": "ConcreteK4.finalStepExecution.terminal = StructuralExhaustion.CT4.Graph.Terminal.missing",
       "sourceId": "GreedyColoringExample.Concrete",
-      "startLine": 61,
+      "startLine": 60,
       "startColumn": 1,
-      "endLine": 63,
+      "endLine": 62,
       "endColumn": 29,
-      "selectionStartLine": 61,
+      "selectionStartLine": 60,
       "selectionStartColumn": 9,
-      "selectionEndLine": 61,
+      "selectionEndLine": 60,
       "selectionEndColumn": 29
     },
     {
@@ -312,13 +316,13 @@
       "kind": "theorem",
       "type": "StructuralExhaustion.CT4.ExecutionResult.trace\n    (StructuralExhaustion.Graph.GreedyColoring.stepProfile ConcreteK4.object 3 3 [] ConcreteK4.emptyPartial).spec\n    (StructuralExhaustion.Graph.GreedyColoring.stepProfile ConcreteK4.object 3 3 [] ConcreteK4.emptyPartial).capability\n    (StructuralExhaustion.Graph.Coloring.context ConcreteK4.object) ConcreteK4.finalStepExecution =\n  [StructuralExhaustion.CT4.Graph.NodeId.entry, StructuralExhaustion.CT4.Graph.NodeId.assignment,\n    StructuralExhaustion.CT4.Graph.NodeId.availability, StructuralExhaustion.CT4.Graph.NodeId.missingTerminal]",
       "sourceId": "GreedyColoringExample.Concrete",
-      "startLine": 65,
+      "startLine": 64,
       "startColumn": 1,
-      "endLine": 68,
+      "endLine": 67,
       "endColumn": 16,
-      "selectionStartLine": 65,
+      "selectionStartLine": 64,
       "selectionStartColumn": 9,
-      "selectionEndLine": 65,
+      "selectionEndLine": 64,
       "selectionEndColumn": 24
     },
     {
@@ -402,13 +406,13 @@
       "kind": "definition",
       "type": "{P : StructuralExhaustion.Core.Problem} →\n  (S : StructuralExhaustion.CT1.Spec P) →\n    StructuralExhaustion.CT1.Capability S →\n      (input : StructuralExhaustion.CT1.Input P) → StructuralExhaustion.CT1.ExecutionResult S input",
       "sourceId": "StructuralExhaustion.CT1.Execution",
-      "startLine": 59,
+      "startLine": 60,
       "startColumn": 1,
-      "endLine": 65,
+      "endLine": 66,
       "endColumn": 34,
-      "selectionStartLine": 62,
+      "selectionStartLine": 63,
       "selectionStartColumn": 5,
-      "selectionEndLine": 62,
+      "selectionEndLine": 63,
       "selectionEndColumn": 8
     },
     {
@@ -597,8 +601,8 @@
       "sourceId": "GreedyColoringExample.Concrete",
       "moduleName": "GreedyColoringExample.Concrete",
       "path": "examples/greedy_coloring/GreedyColoringExample/Concrete.lean",
-      "sha256": "c056f9661096938fe8142dbd9b25da2d023cd6b4675044670466d61e94d8879f",
-      "content": "import GreedyColoringExample.Run\nimport StructuralExhaustion.Graph.DegeneracyPeeling\n\nnamespace GreedyColoringExample.ConcreteK4\n\nopen StructuralExhaustion\n\n/-! A tight fixture: `K₄` has maximum degree three, and the deterministic\nframework run uses all four colors. -/\n\nabbrev Vertex := Fin 4\n\n@[implicit_reducible]\ndef vertices : FinEnum Vertex := inferInstance\n\ndef graph : SimpleGraph Vertex := ⊤\n\ndef input : Graph.FiniteInput graph where\n  vertices := vertices\n  decideAdj := by\n    change DecidableRel fun left right : Vertex => left ≠ right\n    infer_instance\n\ndef object : Graph.FiniteObject Vertex := ⟨graph, input⟩\n\ndef generatedColoring := coloring object\n\ndef peelingExecution := ct12Run object\n\ndef validationRun := ct1Run object\n\n/-- The final one-vertex step exposes CT4 independently of the surrounding\nfold, so the fixture pins its exact terminal as well. -/\ndef emptyPartial : Graph.Coloring.Partial object 4\n    (Graph.EliminationOrder.verticesFinset object []) :=\n  Graph.Coloring.Partial.empty object 4 (by decide)\n\ndef finalStepExecution :=\n  Graph.GreedyColoring.stepRun object 3 (3 : Vertex) [] emptyPartial\n\ntheorem maxDegree_exact : object.maxDegree = 3 := by\n  native_decide\n\ntheorem coloring_values :\n    [generatedColoring 0, generatedColoring 1,\n      generatedColoring 2, generatedColoring 3] = [3, 2, 1, 0] := by\n  native_decide\n\ntheorem coloring_is_proper {left right : Vertex}\n    (adjacent : graph.Adj left right) :\n    generatedColoring left ≠ generatedColoring right :=\n  generatedColoring.valid adjacent\n\ntheorem ct12_terminal_exhausted :\n    peelingExecution.terminal = .exhausted :=\n  Graph.GreedyColoring.peeling_terminal_exhausted object\n\ntheorem ct12_iterations_exact : peelingExecution.iterations = 4 := by\n  native_decide\n\ntheorem ct4_terminal_missing : finalStepExecution.terminal = .missing :=\n  Graph.GreedyColoring.step_terminal_missing object 3 (3 : Vertex) []\n    emptyPartial (by decide)\n\ntheorem ct4_trace_exact :\n    finalStepExecution.trace =\n      [.entry, .assignment, .availability, .missingTerminal] := by\n  native_decide\n\ntheorem ct1_terminal_c1 : validationRun.result.terminal = .c1 :=\n  validationRun.terminal_eq\n\ntheorem ct1_trace_exact :\n    validationRun.result.trace =\n      [.entry, .equivalenceCertification, .realizationDecision, .c1Terminal] :=\n  validationRun.trace_eq\n\nend GreedyColoringExample.ConcreteK4\n\nnamespace GreedyColoringExample.DegeneracyTriangle\n\nopen StructuralExhaustion\n\n/-! The textbook triangle independently instantiates the same graph-owned\ndegeneracy certificate and exact CT12 runner used by the Erdős sparse-envelope\nstage. -/\n\nabbrev Vertex := Fin 3\n\ndef graph : SimpleGraph Vertex := ⊤\n\ndef input : Graph.FiniteInput graph where\n  vertices := inferInstance\n  decideAdj := by\n    change DecidableRel fun left right : Vertex => left ≠ right\n    infer_instance\n\ndef object : Graph.FiniteObject Vertex := ⟨graph, input⟩\n\ntheorem vertexCount : object.input.vertices.card = 3 := by\n  decide\n\ntheorem coreFree : object.InternalMinDegreeFree 3 :=\n  object.internalMinDegreeFree_of_vertexCount_le (by decide) (by\n    rw [vertexCount])\n\nnoncomputable def profile : Graph.DegeneracyPeeling.Profile object 2 where\n  free := by simpa using coreFree\n\nnoncomputable def execution :=\n  profile.run (Graph.FiniteObject.context object)\n\ntheorem terminal_exhausted : execution.terminal = .exhausted :=\n  (profile.verifiedStage (Graph.FiniteObject.context object)).terminal\n\ntheorem trace_exact : execution.trace =\n    CT12.ListPeeling.expectedTrace 3 := by\n  unfold execution\n  change (profile.certificate.run\n    (Graph.FiniteObject.context object)).trace = _\n  simpa [vertexCount] using\n    (profile.verifiedStage (Graph.FiniteObject.context object)).trace\n\ntheorem trace_valid :\n    CT12.Graph.ValidTrace\n      (CT12.ListPeeling.capability (Graph.FiniteObject.problem Vertex) Vertex)\n      execution.trace :=\n  (profile.verifiedStage (Graph.FiniteObject.context object)).traceValid\n\ntheorem iterations_exact : execution.iterations = 3 := by\n  unfold execution\n  change (profile.certificate.run\n    (Graph.FiniteObject.context object)).iterations = _\n  simpa [vertexCount] using\n    (profile.verifiedStage (Graph.FiniteObject.context object)).linearWork\n\ntheorem total :\n    ∃ result, result = execution ∧ result.outcome.Valid ∧\n      CT12.Graph.ValidTrace\n        (CT12.ListPeeling.capability (Graph.FiniteObject.problem Vertex) Vertex)\n        result.trace ∧\n      result.iterations ≤ 3 := by\n  unfold execution\n  change ∃ result,\n    result = profile.certificate.run (Graph.FiniteObject.context object) ∧\n      result.outcome.Valid ∧\n      CT12.Graph.ValidTrace\n        (CT12.ListPeeling.capability (Graph.FiniteObject.problem Vertex) Vertex)\n        result.trace ∧ result.iterations ≤ 3\n  simpa [vertexCount] using\n    (profile.verifiedStage (Graph.FiniteObject.context object)).total\n\ntheorem linear_budget :\n    (profile.budget (Graph.FiniteObject.context object)).checks () ≤\n      (profile.budget (Graph.FiniteObject.context object)).coefficient *\n        ((profile.budget (Graph.FiniteObject.context object)).size () + 1) ^\n          (profile.budget (Graph.FiniteObject.context object)).degree :=\n  (profile.budget (Graph.FiniteObject.context object)).bounded ()\n\ntheorem sharp_edge_bound : object.edgeCount ≤ 2 * 3 - 3 := by\n  simpa [vertexCount] using\n    profile.edgeCount_le_two_mul_vertexCount_sub_three (by\n      rw [vertexCount]\n      decide)\n\nend GreedyColoringExample.DegeneracyTriangle\n"
+      "sha256": "30c655a67d2d2f311e14604a98952767cc373b008ab44600d4b7e634b0e72e18",
+      "content": "import GreedyColoringExample.Run\n\nnamespace GreedyColoringExample.ConcreteK4\n\nopen StructuralExhaustion\n\n/-! A tight fixture: `K₄` has maximum degree three, and the deterministic\nframework run uses all four colors. -/\n\nabbrev Vertex := Fin 4\n\n@[implicit_reducible]\ndef vertices : FinEnum Vertex := inferInstance\n\ndef graph : SimpleGraph Vertex := ⊤\n\ndef input : Graph.FiniteInput graph where\n  vertices := vertices\n  decideAdj := by\n    change DecidableRel fun left right : Vertex => left ≠ right\n    infer_instance\n\ndef object : Graph.FiniteObject Vertex := ⟨graph, input⟩\n\ndef generatedColoring := coloring object\n\ndef peelingExecution := ct12Run object\n\ndef validationRun := ct1Run object\n\n/-- The final one-vertex step exposes CT4 independently of the surrounding\nfold, so the fixture pins its exact terminal as well. -/\ndef emptyPartial : Graph.Coloring.Partial object 4\n    (Graph.EliminationOrder.verticesFinset object []) :=\n  Graph.Coloring.Partial.empty object 4 (by decide)\n\ndef finalStepExecution :=\n  Graph.GreedyColoring.stepRun object 3 (3 : Vertex) [] emptyPartial\n\ntheorem maxDegree_exact : object.maxDegree = 3 := by\n  native_decide\n\ntheorem coloring_values :\n    [generatedColoring 0, generatedColoring 1,\n      generatedColoring 2, generatedColoring 3] = [3, 2, 1, 0] := by\n  native_decide\n\ntheorem coloring_is_proper {left right : Vertex}\n    (adjacent : graph.Adj left right) :\n    generatedColoring left ≠ generatedColoring right :=\n  generatedColoring.valid adjacent\n\ntheorem ct12_terminal_exhausted :\n    peelingExecution.terminal = .exhausted :=\n  Graph.GreedyColoring.peeling_terminal_exhausted object\n\ntheorem ct12_iterations_exact : peelingExecution.iterations = 4 := by\n  native_decide\n\ntheorem ct4_terminal_missing : finalStepExecution.terminal = .missing :=\n  Graph.GreedyColoring.step_terminal_missing object 3 (3 : Vertex) []\n    emptyPartial (by decide)\n\ntheorem ct4_trace_exact :\n    finalStepExecution.trace =\n      [.entry, .assignment, .availability, .missingTerminal] := by\n  native_decide\n\ntheorem ct1_terminal_c1 : validationRun.result.terminal = .c1 :=\n  validationRun.terminal_eq\n\ntheorem ct1_trace_exact :\n    validationRun.result.trace =\n      [.entry, .equivalenceCertification, .realizationDecision, .c1Terminal] :=\n  validationRun.trace_eq\n\nend GreedyColoringExample.ConcreteK4\n"
     },
     {
       "sourceId": "GreedyColoringExample.Problem",
@@ -618,8 +622,8 @@
       "sourceId": "StructuralExhaustion.CT1.Execution",
       "moduleName": "StructuralExhaustion.CT1.Execution",
       "path": "lean/StructuralExhaustion/CT1/Execution.lean",
-      "sha256": "7d26e31cad81423c23e5494b29158dfb50221f7e48a6628d6b8b9dd0d64b26e6",
-      "content": "import StructuralExhaustion.CT1.Graph\nimport StructuralExhaustion.CT1.Search\n\nnamespace StructuralExhaustion.CT1\n\nuniverse uAmbient uBranch uIndex uWitness\n\n/-- Semantic terminal evidence, indexed by the exact CT1 terminal. -/\ninductive RawOutcome {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P) (input : Input P) :\n    Graph.Terminal → Type (max (uIndex + 1) (uWitness + 1)) where\n  | c1 {equivalence : EquivalenceState S input}\n      (certificate : C1Certificate S input equivalence) :\n      RawOutcome S input .c1\n  | avoiding {equivalence : EquivalenceState S input}\n      (state : AvoidingState S input equivalence) :\n      RawOutcome S input .avoiding\n\n/-- A CT1 result bundles one semantic terminal, the kernel-typed path reaching\nit, and terminal evidence carrying the same index. -/\nstructure ExecutionResult {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P)\n    (input : Input P) : Type (max (uIndex + 1) (uWitness + 1)) where\n  terminal : Graph.Terminal\n  path : Graph.Path S input .entry terminal.nodeId\n  outcome : RawOutcome S input terminal\n\nnamespace ExecutionResult\n\ndef trace {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec.{uIndex, uWitness} P} {input : Input P}\n    (result : ExecutionResult S input) : List Graph.NodeId :=\n  result.path.trace\n\nend ExecutionResult\n\n/-- The framework executes every CT1 node and constructs the exact path from\nthe capability primitives; the caller supplies no completed node decision. -/\ndef runReference {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P) (capability : Capability S)\n    (input : Input P) : ExecutionResult S input :=\n  let equivalence := certifyEquivalence S input\n  match findRealization S capability input equivalence with\n  | .hit certificate => {\n      terminal := .c1\n      path := .cons .beginEquivalence\n        (.cons (.equivalenceCertified equivalence)\n          (.cons (.realizationHit certificate) (.nil .c1Terminal)))\n      outcome := .c1 certificate\n    }\n  | .avoiding state => {\n      terminal := .avoiding\n      path := .cons .beginEquivalence\n        (.cons (.equivalenceCertified equivalence)\n          (.cons (.realizationAvoiding state) (.nil .avoidingTerminal)))\n      outcome := .avoiding state\n    }\n\n/-- Public CT1 execution returns the exact path and matching terminal\nevidence. Consumers can project `terminal` or `outcome` when they do not need\nthe trace. -/\ndef run {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P) (capability : Capability S)\n    (input : Input P) : ExecutionResult S input :=\n  runReference S capability input\n\n/-- Proposition established at each semantic terminal. -/\ndef OutcomeClaim {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec.{uIndex, uWitness} P} {input : Input P}\n    {terminal : Graph.Terminal} : RawOutcome S input terminal → Prop\n  | .c1 _ => Target S input.context.G\n  | .avoiding _ => ¬ Target S input.context.G\n\nend StructuralExhaustion.CT1\n"
+      "sha256": "104bf1ff0d4f7173486916c0176d210509bf8abb18b06fa07e17fde3bf6afb38",
+      "content": "import StructuralExhaustion.CT1.Graph\nimport StructuralExhaustion.CT1.Search\nimport StructuralExhaustion.Core.CTTransition\n\nnamespace StructuralExhaustion.CT1\n\nuniverse uAmbient uBranch uIndex uWitness\n\n/-- Semantic terminal evidence, indexed by the exact CT1 terminal. -/\ninductive RawOutcome {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P) (input : Input P) :\n    Graph.Terminal → Type (max (uIndex + 1) (uWitness + 1)) where\n  | c1 {equivalence : EquivalenceState S input}\n      (certificate : C1Certificate S input equivalence) :\n      RawOutcome S input .c1\n  | avoiding {equivalence : EquivalenceState S input}\n      (state : AvoidingState S input equivalence) :\n      RawOutcome S input .avoiding\n\n/-- A CT1 result bundles one semantic terminal, the kernel-typed path reaching\nit, and terminal evidence carrying the same index. -/\nstructure ExecutionResult {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P)\n    (input : Input P) : Type (max (uIndex + 1) (uWitness + 1)) where\n  terminal : Graph.Terminal\n  path : Graph.Path S input .entry terminal.nodeId\n  outcome : RawOutcome S input terminal\n\nnamespace ExecutionResult\n\ndef trace {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec.{uIndex, uWitness} P} {input : Input P}\n    (result : ExecutionResult S input) : List Graph.NodeId :=\n  result.path.trace\n\nend ExecutionResult\n\n/-- The framework executes every CT1 node and constructs the exact path from\nthe capability primitives; the caller supplies no completed node decision. -/\ndef runReference {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P) (capability : Capability S)\n    (input : Input P) : ExecutionResult S input :=\n  let equivalence := certifyEquivalence S input\n  match findRealization S capability input equivalence with\n  | .hit certificate => {\n      terminal := .c1\n      path := .cons .beginEquivalence\n        (.cons (.equivalenceCertified equivalence)\n          (.cons (.realizationHit certificate) (.nil .c1Terminal)))\n      outcome := .c1 certificate\n    }\n  | .avoiding state => {\n      terminal := .avoiding\n      path := .cons .beginEquivalence\n        (.cons (.equivalenceCertified equivalence)\n          (.cons (.realizationAvoiding state) (.nil .avoidingTerminal)))\n      outcome := .avoiding state\n    }\n\n/-- Public CT1 execution returns the exact path and matching terminal\nevidence. Consumers can project `terminal` or `outcome` when they do not need\nthe trace. -/\ndef run {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uIndex, uWitness} P) (capability : Capability S)\n    (input : Input P) : ExecutionResult S input :=\n  runReference S capability input\n\n/-- Proposition established at each semantic terminal. -/\ndef OutcomeClaim {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec.{uIndex, uWitness} P} {input : Input P}\n    {terminal : Graph.Terminal} : RawOutcome S input terminal → Prop\n  | .c1 _ => Target S input.context.G\n  | .avoiding _ => ¬ Target S input.context.G\n\nnamespace Capability\n\n/-- Canonical executable CT1 entry.  A transition supplies only the inherited\nbranch context; the framework constructs the CT1 input and invokes the public\nreference runner. -/\ndef executableInterface\n    {P : Core.Problem.{uAmbient, uBranch}}\n    {S : Spec.{uIndex, uWitness} P}\n    (capability : Capability S) :\n    Core.Routing.ExecutableInterface .ct1 where\n  Context := Core.BranchContext P\n  Trigger := fun _context => Unit\n  Result := fun context _trigger => ExecutionResult S ⟨context⟩\n  execute := fun context _trigger => run S capability ⟨context⟩\n\nend Capability\n\nend StructuralExhaustion.CT1\n"
     },
     {
       "sourceId": "StructuralExhaustion.CT12.Execution",

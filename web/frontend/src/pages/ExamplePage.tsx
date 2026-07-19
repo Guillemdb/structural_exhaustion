@@ -281,7 +281,7 @@ export function ExampleWorkspace({
           </div>
           <div title="Implemented nodes from the original proof, out of all nodes in the original proof. Supplemental grey nodes are excluded.">
             <strong>{implementedOriginalNodeCount}/{ORIGINAL_ERDOS_PROOF_NODE_IDS.size}</strong>
-            <span>framework nodes implemented</span>
+            <span>original paper nodes complete</span>
           </div>
           <div title="Fully proved original-paper obligations, out of every task in the per-node obligation ledgers. Partial and missing obligations remain unfinished.">
             <strong>{obligationProgress?.proved ?? 0}/{obligationProgress?.total ?? 0}</strong>
@@ -356,7 +356,9 @@ export function ExampleWorkspace({
               </div>
             ) : (
               <div className="example-legend" aria-label="Composition relationship legend">
-                <span><i className="example-legend__route" /> registered route</span>
+                <span>
+                  <i className="example-legend__transition" /> registered transition
+                </span>
                 <span><i className="example-legend__proof" /> proof data</span>
                 <span><i className="example-legend__validation" /> validation</span>
               </div>

@@ -5,6 +5,7 @@ import StructuralExhaustion.Graph.InducedPath
 import StructuralExhaustion.Graph.InducedPathAttachment
 import StructuralExhaustion.Graph.InducedPathPacking
 import StructuralExhaustion.Graph.MinimumDegreeCycleRouted
+import StructuralExhaustion.Routes.Accumulated
 import StructuralExhaustion.Routes.CT1ToCT12
 
 namespace StructuralExhaustion.Graph
@@ -574,79 +575,125 @@ noncomputable def inducedPathPackingAdapter
     exact InducedPathPacking.windows_nonempty_of_realization
       ctx.G.object order positive ⟨certificate⟩
 
-/-- CT12 input produced only through the registered CT1→CT12 route. -/
-noncomputable def inducedPathPackingRouteInput
+/-- The single framework-owned CT1→CT12 transition instance. -/
+noncomputable def inducedPathPackingTransition
     (input : StaticInput) (order : Nat) (positive : 0 < order)
-    (ctx : Core.MinimalCounterexampleContext input.problem input.Target)
-    (previous : input.VerifiedInducedPathStage order ctx) :=
-  Routes.CT1ToCT12.buildInput
+    (ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target) :=
+  Routes.CT1ToCT12.transition
     (CT12.ListPeeling.capability input.problem
       (InducedPathPacking.Window ctx.G.object order))
     (input.inducedPathPackingAdapter order positive ctx)
-    (input.inducedPathC1Source order ctx previous)
 
-theorem inducedPathPackingRouteInput_eq
+/-- Execute CT12 on an arbitrary complete predecessor ledger.  The caller
+supplies only the projection from that ledger to the graph-owned CT1 stage;
+the framework constructs the exact residual stage and transports the whole
+ledger through the transition. -/
+noncomputable def inducedPathPackingTransitionStage
     (input : StaticInput) (order : Nat) (positive : 0 < order)
-    (ctx : Core.MinimalCounterexampleContext input.problem input.Target)
-    (previous : input.VerifiedInducedPathStage order ctx) :
-    input.inducedPathPackingRouteInput order positive ctx previous =
-      (InducedPathPacking.profile ctx.G.object order positive).input
-        ctx.toBranchContext := by
-  rfl
+    (ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target)
+    {Ledger : Sort v}
+    (current : Ledger → input.VerifiedInducedPathStage order ctx)
+    (source : Core.Routing.ResidualStage .ct1 Ledger) :=
+  Routes.CT1ToCT12.advance
+    (CT12.ListPeeling.capability input.problem
+      (InducedPathPacking.Window ctx.G.object order))
+    (input.inducedPathPackingAdapter order positive ctx)
+    (fun ledger => input.inducedPathC1Source order ctx (current ledger))
+    source
 
-theorem inducedPathPackingRoute_id
+/-- Canonical CT12 ledger for every subsequent transition. -/
+noncomputable def inducedPathPackingLedger
     (input : StaticInput) (order : Nat) (positive : 0 < order)
-    (ctx : Core.MinimalCounterexampleContext input.problem input.Target)
-    (previous : input.VerifiedInducedPathStage order ctx) :
-    ((Routes.CT1ToCT12.rule
-      (CT12.ListPeeling.capability input.problem
-        (InducedPathPacking.Window ctx.G.object order))
-      (input.inducedPathPackingAdapter order positive ctx)).generate
-        (input.inducedPathC1Source order ctx previous) ()).routeId =
-      "CT1.terminal.c1->CT12" :=
-  Routes.CT1ToCT12.generated_route_id _ _ _
+    (ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target)
+    {Ledger : Sort v}
+    (current : Ledger → input.VerifiedInducedPathStage order ctx)
+    (source : Core.Routing.ResidualStage .ct1 Ledger) :=
+  (input.inducedPathPackingTransitionStage order positive ctx current source).ledgerStage
 
-/-- Framework-owned extension that consumes the exact induced-path CT1
-output and retains a maximum/maximal vertex-disjoint packing, its CT12 audit,
-and its induced-path-free remainder on the same selected graph. -/
-structure InducedPathPackingPrefix (input : StaticInput)
+theorem inducedPathPackingTransition_profile_id
+    (input : StaticInput) (order : Nat) (positive : 0 < order)
+    (ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target) :
+    (input.inducedPathPackingTransition order positive ctx).profileId =
+      Routes.CT1ToCT12.transitionId := rfl
+
+theorem inducedPathPackingTransitionResult_eq
+    (input : StaticInput) (order : Nat) (positive : 0 < order)
+    (ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target)
+    {Ledger : Sort v}
+    (current : Ledger → input.VerifiedInducedPathStage order ctx)
+    (source : Core.Routing.ResidualStage .ct1 Ledger) :
+    (input.inducedPathPackingTransitionStage order positive ctx current source).targetResult =
+      (InducedPathPacking.profile ctx.G.object order positive).run
+        ctx.toBranchContext := rfl
+
+/-- Mathematical facts attached to the literal CT1→CT12 transition output. -/
+structure InducedPathPackingFacts (input : StaticInput)
     (order : Nat) (positive : 0 < order)
-    (ctx : Core.MinimalCounterexampleContext input.problem input.Target) :
-    Prop where
-  previous : input.VerifiedInducedPathStage order ctx
+    (ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target)
+    {Ledger : Sort v}
+    (current : Ledger → input.VerifiedInducedPathStage order ctx)
+    {source : Core.Routing.ResidualStage .ct1 Ledger}
+    (stage :
+      Core.Routing.CTTransition.OutputLedger
+        (input.inducedPathPackingTransition order positive ctx)
+        (fun ledger => input.inducedPathC1Source order ctx (current ledger)) source) :
+    Type (max (u + 1) v) where
   packingStage : InducedPathPacking.VerifiedStage ctx.G.object order positive
     ctx.toBranchContext
-  routeId_eq :
-    ((Routes.CT1ToCT12.rule
-      (CT12.ListPeeling.capability input.problem
-        (InducedPathPacking.Window ctx.G.object order))
-      (input.inducedPathPackingAdapter order positive ctx)).generate
-        (input.inducedPathC1Source order ctx previous) ()).routeId =
-      "CT1.terminal.c1->CT12"
-  routedInputExact :
-    input.inducedPathPackingRouteInput order positive ctx previous =
-      (InducedPathPacking.profile ctx.G.object order positive).input
-        ctx.toBranchContext
+  transitionProfileId :
+    (input.inducedPathPackingTransition order positive ctx).profileId =
+      Routes.CT1ToCT12.transitionId
+  routedExecutionExact : stage.targetResult =
+    (InducedPathPacking.profile ctx.G.object order positive).run
+      ctx.toBranchContext
   packingNonempty :
     InducedPathPacking.windows ctx.G.object order positive ≠ []
+
+/-- Output type of the framework-owned CT12 ledger. -/
+abbrev InducedPathPackingLedgerType (input : StaticInput)
+    (order : Nat) (positive : 0 < order)
+    (ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target)
+    {Ledger : Sort v}
+    (current : Ledger → input.VerifiedInducedPathStage order ctx)
+    (source : Core.Routing.ResidualStage .ct1 Ledger) :=
+  Core.Routing.LedgerExtension
+      (Core.Routing.CTTransition.OutputLedger
+        (input.inducedPathPackingTransition order positive ctx)
+        (fun ledger => input.inducedPathC1Source order ctx (current ledger)) source)
+      (input.InducedPathPackingFacts order positive ctx current)
+
+/-- Framework-owned full CT12 ledger: the transition retains the complete CT1
+ledger and the same-CT extension adds only the graph facts proved here. -/
+abbrev InducedPathPackingPrefix (input : StaticInput)
+    (order : Nat) (positive : 0 < order)
+    (ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target)
+    {Ledger : Sort v}
+    (current : Ledger → input.VerifiedInducedPathStage order ctx)
+    (source : Core.Routing.ResidualStage .ct1 Ledger) :=
+  Core.Routing.ResidualStage .ct12
+    (input.InducedPathPackingLedgerType order positive ctx current source)
 
 /-- Extend the exact prior prefix through the reusable induced-path packing
 stage.  Nonemptiness is derived from the CT1 realization retained by the
 predecessor; no packing conclusion is supplied by the caller. -/
 noncomputable def inducedPathPackingPrefix
     (input : StaticInput) (order : Nat) (positive : 0 < order)
-    (ctx : Core.MinimalCounterexampleContext input.problem input.Target)
-    (previous : input.VerifiedInducedPathStage order ctx) :
-    input.InducedPathPackingPrefix order positive ctx where
-  previous := previous
-  packingStage := InducedPathPacking.verifiedStage ctx.G.object order positive
-    ctx.toBranchContext
-  routeId_eq := input.inducedPathPackingRoute_id order positive ctx previous
-  routedInputExact := input.inducedPathPackingRouteInput_eq order positive ctx
-    previous
-  packingNonempty := Routes.CT1ToCT12.evidence_preserved _
-    (input.inducedPathPackingAdapter order positive ctx)
-    (input.inducedPathC1Source order ctx previous)
+    (ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target)
+    {Ledger : Sort v}
+    (current : Ledger → input.VerifiedInducedPathStage order ctx)
+    (source : Core.Routing.ResidualStage .ct1 Ledger) :
+    input.InducedPathPackingPrefix order positive ctx current source :=
+  let stage := input.inducedPathPackingTransitionStage order positive ctx current source
+  stage.ledgerStage.extend {
+    packingStage := InducedPathPacking.verifiedStage ctx.G.object order positive
+      ctx.toBranchContext
+    transitionProfileId :=
+      input.inducedPathPackingTransition_profile_id order positive ctx
+    routedExecutionExact :=
+      input.inducedPathPackingTransitionResult_eq order positive ctx current source
+    packingNonempty := Routes.CT1ToCT12.evidence_preserved _
+      (input.inducedPathPackingAdapter order positive ctx)
+      (fun ledger => input.inducedPathC1Source order ctx (current ledger)) source }
 
 /-! ## Induced-path attachment-classification CT10 prefix -/
 
@@ -660,14 +707,34 @@ def inducedPathAttachmentLabel (input : StaticInput) (order : Nat)
     ctx.G.object.input.decideAdj
   exact InducedPathAttachment.attachmentLabel path outside
 
-/-- Framework-owned extension retaining the complete CT12 packing output and
-adding CT10's exhaustive finite table of legal path-attachment labels. -/
-structure InducedPathPackingAttachmentPrefix
+/-- Mathematical CT12→CT10 adapter for one complete packing prefix.  The
+framework owns the transition and ledger transport; this definition supplies
+only the inherited branch context and the finite classification table. -/
+def inducedPathPackingAttachmentAdapter
     (input : StaticInput) (order : Nat) (positive : 0 < order)
     (classification : InducedPathAttachment.Classification order
       input.LengthOK)
-    (ctx : Core.MinimalCounterexampleContext input.problem input.Target) : Prop where
-  previous : input.InducedPathPackingPrefix order positive ctx
+    (ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target)
+    (Ledger : Sort v) :
+    Routes.Accumulated.Adapter Ledger
+      (classification.profile.capability input.problem).executableInterface where
+  targetContext := fun _previous => ctx.toBranchContext
+  trigger := fun _previous =>
+    ⟨classification.profile.classes.toOrderedCollection⟩
+
+/-- Mathematical facts attached to the literal CT12→CT10 transition output. -/
+structure InducedPathPackingAttachmentFacts
+    (input : StaticInput) (order : Nat) (positive : 0 < order)
+    (classification : InducedPathAttachment.Classification order
+      input.LengthOK)
+    (ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target)
+    {Ledger : Sort v}
+    {source : Core.Routing.ResidualStage .ct12 Ledger}
+    (stage : Routes.Accumulated.OutputLedger
+      (classification.profile.capability input.problem).executableInterface
+      (input.inducedPathPackingAttachmentAdapter order positive
+        classification ctx Ledger) source) :
+    Type (max (u + 1) v) where
   classificationStage :
     classification.profile.VerifiedStage ctx.toBranchContext
   actualLabelsLegal : ∀
@@ -686,33 +753,69 @@ structure InducedPathPackingAttachmentPrefix
       (classification.decode.symm
         (input.inducedPathAttachmentLabel order ctx path outside))
 
+/-- Output type of the framework-owned CT10 attachment ledger. -/
+abbrev InducedPathPackingAttachmentLedgerType
+    (input : StaticInput) (order : Nat) (positive : 0 < order)
+    (classification : InducedPathAttachment.Classification order
+      input.LengthOK)
+    (ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target)
+    {Ledger : Sort v}
+    (source : Core.Routing.ResidualStage .ct12 Ledger) :=
+  Core.Routing.LedgerExtension
+      (Routes.Accumulated.OutputLedger
+        (classification.profile.capability input.problem).executableInterface
+        (input.inducedPathPackingAttachmentAdapter order positive
+          classification ctx Ledger) source)
+      (input.InducedPathPackingAttachmentFacts order positive
+        classification ctx)
+
+/-- Framework-owned full CT10 ledger: the transition retains the complete
+CT12 ledger and this extension adds only the classification mathematics. -/
+abbrev InducedPathPackingAttachmentPrefix
+    (input : StaticInput) (order : Nat) (positive : 0 < order)
+    (classification : InducedPathAttachment.Classification order
+      input.LengthOK)
+    (ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target)
+    {Ledger : Sort v}
+    (source : Core.Routing.ResidualStage .ct12 Ledger) :=
+  Core.Routing.ResidualStage .ct10
+    (input.InducedPathPackingAttachmentLedgerType order positive
+      classification ctx source)
+
 /-- Extend the exact CT12 output through the reusable CT10 label
 classification on the same branch context. -/
 noncomputable def inducedPathPackingAttachmentPrefix
     (input : StaticInput) (order : Nat) (positive : 0 < order)
     (classification : InducedPathAttachment.Classification order
       input.LengthOK)
-    (ctx : Core.MinimalCounterexampleContext input.problem input.Target)
-    (previous : input.InducedPathPackingPrefix order positive ctx) :
+    (ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target)
+    {Ledger : Sort v}
+    (source : Core.Routing.ResidualStage .ct12 Ledger) :
     input.InducedPathPackingAttachmentPrefix order positive
-      classification ctx where
-  previous := previous
-  classificationStage :=
-    classification.profile.verifiedStage ctx.toBranchContext
-  actualLabelsLegal := by
-    intro path outside outsidePath attached
-    letI : DecidableRel ctx.G.object.graph.Adj :=
-      ctx.G.object.input.decideAdj
-    exact InducedPathAttachment.attachmentLabel_legal_of_avoids
-      input.LengthOK path outside outsidePath attached ctx.avoids
-  actualLabelsAccepted := by
-    intro path outside outsidePath attached
-    apply (classification.accepts_iff_legal _).2
-    rw [classification.decode.apply_symm_apply]
-    letI : DecidableRel ctx.G.object.graph.Adj :=
-      ctx.G.object.input.decideAdj
-    exact InducedPathAttachment.attachmentLabel_legal_of_avoids
-      input.LengthOK path outside outsidePath attached ctx.avoids
+      classification ctx source :=
+  let stage :=
+    Routes.Accumulated.advance (sourceTactic := .ct12)
+      (classification.profile.capability input.problem).executableInterface
+      (input.inducedPathPackingAttachmentAdapter order positive
+        classification ctx Ledger)
+      id source
+  stage.ledgerStage.extend {
+    classificationStage :=
+      classification.profile.verifiedStage ctx.toBranchContext
+    actualLabelsLegal := by
+      intro path outside outsidePath attached
+      letI : DecidableRel ctx.G.object.graph.Adj :=
+        ctx.G.object.input.decideAdj
+      exact InducedPathAttachment.attachmentLabel_legal_of_avoids
+        input.LengthOK path outside outsidePath attached ctx.avoids
+    actualLabelsAccepted := by
+      intro path outside outsidePath attached
+      apply (classification.accepts_iff_legal _).2
+      rw [classification.decode.apply_symm_apply]
+      letI : DecidableRel ctx.G.object.graph.Adj :=
+        ctx.G.object.input.decideAdj
+      exact InducedPathAttachment.attachmentLabel_legal_of_avoids
+        input.LengthOK path outside outsidePath attached ctx.avoids }
 
 end StaticInput
 

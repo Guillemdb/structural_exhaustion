@@ -1,6 +1,7 @@
 import Erdos64EG.P13WeightedColdRestrictedD4D7State
 import Erdos64EG.P13WeightedColdRestrictedPriorPiecePair
 import StructuralExhaustion.Core.BoundedListCode
+import StructuralExhaustion.Core.EnumerationCombinators
 import StructuralExhaustion.Core.FiniteExactStateCorridor
 import StructuralExhaustion.Core.FiniteObservedColumn
 import StructuralExhaustion.Core.FiniteStructuralCutState
@@ -9,6 +10,7 @@ namespace Erdos64EG.Internal
 
 open StructuralExhaustion
 open StructuralExhaustion.Graph
+
 
 universe u
 
@@ -224,12 +226,6 @@ theorem coldStructuralStateCode_windowOffset
     (package.coldStructuralStateCode survivor stage).windowOffset =
       package.activeWindowOffset := rfl
 
-noncomputable def ColdStateProductFormula : Nat :=
-  coldStructuralStateEncoding.productCard
-
-noncomputable abbrev ColdStateProductCard : Nat :=
-  coldStructuralStateEncoding.finite.bound
-
 noncomputable abbrev QCold : Nat := coldStructuralStateEncoding.finite.bound
 
 /-- The manuscript's uniform first-failure exchange allowance.  The additive
@@ -266,12 +262,9 @@ theorem DCold_eq_overlapDenominator :
 `QCold` depends only on its fixed finite alphabets, not on the graph order or
 the length of the actual corridor schedule. -/
 theorem QCold_eq_fixed_product :
-    QCold = ColdStateProductCard := rfl
-
-/-- The manuscript's `Q_cols` is inherited from the canonical state encoding;
-the Erdős specialization never defines or propagates a parallel quantity. -/
-theorem ColdStateProductCard_eq_formula :
-    ColdStateProductCard = ColdStateProductFormula := rfl
+    coldStructuralStateEncoding.finite.bound =
+      coldStructuralStateEncoding.productCard :=
+  coldStructuralStateEncoding.bound_eq_productCard
 
 /-- Every support already bounded by `QCold + 1` fits inside the paper's
 larger `MCold` exchange allowance. -/
@@ -299,42 +292,22 @@ noncomputable def coldStructuralStateToFin :=
 
 /-- F5 starts after the zero prefix.  Hence each inspected cut has two
 genuinely distinct active boundary vertices and needs no degenerate case. -/
-noncomputable def positiveStages : Core.OrderedCollection package.Stage where
-  values := package.stages.values.drop 1
-  nodup := package.stages.nodup.sublist (List.drop_sublist 1 _)
-  decEq := package.stages.decEq
+noncomputable def positiveStages : Core.OrderedCollection package.Stage :=
+  package.profile.positiveStages
 
 theorem positiveStages_mem_positive {stage : package.Stage}
     (member : stage ∈ package.positiveStages.values) : 0 < stage.val := by
-  change stage ∈ package.stages.values.drop 1 at member
-  change stage ∈ package.profile.stages.values.drop 1 at member
-  rw [package.profile.stages_values_eq_finRange] at member
-  obtain ⟨index, inBounds, valueEq⟩ :=
-    List.mem_drop_iff_getElem.mp member
-  have valEq := congrArg Fin.val valueEq
-  rw [List.getElem_finRange] at valEq
-  simp only [Fin.val_cast] at valEq
-  omega
+  exact package.profile.positiveStages_mem_positive member
 
-set_option maxHeartbeats 800000 in
 theorem positiveStages_getElem_val (index : Nat)
     (inBounds : index < package.positiveStages.values.length) :
     package.positiveStages.values[index].val = index + 1 := by
-  change ((List.finRange
-    (InducedPathRestrictedComponentBoundarySchedule.componentPath
-      package.input).support.length).drop 1)[index].val = index + 1
-  rw [List.getElem_drop, List.getElem_finRange]
-  simp only [Fin.val_cast]
-  omega
+  exact package.profile.positiveStages_getElem_val index inBounds
 
 theorem positiveStages_pairwise_val_lt :
     package.positiveStages.values.Pairwise
       (fun earlier later => earlier.val < later.val) := by
-  rw [List.pairwise_iff_getElem]
-  intro first second firstBound secondBound ordered
-  rw [package.positiveStages_getElem_val first firstBound,
-    package.positiveStages_getElem_val second secondBound]
-  omega
+  exact package.profile.positiveStages_pairwise_val_lt
 
 /-- The refactored structural-only corridor profile.  `code` evaluates the
 actual stage and four observed lists; `encode` is symbolic and the alphabet is

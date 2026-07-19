@@ -49,33 +49,46 @@ theorem p13Remainder_positiveDeficiency_eq
 
 /-- The node-[28] definition retains the exact node-[27] no-three-core
 predecessor on the same selected graph. -/
-structure VerifiedP13PositiveDeficiencyPrefix
+structure P13PositiveDeficiencyFacts
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedP13PackingPrefix ctx
+    Type (u + 1) where
   exactFormula :
     (p13RemainderDeficiencyProfile ctx).positiveDeficiency =
       Finset.sum (p13RemainderVertices ctx) (fun vertex : ctx.G.Vertex =>
         3 - (p13RemainderDeficiencyProfile ctx).internalDegree vertex)
   noInternalThreeCore : (p13Remainder ctx).InternalMinDegreeFree 3
 
+/-- Framework-owned exact node handoff.  The Sigma index names the literal
+incoming CT12 ledger; `ExactStageHandoff` owns retention and transports the
+definition-only accounting facts. -/
+abbrev VerifiedP13PositiveDeficiencyPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Sigma fun previous : VerifiedP13PackingPrefix ctx =>
+    Core.ExactStageHandoff previous (fun _ => P13PositiveDeficiencyFacts ctx)
+
 noncomputable def verifiedP13PositiveDeficiencyPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedP13PackingPrefix ctx) :
-    VerifiedP13PositiveDeficiencyPrefix ctx where
-  previous := previous
-  exactFormula := p13Remainder_positiveDeficiency_eq ctx
-  noInternalThreeCore := previous.noInternalThreeCore
+    VerifiedP13PositiveDeficiencyPrefix ctx :=
+  ⟨previous, Core.ExactStageHandoff.refl previous {
+    exactFormula := p13Remainder_positiveDeficiency_eq ctx
+    noInternalThreeCore := previous.2.output.added.noInternalThreeCore }⟩
+
+def p13PositiveDeficiencyPrefix_previous
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedP13PositiveDeficiencyPrefix ctx) :
+    VerifiedP13PackingPrefix ctx :=
+  verified.1
 
 theorem exists_verifiedP13PositiveDeficiencyPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedP13PositiveDeficiencyPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedP13PositiveDeficiencyPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedP13PackingPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedP13PositiveDeficiencyPrefix ctx previous⟩
+  exact ⟨ctx, verifiedP13PositiveDeficiencyPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

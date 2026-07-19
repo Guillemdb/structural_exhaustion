@@ -141,13 +141,13 @@ def localDeletionCapabilityProfile : Core.CapabilityProfile where
     "StructuralExhaustion.CT2.LocalDeletionClosureRule.targetMonotone"
   ]
   derivedOperations := [
-    "StructuralExhaustion.CT2.LocalDeletionCapability.tacticInterface",
+    "StructuralExhaustion.CT2.LocalDeletionClosureRule.executableInterface",
     "StructuralExhaustion.CT2.LocalDeletionCapability.discover",
     "StructuralExhaustion.CT2.LocalDeletionClosureRule.witness",
     "StructuralExhaustion.CT2.LocalDeletionClosureRule.run",
     "StructuralExhaustion.CT2.LocalDeletionClosureRule.notProper",
     "StructuralExhaustion.CT2.localDeletionBudget",
-    "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.rule"
+    "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.transition"
   ]
 
 /-- Minimal author contract for a proof-specified smaller object.  The
@@ -170,7 +170,7 @@ def certifiedReductionCapabilityProfile : Core.CapabilityProfile where
     "StructuralExhaustion.CT2.CertifiedReductionInput.targetMonotone"
   ]
   derivedOperations := [
-    "StructuralExhaustion.CT2.certifiedReductionTacticInterface",
+    "StructuralExhaustion.CT2.certifiedReductionExecutableInterface",
     "StructuralExhaustion.CT2.CertifiedReductionInput.witness",
     "StructuralExhaustion.CT2.runCertifiedReduction",
     "StructuralExhaustion.CT2.runCertifiedReduction_terminal",

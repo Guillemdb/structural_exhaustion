@@ -17,6 +17,7 @@ import StructuralExhaustion.CT15.Automation
 import StructuralExhaustion.CT16.Automation
 import StructuralExhaustion.CT17.Automation
 import StructuralExhaustion.Canonical.CapabilityConcepts
+import StructuralExhaustion.Canonical.ExampleRegistry
 import StructuralExhaustion.Canonical.NodeInternalMetadata
 import StructuralExhaustion.Routes.CT1ToCT2
 import StructuralExhaustion.Routes.CT1ToCT12
@@ -26,6 +27,7 @@ import StructuralExhaustion.Routes.CT5ToCT14
 import StructuralExhaustion.Routes.CT6ToCT9
 import StructuralExhaustion.Routes.CT9ToCT7
 import StructuralExhaustion.Routes.CT14ToCT14
+import StructuralExhaustion.Routes.Accumulated
 
 namespace StructuralExhaustion.Canonical
 
@@ -60,7 +62,16 @@ private def descriptor
   nodeAutomationContracts := nodeAutomationContracts
   nodeInternalFlows := nodeAutomationContracts.map
     NodeInternalFlowDescriptor.ofContract
-  residualKindContracts := residualKindContracts
+  residualKindContracts := residualKindContracts ++ [{
+    residualKindId := tacticId ++ ".residual.accumulatedLedger"
+    leanType := "StructuralExhaustion.Core.Routing.ResidualStage"
+    semanticFields := [
+      ⟨"previous", "complete exact predecessor ledger",
+        .derivedFromPredecessor⟩,
+      ⟨"execution", "public CT execution indexed by the predecessor",
+        .derivedByGenericTheorem⟩]
+    inheritedContext := .branch
+  }]
 }
 
 /-- Ordered stable registry.  The remaining CT rows are added only after their
@@ -130,17 +141,176 @@ def tactics : Array TacticDescriptor := #[
     CT17.nodeAutomationContracts CT17.residualKindContracts
 ]
 
-/-- Framework-generated routes currently proved in Lean. -/
-def routes : List Core.RouteContract := [
-  Routes.CT1ToCT2.contract,
-  Routes.CT1ToCT2.LocalDeletion.contract,
-  Routes.CT1ToCT12.routeContract,
-  Routes.CT2ToCT3.routeContract,
-  Routes.CT2ToCT10.routeContract,
-  Routes.CT5ToCT14.routeContract,
-  Routes.CT6ToCT9.routeContract,
-  Routes.CT9ToCT7.routeContract,
-  Routes.CT14ToCT14.routeContract
+/-- One executable profile of a typed CT-to-CT transition family.  The
+constructor and executor are recorded separately so catalog consumers cannot
+mistake static metadata for the operation that advances the full ledger. -/
+structure RegisteredTransitionProfileDescriptor where
+  contract : Core.CTTransitionProfileContract
+  transitionDeclaration : Lean.Name
+  advanceDeclaration : Lean.Name
+  deriving Repr, DecidableEq
+
+/-- All executable profiles currently proved in Lean.  CT1→CT2 deliberately
+has two profiles inside one family; their trigger/result types remain distinct
+while transport and ledger semantics are identical. -/
+def transitionProfiles : List RegisteredTransitionProfileDescriptor := [
+  ⟨Routes.CT1ToCT2.transitionContract,
+    `StructuralExhaustion.Routes.CT1ToCT2.transition,
+    `StructuralExhaustion.Routes.CT1ToCT2.advance⟩,
+  ⟨Routes.CT1ToCT2.LocalDeletion.transitionContract,
+    `StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.transition,
+    `StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.advance⟩,
+  ⟨Routes.CT1ToCT12.transitionContract,
+    `StructuralExhaustion.Routes.CT1ToCT12.transition,
+    `StructuralExhaustion.Routes.CT1ToCT12.advance⟩,
+  ⟨Routes.CT2ToCT3.transitionContract,
+    `StructuralExhaustion.Routes.CT2ToCT3.transition,
+    `StructuralExhaustion.Routes.CT2ToCT3.advance⟩,
+  ⟨Routes.CT2ToCT10.transitionContract,
+    `StructuralExhaustion.Routes.CT2ToCT10.transition,
+    `StructuralExhaustion.Routes.CT2ToCT10.advance⟩,
+  ⟨Routes.CT5ToCT14.transitionContract,
+    `StructuralExhaustion.Routes.CT5ToCT14.transition,
+    `StructuralExhaustion.Routes.CT5ToCT14.advance⟩,
+  ⟨Routes.CT6ToCT9.transitionContract,
+    `StructuralExhaustion.Routes.CT6ToCT9.transition,
+    `StructuralExhaustion.Routes.CT6ToCT9.advance⟩,
+  ⟨Routes.CT9ToCT7.transitionContract,
+    `StructuralExhaustion.Routes.CT9ToCT7.transition,
+    `StructuralExhaustion.Routes.CT9ToCT7.advance⟩,
+  ⟨Routes.CT14ToCT14.transitionContract,
+    `StructuralExhaustion.Routes.CT14ToCT14.transition,
+    `StructuralExhaustion.Routes.CT14ToCT14.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct1 .ct9
+      "StructuralExhaustion.CT9.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct1 .ct10
+      "StructuralExhaustion.CT10.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct2 .ct1
+      "StructuralExhaustion.CT1.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct3 .ct1
+      "StructuralExhaustion.CT1.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct5 .ct2
+      "StructuralExhaustion.CT2.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct7 .ct5
+      "StructuralExhaustion.CT5.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct5 .ct10
+      "StructuralExhaustion.CT10.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct9 .ct1
+      "StructuralExhaustion.CT1.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct9 .ct5
+      "StructuralExhaustion.CT5.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct9 .ct10
+      "StructuralExhaustion.CT10.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct9 .ct14
+      "StructuralExhaustion.CT14.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct10 .ct5
+      "StructuralExhaustion.CT5.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct10 .ct6
+      "StructuralExhaustion.CT6.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct10 .ct9
+      "StructuralExhaustion.CT9.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct10 .ct14
+      "StructuralExhaustion.CT14.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct12 .ct10
+      "StructuralExhaustion.CT10.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct12 .ct15
+      "StructuralExhaustion.CT15.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct14 .ct1
+      "StructuralExhaustion.CT1.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct14 .ct12
+      "StructuralExhaustion.CT12.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩,
+  ⟨Routes.Accumulated.transitionContract .ct15 .ct9
+      "StructuralExhaustion.CT9.Capability.executableInterface",
+    `StructuralExhaustion.Routes.Accumulated.transition,
+    `StructuralExhaustion.Routes.Accumulated.advance⟩
 ]
+
+/-- One source/target CT family and all of its executable profiles. -/
+structure RegisteredTransitionFamilyDescriptor where
+  sourceTacticId : String
+  targetTacticId : String
+  profiles : List RegisteredTransitionProfileDescriptor
+  deriving Repr, DecidableEq
+
+namespace RegisteredTransitionFamilyDescriptor
+
+def familyId (family : RegisteredTransitionFamilyDescriptor) : String :=
+  family.sourceTacticId ++ "->" ++ family.targetTacticId
+
+end RegisteredTransitionFamilyDescriptor
+
+private def transitionPairs : List (String × String) :=
+  (transitionProfiles.map fun profile =>
+    (profile.contract.sourceTacticId, profile.contract.targetTacticId)).eraseDups
+
+/-- Families are derived from the profile registry, so adding a subtype never
+creates a second meaning for the same CT pair. -/
+def transitionFamilies : List RegisteredTransitionFamilyDescriptor :=
+  transitionPairs.map fun pair => {
+    sourceTacticId := pair.1
+    targetTacticId := pair.2
+    profiles := transitionProfiles.filter fun profile =>
+      profile.contract.sourceTacticId == pair.1 &&
+        profile.contract.targetTacticId == pair.2
+  }
+
+/-- Resolve the mandatory full-ledger executor of a registered profile. -/
+def registeredTransitionAutomation? (profileId : String) : Option Lean.Name :=
+  (transitionProfiles.find? fun profile =>
+    profile.contract.profileId == profileId).map (·.advanceDeclaration)
+
+namespace ExampleLinkDescriptor
+
+/-- Resolve the automation declarations of one example edge. Registered
+transitions obtain their full-ledger executor from the canonical registry;
+ordinary framework compositions retain their declared framework executor. -/
+def resolvedAutomationDeclarations
+    (link : ExampleLinkDescriptor) : List Lean.Name :=
+  match link.kind, link.transitionProfileId? with
+  | .registeredTransition, some profileId =>
+      match registeredTransitionAutomation? profileId with
+      | some owner => [owner]
+      | none => []
+  | _, _ => link.automationDeclarations
+
+end ExampleLinkDescriptor
 
 end StructuralExhaustion.Canonical

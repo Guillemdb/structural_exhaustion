@@ -19,7 +19,7 @@ def source : Routes.LongFiniteSupportHandoff.Source context where
   exceeds := by decide
 
 def residual : Routes.LongFiniteSupportHandoff.Residual context :=
-  Routes.LongFiniteSupportHandoff.route source
+  Routes.LongFiniteSupportHandoff.handoff source
 
 example : residual.source = source := rfl
 
@@ -66,7 +66,7 @@ example (position : Routes.LongFiniteSupportHandoff.Position source) :
         .afterPrefix lowerBound) :=
   Routes.LongFiniteSupportHandoff.classifyPosition_exhaustive source position
 
-example : Routes.LongFiniteSupportHandoff.routeId =
+example : Routes.LongFiniteSupportHandoff.handoffId =
     "finite-long-support->typed-scale-handoff" :=
   rfl
 

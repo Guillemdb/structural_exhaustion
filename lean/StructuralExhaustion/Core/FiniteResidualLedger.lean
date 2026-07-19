@@ -41,6 +41,48 @@ theorem occurrence_mem
     (occurrence : ledger.Occurrence) : occurrence ∈ ledger.entries :=
   ledger.occurrences.mem_orderedValues occurrence
 
+/-- Treat an exact finite enumeration as its own occurrence schedule. This is
+the canonical source for a producer that emits once per enumerated local item;
+later `map` calls may change the event view without changing occurrence
+identity or order. -/
+noncomputable def ofEnumeration (enumeration : FinEnum Event) :
+    Ledger.{uEvent, uEvent} Event where
+  Occurrence := Event
+  occurrences := enumeration
+  event := id
+
+@[simp] theorem ofEnumeration_event (enumeration : FinEnum Event)
+    (occurrence : (ofEnumeration enumeration).Occurrence) :
+    (ofEnumeration enumeration).event occurrence = occurrence :=
+  rfl
+
+@[simp] theorem ofEnumeration_checks (enumeration : FinEnum Event) :
+    (ofEnumeration enumeration).checks = enumeration.card :=
+  checks_exact (ofEnumeration enumeration)
+
+/-- Emit one event for every value of an exact finite enumeration while
+retaining the enumerated value itself as occurrence identity.  This combines
+the canonical identity schedule with its event view, so applications never
+rebuild an occurrence record around `orderedValues.map`. -/
+noncomputable def ofMappedEnumeration {Input : Type uValue}
+    (enumeration : FinEnum Input) (emit : Input → Event) :
+    Ledger.{uValue, uEvent} Event where
+  Occurrence := Input
+  occurrences := enumeration
+  event := emit
+
+@[simp] theorem ofMappedEnumeration_event {Input : Type uValue}
+    (enumeration : FinEnum Input) (emit : Input → Event)
+    (occurrence : (ofMappedEnumeration enumeration emit).Occurrence) :
+    (ofMappedEnumeration enumeration emit).event occurrence =
+      emit occurrence :=
+  rfl
+
+@[simp] theorem ofMappedEnumeration_checks {Input : Type uValue}
+    (enumeration : FinEnum Input) (emit : Input → Event) :
+    (ofMappedEnumeration enumeration emit).checks = enumeration.card :=
+  ofEnumeration_checks enumeration
+
 /-- Empty persistent ledger. -/
 noncomputable def empty : Ledger.{0, uEvent} Event where
   Occurrence := PEmpty

@@ -20,22 +20,24 @@ strict scale inequality is retained in `previous`; CT6 and CT12 consume the
 same node-[18] graph prefix, so no graph, support, or branch context is
 reselected at this handoff. -/
 structure VerifiedSparseEnvelopeFromPressure
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) where
-  previous : SparsePressureEntryResidual ctx
-  envelope : VerifiedSparseEnvelopePrefix ctx
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (entry : SparsePressureEntryResidual ctx)
+    extends Core.ExactHandoff entry where
+  envelope : Core.ExactHandoff (verifiedSparseEnvelopePrefix ctx
+    (verifiedSparseSurplusPrefix ctx entry.2.output.previous.residual))
 
 noncomputable def verifiedSparseEnvelopeFromPressure
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : SparsePressureEntryResidual ctx) :
-    VerifiedSparseEnvelopeFromPressure ctx where
-  previous := previous
-  envelope := verifiedSparseEnvelopePrefix ctx
-    (verifiedSparseSurplusPrefix ctx previous.previous.previous.previous)
+    VerifiedSparseEnvelopeFromPressure ctx previous where
+  toExactHandoff := Core.ExactHandoff.refl previous
+  envelope := Core.ExactHandoff.refl (verifiedSparseEnvelopePrefix ctx
+    (verifiedSparseSurplusPrefix ctx previous.2.output.previous.residual))
 
 theorem verifiedSparseEnvelopeFromPressure_sameLabelPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : SparsePressureEntryResidual ctx) :
-    (verifiedSparseEnvelopeFromPressure ctx previous).envelope.previous.previous =
-      previous.previous.previous.previous := rfl
+    (verifiedSparseEnvelopeFromPressure ctx previous).envelope.output.previous.1.output =
+      previous.2.output.previous.residual := rfl
 
 end Erdos64EG.Internal

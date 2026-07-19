@@ -59,11 +59,9 @@ theorem p13_le_ambientCubic_add_totalSurplus
       (ambientCubicWindows ctx.G.object
         (Finset.univ : Finset (WindowIndex ctx.G.object))).card =
         (p13AmbientCubicWindows ctx).card := by
-    letI : FinEnum (P13AmbientCubicWindow ctx) :=
-      p13AmbientCubicWindows ctx
     classical
-    rw [FinEnum.card_eq_fintypeCard,
-      Fintype.card_subtype (AmbientCubic ctx.G.object)]
+    rw [p13AmbientCubicWindows,
+      Core.Enumeration.subtype_card_eq_filter]
     unfold ambientCubicWindows
     congr 1
     ext window
@@ -216,10 +214,12 @@ theorem p13BranchExcessCorridorCheck_le_vertices
     (corridor : P13BranchExcessCorridor ctx window) :
     p13BranchExcessCorridorCheck corridor ≤
       ctx.G.object.input.vertices.card := by
-  letI : FinEnum ctx.G.Vertex := ctx.G.object.input.vertices
-  simpa [p13BranchExcessCorridorCheck, FinEnum.card_eq_fintypeCard] using
-    ((p13SelectedWindowCorridorProducer ctx).ambientReturn_isPath
-      corridor.stub).support_nodup.length_le_card
+  unfold p13BranchExcessCorridorCheck
+  simpa only [FinEnum.orderedValues_length] using
+    Core.Enumeration.length_le_elems_of_nodup
+      ctx.G.object.input.vertices
+      (((p13SelectedWindowCorridorProducer ctx).ambientReturn_isPath
+        corridor.stub).support_nodup)
 
 /-- Sum of the actual stored corridor-stage lengths.  This charges only the
 thirteen selected excess stubs of each retained cubic window. -/
@@ -276,7 +276,7 @@ theorem p13BranchExcessCorridorChecks_quadratic
 field and therefore cannot be supplied by an application. -/
 structure VerifiedP13BranchExcessCorridorPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type u
+    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 2)
     extends Core.ExactHandoff node21 where
 
 def verifiedP13BranchExcessCorridorPrefix

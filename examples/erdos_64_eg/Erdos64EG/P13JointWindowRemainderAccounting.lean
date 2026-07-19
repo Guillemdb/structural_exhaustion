@@ -1,4 +1,5 @@
 import Erdos64EG.P13HighEntropyRemainderBits
+import StructuralExhaustion.Core.ExactHandoff
 import StructuralExhaustion.Core.FiniteJointCapacity
 
 namespace Erdos64EG.Internal
@@ -30,10 +31,8 @@ structure P13Node52JointAccountingRealization
     (node50 : VerifiedP13Node50EntropyScaleSplit
       ctx node21 node24 realized node49)
     (node51 : VerifiedP13Node51HighEntropyBits
-      ctx node21 node24 realized node49 node50) : Type (u + 1) where
-  previous : VerifiedP13Node51HighEntropyBits
-    ctx node21 node24 realized node49 node50
-  exactPrevious : previous = node51
+      ctx node21 node24 realized node49 node50) : Type (u + 1)
+    extends Core.ExactHandoff node51 where
   WindowState : Type u
   windowStates : Core.OrderedCollection WindowState
   LocalCompletion : SelectedP13Window ctx → Type u
@@ -53,6 +52,22 @@ structure P13Node52JointAccountingRealization
     skeletonCode (glue (choices pair.1 pair.2)))
   rightScheduleExact : realized.states =
     (p13RemainderStateEntropyProfile realized).states
+
+/-- Compatibility spelling; exact handoff storage is framework-owned. -/
+theorem P13Node52JointAccountingRealization.exactPrevious
+    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
+    {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
+    {node24 : VerifiedP13Node24DensityHandoff ctx node21}
+    {realized : P13CurvatureProductCostRealization ctx node21 node24}
+    {node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized}
+    {node50 : VerifiedP13Node50EntropyScaleSplit
+      ctx node21 node24 realized node49}
+    {node51 : VerifiedP13Node51HighEntropyBits
+      ctx node21 node24 realized node49 node50}
+    (joint : P13Node52JointAccountingRealization
+      ctx node21 node24 realized node49 node50 node51) :
+    joint.previous = node51 :=
+  joint.previousExact
 
 /-- Core-owned capacity profile on the two exact supplied schedules. -/
 noncomputable def p13Node52JointCapacityProfile

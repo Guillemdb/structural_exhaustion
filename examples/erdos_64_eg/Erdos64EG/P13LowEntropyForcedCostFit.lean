@@ -1,4 +1,5 @@
 import Erdos64EG.P13HighEntropyRemainderBits
+import StructuralExhaustion.Core.ExactHandoff
 import StructuralExhaustion.Core.FinitePoweredBudgetTransfer
 
 namespace Erdos64EG.Internal
@@ -29,10 +30,8 @@ structure P13Node53LowEntropyInput
     (realized : P13CurvatureProductCostRealization ctx node21 node24)
     (node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized)
     (node50 : VerifiedP13Node50EntropyScaleSplit
-      ctx node21 node24 realized node49) : Type (u + 1) where
-  previous : VerifiedP13Node50EntropyScaleSplit
-    ctx node21 node24 realized node49
-  exactPrevious : previous = node50
+      ctx node21 node24 realized node49) : Type (u + 1)
+    extends Core.ExactHandoff node50 where
   outcomePrevious : VerifiedP13Node49FiniteEntropy
     ctx node21 node24 realized
   outcomeExactPrevious : outcomePrevious = node49
@@ -62,7 +61,7 @@ def P13Node50To51Route.lowInput
       .low outcomePrevious outcomeExactPrevious strict) :
     P13Node53LowEntropyInput ctx node21 node24 realized node49 node50 where
   previous := previous
-  exactPrevious := exactPrevious
+  previousExact := exactPrevious
   outcomePrevious := outcomePrevious
   outcomeExactPrevious := outcomeExactPrevious
   strict := strict
@@ -150,10 +149,8 @@ structure VerifiedP13Node53LargeBudget
     (node50 : VerifiedP13Node50EntropyScaleSplit
       ctx node21 node24 realized node49)
     (input : P13Node53LowEntropyInput
-      ctx node21 node24 realized node49 node50) : Type (u + 1) where
-  previous : P13Node53LowEntropyInput
-    ctx node21 node24 realized node49 node50
-  exactPrevious : previous = input
+      ctx node21 node24 realized node49 node50) : Type (u + 1)
+    extends Core.ExactHandoff input where
   strictLarge : p13Node53ForcedPower ctx ^ 10 <
     p13Node53FlatPower ctx ^ 10 * p13Node53UpperPower ctx
   notSmall : ¬P13Node53SmallBudget ctx
@@ -177,7 +174,7 @@ noncomputable def verifiedP13Node53LargeBudget
   let strictLarge := (p13Node53PoweredBudgetProfile input).forced_pow_lt_flat_pow_mul_upper
   exact {
     previous := input
-    exactPrevious := rfl
+    previousExact := rfl
     strictLarge := strictLarge
     notSmall := Nat.not_le_of_lt strictLarge
     consume := fun budget =>
@@ -236,7 +233,7 @@ noncomputable def routeP13Node50Budget
       let input : P13Node53LowEntropyInput
           ctx node21 node24 realized node49 node50 := {
         previous := previous
-        exactPrevious := exactPrevious
+        previousExact := exactPrevious
         outcomePrevious := outcomePrevious
         outcomeExactPrevious := outcomeExactPrevious
         strict := strict

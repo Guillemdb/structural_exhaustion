@@ -11,12 +11,28 @@ vi.mock("./pages/ExamplePage", () => ({ ExamplePage: () => <div>generic example<
 vi.mock("./pages/ErdosGyarfasPage", () => ({
   ErdosGyarfasPage: () => <div>EG workspace</div>,
 }));
+vi.mock("./pages/DocumentationPage", () => ({
+  CoreDocumentationPage: () => <div>core docs</div>,
+  GraphDocumentationPage: () => <div>graph docs</div>,
+}));
 
 function LocationProbe() {
   return <output aria-label="Current location">{useLocation().pathname}</output>;
 }
 
 describe("application routes", () => {
+  it("redirects the framework root to Core documentation", async () => {
+    render(
+      <MemoryRouter initialEntries={["/framework"]}>
+        <App />
+        <LocationProbe />
+      </MemoryRouter>,
+    );
+    expect(await screen.findByText("core docs")).toBeVisible();
+    expect(screen.getByRole("status", { name: "Current location" })).toHaveTextContent(
+      "/framework/core",
+    );
+  });
   it("redirects the legacy Erdős example route to its dedicated section", async () => {
     render(
       <MemoryRouter initialEntries={["/examples/erdos-64"]}>

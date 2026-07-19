@@ -52,21 +52,30 @@ def routedDeletionRule (V : Type u) :
       (ct2Capability V) :=
   (routedProfile V).routedClosure
 
-abbrev localRoute {V : Type u}
+abbrev ct1Ledger {V : Type u}
     (ctx : Core.MinimalCounterexampleContext (problem V) (@Target V)) :=
-  (routedProfile V).route ctx
+  (routedProfile V).sourceLedger ctx
+
+abbrev currentAvoiding {V : Type u}
+    (ctx : Core.MinimalCounterexampleContext (problem V) (@Target V)) :=
+  (routedProfile V).currentAvoiding ctx
+
+abbrev localTransition {V : Type u}
+    (ctx : Core.MinimalCounterexampleContext (problem V) (@Target V)) :=
+  (routedProfile V).transition ctx
 
 abbrev routedContext {V : Type u}
     (ctx : Core.MinimalCounterexampleContext (problem V) (@Target V)) :=
   (routedProfile V).routedContext ctx
 
-/-- An enabled heavy-dart trigger would execute CT2's deletion-C2
-contradiction, so exact local discovery is disabled. -/
-theorem localRoute_disabled {V : Type u}
+/-- An enabled heavy-dart transition would execute CT2's deletion-C2
+contradiction, so the full CT1 ledger admits no enabled CT2 stage. -/
+theorem localTransition_not_enabled {V : Type u}
     (ctx : Core.MinimalCounterexampleContext (problem V) (@Target V)) :
-    ∃ reject, (localRoute ctx).discover (ct1AvoidingSource ctx) =
-      .disabled reject :=
-  (routedProfile V).discover_disabled ctx
+    ∀ stage : (localTransition ctx).OutputLedger
+        (currentAvoiding ctx) (ct1Ledger ctx),
+      (routedProfile V).outcome ctx ≠ .enabled stage :=
+  (routedProfile V).transition_not_enabled ctx
 
 /-- In a minimal counterexample, every actual edge has a degree-three
 endpoint. -/

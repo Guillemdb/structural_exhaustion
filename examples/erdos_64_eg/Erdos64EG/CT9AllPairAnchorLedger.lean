@@ -6,7 +6,7 @@ namespace Erdos64EG.Internal
 
 open StructuralExhaustion
 
-universe u
+universe u v
 
 /-!
 # Exact CT9 anchor ledger for every surplus pair
@@ -251,13 +251,38 @@ theorem allPairTokenRouting_checks_cubic
     (allPairTokenRoutingStage ctx) ctx.G.object.input.vertices.card
     (allPairTokenRouting_tokenCount_le_vertexCount ctx)
 
-/-- Verified proof prefix through the repaired node `[131]` routing block.
-It consumes the exact previous pair split, sends the two sides to their typed
-existing consumers, and retains the polynomial pair-work certificate. -/
-structure VerifiedAllPairTokenRoutingPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedSparsePairResponsePrefix ctx
+/-- Mathematical adapter for the canonical CT15→CT9 all-pair routing edge. -/
+noncomputable def allPairTokenRoutingAdapter
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {Source : Sort v} :
+    Routes.Accumulated.Adapter Source
+      (allPairTokenRoutingCapability ctx).executableInterface where
+  targetContext := fun _source => (allPairTokenRoutingInput ctx).context
+  trigger := fun _source => ⟨(allPairTokenRoutingInput ctx).items⟩
+
+/-- Framework-owned CT15→CT9 execution retaining the full pair-response
+ledger. -/
+noncomputable def allPairTokenRoutingTransitionStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSparsePairResponsePrefix ctx) :=
+  Routes.Accumulated.advanceCurrent
+    (allPairTokenRoutingCapability ctx).executableInterface
+    (allPairTokenRoutingAdapter (Source := SparsePairResponseLedger ctx previous.1) ctx)
+    (sparsePairResponseLedgerStage ctx previous)
+
+abbrev AllPairTokenRoutingTransitionLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSparsePairResponsePrefix ctx) :=
+  Routes.Accumulated.OutputLedger (sourceTactic := .ct15)
+    (allPairTokenRoutingCapability ctx).executableInterface
+    (allPairTokenRoutingAdapter (Source := SparsePairResponseLedger ctx previous.1)
+      ctx) (sparsePairResponseLedgerStage ctx previous)
+
+/-- Node `[131]` facts attached to the exact CT9 execution. -/
+structure AllPairTokenRoutingFacts
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {previous : VerifiedSparsePairResponsePrefix ctx}
+    (_stage : AllPairTokenRoutingTransitionLedger ctx previous) : Prop where
   routing : Graph.SurplusPairTokenRouting.VerifiedStage
     (allPairTokenRoutingStage ctx)
   localPolynomialChecks :
@@ -268,24 +293,44 @@ structure VerifiedAllPairTokenRoutingPrefix
         (setup := surplusPortActivationSetup ctx)).card ≤
       ctx.G.object.input.vertices.card ^ 4
 
+abbrev AllPairTokenRoutingLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSparsePairResponsePrefix ctx) :=
+  Core.Routing.LedgerExtension
+    (AllPairTokenRoutingTransitionLedger ctx previous)
+    (AllPairTokenRoutingFacts ctx)
+
+/-- Verified proof prefix through the repaired node `[131]` routing block. -/
+abbrev VerifiedAllPairTokenRoutingPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Sigma (AllPairTokenRoutingLedger ctx)
+
 noncomputable def verifiedAllPairTokenRoutingPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedSparsePairResponsePrefix ctx) :
-    VerifiedAllPairTokenRoutingPrefix ctx where
-  previous := previous
-  routing := allPairTokenRoutingVerifiedStage ctx
-  localPolynomialChecks := allPairTokenRouting_checks_cubic ctx
-  polynomialPairs := previous.polynomialPairs
+    VerifiedAllPairTokenRoutingPrefix ctx :=
+  let stage := allPairTokenRoutingTransitionStage ctx previous
+  ⟨previous, ⟨stage, {
+    routing := allPairTokenRoutingVerifiedStage ctx
+    localPolynomialChecks := allPairTokenRouting_checks_cubic ctx
+    polynomialPairs := previous.2.added.polynomialPairs
+  }⟩⟩
+
+/-- Canonical complete CT9 stage after node `[131]`. -/
+noncomputable def allPairTokenRoutingLedgerStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedAllPairTokenRoutingPrefix ctx) :=
+  verified.2.previous.ledgerStage.extend verified.2.added
 
 theorem exists_verifiedAllPairTokenRoutingPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedAllPairTokenRoutingPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedAllPairTokenRoutingPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedSparsePairResponsePrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedAllPairTokenRoutingPrefix ctx previous⟩
+  exact ⟨ctx, verifiedAllPairTokenRoutingPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

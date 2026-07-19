@@ -1,6 +1,7 @@
 import Erdos64EG.TypeBFanCertificateRequirement
 import Erdos64EG.CT9FanLabelPacking
 import StructuralExhaustion.Graph.DegreeFourFanLedger
+import StructuralExhaustion.Routes.Accumulated
 
 namespace Erdos64EG.Internal.TypeBDegreeFourLedgerConnector
 
@@ -12,30 +13,85 @@ variable {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget
 
 open TypeBEntryRouting
 
-abbrev LedgerStage
+noncomputable def profile
     (residual : VerifiedNode64Residual ctx)
-    (degreeFour : TypeBFanCompatiblePairAssignment.DegreeFourResidual residual) :=
-  Graph.DegreeFourFanLedger.VerifiedStage ctx.G.object
+    (_degreeFour : TypeBFanCompatiblePairAssignment.DegreeFourResidual residual) :=
+  Graph.DegreeFourFanLedger.profile ctx.G.object
     residual.highSurplus.center residual.highSurplus.high
     (TypeBFanShoulderIncidenceCoordinates.profile residual).deletionCritical
     (TypeBFanWholePortAssignment.Assigned residual)
     (Graph.InducedCoreFanAssignment.assignedDecidable ctx.G.object
       residual.support.core)
-    ctx.toBranchContext degreeFour.degreeFour
+
+noncomputable def target
+    (residual : VerifiedNode64Residual ctx)
+    (degreeFour : TypeBFanCompatiblePairAssignment.DegreeFourResidual residual) :=
+  ((profile residual degreeFour).capability PackedProblem.{u}).executableInterface
+
+noncomputable def adapter
+    (residual : VerifiedNode64Residual ctx)
+    (degreeFour : TypeBFanCompatiblePairAssignment.DegreeFourResidual residual) :
+    Routes.Accumulated.Adapter (VerifiedNode64Residual ctx)
+      (target residual degreeFour) where
+  targetContext := fun _source => ctx.toBranchContext
+  trigger := fun _source => ⟨⟩
+
+def sourceStage (residual : VerifiedNode64Residual ctx) :
+    Core.Routing.ResidualStage .ct6 (VerifiedNode64Residual ctx) :=
+  Core.Routing.ResidualStage.exact residual
+
+noncomputable def transitionStage
+    (residual : VerifiedNode64Residual ctx)
+    (degreeFour : TypeBFanCompatiblePairAssignment.DegreeFourResidual residual) :=
+  Routes.Accumulated.advanceCurrent (target residual degreeFour)
+    (adapter residual degreeFour) (sourceStage residual)
+
+abbrev TransitionLedger
+    (residual : VerifiedNode64Residual ctx)
+    (degreeFour : TypeBFanCompatiblePairAssignment.DegreeFourResidual residual) :=
+  Routes.Accumulated.OutputLedger (sourceTactic := .ct6)
+    (target residual degreeFour) (adapter residual degreeFour)
+    (sourceStage residual)
+
+structure LedgerFacts
+    (residual : VerifiedNode64Residual ctx)
+    (degreeFour : TypeBFanCompatiblePairAssignment.DegreeFourResidual residual)
+    (execution : TransitionLedger residual degreeFour) : Prop where
+  verified : Graph.DegreeFourFanLedger.VerifiedExecutionStage ctx.G.object
+    residual.highSurplus.center residual.highSurplus.high
+    (TypeBFanShoulderIncidenceCoordinates.profile residual).deletionCritical
+    (TypeBFanWholePortAssignment.Assigned residual)
+    (Graph.InducedCoreFanAssignment.assignedDecidable ctx.G.object
+      residual.support.core)
+    ctx.toBranchContext degreeFour.degreeFour execution.targetResult
+
+abbrev Ledger
+    (residual : VerifiedNode64Residual ctx)
+    (degreeFour : TypeBFanCompatiblePairAssignment.DegreeFourResidual residual) :=
+  Core.Routing.LedgerExtension (TransitionLedger residual degreeFour)
+    (LedgerFacts residual degreeFour)
+
+abbrev LedgerStage
+    (residual : VerifiedNode64Residual ctx)
+    (degreeFour : TypeBFanCompatiblePairAssignment.DegreeFourResidual residual) :=
+  Core.Routing.ResidualStage .ct14 (Ledger residual degreeFour)
 
 /-- Execute node `[79]` on the actual four incident ports and the assignment
 predicate already derived from node `[64]`. -/
 noncomputable def ledgerStage
     (residual : VerifiedNode64Residual ctx)
     (degreeFour : TypeBFanCompatiblePairAssignment.DegreeFourResidual residual) :
-    LedgerStage residual degreeFour :=
-  Graph.DegreeFourFanLedger.verifiedStage ctx.G.object
-    residual.highSurplus.center residual.highSurplus.high
-    (TypeBFanShoulderIncidenceCoordinates.profile residual).deletionCritical
-    (TypeBFanWholePortAssignment.Assigned residual)
-    (Graph.InducedCoreFanAssignment.assignedDecidable ctx.G.object
-      residual.support.core)
-    ctx.toBranchContext degreeFour.degreeFour
+    LedgerStage residual degreeFour := by
+  let execution := transitionStage residual degreeFour
+  exact execution.ledgerStage.extend {
+    verified := Graph.DegreeFourFanLedger.verifiedExecutionStage ctx.G.object
+      residual.highSurplus.center residual.highSurplus.high
+      (TypeBFanShoulderIncidenceCoordinates.profile residual).deletionCritical
+      (TypeBFanWholePortAssignment.Assigned residual)
+      (Graph.InducedCoreFanAssignment.assignedDecidable ctx.G.object
+        residual.support.core)
+      ctx.toBranchContext degreeFour.degreeFour execution.targetResult rfl
+  }
 
 /-- Honest node-`[80]` frontier. The current ancestry supplies neither an
 assigned marked fan nor a proof that none was assigned. -/
@@ -131,6 +187,6 @@ theorem degreeFourChecks_polynomial
     (residual : VerifiedNode64Residual ctx)
     (degreeFour : TypeBFanCompatiblePairAssignment.DegreeFourResidual residual) :
     degreeFourChecks residual ≤ 17 * (ctx.G.object.input.vertices.card + 1) :=
-  (ledgerStage residual degreeFour).polynomial
+  (ledgerStage residual degreeFour).output.added.verified.polynomial
 
 end Erdos64EG.Internal.TypeBDegreeFourLedgerConnector

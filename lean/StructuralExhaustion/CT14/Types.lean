@@ -16,11 +16,6 @@ structure Capability (P : Core.Problem) where
 structure Input {P : Core.Problem} (_C : Capability P)
     (_ctx : Core.BranchContext P) where
 namespace Capability
-def tacticInterface {P : Core.Problem} (C : Capability P) :
-    Core.Routing.TacticInterface where
-  Context := Core.BranchContext P
-  Trigger := Input C
-
 /-- CT14's target capability already fixes the complete member universe and
 its trigger has no additional semantic seed.  Consequently every inherited
 branch context is constructively enabled. -/

@@ -10,11 +10,10 @@ universe u
 /-!
 # Exact context-validity decision `[35] -> [36]`
 
-Node `[36]` inspects the already admitted quotient carried by Branch D.  The
-generic CT15 pair-circuit projection proves that its identified raw wedges have
-equal target response in every declared outside context.  No outside-context
-family is materialized; the original target-defect edge remains represented by
-the decision type and is proved impossible for this admitted payload.
+Node `[36]` audits the raw quotient restricted from the final carrier to the
+original proper atom.  The two interfaces remain dependently distinct.  The
+proof-level audit returns either one concrete original-interface context or
+universal equality at that interface; it never materializes a context family.
 -/
 
 /-- Complete node-[36] payload indexed by the exact green node-[35] residual. -/
@@ -38,26 +37,15 @@ structure VerifiedP13Node36ContextValidity
       (p13RemainderCurvatureProfile ctx).wedgeCount)
     (node35 : VerifiedP13Node35BranchD
       ctx node21 node24 node26 node27 node28 node29 node30 node31 node32 rankDrop) :
-    Type (u + 1) extends Core.ExactHandoff node35 where
-  decision : node35.circuit.ContextDecision
-  decisionExact : decision = .universal node35.circuit.contextUniversal
-  validEveryOutsideContext :
-    ∀ outside : (p13CurvatureResponseProfile ctx).responseSystem.Context,
-      (p13CurvatureResponseProfile ctx).responseSystem.response
-          node35.circuit.basisCoordinate outside =
-        (p13CurvatureResponseProfile ctx).responseSystem.response
-          node35.circuit.determined outside
-  noTargetDefect :
-    ¬∃ outside : (p13CurvatureResponseProfile ctx).responseSystem.Context,
-      (p13CurvatureResponseProfile ctx).responseSystem.response
-          node35.circuit.basisCoordinate outside ≠
-        (p13CurvatureResponseProfile ctx).responseSystem.response
-          node35.circuit.determined outside
+    Type (u + 3) extends Core.ExactHandoff node35 where
+  decision : node35.certificate.OriginalContextAudit
+  decisionExact : decision = node35.certificate.auditOriginal
+  total : Nonempty node35.certificate.OriginalContextAudit
   localWork :
-    (node35.circuit.contextDecisionBudget).checks () ≤
-      (node35.circuit.contextDecisionBudget).coefficient *
-        ((node35.circuit.contextDecisionBudget).size () + 1) ^
-          (node35.circuit.contextDecisionBudget).degree
+    node35.certificate.routeBudget.checks () ≤
+      node35.certificate.routeBudget.coefficient *
+        (node35.certificate.routeBudget.size () + 1) ^
+          node35.certificate.routeBudget.degree
 
 /-- Execute the original node-[36] context-validity test on the exact admitted
 pair circuit inherited from node [35]. -/
@@ -86,10 +74,9 @@ noncomputable def VerifiedP13Node33RankReducingDependence.node36
         node35 where
   previous := node35
   previousExact := rfl
-  decision := node35.circuit.contextDecision
-  decisionExact := node35.circuit.contextDecision_isUniversal
-  validEveryOutsideContext := node35.circuit.contextUniversal
-  noTargetDefect := node35.circuit.noContextDefect
-  localWork := node35.circuit.contextDecisionBudget.bounded ()
+  decision := node35.certificate.auditOriginal
+  decisionExact := rfl
+  total := ⟨node35.certificate.auditOriginal⟩
+  localWork := node35.certificate.routeBudget.bounded ()
 
 end Erdos64EG.Internal

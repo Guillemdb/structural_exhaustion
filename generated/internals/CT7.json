@@ -5348,8 +5348,8 @@
       "sourceId": "StructuralExhaustion/CT7/Capability.lean",
       "moduleName": "StructuralExhaustion.CT7.Capability",
       "path": "lean/StructuralExhaustion/CT7/Capability.lean",
-      "sha256": "b2fcb752d7ee65492bd6633034107000bae6ef79c2660deb1f6979b9dfa5701f",
-      "content": "import StructuralExhaustion.CT7.Spec\n\nnamespace StructuralExhaustion.CT7\n\nstructure Capability {P : Core.Problem} (S : Spec P) where\n  contexts : (ctx : Core.BranchContext P) →\n    (left right : S.Object) → FinEnum S.Context\n  realizesDecidable : (ctx : Core.BranchContext P) →\n    (object : S.Object) → (context : S.Context) →\n      Decidable (S.Realizes ctx object context)\n\n/-- A same-context pair of representatives. -/\nstructure Input {P : Core.Problem} (S : Spec P)\n    (context : Core.BranchContext P) where\n  left : S.Object\n  right : S.Object\n\nnamespace Capability\n\n/-- Route-facing CT7 trigger.  A route inherits the shared context and adds\nonly the two representatives. -/\ndef tacticInterface {P : Core.Problem} {S : Spec P}\n    (_capability : Capability S) : Core.Routing.TacticInterface where\n  Context := Core.BranchContext P\n  Trigger := Input S\n\nend Capability\n\nend StructuralExhaustion.CT7\n"
+      "sha256": "864b998d91a6a9c6f55fbdcd5e7ae655160f0ae2f7341eedc2177adb0eeb81df",
+      "content": "import StructuralExhaustion.CT7.Spec\n\nnamespace StructuralExhaustion.CT7\n\nstructure Capability {P : Core.Problem} (S : Spec P) where\n  contexts : (ctx : Core.BranchContext P) →\n    (left right : S.Object) → FinEnum S.Context\n  realizesDecidable : (ctx : Core.BranchContext P) →\n    (object : S.Object) → (context : S.Context) →\n      Decidable (S.Realizes ctx object context)\n\n/-- A same-context pair of representatives. -/\nstructure Input {P : Core.Problem} (S : Spec P)\n    (context : Core.BranchContext P) where\n  left : S.Object\n  right : S.Object\n\nend StructuralExhaustion.CT7\n"
     },
     {
       "sourceId": "StructuralExhaustion/CT7/Execution.lean",

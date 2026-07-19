@@ -52,15 +52,13 @@ theorem response_reflects_cycleLength
 universe. -/
 noncomputable def coordinateOfReturn
     {left right : ctx.G.Vertex} (walk : ctx.G.object.graph.Walk left right)
-    (isPath : walk.IsPath) : Coordinate ctx := by
+  (isPath : walk.IsPath) : Coordinate ctx := by
   refine ⟨walk.length, ?_⟩
-  letI : FinEnum ctx.G.Vertex := ctx.G.object.input.vertices
-  letI : Fintype ctx.G.Vertex :=
-    @FinEnum.instFintype _ ctx.G.object.input.vertices
   have supportBound : walk.support.length ≤
       ctx.G.object.input.vertices.card := by
-    simpa [FinEnum.card_eq_fintypeCard] using
-      isPath.support_nodup.length_le_card
+    simpa only [FinEnum.orderedValues_length] using
+      Core.Enumeration.length_le_elems_of_nodup
+        ctx.G.object.input.vertices isPath.support_nodup
   rw [walk.length_support] at supportBound
   omega
 
@@ -96,12 +94,11 @@ private theorem candidateCard_le_vertices :
           (fun length => 0 < length.1 ∧ length.1 < sourceLength ctx stub)
           (fun _ => inferInstance)
     _ ≤ ctx.G.object.input.vertices.card := by
-      letI : FinEnum ctx.G.Vertex := ctx.G.object.input.vertices
-      letI : Fintype ctx.G.Vertex :=
-        @FinEnum.instFintype _ ctx.G.object.input.vertices
-      simpa [FinEnum.card_eq_fintypeCard] using
-        (p13SelectedWindowCorridorProducer ctx).ambientReturn_isPath stub
-          |>.support_nodup.length_le_card
+      simpa only [FinEnum.orderedValues_length] using
+        Core.Enumeration.length_le_elems_of_nodup
+          ctx.G.object.input.vertices
+          ((p13SelectedWindowCorridorProducer ctx).ambientReturn_isPath stub
+            |>.support_nodup)
 
 private theorem workBound :
     CT3.localCheckBound (coordinates ctx) (candidates ctx stub)

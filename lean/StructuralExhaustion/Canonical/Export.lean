@@ -1,5 +1,14 @@
-import StructuralExhaustion
 import StructuralExhaustion.Canonical.Registry
+import StructuralExhaustion.Canonical.DocumentationRegistry
+import StructuralExhaustion.CT1.TargetEncoding
+import StructuralExhaustion.CT2.CertifiedReduction
+import StructuralExhaustion.CT2.LocalDeletion
+import StructuralExhaustion.CT3.TargetCompression
+import StructuralExhaustion.CT4.Cardinality
+import StructuralExhaustion.CT11.NegativeBudget
+import StructuralExhaustion.CT12.DisjointPacking
+import StructuralExhaustion.CT12.ListPeeling
+import StructuralExhaustion.CT12.RefinedLedgerCompletion
 import Lean
 
 open Lean Meta Elab Command
@@ -169,8 +178,8 @@ private def residualKindJson (contract : Core.ResidualKindContract) : Json :=
 private def stringListJson (values : List String) : Json :=
   Json.arr (values.map toJson).toArray
 
-private def routeSemanticDiscoveryJson
-    (discovery : Core.RouteSemanticDiscovery) : Json :=
+private def transitionSemanticDiscoveryJson
+    (discovery : Core.TransitionSemanticDiscovery) : Json :=
   Json.mkObj [
     ("kind", toJson discovery.key),
     ("adapterType", match discovery.adapterType? with
@@ -178,29 +187,40 @@ private def routeSemanticDiscoveryJson
       | some adapterType => toJson adapterType)
   ]
 
-private def routeAuthoringBoundaryJson
-    (contract : Core.RouteContract) : Json :=
+private def transitionAuthoringBoundaryJson
+    (contract : Core.CTTransitionProfileContract) : Json :=
   Json.mkObj [
-    ("semanticDiscovery", routeSemanticDiscoveryJson contract.semanticDiscovery),
+    ("semanticDiscovery", transitionSemanticDiscoveryJson contract.semanticDiscovery),
     ("problemSpecificInputs", stringListJson
-      (contract.problemSpecificInputs.map Core.RouteProblemInput.key)),
+      (contract.problemSpecificInputs.map Core.TransitionProblemInput.key)),
     ("frameworkOwnedResponsibilities", stringListJson
-      (Core.RouteFrameworkResponsibility.all.map
-        Core.RouteFrameworkResponsibility.key))
+      (Core.CTTransitionFrameworkResponsibility.all.map
+        Core.CTTransitionFrameworkResponsibility.key))
   ]
 
-private def routeJson (contract : Core.RouteContract) : Json :=
+private def transitionProfileJson
+    (contract : Core.CTTransitionProfileContract) : Json :=
   Json.mkObj [
-    ("routeId", toJson contract.routeId),
-    ("sourceResidualKind", toJson contract.sourceResidualKind),
+    ("profileId", toJson contract.profileId),
+    ("familyId", toJson contract.familyId),
+    ("sourceTacticId", toJson contract.sourceTacticId),
     ("targetTacticId", toJson contract.targetTacticId),
-    ("discovery", toJson contract.discovery),
-    ("triggerConstructor", toJson contract.triggerConstructor),
-    ("soundnessTheorem", toJson contract.soundnessTheorem),
-    ("contextPreservationTheorem", toJson contract.contextPreservationTheorem),
-    ("provenanceTheorem", toJson contract.provenanceTheorem),
+    ("sourceResidualKind", toJson contract.sourceResidualKind),
+    ("targetExecutableInterface", toJson contract.targetExecutableInterface),
+    ("transitionConstructor", toJson contract.transitionConstructor),
+    ("advanceExecutor", toJson contract.advanceExecutor),
     ("selectionClass", toJson contract.selectionClass.key),
-    ("authoringBoundary", routeAuthoringBoundaryJson contract)
+    ("authoringBoundary", transitionAuthoringBoundaryJson contract)
+  ]
+
+private def transitionFamilyJson
+    (family : RegisteredTransitionFamilyDescriptor) : Json :=
+  Json.mkObj [
+    ("familyId", toJson family.familyId),
+    ("sourceTacticId", toJson family.sourceTacticId),
+    ("targetTacticId", toJson family.targetTacticId),
+    ("profileIds", stringListJson
+      (family.profiles.map fun profile => profile.contract.profileId))
   ]
 
 private def dottedName (reference : String) : Name :=
@@ -799,59 +819,79 @@ private def exportCatalog : CommandElabM Unit := do
     tactic.residualKindContracts.map (·.residualKindId)
   if let some duplicate := duplicate? residualIds then
     throwError "automation-first export: duplicate residual id {duplicate}"
-  let routeIds := Canonical.routes.map (·.routeId)
-  if let some duplicate := duplicate? routeIds then
-    throwError "automation-first export: duplicate route id {duplicate}"
-  for route in Canonical.routes do
-    unless residualIds.contains route.sourceResidualKind do
+  let profileIds := Canonical.transitionProfiles.map (·.contract.profileId)
+  if let some duplicate := duplicate? profileIds then
+    throwError
+      "automation-first export: duplicate transition profile id {duplicate}"
+  let familyIds := Canonical.transitionFamilies.map (·.familyId)
+  if let some duplicate := duplicate? familyIds then
+    throwError
+      "automation-first export: duplicate transition family id {duplicate}"
+  for descriptor in Canonical.transitionProfiles do
+    let profile := descriptor.contract
+    unless residualIds.contains profile.sourceResidualKind do
       throwError
-        "automation-first export: route {route.routeId} has unknown source residual"
-    unless tacticIds.contains route.targetTacticId do
+        "automation-first export: transition {profile.profileId} has unknown source residual"
+    unless tacticIds.contains profile.sourceTacticId do
       throwError
-        "automation-first export: route {route.routeId} has unknown target tactic"
-    let problemInputs := route.problemSpecificInputs
+        "automation-first export: transition {profile.profileId} has unknown source tactic"
+    unless tacticIds.contains profile.targetTacticId do
+      throwError
+        "automation-first export: transition {profile.profileId} has unknown target tactic"
+    unless descriptor.transitionDeclaration.toString ==
+        profile.transitionConstructor do
+      throwError
+        "automation-first export: transition {profile.profileId} constructor metadata disagrees with registry"
+    unless descriptor.advanceDeclaration.toString == profile.advanceExecutor do
+      throwError
+        "automation-first export: transition {profile.profileId} executor metadata disagrees with registry"
+    let problemInputs := profile.problemSpecificInputs
     unless problemInputs.contains .targetCapability do
       throwError
-        "automation-first export: route {route.routeId} lacks its target capability input"
-    let problemInputKeys := problemInputs.map Core.RouteProblemInput.key
+        "automation-first export: transition {profile.profileId} lacks its target capability input"
+    let problemInputKeys := problemInputs.map Core.TransitionProblemInput.key
     if let some duplicate := duplicate? problemInputKeys then
       throwError
-        "automation-first export: route {route.routeId} duplicates problem input {duplicate}"
-    match route.semanticDiscovery with
+        "automation-first export: transition {profile.profileId} duplicates problem input {duplicate}"
+    match profile.semanticDiscovery with
     | .capabilityDiscovery =>
         if problemInputs.contains .semanticDiscoveryAdapter then
           throwError
-            "automation-first export: capability-discovery route {route.routeId} lists an adapter input"
-        let discoveryPrefix :=
-          s!"StructuralExhaustion.{route.targetTacticId}."
-        unless route.discovery.startsWith discoveryPrefix &&
-            route.discovery.endsWith "Capability.discover" do
-          throwError
-            "automation-first export: capability-discovery route {route.routeId} must use a {route.targetTacticId} capability profile"
+            "automation-first export: capability transition {profile.profileId} lists an adapter input"
     | .problemSemanticAdapter adapterType =>
         if adapterType.isEmpty then
           throwError
-            "automation-first export: route {route.routeId} has an empty adapter type"
+            "automation-first export: transition {profile.profileId} has an empty adapter type"
         unless problemInputs.contains .semanticDiscoveryAdapter do
           throwError
-            "automation-first export: adapter route {route.routeId} lacks its adapter input"
-        unless route.discovery == adapterType ++ ".discover" do
-          throwError
-            "automation-first export: route {route.routeId} discovery is not the adapter projection"
+            "automation-first export: adapter transition {profile.profileId} lacks its adapter input"
         unless env.find? (dottedName adapterType) |>.isSome do
           throwError
-            "automation-first export: route {route.routeId} has unknown adapter type {adapterType}"
-    for reference in [route.discovery, route.triggerConstructor,
-        route.soundnessTheorem, route.contextPreservationTheorem,
-        route.provenanceTheorem] do
+            "automation-first export: transition {profile.profileId} has unknown adapter type {adapterType}"
+    let targetPrefix := s!"StructuralExhaustion.{profile.targetTacticId}."
+    unless profile.targetExecutableInterface.startsWith targetPrefix &&
+        profile.targetExecutableInterface.endsWith "executableInterface" do
+      throwError
+        "automation-first export: transition {profile.profileId} does not name its target CT executable interface"
+    for reference in [profile.targetExecutableInterface,
+        profile.transitionConstructor, profile.advanceExecutor] do
       unless env.find? (dottedName reference) |>.isSome do
         throwError
-          "automation-first export: route {route.routeId} has unknown declaration {reference}"
+          "automation-first export: transition {profile.profileId} has unknown declaration {reference}"
+  for family in Canonical.transitionFamilies do
+    if family.profiles.isEmpty then
+      throwError
+        "automation-first export: transition family {family.familyId} has no profiles"
+    for profile in family.profiles do
+      unless profile.contract.sourceTacticId == family.sourceTacticId &&
+          profile.contract.targetTacticId == family.targetTacticId do
+        throwError
+          "automation-first export: profile {profile.contract.profileId} is in the wrong transition family"
 
   let tactics ← Canonical.tactics.mapM (tacticJson env)
   let catalog := Json.mkObj [
     ("artifactType", toJson "automationFirstLeanCatalog"),
-    ("schemaVersion", toJson "8.0.0"),
+    ("schemaVersion", toJson "9.0.0"),
     ("sourceOfTruth", Json.mkObj [
       ("kind", toJson "compiledLeanEnvironment"),
       ("rootModule", toJson "StructuralExhaustion"),
@@ -860,7 +900,11 @@ private def exportCatalog : CommandElabM Unit := do
     ("provisionTaxonomy", Json.arr
       (Core.Provision.all.map fun provision => toJson provision.key).toArray),
     ("tactics", Json.arr tactics),
-    ("routes", Json.arr (Canonical.routes.map routeJson).toArray)
+    ("transitionFamilies", Json.arr
+      (Canonical.transitionFamilies.map transitionFamilyJson).toArray),
+    ("transitionProfiles", Json.arr
+      (Canonical.transitionProfiles.map fun profile =>
+        transitionProfileJson profile.contract).toArray)
   ]
   let output := (← IO.getEnv "STRUCTURAL_EXHAUSTION_EXPORT").getD
     "../generated/lean-machines.json"
@@ -870,6 +914,110 @@ private def exportCatalog : CommandElabM Unit := do
   IO.FS.writeFile outputPath (catalog.pretty 100 ++ "\n")
   logInfo m!"Exported automation-first Lean catalog to {output}"
 
+private def audienceCopyJson
+    (copy : Canonical.Documentation.AudienceCopy) : Json :=
+  Json.mkObj [
+    ("summary", toJson copy.summary),
+    ("inputs", toJson copy.inputs),
+    ("result", toJson copy.result)
+  ]
+
+private def exampleRefJson
+    (reference : Canonical.Documentation.ExampleRef) : Json :=
+  Json.mkObj [
+    ("exampleId", toJson reference.exampleId),
+    ("workflowId", toJson reference.workflowId),
+    ("title", toJson reference.title)
+  ]
+
+private def capabilityDocumentationJson
+    (descriptor : Canonical.Documentation.CapabilityDescriptor) : Json :=
+  Json.mkObj [
+    ("capabilityId", toJson descriptor.capabilityId),
+    ("layer", toJson descriptor.layer.key),
+    ("category", toJson descriptor.category),
+    ("title", toJson descriptor.title),
+    ("depth", toJson descriptor.depth.key),
+    ("mathematician", audienceCopyJson descriptor.mathematician),
+    ("leanUser", audienceCopyJson descriptor.leanUser),
+    ("declarations", toJson (descriptor.declarations.map Name.toString)),
+    ("relatedTacticIds", toJson descriptor.relatedTacticIds),
+    ("relatedCapabilityIds", toJson descriptor.relatedCapabilityIds),
+    ("examples", Json.arr (descriptor.examples.map exampleRefJson).toArray)
+  ]
+
+private def tacticGuideJson
+    (guide : Canonical.Documentation.TacticGuide) : Json :=
+  Json.mkObj [
+    ("tacticId", toJson guide.tacticId),
+    ("role", toJson guide.role),
+    ("useWhen", toJson guide.useWhen),
+    ("leanEntry", toJson guide.leanEntry)
+  ]
+
+private def exportDocumentation : CommandElabM Unit := do
+  let env ← getEnv
+  let capabilityIds := Canonical.Documentation.capabilities.map (·.capabilityId)
+  if let some duplicate := duplicate? capabilityIds then
+    throwError "framework documentation export: duplicate capability id {duplicate}"
+  let tacticIds := Canonical.tactics.toList.map (·.tacticId)
+  let guideIds := Canonical.Documentation.tacticGuides.map (·.tacticId)
+  if let some duplicate := duplicate? guideIds then
+    throwError "framework documentation export: duplicate tactic guide {duplicate}"
+  unless guideIds.length == tacticIds.length &&
+      tacticIds.all (fun tacticId => guideIds.contains tacticId) do
+    throwError "framework documentation export: tactic guides do not cover the compiled CT registry"
+  for descriptor in Canonical.Documentation.capabilities do
+    if descriptor.capabilityId.isEmpty || descriptor.category.isEmpty ||
+        descriptor.title.isEmpty then
+      throwError "framework documentation export: incomplete capability descriptor"
+    if descriptor.mathematician.summary.isEmpty ||
+        descriptor.mathematician.inputs.isEmpty ||
+        descriptor.mathematician.result.isEmpty ||
+        descriptor.leanUser.summary.isEmpty || descriptor.leanUser.inputs.isEmpty ||
+        descriptor.leanUser.result.isEmpty then
+      throwError
+        "framework documentation export: {descriptor.capabilityId} lacks an audience presentation"
+    if descriptor.declarations.isEmpty then
+      throwError
+        "framework documentation export: {descriptor.capabilityId} has no compiled declarations"
+    for declaration in descriptor.declarations do
+      unless env.find? declaration |>.isSome do
+        throwError
+          "framework documentation export: {descriptor.capabilityId} references unknown declaration {declaration}"
+    for tacticId in descriptor.relatedTacticIds do
+      unless tacticIds.contains tacticId do
+        throwError
+          "framework documentation export: {descriptor.capabilityId} references unknown tactic {tacticId}"
+    for relatedId in descriptor.relatedCapabilityIds do
+      unless capabilityIds.contains relatedId do
+        throwError
+          "framework documentation export: {descriptor.capabilityId} references unknown capability {relatedId}"
+    for reference in descriptor.examples do
+      if reference.exampleId.isEmpty || reference.workflowId.isEmpty || reference.title.isEmpty then
+        throwError
+          "framework documentation export: {descriptor.capabilityId} has an incomplete example reference"
+  let documentation := Json.mkObj [
+    ("artifactType", toJson "structuralExhaustionFrameworkDocumentation"),
+    ("schemaVersion", toJson "1.0.0"),
+    ("sourceOfTruth", Json.mkObj [
+      ("kind", toJson "compiledLeanEnvironment"),
+      ("registry", toJson "StructuralExhaustion.Canonical.Documentation.capabilities")
+    ]),
+    ("capabilities", Json.arr
+      (Canonical.Documentation.capabilities.map capabilityDocumentationJson).toArray),
+    ("tacticGuides", Json.arr
+      (Canonical.Documentation.tacticGuides.map tacticGuideJson).toArray)
+  ]
+  let output := (← IO.getEnv "STRUCTURAL_EXHAUSTION_DOCUMENTATION_EXPORT").getD
+    "../generated/framework-documentation.json"
+  let outputPath := System.FilePath.mk output
+  if let some parent := outputPath.parent then
+    IO.FS.createDirAll parent
+  IO.FS.writeFile outputPath (documentation.pretty 100 ++ "\n")
+  logInfo m!"Exported framework documentation to {output}"
+
 run_cmd exportCatalog
+run_cmd exportDocumentation
 
 end StructuralExhaustion.Canonical.Export

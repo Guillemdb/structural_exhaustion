@@ -19,7 +19,7 @@ inductive Provision where
   | instanceBridge
   | optimizedImplementation
   | policySelected
-  | generatedRoute
+  | frameworkTransition
   | generatedAudit
   deriving Repr, DecidableEq
 
@@ -39,7 +39,7 @@ def all : List Provision := [
   .instanceBridge,
   .optimizedImplementation,
   .policySelected,
-  .generatedRoute,
+  .frameworkTransition,
   .generatedAudit
 ]
 
@@ -58,7 +58,7 @@ def key : Provision → String
   | .instanceBridge => "instance_bridge"
   | .optimizedImplementation => "optimized_implementation"
   | .policySelected => "policy_selected"
-  | .generatedRoute => "generated_route"
+  | .frameworkTransition => "framework_transition"
   | .generatedAudit => "generated_audit"
 
 /-- Whether the proof instance must supply the referenced object. -/
@@ -80,7 +80,7 @@ def isFrameworkDerived : Provision → Bool
   | .derivedByGenericTheorem
   | .derivedByComputation
   | .policySelected
-  | .generatedRoute
+  | .frameworkTransition
   | .generatedAudit => true
   | _ => false
 
@@ -207,7 +207,7 @@ def key : InheritedContext → String
 
 end InheritedContext
 
-/-- Stable, router-facing contract for one semantic residual family. -/
+/-- Stable, transition-facing contract for one semantic residual family. -/
 structure ResidualKindContract where
   residualKindId : String
   leanType : String
@@ -215,110 +215,138 @@ structure ResidualKindContract where
   inheritedContext : InheritedContext
   deriving Repr, DecidableEq
 
-/-- Deterministic policy class used when a residual has enabled routes. -/
-inductive RouteSelectionClass where
+/-- Deterministic policy class used when a residual enables an executable
+transition profile. -/
+inductive TransitionSelectionClass where
   | forced
   | priority
   | costOrdered
   | manualPolicy
   deriving Repr, DecidableEq
 
-namespace RouteSelectionClass
+namespace TransitionSelectionClass
 
-def key : RouteSelectionClass → String
+def key : TransitionSelectionClass → String
   | .forced => "forced"
   | .priority => "priority"
   | .costOrdered => "costOrdered"
   | .manualPolicy => "manualPolicy"
 
-end RouteSelectionClass
+end TransitionSelectionClass
 
-/-- How a route obtains the semantic datum from which the target trigger is
-constructed.  Capability discovery needs no route-specific adapter.  A
-problem-semantic adapter is an explicit, reusable input to the route rule. -/
-inductive RouteSemanticDiscovery where
+/-- How a transition obtains the semantic datum from which the target trigger
+is constructed.  Capability discovery needs no profile-specific adapter.  A
+problem-semantic adapter is an explicit, reusable profile input. -/
+inductive TransitionSemanticDiscovery where
   | capabilityDiscovery
   | problemSemanticAdapter (adapterType : String)
   deriving Repr, DecidableEq
 
-namespace RouteSemanticDiscovery
+namespace TransitionSemanticDiscovery
 
 /-- Stable spelling used by catalog consumers. -/
-def key : RouteSemanticDiscovery → String
+def key : TransitionSemanticDiscovery → String
   | .capabilityDiscovery => "capabilityDiscovery"
   | .problemSemanticAdapter _ => "problemSemanticAdapter"
 
 /-- The problem-authored adapter interface, when semantic discovery cannot be
 obtained from the target capability itself. -/
-def adapterType? : RouteSemanticDiscovery → Option String
+def adapterType? : TransitionSemanticDiscovery → Option String
   | .capabilityDiscovery => none
   | .problemSemanticAdapter adapterType => some adapterType
 
-end RouteSemanticDiscovery
+end TransitionSemanticDiscovery
 
-/-- Typed roles for every problem-specific value accepted by a route API. -/
-inductive RouteProblemInput where
+/-- Typed roles for every problem-specific value accepted by a transition
+profile constructor. -/
+inductive TransitionProblemInput where
   | targetCapability
   | minimalityKernel
   | semanticDiscoveryAdapter
   deriving Repr, DecidableEq
 
-namespace RouteProblemInput
+namespace TransitionProblemInput
 
-def key : RouteProblemInput → String
+def key : TransitionProblemInput → String
   | .targetCapability => "targetCapability"
   | .minimalityKernel => "minimalityKernel"
   | .semanticDiscoveryAdapter => "semanticDiscoveryAdapter"
 
-end RouteProblemInput
+end TransitionProblemInput
 
-/-- Framework obligations discharged once by every registered route rule. -/
-inductive RouteFrameworkResponsibility where
-  | routeRuleConstruction
-  | targetContextConstruction
-  | triggerConstruction
-  | soundnessProof
-  | contextPreservationProof
-  | provenanceProof
-  deriving Repr, DecidableEq
-
-namespace RouteFrameworkResponsibility
-
-def all : List RouteFrameworkResponsibility := [
-  .routeRuleConstruction,
-  .targetContextConstruction,
-  .triggerConstruction,
-  .soundnessProof,
-  .contextPreservationProof,
-  .provenanceProof
-]
-
-def key : RouteFrameworkResponsibility → String
-  | .routeRuleConstruction => "routeRuleConstruction"
-  | .targetContextConstruction => "targetContextConstruction"
-  | .triggerConstruction => "triggerConstruction"
-  | .soundnessProof => "soundnessProof"
-  | .contextPreservationProof => "contextPreservationProof"
-  | .provenanceProof => "provenanceProof"
-
-end RouteFrameworkResponsibility
-
-/-- Lean-owned route metadata.  The authoring boundary states exactly which
-problem values the generic rule accepts and whether semantic discovery needs
-a problem adapter.  Route construction, trigger construction, and all listed
-correctness proofs remain framework-owned. -/
-structure RouteContract where
-  routeId : String
+/-- Metadata for a non-CT semantic producer handoff.  This record is not an
+executable CT transition and deliberately cannot appear in the registered
+transition registry. -/
+structure SemanticHandoffContract where
+  handoffId : String
   sourceResidualKind : String
-  targetTacticId : String
+  targetConsumerId : String
   discovery : String
-  triggerConstructor : String
+  consumerInputConstructor : String
   soundnessTheorem : String
   contextPreservationTheorem : String
   provenanceTheorem : String
-  selectionClass : RouteSelectionClass
-  semanticDiscovery : RouteSemanticDiscovery
-  problemSpecificInputs : List RouteProblemInput
   deriving Repr, DecidableEq
+
+/-- Catalog contract for one executable profile of a typed CT-to-CT family.
+Its owner is a `Core.Routing.CTTransition`, execution is mandatory, and its
+output is the full accumulated ledger.  Multiple profiles may share the same
+source/target pair while retaining distinct mathematical trigger and result
+types. -/
+structure CTTransitionProfileContract where
+  profileId : String
+  sourceTacticId : String
+  targetTacticId : String
+  sourceResidualKind : String
+  targetExecutableInterface : String
+  transitionConstructor : String
+  advanceExecutor : String
+  selectionClass : TransitionSelectionClass
+  semanticDiscovery : TransitionSemanticDiscovery
+  problemSpecificInputs : List TransitionProblemInput
+  deriving Repr, DecidableEq
+
+namespace CTTransitionProfileContract
+
+/-- The unique family identity; profiles never redefine the meaning of their
+source and target CTs. -/
+def familyId (contract : CTTransitionProfileContract) : String :=
+  contract.sourceTacticId ++ "->" ++ contract.targetTacticId
+
+end CTTransitionProfileContract
+
+/-- Obligations discharged uniformly by the executable transition kernel. -/
+inductive CTTransitionFrameworkResponsibility where
+  | exactSourceLedger
+  | semanticDiscovery
+  | targetContextConstruction
+  | triggerConstruction
+  | targetExecution
+  | accumulatedLedgerOutput
+  | transitionProvenance
+  deriving Repr, DecidableEq
+
+namespace CTTransitionFrameworkResponsibility
+
+def all : List CTTransitionFrameworkResponsibility := [
+  .exactSourceLedger,
+  .semanticDiscovery,
+  .targetContextConstruction,
+  .triggerConstruction,
+  .targetExecution,
+  .accumulatedLedgerOutput,
+  .transitionProvenance
+]
+
+def key : CTTransitionFrameworkResponsibility → String
+  | .exactSourceLedger => "exactSourceLedger"
+  | .semanticDiscovery => "semanticDiscovery"
+  | .targetContextConstruction => "targetContextConstruction"
+  | .triggerConstruction => "triggerConstruction"
+  | .targetExecution => "targetExecution"
+  | .accumulatedLedgerOutput => "accumulatedLedgerOutput"
+  | .transitionProvenance => "transitionProvenance"
+
+end CTTransitionFrameworkResponsibility
 
 end StructuralExhaustion.Core

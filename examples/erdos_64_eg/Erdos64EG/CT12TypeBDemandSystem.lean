@@ -292,16 +292,13 @@ theorem localEntry_coreCompatible (demand : support.Demand) :
 
 @[implicit_reducible]
 def demands : FinEnum support.Demand :=
-  by
-    letI : DecidableEq ctx.G.Vertex := ctx.G.object.input.vertices.decEq
-    exact Core.Enumeration.subtype ctx.G.object.input.vertices
-      (fun vertex => vertex ∈ support.centers) (fun _vertex => inferInstance)
+  Core.Enumeration.finsetSubtype
+    ctx.G.object.input.vertices support.centers
 
 theorem demands_card_eq_centers :
-    support.demands.card = support.centers.card := by
-  classical
-  letI : FinEnum support.Demand := support.demands
-  rw [FinEnum.card_eq_fintypeCard, Fintype.card_coe]
+    support.demands.card = support.centers.card :=
+  Core.Enumeration.finsetSubtype_card
+    ctx.G.object.input.vertices support.centers
 
 /-- Literal selectable-item type at one demand. -/
 abbrev CandidateItem (demand : support.Demand) : Type u :=
@@ -337,13 +334,9 @@ theorem candidate_finite (demand : support.Demand) :
 vertex universe. -/
 theorem demand_card_le_vertices :
     support.demands.card ≤ ctx.G.object.input.vertices.card := by
-  letI : DecidableEq ctx.G.Vertex := ctx.G.object.input.vertices.decEq
-  change (Core.Enumeration.subtype ctx.G.object.input.vertices
-      (fun vertex => vertex ∈ support.centers)
-      (fun _vertex => inferInstance)).card ≤
-        ctx.G.object.input.vertices.card
-  exact Core.Enumeration.subtype_card_le ctx.G.object.input.vertices
-    (fun vertex => vertex ∈ support.centers) (fun _vertex => inferInstance)
+  rw [support.demands_card_eq_centers]
+  exact Core.Enumeration.finset_card_le
+    ctx.G.object.input.vertices support.centers
 
 private theorem entry_center_mem_support (demand : support.Demand)
     (candidate : support.Candidate demand) :
@@ -373,36 +366,45 @@ theorem demand_center_mem_declaredSupport (demand : support.Demand) :
 
 end TypeBAssignedSupport
 
-/-- Verified endpoint exposing the concrete branch-derived finite demand
+/-- The node-local mathematical obligations for one concrete assigned Type B
+support.  Prefix transport is deliberately absent from this record: the
+framework ledger owns it once for the whole family. -/
+structure VerifiedTypeBDemandSystem
+    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
+    (support : TypeBAssignedSupport ctx) : Prop where
+  candidateFinite : ∀ demand : support.Demand,
+    Finite (support.Candidate demand)
+  centerCarried : ∀ (demand : support.Demand)
+    (candidate : support.Candidate demand),
+    demand.1 ∈ support.ledgerProfile.carrierSupport demand candidate
+
+/-- Same-ledger extension exposing the concrete branch-derived finite demand
 system for every assigned Type B support. -/
-structure VerifiedTypeBDemandSystemPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedTypeBCandidateFibresPrefix ctx
-  candidateFinite : ∀ (support : TypeBAssignedSupport ctx)
-    (demand : support.Demand), Finite (support.Candidate demand)
-  centerCarried : ∀ (support : TypeBAssignedSupport ctx)
-    (demand : support.Demand) (candidate : support.Candidate demand),
-      demand.1 ∈ support.ledgerProfile.carrierSupport demand candidate
+abbrev VerifiedTypeBDemandSystemPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.LedgerExtension (VerifiedTypeBCandidateFibresPrefix ctx)
+    (fun _previous => ∀ support : TypeBAssignedSupport ctx,
+      VerifiedTypeBDemandSystem support)
 
 noncomputable def verifiedTypeBDemandSystemPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedTypeBCandidateFibresPrefix ctx) :
-    VerifiedTypeBDemandSystemPrefix ctx where
-  previous := previous
-  candidateFinite := fun support demand => support.candidate_finite demand
-  centerCarried := fun support demand candidate =>
-    support.candidate_center_mem_support demand candidate
+    VerifiedTypeBDemandSystemPrefix ctx :=
+  ⟨previous, fun support => {
+    candidateFinite := fun demand => support.candidate_finite demand
+    centerCarried := fun demand candidate =>
+      support.candidate_center_mem_support demand candidate
+  }⟩
 
 theorem exists_verifiedTypeBDemandSystemPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedTypeBDemandSystemPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedTypeBDemandSystemPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedTypeBCandidateFibresPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedTypeBDemandSystemPrefix ctx previous⟩
+  exact ⟨ctx, verifiedTypeBDemandSystemPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

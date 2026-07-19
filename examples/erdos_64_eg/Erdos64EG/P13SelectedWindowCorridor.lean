@@ -33,7 +33,7 @@ noncomputable def selectedConnectorWindowIndex
 def p13SelectedWindowCorridorProducer
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
     InducedPathColdCorridor.Producer ctx.G.object where
-  notBridge := dart_not_bridge ctx
+  notBridge := minimality_dart_not_bridge ctx
 
 abbrev P13SelectedWindowFirstFailure
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})

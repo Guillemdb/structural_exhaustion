@@ -22,7 +22,7 @@ MACHINE_DESCRIPTIONS = {
         "CT1 certifies the definitional realization form of the target and then "
         "performs dependent finite search over test indices and their witness "
         "enumerations. A hit produces the C1 certificate; exhaustive absence "
-        "produces the target-avoiding state used by the registered CT1-to-CT2 route."
+        "produces the target-avoiding state used by the registered CT1-to-CT2 transition."
     ),
     "CT2": (
         "CT2 starts from a discovered proper admissible piece in a shared minimal-"
@@ -229,19 +229,19 @@ def framework_inputs(automation: dict) -> list[dict]:
     )
 
 
-def route_semantic_discovery(route: dict) -> dict:
-    return route["authoringBoundary"]["semanticDiscovery"]
+def transition_semantic_discovery(profile: dict) -> dict:
+    return profile["authoringBoundary"]["semanticDiscovery"]
 
 
-def route_authoring_summary(route: dict) -> str:
-    discovery = route_semantic_discovery(route)
+def transition_authoring_summary(profile: dict) -> str:
+    discovery = transition_semantic_discovery(profile)
     adapter_type = discovery["adapterType"]
     if adapter_type is None:
         return discovery["kind"]
     return f"{discovery['kind']}: {adapter_type}"
 
 
-def mermaid(tactic: dict, routes: list[dict]) -> str:
+def mermaid(tactic: dict, profiles: list[dict]) -> str:
     lines = ["flowchart LR"]
     for node in tactic["nodes"]:
         ordinal = node["ordinal"]
@@ -259,10 +259,11 @@ def mermaid(tactic: dict, routes: list[dict]) -> str:
             f"  N{ordinal[edge['sourceNode']]} -->|{edge['edgeId']}| "
             f"N{ordinal[edge['targetNode']]}"
         )
-    for index, route in enumerate(routes, start=1):
+    for index, profile in enumerate(profiles, start=1):
         lines.append(
-            f'  R{index}{{"Router: {route["routeId"]}<br/>'
-            f'{route["selectionClass"]}<br/>{route_authoring_summary(route)}"}}'
+            f'  P{index}{{"Transition: {profile["profileId"]}<br/>'
+            f'{profile["selectionClass"]}<br/>'
+            f'{transition_authoring_summary(profile)}"}}'
         )
     return "\n".join(lines) + "\n"
 
@@ -273,7 +274,7 @@ def transition_label(edge: dict) -> str:
     return edge["constructor"].rsplit(".", 1)[-1]
 
 
-def cytoscape(tactic: dict, routes: list[dict]) -> dict:
+def cytoscape(tactic: dict, profiles: list[dict]) -> dict:
     elements: list[dict] = []
     for node in tactic["nodes"]:
         elements.append(
@@ -303,14 +304,14 @@ def cytoscape(tactic: dict, routes: list[dict]) -> dict:
                 }
             }
         )
-    for route in routes:
+    for profile in profiles:
         elements.append(
             {
                 "data": {
-                    "id": route["routeId"],
-                    "label": route["routeId"],
-                    "kind": "generatedRoute",
-                    "route": route,
+                    "id": profile["profileId"],
+                    "label": profile["profileId"],
+                    "kind": "transitionProfile",
+                    "transitionProfile": profile,
                 }
             }
         )
@@ -403,7 +404,7 @@ def matching_terminal_for_residual(tactic: dict, residual: dict) -> str | None:
     return None
 
 
-def tikz_fragment(tactic: dict, routes: list[dict]) -> str:
+def tikz_fragment(tactic: dict, transition_profiles: list[dict]) -> str:
     tactic_id = tactic["tacticId"]
     nodes = tactic["nodes"]
     ordinal = {node["nodeId"]: node["ordinal"] for node in nodes}
@@ -451,8 +452,8 @@ def tikz_fragment(tactic: dict, routes: list[dict]) -> str:
             "",
         ]
 
-    profiles = tactic.get("capabilityProfiles", [])
-    if profiles:
+    capability_profiles = tactic.get("capabilityProfiles", [])
+    if capability_profiles:
         lines += [
             r"\paragraph{Generated capability profiles.}",
             "Each profile is a narrower authoring surface for a recurring "
@@ -465,7 +466,7 @@ def tikz_fragment(tactic: dict, routes: list[dict]) -> str:
             r"\midrule",
             r"\endhead",
         ]
-        for profile in profiles:
+        for profile in capability_profiles:
             lines.append(
                 rf"\texttt{{{tex_code(profile['capabilityId'])}}} & "
                 rf"{table_refs(profile['requiredDefinitions'])} & "
@@ -583,35 +584,35 @@ def tikz_fragment(tactic: dict, routes: list[dict]) -> str:
                 rf"{{{tex_code(edge['edgeId'].rsplit('.', 1)[-1])}}} (n{target}.east);"
             )
 
-    route_y = -cursor - 0.5
+    transition_y = -cursor - 0.5
     residual_by_id = {
         residual["residualKindId"]: residual for residual in tactic["residualKinds"]
     }
-    for index, route in enumerate(routes, start=1):
+    for index, profile in enumerate(transition_profiles, start=1):
         x = 3.3 + (index - 1) * 7.0
-        discovery = route_semantic_discovery(route)
-        route_label = (
-            r"\textbf{Typed route}\\"
-            + r"\texttt{" + tex_code(route["routeId"]) + r"}\\"
-            + r"{\tiny " + tex_code(route["selectionClass"])
+        discovery = transition_semantic_discovery(profile)
+        transition_label = (
+            r"\textbf{CT transition}\\"
+            + r"\texttt{" + tex_code(profile["profileId"]) + r"}\\"
+            + r"{\tiny " + tex_code(profile["selectionClass"])
             + "; " + tex_code(discovery["kind"]) + "}"
         )
         if discovery["adapterType"] is not None:
-            route_label += (
+            transition_label += (
                 r"\\{\tiny adapter: \texttt{"
                 + tex_code(discovery["adapterType"])
                 + "}}"
             )
         lines.append(
-            rf"\node[ctroute] (r{index}) at ({x:.2f},{route_y:.2f}) "
-            rf"{{{route_label}}};"
+            rf"\node[ctroute] (p{index}) at ({x:.2f},{transition_y:.2f}) "
+            rf"{{{transition_label}}};"
         )
-        residual = residual_by_id.get(route["sourceResidualKind"])
+        residual = residual_by_id.get(profile["sourceResidualKind"])
         if residual:
             terminal_id = matching_terminal_for_residual(tactic, residual)
             if terminal_id:
                 lines.append(
-                    rf"\draw[ctroutearrow] (n{ordinal[terminal_id]}.south)--(r{index}.north);"
+                    rf"\draw[ctroutearrow] (n{ordinal[terminal_id]}.south)--(p{index}.north);"
                 )
 
     lines += [
@@ -620,7 +621,7 @@ def tikz_fragment(tactic: dict, routes: list[dict]) -> str:
         rf"\caption{{Automation-first sequential machine for {tex(tactic_id)}. "
         "Each executable node has separate problem-specific static, predecessor, and "
         "framework-derived dependency boxes. Terminal nodes consume only incoming "
-        "edge evidence. Route boxes are separate framework rules.}",
+        "edge evidence. Transition boxes are executable framework profiles.}",
         rf"\label{{fig:{tactic_id.lower()}-machine}}",
         r"\end{figure}",
         r"\end{landscape}",
@@ -640,23 +641,23 @@ def tikz_fragment(tactic: dict, routes: list[dict]) -> str:
             r"\end{itemize}",
         ]
     else:
-        lines.append("This tactic has no router-visible semantic residual.")
-    if routes:
+        lines.append("This tactic has no transition-visible semantic residual.")
+    if transition_profiles:
         lines += [
-            r"\paragraph{Registered routes.}",
+            r"\paragraph{Registered transition profiles.}",
             r"\begin{itemize}",
             *[
-                rf"\item \texttt{{{tex_code(route['routeId'])}}}: "
-                rf"\texttt{{{tex_code(route['sourceResidualKind'])}}} $\to$ "
-                rf"\texttt{{{tex_code(route['targetTacticId'])}}}; discovery "
-                rf"\texttt{{{tex_code(route['discovery'])}}}; authoring mode "
-                rf"\texttt{{{tex_code(route_semantic_discovery(route)['kind'])}}}"
+                rf"\item \texttt{{{tex_code(profile['profileId'])}}}: "
+                rf"\texttt{{{tex_code(profile['sourceResidualKind'])}}} $\to$ "
+                rf"\texttt{{{tex_code(profile['targetTacticId'])}}}; executor "
+                rf"\texttt{{{tex_code(profile['advanceExecutor'])}}}; authoring mode "
+                rf"\texttt{{{tex_code(transition_semantic_discovery(profile)['kind'])}}}"
                 + (
-                    rf" with adapter \texttt{{{tex_code(route_semantic_discovery(route)['adapterType'])}}}."
-                    if route_semantic_discovery(route)["adapterType"] is not None
+                    rf" with adapter \texttt{{{tex_code(transition_semantic_discovery(profile)['adapterType'])}}}."
+                    if transition_semantic_discovery(profile)["adapterType"] is not None
                     else "."
                 )
-                for route in routes
+                for profile in transition_profiles
             ],
             r"\end{itemize}",
         ]
@@ -696,20 +697,20 @@ def machine_inventory(catalog: dict) -> str:
             )
         lines.append("")
     lines += [
-        "## Route authoring boundaries",
+        "## Transition-profile authoring boundaries",
         "",
-        "| Route | Semantic discovery | Problem-specific inputs | Adapter type |",
-        "|---|---|---|---|",
+        "| Profile | Family | Semantic discovery | Problem-specific inputs | Adapter type |",
+        "|---|---|---|---|---|",
     ]
-    for route in catalog["routes"]:
-        discovery = route_semantic_discovery(route)
+    for profile in catalog["transitionProfiles"]:
+        discovery = transition_semantic_discovery(profile)
         adapter_type = discovery["adapterType"] or "—"
         problem_inputs = ", ".join(
-            route["authoringBoundary"]["problemSpecificInputs"]
+            profile["authoringBoundary"]["problemSpecificInputs"]
         )
         lines.append(
-            f"| `{route['routeId']}` | `{discovery['kind']}` | "
-            f"{problem_inputs} | `{adapter_type}` |"
+            f"| `{profile['profileId']}` | `{profile['familyId']}` | "
+            f"`{discovery['kind']}` | {problem_inputs} | `{adapter_type}` |"
         )
     lines.append("")
     return "\n".join(lines)
@@ -727,18 +728,16 @@ def binding_check(catalog: dict) -> str:
                 for key in ("requiredDefinitions", "derivedOperations")
                 for item in profile[key]
             )
-    for route in catalog["routes"]:
+    for profile in catalog["transitionProfiles"]:
         declarations.extend(
-            route[field]
+            profile[field]
             for field in (
-                "discovery",
-                "triggerConstructor",
-                "soundnessTheorem",
-                "contextPreservationTheorem",
-                "provenanceTheorem",
+                "targetExecutableInterface",
+                "transitionConstructor",
+                "advanceExecutor",
             )
         )
-        adapter_type = route_semantic_discovery(route)["adapterType"]
+        adapter_type = transition_semantic_discovery(profile)["adapterType"]
         if adapter_type is not None:
             declarations.append(adapter_type)
     unique = list(dict.fromkeys(declarations))
@@ -758,14 +757,17 @@ def catalog_status_tex(catalog: dict) -> str:
         "transitions": sum(len(tactic["transitions"]) for tactic in tactics),
         "terminals": sum(len(tactic["terminals"]) for tactic in tactics),
         "residuals": sum(len(tactic["residualKinds"]) for tactic in tactics),
-        "routes": len(catalog["routes"]),
-        "capability_routes": sum(
-            route_semantic_discovery(route)["kind"] == "capabilityDiscovery"
-            for route in catalog["routes"]
+        "transition_families": len(catalog["transitionFamilies"]),
+        "transition_profiles": len(catalog["transitionProfiles"]),
+        "capability_profiles": sum(
+            transition_semantic_discovery(profile)["kind"]
+            == "capabilityDiscovery"
+            for profile in catalog["transitionProfiles"]
         ),
-        "adapter_routes": sum(
-            route_semantic_discovery(route)["kind"] == "problemSemanticAdapter"
-            for route in catalog["routes"]
+        "adapter_profiles": sum(
+            transition_semantic_discovery(profile)["kind"]
+            == "problemSemanticAdapter"
+            for profile in catalog["transitionProfiles"]
         ),
         "manual": sum(
             len(node["automation"]["manualObligations"])
@@ -781,18 +783,21 @@ def catalog_status_tex(catalog: dict) -> str:
             rf"\newcommand{{\CatalogTransitionCount}}{{{counts['transitions']}}}",
             rf"\newcommand{{\CatalogTerminalCount}}{{{counts['terminals']}}}",
             rf"\newcommand{{\CatalogResidualCount}}{{{counts['residuals']}}}",
-            rf"\newcommand{{\CatalogRouteCount}}{{{counts['routes']}}}",
-            rf"\newcommand{{\CatalogCapabilityDiscoveryRouteCount}}{{{counts['capability_routes']}}}",
-            rf"\newcommand{{\CatalogProblemSemanticAdapterRouteCount}}{{{counts['adapter_routes']}}}",
+            rf"\newcommand{{\CatalogTransitionFamilyCount}}{{{counts['transition_families']}}}",
+            rf"\newcommand{{\CatalogTransitionProfileCount}}{{{counts['transition_profiles']}}}",
+            rf"\newcommand{{\CatalogCapabilityDiscoveryTransitionProfileCount}}{{{counts['capability_profiles']}}}",
+            rf"\newcommand{{\CatalogProblemSemanticAdapterTransitionProfileCount}}{{{counts['adapter_profiles']}}}",
             rf"\newcommand{{\CatalogManualObligationCount}}{{{counts['manual']}}}",
             r"\paragraph{Compiled catalog status.}",
             r"The compiled Lean registry contains \CatalogTacticCount{} tactics, "
             r"\CatalogNodeCount{} nodes, \CatalogTransitionCount{} typed transitions, "
             r"\CatalogTerminalCount{} terminals, \CatalogResidualCount{} semantic "
-            r"residual kinds, and \CatalogRouteCount{} registered routes. The total "
+            r"residual kinds, \CatalogTransitionFamilyCount{} transition families, "
+            r"and \CatalogTransitionProfileCount{} executable profiles. The total "
             r"number of manual node obligations is \CatalogManualObligationCount{}. "
-            r"Among the routes, \CatalogCapabilityDiscoveryRouteCount{} use target-"
-            r"capability discovery and \CatalogProblemSemanticAdapterRouteCount{} use "
+            r"Among the profiles, \CatalogCapabilityDiscoveryTransitionProfileCount{} "
+            r"use target-capability discovery and "
+            r"\CatalogProblemSemanticAdapterTransitionProfileCount{} use "
             r"a problem-semantic adapter.",
             "",
         ]
@@ -807,15 +812,9 @@ def render(
     source_root: Path | None = None,
 ) -> dict:
     source_root = (source_root or REPOSITORY_ROOT).resolve()
-    routes_by_source: dict[str, list[dict]] = defaultdict(list)
-    residual_owner: dict[str, str] = {}
-    for tactic in catalog["tactics"]:
-        for residual in tactic["residualKinds"]:
-            residual_owner[residual["residualKindId"]] = tactic["tacticId"]
-    for route in catalog["routes"]:
-        owner = residual_owner.get(route["sourceResidualKind"])
-        if owner:
-            routes_by_source[owner].append(route)
+    profiles_by_source: dict[str, list[dict]] = defaultdict(list)
+    for profile in catalog["transitionProfiles"]:
+        profiles_by_source[profile["sourceTacticId"]].append(profile)
 
     manifest_tactics: list[dict] = []
     node_rows: list[list[object]] = []
@@ -825,16 +824,16 @@ def render(
     expected_tex: set[Path] = set()
     for tactic in catalog["tactics"]:
         tactic_id = tactic["tacticId"]
-        routes = routes_by_source[tactic_id]
+        profiles = profiles_by_source[tactic_id]
         mermaid_path = Path(f"generated/mermaid/{tactic_id}.mmd")
         cytoscape_path = Path(f"generated/cytoscape/{tactic_id}.json")
         internals_path = Path(f"generated/internals/{tactic_id}.json")
         tex_path = Path(f"framework/generated/ct/{tactic_id}.tex")
-        write_text(root / mermaid_path, mermaid(tactic, routes))
-        write_json(root / cytoscape_path, cytoscape(tactic, routes))
+        write_text(root / mermaid_path, mermaid(tactic, profiles))
+        write_json(root / cytoscape_path, cytoscape(tactic, profiles))
         write_json(root / internals_path, node_internals(tactic, source_root))
         if not generated_only:
-            write_text(root / tex_path, tikz_fragment(tactic, routes))
+            write_text(root / tex_path, tikz_fragment(tactic, profiles))
         expected_mermaid.add(root / mermaid_path)
         expected_cytoscape.add(root / cytoscape_path)
         expected_internals.add(root / internals_path)
@@ -888,13 +887,15 @@ def render(
         "catalog": "generated/lean-machines.json",
         "catalogStatus": catalog_status_path.as_posix(),
         "tactics": manifest_tactics,
-        "routes": catalog["routes"],
+        "transitionFamilies": catalog["transitionFamilies"],
+        "transitionProfiles": catalog["transitionProfiles"],
     }
     write_json(root / "generated/manifest.json", manifest)
-    write_json(root / "generated/route-manifest.json", {
-        "artifactType": "generatedRouteManifest",
-        "schemaVersion": "2.0.0",
-        "routes": catalog["routes"],
+    write_json(root / "generated/transition-manifest.json", {
+        "artifactType": "generatedTransitionManifest",
+        "schemaVersion": "1.0.0",
+        "transitionFamilies": catalog["transitionFamilies"],
+        "transitionProfiles": catalog["transitionProfiles"],
     })
     write_json(root / "generated/automation-summary.json", {
         "artifactType": "automationSummary",
@@ -966,7 +967,8 @@ def main() -> int:
     )
     print(
         f"Rendered {len(manifest['tactics'])} tactic projections and "
-        f"{len(manifest['routes'])} generated routes"
+        f"{len(manifest['transitionFamilies'])} transition families and "
+        f"{len(manifest['transitionProfiles'])} transition profiles"
     )
     return 0
 

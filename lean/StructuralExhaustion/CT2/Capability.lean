@@ -31,16 +31,6 @@ structure Input
 
 namespace Capability
 
-/-- CT2's route-facing interface: shared minimal context plus a discovered
-proper admissible seed. -/
-def tacticInterface
-    {P : Core.Problem.{uAmbient, uBranch}}
-    {Target : P.Ambient → Prop}
-    (capability : Capability.{uAmbient, uBranch, uPiece, uInterface,
-      uAbstract, uContext, uCandidate} P Target) : Core.Routing.TacticInterface where
-  Context := Core.MinimalCounterexampleContext P Target
-  Trigger := Input capability
-
 /-- Generic capability discovery; disabled results carry exact impossibility. -/
 def discover
     {P : Core.Problem.{uAmbient, uBranch}}

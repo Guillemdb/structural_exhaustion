@@ -1,4 +1,5 @@
 import Erdos64EG.TypeANode63Support
+import StructuralExhaustion.Core.ExactHandoff
 import StructuralExhaustion.Graph.InducedPathDiameter
 import StructuralExhaustion.Graph.SubcubicMooreBound
 
@@ -18,9 +19,8 @@ abbrev Node63 (node61 : Node61 (ctx := ctx)) :=
 negative support selected at node `[61]` and the no-high-center Type-A profile
 produced at node `[63]`. -/
 structure VerifiedNode86Residual
-    (node61 : Node61 (ctx := ctx)) (node63 : Node63 node61) where
-  previous : Node63 node61
-  exactPrevious : previous = node63
+    (node61 : Node61 (ctx := ctx)) (node63 : Node63 node61)
+    extends Core.ExactHandoff node63 where
   highCenters_empty :
     Graph.NegativeSupportHandoff.highCenters ctx.G.object
       node61.support.core = ∅
@@ -34,7 +34,7 @@ support and node `[63]` no-high branch; it performs no new search. -/
 def node86 {node61 : Node61 (ctx := ctx)} (node63 : Node63 node61) :
     VerifiedNode86Residual node61 node63 where
   previous := node63
-  exactPrevious := rfl
+  previousExact := rfl
   highCenters_empty := node63.highCenters_empty
   negativeNetQuarter := node61.support.negative
   profile_support := node63.profile_support
@@ -77,9 +77,8 @@ fields are deliberately explicit: they are precisely the unimplemented Moore
 bound consequences and may not be inferred from node `[63]` by a later cell. -/
 structure VerifiedNode87Residual
     {node61 : Node61 (ctx := ctx)} {node63 : Node63 node61}
-    (node86 : VerifiedNode86Residual node61 node63) where
-  previous : VerifiedNode86Residual node61 node63
-  exactPrevious : previous = node86
+    (node86 : VerifiedNode86Residual node61 node63)
+    extends Core.ExactHandoff node86 where
   p13Free : Graph.InducedPathFree
     (TypeANode63Support.supportObject (ctx := ctx) node61).graph 13
   diameterAtMostEleven :
@@ -149,7 +148,7 @@ noncomputable def node87
     (node86 : VerifiedNode86Residual node61 node63) :
     VerifiedNode87Residual node86 where
   previous := node86
-  exactPrevious := rfl
+  previousExact := rfl
   p13Free := node87_p13Free (ctx := ctx) node86
   diameterAtMostEleven := node87_diameterAtMostEleven (ctx := ctx) node86
   supportCardAtMost6142 :=
@@ -193,9 +192,8 @@ node-`[87]` predecessor. -/
 structure VerifiedNode88Residual
     {node61 : Node61 (ctx := ctx)} {node63 : Node63 node61}
     {node86 : VerifiedNode86Residual node61 node63}
-    (node87 : VerifiedNode87Residual node86) where
-  previous : VerifiedNode87Residual node86
-  exactPrevious : previous = node87
+    (node87 : VerifiedNode87Residual node86)
+    extends Core.ExactHandoff node87 where
   classThreshold : ∀ (j : Fin 3)
       (receiver : SupportVertex (ctx := ctx) (node61 := node61)),
     (TypeANode63Support.supportObject (ctx := ctx) node61).degree receiver =
@@ -212,7 +210,7 @@ noncomputable def node88
     {node86 : VerifiedNode86Residual node61 node63}
     (node87 : VerifiedNode87Residual node86) : VerifiedNode88Residual node87 where
   previous := node87
-  exactPrevious := rfl
+  previousExact := rfl
   classThreshold := by
     intro j receiver degree
     unfold threshold q

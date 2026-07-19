@@ -66,7 +66,7 @@ theorem p13ActualAttachment_hot_impossible
     (p13ActualAttachmentSystem_value_iff_labelMembership
       ctx window.1 state (2 : Fin 13)).1 atTwo
   have legal := p13AttachmentLabel_legal ctx
-    node21.previous.previous.previous window.1 state.1 state.2
+    node21.previous.previous.residual window.1 state.1 state.2
     ⟨0, (p13ActualAttachmentSystem_value_eq_true_iff
       ctx window.1 state (0 : Fin 13)).1 atZero⟩
   exact (legal.2 (0 : Fin 13) memberZero (2 : Fin 13) memberTwo (by decide))

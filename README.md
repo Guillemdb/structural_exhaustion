@@ -39,17 +39,17 @@ make example-build
   The package instantiates the minimum-degree cycle profile with the official
   power-of-two length predicate and reuses the graph layer's edge-rooted CT1,
   lexicographic proper-subgraph CT2 profile, rank-minimal CT1-to-local-CT2
-  route, no-proper-core theorem, deletion-criticality theorem, and verified
-  CT3 boundaried-replacement/uncompressibility prefix. Its next CT1 stage
+  transition profile, no-proper-core theorem, deletion-criticality theorem,
+  and verified CT3 boundaried-replacement/uncompressibility prefix. Its next CT1 stage
   spans manuscript nodes `[15]`--`[16]`: literal induced-`P₁₃`-freeness is
   closed by the isolated Hegde--Sandeep--Shashank external theorem, and the
   forced induced embedding is retained through an exact C1 execution.
   The later verified slice includes the graph-owned ordered surplus CT6 stage
-  and its registered CT6-to-CT9 surplus-slot route, followed by exact
+  and its registered CT6-to-CT9 surplus-slot transition, followed by exact
   four-cycle/high-neighbourhood structure, open/triangular selected-port
   classification, centre-fibre CT9, an overload-only CT9-to-CT7 response
-  route, the exact CT5 shoulder ledger, and the framework-owned conditional
-  fan-compatibility interpretation, followed by the all-incident-port CT10
+  transition, the exact CT5 shoulder ledger, and the framework-owned
+  conditional fan-compatibility interpretation, followed by the all-incident-port CT10
   high-centre dichotomy and the CT5 triangular-shoulder completion ledger. The
   current endpoint is `exists_verifiedTriangularShoulderCompletionPrefix`;
   none of these stages enumerates
@@ -79,7 +79,7 @@ The only authored CT implementations are under
 in
 [`Canonical/Registry.lean`](lean/StructuralExhaustion/Canonical/Registry.lean)
 binds CT1--CT17, their capability contracts, node automation contracts,
-residual kinds, and proved route contracts. The exporter reads the compiled
+residual kinds, and executable transition profiles. The exporter reads the compiled
 Lean environment, including the actual `Graph.NodeId`, `Graph.Edge`, and
 `Graph.Terminal` constructors.
 
@@ -119,12 +119,14 @@ def problem : StructuralExhaustion.Core.Problem where
 
 Tactic inputs are indexed by a shared `Core.BranchContext`,
 `Core.AvoidingContext`, or `Core.MinimalCounterexampleContext`. This makes the
-context components retained by the target agree definitionally across routes.
-For example, CT2-to-CT3 and CT2-to-CT10 project a minimal-counterexample context
-to its inherited branch context, while CT9-to-CT7 maps the exact
+context components retained by the target agree definitionally across
+transitions. For example, CT2-to-CT3 and CT2-to-CT10 project a
+minimal-counterexample context to its inherited branch context, while
+CT9-to-CT7 maps the exact
 capacity-one overload pair to two comparison objects without rescanning the
-source fibre. A producer emits a semantic residual; the route layer constructs
-the consumer trigger.
+source fibre. A producer emits a semantic residual in an exact CT-labelled
+stage; the selected executable profile consumes that complete stage and runs
+the target CT.
 
 For each CT, define its `Spec`, `Capability`, or primitive system records with
 only the data that cannot be derived generically. CT1 follows the same
@@ -181,7 +183,7 @@ foundation.
 
 CT1 defines its canonical target as finite realization. An independently named
 public target may supply `CT1.TargetBridge`; this optional bridge relates the
-public predicate to the canonical target and is not a node or route input.
+public predicate to the canonical target and is not a node or transition input.
 
 The framework also provides high-level constructors for recurring instance
 shapes:
@@ -245,7 +247,7 @@ shapes:
   degree threshold, and a decidable cycle-length predicate.
 - `Graph.MinimumDegreeCycleRouted` adds the reusable edge-rooted CT1 target,
   proof-carrying positive and avoiding runs, certificate-to-local-deletion
-  route composition, rank-minimal prefix selection, tight-endpoint
+  transition execution, rank-minimal prefix selection, tight-endpoint
   criticality, and high-degree independence.  Both the Erdős and even-cycle
   packages instantiate these declarations.
 - `Graph.PackedMinimumDegreeCycle` hides each finite graph's vertex type,
@@ -256,7 +258,7 @@ shapes:
   graph, extends it with the verified CT3 boundaried-replacement stage, and
   can retain a subsequent induced-path CT1 stage on the same packed context.
 - `Graph.EndpointParityCycle.Profile` generates the greedy maximal path, CT6
-  closure, typed CT6-to-CT9 route, parity overload, path-position
+  closure, typed CT6-to-CT9 transition, parity overload, path-position
   localization, chord cycle, target theorem, and exact CT1 run. Its
   `Profile.evenCycle` constructor has no theorem-specific proof obligations.
 - `Graph.GreedyColoring` generates a certified bounded elimination order and
@@ -288,7 +290,7 @@ Every CT's `Automation.lean` also exports:
 
 - `capabilityContract`, the complete problem-author boundary;
 - `nodeAutomationContracts`, one contract per executable graph node;
-- `residualKindContracts`, the route-facing semantic residual API;
+- `residualKindContracts`, the transition-facing semantic residual API;
 - execution syntax, soundness syntax, and totality syntax for that tactic.
 
 The canonical public `run` and `ctN_execute` surfaces return the
@@ -302,20 +304,41 @@ and manual obligations. Every generated output is a typed state, decision,
 certificate, residual, or audit object. The intended manual-obligation count is
 zero.
 
-Route contracts form a separate authoring boundary. The `semanticDiscovery`
-field distinguishes target-capability discovery from a problem semantic
-adapter:
+Catalog schema 9 exposes executable cross-CT structure through
+`transitionFamilies` and `transitionProfiles`. A family has one exact typed
+source/target CT pair. Profiles within that family may specialize the source
+residual, target executable interface, selection class, and semantic-discovery
+boundary without redefining the CT pair. The `semanticDiscovery` field
+distinguishes target-capability discovery from a problem semantic adapter:
 
-| Route | `semanticDiscovery.kind` | Problem-specific route inputs | Adapter |
+| Transition profile | `semanticDiscovery.kind` | Problem-specific inputs | Adapter |
 |---|---|---|---|
 | CT1 residual avoidance to CT2 | `capabilityDiscovery` | `targetCapability`, `minimalityKernel` | none |
 | CT2 separating context to CT3 | `problemSemanticAdapter` | `targetCapability`, `semanticDiscoveryAdapter` | `PieceDiscovery` |
 | CT2 criticality to CT10 | `problemSemanticAdapter` | `targetCapability`, `semanticDiscoveryAdapter` | `DataDiscovery` |
 | CT6 active ledger to CT9 | `problemSemanticAdapter` | `targetCapability`, `semanticDiscoveryAdapter` | `ItemCollectionAdapter` |
 
-Capability discovery removes only the residual-specific adapter. For every
-route, framework declarations own route-rule construction, target-context and
-trigger construction, soundness, context preservation, and provenance.
+Capability discovery removes only the residual-specific adapter. Every
+profile is a typed `Core.Routing.CTTransition` that consumes a
+`ResidualStage sourceTactic Ledger`, where `Ledger` is the complete accumulated
+residual rather than a freshly wrapped local result. The profile's public
+`.advance` is mandatory: it owns exact source lookup, semantic discovery,
+target-input construction, public target execution, provenance, and the next
+accumulated ledger. Applications continue only through the enabled stage's
+`.ledgerStage`; a bare target result is never a successor input.
+
+When a manuscript requires one public CT execution at every local centre,
+port, or other index, `Core.Routing.PointwiseExecutableFamily` packages those
+pointwise entries as one executable interface. Its result is a dependent
+function, not an enumeration: the index type needs no `FinEnum`, list, scan, or
+synthesized universe.
+
+Non-CT graph producers are deliberately outside `transitionFamilies` and
+`transitionProfiles`. They use `Core.SemanticHandoffContract` to record their
+source residual, consumer, semantic discovery, input constructor, soundness,
+context preservation, and provenance. Such a handoff cannot enter the
+executable CT-transition registry because it does not own a typed CT family or
+mandatory target execution.
 
 ## Running a tactic in Lean
 
@@ -362,22 +385,23 @@ CT3--CT17 have corresponding `CTNAutomationFirst.lean` fixtures. Each fixture
 executes concrete branches and kernel-checks the relevant result, trace,
 soundness, totality, and determinism statements.
 
-For each registered route, discovery returns an exact seed or a proof that no
-seed exists. The framework then constructs the context-indexed trigger and
-proves route soundness, context preservation, and provenance.
+For each registered transition profile, `.advance` returns either an exact
+seed-impossibility proof or an enabled target execution retaining the complete
+incoming ledger. Only the enabled stage's `.ledgerStage` may feed another CT.
 
-Inspect the exact route boundary after export with:
+Inspect the exact executable transition boundary after export with:
 
 ```bash
-jq '.routes[] | {routeId, authoringBoundary}' generated/lean-machines.json
+jq '.transitionFamilies[] | {familyId, sourceTacticId, targetTacticId, profileIds}' generated/lean-machines.json
+jq '.transitionProfiles[] | {profileId, familyId, advanceExecutor, authoringBoundary}' generated/lean-machines.json
 ```
 
 ## Interactive framework explorer
 
 The read-only FastAPI and React application visualizes all seventeen compiled
 CT machines, their typed edges, automation contracts, residuals, terminals,
-and registered cross-CT routes. Its Examples section also exposes the four
-external graph applications, their accurately typed proof-composition flows,
+and registered cross-CT transition profiles. Its Examples section also exposes
+the four external graph applications, their accurately typed proof-composition flows,
 problem/framework interfaces, kernel evidence, and focused or full Lean
 source. Erdős 64 remains in that catalog but opens in a dedicated
 `/erdos-gyarfas` proof workspace, where the manuscript roadmap, CT flow,
@@ -387,7 +411,8 @@ full Lean source and label-addressed paper fragments. The paper view renders
 the labeled mathematical environment together with its adjacent proof, uses
 tabs when one proof step cites several labels, and includes checked SVG output
 for selected TikZ figures. It is explicitly marked as a partial proof slice,
-and conceptual composition is kept distinct from a registered residual route.
+and non-CT semantic handoffs remain visibly distinct from executable
+transition profiles.
 
 Both sections consume only immutable files under `generated/`. Example
 descriptors are exported from each compiled external Lake package; source text
@@ -490,7 +515,7 @@ The targets have the following contracts:
   binding check, compares a fresh temporary export byte-for-byte, checks the
   pinned toolchain, and rejects authored admissions.
 - `make verify` runs the linter, full generation, kernel verification,
-  repository/schema/route validation, and checksum refresh.
+  repository/schema/transition validation, and checksum refresh.
 - `make test` runs `make verify`, the Python regression suite, and the web
   frontend tests, type-check, and production build.
 - `make web` builds and serves the generated-artifact framework explorer.
@@ -518,18 +543,20 @@ jq '{
   typedEdges: ([.tactics[].transitions[]] | length),
   terminals: ([.tactics[].terminals[]] | length),
   residualKinds: ([.tactics[].residualKinds[]] | length),
-  routes: (.routes | length)
+  transitionFamilies: (.transitionFamilies | length),
+  transitionProfiles: (.transitionProfiles | length)
 }' generated/lean-machines.json
 ```
 
 ## Repository layout
 
 - `lean/StructuralExhaustion/Core/`: shared problems, contexts, finite search,
-  routing, provenance, and smaller-object theorems.
+  executable transitions, provenance, and smaller-object theorems.
 - `lean/StructuralExhaustion/Graph/`: reusable Mathlib-based graph adapters and
   CT profiles shared by graph-combinatorial applications.
 - `lean/StructuralExhaustion/CT1/` through `CT17/`: canonical tactic modules.
-- `lean/StructuralExhaustion/Routes/`: typed residual-first route rules.
+- `lean/StructuralExhaustion/Routes/`: reusable executable CT-transition
+  profiles.
 - `lean/StructuralExhaustion/Examples/`: framework-owned kernel fixtures for
   the generic CT APIs.
 - `lean/StructuralExhaustion/Canonical/`: registry and compiled-environment

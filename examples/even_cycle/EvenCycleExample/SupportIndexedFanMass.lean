@@ -59,36 +59,43 @@ def profile : Graph.SupportIndexedFanMass.Profile Support Center Occurrence wher
     intro left right equal
     exact congrArg Prod.snd equal
 
-def context : Core.BranchContext ConcreteK4.surplusBase.problem :=
-  Graph.FanClosedPortMass.context ConcreteK4.surplusBase ConcreteK4.object
-    ConcreteK4.minimumDegreeThree
+def problem : Core.Problem where
+  Ambient := Unit
+  Baseline := fun _ => True
+  rank := fun _ => 0
+  BranchState := fun _ => Unit
 
-def stage : profile.VerifiedStage context :=
-  profile.verifiedStage context
+def context : Core.BranchContext problem := ⟨(), trivial, ()⟩
 
-theorem terminal : (profile.run context).terminal = .capacity :=
+def execution : CT14.ExecutionResult
+    (profile.capability problem) context :=
+  CT14.run (profile.capability problem) context
+    (profile.input context)
+
+def stage : profile.VerifiedExecutionStage context execution :=
+  profile.verifiedExecutionStage context execution rfl
+
+theorem terminal : execution.terminal = .capacity :=
   stage.terminal
 
-theorem trace : (profile.run context).trace =
+theorem trace : execution.trace =
     [.entry, .lowerMass, .memberScan, .upperCapacity, .comparison,
       .capacityTerminal] :=
   stage.trace
 
-theorem validity : (profile.run context).outcome.Valid :=
+theorem validity : execution.outcome.Valid :=
   stage.verified
 
 theorem traceValidity : @CT14.Graph.ValidTrace
-    ConcreteK4.surplusBase.problem
-    (profile.capability ConcreteK4.surplusBase.problem) context
-    (profile.run context).trace :=
+    problem (profile.capability problem) context
+    execution.trace :=
   stage.traceValid
 
 theorem totality : ∃ result : CT14.ExecutionResult
-    (profile.capability ConcreteK4.surplusBase.problem) context,
+    (profile.capability problem) context,
     result.outcome.Valid ∧ @CT14.Graph.ValidTrace
-      ConcreteK4.surplusBase.problem
-      (profile.capability ConcreteK4.surplusBase.problem) context result.trace :=
-  stage.total
+      problem (profile.capability problem) context result.trace :=
+  ⟨execution, stage.verified, stage.traceValid⟩
 
 theorem residualMass_exact : profile.residualMass = 4 := by
   native_decide

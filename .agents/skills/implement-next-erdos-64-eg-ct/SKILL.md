@@ -1,6 +1,6 @@
 ---
 name: implement-next-erdos-64-eg-ct
-description: "Advance the repository's Erdős--Gyárfás Problem 64 Lean formalization by exactly one structural-exhaustion CT selected from the manuscript's directed residual flow. Use when continuing proofs/erdos_64_eg/erdos_64_proof.tex: reconstruct every incoming and outgoing branch, consume the exact local residual accumulated from prior nodes, identify the first dependency-ready CT block, perform a mandatory framework-first ownership audit, place reusable logic in Core, CT, Routes, or Graph, keep Erdős code to concrete data and thin instantiations, execute the CT from earlier verified outputs, prove transfer in a non-Erdős example, maintain the bidirectional TeX--Lean index and synchronized web theorem companion, build the affected packages, and update the implementation log."
+description: "Advance the repository's Erdős--Gyárfás Problem 64 Lean formalization by exactly one structural-exhaustion CT selected from the manuscript's directed residual flow. Use when continuing proofs/erdos_64_eg/erdos_64_proof.tex: reconstruct every incoming and outgoing branch, consume the full accumulated residual ledger, select schema-9 executable transition profiles, identify the first dependency-ready CT block, perform a framework-first ownership audit, keep Erdős code to concrete data and thin instantiations, execute from earlier verified outputs, prove non-Erdős transfer, synchronize TeX--Lean--web evidence, build affected packages, and update the implementation log."
 ---
 
 # Implement the Next Erdős 64 CT
@@ -29,11 +29,12 @@ later CT.
      specification; and
    - `.agents/skills/design-structural-exhaustion-proof/SKILL.md`.
 
-3. Inspect the compiled CT and route catalogs before selecting an API:
+3. Inspect the compiled CT and schema-9 transition catalogs before selecting an API:
 
    ```bash
    jq '.tactics[] | {tacticId, capability, capabilityProfiles, terminals, residualKinds}' generated/lean-machines.json
-   jq '.routes' generated/lean-machines.json
+   jq '.transitionFamilies[] | {familyId, sourceTacticId, targetTacticId, profiles}' generated/lean-machines.json
+   jq '.transitionProfiles[] | {profileId, familyId, sourceResidualKind, advanceExecutor, authoringBoundary}' generated/lean-machines.json
    ```
 
 Treat the manuscript as the mathematical specification, the official Lean
@@ -112,7 +113,7 @@ near-cubic spine; account for all three before following the surviving spine.
 Distinguish local execution from later aggregate accounting. First classify
 each proof-selected local residual and establish exact disjoint ledgers; only
 then apply the manuscript's finite sums or capacity comparisons. Never replace
-a missing local response, blocker, route, or certificate with a global bound.
+a missing local response, blocker, transition input, or certificate with a global bound.
 Conversely, do not demand a global estimate while implementing a node whose
 contract only classifies a supplied local residual.
 
@@ -125,8 +126,8 @@ certificates:
 - Distinguish a quotient proposal from an admissible quotient. Check boundary
   profile and target response first; call the quotient admissible only after
   those obligations and the manuscript's representative condition hold.
-- Route context failure with one concrete distinguishing context or response
-  certificate. Route context neutrality with its proved semantic property.
+- Send context failure with one concrete distinguishing context or response
+  certificate. Send context neutrality with its proved semantic property.
   Never enumerate an ambient context universe.
 - Consume proof-carrying paths and suppression cycles chosen by the preceding
   minimality theorem. Check their finite edge lists; never search all paths or
@@ -178,7 +179,7 @@ after completing the residual-flow ledger:
 Map its mathematical operation to one CT using
 `design-structural-exhaustion-proof`. Read the selected
 `.agents/skills/implement-structural-exhaustion-ctN/SKILL.md` completely. If
-the exact compiled flow is a registered route, also read
+the exact compiled flow is a registered transition profile, also read
 `.agents/skills/implement-structural-exhaustion-route/SKILL.md`; otherwise
 compose proved outputs directly.
 
@@ -191,25 +192,117 @@ file. Use the most general valid owner:
 |---|---|
 | Only `Core.Problem`, branch/minimal contexts, finite collections, ranks, or generic predicates | `lean/StructuralExhaustion/Core` |
 | One CT's specification, capability, runner, result, trace, or semantic theorem | That CT namespace |
-| A residual-to-consumer transformation, context transport, trigger construction, or route provenance | `lean/StructuralExhaustion/Routes` |
+| A residual-to-consumer transformation, context transport, trigger construction, or executable-transition provenance | `lean/StructuralExhaustion/Routes` |
 | Mathlib graph objects and parameters such as a degree threshold, length predicate, boundary type, or graph-local certificate | `lean/StructuralExhaustion/Graph` |
 | Power-of-two/Mersenne arithmetic, the pinned official statement, fixed Erdős constants, or concrete manuscript data | `examples/erdos_64_eg` |
 
 Treat compiled framework APIs and their documented composition patterns as a
 binding implementation specification. Use the existing ledger,
-runner, route, provenance, trace, work-bound, and residual refinement automation
-whenever it applies. Never reproduce its state accumulation, routing, support
+runner, executable transition, provenance, trace, work-bound, and residual refinement automation
+whenever it applies. Never reproduce its state accumulation, transition execution, support
 recognition, accounting, or proof composition in Erdős-specific code.
 
-Two framework patterns are mandatory for every new or migrated node:
+The framework patterns below are mandatory for every new or migrated node:
 
-- If the node retains an incoming residual unchanged, extend
+- Every CT edge consumes
+  `Core.Routing.ResidualStage sourceTactic Ledger`, where `Ledger` is the full
+  accumulated branch ledger. Select the exact schema-9 profile and invoke its
+  mandatory public `.advance` with a projection from that ledger to the current
+  local residual. Continue only from the returned enabled stage's
+  `.ledgerStage`. A bare target result may be inspected but never chained,
+  seeded as a new stage, or substituted for the ledger.
+  A returned transition execution must flow through its literal
+  `.ledgerStage`; `ResidualStage.exact execution` is forbidden restaging.
+- Ordinary accumulated edges use the framework-owned
+  `Routes.Accumulated.OutputLedger` type and execute through
+  `advanceCurrent` when the ledger itself is the current source, or `advance`
+  only for a genuine source projection, whose type is
+  `ProjectedOutputLedger`. Identity-current applications never pass `id`.
+  Pointwise edges use
+  `PointwiseOutputLedger` and `advancePointwise`. Erdős modules must not spell
+  `transition.onLedger`, `.EnabledStage`, or a pointwise-family output type.
+  For a pointwise family of selected specialized routes, use
+  `SelectedPointwiseOutputLedger` and `advanceSelectedPointwise`.
+  A non-accumulated registered route names its output with
+  `Core.Routing.CTTransition.OutputLedger` and executes only its route-owned
+  public `advance`; application code never calls `onLedger`.
+- When the same-CT ledger gains one problem theorem or data value, use
+  `ResidualStage.extend` and `LedgerExtension`. When the paper requires one
+  public CT execution for every local centre, port, or other index, use
+  `PointwiseExecutableFamily`; its dependent function is pointwise and must
+  not enumerate or scan the index type. If those local executions are
+  specialized transition profiles, use `PointwiseTransitionFamily.advance`,
+  continue from its `.ledgerStage`, and inspect each exact typed transition
+  only through `.localStage`; never create a problem-specific aggregate.
+- The following are forbidden: `TacticInterface`, `RouteRule`,
+  `GeneratedRoute`, compatibility aliases, manual predecessor/equality
+  fields, freshly rewrapped local residuals, and chaining from a bare target
+  result. Do not reconstruct these surfaces under different names.
+
+- For non-CT internal bookkeeping that retains an incoming residual unchanged,
+  extend
   `Core.ExactHandoff expected`. Never redeclare `previous`, `previousExact`,
   `exactPrevious`, or an equivalent equality bundle in Erdős code.
+  If it adds only one proposition, use `Core.ExactPropertyHandoff` and expose
+  the manuscript node as a thin alias; do not define another application
+  structure.
+  Use `StageNode.exact` for the first canonical output,
+  `StageNode.mapExactStage` for a canonical dependent successor, and
+  `StageNode.usingFactAndExactStage` after an existing decision fact.
+  `usingExactStage` is only for a separately named output. Recomputing the
+  predecessor/output while ignoring the retrieved stage is forbidden.
 - If the node performs no primitive inspection, use
   `Core.PolynomialCheckBudget.zero size`. Never construct a local zero-check
   budget, duplicate its coefficient/degree fields, or discharge its bound with
   application arithmetic.
+- If the manuscript localizes a determination from an original atom to a
+  larger carrier, use `Core.SupportStratifiedDetermination` and its graph
+  specialization. The original and carrier context types, boundary profiles,
+  supports, and representatives remain separately indexed. Reusing one
+  response system for both interfaces blocks the node.
+- If several nodes retain one carrier, express them as
+  `Core.ResidualRefinement.State.StageNode`s and retrieve prior certificates
+  with `requireStage`. Use `mapYesStage`/`mapNoStage` for one existing diagram
+  branch and `mapStages` when both decision edges produce their next stages.
+  On a produced occurrence schedule use `Ledger.refineStage` and
+  `Ledger.decide`, whose `occurrenceEquiv` retains every literal occurrence
+  exactly once. Use `Ledger.certify`/`produceIndexed` for occurrence-dependent
+  provenance and `FiniteResidualLedger.Ledger.ofEnumeration` or
+  `ofMappedEnumeration` for a local item
+  schedule; do not write `initial.add` or raw occurrence records in Erdős code.
+  Use `ResidualSupportRefinement.Profile.viewSchedule` for bare support
+  projections and `FiniteResidualSupportLedger.View.activeOccurrences` for a
+  supported subschedule; do not name a dummy initial state, hand-write an
+  `orderedValues.map` ledger, or materialize an event-value list.
+  Use `usingFact`/`usingStage` constructors so a node declares only its direct
+  predecessor dependency, never the full growing fact-prefix type. The
+  `usingStage` body must actually consume its stage; dependent outputs use the
+  exact-stage constructors above.
+- Build dependent local coordinate schedules with
+  `Core.Enumeration.finsetSubtype`, `sigma`, or
+  `sigmaOrderedDistinctPairs`; use `subtype_card_eq_filter`,
+  `finsetSubtype_card`, `finsetSubtype_sum_val_eq`, and `boolSubtype_card`
+  instead of exposing `Fintype` instance conversions in Erdős code. Use
+  `natCard_eq`, `finset_card_le`, `card_le_of_injective`,
+  `length_le_elems_of_nodup`, and `powersetCard_list_length_le` for symbolic
+  capacity arguments; never enumerate a powerset.
+- Support scans use occurrence-native
+  `FiniteResidualSupportLedger.View.recognize`/`activeOccurrences`, retrieve
+  accumulated facts through `ResidualRefinement.Ledger.require`, and bound work
+  with `activeOccurrences_card_le_occurrences`. List-indexed compatibility
+  ledgers, event materialization, and `FiniteSearch.onList` scans are forbidden
+  in the Erdős proof path.
+- Fixed finite Boolean relation matrices use
+  `Core.FiniteBitRelationBarrier.semanticRow`, `SemanticCertificate`,
+  `CountCertificate`, and `CertifiedTable`. Prove compact whole packed-row
+  equalities and project pointwise semantics through
+  `SemanticCertificate.getLsb_eq`. Split dense cached-count reflection into
+  bounded fixed-table modules. Never elaborate a monolithic theorem over
+  every source/target entry or raise recursion, heartbeat, timeout, or memory
+  limits for certificate checking.
+- Compose check bounds through `PolynomialCheckBudget.add`/`branch` and
+  `Counted.bind`/`zip`; application-level polynomial-envelope algebra blocks
+  the node when one of these combinators applies.
 
 These carriers are internal plumbing, not diagram nodes or edges. Add only the
 node's new manuscript-specific fields around them, and obtain inherited facts
@@ -232,10 +325,11 @@ stage even if it compiles.
 
 ## Preserve provenance through the CT chain
 
-Import the preceding Erdős CT module. Construct the new CT input from the
-preceding execution result, terminal-indexed outcome, trace, or theorem. Add a
-named provenance theorem when definitional reduction does not make this
-connection explicit.
+Import the preceding Erdős CT module. Start from its exact `.ledgerStage` and
+retain that complete carrier through every later CT edge. Build only the
+profile's local-residual projection from the preceding terminal-indexed
+outcome, trace, or theorem. Add a named provenance theorem when definitional
+reduction does not make this connection explicit.
 
 Never replace an earlier output with a fresh assumption that restates it. In
 particular, do not make the final slice theorem accept a capability,
@@ -244,10 +338,16 @@ or manuscript conclusion that the selected stage is supposed to construct.
 The theorem may quantify only over the official problem inputs and genuinely
 proved outputs of preceding stages.
 
-Use a registered route only when the catalog contains that exact residual
-flow. For other CT sequences, use ordinary theorem composition and retain the
-framework's output types. Do not erase an outcome into an application-defined
-Boolean or rebuild a branch context independently.
+Use a registered transition only when `transitionProfiles` contains that exact
+residual flow. Invoke its compiled public `.advance` executor named by
+`advanceExecutor`; continuation is
+the enabled output's `.ledgerStage`. In workflow metadata set
+`kind := .registeredTransition` and its exact `transitionProfileId?`, allowing
+the canonical registry to resolve that executor. For other CT sequences, use
+ordinary theorem composition behind a reusable Core/CT/Graph executor that
+preserves the full ledger. An Erdős-local handoff wrapper, empty automation
+list, bare-result chain, or independently rebuilt branch context blocks the
+edge.
 
 For every constructor of the new outcome, state which incoming residual fields
 it consumes and which later node receives it. Prove branch-context identity
@@ -281,7 +381,7 @@ replacement argument or weaken the manuscript statement to fit an API.
 Before declaring the stage complete, replay the residual-flow ledger against
 the Lean constructors. Require one typed constructor or proved impossibility
 for every outgoing manuscript edge, and require every nonterminal constructor
-to appear as an input to its named next consumer or registered route.
+to appear as an input to its named next consumer or registered transition.
 
 Do not add `sorry`, `admit`, new axioms, unsafe proof escape hatches, opaque
 proof surrogates, or declarations reserved for later stages.
@@ -317,10 +417,13 @@ After the Lean stage is proved, update
 - Add or extend exactly one workflow stage for the selected manuscript step,
   with its primary declaration, all reader-relevant evidence declarations,
   inbound link automation/evidence, and problem-to-framework interface bindings.
-- Every direct link between distinct CT stages must populate
-  `automationDeclarations` with the compiled framework-owned executor or
-  `routeContract`; never use an Erdős-local wrapper or a `Graph.External`
-  theorem as transition automation.
+- Every ordinary direct link between distinct CT stages must populate
+  `automationDeclarations` with its compiled framework-owned executor; never
+  use an Erdős-local wrapper or a `Graph.External` theorem as transition
+  automation. A registered transition must leave `automationDeclarations`
+  empty: set `kind := .registeredTransition` and the exact
+  `transitionProfileId?`, and let the canonical registry resolve the profile's
+  public `advanceExecutor`.
 - Add or extend the corresponding `ExampleProofStepDescriptor` in
   `erdosManuscript`. Record the stable TeX labels and diagram node IDs, a plain
   explanation, a genuine TeX mathematical statement rather than Lean pretty
@@ -331,6 +434,10 @@ After the Lean stage is proved, update
   missing status, exact Lean evidence for proved tasks, and the missing
   producer for unfinished tasks. A status demotion must update this ledger in
   the same change; removing a node from `formalizedNodeIds` alone is invalid.
+  Store the records in `erdosManuscript.nodeObligations` using
+  `ExampleNodeObligationDescriptor.provedForStep`, `partialForStep`, or
+  `missing`. The frontend may render or filter this exported list but may not
+  define a competing obligation or color source.
 - Classify declarations into `ExampleDeclarationGroup`s by their actual role:
   mathematical definition, semantic theorem, encoding bridge, execution,
   trace audit, soundness/totality, work bound, provenance, framework
@@ -347,7 +454,10 @@ After the Lean stage is proved, update
 Preserve these two-way invariants. For each implemented proof step `p` mapped
 to workflow stage `s`, let `D(s)` be the union of the stage primary/evidence
 declarations, matching interface-binding declarations, and evidence on links
-entering `s`, including each link's `automationDeclarations`. The union of
+entering `s`, including each link's resolved automation declarations. The
+resolved set is the explicit executor list for an ordinary composition and
+the registry-resolved public `advanceExecutor` for a registered transition.
+The union of
 `p`'s declaration groups must equal `D(s)`: no
 missing explanations and no unrelated declarations. Every displayed stage
 must map to exactly one proof step. Reuse of one declaration by multiple stages
@@ -422,10 +532,15 @@ expanded product, or separately restated `Fin` index; those layers force later
 consumers to unfold the whole encoding.
 
 For curvature or response ranks defined by universal functional quotients,
-use `CT15.AdmissibleQuotient.Profile.Survives` and its attained
-`Profile.targetRank` maximum. Never reinterpret that manuscript rank as the
-runner's count of coordinates lacking pairwise identifications; connecting
-those objects requires a separate equivalence theorem.
+use `CT15.FunctionalAdmissibleRank.Profile.rankProfile`, whose candidate is
+literally a carrier-indexed proposal with admissibility and functionality, and
+use its inherited attained `targetRank` maximum. Never replace exact-profile
+realizations and quotient-image vectors by outside-context Boolean responses
+without a two-way semantic equivalence theorem. Never replace this universe by
+proof-carrying support candidates without proving code-cofinality in both
+directions. Never reinterpret the manuscript rank as the runner's count of
+coordinates lacking pairwise identifications; connecting those objects
+requires a separate equivalence theorem.
 
 Before accepting a finite-state change, run a single-process, hard-timeout
 module check. A silent timeout, recursion-depth failure, or large RSS increase
@@ -510,7 +625,7 @@ git diff --check
 ```
 
 Also build the qualifying transfer example and run focused tests for every
-changed graph, core, CT, route, or catalog surface. Regenerate tracked catalog
+changed graph, Core, CT, transition, or catalog surface. Regenerate tracked catalog
 artifacts only when their Lean export changed, and inspect the resulting diff.
 
 Compile `proofs/erdos_64_eg/erdos_64_proof.tex` after changing labels or
@@ -534,7 +649,7 @@ Lean descriptor, TeX anchor, or export instead of hand-editing generated JSON.
 
 As a final ownership check, inspect the complete Erdős Lean diff alongside
 the transfer example. Reject any generic structure, runner wrapper, bridge
-transport, route proof, or graph theorem that appears only in the Erdős
+transport, transition proof, or graph theorem that appears only in the Erdős
 namespace. Confirm that the framework fixture and the external transfer
 package compile before compiling the thin Erdős instantiation.
 

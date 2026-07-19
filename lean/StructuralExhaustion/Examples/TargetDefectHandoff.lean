@@ -23,7 +23,7 @@ def transfer
       (input := input) (boundaries := boundaries) (ctx := ctx)) :
     Routes.TargetDefectHandoff.Residual
       (input := input) (boundaries := boundaries) (ctx := ctx) :=
-  Routes.TargetDefectHandoff.route input boundaries ctx source
+  Routes.TargetDefectHandoff.handoff input boundaries ctx source
 
 theorem transfer_preserves_left
     (source : Routes.TargetDefectHandoff.Source
@@ -59,8 +59,8 @@ theorem transfer_preserves_ambient
 theorem transfer_provenance
     (source : Routes.TargetDefectHandoff.Source
       (input := input) (boundaries := boundaries) (ctx := ctx)) :
-    Routes.TargetDefectHandoff.routeId =
+    Routes.TargetDefectHandoff.handoffId =
       "Graph.targetDefect->typedHandoff" :=
-  Routes.TargetDefectHandoff.generated_route_id input boundaries ctx source
+  Routes.TargetDefectHandoff.handoff_provenance input boundaries ctx source
 
 end StructuralExhaustion.Examples.TargetDefectHandoff

@@ -417,7 +417,7 @@ structure SemanticBottleneckTrigger
   openGoal : Prop
   openGoal_eq : openGoal = AttachmentAlignment activation collision
 
-/-- S-Rout: transport the computed collision residual, unchanged, to the
+/-- Transport the computed collision residual, unchanged, to the
 unique semantic bottleneck consumer. -/
 noncomputable def toSemanticBottleneckTrigger
     {windowSize remainderSize primitiveSize : Nat}
@@ -431,7 +431,7 @@ noncomputable def toSemanticBottleneckTrigger
   openGoal := source.requiredAlignment
   openGoal_eq := source.requiredAlignment_eq
 
-/-- S-Trig: every computed residual populates the complete registered input
+/-- Every computed residual populates the complete registered input
 of the semantic consumer; no alignment proof is assumed. -/
 theorem semanticBottleneckTrigger_total
     {windowSize remainderSize primitiveSize : Nat}

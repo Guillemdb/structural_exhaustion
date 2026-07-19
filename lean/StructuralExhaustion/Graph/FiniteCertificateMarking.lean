@@ -50,58 +50,57 @@ def input {P : Core.Problem.{uAmbient, uBranch}}
     (context : Core.BranchContext P) (site : Site) :
     CT14.Input (profile.capability P site) context := ⟨⟩
 
-/-- Execute the public CT14 runner on one literal site. -/
-def run {P : Core.Problem.{uAmbient, uBranch}}
-    (context : Core.BranchContext P) (site : Site) :
-    CT14.ExecutionResult (profile.capability P site) context :=
-  CT14.run (profile.capability P site) context (profile.input context site)
-
-/-- Positive branch: the assigned certificate is retained together with the
-complete singleton CT14 audit. -/
+/-- Positive branch indexed by the literal CT14 result retained by the
+accumulated transition ledger. -/
 structure Marked {P : Core.Problem.{uAmbient, uBranch}}
-    (context : Core.BranchContext P) (site : Site) : Type uCertificate where
+    (context : Core.BranchContext P) (site : Site)
+    (execution : CT14.ExecutionResult (profile.capability P site) context) :
+    Type uCertificate where
   certificate : profile.Certificate site
   present : profile.assigned site = some certificate
-  terminal : (profile.run context site).terminal = .capacity
-  trace : (profile.run context site).trace =
+  terminal : execution.terminal = .capacity
+  trace : execution.trace =
     [.entry, .lowerMass, .memberScan, .upperCapacity, .comparison,
       .capacityTerminal]
-  verified : (profile.run context site).outcome.Valid
+  verified : execution.outcome.Valid
   traceValid : @CT14.Graph.ValidTrace P (profile.capability P site) context
-    (profile.run context site).trace
-  total : ∃ result : CT14.ExecutionResult (profile.capability P site) context,
-    result.outcome.Valid ∧
-      @CT14.Graph.ValidTrace P (profile.capability P site) context result.trace
+    execution.trace
 
-/-- Negative branch: the exact same site is retained with proof that its
-assigned-certificate slot is empty. -/
+/-- Negative branch indexed by the same literal target result. -/
 structure Residual {P : Core.Problem.{uAmbient, uBranch}}
-    (context : Core.BranchContext P) (site : Site) : Prop where
+    (context : Core.BranchContext P) (site : Site)
+    (execution : CT14.ExecutionResult (profile.capability P site) context) :
+    Prop where
   missing : profile.assigned site = none
-  terminal : (profile.run context site).terminal = .missingLabel
-  trace : (profile.run context site).trace =
+  terminal : execution.terminal = .missingLabel
+  trace : execution.trace =
     [.entry, .lowerMass, .memberScan, .missingLabelTerminal]
-  verified : (profile.run context site).outcome.Valid
+  verified : execution.outcome.Valid
   traceValid : @CT14.Graph.ValidTrace P (profile.capability P site) context
-    (profile.run context site).trace
-  total : ∃ result : CT14.ExecutionResult (profile.capability P site) context,
-    result.outcome.Valid ∧
-      @CT14.Graph.ValidTrace P (profile.capability P site) context result.trace
+    execution.trace
 
 /-- Exact per-site outcome.  It is a decision about supplied local data, not
 about whether some certificate could exist elsewhere. -/
 inductive Decision (profile : Profile.{uSite, uCertificate} Site)
     {P : Core.Problem.{uAmbient, uBranch}}
-    (context : Core.BranchContext P) (site : Site) : Type uCertificate where
-  | marked (result : profile.Marked context site) :
-      Decision profile context site
-  | residual (result : profile.Residual context site) :
-      Decision profile context site
+    (context : Core.BranchContext P) (site : Site)
+    (execution : CT14.ExecutionResult (profile.capability P site) context) :
+    Type uCertificate where
+  | marked (result : profile.Marked context site execution) :
+      Decision profile context site execution
+  | residual (result : profile.Residual context site execution) :
+      Decision profile context site execution
 
-/-- Compute and audit the assigned-certificate branch at one site. -/
-def decide {P : Core.Problem.{uAmbient, uBranch}}
-    (context : Core.BranchContext P) (site : Site) :
-    profile.Decision context site := by
+/-- Classify one already executed singleton CT14 result.  `exactRun` is the
+bridge from the accumulated transition target; the graph layer never launches
+a second runner. -/
+def decideExecution {P : Core.Problem.{uAmbient, uBranch}}
+    (context : Core.BranchContext P) (site : Site)
+    (execution : CT14.ExecutionResult (profile.capability P site) context)
+    (exactRun : execution = CT14.run (profile.capability P site) context
+      (profile.input context site)) :
+    profile.Decision context site execution := by
+  subst execution
   cases equation : profile.assigned site with
   | none =>
       exact .residual {
@@ -119,8 +118,6 @@ def decide {P : Core.Problem.{uAmbient, uBranch}}
         verified := CT14.run_verified (profile.capability P site) context
           (profile.input context site)
         traceValid := CT14.run_trace_valid (profile.capability P site) context
-          (profile.input context site)
-        total := CT14.run_total (profile.capability P site) context
           (profile.input context site) }
   | some certificate =>
       exact .marked {
@@ -143,15 +140,18 @@ def decide {P : Core.Problem.{uAmbient, uBranch}}
         verified := CT14.run_verified (profile.capability P site) context
           (profile.input context site)
         traceValid := CT14.run_trace_valid (profile.capability P site) context
-          (profile.input context site)
-        total := CT14.run_total (profile.capability P site) context
           (profile.input context site) }
 
-/-- Every actual site takes exactly one of the two assigned-data branches. -/
-theorem marked_or_residual {P : Core.Problem.{uAmbient, uBranch}}
-    (context : Core.BranchContext P) (site : Site) :
-    Nonempty (profile.Marked context site) ∨ profile.Residual context site := by
-  cases profile.decide context site with
+/-- Every literal transitioned site takes exactly one assigned-data branch. -/
+theorem marked_or_residual_of_execution
+    {P : Core.Problem.{uAmbient, uBranch}}
+    (context : Core.BranchContext P) (site : Site)
+    (execution : CT14.ExecutionResult (profile.capability P site) context)
+    (exactRun : execution = CT14.run (profile.capability P site) context
+      (profile.input context site)) :
+    Nonempty (profile.Marked context site execution) ∨
+      profile.Residual context site execution := by
+  cases profile.decideExecution context site execution exactRun with
   | marked result => exact Or.inl ⟨result⟩
   | residual result => exact Or.inr result
 
@@ -169,19 +169,32 @@ def budget : Core.PolynomialCheckBudget Unit where
     intro _unit
     simp [checks]
 
-/-- The complete reusable stage retains the independently audited decision
-at every site and a linear work bound in the supplied site count. -/
-structure VerifiedStage {P : Core.Problem.{uAmbient, uBranch}}
-    (context : Core.BranchContext P) : Prop where
+/-- The complete reusable stage is indexed by the pointwise CT14 results
+retained in an accumulated transition ledger. -/
+structure VerifiedExecutionStage {P : Core.Problem.{uAmbient, uBranch}}
+    (context : Core.BranchContext P)
+    (execution : (site : Site) →
+      CT14.ExecutionResult (profile.capability P site) context) : Prop where
+  exactRun : ∀ site, execution site =
+    CT14.run (profile.capability P site) context (profile.input context site)
   exhaustive : ∀ site : Site,
-    Nonempty (profile.Marked context site) ∨ profile.Residual context site
+    Nonempty (profile.Marked context site (execution site)) ∨
+      profile.Residual context site (execution site)
   polynomial : profile.checks ≤
     profile.budget.coefficient *
       (profile.budget.size () + 1) ^ profile.budget.degree
 
-def verifiedStage {P : Core.Problem.{uAmbient, uBranch}}
-    (context : Core.BranchContext P) : profile.VerifiedStage context where
-  exhaustive := profile.marked_or_residual context
+def verifiedExecutionStage {P : Core.Problem.{uAmbient, uBranch}}
+    (context : Core.BranchContext P)
+    (execution : (site : Site) →
+      CT14.ExecutionResult (profile.capability P site) context)
+    (exactRun : ∀ site, execution site =
+      CT14.run (profile.capability P site) context
+        (profile.input context site)) :
+    profile.VerifiedExecutionStage context execution where
+  exactRun := exactRun
+  exhaustive := fun site => profile.marked_or_residual_of_execution
+    context site (execution site) (exactRun site)
   polynomial := profile.budget.bounded ()
 
 end Profile

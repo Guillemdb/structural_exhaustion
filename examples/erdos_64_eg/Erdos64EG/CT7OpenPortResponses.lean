@@ -16,62 +16,75 @@ residual is routed to CT7, where the two canonical port endpoints are compared
 against the exact declared vertex context.
 -/
 
-theorem openPortResponse_stateSpace
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    (∀ center,
-      CT9.fibreCount (openPortPairCapability ctx)
-        (openPortPairInput ctx) center ≤ 1) ∨
-      (∃ source : Graph.OpenPortResponse.SourceResidual
-          (fixedPackedInput ctx) ctx.G.object
-          (packedStaticInput.fixedContext ctx).baseline
-          ((fixedPackedInput ctx).dart_has_tight_endpoint
-            (packedStaticInput.fixedContext ctx)),
-        Graph.OpenPortResponse.RoutedStage
-          (fixedPackedInput ctx) ctx.G.object
-          (packedStaticInput.fixedContext ctx).baseline
-          ((fixedPackedInput ctx).dart_has_tight_endpoint
-            (packedStaticInput.fixedContext ctx)) source) :=
-  Graph.OpenPortResponse.stateSpace
+abbrev OpenPortPairLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.ResidualStage .ct9 (VerifiedOpenPortPairPrefix ctx)
+
+abbrev OpenPortBounded
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  ∀ center,
+    CT9.fibreCount (openPortPairCapability ctx)
+      (openPortPairInput ctx) center ≤ 1
+
+abbrev OpenPortSourceResidual
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Graph.OpenPortResponse.SourceResidual
     (fixedPackedInput ctx) ctx.G.object
     (packedStaticInput.fixedContext ctx).baseline
     ((fixedPackedInput ctx).dart_has_tight_endpoint
       (packedStaticInput.fixedContext ctx))
 
-structure VerifiedOpenPortResponsePrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedOpenPortPairPrefix ctx
-  stateSpace :
-    (∀ center,
-      CT9.fibreCount (openPortPairCapability ctx)
-        (openPortPairInput ctx) center ≤ 1) ∨
-      (∃ source : Graph.OpenPortResponse.SourceResidual
-          (fixedPackedInput ctx) ctx.G.object
-          (packedStaticInput.fixedContext ctx).baseline
-          ((fixedPackedInput ctx).dart_has_tight_endpoint
-            (packedStaticInput.fixedContext ctx)),
-        Graph.OpenPortResponse.RoutedStage
-          (fixedPackedInput ctx) ctx.G.object
-          (packedStaticInput.fixedContext ctx).baseline
-          ((fixedPackedInput ctx).dart_has_tight_endpoint
-            (packedStaticInput.fixedContext ctx)) source)
+abbrev OpenPortRoutedLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (sourceLedger : OpenPortPairLedger ctx)
+    (source : OpenPortSourceResidual ctx) :=
+  Graph.OpenPortResponse.RoutedLedger
+    (fixedPackedInput ctx) ctx.G.object
+    (packedStaticInput.fixedContext ctx).baseline
+    ((fixedPackedInput ctx).dart_has_tight_endpoint
+      (packedStaticInput.fixedContext ctx)) sourceLedger source
+
+abbrev OpenPortResponseState
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (sourceLedger : OpenPortPairLedger ctx) :=
+  Graph.OpenPortResponse.StateSpace
+    (fixedPackedInput ctx) ctx.G.object
+    (packedStaticInput.fixedContext ctx).baseline
+    ((fixedPackedInput ctx).dart_has_tight_endpoint
+      (packedStaticInput.fixedContext ctx)) sourceLedger
+
+def openPortResponse_stateSpace
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (sourceLedger : OpenPortPairLedger ctx) :
+    OpenPortResponseState ctx sourceLedger :=
+  Graph.OpenPortResponse.stateSpace
+    (fixedPackedInput ctx) ctx.G.object
+    (packedStaticInput.fixedContext ctx).baseline
+    ((fixedPackedInput ctx).dart_has_tight_endpoint
+      (packedStaticInput.fixedContext ctx)) sourceLedger
+
+abbrev VerifiedOpenPortResponsePrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.LedgerExtension (OpenPortPairLedger ctx)
+    (OpenPortResponseState ctx)
 
 def verifiedOpenPortResponsePrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedOpenPortPairPrefix ctx) :
-    VerifiedOpenPortResponsePrefix ctx where
-  previous := previous
-  stateSpace := openPortResponse_stateSpace ctx
+    VerifiedOpenPortResponsePrefix ctx :=
+  let sourceLedger :=
+    Core.Routing.ResidualStage.exact (tactic := .ct9) previous
+  ⟨sourceLedger, openPortResponse_stateSpace ctx sourceLedger⟩
 
 theorem exists_verifiedOpenPortResponsePrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedOpenPortResponsePrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedOpenPortResponsePrefix ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedOpenPortPairPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedOpenPortResponsePrefix ctx previous⟩
+  exact ⟨ctx, verifiedOpenPortResponsePrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

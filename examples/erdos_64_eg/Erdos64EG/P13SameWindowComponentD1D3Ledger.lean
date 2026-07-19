@@ -55,7 +55,7 @@ noncomputable def d1d3LedgerInput :
   base := by
     let _retainedNode173 := source.node173
     exact transition.graphInput
-  notBridge := fun stub _member => dart_not_bridge ctx
+  notBridge := fun stub _member => minimality_dart_not_bridge ctx
     (InducedPathColdCorridor.CubicStub.dart
       { token := stub.token, cubic := stub.cubic })
 

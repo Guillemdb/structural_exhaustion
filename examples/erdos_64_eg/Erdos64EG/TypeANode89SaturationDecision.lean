@@ -1,4 +1,5 @@
 import Erdos64EG.TypeANodes86To88Thresholds
+import StructuralExhaustion.Core.ExactHandoff
 import StructuralExhaustion.Core.WorkBudget
 
 namespace Erdos64EG.Internal.TypeANode89SaturationDecision
@@ -80,9 +81,7 @@ theorem routedReceiver_eq_canonical
 /-- Yes payload on the original edge `[89] -> [93]`. -/
 structure ToNode93 {node61 : Node61 (ctx := ctx)} {node63 : Node63 node61}
     {node86 : Node86 node63} {node87 : Node87 node86}
-    (node88 : Node88 node87) where
-  previous : Node88 node87
-  exactPrevious : previous = node88
+    (node88 : Node88 node87) extends Core.ExactHandoff node88 where
   saturated : Saturated node88
   receiver_mem : saturated.receiver ∈ (input node88).receiverSet
   receiver_degree_le_two :
@@ -94,9 +93,7 @@ structure ToNode93 {node61 : Node61 (ctx := ctx)} {node63 : Node63 node61}
 /-- No payload on the original edge `[89] -> [90]`. -/
 structure ToNode90 {node61 : Node61 (ctx := ctx)} {node63 : Node63 node61}
     {node86 : Node86 node63} {node87 : Node87 node86}
-    (node88 : Node88 node87) where
-  previous : Node88 node87
-  exactPrevious : previous = node88
+    (node88 : Node88 node87) extends Core.ExactHandoff node88 where
   unsaturated : Unsaturated node88
   load_le_capacity : ∀ receiver ∈ (input node88).receiverSet,
     (routing node88).load receiver ≤
@@ -119,7 +116,7 @@ noncomputable def run
     let witness := Classical.choice saturated
     exact .to93 {
       previous := node88
-      exactPrevious := rfl
+      previousExact := rfl
       saturated := witness
       receiver_mem := witness.receiver_mem
       receiver_degree_le_two := witness.receiver_degree_le_two
@@ -132,7 +129,7 @@ noncomputable def run
       · exact unsaturated
     exact .to90 {
       previous := node88
-      exactPrevious := rfl
+      previousExact := rfl
       unsaturated := unsaturated
       load_le_capacity := unsaturated
     }

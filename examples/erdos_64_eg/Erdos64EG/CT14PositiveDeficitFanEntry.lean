@@ -1,5 +1,6 @@
 import Erdos64EG.CT14CertificateClosedFanCharge
-import Erdos64EG.CT14HybridFanIncidence
+import Erdos64EG.CT5FanClosedPort
+import StructuralExhaustion.Graph.HybridFanIncidence
 
 namespace Erdos64EG.Internal
 
@@ -44,15 +45,6 @@ variable
   {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
   (entry : PositiveDeficitMarkedFan ctx)
 
-/-- CT14 scans the exact actual cubic-closed subtype produced by the assigned
-fan profile. -/
-noncomputable def massStage : FanClosedMassStage ctx entry.fan.center
-    entry.centerHigh entry.Assigned entry.assignedDecidable entry.first
-    entry.second entry.compatible entry.assigned :=
-  fanClosedMassStage ctx entry.fan.center entry.centerHigh entry.Assigned
-    entry.assignedDecidable entry.first entry.second entry.compatible
-    entry.assigned
-
 /-- The marked-fan CT9 cap is consumed directly; it is not repeated as an
 input field. -/
 theorem degree_le_eight : ctx.G.object.degree entry.fan.center ≤ 8 :=
@@ -65,7 +57,11 @@ theorem two_le_closedCount :
       (object := ctx.G.object) (center := entry.fan.center)
       (p13FanWindowProfile ctx entry.Assigned
         entry.assignedDecidable)).card :=
-  entry.massStage.countAtLeastTwo
+  Graph.FanClosedPortMass.two_le_cubicClosed_card entry.centerHigh
+    ((fixedPackedInput ctx).dart_has_tight_endpoint
+      (packedStaticInput.fixedContext ctx))
+    (p13FanWindowProfile ctx entry.Assigned entry.assignedDecidable)
+    entry.first entry.second entry.compatible entry.assigned
 
 /-- Exact positive Type-B deficit in quarter units:
 `4c + degree - 11 > 0`. -/
@@ -76,29 +72,8 @@ theorem positiveDeficit :
         (object := ctx.G.object) (center := entry.fan.center)
         (p13FanWindowProfile ctx entry.Assigned
           entry.assignedDecidable)).card :=
-  entry.massStage.positiveDeficit
-
-/-- The routed CT14 incidence refinement uses the derived degree cap and
-therefore constructs the complete local hybrid entry without an application
-assertion. -/
-noncomputable def hybridStage : HybridFanIncidenceStage ctx entry.fan.center
-    entry.centerHigh entry.degree_le_eight entry.Assigned
-    entry.assignedDecidable entry.first entry.second entry.compatible
-    entry.assigned :=
-  hybridFanIncidenceStage ctx entry.fan.center entry.centerHigh
-    entry.degree_le_eight entry.Assigned entry.assignedDecidable entry.first
-    entry.second entry.compatible entry.assigned
-
-theorem hybrid_terminal :
-    (Graph.HybridFanIncidence.run
-      (base := fixedPackedInput ctx)
-      (baseline := (packedStaticInput.fixedContext ctx).baseline)
-      entry.centerHigh
-      ((fixedPackedInput ctx).dart_has_tight_endpoint
-        (packedStaticInput.fixedContext ctx))
-      (p13FanWindowProfile ctx entry.Assigned entry.assignedDecidable)
-      entry.first entry.second entry.assigned).terminal = .capacity :=
-  entry.hybridStage.terminal
+  Graph.FanClosedPortMass.deficitNumerator_positive entry.centerHigh
+    entry.two_le_closedCount
 
 /-- The exact half-incidence capacity pays the positive deficit with at least
 three quarter-units of slack. -/
@@ -114,38 +89,64 @@ theorem hybrid_credit_pays :
           (object := ctx.G.object) (center := entry.fan.center)
           (p13FanWindowProfile ctx entry.Assigned
             entry.assignedDecidable)).card :=
-  entry.hybridStage.creditPays
+  Graph.HybridFanIncidence.total_credit_pays_deficit_with_three_slack
+    (object := ctx.G.object)
+    (center := entry.fan.center)
+    (p13FanWindowProfile ctx entry.Assigned entry.assignedDecidable)
+    entry.degree_le_eight
 
 end PositiveDeficitMarkedFan
 
-/-- The verified prefix now composes the marked-fan CT9 result with the exact
-CT5-to-CT14 and CT14-to-CT14 local fan entry. -/
-structure VerifiedPositiveDeficitFanEntryPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedCertificateClosedFanChargePrefix ctx
-  localStage : ∀ entry : PositiveDeficitMarkedFan ctx,
-    HybridFanIncidenceStage ctx entry.fan.center entry.centerHigh
-      entry.degree_le_eight entry.Assigned entry.assignedDecidable entry.first
-      entry.second entry.compatible entry.assigned
+/-- The exact mathematical obligations of one positive-deficit fan entry.
+Transport is deliberately absent: actual CT14 executions live only in the
+accumulated transition ledger. -/
+structure PositiveDeficitFanFacts
+    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
+    (entry : PositiveDeficitMarkedFan ctx) : Prop where
+  closedCount : 2 ≤ (Graph.FanClosedPortMass.cubicClosedNeighbors
+    (object := ctx.G.object) (center := entry.fan.center)
+    (p13FanWindowProfile ctx entry.Assigned entry.assignedDecidable)).card
+  positiveDeficit : 0 < Graph.FanClosedPortMass.deficitNumerator
+    (ctx.G.object.degree entry.fan.center)
+    (Graph.FanClosedPortMass.cubicClosedNeighbors
+      (object := ctx.G.object) (center := entry.fan.center)
+      (p13FanWindowProfile ctx entry.Assigned entry.assignedDecidable)).card
+  hybridCreditPays : (3 : Int) ≤
+    (Graph.HybridFanIncidence.totalQuarterCredit
+      (object := ctx.G.object) (center := entry.fan.center)
+      (p13FanWindowProfile ctx entry.Assigned entry.assignedDecidable) : Int) -
+    Graph.FanClosedPortMass.deficitNumerator
+      (ctx.G.object.degree entry.fan.center)
+      (Graph.HybridFanIncidence.closedMembers
+        (object := ctx.G.object) (center := entry.fan.center)
+        (p13FanWindowProfile ctx entry.Assigned entry.assignedDecidable)).card
+
+/-- One same-prefix theorem extension; no predecessor fields are restated. -/
+abbrev VerifiedPositiveDeficitFanEntryPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.LedgerExtension (VerifiedCertificateClosedFanChargePrefix ctx)
+    (fun _previous => ∀ entry : PositiveDeficitMarkedFan ctx,
+      PositiveDeficitFanFacts entry)
 
 noncomputable def verifiedPositiveDeficitFanEntryPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedCertificateClosedFanChargePrefix ctx) :
-    VerifiedPositiveDeficitFanEntryPrefix ctx where
-  previous := previous
-  localStage := fun entry => entry.hybridStage
+    VerifiedPositiveDeficitFanEntryPrefix ctx :=
+  ⟨previous, fun entry => {
+    closedCount := entry.two_le_closedCount
+    positiveDeficit := entry.positiveDeficit
+    hybridCreditPays := entry.hybrid_credit_pays
+  }⟩
 
 theorem exists_verifiedPositiveDeficitFanEntryPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedPositiveDeficitFanEntryPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedPositiveDeficitFanEntryPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedCertificateClosedFanChargePrefix object baseline avoids
-  exact ⟨ctx, rankLe,
-    verifiedPositiveDeficitFanEntryPrefix ctx previous⟩
+  exact ⟨ctx, verifiedPositiveDeficitFanEntryPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

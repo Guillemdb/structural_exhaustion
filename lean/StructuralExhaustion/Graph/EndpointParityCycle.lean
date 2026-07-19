@@ -182,13 +182,41 @@ def ct6ToCT9ItemAdapter (profile : Profile V) (object : FiniteObject V)
   Routes.CT6ToCT9.ItemCollectionAdapter.constant
     (profile.endpointNeighborItems object baseline)
 
-/-- CT9 input materialized from CT6's typed active-ledger residual. -/
+/-- Exact CT6 residual stage consumed by the framework transition. -/
+def ct6SourceStage (profile : Profile V) (object : FiniteObject V)
+    (baseline : profile.base.problem.Baseline object) :=
+  Core.Routing.ResidualStage.exact (tactic := .ct6)
+    (profile.ct6Run object baseline)
+
+/-- Framework-owned CT6→CT9 transition instantiated by this graph profile. -/
+abbrev ct6ToCT9Transition (profile : Profile V) (object : FiniteObject V)
+    (baseline : profile.base.problem.Baseline object) :=
+  Routes.CT6ToCT9.transition (profile.ct9Capability object baseline)
+    (profile.ct6ToCT9ItemAdapter object baseline)
+
+/-- Enabled CT9 execution retaining the complete incoming CT6 stage. -/
+def ct6ToCT9Stage (profile : Profile V) (object : FiniteObject V)
+    (baseline : profile.base.problem.Baseline object) :=
+  Routes.CT6ToCT9.advance (profile.ct9Capability object baseline)
+    (profile.ct6ToCT9ItemAdapter object baseline)
+    (fun ledger => ledger.residual)
+    (profile.ct6SourceStage object baseline)
+
+/-- Accumulated CT9 ledger used by every downstream transition. -/
+def ct6ToCT9Ledger (profile : Profile V) (object : FiniteObject V)
+    (baseline : profile.base.problem.Baseline object) :=
+  (profile.ct6ToCT9Stage object baseline).ledgerStage
+
+/-- CT9 input read from the executable transition; no graph module rebuilds
+the route context or trigger. -/
 def ct9Input (profile : Profile V) (object : FiniteObject V)
     (baseline : profile.base.problem.Baseline object) :
     CT9.Input (profile.ct9Capability object baseline) :=
-  Routes.CT6ToCT9.buildInput (profile.ct9Capability object baseline)
-    (profile.ct6ToCT9ItemAdapter object baseline)
-    (profile.ct6Run object baseline).residual
+  let transition := profile.ct6ToCT9Transition object baseline
+  let execution := transition.onLedger (fun ledger => ledger.residual)
+  let source := profile.ct6SourceStage object baseline
+  CT9.Input.ofTrigger (execution.targetContext source)
+    (execution.trigger source ())
 
 theorem ct9_three_le_item_cardinality (profile : Profile V)
     (object : FiniteObject V)

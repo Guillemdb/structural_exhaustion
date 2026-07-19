@@ -1,13 +1,103 @@
 # Erdős Problem 64 implementation state
 
 This ledger records the Lean-checked proof content in
-`examples/erdos_64_eg` as of 2026-07-18.
+`examples/erdos_64_eg` as of 2026-07-19.
 
 ## Current audited frontier
 
-The compiled authority has exactly 39 green nodes, the dependency-closed
-prefix `[1]`--`[39]`. Historical implementation narratives below describe
+The reviewed authority has exactly 48 green nodes: the dependency-closed
+prefix `[1]`--`[48]`, with the Part-III decision branches represented by their
+exact conditional Lean payloads.
+Historical implementation narratives below describe
 available conditional Lean support but are not node-status claims.
+
+Node `[31]` now uses its literal wedge schedule,
+raw outside-context response, cardinality `W2(R)`, proof-level attained maximum,
+and local work bound are implemented. However, that maximum currently ranges
+over `CT15.SupportStratifiedRank.Candidate`, whose `certify` field already
+assumes a complete support certificate for every collision. No theorem proves
+that this proof-carrying candidate universe is all-and-only the manuscript's
+functional admissible quotient universe. The framework now provides
+`CT15.FunctionalAdmissibleRank`: its candidate is literally a carrier, raw
+proposal, admissibility proof, and functional proof; its realization vectors
+and quotient-image values are carrier/proposal indexed; and its strict-loss
+circuit retains that exact candidate without assuming a later support
+certificate. `Graph.SupportStratifiedFunctionalRank` now supplies the exact
+graph specialization: proof-carrying connected carrier interfaces, proposal-
+indexed realizations (including the carrier's canonical realization) and quotient images, declared-support admission, boundary
+preservation, context universality, and the proper/whole representative
+clause. The Erdős wedge schedule instantiates it as
+`p13CurvatureFunctionalRankProfile`, with an attained canonical maximum and
+the exact `W2(R)` upper bound. The public `p13CurvatureTargetRank`, node `[32]`
+decision, and node `[34]` full-rank residual now use this canonical object, so
+all obligations of `[31]`, `[32]`, and `[34]` are green.
+
+The manuscript admission definition requires a proper/whole representative
+for every non-injective admitted quotient. The reusable graph theorem proves
+every admitted candidate code injective and therefore forces
+`rOmega(R)=W2(R)`. Consequently node `[32]`'s strict-loss edge is uninhabited.
+Node `[33]` is nevertheless fully implemented as the conditional responsibility
+on that exact paper edge: its dependence payload follows in the kernel from
+the contradictory edge proof and is retained for the displayed Branch-D flow.
+
+Node `[35]` is only the cross-panel continuation of that Branch-D payload; it
+does not own unrelated later carrier invariants or the separated-tester lemma.
+The `[33] -> [35]` edge uses the generic
+`Core.ResidualRefinement.State.DependentSuccessor` and
+`StageNode.mapStage`: `p13Nodes25To35Run` retrieves the literal node-[33]
+branch from the full accumulated ledger and retains that branch together with
+its dependent node-[35] output. No Erdős-specific predecessor/equality carrier
+or new mathematical premise remains on this edge. Node `[36]` then performs
+the proof-level original-interface mismatch/universality audit through
+`Core.SupportStratifiedDetermination`; node `[37]` retains the concrete defect
+witness, and node `[38]` performs only the original-versus-enlarged support
+location decision. All three are zero-scan, exact predecessor-indexed nodes.
+The at-original edge closes at green node `[39]`: the framework transports
+the carrier-indexed representative only along node `[38]`'s literal equality,
+recognizes the original proper atom, and invokes its stored CT3 compression
+contradiction. On the strict-enlargement edge, node `[40]` retains the same
+minimal connected support certificate; node `[41]` applies the graph-owned
+proper-or-whole classification; node `[42]` closes the proper constructor by
+the carrier-indexed stored CT3 compression; node `[43]` retains the whole
+constructor through `Core.ExactPropertyHandoff`; and node `[44]` adds the
+framework/graph-owned one--three repair identity. The next unresolved
+Part-III cell, node `[45]`, applies the admitted whole-carrier candidate's
+closed-reduction clause to prove injectivity on raw curvature labels. Node
+`[46]` contradicts the exact distinct-coordinate collision retained from node
+`[35]`, closing the rank-drop route. Independently, node `[47]` consumes the
+literal node-[34] full-rank constructor through `Core.ExactHandoff`, retaining
+both `rOmega(R)=W2(R)` and an attained maximal surviving family. The next
+node `[48]` now transports the inherited wedge/rank inequality into the exact
+curvature-cost units
+`cOmega = log2(543958/111286)`. Its ordinary and high-entropy finite bounds
+retain the normalization-plus-surplus error, and the fixed-threshold family
+theorem proves that cost error is `o(|R|)`. Completion-state realization and
+conditional-fibre accounting were removed from node `[48]`'s obligation list:
+the original paper assigns construction and entropy of the remainder state
+family to node `[49]`. The next unresolved frontier is node `[49]`.
+
+Node `[48]` is yellow with 12 scoped obligations: 7 partial and 5
+missing. The literal node-[47] value now produces
+`VerifiedP13Node48FrontierCost` through `P13Node47FullRankResidual.node48` on
+the full accumulated residual. Its ordinary and conditional high-entropy
+finite inequalities retain the exact normalization scale, thirty copies of
+the node-[24] normalization error, and the scaled total-surplus correction.
+The arithmetic is implemented by the reusable Core lemmas
+`nat_partition_density_with_error`, `nat_scaled_wedge_with_error`,
+`scaled_le_main_add_error_div`, and
+`tendsto_error_div_remainder_of_lower_density`. For every fixed authored
+threshold triple, the exact additive error is bounded by a graph-order
+envelope that is `o(n)`; node `[25]` supplies eventual
+`|R| >= n/4`, so Lean proves that the same error is `o(|R|)`. Focused source
+checks complete without raised recursion or heartbeat limits. These are
+conditional node-[48] theorems until node `[31]` identifies the upstream rank
+with the manuscript rank. The missing
+node-local mathematics is the logarithmic printed constants, the graph-owned
+realized state family and response semantics, its conditional-fibre ledger,
+and the resulting sole `[48] -> [49]` handoff. Existing product-cost code
+proves only the consequences of a caller-supplied realization and remains
+conditional support. There is no open-realization branch in the original
+diagram.
 
 Node `[150]` is 8/9 proved in `P13Node150ColdMass.lean`. It retains the exact
 node-[148] no predecessor, uses the manuscript's longer certified hot rate,
@@ -131,8 +221,9 @@ contains:
 - the CT10 node-`[21]` multi-scale curvature stage: the exact bounded
   node-`[19]` residual is retained; `196` candidate length pairs are
   exhaustively classified and exactly `91` accepted; fifteen fixed
-  `399 × 399` relation tables are audited bit-for-bit in independent shards;
-  every accepted safe/flat count is rechecked against the reusable
+  `399 × 399` relation tables are certified by compact whole-row equalities,
+  whose pointwise projections recover every semantic entry; bounded
+  fixed-table shards recheck every accepted safe/flat count against the reusable
   `Core.FiniteBitRelationBarrier` profile; the existing scale-`(1,1)` counts
   `543958,432672,111286` are recovered; and the exact integer certificate
   proves `2^118 ∏F < ∏S`, with no logarithm, graph-family, or Boolean-product
@@ -448,7 +539,7 @@ order and do not define a separate graph representation.
 | `def:deficiency-surplus`, node `[28]` | Exact `VerifiedP13Node27NoInternalThreeCore` produced from the literal node-[26] remainder on the identical node-[21]/[24] context | Reusable `Graph.AssignedSupportCharge.Profile` plus the thin `VerifiedP13Node28PositiveDeficiency` dependent adapter | Literal induced-remainder degree; exact sum `def⁺(R)=Σ_v∈R (3-d_R(v))`; exact predecessor equality; retained no-internal-three-core certificate | Exactly one finite neighbour scan per remainder vertex, `|R|n≤n²`; no subgraph or support-family enumeration |
 | `lem:stub-positive` and `lem:surplus-aware-window-stub`, node `[29]` | Exact dependent `VerifiedP13Node28PositiveDeficiency` on the identical node-`[21]`/`[24]` packing and remainder | Reusable `Graph.PositiveDeficiencyWedge`, `Graph.InducedPathWindowLedger`, and the retained bounded-surplus spine certificate | Exact predecessor equality; `def⁺(R)≤e(R,W)≤15p₁₃+σ_W`; exact surplus-adjusted inequality after subtracting `σ_R`; exact window/remainder surplus partition; retained square-root-scale certificate; composed `VerifiedP13Node29ExternalIncidenceSupply` | At most `13n²` scans of the already selected windows and ambient neighbour schedule; no path, packing, support, subgraph, graph, state, or context universe is enumerated |
 | `lem:wedge-lower`, node `[30]` | Exact dependent `VerifiedP13Node29ExternalIncidenceSupply` on the identical graph, packing, and remainder | Reusable `Graph.PositiveDeficiencyWedge` degree-count and real-rate transport | Exact predecessor equality; componentwise and aggregate wedge floors; finite window-error supply; exact window and high-entropy coefficient arithmetic; retained near-cubic certificate; composed `VerifiedP13Node30WedgeLower` | At most `n²` induced-neighbour checks; arithmetic transport only, with no component, support, path, quotient, context, subgraph, graph, or state-universe enumeration |
-| `def:curvature-target-rank`, node `[31]` | Exact dependent `VerifiedP13Node30WedgeLower` on the identical remainder and wedge profile | Framework `CT15.AdmissibleQuotient.Profile.Survives` and `targetRank`, plus graph `FiniteSupportResponse` | Literal raw wedges and exact target response; cardinality `W₂(R)` and bound `W₂(R)≤n³`; survival under every functional admissible quotient; attained maximal surviving family; exact `rΩ(R)≤W₂(R)`; composed `VerifiedP13Node31CurvatureTargetRank` | The coordinate schedule contains only actual wedges; the rank maximum is proof-level and evaluates no powerset, quotient family, context family, support family, path family, subgraph family, or graph universe |
+| `def:curvature-target-rank`, node `[31]` | Exact dependent `VerifiedP13Node30WedgeLower` on the identical remainder and wedge profile | Framework `CT15.FunctionalAdmissibleRank` owns the exact carrier/proposal/admissibility/functionality universe; graph `SupportStratifiedFunctionalRank` supplies the concrete graph specialization | Literal raw wedges, exact cardinality `W₂(R)`, bound `W₂(R)≤n³`, exact-profile realizations and quotient images, and the attained canonical maximum `rΩ(R)` | No powerset, quotient family, realization family, context family, support family, path family, subgraph family, or graph universe is evaluated |
 | Rank-loss diamond in `lem:target-rank-circuit`, node `[32]` | Exact dependent `VerifiedP13Node31CurvatureTargetRank` on the identical raw wedge family | Framework `CT15.AdmissibleQuotient.Profile.RankDecision` | Exact predecessor equality; exhaustive strict-loss or full-equality constructors; transport from coordinate cardinality to `W₂(R)`; composed `VerifiedP13Node32RankDecision` | Zero executable scans; the proof-level natural-number comparison evaluates no coordinate subfamily, quotient, context, support, path, subgraph, graph, or state universe |
 | `lem:target-rank-circuit`, node `[33]` | Exact dependent node-[32] strict-loss edge on the identical target-rank object | Framework `CT15.AdmissibleQuotient.Profile.PairCircuit` and `pairCircuitOfRankDrop` | Failure of complete-family survival; one admitted non-injective quotient; two distinct declared raw coordinates with equal quotient code; singleton determining basis; composed `VerifiedP13Node33RankReducingDependence` | Zero executable searches; proof-selected from non-survival with no coordinate powerset, quotient family, context family, support family, path family, subgraph family, graph universe, or state universe |
 | `lem:full-rank`, node `[34]` | Exact dependent node-[32] full-rank no edge on the identical target-rank object | Framework attained target-rank maximum and zero-scan decision budget | Exact equality `rΩ(R)=W₂(R)`; absence of strict loss; full-rank lower bound; actual surviving family of size `W₂(R)`; composed `VerifiedP13Node34FullCurvatureRank` | Zero new executable scans; no coordinate powerset, quotient family, context family, support family, path family, subgraph family, graph universe, or state universe |
@@ -464,11 +555,11 @@ order and do not define a separate graph representation.
 | Ordinary Type B residual-center payment, node `[75]` | Green degree-four B2 route on the same `TypeBSupportScope` | Reusable `Graph.HighCenterDeletionCharge` assigned-surplus ledger | Certificate failures, unresolved entries, and every selected minimal-overlap center are literal high centers; their finite count is bounded by the exact assigned surplus; composed `VerifiedTypeBResidualCenterLedgerPrefix` | Finite-set and subschedule cardinality only; no envelope or support family is generated |
 | `lem:same-token-matching-star`, nodes `[140]`, `[142]`, `[143]` | Green actual overloaded token--role fibre and its exact node-`[139]`/`[141]` constructor route | Core `GreedyMatchingStar` and graph `SurplusHomogeneousPattern` | Deterministic maximal matching, exact coverage, sharp `(L-1)(2L-3)` cap, and a literal matching-or-star certificate at the routed class threshold; composed `VerifiedHomogeneousPatternPrefix` | At most `3m²` pair-intersection/incidence checks on the supplied fibre; no matching, star, pair, graph, or path family is generated |
 
-The next dependency-ready frontier is node `[40]`, consuming the original
-node-[38] no-edge enlarged-support residual after node-[39] closes the
-certified-reduction edge by minimality. Later
-conditional implementations stay
-outside the green prefix until all of their diagram predecessors are green.
+The next dependency-ready Part-III frontier is node `[39]`. Nodes `[33]`,
+`[35]`, `[36]`, `[37]`, and `[38]` are green on their exact diagram edges.
+The strict-loss branch they refine is uninhabited under the manuscript's
+admission rule, but each conditional node still has its complete typed
+single-input/single-output responsibility and zero-scan provenance.
 
 ## Node `[79]`: certificate-driven triangular-port return
 
@@ -2668,34 +2759,34 @@ non-Erdős transfer is the textbook triangle-free cycle `C₅`, using actual
 neighbourhood and common-neighbourhood fibres and the Mantel theorem on the
 same graph.
 
-The exhaustive node-`[48]` output has a realized constructor, which alone may
-feed node `[49]`, and an open realization requirement.  The open constructor
-has a typed same-context consumer into the node-`[55]`/`[56]` route, but only
-after the independent quarter-budget predicate is proved; it manufactures no
-entropy or budget assertion.  The TeX diagram and corollary, Lean tests,
-WebExport declaration index, and compiled descriptor are synchronized.  The
-regenerated Chapter 1 descriptor has exactly 121 green nodes among 194 active
-nodes and zero yellow nodes.
+`P13CurvatureProductCostRealization` is conditional support for the sole
+original edge `[48] -> [49]`: once the graph-owned realization is produced,
+its nonempty realized schedule may feed node `[49]`.  It is not an exhaustive
+node-`[48]` split, creates no open-realization residual or successor edge, and
+does not by itself change node status.  The finite/asymptotic magnitude
+theorems are unconditional on the exact node-[47] predecessor; production of
+the graph-owned realization and its conditional-fibre ledger remains the
+unproved part of node `[48]`.
 
-### 2026-07-16 node `[49]` finite realized-state entropy
+### 2026-07-19 node `[49]` constrained remainder-graph entropy
 
-Node `[49]` consumes exactly node `[48]`'s realized conditional-fibre payload.
-It neither widens that family to all remainder graphs nor enumerates graphs,
-subsets, contexts, assignments, or Boolean cubes. The Core-owned profile
-defines the exact supplied count `N_R`, its executable `Nat.log2` numerator,
-and the literal real normalization `Real.logb 2 N_R / |R|`; the floor theorem
-identifies the executable numerator with the natural floor of the real
-logarithm. The Erdős contract retains the unchanged predecessor, proves
-`N_R > 0` from the terminal nonempty fibre, and derives the labelled-skeleton
-capacity from node `[48]`'s actual edge-set encoding.
+Node `[49]` now follows `original_erdos_64_proof.tex` literally.  From the
+exact node-`[48]` residual it fixes `V(R)`, defines the inherited atom part and
+current positive net-deficiency numerator, and forms the subtype of labelled
+simple graphs satisfying atom-subcubicity, induced-`P13`-freeness, absence of
+an internal three-core, and that exact cap.  The candidate net numerator is
+positive deficiency minus degree surplus.  `FiniteTypeEntropy` and
+`ConstrainedLabelledGraphFamily` own the symbolic finite carrier, cardinality,
+and normalized real entropy; the Erdős module supplies only the four concrete
+predicates and the thin `Core.ExactHandoff` from node `[48]`.
 
-The bookkeeping performs zero semantic predicate calls. Length, logarithm,
-and quotient formation are separately bounded by `2*N_R + 1` local
-list/arithmetic steps. The non-Erdős Mantel transfer instantiates the same
-contract on the five actual vertices of `C₅`, including its real entropy and
-work bounds. Independent review verified the TeX--Lean--Web mapping and sole
-standard Lean trust. The regenerated Chapter 1 descriptor has exactly 122
-green nodes among 194 active nodes and zero yellow nodes.
+The focused `lake build Erdos64EG.P13FiniteRemainderEntropy` succeeds without
+raising resource limits.  No labelled graph is enumerated and the entropy
+profile records zero semantic checks.  The older conditional-fibre entropy
+declarations remain available as support but are no longer used as evidence
+for node `[49]`.  The Lean-owned web source and live manuscript now describe
+the original family `G(R)`; regeneration of the JSON projection is presently
+blocked by unrelated pre-existing failures in later imported modules.
 
 ### 2026-07-16 node `[50]` exact entropy-scale split
 
@@ -3099,9 +3190,9 @@ new case, or new edge was introduced.
   explicit typed route for the manuscript edges that genuinely change the
   residual carrier.
 - Migrated the node-[153] prior-support producer handoff from its bespoke
-  `baseOrigin` field to `AccumulatedPriorD6Ledger`.  The compatibility list is
-  now materialized from that state, and origin is recovered from its latest
-  accumulated theorem.
+  `baseOrigin` field to `AccumulatedPriorD6Ledger`. F4 now scans literal
+  occurrences directly, and origin is recovered from the accumulated
+  occurrence theorem.
 - This is framework plumbing only: it does not create a new diagram node or
   edge, and it does not resolve the separately recorded causal availability
   gap for the actual [64]/[84]/[108] occurrences.
@@ -3111,16 +3202,17 @@ new case, or new edge was introduced.
 - Added `Graph.ResidualSupportRefinement.Profile`.  From one event-support
   function it derives occurrence-preserving support recognition, a first hit
   carrying the complete accumulated theorem state, occurrence-total absence,
-  exact linear work, and a compatibility list view.
-- Core list compatibility now provides `event_mem_events` and
-  `fact_of_mem_events`, so any earlier theorem follows automatically for an
-  event accepted by a legacy list consumer.
+  an active-occurrence subtype, and exact linear work.
+- Accumulated facts are retrieved at the literal occurrence through
+  `ResidualRefinement.Ledger.require`; no event-value list is used as proof
+  state.
 - Added a typed same-carrier decision node.  Both outcomes retain all incoming
   facts; an application provides only the decidable yes predicate and the
   theorem turning its failure into the manuscript's no conclusion.
 - Migrated the node-[153] F4 state to the graph profile.  Its `ledger` and
-  `ledgerExact` fields were removed: the legacy D6 ledger is now a derived
-  view.  A graph hit directly exposes producer origin through `FirstHit.get`.
+  `ledgerExact` fields were removed: D6 now consumes the persistent ledger's
+  support view directly. A graph hit exposes producer origin through
+  `FirstHit.get`.
 - The ordinary, decorated, and route-eight states now establish origin once
   on their own actual occurrence schedules and use framework `Ledger.append`
   to compose the three-family state.  No application-level traversal is
@@ -3184,5 +3276,153 @@ new case, or new edge was introduced.
   has length strictly below the local component cardinality.
 - This completes `XI-153-02`.  The existing cross-window constructor and every
   original graph route are unchanged; no new node, edge, case, or premise was
-  introduced.  Node [153] remains yellow for its later independent
+introduced.  Node [153] remains yellow for its later independent
   obligations.
+
+### 2026-07-18 framework consolidation and Lean-owned node ledgers
+
+- Extended `Core.ResidualRefinement` with type-directed fact retrieval,
+  data-bearing `StageNode`s, exact branch states, yes/no stage composition,
+  occurrence-wide certificate refinement, and an occurrence-preserving
+  decision split with a total coverage theorem. The non-Erdős fixture checks
+  sequential facts, branch certificates, literal duplicate occurrences, and
+  both split facts without constructing an ambient state universe.
+- Extended exact handoffs, polynomial budgets, and counted executions with
+  reusable dependent-stage, existential-map, sum/branch, and bind/zip
+  combinators. Proof-only nodes use the zero-work constructor; composed nodes
+  inherit framework polynomial envelopes.
+- Added `ExactStageHandoff.transportProducer` and migrated nodes `[26]`--`[34]`
+  to construct each dependent output from the literal retrieved predecessor.
+  The framework now owns equality transport; Erdős nodes neither eliminate
+  predecessor equalities manually nor recompute canonical predecessor values.
+- Raised that transport to the proof-state API: `StageNode.exact` seeds node
+  `[25]`, `mapExactStage` advances nodes `[26]`--`[32]` from the literal
+  retrieved outputs, and `usingFactAndExactStage` owns the rank-branch
+  transport into nodes `[33]` and `[34]`. Erdős code now supplies only the
+  mathematical successor functions and branch payloads.
+- Migrated the remaining record-style `previous`/`exactPrevious` bundles in
+  the implemented support library (nodes `[48]`--`[53]`, `[57]`--`[61]`,
+  `[86]`--`[90]`, and `[148]`--`[150]`) to `Core.ExactHandoff`. Existing
+  compatibility projection names used by the web crosswalk remain theorems,
+  while predecessor storage and equality are now uniform framework data.
+- Strengthened occurrence decisions with a kernel-checked equivalence between
+  the tagged union of the two branch schedules and the original schedule.
+  Added occurrence-aware `produceIndexed`/`certify` and enumeration-backed
+  schedules; the F4 three-producer aggregation now installs provenance without
+  raw residual-ledger records or repeated `initial.add` plumbing.
+- Added graph `viewSchedule` and active-occurrence adapters and migrated the
+  F4 support projection, removing its application-owned empty refinement
+  state and detached list view.
+- Added exact dependent enumeration, owned-`Finset` subtype enumeration,
+  attached-sum transport, and centre-indexed unordered-pair schedules. Node
+  `[31]` now instantiates these APIs for the literal remainder wedges; its
+  exact `W_2(R)` cardinality and cubic bound require no Erdős-local subtype
+  instance plumbing.
+- Added exact predicate, owning-`Finset`, direct sum, and Boolean-fibre
+  cardinality bridges. The remainder-curvature and reusable Graph charge
+  profiles no longer expose `Fintype.card_subtype` for these schedules.
+- Added `Core.SupportStratifiedDetermination`,
+  `CT15.CertifiedDeterminationRank`, and `CT15.SupportStratifiedRank` with
+  independent non-Erdős fixtures. They distinguish the original atom's
+  context interface from the final carrier and proof-select support-aware
+  collision certificates without evaluating context or quotient universes.
+- Migrated nodes `[25]`--`[34]` to a stable accumulated residual prefix. Each
+  node adds only its new canonical certificate; node `[32]` retains exactly
+  the original strict-rank/full-rank edges and composes nodes `[33]` and `[34]`
+  through the framework branch-stage combinators.
+- Added property-level `nodeObligations` to the Lean manuscript descriptor.
+  Export validation rejects dangling or cross-node evidence and rejects any
+  green status inconsistent with a complete obligation ledger. Nodes
+  `[23]`--`[34]` now have Lean-owned obligation records; the renderer and web
+  derive their counts and colors from those records rather than a handwritten
+  status list.
+- Focused Lean checks pass for every new Core/CT15 module, all non-Erdős
+  fixtures, node `[31]`, and the nodes `[25]`--`[34]` accumulated runner.
+  Focused renderer tests, frontend typechecking, and the Erdős proof-flow test
+  also pass. No diagram node or edge was added or changed.
+
+### 2026-07-18 post-consolidation framework audit
+
+- Retired the separate produced-support occurrence schedule in favor of the
+  canonical `FiniteResidualLedger.Ledger`; singleton and append maintain one
+  occurrence implementation.
+- Added `ofMappedEnumeration` and occurrence-native graph support views. The
+  canonical ordinary, decorated, and route-eight F4 ledgers provide exact
+  enumerations, emitters, and support functions; framework code owns
+  occurrence order, membership, active filtering, and recognition.
+- Removed the remaining list-indexed compatibility scan from the Erdős proof
+  path. Equal emitted values retain distinct occurrences throughout F4.
+- Added `DecisionResult.mapStages` and migrated the node-[32] dichotomy runner
+  to compose both existing node-[33]/[34] edges in one operation. The original
+  two-edge topology and branch predicates are unchanged.
+- Added framework cardinal bridges for `Nat.card`, local `Finset` bounds,
+  injective finite maps, duplicate-free path supports, and symbolic
+  fixed-cardinality powerset capacity. Migrated the current Erdős uses,
+  including Type-B center/demand schedules, short-path and corridor bounds,
+  retained local-choice counts, and baseline-skeleton capacity. No powerset,
+  graph, path, context, or state universe is enumerated.
+- A repository audit now finds no Erdős-local raw occurrence record,
+  `initial.add` provenance seed, direct `Fintype.card_subtype`,
+  `Finset.card_le_univ`, `Nat.card`/`FinEnum` conversion scaffold, or path
+  `length_le_card`. Remaining subtype schedules express actual mathematical
+  predicates rather than bookkeeping.
+
+### 2026-07-18 automatic CT handoff audit
+
+- Audited every direct cross-CT relationship in the Erdős workflow. Executable
+  handoffs are selected by a typed transition family and profile; every public
+  execution goes through the profile's `.advance` operation and retains the
+  complete incoming `ResidualStage` ledger.
+- Added `Canonical.transitionFamilies` and `Canonical.transitionProfiles`,
+  which record each executable profile and its sole framework owner once.
+  Example export resolves `registeredTransition` links from the exact
+  `transitionProfileId`, rejects application-owned automation on those links,
+  and checks both source and target CT identities.
+- Migrated all five registered workflow edges in the live examples to the
+  transition-profile-only surface. The even-cycle example independently
+  verifies the same CT6-to-CT9 behavior, and a focused export fixture verifies
+  that an application supplies no detached trigger or predecessor handoff for
+  the canonical CT1-to-CT12 transition.
+- Restored the exact node-[35]--[47] workflow topology while auditing hidden
+  handoffs. Nodes [35]--[38] are CT15 stages; the at-original and proper-carrier
+  terminals at nodes [39] and [42] are the two actual CT15-to-CT3 edges, both
+  executed by the reusable support-stratified graph theorem. The former
+  CT3-to-CT15 dashboard edge was a metadata collapse and has been removed.
+- Focused compilation passes for the canonical registry, exporter, static
+  automation-contract audit, transition-only export fixture, and the
+  independent even-cycle export. No graph, quotient, context, support, or
+  state universe is enumerated by these handoffs.
+
+### 2026-07-19 accumulated-transition hard-cutover audit
+
+- Removed the application-owned transition carrier helpers
+  `surplusPortClassificationLedgerTransition`,
+  `openPortPairLedgerTransition`, `localLedgerTransition`, and
+  `surplusPairLedgerTransition`. Their successors use the public framework
+  carrier directly: ordinary identity-current edges use
+  `Routes.Accumulated.OutputLedger` and `advanceCurrent`, while the local
+  deletion and CT6-to-CT9 edges use their specialized transition's
+  `OutputLedger` and public `advance` executor.
+- The Lean-owned web crosswalk now names `advanceCurrent`, `OutputLedger`, the
+  exact application stage, the resulting full ledger, and the profile ID for
+  the CT1-to-CT10 selected-port edge and the CT10-to-CT9 open-port edge. The
+  graph-owned classification theorems remain mathematical evidence rather
+  than being presented as the transition executor. Node topology, status,
+  manuscript references, and obligation ledgers are unchanged.
+- Focused builds pass for `CT2`, `CT9SurplusPairs`,
+  `CT10SurplusPortClassification`, and `CT9OpenPortPairs`. A refreshed raw
+  export contains none of the four retired helper names.
+- The `CT6SurplusPortActivation` universe mismatch exposed by the first
+  rebuild has been repaired and its focused target now passes. The next
+  focused exporter dependency is blocked in `CT7OpenPortResponses.lean`:
+  `sourceLedger : OpenPortPairLedger ctx` lives in universe `u+4`, above that
+  structure's currently declared result universe `u+2`. That module is outside
+  this dashboard-only audit. Until it is repaired and the exporter is rebuilt,
+  the focused raw crosswalk is checked but the repository-wide generated
+  catalog is not claimed current.
+- A separate pre-existing status audit remains queued after this port: the
+  last compiled generated artifact has only nodes `[1]`--`[34]` green, while
+  the current `WebExport.lean` source lists `[35]`--`[47]` as formalized and
+  gives node `[35]` four narrow proved tasks that do not enumerate every
+  manuscript obligation. This transition audit does not change those statuses
+  or obligation scopes; they require the dedicated yellow-node rescope.

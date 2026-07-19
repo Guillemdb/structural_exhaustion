@@ -1,4 +1,4 @@
 interface:
   display_name: "Review Erdős 64 Expansion"
-  short_description: "Audit Erdős expansion and clear yellow nodes"
-  default_prompt: "Use $review-erdos-64-eg-expansion to audit the current Erdős 64 expansion, complete every yellow node from its exact predecessor residual, and stop before any new frontier CT."
+  short_description: "Audit full-ledger Erdős CT expansion"
+  default_prompt: "Use $review-erdos-64-eg-expansion to audit every yellow Erdős node through its schema-9 transition and full accumulated ledger before advancing the frontier."

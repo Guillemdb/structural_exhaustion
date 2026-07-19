@@ -1,6 +1,21 @@
 import StructuralExhaustion.CT14.Theorems
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT14
+
+namespace Capability
+
+/-- Canonical executable CT14 entry.  Its capability already owns the finite
+member universe, so a transition supplies only the inherited context and the
+unique empty trigger. -/
+def executableInterface {P : Core.Problem} (C : Capability P) :
+    Core.Routing.ExecutableInterface .ct14 where
+  Context := Core.BranchContext P
+  Trigger := Input C
+  Result := fun ctx _input => ExecutionResult C ctx
+  execute := fun ctx input => run C ctx input
+
+end Capability
 
 def residualKindContracts : List Core.ResidualKindContract := [
   {
@@ -57,7 +72,8 @@ def capabilityContract : Core.CapabilityContract where
     "StructuralExhaustion.CT14.scanMembers",
     "StructuralExhaustion.CT14.computeLedger",
     "StructuralExhaustion.CT14.compare",
-    "StructuralExhaustion.CT14.runReference"
+    "StructuralExhaustion.CT14.runReference",
+    "StructuralExhaustion.CT14.Capability.executableInterface"
   ]
 
 def nodeAutomationContracts : List Core.NodeAutomationContract := [

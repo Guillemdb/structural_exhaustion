@@ -60,11 +60,6 @@ def input {problem : Core.Problem.{uAmbient, uBranch}}
     (context : Core.BranchContext problem) :
     CT14.Input (profile.capability problem) context := ⟨⟩
 
-def run {problem : Core.Problem.{uAmbient, uBranch}}
-    (context : Core.BranchContext problem) :
-    CT14.ExecutionResult (profile.capability problem) context :=
-  CT14.run (profile.capability problem) context (profile.input context)
-
 def selectedCount : Nat := by
   letI : FinEnum Item := profile.items
   exact ∑ item : Item, profile.lowerAt item
@@ -110,9 +105,7 @@ theorem selectedCount_eq_selectedItems_card :
     profile.selectedCount = profile.selectedItems.card := by
   letI : DecidablePred profile.Selected := profile.selectedDecidable
   letI : FinEnum Item := profile.items
-  letI : FinEnum {item : Item // profile.Selected item} :=
-    profile.selectedItems
-  rw [FinEnum.card_eq_fintypeCard, Fintype.card_subtype]
+  rw [selectedItems, Core.Enumeration.subtype_card_eq_filter]
   unfold selectedCount lowerAt
   simpa using (Finset.sum_boole (R := Nat) profile.Selected
     (Finset.univ : Finset Item))
@@ -142,10 +135,11 @@ theorem upperCapacity_eq_selectedSurplus
       profile.selectedSurplus := by
   rfl
 
-theorem run_terminal
+theorem canonical_terminal
     {problem : Core.Problem.{uAmbient, uBranch}}
     (context : Core.BranchContext problem) :
-    (profile.run context).terminal = .capacity := by
+    (CT14.run (profile.capability problem) context
+      (profile.input context)).terminal = .capacity := by
   apply CT14.run_terminal_capacity_of_complete
   · intro item
     exact ⟨profile.capacityAt item, rfl⟩
@@ -155,10 +149,11 @@ theorem run_terminal
       profile.upperCapacity_eq_selectedSurplus context]
     exact profile.selectedCount_le_selectedSurplus
 
-theorem run_trace
+theorem canonical_trace
     {problem : Core.Problem.{uAmbient, uBranch}}
     (context : Core.BranchContext problem) :
-    (profile.run context).trace =
+    (CT14.run (profile.capability problem) context
+      (profile.input context)).trace =
       [.entry, .lowerMass, .memberScan, .upperCapacity, .comparison,
         .capacityTerminal] := by
   apply CT14.run_trace_capacity_of_complete
@@ -170,32 +165,40 @@ theorem run_trace
       profile.upperCapacity_eq_selectedSurplus context]
     exact profile.selectedCount_le_selectedSurplus
 
-structure VerifiedStage {problem : Core.Problem.{uAmbient, uBranch}}
-    (context : Core.BranchContext problem) : Prop where
-  terminal : (profile.run context).terminal = .capacity
-  trace : (profile.run context).trace =
+structure VerifiedExecutionStage {problem : Core.Problem.{uAmbient, uBranch}}
+    (context : Core.BranchContext problem)
+    (execution : CT14.ExecutionResult (profile.capability problem) context) :
+    Prop where
+  exactRun : execution = CT14.run (profile.capability problem) context
+    (profile.input context)
+  terminal : execution.terminal = .capacity
+  trace : execution.trace =
     [.entry, .lowerMass, .memberScan, .upperCapacity, .comparison,
       .capacityTerminal]
-  verified : (profile.run context).outcome.Valid
+  verified : execution.outcome.Valid
   traceValid : @CT14.Graph.ValidTrace problem (profile.capability problem)
-    context (profile.run context).trace
-  total : ∃ result : CT14.ExecutionResult (profile.capability problem) context,
-    result.outcome.Valid ∧ @CT14.Graph.ValidTrace problem
-      (profile.capability problem) context result.trace
+    context execution.trace
   localBound : profile.selectedCount ≤ profile.totalSurplus
   workExact : profile.checks = 4 * profile.items.card + 1
   linearWork : profile.checks ≤ 5 * (profile.items.card + 1)
 
-def verifiedStage {problem : Core.Problem.{uAmbient, uBranch}}
-    (context : Core.BranchContext problem) : profile.VerifiedStage context where
-  terminal := profile.run_terminal context
-  trace := profile.run_trace context
-  verified := CT14.run_verified (profile.capability problem) context
-    (profile.input context)
-  traceValid := CT14.run_trace_valid (profile.capability problem) context
-    (profile.input context)
-  total := CT14.run_total (profile.capability problem) context
-    (profile.input context)
+def verifiedExecutionStage {problem : Core.Problem.{uAmbient, uBranch}}
+    (context : Core.BranchContext problem)
+    (execution : CT14.ExecutionResult (profile.capability problem) context)
+    (exactRun : execution = CT14.run (profile.capability problem) context
+      (profile.input context)) :
+    profile.VerifiedExecutionStage context execution where
+  exactRun := exactRun
+  terminal := by rw [exactRun]; exact profile.canonical_terminal context
+  trace := by rw [exactRun]; exact profile.canonical_trace context
+  verified := by
+    rw [exactRun]
+    exact CT14.run_verified (profile.capability problem) context
+      (profile.input context)
+  traceValid := by
+    rw [exactRun]
+    exact CT14.run_trace_valid (profile.capability problem) context
+      (profile.input context)
   localBound := profile.selectedCount_le_totalSurplus
   workExact := rfl
   linearWork := by

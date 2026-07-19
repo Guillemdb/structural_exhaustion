@@ -1062,21 +1062,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 155,
+          "line": 150,
           "column": 10
         },
         "end": {
-          "line": 155,
+          "line": 150,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 155,
+          "line": 150,
           "column": 0
         },
         "end": {
-          "line": 158,
+          "line": 153,
           "column": 42
         }
       },
@@ -1103,21 +1103,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 31,
+          "line": 26,
           "column": 10
         },
         "end": {
-          "line": 31,
+          "line": 26,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 31,
+          "line": 26,
           "column": 0
         },
         "end": {
-          "line": 34,
+          "line": 29,
           "column": 33
         }
       },
@@ -1143,21 +1143,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 75,
+          "line": 70,
           "column": 10
         },
         "end": {
-          "line": 75,
+          "line": 70,
           "column": 29
         }
       },
       "range": {
         "start": {
-          "line": 75,
+          "line": 70,
           "column": 0
         },
         "end": {
-          "line": 77,
+          "line": 72,
           "column": 42
         }
       },
@@ -1299,21 +1299,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 36,
+          "line": 31,
           "column": 4
         },
         "end": {
-          "line": 36,
+          "line": 31,
           "column": 13
         }
       },
       "range": {
         "start": {
-          "line": 36,
+          "line": 31,
           "column": 0
         },
         "end": {
-          "line": 39,
+          "line": 34,
           "column": 78
         }
       },
@@ -1344,21 +1344,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 54,
+          "line": 49,
           "column": 8
         },
         "end": {
-          "line": 54,
+          "line": 49,
           "column": 27
         }
       },
       "range": {
         "start": {
-          "line": 54,
+          "line": 49,
           "column": 0
         },
         "end": {
-          "line": 73,
+          "line": 68,
           "column": 47
         }
       },
@@ -1422,21 +1422,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 80,
+          "line": 75,
           "column": 10
         },
         "end": {
-          "line": 80,
+          "line": 75,
           "column": 23
         }
       },
       "range": {
         "start": {
-          "line": 79,
+          "line": 74,
           "column": 0
         },
         "end": {
-          "line": 87,
+          "line": 82,
           "column": 70
         }
       },
@@ -1676,21 +1676,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 107,
+          "line": 102,
           "column": 10
         },
         "end": {
-          "line": 107,
+          "line": 102,
           "column": 32
         }
       },
       "range": {
         "start": {
-          "line": 107,
+          "line": 102,
           "column": 0
         },
         "end": {
-          "line": 110,
+          "line": 105,
           "column": 41
         }
       },
@@ -1717,21 +1717,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 93,
+          "line": 88,
           "column": 10
         },
         "end": {
-          "line": 93,
+          "line": 88,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 93,
+          "line": 88,
           "column": 0
         },
         "end": {
-          "line": 99,
+          "line": 94,
           "column": 59
         }
       },
@@ -1757,21 +1757,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 101,
+          "line": 96,
           "column": 10
         },
         "end": {
-          "line": 101,
+          "line": 96,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 101,
+          "line": 96,
           "column": 0
         },
         "end": {
-          "line": 105,
+          "line": 100,
           "column": 56
         }
       },
@@ -1836,21 +1836,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 145,
+          "line": 140,
           "column": 10
         },
         "end": {
-          "line": 145,
+          "line": 140,
           "column": 28
         }
       },
       "range": {
         "start": {
-          "line": 145,
+          "line": 140,
           "column": 0
         },
         "end": {
-          "line": 148,
+          "line": 143,
           "column": 48
         }
       },
@@ -1877,21 +1877,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 135,
+          "line": 130,
           "column": 10
         },
         "end": {
-          "line": 135,
+          "line": 130,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 135,
+          "line": 130,
           "column": 0
         },
         "end": {
-          "line": 138,
+          "line": 133,
           "column": 41
         }
       },
@@ -1917,21 +1917,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 140,
+          "line": 135,
           "column": 10
         },
         "end": {
-          "line": 140,
+          "line": 135,
           "column": 35
         }
       },
       "range": {
         "start": {
-          "line": 140,
+          "line": 135,
           "column": 0
         },
         "end": {
-          "line": 143,
+          "line": 138,
           "column": 40
         }
       },
@@ -2470,21 +2470,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 158,
+          "line": 153,
           "column": 4
         },
         "end": {
-          "line": 158,
+          "line": 153,
           "column": 10
         }
       },
       "range": {
         "start": {
-          "line": 158,
+          "line": 153,
           "column": 2
         },
         "end": {
-          "line": 158,
+          "line": 153,
           "column": 42
         }
       },
@@ -2510,21 +2510,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 157,
+          "line": 152,
           "column": 4
         },
         "end": {
-          "line": 157,
+          "line": 152,
           "column": 9
         }
       },
       "range": {
         "start": {
-          "line": 157,
+          "line": 152,
           "column": 2
         },
         "end": {
-          "line": 157,
+          "line": 152,
           "column": 37
         }
       },
@@ -2551,21 +2551,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 31,
+          "line": 26,
           "column": 10
         },
         "end": {
-          "line": 31,
+          "line": 26,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 31,
+          "line": 26,
           "column": 10
         },
         "end": {
-          "line": 31,
+          "line": 26,
           "column": 25
         }
       },
@@ -2593,21 +2593,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 75,
+          "line": 70,
           "column": 10
         },
         "end": {
-          "line": 75,
+          "line": 70,
           "column": 29
         }
       },
       "range": {
         "start": {
-          "line": 75,
+          "line": 70,
           "column": 10
         },
         "end": {
-          "line": 75,
+          "line": 70,
           "column": 29
         }
       },
@@ -2742,21 +2742,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 41,
+          "line": 36,
           "column": 8
         },
         "end": {
-          "line": 41,
+          "line": 36,
           "column": 28
         }
       },
       "range": {
         "start": {
-          "line": 41,
+          "line": 36,
           "column": 0
         },
         "end": {
-          "line": 52,
+          "line": 47,
           "column": 24
         }
       },
@@ -2840,21 +2840,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 80,
+          "line": 75,
           "column": 10
         },
         "end": {
-          "line": 80,
+          "line": 75,
           "column": 23
         }
       },
       "range": {
         "start": {
-          "line": 80,
+          "line": 75,
           "column": 10
         },
         "end": {
-          "line": 80,
+          "line": 75,
           "column": 23
         }
       },
@@ -3193,21 +3193,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 110,
+          "line": 105,
           "column": 4
         },
         "end": {
-          "line": 110,
+          "line": 105,
           "column": 9
         }
       },
       "range": {
         "start": {
-          "line": 110,
+          "line": 105,
           "column": 2
         },
         "end": {
-          "line": 110,
+          "line": 105,
           "column": 41
         }
       },
@@ -3233,21 +3233,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 109,
+          "line": 104,
           "column": 4
         },
         "end": {
-          "line": 109,
+          "line": 104,
           "column": 11
         }
       },
       "range": {
         "start": {
-          "line": 109,
+          "line": 104,
           "column": 2
         },
         "end": {
-          "line": 109,
+          "line": 104,
           "column": 46
         }
       },
@@ -3278,21 +3278,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 93,
+          "line": 88,
           "column": 10
         },
         "end": {
-          "line": 93,
+          "line": 88,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 93,
+          "line": 88,
           "column": 10
         },
         "end": {
-          "line": 93,
+          "line": 88,
           "column": 25
         }
       },
@@ -3322,21 +3322,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 101,
+          "line": 96,
           "column": 10
         },
         "end": {
-          "line": 101,
+          "line": 96,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 101,
+          "line": 96,
           "column": 10
         },
         "end": {
-          "line": 101,
+          "line": 96,
           "column": 25
         }
       },
@@ -3362,21 +3362,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 148,
+          "line": 143,
           "column": 4
         },
         "end": {
-          "line": 148,
+          "line": 143,
           "column": 10
         }
       },
       "range": {
         "start": {
-          "line": 148,
+          "line": 143,
           "column": 2
         },
         "end": {
-          "line": 148,
+          "line": 143,
           "column": 48
         }
       },
@@ -3402,21 +3402,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 147,
+          "line": 142,
           "column": 4
         },
         "end": {
-          "line": 147,
+          "line": 142,
           "column": 11
         }
       },
       "range": {
         "start": {
-          "line": 147,
+          "line": 142,
           "column": 2
         },
         "end": {
-          "line": 147,
+          "line": 142,
           "column": 39
         }
       },
@@ -3447,21 +3447,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 135,
+          "line": 130,
           "column": 10
         },
         "end": {
-          "line": 135,
+          "line": 130,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 135,
+          "line": 130,
           "column": 10
         },
         "end": {
-          "line": 135,
+          "line": 130,
           "column": 25
         }
       },
@@ -3492,21 +3492,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 140,
+          "line": 135,
           "column": 10
         },
         "end": {
-          "line": 140,
+          "line": 135,
           "column": 35
         }
       },
       "range": {
         "start": {
-          "line": 140,
+          "line": 135,
           "column": 10
         },
         "end": {
-          "line": 140,
+          "line": 135,
           "column": 35
         }
       },
@@ -4623,21 +4623,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 83,
+          "line": 78,
           "column": 2
         },
         "end": {
-          "line": 83,
+          "line": 78,
           "column": 10
         }
       },
       "range": {
         "start": {
-          "line": 83,
+          "line": 78,
           "column": 2
         },
         "end": {
-          "line": 83,
+          "line": 78,
           "column": 10
         }
       },
@@ -4663,21 +4663,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 89,
+          "line": 84,
           "column": 4
         },
         "end": {
-          "line": 89,
+          "line": 84,
           "column": 15
         }
       },
       "range": {
         "start": {
-          "line": 89,
+          "line": 84,
           "column": 0
         },
         "end": {
-          "line": 91,
+          "line": 86,
           "column": 61
         }
       },
@@ -4715,21 +4715,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 104,
+          "line": 99,
           "column": 2
         },
         "end": {
-          "line": 104,
+          "line": 99,
           "column": 10
         }
       },
       "range": {
         "start": {
-          "line": 104,
+          "line": 99,
           "column": 2
         },
         "end": {
-          "line": 104,
+          "line": 99,
           "column": 10
         }
       },
@@ -6136,21 +6136,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 150,
+          "line": 145,
           "column": 4
         },
         "end": {
-          "line": 150,
+          "line": 145,
           "column": 11
         }
       },
       "range": {
         "start": {
-          "line": 150,
+          "line": 145,
           "column": 0
         },
         "end": {
-          "line": 153,
+          "line": 148,
           "column": 42
         }
       },
@@ -6190,21 +6190,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 169,
+          "line": 164,
           "column": 4
         },
         "end": {
-          "line": 169,
+          "line": 164,
           "column": 19
         }
       },
       "range": {
         "start": {
-          "line": 167,
+          "line": 162,
           "column": 0
         },
         "end": {
-          "line": 178,
+          "line": 173,
           "column": 50
         }
       },
@@ -6240,21 +6240,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 129,
+          "line": 124,
           "column": 4
         },
         "end": {
-          "line": 129,
+          "line": 124,
           "column": 13
         }
       },
       "range": {
         "start": {
-          "line": 129,
+          "line": 124,
           "column": 0
         },
         "end": {
-          "line": 133,
+          "line": 128,
           "column": 43
         }
       },
@@ -6367,21 +6367,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 160,
+          "line": 155,
           "column": 4
         },
         "end": {
-          "line": 160,
+          "line": 155,
           "column": 17
         }
       },
       "range": {
         "start": {
-          "line": 160,
+          "line": 155,
           "column": 0
         },
         "end": {
-          "line": 165,
+          "line": 160,
           "column": 54
         }
       },
@@ -6787,21 +6787,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 145,
+          "line": 140,
           "column": 10
         },
         "end": {
-          "line": 145,
+          "line": 140,
           "column": 28
         }
       },
       "range": {
         "start": {
-          "line": 145,
+          "line": 140,
           "column": 0
         },
         "end": {
-          "line": 148,
+          "line": 143,
           "column": 48
         }
       },
@@ -6832,21 +6832,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 107,
+          "line": 102,
           "column": 10
         },
         "end": {
-          "line": 107,
+          "line": 102,
           "column": 32
         }
       },
       "range": {
         "start": {
-          "line": 107,
+          "line": 102,
           "column": 0
         },
         "end": {
-          "line": 110,
+          "line": 105,
           "column": 41
         }
       },
@@ -6877,21 +6877,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 155,
+          "line": 150,
           "column": 10
         },
         "end": {
-          "line": 155,
+          "line": 150,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 155,
+          "line": 150,
           "column": 0
         },
         "end": {
-          "line": 158,
+          "line": 153,
           "column": 42
         }
       },
@@ -7219,21 +7219,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 145,
+          "line": 140,
           "column": 10
         },
         "end": {
-          "line": 145,
+          "line": 140,
           "column": 28
         }
       },
       "range": {
         "start": {
-          "line": 145,
+          "line": 140,
           "column": 0
         },
         "end": {
-          "line": 148,
+          "line": 143,
           "column": 48
         }
       },
@@ -7262,21 +7262,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 107,
+          "line": 102,
           "column": 10
         },
         "end": {
-          "line": 107,
+          "line": 102,
           "column": 32
         }
       },
       "range": {
         "start": {
-          "line": 107,
+          "line": 102,
           "column": 0
         },
         "end": {
-          "line": 110,
+          "line": 105,
           "column": 41
         }
       },
@@ -7305,21 +7305,21 @@
       "sourceFile": "StructuralExhaustion/CT13/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 155,
+          "line": 150,
           "column": 10
         },
         "end": {
-          "line": 155,
+          "line": 150,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 155,
+          "line": 150,
           "column": 0
         },
         "end": {
-          "line": 158,
+          "line": 153,
           "column": 42
         }
       },
@@ -7486,8 +7486,8 @@
       "sourceId": "StructuralExhaustion/CT13/Types.lean",
       "moduleName": "StructuralExhaustion.CT13.Types",
       "path": "lean/StructuralExhaustion/CT13/Types.lean",
-      "sha256": "7e14ec29def728311fe95f58a8ed26b9e954f4ce6a3f631fc2a5a74cb58abbc7",
-      "content": "import StructuralExhaustion.Core.AutomationFirst\n\nnamespace StructuralExhaustion.CT13\n\nuniverse uPayer uObstruction uResource\n\nstructure Capability (P : Core.Problem) where\n  Payer : Type uPayer\n  payers : FinEnum Payer\n  Eligible : Core.BranchContext P → Payer → Prop\n  eligibleDecidable : ∀ ctx payer, Decidable (Eligible ctx payer)\n  Obstruction : Type uObstruction\n  obstructions : FinEnum Obstruction\n  fallbackDefault : Obstruction\n  obstructionCost : Core.BranchContext P → Obstruction → Nat\n  Resource : Type uResource\n  resourceDecidableEq : DecidableEq Resource\n  resource : Core.BranchContext P → Payer → Resource\n  tierTwo : Core.BranchContext P → Obstruction → Core.OrderedCollection Payer\n  charge : Core.BranchContext P → Payer → Nat\n  demand : Core.BranchContext P → Nat\n\nstructure Input {P : Core.Problem} (_C : Capability P)\n    (_ctx : Core.BranchContext P) where\nnamespace Capability\ndef tacticInterface {P : Core.Problem} (C : Capability P) :\n    Core.Routing.TacticInterface where\n  Context := Core.BranchContext P; Trigger := Input C\nend Capability\n\nstructure TierOneResidual {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  payer : C.Payer\n  eligible : C.Eligible ctx payer\n\ndef selectMin {α : Type u} (cost : α → Nat) : α → List α → α\n  | current, [] => current\n  | current, head :: tail =>\n      selectMin cost (if cost head < cost current then head else current) tail\n\ntheorem selectMin_le_current {α : Type u} (cost : α → Nat)\n    (current : α) (values : List α) :\n    cost (selectMin cost current values) ≤ cost current := by\n  induction values generalizing current with\n  | nil => exact Nat.le_refl _\n  | cons head tail ih =>\n      unfold selectMin\n      by_cases lower : cost head < cost current\n      · simp only [if_pos lower]\n        exact Nat.le_trans (ih head) (Nat.le_of_lt lower)\n      · simp only [if_neg lower]\n        exact ih current\n\ntheorem selectMin_le_of_mem {α : Type u} (cost : α → Nat)\n    (current value : α) (values : List α) (member : value ∈ values) :\n    cost (selectMin cost current values) ≤ cost value := by\n  induction values generalizing current with\n  | nil => cases member\n  | cons head tail ih =>\n      unfold selectMin\n      simp only [List.mem_cons] at member\n      by_cases lower : cost head < cost current\n      · simp only [if_pos lower]\n        cases member with\n        | inl equal => subst value; exact selectMin_le_current cost head tail\n        | inr inTail => exact ih head inTail\n      · simp only [if_neg lower]\n        cases member with\n        | inl equal =>\n            subst value\n            exact Nat.le_trans (selectMin_le_current cost current tail)\n              (Nat.le_of_not_gt lower)\n        | inr inTail => exact ih current inTail\n\nstructure TierOneAbsenceState {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) : Prop where\n  absent : ∀ payer, ¬ C.Eligible ctx payer\n\n/-- Canonical fallback computed only after exhaustive tier-one absence. -/\nstructure FallbackState {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  tierOneAbsent : TierOneAbsenceState C ctx\n  selected : C.Obstruction\n  canonical : selected = selectMin (C.obstructionCost ctx)\n    C.fallbackDefault C.obstructions.orderedValues\n  minimal : ∀ obstruction,\n    C.obstructionCost ctx selected ≤ C.obstructionCost ctx obstruction\n\ndef totalCharge {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) (obstruction : C.Obstruction) : Nat :=\n  ((C.tierTwo ctx obstruction).values.map (C.charge ctx)).sum\n\nstructure OverlapResidual {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  fallback : FallbackState C ctx\n  left : C.Payer\n  right : C.Payer\n  different : left ≠ right\n  sameResource : C.resource ctx left = C.resource ctx right\n\nstructure ReconciledState {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  fallback : FallbackState C ctx\n  capacity : Nat\n  exact : capacity = totalCharge C ctx fallback.selected\n\ninductive ReconciliationDecision {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  | overlap (residual : OverlapResidual C ctx)\n  | clean (state : ReconciledState C ctx)\n\nprivate def sameResourceDecidable {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) (left right : C.Payer) :\n    Decidable (C.resource ctx left = C.resource ctx right) :=\n  C.resourceDecidableEq _ _\n\nprivate def reconcileList {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) (fallback : FallbackState C ctx) :\n    (values : List C.Payer) → values.Nodup → ReconciliationDecision C ctx\n  | [], _ => .clean ⟨fallback, totalCharge C ctx fallback.selected, rfl⟩\n  | head :: tail, nodup =>\n      match Core.FiniteSearch.onList tail\n          (fun other => C.resource ctx head = C.resource ctx other)\n          (sameResourceDecidable C ctx head) with\n      | .found other member same => .overlap ⟨fallback, head, other,\n          fun equal => (List.nodup_cons.mp nodup).1 (equal ▸ member), same⟩\n      | .absent _ => reconcileList C ctx fallback tail (List.nodup_cons.mp nodup).2\n\ndef reconcile {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) (fallback : FallbackState C ctx) :\n    ReconciliationDecision C ctx :=\n  reconcileList C ctx fallback (C.tierTwo ctx fallback.selected).values\n    (C.tierTwo ctx fallback.selected).nodup\n\nstructure DeficitResidual {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  state : ReconciledState C ctx\n  deficit : state.capacity < C.demand ctx\n\nstructure ReconciliationCertificate {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  state : ReconciledState C ctx\n  covers : C.demand ctx ≤ state.capacity\n\ninductive ComparisonDecision {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  | deficit (r : DeficitResidual C ctx)\n  | covers (c : ReconciliationCertificate C ctx)\n\ndef compare {P : Core.Problem} (C : Capability P) (ctx : Core.BranchContext P)\n    (state : ReconciledState C ctx) : ComparisonDecision C ctx :=\n  if h : state.capacity < C.demand ctx then .deficit ⟨state, h⟩\n  else .covers ⟨state, Nat.le_of_not_gt h⟩\n\ninductive TierOneDecision {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  | found (r : TierOneResidual C ctx)\n  | absent (s : TierOneAbsenceState C ctx)\n\ndef selectTierOne {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) : TierOneDecision C ctx :=\n  match Core.FiniteSearch.first C.payers (C.Eligible ctx) (C.eligibleDecidable ctx) with\n  | .found hit => .found ⟨hit.value, hit.holds⟩\n  | .absent absent => .absent ⟨fun payer =>\n      absent payer (C.payers.mem_orderedValues payer)⟩\n\n/-- Deterministically compute the least-cost fallback after the search node has\ncertified that no tier-one payer exists. -/\ndef computeFallback {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) (absence : TierOneAbsenceState C ctx) :\n    FallbackState C ctx where\n  tierOneAbsent := absence\n  selected := selectMin (C.obstructionCost ctx)\n    C.fallbackDefault C.obstructions.orderedValues\n  canonical := rfl\n  minimal := fun obstruction => selectMin_le_of_mem\n    (C.obstructionCost ctx) C.fallbackDefault obstruction C.obstructions.orderedValues\n    (C.obstructions.mem_orderedValues obstruction)\n\nend StructuralExhaustion.CT13\n"
+      "sha256": "b004750aa8f556751f67c944a1297eb488bee643f90a6c635709f485a7422fc9",
+      "content": "import StructuralExhaustion.Core.AutomationFirst\n\nnamespace StructuralExhaustion.CT13\n\nuniverse uPayer uObstruction uResource\n\nstructure Capability (P : Core.Problem) where\n  Payer : Type uPayer\n  payers : FinEnum Payer\n  Eligible : Core.BranchContext P → Payer → Prop\n  eligibleDecidable : ∀ ctx payer, Decidable (Eligible ctx payer)\n  Obstruction : Type uObstruction\n  obstructions : FinEnum Obstruction\n  fallbackDefault : Obstruction\n  obstructionCost : Core.BranchContext P → Obstruction → Nat\n  Resource : Type uResource\n  resourceDecidableEq : DecidableEq Resource\n  resource : Core.BranchContext P → Payer → Resource\n  tierTwo : Core.BranchContext P → Obstruction → Core.OrderedCollection Payer\n  charge : Core.BranchContext P → Payer → Nat\n  demand : Core.BranchContext P → Nat\n\nstructure Input {P : Core.Problem} (_C : Capability P)\n    (_ctx : Core.BranchContext P) where\n\nstructure TierOneResidual {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  payer : C.Payer\n  eligible : C.Eligible ctx payer\n\ndef selectMin {α : Type u} (cost : α → Nat) : α → List α → α\n  | current, [] => current\n  | current, head :: tail =>\n      selectMin cost (if cost head < cost current then head else current) tail\n\ntheorem selectMin_le_current {α : Type u} (cost : α → Nat)\n    (current : α) (values : List α) :\n    cost (selectMin cost current values) ≤ cost current := by\n  induction values generalizing current with\n  | nil => exact Nat.le_refl _\n  | cons head tail ih =>\n      unfold selectMin\n      by_cases lower : cost head < cost current\n      · simp only [if_pos lower]\n        exact Nat.le_trans (ih head) (Nat.le_of_lt lower)\n      · simp only [if_neg lower]\n        exact ih current\n\ntheorem selectMin_le_of_mem {α : Type u} (cost : α → Nat)\n    (current value : α) (values : List α) (member : value ∈ values) :\n    cost (selectMin cost current values) ≤ cost value := by\n  induction values generalizing current with\n  | nil => cases member\n  | cons head tail ih =>\n      unfold selectMin\n      simp only [List.mem_cons] at member\n      by_cases lower : cost head < cost current\n      · simp only [if_pos lower]\n        cases member with\n        | inl equal => subst value; exact selectMin_le_current cost head tail\n        | inr inTail => exact ih head inTail\n      · simp only [if_neg lower]\n        cases member with\n        | inl equal =>\n            subst value\n            exact Nat.le_trans (selectMin_le_current cost current tail)\n              (Nat.le_of_not_gt lower)\n        | inr inTail => exact ih current inTail\n\nstructure TierOneAbsenceState {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) : Prop where\n  absent : ∀ payer, ¬ C.Eligible ctx payer\n\n/-- Canonical fallback computed only after exhaustive tier-one absence. -/\nstructure FallbackState {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  tierOneAbsent : TierOneAbsenceState C ctx\n  selected : C.Obstruction\n  canonical : selected = selectMin (C.obstructionCost ctx)\n    C.fallbackDefault C.obstructions.orderedValues\n  minimal : ∀ obstruction,\n    C.obstructionCost ctx selected ≤ C.obstructionCost ctx obstruction\n\ndef totalCharge {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) (obstruction : C.Obstruction) : Nat :=\n  ((C.tierTwo ctx obstruction).values.map (C.charge ctx)).sum\n\nstructure OverlapResidual {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  fallback : FallbackState C ctx\n  left : C.Payer\n  right : C.Payer\n  different : left ≠ right\n  sameResource : C.resource ctx left = C.resource ctx right\n\nstructure ReconciledState {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  fallback : FallbackState C ctx\n  capacity : Nat\n  exact : capacity = totalCharge C ctx fallback.selected\n\ninductive ReconciliationDecision {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  | overlap (residual : OverlapResidual C ctx)\n  | clean (state : ReconciledState C ctx)\n\nprivate def sameResourceDecidable {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) (left right : C.Payer) :\n    Decidable (C.resource ctx left = C.resource ctx right) :=\n  C.resourceDecidableEq _ _\n\nprivate def reconcileList {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) (fallback : FallbackState C ctx) :\n    (values : List C.Payer) → values.Nodup → ReconciliationDecision C ctx\n  | [], _ => .clean ⟨fallback, totalCharge C ctx fallback.selected, rfl⟩\n  | head :: tail, nodup =>\n      match Core.FiniteSearch.onList tail\n          (fun other => C.resource ctx head = C.resource ctx other)\n          (sameResourceDecidable C ctx head) with\n      | .found other member same => .overlap ⟨fallback, head, other,\n          fun equal => (List.nodup_cons.mp nodup).1 (equal ▸ member), same⟩\n      | .absent _ => reconcileList C ctx fallback tail (List.nodup_cons.mp nodup).2\n\ndef reconcile {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) (fallback : FallbackState C ctx) :\n    ReconciliationDecision C ctx :=\n  reconcileList C ctx fallback (C.tierTwo ctx fallback.selected).values\n    (C.tierTwo ctx fallback.selected).nodup\n\nstructure DeficitResidual {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  state : ReconciledState C ctx\n  deficit : state.capacity < C.demand ctx\n\nstructure ReconciliationCertificate {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  state : ReconciledState C ctx\n  covers : C.demand ctx ≤ state.capacity\n\ninductive ComparisonDecision {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  | deficit (r : DeficitResidual C ctx)\n  | covers (c : ReconciliationCertificate C ctx)\n\ndef compare {P : Core.Problem} (C : Capability P) (ctx : Core.BranchContext P)\n    (state : ReconciledState C ctx) : ComparisonDecision C ctx :=\n  if h : state.capacity < C.demand ctx then .deficit ⟨state, h⟩\n  else .covers ⟨state, Nat.le_of_not_gt h⟩\n\ninductive TierOneDecision {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) where\n  | found (r : TierOneResidual C ctx)\n  | absent (s : TierOneAbsenceState C ctx)\n\ndef selectTierOne {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) : TierOneDecision C ctx :=\n  match Core.FiniteSearch.first C.payers (C.Eligible ctx) (C.eligibleDecidable ctx) with\n  | .found hit => .found ⟨hit.value, hit.holds⟩\n  | .absent absent => .absent ⟨fun payer =>\n      absent payer (C.payers.mem_orderedValues payer)⟩\n\n/-- Deterministically compute the least-cost fallback after the search node has\ncertified that no tier-one payer exists. -/\ndef computeFallback {P : Core.Problem} (C : Capability P)\n    (ctx : Core.BranchContext P) (absence : TierOneAbsenceState C ctx) :\n    FallbackState C ctx where\n  tierOneAbsent := absence\n  selected := selectMin (C.obstructionCost ctx)\n    C.fallbackDefault C.obstructions.orderedValues\n  canonical := rfl\n  minimal := fun obstruction => selectMin_le_of_mem\n    (C.obstructionCost ctx) C.fallbackDefault obstruction C.obstructions.orderedValues\n    (C.obstructions.mem_orderedValues obstruction)\n\nend StructuralExhaustion.CT13\n"
     },
     {
       "sourceId": "StructuralExhaustion/Core/Context.lean",

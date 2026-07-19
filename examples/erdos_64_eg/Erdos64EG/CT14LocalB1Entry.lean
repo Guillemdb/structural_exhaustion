@@ -20,8 +20,9 @@ variable
   {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
   (entry : PositiveDeficitMarkedFan ctx)
 
-/-- The local entry in `lem:typeB-hybrid-B1` and
-`cor:typeB-local-entry-is-B1`, projected from the exact CT14 stage. -/
+/-- The reusable mathematical entry in `lem:typeB-hybrid-B1`.  Exact CT14
+transport is owned by the earlier accumulated transition; this projection
+contains only the graph theorem consumed by the B1 ledger. -/
 noncomputable def localB1Entry :
     Graph.HybridFanIncidence.LocalLedgerEntry
       (base := fixedPackedInput ctx)
@@ -31,7 +32,12 @@ noncomputable def localB1Entry :
         (packedStaticInput.fixedContext ctx))
       (p13FanWindowProfile ctx entry.Assigned entry.assignedDecidable)
       entry.first entry.second entry.assigned :=
-  entry.hybridStage.toLocalLedgerEntry
+  Graph.HybridFanIncidence.localLedgerEntry entry.centerHigh
+    ((fixedPackedInput ctx).dart_has_tight_endpoint
+      (packedStaticInput.fixedContext ctx))
+    (p13FanWindowProfile ctx entry.Assigned entry.assignedDecidable)
+    entry.first entry.second entry.assigned (fourCycleFree ctx)
+    entry.degree_le_eight
 
 theorem localB1_endpoint_disjoint : Function.Injective (fun incidence :
     Graph.HybridFanIncidence.Incidence
@@ -58,13 +64,11 @@ theorem localB1_nonWindow_credit_pays :
 
 end PositiveDeficitMarkedFan
 
-/-- The verified prefix now exposes the exact local B1 interface, not merely
-the underlying CT14 execution. -/
-structure VerifiedLocalB1Prefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedPositiveDeficitFanEntryPrefix ctx
-  localB1 : ∀ entry : PositiveDeficitMarkedFan ctx,
+/-- Same-prefix theorem extension exposing the local B1 interface. -/
+abbrev VerifiedLocalB1Prefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.LedgerExtension (VerifiedPositiveDeficitFanEntryPrefix ctx)
+    (fun _previous => ∀ entry : PositiveDeficitMarkedFan ctx,
     Graph.HybridFanIncidence.LocalLedgerEntry
       (base := fixedPackedInput ctx)
       (baseline := (packedStaticInput.fixedContext ctx).baseline)
@@ -72,24 +76,23 @@ structure VerifiedLocalB1Prefix
       ((fixedPackedInput ctx).dart_has_tight_endpoint
         (packedStaticInput.fixedContext ctx))
       (p13FanWindowProfile ctx entry.Assigned entry.assignedDecidable)
-      entry.first entry.second entry.assigned
+      entry.first entry.second entry.assigned)
 
 noncomputable def verifiedLocalB1Prefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedPositiveDeficitFanEntryPrefix ctx) :
-    VerifiedLocalB1Prefix ctx where
-  previous := previous
-  localB1 := fun entry => entry.localB1Entry
+    VerifiedLocalB1Prefix ctx :=
+  ⟨previous, fun entry => entry.localB1Entry⟩
 
 theorem exists_verifiedLocalB1Prefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedLocalB1Prefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedLocalB1Prefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedPositiveDeficitFanEntryPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedLocalB1Prefix ctx previous⟩
+  exact ⟨ctx, verifiedLocalB1Prefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

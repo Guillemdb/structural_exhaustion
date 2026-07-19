@@ -1,6 +1,23 @@
 import StructuralExhaustion.CT15.Theorems
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT15
+
+namespace Capability
+
+/-- Canonical executable CT15 entry.  CT15 consumes the inherited branch
+context directly, so its route trigger is `Unit` and cannot replace any
+predecessor state. -/
+def executableInterface {P : Core.Problem.{uAmbient, uBranch}}
+    {S : Spec.{uAmbient, uBranch, uCoordinate} P}
+    (capability : Capability S) :
+    Core.Routing.ExecutableInterface .ct15 where
+  Context := Core.BranchContext P
+  Trigger := fun _ => Unit
+  Result := fun input _trigger => ExecutionResult S capability input
+  execute := fun input _trigger => run S capability input
+
+end Capability
 
 def capabilityContract : Core.CapabilityContract where
   capabilityId := "StructuralExhaustion.CT15.reference"
@@ -22,7 +39,8 @@ def capabilityContract : Core.CapabilityContract where
     "CT15.ledgerTotal",
     "CT15.buildLedger",
     "CT15.compareLedger",
-    "CT15.runReference"
+    "CT15.runReference",
+    "CT15.Capability.executableInterface"
   ]
 
 def residualKindContracts : List Core.ResidualKindContract := [

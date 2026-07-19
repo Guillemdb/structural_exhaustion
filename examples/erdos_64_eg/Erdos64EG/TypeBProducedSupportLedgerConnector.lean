@@ -1,5 +1,4 @@
 import Erdos64EG.TypeBEntryRouting
-import StructuralExhaustion.Core.FiniteProducedSupportLedger
 
 namespace Erdos64EG.Internal.TypeBProducedSupportLedgerConnector
 
@@ -63,24 +62,6 @@ theorem center_high
 
 end RecordedDecoratedHandoff
 
-abbrev Ledger := Core.FiniteProducedSupportLedger.Ledger
-  (RecordedDecoratedHandoff (ctx := ctx)) ctx.G.Vertex
-
-noncomputable def emptyLedger : Ledger (ctx := ctx) :=
-  .empty ctx.G.object.input.vertices.decEq
-    RecordedDecoratedHandoff.declaredSupport
-
-/-- Exact invariant inherited from the canonical Type-A component family on
-the existing `[108] -> [66]` edge. -/
-def PairwiseCoreDisjoint (ledger : Ledger (ctx := ctx)) : Prop :=
-  ledger.entries.Pairwise fun left right =>
-    Disjoint left.source.core right.source.core
-
-theorem emptyLedger_pairwiseCoreDisjoint :
-    PairwiseCoreDisjoint (emptyLedger (ctx := ctx)) := by
-  change List.Pairwise _ []
-  exact List.Pairwise.nil
-
 noncomputable def recordedOfExit7
     {ContextSafe ForbiddenFree CoreFree Uncompressible :
       Finset ctx.G.Vertex → Prop}
@@ -95,63 +76,5 @@ noncomputable def recordedOfExit7
   FanSafe := FanSafe
   source := handoff.source
   handoff := handoff.decorated
-
-/-- Acyclic node-[108] connector: execute the existing node-[66] consumer and
-append that identical producer output to the F4 ledger. -/
-noncomputable def node66AndRecord
-    {ContextSafe ForbiddenFree CoreFree Uncompressible :
-      Finset ctx.G.Vertex → Prop}
-    {FanSafe : ctx.G.Vertex → ctx.G.Vertex → ctx.G.Vertex → Prop}
-    (ledger : Ledger (ctx := ctx))
-    (handoff : TypeBEntryRouting.Exit7Handoff ctx ContextSafe ForbiddenFree
-      CoreFree Uncompressible FanSafe) :
-    TypeBEntryRouting.Node66Residual ctx ContextSafe ForbiddenFree CoreFree
-      Uncompressible FanSafe × Ledger (ctx := ctx) :=
-  (TypeBEntryRouting.node66 ctx handoff,
-    ledger.record (recordedOfExit7 handoff))
-
-theorem node66AndRecord_preserves_consumer
-    {ContextSafe ForbiddenFree CoreFree Uncompressible :
-      Finset ctx.G.Vertex → Prop}
-    {FanSafe : ctx.G.Vertex → ctx.G.Vertex → ctx.G.Vertex → Prop}
-    (ledger : Ledger (ctx := ctx))
-    (handoff : TypeBEntryRouting.Exit7Handoff ctx ContextSafe ForbiddenFree
-      CoreFree Uncompressible FanSafe) :
-    (node66AndRecord ledger handoff).1 = TypeBEntryRouting.node66 ctx handoff :=
-  rfl
-
-theorem node66AndRecord_appends_exact_handoff
-    {ContextSafe ForbiddenFree CoreFree Uncompressible :
-      Finset ctx.G.Vertex → Prop}
-    {FanSafe : ctx.G.Vertex → ctx.G.Vertex → ctx.G.Vertex → Prop}
-    (ledger : Ledger (ctx := ctx))
-    (handoff : TypeBEntryRouting.Exit7Handoff ctx ContextSafe ForbiddenFree
-      CoreFree Uncompressible FanSafe) :
-    (node66AndRecord ledger handoff).2.entries =
-      ledger.entries ++ [recordedOfExit7 handoff] :=
-  rfl
-
-/-- Appending one actual node-[108] handoff preserves pairwise core
-disjointness exactly when its source core is disjoint from all earlier
-produced cores.  This is the theorem-only connector needed to thread the
-paper's canonical Type-A family along the unchanged `[108] -> [66]` edge. -/
-theorem node66AndRecord_preserves_pairwiseCoreDisjoint
-    {ContextSafe ForbiddenFree CoreFree Uncompressible :
-      Finset ctx.G.Vertex → Prop}
-    {FanSafe : ctx.G.Vertex → ctx.G.Vertex → ctx.G.Vertex → Prop}
-    (ledger : Ledger (ctx := ctx))
-    (handoff : TypeBEntryRouting.Exit7Handoff ctx ContextSafe ForbiddenFree
-      CoreFree Uncompressible FanSafe)
-    (pairwise : PairwiseCoreDisjoint ledger)
-    (newDisjoint : ∀ earlier ∈ ledger.entries,
-      Disjoint earlier.source.core handoff.source.core) :
-    PairwiseCoreDisjoint (node66AndRecord ledger handoff).2 := by
-  unfold PairwiseCoreDisjoint at pairwise ⊢
-  rw [node66AndRecord_appends_exact_handoff]
-  exact List.pairwise_append.mpr ⟨pairwise, by simp, by
-    intro earlier earlierMem added addedMem
-    simp only [List.mem_singleton] at addedMem
-    subst added
-    exact newDisjoint earlier earlierMem⟩
 
 end Erdos64EG.Internal.TypeBProducedSupportLedgerConnector

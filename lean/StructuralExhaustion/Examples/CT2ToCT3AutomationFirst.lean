@@ -8,12 +8,29 @@ open StructuralExhaustion
 open StructuralExhaustion.Examples.CT2AutomationFirst
 open StructuralExhaustion.Routes.CT2ToCT3
 
-/-- The semantic residual is extracted from the real executable CT2 fixture;
-it contains no CT3 data. -/
+/-- Complete CT2 execution ledger restricted to its separating terminal. -/
+abbrev SeparatingLedger :=
+  {result : CT2.ExecutionResult separatingCapability context separatingInput //
+    result.terminal = .separating}
+
+def separatingLedger : SeparatingLedger := ⟨separatingResult, rfl⟩
+
+/-- Read the separating residual from the verified CT2 terminal. -/
+def currentSeparating (ledger : SeparatingLedger) :
+    CT2.SeparatingContextResidual
+      separatingCapability context separatingInput := by
+  rcases ledger with ⟨result, terminal⟩
+  cases result with
+  | mk terminalId path outcome =>
+      cases outcome with
+      | deletionC2 witness => cases terminal
+      | replacementC2 witness => cases terminal
+      | separating residual => exact residual
+      | criticality residual => cases terminal
+
 def source : CT2.SeparatingContextResidual
     separatingCapability context separatingInput :=
-  match separatingResult.outcome with
-  | .separating residual => residual
+  currentSeparating separatingLedger
 
 inductive RoutedPiece where
   | source
@@ -58,23 +75,29 @@ def enabledDiscovery : PieceDiscovery
   discover := fun _ => .enabled ()
   piece := fun _ _ => .source
 
-abbrev enabledRule := rule targetCapability enabledDiscovery
+abbrev enabledTransition := transition targetCapability enabledDiscovery
+
+abbrev enabledLedgerTransition :=
+  enabledTransition.onLedger currentSeparating
+
+abbrev sourceStage : Core.Routing.ResidualStage .ct2 SeparatingLedger :=
+  Core.Routing.ResidualStage.exact separatingLedger
 
 theorem enabled_discovery :
-    enabledRule.discover source = .enabled () :=
+    enabledLedgerTransition.discover sourceStage = .enabled () :=
   rfl
 
-def enabledTrigger : CT3.Trigger targetSpec (targetContext source) :=
-  buildTrigger targetCapability enabledDiscovery source ()
+def enabledStage : enabledLedgerTransition.EnabledStage sourceStage :=
+  enabledLedgerTransition.runEnabled sourceStage () enabled_discovery
 
-def enabledInput : CT3.Input targetSpec :=
-  CT3.Input.ofTrigger (targetContext source) enabledTrigger
+def enabledLedger := enabledStage.ledgerStage
 
-def generatedRoute := enabledRule.generate source ()
+def enabledOutcome :=
+  advance targetCapability enabledDiscovery currentSeparating sourceStage
 
 theorem enabled_attempt_materializes :
-    (enabledRule.attempt source).generated? = some generatedRoute :=
-  enabled_generates targetCapability enabledDiscovery source () enabled_discovery
+    enabledOutcome = .enabled enabledStage :=
+  rfl
 
 theorem preserves_branch :
     targetContext source = context.toBranchContext :=
@@ -91,14 +114,16 @@ theorem preserves_state : (targetContext source).state = context.state :=
   state_preserved source
 
 theorem generated_provenance :
-    generatedRoute.routeId = "CT2.residual.separatingContext->CT3" :=
-  generated_route_id targetCapability enabledDiscovery source ()
-
-theorem trigger_is_source : enabledTrigger.piece = .source :=
+    enabledTransition.profileId = transitionId :=
   rfl
 
-/-- The generated trigger is directly consumable by CT3. -/
-def targetResult := CT3.run targetSpec targetCapability enabledInput
+theorem trigger_is_source :
+    (enabledLedgerTransition.trigger sourceStage enabledStage.execution.seed).piece =
+      .source :=
+  rfl
+
+/-- Target execution is retained in the full transition stage. -/
+def targetResult := enabledStage.targetResult
 
 theorem target_executes : targetResult.terminal = .knownRow :=
   rfl
@@ -112,18 +137,36 @@ def disabledDiscovery : PieceDiscovery
   discover := fun _ => .disabled fun seed => nomatch seed
   piece := fun _ seed => nomatch seed
 
-abbrev disabledRule := rule targetCapability disabledDiscovery
+abbrev disabledTransition := transition targetCapability disabledDiscovery
 
-def rejectNoSeed : disabledRule.Seed source → False :=
+abbrev disabledLedgerTransition :=
+  disabledTransition.onLedger currentSeparating
+
+abbrev disabledSourceStage : Core.Routing.ResidualStage .ct2 SeparatingLedger :=
+  Core.Routing.ResidualStage.exact separatingLedger
+
+def rejectNoSeed : disabledLedgerTransition.Seed disabledSourceStage → False :=
   fun seed => nomatch seed
 
 theorem disabled_discovery :
-    disabledRule.discover source = .disabled rejectNoSeed := by
+    disabledLedgerTransition.discover disabledSourceStage =
+      .disabled rejectNoSeed := by
   congr
 
+def disabledOutcome :=
+  advance targetCapability disabledDiscovery currentSeparating
+    disabledSourceStage
+
 theorem disabled_attempt_generates_nothing :
-    (disabledRule.attempt source).generated? = none :=
-  disabled_generates_none targetCapability disabledDiscovery source
-    rejectNoSeed disabled_discovery
+    disabledOutcome = .disabled rejectNoSeed disabled_discovery :=
+  rfl
+
+theorem disabled_has_no_seed :
+    IsEmpty (disabledDiscovery.Seed
+      (currentSeparating disabledSourceStage.output)) :=
+  disabled_sound targetCapability disabledDiscovery currentSeparating
+    disabledSourceStage <| by
+    intro stage _enabled
+    exact nomatch stage.execution.seed
 
 end StructuralExhaustion.Examples.CT2ToCT3AutomationFirst

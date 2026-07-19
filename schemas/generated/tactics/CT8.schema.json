@@ -6409,6 +6409,10 @@
               "provision": "framework_constant"
             },
             {
+              "ref": "CT8.Capability.executableInterface",
+              "provision": "framework_constant"
+            },
+            {
               "ref": "CT8.residual.responseSeparation",
               "provision": "framework_constant"
             },
@@ -6593,6 +6597,10 @@
       },
       {
         "ref": "CT8.runReference",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT8.Capability.executableInterface",
         "provision": "framework_constant"
       },
       {

@@ -22,11 +22,6 @@ structure Capability (P : Core.Problem) where
 
 structure Input {P : Core.Problem} (_C : Capability P)
     (_ctx : Core.BranchContext P) where
-namespace Capability
-def tacticInterface {P : Core.Problem} (C : Capability P) :
-    Core.Routing.TacticInterface where
-  Context := Core.BranchContext P; Trigger := Input C
-end Capability
 
 structure TierOneResidual {P : Core.Problem} (C : Capability P)
     (ctx : Core.BranchContext P) where

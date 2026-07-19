@@ -15,14 +15,4 @@ structure Capability {P : Core.Problem.{uAmbient, uBranch}}
 /-- CT15 consumes the shared branch context directly. -/
 abbrev Input (P : Core.Problem.{uAmbient, uBranch}) := Core.BranchContext P
 
-namespace Capability
-
-def tacticInterface {P : Core.Problem.{uAmbient, uBranch}}
-    {S : Spec P} (_capability : Capability S) :
-    Core.Routing.TacticInterface where
-  Context := Core.BranchContext P
-  Trigger := fun _ => Unit
-
-end Capability
-
 end StructuralExhaustion.CT15

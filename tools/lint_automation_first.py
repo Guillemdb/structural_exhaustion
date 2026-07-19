@@ -51,6 +51,10 @@ RETIRED_GRAPH_API_PATTERN = re.compile(
     r"\bFiniteSimpleGraph\b|\bOrientedEdge\b|\bincidenceCount\b|"
     r"\bdeleteOrientedEdge\b"
 )
+RETIRED_TRANSITION_API_PATTERN = re.compile(
+    r"\b(?:RouteRule|GeneratedRoute|TacticInterface|generated_route_id|"
+    r"routeContract|registeredRoute|routeId)\b"
+)
 RETIRED_SURFACES = (
     "ct2_formal_reference",
     "framework/json_schemas",
@@ -177,6 +181,8 @@ def lint(root: Path) -> list[str]:
             errors.append(f"{relative}: contains the retired custom finite API")
         if RETIRED_GRAPH_API_PATTERN.search(text):
             errors.append(f"{relative}: contains the retired custom graph API")
+        if RETIRED_TRANSITION_API_PATTERN.search(text):
+            errors.append(f"{relative}: contains the retired raw transition API")
 
         if number is not None:
             for label, pattern in LEGACY_PATTERNS.items():
@@ -217,6 +223,8 @@ def lint(root: Path) -> list[str]:
             errors.append(f"{relative}: contains the retired custom finite API")
         if RETIRED_GRAPH_API_PATTERN.search(text):
             errors.append(f"{relative}: contains the retired custom graph API")
+        if RETIRED_TRANSITION_API_PATTERN.search(text):
+            errors.append(f"{relative}: contains the retired raw transition API")
         if "StructuralExhaustion.Examples.EvenCycle" in text:
             errors.append(
                 f"{relative}: uses the retired in-framework worked-example namespace"

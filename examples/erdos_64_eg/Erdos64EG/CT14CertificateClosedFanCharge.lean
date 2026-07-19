@@ -6,16 +6,14 @@ namespace Erdos64EG.Internal
 
 open StructuralExhaustion
 
-universe u
+universe u v
 
 /-!
 # CT14: certificate-closed fan charge
 
-This file completes the charge clause of `lem:fan-certificate`. The
-application supplies the manuscript's cubic-closed predicate on actual fan
-ports and the defining nonpositive-deficit inequality `4c+k≤11`. The graph
-framework computes `c`, executes CT14, and derives the exact quarter-charge
-lower bound `11-k-4c≥0`.
+Certificate-closed fans are a proof-indexed CT9→CT14 family.  The framework
+retains the complete fan-packing ledger once and executes one specialized CT14
+entry per supplied fan, without enumerating fan centres or assignments.
 -/
 
 def markedFanChargeProfile
@@ -54,8 +52,8 @@ structure CertificateClosedMarkedFan
   assignedDecidable : ∀ carrier, Decidable (Assigned carrier)
   certificateClosed :
     4 * (markedFanChargeProfile fan centerHigh Assigned
-      assignedDecidable).closedCount
-      ctx.toBranchContext + ctx.G.object.degree fan.center ≤ 11
+      assignedDecidable).closedCount ctx.toBranchContext +
+      ctx.G.object.degree fan.center ≤ 11
 
 namespace CertificateClosedMarkedFan
 
@@ -68,19 +66,6 @@ def chargeProfile : Graph.CertificateClosedFanCharge.Profile
   markedFanChargeProfile marked.fan marked.centerHigh marked.Assigned
     marked.assignedDecidable
 
-def stage : marked.chargeProfile.VerifiedStage ctx.toBranchContext :=
-  marked.chargeProfile.verifiedStage ctx.toBranchContext
-
-theorem run_terminal :
-    (marked.chargeProfile.run ctx.toBranchContext).terminal = .capacity :=
-  marked.stage.terminal
-
-theorem run_trace :
-    (marked.chargeProfile.run ctx.toBranchContext).trace =
-      [.entry, .lowerMass, .memberScan, .upperCapacity, .comparison,
-        .capacityTerminal] :=
-  marked.stage.trace
-
 theorem chargeExact :
     marked.chargeProfile.neighborhoodQuarterChargeLower ctx.toBranchContext =
       11 - (ctx.G.object.degree marked.fan.center : Int) -
@@ -90,7 +75,8 @@ theorem chargeExact :
     change (Graph.HighCenterPort.ports ctx.G.object marked.fan.center).card =
       ctx.G.object.degree marked.fan.center
     exact Graph.HighCenterPort.ports_card_eq_degree _ _
-  have exactCharge := marked.stage.chargeExact
+  have exactCharge :=
+    marked.chargeProfile.neighborhoodQuarterChargeLower_eq ctx.toBranchContext
   rw [cardEq] at exactCharge
   exact exactCharge
 
@@ -106,43 +92,193 @@ theorem charge_nonnegative :
   change 4 * marked.chargeProfile.closedCount ctx.toBranchContext +
     ctx.G.object.degree marked.fan.center ≤ 11 at certificate
   rw [← cardEq] at certificate
-  apply marked.chargeProfile.neighborhoodQuarterChargeLower_nonnegative
-  exact certificate
+  exact marked.chargeProfile.neighborhoodQuarterChargeLower_nonnegative
+    ctx.toBranchContext certificate
 
 end CertificateClosedMarkedFan
 
-structure VerifiedCertificateClosedFanChargePrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedMarkedFanLabelPackingPrefix ctx
+noncomputable def certificateClosedFanTarget
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (marked : CertificateClosedMarkedFan ctx) :=
+  (marked.chargeProfile.capability PackedProblem.{u}).executableInterface
+
+noncomputable def certificateClosedFanAdapter
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (marked : CertificateClosedMarkedFan ctx) :
+    Routes.Accumulated.Adapter Unit (certificateClosedFanTarget ctx marked) where
+  targetContext := fun _source => ctx.toBranchContext
+  trigger := fun _source => ⟨⟩
+
+noncomputable def certificateClosedFanTransition
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (marked : CertificateClosedMarkedFan ctx) :=
+  Routes.Accumulated.transition (sourceTactic := .ct9)
+    (certificateClosedFanTarget ctx marked)
+    (certificateClosedFanAdapter ctx marked)
+
+noncomputable def certificateClosedFanPointwiseAdapter
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (Ledger : Sort v) :
+    Routes.Accumulated.PointwiseAdapter .ct9 .ct14
+      (CertificateClosedMarkedFan ctx) Ledger where
+  Source := fun _marked => Unit
+  target := certificateClosedFanTarget ctx
+  adapter := certificateClosedFanAdapter ctx
+  current := fun _marked _ledger => ()
+
+noncomputable def certificateClosedFanTransitionFamily
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (Ledger : Sort v) :=
+  Routes.Accumulated.pointwiseFamily
+    (certificateClosedFanPointwiseAdapter ctx Ledger)
+
+noncomputable def certificateClosedFanTransitionStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {Ledger : Sort v}
+    (source : Core.Routing.ResidualStage .ct9 Ledger) :=
+  Routes.Accumulated.advancePointwise
+    (certificateClosedFanPointwiseAdapter ctx Ledger) source
+
+abbrev CertificateClosedFanTransitionLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {Ledger : Sort v}
+    (source : Core.Routing.ResidualStage .ct9 Ledger) :=
+  Routes.Accumulated.PointwiseOutputLedger
+    (certificateClosedFanPointwiseAdapter ctx Ledger) source
+
+structure CertificateClosedFanFacts
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {Ledger : Sort v}
+    {source : Core.Routing.ResidualStage .ct9 Ledger}
+    (execution : CertificateClosedFanTransitionLedger ctx source) : Prop where
   terminal : ∀ marked : CertificateClosedMarkedFan ctx,
-    (marked.chargeProfile.run ctx.toBranchContext).terminal = .capacity
+    (execution.localStage marked).targetResult.terminal = .capacity
   trace : ∀ marked : CertificateClosedMarkedFan ctx,
-    (marked.chargeProfile.run ctx.toBranchContext).trace =
+    (execution.localStage marked).targetResult.trace =
       [.entry, .lowerMass, .memberScan, .upperCapacity, .comparison,
         .capacityTerminal]
   charge : ∀ marked : CertificateClosedMarkedFan ctx,
     0 ≤ marked.chargeProfile.neighborhoodQuarterChargeLower ctx.toBranchContext
 
-def verifiedCertificateClosedFanChargePrefix
+abbrev CertificateClosedFanLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {Ledger : Sort v}
+    (source : Core.Routing.ResidualStage .ct9 Ledger) :=
+  Core.Routing.LedgerExtension
+    (CertificateClosedFanTransitionLedger ctx source)
+    (CertificateClosedFanFacts ctx)
+
+noncomputable def certificateClosedFanLedgerStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {Ledger : Sort v}
+    (source : Core.Routing.ResidualStage .ct9 Ledger) :
+    Core.Routing.ResidualStage .ct14
+      (CertificateClosedFanLedger ctx source) := by
+  let execution := certificateClosedFanTransitionStage ctx source
+  exact execution.ledgerStage.extend {
+    terminal := fun marked => by
+      change (marked.chargeProfile.run ctx.toBranchContext).terminal = .capacity
+      exact marked.chargeProfile.run_terminal ctx.toBranchContext
+    trace := fun marked => by
+      change (marked.chargeProfile.run ctx.toBranchContext).trace = _
+      exact marked.chargeProfile.run_trace ctx.toBranchContext
+    charge := fun marked => marked.charge_nonnegative
+  }
+
+noncomputable def runCertificateClosedFanCT14
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {Ledger : Sort v}
+    {source : Core.Routing.ResidualStage .ct9 Ledger}
+    (stage : Core.Routing.ResidualStage .ct14
+      (CertificateClosedFanLedger ctx source))
+    (marked : CertificateClosedMarkedFan ctx) :=
+  (stage.output.previous.localStage marked).targetResult
+
+theorem certificateClosedFanTransition_profile_id
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (marked : CertificateClosedMarkedFan ctx) :
+    (certificateClosedFanTransition ctx marked).profileId =
+      "CT9.residual.accumulatedLedger->CT14" :=
+  Routes.Accumulated.transition_profile_id
+    (certificateClosedFanTarget ctx marked)
+    (certificateClosedFanAdapter ctx marked)
+
+noncomputable def CertificateClosedFanStep
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedMarkedFanLabelPackingPrefix ctx) := by
+  rcases previous with ⟨fanLabelPrefix, markedFanStage⟩
+  rcases fanLabelPrefix with ⟨twoWindowPrefix, _fanLabelStage⟩
+  rcases twoWindowPrefix with ⟨directPrefix, _twoWindowStage⟩
+  rcases directPrefix with ⟨hybridPrefix, _directStage⟩
+  rcases hybridPrefix with ⟨massPrefix, _hybridStage⟩
+  rcases massPrefix with ⟨fanPrefix, _massStage⟩
+  rcases fanPrefix with ⟨crossPrefix, _fanStage⟩
+  rcases crossPrefix with ⟨landingPrefix, _crossStage⟩
+  rcases landingPrefix with ⟨returnPrefix, _landingContinuation⟩
+  rcases returnPrefix with ⟨bridgePrefix, _returnContinuation⟩
+  rcases bridgePrefix with ⟨shoulderPrefix, _bridgeContinuation⟩
+  rcases shoulderPrefix with
+    ⟨highCenterPrefix, _triangularShoulderContinuation⟩
+  rcases highCenterPrefix with
+    ⟨compatibilityPrefix, _highCenterContinuation⟩
+  rcases compatibilityPrefix with
+    ⟨shoulderLedgerPrefix, _compatibilityContinuation⟩
+  rcases shoulderLedgerPrefix with
+    ⟨responsePrefix, _shoulderContinuation⟩
+  rcases responsePrefix with ⟨_sourceLedger, state⟩
+  cases state with
+  | routed _source =>
+      exact Core.Routing.ResidualStage .ct14
+        (CertificateClosedFanLedger ctx markedFanStage)
+  | bounded _certificate =>
+      exact PUnit
+
+abbrev VerifiedCertificateClosedFanChargePrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.LedgerExtension (VerifiedMarkedFanLabelPackingPrefix ctx)
+    (CertificateClosedFanStep ctx)
+
+noncomputable def verifiedCertificateClosedFanChargePrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedMarkedFanLabelPackingPrefix ctx) :
-    VerifiedCertificateClosedFanChargePrefix ctx where
-  previous := previous
-  terminal := fun marked => marked.run_terminal
-  trace := fun marked => marked.run_trace
-  charge := fun marked => marked.charge_nonnegative
+    VerifiedCertificateClosedFanChargePrefix ctx :=
+  ⟨previous, by
+    rcases previous with ⟨fanLabelPrefix, markedFanStage⟩
+    rcases fanLabelPrefix with ⟨twoWindowPrefix, _fanLabelStage⟩
+    rcases twoWindowPrefix with ⟨directPrefix, _twoWindowStage⟩
+    rcases directPrefix with ⟨hybridPrefix, _directStage⟩
+    rcases hybridPrefix with ⟨massPrefix, _hybridStage⟩
+    rcases massPrefix with ⟨fanPrefix, _massStage⟩
+    rcases fanPrefix with ⟨crossPrefix, _fanStage⟩
+    rcases crossPrefix with ⟨landingPrefix, _crossStage⟩
+    rcases landingPrefix with ⟨returnPrefix, _landingContinuation⟩
+    rcases returnPrefix with ⟨bridgePrefix, _returnContinuation⟩
+    rcases bridgePrefix with ⟨shoulderPrefix, _bridgeContinuation⟩
+    rcases shoulderPrefix with
+      ⟨highCenterPrefix, _triangularShoulderContinuation⟩
+    rcases highCenterPrefix with
+      ⟨compatibilityPrefix, _highCenterContinuation⟩
+    rcases compatibilityPrefix with
+      ⟨shoulderLedgerPrefix, _compatibilityContinuation⟩
+    rcases shoulderLedgerPrefix with
+      ⟨responsePrefix, _shoulderContinuation⟩
+    rcases responsePrefix with ⟨_sourceLedger, state⟩
+    cases state with
+    | routed _source =>
+        exact certificateClosedFanLedgerStage ctx markedFanStage
+    | bounded _certificate =>
+        exact PUnit.unit
+  ⟩
 
 theorem exists_verifiedCertificateClosedFanChargePrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedCertificateClosedFanChargePrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedCertificateClosedFanChargePrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedMarkedFanLabelPackingPrefix object baseline avoids
-  exact ⟨ctx, rankLe,
-    verifiedCertificateClosedFanChargePrefix ctx previous⟩
+  exact ⟨ctx, verifiedCertificateClosedFanChargePrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

@@ -102,7 +102,7 @@ the closure-robust arithmetic below does not consume its rank magnitude. -/
 structure P13ClosureRobustNode47Prefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
-    (node24 : VerifiedP13WindowDensityOutput ctx node21) : Type u where
+    (node24 : VerifiedP13WindowDensityOutput ctx node21) : Type (u + 3) where
   previous : P13DensityConnectedGlobalRankPrefix ctx node21 node24.coverage
 
 /-- Recompute the already verified node-`[47]` ledger only after the actual
@@ -120,7 +120,7 @@ node-47 predecessor without using Boolean entropy or enumerating graph states.
 structure P13ClosureRobustNode55Budget
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
-    (node24 : VerifiedP13WindowDensityOutput ctx node21) : Type u where
+    (node24 : VerifiedP13WindowDensityOutput ctx node21) : Type (u + 3) where
   previous : P13ClosureRobustNode47Prefix ctx node21 node24
   budget : P13QuarterNetBudget ctx (node21 := node21) node24.coverage
 

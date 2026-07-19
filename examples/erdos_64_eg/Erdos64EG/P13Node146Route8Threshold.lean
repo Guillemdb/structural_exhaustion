@@ -97,7 +97,7 @@ theorem p13Route8_denominator_pos_of_below
 /-- Yes payload on the existing edge `[146] -> [147]`. -/
 structure P13Node146To147
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 3)
+    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 5)
     extends Core.ExactHandoff (p13SequentialWeightedLedger ctx node21) where
   below : P13Route8BelowThreshold ctx
   theta_lt : p13PackingTheta ctx < (1 : ℚ) / 78
@@ -107,7 +107,7 @@ structure P13Node146To147
 /-- No payload on the existing edge `[146] -> [148]`. -/
 structure P13Node146To148
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 3)
+    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 5)
     extends Core.ExactHandoff (p13SequentialWeightedLedger ctx node21) where
   notBelow : ¬P13Route8BelowThreshold ctx
   crossMultiplied : ctx.G.object.input.vertices.card ≤ 78 * p13 ctx
@@ -116,7 +116,7 @@ structure P13Node146To148
 /-- The two constructors are exactly the two outgoing edges of node `[146]`. -/
 inductive P13Node146Outcome
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 3)
+    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 5)
   | to147 : P13Node146To147 ctx node21 → P13Node146Outcome ctx node21
   | to148 : P13Node146To148 ctx node21 → P13Node146Outcome ctx node21
 

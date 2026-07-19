@@ -5,7 +5,7 @@ namespace Erdos64EG.Internal
 
 open StructuralExhaustion
 
-universe u
+universe u v
 
 /-!
 # CT15: exact free/blocked surplus-pair quotient rank
@@ -59,13 +59,44 @@ theorem sparsePair_schedule_quartic
       ctx.G.object.input.vertices.card ^ 4 :=
   (sparsePairResponseStage ctx).pairWork
 
-/-- Verified proof prefix through the free/blocked pair-response quotient-rank
-block.  The previous prefix is retained verbatim and the new stage consumes
-its exact activation object definitionally. -/
-structure VerifiedSparsePairResponsePrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedBaselineSpineDemandPrefix ctx
+/-- Mathematical adapter for the canonical CT15→CT15 quotient-rank edge. -/
+noncomputable def sparsePairResponseAdapter
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {Source : Sort v} :
+    Routes.Accumulated.Adapter Source
+      (Graph.SurplusPairResponse.responseCT15Profile
+        (sparsePairActivationStage ctx)).capability.executableInterface where
+  targetContext := fun _source =>
+    (Graph.SurplusPairResponse.responseCT15Profile
+      (sparsePairActivationStage ctx)).branchInput
+  trigger := fun _source => ()
+
+noncomputable def sparsePairResponseTransitionStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedBaselineSpineDemandPrefix ctx) :=
+  Routes.Accumulated.advanceCurrent
+    (Graph.SurplusPairResponse.responseCT15Profile
+      (sparsePairActivationStage ctx)).capability.executableInterface
+    (sparsePairResponseAdapter
+      (Source := BaselineSpineDemandLedger ctx previous.1) ctx)
+    (baselineSpineDemandLedgerStage ctx previous)
+
+abbrev SparsePairResponseTransitionLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedBaselineSpineDemandPrefix ctx) :=
+  Routes.Accumulated.OutputLedger (sourceTactic := .ct15)
+    (Graph.SurplusPairResponse.responseCT15Profile
+      (sparsePairActivationStage ctx)).capability.executableInterface
+    (sparsePairResponseAdapter
+      (Source := BaselineSpineDemandLedger ctx previous.1) ctx)
+    (baselineSpineDemandLedgerStage ctx previous)
+
+/-- Mathematical obligations of nodes `[130]`--`[132]`, attached to the
+literal quotient-rank CT15 execution. -/
+structure SparsePairResponseFacts
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {previous : VerifiedBaselineSpineDemandPrefix ctx}
+    (_stage : SparsePairResponseTransitionLedger ctx previous) : Prop where
   pairStage : Graph.SurplusPairResponse.VerifiedStage
     (sparsePairActivationStage ctx)
   ct15 : SparsePairCT15Verified ctx
@@ -81,25 +112,47 @@ structure VerifiedSparsePairResponsePrefix
         (setup := surplusPortActivationSetup ctx)).card ≤
       ctx.G.object.input.vertices.card ^ 4
 
+abbrev SparsePairResponseLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedBaselineSpineDemandPrefix ctx) :=
+  Core.Routing.LedgerExtension
+    (SparsePairResponseTransitionLedger ctx previous)
+    (SparsePairResponseFacts ctx)
+
+/-- Verified proof prefix through the free/blocked quotient-rank block.  The
+literal CT15 predecessor is the `previous` component of the ledger extension,
+not an application-owned equality field. -/
+abbrev VerifiedSparsePairResponsePrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Sigma (SparsePairResponseLedger ctx)
+
 noncomputable def verifiedSparsePairResponsePrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedBaselineSpineDemandPrefix ctx) :
-    VerifiedSparsePairResponsePrefix ctx where
-  previous := previous
-  pairStage := sparsePairResponseStage ctx
-  ct15 := sparsePairCT15_verified ctx
-  partition := sparsePair_exact_partition ctx
-  polynomialPairs := sparsePair_schedule_quartic ctx
+    VerifiedSparsePairResponsePrefix ctx :=
+  let stage := sparsePairResponseTransitionStage ctx previous
+  ⟨previous, ⟨stage, {
+    pairStage := sparsePairResponseStage ctx
+    ct15 := sparsePairCT15_verified ctx
+    partition := sparsePair_exact_partition ctx
+    polynomialPairs := sparsePair_schedule_quartic ctx
+  }⟩⟩
+
+/-- Canonical complete CT15 stage after nodes `[130]`--`[132]`. -/
+noncomputable def sparsePairResponseLedgerStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedSparsePairResponsePrefix ctx) :=
+  verified.2.previous.ledgerStage.extend verified.2.added
 
 theorem exists_verifiedSparsePairResponsePrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedSparsePairResponsePrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedSparsePairResponsePrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedBaselineSpineDemandPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedSparsePairResponsePrefix ctx previous⟩
+  exact ⟨ctx, verifiedSparsePairResponsePrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

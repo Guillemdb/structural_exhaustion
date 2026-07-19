@@ -46,6 +46,34 @@ noncomputable def profile :
   vertexDecEq := inferInstance
   support := Event.support
 
+noncomputable def bareView := profile.viewSchedule schedule
+
+noncomputable def emitted : Bool → Event
+  | false => first
+  | true => second
+
+noncomputable def mappedSchedule :=
+  Core.FiniteResidualLedger.Ledger.ofMappedEnumeration
+    Core.Enumeration.bool emitted
+
+example : mappedSchedule.entries = [false, true] := by
+  change Core.Enumeration.bool.orderedValues = [false, true]
+  rfl
+
+theorem mapped_emission_is_exact (input : Bool) :
+    mappedSchedule.event input = emitted input ∧
+      input ∈ mappedSchedule.entries :=
+  ⟨rfl, mappedSchedule.occurrence_mem input⟩
+
+theorem bare_schedule_occurrence_is_retained
+    (occurrence : schedule.Occurrence) :
+    occurrence ∈ schedule.entries :=
+  schedule.occurrence_mem occurrence
+
+example (occurrence : schedule.Occurrence) :
+    bareView.support occurrence = (schedule.event occurrence).support :=
+  rfl
+
 /-- A graph hit automatically retains both earlier mathematical facts; the
 application does not re-prove producer provenance after support recognition. -/
 theorem hit_retains_all_facts {vertex : Nat}
@@ -53,14 +81,16 @@ theorem hit_retains_all_facts {vertex : Nat}
       profile refined vertex) :
     HasSupport hit.state.residual ∧ Produced hit.state.residual ∧
       vertex ∈ hit.state.residual.support := by
-  exact ⟨hit.get .here, hit.get (.there .here), hit.contains⟩
+  exact ⟨hit.require, hit.require, hit.contains⟩
 
-theorem compatibility_entry_retains_producer_fact
-    {event : Event} (member : event ∈ (profile.materialize refined).entries) :
-    Produced event := by
-  exact refined.fact_of_mem_events (.there .here) member
+theorem occurrence_retains_producer_fact
+    (occurrence : refined.residuals.Occurrence) :
+    Produced (refined.residuals.event occurrence) :=
+  refined.require occurrence
 
 #print axioms hit_retains_all_facts
-#print axioms compatibility_entry_retains_producer_fact
+#print axioms occurrence_retains_producer_fact
+#print axioms bare_schedule_occurrence_is_retained
+#print axioms mapped_emission_is_exact
 
 end StructuralExhaustion.Examples.ResidualSupportRefinement

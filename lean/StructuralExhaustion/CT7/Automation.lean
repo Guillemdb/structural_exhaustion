@@ -1,6 +1,22 @@
 import StructuralExhaustion.CT7.Theorems
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT7
+
+namespace Capability
+
+/-- Canonical executable CT7 entry.  Routes supply only the inherited branch
+context and the exact representative pair; the framework owns invocation of
+the reference runner. -/
+def executableInterface {P : Core.Problem} {S : Spec P}
+    (capability : Capability S) :
+    Core.Routing.ExecutableInterface .ct7 where
+  Context := Core.BranchContext P
+  Trigger := Input S
+  Result := fun ctx input => ExecutionResult S capability ctx input
+  execute := fun ctx input => run S capability ctx input
+
+end Capability
 
 def residualKindContracts : List Core.ResidualKindContract := [
   {
@@ -33,7 +49,7 @@ def capabilityContract : Core.CapabilityContract where
     ⟨"Capability.realizesDecidable", .instanceBridge⟩]
   requiredInstances := ["Capability.realizesDecidable"]
   derivedOperations := ["CT7.analyzeRealization", "CT7.analyzeDistinction",
-    "CT7.runReference",
+    "CT7.runReference", "CT7.Capability.executableInterface",
     "CT7.residual.distinguishingContext"]
 
 def nodeAutomationContracts : List Core.NodeAutomationContract := [

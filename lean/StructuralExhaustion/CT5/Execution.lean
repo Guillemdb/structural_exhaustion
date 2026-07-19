@@ -1,4 +1,5 @@
 import StructuralExhaustion.CT5.Graph
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT5
 
@@ -60,5 +61,19 @@ def runReference : ExecutionResult S capability input :=
         }
 
 def run := runReference S capability input
+
+namespace Capability
+
+/-- Canonical executable CT5 entry.  Its entire input is the inherited branch
+context, so route clients never construct a trigger or copy the context. -/
+def executableInterface {P : Core.Problem} {S : Spec P}
+    (capability : Capability S) :
+    Core.Routing.ExecutableInterface .ct5 where
+  Context := Core.BranchContext P
+  Trigger := fun _context => Unit
+  Result := fun context _trigger => ExecutionResult S capability context
+  execute := fun context _trigger => run S capability context
+
+end Capability
 
 end StructuralExhaustion.CT5

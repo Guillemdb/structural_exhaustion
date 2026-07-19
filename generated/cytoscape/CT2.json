@@ -701,17 +701,16 @@
       "data": {
         "id": "CT2.residual.separatingContext->CT3",
         "label": "CT2.residual.separatingContext->CT3",
-        "kind": "generatedRoute",
-        "route": {
-          "triggerConstructor": "StructuralExhaustion.Routes.CT2ToCT3.buildTrigger",
+        "kind": "transitionProfile",
+        "transitionProfile": {
+          "transitionConstructor": "StructuralExhaustion.Routes.CT2ToCT3.transition",
           "targetTacticId": "CT3",
+          "targetExecutableInterface": "StructuralExhaustion.CT3.Capability.executableInterface",
+          "sourceTacticId": "CT2",
           "sourceResidualKind": "CT2.residual.separatingContext",
-          "soundnessTheorem": "StructuralExhaustion.Routes.CT2ToCT3.enabled_generates",
           "selectionClass": "forced",
-          "routeId": "CT2.residual.separatingContext->CT3",
-          "provenanceTheorem": "StructuralExhaustion.Routes.CT2ToCT3.generated_route_id",
-          "discovery": "StructuralExhaustion.Routes.CT2ToCT3.PieceDiscovery.discover",
-          "contextPreservationTheorem": "StructuralExhaustion.Routes.CT2ToCT3.branchContext_preserved",
+          "profileId": "CT2.residual.separatingContext->CT3",
+          "familyId": "CT2->CT3",
           "authoringBoundary": {
             "semanticDiscovery": {
               "kind": "problemSemanticAdapter",
@@ -722,14 +721,16 @@
               "semanticDiscoveryAdapter"
             ],
             "frameworkOwnedResponsibilities": [
-              "routeRuleConstruction",
+              "exactSourceLedger",
+              "semanticDiscovery",
               "targetContextConstruction",
               "triggerConstruction",
-              "soundnessProof",
-              "contextPreservationProof",
-              "provenanceProof"
+              "targetExecution",
+              "accumulatedLedgerOutput",
+              "transitionProvenance"
             ]
-          }
+          },
+          "advanceExecutor": "StructuralExhaustion.Routes.CT2ToCT3.advance"
         }
       }
     },
@@ -737,17 +738,16 @@
       "data": {
         "id": "CT2.residual.criticality->CT10",
         "label": "CT2.residual.criticality->CT10",
-        "kind": "generatedRoute",
-        "route": {
-          "triggerConstructor": "StructuralExhaustion.Routes.CT2ToCT10.buildTrigger",
+        "kind": "transitionProfile",
+        "transitionProfile": {
+          "transitionConstructor": "StructuralExhaustion.Routes.CT2ToCT10.transition",
           "targetTacticId": "CT10",
+          "targetExecutableInterface": "StructuralExhaustion.CT10.Capability.executableInterface",
+          "sourceTacticId": "CT2",
           "sourceResidualKind": "CT2.residual.criticality",
-          "soundnessTheorem": "StructuralExhaustion.Routes.CT2ToCT10.enabled_generates",
           "selectionClass": "forced",
-          "routeId": "CT2.residual.criticality->CT10",
-          "provenanceTheorem": "StructuralExhaustion.Routes.CT2ToCT10.generated_route_id",
-          "discovery": "StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery.discover",
-          "contextPreservationTheorem": "StructuralExhaustion.Routes.CT2ToCT10.branchContext_preserved",
+          "profileId": "CT2.residual.criticality->CT10",
+          "familyId": "CT2->CT10",
           "authoringBoundary": {
             "semanticDiscovery": {
               "kind": "problemSemanticAdapter",
@@ -758,14 +758,16 @@
               "semanticDiscoveryAdapter"
             ],
             "frameworkOwnedResponsibilities": [
-              "routeRuleConstruction",
+              "exactSourceLedger",
+              "semanticDiscovery",
               "targetContextConstruction",
               "triggerConstruction",
-              "soundnessProof",
-              "contextPreservationProof",
-              "provenanceProof"
+              "targetExecution",
+              "accumulatedLedgerOutput",
+              "transitionProvenance"
             ]
-          }
+          },
+          "advanceExecutor": "StructuralExhaustion.Routes.CT2ToCT10.advance"
         }
       }
     }

@@ -269,10 +269,9 @@ theorem sparseSurplus_eq_degreeExcessLedger
     (ctx.G.object.minDegree_le_degree vertex)
 
 /-- Verified prefix through the complete sparse-envelope CT12 block. -/
-structure VerifiedSparseEnvelopePrefix
+structure SparseEnvelopeFacts
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedSparseSurplusPrefix ctx
+    Type (u + 1) where
   rootDegree : ctx.G.object.degree (sparseEnvelopeRoot ctx) = 3
   coreFree : (sparseEnvelopeRemaining ctx).InternalMinDegreeFree 3
   terminal : (runSparseEnvelopeCT12 ctx).terminal = .exhausted
@@ -308,11 +307,16 @@ structure VerifiedSparseEnvelopePrefix
     ((ctx.G.object.input.vertices.orderedValues.map
       (fun vertex => ctx.G.object.degree vertex - 3)).sum : Int)
 
+abbrev VerifiedSparseEnvelopePrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Sigma fun previous : VerifiedSparseSurplusPrefix ctx =>
+    Core.ExactStageHandoff previous (fun _ => SparseEnvelopeFacts ctx)
+
 noncomputable def verifiedSparseEnvelopePrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedSparseSurplusPrefix ctx) :
-    VerifiedSparseEnvelopePrefix ctx where
-  previous := previous
+    VerifiedSparseEnvelopePrefix ctx :=
+  ⟨previous, Core.ExactStageHandoff.refl previous {
   rootDegree := sparseEnvelopeRoot_degree ctx
   coreFree := sparseEnvelopeRemaining_coreFree ctx
   terminal := runSparseEnvelopeCT12_terminal ctx
@@ -324,17 +328,17 @@ noncomputable def verifiedSparseEnvelopePrefix
   remainingEdgeBound := sparseEnvelopeRemaining_edgeBound ctx
   edgeBound := sparseEnvelope_edgeBound ctx
   slackSurplus := sparseSlack_surplus_identity ctx
-  ledgerSurplus := sparseSurplus_eq_degreeExcessLedger ctx
+  ledgerSurplus := sparseSurplus_eq_degreeExcessLedger ctx }⟩
 
 theorem exists_verifiedSparseEnvelopePrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedSparseEnvelopePrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedSparseEnvelopePrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedSparseSurplusPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedSparseEnvelopePrefix ctx previous⟩
+  exact ⟨ctx, verifiedSparseEnvelopePrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

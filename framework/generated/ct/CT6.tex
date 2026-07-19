@@ -68,11 +68,11 @@ Node & Problem-specific static inputs & Predecessor and inferred inputs & Framew
 \draw[ctedge] (n1.south east) to[bend left=15] node[ctedgelabel] {begin\allowbreak{}Search} (n2.north east);
 \draw[ctedge] (n2.east) to[bend left=10] node[ctedgelabel] {failure} (n3.west);
 \draw[ctedge] (n2.east) to[bend left=10] node[ctedgelabel] {active} (n4.west);
-\node[ctroute] (r1) at (3.30,-7.85) {\textbf{Typed route}\\\texttt{CT6.\allowbreak{}residual.\allowbreak{}active\allowbreak{}Ledger-\allowbreak{}>CT9}\\{\tiny forced; problem\allowbreak{}Semantic\allowbreak{}Adapter}\\{\tiny adapter: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT6\allowbreak{}To\allowbreak{}CT9.\allowbreak{}Item\allowbreak{}Collection\allowbreak{}Adapter}}};
-\draw[ctroutearrow] (n4.south)--(r1.north);
+\node[ctroute] (p1) at (3.30,-7.85) {\textbf{CT transition}\\\texttt{CT6.\allowbreak{}residual.\allowbreak{}active\allowbreak{}Ledger-\allowbreak{}>CT9}\\{\tiny forced; problem\allowbreak{}Semantic\allowbreak{}Adapter}\\{\tiny adapter: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT6\allowbreak{}To\allowbreak{}CT9.\allowbreak{}Item\allowbreak{}Collection\allowbreak{}Adapter}}};
+\draw[ctroutearrow] (n4.south)--(p1.north);
 \end{tikzpicture}%
 \end{adjustbox}
-\caption{Automation-first sequential machine for CT6. Each executable node has separate problem-specific static, predecessor, and framework-derived dependency boxes. Terminal nodes consume only incoming edge evidence. Route boxes are separate framework rules.}
+\caption{Automation-first sequential machine for CT6. Each executable node has separate problem-specific static, predecessor, and framework-derived dependency boxes. Terminal nodes consume only incoming edge evidence. Transition boxes are executable framework profiles.}
 \label{fig:ct6-machine}
 \end{figure}
 \end{landscape}
@@ -83,8 +83,8 @@ Node & Problem-specific static inputs & Predecessor and inferred inputs & Framew
 \item \texttt{CT6.\allowbreak{}residual.\allowbreak{}first\allowbreak{}Failure}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT6.\allowbreak{}First\allowbreak{}Failure\allowbreak{}Residual S capability input}; inherited context \texttt{branch}.
 \item \texttt{CT6.\allowbreak{}residual.\allowbreak{}active\allowbreak{}Ledger}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT6.\allowbreak{}Active\allowbreak{}Ledger\allowbreak{}Residual S capability input}; inherited context \texttt{branch}.
 \end{itemize}
-\paragraph{Registered routes.}
+\paragraph{Registered transition profiles.}
 \begin{itemize}
-\item \texttt{CT6.\allowbreak{}residual.\allowbreak{}active\allowbreak{}Ledger-\allowbreak{}>CT9}: \texttt{CT6.\allowbreak{}residual.\allowbreak{}active\allowbreak{}Ledger} $\to$ \texttt{CT9}; discovery \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT6\allowbreak{}To\allowbreak{}CT9.\allowbreak{}Item\allowbreak{}Collection\allowbreak{}Adapter.\allowbreak{}discover}; authoring mode \texttt{problem\allowbreak{}Semantic\allowbreak{}Adapter} with adapter \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT6\allowbreak{}To\allowbreak{}CT9.\allowbreak{}Item\allowbreak{}Collection\allowbreak{}Adapter}.
+\item \texttt{CT6.\allowbreak{}residual.\allowbreak{}active\allowbreak{}Ledger-\allowbreak{}>CT9}: \texttt{CT6.\allowbreak{}residual.\allowbreak{}active\allowbreak{}Ledger} $\to$ \texttt{CT9}; executor \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT6\allowbreak{}To\allowbreak{}CT9.\allowbreak{}advance}; authoring mode \texttt{problem\allowbreak{}Semantic\allowbreak{}Adapter} with adapter \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT6\allowbreak{}To\allowbreak{}CT9.\allowbreak{}Item\allowbreak{}Collection\allowbreak{}Adapter}.
 \end{itemize}
 \endgroup

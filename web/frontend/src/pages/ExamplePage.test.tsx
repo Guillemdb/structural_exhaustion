@@ -93,6 +93,10 @@ const response: ExampleResponse = {
       kind: "compiledLeanEnvironment",
       rootModule: "Examples.EvenCycle",
       descriptor: "Examples.EvenCycle.descriptor",
+      descriptorSource: {
+        path: "examples/even_cycle/EvenCycleExample/WebExport.lean",
+        sha256: "0".repeat(64),
+      },
     },
     exampleId: "even-cycle",
     title: "Even cycle",
@@ -103,7 +107,7 @@ const response: ExampleResponse = {
       {
         workflowId: "main",
         title: "Main proof",
-        summary: "The primary proof route.",
+        summary: "The primary proof transition.",
         purpose: "Construct and validate a cycle.",
         completion: "complete",
         stages: [
@@ -131,10 +135,10 @@ const response: ExampleResponse = {
             linkId: "registered-link",
             sourceStageId: "ct6-stage",
             targetStageId: "ct9-stage",
-            kind: "registeredRoute",
-            label: "Active-ledger route",
-            summary: "The generated registered route.",
-            routeId: "CT6.residual.activeLedger->CT9",
+            kind: "registeredTransition",
+            label: "Active-ledger transition",
+            summary: "The generated registered transition.",
+            transitionProfileId: "CT6.residual.activeLedger->CT9",
             automationDeclarationIds: ["ct6-run"],
             evidenceDeclarationIds: ["ct6-trace"],
           },
@@ -177,6 +181,7 @@ const response: ExampleResponse = {
       path: "proofs/synthetic.tex",
       sha256: "b".repeat(64),
       formalizedNodeIds: [1, 157],
+      nodeObligations: [],
       fragments: [
         {
           label: "lem:activity",
@@ -351,8 +356,8 @@ describe("ExamplePage", () => {
     expect(document.querySelector('[data-line="5"]')).toHaveClass("source-line--highlighted");
 
     fireEvent.click(screen.getByRole("button", { name: "graph:registered-link" }));
-    expect(screen.getByRole("heading", { name: "Active-ledger route" })).toBeVisible();
-    expect(screen.getByText(/route registered and checked/)).toBeVisible();
+    expect(screen.getByRole("heading", { name: "Active-ledger transition" })).toBeVisible();
+    expect(screen.getByText(/transition profile registered and checked/)).toBeVisible();
     expect(screen.getByText("CT6.residual.activeLedger->CT9")).toBeVisible();
 
     fireEvent.click(screen.getByRole("button", { name: /Deletion theorem/ }));
@@ -398,10 +403,13 @@ describe("ExamplePage", () => {
     });
     expect(within(progress).getByText("2/14")).toBeVisible();
     expect(within(progress).getByText("paper objects mapped to verified Lean")).toBeVisible();
-    expect(within(progress).getByText("2/157")).toBeVisible();
-    expect(within(progress).getByText("framework nodes implemented")).toBeVisible();
+    const nodeMetric = within(progress).getByText("original paper nodes complete").parentElement;
+    expect(nodeMetric).not.toBeNull();
+    expect(within(nodeMetric!).getByText("2/157")).toBeVisible();
     const taskProgress = proofFlowObligationProgress(response.example.manuscript!);
-    expect(within(progress).getByText(
+    const taskMetric = within(progress).getByText("tasks implemented").parentElement;
+    expect(taskMetric).not.toBeNull();
+    expect(within(taskMetric!).getByText(
       `${taskProgress.proved}/${taskProgress.total}`,
     )).toBeVisible();
     expect(within(progress).getByText("tasks implemented")).toBeVisible();

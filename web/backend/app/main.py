@@ -11,6 +11,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import Response
 
 from .models import (
+    DocumentationResponse,
+    ErdosProofHistoryResponse,
     ExampleResponse,
     ExamplesResponse,
     FrameworkResponse,
@@ -63,6 +65,10 @@ def create_app(
     async def framework() -> dict:
         return artifacts.framework_response()
 
+    @app.get("/api/v1/documentation", response_model=DocumentationResponse)
+    async def documentation() -> dict:
+        return artifacts.documentation_response()
+
     @app.get("/api/v1/tactics/{tactic_id}", response_model=TacticResponse)
     async def tactic(tactic_id: str) -> dict:
         response = artifacts.tactic_response(tactic_id.upper())
@@ -83,6 +89,13 @@ def create_app(
     @app.get("/api/v1/examples", response_model=ExamplesResponse)
     async def examples() -> dict:
         return artifacts.examples_response()
+
+    @app.get(
+        "/api/v1/examples/erdos-64/history",
+        response_model=ErdosProofHistoryResponse,
+    )
+    async def erdos_proof_history() -> dict:
+        return artifacts.erdos_proof_history_response()
 
     @app.get("/api/v1/examples/{example_id}", response_model=ExampleResponse)
     async def example(example_id: str) -> dict:

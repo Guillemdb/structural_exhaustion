@@ -1,4 +1,5 @@
 import StructuralExhaustion.CT6.Graph
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT6
 
@@ -35,5 +36,19 @@ def runReference : ExecutionResult S capability input :=
     }
 
 def run := runReference S capability input
+
+namespace Capability
+
+/-- Canonical executable CT6 entry.  Ordered activity analysis consumes the
+literal inherited branch context and requires no application-built trigger. -/
+def executableInterface {P : Core.Problem} {S : Spec P}
+    (capability : Capability S) :
+    Core.Routing.ExecutableInterface .ct6 where
+  Context := Core.BranchContext P
+  Trigger := fun _context => Unit
+  Result := fun context _trigger => ExecutionResult S capability context
+  execute := fun context _trigger => run S capability context
+
+end Capability
 
 end StructuralExhaustion.CT6

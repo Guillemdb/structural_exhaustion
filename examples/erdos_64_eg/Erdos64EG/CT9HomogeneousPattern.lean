@@ -30,13 +30,11 @@ noncomputable def homogeneousPatternAudit
     windowSize remainderSize primitiveSize
     (coupledOverloadClassRoute ctx windowSize remainderSize primitiveSize overload)
 
-/-- Nodes `[140]`, `[142]`, and `[143]`: whichever class is selected by the
-green node-`[139]`/`[141]` route carries a literal matching or star of the
-authored size inside the exact overloaded fibre. -/
-structure VerifiedHomogeneousPatternPrefix
+/-- Nodes `[140]`, `[142]`, and `[143]` obligations accumulated on the exact
+coupled-overload CT9 ledger. -/
+structure HomogeneousPatternFacts
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
     Prop where
-  previous : VerifiedCoupledClassOverloadPrefix ctx
   audit : ∀ windowSize remainderSize primitiveSize
       (overload : (coupledClassProfile ctx windowSize remainderSize primitiveSize).Overload
         ctx.toBranchContext (coupledClassItems ctx)),
@@ -45,23 +43,44 @@ structure VerifiedHomogeneousPatternPrefix
       windowSize remainderSize primitiveSize
       (coupledOverloadClassRoute ctx windowSize remainderSize primitiveSize overload))
 
+abbrev HomogeneousPatternLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedCoupledClassOverloadPrefix ctx) :=
+  Core.Routing.LedgerExtension
+    (CoupledClassOverloadLedger ctx previous.1)
+    (fun _ledger => HomogeneousPatternFacts ctx)
+
+abbrev VerifiedHomogeneousPatternPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Sigma fun previous : VerifiedCoupledClassOverloadPrefix ctx =>
+    Core.Routing.ResidualStage .ct9 (HomogeneousPatternLedger ctx previous)
+
 noncomputable def verifiedHomogeneousPatternPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedCoupledClassOverloadPrefix ctx) :
-    VerifiedHomogeneousPatternPrefix ctx where
-  previous := previous
-  audit := fun windowSize remainderSize primitiveSize overload =>
-    ⟨homogeneousPatternAudit ctx windowSize remainderSize primitiveSize overload⟩
+    VerifiedHomogeneousPatternPrefix ctx :=
+  let stage := (coupledClassOverloadLedgerStage ctx previous).extend {
+    audit := fun windowSize remainderSize primitiveSize overload =>
+      ⟨homogeneousPatternAudit ctx windowSize remainderSize primitiveSize overload⟩
+  }
+  ⟨previous, stage⟩
+
+/-- Canonical complete CT9 stage after the homogeneous-pattern consumers. -/
+noncomputable def homogeneousPatternLedgerStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedHomogeneousPatternPrefix ctx) :
+    Core.Routing.ResidualStage .ct9 (HomogeneousPatternLedger ctx verified.1) :=
+  verified.2
 
 theorem exists_verifiedHomogeneousPatternPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedHomogeneousPatternPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedHomogeneousPatternPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedCoupledClassOverloadPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedHomogeneousPatternPrefix ctx previous⟩
+  exact ⟨ctx, verifiedHomogeneousPatternPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

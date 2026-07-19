@@ -17,7 +17,7 @@ structure Input {P : Core.Problem.{uAmbient, uBranch}}
   cells : Core.OrderedCollection capability.Cell
   deficit : (cells.values.map (capability.localBudget context)).sum < 0
 
-/-- Route-facing CT11 trigger.  Its deficit proof is indexed by the inherited
+/-- Transition-facing CT11 trigger.  Its deficit proof is indexed by the inherited
 branch context, so routing cannot silently substitute another branch. -/
 structure Trigger {P : Core.Problem.{uAmbient, uBranch}}
     (capability : Capability.{uAmbient, uBranch, uCell} P)
@@ -36,11 +36,5 @@ def ofTrigger {P : Core.Problem.{uAmbient, uBranch}}
   deficit := trigger.deficit
 
 end Input
-
-def tacticInterface {P : Core.Problem.{uAmbient, uBranch}}
-    (capability : Capability.{uAmbient, uBranch, uCell} P) :
-    Core.Routing.TacticInterface where
-  Context := Core.BranchContext P
-  Trigger := Trigger capability
 
 end StructuralExhaustion.CT11

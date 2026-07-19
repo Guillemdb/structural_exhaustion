@@ -54,10 +54,10 @@ namespace P13SameWindowFirstTransitionBoundaryInput
 variable {computed : P13SameWindowComputedNormalizedReturnBoundary input}
 
 noncomputable def graphInput
-    (transition : P13SameWindowFirstTransitionBoundaryInput computed) :
+  (transition : P13SameWindowFirstTransitionBoundaryInput computed) :
     InducedPathComponentBoundarySchedule.Input ctx.G.object where
   anchor := transition.stub
-  notBridge := dart_not_bridge ctx _
+  notBridge := minimality_dart_not_bridge ctx _
 
 noncomputable def result
     (transition : P13SameWindowFirstTransitionBoundaryInput computed) :=

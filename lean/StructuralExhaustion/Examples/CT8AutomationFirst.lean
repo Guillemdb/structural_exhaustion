@@ -33,7 +33,7 @@ abbrev uniqueCapability : CT8.Capability problem where
   response := fun state _ => state
 
 def uniqueInput : CT8.Input uniqueCapability context := ⟨[false, true], removal⟩
-example : (CT8.tacticInterface uniqueCapability).Trigger context := uniqueInput
+example : uniqueCapability.executableInterface.Trigger context := uniqueInput
 def uniqueResult := ct8_execute uniqueCapability at context on uniqueInput
 example : uniqueResult.terminal = .noRepetition := rfl
 example : uniqueResult.trace = [.entry, .repetition, .noRepetitionTerminal] := rfl

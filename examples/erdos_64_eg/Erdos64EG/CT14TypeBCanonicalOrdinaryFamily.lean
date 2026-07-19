@@ -120,7 +120,8 @@ noncomputable def source
     (member : Family (ctx := ctx)) : OrdinarySupportSource node84 where
   scope := scope member.index
   noHigher := noHigher member
-  route := node84.route (scope member.index) (noHigher member)
+  route := (typeBLocalFanMassFacts node84).route
+    (scope member.index) (noHigher member)
   routeExact := rfl
 
 /-- One occurrence for each literal high center of each retained canonical

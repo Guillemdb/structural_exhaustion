@@ -4834,6 +4834,10 @@
               "provision": "framework_constant"
             },
             {
+              "ref": "CT9.Capability.executableInterface",
+              "provision": "framework_constant"
+            },
+            {
               "ref": "CT9.residual.overload",
               "provision": "framework_constant"
             }
@@ -5107,6 +5111,10 @@
       },
       {
         "ref": "CT9.runReference",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT9.Capability.executableInterface",
         "provision": "framework_constant"
       },
       {

@@ -1,23 +1,27 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { fetchFramework } from "../api";
+import { fetchDocumentation, fetchFramework } from "../api";
+import { useDocumentationAudience } from "../audience";
 import { AppHeader } from "../components/AppHeader";
 import { ErrorState, LoadingState } from "../components/LoadState";
 import { GraphCanvas } from "../components/GraphCanvas";
-import { frameworkGraphElements, routeLabel } from "../graph-data";
+import { frameworkGraphElements, transitionProfileLabel } from "../graph-data";
 import { exampleDestination } from "../routes";
 import type {
   FrameworkResponse,
+  DocumentationResponse,
+  DocumentationTacticGuide,
   SelectedGraphElement,
   TacticSummary,
 } from "../types";
 
-function TacticCard({ tactic }: { tactic: TacticSummary }) {
+function TacticCard({ tactic, guide, leanView }: { tactic: TacticSummary; guide?: DocumentationTacticGuide; leanView: boolean }) {
   return (
     <Link className="tactic-card" to={`/ct/${tactic.tacticId}`}>
       <span className="tactic-card__id">{tactic.tacticId}</span>
       <h3>{tactic.title}</h3>
+      {guide ? <p>{leanView ? guide.leanEntry : guide.useWhen}</p> : null}
       <div className="tactic-card__counts">
         <span>{tactic.nodeCount} nodes</span>
         <span>{tactic.terminalCount} terminals</span>
@@ -30,15 +34,20 @@ function TacticCard({ tactic }: { tactic: TacticSummary }) {
 
 export function FrameworkPage() {
   const [framework, setFramework] = useState<FrameworkResponse | null>(null);
+  const [documentation, setDocumentation] = useState<DocumentationResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<SelectedGraphElement | null>(null);
   const navigate = useNavigate();
+  const { audience } = useDocumentationAudience();
 
   useEffect(() => {
     const controller = new AbortController();
-    fetchFramework(controller.signal)
-      .then(setFramework)
+    Promise.all([fetchFramework(controller.signal), fetchDocumentation(controller.signal)])
+      .then(([catalog, docs]) => {
+        setFramework(catalog);
+        setDocumentation(docs);
+      })
       .catch((reason: unknown) => {
         if (!controller.signal.aborted) {
           setError(reason instanceof Error ? reason.message : String(reason));
@@ -48,30 +57,37 @@ export function FrameworkPage() {
   }, []);
 
   const filtered = useMemo(() => {
-    if (!framework) return [];
+    if (!framework || !documentation) return [];
     const needle = query.trim().toLowerCase();
     if (!needle) return framework.tactics;
-    return framework.tactics.filter(
-      (tactic) =>
-        tactic.tacticId.toLowerCase().includes(needle) ||
-        tactic.title.toLowerCase().includes(needle),
-    );
-  }, [framework, query]);
+    return framework.tactics.filter((tactic) => {
+      const guide = documentation.tacticGuides.find((item) => item.tacticId === tactic.tacticId);
+      return [tactic.tacticId, tactic.title, guide?.role ?? "", guide?.useWhen ?? "", guide?.leanEntry ?? ""]
+        .some((value) => value.toLowerCase().includes(needle));
+    });
+  }, [documentation, framework, query]);
 
   if (error) return <main className="standalone-state"><ErrorState message={error} /></main>;
-  if (!framework) return <main className="standalone-state"><LoadingState /></main>;
+  if (!framework || !documentation) return <main className="standalone-state"><LoadingState /></main>;
+
+  const publicFramework = {
+    ...framework,
+    implementedTransitions: framework.implementedTransitions.filter(
+      (transition) => transition.exampleId !== "erdos-64",
+    ),
+  };
 
   const selectedTactic =
     selected?.group === "node"
       ? framework.tactics.find((tactic) => tactic.tacticId === selected.id)
       : undefined;
-  const selectedRoute =
+  const selectedProfile =
     selected?.group === "edge"
-      ? framework.routes.find((route) => route.routeId === selected.id)
+      ? framework.transitionProfiles.find((profile) => profile.profileId === selected.id)
       : undefined;
   const selectedTransition =
     selected?.group === "edge"
-      ? framework.implementedTransitions.find(
+      ? publicFramework.implementedTransitions.find(
           (transition) => transition.transitionId === selected.id,
         )
       : undefined;
@@ -82,15 +98,16 @@ export function FrameworkPage() {
       <AppHeader
         verification={framework.verification}
         artifactWarnings={framework.artifactWarnings}
+        showAudienceToggle
       />
       <main>
         <section className="hero">
           <div>
-            <span className="eyebrow">Lean-derived proof architecture</span>
-            <h1>Explore the closure tactics as executable machines.</h1>
+            <span className="eyebrow">Closure tactic library</span>
+            <h1>Choose the finite proof move that matches your branch.</h1>
             <p>
-              Navigate CT1–CT17, inspect typed transitions, and follow both
-              registered routes and compiled proof compositions between CTs.
+              Navigate CT1–CT17 by mathematical role, inspect their executable
+              machines, and follow verified transition profiles between residuals.
             </p>
           </div>
           <div className="catalog-stamp">
@@ -105,8 +122,15 @@ export function FrameworkPage() {
           <div><strong>{framework.totals.nodes}</strong><span>nodes</span></div>
           <div><strong>{framework.totals.transitions}</strong><span>typed transitions</span></div>
           <div><strong>{framework.totals.terminals}</strong><span>terminals</span></div>
-          <div><strong>{framework.totals.routes}</strong><span>registered routes</span></div>
-          <div><strong>{framework.totals.implementedTransitions}</strong><span>implemented CT links</span></div>
+          <div>
+            <strong>{framework.totals.transitionFamilies}</strong>
+            <span>transition families</span>
+          </div>
+          <div>
+            <strong>{framework.totals.transitionProfiles}</strong>
+            <span>transition profiles</span>
+          </div>
+          <div><strong>{publicFramework.implementedTransitions.length}</strong><span>example CT links</span></div>
         </section>
 
         <section className="overview-grid">
@@ -127,12 +151,19 @@ export function FrameworkPage() {
               </label>
             </div>
             <div className="tactic-grid">
-              {filtered.map((tactic) => <TacticCard tactic={tactic} key={tactic.tacticId} />)}
+              {filtered.map((tactic) => (
+                <TacticCard
+                  tactic={tactic}
+                  guide={documentation.tacticGuides.find((guide) => guide.tacticId === tactic.tacticId)}
+                  leanView={audience === "leanUser"}
+                  key={tactic.tacticId}
+                />
+              ))}
             </div>
             {!filtered.length ? <p className="empty-search">No tactic matches “{query}”.</p> : null}
           </div>
 
-          <div className="route-panel">
+          <div className="transition-panel">
             <div className="section-heading">
               <div>
                 <span className="eyebrow">Cross-CT architecture</span>
@@ -143,18 +174,24 @@ export function FrameworkPage() {
               </span>
             </div>
             <div className="framework-legend" aria-label="CT transition legend">
-              <span><i className="framework-legend__route" />Registered residual route</span>
-              <span><i className="framework-legend__route-use" />Implemented route use</span>
+              <span>
+                <i className="framework-legend__transition-profile" />
+                Registered transition profile
+              </span>
+              <span>
+                <i className="framework-legend__transition-use" />
+                Implemented profile use
+              </span>
               <span><i className="framework-legend__implemented" />Implemented proof composition</span>
               <span><i className="framework-legend__audit" />Implemented schedule audit</span>
             </div>
             <GraphCanvas
               mode="framework"
-              elements={frameworkGraphElements(framework)}
+              elements={frameworkGraphElements(publicFramework)}
               selectedId={selected?.id}
               onSelect={setSelected}
             />
-            <div className="route-selection" aria-live="polite">
+            <div className="transition-selection" aria-live="polite">
               {selectedTactic ? (
                 <>
                   <span className="eyebrow">{selectedTactic.tacticId}</span>
@@ -164,13 +201,24 @@ export function FrameworkPage() {
                   </button>
                 </>
               ) : null}
-              {selectedRoute ? (
+              {selectedProfile ? (
                 <>
-                  <span className="eyebrow">{selectedRoute.selectionClass} route</span>
-                  <strong>{selectedRoute.sourceTacticId} → {selectedRoute.targetTacticId}</strong>
-                  <code>{routeLabel(selectedRoute)}</code>
-                  <button type="button" onClick={() => navigate(`/ct/${selectedRoute.targetTacticId}`)}>
-                    Follow to {selectedRoute.targetTacticId}
+                  <span className="eyebrow">
+                    {selectedProfile.selectionClass} transition profile
+                  </span>
+                  <strong>
+                    {selectedProfile.sourceTacticId} → {selectedProfile.targetTacticId}
+                  </strong>
+                  <code>{transitionProfileLabel(selectedProfile)}</code>
+                  <small className="transition-selection__provenance">
+                    Full-ledger executor
+                  </small>
+                  <code>{selectedProfile.advanceExecutor}</code>
+                  <button
+                    type="button"
+                    onClick={() => navigate(`/ct/${selectedProfile.targetTacticId}`)}
+                  >
+                    Follow to {selectedProfile.targetTacticId}
                   </button>
                 </>
               ) : null}
@@ -184,8 +232,8 @@ export function FrameworkPage() {
                     {selectedTransition.sourceTacticId} → {selectedTransition.targetTacticId}
                   </strong>
                   <code>{selectedTransition.label}</code>
-                  <p className="route-selection__summary">{selectedTransition.summary}</p>
-                  <small className="route-selection__provenance">
+                  <p className="transition-selection__summary">{selectedTransition.summary}</p>
+                  <small className="transition-selection__provenance">
                     {selectedTransition.exampleTitle} · {selectedTransition.workflowTitle}
                   </small>
                   <dl className="implemented-transition-map">
@@ -225,7 +273,7 @@ export function FrameworkPage() {
                     )}
                   </details>
                   <button
-                    className="route-selection__proof-button"
+                    className="transition-selection__proof-button"
                     type="button"
                     onClick={() => navigate(exampleDestination(selectedTransition.exampleId))}
                   >
@@ -234,7 +282,11 @@ export function FrameworkPage() {
                 </>
               ) : null}
               {!selected ? (
-                <p>Select a CT or connection. Purple dashed edges are reusable registered routes; example-backed edges record transitions actually used by compiled proofs.</p>
+                <p>
+                  Select a CT or connection. Purple dashed edges are reusable registered
+                  transition profiles; example-backed edges record transitions actually used
+                  by compiled proofs.
+                </p>
               ) : null}
             </div>
           </div>

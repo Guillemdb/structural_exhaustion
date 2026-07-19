@@ -20,11 +20,4 @@ structure Input
   sequence : List capability.State
   remove : capability.State → capability.State → Core.SmallerObject P ctx.G
 
-def tacticInterface
-    {P : Core.Problem.{uAmbient, uBranch}}
-    (capability : Capability.{uAmbient, uBranch, uState, uType, uResponseContext} P) :
-    Core.Routing.TacticInterface where
-  Context := Core.BranchContext P
-  Trigger := Input capability
-
 end StructuralExhaustion.CT8

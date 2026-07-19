@@ -7,20 +7,20 @@ Generated from the compiled `StructuralExhaustion.Canonical` registry.
 | CT1 | 5 | 4 | 2 | 10 | 24 | 2 |
 | CT2 | 7 | 6 | 4 | 22 | 25 | 2 |
 | CT3 | 9 | 8 | 4 | 19 | 7 | 2 |
-| CT4 | 9 | 8 | 4 | 9 | 8 | 3 |
+| CT4 | 9 | 8 | 4 | 9 | 9 | 3 |
 | CT5 | 8 | 7 | 4 | 11 | 8 | 3 |
 | CT6 | 4 | 3 | 2 | 7 | 14 | 2 |
-| CT7 | 6 | 5 | 3 | 6 | 4 | 1 |
-| CT8 | 6 | 5 | 3 | 8 | 5 | 2 |
-| CT9 | 5 | 4 | 2 | 5 | 31 | 1 |
-| CT10 | 8 | 7 | 3 | 8 | 6 | 2 |
-| CT11 | 6 | 5 | 2 | 4 | 5 | 2 |
-| CT12 | 8 | 8 | 3 | 6 | 6 | 2 |
-| CT13 | 9 | 8 | 4 | 14 | 5 | 3 |
-| CT14 | 9 | 8 | 4 | 7 | 5 | 3 |
-| CT15 | 8 | 7 | 3 | 6 | 8 | 2 |
-| CT16 | 7 | 6 | 3 | 8 | 2 | 2 |
-| CT17 | 10 | 9 | 5 | 14 | 8 | 3 |
+| CT7 | 6 | 5 | 3 | 6 | 5 | 1 |
+| CT8 | 6 | 5 | 3 | 8 | 6 | 2 |
+| CT9 | 5 | 4 | 2 | 5 | 32 | 1 |
+| CT10 | 8 | 7 | 3 | 8 | 7 | 2 |
+| CT11 | 6 | 5 | 2 | 4 | 6 | 2 |
+| CT12 | 8 | 8 | 3 | 6 | 7 | 2 |
+| CT13 | 9 | 8 | 4 | 14 | 6 | 3 |
+| CT14 | 9 | 8 | 4 | 7 | 6 | 3 |
+| CT15 | 8 | 7 | 3 | 6 | 9 | 2 |
+| CT16 | 7 | 6 | 3 | 8 | 3 | 2 |
+| CT17 | 10 | 9 | 5 | 14 | 9 | 3 |
 
 ## Per-node automation contracts
 
@@ -199,16 +199,16 @@ Generated from the compiled `StructuralExhaustion.Canonical` registry.
 - `CT17.terminal.certificate.target-hit` — `genericTheorem`; author 0, predecessor 1, framework 1, outputs 1, manual obligations 0.
 - `CT17.terminal.residual.orbit` — `genericTheorem`; author 0, predecessor 1, framework 1, outputs 1, manual obligations 0.
 
-## Route authoring boundaries
+## Transition-profile authoring boundaries
 
-| Route | Semantic discovery | Problem-specific inputs | Adapter type |
-|---|---|---|---|
-| `CT1.residual.avoiding->CT2` | `capabilityDiscovery` | targetCapability, minimalityKernel | `—` |
-| `CT1.residual.avoiding->CT2.localDeletion` | `capabilityDiscovery` | targetCapability, minimalityKernel | `—` |
-| `CT1.terminal.c1->CT12` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT1ToCT12.SemanticAdapter` |
-| `CT2.residual.separatingContext->CT3` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT2ToCT3.PieceDiscovery` |
-| `CT2.residual.criticality->CT10` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery` |
-| `CT5.residual.chargeLedger->CT14` | `capabilityDiscovery` | targetCapability | `—` |
-| `CT6.residual.activeLedger->CT9` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter` |
-| `CT9.residual.overload->CT7` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT9ToCT7.ObjectAdapter` |
-| `CT14.residual.capacity->CT14` | `capabilityDiscovery` | targetCapability | `—` |
+| Profile | Family | Semantic discovery | Problem-specific inputs | Adapter type |
+|---|---|---|---|---|
+| `CT1.residual.avoiding->CT2` | `CT1->CT2` | `capabilityDiscovery` | targetCapability, minimalityKernel | `—` |
+| `CT1.residual.avoiding->CT2.localDeletion` | `CT1->CT2` | `capabilityDiscovery` | targetCapability, minimalityKernel | `—` |
+| `CT1.terminal.c1->CT12` | `CT1->CT12` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT1ToCT12.SemanticAdapter` |
+| `CT2.residual.separatingContext->CT3` | `CT2->CT3` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT2ToCT3.PieceDiscovery` |
+| `CT2.residual.criticality->CT10` | `CT2->CT10` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery` |
+| `CT5.residual.chargeLedger->CT14` | `CT5->CT14` | `capabilityDiscovery` | targetCapability | `—` |
+| `CT6.residual.activeLedger->CT9` | `CT6->CT9` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter` |
+| `CT9.residual.overload->CT7` | `CT9->CT7` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT9ToCT7.ObjectAdapter` |
+| `CT14.residual.capacity->CT14` | `CT14->CT14` | `capabilityDiscovery` | targetCapability | `—` |

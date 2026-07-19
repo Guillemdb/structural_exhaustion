@@ -1,4 +1,5 @@
 import Erdos64EG.P13EntropyScaleSplit
+import StructuralExhaustion.Core.ExactHandoff
 
 namespace Erdos64EG.Internal
 
@@ -22,10 +23,8 @@ structure VerifiedP13Node51HighEntropyBits
     (realized : P13CurvatureProductCostRealization ctx node21 node24)
     (node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized)
     (node50 : VerifiedP13Node50EntropyScaleSplit
-      ctx node21 node24 realized node49) : Type (u + 1) where
-  previous : VerifiedP13Node50EntropyScaleSplit
-    ctx node21 node24 realized node49
-  exactPrevious : previous = node50
+      ctx node21 node24 realized node49) : Type (u + 1)
+    extends Core.ExactHandoff node50 where
   powerBound : ctx.G.object.input.vertices.card ^
       (p13RemainderVertices ctx).card ≤
     p13RemainderStateCount realized ^ 10
@@ -69,13 +68,27 @@ noncomputable def verifiedP13Node51HighEntropyBits
         node49.countPos bound
   exact {
     previous := node50
-    exactPrevious := rfl
+    previousExact := rfl
     powerBound := bound
     totalLogBudget := totalBudget
     remainderBits := by
       nlinarith [totalBudget]
     checks := node50.work
   }
+
+/-- Compatibility spelling; exact handoff storage is framework-owned. -/
+theorem VerifiedP13Node51HighEntropyBits.exactPrevious
+    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
+    {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
+    {node24 : VerifiedP13Node24DensityHandoff ctx node21}
+    {realized : P13CurvatureProductCostRealization ctx node21 node24}
+    {node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized}
+    {node50 : VerifiedP13Node50EntropyScaleSplit
+      ctx node21 node24 realized node49}
+    (node51 : VerifiedP13Node51HighEntropyBits
+      ctx node21 node24 realized node49 node50) :
+    node51.previous = node50 :=
+  node51.previousExact
 
 /-- Total routing at the node-[50] branch point: the actual high constructor
 produces node `[51]`, while the strict low constructor is retained unchanged

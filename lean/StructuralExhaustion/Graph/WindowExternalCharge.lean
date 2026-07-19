@@ -185,12 +185,7 @@ theorem windowIncidences_card_eq_multiplicity
   letI : FinEnum (HybridFanIncidence.Incidence
       (object := object) (center := center) profile) :=
     HybridFanIncidence.incidences (object := object) (center := center) profile
-  letI : FinEnum {incidence : HybridFanIncidence.Incidence
-      (object := object) (center := center) profile //
-    HybridFanIncidence.incidenceKind (object := object) (center := center)
-      profile incidence = .window} :=
-    windowIncidences (object := object) (center := center) profile
-  rw [FinEnum.card_eq_fintypeCard, Fintype.card_subtype]
+  rw [windowIncidences, Core.Enumeration.subtype_card_eq_filter]
   have counted := CT14.card_membersWithLabel_eq_multiplicity
     (HybridFanIncidence.capability (base := base) (object := object)
       (center := center) profile)
@@ -240,24 +235,8 @@ theorem localExternalCard_eq_count
       deletionCritical Assigned assignedDecidable core port).card =
       AssignedFanCharge.externalAssignedShoulderCount object center centerHigh
         deletionCritical Assigned assignedDecidable core port := by
-  letI : FinEnum {side : Bool //
-      ExternalAt (object := object) (center := center) centerHigh
-        deletionCritical Assigned core port side} :=
-    externalSides (object := object) (center := center) centerHigh
-      deletionCritical Assigned assignedDecidable core port
   classical
-  rw [FinEnum.card_eq_fintypeCard, Fintype.card_subtype]
-  have boolCard (predicate : Bool → Prop) [DecidablePred predicate] :
-      (Finset.univ.filter predicate).card =
-        (if predicate false then 1 else 0) +
-          (if predicate true then 1 else 0) := by
-    rw [show (Finset.univ : Finset Bool) = {false, true} by decide]
-    by_cases atFalse : predicate false <;>
-      by_cases atTrue : predicate true
-    all_goals
-      rw [Finset.filter_insert, Finset.filter_singleton]
-      simp [atFalse, atTrue]
-  rw [boolCard]
+  rw [externalSides, Core.Enumeration.boolSubtype_card]
   by_cases firstAssigned : Assigned
       (HighCenterPort.endpoint object center port,
         HighCenterPort.firstShoulder object center centerHigh

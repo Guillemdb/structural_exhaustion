@@ -5,83 +5,66 @@ namespace StructuralExhaustion.Routes.CT14ToCT14
 open StructuralExhaustion
 
 universe uSourceMember uSourceLabel uTargetMember uTargetLabel
-universe uAmbient uBranch
+universe uAmbient uBranch uLedger
+
+/-- Stable identity of this executable transition profile. -/
+def transitionId : String := "CT14.residual.capacity->CT14"
 
 /-!
 # CT14 capacity-ledger refinement
 
-One aggregate ledger can expose a bounded semantic family that is refined by
-another CT14 capability on the identical branch.  Both member universes remain
-independently declared by their capabilities; the route owns only forced
-context preservation and the target's empty trigger.
+One aggregate ledger can be refined by another independently declared CT14
+capability on the identical branch. The framework retains the entire source
+ledger and owns the target's empty trigger and execution.
 -/
 
-def targetContext
-    {P : Core.Problem.{uAmbient, uBranch}}
-    {sourceCapability : CT14.Capability.{uSourceMember, uSourceLabel} P}
-    {ctx : Core.BranchContext P}
-    (_source : CT14.CapacityResidual sourceCapability ctx) :
-    Core.BranchContext P :=
-  ctx
-
-def rule
+/-- The sole public CT14→CT14 transition. -/
+def transition
     {P : Core.Problem.{uAmbient, uBranch}}
     {sourceCapability : CT14.Capability.{uSourceMember, uSourceLabel} P}
     {ctx : Core.BranchContext P}
     (targetCapability : CT14.Capability.{uTargetMember, uTargetLabel} P) :
-    Core.Routing.RouteRule (CT14.CapacityResidual sourceCapability ctx)
-      targetCapability.tacticInterface where
-  routeId := "CT14.residual.capacity->CT14"
-  targetContext := targetContext
-  Seed := fun _source => Unit
-  discover := targetCapability.discover
-  buildTrigger := fun _source _seed => ⟨⟩
+    Core.Routing.CTTransition .ct14 .ct14
+      (CT14.CapacityResidual sourceCapability ctx)
+      targetCapability.executableInterface :=
+  Core.Routing.CTTransition.ofTotalResidual
+    transitionId (fun _source => ctx)
+    (fun _source => ⟨⟩)
 
-def buildInput
+/-- Execute the target CT14 refinement while retaining the complete incoming
+CT14 ledger. -/
+def advance
     {P : Core.Problem.{uAmbient, uBranch}}
     {sourceCapability : CT14.Capability.{uSourceMember, uSourceLabel} P}
     {ctx : Core.BranchContext P}
     (targetCapability : CT14.Capability.{uTargetMember, uTargetLabel} P)
-    (source : CT14.CapacityResidual sourceCapability ctx) :
-    CT14.Input targetCapability (targetContext source) :=
-  (rule targetCapability).buildTrigger source ()
+    {Ledger : Sort uLedger}
+    (current : Ledger → CT14.CapacityResidual sourceCapability ctx)
+    (source : Core.Routing.ResidualStage .ct14 Ledger) :
+    ((transition targetCapability).onLedger current).EnabledStage source :=
+  (transition targetCapability).runEnabledOnLedger current source () rfl
 
-theorem branchContext_preserved
+@[simp] theorem transition_profile_id
     {P : Core.Problem.{uAmbient, uBranch}}
     {sourceCapability : CT14.Capability.{uSourceMember, uSourceLabel} P}
     {ctx : Core.BranchContext P}
-    (source : CT14.CapacityResidual sourceCapability ctx) :
-    targetContext source = ctx := rfl
+    (targetCapability : CT14.Capability.{uTargetMember, uTargetLabel} P) :
+    (transition (sourceCapability := sourceCapability) (ctx := ctx)
+      targetCapability).profileId =
+      "CT14.residual.capacity->CT14" :=
+  rfl
 
-theorem enabled_generates
-    {P : Core.Problem.{uAmbient, uBranch}}
-    {sourceCapability : CT14.Capability.{uSourceMember, uSourceLabel} P}
-    {ctx : Core.BranchContext P}
-    (targetCapability : CT14.Capability.{uTargetMember, uTargetLabel} P)
-    (source : CT14.CapacityResidual sourceCapability ctx) :
-    ((rule targetCapability).attempt source).generated? =
-      some ((rule targetCapability).generate source ()) := rfl
-
-theorem generated_route_id
-    {P : Core.Problem.{uAmbient, uBranch}}
-    {sourceCapability : CT14.Capability.{uSourceMember, uSourceLabel} P}
-    {ctx : Core.BranchContext P}
-    (targetCapability : CT14.Capability.{uTargetMember, uTargetLabel} P)
-    (source : CT14.CapacityResidual sourceCapability ctx) :
-    ((rule targetCapability).generate source ()).routeId =
-      "CT14.residual.capacity->CT14" := rfl
-
-def routeContract : Core.RouteContract where
-  routeId := "CT14.residual.capacity->CT14"
-  sourceResidualKind := "CT14.residual.capacity"
+/-- Machine-readable executable profile for the CT14→CT14 family. -/
+def transitionContract : Core.CTTransitionProfileContract where
+  profileId := transitionId
+  sourceTacticId := "CT14"
   targetTacticId := "CT14"
-  discovery := "StructuralExhaustion.CT14.Capability.discover"
-  triggerConstructor := "StructuralExhaustion.Routes.CT14ToCT14.buildInput"
-  soundnessTheorem := "StructuralExhaustion.Routes.CT14ToCT14.enabled_generates"
-  contextPreservationTheorem :=
-    "StructuralExhaustion.Routes.CT14ToCT14.branchContext_preserved"
-  provenanceTheorem :=
-    "StructuralExhaustion.Routes.CT14ToCT14.generated_route_id"
+  sourceResidualKind := "CT14.residual.capacity"
+  targetExecutableInterface :=
+    "StructuralExhaustion.CT14.Capability.executableInterface"
+  transitionConstructor :=
+    "StructuralExhaustion.Routes.CT14ToCT14.transition"
+  advanceExecutor := "StructuralExhaustion.Routes.CT14ToCT14.advance"
   selectionClass := .forced
   semanticDiscovery := .capabilityDiscovery
   problemSpecificInputs := [.targetCapability]

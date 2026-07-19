@@ -19,13 +19,14 @@ abbrev Node63 (node61 : Node61 (ctx := ctx)) :=
 abbrev Port (node61 : Node61 (ctx := ctx)) (node63 : Node63 node61) :=
   TypeACompletionPortCoordinates.Coordinate (ctx := ctx) node61 node63
 
-/-- The already verified CT2 bridgelessness theorem supplies exactly the local
-non-bridge premise for every node-`[63]` completion port. -/
+/-- The graph-level minimality theorem supplies exactly the local non-bridge
+premise for every node-`[63]` completion port, without inventing a dependency
+on the separate node-`[69]` CT2 route. -/
 noncomputable def producer (node61 : Node61 (ctx := ctx))
     (node63 : Node63 node61) :
     Graph.TypeAAnchoredReturnCoordinate.Producer ctx.G.object
       node63.typeAProfile where
-  notBridge := fun port => dart_not_bridge ctx
+  notBridge := fun port => minimality_dart_not_bridge ctx
     (Graph.TypeAAnchoredReturnCoordinate.dart ctx.G.object
       node63.typeAProfile port)
 

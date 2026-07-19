@@ -29,14 +29,14 @@ empty support and not permission to relabel the Type-A support.
 
 ## Lean contracts
 
-- `Core.FiniteProducedSupportLedger.Ledger.sum` combines two exact event
-  sequences without manufacturing an event.
-- `P13ProducedPriorSupportLedger.node66AndRecord` executes the existing
-  Type-B consumer and records the same handoff.
-- `P13ProducedPriorSupportLedger.recordRouteEight` accepts only a
-  proof-carrying `RecordedRouteEightExtraction`.
-- `P13ProducedPriorSupportLedger.TypeARouteEightFrontier` retains the exact
-  node-[63] predecessor and lists the four missing producer stages.
+- `Core.FiniteResidualLedger.Ledger.append` combines exact occurrence
+  schedules without manufacturing or deduplicating an event.
+- `Core.ResidualRefinement.Ledger.certify` attaches the exact ordinary,
+  decorated, or route-8 producer proof to each literal occurrence.
+- `P13ProducedPriorSupportLedgerCoverage.persistentBase` combines only the
+  proof-carrying producer schedules already present in the branch state.
+- `ProducedPriorD6State.event_origin` retrieves the exact producer case for
+  the occurrence selected by F4.
 
 The scans are linear in the number of recorded producer events.  They do not
 enumerate vertices, supports, contexts, or graphs.

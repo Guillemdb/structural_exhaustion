@@ -27,7 +27,7 @@ structure VerifiedP13Node29ExternalIncidenceSupply
     (node26 : VerifiedP13Node26RemainderContinuation ctx node21 node24)
     (node27 : VerifiedP13Node27NoInternalThreeCore ctx node21 node24 node26)
     (node28 : VerifiedP13Node28PositiveDeficiency
-      ctx node21 node24 node26 node27) : Type (u + 1)
+      ctx node21 node24 node26 node27) : Type (u + 3)
     extends Core.ExactHandoff node28 where
   deficiencyLedgerExact :
     (p13RemainderCurvatureProfile ctx).positiveDeficiency =

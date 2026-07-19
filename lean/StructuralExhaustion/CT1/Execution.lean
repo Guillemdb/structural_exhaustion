@@ -1,5 +1,6 @@
 import StructuralExhaustion.CT1.Graph
 import StructuralExhaustion.CT1.Search
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT1
 
@@ -70,5 +71,22 @@ def OutcomeClaim {P : Core.Problem.{uAmbient, uBranch}}
     {terminal : Graph.Terminal} : RawOutcome S input terminal → Prop
   | .c1 _ => Target S input.context.G
   | .avoiding _ => ¬ Target S input.context.G
+
+namespace Capability
+
+/-- Canonical executable CT1 entry.  A transition supplies only the inherited
+branch context; the framework constructs the CT1 input and invokes the public
+reference runner. -/
+def executableInterface
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {S : Spec.{uIndex, uWitness} P}
+    (capability : Capability S) :
+    Core.Routing.ExecutableInterface .ct1 where
+  Context := Core.BranchContext P
+  Trigger := fun _context => Unit
+  Result := fun context _trigger => ExecutionResult S ⟨context⟩
+  execute := fun context _trigger => run S capability ⟨context⟩
+
+end Capability
 
 end StructuralExhaustion.CT1

@@ -17,12 +17,73 @@ example : Enumeration.bool.orderedValues = [false, true] := rfl
 example : (Enumeration.prod bools bools).orderedValues =
     [(false, false), (false, true), (true, false), (true, true)] := rfl
 
+def BoolFibre : Bool → Type
+  | false => Fin 1
+  | true => Fin 3
+
+@[implicit_reducible]
+def boolFibreEnumeration : (value : Bool) → FinEnum (BoolFibre value)
+  | false => (inferInstance : FinEnum (Fin 1))
+  | true => (inferInstance : FinEnum (Fin 3))
+
+example : (Enumeration.sigma bools boolFibreEnumeration).card = 4 := by
+  native_decide
+
+example :
+    (Enumeration.sigmaOrderedDistinctPairs bools boolFibreEnumeration).card = 3 := by
+  native_decide
+
+example :
+    (Enumeration.sigmaOrderedDistinctPairs bools boolFibreEnumeration).card ≤
+      bools.card * 3 ^ 2 :=
+  Enumeration.sigmaOrderedDistinctPairs_card_le_mul_square
+    bools boolFibreEnumeration 3 (by
+      intro value
+      cases value <;>
+        simp [BoolFibre, FinEnum.card_eq_fintypeCard])
+
 @[implicit_reducible]
 def trueBools : FinEnum {value : Bool // value = true} :=
   Enumeration.subtype bools (fun value => value = true)
     (fun value => Bool.decEq value true)
 
 example : trueBools.orderedValues.map Subtype.val = [true] := rfl
+
+example : trueBools.card = 1 := by
+  rw [trueBools, Enumeration.subtype_card_eq_filter]
+  decide
+
+example : Nat.card Bool = bools.card :=
+  Enumeration.natCard_eq bools
+
+example : ({true} : Finset Bool).card ≤ bools.card :=
+  Enumeration.finset_card_le bools {true}
+
+example : bools.card ≤ (Enumeration.prod bools bools).card :=
+  Enumeration.card_le_of_injective bools (Enumeration.prod bools bools)
+    (fun value => (value, false)) (fun _left _right equal =>
+      congrArg Prod.fst equal)
+
+example (values : List (Set.powersetCard Bool 1))
+    (nodup : values.Nodup) :
+    values.length ≤ Nat.choose bools.card 1 :=
+  Enumeration.powersetCard_list_length_le bools 1 values nodup
+
+example :
+    (Enumeration.finsetSubtype bools ({true} : Finset Bool)).card = 1 := by
+  rw [Enumeration.finsetSubtype_card]
+  decide
+
+example :
+    (@Finset.univ {value // value ∈ ({false, true} : Finset Bool)}
+      (@FinEnum.instFintype _
+        (Enumeration.finsetSubtype bools {false, true}))).sum
+        (fun value => if value.1 then 2 else 1) = 3 := by
+  calc
+    _ = ({false, true} : Finset Bool).sum
+        (fun value => if value then 2 else 1) :=
+      Enumeration.finsetSubtype_sum_val_eq bools {false, true} _
+    _ = 3 := by decide
 
 example : (Enumeration.distinctPairs (inferInstance : FinEnum (Fin 4))).card = 6 := by
   rw [Enumeration.distinctPairs_card]

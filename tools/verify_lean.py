@@ -20,13 +20,13 @@ try:
         lint as lint_lean_sources,
         untrusted_admissions,
     )
-    from validate_repository import validate_routes, validate_tactic
+    from validate_repository import validate_tactic, validate_transition_profiles
 except ImportError:  # imported as tools.verify_lean
     from tools.lint_automation_first import (
         lint as lint_lean_sources,
         untrusted_admissions,
     )
-    from tools.validate_repository import validate_routes, validate_tactic
+    from tools.validate_repository import validate_tactic, validate_transition_profiles
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -105,7 +105,7 @@ def json_schema_errors(catalog: dict) -> list[str]:
     ]
 
 
-def automation_graph_route_errors(catalog: dict) -> list[str]:
+def automation_graph_transition_errors(catalog: dict) -> list[str]:
     errors: list[str] = []
     for tactic in catalog.get("tactics", []):
         validate_tactic(errors, tactic)
@@ -130,7 +130,7 @@ def automation_graph_route_errors(catalog: dict) -> list[str]:
                 errors.append(
                     f"{node['nodeId']}: generated outputs overlap inputs {overlap}"
                 )
-    validate_routes(errors, catalog)
+    validate_transition_profiles(errors, catalog)
     return errors
 
 
@@ -151,18 +151,16 @@ def binding_check(catalog: dict) -> str:
                 for key in ("requiredDefinitions", "derivedOperations")
                 for item in profile[key]
             )
-    for route in catalog["routes"]:
+    for profile in catalog["transitionProfiles"]:
         declarations.extend(
-            route[field]
+            profile[field]
             for field in (
-                "discovery",
-                "triggerConstructor",
-                "soundnessTheorem",
-                "contextPreservationTheorem",
-                "provenanceTheorem",
+                "targetExecutableInterface",
+                "transitionConstructor",
+                "advanceExecutor",
             )
         )
-        adapter_type = route["authoringBoundary"]["semanticDiscovery"][
+        adapter_type = profile["authoringBoundary"]["semanticDiscovery"][
             "adapterType"
         ]
         if adapter_type is not None:
@@ -248,7 +246,7 @@ def generated_artifacts_are_fresh(catalog_path: Path) -> tuple[bool, str]:
             "automation-summary.json",
             "manifest.json",
             "node-index.csv",
-            "route-manifest.json",
+            "transition-manifest.json",
         }
         expected_root = temporary_root / "generated"
         observed_root = ROOT / "generated"
@@ -266,7 +264,11 @@ def generated_artifacts_are_fresh(catalog_path: Path) -> tuple[bool, str]:
             path.relative_to(observed_root).as_posix(): path.read_bytes()
             for path in observed_root.rglob("*")
             if path.is_file()
-            and path.name not in {"lean-machines.json", "kernel-verification.json"}
+            and path.name not in {
+                "lean-machines.json",
+                "framework-documentation.json",
+                "kernel-verification.json",
+            }
             and path.relative_to(observed_root).parts[0] != "examples"
         }
         if expected == observed:
@@ -328,6 +330,24 @@ def example_catalog_is_fresh(
 
     expected = files_below(output_root / "generated/examples", "*")
     observed = files_below(ROOT / "generated/examples", "*")
+    # Proof history is append-only engineering telemetry, so it cannot be
+    # reconstructed byte-for-byte in a fresh temporary directory. Verify its
+    # latest snapshot against the freshly rendered proof artifact, then exclude
+    # only that chronology from the deterministic catalog comparison.
+    history_name = "erdos-64-history.json"
+    history_path = ROOT / "generated/examples" / history_name
+    if not history_path.is_file():
+        return False, "generated Erdős proof history is missing"
+    try:
+        history = json.loads(history_path.read_text(encoding="utf-8"))
+        snapshots = history["snapshots"]
+        latest_hash = snapshots[-1]["artifactSha256"]
+    except (OSError, json.JSONDecodeError, KeyError, IndexError, TypeError) as error:
+        return False, f"generated Erdős proof history is malformed: {error}"
+    rendered_erdos = output_root / "generated/examples/erdos-64.json"
+    if latest_hash != sha256(rendered_erdos):
+        return False, "generated Erdős proof history does not record the fresh artifact"
+    observed.pop(history_name, None)
     if expected == observed:
         return True, ""
     missing = sorted(set(expected) - set(observed))
@@ -419,14 +439,18 @@ def main() -> int:
     admissions = authored_admissions()
     legacy_errors = lint_lean_sources(ROOT)
     schema_errors = json_schema_errors(catalog)
-    contract_errors = automation_graph_route_errors(catalog)
+    contract_errors = automation_graph_transition_errors(catalog)
 
     with tempfile.TemporaryDirectory(prefix="structural-exhaustion-verify-") as raw:
         temporary = Path(raw)
 
         fresh_catalog = temporary / "lean-machines.json"
+        fresh_documentation = temporary / "framework-documentation.json"
         export_env = os.environ.copy()
         export_env["STRUCTURAL_EXHAUSTION_EXPORT"] = str(fresh_catalog)
+        export_env["STRUCTURAL_EXHAUSTION_DOCUMENTATION_EXPORT"] = str(
+            fresh_documentation
+        )
         export = run(
             [lake, "env", "lean", "StructuralExhaustion/Canonical/Export.lean"],
             env=export_env,
@@ -435,6 +459,9 @@ def main() -> int:
             export.returncode == 0
             and fresh_catalog.is_file()
             and fresh_catalog.read_bytes() == CATALOG_PATH.read_bytes()
+            and fresh_documentation.is_file()
+            and fresh_documentation.read_bytes()
+            == (ROOT / "generated/framework-documentation.json").read_bytes()
         )
 
         binding_path = temporary / "AutomationFirstBindingCheck.lean"
@@ -479,7 +506,7 @@ def main() -> int:
         "noAdmissions": "passed" if not admissions else "failed",
         # Automation-first verification layers.
         "catalogSchema": "passed" if not schema_errors else "failed",
-        "automationGraphRoutes": "passed" if not contract_errors else "failed",
+        "automationGraphTransitions": "passed" if not contract_errors else "failed",
         "schemaFreshness": "passed" if schemas_fresh else "failed",
         "generatedArtifactFreshness": "passed" if artifacts_fresh else "failed",
         "legacyAbsence": "passed" if not legacy_errors else "failed",
@@ -493,7 +520,9 @@ def main() -> int:
         print(
             f"Kernel checked {len(catalog['tactics'])} automation-first tactics, "
             f"{node_count} nodes, {edge_count} typed edges, "
-            f"{residual_count} residual kinds, {len(catalog['routes'])} routes, "
+            f"{residual_count} residual kinds, "
+            f"{len(catalog['transitionFamilies'])} transition families, "
+            f"{len(catalog['transitionProfiles'])} transition profiles, "
             f"and {len(EXAMPLE_EXPORTS)} compiled examples"
         )
         return 0
@@ -519,7 +548,7 @@ def main() -> int:
     if schema_errors:
         print_failure("catalogSchema", "\n".join(schema_errors))
     if contract_errors:
-        print_failure("automationGraphRoutes", "\n".join(contract_errors))
+        print_failure("automationGraphTransitions", "\n".join(contract_errors))
     if not schemas_fresh:
         print_failure("schemaFreshness", schema_freshness_detail)
     if not artifacts_fresh:

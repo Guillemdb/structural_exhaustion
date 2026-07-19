@@ -53,14 +53,15 @@ export function ExamplesPage() {
   }, []);
 
   const filtered = useMemo(
-    () => filterExamples(response?.examples ?? [], query),
+    () => filterExamples((response?.examples ?? []).filter((example) => example.exampleId !== "erdos-64"), query),
     [query, response],
   );
 
   if (error) return <main className="standalone-state"><ErrorState message={error} /></main>;
   if (!response) return <main className="standalone-state"><LoadingState label="Loading examples…" /></main>;
 
-  const completeCount = response.examples.filter((example) => example.proofStatus === "complete").length;
+  const publicExamples = response.examples.filter((example) => example.exampleId !== "erdos-64");
+  const completeCount = publicExamples.filter((example) => example.proofStatus === "complete").length;
   return (
     <div className="app-page app-page--overview app-page--examples">
       <AppHeader
@@ -78,9 +79,9 @@ export function ExamplesPage() {
             </p>
           </div>
           <div className="catalog-stamp">
-            <span>{response.examples.length} examples</span>
+            <span>{publicExamples.length} examples</span>
             <code>{response.catalog.catalogHash.slice(0, 12)}</code>
-            <small>{completeCount} complete · {response.examples.length - completeCount} partial</small>
+            <small>{completeCount} complete · {publicExamples.length - completeCount} partial</small>
           </div>
         </section>
         <section className="examples-catalog">

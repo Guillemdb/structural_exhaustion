@@ -18,7 +18,9 @@ vi.mock("../api", () => ({
 }));
 vi.mock("../components/AppHeader", () => ({ AppHeader: () => null }));
 vi.mock("../components/Inspector", () => ({ Inspector: () => null }));
-vi.mock("../components/RouteList", () => ({ RouteList: () => null }));
+vi.mock("../components/TransitionProfileList", () => ({
+  TransitionProfileList: () => null,
+}));
 vi.mock("../components/GraphCanvas", () => ({
   GraphCanvas: ({
     elements,
@@ -45,8 +47,9 @@ vi.mock("../components/GraphCanvas", () => ({
   ),
 }));
 
-const route = {
-  routeId: "CT1.residual.avoiding->CT2",
+const transitionProfile = {
+  profileId: "CT1.residual.avoiding->CT2",
+  familyId: "CT1->CT2",
   sourceTacticId: "CT1",
   sourceResidualKind: "CT1.residual.avoiding",
   targetTacticId: "CT2",
@@ -72,8 +75,8 @@ const tacticResponse = {
       { data: { id: "CT1.terminal.avoiding", kind: "residual" } },
     ],
   },
-  inboundRoutes: [],
-  outboundRoutes: [route],
+  inboundTransitionProfiles: [],
+  outboundTransitionProfiles: [transitionProfile],
 } as unknown as TacticResponse;
 
 const internalsResponse = {
@@ -121,7 +124,7 @@ function LocationProbe() {
   return <output aria-label="Current location">{useLocation().pathname}</output>;
 }
 
-describe("TacticPage route overlay", () => {
+describe("TacticPage transition-profile overlay", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(fetchTactic).mockResolvedValue(tacticResponse);
@@ -129,7 +132,7 @@ describe("TacticPage route overlay", () => {
     vi.mocked(fetchTacticInternals).mockResolvedValue(internalsResponse as never);
   });
 
-  it("toggles outbound routes and opens a destination CT node", async () => {
+  it("toggles outbound transition profiles and opens a destination CT node", async () => {
     render(
       <MemoryRouter initialEntries={["/ct/CT1"]}>
         <Routes>
@@ -139,15 +142,21 @@ describe("TacticPage route overlay", () => {
       </MemoryRouter>,
     );
 
-    const toggle = await screen.findByRole("checkbox", { name: "Show routes to other CTs" });
+    const toggle = await screen.findByRole("checkbox", {
+      name: "Show transition profiles to other CTs",
+    });
     expect(toggle).not.toBeChecked();
-    expect(screen.queryByRole("button", { name: "graph:route-target:CT2" })).toBeNull();
+    expect(screen.queryByRole("button", {
+      name: "graph:transition-target:CT2",
+    })).toBeNull();
 
     fireEvent.click(toggle);
     expect(toggle).toBeChecked();
     expect(screen.getByRole("button", { name: "graph:CT1.residual.avoiding->CT2" })).toBeVisible();
 
-    fireEvent.click(screen.getByRole("button", { name: "graph:route-target:CT2" }));
+    fireEvent.click(screen.getByRole("button", {
+      name: "graph:transition-target:CT2",
+    }));
     expect(screen.getByRole("status", { name: "Current location" })).toHaveTextContent("/ct/CT2");
   });
 
@@ -160,11 +169,11 @@ describe("TacticPage route overlay", () => {
       </MemoryRouter>,
     );
 
-    const routeToggle = await screen.findByRole("checkbox", {
-      name: "Show routes to other CTs",
+    const transitionToggle = await screen.findByRole("checkbox", {
+      name: "Show transition profiles to other CTs",
     });
-    fireEvent.click(routeToggle);
-    await waitFor(() => expect(routeToggle).toBeChecked());
+    fireEvent.click(transitionToggle);
+    await waitFor(() => expect(transitionToggle).toBeChecked());
     expect(fetchTacticInternals).not.toHaveBeenCalled();
 
     fireEvent.click(screen.getByRole("button", { name: "graph:CT1.entry" }));
@@ -174,11 +183,11 @@ describe("TacticPage route overlay", () => {
       name: "graph:internal:step:CT1.entry:author.1",
     })).toBeVisible();
     expect(fetchTacticInternals).toHaveBeenCalledTimes(1);
-    expect(routeToggle).not.toBeChecked();
-    expect(routeToggle).toBeDisabled();
+    expect(transitionToggle).not.toBeChecked();
+    expect(transitionToggle).toBeDisabled();
 
     fireEvent.click(screen.getByRole("button", { name: "Return to overview" }));
-    await waitFor(() => expect(routeToggle).toBeChecked());
+    await waitFor(() => expect(transitionToggle).toBeChecked());
     expect(screen.queryByRole("button", {
       name: "graph:internal:step:CT1.entry:author.1",
     })).toBeNull();

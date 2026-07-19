@@ -1,6 +1,7 @@
 import Erdos64EG.CT10P13LabelAlgebra
 import Erdos64EG.CT9CoupledClassOverload
 import StructuralExhaustion.Core.QuadraticScaleSplit
+import StructuralExhaustion.Core.ResidualRefinement
 
 namespace Erdos64EG.Internal
 
@@ -55,34 +56,70 @@ theorem surplusScale_exhaustive
           ctx.G.object.input.vertices.card :=
   (surplusScaleStage ctx windowSize remainderSize primitiveSize).total
 
-/-- Predecessor-linked endpoint: node `[19]` is executed only after the green
-node-[18] finite label algebra on the identical selected graph. -/
-structure VerifiedSurplusScaleSplitPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedP13LabelAlgebraPrefix ctx
-  decision : ∀ windowSize remainderSize primitiveSize,
+/-- The three local obligations contributed by the exact node-[19] split. -/
+def SurplusScaleDecisionAvailable
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (_previous : VerifiedP13LabelAlgebraPrefix ctx) : Prop :=
+  ∀ windowSize remainderSize primitiveSize,
     Nonempty (SurplusScaleDecision ctx windowSize remainderSize primitiveSize)
-  exactSplit : ∀ windowSize remainderSize primitiveSize,
+
+def SurplusScaleExactSplit
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (_previous : VerifiedP13LabelAlgebraPrefix ctx) : Prop :=
+  ∀ windowSize remainderSize primitiveSize,
     surplusScaleCoefficient windowSize remainderSize primitiveSize *
         ctx.G.object.input.vertices.card <
           (Graph.InducedPathWindowLedger.totalSurplus ctx.G.object) ^ 2 ∨
       (Graph.InducedPathWindowLedger.totalSurplus ctx.G.object) ^ 2 ≤
         surplusScaleCoefficient windowSize remainderSize primitiveSize *
           ctx.G.object.input.vertices.card
-  constantWork : ∀ windowSize remainderSize primitiveSize,
+
+def SurplusScaleConstantWork
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (_previous : VerifiedP13LabelAlgebraPrefix ctx) : Prop :=
+  ∀ windowSize remainderSize primitiveSize,
     Core.QuadraticScaleSplit.checks
       (surplusScaleInput ctx windowSize remainderSize primitiveSize) = 1
+
+/-- Predecessor-linked endpoint: node `[19]` is executed only after the green
+node-[18] finite label algebra on the identical selected graph.  The framework
+retains that literal predecessor and accumulates the node's three obligations. -/
+abbrev VerifiedSurplusScaleSplitPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.ResidualRefinement.State (VerifiedP13LabelAlgebraPrefix ctx)
+    [SurplusScaleConstantWork ctx, SurplusScaleExactSplit ctx,
+      SurplusScaleDecisionAvailable ctx]
+
+noncomputable def surplusScaleDecisionNode
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
+    Core.ResidualRefinement.State.Node (facts := [])
+      (SurplusScaleDecisionAvailable ctx) where
+  prove := fun _state windowSize remainderSize primitiveSize =>
+    ⟨(surplusScaleStage ctx windowSize remainderSize primitiveSize).decision⟩
+
+noncomputable def surplusScaleExactSplitNode
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
+    Core.ResidualRefinement.State.Node
+      (facts := [SurplusScaleDecisionAvailable ctx])
+      (SurplusScaleExactSplit ctx) where
+  prove := fun _state => surplusScale_exhaustive ctx
+
+noncomputable def surplusScaleConstantWorkNode
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
+    Core.ResidualRefinement.State.Node
+      (facts := [SurplusScaleExactSplit ctx,
+        SurplusScaleDecisionAvailable ctx])
+      (SurplusScaleConstantWork ctx) where
+  prove := fun _state _windowSize _remainderSize _primitiveSize => rfl
 
 noncomputable def verifiedSurplusScaleSplitPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedP13LabelAlgebraPrefix ctx) :
-    VerifiedSurplusScaleSplitPrefix ctx where
-  previous := previous
-  decision := fun windowSize remainderSize primitiveSize =>
-    ⟨(surplusScaleStage ctx windowSize remainderSize primitiveSize).decision⟩
-  exactSplit := surplusScale_exhaustive ctx
-  constantWork := fun _windowSize _remainderSize _primitiveSize => rfl
+    VerifiedSurplusScaleSplitPrefix ctx :=
+  (surplusScaleConstantWorkNode ctx).run
+    ((surplusScaleExactSplitNode ctx).run
+      ((surplusScaleDecisionNode ctx).run
+        (Core.ResidualRefinement.State.initial previous)))
 
 /-!
 ## Typed continuation of the scale split
@@ -107,10 +144,11 @@ structure NonNearCubicScaleResidual
       ctx.G.object.input.vertices.card <
         (Graph.InducedPathWindowLedger.totalSurplus ctx.G.object) ^ 2
 
-/-- Node `[125]`: the Part-X entry retains the entire node-[20] residual. -/
-structure SparsePressureEntryResidual
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) where
-  previous : NonNearCubicScaleResidual ctx
+/-- Node `[125]`: the Part-X entry retains the entire node-[20] residual via
+the framework's exact zero-copy handoff. -/
+abbrev SparsePressureEntryResidual
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Σ previous : NonNearCubicScaleResidual ctx, Core.ExactHandoff previous
 
 /-- Complementary bounded-surplus residual consumed by node `[21]`. -/
 structure BoundedSurplusScaleResidual
@@ -138,7 +176,9 @@ noncomputable def routeSurplusScale
     SurplusScaleRoute ctx :=
   match (surplusScaleStage ctx windowSize remainderSize primitiveSize).decision with
   | .large strict =>
-      .sparsePressure ⟨⟨previous, windowSize, remainderSize, primitiveSize, strict⟩⟩
+      let residual : NonNearCubicScaleResidual ctx :=
+        ⟨previous, windowSize, remainderSize, primitiveSize, strict⟩
+      .sparsePressure ⟨residual, Core.ExactHandoff.refl residual⟩
   | .bounded bound =>
       .bounded ⟨previous, windowSize, remainderSize, primitiveSize, bound⟩
 
@@ -159,7 +199,9 @@ theorem routeSurplusScale_exhaustive
   | large strict =>
       left
       let residual : SparsePressureEntryResidual ctx :=
-        ⟨⟨previous, windowSize, remainderSize, primitiveSize, strict⟩⟩
+        let node20 : NonNearCubicScaleResidual ctx :=
+          ⟨previous, windowSize, remainderSize, primitiveSize, strict⟩
+        ⟨node20, Core.ExactHandoff.refl node20⟩
       exact ⟨residual, by simp [routeSurplusScale, hdecision, residual]⟩
   | bounded bound =>
       right
@@ -167,54 +209,88 @@ theorem routeSurplusScale_exhaustive
         ⟨previous, windowSize, remainderSize, primitiveSize, bound⟩
       exact ⟨residual, by simp [routeSurplusScale, hdecision, residual]⟩
 
-/-- The complete node-[19]/[20]/[125] route, still linked to node `[18]`. -/
-structure VerifiedSurplusScaleRoutingPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedSurplusScaleSplitPrefix ctx
-  routed : ∀ (windowSize remainderSize primitiveSize : Nat),
+/-- The three local obligations contributed by routing node `[19]`. -/
+def SurplusScaleRouted
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (_previous : VerifiedSurplusScaleSplitPrefix ctx) : Prop :=
+  ∀ (_windowSize _remainderSize _primitiveSize : Nat),
     Nonempty (SurplusScaleRoute ctx)
-  exhaustive : ∀ (windowSize remainderSize primitiveSize : Nat),
+
+def SurplusScaleRouteExhaustive
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSurplusScaleSplitPrefix ctx) : Prop :=
+  ∀ (windowSize remainderSize primitiveSize : Nat),
     (∃ residual : SparsePressureEntryResidual ctx,
         routeSurplusScale ctx previous windowSize remainderSize primitiveSize =
           .sparsePressure residual) ∨
       (∃ residual : BoundedSurplusScaleResidual ctx,
         routeSurplusScale ctx previous windowSize remainderSize primitiveSize =
           .bounded residual)
-  constantWork : ∀ (windowSize remainderSize primitiveSize : Nat),
+
+def SurplusScaleRouteConstantWork
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (_previous : VerifiedSurplusScaleSplitPrefix ctx) : Prop :=
+  ∀ (windowSize remainderSize primitiveSize : Nat),
     Core.QuadraticScaleSplit.checks
       (surplusScaleInput ctx windowSize remainderSize primitiveSize) = 1
+
+/-- The complete node-[19]/[20]/[125] route, still linked to node `[18]`. -/
+abbrev VerifiedSurplusScaleRoutingPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.ResidualRefinement.State (VerifiedSurplusScaleSplitPrefix ctx)
+    [SurplusScaleRouteConstantWork ctx, SurplusScaleRouteExhaustive ctx,
+      SurplusScaleRouted ctx]
+
+noncomputable def surplusScaleRoutedNode
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
+    Core.ResidualRefinement.State.Node (facts := [])
+      (SurplusScaleRouted ctx) where
+  prove := fun state windowSize remainderSize primitiveSize =>
+    ⟨routeSurplusScale ctx state.residual windowSize remainderSize primitiveSize⟩
+
+noncomputable def surplusScaleRouteExhaustiveNode
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
+    Core.ResidualRefinement.State.Node
+      (facts := [SurplusScaleRouted ctx])
+      (SurplusScaleRouteExhaustive ctx) where
+  prove := fun state => routeSurplusScale_exhaustive ctx state.residual
+
+noncomputable def surplusScaleRouteConstantWorkNode
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
+    Core.ResidualRefinement.State.Node
+      (facts := [SurplusScaleRouteExhaustive ctx, SurplusScaleRouted ctx])
+      (SurplusScaleRouteConstantWork ctx) where
+  prove := fun _state _ _ _ => rfl
 
 noncomputable def verifiedSurplusScaleRoutingPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedSurplusScaleSplitPrefix ctx) :
-    VerifiedSurplusScaleRoutingPrefix ctx where
-  previous := previous
-  routed := fun windowSize remainderSize primitiveSize =>
-    ⟨routeSurplusScale ctx previous windowSize remainderSize primitiveSize⟩
-  exhaustive := routeSurplusScale_exhaustive ctx previous
-  constantWork := fun _ _ _ => rfl
+    VerifiedSurplusScaleRoutingPrefix ctx :=
+  (surplusScaleRouteConstantWorkNode ctx).run
+    ((surplusScaleRouteExhaustiveNode ctx).run
+      ((surplusScaleRoutedNode ctx).run
+        (Core.ResidualRefinement.State.initial previous)))
 
 theorem exists_verifiedSurplusScaleSplitPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedSurplusScaleSplitPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedSurplusScaleSplitPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedP13LabelAlgebraPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedSurplusScaleSplitPrefix ctx previous⟩
+  exact ⟨ctx, verifiedSurplusScaleSplitPrefix ctx previous, rankLe⟩
 
 theorem exists_verifiedSurplusScaleRoutingPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedSurplusScaleRoutingPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedSurplusScaleRoutingPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedSurplusScaleSplitPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedSurplusScaleRoutingPrefix ctx previous⟩
+  exact ⟨ctx, verifiedSurplusScaleRoutingPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

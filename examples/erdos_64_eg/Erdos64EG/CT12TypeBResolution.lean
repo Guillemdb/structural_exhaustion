@@ -100,33 +100,32 @@ theorem unresolved_or_fullChoice_or_minimalOverlap :
 
 end TypeBSupportScope
 
-structure VerifiedTypeBResolutionPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedTypeBOverlapSupportPrefix ctx
-  total : ∀ scope : TypeBSupportScope ctx,
-    scope.UnresolvedCenter ∨
-      ∃ resolution : scope.FullResolution,
-        let assigned := scope.assignedSupport resolution
-        Nonempty assigned.completionProfile.FullChoice ∨
-          Nonempty assigned.MinimalOverlap
+/-- Same-CT12 theorem extension of the exact completion ledger. -/
+abbrev VerifiedTypeBResolutionPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.LedgerExtension (VerifiedTypeBOverlapSupportPrefix ctx)
+    (fun _previous => ∀ scope : TypeBSupportScope ctx,
+      scope.UnresolvedCenter ∨
+        ∃ resolution : scope.FullResolution,
+          let assigned := scope.assignedSupport resolution
+          Nonempty assigned.completionProfile.FullChoice ∨
+            Nonempty assigned.MinimalOverlap)
 
 noncomputable def verifiedTypeBResolutionPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedTypeBOverlapSupportPrefix ctx) :
-    VerifiedTypeBResolutionPrefix ctx where
-  previous := previous
-  total := fun scope => scope.unresolved_or_fullChoice_or_minimalOverlap
+    VerifiedTypeBResolutionPrefix ctx :=
+  ⟨previous, fun scope => scope.unresolved_or_fullChoice_or_minimalOverlap⟩
 
 theorem exists_verifiedTypeBResolutionPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedTypeBResolutionPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedTypeBResolutionPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedTypeBOverlapSupportPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedTypeBResolutionPrefix ctx previous⟩
+  exact ⟨ctx, verifiedTypeBResolutionPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

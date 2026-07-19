@@ -11,6 +11,7 @@ const manuscript: ExampleManuscript = {
   path: "proofs/synthetic.tex",
   sha256: "a".repeat(64),
   formalizedNodeIds: [],
+  nodeObligations: [],
   proofSteps: [],
   fragments: [
     {

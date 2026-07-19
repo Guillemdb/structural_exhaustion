@@ -17,15 +17,4 @@ structure Capability {P : Core.Problem} (S : Spec P) where
 /-- CT5 consumes only the shared branch context. -/
 abbrev Input (P : Core.Problem) := Core.BranchContext P
 
-namespace Capability
-
-/-- Route-facing CT5 trigger.  All inherited data is carried by the shared
-context, so no additional seed is required. -/
-def tacticInterface {P : Core.Problem} {S : Spec P}
-    (_capability : Capability S) : Core.Routing.TacticInterface where
-  Context := Core.BranchContext P
-  Trigger := fun _ => Unit
-
-end Capability
-
 end StructuralExhaustion.CT5

@@ -10357,6 +10357,10 @@
               "provision": "framework_constant"
             },
             {
+              "ref": "StructuralExhaustion.CT17.Capability.executableInterface",
+              "provision": "framework_constant"
+            },
+            {
               "ref": "CT17.residual.incompatibility",
               "provision": "framework_constant"
             },
@@ -10592,6 +10596,10 @@
       },
       {
         "ref": "CT17.runReference",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "StructuralExhaustion.CT17.Capability.executableInterface",
         "provision": "framework_constant"
       },
       {

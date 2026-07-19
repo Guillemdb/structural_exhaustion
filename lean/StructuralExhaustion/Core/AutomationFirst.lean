@@ -6,6 +6,7 @@ import StructuralExhaustion.Core.FiniteSearch
 import StructuralExhaustion.Core.ExactObservation
 import StructuralExhaustion.Core.SmallerObject
 import StructuralExhaustion.Core.Routing
+import StructuralExhaustion.Core.CTTransition
 import StructuralExhaustion.Core.Provision
 import StructuralExhaustion.Core.WorkBudget
 

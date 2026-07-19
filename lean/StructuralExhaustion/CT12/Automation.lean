@@ -1,6 +1,24 @@
 import StructuralExhaustion.CT12.DisjointPacking
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT12
+
+namespace Capability
+
+/-- Canonical executable CT12 entry.  The trigger is the exact indexed loop
+state supplied by the source residual; the framework materializes it without
+rebuilding either its load or branch context. -/
+def executableInterface {P : Core.Problem.{uAmbient, uBranch}}
+    (capability : Capability.{uAmbient, uBranch, uState, uPeeled, uDemand, uTier} P) :
+    Core.Routing.ExecutableInterface .ct12 where
+  Context := Core.BranchContext P
+  Trigger := Trigger capability
+  Result := fun context trigger =>
+    ExecutionResult capability (Input.ofTrigger context trigger)
+  execute := fun context trigger =>
+    run capability (Input.ofTrigger context trigger)
+
+end Capability
 
 def demandResidualKindId := "CT12.residual.demand"
 def tierResidualKindId := "CT12.residual.tier"
@@ -34,6 +52,7 @@ def capabilityContract : Core.CapabilityContract where
   requiredInstances := []
   derivedOperations := ["CT12.runLoop", "CT12.runReference",
     "CT12.run_iterations_bounded", "CT12.run_trace_bounded",
+    "CT12.Capability.executableInterface",
     demandResidualKindId, tierResidualKindId]
 
 /-- Minimal author contract for canonical head/tail list peeling. -/

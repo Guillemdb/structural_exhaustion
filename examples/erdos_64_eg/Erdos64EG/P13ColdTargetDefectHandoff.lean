@@ -48,7 +48,7 @@ def routeDistinction
     RoutedResidual (input := input) (boundaries := boundaries) (ctx := ctx) :=
   {
     distinction := distinction
-    residual := Routes.TargetDefectHandoff.route input boundaries ctx
+    residual := Routes.TargetDefectHandoff.handoff input boundaries ctx
       (source distinction)
     exactSource := rfl
   }
@@ -117,9 +117,9 @@ theorem routed_ambient
 theorem routed_provenance
     (previous : P13ColdGermTerminalRoutes.TargetDefectResidual
       (input := input) (boundaries := boundaries) (ctx := ctx)) :
-    Routes.TargetDefectHandoff.routeId =
+    Routes.TargetDefectHandoff.handoffId =
       "Graph.targetDefect->typedHandoff" :=
-  Routes.TargetDefectHandoff.generated_route_id input boundaries ctx
+  Routes.TargetDefectHandoff.handoff_provenance input boundaries ctx
     (route previous).residual.source
 
 end Erdos64EG.P13ColdTargetDefectHandoff

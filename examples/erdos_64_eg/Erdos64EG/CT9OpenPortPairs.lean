@@ -31,34 +31,98 @@ abbrev openPortPairInput
     ((fixedPackedInput ctx).dart_has_tight_endpoint
       (packedStaticInput.fixedContext ctx))
 
-def runOpenPortPairCT9
+abbrev openPortPairEntry
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
-  Graph.SurplusPortActivity.openPairResult
+  (openPortPairCapability ctx).executableInterface
+
+abbrev OpenPortPairSourceLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSurplusPortClassificationPrefix ctx) :=
+  SurplusPortClassificationEnabledStage ctx previous.1
+
+/-- The sole graph-specific adapter for the real CT10→CT9 manuscript edge. -/
+abbrev openPortPairAdapter
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSurplusPortClassificationPrefix ctx) :
+    Routes.Accumulated.Adapter (OpenPortPairSourceLedger ctx previous)
+      (openPortPairEntry ctx) :=
+  Graph.SurplusPortActivity.openPairAdapter
+    (Source := OpenPortPairSourceLedger ctx previous)
     (fixedPackedInput ctx) ctx.G.object
     (packedStaticInput.fixedContext ctx).baseline
     ((fixedPackedInput ctx).dart_has_tight_endpoint
       (packedStaticInput.fixedContext ctx))
+
+/-- Sole framework-owned CT10→CT9 transition at this paper edge. -/
+abbrev openPortPairTransition
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  fun previous : VerifiedSurplusPortClassificationPrefix ctx =>
+    Routes.Accumulated.transition (sourceTactic := .ct10)
+      (openPortPairEntry ctx) (openPortPairAdapter ctx previous)
+
+abbrev OpenPortPairEnabledStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSurplusPortClassificationPrefix ctx) :=
+  Routes.Accumulated.OutputLedger (openPortPairEntry ctx)
+    (openPortPairAdapter ctx previous) previous.2.ledgerStage
+
+/-- Complete CT9 application prefix, represented only by the prior dependent
+framework stage and the newly enabled stage. -/
+abbrev VerifiedOpenPortPairPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Sigma (OpenPortPairEnabledStage ctx)
+
+/-- Execute CT9 directly from the prior CT10 stage's canonical ledger. -/
+def openPortPairStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSurplusPortClassificationPrefix ctx) :
+    OpenPortPairEnabledStage ctx previous :=
+  Routes.Accumulated.advanceCurrent (openPortPairEntry ctx)
+    (openPortPairAdapter ctx previous) previous.2.ledgerStage
+
+/-- Literal CT9 target result from the accumulated transition. -/
+def runOpenPortPairCT9
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedOpenPortPairPrefix ctx) :=
+  verified.2.targetResult
+
+/-- Canonical CT9 ledger passed to the next paper transition. -/
+def openPortPairLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedOpenPortPairPrefix ctx) :=
+  verified.2.ledgerStage
 
 def openPortPairDecision
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
-  Graph.SurplusPortActivity.openPairDecision
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedOpenPortPairPrefix ctx) :=
+  Graph.SurplusPortActivity.openPairDecisionOfResult
     (fixedPackedInput ctx) ctx.G.object
     (packedStaticInput.fixedContext ctx).baseline
     ((fixedPackedInput ctx).dart_has_tight_endpoint
       (packedStaticInput.fixedContext ctx))
+    (runOpenPortPairCT9 ctx verified)
 
-def openPortPairStage
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Graph.SurplusPortActivity.VerifiedOpenPairStage
-      (fixedPackedInput ctx) ctx.G.object
-      (packedStaticInput.fixedContext ctx).baseline
-      ((fixedPackedInput ctx).dart_has_tight_endpoint
-        (packedStaticInput.fixedContext ctx)) :=
-  Graph.SurplusPortActivity.verifiedOpenPairStage
-    (fixedPackedInput ctx) ctx.G.object
-    (packedStaticInput.fixedContext ctx).baseline
-    ((fixedPackedInput ctx).dart_has_tight_endpoint
-      (packedStaticInput.fixedContext ctx))
+theorem openPortPairTransition_profile_id
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSurplusPortClassificationPrefix ctx) :
+    (openPortPairTransition ctx previous).profileId =
+      "CT10.residual.accumulatedLedger->CT9" :=
+  Routes.Accumulated.transition_profile_id
+    (sourceTactic := .ct10)
+    (openPortPairEntry ctx) (openPortPairAdapter ctx previous)
+
+theorem runOpenPortPairCT9_verified
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedOpenPortPairPrefix ctx) :
+    (runOpenPortPairCT9 ctx verified).outcome.Valid :=
+  (runOpenPortPairCT9 ctx verified).verified
+
+theorem runOpenPortPairCT9_traceValid
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedOpenPortPairPrefix ctx) :
+    CT9.Graph.ValidTrace (openPortPairCapability ctx) (openPortPairInput ctx)
+      (runOpenPortPairCT9 ctx verified).trace :=
+  (runOpenPortPairCT9 ctx verified).traceValid
 
 theorem runOpenPortPairCT9_checks_cubic
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
@@ -67,34 +131,25 @@ theorem runOpenPortPairCT9_checks_cubic
         (packedStaticInput.fixedContext ctx)) ≤
       ctx.G.object.input.vertices.card ^ 3 +
         ctx.G.object.input.vertices.card :=
-  (openPortPairStage ctx).polynomial
-
-structure VerifiedOpenPortPairPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedSurplusPortClassificationPrefix ctx
-  stage : Graph.SurplusPortActivity.VerifiedOpenPairStage
-    (fixedPackedInput ctx) ctx.G.object
-    (packedStaticInput.fixedContext ctx).baseline
+  Graph.SurplusPortActivity.openPairChecks_cubic ctx.G.object
     ((fixedPackedInput ctx).dart_has_tight_endpoint
       (packedStaticInput.fixedContext ctx))
 
 def verifiedOpenPortPairPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedSurplusPortClassificationPrefix ctx) :
-    VerifiedOpenPortPairPrefix ctx where
-  previous := previous
-  stage := openPortPairStage ctx
+    VerifiedOpenPortPairPrefix ctx :=
+  ⟨previous, openPortPairStage ctx previous⟩
 
 theorem exists_verifiedOpenPortPairPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedOpenPortPairPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedOpenPortPairPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedSurplusPortClassificationPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedOpenPortPairPrefix ctx previous⟩
+  exact ⟨ctx, verifiedOpenPortPairPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

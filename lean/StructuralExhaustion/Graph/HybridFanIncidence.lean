@@ -347,24 +347,56 @@ def sourceResidual (profile : FanClosedPort.FanWindowProfile V)
     (FanClosedPortMass.run_terminal_capacity (base := base) (baseline := baseline)
       centerHigh deletionCritical profile first second assigned)
 
+/-- Framework-owned CT14 refinement profile. -/
+abbrev transition (profile : FanClosedPort.FanWindowProfile V) :=
+  Routes.CT14ToCT14.transition
+    (sourceCapability := FanClosedPortMass.capability (base := base)
+      (object := object) (center := center) profile)
+    (ctx := FanClosedPortMass.context base object baseline)
+    (capability (base := base) (object := object) (center := center) profile)
+
+/-- Execute the second CT14 pass from the complete first transition ledger. -/
+def executionStage (profile : FanClosedPort.FanWindowProfile V)
+    (first second : FanClosedPort.OpenPort centerHigh deletionCritical)
+    (assigned : FanClosedPort.AssignedPair centerHigh deletionCritical profile
+      first second) :=
+  Routes.CT14ToCT14.advance
+    (capability (base := base) (object := object) (center := center) profile)
+    (fun _previous => sourceResidual (base := base) (baseline := baseline)
+      centerHigh deletionCritical profile first second assigned)
+    (FanClosedPortMass.ledgerStage (base := base) (baseline := baseline)
+      centerHigh deletionCritical profile first second assigned)
+
+/-- Accumulated second CT14 ledger, retaining the entire CT5→CT14 prefix. -/
+def ledgerStage (profile : FanClosedPort.FanWindowProfile V)
+    (first second : FanClosedPort.OpenPort centerHigh deletionCritical)
+    (assigned : FanClosedPort.AssignedPair centerHigh deletionCritical profile
+      first second) :=
+  (executionStage (base := base) (baseline := baseline) centerHigh
+    deletionCritical profile first second assigned).ledgerStage
+
 def routedInput (profile : FanClosedPort.FanWindowProfile V)
     (first second : FanClosedPort.OpenPort centerHigh deletionCritical)
     (assigned : FanClosedPort.AssignedPair centerHigh deletionCritical profile
       first second) :=
-  Routes.CT14ToCT14.buildInput
-    (capability (base := base) (object := object) (center := center) profile)
-    (sourceResidual (base := base) (baseline := baseline) centerHigh
+  let transition := transition (base := base) (object := object)
+    (baseline := baseline) (center := center) profile
+  let execution := transition.onLedger (fun _previous =>
+    sourceResidual (base := base) (baseline := baseline) centerHigh
       deletionCritical profile first second assigned)
+  let source := FanClosedPortMass.ledgerStage (base := base)
+    (baseline := baseline) centerHigh deletionCritical profile first second assigned
+  execution.trigger source ()
 
 def run (profile : FanClosedPort.FanWindowProfile V)
     (first second : FanClosedPort.OpenPort centerHigh deletionCritical)
     (assigned : FanClosedPort.AssignedPair centerHigh deletionCritical profile
-      first second) :=
-  CT14.run
-    (capability (base := base) (object := object) (center := center) profile)
-    (context base object baseline)
-    (routedInput (base := base) (baseline := baseline) centerHigh
-      deletionCritical profile first second assigned)
+      first second) :
+    CT14.ExecutionResult
+      (capability (base := base) (object := object) (center := center) profile)
+      (context base object baseline) :=
+  (executionStage (base := base) (baseline := baseline) centerHigh
+    deletionCritical profile first second assigned).targetResult
 
 theorem lowerMass_eq (profile : FanClosedPort.FanWindowProfile V) :
     CT14.lowerMass
@@ -409,6 +441,11 @@ theorem run_terminal_capacity (profile : FanClosedPort.FanWindowProfile V)
       first second) :
     (run (base := base) (baseline := baseline) centerHigh deletionCritical
       profile first second assigned).terminal = .capacity := by
+  change (CT14.run
+    (capability (base := base) (object := object) (center := center) profile)
+    (context base object baseline)
+    (routedInput (base := base) (baseline := baseline) centerHigh
+      deletionCritical profile first second assigned)).terminal = .capacity
   apply CT14.run_terminal_capacity_of_complete
   · intro incidence; exact ⟨2, rfl⟩
   · intro incidence
@@ -427,6 +464,11 @@ theorem run_trace_capacity (profile : FanClosedPort.FanWindowProfile V)
       profile first second assigned).trace =
       [.entry, .lowerMass, .memberScan, .upperCapacity, .comparison,
         .capacityTerminal] := by
+  change (CT14.run
+    (capability (base := base) (object := object) (center := center) profile)
+    (context base object baseline)
+    (routedInput (base := base) (baseline := baseline) centerHigh
+      deletionCritical profile first second assigned)).trace = _
   apply CT14.run_trace_capacity_of_complete
   · intro incidence; exact ⟨2, rfl⟩
   · intro incidence
@@ -542,11 +584,9 @@ structure VerifiedStage (profile : FanClosedPort.FanWindowProfile V)
   previous : FanClosedPortMass.VerifiedStage
     (base := base) (baseline := baseline) centerHigh deletionCritical profile
     first second pair assigned
-  routeId : ((Routes.CT14ToCT14.rule
-    (capability (base := base) (object := object) (center := center) profile)
-    ).generate
-      (sourceResidual (base := base) (baseline := baseline) centerHigh
-        deletionCritical profile first second assigned) ()).routeId =
+  transitionProfileId :
+    (transition (base := base) (object := object) (baseline := baseline)
+      (center := center) profile).profileId =
       "CT14.residual.capacity->CT14"
   terminal : (run (base := base) (baseline := baseline) centerHigh
     deletionCritical profile first second assigned).terminal = .capacity
@@ -619,6 +659,26 @@ structure LocalLedgerEntry (profile : FanClosedPort.FanWindowProfile V)
       (nonWindowQuarterCredit (base := base) (object := object)
         (baseline := baseline) (center := center) profile : Int)
 
+/-- Construct the reusable local B1 ledger directly from its graph
+hypotheses.  This theorem contains no proof-chain transport; applications
+that need a CT14 execution use `VerifiedExecutionStage` instead. -/
+def localLedgerEntry (profile : FanClosedPort.FanWindowProfile V)
+    (first second : FanClosedPort.OpenPort centerHigh deletionCritical)
+    (assigned : FanClosedPort.AssignedPair centerHigh deletionCritical profile
+      first second)
+    (fourFree : ¬HasCycleWithLength object.graph HighCenterStructure.FourLength)
+    (degreeLeEight : object.degree center ≤ 8) :
+    LocalLedgerEntry (base := base) (baseline := baseline) centerHigh
+      deletionCritical profile first second assigned where
+  terminal := run_terminal_capacity centerHigh deletionCritical profile first
+    second assigned
+  incidenceCardExact := incidence_card profile
+  endpointDisjoint := other_injective profile fourFree
+  partition := multiplicity_partition profile
+  totalCreditPays :=
+    total_credit_pays_deficit_with_three_slack profile degreeLeEight
+  nonWindowCreditPays := nonWindow_credit_pays_remaining profile degreeLeEight
+
 def verifiedStage (profile : FanClosedPort.FanWindowProfile V)
     (first second : FanClosedPort.OpenPort centerHigh deletionCritical)
     (pair : FanClosedPort.CompatiblePair centerHigh deletionCritical first second)
@@ -628,14 +688,10 @@ def verifiedStage (profile : FanClosedPort.FanWindowProfile V)
     (degreeLeEight : object.degree center ≤ 8) :
     VerifiedStage (base := base) (baseline := baseline) centerHigh
       deletionCritical profile first second pair assigned fourFree degreeLeEight := by
-  let source := sourceResidual (base := base) (baseline := baseline) centerHigh
-    deletionCritical profile first second assigned
   exact {
     previous := FanClosedPortMass.verifiedStage centerHigh deletionCritical
       profile first second pair assigned
-    routeId := Routes.CT14ToCT14.generated_route_id
-      (capability (base := base) (object := object) (center := center) profile)
-      source
+    transitionProfileId := by rfl
     terminal := run_terminal_capacity centerHigh deletionCritical profile first
       second assigned
     trace := run_trace_capacity centerHigh deletionCritical profile first second
@@ -652,6 +708,134 @@ def verifiedStage (profile : FanClosedPort.FanWindowProfile V)
       (routedInput (base := base) (baseline := baseline) centerHigh
         deletionCritical profile first second assigned)
     polynomial := by rfl
+  }
+
+/-- Hybrid semantics tied to the literal source and target CT14 executions of
+an accumulated CT14→CT14 transition.  This is the reusable graph-layer
+contract for proof chains; it never substitutes a detached rerun for either
+execution. -/
+structure VerifiedExecutionStage (profile : FanClosedPort.FanWindowProfile V)
+    (first second : FanClosedPort.OpenPort centerHigh deletionCritical)
+    (pair : FanClosedPort.CompatiblePair centerHigh deletionCritical first second)
+    (assigned : FanClosedPort.AssignedPair centerHigh deletionCritical profile
+      first second)
+    (fourFree : ¬HasCycleWithLength object.graph HighCenterStructure.FourLength)
+    (degreeLeEight : object.degree center ≤ 8)
+    (sourceExecution : CT14.ExecutionResult
+      (FanClosedPortMass.capability (base := base) (object := object)
+        (center := center) profile)
+      (FanClosedPortMass.context base object baseline))
+    (targetExecution : CT14.ExecutionResult
+      (capability (base := base) (object := object) (center := center) profile)
+      (context base object baseline)) : Prop where
+  previous : FanClosedPortMass.VerifiedExecutionStage
+    (base := base) (baseline := baseline) centerHigh deletionCritical profile
+    first second pair assigned sourceExecution
+  transitionProfileId :
+    (transition (base := base) (object := object) (baseline := baseline)
+      (center := center) profile).profileId =
+      "CT14.residual.capacity->CT14"
+  executionExact : targetExecution = CT14.run
+    (capability (base := base) (object := object) (center := center) profile)
+    (context base object baseline) ⟨⟩
+  terminal : targetExecution.terminal = .capacity
+  trace : targetExecution.trace =
+    [.entry, .lowerMass, .memberScan, .upperCapacity, .comparison,
+      .capacityTerminal]
+  incidenceCardExact :
+    (incidences (object := object) (center := center) profile).card =
+      2 * (closedMembers (object := object) (center := center) profile).card
+  memoryLinear :
+    (incidences (object := object) (center := center) profile).card ≤
+      2 * object.input.vertices.card
+  endpointDisjoint : Function.Injective (fun incidence :
+    Incidence (object := object) (center := center) profile =>
+      other (object := object) (center := center) profile incidence.1 incidence.2)
+  partition : CT14.multiplicity
+      (capability (base := base) (object := object) (center := center) profile)
+      (context base object baseline) .window +
+    CT14.multiplicity
+      (capability (base := base) (object := object) (center := center) profile)
+      (context base object baseline) .nonWindow =
+    (incidences (object := object) (center := center) profile).card
+  creditPays : (3 : Int) ≤
+    (totalQuarterCredit (object := object) (center := center) profile : Int) -
+      FanClosedPortMass.deficitNumerator (object.degree center)
+        (closedMembers (object := object) (center := center) profile).card
+  reservePays : remainingNonWindowDemand (base := base) (object := object)
+      (baseline := baseline) (center := center) profile ≤
+    (nonWindowQuarterCredit (base := base) (object := object)
+      (baseline := baseline) (center := center) profile : Int)
+  total : targetExecution.outcome.Valid ∧ @CT14.Graph.ValidTrace base.problem
+    (capability (base := base) (object := object) (center := center) profile)
+    (context base object baseline) targetExecution.trace
+  polynomial : checks (object := object) ≤
+    4 * object.input.vertices.card ^ 2 +
+      20 * object.input.vertices.card + 1
+
+/-- Build the execution-indexed hybrid certificate from the preceding literal
+mass execution and the literal result produced by the CT14→CT14 route. -/
+def verifiedExecutionStage (profile : FanClosedPort.FanWindowProfile V)
+    (first second : FanClosedPort.OpenPort centerHigh deletionCritical)
+    (pair : FanClosedPort.CompatiblePair centerHigh deletionCritical first second)
+    (assigned : FanClosedPort.AssignedPair centerHigh deletionCritical profile
+      first second)
+    (fourFree : ¬HasCycleWithLength object.graph HighCenterStructure.FourLength)
+    (degreeLeEight : object.degree center ≤ 8)
+    (sourceExecution : CT14.ExecutionResult
+      (FanClosedPortMass.capability (base := base) (object := object)
+        (center := center) profile)
+      (FanClosedPortMass.context base object baseline))
+    (previous : FanClosedPortMass.VerifiedExecutionStage
+      (base := base) (baseline := baseline) centerHigh deletionCritical profile
+      first second pair assigned sourceExecution)
+    (targetExecution : CT14.ExecutionResult
+      (capability (base := base) (object := object) (center := center) profile)
+      (context base object baseline))
+    (executionExact : targetExecution = CT14.run
+      (capability (base := base) (object := object) (center := center) profile)
+      (context base object baseline) ⟨⟩) :
+    VerifiedExecutionStage (base := base) (baseline := baseline) centerHigh
+      deletionCritical profile first second pair assigned fourFree degreeLeEight
+      sourceExecution targetExecution := by
+  let semantic := verifiedStage (base := base) (baseline := baseline) centerHigh
+    deletionCritical profile first second pair assigned fourFree degreeLeEight
+  exact {
+    previous := previous
+    transitionProfileId := by rfl
+    executionExact := executionExact
+    terminal := by
+      rw [executionExact]
+      apply CT14.run_terminal_capacity_of_complete
+      · intro incidence; exact ⟨2, rfl⟩
+      · intro incidence
+        exact ⟨incidenceKind (object := object) (center := center) profile incidence,
+          rfl⟩
+      · rw [lowerMass_eq (base := base) (baseline := baseline)
+          (center := center) profile,
+          upperCapacity_eq (base := base) (baseline := baseline)
+            (center := center) profile]
+    trace := by
+      rw [executionExact]
+      apply CT14.run_trace_capacity_of_complete
+      · intro incidence; exact ⟨2, rfl⟩
+      · intro incidence
+        exact ⟨incidenceKind (object := object) (center := center) profile incidence,
+          rfl⟩
+      · rw [lowerMass_eq (base := base) (baseline := baseline)
+          (center := center) profile,
+          upperCapacity_eq (base := base) (baseline := baseline)
+            (center := center) profile]
+    incidenceCardExact := semantic.incidenceCardExact
+    memoryLinear := semantic.memoryLinear
+    endpointDisjoint := semantic.endpointDisjoint
+    partition := semantic.partition
+    creditPays := semantic.creditPays
+    reservePays := semantic.reservePays
+    total := by
+      rw [executionExact]
+      exact ⟨CT14.run_verified _ _ ⟨⟩, CT14.run_trace_valid _ _ ⟨⟩⟩
+    polynomial := semantic.polynomial
   }
 
 /-- Forget the execution bookkeeping while retaining every semantic fact used

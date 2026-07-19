@@ -2,8 +2,8 @@
 
 The JSON Schema layer is a machine-readable projection of the canonical Lean
 CT1--CT17 implementation. Lean owns mathematical meaning, graph topology,
-typed transitions, capability boundaries, residual types, route proofs,
-execution, and soundness. Route contracts also expose whether residual-specific
+typed transitions, capability boundaries, residual types, target execution,
+and accumulated ledgers. Transition profiles expose whether residual-specific
 semantic discovery is supplied by a problem adapter or by the target
 capability. JSON Schema validates artifact shape and exact agreement with the
 exported compiled environment; it does not prove the mathematics.
@@ -12,7 +12,8 @@ exported compiled environment; it does not prove the mathematics.
 
 ```text
 Lean Graph/Automation declarations
-        -> StructuralExhaustion.Canonical.tactics and .routes
+        -> StructuralExhaustion.Canonical.tactics,
+           .transitionFamilies, and .transitionProfiles
         -> compiled-environment exporter
         -> generated/lean-machines.json
         -> generic authored schemas
@@ -31,8 +32,8 @@ The catalog records, for every tactic:
 - terminal constructors and mappings;
 - per-node automation contracts;
 - semantic residual-kind contracts;
-- the registered routes and their explicit framework/problem authoring
-  boundaries.
+- the registered CT transition families, their executable profiles, and their
+  explicit framework/problem authoring boundaries.
 
 Per-node automation contracts keep these categories separate:
 
@@ -59,8 +60,8 @@ The files directly under `schemas/` are format contracts and may be edited when
 the generic artifact model changes:
 
 - `lean-machine-catalog.schema.json`: complete compiled catalog, including
-  tactics, nodes, formal edge contracts, capabilities, residuals, routes, and
-  the provision taxonomy.
+  tactics, nodes, formal edge contracts, capabilities, residuals, transition
+  families, executable transition profiles, and the provision taxonomy.
 - `tactic-spec.schema.json`: one automation-first tactic projection.
 - `node-spec.schema.json`: one predecessor-indexed node and formal edge
   boundary.
@@ -74,8 +75,11 @@ the generic artifact model changes:
   classification.
 - `residual-kind.schema.json`: a semantic residual family and its inherited
   context.
-- `route-rule.schema.json`: a Lean-proved residual-to-trigger route contract,
-  including its semantic-discovery authoring mode and exact problem inputs.
+- `transition-family.schema.json`: one source/target CT pair and its registered
+  executable profile identifiers.
+- `transition-profile.schema.json`: one Lean-owned residual-to-execution
+  profile, including its target executable interface, constructor, full-ledger
+  executor, semantic-discovery mode, and exact problem inputs.
 - `machine-artifacts.schema.json`: exact sequential run records and tactic
   verification summaries.
 - `verification-result.schema.json` and `kernel-verification.schema.json`:
@@ -87,7 +91,15 @@ the generic artifact model changes:
   `example-index.schema.json`: compiled worked-example workflows, hydrated Lean
   sources, and optional manuscript correspondence catalogs. Manuscript proof
   steps classify every displayed declaration by mathematical or verification
-  role and carry validated LaTeX-label/diagram-node references.
+  role and carry validated LaTeX-label/diagram-node references. Optional
+  `nodeObligations` are emitted by the Lean descriptor as stable property-level
+  task ledgers; the renderer checks their proof-step evidence and green-node
+  agreement before the frontend displays counts or colors.
+- `erdos-proof-history.schema.json`: append-only engineering snapshots for the
+  Erdős case study. It records artifact/manuscript hashes, Lean-owned node and
+  obligation counts, explicit transition/binding reuse, and
+  author/framework/external declaration ownership. It never derives proof
+  status or estimates time saved.
 
 All schemas use JSON Schema Draft 2020-12.
 
@@ -101,7 +113,9 @@ schemas. The generator creates:
 - `tactics/CTN.schema.json`: the complete CT graph, capability, residual
   inventory, and API declarations;
 - `residuals/<residual-kind>.schema.json`: one registered semantic residual;
-- `routes/<route-id>.schema.json`: one registered Lean route contract;
+- `transition-families/<family-id>.schema.json`: one registered CT-pair family;
+- `transition-profiles/<profile-id>.schema.json`: one executable Lean
+  transition profile;
 - `runs/CTN.run.schema.json`: steps restricted to actual compiled edge
   constructors and terminals;
 - `verifications/CTN.verification.schema.json`: exact graph counts and manual
@@ -117,7 +131,8 @@ jq '{
   tactics: (.tactics | length),
   nodeSchemas: ([.tactics[].nodeSchemas[]] | length),
   residualSchemas: ([.tactics[].residualSchemas[]] | length),
-  routeSchemas: (.routes | length),
+  transitionFamilySchemas: (.transitionFamilies | length),
+  transitionProfileSchemas: (.transitionProfiles | length),
   tacticLevelSchemas: ((.tactics | length) * 3)
 }' schemas/generated/index.json
 ```
@@ -128,6 +143,7 @@ From the repository root, the supported workflows are:
 
 ```bash
 make schemas   # build/export Lean, then regenerate concrete schemas
+make erdos-proof-history  # append the current Erdős artifact if it is new
 make generate  # schemas plus diagrams, indexes, manifests, and binding check
 make validate  # validate the current catalog and generated schema tree
 make verify    # regenerate first, then kernel-check and validate everything
@@ -148,8 +164,8 @@ catalog and concrete schemas against Draft 2020-12, checks exact node/edge/
 terminal projections, verifies capability coverage and provenance tags,
 requires a unique non-orphaned concept for every general/profile definition,
 rejects empty generated-output contracts or manual node obligations, checks
-residual and route registration, and enforces graph reachability and cycle
-decrease requirements.
+residual and transition-profile registration, exact family partitioning, and
+enforces graph reachability and cycle decrease requirements.
 
 ```bash
 python3 tools/validate_repository.py --root .
@@ -182,11 +198,11 @@ proof.
 ## Changing the schema surface
 
 1. Change CT semantics, topology, capability fields, node contracts, residuals,
-   or routes in Lean.
+   transition families, or profiles in Lean.
 2. Change a generic schema only when the artifact format itself changes.
 3. Run `make generate` to refresh every concrete projection.
 4. Run `make verify` or `make test` before committing.
 
 Do not hand-copy Lean declarations into JSON and do not add JSON-only nodes,
-edges, residuals, or routes. The validator treats compiled Lean as the single
-source of truth.
+edges, residuals, transition families, or transition profiles. The validator
+treats compiled Lean as the single source of truth.

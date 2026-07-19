@@ -385,17 +385,16 @@
       "data": {
         "id": "CT9.residual.overload->CT7",
         "label": "CT9.residual.overload->CT7",
-        "kind": "generatedRoute",
-        "route": {
-          "triggerConstructor": "StructuralExhaustion.Routes.CT9ToCT7.buildInput",
+        "kind": "transitionProfile",
+        "transitionProfile": {
+          "transitionConstructor": "StructuralExhaustion.Routes.CT9ToCT7.transition",
           "targetTacticId": "CT7",
+          "targetExecutableInterface": "StructuralExhaustion.CT7.Capability.executableInterface",
+          "sourceTacticId": "CT9",
           "sourceResidualKind": "CT9.residual.overload",
-          "soundnessTheorem": "StructuralExhaustion.Routes.CT9ToCT7.enabled_generates",
           "selectionClass": "forced",
-          "routeId": "CT9.residual.overload->CT7",
-          "provenanceTheorem": "StructuralExhaustion.Routes.CT9ToCT7.generated_route_id",
-          "discovery": "StructuralExhaustion.Routes.CT9ToCT7.ObjectAdapter.discover",
-          "contextPreservationTheorem": "StructuralExhaustion.Routes.CT9ToCT7.branchContext_preserved",
+          "profileId": "CT9.residual.overload->CT7",
+          "familyId": "CT9->CT7",
           "authoringBoundary": {
             "semanticDiscovery": {
               "kind": "problemSemanticAdapter",
@@ -406,14 +405,16 @@
               "semanticDiscoveryAdapter"
             ],
             "frameworkOwnedResponsibilities": [
-              "routeRuleConstruction",
+              "exactSourceLedger",
+              "semanticDiscovery",
               "targetContextConstruction",
               "triggerConstruction",
-              "soundnessProof",
-              "contextPreservationProof",
-              "provenanceProof"
+              "targetExecution",
+              "accumulatedLedgerOutput",
+              "transitionProvenance"
             ]
-          }
+          },
+          "advanceExecutor": "StructuralExhaustion.Routes.CT9ToCT7.advance"
         }
       }
     }

@@ -1,4 +1,5 @@
 import StructuralExhaustion.CT2.Graph
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT2
 
@@ -40,13 +41,6 @@ def toCore
   targetMonotone := input.targetMonotone
 
 end CertifiedReductionInput
-
-/-- Route-facing type contract for a supplied certified reduction. -/
-def certifiedReductionTacticInterface
-    (P : Core.Problem.{uAmbient, uBranch})
-    (Target : P.Ambient → Prop) : Core.Routing.TacticInterface where
-  Context := Core.MinimalCounterexampleContext P Target
-  Trigger := CertifiedReductionInput
 
 /-- Exact semantic evidence carried by the deletion-C2 edge. -/
 structure CertifiedReductionWitness
@@ -201,6 +195,16 @@ def runCertifiedReduction
     (.cons (.deletionCloses input.witness) (.nil .deletionC2Terminal))
   checks := 1
   checks_eq := rfl
+
+/-- Canonical executable CT2 entry for one explicitly certified reduction.
+The trigger is the exact reduction certificate and execution is mandatory. -/
+def certifiedReductionExecutableInterface
+    (P : Core.Problem.{uAmbient, uBranch})
+    (Target : P.Ambient → Prop) : Core.Routing.ExecutableInterface .ct2 where
+  Context := Core.MinimalCounterexampleContext P Target
+  Trigger := CertifiedReductionInput
+  Result := CertifiedReductionRun
+  execute := runCertifiedReduction
 
 theorem runCertifiedReduction_terminal
     {P : Core.Problem.{uAmbient, uBranch}}

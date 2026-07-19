@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.local/schemas/framework-documentation.schema.json",
+  "title": "Structural Exhaustion framework documentation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["artifactType", "schemaVersion", "sourceOfTruth", "capabilities", "tacticGuides"],
+  "properties": {
+    "artifactType": {"const": "structuralExhaustionFrameworkDocumentation"},
+    "schemaVersion": {"const": "1.0.0"},
+    "sourceOfTruth": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "registry"],
+      "properties": {
+        "kind": {"const": "compiledLeanEnvironment"},
+        "registry": {"const": "StructuralExhaustion.Canonical.Documentation.capabilities"}
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/capability"}
+    },
+    "tacticGuides": {
+      "type": "array",
+      "minItems": 17,
+      "maxItems": 17,
+      "items": {"$ref": "#/$defs/tacticGuide"}
+    }
+  },
+  "$defs": {
+    "audienceCopy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "inputs", "result"],
+      "properties": {
+        "summary": {"type": "string", "minLength": 1},
+        "inputs": {"type": "string", "minLength": 1},
+        "result": {"type": "string", "minLength": 1}
+      }
+    },
+    "exampleRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exampleId", "workflowId", "title"],
+      "properties": {
+        "exampleId": {"type": "string", "minLength": 1, "not": {"const": "erdos-64"}},
+        "workflowId": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1}
+      }
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capabilityId", "layer", "category", "title", "depth",
+        "mathematician", "leanUser", "declarations", "relatedTacticIds",
+        "relatedCapabilityIds", "examples"
+      ],
+      "properties": {
+        "capabilityId": {"type": "string", "minLength": 1},
+        "layer": {"enum": ["core", "graph"]},
+        "category": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "depth": {"enum": ["index", "walkthrough"]},
+        "mathematician": {"$ref": "#/$defs/audienceCopy"},
+        "leanUser": {"$ref": "#/$defs/audienceCopy"},
+        "declarations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "relatedTacticIds": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])$"}
+        },
+        "relatedCapabilityIds": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "examples": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/exampleRef"}
+        }
+      }
+    },
+    "tacticGuide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tacticId", "role", "useWhen", "leanEntry"],
+      "properties": {
+        "tacticId": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])$"},
+        "role": {"type": "string", "minLength": 1},
+        "useWhen": {"type": "string", "minLength": 1},
+        "leanEntry": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

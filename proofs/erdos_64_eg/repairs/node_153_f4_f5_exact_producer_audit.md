@@ -113,13 +113,14 @@ the individual node-[108] outputs and node-[111] collection to node [153].
 Lean likewise has no list-valued route-8 collection producer.  The first
 Lean Type-B consumer, `TypeBEntryRouting.node66`, consumes only one handoff.
 
-`Core.FiniteProducedSupportLedger` is the smallest repair connector.  Its
-`record` operation appends exactly one actual producer output and its
-`recognize` operation returns the first previously recorded support containing
-the current endpoint.  It assumes no completeness or support coverage.
-`TypeBProducedSupportLedgerConnector.node66AndRecord` now threads this ledger
-through the real node-[108] to node-[66] handoff and records the exact declared
-support: counted core, center, first neighbours, and all retained arm supports.
+`Core.FiniteResidualLedger` is the branch-state carrier. Literal producer
+occurrences are appended without identifying equal event values, and
+`ResidualRefinement.Ledger.certify` attaches their exact producer-origin
+proofs. `Graph.FiniteResidualSupportLedger.View.recognize` returns the first
+recorded occurrence whose declared support contains the current endpoint. It
+assumes no completeness or ambient support coverage. The decorated occurrence
+retains the exact node-[108] handoff data: counted core, center, first
+neighbours, and all retained arm supports.
 
 ### Exact surviving-edge producer still required
 

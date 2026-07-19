@@ -1827,21 +1827,21 @@
             "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 19,
+                "line": 20,
                 "column": 4
               },
               "end": {
-                "line": 19,
+                "line": 20,
                 "column": 9
               }
             },
             "range": {
               "start": {
-                "line": 19,
+                "line": 20,
                 "column": 0
               },
               "end": {
-                "line": 19,
+                "line": 20,
                 "column": 76
               }
             },
@@ -1972,21 +1972,21 @@
             "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 37,
+                "line": 38,
                 "column": 4
               },
               "end": {
-                "line": 37,
+                "line": 38,
                 "column": 7
               }
             },
             "range": {
               "start": {
-                "line": 37,
+                "line": 38,
                 "column": 0
               },
               "end": {
-                "line": 37,
+                "line": 38,
                 "column": 42
               }
             },
@@ -2436,21 +2436,21 @@
             "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 14,
+                "line": 15,
                 "column": 10
               },
               "end": {
-                "line": 14,
+                "line": 15,
                 "column": 25
               }
             },
             "range": {
               "start": {
-                "line": 14,
+                "line": 15,
                 "column": 0
               },
               "end": {
-                "line": 17,
+                "line": 18,
                 "column": 50
               }
             },
@@ -2480,21 +2480,21 @@
             "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 16,
+                "line": 17,
                 "column": 2
               },
               "end": {
-                "line": 16,
+                "line": 17,
                 "column": 6
               }
             },
             "range": {
               "start": {
-                "line": 16,
+                "line": 17,
                 "column": 2
               },
               "end": {
-                "line": 16,
+                "line": 17,
                 "column": 6
               }
             },
@@ -2519,21 +2519,21 @@
             "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 15,
+                "line": 16,
                 "column": 2
               },
               "end": {
-                "line": 15,
+                "line": 16,
                 "column": 10
               }
             },
             "range": {
               "start": {
-                "line": 15,
+                "line": 16,
                 "column": 2
               },
               "end": {
-                "line": 15,
+                "line": 16,
                 "column": 10
               }
             },
@@ -2750,21 +2750,21 @@
             "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 22,
+                "line": 23,
                 "column": 4
               },
               "end": {
-                "line": 22,
+                "line": 23,
                 "column": 16
               }
             },
             "range": {
               "start": {
-                "line": 22,
+                "line": 23,
                 "column": 0
               },
               "end": {
-                "line": 35,
+                "line": 36,
                 "column": 5
               }
             },
@@ -2918,21 +2918,21 @@
             "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 14,
+                "line": 15,
                 "column": 10
               },
               "end": {
-                "line": 14,
+                "line": 15,
                 "column": 25
               }
             },
             "range": {
               "start": {
-                "line": 14,
+                "line": 15,
                 "column": 10
               },
               "end": {
-                "line": 14,
+                "line": 15,
                 "column": 25
               }
             },
@@ -3200,21 +3200,21 @@
             "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 11,
+                "line": 12,
                 "column": 4
               },
               "end": {
-                "line": 11,
+                "line": 12,
                 "column": 16
               }
             },
             "range": {
               "start": {
-                "line": 11,
+                "line": 12,
                 "column": 2
               },
               "end": {
-                "line": 12,
+                "line": 13,
                 "column": 30
               }
             },
@@ -3240,21 +3240,21 @@
             "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 9,
+                "line": 10,
                 "column": 4
               },
               "end": {
-                "line": 9,
+                "line": 10,
                 "column": 16
               }
             },
             "range": {
               "start": {
-                "line": 9,
+                "line": 10,
                 "column": 2
               },
               "end": {
-                "line": 10,
+                "line": 11,
                 "column": 30
               }
             },
@@ -3367,21 +3367,21 @@
             "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
             "selectionRange": {
               "start": {
-                "line": 8,
+                "line": 9,
                 "column": 10
               },
               "end": {
-                "line": 8,
+                "line": 9,
                 "column": 20
               }
             },
             "range": {
               "start": {
-                "line": 8,
+                "line": 9,
                 "column": 0
               },
               "end": {
-                "line": 12,
+                "line": 13,
                 "column": 30
               }
             },

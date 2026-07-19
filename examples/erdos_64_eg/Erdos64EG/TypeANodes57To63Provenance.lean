@@ -1,5 +1,6 @@
 import Erdos64EG.P13PartIWindowDensityTriage
 import Erdos64EG.TypeANode63Support
+import StructuralExhaustion.Core.ExactHandoff
 
 namespace Erdos64EG.Internal.TypeANodes57To63Provenance
 
@@ -12,23 +13,21 @@ variable {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
 
 /-- Existing node `[57]`: retain the exact node-[56] strict-quarter handoff. -/
 structure VerifiedNode57Residual
-    (node24 : VerifiedP13WindowDensityOutput ctx node21) where
-  previous : P13QuarterNetDeficiencyHandoff ctx node21 node24.coverage
-  exactPrevious : previous = p13ClosureRobustPartIV node24
+    (node24 : VerifiedP13WindowDensityOutput ctx node21)
+    extends Core.ExactHandoff (p13ClosureRobustPartIV node24)
 
 noncomputable def node57
     (node24 : VerifiedP13WindowDensityOutput ctx node21) :
     VerifiedNode57Residual node24 where
   previous := p13ClosureRobustPartIV node24
-  exactPrevious := rfl
+  previousExact := rfl
 
 /-- Existing node `[58]`: the exact quarter-unit net-charge numerator on the
 same remainder, with no replacement support or alternate decomposition. -/
 structure VerifiedNode58Residual
     {node24 : VerifiedP13WindowDensityOutput ctx node21}
-    (node57 : VerifiedNode57Residual node24) where
-  previous : VerifiedNode57Residual node24
-  exactPrevious : previous = node57
+    (node57 : VerifiedNode57Residual node24)
+    extends Core.ExactHandoff node57 where
   netQuarter : Int
   netQuarterExact : netQuarter =
     4 * (p13NetDeficiencyNumerator ctx : Int) -
@@ -38,7 +37,7 @@ noncomputable def node58
     {node24 : VerifiedP13WindowDensityOutput ctx node21}
     (node57 : VerifiedNode57Residual node24) : VerifiedNode58Residual node57 where
   previous := node57
-  exactPrevious := rfl
+  previousExact := rfl
   netQuarter := 4 * (p13NetDeficiencyNumerator ctx : Int) -
     ((p13RemainderVertices ctx).card : Int)
   netQuarterExact := rfl
@@ -48,9 +47,8 @@ impossible and the original no edge carries strict negative net charge. -/
 structure VerifiedNode59NegativeResidual
     {node24 : VerifiedP13WindowDensityOutput ctx node21}
     {node57 : VerifiedNode57Residual node24}
-    (node58 : VerifiedNode58Residual node57) where
-  previous : VerifiedNode58Residual node57
-  exactPrevious : previous = node58
+    (node58 : VerifiedNode58Residual node57)
+    extends Core.ExactHandoff node58 where
   negative : node58.netQuarter < 0
 
 noncomputable def node59
@@ -59,7 +57,7 @@ noncomputable def node59
     (node58 : VerifiedNode58Residual node57) :
     VerifiedNode59NegativeResidual node58 where
   previous := node58
-  exactPrevious := rfl
+  previousExact := rfl
   negative := by
     rw [node58.netQuarterExact]
     have strict := node57.previous.strictQuarter
@@ -93,9 +91,8 @@ structure VerifiedNode61Residual
     {node24 : VerifiedP13WindowDensityOutput ctx node21}
     {node57 : VerifiedNode57Residual node24}
     {node58 : VerifiedNode58Residual node57}
-    (node59 : VerifiedNode59NegativeResidual node58) where
-  previous : VerifiedNode59NegativeResidual node58
-  exactPrevious : previous = node59
+    (node59 : VerifiedNode59NegativeResidual node58)
+    extends Core.ExactHandoff node59 where
   localized : TypeBEntryRouting.VerifiedNode61Residual ctx
   localizedExact : localized =
     P13NegativeSupportLocalization.canonicalNode61 ctx (canonicalLedger node24)
@@ -107,7 +104,7 @@ noncomputable def node61
     (node59 : VerifiedNode59NegativeResidual node58) :
     VerifiedNode61Residual node59 where
   previous := node59
-  exactPrevious := rfl
+  previousExact := rfl
   localized := P13NegativeSupportLocalization.canonicalNode61 ctx
     (canonicalLedger node24)
   localizedExact := rfl

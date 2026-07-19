@@ -7400,8 +7400,8 @@
       "sourceId": "StructuralExhaustion/CT4/Capability.lean",
       "moduleName": "StructuralExhaustion.CT4.Capability",
       "path": "lean/StructuralExhaustion/CT4/Capability.lean",
-      "sha256": "664caf39296e8b8b35da8c32200caadc18ef0c0a0c6b4939f54c4c65d1af6467",
-      "content": "import StructuralExhaustion.CT4.Spec\n\nnamespace StructuralExhaustion.CT4\n\nstructure Capability {P : Core.Problem} (S : Spec P) where\n  demands : FinEnum S.Demand\n  payers : FinEnum S.Payer\n  eligibleDecidable : (ctx : Core.BranchContext P) →\n    (demand : S.Demand) → (payer : S.Payer) →\n      Decidable (S.Eligible ctx demand payer)\n  required : Core.BranchContext P → Nat\n\nabbrev Input (P : Core.Problem) := Core.BranchContext P\n\nnamespace Capability\ndef tacticInterface {P : Core.Problem} {S : Spec P}\n    (_capability : Capability S) : Core.Routing.TacticInterface where\n  Context := Core.BranchContext P\n  Trigger := fun _ => Unit\nend Capability\n\nend StructuralExhaustion.CT4\n"
+      "sha256": "c8ae67d9531284f9e06b37a617cd012135c274e6e99afb5a68b3113152fbf696",
+      "content": "import StructuralExhaustion.CT4.Spec\n\nnamespace StructuralExhaustion.CT4\n\nstructure Capability {P : Core.Problem} (S : Spec P) where\n  demands : FinEnum S.Demand\n  payers : FinEnum S.Payer\n  eligibleDecidable : (ctx : Core.BranchContext P) →\n    (demand : S.Demand) → (payer : S.Payer) →\n      Decidable (S.Eligible ctx demand payer)\n  required : Core.BranchContext P → Nat\n\nabbrev Input (P : Core.Problem) := Core.BranchContext P\n\nend StructuralExhaustion.CT4\n"
     },
     {
       "sourceId": "StructuralExhaustion/CT4/Execution.lean",

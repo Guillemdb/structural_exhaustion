@@ -5,6 +5,7 @@ import StructuralExhaustion.CT10.Automation
 import StructuralExhaustion.Graph.MinimumDegreeCycle
 import StructuralExhaustion.Graph.HighCenterPort
 import StructuralExhaustion.Routes.CT6ToCT9
+import StructuralExhaustion.Routes.Accumulated
 
 namespace StructuralExhaustion.Graph.SurplusPortActivity
 
@@ -215,6 +216,21 @@ def classificationInput {V : Type u}
   context := ⟨object, baseline, ()⟩
   data := (portSlots object).toOrderedCollection
 
+/-- Source-polymorphic mathematical adapter for the ordinary accumulated
+CT1→CT10 handoff.  It exposes the already declared surplus-slot schedule and
+never inspects, rebuilds, or truncates the incoming proof ledger. -/
+def classificationAdapter {V : Type u} {Source : Sort v}
+    (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
+    (object : FiniteObject V) (baseline : base.problem.Baseline object)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :
+    Routes.Accumulated.Adapter Source
+      (classificationCapability base object deletionCritical).executableInterface where
+  targetContext := fun _source =>
+    (classificationInput base object baseline deletionCritical).context
+  trigger := fun _source =>
+    ⟨(classificationInput base object baseline deletionCritical).data⟩
+
 def classificationRun {V : Type u}
     (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
     (object : FiniteObject V) (baseline : base.problem.Baseline object)
@@ -253,6 +269,29 @@ theorem classificationRun_total {V : Type u}
 /-- Exact semantic split delivered by the CT10 terminal.  Either one of the
 two port types is absent from the selected surplus slots, or both types have
 an explicit slot. -/
+theorem classificationResult_stateSpace {V : Type u}
+    (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
+    (object : FiniteObject V) (baseline : base.problem.Baseline object)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    (result : CT10.ExecutionResult
+      (classificationCapability base object deletionCritical)
+      (classificationInput base object baseline deletionCritical)) :
+    (∃ cls : PortType,
+        CT10.row (classificationCapability base object deletionCritical)
+          (classificationInput base object baseline deletionCritical) cls = []) ∨
+      (∀ cls : PortType, ∃ slot : ExcessPortSlot object,
+        slot ∈ CT10.row
+          (classificationCapability base object deletionCritical)
+          (classificationInput base object baseline deletionCritical) cls) := by
+  cases result with
+  | mk terminal path outcome =>
+      cases outcome with
+      | direct residual => exact residual.direct.elim
+      | promoted residual => exact Or.inl ⟨residual.missing.cls,
+          residual.missing.empty⟩
+      | exhaustive certificate => exact Or.inr certificate.populated
+
 theorem classification_stateSpace {V : Type u}
     (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
     (object : FiniteObject V) (baseline : base.problem.Baseline object)
@@ -264,16 +303,9 @@ theorem classification_stateSpace {V : Type u}
       (∀ cls : PortType, ∃ slot : ExcessPortSlot object,
         slot ∈ CT10.row
           (classificationCapability base object deletionCritical)
-          (classificationInput base object baseline deletionCritical) cls) := by
-  generalize resultEquation :
-    classificationRun base object baseline deletionCritical = result
-  cases result with
-  | mk terminal path outcome =>
-      cases outcome with
-      | direct residual => exact residual.direct.elim
-      | promoted residual => exact Or.inl ⟨residual.missing.cls,
-          residual.missing.empty⟩
-      | exhaustive certificate => exact Or.inr certificate.populated
+          (classificationInput base object baseline deletionCritical) cls) :=
+  classificationResult_stateSpace base object baseline deletionCritical
+    (classificationRun base object baseline deletionCritical)
 
 def classificationChecks {V : Type u} (object : FiniteObject V) : Nat :=
   2 * (portSlots object).card + 2
@@ -377,6 +409,21 @@ def openPairInput {V : Type u}
   context := ⟨object, baseline, ()⟩
   items := (openPortSlots object deletionCritical).toOrderedCollection
 
+/-- Source-polymorphic mathematical adapter for the ordinary accumulated
+CT10→CT9 handoff.  The target receives exactly the canonical open-slot
+subcollection; the complete incoming ledger remains framework-owned. -/
+def openPairAdapter {V : Type u} {Source : Sort v}
+    (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
+    (object : FiniteObject V) (baseline : base.problem.Baseline object)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :
+    Routes.Accumulated.Adapter Source
+      (openPairCapability base object deletionCritical).executableInterface where
+  targetContext := fun _source =>
+    (openPairInput base object baseline deletionCritical).context
+  trigger := fun _source =>
+    ⟨(openPairInput base object baseline deletionCritical).items⟩
+
 def openPairResult {V : Type u}
     (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
     (object : FiniteObject V) (baseline : base.problem.Baseline object)
@@ -407,14 +454,17 @@ inductive OpenPairDecision {V : Type u}
       CT9.fibreCount (openPairCapability base object deletionCritical)
         (openPairInput base object baseline deletionCritical) center ≤ 1)
 
-/-- Interpret the exact CT9 terminal once, without a second search. -/
-def openPairDecision {V : Type u}
+/-- Interpret an already executed CT9 terminal once, without a second search. -/
+def openPairDecisionOfResult {V : Type u}
     (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
     (object : FiniteObject V) (baseline : base.problem.Baseline object)
     (deletionCritical : ∀ dart : object.graph.Dart,
-      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    (result : CT9.ExecutionResult
+      (openPairCapability base object deletionCritical)
+      (openPairInput base object baseline deletionCritical)) :
     OpenPairDecision base object baseline deletionCritical :=
-  match openPairResult base object baseline deletionCritical with
+  match result with
   | ⟨_, _, .overloaded residual⟩ =>
       let pair := residual.sameLabelPairOfCapacityOne rfl
       .pair {
@@ -426,6 +476,16 @@ def openPairDecision {V : Type u}
         sameCenter := pair.labels_eq
       }
   | ⟨_, _, .bounded certificate⟩ => .bounded certificate.bounded
+
+/-- Standalone interpretation of the graph profile's canonical execution. -/
+def openPairDecision {V : Type u}
+    (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
+    (object : FiniteObject V) (baseline : base.problem.Baseline object)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :
+    OpenPairDecision base object baseline deletionCritical :=
+  openPairDecisionOfResult base object baseline deletionCritical
+    (openPairResult base object baseline deletionCritical)
 
 def openPairChecks {V : Type u} (object : FiniteObject V)
     (deletionCritical : ∀ dart : object.graph.Dart,
@@ -516,6 +576,17 @@ def context {V : Type u}
   G := object
   baseline := baseline
   state := ()
+
+/-- Source-polymorphic mathematical adapter for an accumulated transition
+into the ordered CT6 surplus audit.  The full predecessor is retained by the
+framework; this profile supplies only the already selected graph context. -/
+def activityAdapter {V : Type u} {Source : Sort v}
+    (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
+    (object : FiniteObject V) (baseline : base.problem.Baseline object) :
+    Routes.Accumulated.Adapter Source
+      (capability base object).executableInterface where
+  targetContext := fun _source => context base object baseline
+  trigger := fun _source => ()
 
 /-- Deletion criticality rules out every monitored CT6 failure. -/
 theorem noFailure_of_deletionCritical {V : Type u}
@@ -687,7 +758,7 @@ def pairCapability {V : Type u}
   label := fun _slot => ()
   capacity := fun _label => 1
 
-/-- The only semantic adapter needed by the registered route: expose the
+/-- The only semantic adapter needed by the registered transition: expose the
 exact duplicate-free surplus-slot collection. -/
 def pairAdapter {V : Type u}
     (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
@@ -701,26 +772,63 @@ def pairAdapter {V : Type u}
   Routes.CT6ToCT9.ItemCollectionAdapter.constant
     (excessPortSlots object).toOrderedCollection
 
-/-- CT9 input materialized by the registered route from the actual CT6
-active-ledger residual. -/
+/-- Exact CT6 active-ledger stage supplied to the executable transition. -/
+def pairSourceStage {V : Type u}
+    (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
+    (object : FiniteObject V) (baseline : base.problem.Baseline object)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :=
+  Core.Routing.ResidualStage.exact (tactic := .ct6)
+    (run base object baseline deletionCritical)
+
+/-- Framework-owned CT6→CT9 transition for surplus slots. -/
+abbrev pairTransition {V : Type u}
+    (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
+    (object : FiniteObject V) (baseline : base.problem.Baseline object)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :=
+  Routes.CT6ToCT9.transition (pairCapability base object)
+    (pairAdapter base object baseline deletionCritical)
+
+/-- Enabled CT9 execution retaining the complete CT6 stage. -/
+def pairStage {V : Type u}
+    (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
+    (object : FiniteObject V) (baseline : base.problem.Baseline object)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :=
+  Routes.CT6ToCT9.advance (pairCapability base object)
+    (pairAdapter base object baseline deletionCritical)
+    (fun ledger => ledger.residual)
+    (pairSourceStage base object baseline deletionCritical)
+
+/-- Accumulated CT9 ledger passed to downstream framework transitions. -/
+def pairLedger {V : Type u}
+    (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
+    (object : FiniteObject V) (baseline : base.problem.Baseline object)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :=
+  (pairStage base object baseline deletionCritical).ledgerStage
+
+/-- CT9 input read from the executable transition. -/
 def pairInput {V : Type u}
     (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
     (object : FiniteObject V) (baseline : base.problem.Baseline object)
     (deletionCritical : ∀ dart : object.graph.Dart,
       object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :
     CT9.Input (pairCapability base object) :=
-  Routes.CT6ToCT9.buildInput (pairCapability base object)
-    (pairAdapter base object baseline deletionCritical)
-    (run base object baseline deletionCritical).residual
+  let transition := pairTransition base object baseline deletionCritical
+  let execution := transition.onLedger (fun ledger => ledger.residual)
+  let source := pairSourceStage base object baseline deletionCritical
+  CT9.Input.ofTrigger (execution.targetContext source)
+    (execution.trigger source ())
 
-/-- The exact CT9 execution following the typed CT6 route. -/
+/-- The exact CT9 execution following the typed CT6 transition. -/
 def pairResult {V : Type u}
     (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
     (object : FiniteObject V) (baseline : base.problem.Baseline object)
     (deletionCritical : ∀ dart : object.graph.Dart,
       object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :=
-  CT9.run (pairCapability base object)
-    (pairInput base object baseline deletionCritical)
+  (pairStage base object baseline deletionCritical).targetResult
 
 /-- Semantic state-space split extracted from the exact CT9 outcome. -/
 inductive PairDecision {V : Type u}
@@ -734,15 +842,17 @@ inductive PairDecision {V : Type u}
       (value : CT9.SameLabelPair (pairCapability base object)
         (pairInput base object baseline deletionCritical) ())
 
-/-- Interpret the terminal-indexed CT9 outcome without recomputing or
-reconstructing it. -/
-def pairDecision {V : Type u}
+/-- Interpret an already executed terminal-indexed CT9 outcome without
+recomputing or reconstructing it. -/
+def pairDecisionOfResult {V : Type u}
     (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
     (object : FiniteObject V) (baseline : base.problem.Baseline object)
     (deletionCritical : ∀ dart : object.graph.Dart,
-      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    (result : CT9.ExecutionResult (pairCapability base object)
+      (pairInput base object baseline deletionCritical)) :
     PairDecision base object baseline deletionCritical :=
-  match pairResult base object baseline deletionCritical with
+  match result with
   | ⟨_, _, .overloaded residual⟩ =>
       .pair (residual.sameLabelPairOfCapacityOne rfl)
   | ⟨_, _, .bounded certificate⟩ =>
@@ -752,18 +862,25 @@ def pairDecision {V : Type u}
           1 at global
         exact global)
 
-theorem pairRoute_id {V : Type u}
+/-- Standalone interpretation of the graph profile's canonical transition. -/
+def pairDecision {V : Type u}
     (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
     (object : FiniteObject V) (baseline : base.problem.Baseline object)
     (deletionCritical : ∀ dart : object.graph.Dart,
       object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :
-    ((Routes.CT6ToCT9.rule (pairCapability base object)
-      (pairAdapter base object baseline deletionCritical)).generate
-        (run base object baseline deletionCritical).residual ()).routeId =
+    PairDecision base object baseline deletionCritical :=
+  pairDecisionOfResult base object baseline deletionCritical
+    (pairResult base object baseline deletionCritical)
+
+theorem pairTransition_profile_id {V : Type u}
+    (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
+    (object : FiniteObject V) (baseline : base.problem.Baseline object)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :
+    (pairTransition base object baseline deletionCritical).profileId =
       "CT6.residual.activeLedger->CT9" :=
-  Routes.CT6ToCT9.generated_route_id (pairCapability base object)
+  Routes.CT6ToCT9.transition_profile_id (pairCapability base object)
     (pairAdapter base object baseline deletionCritical)
-    (run base object baseline deletionCritical).residual
 
 theorem pairInput_context_preserved {V : Type u}
     (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
@@ -772,9 +889,7 @@ theorem pairInput_context_preserved {V : Type u}
       object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :
     (pairInput base object baseline deletionCritical).context =
       context base object baseline :=
-  Routes.CT6ToCT9.input_context_preserved (pairCapability base object)
-    (pairAdapter base object baseline deletionCritical)
-    (run base object baseline deletionCritical).residual
+  rfl
 
 theorem pairItemCount_eq_surplus {V : Type u}
     (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))

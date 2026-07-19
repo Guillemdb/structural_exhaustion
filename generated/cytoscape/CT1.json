@@ -476,17 +476,16 @@
       "data": {
         "id": "CT1.residual.avoiding->CT2",
         "label": "CT1.residual.avoiding->CT2",
-        "kind": "generatedRoute",
-        "route": {
-          "triggerConstructor": "StructuralExhaustion.Routes.CT1ToCT2.buildTrigger",
+        "kind": "transitionProfile",
+        "transitionProfile": {
+          "transitionConstructor": "StructuralExhaustion.Routes.CT1ToCT2.transition",
           "targetTacticId": "CT2",
+          "targetExecutableInterface": "StructuralExhaustion.CT2.Capability.executableInterface",
+          "sourceTacticId": "CT1",
           "sourceResidualKind": "CT1.residual.avoiding",
-          "soundnessTheorem": "StructuralExhaustion.Routes.CT1ToCT2.enabled_sound",
           "selectionClass": "priority",
-          "routeId": "CT1.residual.avoiding->CT2",
-          "provenanceTheorem": "StructuralExhaustion.Routes.CT1ToCT2.generated_route_id",
-          "discovery": "StructuralExhaustion.CT2.Capability.discover",
-          "contextPreservationTheorem": "StructuralExhaustion.Routes.CT1ToCT2.branchContext_preserved",
+          "profileId": "CT1.residual.avoiding->CT2",
+          "familyId": "CT1->CT2",
           "authoringBoundary": {
             "semanticDiscovery": {
               "kind": "capabilityDiscovery",
@@ -497,14 +496,16 @@
               "minimalityKernel"
             ],
             "frameworkOwnedResponsibilities": [
-              "routeRuleConstruction",
+              "exactSourceLedger",
+              "semanticDiscovery",
               "targetContextConstruction",
               "triggerConstruction",
-              "soundnessProof",
-              "contextPreservationProof",
-              "provenanceProof"
+              "targetExecution",
+              "accumulatedLedgerOutput",
+              "transitionProvenance"
             ]
-          }
+          },
+          "advanceExecutor": "StructuralExhaustion.Routes.CT1ToCT2.advance"
         }
       }
     },
@@ -512,17 +513,16 @@
       "data": {
         "id": "CT1.residual.avoiding->CT2.localDeletion",
         "label": "CT1.residual.avoiding->CT2.localDeletion",
-        "kind": "generatedRoute",
-        "route": {
-          "triggerConstructor": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.buildTrigger",
+        "kind": "transitionProfile",
+        "transitionProfile": {
+          "transitionConstructor": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.transition",
           "targetTacticId": "CT2",
+          "targetExecutableInterface": "StructuralExhaustion.CT2.LocalDeletionClosureRule.executableInterface",
+          "sourceTacticId": "CT1",
           "sourceResidualKind": "CT1.residual.avoiding",
-          "soundnessTheorem": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.enabled_sound",
           "selectionClass": "priority",
-          "routeId": "CT1.residual.avoiding->CT2.localDeletion",
-          "provenanceTheorem": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.generated_route_id",
-          "discovery": "StructuralExhaustion.CT2.LocalDeletionCapability.discover",
-          "contextPreservationTheorem": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.branchContext_preserved",
+          "profileId": "CT1.residual.avoiding->CT2.localDeletion",
+          "familyId": "CT1->CT2",
           "authoringBoundary": {
             "semanticDiscovery": {
               "kind": "capabilityDiscovery",
@@ -533,14 +533,16 @@
               "minimalityKernel"
             ],
             "frameworkOwnedResponsibilities": [
-              "routeRuleConstruction",
+              "exactSourceLedger",
+              "semanticDiscovery",
               "targetContextConstruction",
               "triggerConstruction",
-              "soundnessProof",
-              "contextPreservationProof",
-              "provenanceProof"
+              "targetExecution",
+              "accumulatedLedgerOutput",
+              "transitionProvenance"
             ]
-          }
+          },
+          "advanceExecutor": "StructuralExhaustion.Routes.CT1ToCT2.LocalDeletion.advance"
         }
       }
     },
@@ -548,17 +550,16 @@
       "data": {
         "id": "CT1.terminal.c1->CT12",
         "label": "CT1.terminal.c1->CT12",
-        "kind": "generatedRoute",
-        "route": {
-          "triggerConstructor": "StructuralExhaustion.Routes.CT1ToCT12.buildTrigger",
+        "kind": "transitionProfile",
+        "transitionProfile": {
+          "transitionConstructor": "StructuralExhaustion.Routes.CT1ToCT12.transition",
           "targetTacticId": "CT12",
+          "targetExecutableInterface": "StructuralExhaustion.CT12.Capability.executableInterface",
+          "sourceTacticId": "CT1",
           "sourceResidualKind": "CT1.terminal.c1",
-          "soundnessTheorem": "StructuralExhaustion.Routes.CT1ToCT12.evidence_preserved",
           "selectionClass": "forced",
-          "routeId": "CT1.terminal.c1->CT12",
-          "provenanceTheorem": "StructuralExhaustion.Routes.CT1ToCT12.generated_route_id",
-          "discovery": "StructuralExhaustion.Routes.CT1ToCT12.SemanticAdapter.discover",
-          "contextPreservationTheorem": "StructuralExhaustion.Routes.CT1ToCT12.branchContext_preserved",
+          "profileId": "CT1.terminal.c1->CT12",
+          "familyId": "CT1->CT12",
           "authoringBoundary": {
             "semanticDiscovery": {
               "kind": "problemSemanticAdapter",
@@ -569,14 +570,16 @@
               "semanticDiscoveryAdapter"
             ],
             "frameworkOwnedResponsibilities": [
-              "routeRuleConstruction",
+              "exactSourceLedger",
+              "semanticDiscovery",
               "targetContextConstruction",
               "triggerConstruction",
-              "soundnessProof",
-              "contextPreservationProof",
-              "provenanceProof"
+              "targetExecution",
+              "accumulatedLedgerOutput",
+              "transitionProvenance"
             ]
-          }
+          },
+          "advanceExecutor": "StructuralExhaustion.Routes.CT1ToCT12.advance"
         }
       }
     }

@@ -32,7 +32,8 @@ export interface FrameworkTotals {
   transitions: number;
   terminals: number;
   residualKinds: number;
-  routes: number;
+  transitionFamilies: number;
+  transitionProfiles: number;
   implementedTransitions: number;
   manualObligations: number;
 }
@@ -197,17 +198,23 @@ export interface TacticRecord {
   loopDecrease: unknown;
 }
 
-export interface RouteRecord {
-  routeId: string;
+export interface TransitionFamilyRecord {
+  familyId: string;
   sourceTacticId: string;
-  sourceResidualKind: string;
   targetTacticId: string;
+  profileIds: string[];
+}
+
+export interface TransitionProfileRecord {
+  profileId: string;
+  familyId: string;
+  sourceTacticId: string;
+  targetTacticId: string;
+  sourceResidualKind: string;
+  targetExecutableInterface: string;
+  transitionConstructor: string;
+  advanceExecutor: string;
   selectionClass: string;
-  discovery: string;
-  triggerConstructor: string;
-  soundnessTheorem: string;
-  contextPreservationTheorem: string;
-  provenanceTheorem: string;
   authoringBoundary: {
     semanticDiscovery: {
       kind: string;
@@ -223,7 +230,7 @@ export interface ImplementedTransitionRecord {
   sourceTacticId: string;
   targetTacticId: string;
   relationshipKind: ExampleLinkKind;
-  automationClass: "registeredRoute" | "frameworkExecutor" | "frameworkAudit";
+  automationClass: "registeredTransition" | "frameworkExecutor" | "frameworkAudit";
   frameworkAutomated: true;
   automationDeclarationIds: string[];
   label: string;
@@ -240,7 +247,7 @@ export interface ImplementedTransitionRecord {
   targetStageId: string;
   targetStageTitle: string;
   targetDeclarationId: string;
-  routeId?: string | null;
+  transitionProfileId?: string | null;
   evidenceDeclarationIds: string[];
 }
 
@@ -253,8 +260,55 @@ export interface FrameworkResponse {
   exampleVerification: ExampleVerificationView;
   totals: FrameworkTotals;
   tactics: TacticSummary[];
-  routes: RouteRecord[];
+  transitionFamilies: TransitionFamilyRecord[];
+  transitionProfiles: TransitionProfileRecord[];
   implementedTransitions: ImplementedTransitionRecord[];
+}
+
+export interface DocumentationAudienceCopy {
+  summary: string;
+  inputs: string;
+  result: string;
+}
+
+export interface DocumentationExample {
+  exampleId: string;
+  workflowId: string;
+  title: string;
+  exampleTitle: string;
+  workflow: ExampleWorkflow;
+}
+
+export interface DocumentationCapability {
+  capabilityId: string;
+  layer: "core" | "graph";
+  category: string;
+  title: string;
+  depth: "index" | "walkthrough";
+  mathematician: DocumentationAudienceCopy;
+  leanUser: DocumentationAudienceCopy;
+  declarations: string[];
+  relatedTacticIds: string[];
+  relatedCapabilityIds: string[];
+  examples: DocumentationExample[];
+}
+
+export interface DocumentationTacticGuide {
+  tacticId: string;
+  role: string;
+  useWhen: string;
+  leanEntry: string;
+}
+
+export interface DocumentationResponse {
+  artifactType: "frameworkExplorerDocumentation";
+  artifactWarnings: ArtifactWarning[];
+  schemaVersion: "1.0.0";
+  catalogHash: string;
+  sourceOfTruth: Record<string, unknown>;
+  verification: VerificationView;
+  capabilities: DocumentationCapability[];
+  tacticGuides: DocumentationTacticGuide[];
 }
 
 export interface GraphElementData {
@@ -280,8 +334,8 @@ export interface TacticResponse {
     tacticId: string;
     elements: GraphElement[];
   };
-  inboundRoutes: RouteRecord[];
-  outboundRoutes: RouteRecord[];
+  inboundTransitionProfiles: TransitionProfileRecord[];
+  outboundTransitionProfiles: TransitionProfileRecord[];
 }
 
 export interface SourcePosition {
@@ -355,6 +409,7 @@ export type ExampleStageKind =
 
 export type ExampleLinkKind =
   | "registeredRoute"
+  | "registeredTransition"
   | "frameworkComposition"
   | "proofData"
   | "validation"
@@ -410,6 +465,7 @@ export interface ExampleLink {
   label: string;
   summary: string;
   routeId?: string | null;
+  transitionProfileId?: string | null;
   automationDeclarationIds: string[];
   evidenceDeclarationIds: string[];
 }
@@ -531,12 +587,24 @@ export interface ExampleProofStep {
   workBound: string;
 }
 
+export type ExampleNodeObligationStatus = "proved" | "partial" | "missing";
+
+export interface ExampleNodeObligation {
+  nodeId: number;
+  obligationId: string;
+  title: string;
+  statement: string;
+  status: ExampleNodeObligationStatus;
+  evidenceStepIds: string[];
+}
+
 export interface ExampleManuscript {
   title: string;
   path: string;
   sha256: string;
   fragments: ExampleManuscriptFragment[];
   formalizedNodeIds: number[];
+  nodeObligations?: ExampleNodeObligation[];
   proofSteps: ExampleProofStep[];
   coverage: {
     implementedSteps: number;
@@ -582,6 +650,10 @@ export interface ExampleDetail {
     kind: "compiledLeanEnvironment";
     rootModule: string;
     descriptor: string;
+    descriptorSource?: {
+      path: string;
+      sha256: string;
+    } | null;
   };
   exampleId: string;
   title: string;
@@ -603,4 +675,41 @@ export interface ExampleResponse {
   verification: ExampleVerificationView;
   example: ExampleDetail;
   tactics: TacticSummary[];
+}
+
+export interface ErdosProofHistorySnapshot {
+  artifactSha256: string;
+  manuscriptSha256: string;
+  formalizedNodeIds: number[];
+  formalizedNodeCount: number;
+  obligations: {
+    proved: number;
+    total: number;
+  };
+  implementedWorkflowSteps: number;
+  frameworkLeverage: {
+    automatedLinkCount: number;
+    registeredTransitionCount: number;
+    interfaceBindingCount: number;
+    declarationFootprint: {
+      framework: number;
+      author: number;
+      external: number;
+      total: number;
+    };
+  };
+  provenance: {
+    recordedAt: string;
+    gitCommit: string | null;
+    workingTree: "clean" | "dirty" | "unknown";
+    sourceDateEpoch?: number | null;
+  };
+}
+
+export interface ErdosProofHistoryResponse {
+  artifactType: "frameworkExplorerErdosProofHistory";
+  artifactWarnings: ArtifactWarning[];
+  schemaVersion: "1.0.0";
+  exampleId: "erdos-64";
+  snapshots: ErdosProofHistorySnapshot[];
 }

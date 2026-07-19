@@ -1,4 +1,4 @@
 interface:
   display_name: "Implement Next Erdős 64 CT"
-  short_description: "Advance one residual-driven Erdős 64 CT"
-  default_prompt: "Use $implement-next-erdos-64-eg-ct to implement the next manuscript CT from its exact incoming residual flow, accounting for every branch and synchronizing TeX, Lean, and the web companion."
+  short_description: "Advance one full-ledger Erdős 64 CT"
+  default_prompt: "Use $implement-next-erdos-64-eg-ct to implement the next manuscript CT through its schema-9 transition profile and full accumulated ledger while preserving every original diagram edge."

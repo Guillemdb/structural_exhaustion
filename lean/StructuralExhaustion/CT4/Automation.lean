@@ -1,6 +1,22 @@
 import StructuralExhaustion.CT4.Cardinality
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT4
+
+namespace Capability
+
+/-- Canonical executable CT4 entry.  CT4 consumes the inherited branch
+context directly; its capability owns every finite universe and the unique
+route trigger cannot replace predecessor state. -/
+def executableInterface {P : Core.Problem} {S : Spec P}
+    (capability : Capability S) :
+    Core.Routing.ExecutableInterface .ct4 where
+  Context := Core.BranchContext P
+  Trigger := fun _context => Unit
+  Result := fun input _trigger => ExecutionResult S capability input
+  execute := fun input _trigger => run S capability input
+
+end Capability
 
 def residualKindContracts : List Core.ResidualKindContract := [
   {
@@ -57,6 +73,7 @@ def capabilityContract : Core.CapabilityContract where
   requiredInstances := ["Capability.eligibleDecidable"]
   derivedOperations := ["CT4.assignedPayer", "CT4.analyzeAvailability",
     "CT4.analyzeFibres", "CT4.compareCapacity", "CT4.runReference",
+    "CT4.Capability.executableInterface",
     "CT4.residual.missingPayer", "CT4.residual.overloadedFibre",
     "CT4.residual.capacity"]
 

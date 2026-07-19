@@ -30,21 +30,21 @@ structure VerifiedP13Node32RankDecision
     (node30 : VerifiedP13Node30WedgeLower
       ctx node21 node24 node26 node27 node28 node29)
     (node31 : VerifiedP13Node31CurvatureTargetRank
-      ctx node21 node24 node26 node27 node28 node29 node30) : Type (u + 1)
+      ctx node21 node24 node26 node27 node28 node29 node30) : Type (u + 3)
     extends Core.ExactHandoff node31 where
-  decision : (p13CurvatureResponseProfile ctx).ct15Profile.RankDecision
+  decision : (p13CurvatureFunctionalRankProfile ctx).RankDecision
   decisionExact : decision =
-    (p13CurvatureResponseProfile ctx).ct15Profile.rankDecision
+    (p13CurvatureFunctionalRankProfile ctx).rankDecision
   rankDropOrFull :
     p13CurvatureTargetRank ctx <
         (p13RemainderCurvatureProfile ctx).wedgeCount ∨
       p13CurvatureTargetRank ctx =
         (p13RemainderCurvatureProfile ctx).wedgeCount
   localWork :
-    (p13CurvatureResponseProfile ctx).ct15Profile.rankDecisionBudget.checks () ≤
-      (p13CurvatureResponseProfile ctx).ct15Profile.rankDecisionBudget.coefficient *
-        ((p13CurvatureResponseProfile ctx).ct15Profile.rankDecisionBudget.size () + 1) ^
-          (p13CurvatureResponseProfile ctx).ct15Profile.rankDecisionBudget.degree
+    (p13CurvatureFunctionalRankProfile ctx).rankDecisionBudget.checks () ≤
+      (p13CurvatureFunctionalRankProfile ctx).rankDecisionBudget.coefficient *
+        ((p13CurvatureFunctionalRankProfile ctx).rankDecisionBudget.size () + 1) ^
+          (p13CurvatureFunctionalRankProfile ctx).rankDecisionBudget.degree
 
 /-- Execute only the manuscript's node-[32] dichotomy. -/
 noncomputable def VerifiedP13Node31CurvatureTargetRank.node32
@@ -65,16 +65,16 @@ noncomputable def VerifiedP13Node31CurvatureTargetRank.node32
       ctx node21 node24 node26 node27 node28 node29 node30 node31 where
   previous := node31
   previousExact := rfl
-  decision := (p13CurvatureResponseProfile ctx).ct15Profile.rankDecision
+  decision := (p13CurvatureFunctionalRankProfile ctx).rankDecision
   decisionExact := rfl
   rankDropOrFull := by
     have split :=
-      (p13CurvatureResponseProfile ctx).ct15Profile.rankDecision_exhaustive
+      (p13CurvatureFunctionalRankProfile ctx).rankDecision_exhaustive
     change p13CurvatureTargetRank ctx < (p13CurvatureCoordinates ctx).card ∨
       p13CurvatureTargetRank ctx = (p13CurvatureCoordinates ctx).card at split
     rw [p13CurvatureCoordinates_card_eq_wedgeCount ctx] at split
     exact split
   localWork :=
-    (p13CurvatureResponseProfile ctx).ct15Profile.rankDecisionBudget.bounded ()
+    (p13CurvatureFunctionalRankProfile ctx).rankDecisionBudget.bounded ()
 
 end Erdos64EG.Internal

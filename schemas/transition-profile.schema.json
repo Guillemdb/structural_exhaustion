@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/transition-profile.schema.json",
+  "title": "Executable CT transition profile",
+  "$ref": "lean-machine-catalog.schema.json#/$defs/transitionProfile"
+}

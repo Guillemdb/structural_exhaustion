@@ -177,7 +177,9 @@ theorem sameWindow_directCycleFree
     {path : SimpleGraph.pathGraph order ↪g ctx.G.object.graph}
     (pair : Graph.FanWindowCycle.ClosedPair path) :
     Graph.FanWindowCycle.DirectCycleFree PowerOfTwoLength pair :=
-  sameWindowPair_directCycleFree ctx pair
+  Graph.FanWindowCycle.directCycleFree_of_avoids
+    (fixedPackedInput ctx) ctx.G.object
+    (packedStaticInput.fixedContext ctx).avoids pair
 
 /-- The corresponding two-window exclusion is likewise ambient and needs no
 obstruction certificate field. -/
@@ -187,7 +189,8 @@ theorem twoWindow_directCycleFree
     {secondPath : SimpleGraph.pathGraph secondOrder ↪g ctx.G.object.graph}
     (data : Graph.TwoWindowCycle.Data firstPath secondPath) :
     Graph.TwoWindowCycle.DirectCycleFree PowerOfTwoLength data :=
-  packedTwoWindow_directCycleFree ctx data
+  Graph.TwoWindowCycle.directCycleFree_of_avoids PowerOfTwoLength
+    (packedStaticInput.fixedContext ctx).avoids data
 
 /-- Any literal nonempty-boundary proper compression associated with the
 overlap support is impossible by the graph-owned CT3 gluing theorem.  The
@@ -217,33 +220,31 @@ noncomputable def minimalOverlap_of_no_fullChoice
 
 end TypeBAssignedSupport
 
-/-- Verified endpoint exposing both sides of the exact B2 alternative and all
-unconditional graph constraints proved for its minimal obstruction branch. -/
-structure VerifiedTypeBOverlapSupportPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedTypeBCompletionPrefix ctx
-  obstruction : ∀ (support : TypeBAssignedSupport ctx),
-    ¬Nonempty support.completionProfile.FullChoice →
-      Nonempty support.MinimalOverlap
+/-- Same-CT12 theorem extension exposing both sides of the exact B2
+alternative.  The completed CT12 ledger remains the literal predecessor. -/
+abbrev VerifiedTypeBOverlapSupportPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.LedgerExtension (VerifiedTypeBCompletionPrefix ctx)
+    (fun _previous => ∀ support : TypeBAssignedSupport ctx,
+      ¬Nonempty support.completionProfile.FullChoice →
+        Nonempty support.MinimalOverlap)
 
 noncomputable def verifiedTypeBOverlapSupportPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedTypeBCompletionPrefix ctx) :
-    VerifiedTypeBOverlapSupportPrefix ctx where
-  previous := previous
-  obstruction := fun support failure =>
-    ⟨support.minimalOverlap_of_no_fullChoice failure⟩
+    VerifiedTypeBOverlapSupportPrefix ctx :=
+  ⟨previous, fun support failure =>
+    ⟨support.minimalOverlap_of_no_fullChoice failure⟩⟩
 
 theorem exists_verifiedTypeBOverlapSupportPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedTypeBOverlapSupportPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedTypeBOverlapSupportPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedTypeBCompletionPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedTypeBOverlapSupportPrefix ctx previous⟩
+  exact ⟨ctx, verifiedTypeBOverlapSupportPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

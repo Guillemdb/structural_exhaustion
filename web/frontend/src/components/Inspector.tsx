@@ -5,12 +5,12 @@ import type {
   CapabilityRequirement,
   NodeRecord,
   ProvisionedRef,
-  RouteRecord,
+  TransitionProfileRecord,
   TacticRecord,
   TransitionRecord,
 } from "../types";
 import { MathFormula } from "./MathFormula";
-import { RouteList } from "./RouteList";
+import { TransitionProfileList } from "./TransitionProfileList";
 
 type TabName = "overview" | "contract" | "formal";
 
@@ -234,8 +234,8 @@ function TacticInspector({
   outbound,
 }: {
   tactic: TacticRecord;
-  inbound: RouteRecord[];
-  outbound: RouteRecord[];
+  inbound: TransitionProfileRecord[];
+  outbound: TransitionProfileRecord[];
 }) {
   const describedConceptIds = new Set(
     tactic.capability.requiredDefinitions.map((requirement) => requirement.conceptId),
@@ -317,8 +317,8 @@ function TacticInspector({
           </div>
         </section>
         <section className="inspector-section">
-          <h4>Registered routes</h4>
-          <RouteList inbound={inbound} outbound={outbound} />
+          <h4>Registered transition profiles</h4>
+          <TransitionProfileList inbound={inbound} outbound={outbound} />
         </section>
       </div>
     </>
@@ -329,21 +329,25 @@ export function Inspector({
   tactic,
   node,
   edge,
-  inboundRoutes,
-  outboundRoutes,
+  inboundTransitionProfiles,
+  outboundTransitionProfiles,
 }: {
   tactic: TacticRecord;
   node?: NodeRecord;
   edge?: TransitionRecord;
-  inboundRoutes: RouteRecord[];
-  outboundRoutes: RouteRecord[];
+  inboundTransitionProfiles: TransitionProfileRecord[];
+  outboundTransitionProfiles: TransitionProfileRecord[];
 }) {
   return (
     <aside className="inspector-panel" aria-label="Framework inspector">
       {node ? <NodeInspector node={node} /> : null}
       {edge ? <EdgeInspector edge={edge} /> : null}
       {!node && !edge ? (
-        <TacticInspector tactic={tactic} inbound={inboundRoutes} outbound={outboundRoutes} />
+        <TacticInspector
+          tactic={tactic}
+          inbound={inboundTransitionProfiles}
+          outbound={outboundTransitionProfiles}
+        />
       ) : null}
     </aside>
   );

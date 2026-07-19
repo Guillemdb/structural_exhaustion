@@ -52,7 +52,8 @@ class FrameworkTotals(ApiModel):
     transitions: int
     terminals: int
     residualKinds: int
-    routes: int
+    transitionFamilies: int
+    transitionProfiles: int
     implementedTransitions: int
     manualObligations: int
 
@@ -74,7 +75,7 @@ class ImplementedTransitionRecord(ApiModel):
     sourceTacticId: str
     targetTacticId: str
     relationshipKind: Literal[
-        "registeredRoute",
+        "registeredTransition",
         "frameworkComposition",
         "proofData",
         "validation",
@@ -82,7 +83,7 @@ class ImplementedTransitionRecord(ApiModel):
         "sharedProblem",
     ]
     automationClass: Literal[
-        "registeredRoute", "frameworkExecutor", "frameworkAudit"
+        "registeredTransition", "frameworkExecutor", "frameworkAudit"
     ]
     frameworkAutomated: Literal[True]
     automationDeclarationIds: list[str]
@@ -100,7 +101,7 @@ class ImplementedTransitionRecord(ApiModel):
     targetStageId: str
     targetStageTitle: str
     targetDeclarationId: str
-    routeId: str | None = None
+    transitionProfileId: str | None = None
     evidenceDeclarationIds: list[str]
 
 
@@ -123,7 +124,8 @@ class FrameworkResponse(ApiModel):
     exampleVerification: ExampleVerificationView
     totals: FrameworkTotals
     tactics: list[TacticSummary]
-    routes: list[dict[str, Any]]
+    transitionFamilies: list[dict[str, Any]]
+    transitionProfiles: list[dict[str, Any]]
     implementedTransitions: list[ImplementedTransitionRecord]
 
 
@@ -134,8 +136,8 @@ class TacticResponse(ApiModel):
     verification: VerificationView
     tactic: dict[str, Any]
     graph: dict[str, Any]
-    inboundRoutes: list[dict[str, Any]]
-    outboundRoutes: list[dict[str, Any]]
+    inboundTransitionProfiles: list[dict[str, Any]]
+    outboundTransitionProfiles: list[dict[str, Any]]
 
 
 class InternalReference(ApiModel):
@@ -265,10 +267,16 @@ class ExamplesResponse(ApiModel):
     examples: list[ExampleSummary]
 
 
+class ExampleDescriptorSource(ApiModel):
+    path: str
+    sha256: str
+
+
 class ExampleSourceOfTruth(ApiModel):
     kind: Literal["compiledLeanEnvironment"]
     rootModule: str
     descriptor: str
+    descriptorSource: ExampleDescriptorSource | None = None
 
 
 class ExampleStageRecord(ApiModel):
@@ -287,6 +295,7 @@ class ExampleLinkRecord(ApiModel):
     targetStageId: str
     kind: Literal[
         "registeredRoute",
+        "registeredTransition",
         "frameworkComposition",
         "proofData",
         "validation",
@@ -296,6 +305,7 @@ class ExampleLinkRecord(ApiModel):
     label: str
     summary: str
     routeId: str | None = None
+    transitionProfileId: str | None = None
     automationDeclarationIds: list[str]
     evidenceDeclarationIds: list[str]
 
@@ -308,6 +318,52 @@ class ExampleWorkflowRecord(ApiModel):
     completion: Literal["complete", "partial"]
     stages: list[ExampleStageRecord]
     links: list[ExampleLinkRecord]
+
+
+class DocumentationAudienceCopy(ApiModel):
+    summary: str
+    inputs: str
+    result: str
+
+
+class DocumentationExampleRecord(ApiModel):
+    exampleId: str
+    workflowId: str
+    title: str
+    exampleTitle: str
+    workflow: ExampleWorkflowRecord
+
+
+class DocumentationCapabilityRecord(ApiModel):
+    capabilityId: str
+    layer: Literal["core", "graph"]
+    category: str
+    title: str
+    depth: Literal["index", "walkthrough"]
+    mathematician: DocumentationAudienceCopy
+    leanUser: DocumentationAudienceCopy
+    declarations: list[str]
+    relatedTacticIds: list[str]
+    relatedCapabilityIds: list[str]
+    examples: list[DocumentationExampleRecord]
+
+
+class DocumentationTacticGuide(ApiModel):
+    tacticId: str
+    role: str
+    useWhen: str
+    leanEntry: str
+
+
+class DocumentationResponse(ApiModel):
+    artifactType: Literal["frameworkExplorerDocumentation"]
+    artifactWarnings: list[ArtifactWarningView]
+    schemaVersion: Literal["1.0.0"]
+    catalogHash: str
+    sourceOfTruth: dict[str, Any]
+    verification: VerificationView
+    capabilities: list[DocumentationCapabilityRecord]
+    tacticGuides: list[DocumentationTacticGuide]
 
 
 class ExampleInterfaceBindingRecord(ApiModel):
@@ -436,12 +492,22 @@ class ExampleManuscriptCoverageRecord(ApiModel):
     verifiedWorkflowSteps: int
 
 
+class ExampleNodeObligationRecord(ApiModel):
+    nodeId: int
+    obligationId: str
+    title: str
+    statement: str
+    status: Literal["proved", "partial", "missing"]
+    evidenceStepIds: list[str]
+
+
 class ExampleManuscriptRecord(ApiModel):
     title: str
     path: str
     sha256: str
     fragments: list[ExampleManuscriptFragmentRecord]
     formalizedNodeIds: list[int]
+    nodeObligations: list[ExampleNodeObligationRecord] = []
     proofSteps: list[ExampleProofStepRecord]
     coverage: ExampleManuscriptCoverageRecord
 
@@ -494,3 +560,48 @@ class ExampleResponse(ApiModel):
     verification: ExampleVerificationView
     example: ExampleDetail
     tactics: list[TacticSummary]
+
+
+class ErdosProofHistoryObligations(ApiModel):
+    proved: int
+    total: int
+
+
+class ErdosProofDeclarationFootprint(ApiModel):
+    framework: int
+    author: int
+    external: int
+    total: int
+
+
+class ErdosProofFrameworkLeverage(ApiModel):
+    automatedLinkCount: int
+    registeredTransitionCount: int
+    interfaceBindingCount: int
+    declarationFootprint: ErdosProofDeclarationFootprint
+
+
+class ErdosProofHistoryProvenance(ApiModel):
+    recordedAt: str
+    gitCommit: str | None
+    workingTree: Literal["clean", "dirty", "unknown"]
+    sourceDateEpoch: int | None = None
+
+
+class ErdosProofHistorySnapshot(ApiModel):
+    artifactSha256: str
+    manuscriptSha256: str
+    formalizedNodeIds: list[int]
+    formalizedNodeCount: int
+    obligations: ErdosProofHistoryObligations
+    implementedWorkflowSteps: int
+    frameworkLeverage: ErdosProofFrameworkLeverage
+    provenance: ErdosProofHistoryProvenance
+
+
+class ErdosProofHistoryResponse(ApiModel):
+    artifactType: Literal["frameworkExplorerErdosProofHistory"]
+    artifactWarnings: list[ArtifactWarningView]
+    schemaVersion: Literal["1.0.0"]
+    exampleId: Literal["erdos-64"]
+    snapshots: list[ErdosProofHistorySnapshot]

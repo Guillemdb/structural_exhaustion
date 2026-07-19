@@ -51,7 +51,7 @@ structure VerifiedP13Node30WedgeLower
     (node28 : VerifiedP13Node28PositiveDeficiency
       ctx node21 node24 node26 node27)
     (node29 : VerifiedP13Node29ExternalIncidenceSupply
-      ctx node21 node24 node26 node27 node28) : Type (u + 1)
+      ctx node21 node24 node26 node27 node28) : Type (u + 3)
     extends Core.ExactHandoff node29 where
   componentWedgeFloor : ∀ component : Finset ctx.G.Vertex,
     let profile : Graph.PositiveDeficiencyWedge.Profile ctx.G.object :=

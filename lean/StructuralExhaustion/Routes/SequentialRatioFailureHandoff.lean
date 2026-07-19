@@ -36,13 +36,13 @@ structure Residual (ctx : Core.BranchContext P) (profile : Profile.{uState}) whe
   source : Source ctx profile
 
 /-- Forced identity handoff on the first-ratio-failure branch. -/
-def route {ctx : Core.BranchContext P} {profile : Profile.{uState}}
+def handoff {ctx : Core.BranchContext P} {profile : Profile.{uState}}
     (source : Source ctx profile) : Residual ctx profile :=
   ⟨source⟩
 
-@[simp] theorem route_source {ctx : Core.BranchContext P}
+@[simp] theorem handoff_source {ctx : Core.BranchContext P}
     {profile : Profile.{uState}} (source : Source ctx profile) :
-    (route source).source = source :=
+    (handoff source).source = source :=
   rfl
 
 /-- Zero-based position of the exact first failing barrier. -/
@@ -70,23 +70,23 @@ def Residual.afterStates {ctx : Core.BranchContext P}
 
 theorem routed_run_eq {ctx : Core.BranchContext P}
     {profile : Profile.{uState}} (source : Source ctx profile) :
-    profile.run = Outcome.firstFailure (route source).source.failure :=
+    profile.run = Outcome.firstFailure (handoff source).source.failure :=
   source.run_eq
 
 /-- The routed residual retains the literal strict cardinality inequality. -/
 theorem routed_fails {ctx : Core.BranchContext P}
     {profile : Profile.{uState}} (source : Source ctx profile) :
-    Fails (route source).beforeStates (route source).barrier :=
+    Fails (handoff source).beforeStates (handoff source).barrier :=
   source.failure.fails
 
 /-- The after-fibre remains a literal sublist of the before-fibre. -/
 theorem routed_after_sublist_before {ctx : Core.BranchContext P}
     {profile : Profile.{uState}} (source : Source ctx profile) :
-    List.Sublist (route source).afterStates (route source).beforeStates :=
+    List.Sublist (handoff source).afterStates (handoff source).beforeStates :=
   source.failure.afterStates_sublist_beforeStates
 
 /-- Stable provenance deliberately names an arithmetic handoff, not a CT. -/
-def routeId : String :=
+def handoffId : String :=
   "finite-sequential-ratio-failure->arithmetic-handoff"
 
 end StructuralExhaustion.Routes.SequentialRatioFailureHandoff

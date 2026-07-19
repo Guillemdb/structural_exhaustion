@@ -34,15 +34,19 @@ def problem : Core.Problem where
 
 def context : Core.BranchContext problem := ⟨(), trivial, ()⟩
 
+def execution : CT14.ExecutionResult (profile.capability problem) context :=
+  CT14.run (profile.capability problem) context (profile.input context)
+
+def stage : profile.VerifiedExecutionStage context execution :=
+  profile.verifiedExecutionStage context execution rfl
+
 example : profile.selectedCount = 2 := by native_decide
 example : profile.selectedSurplus = 4 := by native_decide
 example : profile.totalSurplus = 6 := by native_decide
 example : profile.selectedCount ≤ profile.totalSurplus :=
   profile.selectedCount_le_totalSurplus
-example : (profile.run context).terminal = .capacity :=
-  profile.run_terminal context
-example : (profile.run context).outcome.Valid :=
-  (profile.verifiedStage context).verified
+example : execution.terminal = .capacity := stage.terminal
+example : execution.outcome.Valid := stage.verified
 example : profile.checks = 13 := by native_decide
 
 end StructuralExhaustion.Examples.SelectedSurplusMass

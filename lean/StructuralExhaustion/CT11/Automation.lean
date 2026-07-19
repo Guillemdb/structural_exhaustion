@@ -1,6 +1,25 @@
 import StructuralExhaustion.CT11.NegativeBudget
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT11
+
+namespace Capability
+
+/-- Canonical executable CT11 entry.  Its route trigger carries the local
+finite cells and deficit proof indexed by the inherited branch; the framework
+materializes the exact CT11 input before invoking the public runner. -/
+def executableInterface
+    {P : Core.Problem.{uAmbient, uBranch}}
+    (capability : Capability.{uAmbient, uBranch, uCell} P) :
+    Core.Routing.ExecutableInterface .ct11 where
+  Context := Core.BranchContext P
+  Trigger := Trigger capability
+  Result := fun context trigger =>
+    ExecutionResult capability (Input.ofTrigger context trigger)
+  execute := fun context trigger =>
+    run capability (Input.ofTrigger context trigger)
+
+end Capability
 
 def admissibilityGapResidualKindId := "CT11.residual.admissibilityGap"
 def localizedDeficitResidualKindId := "CT11.residual.localizedDeficit"
@@ -33,7 +52,8 @@ def capabilityContract : Core.CapabilityContract where
     ⟨"Capability.localBudget", .userOperator⟩]
   requiredInstances := ["Capability.admissibleDecidable"]
   derivedOperations := ["CT11.analyzeAdmissibility", "CT11.localize",
-    "CT11.runReference", admissibilityGapResidualKindId, localizedDeficitResidualKindId]
+    "CT11.runReference", "CT11.Capability.executableInterface",
+    admissibilityGapResidualKindId, localizedDeficitResidualKindId]
 
 /-- Minimal author contract for everywhere-admissible negative-budget
 localization. -/

@@ -28,41 +28,41 @@ def itemAdapter : ItemCollectionAdapter
     (CT6.ActiveLedgerResidual spec capability (input false)) Bool :=
   ItemCollectionAdapter.constant capability.failureOrder.toOrderedCollection
 
-abbrev routedRule := rule targetCapability itemAdapter
+abbrev routedTransition := transition targetCapability itemAdapter
 
-def routedTrigger : CT9.Trigger targetCapability (targetContext source) :=
-  buildTrigger targetCapability itemAdapter source
+abbrev sourceStage : Core.Routing.ResidualStage .ct6
+    (CT6.ActiveLedgerResidual spec capability (input false)) :=
+  Core.Routing.ResidualStage.exact source
 
-def routedInput : CT9.Input targetCapability :=
-  buildInput targetCapability itemAdapter source
+abbrev routedExecution := routedTransition.onLedger id
 
-def generatedRoute := routedRule.generate source ()
+def routedStage : routedExecution.EnabledStage sourceStage :=
+  advance targetCapability itemAdapter id sourceStage
 
-theorem route_is_enabled :
-    (routedRule.attempt source).generated? = some generatedRoute :=
-  enabled_generates targetCapability itemAdapter source
+def routedLedger := routedStage.ledgerStage
 
-theorem preserves_branch : targetContext source = input false :=
-  branchContext_preserved source
+theorem preserves_source : routedStage.previous = sourceStage :=
+  routedStage.previous_eq
 
-theorem materialized_context_is_preserved :
-    routedInput.context = input false :=
-  input_context_preserved targetCapability itemAdapter source
+theorem preserves_branch :
+    routedTransition.targetContext sourceStage = input false :=
+  rfl
 
-theorem materialized_items_are_adapted :
-    routedInput.items = itemAdapter.items source :=
-  input_items_are_adapted targetCapability itemAdapter source
+theorem transition_items_are_adapted :
+    (routedTransition.trigger sourceStage ()).items =
+      itemAdapter.items source :=
+  rfl
 
 theorem source_activity_is_preserved :
     ∀ index, ¬spec.Failure (input false) index :=
-  active_evidence_preserved source
+  source.noFailure
 
-theorem generated_provenance :
-    generatedRoute.routeId = "CT6.residual.activeLedger->CT9" :=
-  generated_route_id targetCapability itemAdapter source
+theorem transition_provenance :
+    routedTransition.profileId = "CT6.residual.activeLedger->CT9" :=
+  transition_profile_id targetCapability itemAdapter
 
-/-- The generated input is consumed directly by the ordinary CT9 runner. -/
-def targetResult := CT9.run targetCapability routedInput
+/-- CT9 is executed by the transition and retained in the accumulated ledger. -/
+def targetResult := routedStage.targetResult
 
 theorem target_executes : targetResult.terminal = .overloaded :=
   rfl

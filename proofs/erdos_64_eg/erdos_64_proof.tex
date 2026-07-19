@@ -580,8 +580,8 @@ there by the fan-mass estimate.
 \subsection*{Proof-dependency diagram}
 
 The proof-dependency diagram is split across eleven numbered parts.  Each
-diagram node has a unique stable bracketed integer.  Retired nodes leave gaps,
-so later verified identifiers are never renumbered.  Continuation arrows refer to later nodes by number rather
+diagram node has a unique bracketed integer, and the integers are consecutive
+in source order.  Continuation arrows refer to later nodes by number rather
 than repeating the same node number.  Round nodes are closed branches.
 
 \clearpage
@@ -620,7 +620,7 @@ every node/.style={font=\scriptsize}
 \node[dec, below=of enum] (many) {\textbf{[22]}~$P_{13}$ packing density too large?};
 \node[term, right=of many] (overflow) {\textbf{[23]}~$P_{13}$ window\\entropy overflow};
 \node[box, below=of many] (theta) {\textbf{[24]}~$\theta\le\theta_{\rm win}+o(1)$;\\high entropy: $\theta\le0.01198542083\ldots$};
-\node[box, below=of theta] (R) {\textbf{[25]}~Residual A: $R=G-\bigcup V(P)$; $L_R\le|R|$; componentwise $P_{13}$-free};
+\node[box, below=of theta] (R) {\textbf{[25]}~Residual A: $R=G-\bigcup V(P)$ is large and componentwise $P_{13}$-free};
 \draw[arrow] (G)--(bad);
 \draw[arrow] (bad)--node[above]{no}(notbad);
 \draw[arrow] (bad)--node[right]{yes}(min);
@@ -663,7 +663,7 @@ term/.style={ellipse,draw,align=center,inner sep=2pt,minimum width=3.1cm},
 arrow/.style={-{Latex[length=2mm]},thick},
 every node/.style={font=\scriptsize}
 ]
-\node[box] (R) {\textbf{[26]}~Residual A unchanged: $L_R\le|R|$ and componentwise $P_{13}$-free};
+\node[box] (R) {\textbf{[26]}~Residual A: $R$ large and componentwise $P_{13}$-free};
 \node[box, below=of R] (no3) {\textbf{[27]}~no component of $R$ has an internal $3$-core};
 \node[box, below=of no3] (defp) {\textbf{[28]}~positive deficiency $\defp(X)=\sum_v\max(0,3-d_X(v))$};
 \node[box, below=of defp] (stub) {\textbf{[29]}~external-incidence supply:\\$\defp(R)\le15p_{13}+o(n)$\\and $\defp(R)-\sigma_R\le15p_{13}+o(n)$};
@@ -708,8 +708,8 @@ every node/.style={font=\scriptsize}
 \node[term, right=of properZ] (properterm) {\textbf{[42]}~proper-support\\smearing closure:\\target defect or compression};
 \node[box, below=of properZ] (global) {\textbf{[43]}~$Z=G$: whole-graph delocalization};
 \node[box, below=of global] (rankwall) {\textbf{[44]}~$1$--$3$ repair identity $s=p-2+2\beta-\sigma$};
-\node[box, below=of rankwall] (globalterm) {\textbf{[45]}~admitted closed quotient\\is exact on raw labels};
-\node[term, below=of globalterm] (closed) {\textbf{[46]}~whole-support\\rank-drop branch closed};
+\node[box, below=of rankwall] (globalterm) {\textbf{[45]}~target / replacement /\\global profile barrier};
+\node[term, left=of globalterm] (closed) {\textbf{[46]}~rank-drop branch\\closed};
 \draw[arrow] (dep)--(ctx);
 \draw[arrow] (ctx)--node[above]{no}(defect);
 \draw[arrow] (ctx)--node[right]{yes}(atom);
@@ -723,7 +723,7 @@ every node/.style={font=\scriptsize}
 \draw[arrow] (globalterm)--(closed);
 \end{tikzpicture}%
 }
-\caption[Proof-dependency diagram, Part III]{Proof-dependency diagram, Part III.  Rectangles, diamonds, ellipses, bracketed node numbers, and edge labels use the convention of \cref{fig:proof-diagram-part-i}.  The node-[43] payload contains an already-admitted quotient.  Its certified-reduction clause and minimality force injectivity on the declared raw labels, so the retained distinct-coordinate rank-drop witness closes at node [46]; the complementary CT15 execution feeds the full-rank join at node [47].}
+\caption[Proof-dependency diagram, Part III]{Proof-dependency diagram, Part III.  Rectangles, diamonds, ellipses, bracketed node numbers, and edge labels use the convention of \cref{fig:proof-diagram-part-i}.  Every rank-drop branch terminates in a closed round node.}
 \label{fig:proof-diagram-part-iii}
 \end{figure}
 
@@ -742,10 +742,10 @@ every node/.style={font=\scriptsize}
 \node[box] (fullrank) {\textbf{[47]}~Residual B: full curvature rank $r_\Omega(R)\ge W_2(R)-o(W_2)$};
 \node[box, below=of fullrank] (cost) {\textbf{[48]}~forced curvature cost $c_\Omega W_2(R)\ge K_{\rm win}|R|-o(|R|)$\\(high entropy: $K=5.89262883286\ldots$)};
 \node[box, below=of cost] (eta) {\textbf{[49]}~per-vertex remainder entropy $\eta(R)=\log_2|\mathcal G(R)|/|R|$};
-\node[dec, below=of eta] (expensive) {\textbf{[50]}~$n^{|R|}\le N_R^{10}$?};
-\node[box, right=of expensive] (expbranch) {\textbf{[51]}~$\frac{|R|}{10}\log_2n\le\log_2N_R$};
+\node[dec, below=of eta] (expensive) {\textbf{[50]}~$\eta(R)\ge\frac1{10}\log_2 n$?};
+\node[box, right=of expensive] (expbranch) {\textbf{[51]}~high-entropy remainder branch};
 \node[box, below=of expbranch] (windowacct) {\textbf{[52]}~window plus remainder accounting bounds $\theta$};
-\node[dec, below=of expensive] (smallbudget) {\textbf{[53]}~exact low-branch small budget $B^{10}U\le A^{10}$?};
+\node[dec, below=of expensive] (smallbudget) {\textbf{[53]}~remaining non-curvature budget $<K|R|$?};
 \node[term, below=of windowacct] (entcap) {\textbf{[54]}~entropy cap\\closes};
 \node[box, below=of smallbudget] (thetaN) {\textbf{[55]}~Residual C: large-budget branch; $\theta\le\theta_{\rm win}+o(1)$};
 \node[box, below=of thetaN] (netcap) {\textbf{[56]}~$\Delta_{\mathrm{net}}(R)=\dfrac{\defp(R)-\sigma_R}{|R|}\le\tau_{\rm win}+o(1)<1/4$};
@@ -821,7 +821,7 @@ every node/.style={font=\scriptsize}
 \node[dec] (certq) at (0.00,0.25) {\textbf{[71]}~certificate labelling present?};
 \node[dec] (b2q) at (0.00,-2.55) {\textbf{[72]}~local fan-window ledger complete; B2 disjointness holds?};
 \node[wide] (typeBres) at (6.75,-2.55) {\textbf{[73]}~B2 disjointness fails:\\minimal Type B overlap obstruction};
-\node[wide] (fanthm) at (-3.80,-5.35) {\textbf{[74]}~B2 bridge reduction:\\nonnegative charge, saturated Type A,\\or bounded boundary overload};
+\node[wide] (fanthm) at (-3.80,-5.35) {\textbf{[74]}~B2 holds:\\bridge reduction gives \(\No(X)\ge0\) outside route 8};
 \node[wide] (fanmass) at (6.75,-5.35) {\textbf{[75]}~bridge fan-mass:\\fan-certificate centers and B2 failures charged to assigned surplus};
 \node[wide] (closed) at (0.00,-7.95) {\textbf{[76]}~Type B cannot carry the linear deficit outside two-carrier route 8};
 \node[box] (route8) at (6.75,-7.95) {\textbf{[77]}~route-8 cores\\continue in Part IX};
@@ -842,7 +842,7 @@ every node/.style={font=\scriptsize}
 \draw[arrow] (closed)--(route8);
 \end{tikzpicture}%
 }
-\caption[Proof-dependency diagram, Part VI]{Proof-dependency diagram, Part VI.  The Type B continuation starts from node [64], receives the incoming Type A handoff through the dashed input [66], splits at [68], and applies [69]--[76] before the route-8 continuation [77].  At node [74], B2 gives the exact local alternative proved in \cref{prop:typeB-bridge-reduction}: nonnegative charge, a saturated Type A receiver, or a boundary-transfer overload bounded by assigned center surplus.  The later nodes consume the two residual alternatives.  The degree-\(4\) no-branch of [68] is expanded in \cref{fig:proof-diagram-part-vii}.}
+\caption[Proof-dependency diagram, Part VI]{Proof-dependency diagram, Part VI.  The Type B continuation starts from node [64], receives the incoming Type A handoff through the dashed input [66], splits at [68], and applies [69]--[76] before the route-8 continuation [77].  The degree-\(4\) no-branch of [68] is expanded in \cref{fig:proof-diagram-part-vii}.}
 \label{fig:proof-diagram-part-vi}
 \end{figure}
 
@@ -861,10 +861,10 @@ every node/.style={font=\scriptsize}
 \node[dec] (split) at (0.00,6.60) {\textbf{[78]}~degree-\(4\) branch:\\\(d_G(h)=4\)};
 \node[wide] (profile) at (0.00,4.15) {\textbf{[79]}~degree-\(4\) fan profile:\\center surplus \(1\), \(0\le c\le4\), \(D_B=c-\frac74\)};
 \node[dec] (certq) at (0.00,1.65) {\textbf{[80]}~certificate labelling present?};
-\node[dec] (ledgerq) at (0.00,-1.35) {\textbf{[81]}~exact certificate-tied local entries for every center; full B2 choice?};
-\node[wide] (closedledger) at (-5.20,-4.25) {\textbf{[82]}~full choice:\\nonnegative assigned charge, or a literal negative remaining core for route 8};
-\node[wide] (overlap) at (5.45,-4.25) {\textbf{[83]}~no full choice:\\minimal Type B overlap obstruction};
-\node[wide] (fanmass) at (5.45,-6.95) {\textbf{[84]}~local selected-center mass:\\exact scope and overlap centers charged to the same assigned surplus};
+\node[dec] (ledgerq) at (0.00,-1.35) {\textbf{[81]}~\(c\le1\), or \(c\ge2\) with B2 disjoint ledger?};
+\node[wide] (closedledger) at (-5.20,-4.25) {\textbf{[82]}~yes:\\certificate-closed or B2-paid; \(\No(X)\ge0\) outside route 8};
+\node[wide] (overlap) at (5.45,-4.25) {\textbf{[83]}~no:\\\(c\ge2\) and B2 fails; minimal Type B overlap obstruction};
+\node[wide] (fanmass) at (5.45,-6.95) {\textbf{[84]}~fan-mass route:\\certificate failures and B2 failures charged to assigned surplus};
 \node[wide] (closed) at (0.00,-9.25) {\textbf{[85]}~degree-\(4\) Type B cannot carry linear deficit outside route 8 once the fan-mass residual is sublinear};
 \draw[arrow] (split)--node[right]{no}(profile);
 \draw[arrow] (profile)--(certq);
@@ -877,7 +877,7 @@ every node/.style={font=\scriptsize}
 \draw[arrow] (fanmass)--(closed);
 \end{tikzpicture}%
 }
-\caption[Proof-dependency diagram, Part VII]{Proof-dependency diagram, Part VII.  This panel expands the degree-\(4\) no-branch of [68].  Node [80] fixes the certificate attached to each center.  Node [81] then makes an exhaustive local decision on those exact certificates: an unresolved local entry routes directly to [84]; otherwise CT12 returns either a full disjoint B2 choice or a minimal overlap obstruction.  A full choice gives the exact post-ledger alternative at [82], while the obstruction is retained at [83] and routed to [84].  Node [84] carries the selected-center and grouped fan-mass accounting needed on the original edge to [85].}
+\caption[Proof-dependency diagram, Part VII]{Proof-dependency diagram, Part VII.  This panel expands the degree-\(4\) no-branch of [68].  The local closed cases are \(c\le1\); the difficult degree-\(4\) cases are \(c=2,3,4\), where closure depends on the B1 incidence payment and the B2 disjoint ledger at [81], or else routes to the residual fan-mass node [84].}
 \label{fig:proof-diagram-part-vii}
 \end{figure}
 
@@ -1015,15 +1015,15 @@ every node/.style={font=\scriptsize}
 \node[box] (slack) at (-1.55,6.55) {\textbf{[126]}~sparse envelope:\\\(m\le2n-2\), \(\sigma=n-6-2\lambda\)};
 \node[box] (extract) at (-1.55,4.90) {\textbf{[127]}~excess-port extraction:\\\(\mathcal A=\mathcal P_{\rm exc}\), \(|\mathcal A|=\sigma(G)\)};
 \node[box] (activate) at (-1.55,3.25) {\textbf{[128]}~canonical activation:\\returns \(R_p\); open \(Q_p\); triangular response};
-\node[box] (thin) at (-1.55,1.60) {\textbf{[129]}~full active family and baseline:\\\(\mathcal A_0=\mathcal P_{\rm exc}\), declared \(\mathcal I_{\rm spine}\) with deficit \(E_{\rm spine}\)};
+\node[box] (thin) at (-1.55,1.60) {\textbf{[129]}~full active family and baseline:\\\(\mathcal A_0=\mathcal P_{\rm exc}\), \(E_{\rm spine}\le C_E n\)};
 \node[dec] (rankq) at (-1.55,-0.35) {\textbf{[130]}~canonical pair split:\\blocker-free?};
-\node[box] (entropy) at (-7.40,-0.35) {\textbf{[131]}~free-anchor token route:\\first selected port in \(\mathfrak T_{\rm prim}\);\\role \(\mathsf{freeAnchor}\)};
+\node[box] (entropy) at (-7.40,-0.35) {\textbf{[131]}~free-pair entropy sandwich:\\\(|\Pi_{\rm free}|\le E_{\rm spine}+(\sigma/2+1)\log_2 n\)};
 \node[dec] (depend) at (5.70,-0.35) {\textbf{[132]}~blocked-pair routing:\\exit or canonical blocker?};
 \node[term] (exit) at (12.00,-4.45) {\textbf{[133]}~sparse surplus\\exit closes};
 \node[wide] (blockers) at (5.70,-3.05) {\textbf{[134]}~canonical blocker ledger:\\each blocked pair gets one \(B_\pi\)\\and one capacity token};
 \node[wide] (joinpress) at (5.70,-5.35) {\textbf{[135]}~exact window-join pressure:\\\(e(R,W)+2e_\times(W)=15p_{13}+\sigma_W\)};
-\node[wide] (supplyq) at (5.70,-7.55) {\textbf{[136]}~total pair token--role ledger:\\\(\binom{|\mathcal A_0|}{2}=\sum_{C,t,r}\widehat\ell(t,r)\),\\25 actual roles; same three token classes};
-\node[dec] (highload) at (5.70,-9.75) {\textbf{[137]}~exact coupled excess\\\(D_{25}>0\)?};
+\node[wide] (supplyq) at (5.70,-7.55) {\textbf{[136]}~tokenized blocked-pair ledger:\\\(|\Pi_{\rm blk}|=\sum_{C,t,r}\ell(t,r)\),\\supplies \(15p_{13}+\sigma_W,\sigma_R,4n+2\sigma\)};
+\node[dec] (highload) at (5.70,-9.75) {\textbf{[137]}~coupled excess\\\(D_{\rm all}>0\)?};
 \node[term] (nearclose) at (11.90,-9.75) {\textbf{[138]}~no coupled overload:\\explicit quadratic bound on \(\sigma\);\\near-cubic spine};
 \node[dec] (wclass) at (5.70,-12.35) {\textbf{[139]}~token in\\\(\mathfrak T_W\)?};
 \node[box] (wres) at (11.90,-12.35) {\textbf{[140]}~window-incidence\\geometric audit:\\homogeneous matching/star};
@@ -1057,7 +1057,7 @@ every node/.style={font=\scriptsize}
 \draw[arrow] (pres.east)--node[above]{bottleneck}(capcontra.west);
 \end{tikzpicture}%
 }
-\caption[Proof-dependency diagram, Part X]{Proof-dependency diagram, Part X.  This panel expands the sparse non-near-cubic branch [20].  Nodes [126]--[128] build the full active surplus family, and node [129] records the separate baseline-demand definition with its exact deficit.  Node [130] performs the canonical blocker split.  At [131], every blocker-free pair is assigned to its first selected surplus port, which is already a primitive token, with the distinct role \(\mathsf{freeAnchor}\).  Blocked pairs pass through [132]--[134] and receive their canonical capacity token.  The two routes join at [136], where the 25 token--role labels partition the complete scheduled-pair family without double counting.  Node [137] is the exact coupled CT9 decision of \cref{prop:exact-25-role-coupled-decision}; it consumes the literal pair count \(\binom{\sigma(G)}2\), not a Boolean-realization estimate.  If \(D_{25}=0\), the explicit quadratic surplus bound routes to [138].  If \(D_{25}>0\), CT9 returns an actual overloaded token--role fibre.  Nodes [139] and [141] inspect the literal constructor of that token and route it to the window-incidence, remainder-surplus, or primitive-carrier geometric audit [140], [142], [143].  A free-anchor fibre lies in the primitive class and is a literal same-first-port star.  Node [144] consumes the finite attachment and local-separator support internally and returns exactly the original sparse-exit, Type B, or near-cubic-spine alternative.}
+\caption[Proof-dependency diagram, Part X]{Proof-dependency diagram, Part X.  This panel expands the sparse non-near-cubic branch [20].  Nodes [126]--[129] build the full active surplus family.  Node [130] splits canonical pairs.  Free pairs are charged by the entropy sandwich [131], while blocked pairs pass through the blocker route [132]--[136]; the role fibres in [136] partition \(\Pi_{\rm blk}\), so this ledger has no double counting.  Node [137] is the coupled single-graph test of \cref{cor:coupled-single-graph-overload-budget,cor:numerical-single-graph-budget,prop:single-graph-sparse-pressure-routing}: all three token classes use the same \(n,p_{13},\sigma_W,\sigma_R\).  If \(D_{\rm all}=0\), the explicit quadratic bound routes to [138].  If \(D_{\rm all}>0\), the role-fibre excess enters the window-incidence, remainder-surplus, or primitive-carrier geometric audit [140], [142], [143].  Node [144] applies \cref{thm:homogeneous-overload-geometric-closure}: the bottleneck realizes a sparse surplus exit, produces Type B fan data, or is bounded by fixed homogeneous caps and routes to [138].}
 \label{fig:proof-diagram-part-x}
 \end{figure}
 
@@ -1074,7 +1074,7 @@ term/.style={ellipse,draw,align=center,inner sep=2.6pt,text width=3.70cm,minimum
 arrow/.style={-{Latex[length=2mm]},thick},
 every node/.style={font=\scriptsize}
 ]
-\node[wide] (interface) at (0.00,7.50) {\textbf{[145]}~packing-order extension ledger:\\accept into aggregate / reject cold};
+\node[wide] (interface) at (0.00,7.50) {\textbf{[145]}~hot/cold window interface after the spine estimate};
 \node[dec] (route8) at (0.00,5.50) {\textbf{[146]}~\(\theta<1/78\)?};
 \node[term] (route8closed) at (5.95,5.50) {\textbf{[147]}~route-8 private-carrier\\collision closes};
 \node[dec] (hot) at (0.00,3.20) {\textbf{[148]}~live-hot entropy\\cap closes?};
@@ -1082,11 +1082,11 @@ every node/.style={font=\scriptsize}
 \node[wide] (coldmass) at (0.00,0.95) {\textbf{[150]}~hot failure forces cold mass:\\\(C\ge(\theta-\theta_{\rm win})n-o(n)\)};
 \node[wide] (cubic) at (0.00,-1.15) {\textbf{[151]}~all but \(o(n)\) cold windows ambient-cubic};
 \node[wide] (stubs) at (0.00,-3.25) {\textbf{[152]}~stub excess:\\\(b(\mathfrak S_{\rm cold})\ge13C-o(n)\)};
-\node[wide] (germs) at (0.00,-5.35) {\textbf{[153]}~stage-major first failure:\\F1, then F2/F3/F4; exhaustive F5};
-\node[dec] (germcase) at (0.00,-7.80) {\textbf{[154]}~exhaustive F5 bounded germ:\\G1, G2, or G3?};
-\node[term] (hit) at (-6.25,-10.15) {\textbf{[155]}~F1/G1: literal\\dyadic cycle};
-\node[term] (defect) at (0.00,-10.15) {\textbf{[156]}~F2/F4/G2: defect,\\exit (4), or handoff};
-\node[term] (compress) at (6.25,-10.15) {\textbf{[157]}~F3/G3 or same-interface\\table: compression};
+\node[wide] (germs) at (0.00,-5.35) {\textbf{[153]}~first-failure extraction:\\\(N_{\rm germ}\ge13C/D_{\rm cold}-o(n)\)};
+\node[dec] (germcase) at (0.00,-7.80) {\textbf{[154]}~bounded germ case?};
+\node[term] (hit) at (-6.25,-10.15) {\textbf{[155]}~G1: dyadic\\cycle};
+\node[term] (defect) at (0.00,-10.15) {\textbf{[156]}~G2: target defect,\\exit (4), or handoff};
+\node[term] (compress) at (6.25,-10.15) {\textbf{[157]}~G3 or same-interface\\table: compression};
 \draw[arrow] (interface)--(route8);
 \draw[arrow] (route8.east)--node[above]{yes}(route8closed.west);
 \draw[arrow] (route8)--node[right]{no}(hot);
@@ -1101,8 +1101,7 @@ every node/.style={font=\scriptsize}
 \draw[arrow] (germcase.south east)--node[above,sloped]{G3/finite}(compress.north);
 \end{tikzpicture}%
 }
-\captionsetup{singlelinecheck=false}
-\caption[Proof-dependency diagram, Part XI]{Proof-dependency diagram, Part XI.  This panel preserves the original hot/cold \(P_{13}\)-window topology behind nodes [22]--[24].  If \(\theta<1/78\), route 8 closes at [147].  Otherwise the hot entropy cap yields [149] or a linear unpaid cold family [150], followed by the near-cubic and stub-excess stages [151]--[152].  Node [153] contains the graph-owned local attachment, return, component, and D1--D7 first-failure computations; only exhaustive F1--F4 absence enters the germ trichotomy [154] as F5.  The three original consumers remain [155], [156], and [157].}
+\caption[Proof-dependency diagram, Part XI]{Proof-dependency diagram, Part XI.  This panel expands the hot/cold \(P_{13}\)-window interface behind nodes [22]--[24].  If \(\theta<1/78\), the existing route-8 carrier inequality closes at [147].  Otherwise the live-hot entropy cap either yields the density cap [149], or the unpaid cold family has linear size [150].  On the near-cubic spine, only \(o(n)\) cold windows are non-cubic [151]; each ambient-cubic cold window has \(15\) external stubs, and after two corridor ends are absorbed it contributes \(13\) branch-excess units [152].  The first-failure extraction [153] assigns those selected half-edges to bounded cold germs and then uses the bounded-overlap constant \(D_{\rm cold}\) to obtain a linear disjoint family.  The germ trichotomy [154] has no terminal residual: G1 gives a dyadic cycle [155], G2 routes to target defect, exit \textup{(4)}, or the already existing handoff ledgers [156], and G3 together with the finite same-interface table gives a target-complete compression [157].}
 \label{fig:proof-diagram-part-xi}
 \end{figure}
 
@@ -1149,9 +1148,9 @@ The table records every named object in the proof-dependency diagram.  The \emph
 28 & [43], [45] & No silent global delocalization & $Z=G$ gives target-defect, smaller closed counterexample, or exact label-injective global data & no global silent rank reduction & \cref{def:exact-response-profile,def:admissible-rank-quotient,lem:no-silent-global-smearing} \\
 29 & [34], [46], [47] & Full curvature rank & $r_\Omega(R)\ge W_2(R)-o(W_2)$ & if rank drops, contradiction & \cref{lem:full-rank} \\
 30 & [48] & Forced curvature cost & $c_\Omega W_2(R)\ge K_{\rm win}|R|-o(|R|)$; high entropy gives $K|R|-o(|R|)$ & finite-size cost & \cref{cor:forced-curvature-cost} \\
-31 & [49] & Finite realized-state entropy & $\eta(R)=\log_2|\mathcal S_R|/|R|$ on the node-[48] realized family & separates high-/low-state-count regimes & \cref{def:remainder-entropy} \\
-32 & [49], [50] & Dominant local type & the low-power branch plus a separately proved subexponential radius-$2$ type coordinate and relabelling closure gives a dominant rooted type & otherwise too many labelled type vectors & \cref{lem:dominant-type} \\
-33 & [51] & High remainder bit contribution & $n^{|R|}\le N_R^{10}$ gives $(|R|/10)\log_2n\le\log_2N_R$ & one denominator-free power comparison & \cref{lem:high-remainder-bits} \\
+31 & [49] & Constrained remainder-graph entropy & $\eta(R)=\log_2|\mathcal G(R)|/|R|$ for the four inherited remainder constraints & separates high-/low-entropy regimes & \cref{def:remainder-entropy} \\
+32 & [49], [50] & Dominant local type & the low-entropy branch plus a separately proved subexponential radius-$2$ type coordinate and relabelling closure gives a dominant rooted type & otherwise too many labelled type vectors & \cref{lem:dominant-type} \\
+33 & [51] & High remainder bit contribution & $\eta(R)\ge(1/10)\log_2n$ gives $(|R|/10)\log_2n\le\log_2|\mathcal G(R)|$ & symbolic real arithmetic & \cref{lem:high-remainder-bits} \\
 34 & [50]--[54] & Two-budget routing & high-entropy branch uses window entropy; repetitive low-entropy branch gives positive curvature rank; nonrepetitive low-entropy branch is routed forward & prevents entropy overcounting & \cref{prop:two-budget} \\
 35 & [54] & Finite threshold $\Theta(n)$ & high-$\theta$ branch closed by entropy cap & small-budget closure & \cref{def:Theta}, \cref{prop:entropy-high-theta} \\
 36 & [55]--[57] & Net-deficiency cap & large-budget branch has $\Delta_{\mathrm{net}}\le\tau_{\rm win}+o(1)<1/4$ & very low net deficiency required & \cref{sec:large-budget} \\
@@ -6914,10 +6913,10 @@ boundary stubs whose outside endpoint lies in \(C\), and:
 \item the stored successor \(b^+\) is the genuine cyclic
   \texttt{List.next} value of \(b\) in \(\mathcal B_C\), so
   \(b^+\ne b\) and both stubs have outside endpoint in \(C\);
-\item among the simple paths in (C) from the outside endpoint of (b) to
-  that of (b^+), the stored corridor is the lexicographically first one in
+\item among the simple paths in \(C\) from the outside endpoint of \(b\) to
+  that of \(b^+\), the stored corridor is the lexicographically first one in
   the fixed component-vertex order.  Its endpoints are exact, it is simple,
-  and its length is strictly below (|V(C)|).
+  and its length is strictly below \(|V(C)|\).
 \end{enumerate}
 The second stub is obtained by an explicit first-hit scan of
 \(\operatorname{WindowIndex}\times\operatorname{Fin}(13)\).  The scan stores
@@ -8725,24 +8724,35 @@ The dependence is
 \emph{proper} when this determination is not a tautological equality of the
 local coordinate \(a\) with one of the coordinates in \(\mathcal B\).
 
-A \emph{determination certificate} for \((a,\mathcal B)\) is a tuple
+A \emph{determination certificate} for \((a,\mathcal B)\), relative to an
+original atom \(C\) carrying the declared coordinates, is a tuple
 \[
-\mathfrak c=(X,T,q,\mathcal P)
+\mathfrak c=(C,X,T_C,T_X,q,q_C,\mathcal P)
 \]
 with the following data.
 \begin{enumerate}[label=(\alph*), leftmargin=2.2em]
-\item \(X\subseteq G\) is a connected \(T\)-boundaried support carrying all
-coordinates in \(\{a\}\cup\mathcal B\).
-\item \(q:\rho_T^{\rm ex}(X)\to Q\) is a functional admissible rank quotient.
-\item For any two realizations of \(\rho_T^{\rm ex}(X)\) with the same
+\item \(C\subseteq X\subseteq G\), where \(X\) is a connected
+\(T_X\)-boundaried support carrying all coordinates in
+\(\{a\}\cup\mathcal B\), and \(T_C,T_X\) are the respective labelled
+boundaries determined by the two supports.
+\item \(q:\rho_{T_X}^{\rm ex}(X)\to Q\) is a functional admissible rank
+quotient at the \(X\)-interface.
+\item For any two realizations of \(\rho_{T_X}^{\rm ex}(X)\) with the same
 \(q\)-image on the coordinates of \(\mathcal B\), the \(q\)-image of \(a\) is
 the same.  Equivalently, the \(q\)-value of \(a\) is a function of the
 \(q\)-value vector on \(\mathcal B\).
 \item \(\mathcal P\) is the finite set of declared paths, boundary incidences,
 window segments, or connector incidences recorded by the certificate as the
 support data for the context-universal determination.
+\item \(q_C\) is the raw quotient proposal induced on the declared
+coordinates of \(\rho_{T_C}^{\rm ex}(C)\).  The certificate records the
+support inclusion, both boundary-degree profiles, the transport of every
+declared coordinate used by \(q\), and the commutative equality saying that
+\(q_C\) has the same quotient code as \(q\) on those transported labels.
+No target-completeness assertion at the \(C\)-interface is included here; that
+is exactly the subsequent context-universality test.
 \end{enumerate}
-Here a realization means a \(T\)-boundaried support whose exact response profile
+Here a realization means a \(T_X\)-boundaried support whose exact response profile
 maps to the same quotient data \(Q\) under \(q\).  The \emph{support} of
 \(\mathfrak c\) is the lexicographically first smallest connected subgraph of
 \(G\) containing the declared supports of \(a\), of all coordinates in
@@ -8750,6 +8760,15 @@ maps to the same quotient data \(Q\) under \(q\).  The \emph{support} of
 \((a,\mathcal B)\) is the support of a certificate with minimal support.  A
 target-dependence is \emph{inclusion-minimal} if no proper connected subsupport
 carries a proper target-dependence with the same determined coordinate.
+
+Admissibility here is indexed by the final carrier \(X\).  When the proof later
+asks whether this determination is already valid on a smaller atom
+\(C\subseteq X\), it uses the boundary profile and outside-context space of
+\(C\), not those of \(X\).  Thus context-universality at the \(X\)-interface
+does not by itself imply context-universality at the \(C\)-interface.  The
+restriction from \(X\) to \(C\), its boundary-profile transport, and the
+corresponding context test are part of the determination certificate's routed
+data.
 \end{definition}
 
 \begin{lemma}[Target-rank circuit extraction]\label[lemma]{lem:target-rank-circuit}
@@ -8814,9 +8833,11 @@ A strict rank drop means that some raw curvature test is target-dependent on
 the others in the sense of
 \cref{def:curvature-target-dependence,lem:target-rank-circuit}.  Choose a
 determination certificate with inclusion-minimal connected support.  The
-certificate has an admissible quotient \(q\) and a finite support set
-\(\mathcal P\).  Either the determination certified by \(q\) fails for some
-\(T\)-boundaried outside context, or it is context-universal.  In the
+certificate has an admissible quotient \(q\) on its final carrier \(X\) and a
+finite support set \(\mathcal P\).  Restrict the determination to the original
+atom \(C\).  Either this restricted determination fails for some
+\(\partial C\)-boundaried outside context, or it is context-universal at the
+\(C\)-interface.  In the
 context-universal case, the connected support of the certificate either equals
 \(C\) or strictly contains \(C\).  These alternatives are mutually exclusive and
 exhaust all certificates:
@@ -8845,10 +8866,18 @@ root of its radius-$r$ ball.  Any closure witnessing a dyadic target that is not
 already internal to the ball must leave the ball through its boundary; if the
 witness stayed wholly inside the ball, the ball would already contain a target
 cycle, contrary to internal target-safety of the remainder.  Hence every tester
-that separates the two wedge coordinates is supported outside the corresponding
-closed balls.
+that separates the two wedge coordinates has a witnessing closure which leaves
+the corresponding closed ball.  This observation alone does not show that the
+complete support of the tester is contained in the complement of the two balls:
+a tester may meet a ball and then leave it.  The required remaining
+normalization statement is that every separating tester can be replaced,
+without changing either exact response, by a boundaried tester whose complete
+context support is disjoint from both closed balls.  Equivalently, one may
+prove by the same replacement strategy that every non-normalizable
+intersection already yields a target defect or a proper compression.  This
+normalization is an outstanding obligation of the present proof.
 
-Since the rooted balls are isomorphic and vertex-disjoint, the two local wedge
+Conditional on this normalization, since the rooted balls are isomorphic and vertex-disjoint, the two local wedge
 states have identical internal data and identical boundary degree profiles.  If
 an outside context distinguishes them, then the identification fails the
 context-universality condition of target-completeness and is target-defective.
@@ -8992,46 +9021,60 @@ $r_\Omega(R)\ge W_2(R)-o(W_2(R))$.
 
 \begin{corollary}[Conditional finite curvature magnitude and product cost]\label[corollary]{cor:forced-curvature-cost}
 Assume the node-[24] packing cap and retain the node-[47] full-rank ledger on
-the same remainder.  Writing $s(G)$ for the total degree surplus, one has the
-exact finite inequality
+the same remainder.  Put
 \[
-250825743018\,|R|
- \le 98608581006\,r_\Omega(R)
-     +197217162012\,s(G).
+ L_n=\lfloor\log_2 n\rfloor S_{\rm hot},
+\]
+where $S_{\rm hot}$ is the fixed exact normalization scale of the hot
+certificate, and let $E_{\rm norm}$ be the normalization error retained at
+node~[24].  Writing $s(G)$ for the total degree surplus, one has the exact
+finite inequality
+\[
+250825743018\,|R|L_n
+ \le 98608581006\,r_\Omega(R)L_n
+     +30E_{\rm norm}+197217162012\,s(G)L_n.
 \]
 On the high-entropy density branch the left coefficient may be replaced by
-$253825743018$.
-
-If, in addition, a finite ordered family of pairwise distinct
-graph-completion states, an injective code of those states into the labelled
-baseline-skeleton family, and a conditional-fibre ledger for every curvature
-coordinate are supplied on this same residual, then that ledger gives
+$253825743018$.  Since node~[25] gives $n\ge13$, the exact divisor $L_n$ is
+positive.  Division by $L_n$ gives
 \[
-543958^{r_\Omega(R)}
- \le 111286^{r_\Omega(R)}\,N_{\rm skel},
+250825743018\,|R|
+ \le 98608581006\,r_\Omega(R)+e_{48}(G),
+\qquad
+e_{48}(G)=\frac{30E_{\rm norm}}{L_n}+197217162012\,s(G),
 \]
-where $N_{\rm skel}$ is the exact number of labelled baseline skeletons.
-Constructing this simultaneous graph-owned realization from node [47] is a
-separate unproved obligation of node [48]; no complementary outcome or edge to
-node [55] is introduced.
+and the analogous high-entropy inequality.  More precisely, for every family
+of these residuals in which the authored window, remainder, and primitive
+thresholds are fixed and $n\to\infty$, the retained normalization envelope
+gives $30E_{\rm norm}/L_n=o(n)$, while the near-cubic surplus certificate
+gives $s(G)=O(\sqrt n)=o(n)$.  The node-[25] remainder estimate moreover
+gives $|R|\ge n/4$ eventually.  Hence
+\[
+ e_{48}(G)=o(|R|).
+\]
+
+Multiplying the divided inequality by
+\[
+c_\Omega=\log_2(543958/111286)\ge0
+\]
+gives the stated window-only cost with
+$K_{\rm win}=c_\Omega\omega_{\rm win}$ and, on the high-entropy edge, the
+sharper cost with $K=c_\Omega\omega$.
 \end{corollary}
 
 \begin{proof}
 The first inequality is the integer form of the wedge lower bound after the
-node-[24] density cap is substituted; its error is twice the retained total
-surplus, rather than an unproved asymptotic term.  The sharper coefficient is
-obtained by the same calculation from the high-entropy cap.  Under the stated
-additional realization hypothesis, each local conditional-fibre inequality
-\[
-543958\,|S_{i+1}|\le111286\,|S_i|
-\]
-is multiplied along the declared coordinate order.  The final fibre is
-nonempty and the initial fibre injects into the labelled skeleton family,
-which gives the displayed product bound.  This conditional calculation does
-not construct the realization.
+error-bearing node-[24] density cap is substituted.  The generic scaled-wedge
+calculation retains thirty copies of the density normalization error and twice
+the retained total surplus at the common scale $L_n$.  The positivity of
+$L_n$, the graph-order normalization and surplus envelopes, and the eventual
+lower density $|R|\ge n/4$ give the displayed $o(|R|)$ error.  The sharper
+coefficient is obtained by the same calculation from the high-entropy cap.
+Finally, multiplication by the fixed nonnegative constant $c_\Omega$ carries
+the $o(|R|)$ rank error to an $o(|R|)$ cost error.
 \end{proof}
 
-\begin{remark}[Provenance of the curvature product]\label[remark]{rem:curvature-provenance}
+\begin{remark}[Provenance of the curvature constant]\label[remark]{rem:curvature-provenance}
 The ingredients of \cref{cor:forced-curvature-cost} play distinct roles.
 The \emph{independence} of the remainder curvature tests---that they realize
 full target-rank (\cref{lem:full-rank})---is forced by the routing of
@@ -9041,13 +9084,11 @@ be a target-defective quotient, a target-complete compression of a proper atom
 delocalization is excluded by \cref{lem:proper-smearing}; whole-graph
 delocalization is excluded by the closed exact-profile argument in
 \cref{lem:no-silent-global-smearing}.  Thus each rank-reduction route is
-unavailable in the main spine.  Full target rank alone, however, does not
-imply simultaneous product realization of the finite responses.  The
-graph-owned response semantics together with the conditional-fibre ledger is
-the additional ingredient that supplies the multiplicative factor, and its
-absence is the explicit open successor of node [48].  As
-\cref{rem:closure-robust} records, the large-budget continuation does not spend
-this factor.
+unavailable in the main spine.  The value $c_\Omega$, by contrast, is the
+logarithm of the exact finite count ratio certified at node [21].  Node [48]
+merely converts the already forced rank into these fixed budget units.
+Construction and entropy of the remainder state family begin at node [49];
+they are not additional obligations of node [48].
 \end{remark}
 
 \begin{figure}[t]
@@ -9163,50 +9204,39 @@ All but \(o(W_2)\) tests.
 
 \section{Per-vertex remainder entropy and two-budget routing}
 
-Throughout this section, $R$ is the $P_{13}$-free remainder of the minimal counterexample, with $|R|=(1-13\theta)n-o(n)$.  The aim is to make the entropy branch explicit on the finite state family actually supplied by the realized node-[48] ledger.
+Throughout this section, $R$ is the $P_{13}$-free remainder of the minimal counterexample, with $|R|=(1-13\theta)n-o(n)$.  The aim is to make the entropy branch explicit: the $n\log n$ skeleton budget and the linear forced curvature cost are used in disjoint regimes.
 
-\begin{definition}[Finite realized-state entropy of the remainder]\label[definition]{def:remainder-entropy}
-On the realized successor of node [48], let $\mathcal S_R$ be the exact finite
-ordered family of graph-completion states carried by its conditional-fibre
-certificate.  Put
+\begin{definition}[Per-vertex skeleton entropy of the remainder]\label[definition]{def:remainder-entropy}
+Let $\mathcal G(R)$ be the set of labelled simple graphs on the fixed vertex set $V(R)$ satisfying the already imposed remainder constraints: subcubicity on the atom part, componentwise $P_{13}$-freeness, no internal $3$-core, and positive net-deficiency density at most the current cap.  Define
 \[
-N_R=|\mathcal S_R|,
-\qquad b_R=\lfloor\log_2N_R\rfloor,
-\qquad \eta(R)=\frac{\log_2N_R}{|R|}.
+\eta(R)=\frac{\log_2|\mathcal G(R)|}{|R|}.
 \]
-The certificate proves $N_R>0$ and injects $\mathcal S_R$ into the literal
-family of labelled baseline edge sets.  Thus this definition reuses the
-supplied local state schedule and does not enumerate labelled graphs, subsets,
-contexts, or Boolean assignments.  It is not identified with the class of all
-graphs on $V(R)$ satisfying the remainder constraints.
-Node [50] uses the denominator-free natural-number comparison
-\[
-n^{|R|}\le N_R^{10}
-\qquad\text{or}\qquad
-N_R^{10}<n^{|R|}.
-\]
-This is the exponentiated form of the entropy threshold and is a single local
-arithmetic comparison on the node-[49] count; it does not evaluate real
-logarithms or generate any state family.
+The atom part and the current net-deficiency cap are the exact branch-local
+objects inherited with the fixed remainder.  Since every candidate has the
+same vertex set, the density comparison is equivalently the comparison of its
+net-deficiency numerator with that inherited numerator.  The family is used
+symbolically; this definition does not prescribe an enumeration of labelled
+graphs.
 \end{definition}
 
 \begin{lemma}[High-power remainder bit contribution]\label[lemma]{lem:high-remainder-bits}
 On the node-[50] high branch,
 \[
-n^{|R|}\le N_R^{10},
+n^{|R|}\le |\mathcal G(R)|^{10},
 \]
-the realized node-[49] state family satisfies
+the node-[49] constrained remainder family satisfies
 \[
-\frac{|R|}{10}\log_2n\le\log_2N_R.
+\frac{|R|}{10}\log_2n\le\log_2|\mathcal G(R)|.
 \]
 \end{lemma}
 
 \begin{proof}
-Node [49] gives $N_R>0$, and the minimal counterexample has $n>0$ vertices.
+The fixed remainder itself belongs to $\mathcal G(R)$, so
+$|\mathcal G(R)|>0$; also the minimal counterexample has $n>0$ vertices.
 Apply the increasing function $\log_2$ to the node-[50] inequality and use
 the power law to obtain
 \[
-|R|\log_2n\le 10\log_2N_R.
+|R|\log_2n\le 10\log_2|\mathcal G(R)|.
 \]
 Division by $10$ gives the claim.  This argument consumes only the two
 natural powers already compared at node [50]; it performs no finite-family
@@ -9250,16 +9280,16 @@ $B^{10}U\le A^{10}$ at node [53] is impossible.
 \end{lemma}
 
 \begin{proof}
-The exact conditional-fibre ledger at node [48], together with its nonempty
-terminal fibre, gives
+The exact curvature accounting at node [48] and the node-[49] constrained
+remainder family give
 \[
-A\le B N_R.
+A\le B|\mathcal G(R)|.
 \]
-This uses the actual node-[49] state count, not the larger family of all
-remainder graphs.  Raising to the tenth power and using the strict node-[50]
-low inequality $N_R^{10}<U$ gives
+Raising to the tenth power and using the strict node-[50] low inequality
+$|\mathcal G(R)|^{10}<U$ gives
 \[
-A^{10}\le (BN_R)^{10}=B^{10}N_R^{10}<B^{10}U,
+A^{10}\le (B|\mathcal G(R)|)^{10}
+=B^{10}|\mathcal G(R)|^{10}<B^{10}U,
 \]
 because $B>0$.  The proof transports these supplied natural-number
 inequalities symbolically; it evaluates no power and scans no finite family.
@@ -9300,7 +9330,7 @@ Thus the number of realizable type vectors is $2^{\Theta(|R|)}$, exponential in 
 \begin{remark}\label[remark]{rem:cheap-regime-link}
 The structural-repetitiveness hypothesis of \cref{lem:dominant-type} is
 stronger than the single-scalar low-entropy regime
-$N_R^{10}<n^{|R|}$.  The radius-$r$ type coordinate is one canonical
+$|\mathcal G(R)|^{10}<n^{|R|}$.  The radius-$r$ type coordinate is one canonical
 coordinate of the remainder skeleton, so its bit-content is bounded by
 $\eta(R)|R|$.  When that coordinate is $o(|R|)$ the lemma applies.  When it is
 not $o(|R|)$ but the total remainder entropy is still below
@@ -17532,9 +17562,10 @@ The output is:
 \end{lstlisting}
 
 The formal companion stores the same fifteen \(399\times399\) Boolean
-matrices as fixed bit rows.  Fifteen independent audit shards recheck every
-entry against the power-of-two attachment predicate and recheck every
-accepted safe and flat count against the generic finite-relation formula.
+matrices as fixed bit rows.  Compact whole-row certificates identify every
+stored row with the power-of-two attachment predicate, and bounded fixed-table
+audit shards recheck every accepted safe and flat count against the generic
+finite-relation formula.
 In particular, it recovers the first-block counts at \((a,b)=(1,1)\), proves
 that exactly \(91\) pairs are present, and certifies the rounding-free bound
 

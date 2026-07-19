@@ -1,6 +1,26 @@
 import StructuralExhaustion.CT17.Theorems
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT17
+
+universe uAmbient uBranch uTarget uOffset uPosition uValue
+
+namespace Capability
+
+/-- Canonical executable CT17 entry.  Its typed trigger carries the requested
+scale at the inherited branch context; the framework invokes the public CT17
+runner without reconstructing any survivor or orbit data. -/
+def executableInterface
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {S : Spec.{uAmbient, uBranch, uTarget, uOffset, uPosition, uValue} P}
+    (capability : Capability S) :
+    Core.Routing.ExecutableInterface .ct17 where
+  Context := Core.BranchContext P
+  Trigger := Input S capability
+  Result := fun ctx input => ExecutionResult S capability ctx input
+  execute := fun ctx input => run S capability ctx input
+
+end Capability
 
 def incompatibilityResidualKindId := "CT17.residual.incompatibility"
 def survivorResidualKindId := "CT17.residual.survivors"
@@ -66,6 +86,7 @@ def capabilityContract : Core.CapabilityContract where
     "CT17.enumerateSurvivors",
     "CT17.analyzeArithmetic",
     "CT17.runReference",
+    "StructuralExhaustion.CT17.Capability.executableInterface",
     incompatibilityResidualKindId,
     survivorResidualKindId,
     orbitResidualKindId]

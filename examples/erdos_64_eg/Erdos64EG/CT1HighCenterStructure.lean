@@ -78,33 +78,102 @@ theorem highCenter_nonadjacent_noCommonOutside
   (highCenterStructureStage ctx).noCommonOutside leftNeRight commonNeCenter
     centerLeft centerRight leftCommon rightCommon
 
-structure VerifiedHighCenterStructurePrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedSurplusPairPrefix ctx
+abbrev highCenterStructureEntry
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  (Graph.HighCenterStructure.encoding ctx.G.Vertex).avoidingExecutableInterface
+
+/-- Mathematical adapter for the internal CT9→CT1 helper execution.  This is
+not a manuscript diagram edge and is therefore absent from the web topology,
+but its CT execution and label change are still framework-owned. -/
+abbrev highCenterStructureAdapter
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSurplusPairPrefix ctx) :
+    Routes.Accumulated.Adapter (SurplusPairEnabledStage ctx previous.1)
+      (highCenterStructureEntry ctx) where
+  targetContext := fun _source =>
+    (Graph.HighCenterStructure.input ctx.G.object).context
+  trigger := fun _source => ⟨fourCycleFree ctx⟩
+
+abbrev highCenterStructureTransition
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSurplusPairPrefix ctx) :=
+  Routes.Accumulated.transition (sourceTactic := .ct9)
+    (highCenterStructureEntry ctx)
+    (highCenterStructureAdapter ctx previous)
+
+abbrev HighCenterStructureEnabledStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSurplusPairPrefix ctx) :=
+  Routes.Accumulated.OutputLedger
+    (highCenterStructureEntry ctx)
+    (highCenterStructureAdapter ctx previous) previous.2.ledgerStage
+
+def highCenterStructureTransitionStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSurplusPairPrefix ctx) :
+    HighCenterStructureEnabledStage ctx previous :=
+  Routes.Accumulated.advanceCurrent (highCenterStructureEntry ctx)
+    (highCenterStructureAdapter ctx previous) previous.2.ledgerStage
+
+/-- Graph consequences attached to the literal helper CT1 execution. -/
+structure HighCenterStructureFacts
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {previous : VerifiedSurplusPairPrefix ctx}
+    (stage : HighCenterStructureEnabledStage ctx previous) : Prop where
+  terminal : stage.targetResult.result.terminal = .avoiding
+  trace : stage.targetResult.result.trace =
+    [.entry, .equivalenceCertification, .realizationDecision,
+      .avoidingTerminal]
   stage : Graph.HighCenterStructure.VerifiedStage ctx.G.object
   cubicEndpoints : ∀ {center neighbor : ctx.G.Vertex},
     4 ≤ ctx.G.object.degree center →
     ctx.G.object.graph.Adj center neighbor →
     ctx.G.object.degree neighbor = 3
 
+/-- Complete CT1-labelled application prefix. -/
+abbrev VerifiedHighCenterStructurePrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Sigma fun previous : VerifiedSurplusPairPrefix ctx =>
+    Core.Routing.LedgerExtension
+      (HighCenterStructureEnabledStage ctx previous)
+      (HighCenterStructureFacts ctx)
+
+abbrev HighCenterStructureLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedHighCenterStructurePrefix ctx) :=
+  Core.Routing.LedgerExtension
+    (HighCenterStructureEnabledStage ctx verified.1)
+    (HighCenterStructureFacts ctx)
+
 def verifiedHighCenterStructurePrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedSurplusPairPrefix ctx) :
-    VerifiedHighCenterStructurePrefix ctx where
-  previous := previous
-  stage := highCenterStructureStage ctx
-  cubicEndpoints := previous.previous.cubicEndpoints
+    VerifiedHighCenterStructurePrefix ctx :=
+  let transitionStage := highCenterStructureTransitionStage ctx previous
+  ⟨previous, ⟨transitionStage, {
+    terminal := runFourCycleAvoidingCT1_terminal ctx
+    trace := runFourCycleAvoidingCT1_trace ctx
+    stage := highCenterStructureStage ctx
+    cubicEndpoints := previous.1.cubicEndpoints
+  }⟩⟩
+
+/-- Exact CT1 source stage used by the next manuscript transition. -/
+def highCenterStructureLedgerStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedHighCenterStructurePrefix ctx) :
+    Core.Routing.ResidualStage .ct1
+      (HighCenterStructureLedger ctx verified) :=
+  verified.2.previous.ledgerStage.extend verified.2.added
 
 theorem exists_verifiedHighCenterStructurePrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedHighCenterStructurePrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedHighCenterStructurePrefix ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedSurplusPairPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedHighCenterStructurePrefix ctx previous⟩
+  exact ⟨ctx, verifiedHighCenterStructurePrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

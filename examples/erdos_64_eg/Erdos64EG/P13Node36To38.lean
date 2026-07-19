@@ -8,15 +8,14 @@ open StructuralExhaustion
 universe u
 
 /-!
-# Exact smaller-representative decision `[36] -> [38]`
+# Original-support location decision `[36] -> [38]`
 
-The yes edge of node `[36]` retains universal outside-context validity.  Node
-`[38]` then reads the representative clause already stored in the admitted,
-non-injective pair circuit.  That clause supplies a certified strictly smaller
-baseline object with target transport; no candidate representative is searched.
+After node `[36]` has certified universal response at the original atom
+interface, node `[38]` tests whether the certificate's final carrier is that
+same atom or is a strict connected enlargement.  The carrier-indexed
+representative is transported to the atom only in the equality constructor.
 -/
 
-/-- Complete node-[38] payload indexed by the exact node-[36] universal edge. -/
 structure VerifiedP13Node38ProperRepresentativeDecision
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
@@ -39,26 +38,23 @@ structure VerifiedP13Node38ProperRepresentativeDecision
       ctx node21 node24 node26 node27 node28 node29 node30 node31 node32 rankDrop)
     (node36 : VerifiedP13Node36ContextValidity
       ctx node21 node24 node26 node27 node28 node29 node30 node31 node32 rankDrop
-        node35) : Type (u + 1) extends Core.ExactHandoff node36 where
-  contextUniversalExact : previous.validEveryOutsideContext =
-    node35.circuit.contextUniversal
-  decision : node35.circuit.RepresentativeDecision
-  decisionExact : decision =
-    .available node35.circuit.smallerRepresentative
-  representative : Core.CertifiedReduction ctx
-  representativeExact : representative = node35.circuit.smallerRepresentative
-  strictlySmaller :
-    PackedProblem.rank representative.reduction.value < PackedProblem.rank ctx.G
-  baselinePreserved : PackedProblem.Baseline representative.reduction.value
-  targetTransport : PackedTarget representative.reduction.value → PackedTarget ctx.G
+        node35) : Type (u + 3) extends Core.ExactHandoff node36 where
+  allContexts : ∀ context :
+      (p13CurvatureDeterminationSupportProfile ctx).Context
+        node35.certificate.original,
+    (p13CurvatureDeterminationSupportProfile ctx).response
+        node35.certificate.original node35.certificate.basisCoordinate context =
+      (p13CurvatureDeterminationSupportProfile ctx).response
+        node35.certificate.original node35.certificate.determined context
+  contextEdge : previous.decision = .universal allContexts
+  location : node35.certificate.Location
+  locationExact : location = node35.certificate.location
   localWork :
-    node35.circuit.representativeDecisionBudget.checks () ≤
-      node35.circuit.representativeDecisionBudget.coefficient *
-        (node35.circuit.representativeDecisionBudget.size () + 1) ^
-          node35.circuit.representativeDecisionBudget.degree
+    node35.certificate.routeBudget.checks () ≤
+      node35.certificate.routeBudget.coefficient *
+        (node35.certificate.routeBudget.size () + 1) ^
+          node35.certificate.routeBudget.degree
 
-/-- Execute the original node-[38] representative test on the exact universal
-node-[36] output. -/
 noncomputable def VerifiedP13Node36ContextValidity.node38
     {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
     {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
@@ -81,20 +77,24 @@ noncomputable def VerifiedP13Node36ContextValidity.node38
       ctx node21 node24 node26 node27 node28 node29 node30 node31 node32 rankDrop}
     (node36 : VerifiedP13Node36ContextValidity
       ctx node21 node24 node26 node27 node28 node29 node30 node31 node32 rankDrop
-        node35) :
+        node35)
+    (allContexts : ∀ context :
+      (p13CurvatureDeterminationSupportProfile ctx).Context
+        node35.certificate.original,
+      (p13CurvatureDeterminationSupportProfile ctx).response
+          node35.certificate.original node35.certificate.basisCoordinate context =
+        (p13CurvatureDeterminationSupportProfile ctx).response
+          node35.certificate.original node35.certificate.determined context)
+    (edge : node36.decision = .universal allContexts) :
     VerifiedP13Node38ProperRepresentativeDecision
       ctx node21 node24 node26 node27 node28 node29 node30 node31 node32 rankDrop
         node35 node36 where
   previous := node36
   previousExact := rfl
-  contextUniversalExact := rfl
-  decision := node35.circuit.representativeDecision
-  decisionExact := node35.circuit.representativeDecision_isAvailable
-  representative := node35.circuit.smallerRepresentative
-  representativeExact := rfl
-  strictlySmaller := node35.circuit.smallerRepresentative.reduction.decreases
-  baselinePreserved := node35.circuit.smallerRepresentative.reducedBaseline
-  targetTransport := node35.circuit.smallerRepresentative.targetMonotone
-  localWork := node35.circuit.representativeDecisionBudget.bounded ()
+  allContexts := allContexts
+  contextEdge := edge
+  location := node35.certificate.location
+  locationExact := rfl
+  localWork := node35.certificate.routeBudget.bounded ()
 
 end Erdos64EG.Internal

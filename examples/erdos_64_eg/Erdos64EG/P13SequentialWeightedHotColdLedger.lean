@@ -14,7 +14,7 @@ universe u
 /-- One accepted window together with its graph interpretation. -/
 structure P13SequentialRetainedHot
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 1) where
+    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 3) where
   window : P13SelectedConnectorWindow ctx
   package : P13WeightedLiveWindowPackage ctx node21 window
   interpretation : P13WeightedLocalGraphInterpretation package
@@ -31,7 +31,7 @@ retained in it.  `commutes` is the joint invariant, not coordinatewise
 activity. -/
 structure P13SequentialHotAggregate
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 2) where
+    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 3) where
   retained : List (P13SequentialRetainedHot ctx node21)
   JointState : Type (u + 1)
   jointStates : FinEnum JointState
@@ -138,15 +138,10 @@ theorem exactPoweredRate_le_fixedCapacity
       have localCard :
           Nat.card (P13RetainedLocalChoice aggregate.retained owner) =
             package.states.values.length := by
-        letI : DecidableEq package.State := package.states.decEq
         let enumeration := aggregate.localChoices owner
-        letI : Fintype (P13RetainedLocalChoice aggregate.retained owner) :=
-          @FinEnum.instFintype _ enumeration
         calc
           Nat.card (P13RetainedLocalChoice aggregate.retained owner) =
-              enumeration.card := by
-            simpa [Nat.card_eq_fintype_card] using
-              (@FinEnum.card_eq_fintypeCard _ enumeration _).symm
+              enumeration.card := Core.Enumeration.natCard_eq enumeration
           _ = package.states.values.length := by
             dsimp [enumeration, P13SequentialHotAggregate.localChoices]
             rw [FinEnum.card_ofList]
@@ -171,7 +166,7 @@ structure P13SequentialCompatibleExtension
     {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
     {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
     (aggregate : P13SequentialHotAggregate ctx node21)
-    (window : P13SelectedConnectorWindow ctx) : Type (u + 2) where
+    (window : P13SelectedConnectorWindow ctx) : Type (u + 3) where
   package : P13WeightedLiveWindowPackage ctx node21 window
   interpretation : P13WeightedLocalGraphInterpretation package
   next : P13SequentialHotAggregate ctx node21
@@ -248,7 +243,7 @@ noncomputable def p13SequentialWeightedLedger
 point and absence of the full compatible extension. -/
 structure P13SequentialWeightedColdWindow
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 2) where
+    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 3) where
   currentAggregate : P13SequentialHotAggregate ctx node21
   window : P13SelectedConnectorWindow ctx
   extensionAbsent : ¬Nonempty

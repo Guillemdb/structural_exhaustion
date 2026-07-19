@@ -63,33 +63,33 @@ structure Residual where
 
 /-- Forced identity handoff from the producer endpoint to its typed consumer
 residual. -/
-def route (source : Source input boundaries ctx) :
+def handoff (source : Source input boundaries ctx) :
     Residual input boundaries ctx :=
   ⟨source⟩
 
-@[simp] theorem route_source (source : Source input boundaries ctx) :
-    (route input boundaries ctx source).source = source :=
+@[simp] theorem handoff_source (source : Source input boundaries ctx) :
+    (handoff input boundaries ctx source).source = source :=
   rfl
 
-@[simp] theorem route_left (source : Source input boundaries ctx) :
-    (route input boundaries ctx source).source.left = source.left :=
+@[simp] theorem handoff_left (source : Source input boundaries ctx) :
+    (handoff input boundaries ctx source).source.left = source.left :=
   rfl
 
-@[simp] theorem route_right (source : Source input boundaries ctx) :
-    (route input boundaries ctx source).source.right = source.right :=
+@[simp] theorem handoff_right (source : Source input boundaries ctx) :
+    (handoff input boundaries ctx source).source.right = source.right :=
   rfl
 
-@[simp] theorem route_outside (source : Source input boundaries ctx) :
-    (route input boundaries ctx source).source.outside = source.outside :=
+@[simp] theorem handoff_outside (source : Source input boundaries ctx) :
+    (handoff input boundaries ctx source).source.outside = source.outside :=
   rfl
 
 /-- The graph-layer target defect obtained after routing is the same literal
 outside-context distinction carried by the producer. -/
-theorem route_targetDefective (source : Source input boundaries ctx) :
+theorem handoff_targetDefective (source : Source input boundaries ctx) :
     MinimumDegreeCycleReplacement.TargetDefective input boundaries
-      (route input boundaries ctx source).source.left
-      (route input boundaries ctx source).source.right :=
-  (route input boundaries ctx source).source.targetDefective
+      (handoff input boundaries ctx source).source.left
+      (handoff input boundaries ctx source).source.right :=
+  (handoff input boundaries ctx source).source.targetDefective
 
 /-- Context provenance is definitionally fixed by the dependent route index. -/
 theorem branchContext_preserved (source : Source input boundaries ctx) :
@@ -109,11 +109,11 @@ theorem state_preserved (source : Source input boundaries ctx) :
   rfl
 
 /-- Stable provenance identifier for consumers and web audits. -/
-def routeId : String :=
+def handoffId : String :=
   "Graph.targetDefect->typedHandoff"
 
-theorem generated_route_id (source : Source input boundaries ctx) :
-    routeId = "Graph.targetDefect->typedHandoff" :=
+theorem handoff_provenance (_source : Source input boundaries ctx) :
+    handoffId = "Graph.targetDefect->typedHandoff" :=
   rfl
 
 end StructuralExhaustion.Routes.TargetDefectHandoff

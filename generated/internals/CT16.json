@@ -781,21 +781,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 63,
+          "line": 54,
           "column": 10
         },
         "end": {
-          "line": 63,
+          "line": 54,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 63,
+          "line": 54,
           "column": 0
         },
         "end": {
-          "line": 66,
+          "line": 57,
           "column": 56
         }
       },
@@ -822,21 +822,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 32,
+          "line": 23,
           "column": 10
         },
         "end": {
-          "line": 32,
+          "line": 23,
           "column": 31
         }
       },
       "range": {
         "start": {
-          "line": 32,
+          "line": 23,
           "column": 0
         },
         "end": {
-          "line": 35,
+          "line": 26,
           "column": 51
         }
       },
@@ -862,21 +862,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 37,
+          "line": 28,
           "column": 10
         },
         "end": {
-          "line": 37,
+          "line": 28,
           "column": 27
         }
       },
       "range": {
         "start": {
-          "line": 37,
+          "line": 28,
           "column": 0
         },
         "end": {
-          "line": 39,
+          "line": 30,
           "column": 66
         }
       },
@@ -941,21 +941,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 41,
+          "line": 32,
           "column": 10
         },
         "end": {
-          "line": 41,
+          "line": 32,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 41,
+          "line": 32,
           "column": 0
         },
         "end": {
-          "line": 45,
+          "line": 36,
           "column": 48
         }
       },
@@ -1059,21 +1059,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 83,
+          "line": 74,
           "column": 10
         },
         "end": {
-          "line": 83,
+          "line": 74,
           "column": 22
         }
       },
       "range": {
         "start": {
-          "line": 83,
+          "line": 74,
           "column": 0
         },
         "end": {
-          "line": 87,
+          "line": 78,
           "column": 71
         }
       },
@@ -1100,21 +1100,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 53,
+          "line": 44,
           "column": 10
         },
         "end": {
-          "line": 53,
+          "line": 44,
           "column": 30
         }
       },
       "range": {
         "start": {
-          "line": 53,
+          "line": 44,
           "column": 0
         },
         "end": {
-          "line": 56,
+          "line": 47,
           "column": 44
         }
       },
@@ -1140,21 +1140,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 58,
+          "line": 49,
           "column": 10
         },
         "end": {
-          "line": 58,
+          "line": 49,
           "column": 36
         }
       },
       "range": {
         "start": {
-          "line": 58,
+          "line": 49,
           "column": 0
         },
         "end": {
-          "line": 61,
+          "line": 52,
           "column": 47
         }
       },
@@ -1832,21 +1832,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 65,
+          "line": 56,
           "column": 4
         },
         "end": {
-          "line": 65,
+          "line": 56,
           "column": 10
         }
       },
       "range": {
         "start": {
-          "line": 65,
+          "line": 56,
           "column": 2
         },
         "end": {
-          "line": 65,
+          "line": 56,
           "column": 64
         }
       },
@@ -1872,21 +1872,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 66,
+          "line": 57,
           "column": 4
         },
         "end": {
-          "line": 66,
+          "line": 57,
           "column": 9
         }
       },
       "range": {
         "start": {
-          "line": 66,
+          "line": 57,
           "column": 2
         },
         "end": {
-          "line": 66,
+          "line": 57,
           "column": 56
         }
       },
@@ -1915,21 +1915,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 32,
+          "line": 23,
           "column": 10
         },
         "end": {
-          "line": 32,
+          "line": 23,
           "column": 31
         }
       },
       "range": {
         "start": {
-          "line": 32,
+          "line": 23,
           "column": 10
         },
         "end": {
-          "line": 32,
+          "line": 23,
           "column": 31
         }
       },
@@ -1957,21 +1957,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 37,
+          "line": 28,
           "column": 10
         },
         "end": {
-          "line": 37,
+          "line": 28,
           "column": 27
         }
       },
       "range": {
         "start": {
-          "line": 37,
+          "line": 28,
           "column": 10
         },
         "end": {
-          "line": 37,
+          "line": 28,
           "column": 27
         }
       },
@@ -2038,21 +2038,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 41,
+          "line": 32,
           "column": 10
         },
         "end": {
-          "line": 41,
+          "line": 32,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 41,
+          "line": 32,
           "column": 10
         },
         "end": {
-          "line": 41,
+          "line": 32,
           "column": 25
         }
       },
@@ -2079,21 +2079,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 86,
+          "line": 77,
           "column": 4
         },
         "end": {
-          "line": 86,
+          "line": 77,
           "column": 9
         }
       },
       "range": {
         "start": {
-          "line": 86,
+          "line": 77,
           "column": 2
         },
         "end": {
-          "line": 86,
+          "line": 77,
           "column": 65
         }
       },
@@ -2120,21 +2120,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 87,
+          "line": 78,
           "column": 4
         },
         "end": {
-          "line": 87,
+          "line": 78,
           "column": 12
         }
       },
       "range": {
         "start": {
-          "line": 87,
+          "line": 78,
           "column": 2
         },
         "end": {
-          "line": 87,
+          "line": 78,
           "column": 71
         }
       },
@@ -2164,21 +2164,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 53,
+          "line": 44,
           "column": 10
         },
         "end": {
-          "line": 53,
+          "line": 44,
           "column": 30
         }
       },
       "range": {
         "start": {
-          "line": 53,
+          "line": 44,
           "column": 10
         },
         "end": {
-          "line": 53,
+          "line": 44,
           "column": 30
         }
       },
@@ -2208,21 +2208,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 58,
+          "line": 49,
           "column": 10
         },
         "end": {
-          "line": 58,
+          "line": 49,
           "column": 36
         }
       },
       "range": {
         "start": {
-          "line": 58,
+          "line": 49,
           "column": 10
         },
         "end": {
-          "line": 58,
+          "line": 49,
           "column": 36
         }
       },
@@ -3067,21 +3067,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 44,
+          "line": 35,
           "column": 2
         },
         "end": {
-          "line": 44,
+          "line": 35,
           "column": 6
         }
       },
       "range": {
         "start": {
-          "line": 44,
+          "line": 35,
           "column": 2
         },
         "end": {
-          "line": 44,
+          "line": 35,
           "column": 6
         }
       },
@@ -4284,21 +4284,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 89,
+          "line": 80,
           "column": 4
         },
         "end": {
-          "line": 89,
+          "line": 80,
           "column": 15
         }
       },
       "range": {
         "start": {
-          "line": 89,
+          "line": 80,
           "column": 0
         },
         "end": {
-          "line": 96,
+          "line": 87,
           "column": 52
         }
       },
@@ -4337,21 +4337,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 47,
+          "line": 38,
           "column": 4
         },
         "end": {
-          "line": 47,
+          "line": 38,
           "column": 15
         }
       },
       "range": {
         "start": {
-          "line": 47,
+          "line": 38,
           "column": 0
         },
         "end": {
-          "line": 51,
+          "line": 42,
           "column": 47
         }
       },
@@ -4436,21 +4436,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 68,
+          "line": 59,
           "column": 4
         },
         "end": {
-          "line": 68,
+          "line": 59,
           "column": 15
         }
       },
       "range": {
         "start": {
-          "line": 68,
+          "line": 59,
           "column": 0
         },
         "end": {
-          "line": 81,
+          "line": 72,
           "column": 69
         }
       },
@@ -4790,21 +4790,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 83,
+          "line": 74,
           "column": 10
         },
         "end": {
-          "line": 83,
+          "line": 74,
           "column": 22
         }
       },
       "range": {
         "start": {
-          "line": 83,
+          "line": 74,
           "column": 0
         },
         "end": {
-          "line": 87,
+          "line": 78,
           "column": 71
         }
       },
@@ -4835,21 +4835,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 63,
+          "line": 54,
           "column": 10
         },
         "end": {
-          "line": 63,
+          "line": 54,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 63,
+          "line": 54,
           "column": 0
         },
         "end": {
-          "line": 66,
+          "line": 57,
           "column": 56
         }
       },
@@ -5101,21 +5101,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 83,
+          "line": 74,
           "column": 10
         },
         "end": {
-          "line": 83,
+          "line": 74,
           "column": 22
         }
       },
       "range": {
         "start": {
-          "line": 83,
+          "line": 74,
           "column": 0
         },
         "end": {
-          "line": 87,
+          "line": 78,
           "column": 71
         }
       },
@@ -5144,21 +5144,21 @@
       "sourceFile": "StructuralExhaustion/CT16/Types.lean",
       "selectionRange": {
         "start": {
-          "line": 63,
+          "line": 54,
           "column": 10
         },
         "end": {
-          "line": 63,
+          "line": 54,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 63,
+          "line": 54,
           "column": 0
         },
         "end": {
-          "line": 66,
+          "line": 57,
           "column": 56
         }
       },
@@ -5279,8 +5279,8 @@
       "sourceId": "StructuralExhaustion/CT16/Types.lean",
       "moduleName": "StructuralExhaustion.CT16.Types",
       "path": "lean/StructuralExhaustion/CT16/Types.lean",
-      "sha256": "b08152646607b77f6a7a4dcce19eda9b8bed97c1fbb1be6b9ae4096173aa88fa",
-      "content": "import StructuralExhaustion.Core.AutomationFirst\n\nnamespace StructuralExhaustion.CT16\n\nuniverse uAmbient uBranch uCoordinate uCode\n\n/-- Primitive whole-object exact-type vocabulary. -/\nstructure Capability (P : Core.Problem.{uAmbient, uBranch}) where\n  Coordinate : Type uCoordinate\n  coordinates : FinEnum Coordinate\n  InSupport : P.Ambient → Coordinate → Prop\n  inSupportDecidable : ∀ G coordinate, Decidable (InSupport G coordinate)\n  ClosedCode : Type uCode\n  codeDecidableEq : DecidableEq ClosedCode\n  closedCode : P.Ambient → ClosedCode\n  targetCode : ClosedCode\n\n/-- Route-facing invocation; the branch context is an index and is never\nduplicated inside a residual. -/\nstructure Input {P : Core.Problem.{uAmbient, uBranch}}\n    (_capability : Capability P) (_context : Core.BranchContext P) where\n\nnamespace Capability\n\ndef tacticInterface {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) : Core.Routing.TacticInterface where\n  Context := Core.BranchContext P\n  Trigger := Input capability\n\nend Capability\n\nstructure ProperSupportResidual {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P) where\n  missing : capability.Coordinate\n  absent : ¬ capability.InSupport context.G missing\n\nstructure WholeSupportState {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P) : Prop where\n  covers : ∀ coordinate, capability.InSupport context.G coordinate\n\nstructure ClosedCodeState {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P) where\n  whole : WholeSupportState capability context\n  code : capability.ClosedCode\n  exact : code = capability.closedCode context.G\n\ndef computeCode {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P)\n    (whole : WholeSupportState capability context) :\n    ClosedCodeState capability context :=\n  ⟨whole, capability.closedCode context.G, rfl⟩\n\nstructure ExactCodeCertificate {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P) where\n  state : ClosedCodeState capability context\n  equal : state.code = capability.targetCode\n\nstructure ClosedTypeMismatchResidual {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P) where\n  state : ClosedCodeState capability context\n  notEqual : state.code ≠ capability.targetCode\n\ninductive SupportDecision {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P) where\n  | proper (residual : ProperSupportResidual capability context)\n  | whole (state : WholeSupportState capability context)\n\ndef scanSupport {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P) :\n    SupportDecision capability context :=\n  match Core.FiniteSearch.search capability.coordinates\n      (fun coordinate => ¬ capability.InSupport context.G coordinate)\n      (fun coordinate =>\n        match capability.inSupportDecidable context.G coordinate with\n        | .isTrue present => .isFalse fun absent => absent present\n        | .isFalse absent => .isTrue absent) with\n  | .found coordinate absent => .proper ⟨coordinate, absent⟩\n  | .absent noneMissing => .whole ⟨fun coordinate => by\n      cases capability.inSupportDecidable context.G coordinate with\n      | isTrue present => exact present\n      | isFalse absent => exact (noneMissing coordinate absent).elim⟩\n\ninductive CodeDecision {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P)\n    (state : ClosedCodeState capability context) where\n  | equal (certificate : ExactCodeCertificate capability context)\n  | mismatch (residual : ClosedTypeMismatchResidual capability context)\n\ndef compareCode {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P)\n    (state : ClosedCodeState capability context) :\n    CodeDecision capability context state :=\n  match capability.codeDecidableEq\n      state.code capability.targetCode with\n  | .isTrue equal => .equal ⟨state, equal⟩\n  | .isFalse notEqual => .mismatch ⟨state, notEqual⟩\n\nend StructuralExhaustion.CT16\n"
+      "sha256": "8e28aabe44c82c4167417232284c9d0a9653bec114f02c237e8ba2ae4b2ff207",
+      "content": "import StructuralExhaustion.Core.AutomationFirst\n\nnamespace StructuralExhaustion.CT16\n\nuniverse uAmbient uBranch uCoordinate uCode\n\n/-- Primitive whole-object exact-type vocabulary. -/\nstructure Capability (P : Core.Problem.{uAmbient, uBranch}) where\n  Coordinate : Type uCoordinate\n  coordinates : FinEnum Coordinate\n  InSupport : P.Ambient → Coordinate → Prop\n  inSupportDecidable : ∀ G coordinate, Decidable (InSupport G coordinate)\n  ClosedCode : Type uCode\n  codeDecidableEq : DecidableEq ClosedCode\n  closedCode : P.Ambient → ClosedCode\n  targetCode : ClosedCode\n\n/-- Route-facing invocation; the branch context is an index and is never\nduplicated inside a residual. -/\nstructure Input {P : Core.Problem.{uAmbient, uBranch}}\n    (_capability : Capability P) (_context : Core.BranchContext P) where\n\nstructure ProperSupportResidual {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P) where\n  missing : capability.Coordinate\n  absent : ¬ capability.InSupport context.G missing\n\nstructure WholeSupportState {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P) : Prop where\n  covers : ∀ coordinate, capability.InSupport context.G coordinate\n\nstructure ClosedCodeState {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P) where\n  whole : WholeSupportState capability context\n  code : capability.ClosedCode\n  exact : code = capability.closedCode context.G\n\ndef computeCode {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P)\n    (whole : WholeSupportState capability context) :\n    ClosedCodeState capability context :=\n  ⟨whole, capability.closedCode context.G, rfl⟩\n\nstructure ExactCodeCertificate {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P) where\n  state : ClosedCodeState capability context\n  equal : state.code = capability.targetCode\n\nstructure ClosedTypeMismatchResidual {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P) where\n  state : ClosedCodeState capability context\n  notEqual : state.code ≠ capability.targetCode\n\ninductive SupportDecision {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P) where\n  | proper (residual : ProperSupportResidual capability context)\n  | whole (state : WholeSupportState capability context)\n\ndef scanSupport {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P) :\n    SupportDecision capability context :=\n  match Core.FiniteSearch.search capability.coordinates\n      (fun coordinate => ¬ capability.InSupport context.G coordinate)\n      (fun coordinate =>\n        match capability.inSupportDecidable context.G coordinate with\n        | .isTrue present => .isFalse fun absent => absent present\n        | .isFalse absent => .isTrue absent) with\n  | .found coordinate absent => .proper ⟨coordinate, absent⟩\n  | .absent noneMissing => .whole ⟨fun coordinate => by\n      cases capability.inSupportDecidable context.G coordinate with\n      | isTrue present => exact present\n      | isFalse absent => exact (noneMissing coordinate absent).elim⟩\n\ninductive CodeDecision {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P)\n    (state : ClosedCodeState capability context) where\n  | equal (certificate : ExactCodeCertificate capability context)\n  | mismatch (residual : ClosedTypeMismatchResidual capability context)\n\ndef compareCode {P : Core.Problem.{uAmbient, uBranch}}\n    (capability : Capability P) (context : Core.BranchContext P)\n    (state : ClosedCodeState capability context) :\n    CodeDecision capability context state :=\n  match capability.codeDecidableEq\n      state.code capability.targetCode with\n  | .isTrue equal => .equal ⟨state, equal⟩\n  | .isFalse notEqual => .mismatch ⟨state, notEqual⟩\n\nend StructuralExhaustion.CT16\n"
     },
     {
       "sourceId": "StructuralExhaustion/Core/Context.lean",

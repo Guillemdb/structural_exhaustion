@@ -88,13 +88,11 @@ theorem unresolved_or_overlap_or_net_nonnegative_or_saturated_or_bounded_boundar
 
 end TypeBSupportScope
 
-/-- Verified endpoint for the exact ordinary Type B state space currently
-formalized.  In particular, it does not collapse the negative remaining-core
-branch into an unproved success contract. -/
-structure VerifiedTypeBPostLedgerPrefix
+/-- The exact ordinary Type B post-ledger obligations.  They are attached to
+the accumulated assigned-charge residual below. -/
+structure VerifiedTypeBPostLedger
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
     Prop where
-  previous : VerifiedTypeBAssignedChargePrefix ctx
   /-- Choice-free quantitative theorem on the literal scope.  This is the
   official Type B deficit endpoint; local resolution and overlap do not occur
   as hypotheses. -/
@@ -125,27 +123,33 @@ structure VerifiedTypeBPostLedgerPrefix
                     800 *
                       (support.assignedChargeProfile.assignedSurplus : Int))
 
+abbrev VerifiedTypeBPostLedgerPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.LedgerExtension (VerifiedTypeBAssignedChargePrefix ctx)
+    (fun _previous => VerifiedTypeBPostLedger ctx)
+
 noncomputable def verifiedTypeBPostLedgerPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedTypeBAssignedChargePrefix ctx) :
-    VerifiedTypeBPostLedgerPrefix ctx where
-  previous := previous
-  unconditionalDeficit := fun scope =>
-    scope.neg_netQuarterCharge_le_twentyOne_mul_surplus_add_receiverOverload
-  exactPostLedger := fun scope =>
-    scope.unresolved_or_overlap_or_net_nonnegative_or_remaining_negative
-  total := fun scope =>
-    scope.unresolved_or_overlap_or_net_nonnegative_or_saturated_or_bounded_boundaryOverload
+    VerifiedTypeBPostLedgerPrefix ctx :=
+  ⟨previous, {
+    unconditionalDeficit := fun scope =>
+      scope.neg_netQuarterCharge_le_twentyOne_mul_surplus_add_receiverOverload
+    exactPostLedger := fun scope =>
+      scope.unresolved_or_overlap_or_net_nonnegative_or_remaining_negative
+    total := fun scope =>
+      scope.unresolved_or_overlap_or_net_nonnegative_or_saturated_or_bounded_boundaryOverload
+  }⟩
 
 theorem exists_verifiedTypeBPostLedgerPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedTypeBPostLedgerPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedTypeBPostLedgerPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedTypeBAssignedChargePrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedTypeBPostLedgerPrefix ctx previous⟩
+  exact ⟨ctx, verifiedTypeBPostLedgerPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

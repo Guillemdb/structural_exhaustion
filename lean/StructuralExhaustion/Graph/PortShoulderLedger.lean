@@ -1,12 +1,13 @@
 import Mathlib.Tactic
 import StructuralExhaustion.CT5.Automation
 import StructuralExhaustion.Graph.SurplusPortActivity
+import StructuralExhaustion.Routes.Accumulated
 
 namespace StructuralExhaustion.Graph.PortShoulderLedger
 
 open StructuralExhaustion
 
-universe u
+universe u uLedger
 
 /-!
 # CT5 shoulder-pair ledger
@@ -260,5 +261,69 @@ def verifiedStage
     base object baseline deletionCritical
   total := ⟨_, rfl, CT5.run_verified _ _ _⟩
   polynomial := checks_quadratic object
+
+/- The CT7-to-CT5 accumulated transition selects only CT5's mathematical
+context.  The framework retains the complete CT7 ledger and invokes the public
+CT5 executable interface. -/
+def accumulatedAdapter
+    (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
+    (object : FiniteObject V) (baseline : base.problem.Baseline object)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    {Ledger : Sort uLedger} :
+    Routes.Accumulated.Adapter Ledger
+      (capability base object deletionCritical).executableInterface where
+  targetContext := fun _ledger => context base object baseline
+  trigger := fun _ledger => ()
+
+def transitionStage
+    (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
+    (object : FiniteObject V) (baseline : base.problem.Baseline object)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    {Ledger : Sort uLedger}
+    (source : Core.Routing.ResidualStage .ct7 Ledger) :=
+  Routes.Accumulated.advance
+    (capability base object deletionCritical).executableInterface
+    (accumulatedAdapter base object baseline deletionCritical)
+    id source
+
+abbrev TransitionLedger
+    (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
+    (object : FiniteObject V) (baseline : base.problem.Baseline object)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    {Ledger : Sort uLedger}
+    (source : Core.Routing.ResidualStage .ct7 Ledger) :=
+  ((Routes.Accumulated.transition (sourceTactic := .ct7)
+    (capability base object deletionCritical).executableInterface
+    (accumulatedAdapter base object baseline deletionCritical)).onLedger id
+      ).EnabledStage source
+
+abbrev AccumulatedLedger
+    (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
+    (object : FiniteObject V) (baseline : base.problem.Baseline object)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    {Ledger : Sort uLedger}
+    (source : Core.Routing.ResidualStage .ct7 Ledger) :=
+  Core.Routing.LedgerExtension
+    (TransitionLedger base object baseline deletionCritical source)
+    (fun _execution => VerifiedStage base object baseline deletionCritical)
+
+/- Complete CT5 ledger: literal CT7 predecessor, public CT5 execution, and
+the graph theorem identifying its charge terminal and exact shoulder total. -/
+def accumulatedLedgerStage
+    (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
+    (object : FiniteObject V) (baseline : base.problem.Baseline object)
+    (deletionCritical : ∀ dart : object.graph.Dart,
+      object.degree dart.fst = 3 ∨ object.degree dart.snd = 3)
+    {Ledger : Sort uLedger}
+    (source : Core.Routing.ResidualStage .ct7 Ledger) :
+    Core.Routing.ResidualStage .ct5
+      (AccumulatedLedger base object baseline deletionCritical source) :=
+  (transitionStage base object baseline deletionCritical source
+    ).ledgerStage.extend
+      (verifiedStage base object baseline deletionCritical)
 
 end StructuralExhaustion.Graph.PortShoulderLedger

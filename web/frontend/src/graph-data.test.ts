@@ -14,16 +14,17 @@ import type {
 } from "./types";
 
 describe("graph projections", () => {
-  it("builds the framework graph from generated tactic and route records", () => {
+  it("builds the framework graph from generated tactic and transition profiles", () => {
     const framework = {
       tactics: [
         { tacticId: "CT6", title: "Activity", nodeCount: 4, terminalCount: 2 },
         { tacticId: "CT9", title: "Overload", nodeCount: 5, terminalCount: 2 },
         { tacticId: "CT10", title: "Classification", nodeCount: 8, terminalCount: 3 },
       ],
-      routes: [
+      transitionProfiles: [
         {
-          routeId: "CT6.residual.activeLedger->CT9",
+          profileId: "CT6.residual.activeLedger->CT9",
+          familyId: "CT6->CT9",
           sourceTacticId: "CT6",
           sourceResidualKind: "CT6.residual.activeLedger",
           targetTacticId: "CT9",
@@ -46,7 +47,7 @@ describe("graph projections", () => {
           linkId: "proof-slice.labels-surplus-ct6",
         },
       ],
-    } as FrameworkResponse;
+    } as unknown as FrameworkResponse;
 
     expect(frameworkGraphElements(framework).map((element) => element.data)).toEqual([
       expect.objectContaining({ id: "CT6", kind: "tactic" }),
@@ -57,7 +58,7 @@ describe("graph projections", () => {
         source: "CT6",
         target: "CT9",
         label: "activeLedger",
-        kind: "route",
+        kind: "transitionProfile",
       }),
       expect.objectContaining({
         id: "implemented:erdos-64:proof-slice:labels-surplus",
@@ -73,13 +74,13 @@ describe("graph projections", () => {
     ]);
   });
 
-  it("removes route callout pseudo-nodes from an individual machine graph", () => {
+  it("removes transition-profile callouts from an individual machine graph", () => {
     const response = {
       graph: {
         tacticId: "CT6",
         elements: [
           { data: { id: "CT6.entry", kind: "entry" } },
-          { data: { id: "route", kind: "generatedRoute" } },
+          { data: { id: "profile", kind: "transitionProfile" } },
           { data: { id: "edge", source: "CT6.entry", target: "CT6.end" } },
         ],
       },
@@ -106,15 +107,17 @@ describe("graph projections", () => {
           { data: { id: "CT1.terminal.avoiding", kind: "residual" } },
         ],
       },
-      outboundRoutes: [
+      outboundTransitionProfiles: [
         {
-          routeId: "CT1.residual.avoiding->CT2",
+          profileId: "CT1.residual.avoiding->CT2",
+          familyId: "CT1->CT2",
           sourceTacticId: "CT1",
           sourceResidualKind: "CT1.residual.avoiding",
           targetTacticId: "CT2",
         },
         {
-          routeId: "CT1.residual.avoiding->CT2.localDeletion",
+          profileId: "CT1.residual.avoiding->CT2.localDeletion",
+          familyId: "CT1->CT2",
           sourceTacticId: "CT1",
           sourceResidualKind: "CT1.residual.avoiding",
           targetTacticId: "CT2",
@@ -123,7 +126,7 @@ describe("graph projections", () => {
     } as TacticResponse;
 
     const elements = machineGraphElements(response, {
-      includeOutboundRoutes: true,
+      includeOutboundTransitionProfiles: true,
       targetTactics: [
         {
           tacticId: "CT2",
@@ -143,26 +146,26 @@ describe("graph projections", () => {
       { id: "CT1.entry", kind: "entry" },
       { id: "CT1.terminal.avoiding", kind: "residual" },
       {
-        id: "route-target:CT2",
+        id: "transition-target:CT2",
         label: "CT2\nMinimal deletion",
-        kind: "routedTactic",
+        kind: "transitionTargetTactic",
         tacticId: "CT2",
       },
       {
         id: "CT1.residual.avoiding->CT2",
         source: "CT1.terminal.avoiding",
-        target: "route-target:CT2",
+        target: "transition-target:CT2",
         label: "avoiding",
-        kind: "route",
-        routeId: "CT1.residual.avoiding->CT2",
+        kind: "transitionProfile",
+        transitionProfileId: "CT1.residual.avoiding->CT2",
       },
       {
         id: "CT1.residual.avoiding->CT2.localDeletion",
         source: "CT1.terminal.avoiding",
-        target: "route-target:CT2",
+        target: "transition-target:CT2",
         label: "avoiding · localDeletion",
-        kind: "route",
-        routeId: "CT1.residual.avoiding->CT2.localDeletion",
+        kind: "transitionProfile",
+        transitionProfileId: "CT1.residual.avoiding->CT2.localDeletion",
       },
     ]);
   });
@@ -189,7 +192,7 @@ describe("graph projections", () => {
           },
         ],
       },
-      outboundRoutes: [],
+      outboundTransitionProfiles: [],
     } as unknown as TacticResponse;
     const declaration = (name: string, dependencies: string[] = []) => ({
       declarationId: name,
@@ -295,7 +298,7 @@ describe("graph projections", () => {
   it("projects example stages and typed relationships without inventing composition", () => {
     const workflow = {
       workflowId: "main",
-      title: "Main route",
+      title: "Main transition",
       summary: "A generated workflow.",
       purpose: "Show the proof path.",
       completion: "complete",
@@ -324,12 +327,12 @@ describe("graph projections", () => {
           linkId: "ct6-to-ct9",
           sourceStageId: "ct6",
           targetStageId: "ct9",
-          kind: "registeredRoute",
+          kind: "registeredTransition",
           label: "active ledger",
-          summary: "The registered residual route.",
-          routeId: "CT6.residual.activeLedger->CT9",
+          summary: "The registered residual transition.",
+          transitionProfileId: "CT6.residual.activeLedger->CT9",
           automationDeclarationIds: [
-            "StructuralExhaustion.Routes.CT6ToCT9.routeContract",
+            "StructuralExhaustion.Routes.CT6ToCT9.advance",
           ],
           evidenceDeclarationIds: [],
         },
@@ -343,8 +346,8 @@ describe("graph projections", () => {
         id: "ct6-to-ct9",
         source: "ct6",
         target: "ct9",
-        kind: "registeredRoute",
-        routeId: "CT6.residual.activeLedger->CT9",
+        kind: "registeredTransition",
+        transitionProfileId: "CT6.residual.activeLedger->CT9",
       }),
     ]);
   });

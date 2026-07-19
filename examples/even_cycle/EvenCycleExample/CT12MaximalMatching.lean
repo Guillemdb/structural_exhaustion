@@ -25,6 +25,26 @@ def ct1Source : Routes.CT1ToCT12.PackedC1
   ⟨(), Graph.InducedPath.edgeCertificate object InducedEdge.ConcreteK4.dart,
     trivial⟩
 
+def currentC1
+    (previous : CT1.CertifiedC1Run
+      (Graph.InducedPath.edgeProfile Vertex).encoding.spec
+      (Graph.InducedPath.edgeInput object)) :
+    Routes.CT1ToCT12.PackedC1
+      (Graph.InducedPath.edgeProfile Vertex).encoding.spec
+      (Graph.InducedPath.edgeInput object) := by
+  rcases previous with ⟨result, checks, terminal, trace, checksEq⟩
+  cases result with
+  | mk terminalId path outcome =>
+      cases outcome with
+      | c1 certificate => exact certificate.target
+      | avoiding state => cases terminal
+
+abbrev ct1Ledger : Core.Routing.ResidualStage .ct1
+    (CT1.CertifiedC1Run
+      (Graph.InducedPath.edgeProfile Vertex).encoding.spec
+      (Graph.InducedPath.edgeInput object)) :=
+  Core.Routing.ResidualStage.exact InducedEdge.ConcreteK4.execution
+
 noncomputable def routeAdapter : Routes.CT1ToCT12.SemanticAdapter
     (S := (Graph.InducedPath.edgeProfile Vertex).encoding.spec)
     (input := Graph.InducedPath.edgeInput object)
@@ -42,26 +62,26 @@ noncomputable def routeAdapter : Routes.CT1ToCT12.SemanticAdapter
     exact Graph.InducedPathPacking.windows_nonempty_of_realization object 2
       (by decide) ⟨certificate⟩
 
-noncomputable def routedInput := Routes.CT1ToCT12.buildInput
+noncomputable def routedTransition := Routes.CT1ToCT12.transition
   (CT12.ListPeeling.capability (Graph.FiniteObject.problem Vertex)
-    (Graph.MaximumMatching.Edge object)) routeAdapter ct1Source
+    (Graph.MaximumMatching.Edge object)) routeAdapter
 
-theorem routedInput_exact : routedInput =
-    (Graph.MaximumMatching.profile object).input
-      (Graph.FiniteObject.context object) := rfl
+noncomputable def routedStage := Routes.CT1ToCT12.advance
+  (CT12.ListPeeling.capability (Graph.FiniteObject.problem Vertex)
+    (Graph.MaximumMatching.Edge object)) routeAdapter currentC1 ct1Ledger
 
-theorem route_id :
-    ((Routes.CT1ToCT12.rule
-      (CT12.ListPeeling.capability (Graph.FiniteObject.problem Vertex)
-        (Graph.MaximumMatching.Edge object)) routeAdapter).generate
-        ct1Source ()).routeId = "CT1.terminal.c1->CT12" :=
-  Routes.CT1ToCT12.generated_route_id _ _ _
+noncomputable def routedLedger := routedStage.ledgerStage
+
+theorem transition_profile_id :
+    routedTransition.profileId = Routes.CT1ToCT12.transitionId := rfl
 
 theorem routed_matching_nonempty : Graph.MaximumMatching.edges object ≠ [] :=
-  Routes.CT1ToCT12.evidence_preserved _ routeAdapter ct1Source
+  Routes.CT1ToCT12.evidence_preserved _ routeAdapter currentC1 ct1Ledger
 
 noncomputable def execution :=
   Graph.MaximumMatching.run object (Graph.FiniteObject.context object)
+
+theorem routed_execution_exact : routedStage.targetResult = execution := rfl
 
 theorem exhausted : execution.terminal = .exhausted :=
   Graph.MaximumMatching.run_terminal_exhausted object

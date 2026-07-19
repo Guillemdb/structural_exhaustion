@@ -55,9 +55,13 @@ abbrev Center := {center : ctx.G.Vertex // center ∈ scope.highCenters}
 
 @[implicit_reducible]
 noncomputable def centers : FinEnum scope.Center := by
-  letI : DecidableEq ctx.G.Vertex := ctx.G.object.input.vertices.decEq
-  exact Core.Enumeration.subtype ctx.G.object.input.vertices
-    (fun center => center ∈ scope.highCenters) (fun _center => inferInstance)
+  exact Core.Enumeration.finsetSubtype
+    ctx.G.object.input.vertices scope.highCenters
+
+@[simp] theorem centers_card :
+    scope.centers.card = scope.highCenters.card :=
+  Core.Enumeration.finsetSubtype_card
+    ctx.G.object.input.vertices scope.highCenters
 
 theorem center_mem_vertices (center : scope.Center) :
     center.1 ∈ scope.vertices := by

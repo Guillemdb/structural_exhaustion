@@ -84,7 +84,7 @@ example : ∃ result :
 
 def survivorContext := context .survivors
 def survivorInput : CT17.Input spec capability survivorContext := ⟨0⟩
-example : (capability.tacticInterface).Trigger survivorContext := survivorInput
+example : capability.executableInterface.Trigger survivorContext := survivorInput
 def survivorResult :=
   ct17_execute spec with capability at survivorContext on survivorInput
 

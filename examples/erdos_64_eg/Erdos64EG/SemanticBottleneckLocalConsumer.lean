@@ -1,4 +1,5 @@
 import Erdos64EG.CT10SemanticBottleneckClassification
+import StructuralExhaustion.Core.ResidualRefinement
 import StructuralExhaustion.Graph.SurplusPatternSemanticConsumer
 
 namespace Erdos64EG.Internal
@@ -25,8 +26,9 @@ structure SemanticBottleneckLocalConsumer
       ctx.toBranchContext (coupledClassItems ctx))
     (homogeneous : Graph.SurplusHomogeneousPattern.Audit
       (geometricActivationStage ctx) 49 49 49
-      (coupledOverloadClassRoute ctx 49 49 49 overload)) : Type u where
-  previous : SemanticBottleneckClassification ctx overload homogeneous
+      (coupledOverloadClassRoute ctx 49 49 49 overload)) : Type u
+    extends Core.ExactHandoff
+      (semanticBottleneckClassification ctx overload homogeneous) where
   frontier : Semantic.Consumer.Frontier
     (geometricActivationStage ctx)
     (canonicalGeometricPredecessor ctx overload homogeneous).collision
@@ -48,7 +50,7 @@ noncomputable def semanticBottleneckLocalConsumer
     SemanticBottleneckLocalConsumer ctx overload homogeneous := by
   let previous := semanticBottleneckClassification ctx overload homogeneous
   exact {
-    previous := previous
+    toExactHandoff := Core.ExactHandoff.refl previous
     frontier := Semantic.Consumer.classify
       (geometricActivationStage ctx)
       (canonicalGeometricPredecessor ctx overload homogeneous).collision
@@ -65,7 +67,8 @@ theorem semanticBottleneckLocalConsumer_previous_exact
       (geometricActivationStage ctx) 49 49 49
       (coupledOverloadClassRoute ctx 49 49 49 overload)) :
     (semanticBottleneckLocalConsumer ctx overload homogeneous).previous =
-      semanticBottleneckClassification ctx overload homogeneous := rfl
+      semanticBottleneckClassification ctx overload homogeneous :=
+  (semanticBottleneckLocalConsumer ctx overload homogeneous).previousExact
 
 theorem semanticBottleneckLocalConsumer_frontier_exact
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
@@ -101,12 +104,11 @@ theorem semanticBottleneckLocalConsumer_checks_le_vertices
       (ctx := ctx) ≤ ctx.G.object.input.vertices.card + 1 :=
   Semantic.Consumer.checks_le_linear
 
-/-- Verified prefix through the corrected finite meaning of node [178]. -/
-structure VerifiedSemanticBottleneckLocalConsumerPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedSemanticBottleneckClassificationPrefix ctx
-  consumer : ∀
+/-- The one mathematical obligation contributed by node [178]. -/
+def SemanticBottleneckLocalConsumerObligation
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (_previous : VerifiedSemanticBottleneckClassificationPrefix ctx) : Prop :=
+  ∀
       (overload : (coupledClassProfile ctx 49 49 49).Overload
         ctx.toBranchContext (coupledClassItems ctx))
       (homogeneous : Graph.SurplusHomogeneousPattern.Audit
@@ -114,24 +116,39 @@ structure VerifiedSemanticBottleneckLocalConsumerPrefix
         (coupledOverloadClassRoute ctx 49 49 49 overload)),
       Nonempty (SemanticBottleneckLocalConsumer ctx overload homogeneous)
 
+/-- Verified prefix through the corrected finite meaning of node [178].  The
+framework state retains the literal incoming prefix and its complete proof
+ledger; this node contributes only its local consumer obligation. -/
+abbrev VerifiedSemanticBottleneckLocalConsumerPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.ResidualRefinement.State
+    (VerifiedSemanticBottleneckClassificationPrefix ctx)
+    [SemanticBottleneckLocalConsumerObligation ctx]
+
+noncomputable def semanticBottleneckLocalConsumerPrefixNode
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
+    Core.ResidualRefinement.State.Node (facts := [])
+      (SemanticBottleneckLocalConsumerObligation ctx) where
+  prove := fun _state overload homogeneous =>
+    ⟨semanticBottleneckLocalConsumer ctx overload homogeneous⟩
+
 noncomputable def verifiedSemanticBottleneckLocalConsumerPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedSemanticBottleneckClassificationPrefix ctx) :
-    VerifiedSemanticBottleneckLocalConsumerPrefix ctx where
-  previous := previous
-  consumer := fun overload homogeneous =>
-    ⟨semanticBottleneckLocalConsumer ctx overload homogeneous⟩
+    VerifiedSemanticBottleneckLocalConsumerPrefix ctx :=
+  (semanticBottleneckLocalConsumerPrefixNode ctx).run
+    (Core.ResidualRefinement.State.initial previous)
 
 theorem exists_verifiedSemanticBottleneckLocalConsumerPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedSemanticBottleneckLocalConsumerPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedSemanticBottleneckLocalConsumerPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedSemanticBottleneckClassificationPrefix object baseline avoids
-  exact ⟨ctx, rankLe,
-    verifiedSemanticBottleneckLocalConsumerPrefix ctx previous⟩
+  exact ⟨ctx,
+    verifiedSemanticBottleneckLocalConsumerPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

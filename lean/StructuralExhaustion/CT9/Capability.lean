@@ -18,7 +18,7 @@ structure Input {P : Core.Problem.{uAmbient, uBranch}}
   context : Core.BranchContext P
   items : Core.OrderedCollection capability.Item
 
-/-- Route-facing CT9 trigger.  The inherited branch is an index; discovery
+/-- Transition-facing CT9 trigger.  The inherited branch is an index; discovery
 supplies only the active finite collection. -/
 structure Trigger {P : Core.Problem.{uAmbient, uBranch}}
     (capability : Capability.{uAmbient, uBranch, uItem, uLabel} P)
@@ -54,11 +54,5 @@ def fibreCount {P : Core.Problem.{uAmbient, uBranch}}
 def totalCapacity {P : Core.Problem.{uAmbient, uBranch}}
     (capability : Capability.{uAmbient, uBranch, uItem, uLabel} P) : Nat :=
   (capability.labels.orderedValues.map capability.capacity).sum
-
-def tacticInterface {P : Core.Problem.{uAmbient, uBranch}}
-    (capability : Capability.{uAmbient, uBranch, uItem, uLabel} P) :
-    Core.Routing.TacticInterface where
-  Context := Core.BranchContext P
-  Trigger := Trigger capability
 
 end StructuralExhaustion.CT9

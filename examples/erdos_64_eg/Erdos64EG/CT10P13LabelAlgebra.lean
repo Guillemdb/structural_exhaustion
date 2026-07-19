@@ -328,43 +328,47 @@ theorem p13OmegaTwo_eq_one_iff (source middle target : P13Label) :
 
 /-- Generic graph/framework CT10 extension of the exact CT12 prefix. -/
 abbrev GenericP13LabelAlgebraPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedP13PackingPrefix ctx) :=
   packedStaticInput.InducedPathPackingAttachmentPrefix 13 thirteen_positive
-      p13AttachmentClassification ctx
+      p13AttachmentClassification ctx previous.2
 
 /-- Exact output of node `[18]`, retaining every previous proof stage. -/
-structure VerifiedP13LabelAlgebraPrefix
+abbrev VerifiedP13LabelAlgebraPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedP13PackingPrefix ctx
-  generic : GenericP13LabelAlgebraPrefix ctx
-  samePacking : generic.previous = previous.generic
+    Type (u + 3) :=
+  Sigma fun previous : VerifiedP13PackingPrefix ctx =>
+    GenericP13LabelAlgebraPrefix ctx previous
 
 /-- Extend the exact CT12 output through node `[18]` on the identical
 selected minimal graph. -/
 noncomputable def verifiedP13LabelAlgebraPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedP13PackingPrefix ctx) :
-    VerifiedP13LabelAlgebraPrefix ctx where
-  previous := previous
-  generic :=
-    packedStaticInput.inducedPathPackingAttachmentPrefix
-      13 thirteen_positive p13AttachmentClassification ctx previous.generic
-  samePacking := rfl
+    VerifiedP13LabelAlgebraPrefix ctx :=
+  ⟨previous, packedStaticInput.inducedPathPackingAttachmentPrefix
+    13 thirteen_positive p13AttachmentClassification ctx previous.2⟩
 
 /-- The new CT10 stage consumes the exact preceding CT12 output. -/
-theorem p13LabelAlgebraPrefix_previous
+def p13LabelAlgebraPrefix_previous
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedP13LabelAlgebraPrefix ctx) :
     VerifiedP13PackingPrefix ctx :=
-  verified.previous
+  verified.1
+
+/-- The CT10 transition retains the literal complete CT12 ledger. -/
+theorem p13LabelAlgebraPrefix_samePacking
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedP13LabelAlgebraPrefix ctx) :
+    verified.2.output.previous.previous = verified.1.2 :=
+  verified.2.output.previous.previousExact
 
 /-- Complete CT10 exhaustive-classification stage retained in the prefix. -/
 theorem p13LabelAlgebraPrefix_stage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedP13LabelAlgebraPrefix ctx) :
     p13LabelClassification.VerifiedStage ctx.toBranchContext :=
-  verified.generic.classificationStage
+  verified.2.output.added.classificationStage
 
 /-- Every actual nonempty attachment label on any induced `P₁₃` in the
 selected target-avoiding graph is one of the legal classes. -/
@@ -377,7 +381,7 @@ theorem p13AttachmentLabel_legal
     (attached : ∃ position, ctx.G.object.graph.Adj outside (path position)) :
     P13Legal
       (packedStaticInput.inducedPathAttachmentLabel 13 ctx path outside) :=
-  verified.generic.actualLabelsLegal path outside outsidePath attached
+  verified.2.output.added.actualLabelsLegal path outside outsidePath attached
 
 /-- The same actual attachment is represented by an accepted row of the
 compact CT10 table. -/
@@ -391,7 +395,7 @@ theorem p13AttachmentLabel_accepted
     p13LabelClassification.Accepts
       (p13LabelEquiv.symm
         (packedStaticInput.inducedPathAttachmentLabel 13 ctx path outside)) :=
-  verified.generic.actualLabelsAccepted path outside outsidePath attached
+  verified.2.output.added.actualLabelsAccepted path outside outsidePath attached
 
 /-- Starting from the official internal counterexample data, retain one
 selected graph and the entire proof through node `[18]`. -/
@@ -399,11 +403,11 @@ theorem exists_verifiedP13LabelAlgebraPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedP13LabelAlgebraPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedP13LabelAlgebraPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedP13PackingPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedP13LabelAlgebraPrefix ctx previous⟩
+  exact ⟨ctx, verifiedP13LabelAlgebraPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

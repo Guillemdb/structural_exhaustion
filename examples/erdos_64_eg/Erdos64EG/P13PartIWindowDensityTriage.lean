@@ -193,7 +193,7 @@ nor proves the quantitative conclusions displayed in node `[24]`.
 The entropy contradiction is a later consumer of this payload. -/
 structure VerifiedP13Node23DensityOverflow
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 1)
+    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 4)
     extends Core.ExactHandoff node21 where
   coverage : P13CoverageResidual ctx (p13MultiScalePackingPrefix node21)
   coverageExact : coverage = p13ExactPackingCoverage ctx node21
@@ -205,7 +205,7 @@ node `[22]`.  It is deliberately weaker than the later structural theorem,
 which must additionally supply the strict-quarter hot/cold budget. -/
 structure VerifiedP13Node24DensityHandoff
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 1)
+    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 4)
     extends Core.ExactHandoff node21 where
   coverage : P13CoverageResidual ctx (p13MultiScalePackingPrefix node21)
   coverageExact : coverage = p13ExactPackingCoverage ctx node21
@@ -216,7 +216,7 @@ structure VerifiedP13Node24DensityHandoff
 decision, with each edge carrying the exact same-context successor payload. -/
 inductive P13Node22DensityOutcome
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 1) where
+    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 4) where
   | tooLarge (node23 : VerifiedP13Node23DensityOverflow ctx node21)
   | withinCap (node24 : VerifiedP13Node24DensityHandoff ctx node21)
 
@@ -342,7 +342,7 @@ theorem runP13Node22DensityDecision_exhaustive
 -/
 inductive P13PartIWindowDensityOutcome
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type u where
+    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 4) where
   | certified
       (output : VerifiedP13WindowDensityOutput ctx node21)
   | densityOverflow

@@ -24,17 +24,16 @@ leaves remain exact pass-through certificates.  No strong semantic obligation
 is discharged. Node [193] is the sole successor.
 -/
 
-structure SemanticBottleneckFirstClauseSource
+abbrev SemanticBottleneckFirstClauseSource
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (overload : (coupledClassProfile ctx 49 49 49).Overload
       ctx.toBranchContext (coupledClassItems ctx))
     (homogeneous : Graph.SurplusHomogeneousPattern.Audit
       (geometricActivationStage ctx) 49 49 49
-      (coupledOverloadClassRoute ctx 49 49 49 overload)) : Type u where
-  node187 : SemanticBottleneckStrongFrontier ctx overload homogeneous
-    (semanticBottleneckStrongFrontierSource ctx overload homogeneous)
-  node187Exact : node187 = semanticBottleneckStrongFrontier ctx overload
-    homogeneous (semanticBottleneckStrongFrontierSource ctx overload homogeneous)
+      (coupledOverloadClassRoute ctx 49 49 49 overload)) :=
+  Core.ExactHandoff
+    (semanticBottleneckStrongFrontier ctx overload homogeneous
+      (semanticBottleneckStrongFrontierSource ctx overload homogeneous))
 
 noncomputable def semanticBottleneckFirstClauseSource
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
@@ -44,8 +43,9 @@ noncomputable def semanticBottleneckFirstClauseSource
       (geometricActivationStage ctx) 49 49 49
       (coupledOverloadClassRoute ctx 49 49 49 overload)) :
     SemanticBottleneckFirstClauseSource ctx overload homogeneous :=
-  ⟨semanticBottleneckStrongFrontier ctx overload homogeneous
-      (semanticBottleneckStrongFrontierSource ctx overload homogeneous), rfl⟩
+  Core.ExactHandoff.refl
+    (semanticBottleneckStrongFrontier ctx overload homogeneous
+      (semanticBottleneckStrongFrontierSource ctx overload homogeneous))
 
 structure SemanticBottleneckFirstClause
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
@@ -57,9 +57,9 @@ structure SemanticBottleneckFirstClause
     (source : SemanticBottleneckFirstClauseSource ctx overload homogeneous) :
     Type _ where
   result : Semantic.FirstClause.Result
-    (geometricActivationStage ctx) source.node187.pending
+    (geometricActivationStage ctx) source.output.pending
   resultExact : result = Semantic.FirstClause.run
-    (geometricActivationStage ctx) source.node187.pending
+    (geometricActivationStage ctx) source.output.pending
 
 noncomputable def semanticBottleneckFirstClause
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
@@ -71,7 +71,7 @@ noncomputable def semanticBottleneckFirstClause
     (source : SemanticBottleneckFirstClauseSource ctx overload homogeneous) :
     SemanticBottleneckFirstClause ctx overload homogeneous source where
   result := Semantic.FirstClause.run
-    (geometricActivationStage ctx) source.node187.pending
+    (geometricActivationStage ctx) source.output.pending
   resultExact := rfl
 
 theorem semanticBottleneckFirstClauseSource_node187_exact
@@ -82,9 +82,9 @@ theorem semanticBottleneckFirstClauseSource_node187_exact
       (geometricActivationStage ctx) 49 49 49
       (coupledOverloadClassRoute ctx 49 49 49 overload))
     (source : SemanticBottleneckFirstClauseSource ctx overload homogeneous) :
-    source.node187 = semanticBottleneckStrongFrontier ctx overload homogeneous
+    source.output = semanticBottleneckStrongFrontier ctx overload homogeneous
       (semanticBottleneckStrongFrontierSource ctx overload homogeneous) :=
-  source.node187Exact
+  source.outputExact
 
 theorem semanticBottleneckFirstClause_result_exact
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
@@ -96,7 +96,7 @@ theorem semanticBottleneckFirstClause_result_exact
     (source : SemanticBottleneckFirstClauseSource ctx overload homogeneous) :
     (semanticBottleneckFirstClause ctx overload homogeneous source).result =
       Semantic.FirstClause.run (geometricActivationStage ctx)
-        source.node187.pending :=
+        source.output.pending :=
   (semanticBottleneckFirstClause ctx overload homogeneous source).resultExact
 
 theorem semanticBottleneckFirstClause_obligation_exact
@@ -107,9 +107,9 @@ theorem semanticBottleneckFirstClause_obligation_exact
       (geometricActivationStage ctx) 49 49 49
       (coupledOverloadClassRoute ctx 49 49 49 overload))
     (source : SemanticBottleneckFirstClauseSource ctx overload homogeneous) :
-    source.node187.pending.obligation =
+    source.output.pending.obligation =
       Graph.SurplusPatternStrongSemanticFrontier.required
-        (geometricActivationStage ctx) source.node187.pending.retained :=
+        (geometricActivationStage ctx) source.output.pending.retained :=
   (semanticBottleneckFirstClause ctx overload homogeneous source).result.obligationExact
 
 theorem semanticBottleneckFirstClause_total
@@ -121,18 +121,17 @@ theorem semanticBottleneckFirstClause_total
       (coupledOverloadClassRoute ctx 49 49 49 overload))
     (source : SemanticBottleneckFirstClauseSource ctx overload homogeneous) :
     Nonempty (Semantic.FirstClause.Result
-      (geometricActivationStage ctx) source.node187.pending) :=
+      (geometricActivationStage ctx) source.output.pending) :=
   Semantic.FirstClause.run_total _ _
 
 theorem semanticBottleneckFirstClause_visibleChecks_constant :
     Semantic.FirstClause.visibleChecks ≤ 4 :=
   Semantic.FirstClause.visibleChecks_constant
 
-structure VerifiedSemanticBottleneckFirstClausePrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedSemanticBottleneckStrongFrontierPrefix ctx
-  clause : ∀
+def SemanticBottleneckFirstClauseObligation
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (_residual : VerifiedSemanticBottleneckClassificationPrefix ctx) : Prop :=
+  ∀
       (overload : (coupledClassProfile ctx 49 49 49).Overload
         ctx.toBranchContext (coupledClassItems ctx))
       (homogeneous : Graph.SurplusHomogeneousPattern.Audit
@@ -141,25 +140,44 @@ structure VerifiedSemanticBottleneckFirstClausePrefix
       Nonempty (SemanticBottleneckFirstClause ctx overload homogeneous
         (semanticBottleneckFirstClauseSource ctx overload homogeneous))
 
+abbrev VerifiedSemanticBottleneckFirstClausePrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.ResidualRefinement.State
+    (VerifiedSemanticBottleneckClassificationPrefix ctx)
+    [SemanticBottleneckFirstClauseObligation ctx,
+      SemanticBottleneckStrongFrontierObligation ctx,
+      SemanticBottleneckLocalProjectionObligation ctx,
+      SemanticBottleneckSwitchNormalizationObligation ctx,
+      SemanticBottleneckLocalConsumerObligation ctx]
+
+noncomputable def semanticBottleneckFirstClausePrefixNode
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
+    Core.ResidualRefinement.State.Node
+      (facts := [SemanticBottleneckStrongFrontierObligation ctx,
+        SemanticBottleneckLocalProjectionObligation ctx,
+        SemanticBottleneckSwitchNormalizationObligation ctx,
+        SemanticBottleneckLocalConsumerObligation ctx])
+      (SemanticBottleneckFirstClauseObligation ctx) where
+  prove := fun _state overload homogeneous =>
+    ⟨semanticBottleneckFirstClause ctx overload homogeneous
+      (semanticBottleneckFirstClauseSource ctx overload homogeneous)⟩
+
 noncomputable def verifiedSemanticBottleneckFirstClausePrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedSemanticBottleneckStrongFrontierPrefix ctx) :
-    VerifiedSemanticBottleneckFirstClausePrefix ctx where
-  previous := previous
-  clause := fun overload homogeneous =>
-    ⟨semanticBottleneckFirstClause ctx overload homogeneous
-      (semanticBottleneckFirstClauseSource ctx overload homogeneous)⟩
+    VerifiedSemanticBottleneckFirstClausePrefix ctx :=
+  (semanticBottleneckFirstClausePrefixNode ctx).run previous
 
 theorem exists_verifiedSemanticBottleneckFirstClausePrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedSemanticBottleneckFirstClausePrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedSemanticBottleneckFirstClausePrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedSemanticBottleneckStrongFrontierPrefix object baseline avoids
-  exact ⟨ctx, rankLe,
-    verifiedSemanticBottleneckFirstClausePrefix ctx previous⟩
+  exact ⟨ctx,
+    verifiedSemanticBottleneckFirstClausePrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

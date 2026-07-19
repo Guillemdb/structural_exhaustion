@@ -23,16 +23,14 @@ lower bound; mismatch and prefix branches remain unchanged.  The advertised
 semantic exits are deliberately not claimed.
 -/
 
-structure SemanticBottleneckNormalizationSource
+abbrev SemanticBottleneckNormalizationSource
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (overload : (coupledClassProfile ctx 49 49 49).Overload
       ctx.toBranchContext (coupledClassItems ctx))
     (homogeneous : Graph.SurplusHomogeneousPattern.Audit
       (geometricActivationStage ctx) 49 49 49
-      (coupledOverloadClassRoute ctx 49 49 49 overload)) : Type u where
-  node178 : SemanticBottleneckLocalConsumer ctx overload homogeneous
-  node178Exact : node178 =
-    semanticBottleneckLocalConsumer ctx overload homogeneous
+      (coupledOverloadClassRoute ctx 49 49 49 overload)) :=
+  Core.ExactHandoff (semanticBottleneckLocalConsumer ctx overload homogeneous)
 
 noncomputable def semanticBottleneckNormalizationSource
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
@@ -42,7 +40,8 @@ noncomputable def semanticBottleneckNormalizationSource
       (geometricActivationStage ctx) 49 49 49
       (coupledOverloadClassRoute ctx 49 49 49 overload)) :
     SemanticBottleneckNormalizationSource ctx overload homogeneous :=
-  ⟨semanticBottleneckLocalConsumer ctx overload homogeneous, rfl⟩
+  Core.ExactHandoff.refl
+    (semanticBottleneckLocalConsumer ctx overload homogeneous)
 
 structure SemanticBottleneckSwitchNormalization
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
@@ -56,14 +55,14 @@ structure SemanticBottleneckSwitchNormalization
     (geometricActivationStage ctx)
     (canonicalGeometricPredecessor ctx overload homogeneous).collision
     (canonicalGeometricPredecessor ctx overload homogeneous).semanticTrigger
-    source.node178.previous.residual
-    source.node178.frontier
+    source.output.previous.residual
+    source.output.frontier
   resultExact : result = Semantic.Normalization.normalize
     (geometricActivationStage ctx)
     (canonicalGeometricPredecessor ctx overload homogeneous).collision
     (canonicalGeometricPredecessor ctx overload homogeneous).semanticTrigger
-    source.node178.previous.residual
-    source.node178.frontier
+    source.output.previous.residual
+    source.output.frontier
 
 noncomputable def semanticBottleneckSwitchNormalization
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
@@ -78,8 +77,8 @@ noncomputable def semanticBottleneckSwitchNormalization
     (geometricActivationStage ctx)
     (canonicalGeometricPredecessor ctx overload homogeneous).collision
     (canonicalGeometricPredecessor ctx overload homogeneous).semanticTrigger
-    source.node178.previous.residual
-    source.node178.frontier
+    source.output.previous.residual
+    source.output.frontier
   resultExact := rfl
 
 theorem semanticBottleneckNormalizationSource_node178_exact
@@ -90,8 +89,8 @@ theorem semanticBottleneckNormalizationSource_node178_exact
       (geometricActivationStage ctx) 49 49 49
       (coupledOverloadClassRoute ctx 49 49 49 overload))
     (source : SemanticBottleneckNormalizationSource ctx overload homogeneous) :
-    source.node178 = semanticBottleneckLocalConsumer ctx overload homogeneous :=
-  source.node178Exact
+    source.output = semanticBottleneckLocalConsumer ctx overload homogeneous :=
+  source.outputExact
 
 theorem semanticBottleneckSwitchNormalization_result_exact
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
@@ -105,7 +104,7 @@ theorem semanticBottleneckSwitchNormalization_result_exact
       Semantic.Normalization.normalize (geometricActivationStage ctx)
         (canonicalGeometricPredecessor ctx overload homogeneous).collision
         (canonicalGeometricPredecessor ctx overload homogeneous).semanticTrigger
-        source.node178.previous.residual source.node178.frontier :=
+        source.output.previous.residual source.output.frontier :=
   (semanticBottleneckSwitchNormalization ctx overload homogeneous source).resultExact
 
 theorem semanticBottleneckSwitchNormalization_total
@@ -120,19 +119,18 @@ theorem semanticBottleneckSwitchNormalization_total
       (geometricActivationStage ctx)
       (canonicalGeometricPredecessor ctx overload homogeneous).collision
       (canonicalGeometricPredecessor ctx overload homogeneous).semanticTrigger
-      source.node178.previous.residual source.node178.frontier) :=
+      source.output.previous.residual source.output.frontier) :=
   Semantic.Normalization.normalize_total _ _ _ _ _
 
 theorem semanticBottleneckSwitchNormalization_checks_eq_zero :
     Semantic.Normalization.checks = 0 :=
   Semantic.Normalization.checks_eq_zero
 
-/-- Verified prefix through node [181]'s exact local normalization. -/
-structure VerifiedSemanticBottleneckSwitchNormalizationPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedSemanticBottleneckLocalConsumerPrefix ctx
-  normalization : ∀
+/-- The one mathematical obligation contributed by node [181]. -/
+def SemanticBottleneckSwitchNormalizationObligation
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (_residual : VerifiedSemanticBottleneckClassificationPrefix ctx) : Prop :=
+  ∀
       (overload : (coupledClassProfile ctx 49 49 49).Overload
         ctx.toBranchContext (coupledClassItems ctx))
       (homogeneous : Graph.SurplusHomogeneousPattern.Audit
@@ -141,25 +139,39 @@ structure VerifiedSemanticBottleneckSwitchNormalizationPrefix
       Nonempty (SemanticBottleneckSwitchNormalization ctx overload homogeneous
         (semanticBottleneckNormalizationSource ctx overload homogeneous))
 
+/-- Verified prefix through node [181]'s exact local normalization. -/
+abbrev VerifiedSemanticBottleneckSwitchNormalizationPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.ResidualRefinement.State
+    (VerifiedSemanticBottleneckClassificationPrefix ctx)
+    [SemanticBottleneckSwitchNormalizationObligation ctx,
+      SemanticBottleneckLocalConsumerObligation ctx]
+
+noncomputable def semanticBottleneckSwitchNormalizationPrefixNode
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
+    Core.ResidualRefinement.State.Node
+      (facts := [SemanticBottleneckLocalConsumerObligation ctx])
+      (SemanticBottleneckSwitchNormalizationObligation ctx) where
+  prove := fun _state overload homogeneous =>
+    ⟨semanticBottleneckSwitchNormalization ctx overload homogeneous
+      (semanticBottleneckNormalizationSource ctx overload homogeneous)⟩
+
 noncomputable def verifiedSemanticBottleneckSwitchNormalizationPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedSemanticBottleneckLocalConsumerPrefix ctx) :
-    VerifiedSemanticBottleneckSwitchNormalizationPrefix ctx where
-  previous := previous
-  normalization := fun overload homogeneous =>
-    ⟨semanticBottleneckSwitchNormalization ctx overload homogeneous
-      (semanticBottleneckNormalizationSource ctx overload homogeneous)⟩
+    VerifiedSemanticBottleneckSwitchNormalizationPrefix ctx :=
+  (semanticBottleneckSwitchNormalizationPrefixNode ctx).run previous
 
 theorem exists_verifiedSemanticBottleneckSwitchNormalizationPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedSemanticBottleneckSwitchNormalizationPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedSemanticBottleneckSwitchNormalizationPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedSemanticBottleneckLocalConsumerPrefix object baseline avoids
-  exact ⟨ctx, rankLe,
-    verifiedSemanticBottleneckSwitchNormalizationPrefix ctx previous⟩
+  exact ⟨ctx,
+    verifiedSemanticBottleneckSwitchNormalizationPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

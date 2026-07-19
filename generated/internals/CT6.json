@@ -1513,21 +1513,21 @@
       "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 19,
+          "line": 20,
           "column": 4
         },
         "end": {
-          "line": 19,
+          "line": 20,
           "column": 9
         }
       },
       "range": {
         "start": {
-          "line": 19,
+          "line": 20,
           "column": 0
         },
         "end": {
-          "line": 19,
+          "line": 20,
           "column": 76
         }
       },
@@ -1664,21 +1664,21 @@
       "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 37,
+          "line": 38,
           "column": 4
         },
         "end": {
-          "line": 37,
+          "line": 38,
           "column": 7
         }
       },
       "range": {
         "start": {
-          "line": 37,
+          "line": 38,
           "column": 0
         },
         "end": {
-          "line": 37,
+          "line": 38,
           "column": 42
         }
       },
@@ -2152,21 +2152,21 @@
       "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 14,
+          "line": 15,
           "column": 10
         },
         "end": {
-          "line": 14,
+          "line": 15,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 14,
+          "line": 15,
           "column": 0
         },
         "end": {
-          "line": 17,
+          "line": 18,
           "column": 50
         }
       },
@@ -2198,21 +2198,21 @@
       "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 16,
+          "line": 17,
           "column": 2
         },
         "end": {
-          "line": 16,
+          "line": 17,
           "column": 6
         }
       },
       "range": {
         "start": {
-          "line": 16,
+          "line": 17,
           "column": 2
         },
         "end": {
-          "line": 16,
+          "line": 17,
           "column": 6
         }
       },
@@ -2239,21 +2239,21 @@
       "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 15,
+          "line": 16,
           "column": 2
         },
         "end": {
-          "line": 15,
+          "line": 16,
           "column": 10
         }
       },
       "range": {
         "start": {
-          "line": 15,
+          "line": 16,
           "column": 2
         },
         "end": {
-          "line": 15,
+          "line": 16,
           "column": 10
         }
       },
@@ -2482,21 +2482,21 @@
       "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 22,
+          "line": 23,
           "column": 4
         },
         "end": {
-          "line": 22,
+          "line": 23,
           "column": 16
         }
       },
       "range": {
         "start": {
-          "line": 22,
+          "line": 23,
           "column": 0
         },
         "end": {
-          "line": 35,
+          "line": 36,
           "column": 5
         }
       },
@@ -2658,21 +2658,21 @@
       "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 14,
+          "line": 15,
           "column": 10
         },
         "end": {
-          "line": 14,
+          "line": 15,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 14,
+          "line": 15,
           "column": 10
         },
         "end": {
-          "line": 14,
+          "line": 15,
           "column": 25
         }
       },
@@ -2956,21 +2956,21 @@
       "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 11,
+          "line": 12,
           "column": 4
         },
         "end": {
-          "line": 11,
+          "line": 12,
           "column": 16
         }
       },
       "range": {
         "start": {
-          "line": 11,
+          "line": 12,
           "column": 2
         },
         "end": {
-          "line": 12,
+          "line": 13,
           "column": 30
         }
       },
@@ -2998,21 +2998,21 @@
       "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 9,
+          "line": 10,
           "column": 4
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "column": 16
         }
       },
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "column": 2
         },
         "end": {
-          "line": 10,
+          "line": 11,
           "column": 30
         }
       },
@@ -3131,21 +3131,21 @@
       "sourceFile": "StructuralExhaustion/CT6/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 8,
+          "line": 9,
           "column": 10
         },
         "end": {
-          "line": 8,
+          "line": 9,
           "column": 20
         }
       },
       "range": {
         "start": {
-          "line": 8,
+          "line": 9,
           "column": 0
         },
         "end": {
-          "line": 12,
+          "line": 13,
           "column": 30
         }
       },
@@ -4349,15 +4349,15 @@
       "sourceId": "StructuralExhaustion/CT6/Capability.lean",
       "moduleName": "StructuralExhaustion.CT6.Capability",
       "path": "lean/StructuralExhaustion/CT6/Capability.lean",
-      "sha256": "83b72569594476ced39cb574b09cd51907d9248c35b6dd69c3b2d51a3b127fd7",
-      "content": "import StructuralExhaustion.CT6.Spec\n\nnamespace StructuralExhaustion.CT6\n\nstructure Capability {P : Core.Problem} (S : Spec P) where\n  failureOrder : FinEnum S.Index\n  failureDecidable : (ctx : Core.BranchContext P) →\n    (index : S.Index) → Decidable (S.Failure ctx index)\n\nabbrev Input (P : Core.Problem) := Core.BranchContext P\n\nnamespace Capability\n\n/-- Route-facing CT6 trigger; the shared context contains the complete input. -/\ndef tacticInterface {P : Core.Problem} {S : Spec P}\n    (_capability : Capability S) : Core.Routing.TacticInterface where\n  Context := Core.BranchContext P\n  Trigger := fun _ => Unit\n\nend Capability\n\nend StructuralExhaustion.CT6\n"
+      "sha256": "897b4c7705731c4d8bdc265bfcf19b9df620861fbde653b94ac7dd756c5aed03",
+      "content": "import StructuralExhaustion.CT6.Spec\n\nnamespace StructuralExhaustion.CT6\n\nstructure Capability {P : Core.Problem} (S : Spec P) where\n  failureOrder : FinEnum S.Index\n  failureDecidable : (ctx : Core.BranchContext P) →\n    (index : S.Index) → Decidable (S.Failure ctx index)\n\nabbrev Input (P : Core.Problem) := Core.BranchContext P\n\nend StructuralExhaustion.CT6\n"
     },
     {
       "sourceId": "StructuralExhaustion/CT6/Execution.lean",
       "moduleName": "StructuralExhaustion.CT6.Execution",
       "path": "lean/StructuralExhaustion/CT6/Execution.lean",
-      "sha256": "4570fb744f0b00bf03c0209a42c29faa6391cfcdf2e9e36dc00c72a3ea4542bc",
-      "content": "import StructuralExhaustion.CT6.Graph\n\nnamespace StructuralExhaustion.CT6\n\nvariable {P : Core.Problem} (S : Spec P) (capability : Capability S)\nvariable (input : Input P)\n\ninductive RawOutcome : Graph.Terminal → Type _ where\n  | firstFailure (residual : FirstFailureResidual S capability input) :\n      RawOutcome .firstFailure\n  | activeLedger (residual : ActiveLedgerResidual S capability input) :\n      RawOutcome .activeLedger\n\nstructure ExecutionResult where\n  terminal : Graph.Terminal\n  path : Graph.Path S capability input .entry terminal.nodeId\n  outcome : RawOutcome S capability input terminal\nnamespace ExecutionResult\ndef trace (result : ExecutionResult S capability input) := result.path.trace\nend ExecutionResult\n\ndef runReference : ExecutionResult S capability input :=\n  match analyzeActivity S capability input with\n  | .firstFailure residual => {\n      terminal := .firstFailure\n      path := .cons .beginSearch\n        (.cons (.failure residual) (.nil .firstFailureTerminal))\n      outcome := .firstFailure residual\n    }\n  | .active residual => {\n      terminal := .activeLedger\n      path := .cons .beginSearch\n        (.cons (.active residual) (.nil .activeLedgerTerminal))\n      outcome := .activeLedger residual\n    }\n\ndef run := runReference S capability input\n\nend StructuralExhaustion.CT6\n"
+      "sha256": "54de8e782a0e0bc72d7e49cc5a0d871a94a1bbcd839bcdc25d36e11f58bdc6e4",
+      "content": "import StructuralExhaustion.CT6.Graph\nimport StructuralExhaustion.Core.CTTransition\n\nnamespace StructuralExhaustion.CT6\n\nvariable {P : Core.Problem} (S : Spec P) (capability : Capability S)\nvariable (input : Input P)\n\ninductive RawOutcome : Graph.Terminal → Type _ where\n  | firstFailure (residual : FirstFailureResidual S capability input) :\n      RawOutcome .firstFailure\n  | activeLedger (residual : ActiveLedgerResidual S capability input) :\n      RawOutcome .activeLedger\n\nstructure ExecutionResult where\n  terminal : Graph.Terminal\n  path : Graph.Path S capability input .entry terminal.nodeId\n  outcome : RawOutcome S capability input terminal\nnamespace ExecutionResult\ndef trace (result : ExecutionResult S capability input) := result.path.trace\nend ExecutionResult\n\ndef runReference : ExecutionResult S capability input :=\n  match analyzeActivity S capability input with\n  | .firstFailure residual => {\n      terminal := .firstFailure\n      path := .cons .beginSearch\n        (.cons (.failure residual) (.nil .firstFailureTerminal))\n      outcome := .firstFailure residual\n    }\n  | .active residual => {\n      terminal := .activeLedger\n      path := .cons .beginSearch\n        (.cons (.active residual) (.nil .activeLedgerTerminal))\n      outcome := .activeLedger residual\n    }\n\ndef run := runReference S capability input\n\nnamespace Capability\n\n/-- Canonical executable CT6 entry.  Ordered activity analysis consumes the\nliteral inherited branch context and requires no application-built trigger. -/\ndef executableInterface {P : Core.Problem} {S : Spec P}\n    (capability : Capability S) :\n    Core.Routing.ExecutableInterface .ct6 where\n  Context := Core.BranchContext P\n  Trigger := fun _context => Unit\n  Result := fun context _trigger => ExecutionResult S capability context\n  execute := fun context _trigger => run S capability context\n\nend Capability\n\nend StructuralExhaustion.CT6\n"
     },
     {
       "sourceId": "StructuralExhaustion/CT6/Graph.lean",

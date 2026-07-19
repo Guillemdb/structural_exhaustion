@@ -28,7 +28,7 @@ one of the 91 barrier rows occurs equally often. -/
 structure P13WeightedLiveWindowPackage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
-    (window : P13SelectedConnectorWindow ctx) : Type (u + 1)
+    (window : P13SelectedConnectorWindow ctx) : Type (u + 3)
     extends Core.ExactHandoff node21 where
   State : Type u
   Coordinate : Type u

@@ -205,20 +205,20 @@ structure Residual (ctx : Core.BranchContext P) where
   source : Source ctx
 
 /-- Forced identity handoff on the computed long branch. -/
-def route {ctx : Core.BranchContext P} (source : Source ctx) : Residual ctx :=
+def handoff {ctx : Core.BranchContext P} (source : Source ctx) : Residual ctx :=
   ⟨source⟩
 
 @[simp]
-theorem route_source {ctx : Core.BranchContext P} (source : Source ctx) :
-    (route source).source = source :=
+theorem handoff_source {ctx : Core.BranchContext P} (source : Source ctx) :
+    (handoff source).source = source :=
   rfl
 
 theorem routed_exceeds {ctx : Core.BranchContext P} (source : Source ctx) :
-    (route source).source.scale < (route source).source.supportLength :=
+    (handoff source).source.scale < (handoff source).source.supportLength :=
   source.exceeds
 
 /-- Stable provenance identifier for graph and application audits. -/
-def routeId : String :=
+def handoffId : String :=
   "finite-long-support->typed-scale-handoff"
 
 end StructuralExhaustion.Routes.LongFiniteSupportHandoff

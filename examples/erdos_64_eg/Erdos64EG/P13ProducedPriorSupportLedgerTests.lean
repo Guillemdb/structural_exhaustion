@@ -14,37 +14,30 @@ example (entry : CanonicalOrdinaryEvent (ctx := ctx)) :
 
 example (node84 : VerifiedTypeBLocalFanMassPrefix ctx)
     (entry : CanonicalOrdinaryEvent (ctx := ctx)) :
-    Node84GlobalFanMass.CanonicalOrdinary.source node84 entry ∈
-      canonicalOrdinarySources node84 :=
+    (canonicalOrdinarySources node84).event entry =
+        Node84GlobalFanMass.CanonicalOrdinary.source node84 entry ∧
+      entry ∈ (canonicalOrdinarySources node84).entries :=
   canonicalOrdinarySource_mem node84 entry
 
 example
-    {ContextSafe ForbiddenFree CoreFree Uncompressible :
-      Finset ctx.G.Vertex → Prop}
-    {FanSafe : ctx.G.Vertex → ctx.G.Vertex → ctx.G.Vertex → Prop}
-    (ledger : Ledger (ctx := ctx))
-    (handoff : TypeBEntryRouting.Exit7Handoff ctx ContextSafe ForbiddenFree
-      CoreFree Uncompressible FanSafe) :
-    (node66AndRecord ledger handoff).1 = TypeBEntryRouting.node66 ctx handoff :=
-  rfl
+    (entry : Node64To65Ordinary (ctx := ctx))
+    (occurrence : (Core.FiniteResidualLedger.Ledger.singleton
+      (.ordinary entry : Event (ctx := ctx))).Occurrence) :
+    (Core.FiniteResidualLedger.Ledger.singleton
+      (.ordinary entry : Event (ctx := ctx))).event occurrence =
+        .ordinary entry :=
+  Core.FiniteResidualLedger.Ledger.singleton_event _ occurrence
 
 example
-    (ledger : Ledger (ctx := ctx))
-    (entry : RecordedRouteEightExtraction (ctx := ctx)) :
-    (recordRouteEight ledger entry).entries =
-      ledger.entries ++ [.routeEight entry] :=
-  recordRouteEight_exact ledger entry
+    (left right : PersistentLedger (ctx := ctx))
+    (occurrence : right.Occurrence) :
+    (left.append right).event (.inr occurrence) = right.event occurrence :=
+  Core.FiniteResidualLedger.Ledger.append_event_right left right occurrence
 
 example
     (entry : RecordedRouteEightExtraction (ctx := ctx)) :
     eventSupport (.routeEight entry) = entry.source.scope.coreVertices :=
   routeEight_event_has_exact_source_core entry
-
-example
-    (ledger : OrdinaryTypeBLedger (ctx := ctx))
-    (entry : Node64To65Ordinary (ctx := ctx)) :
-    (node64To65Ordinary ledger entry).entries = ledger.entries ++ [entry] :=
-  node64To65Ordinary_exact ledger entry
 
 example (entry : Node64To65Ordinary (ctx := ctx)) :
     entry.highSurplus.center ∈ eventSupport (.ordinary entry) :=
@@ -54,12 +47,17 @@ example (entry : Node64To65Ordinary (ctx := ctx)) :
     4 ≤ ctx.G.object.degree entry.highSurplus.center :=
   Node64To65Ordinary.center_high entry
 
-example (ledger : Ledger (ctx := ctx)) (vertex : ctx.G.Vertex) :
-    match ledger.recognize vertex with
-    | .found event member holds =>
-        event ∈ ledger.entries ∧ vertex ∈ ledger.support event
-    | .absent _noneProof =>
-        ∀ event ∈ ledger.entries, vertex ∉ ledger.support event :=
-  recognize_exact ledger vertex
+example (ledger : PersistentLedger (ctx := ctx)) (vertex : ctx.G.Vertex) :
+    match ledger.supportView.recognize vertex with
+    | .found hit =>
+        hit.event = ledger.event hit.occurrence ∧
+          hit.occurrence ∈ ledger.entries ∧
+          vertex ∈ eventSupport (ledger.event hit.occurrence) ∧
+          ∀ earlier ∈ hit.before,
+            vertex ∉ eventSupport (ledger.event earlier)
+    | .absent _ =>
+        ∀ occurrence : ledger.Occurrence,
+          vertex ∉ eventSupport (ledger.event occurrence) :=
+  PersistentLedger.recognize_exact ledger vertex
 
 end Erdos64EG.Internal.P13ProducedPriorSupportLedger.Tests

@@ -1,5 +1,7 @@
 import Erdos64EG.P13FiniteRemainderEntropy
+import StructuralExhaustion.Core.ExactHandoff
 import StructuralExhaustion.Core.FinitePowerScaleSplit
+import StructuralExhaustion.Core.OrderThresholdSplit
 
 namespace Erdos64EG.Internal
 
@@ -8,16 +10,102 @@ open StructuralExhaustion
 universe u
 
 /-!
-# Node [50]: exact entropy-scale dichotomy
+# Node [50]: the manuscript entropy dichotomy
 
-The manuscript threshold is executed in its denominator-free natural-number
-form `n ^ |R| ≤ N_R ^ 10`.  The runner compares these two supplied powers
-once.  It does not evaluate real logarithms or enumerate graphs, states,
-subsets, contexts, functions, or Boolean assignments.
+The original diagram asks exactly whether
+`η(R) ≥ (1/10) log₂ n`.  This file instantiates the Core-owned proof-level
+ordered split on node `[49]`'s symbolic entropy.  It evaluates neither the
+logarithm nor the constrained graph family.
 -/
 
-/-- Core-owned one-comparison profile built from the exact node-[49] count and
-the literal ambient and remainder cardinalities. -/
+/-- The exact threshold printed at node `[50]`. -/
+noncomputable def p13ManuscriptEntropyThreshold
+    (residual : P13Node24RefinementResidual.{u}) : ℝ :=
+  (1 / 10 : ℝ) * Real.logb 2 residual.ctx.G.object.input.vertices.card
+
+/-- Core-owned ordered split instantiated with node `[49]`'s literal
+`η(R)` and the manuscript threshold. -/
+noncomputable def p13ManuscriptEntropySplitProfile
+    (residual : P13Node24RefinementResidual.{u}) :
+    Core.OrderThresholdSplit.Profile ℝ where
+  value := p13ManuscriptRemainderEntropy residual
+  threshold := p13ManuscriptEntropyThreshold residual
+
+/-- Node `[50]` retains the exact node-`[49]` value and adds only the
+framework-owned exhaustive threshold outcome. -/
+structure VerifiedP13Node50ManuscriptEntropySplit
+    (residual : P13Node24RefinementResidual.{u})
+    (branch : P13Node34Stage residual)
+    (node47 : VerifiedP13Node47FullRankResidual residual branch)
+    (node48 : VerifiedP13Node48FrontierCost residual branch node47)
+    (node49 : VerifiedP13Node49ManuscriptEntropy residual branch node47 node48) :
+    Type (u + 5)
+    extends Core.ExactHandoff node49 where
+  outcome : (p13ManuscriptEntropySplitProfile residual).Outcome
+  total : p13ManuscriptEntropyThreshold residual ≤
+      p13ManuscriptRemainderEntropy residual ∨
+    p13ManuscriptRemainderEntropy residual <
+      p13ManuscriptEntropyThreshold residual
+  work : (p13ManuscriptEntropySplitProfile residual).workBudget.checks () = 0
+
+/-- Execute the original node `[50]` dichotomy from the exact node-`[49]`
+predecessor, preserving the complete dependent residual through
+`Core.ExactHandoff`. -/
+noncomputable def VerifiedP13Node49ManuscriptEntropy.node50
+    {residual : P13Node24RefinementResidual.{u}}
+    {branch : P13Node34Stage residual}
+    {node47 : VerifiedP13Node47FullRankResidual residual branch}
+    {node48 : VerifiedP13Node48FrontierCost residual branch node47}
+    (node49 : VerifiedP13Node49ManuscriptEntropy residual branch node47 node48) :
+    VerifiedP13Node50ManuscriptEntropySplit residual branch node47 node48 node49 where
+  previous := node49
+  previousExact := rfl
+  outcome := (p13ManuscriptEntropySplitProfile residual).run
+  total := (p13ManuscriptEntropySplitProfile residual).exhaustive
+  work := (p13ManuscriptEntropySplitProfile residual).checks_eq_zero
+
+/-- The exact yes-edge proposition of the original diagram. -/
+def P13Node50High
+    {residual : P13Node24RefinementResidual.{u}}
+    {branch : P13Node34Stage residual}
+    {node47 : VerifiedP13Node47FullRankResidual residual branch}
+    {node48 : VerifiedP13Node48FrontierCost residual branch node47}
+    {node49 : VerifiedP13Node49ManuscriptEntropy residual branch node47 node48}
+    (node50 : VerifiedP13Node50ManuscriptEntropySplit
+      residual branch node47 node48 node49) : Prop :=
+  p13ManuscriptEntropyThreshold residual ≤
+    p13ManuscriptRemainderEntropy residual
+
+/-- The exact no-edge proposition of the original diagram. -/
+def P13Node50Low
+    {residual : P13Node24RefinementResidual.{u}}
+    {branch : P13Node34Stage residual}
+    {node47 : VerifiedP13Node47FullRankResidual residual branch}
+    {node48 : VerifiedP13Node48FrontierCost residual branch node47}
+    {node49 : VerifiedP13Node49ManuscriptEntropy residual branch node47 node48}
+    (node50 : VerifiedP13Node50ManuscriptEntropySplit
+      residual branch node47 node48 node49) : Prop :=
+  p13ManuscriptRemainderEntropy residual <
+    p13ManuscriptEntropyThreshold residual
+
+theorem VerifiedP13Node50ManuscriptEntropySplit.high_or_low
+    {residual : P13Node24RefinementResidual.{u}}
+    {branch : P13Node34Stage residual}
+    {node47 : VerifiedP13Node47FullRankResidual residual branch}
+    {node48 : VerifiedP13Node48FrontierCost residual branch node47}
+    {node49 : VerifiedP13Node49ManuscriptEntropy residual branch node47 node48}
+    (node50 : VerifiedP13Node50ManuscriptEntropySplit
+      residual branch node47 node48 node49) :
+    P13Node50High node50 ∨ P13Node50Low node50 :=
+  node50.total
+
+/-! ## Retained conditional support for the earlier realized-state route
+
+These declarations are deliberately not evidence for manuscript node `[50]`.
+They remain available because later conditional modules still consume that
+separate finite-state experiment while they are migrated to `𝒢(R)`.
+-/
+
 noncomputable def p13EntropyScaleProfile
     {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
     {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
@@ -29,15 +117,13 @@ noncomputable def p13EntropyScaleProfile
   stateCount := p13RemainderStateCount realized
   scale := 10
 
-/-- The two exact outgoing branches of diagram node `[50]`.  Each constructor
-retains the same verified node-[49] predecessor. -/
 inductive P13Node50EntropyScaleOutcome
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
     (node24 : VerifiedP13Node24DensityHandoff ctx node21)
     (realized : P13CurvatureProductCostRealization ctx node21 node24)
     (node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized) :
-    Type (u + 1)
+    Type (u + 6)
   | high
       (previous : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized)
       (exactPrevious : previous = node49)
@@ -51,7 +137,6 @@ inductive P13Node50EntropyScaleOutcome
         ctx.G.object.input.vertices.card ^
           (p13RemainderVertices ctx).card)
 
-/-- Execute node `[50]` from the exact node-[49] proof. -/
 noncomputable def runP13Node50EntropyScaleSplit
     {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
     {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
@@ -63,7 +148,6 @@ noncomputable def runP13Node50EntropyScaleSplit
   | upper bound => exact .high node49 rfl bound
   | lower strict => exact .low node49 rfl strict
 
-/-- The node-[50] branch is exhaustive on the two literal powers. -/
 theorem p13Node50EntropyScale_exhaustive
     {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
     {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
@@ -77,16 +161,13 @@ theorem p13Node50EntropyScale_exhaustive
   simpa [p13EntropyScaleProfile] using
     (p13EntropyScaleProfile realized).exhaustive
 
-/-- Complete node-[50] single-input/single-output contract. -/
 structure VerifiedP13Node50EntropyScaleSplit
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
     (node24 : VerifiedP13Node24DensityHandoff ctx node21)
     (realized : P13CurvatureProductCostRealization ctx node21 node24)
     (node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized) :
-    Type (u + 1) where
-  previous : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized
-  exactPrevious : previous = node49
+    Type (u + 6) extends Core.ExactHandoff node49 where
   outcome : P13Node50EntropyScaleOutcome ctx node21 node24 realized node49
   total : ctx.G.object.input.vertices.card ^
         (p13RemainderVertices ctx).card ≤
@@ -103,9 +184,20 @@ noncomputable def verifiedP13Node50EntropyScaleSplit
     (node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized) :
     VerifiedP13Node50EntropyScaleSplit ctx node21 node24 realized node49 where
   previous := node49
-  exactPrevious := rfl
+  previousExact := rfl
   outcome := runP13Node50EntropyScaleSplit node49
   total := p13Node50EntropyScale_exhaustive node49
   work := (p13EntropyScaleProfile realized).checks_eq_one
+
+theorem VerifiedP13Node50EntropyScaleSplit.exactPrevious
+    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
+    {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
+    {node24 : VerifiedP13Node24DensityHandoff ctx node21}
+    {realized : P13CurvatureProductCostRealization ctx node21 node24}
+    {node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized}
+    (node50 : VerifiedP13Node50EntropyScaleSplit
+      ctx node21 node24 realized node49) :
+    node50.previous = node49 :=
+  node50.previousExact
 
 end Erdos64EG.Internal

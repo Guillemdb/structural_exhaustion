@@ -1,16 +1,19 @@
 import StructuralExhaustion.CT2.State
-import StructuralExhaustion.CT10.Capability
+import StructuralExhaustion.CT10.Automation
 
 namespace StructuralExhaustion.Routes.CT2ToCT10
 
-universe uResidual uDatum uSeed
+universe uResidual uDatum uSeed uLedger
 universe uAmbient uBranch uCT2Piece uInterface uAbstract uContext uCandidate
 universe uClass uPromotion
+
+/-- Stable identity of this transition profile. -/
+def transitionId : String := "CT2.residual.criticality->CT10"
 
 /-!
 Canonical typed routing from CT2 criticality residuals to CT10.  CT2 remains
 consumer-blind; this module discovers CT10's finite datum collection and
-constructs its route trigger at the inherited branch context.
+constructs its transition trigger at the inherited branch context.
 -/
 
 /-- Problem-specific finite-data discovery.  The seed is intentionally
@@ -31,7 +34,10 @@ def targetContext
     Core.BranchContext P :=
   ctx.toBranchContext
 
-def rule
+/-- Canonical executable CT2→CT10 transition.  Data discovery remains the
+problem-specific semantic adapter; target execution and predecessor
+preservation are framework-owned. -/
+def transition
     {P : Core.Problem.{uAmbient, uBranch}}
     {Target : P.Ambient → Prop}
     {capability : CT2.Capability.{uAmbient, uBranch, uCT2Piece, uInterface,
@@ -42,16 +48,16 @@ def rule
       uPromotion} P)
     (sourceDiscovery : DataDiscovery
       (CT2.CriticalityResidual capability ctx input) targetCapability.Datum) :
-    Core.Routing.RouteRule
+    Core.Routing.CTTransition .ct2 .ct10
       (CT2.CriticalityResidual capability ctx input)
-      (CT10.tacticInterface targetCapability) where
-  routeId := "CT2.residual.criticality->CT10"
-  targetContext := targetContext
-  Seed := sourceDiscovery.Seed
-  discover := sourceDiscovery.discover
-  buildTrigger := fun source seed => ⟨sourceDiscovery.data source seed⟩
+      targetCapability.executableInterface :=
+  Core.Routing.CTTransition.ofAdapter transitionId targetContext
+    sourceDiscovery.Seed sourceDiscovery.discover
+    (fun source seed => ⟨sourceDiscovery.data source seed⟩)
 
-def buildTrigger
+/-- Discover and execute CT10 from an exact CT2 criticality residual.  The
+enabled branch chains onward only through its accumulated `ledgerStage`. -/
+def advance
     {P : Core.Problem.{uAmbient, uBranch}}
     {Target : P.Ambient → Prop}
     {capability : CT2.Capability.{uAmbient, uBranch, uCT2Piece, uInterface,
@@ -62,28 +68,12 @@ def buildTrigger
       uPromotion} P)
     (sourceDiscovery : DataDiscovery
       (CT2.CriticalityResidual capability ctx input) targetCapability.Datum)
-    (source : CT2.CriticalityResidual capability ctx input)
-    (seed : (rule targetCapability sourceDiscovery).Seed source) :
-    CT10.Trigger targetCapability (targetContext source) :=
-  (rule targetCapability sourceDiscovery).buildTrigger source seed
-
-/-- Construct the ordinary CT10 runner input after route generation. -/
-def buildInput
-    {P : Core.Problem.{uAmbient, uBranch}}
-    {Target : P.Ambient → Prop}
-    {capability : CT2.Capability.{uAmbient, uBranch, uCT2Piece, uInterface,
-      uAbstract, uContext, uCandidate} P Target}
-    {ctx : Core.MinimalCounterexampleContext P Target}
-    {input : CT2.Input capability ctx}
-    (targetCapability : CT10.Capability.{uAmbient, uBranch, uDatum, uClass,
-      uPromotion} P)
-    (sourceDiscovery : DataDiscovery
-      (CT2.CriticalityResidual capability ctx input) targetCapability.Datum)
-    (source : CT2.CriticalityResidual capability ctx input)
-    (seed : (rule targetCapability sourceDiscovery).Seed source) :
-    CT10.Input targetCapability :=
-  CT10.Input.ofTrigger (targetContext source)
-    (buildTrigger targetCapability sourceDiscovery source seed)
+    {Ledger : Sort uLedger}
+    (current : Ledger → CT2.CriticalityResidual capability ctx input)
+    (source : Core.Routing.ResidualStage .ct2 Ledger) :
+    ((transition targetCapability sourceDiscovery).onLedger current).Outcome source :=
+  Core.Routing.CTTransition.runOnLedger
+    (transition targetCapability sourceDiscovery) current source
 
 theorem branchContext_preserved
     {P : Core.Problem.{uAmbient, uBranch}}
@@ -129,7 +119,11 @@ theorem state_preserved
     (targetContext source).state = ctx.state :=
   rfl
 
-theorem input_context_preserved
+/-! The public proof surface is stated only over executable stages. -/
+
+/-- Enabled execution retains the discovered collection in the exact CT10
+trigger and executes the canonical CT10 entry at the inherited context. -/
+theorem enabled_sound
     {P : Core.Problem.{uAmbient, uBranch}}
     {Target : P.Ambient → Prop}
     {capability : CT2.Capability.{uAmbient, uBranch, uCT2Piece, uInterface,
@@ -140,13 +134,31 @@ theorem input_context_preserved
       uPromotion} P)
     (sourceDiscovery : DataDiscovery
       (CT2.CriticalityResidual capability ctx input) targetCapability.Datum)
-    (source : CT2.CriticalityResidual capability ctx input)
-    (seed : (rule targetCapability sourceDiscovery).Seed source) :
-    (buildInput targetCapability sourceDiscovery source seed).context =
-      ctx.toBranchContext :=
-  rfl
+    {Ledger : Sort uLedger}
+    (current : Ledger → CT2.CriticalityResidual capability ctx input)
+    (source : Core.Routing.ResidualStage .ct2 Ledger)
+    (stage : ((transition targetCapability sourceDiscovery).onLedger current).EnabledStage
+      source)
+    (ran : advance targetCapability sourceDiscovery current source = .enabled stage) :
+    sourceDiscovery.discover (current source.output) =
+      .enabled stage.execution.seed ∧
+      (((transition targetCapability sourceDiscovery).onLedger current).trigger source
+        stage.execution.seed).data =
+          sourceDiscovery.data (current source.output) stage.execution.seed ∧
+      stage.targetResult = targetCapability.executableInterface.execute
+        (((transition targetCapability sourceDiscovery).onLedger current).targetContext
+          source)
+        (((transition targetCapability sourceDiscovery).onLedger current).trigger source
+          stage.execution.seed) := by
+  unfold advance Core.Routing.CTTransition.runOnLedger at ran
+  unfold Core.Routing.CTTransition.run at ran
+  split at ran
+  · cases ran
+    exact ⟨by assumption, rfl, rfl⟩
+  · contradiction
 
-theorem input_data_preserved
+/-- If automatic execution has no enabled stage, discovery has no seed. -/
+theorem disabled_sound
     {P : Core.Problem.{uAmbient, uBranch}}
     {Target : P.Ambient → Prop}
     {capability : CT2.Capability.{uAmbient, uBranch, uCT2Piece, uInterface,
@@ -157,13 +169,21 @@ theorem input_data_preserved
       uPromotion} P)
     (sourceDiscovery : DataDiscovery
       (CT2.CriticalityResidual capability ctx input) targetCapability.Datum)
-    (source : CT2.CriticalityResidual capability ctx input)
-    (seed : (rule targetCapability sourceDiscovery).Seed source) :
-    (buildInput targetCapability sourceDiscovery source seed).data =
-      sourceDiscovery.data source seed :=
-  rfl
+    {Ledger : Sort uLedger}
+    (current : Ledger → CT2.CriticalityResidual capability ctx input)
+    (source : Core.Routing.ResidualStage .ct2 Ledger)
+    (notEnabled : ∀ stage :
+      ((transition targetCapability sourceDiscovery).onLedger current).EnabledStage
+        source,
+      advance targetCapability sourceDiscovery current source ≠ .enabled stage) :
+    IsEmpty (sourceDiscovery.Seed (current source.output)) := by
+  constructor
+  intro seed
+  cases outcomeEq : advance targetCapability sourceDiscovery current source with
+  | enabled stage => exact (notEnabled stage outcomeEq).elim
+  | disabled reject _discovered => exact reject seed
 
-theorem enabled_generates
+@[simp] theorem source_tactic_id
     {P : Core.Problem.{uAmbient, uBranch}}
     {Target : P.Ambient → Prop}
     {capability : CT2.Capability.{uAmbient, uBranch, uCT2Piece, uInterface,
@@ -173,18 +193,10 @@ theorem enabled_generates
     (targetCapability : CT10.Capability.{uAmbient, uBranch, uDatum, uClass,
       uPromotion} P)
     (sourceDiscovery : DataDiscovery
-      (CT2.CriticalityResidual capability ctx input) targetCapability.Datum)
-    (source : CT2.CriticalityResidual capability ctx input)
-    (seed : (rule targetCapability sourceDiscovery).Seed source)
-    (enabled : sourceDiscovery.discover source = .enabled seed) :
-    ((rule targetCapability sourceDiscovery).attempt source).generated? =
-      some ((rule targetCapability sourceDiscovery).generate source seed) := by
-  change (rule targetCapability sourceDiscovery).discover source =
-    .enabled seed at enabled
-  simp [Core.Routing.RouteRule.attempt, enabled,
-    Core.Routing.Attempt.generated?]
+      (CT2.CriticalityResidual capability ctx input) targetCapability.Datum) :
+    (transition targetCapability sourceDiscovery).sourceTacticId = "CT2" := rfl
 
-theorem disabled_generates_none
+@[simp] theorem target_tactic_id
     {P : Core.Problem.{uAmbient, uBranch}}
     {Target : P.Ambient → Prop}
     {capability : CT2.Capability.{uAmbient, uBranch, uCT2Piece, uInterface,
@@ -194,17 +206,10 @@ theorem disabled_generates_none
     (targetCapability : CT10.Capability.{uAmbient, uBranch, uDatum, uClass,
       uPromotion} P)
     (sourceDiscovery : DataDiscovery
-      (CT2.CriticalityResidual capability ctx input) targetCapability.Datum)
-    (source : CT2.CriticalityResidual capability ctx input)
-    (reject : (rule targetCapability sourceDiscovery).Seed source → False)
-    (disabled : sourceDiscovery.discover source = .disabled reject) :
-    ((rule targetCapability sourceDiscovery).attempt source).generated? = none := by
-  change (rule targetCapability sourceDiscovery).discover source =
-    .disabled reject at disabled
-  simp [Core.Routing.RouteRule.attempt, disabled,
-    Core.Routing.Attempt.generated?]
+      (CT2.CriticalityResidual capability ctx input) targetCapability.Datum) :
+    (transition targetCapability sourceDiscovery).targetTacticId = "CT10" := rfl
 
-theorem generated_route_id
+@[simp] theorem transition_profile_id
     {P : Core.Problem.{uAmbient, uBranch}}
     {Target : P.Ambient → Prop}
     {capability : CT2.Capability.{uAmbient, uBranch, uCT2Piece, uInterface,
@@ -214,24 +219,19 @@ theorem generated_route_id
     (targetCapability : CT10.Capability.{uAmbient, uBranch, uDatum, uClass,
       uPromotion} P)
     (sourceDiscovery : DataDiscovery
-      (CT2.CriticalityResidual capability ctx input) targetCapability.Datum)
-    (source : CT2.CriticalityResidual capability ctx input)
-    (seed : (rule targetCapability sourceDiscovery).Seed source) :
-    ((rule targetCapability sourceDiscovery).generate source seed).routeId =
-      "CT2.residual.criticality->CT10" :=
-  rfl
+      (CT2.CriticalityResidual capability ctx input) targetCapability.Datum) :
+    (transition targetCapability sourceDiscovery).profileId = transitionId := rfl
 
-def routeContract : Core.RouteContract where
-  routeId := "CT2.residual.criticality->CT10"
-  sourceResidualKind := "CT2.residual.criticality"
+def transitionContract : Core.CTTransitionProfileContract where
+  profileId := transitionId
+  sourceTacticId := "CT2"
   targetTacticId := "CT10"
-  discovery := "StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery.discover"
-  triggerConstructor := "StructuralExhaustion.Routes.CT2ToCT10.buildTrigger"
-  soundnessTheorem := "StructuralExhaustion.Routes.CT2ToCT10.enabled_generates"
-  contextPreservationTheorem :=
-    "StructuralExhaustion.Routes.CT2ToCT10.branchContext_preserved"
-  provenanceTheorem :=
-    "StructuralExhaustion.Routes.CT2ToCT10.generated_route_id"
+  sourceResidualKind := "CT2.residual.criticality"
+  targetExecutableInterface :=
+    "StructuralExhaustion.CT10.Capability.executableInterface"
+  transitionConstructor :=
+    "StructuralExhaustion.Routes.CT2ToCT10.transition"
+  advanceExecutor := "StructuralExhaustion.Routes.CT2ToCT10.advance"
   selectionClass := .forced
   semanticDiscovery := .problemSemanticAdapter
     "StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery"

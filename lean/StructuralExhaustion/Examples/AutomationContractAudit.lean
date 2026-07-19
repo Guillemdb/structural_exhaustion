@@ -15,6 +15,7 @@ import StructuralExhaustion.CT14.Automation
 import StructuralExhaustion.CT15.Automation
 import StructuralExhaustion.CT16.Automation
 import StructuralExhaustion.CT17.Automation
+import StructuralExhaustion.Canonical.Registry
 
 namespace StructuralExhaustion.Examples.AutomationContractAudit
 
@@ -217,5 +218,44 @@ example : contractsValid CT16.capabilityContract ct16Nodes
     CT16.nodeAutomationContracts = true := by decide
 example : contractsValid CT17.capabilityContract ct17Nodes
     CT17.nodeAutomationContracts = true := by decide
+
+def registeredTransitionProfileIds : List String :=
+  Canonical.transitionProfiles.map (·.contract.profileId)
+
+/-- Every registered transition profile has a unique semantic profile ID and
+uses a framework-owned full-ledger executor.  Executor declarations may be
+shared: the accumulated transition API is deliberately the single owner for
+all ordinary CT-pair compositions. -/
+def registeredTransitionProfilesValid : Bool :=
+  nodupStrings registeredTransitionProfileIds &&
+  Canonical.transitionProfiles.all fun profile =>
+    profile.advanceDeclaration.toString.startsWith
+      "StructuralExhaustion.Routes."
+
+example : registeredTransitionProfilesValid = true := by native_decide
+
+example : Canonical.registeredTransitionAutomation?
+    "CT1.terminal.c1->CT12" =
+      some `StructuralExhaustion.Routes.CT1ToCT12.advance := by
+  native_decide
+
+example : Canonical.registeredTransitionAutomation?
+    "CT6.residual.activeLedger->CT9" =
+      some `StructuralExhaustion.Routes.CT6ToCT9.advance := by
+  native_decide
+
+def transitionOnlyLink : Canonical.ExampleLinkDescriptor := {
+  linkId := "fixture.ct1-ct12"
+  sourceStageId := "fixture.ct1"
+  targetStageId := "fixture.ct12"
+  kind := .registeredTransition
+  label := "registered transition"
+  description := "The transition profile ID owns the executable handoff."
+  transitionProfileId? := some "CT1.terminal.c1->CT12"
+}
+
+example : transitionOnlyLink.resolvedAutomationDeclarations =
+    [`StructuralExhaustion.Routes.CT1ToCT12.advance] := by
+  native_decide
 
 end StructuralExhaustion.Examples.AutomationContractAudit

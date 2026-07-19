@@ -193,15 +193,14 @@ noncomputable def runSurvivingSubcubicStage
 
 theorem f4_event_has_produced_origin
     (prior : ProducedPriorD6State (ctx := ctx)) (stage : package.Stage)
-    (hit : package.D6F4Hit (prior.ledger (package := package)) stage) :
-    ((∃ entry ∈ prior.ordinary.entries, hit.event = .ordinary entry) ∨
-      (∃ entry ∈ prior.typeB.entries, hit.event = .decorated entry)) ∨
-      (∃ entry ∈ prior.routeEight.entries, hit.event = .routeEight entry) := by
-  rcases ProducedPriorD6State.event_origin package prior hit.event hit.eventMem with
-    ordinary | decorated | routeEight
-  · exact Or.inl (Or.inl ordinary)
-  · exact Or.inl (Or.inr decorated)
-  · exact Or.inr routeEight
+    (hit : package.D6F4Hit prior stage) :
+    ((∃ entry : P13ProducedPriorSupportLedger.Node64To65Ordinary (ctx := ctx),
+        hit.event = .ordinary entry) ∨
+      (∃ entry : TypeBProducedSupportLedgerConnector.RecordedDecoratedHandoff
+          (ctx := ctx), hit.event = .decorated entry)) ∨
+      (∃ entry : P13ProducedPriorSupportLedger.RecordedRouteEightExtraction
+          (ctx := ctx), hit.event = .routeEight entry) :=
+  hit.exact_typeB_or_routeEight
 
 end P13WeightedColdRestrictedPrefixPackage
 

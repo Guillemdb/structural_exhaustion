@@ -93,13 +93,12 @@ theorem geometricClassificationWork_eq
   rw [Graph.SurplusPatternCoarseRouting.patternPairs_length]
   cases homogeneous <;> norm_num
 
-/-- Verified prefix through the exact finite geometric classification.  This
-records the live semantic residual rather than pretending node 144 has been
-discharged. -/
-structure VerifiedGeometricBottleneckClassificationPrefix
+/-- Exact finite geometric obligations accumulated on the full homogeneous
+CT9 ledger.  This records the live semantic residual rather than pretending
+node 144 has been discharged. -/
+structure GeometricBottleneckClassificationFacts
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
     Prop where
-  previous : VerifiedHomogeneousPatternPrefix ctx
   classification : ∀
       (overload : (coupledClassProfile ctx 49 49 49).Overload
         ctx.toBranchContext (coupledClassItems ctx))
@@ -108,24 +107,48 @@ structure VerifiedGeometricBottleneckClassificationPrefix
         (coupledOverloadClassRoute ctx 49 49 49 overload)),
       Nonempty (CoarseBottleneckClassification ctx overload homogeneous)
 
+abbrev GeometricBottleneckClassificationLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedHomogeneousPatternPrefix ctx) :=
+  Core.Routing.LedgerExtension
+    (HomogeneousPatternLedger ctx previous.1)
+    (fun _ledger => GeometricBottleneckClassificationFacts ctx)
+
+abbrev VerifiedGeometricBottleneckClassificationPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Sigma fun previous : VerifiedHomogeneousPatternPrefix ctx =>
+    Core.Routing.ResidualStage .ct9
+      (GeometricBottleneckClassificationLedger ctx previous)
+
 noncomputable def verifiedGeometricBottleneckClassificationPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedHomogeneousPatternPrefix ctx) :
-    VerifiedGeometricBottleneckClassificationPrefix ctx where
-  previous := previous
-  classification := fun overload homogeneous =>
-    ⟨coarseBottleneckClassification ctx overload homogeneous⟩
+    VerifiedGeometricBottleneckClassificationPrefix ctx :=
+  let stage := (homogeneousPatternLedgerStage ctx previous).extend {
+    classification := fun overload homogeneous =>
+      ⟨coarseBottleneckClassification ctx overload homogeneous⟩
+  }
+  ⟨previous, stage⟩
+
+/-- Canonical complete CT9 stage carrying the geometric node-`[144]`
+predecessor classification. -/
+noncomputable def geometricBottleneckClassificationLedgerStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedGeometricBottleneckClassificationPrefix ctx) :
+    Core.Routing.ResidualStage .ct9
+      (GeometricBottleneckClassificationLedger ctx verified.1) :=
+  verified.2
 
 theorem exists_verifiedGeometricBottleneckClassificationPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedGeometricBottleneckClassificationPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedGeometricBottleneckClassificationPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedHomogeneousPatternPrefix object baseline avoids
-  exact ⟨ctx, rankLe,
-    verifiedGeometricBottleneckClassificationPrefix ctx previous⟩
+  exact ⟨ctx,
+    verifiedGeometricBottleneckClassificationPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

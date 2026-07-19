@@ -107,7 +107,7 @@ private def coloringWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "coloring.certificate"
       kind := .frameworkComposition
       label := "repeated reverse fold"
-      description := "Problem-specific recursion repeatedly invokes CT4 and inserts each selected color into the partial coloring."
+      description := "The framework-owned reverse fold repeatedly invokes CT4 and inserts each selected color into the partial coloring."
       evidenceDeclarations := [`StructuralExhaustion.Graph.GreedyColoring.colorOrder]
     },
     {

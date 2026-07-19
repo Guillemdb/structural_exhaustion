@@ -23,7 +23,7 @@ structure VerifiedP13Node28PositiveDeficiency
     (node24 : VerifiedP13Node24FiniteDensityHandoff ctx node21)
     (node26 : VerifiedP13Node26RemainderContinuation ctx node21 node24)
     (node27 : VerifiedP13Node27NoInternalThreeCore ctx node21 node24 node26) :
-    Type (u + 1) extends Core.ExactHandoff node27 where
+    Type (u + 3) extends Core.ExactHandoff node27 where
   accounting : VerifiedP13PositiveDeficiencyPrefix ctx
   exactFormula :
     (p13RemainderDeficiencyProfile ctx).positiveDeficiency =

@@ -1,4 +1,3 @@
-import StructuralExhaustion.Core.FiniteProducedSupportLedger
 import StructuralExhaustion.Core.ResidualRefinement
 import StructuralExhaustion.Graph.FiniteResidualSupportLedger
 
@@ -6,14 +5,14 @@ namespace StructuralExhaustion.Graph.ResidualSupportRefinement
 
 open StructuralExhaustion
 
-universe uOccurrence uEvent uVertex
+universe uOccurrence uEvent uVertex uStage
 
 /-!
 # Accumulated graph-support residuals
 
 This profile joins the persistent occurrence ledger, accumulated theorem
-state, declared graph support, ordered first-hit recognition, and legacy list
-materialization.  An application supplies only its event support function.
+state, declared graph support, and ordered first-hit recognition.  An
+application supplies only its event support function.
 -/
 
 variable {Event : Type uEvent}
@@ -42,32 +41,14 @@ noncomputable def view (profile : Profile (Event := Event) Vertex)
   support := fun occurrence =>
     profile.support (ledger.residuals.event occurrence)
 
-/-- Framework-owned compatibility projection for a list-indexed consumer.
-The list is definitionally the current occurrence order mapped through the
-event function. -/
-noncomputable def materialize
+/-- Support view of a bare producer schedule before any theorem refinement.
+The framework supplies the empty accumulated state internally. -/
+noncomputable def viewSchedule
     (profile : Profile (Event := Event) Vertex)
-    (ledger : Core.ResidualRefinement.Ledger.{uOccurrence, uEvent}
-      Event facts) :
-    Core.FiniteProducedSupportLedger.Ledger Event Vertex where
-  entries := ledger.events
-  vertexDecEq := profile.vertexDecEq
-  support := profile.support
-
-@[simp] theorem materialize_entries
-    (profile : Profile (Event := Event) Vertex)
-    (ledger : Core.ResidualRefinement.Ledger.{uOccurrence, uEvent}
-      Event facts) :
-    (profile.materialize ledger).entries = ledger.events :=
-  rfl
-
-theorem event_mem_materialize
-    (profile : Profile (Event := Event) Vertex)
-    (ledger : Core.ResidualRefinement.Ledger.{uOccurrence, uEvent}
-      Event facts) (occurrence : ledger.residuals.Occurrence) :
-    ledger.residuals.event occurrence ∈
-      (profile.materialize ledger).entries :=
-  ledger.event_mem_events occurrence
+    (schedule : Core.FiniteResidualLedger.Ledger.{uOccurrence, uEvent}
+      Event) :
+    FiniteResidualSupportLedger.View schedule Vertex :=
+  profile.view (Core.ResidualRefinement.Ledger.initial schedule)
 
 /-- A first graph-support hit together with the current accumulated theorem
 state for that literal occurrence. -/
@@ -103,6 +84,21 @@ def get {property : Event → Prop}
     (position : Core.ResidualRefinement.Proofs.Member property facts) :
     property hit.state.residual :=
   hit.state.get position
+
+/-- Retrieve an inherited occurrence fact by predicate type. -/
+def require {property : Event → Prop}
+    (hit : FirstHit profile ledger vertex)
+    [Core.ResidualRefinement.Proofs.Contains property facts] :
+    property hit.state.residual :=
+  hit.state.require
+
+/-- Retrieve an inherited occurrence certificate by its stage type. -/
+noncomputable def requireStage {Stage : Event → Sort uStage}
+    (hit : FirstHit profile ledger vertex)
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available Stage) facts] :
+    Stage hit.state.residual :=
+  hit.state.requireStage
 
 /-- Enrich the hit state with the newly established support-membership fact;
 all producer and earlier-node facts remain available. -/

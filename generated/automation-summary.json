@@ -39,7 +39,7 @@
       "tacticId": "CT4",
       "authorDefinitions": 9,
       "inferredInstances": 1,
-      "derivedOperations": 8,
+      "derivedOperations": 9,
       "capabilityProfiles": [
         "StructuralExhaustion.CT4.profile.functionalCardinality"
       ],
@@ -65,7 +65,7 @@
       "tacticId": "CT7",
       "authorDefinitions": 6,
       "inferredInstances": 1,
-      "derivedOperations": 4,
+      "derivedOperations": 5,
       "capabilityProfiles": [],
       "manualObligations": 0
     },
@@ -73,7 +73,7 @@
       "tacticId": "CT8",
       "authorDefinitions": 8,
       "inferredInstances": 0,
-      "derivedOperations": 5,
+      "derivedOperations": 6,
       "capabilityProfiles": [],
       "manualObligations": 0
     },
@@ -81,7 +81,7 @@
       "tacticId": "CT9",
       "authorDefinitions": 5,
       "inferredInstances": 0,
-      "derivedOperations": 31,
+      "derivedOperations": 32,
       "capabilityProfiles": [
         "StructuralExhaustion.CT9.profile.parityCapacityOne"
       ],
@@ -91,7 +91,7 @@
       "tacticId": "CT10",
       "authorDefinitions": 8,
       "inferredInstances": 1,
-      "derivedOperations": 6,
+      "derivedOperations": 7,
       "capabilityProfiles": [],
       "manualObligations": 0
     },
@@ -99,7 +99,7 @@
       "tacticId": "CT11",
       "authorDefinitions": 4,
       "inferredInstances": 1,
-      "derivedOperations": 5,
+      "derivedOperations": 6,
       "capabilityProfiles": [
         "StructuralExhaustion.CT11.profile.negativeBudget"
       ],
@@ -109,7 +109,7 @@
       "tacticId": "CT12",
       "authorDefinitions": 6,
       "inferredInstances": 0,
-      "derivedOperations": 6,
+      "derivedOperations": 7,
       "capabilityProfiles": [
         "StructuralExhaustion.CT12.profile.listPeeling",
         "StructuralExhaustion.CT12.profile.disjointPacking",
@@ -121,7 +121,7 @@
       "tacticId": "CT13",
       "authorDefinitions": 14,
       "inferredInstances": 2,
-      "derivedOperations": 5,
+      "derivedOperations": 6,
       "capabilityProfiles": [],
       "manualObligations": 0
     },
@@ -129,7 +129,7 @@
       "tacticId": "CT14",
       "authorDefinitions": 7,
       "inferredInstances": 1,
-      "derivedOperations": 5,
+      "derivedOperations": 6,
       "capabilityProfiles": [],
       "manualObligations": 0
     },
@@ -137,7 +137,7 @@
       "tacticId": "CT15",
       "authorDefinitions": 6,
       "inferredInstances": 1,
-      "derivedOperations": 8,
+      "derivedOperations": 9,
       "capabilityProfiles": [],
       "manualObligations": 0
     },
@@ -145,7 +145,7 @@
       "tacticId": "CT16",
       "authorDefinitions": 8,
       "inferredInstances": 2,
-      "derivedOperations": 2,
+      "derivedOperations": 3,
       "capabilityProfiles": [],
       "manualObligations": 0
     },
@@ -153,7 +153,7 @@
       "tacticId": "CT17",
       "authorDefinitions": 14,
       "inferredInstances": 2,
-      "derivedOperations": 8,
+      "derivedOperations": 9,
       "capabilityProfiles": [],
       "manualObligations": 0
     }

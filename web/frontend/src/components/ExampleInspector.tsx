@@ -12,7 +12,10 @@ import type {
 import { MathFormula } from "./MathFormula";
 
 const relationDescriptions: Record<ExampleLink["kind"], string> = {
-  registeredRoute: "A route registered and checked by the structural-exhaustion framework.",
+  registeredRoute:
+    "A route registered by the earlier structural-exhaustion contract; it maps to the corresponding transition profile.",
+  registeredTransition:
+    "A transition profile registered and checked by the structural-exhaustion framework.",
   frameworkComposition: "Problem-specific orchestration between framework components.",
   proofData: "The earlier stage supplies proved data consumed by the later stage.",
   validation: "A closure tactic validates a certificate or result built elsewhere.",
@@ -269,7 +272,9 @@ export function ExampleInspector({
             <span aria-hidden="true">→</span>
             <span>{target?.title ?? link.targetStageId}</span>
           </div>
-          {link.routeId ? <code className="route-id">{link.routeId}</code> : null}
+          {link.transitionProfileId ? (
+            <code className="transition-profile-id">{link.transitionProfileId}</code>
+          ) : null}
         </section>
         {link.automationDeclarationIds.length ? (
           <section>

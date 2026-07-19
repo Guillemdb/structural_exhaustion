@@ -117,35 +117,32 @@ noncomputable def reserveFreeCandidate (reserve : TypeBVertexReserve ctx)
 
 end CertificateClosedMarkedFan
 
-/-- Both Type B local branches now expose framework-defined concrete
-candidate fibres. -/
-structure VerifiedTypeBCandidateFibresPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedPositiveDeficitCandidatePrefix ctx
-  certificateCandidateExists : ∀ (marked : CertificateClosedMarkedFan ctx)
+/-- Same-prefix extension exposing the certificate-closed candidate fibre. -/
+abbrev VerifiedTypeBCandidateFibresPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.LedgerExtension (VerifiedPositiveDeficitCandidatePrefix ctx)
+    (fun _previous => ∀ (marked : CertificateClosedMarkedFan ctx)
     (reserve : CertificateClosedMarkedFan.TypeBVertexReserve ctx),
     (∀ port,
       ¬reserve.Used (Graph.HighCenterPort.endpoint ctx.G.object
-        marked.fan.center port)) → Nonempty (marked.Candidate reserve)
+        marked.fan.center port)) → Nonempty (marked.Candidate reserve))
 
 noncomputable def verifiedTypeBCandidateFibresPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedPositiveDeficitCandidatePrefix ctx) :
-    VerifiedTypeBCandidateFibresPrefix ctx where
-  previous := previous
-  certificateCandidateExists := fun marked reserve reserveFree =>
-    ⟨marked.reserveFreeCandidate reserve reserveFree⟩
+    VerifiedTypeBCandidateFibresPrefix ctx :=
+  ⟨previous, fun marked reserve reserveFree =>
+    ⟨marked.reserveFreeCandidate reserve reserveFree⟩⟩
 
 theorem exists_verifiedTypeBCandidateFibresPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedTypeBCandidateFibresPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedTypeBCandidateFibresPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedPositiveDeficitCandidatePrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedTypeBCandidateFibresPrefix ctx previous⟩
+  exact ⟨ctx, verifiedTypeBCandidateFibresPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

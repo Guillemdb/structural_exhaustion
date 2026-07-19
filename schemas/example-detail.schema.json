@@ -61,7 +61,17 @@
       "properties": {
         "kind": {"const": "compiledLeanEnvironment"},
         "rootModule": {"$ref": "#/$defs/nonemptyString"},
-        "descriptor": {"$ref": "#/$defs/nonemptyString"}
+        "descriptor": {"$ref": "#/$defs/nonemptyString"},
+        "descriptorSource": {
+          "description": "Fresh exports include the owning Lean source and hash. Legacy artifacts without this field must be displayed as needing regeneration.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256"],
+          "properties": {
+            "path": {"$ref": "#/$defs/nonemptyString"},
+            "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+          }
+        }
       }
     },
     "stage": {
@@ -90,6 +100,16 @@
     "link": {
       "type": "object",
       "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {"kind": {"const": "registeredTransition"}},
+            "required": ["kind"]
+          },
+          "then": {"required": ["transitionProfileId"]},
+          "else": {"not": {"required": ["transitionProfileId"]}}
+        }
+      ],
       "required": [
         "linkId", "sourceStageId", "targetStageId", "kind", "label",
         "summary", "automationDeclarationIds", "evidenceDeclarationIds"
@@ -100,13 +120,13 @@
         "targetStageId": {"$ref": "#/$defs/identifier"},
         "kind": {
           "enum": [
-            "registeredRoute", "frameworkComposition", "proofData", "validation",
+            "registeredTransition", "frameworkComposition", "proofData", "validation",
             "scheduleAudit", "sharedProblem"
           ]
         },
         "label": {"$ref": "#/$defs/nonemptyString"},
         "summary": {"$ref": "#/$defs/nonemptyString"},
-        "routeId": {"$ref": "#/$defs/nonemptyString"},
+        "transitionProfileId": {"$ref": "#/$defs/nonemptyString"},
         "automationDeclarationIds": {
           "type": "array",
           "uniqueItems": true,
@@ -393,6 +413,23 @@
         }
       }
     },
+    "nodeObligation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nodeId", "obligationId", "title", "statement", "status", "evidenceStepIds"],
+      "properties": {
+        "nodeId": {"type": "integer", "minimum": 1},
+        "obligationId": {"$ref": "#/$defs/identifier"},
+        "title": {"$ref": "#/$defs/nonemptyString"},
+        "statement": {"$ref": "#/$defs/nonemptyString"},
+        "status": {"enum": ["proved", "partial", "missing"]},
+        "evidenceStepIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/identifier"}
+        }
+      }
+    },
     "declarationGroup": {
       "type": "object",
       "additionalProperties": false,
@@ -466,6 +503,10 @@
           "type": "array",
           "uniqueItems": true,
           "items": {"type": "integer", "minimum": 1}
+        },
+        "nodeObligations": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/nodeObligation"}
         },
         "proofSteps": {
           "type": "array",

@@ -146,6 +146,50 @@ def trusted_source_path(
     return relative, candidate
 
 
+def descriptor_source(
+    source_of_truth: dict[str, Any], source_root: Path
+) -> dict[str, str]:
+    """Resolve and hash the Lean file that owns an example descriptor.
+
+    Declaration evidence already carries source hashes, but the private catalog
+    descriptor itself is intentionally not part of the displayed proof surface.
+    Recording its owning file closes that freshness gap: changing WebExport.lean
+    now makes an otherwise internally consistent generated catalog stale.
+    """
+
+    descriptor = source_of_truth["descriptor"]
+    if "." not in descriptor:
+        raise ExampleCatalogError(
+            f"descriptor {descriptor!r} does not name a declaration in a module"
+        )
+    module = descriptor.rsplit(".", 1)[0]
+    matching_roots = [
+        prefix
+        for prefix in TRUSTED_MODULE_ROOTS
+        if module == prefix or module.startswith(prefix + ".")
+    ]
+    if not matching_roots:
+        raise ExampleCatalogError(
+            f"descriptor module {module!r} is not in a trusted package"
+        )
+    prefix = max(matching_roots, key=len)
+    package_root = (source_root / TRUSTED_MODULE_ROOTS[prefix]).resolve()
+    source_file = Path(module.replace(".", "/") + ".lean")
+    try:
+        candidate = (package_root / source_file).resolve(strict=True)
+    except OSError as error:
+        raise ExampleCatalogError(
+            f"descriptor source is unavailable: {source_file.as_posix()}"
+        ) from error
+    try:
+        candidate.relative_to(package_root)
+        relative = candidate.relative_to(source_root.resolve()).as_posix()
+    except ValueError as error:
+        raise ExampleCatalogError("descriptor source escapes the repository") from error
+    source_bytes = candidate.read_bytes()
+    return {"path": relative, "sha256": sha256_bytes(source_bytes)}
+
+
 def raw_position_key(position: dict[str, int]) -> tuple[int, int]:
     return position["line"], position["column"]
 
@@ -258,12 +302,16 @@ def hydrate_example(
 ) -> dict[str, Any]:
     raw = raw_artifact["example"]
     builder = DetailBuilder(source_root)
+    source_of_truth = {
+        **raw_artifact["sourceOfTruth"],
+        "descriptorSource": descriptor_source(
+            raw_artifact["sourceOfTruth"], source_root
+        ),
+    }
     tactic_ids_in_catalog = {tactic["tacticId"] for tactic in catalog["tactics"]}
-    routes = {route["routeId"]: route for route in catalog["routes"]}
-    residual_owner = {
-        residual["residualKindId"]: tactic["tacticId"]
-        for tactic in catalog["tactics"]
-        for residual in tactic["residualKinds"]
+    transition_profiles = {
+        profile["profileId"]: profile
+        for profile in catalog["transitionProfiles"]
     }
 
     if raw["proofStatus"] == "complete" and any(
@@ -323,30 +371,47 @@ def hydrate_example(
                 )
             if source_id == target_id:
                 raise ExampleCatalogError(f"link {link['linkId']}: self-link is invalid")
-            route_id = link["routeId"]
-            if link["kind"] == "registeredRoute":
-                if route_id is None or route_id not in routes:
+            transition_profile_id = link["transitionProfileId"]
+            transition_profile: dict[str, Any] | None = None
+            if link["kind"] == "registeredTransition":
+                if (
+                    transition_profile_id is None
+                    or transition_profile_id not in transition_profiles
+                ):
                     raise ExampleCatalogError(
-                        f"link {link['linkId']}: unknown registered route {route_id!r}"
+                        f"link {link['linkId']}: unknown registered transition "
+                        f"profile {transition_profile_id!r}"
                     )
-                route = routes[route_id]
+                transition_profile = transition_profiles[transition_profile_id]
                 source_tactic = workflow_stages[source_id].get("tacticId")
                 target_tactic = workflow_stages[target_id].get("tacticId")
-                expected_source = residual_owner.get(route["sourceResidualKind"])
-                if source_tactic != expected_source or target_tactic != route["targetTacticId"]:
+                if (
+                    source_tactic != transition_profile["sourceTacticId"]
+                    or target_tactic != transition_profile["targetTacticId"]
+                ):
                     raise ExampleCatalogError(
-                        f"link {link['linkId']}: route {route_id} expects "
-                        f"{expected_source} -> {route['targetTacticId']}, got "
+                        f"link {link['linkId']}: transition profile "
+                        f"{transition_profile_id} expects "
+                        f"{transition_profile['sourceTacticId']} -> "
+                        f"{transition_profile['targetTacticId']}, got "
                         f"{source_tactic} -> {target_tactic}"
                     )
-            elif route_id is not None:
+            elif transition_profile_id is not None:
                 raise ExampleCatalogError(
-                    f"link {link['linkId']}: only registeredRoute links may name a route"
+                    f"link {link['linkId']}: only registeredTransition links may "
+                    "name a transition profile"
                 )
 
             automation_ids = builder.declaration_ids(
                 link["automationDeclarations"]
             )
+            if transition_profile is not None and automation_ids != [
+                transition_profile["advanceExecutor"]
+            ]:
+                raise ExampleCatalogError(
+                    f"link {link['linkId']}: registered transition automation must "
+                    "be its canonical full-ledger advance executor"
+                )
             source_tactic = workflow_stages[source_id].get("tacticId")
             target_tactic = workflow_stages[target_id].get("tacticId")
             cross_tactic = (
@@ -380,8 +445,8 @@ def hydrate_example(
                     link["evidenceDeclarations"]
                 ),
             }
-            if route_id is not None:
-                normalized_link["routeId"] = route_id
+            if transition_profile_id is not None:
+                normalized_link["transitionProfileId"] = transition_profile_id
             links.append(normalized_link)
 
         workflow_values.append(
@@ -465,7 +530,9 @@ def hydrate_example(
             )
         unique([step["stepId"] for step in proof_steps], "proof step IDs")
         mapped_stage_ids = [
-            step["stageId"] for step in proof_steps if step["stageId"] is not None
+            step.get("stageId")
+            for step in proof_steps
+            if step.get("stageId") is not None
         ]
         unique(mapped_stage_ids, "proof-step stage IDs")
         if set(mapped_stage_ids) != set(stages_by_id):
@@ -492,7 +559,7 @@ def hydrate_example(
         explained_declarations: set[str] = set()
         displayed_declarations: set[str] = set()
         for step in proof_steps:
-            stage_id = step["stageId"]
+            stage_id = step.get("stageId")
             if step["status"] == "implemented" and stage_id is None:
                 raise ExampleCatalogError(
                     f"implemented proof step {step['stepId']} has no stage"
@@ -583,6 +650,74 @@ def hydrate_example(
                 normalized_step["stageId"] = stage_id
             normalized_steps.append(normalized_step)
 
+        node_obligations = raw_manuscript.get("nodeObligations", [])
+        unique(
+            [obligation["obligationId"] for obligation in node_obligations],
+            "manuscript obligation IDs",
+        )
+        steps_by_id = {step["stepId"]: step for step in proof_steps}
+        obligations_by_node: dict[int, list[dict[str, Any]]] = {}
+        normalized_obligations: list[dict[str, Any]] = []
+        for obligation in node_obligations:
+            node_id = obligation["nodeId"]
+            obligation_id = obligation["obligationId"]
+            if node_id not in known_nodes:
+                raise ExampleCatalogError(
+                    f"manuscript obligation {obligation_id}: unknown node {node_id}"
+                )
+            evidence_step_ids = obligation["evidenceStepIds"]
+            unique(
+                evidence_step_ids,
+                f"evidence step IDs in obligation {obligation_id}",
+            )
+            status = obligation["status"]
+            if status == "missing" and evidence_step_ids:
+                raise ExampleCatalogError(
+                    f"missing obligation {obligation_id} claims evidence"
+                )
+            if status != "missing" and not evidence_step_ids:
+                raise ExampleCatalogError(
+                    f"non-missing obligation {obligation_id} has no evidence"
+                )
+            for step_id in evidence_step_ids:
+                step = steps_by_id.get(step_id)
+                if step is None:
+                    raise ExampleCatalogError(
+                        f"obligation {obligation_id}: unknown proof step {step_id}"
+                    )
+                if status != "missing" and step["status"] != "implemented":
+                    raise ExampleCatalogError(
+                        f"non-missing obligation {obligation_id} uses "
+                        f"unimplemented step {step_id}"
+                    )
+                if not any(
+                    node_id in reference["nodeIds"]
+                    for reference in step["manuscriptRefs"]
+                ):
+                    raise ExampleCatalogError(
+                        f"obligation {obligation_id}: evidence step {step_id} "
+                        f"does not cite node {node_id}"
+                    )
+            normalized = {
+                "nodeId": node_id,
+                "obligationId": obligation_id,
+                "title": obligation["title"],
+                "statement": obligation["statement"],
+                "status": status,
+                "evidenceStepIds": evidence_step_ids,
+            }
+            normalized_obligations.append(normalized)
+            obligations_by_node.setdefault(node_id, []).append(normalized)
+
+        for node_id, obligations in obligations_by_node.items():
+            all_proved = all(
+                obligation["status"] == "proved" for obligation in obligations
+            )
+            if all_proved != (node_id in formalized_node_ids):
+                raise ExampleCatalogError(
+                    f"node {node_id} green status disagrees with its obligation ledger"
+                )
+
         mathematical_object_labels = set(
             rendered_manuscript["mathematicalObjectLabels"]
         )
@@ -613,6 +748,7 @@ def hydrate_example(
             "sha256": rendered_manuscript["sha256"],
             "fragments": rendered_manuscript["fragments"],
             "formalizedNodeIds": formalized_node_ids,
+            "nodeObligations": normalized_obligations,
             "proofSteps": normalized_steps,
             "coverage": {
                 "implementedSteps": len(implemented_steps),
@@ -632,7 +768,7 @@ def hydrate_example(
     detail = {
         "artifactType": "structuralExhaustionExample",
         "schemaVersion": "1.4.0",
-        "sourceOfTruth": raw_artifact["sourceOfTruth"],
+        "sourceOfTruth": source_of_truth,
         "exampleId": raw["exampleId"],
         "title": raw["title"],
         "summary": raw["summary"],

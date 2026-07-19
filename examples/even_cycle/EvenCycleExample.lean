@@ -1,16 +1,4 @@
 import EvenCycleExample.Run
 import EvenCycleExample.Concrete
-import EvenCycleExample.CT1InducedEdge
-import EvenCycleExample.CT12MaximalMatching
-import EvenCycleExample.CT12RefinedLedgerCompletion
-import EvenCycleExample.CT2Audit
-import EvenCycleExample.CT3SeriesReduction
-import EvenCycleExample.CT1FanWindowCycle
-import EvenCycleExample.CT9P13FanLabelPacking
-import EvenCycleExample.CT14CertificateClosedFanCharge
-import EvenCycleExample.CT14HighCenterDeletionCharge
-import EvenCycleExample.CT14TwoRoleFanMass
-import EvenCycleExample.SupportIndexedFanMass
-import EvenCycleExample.SurplusRoutingSupport
 
 /-! External-package entry point for the machine-checked even-cycle example. -/

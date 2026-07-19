@@ -69,24 +69,27 @@ def checks : Nat :=
   object.degree center * object.input.vertices.card +
     3 * object.degree center + 1
 
-structure VerifiedStage {P : Core.Problem.{uAmbient, uBranch}}
+abbrev Execution {P : Core.Problem.{uAmbient, uBranch}}
+    (context : Core.BranchContext P) :=
+  CT14.ExecutionResult
+    ((profile object center centerHigh deletionCritical Assigned
+      assignedDecidable).capability P) context
+
+/-- Graph consequences indexed by the literal CT14 result retained by an
+accumulated transition.  The graph layer does not execute CT14 itself. -/
+structure VerifiedExecutionStage {P : Core.Problem.{uAmbient, uBranch}}
     (context : Core.BranchContext P)
-    (degreeFour : object.degree center = 4) : Prop where
-  execution : (profile object center centerHigh deletionCritical Assigned
-    assignedDecidable).VerifiedStage context
-  verified : ((profile object center centerHigh deletionCritical Assigned
-    assignedDecidable).run context).outcome.Valid
+    (degreeFour : object.degree center = 4)
+    (execution : Execution object center centerHigh deletionCritical Assigned
+      assignedDecidable context) : Prop where
+  exactRun : execution =
+    (profile object center centerHigh deletionCritical Assigned
+      assignedDecidable).run context
+  verified : execution.outcome.Valid
   traceValid : @CT14.Graph.ValidTrace P
     ((profile object center centerHigh deletionCritical Assigned
       assignedDecidable).capability P) context
-    ((profile object center centerHigh deletionCritical Assigned
-      assignedDecidable).run context).trace
-  total : ∃ result : CT14.ExecutionResult
-      ((profile object center centerHigh deletionCritical Assigned
-        assignedDecidable).capability P) context,
-    result.outcome.Valid ∧ @CT14.Graph.ValidTrace P
-      ((profile object center centerHigh deletionCritical Assigned
-        assignedDecidable).capability P) context result.trace
+    execution.trace
   centerSurplus : object.degree center - 3 = 1
   closedCountLeFour : closedCount object center centerHigh deletionCritical
     Assigned assignedDecidable context ≤ 4
@@ -122,11 +125,16 @@ structure VerifiedStage {P : Core.Problem.{uAmbient, uBranch}}
   polynomial : checks object center ≤
     17 * (object.input.vertices.card + 1)
 
-def verifiedStage {P : Core.Problem.{uAmbient, uBranch}}
+def verifiedExecutionStage {P : Core.Problem.{uAmbient, uBranch}}
     (context : Core.BranchContext P)
-    (degreeFour : object.degree center = 4) :
-    VerifiedStage object center centerHigh deletionCritical Assigned
-      assignedDecidable context degreeFour := by
+    (degreeFour : object.degree center = 4)
+    (execution : Execution object center centerHigh deletionCritical Assigned
+      assignedDecidable context)
+    (exactRun : execution =
+      (profile object center centerHigh deletionCritical Assigned
+        assignedDecidable).run context) :
+    VerifiedExecutionStage object center centerHigh deletionCritical Assigned
+      assignedDecidable context degreeFour execution := by
   let fanProfile := profile object center centerHigh deletionCritical Assigned
     assignedDecidable
   have countLe : closedCount object center centerHigh deletionCritical Assigned
@@ -141,11 +149,13 @@ def verifiedStage {P : Core.Problem.{uAmbient, uBranch}}
         2 ≤ closedCount object center centerHigh deletionCritical Assigned
           assignedDecidable context := by omega
   refine {
-    execution := fanProfile.verifiedStage context
-    verified := CT14.run_verified _ _ (fanProfile.input context)
-    traceValid := CT14.run_trace_valid _ _ (fanProfile.input context)
-    total := CT14.run_total (fanProfile.capability P) context
-      (fanProfile.input context)
+    exactRun := exactRun
+    verified := by
+      rw [exactRun]
+      exact CT14.run_verified _ _ (fanProfile.input context)
+    traceValid := by
+      rw [exactRun]
+      exact CT14.run_trace_valid _ _ (fanProfile.input context)
     centerSurplus := by omega
     closedCountLeFour := countLe
     exactCases := by omega

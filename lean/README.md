@@ -2,7 +2,7 @@
 
 This directory contains the only authored implementation of CT1–CT17. The
 public API consists of primitive capability records, evidence-carrying reference
-runners, verified theorem surfaces, semantic residuals, and typed route rules.
+runners, verified theorem surfaces, semantic residuals, and executable typed transitions.
 
 Worked theorem instantiations are not part of this package. The even-cycle and
 partial Erdős Problem 64 applications live in
@@ -30,7 +30,7 @@ framework cannot derive:
 
 The framework owns finite search, exhaustive decisions, first-hit policy,
 state construction, certificates, residuals, graph edges, typed traces,
-soundness, totality, determinism, and typed route construction. A capability
+soundness, totality, determinism, and executable CT-transition construction. A capability
 field contains primitive semantics or a strictly local bridge; complete tactic
 outcomes, final theorems, and downstream tactic inputs are framework outputs.
 
@@ -79,7 +79,7 @@ Reusable profiles remove graph-problem boilerplate:
   explicit supports and proves that passing to the induced graph on the same
   support cannot lower minimum degree.
 - `Graph.EndpointParityCycle.Profile` generates the maximal-path CT6 run,
-  typed CT6-to-CT9 route, parity CT9 run, chord-cycle theorem, target proof,
+  typed CT6-to-CT9 transition, parity CT9 run, chord-cycle theorem, target proof,
   and final CT1 validation.
 - `Graph.GreedyColoring` derives the bounded order, CT12 peeling audit,
   CT4 coloring steps, Mathlib coloring certificate, and CT1 validation.
@@ -139,19 +139,35 @@ contains a path indexed by the actual terminal, and the public theorem surface
 proves soundness, totality, deterministic reference semantics, trace validity,
 and outcome exhaustiveness.
 
-## Routes
+## Executable CT transitions
 
-CT-local code emits only semantic residuals. Modules under
-`StructuralExhaustion/Routes` use `Core.Routing.RouteRule` to discover a target
-seed and construct its context-indexed trigger. The route type proves trigger
-compatibility; route theorems record shared-context preservation and stable
-provenance. Every `RouteContract` records an authoring boundary. CT1-to-CT2
-uses the target capability's generic discovery together with the shared
-minimality kernel. CT2-to-CT3 and CT2-to-CT10 each receive one reusable
-problem-specific semantic discovery adapter. CT6-to-CT9 receives a one-field
-item-collection adapter and is then forced. Those adapters extract consumer
-seed data; the framework constructs the trigger and proves the route. Producers
-never import consumers.
+Catalog schema 9 separates cross-CT execution into `transitionFamilies` and
+`transitionProfiles`. A family is fixed by the exact source and target
+`Core.CTId` values. A profile is one executable member of that family and may
+specialize the source residual, target executable interface, selection class,
+and semantic-discovery boundary without changing either CT identity. The
+modules under `StructuralExhaustion/Routes` implement these profiles; the
+namespace is organizational and does not define a second transport API.
+
+Every profile consumes a `Core.Routing.ResidualStage sourceTactic Ledger`,
+where `Ledger` is the complete accumulated residual. Its public `.advance`
+operation performs semantic discovery, constructs the target input, executes
+the target CT's public interface, retains the exact predecessor, and records
+transition provenance. Applications must invoke `.advance` and may continue
+only through the enabled stage's `.ledgerStage`. A bare target result, local
+residual wrapper, or separately constructed target input cannot become the
+next CT stage.
+
+`Core.Routing.PointwiseExecutableFamily` handles a public CT execution at each
+local index. Its executable interface returns the dependent function of those
+pointwise executions; it performs no enumeration and requires no `FinEnum`,
+list, scan, or synthesized index universe.
+
+A graph-level producer that is not a CT residual uses
+`Core.SemanticHandoffContract`. That record documents the source residual,
+consumer, semantic discovery, input constructor, soundness, context
+preservation, and provenance, but it is not executable and cannot appear in
+the CT-transition registry. Producers never import consumers.
 
 ## Work on one node
 

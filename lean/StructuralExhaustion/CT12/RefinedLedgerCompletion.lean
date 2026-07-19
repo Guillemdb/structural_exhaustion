@@ -1,11 +1,13 @@
 import StructuralExhaustion.Core.FiniteRefinedLedger
+import StructuralExhaustion.CT12.Automation
 import StructuralExhaustion.CT12.ListPeeling
+import StructuralExhaustion.Routes.Accumulated
 
 namespace StructuralExhaustion.CT12.RefinedLedgerCompletion
 
 open StructuralExhaustion
 
-universe uAmbient uBranch uDemand uCandidate uCarrier
+universe uAmbient uBranch uDemand uCandidate uCarrier uSource
 
 /-!
 # CT12 finite refined-ledger completion
@@ -30,6 +32,24 @@ def input {P : Core.Problem.{uAmbient, uBranch}}
   context := context
   load := profile.demands.orderedValues.length
   state := CT12.ListPeeling.initialState profile.demands.orderedValues
+
+/-- Canonical executable target for a refined-ledger completion. -/
+noncomputable def executableTarget
+    (_profile : Profile.{uDemand, uCandidate, uCarrier} Demand Carrier)
+    (P : Core.Problem.{uAmbient, uBranch}) :=
+  (CT12.ListPeeling.capability P Demand).executableInterface
+
+/-- Reusable accumulated-transition adapter.  Applications provide only the
+source theorem type; the refined ledger owns the inherited context and exact
+indexed peeling trigger. -/
+noncomputable def transitionAdapter
+    {P : Core.Problem.{uAmbient, uBranch}}
+    (context : Core.BranchContext P) (Source : Sort uSource) :
+    Routes.Accumulated.Adapter Source (profile.executableTarget P) where
+  targetContext := fun _source => context
+  trigger := fun _source =>
+    let input := profile.input context
+    { load := input.load, state := input.state }
 
 def run {P : Core.Problem.{uAmbient, uBranch}}
     (context : Core.BranchContext P) :

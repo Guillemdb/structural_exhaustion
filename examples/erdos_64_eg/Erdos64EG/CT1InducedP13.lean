@@ -1,5 +1,6 @@
 import Erdos64EG.CT3
 import StructuralExhaustion.Graph.External.HegdeSandeepShashank
+import StructuralExhaustion.Routes.Accumulated
 
 namespace Erdos64EG.Internal
 
@@ -188,42 +189,81 @@ def verifiedInducedP13Stage
 
 /-! ## Completed verified prefix -/
 
-/-- Exact output of manuscript nodes `[15]`--`[16]`, retaining the authoritative
-concrete CT3 result on the same packed minimal context. -/
-structure VerifiedInducedP13Prefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget) : Prop where
-  previous : VerifiedBoundariedReplacementPrefix ctx
+/-- Mathematical CT3→CT1 adapter.  The inherited selected graph determines
+the branch context, while HSS supplies one proof-carrying induced path. -/
+noncomputable def inducedP13TransitionAdapter
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget) :
+    Routes.Accumulated.Adapter (VerifiedBoundariedReplacementPrefix.{u} ctx)
+      inducedP13Profile.encoding.c1ExecutableInterface where
+  targetContext := fun _previous => ctx.toBranchContext
+  trigger := fun _previous =>
+    ⟨Classical.choice (inducedP13_of_hss ctx), trivial⟩
+
+/-- Exact ordinary framework transition from the complete CT3 prefix into
+the certificate-driven CT1 execution. -/
+noncomputable def inducedP13TransitionStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
+    (source : Core.Routing.ResidualStage .ct3
+      (VerifiedBoundariedReplacementPrefix.{u} ctx)) :=
+  Routes.Accumulated.advanceCurrent
+    inducedP13Profile.encoding.c1ExecutableInterface
+    (inducedP13TransitionAdapter ctx) source
+
+/-- Mathematical facts attached to the literal CT3→CT1 transition. -/
+structure InducedP13Facts
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
+    {source : Core.Routing.ResidualStage .ct3
+      (VerifiedBoundariedReplacementPrefix.{u} ctx)}
+    (_stage : Routes.Accumulated.OutputLedger
+      inducedP13Profile.encoding.c1ExecutableInterface
+      (inducedP13TransitionAdapter ctx) source) :
+    Type (u + 1) where
   inducedPathStage : packedStaticInput.VerifiedInducedPathStage 13 ctx
 
+/-- Exact output of manuscript nodes `[15]`--`[16]`.  Its CT1 ledger contains
+the complete incoming CT3 carrier and the HSS-forced realization facts. -/
+abbrev VerifiedInducedP13Prefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget) :=
+  Sigma fun source : Core.Routing.ResidualStage .ct3
+      (VerifiedBoundariedReplacementPrefix.{u} ctx) =>
+    Core.Routing.ResidualStage .ct1
+      (Core.Routing.LedgerExtension
+        (Routes.Accumulated.OutputLedger
+          inducedP13Profile.encoding.c1ExecutableInterface
+          (inducedP13TransitionAdapter ctx) source)
+        (InducedP13Facts ctx))
+
 /-- Extend the exact preceding prefix with the HSS-forced CT1 realization. -/
-def verifiedInducedP13Prefix
+noncomputable def verifiedInducedP13Prefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
-    (previous : VerifiedBoundariedReplacementPrefix ctx) :
-    VerifiedInducedP13Prefix ctx where
-  previous := previous
-  inducedPathStage := packedStaticInput.verifiedInducedPathStage 13 ctx
-    (inducedP13_of_hss ctx)
+    (previous : VerifiedBoundariedReplacementPrefix.{u} ctx) :
+    VerifiedInducedP13Prefix ctx :=
+  let source := Core.Routing.ResidualStage.exact (tactic := .ct3) previous
+  let stage := inducedP13TransitionStage ctx source
+  ⟨source, stage.ledgerStage.extend {
+    inducedPathStage := packedStaticInput.verifiedInducedPathStage 13 ctx
+      (inducedP13_of_hss ctx) }⟩
 
 /-- Provenance: the new CT1 stage retains the exact CT3 prefix it consumes. -/
-theorem inducedP13Prefix_previous
+def inducedP13Prefix_previous
     (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
     (verified : VerifiedInducedP13Prefix ctx) :
-    VerifiedBoundariedReplacementPrefix ctx :=
-  verified.previous
+    VerifiedBoundariedReplacementPrefix.{u} ctx :=
+  verified.2.output.previous.previous.output
 
 /-- The composed prefix contains the complete induced-path CT1 execution. -/
 theorem inducedP13Prefix_stage
     (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
     (verified : VerifiedInducedP13Prefix ctx) :
     packedStaticInput.VerifiedInducedPathStage 13 ctx :=
-  verified.inducedPathStage
+  verified.2.output.added.inducedPathStage
 
 /-- Concrete manuscript consequence retained by the composed prefix. -/
 theorem inducedP13Prefix_realization
     (ctx : Core.MinimalCounterexampleContext PackedProblem PackedTarget)
     (verified : VerifiedInducedP13Prefix ctx) :
     HasInducedP13 ctx :=
-  verified.inducedPathStage.realization
+  verified.2.output.added.inducedPathStage.realization
 
 /-- Starting only from the official internal counterexample data, retain the
 same lexicographically selected graph and extend the verified proof through
@@ -236,14 +276,14 @@ theorem exists_verifiedInducedP13Prefix {V : Type u}
           packedStaticInput)
         (Graph.PackedMinimumDegreeCycle.StaticInput.Target.{u}
           packedStaticInput),
-      (Graph.PackedMinimumDegreeCycle.StaticInput.problem.{u}
-        packedStaticInput).rank ctx.G ≤
+      ∃ _ : VerifiedInducedP13Prefix ctx,
+        (Graph.PackedMinimumDegreeCycle.StaticInput.problem.{u}
+          packedStaticInput).rank ctx.G ≤
           (Graph.PackedMinimumDegreeCycle.StaticInput.problem.{u}
             packedStaticInput).rank
-            (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedInducedP13Prefix ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+            (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedBoundariedReplacementPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedInducedP13Prefix ctx previous⟩
+  exact ⟨ctx, verifiedInducedP13Prefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

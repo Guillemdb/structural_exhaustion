@@ -18,29 +18,32 @@ def targetCapability : CT14.Capability P where
   memberCapacity := fun _ctx _member => some 1
   memberLabel := fun _ctx member => some member
 
-abbrev routedRule := Routes.CT14ToCT14.rule
+abbrev routedTransition := Routes.CT14ToCT14.transition
   (sourceCapability := C) (ctx := ctx .capacity) targetCapability
 
-def routedInput : CT14.Input targetCapability
-    (Routes.CT14ToCT14.targetContext source) :=
-  Routes.CT14ToCT14.buildInput targetCapability source
+abbrev sourceStage : Core.Routing.ResidualStage .ct14
+    (CT14.CapacityResidual C (ctx .capacity)) :=
+  Core.Routing.ResidualStage.exact source
 
-def generatedRoute := routedRule.generate source ()
+abbrev routedExecution := routedTransition.onLedger id
 
-theorem route_is_enabled :
-    (routedRule.attempt source).generated? = some generatedRoute :=
-  Routes.CT14ToCT14.enabled_generates targetCapability source
+def routedStage : routedExecution.EnabledStage sourceStage :=
+  Routes.CT14ToCT14.advance targetCapability id sourceStage
+
+def routedLedger := routedStage.ledgerStage
+
+theorem preserves_source : routedStage.previous = sourceStage :=
+  routedStage.previous_eq
 
 theorem preserves_branch :
-    Routes.CT14ToCT14.targetContext source = ctx .capacity :=
-  Routes.CT14ToCT14.branchContext_preserved source
+    routedTransition.targetContext sourceStage = ctx .capacity :=
+  rfl
 
-theorem generated_provenance :
-    generatedRoute.routeId = "CT14.residual.capacity->CT14" :=
-  Routes.CT14ToCT14.generated_route_id targetCapability source
+theorem transition_provenance :
+    routedTransition.profileId = "CT14.residual.capacity->CT14" :=
+  Routes.CT14ToCT14.transition_profile_id targetCapability
 
-def targetResult := CT14.run targetCapability
-  (Routes.CT14ToCT14.targetContext source) routedInput
+def targetResult := routedStage.targetResult
 
 theorem target_executes : targetResult.terminal = .capacity := rfl
 

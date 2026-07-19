@@ -5111,6 +5111,10 @@
               "provision": "framework_constant"
             },
             {
+              "ref": "CT11.Capability.executableInterface",
+              "provision": "framework_constant"
+            },
+            {
               "ref": "CT11.residual.admissibilityGap",
               "provision": "framework_constant"
             },
@@ -5280,6 +5284,10 @@
       },
       {
         "ref": "CT11.runReference",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT11.Capability.executableInterface",
         "provision": "framework_constant"
       },
       {

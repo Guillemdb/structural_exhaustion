@@ -1,11 +1,12 @@
 import Erdos64EG.CT6SurplusPortActivation
 import StructuralExhaustion.CT15.BaselineDemand
+import StructuralExhaustion.CT15.Automation
 
 namespace Erdos64EG.Internal
 
 open StructuralExhaustion
 
-universe u
+universe u v
 
 /-!
 # CT15: executable baseline-spine demand
@@ -121,12 +122,39 @@ theorem runBaselineSpineCT15_linearBudget
             (sparseEnvelopeContext ctx)).degree :=
   (baselineSpineProfile ctx).linearWork (sparseEnvelopeContext ctx)
 
-/-- Verified prefix through the exact baseline-demand definition and its CT15
-execution. -/
-structure VerifiedBaselineSpineDemandPrefix
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedSurplusPortActivationPrefix ctx
+/-- Mathematical adapter for the canonical CT6→CT15 baseline-demand edge. -/
+def baselineSpineDemandAdapter
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {Source : Sort v} :
+    Routes.Accumulated.Adapter Source
+      (baselineSpineProfile ctx).capability.executableInterface where
+  targetContext := fun _previous => sparseEnvelopeContext ctx
+  trigger := fun _previous => ()
+
+/-- Framework-owned CT6→CT15 execution retaining the complete activation
+ledger. -/
+noncomputable def baselineSpineDemandTransitionStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSurplusPortActivationPrefix ctx) :=
+  Routes.Accumulated.advanceCurrent
+    (baselineSpineProfile ctx).capability.executableInterface
+    (baselineSpineDemandAdapter ctx)
+    (surplusPortActivationLedgerStage ctx previous)
+
+abbrev BaselineSpineDemandTransitionLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSurplusPortActivationPrefix ctx) :=
+  Routes.Accumulated.OutputLedger (sourceTactic := .ct6)
+    (baselineSpineProfile ctx).capability.executableInterface
+    (baselineSpineDemandAdapter ctx)
+    (surplusPortActivationLedgerStage ctx previous)
+
+/-- The exact node-`[129]` mathematical obligations, attached to the literal
+CT15 execution returned by the framework edge. -/
+structure BaselineSpineDemandFacts
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {previous : VerifiedSurplusPortActivationPrefix ctx}
+    (_stage : BaselineSpineDemandTransitionLedger ctx previous) : Prop where
   coordinateCount : (baselineSpineProfile ctx).coordinates.card = 0
   exactDeficit :
     (baselineSpineProfile ctx).deficit (sparseEnvelopeContext ctx) =
@@ -156,29 +184,48 @@ structure VerifiedBaselineSpineDemandPrefix
           ((baselineSpineProfile ctx).budget
             (sparseEnvelopeContext ctx)).degree
 
-def verifiedBaselineSpineDemandPrefix
+abbrev BaselineSpineDemandLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedSurplusPortActivationPrefix ctx) :=
+  Core.Routing.LedgerExtension
+    (BaselineSpineDemandTransitionLedger ctx previous)
+    (BaselineSpineDemandFacts ctx)
+
+abbrev VerifiedBaselineSpineDemandPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Sigma (BaselineSpineDemandLedger ctx)
+
+noncomputable def verifiedBaselineSpineDemandPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedSurplusPortActivationPrefix ctx) :
-    VerifiedBaselineSpineDemandPrefix ctx where
-  previous := previous
-  coordinateCount := baselineSpineProfile_coordinateCount ctx
-  exactDeficit := baselineSpineProfile_exactDeficit ctx
-  lowerBound := baselineSpineProfile_lowerBound ctx
-  terminal := runBaselineSpineCT15_terminal ctx
-  trace := runBaselineSpineCT15_trace ctx
-  verified := runBaselineSpineCT15_verified ctx
-  total := runBaselineSpineCT15_total ctx
-  linearBudget := runBaselineSpineCT15_linearBudget ctx
+    VerifiedBaselineSpineDemandPrefix ctx :=
+  let stage := baselineSpineDemandTransitionStage ctx previous
+  ⟨previous, ⟨stage, {
+    coordinateCount := baselineSpineProfile_coordinateCount ctx
+    exactDeficit := baselineSpineProfile_exactDeficit ctx
+    lowerBound := baselineSpineProfile_lowerBound ctx
+    terminal := runBaselineSpineCT15_terminal ctx
+    trace := runBaselineSpineCT15_trace ctx
+    verified := runBaselineSpineCT15_verified ctx
+    total := runBaselineSpineCT15_total ctx
+    linearBudget := runBaselineSpineCT15_linearBudget ctx
+  }⟩⟩
+
+/-- Canonical CT15 continuation stage after node `[129]`. -/
+noncomputable def baselineSpineDemandLedgerStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedBaselineSpineDemandPrefix ctx) :=
+  verified.2.previous.ledgerStage.extend verified.2.added
 
 theorem exists_verifiedBaselineSpineDemandPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedBaselineSpineDemandPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedBaselineSpineDemandPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedSurplusPortActivationPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedBaselineSpineDemandPrefix ctx previous⟩
+  exact ⟨ctx, verifiedBaselineSpineDemandPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

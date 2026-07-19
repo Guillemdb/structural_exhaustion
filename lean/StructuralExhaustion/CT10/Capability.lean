@@ -19,7 +19,7 @@ structure Input {P : Core.Problem.{uAmbient, uBranch}}
   context : Core.BranchContext P
   data : Core.OrderedCollection capability.Datum
 
-/-- Route-facing CT10 trigger.  Discovery supplies only the finite datum
+/-- Transition-facing CT10 trigger.  Discovery supplies only the finite datum
 collection; the inherited branch context remains the router index and cannot
 be replaced by a route seed. -/
 structure Trigger {P : Core.Problem.{uAmbient, uBranch}}
@@ -45,11 +45,5 @@ def row {P : Core.Problem.{uAmbient, uBranch}}
     (input : Input capability) (cls : capability.Class) : List capability.Datum :=
   letI : DecidableEq capability.Class := capability.classes.decEq
   input.data.values.filter fun datum => capability.classOf datum = cls
-
-def tacticInterface {P : Core.Problem.{uAmbient, uBranch}}
-    (capability : Capability.{uAmbient, uBranch, uDatum, uClass, uPromotion} P) :
-    Core.Routing.TacticInterface where
-  Context := Core.BranchContext P
-  Trigger := Trigger capability
 
 end StructuralExhaustion.CT10

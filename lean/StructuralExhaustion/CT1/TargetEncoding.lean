@@ -27,6 +27,18 @@ structure TargetCertificateEncoding
 
 namespace TargetCertificateEncoding
 
+/-- One proof-carrying realization supplied to CT1's certificate-driven public
+entry.  The code and acceptance proof remain indexed by the exact inherited
+branch context. -/
+structure RealizationTrigger
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (encoding : TargetCertificateEncoding.{uAmbient, uBranch, uCode}
+      PublicTarget)
+    (context : Core.BranchContext P) : Type (max uAmbient uCode) where
+  code : encoding.Code context.G
+  accepts : encoding.Accepts context.G code
+
 def spec {P : Core.Problem.{uAmbient, uBranch}}
     {PublicTarget : P.Ambient → Prop}
     (encoding : TargetCertificateEncoding.{uAmbient, uBranch, uCode}
@@ -58,6 +70,21 @@ def run {P : Core.Problem.{uAmbient, uBranch}}
     CertifiedC1Run encoding.spec input :=
   runC1OfRealization encoding.spec input () code accepts
 
+/-- Proof-driven public CT1 entry for an explicit target certificate.  This is
+the positive counterpart of `avoidingExecutableInterface`; transitions supply
+only the inherited context and one accepted code, and the framework executes
+the canonical certified C1 path. -/
+def c1ExecutableInterface
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (encoding : TargetCertificateEncoding.{uAmbient, uBranch, uCode}
+      PublicTarget) : Core.Routing.ExecutableInterface .ct1 where
+  Context := Core.BranchContext P
+  Trigger := encoding.RealizationTrigger
+  Result := fun context _trigger => CertifiedC1Run encoding.spec ⟨context⟩
+  execute := fun context trigger =>
+    encoding.run ⟨context⟩ trigger.code trigger.accepts
+
 /-- Execute the typed avoiding path from a proof that the public target is
 absent.  This is the negative counterpart of certificate-driven `run`; it
 does not materialize or scan the target-code universe. -/
@@ -71,6 +98,30 @@ def runAvoiding {P : Core.Problem.{uAmbient, uBranch}}
     intro index code accepts
     cases index
     exact avoids (encoding.decode accepts)
+
+/-- Type-valued carrier for a proof-driven negative CT1 trigger. -/
+structure AvoidingTrigger
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (_encoding : TargetCertificateEncoding.{uAmbient, uBranch, uCode}
+      PublicTarget)
+    (context : Core.BranchContext P) : Type uAmbient where
+  avoids : ¬PublicTarget context.G
+
+/-- Proof-driven public CT1 entry for a target-certificate encoding.  The
+transition supplies only the inherited branch context and the mathematical
+target-avoidance proof; the framework executes the exact certified CT1
+avoiding path.  No witness universe is synthesized or enumerated. -/
+def avoidingExecutableInterface
+    {P : Core.Problem.{uAmbient, uBranch}}
+    {PublicTarget : P.Ambient → Prop}
+    (encoding : TargetCertificateEncoding.{uAmbient, uBranch, uCode}
+      PublicTarget) : Core.Routing.ExecutableInterface .ct1 where
+  Context := Core.BranchContext P
+  Trigger := encoding.AvoidingTrigger
+  Result := fun context _avoids => CertifiedAvoidingRun encoding.spec ⟨context⟩
+  execute := fun context trigger =>
+    encoding.runAvoiding ⟨context⟩ trigger.avoids
 
 theorem publicTarget_of_run {P : Core.Problem.{uAmbient, uBranch}}
     {PublicTarget : P.Ambient → Prop}

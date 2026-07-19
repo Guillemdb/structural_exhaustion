@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://structural-exhaustion.dev/schemas/lean-machine-catalog.schema.json",
   "title": "Automation-first Lean closure-tactic catalog",
-  "description": "A projection of the compiled CT1–CT17 Lean environment. Lean owns topology, capability boundaries, automation contracts, residuals, and routes.",
+  "description": "A projection of the compiled CT1–CT17 Lean environment. Lean owns topology, capability boundaries, automation contracts, residuals, and executable CT transition families and profiles.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -11,11 +11,12 @@
     "sourceOfTruth",
     "provisionTaxonomy",
     "tactics",
-    "routes"
+    "transitionFamilies",
+    "transitionProfiles"
   ],
   "properties": {
     "artifactType": {"const": "automationFirstLeanCatalog"},
-    "schemaVersion": {"const": "8.0.0"},
+    "schemaVersion": {"const": "9.0.0"},
     "sourceOfTruth": {
       "type": "object",
       "additionalProperties": false,
@@ -39,10 +40,17 @@
       "maxItems": 17,
       "items": {"$ref": "#/$defs/tacticSpec"}
     },
-    "routes": {
+    "transitionFamilies": {
       "type": "array",
+      "minItems": 1,
       "uniqueItems": true,
-      "items": {"$ref": "#/$defs/routeRule"}
+      "items": {"$ref": "#/$defs/transitionFamily"}
+    },
+    "transitionProfiles": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/transitionProfile"}
     }
   },
   "$defs": {
@@ -61,7 +69,7 @@
         "instance_bridge",
         "optimized_implementation",
         "policy_selected",
-        "generated_route",
+        "framework_transition",
         "generated_audit"
       ]
     },
@@ -505,7 +513,7 @@
         }
       }
     },
-    "routeSemanticDiscovery": {
+    "transitionSemanticDiscovery": {
       "oneOf": [
         {
           "type": "object",
@@ -530,7 +538,7 @@
         }
       ]
     },
-    "routeAuthoringBoundary": {
+    "transitionAuthoringBoundary": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -539,7 +547,7 @@
         "frameworkOwnedResponsibilities"
       ],
       "properties": {
-        "semanticDiscovery": {"$ref": "#/$defs/routeSemanticDiscovery"},
+        "semanticDiscovery": {"$ref": "#/$defs/transitionSemanticDiscovery"},
         "problemSpecificInputs": {
           "type": "array",
           "minItems": 1,
@@ -555,12 +563,13 @@
         },
         "frameworkOwnedResponsibilities": {
           "const": [
-            "routeRuleConstruction",
+            "exactSourceLedger",
+            "semanticDiscovery",
             "targetContextConstruction",
             "triggerConstruction",
-            "soundnessProof",
-            "contextPreservationProof",
-            "provenanceProof"
+            "targetExecution",
+            "accumulatedLedgerOutput",
+            "transitionProvenance"
           ]
         }
       },
@@ -592,34 +601,64 @@
         }
       ]
     },
-    "routeRule": {
+    "transitionFamily": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "routeId",
-        "sourceResidualKind",
+        "familyId",
+        "sourceTacticId",
         "targetTacticId",
-        "discovery",
-        "triggerConstructor",
-        "soundnessTheorem",
-        "contextPreservationTheorem",
-        "provenanceTheorem",
+        "profileIds"
+      ],
+      "properties": {
+        "familyId": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])->CT(?:[1-9]|1[0-7])$"},
+        "sourceTacticId": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])$"},
+        "targetTacticId": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])$"},
+        "profileIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "transitionProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profileId",
+        "familyId",
+        "sourceTacticId",
+        "targetTacticId",
+        "sourceResidualKind",
+        "targetExecutableInterface",
+        "transitionConstructor",
+        "advanceExecutor",
         "selectionClass",
         "authoringBoundary"
       ],
       "properties": {
-        "routeId": {"type": "string", "minLength": 1},
+        "profileId": {"type": "string", "minLength": 1},
+        "familyId": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])->CT(?:[1-9]|1[0-7])$"},
+        "sourceTacticId": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])$"},
         "sourceResidualKind": {"type": "string", "minLength": 1},
         "targetTacticId": {"type": "string", "pattern": "^CT(?:[1-9]|1[0-7])$"},
-        "discovery": {"type": "string", "minLength": 1},
-        "triggerConstructor": {"type": "string", "minLength": 1},
-        "soundnessTheorem": {"type": "string", "minLength": 1},
-        "contextPreservationTheorem": {"type": "string", "minLength": 1},
-        "provenanceTheorem": {"type": "string", "minLength": 1},
+        "targetExecutableInterface": {
+          "type": "string",
+          "pattern": "^StructuralExhaustion\\.CT(?:[1-9]|1[0-7])\\..+executableInterface$"
+        },
+        "transitionConstructor": {
+          "type": "string",
+          "pattern": "^StructuralExhaustion\\.Routes\\..+\\.transition$"
+        },
+        "advanceExecutor": {
+          "type": "string",
+          "pattern": "^StructuralExhaustion\\.Routes\\..+\\.advance$"
+        },
         "selectionClass": {
           "enum": ["forced", "priority", "costOrdered", "manualPolicy"]
         },
-        "authoringBoundary": {"$ref": "#/$defs/routeAuthoringBoundary"}
+        "authoringBoundary": {"$ref": "#/$defs/transitionAuthoringBoundary"}
       }
     },
     "tacticSpec": {

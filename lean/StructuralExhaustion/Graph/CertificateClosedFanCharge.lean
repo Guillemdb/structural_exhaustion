@@ -67,9 +67,7 @@ theorem closedCount_eq_closedMembers_card
     profile.closedCount context = profile.closedMembers.card := by
   letI : DecidablePred profile.Closed := profile.closedDecidable
   letI : FinEnum Member := profile.members
-  letI : FinEnum {member : Member // profile.Closed member} :=
-    profile.closedMembers
-  rw [FinEnum.card_eq_fintypeCard, Fintype.card_subtype]
+  rw [closedMembers, Core.Enumeration.subtype_card_eq_filter]
   unfold closedCount CT14.lowerMass capability
   let collection := profile.members.toOrderedCollection
   change (collection.values.map profile.closedMass).sum =

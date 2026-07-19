@@ -1296,10 +1296,11 @@ theorem netQuarterCharge_nonnegative_or_remaining_negative
 
 end TypeBAssignedSupport
 
-structure VerifiedTypeBAssignedChargePrefix
+/-- The three node-local graph-charge obligations.  The accumulated
+predecessor is owned separately by `LedgerExtension`. -/
+structure VerifiedTypeBAssignedCharge
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
     Prop where
-  previous : VerifiedTypeBChoiceLedgerPrefix ctx
   processedNonnegative : ∀ (support : TypeBAssignedSupport ctx)
     (choice : support.completionProfile.FullChoice),
     0 ≤ support.assignedChargeProfile.centerQuarterCharge +
@@ -1320,28 +1321,34 @@ structure VerifiedTypeBAssignedChargePrefix
     0 ≤ support.assignedChargeProfile.netQuarterCharge ∨
       support.remainingQuarterCharge choice < 0
 
+abbrev VerifiedTypeBAssignedChargePrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Core.Routing.LedgerExtension (VerifiedTypeBChoiceLedgerPrefix ctx)
+    (fun _previous => VerifiedTypeBAssignedCharge ctx)
+
 noncomputable def verifiedTypeBAssignedChargePrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedTypeBChoiceLedgerPrefix ctx) :
-    VerifiedTypeBAssignedChargePrefix ctx where
-  previous := previous
-  processedNonnegative := fun support choice =>
-    support.processedFanCharge_nonnegative choice
-  exactPostLedger := fun support choice =>
-    support.netQuarterCharge_eq_processed_add_centerCorrection_add_remaining
-      choice
-  total := fun support choice =>
-    support.netQuarterCharge_nonnegative_or_remaining_negative choice
+    VerifiedTypeBAssignedChargePrefix ctx :=
+  ⟨previous, {
+    processedNonnegative := fun support choice =>
+      support.processedFanCharge_nonnegative choice
+    exactPostLedger := fun support choice =>
+      support.netQuarterCharge_eq_processed_add_centerCorrection_add_remaining
+        choice
+    total := fun support choice =>
+      support.netQuarterCharge_nonnegative_or_remaining_negative choice
+  }⟩
 
 theorem exists_verifiedTypeBAssignedChargePrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedTypeBAssignedChargePrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedTypeBAssignedChargePrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedTypeBChoiceLedgerPrefix object baseline avoids
-  exact ⟨ctx, rankLe, verifiedTypeBAssignedChargePrefix ctx previous⟩
+  exact ⟨ctx, verifiedTypeBAssignedChargePrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

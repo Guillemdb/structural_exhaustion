@@ -1,6 +1,24 @@
 import StructuralExhaustion.CT9.ParityCapacityOne
+import StructuralExhaustion.Core.CTTransition
 
 namespace StructuralExhaustion.CT9
+
+namespace Capability
+
+/-- Canonical executable CT9 entry.  The route trigger carries only the
+ordered active collection; the inherited branch is materialized
+definitionally by `Input.ofTrigger`. -/
+def executableInterface {P : Core.Problem.{uAmbient, uBranch}}
+    (capability : Capability.{uAmbient, uBranch, uItem, uLabel} P) :
+    Core.Routing.ExecutableInterface .ct9 where
+  Context := Core.BranchContext P
+  Trigger := Trigger capability
+  Result := fun context trigger =>
+    ExecutionResult capability (Input.ofTrigger context trigger)
+  execute := fun context trigger =>
+    run capability (Input.ofTrigger context trigger)
+
+end Capability
 
 def overloadResidualKindId := "CT9.residual.overload"
 
@@ -46,7 +64,8 @@ def capabilityContract : Core.CapabilityContract where
     "CT9.parityCapacityOne", "CT9.SameParityPair",
     "CT9.ParityCapacityOneRun",
     "CT9.runParityCapacityOneOfThreeLeCardinality",
-    "CT9.runReference", overloadResidualKindId]
+    "CT9.runReference", "CT9.Capability.executableInterface",
+    overloadResidualKindId]
 
 /-- Minimal capability profile for the two-parity, capacity-one specialization.
 The item collection and its three-element lower bound are invocation data. -/

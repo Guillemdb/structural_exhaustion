@@ -47,7 +47,7 @@ structure Input {P : Core.Problem.{uAmbient, uBranch}}
   load : Nat
   state : capability.State load
 
-/-- Route-facing CT12 trigger.  The indexed loop state is the only seed added
+/-- Transition-facing CT12 trigger.  The indexed loop state is the only seed added
 to the inherited branch context. -/
 structure Trigger {P : Core.Problem.{uAmbient, uBranch}}
     (capability : Capability.{uAmbient, uBranch, uState, uPeeled, uDemand, uTier} P)
@@ -66,11 +66,5 @@ def ofTrigger {P : Core.Problem.{uAmbient, uBranch}}
   state := trigger.state
 
 end Input
-
-def tacticInterface {P : Core.Problem.{uAmbient, uBranch}}
-    (capability : Capability.{uAmbient, uBranch, uState, uPeeled, uDemand, uTier} P) :
-    Core.Routing.TacticInterface where
-  Context := Core.BranchContext P
-  Trigger := Trigger capability
 
 end StructuralExhaustion.CT12

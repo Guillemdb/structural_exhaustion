@@ -1,5 +1,6 @@
 import Erdos64EG.P13Node146Route8Threshold
 import Erdos64EG.P13ExactHotNormalization
+import StructuralExhaustion.Core.ExactHandoff
 import StructuralExhaustion.Core.WorkBudget
 
 namespace Erdos64EG.Internal
@@ -91,10 +92,8 @@ theorem p13Node148_totalDemand_le_allowance_add_cold
 structure P13Node148To149
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
-    (node146No : P13Node146To148 ctx node21) : Type (u + 3) where
-  previous : P13Node146To148 ctx node21
-  exactPrevious : previous = node146No
-  previousExact : previous.previous = p13SequentialWeightedLedger ctx node21
+    (node146No : P13Node146To148 ctx node21) : Type (u + 3)
+    extends Core.ExactHandoff node146No where
   theta_ge : (1 : ℚ) / 78 ≤ p13PackingTheta ctx
   aggregate : P13SequentialHotAggregate ctx node21
   aggregateExact : aggregate = p13SequentialFinalHotAggregate ctx node21
@@ -107,10 +106,8 @@ strict failure and the quantitative cold shortfall on the identical ledger. -/
 structure P13Node148To150
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
-    (node146No : P13Node146To148 ctx node21) : Type (u + 3) where
-  previous : P13Node146To148 ctx node21
-  exactPrevious : previous = node146No
-  previousExact : previous.previous = p13SequentialWeightedLedger ctx node21
+    (node146No : P13Node146To148 ctx node21) : Type (u + 3)
+    extends Core.ExactHandoff node146No where
   theta_ge : (1 : ℚ) / 78 ≤ p13PackingTheta ctx
   aggregate : P13SequentialHotAggregate ctx node21
   aggregateExact : aggregate = p13SequentialFinalHotAggregate ctx node21
@@ -121,6 +118,44 @@ structure P13Node148To150
   coldShortfall : p13Node148TotalDemand ctx - p13Node148Allowance ctx node21 ≤
     p13Node148ColdDemand ctx node21
   coldNonempty : 0 < (p13SequentialWeightedColdWindows ctx node21).length
+
+/-- Compatibility spelling for the original exact-predecessor projection.
+The data are now owned by `Core.ExactHandoff`. -/
+theorem P13Node148To149.exactPrevious
+    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
+    {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
+    {node146No : P13Node146To148 ctx node21}
+    (payload : P13Node148To149 ctx node21 node146No) :
+    payload.previous = node146No :=
+  payload.previousExact
+
+theorem P13Node148To150.exactPrevious
+    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
+    {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
+    {node146No : P13Node146To148 ctx node21}
+    (payload : P13Node148To150 ctx node21 node146No) :
+    payload.previous = node146No :=
+  payload.previousExact
+
+/-- The earlier ledger exactness is inherited through the literal node-[146]
+predecessor instead of being duplicated as an application field. -/
+theorem P13Node148To149.ledgerExact
+    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
+    {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
+    {node146No : P13Node146To148 ctx node21}
+    (payload : P13Node148To149 ctx node21 node146No) :
+    payload.previous.previous = p13SequentialWeightedLedger ctx node21 := by
+  rw [payload.previousExact]
+  exact node146No.previousExact
+
+theorem P13Node148To150.ledgerExact
+    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
+    {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
+    {node146No : P13Node146To148 ctx node21}
+    (payload : P13Node148To150 ctx node21 node146No) :
+    payload.previous.previous = p13SequentialWeightedLedger ctx node21 := by
+  rw [payload.previousExact]
+  exact node146No.previousExact
 
 /-- The two constructors are exactly node `[148]`'s two outgoing edges. -/
 inductive P13Node148Outcome
@@ -140,8 +175,7 @@ noncomputable def runP13Node148
   by_cases cap : P13WindowDensityFiniteCapWithError ctx node21
   · exact .to149 {
       previous := node146No
-      exactPrevious := rfl
-      previousExact := node146No.previousExact
+      previousExact := rfl
       theta_ge := node146No.theta_ge
       aggregate := aggregate
       aggregateExact := rfl
@@ -159,8 +193,7 @@ noncomputable def runP13Node148
       ⟨⟨node21, rfl⟩, cap⟩
     exact .to150 {
       previous := node146No
-      exactPrevious := rfl
-      previousExact := node146No.previousExact
+      previousExact := rfl
       theta_ge := node146No.theta_ge
       aggregate := aggregate
       aggregateExact := rfl

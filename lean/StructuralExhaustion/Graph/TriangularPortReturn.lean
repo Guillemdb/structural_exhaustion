@@ -347,6 +347,24 @@ noncomputable def run
   (encoding setup port).run (input base object baseline)
     ⟨rfl, certificate setup port root⟩ trivial
 
+/-- Canonical executable CT1 entry for one proof-selected triangular-port
+return.  The return certificate is already carried by the incoming graph
+ledger, so this interface performs the public certificate-driven CT1
+execution and enumerates no return paths. -/
+noncomputable def executableInterface
+    {base : MinimumDegreeCycle.StaticInput V (fun _ => Unit)}
+    {object : FiniteObject V} {baseline : base.problem.Baseline object}
+    {center : V} (setup : Setup base object baseline center)
+    (port : TriPort setup)
+    (root : DartReturn object.graph (rootDart setup port)) :
+    Core.Routing.ExecutableInterface .ct1 where
+  Context := Unit
+  Trigger := fun _context => Unit
+  Result := fun _context _trigger =>
+    CT1.CertifiedC1Run (encoding setup port).spec
+      (input base object baseline)
+  execute := fun _context _trigger => run setup port root
+
 /-- Exact CT1 avoiding execution when no such local return exists.  This is
 the negative proof-carrying branch and performs zero candidate checks. -/
 def runAvoiding

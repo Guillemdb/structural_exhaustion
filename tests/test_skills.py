@@ -174,12 +174,12 @@ def test_strategy_skill_covers_selection_locality_and_delegation() -> None:
     assert "implement-structural-exhaustion-route/SKILL.md" in skill
 
 
-def test_route_skill_covers_every_registered_authoring_boundary() -> None:
+def test_route_skill_covers_every_registered_transition_profile() -> None:
     skill = read_skill(ROUTE)
     catalog = json.loads(
         (ROOT / "generated/lean-machines.json").read_text(encoding="utf-8")
     )
-    assert len(catalog["routes"]) == 9
+    assert len(catalog["transitionProfiles"]) == 9
     for route_phrase, adapter, example in (
         ("CT1 avoidance to CT2", "MinimalityKernel", "CT1ToCT2AutomationFirst.lean"),
         (

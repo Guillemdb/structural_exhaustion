@@ -139,7 +139,7 @@ structure SemanticAdapter where
 
 /-- Attach consumer seeds to all existing occurrences.  Composition,
 occurrence identity, and alignment with producer theorems are framework-owned.
-The registered `Core.Routing.RouteRule` consumes these seeds afterwards. -/
+The registered `Core.Routing.CTTransition` consumes these seeds afterwards. -/
 noncomputable def routeSeeds
     (ledger : Ledger.{uOccurrence, uEvent} Event Valid)
     (adapter : SemanticAdapter.{uEvent, uSeed}

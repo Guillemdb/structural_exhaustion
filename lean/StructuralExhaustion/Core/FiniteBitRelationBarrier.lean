@@ -1,6 +1,7 @@
 import Mathlib.Data.BitVec
 import Mathlib.Data.Fintype.BigOperators
 import Mathlib.Tactic
+import Batteries.Data.BitVec.Lemmas
 
 namespace StructuralExhaustion.Core.FiniteBitRelationBarrier
 
@@ -63,5 +64,67 @@ theorem checks_quadratic (leftLength rightLength : Nat) :
   nlinarith [Nat.zero_le size]
 
 end Profile
+
+/-- Pack one decidable relation row into the same compact representation used
+by the barrier counters.  Applications can audit a stored row with one
+`BitVec` equality instead of reifying one theorem per matrix entry. -/
+def semanticRow {size : Nat}
+    (relation : Fin size → Fin size → Bool) (source : Fin size) : BitVec size :=
+  BitVec.ofFnLE (relation source)
+
+@[simp] theorem semanticRow_getLsb {size : Nat}
+    (relation : Fin size → Fin size → Bool) (source target : Fin size) :
+    (semanticRow relation source).getLsb target = relation source target := by
+  exact BitVec.getLsb_ofFnLE _ _
+
+/-- Exact semantic ownership for every row of a finite relation profile.
+
+The certificate deliberately stores whole-row equalities.  This keeps fixed
+table validation compact while its projection still supplies the pointwise
+entry theorem expected by semantic consumers. -/
+structure SemanticCertificate {size : Nat} (profile : Profile size)
+    (Length : Type*) (lengthValue : Length → Nat)
+    (relation : Length → Fin size → Fin size → Bool) : Prop where
+  rowExact : ∀ length source,
+    profile.row (lengthValue length) source = semanticRow (relation length) source
+
+namespace SemanticCertificate
+
+variable {size : Nat} {profile : Profile size} {Length : Type*}
+  {lengthValue : Length → Nat}
+  {relation : Length → Fin size → Fin size → Bool}
+
+theorem getLsb_eq
+    (certificate : SemanticCertificate profile Length lengthValue relation)
+    (length : Length) (source target : Fin size) :
+    (profile.row (lengthValue length) source).getLsb target =
+      relation length source target := by
+  rw [certificate.rowExact length source]
+  exact semanticRow_getLsb _ _ _
+
+end SemanticCertificate
+
+/-- Exact ownership of cached safe/flat counts by a finite barrier profile.
+The index type is the proof-selected local schedule; this abstraction performs
+no ambient enumeration. -/
+structure CountCertificate {size : Nat} (profile : Profile size)
+    (Index : Type*) where
+  leftLength : Index → Nat
+  rightLength : Index → Nat
+  storedSafe : Index → Nat
+  storedFlat : Index → Nat
+  safeExact : ∀ index,
+    storedSafe index = profile.safeCount (leftLength index) (rightLength index)
+  flatExact : ∀ index,
+    storedFlat index = profile.flatCount (leftLength index) (rightLength index)
+
+/-- One reusable owner for the semantic relation rows and all cached counts on
+the proof-selected local index schedule. -/
+structure CertifiedTable {size : Nat} (profile : Profile size)
+    (Length : Type*) (lengthValue : Length → Nat)
+    (relation : Length → Fin size → Fin size → Bool)
+    (Index : Type*) where
+  semantic : SemanticCertificate profile Length lengthValue relation
+  counts : CountCertificate profile Index
 
 end StructuralExhaustion.Core.FiniteBitRelationBarrier

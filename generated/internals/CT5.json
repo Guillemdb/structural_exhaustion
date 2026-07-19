@@ -3211,21 +3211,21 @@
       "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 23,
+          "line": 24,
           "column": 4
         },
         "end": {
-          "line": 23,
+          "line": 24,
           "column": 9
         }
       },
       "range": {
         "start": {
-          "line": 23,
+          "line": 24,
           "column": 0
         },
         "end": {
-          "line": 23,
+          "line": 24,
           "column": 76
         }
       },
@@ -3362,21 +3362,21 @@
       "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 62,
+          "line": 63,
           "column": 4
         },
         "end": {
-          "line": 62,
+          "line": 63,
           "column": 7
         }
       },
       "range": {
         "start": {
-          "line": 62,
+          "line": 63,
           "column": 0
         },
         "end": {
-          "line": 62,
+          "line": 63,
           "column": 42
         }
       },
@@ -4371,21 +4371,21 @@
       "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 17,
+          "line": 18,
           "column": 10
         },
         "end": {
-          "line": 17,
+          "line": 18,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 17,
+          "line": 18,
           "column": 0
         },
         "end": {
-          "line": 20,
+          "line": 21,
           "column": 50
         }
       },
@@ -4417,21 +4417,21 @@
       "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 19,
+          "line": 20,
           "column": 2
         },
         "end": {
-          "line": 19,
+          "line": 20,
           "column": 6
         }
       },
       "range": {
         "start": {
-          "line": 19,
+          "line": 20,
           "column": 2
         },
         "end": {
-          "line": 19,
+          "line": 20,
           "column": 6
         }
       },
@@ -4458,21 +4458,21 @@
       "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 18,
+          "line": 19,
           "column": 2
         },
         "end": {
-          "line": 18,
+          "line": 19,
           "column": 10
         }
       },
       "range": {
         "start": {
-          "line": 18,
+          "line": 19,
           "column": 2
         },
         "end": {
-          "line": 18,
+          "line": 19,
           "column": 10
         }
       },
@@ -4705,21 +4705,21 @@
       "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 26,
+          "line": 27,
           "column": 4
         },
         "end": {
-          "line": 26,
+          "line": 27,
           "column": 16
         }
       },
       "range": {
         "start": {
-          "line": 26,
+          "line": 27,
           "column": 0
         },
         "end": {
-          "line": 60,
+          "line": 61,
           "column": 9
         }
       },
@@ -4979,21 +4979,21 @@
       "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 17,
+          "line": 18,
           "column": 10
         },
         "end": {
-          "line": 17,
+          "line": 18,
           "column": 25
         }
       },
       "range": {
         "start": {
-          "line": 17,
+          "line": 18,
           "column": 10
         },
         "end": {
-          "line": 17,
+          "line": 18,
           "column": 25
         }
       },
@@ -5351,21 +5351,21 @@
       "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 14,
+          "line": 15,
           "column": 4
         },
         "end": {
-          "line": 14,
+          "line": 15,
           "column": 13
         }
       },
       "range": {
         "start": {
-          "line": 14,
+          "line": 15,
           "column": 2
         },
         "end": {
-          "line": 15,
+          "line": 16,
           "column": 27
         }
       },
@@ -5393,21 +5393,21 @@
       "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 11,
+          "line": 12,
           "column": 4
         },
         "end": {
-          "line": 11,
+          "line": 12,
           "column": 6
         }
       },
       "range": {
         "start": {
-          "line": 11,
+          "line": 12,
           "column": 2
         },
         "end": {
-          "line": 11,
+          "line": 12,
           "column": 72
         }
       },
@@ -5435,21 +5435,21 @@
       "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 12,
+          "line": 13,
           "column": 4
         },
         "end": {
-          "line": 12,
+          "line": 13,
           "column": 10
         }
       },
       "range": {
         "start": {
-          "line": 12,
+          "line": 13,
           "column": 2
         },
         "end": {
-          "line": 13,
+          "line": 14,
           "column": 24
         }
       },
@@ -5477,21 +5477,21 @@
       "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 9,
+          "line": 10,
           "column": 4
         },
         "end": {
-          "line": 9,
+          "line": 10,
           "column": 11
         }
       },
       "range": {
         "start": {
-          "line": 9,
+          "line": 10,
           "column": 2
         },
         "end": {
-          "line": 10,
+          "line": 11,
           "column": 25
         }
       },
@@ -5739,21 +5739,21 @@
       "sourceFile": "StructuralExhaustion/CT5/Execution.lean",
       "selectionRange": {
         "start": {
-          "line": 8,
+          "line": 9,
           "column": 10
         },
         "end": {
-          "line": 8,
+          "line": 9,
           "column": 20
         }
       },
       "range": {
         "start": {
-          "line": 8,
+          "line": 9,
           "column": 0
         },
         "end": {
-          "line": 15,
+          "line": 16,
           "column": 27
         }
       },
@@ -6756,15 +6756,15 @@
       "sourceId": "StructuralExhaustion/CT5/Capability.lean",
       "moduleName": "StructuralExhaustion.CT5.Capability",
       "path": "lean/StructuralExhaustion/CT5/Capability.lean",
-      "sha256": "d8717011a45bbfab1208ea86471900a323a02f82fafd7c51cfb8e93a1981a80e",
-      "content": "import StructuralExhaustion.CT5.Spec\n\nnamespace StructuralExhaustion.CT5\n\n/-- Primitive executable data for CT5.  No field chooses a node outcome. -/\nstructure Capability {P : Core.Problem} (S : Spec P) where\n  sites : FinEnum S.Site\n  witnesses : (site : S.Site) → FinEnum (S.Witness site)\n  activeDecidable : (ctx : Core.BranchContext P) →\n    (site : S.Site) → Decidable (S.Active ctx site)\n  supportsDecidable : (ctx : Core.BranchContext P) →\n    (site : S.Site) → (witness : S.Witness site) →\n      Decidable (S.Supports ctx site witness)\n  required : Core.BranchContext P → Nat\n  capacity : Core.BranchContext P → Nat\n\n/-- CT5 consumes only the shared branch context. -/\nabbrev Input (P : Core.Problem) := Core.BranchContext P\n\nnamespace Capability\n\n/-- Route-facing CT5 trigger.  All inherited data is carried by the shared\ncontext, so no additional seed is required. -/\ndef tacticInterface {P : Core.Problem} {S : Spec P}\n    (_capability : Capability S) : Core.Routing.TacticInterface where\n  Context := Core.BranchContext P\n  Trigger := fun _ => Unit\n\nend Capability\n\nend StructuralExhaustion.CT5\n"
+      "sha256": "17982aaec19ee22f372ca1d6c273832246d4921584a3905731f48338c13f4bb7",
+      "content": "import StructuralExhaustion.CT5.Spec\n\nnamespace StructuralExhaustion.CT5\n\n/-- Primitive executable data for CT5.  No field chooses a node outcome. -/\nstructure Capability {P : Core.Problem} (S : Spec P) where\n  sites : FinEnum S.Site\n  witnesses : (site : S.Site) → FinEnum (S.Witness site)\n  activeDecidable : (ctx : Core.BranchContext P) →\n    (site : S.Site) → Decidable (S.Active ctx site)\n  supportsDecidable : (ctx : Core.BranchContext P) →\n    (site : S.Site) → (witness : S.Witness site) →\n      Decidable (S.Supports ctx site witness)\n  required : Core.BranchContext P → Nat\n  capacity : Core.BranchContext P → Nat\n\n/-- CT5 consumes only the shared branch context. -/\nabbrev Input (P : Core.Problem) := Core.BranchContext P\n\nend StructuralExhaustion.CT5\n"
     },
     {
       "sourceId": "StructuralExhaustion/CT5/Execution.lean",
       "moduleName": "StructuralExhaustion.CT5.Execution",
       "path": "lean/StructuralExhaustion/CT5/Execution.lean",
-      "sha256": "4f9ba853428e749d54166f5fbf5facc8034ee3b3f793e9716ee23a1f05fee3bd",
-      "content": "import StructuralExhaustion.CT5.Graph\n\nnamespace StructuralExhaustion.CT5\n\nvariable {P : Core.Problem} (S : Spec P) (capability : Capability S)\nvariable (input : Input P)\n\ninductive RawOutcome : Graph.Terminal → Type _ where\n  | deficit (residual : LocalDeficitResidual S input) :\n      RawOutcome .deficit\n  | c4 (certificate : C4Certificate S capability input) : RawOutcome .c4\n  | charge (residual : ChargeLedgerResidual S capability input) :\n      RawOutcome .charge\n  | aggregate (residual : AggregateResidual S capability input) :\n      RawOutcome .aggregate\n\nstructure ExecutionResult where\n  terminal : Graph.Terminal\n  path : Graph.Path S capability input .entry terminal.nodeId\n  outcome : RawOutcome S capability input terminal\n\nnamespace ExecutionResult\ndef trace (result : ExecutionResult S capability input) := result.path.trace\nend ExecutionResult\n\ndef runReference : ExecutionResult S capability input :=\n  match analyzeDeficit S capability input with\n  | .deficit residual => {\n      terminal := .deficit\n      path := .cons .beginDeficit\n        (.cons (.deficitFound residual) (.nil .deficitTerminal))\n      outcome := .deficit residual\n    }\n  | .clear deficitFree =>\n      let ledger := computeLedger S capability input deficitFree\n      match compare S capability input ledger with\n      | .closes certificate => {\n          terminal := .c4\n          path := .cons .beginDeficit\n            (.cons (.deficitAbsent deficitFree)\n              (.cons (.summed ledger)\n                (.cons (.comparisonC4 certificate) (.nil .c4Terminal))))\n          outcome := .c4 certificate\n        }\n      | .charge residual => {\n          terminal := .charge\n          path := .cons .beginDeficit\n            (.cons (.deficitAbsent deficitFree)\n              (.cons (.summed ledger)\n                (.cons (.comparisonCharge residual) (.nil .chargeTerminal))))\n          outcome := .charge residual\n        }\n      | .aggregate residual => {\n          terminal := .aggregate\n          path := .cons .beginDeficit\n            (.cons (.deficitAbsent deficitFree)\n              (.cons (.summed ledger)\n                (.cons (.comparisonAggregate residual) (.nil .aggregateTerminal))))\n          outcome := .aggregate residual\n        }\n\ndef run := runReference S capability input\n\nend StructuralExhaustion.CT5\n"
+      "sha256": "9352370a8c48f3dac5bc15706b3944ac650a5b53e8a80a2f43a656f1f6526fae",
+      "content": "import StructuralExhaustion.CT5.Graph\nimport StructuralExhaustion.Core.CTTransition\n\nnamespace StructuralExhaustion.CT5\n\nvariable {P : Core.Problem} (S : Spec P) (capability : Capability S)\nvariable (input : Input P)\n\ninductive RawOutcome : Graph.Terminal → Type _ where\n  | deficit (residual : LocalDeficitResidual S input) :\n      RawOutcome .deficit\n  | c4 (certificate : C4Certificate S capability input) : RawOutcome .c4\n  | charge (residual : ChargeLedgerResidual S capability input) :\n      RawOutcome .charge\n  | aggregate (residual : AggregateResidual S capability input) :\n      RawOutcome .aggregate\n\nstructure ExecutionResult where\n  terminal : Graph.Terminal\n  path : Graph.Path S capability input .entry terminal.nodeId\n  outcome : RawOutcome S capability input terminal\n\nnamespace ExecutionResult\ndef trace (result : ExecutionResult S capability input) := result.path.trace\nend ExecutionResult\n\ndef runReference : ExecutionResult S capability input :=\n  match analyzeDeficit S capability input with\n  | .deficit residual => {\n      terminal := .deficit\n      path := .cons .beginDeficit\n        (.cons (.deficitFound residual) (.nil .deficitTerminal))\n      outcome := .deficit residual\n    }\n  | .clear deficitFree =>\n      let ledger := computeLedger S capability input deficitFree\n      match compare S capability input ledger with\n      | .closes certificate => {\n          terminal := .c4\n          path := .cons .beginDeficit\n            (.cons (.deficitAbsent deficitFree)\n              (.cons (.summed ledger)\n                (.cons (.comparisonC4 certificate) (.nil .c4Terminal))))\n          outcome := .c4 certificate\n        }\n      | .charge residual => {\n          terminal := .charge\n          path := .cons .beginDeficit\n            (.cons (.deficitAbsent deficitFree)\n              (.cons (.summed ledger)\n                (.cons (.comparisonCharge residual) (.nil .chargeTerminal))))\n          outcome := .charge residual\n        }\n      | .aggregate residual => {\n          terminal := .aggregate\n          path := .cons .beginDeficit\n            (.cons (.deficitAbsent deficitFree)\n              (.cons (.summed ledger)\n                (.cons (.comparisonAggregate residual) (.nil .aggregateTerminal))))\n          outcome := .aggregate residual\n        }\n\ndef run := runReference S capability input\n\nnamespace Capability\n\n/-- Canonical executable CT5 entry.  Its entire input is the inherited branch\ncontext, so route clients never construct a trigger or copy the context. -/\ndef executableInterface {P : Core.Problem} {S : Spec P}\n    (capability : Capability S) :\n    Core.Routing.ExecutableInterface .ct5 where\n  Context := Core.BranchContext P\n  Trigger := fun _context => Unit\n  Result := fun context _trigger => ExecutionResult S capability context\n  execute := fun context _trigger => run S capability context\n\nend Capability\n\nend StructuralExhaustion.CT5\n"
     },
     {
       "sourceId": "StructuralExhaustion/CT5/Graph.lean",

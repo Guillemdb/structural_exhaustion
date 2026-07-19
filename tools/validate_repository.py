@@ -33,18 +33,19 @@ DERIVED_PROVISIONS = {
     "derived_by_generic_theorem",
     "derived_by_computation",
     "policy_selected",
-    "generated_route",
+    "framework_transition",
     "generated_audit",
 }
-ROUTE_FRAMEWORK_RESPONSIBILITIES = [
-    "routeRuleConstruction",
+TRANSITION_FRAMEWORK_RESPONSIBILITIES = [
+    "exactSourceLedger",
+    "semanticDiscovery",
     "targetContextConstruction",
     "triggerConstruction",
-    "soundnessProof",
-    "contextPreservationProof",
-    "provenanceProof",
+    "targetExecution",
+    "accumulatedLedgerOutput",
+    "transitionProvenance",
 ]
-ROUTE_EXPECTED_PROBLEM_INPUTS = {
+TRANSITION_EXPECTED_PROBLEM_INPUTS = {
     "CT1.residual.avoiding->CT2": ["targetCapability", "minimalityKernel"],
     "CT1.residual.avoiding->CT2.localDeletion": [
         "targetCapability",
@@ -363,64 +364,85 @@ def validate_tactic(errors: list[str], tactic: dict) -> None:
         errors.append(f"{tactic_id}: acyclic graph exports a spurious decrease theorem")
 
 
-def validate_routes(errors: list[str], catalog: dict) -> None:
+def validate_transition_profiles(errors: list[str], catalog: dict) -> None:
     tactic_ids = {tactic["tacticId"] for tactic in catalog["tactics"]}
     residual_ids = {
         residual["residualKindId"]
         for tactic in catalog["tactics"]
         for residual in tactic["residualKinds"]
     }
-    route_ids: set[str] = set()
-    for route in catalog["routes"]:
-        route_id = route["routeId"]
-        if route_id in route_ids:
-            errors.append(f"duplicate route identifier {route_id}")
-        route_ids.add(route_id)
-        if route["sourceResidualKind"] not in residual_ids:
-            errors.append(f"{route_id}: source residual kind is not registered")
-        if route["targetTacticId"] not in tactic_ids:
-            errors.append(f"{route_id}: target tactic is not registered")
-        boundary = route.get("authoringBoundary")
+    profile_ids: set[str] = set()
+    profiles_by_family: dict[str, list[str]] = defaultdict(list)
+    for profile in catalog["transitionProfiles"]:
+        profile_id = profile["profileId"]
+        if profile_id in profile_ids:
+            errors.append(f"duplicate transition profile identifier {profile_id}")
+        profile_ids.add(profile_id)
+        family_id = f"{profile['sourceTacticId']}->{profile['targetTacticId']}"
+        profiles_by_family[family_id].append(profile_id)
+        if profile["familyId"] != family_id:
+            errors.append(f"{profile_id}: transition family identifier is not canonical")
+        if profile["sourceResidualKind"] not in residual_ids:
+            errors.append(f"{profile_id}: source residual kind is not registered")
+        if profile["sourceTacticId"] not in tactic_ids:
+            errors.append(f"{profile_id}: source tactic is not registered")
+        if profile["targetTacticId"] not in tactic_ids:
+            errors.append(f"{profile_id}: target tactic is not registered")
+        target_prefix = f"StructuralExhaustion.{profile['targetTacticId']}."
+        if not (
+            profile["targetExecutableInterface"].startswith(target_prefix)
+            and profile["targetExecutableInterface"].endswith("executableInterface")
+        ):
+            errors.append(
+                f"{profile_id}: target executable interface does not belong to "
+                f"{profile['targetTacticId']}"
+            )
+        declaration_suffixes = {
+            "transitionConstructor": ".transition",
+            "advanceExecutor": ".advance",
+        }
+        for field, suffix in declaration_suffixes.items():
+            declaration = profile[field]
+            if not (
+                declaration.startswith("StructuralExhaustion.Routes.")
+                and declaration.endswith(suffix)
+            ):
+                errors.append(
+                    f"{profile_id}: {field} is not the registered framework "
+                    f"{suffix.removeprefix('.')} declaration"
+                )
+        boundary = profile.get("authoringBoundary")
         if not isinstance(boundary, dict):
-            errors.append(f"{route_id}: authoring boundary is missing")
+            errors.append(f"{profile_id}: authoring boundary is missing")
             continue
         responsibilities = boundary.get("frameworkOwnedResponsibilities")
-        if responsibilities != ROUTE_FRAMEWORK_RESPONSIBILITIES:
+        if responsibilities != TRANSITION_FRAMEWORK_RESPONSIBILITIES:
             errors.append(
-                f"{route_id}: framework-owned route responsibilities are not exact"
+                f"{profile_id}: framework-owned transition responsibilities are not exact"
             )
         semantic_discovery = boundary.get("semanticDiscovery")
         if not isinstance(semantic_discovery, dict):
-            errors.append(f"{route_id}: semantic discovery boundary is missing")
+            errors.append(f"{profile_id}: semantic discovery boundary is missing")
             continue
         discovery_kind = semantic_discovery.get("kind")
         adapter_type = semantic_discovery.get("adapterType")
         problem_inputs = boundary.get("problemSpecificInputs")
-        expected_inputs = ROUTE_EXPECTED_PROBLEM_INPUTS.get(route_id)
+        expected_inputs = TRANSITION_EXPECTED_PROBLEM_INPUTS.get(profile_id)
         if expected_inputs is not None and problem_inputs != expected_inputs:
-            errors.append(f"{route_id}: problem-specific route inputs are not exact")
+            errors.append(
+                f"{profile_id}: problem-specific transition inputs are not exact"
+            )
         if discovery_kind == "capabilityDiscovery":
             if adapter_type is not None:
                 errors.append(
-                    f"{route_id}: capability discovery must not name an adapter"
+                    f"{profile_id}: capability discovery must not name an adapter"
                 )
             if not isinstance(problem_inputs, list) or (
                 "targetCapability" not in problem_inputs
                 or "semanticDiscoveryAdapter" in problem_inputs
             ):
                 errors.append(
-                    f"{route_id}: capability-discovery input boundary is inconsistent"
-                )
-            discovery_prefix = (
-                f"StructuralExhaustion.{route['targetTacticId']}."
-            )
-            if not (
-                route["discovery"].startswith(discovery_prefix)
-                and route["discovery"].endswith("Capability.discover")
-            ):
-                errors.append(
-                    f"{route_id}: capability discovery does not use a "
-                    f"{route['targetTacticId']} capability profile"
+                    f"{profile_id}: capability-discovery input boundary is inconsistent"
                 )
         elif discovery_kind == "problemSemanticAdapter":
             if not isinstance(problem_inputs, list) or (
@@ -428,31 +450,20 @@ def validate_routes(errors: list[str], catalog: dict) -> None:
                 or "semanticDiscoveryAdapter" not in problem_inputs
             ):
                 errors.append(
-                    f"{route_id}: semantic-adapter input boundary is inconsistent"
+                    f"{profile_id}: semantic-adapter input boundary is inconsistent"
                 )
             if not isinstance(adapter_type, str) or not adapter_type.startswith(
                 "StructuralExhaustion.Routes."
             ):
                 errors.append(
-                    f"{route_id}: semantic adapter is not a Lean type reference"
-                )
-            elif route["discovery"] != f"{adapter_type}.discover":
-                errors.append(
-                    f"{route_id}: discovery is not the semantic adapter projection"
+                    f"{profile_id}: semantic adapter is not a Lean type reference"
                 )
         else:
-            errors.append(f"{route_id}: unknown semantic discovery kind {discovery_kind}")
-        for field in (
-            "discovery",
-            "triggerConstructor",
-            "soundnessTheorem",
-            "contextPreservationTheorem",
-            "provenanceTheorem",
-        ):
-            if not route[field].startswith("StructuralExhaustion."):
-                errors.append(f"{route_id}: {field} is not a Lean declaration reference")
+            errors.append(
+                f"{profile_id}: unknown semantic discovery kind {discovery_kind}"
+            )
 
-    required_routes = {
+    required_profiles = {
         "CT1.residual.avoiding->CT2",
         "CT1.residual.avoiding->CT2.localDeletion",
         "CT1.terminal.c1->CT12",
@@ -460,8 +471,32 @@ def validate_routes(errors: list[str], catalog: dict) -> None:
         "CT2.residual.criticality->CT10",
         "CT6.residual.activeLedger->CT9",
     }
-    if not required_routes <= route_ids:
-        errors.append(f"missing foundational routes {sorted(required_routes - route_ids)}")
+    if not required_profiles <= profile_ids:
+        errors.append(
+            "missing foundational transition profiles "
+            f"{sorted(required_profiles - profile_ids)}"
+        )
+
+    family_ids: set[str] = set()
+    referenced_profile_ids: list[str] = []
+    for family in catalog["transitionFamilies"]:
+        family_id = family["familyId"]
+        if family_id in family_ids:
+            errors.append(f"duplicate transition family identifier {family_id}")
+        family_ids.add(family_id)
+        expected_family_id = f"{family['sourceTacticId']}->{family['targetTacticId']}"
+        if family_id != expected_family_id:
+            errors.append(f"{family_id}: transition family identifier is not canonical")
+        expected_profiles = profiles_by_family.get(family_id, [])
+        if family["profileIds"] != expected_profiles:
+            errors.append(f"{family_id}: transition family profile projection is not exact")
+        referenced_profile_ids.extend(family["profileIds"])
+    if set(profiles_by_family) != family_ids:
+        errors.append("transition families do not exactly cover registered CT pairs")
+    if len(referenced_profile_ids) != len(set(referenced_profile_ids)):
+        errors.append("a transition profile occurs in more than one family")
+    if set(referenced_profile_ids) != profile_ids:
+        errors.append("transition families do not exactly cover transition profiles")
 
 
 def validate(root: Path) -> list[str]:
@@ -487,7 +522,7 @@ def validate(root: Path) -> list[str]:
 
     for tactic in catalog.get("tactics", []):
         validate_tactic(errors, tactic)
-    validate_routes(errors, catalog)
+    validate_transition_profiles(errors, catalog)
     return errors
 
 
@@ -509,7 +544,9 @@ def main() -> int:
         f"{sum(len(t['nodes']) for t in catalog['tactics'])} nodes, "
         f"{sum(len(t['transitions']) for t in catalog['tactics'])} typed edges, "
         f"{sum(len(t['residualKinds']) for t in catalog['tactics'])} residual kinds, "
-        f"{len(catalog['routes'])} generated routes, 0 manual node obligations"
+        f"{len(catalog['transitionFamilies'])} transition families, "
+        f"{len(catalog['transitionProfiles'])} transition profiles, "
+        "0 manual node obligations"
     )
     return 0
 

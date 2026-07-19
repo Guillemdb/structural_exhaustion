@@ -7661,6 +7661,10 @@
             {
               "ref": "CT15.runReference",
               "provision": "framework_constant"
+            },
+            {
+              "ref": "CT15.Capability.executableInterface",
+              "provision": "framework_constant"
             }
           ],
           "capabilityId": "StructuralExhaustion.CT15.reference"
@@ -7854,6 +7858,10 @@
       },
       {
         "ref": "CT15.runReference",
+        "provision": "framework_constant"
+      },
+      {
+        "ref": "CT15.Capability.executableInterface",
         "provision": "framework_constant"
       }
     ],

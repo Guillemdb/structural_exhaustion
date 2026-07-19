@@ -126,8 +126,8 @@ describe("Inspector", () => {
         <Inspector
           tactic={tactic}
           node={node}
-          inboundRoutes={[]}
-          outboundRoutes={[]}
+          inboundTransitionProfiles={[]}
+          outboundTransitionProfiles={[]}
         />
       </MemoryRouter>,
     );
@@ -146,8 +146,8 @@ describe("Inspector", () => {
       <MemoryRouter>
         <Inspector
           tactic={tactic}
-          inboundRoutes={[]}
-          outboundRoutes={[]}
+          inboundTransitionProfiles={[]}
+          outboundTransitionProfiles={[]}
         />
       </MemoryRouter>,
     );
@@ -173,8 +173,8 @@ describe("Inspector", () => {
       <MemoryRouter>
         <Inspector
           tactic={tactic}
-          inboundRoutes={[]}
-          outboundRoutes={[]}
+          inboundTransitionProfiles={[]}
+          outboundTransitionProfiles={[]}
         />
       </MemoryRouter>,
     );

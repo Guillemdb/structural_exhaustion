@@ -70,11 +70,10 @@ private def ensureNonempty (field value : String) : CommandElabM Unit := do
 private def tacticIds : List String :=
   Canonical.tactics.toList.map (·.tacticId)
 
-private def findRoute? (routeId : String) : Option Core.RouteContract :=
-  Canonical.routes.find? fun route => route.routeId == routeId
-
-private def sourceTacticId (route : Core.RouteContract) : String :=
-  route.sourceResidualKind.splitOn "." |>.head?.getD ""
+private def findTransitionProfile? (profileId : String) :
+    Option RegisteredTransitionProfileDescriptor :=
+  Canonical.transitionProfiles.find? fun profile =>
+    profile.contract.profileId == profileId
 
 private def findStage?
     (workflow : ExampleWorkflowDescriptor) (stageId : String) :
@@ -120,32 +119,38 @@ private def validateLink
   let crossTactic := match source.tacticId?, target.tacticId? with
     | some sourceTactic, some targetTactic => sourceTactic != targetTactic
     | _, _ => false
-  if crossTactic && link.automationDeclarations.isEmpty then
+  let automationDeclarations := link.resolvedAutomationDeclarations
+  if crossTactic && automationDeclarations.isEmpty then
     throwError
       "example export: cross-CT link {link.linkId} has no framework automation declaration"
-  if let some duplicate := duplicate? (link.automationDeclarations.map (·.toString)) then
+  if let some duplicate := duplicate? (automationDeclarations.map (·.toString)) then
     throwError
       "example export: link {link.linkId} repeats automation declaration {duplicate}"
-  for declaration in link.automationDeclarations do
+  for declaration in automationDeclarations do
     unless frameworkOwnedAutomation declaration do
       throwError
         "example export: link {link.linkId} automation {declaration} is not framework-owned"
     validateDeclaration env declaration
-  match link.kind, link.routeId? with
-  | .registeredRoute, some routeId =>
-      let some route := findRoute? routeId
-        | throwError "example export: link {link.linkId} references unknown route {routeId}"
-      unless source.tacticId? == some (sourceTacticId route) do
+  match link.kind, link.transitionProfileId? with
+  | .registeredTransition, some profileId =>
+      unless link.automationDeclarations.isEmpty do
         throwError
-          "example export: route {routeId} source does not match stage {source.stageId}"
-      unless target.tacticId? == some route.targetTacticId do
+          "example export: registered transition link {link.linkId} must not declare automation; profile {profileId} owns it canonically"
+      let some profile := findTransitionProfile? profileId
+        | throwError
+            "example export: link {link.linkId} references unknown transition profile {profileId}"
+      unless source.tacticId? == some profile.contract.sourceTacticId do
         throwError
-          "example export: route {routeId} target does not match stage {target.stageId}"
-  | .registeredRoute, none =>
-      throwError "example export: registered route link {link.linkId} has no routeId"
-  | _, some routeId =>
+          "example export: transition {profileId} source does not match stage {source.stageId}"
+      unless target.tacticId? == some profile.contract.targetTacticId do
+        throwError
+          "example export: transition {profileId} target does not match stage {target.stageId}"
+  | .registeredTransition, none =>
       throwError
-        "example export: non-route link {link.linkId} unexpectedly names route {routeId}"
+        "example export: registered transition link {link.linkId} has no transitionProfileId"
+  | _, some profileId =>
+      throwError
+        "example export: non-transition link {link.linkId} unexpectedly names transition profile {profileId}"
   | _, none => pure ()
   for declaration in link.evidenceDeclarations do
     validateDeclaration env declaration
@@ -201,7 +206,8 @@ private def stageDeclarations
     |>.flatMap fun binding => [binding.problemDeclaration, binding.frameworkDeclaration]
   let inboundLinkDeclarations := allLinks description
     |>.filter (·.targetStageId == stage.stageId)
-    |>.flatMap fun link => link.automationDeclarations ++ link.evidenceDeclarations
+    |>.flatMap fun link =>
+      link.resolvedAutomationDeclarations ++ link.evidenceDeclarations
   stage.primaryDeclaration ::
     stage.evidenceDeclarations ++ bindingDeclarations ++ inboundLinkDeclarations
 
@@ -280,6 +286,15 @@ private def validateManuscript
     throwError "example export: manuscript has no proof steps"
   if let some duplicate := duplicate? (manuscript.proofSteps.map (·.stepId)) then
     throwError "example export: duplicate proof step id {duplicate}"
+  if let some duplicate :=
+      duplicate? (manuscript.formalizedNodeIds.map toString) then
+    throwError "example export: duplicate formalized manuscript node {duplicate}"
+  for nodeId in manuscript.formalizedNodeIds do
+    if nodeId == 0 then
+      throwError "example export: formalized manuscript node ids must be positive"
+  if let some duplicate :=
+      duplicate? (manuscript.nodeObligations.map (·.obligationId)) then
+    throwError "example export: duplicate manuscript obligation id {duplicate}"
   let mappedStageIds := manuscript.proofSteps.filterMap (·.stageId?)
   if let some duplicate := duplicate? mappedStageIds then
     throwError "example export: manuscript maps stage {duplicate} more than once"
@@ -287,6 +302,48 @@ private def validateManuscript
     unless mappedStageIds.contains stage.stageId do
       throwError "example export: manuscript does not map displayed stage {stage.stageId}"
   for step in manuscript.proofSteps do validateProofStep env description step
+  for obligation in manuscript.nodeObligations do
+    if obligation.nodeId == 0 then
+      throwError
+        "example export: obligation {obligation.obligationId} has nonpositive node id"
+    ensureNonempty "manuscript obligation id" obligation.obligationId
+    ensureNonempty
+      s!"manuscript obligation {obligation.obligationId} title" obligation.title
+    ensureNonempty
+      s!"manuscript obligation {obligation.obligationId} statement" obligation.statement
+    if let some duplicate := duplicate? obligation.evidenceStepIds then
+      throwError
+        "example export: obligation {obligation.obligationId} repeats evidence step {duplicate}"
+    match obligation.status with
+    | .isProved | .isPartial =>
+        if obligation.evidenceStepIds.isEmpty then
+          throwError
+            "example export: non-missing obligation {obligation.obligationId} has no evidence"
+    | .isMissing =>
+        unless obligation.evidenceStepIds.isEmpty do
+          throwError
+            "example export: missing obligation {obligation.obligationId} claims evidence"
+    for stepId in obligation.evidenceStepIds do
+      let some step := manuscript.proofSteps.find? (fun step => step.stepId == stepId)
+        | throwError
+            "example export: obligation {obligation.obligationId} references unknown proof step {stepId}"
+      if obligation.status != .isMissing && step.status != .implemented then
+        throwError
+          "example export: non-missing obligation {obligation.obligationId} uses unimplemented step {stepId}"
+      unless step.manuscriptRefs.any
+          (fun reference => reference.nodeIds.contains obligation.nodeId) do
+        throwError
+          "example export: obligation {obligation.obligationId} evidence step {stepId} does not cite node {obligation.nodeId}"
+  let obligationNodeIds :=
+    (manuscript.nodeObligations.map (·.nodeId)).foldl
+      (fun ids nodeId => if ids.contains nodeId then ids else ids ++ [nodeId]) []
+  for nodeId in obligationNodeIds do
+    let obligations := manuscript.nodeObligations.filter (·.nodeId == nodeId)
+    let allProved := obligations.all (·.status == .isProved)
+    let declaredGreen := manuscript.formalizedNodeIds.contains nodeId
+    unless allProved == declaredGreen do
+      throwError
+        "example export: node {nodeId} green status disagrees with its complete obligation ledger"
 
 private def validateExample
     (env : Environment) (description : ExampleDescriptor) : CommandElabM Unit := do
@@ -335,10 +392,11 @@ private def linkJson
     ("kind", toJson link.kind.key),
     ("label", toJson link.label),
     ("description", toJson link.description),
-    ("routeId", match link.routeId? with
+    ("transitionProfileId", match link.transitionProfileId? with
       | none => Json.null
-      | some routeId => toJson routeId),
-    ("automationDeclarations", ← declarationsJson env link.automationDeclarations),
+      | some profileId => toJson profileId),
+    ("automationDeclarations", ← declarationsJson env
+      link.resolvedAutomationDeclarations),
     ("evidenceDeclarations", ← declarationsJson env link.evidenceDeclarations)
   ]
 
@@ -370,6 +428,16 @@ private def manuscriptReferenceJson (reference : ExampleManuscriptReference) : J
     ("label", toJson reference.label),
     ("title", toJson reference.title),
     ("nodeIds", toJson reference.nodeIds)
+  ]
+
+private def nodeObligationJson (obligation : ExampleNodeObligationDescriptor) : Json :=
+  Json.mkObj [
+    ("nodeId", toJson obligation.nodeId),
+    ("obligationId", toJson obligation.obligationId),
+    ("title", toJson obligation.title),
+    ("statement", toJson obligation.statement),
+    ("status", toJson obligation.status.key),
+    ("evidenceStepIds", toJson obligation.evidenceStepIds)
   ]
 
 private def declarationGroupJson
@@ -408,6 +476,8 @@ private def manuscriptJson
     ("title", toJson manuscript.title),
     ("path", toJson manuscript.path),
     ("formalizedNodeIds", toJson manuscript.formalizedNodeIds),
+    ("nodeObligations", Json.arr
+      (manuscript.nodeObligations.map nodeObligationJson).toArray),
     ("proofSteps", Json.arr
       (← manuscript.proofSteps.mapM (proofStepJson env)).toArray)
   ]

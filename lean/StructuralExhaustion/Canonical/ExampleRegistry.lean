@@ -48,9 +48,9 @@ end ExampleStageKind
 
 /-- The precise claim made by an arrow in an example workflow. -/
 inductive ExampleLinkKind where
-  /-- A route registered in `Canonical.routes`. -/
-  | registeredRoute
-  /-- Problem-level orchestration of framework tactics without a registered route. -/
+  /-- An executable profile registered in a typed CT transition family. -/
+  | registeredTransition
+  /-- Problem-level orchestration of framework tactics without a registered transition. -/
   | frameworkComposition
   /-- A proof object or certificate is consumed by the target stage. -/
   | proofData
@@ -65,7 +65,7 @@ inductive ExampleLinkKind where
 namespace ExampleLinkKind
 
 def key : ExampleLinkKind → String
-  | .registeredRoute => "registeredRoute"
+  | .registeredTransition => "registeredTransition"
   | .frameworkComposition => "frameworkComposition"
   | .proofData => "proofData"
   | .validation => "validation"
@@ -111,6 +111,24 @@ def key : ExampleImplementationStatus → String
   | .notStarted => "notStarted"
 
 end ExampleImplementationStatus
+
+/-- Verification state of one manuscript-node obligation.  Unlike a proof-step
+status, this is property-level: a diagram node is complete only when every
+obligation attached to that node is proved. -/
+inductive ExampleNodeObligationStatus where
+  | isProved
+  | isPartial
+  | isMissing
+  deriving Repr, DecidableEq
+
+namespace ExampleNodeObligationStatus
+
+def key : ExampleNodeObligationStatus → String
+  | .isProved => "proved"
+  | .isPartial => "partial"
+  | .isMissing => "missing"
+
+end ExampleNodeObligationStatus
 
 /-- The mathematical or verification role shared by a group of declarations. -/
 inductive ExampleDeclarationRole where
@@ -175,6 +193,62 @@ structure ExampleProofStepDescriptor where
   workBound : String
   deriving Repr, DecidableEq
 
+/-- One stable, paper-scoped responsibility of an original diagram node.
+
+`evidenceStepIds` names the Lean-owned manuscript proof steps that implement
+the responsibility.  Export validation rejects dangling evidence, evidence
+that does not cite the same node, and green-node claims with unfinished
+obligations. -/
+structure ExampleNodeObligationDescriptor where
+  nodeId : Nat
+  obligationId : String
+  title : String
+  statement : String
+  status : ExampleNodeObligationStatus
+  evidenceStepIds : List String := []
+  deriving Repr, DecidableEq
+
+namespace ExampleNodeObligationDescriptor
+
+/-- Build a proved property ledger for one node from one Lean proof step. -/
+def provedForStep (nodeId : Nat) (stepId : String)
+    (specifications : List (String × String)) :
+    List ExampleNodeObligationDescriptor :=
+  specifications.map fun specification => {
+    nodeId := nodeId
+    obligationId := specification.1
+    title := specification.1
+    statement := specification.2
+    status := .isProved
+    evidenceStepIds := [stepId]
+  }
+
+/-- Build a partially discharged property ledger from one evidence step. -/
+def partialForStep (nodeId : Nat) (stepId : String)
+    (specifications : List (String × String)) :
+    List ExampleNodeObligationDescriptor :=
+  specifications.map fun specification => {
+    nodeId := nodeId
+    obligationId := specification.1
+    title := specification.1
+    statement := specification.2
+    status := .isPartial
+    evidenceStepIds := [stepId]
+  }
+
+/-- Build an explicitly open property ledger without fabricating evidence. -/
+def missing (nodeId : Nat) (specifications : List (String × String)) :
+    List ExampleNodeObligationDescriptor :=
+  specifications.map fun specification => {
+    nodeId := nodeId
+    obligationId := specification.1
+    title := specification.1
+    statement := specification.2
+    status := .isMissing
+  }
+
+end ExampleNodeObligationDescriptor
+
 /-- Manuscript and proof-step metadata used by the example theorem companion. -/
 structure ExampleManuscriptDescriptor where
   title : String
@@ -183,6 +257,10 @@ structure ExampleManuscriptDescriptor where
   step may cite additional nodes for partial coverage and navigation without
   promoting those whole nodes to verified status. -/
   formalizedNodeIds : List Nat := []
+  /-- Complete property-level ledgers for nodes that have undergone an audited
+  obligation decomposition.  Nodes not yet migrated retain the legacy
+  whole-cell status until their ledger is added. -/
+  nodeObligations : List ExampleNodeObligationDescriptor := []
   proofSteps : List ExampleProofStepDescriptor
   deriving Repr, DecidableEq
 
@@ -205,9 +283,12 @@ structure ExampleLinkDescriptor where
   kind : ExampleLinkKind
   label : String
   description : String
-  routeId? : Option String := none
+  transitionProfileId? : Option String := none
   /-- Framework-owned declarations that execute or certify this connection.
-  Every direct transition between distinct CT stages must name at least one. -/
+  Every ordinary direct transition between distinct CT stages must name at
+  least one. A registered transition must leave this empty: the canonical
+  transition registry resolves its executable owner from
+  `transitionProfileId?` during export. -/
   automationDeclarations : List Lean.Name := []
   evidenceDeclarations : List Lean.Name := []
   deriving Repr, DecidableEq

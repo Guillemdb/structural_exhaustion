@@ -202,12 +202,13 @@ theorem p13CorridorCertificateChecks_le_vertices
     (stub : InducedPathColdCorridor.CubicStub ctx.G.object) :
     p13CorridorCertificateChecks ctx stub ≤
       ctx.G.object.input.vertices.card := by
-  letI : FinEnum ctx.G.Vertex := ctx.G.object.input.vertices
   change ((p13SelectedWindowCorridorProducer ctx).ambientReturn stub).support.length ≤
     ctx.G.object.input.vertices.card
-  simpa [FinEnum.card_eq_fintypeCard] using
-    ((p13SelectedWindowCorridorProducer ctx).ambientReturn_isPath
-      stub).support_nodup.length_le_card
+  simpa only [FinEnum.orderedValues_length] using
+    Core.Enumeration.length_le_elems_of_nodup
+      ctx.G.object.input.vertices
+      (((p13SelectedWindowCorridorProducer ctx).ambientReturn_isPath
+        stub).support_nodup)
 
 /-- Visible local scan budget.  It counts two possible scans of the thirteen
 window positions, one scan of the existing external-incidence token schedule,

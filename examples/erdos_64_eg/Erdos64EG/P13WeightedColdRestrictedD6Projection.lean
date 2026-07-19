@@ -39,31 +39,25 @@ namespace P13WeightedColdRestrictedPrefixPackage
 
 variable (package : P13WeightedColdRestrictedPrefixPackage ctx node21)
 
-abbrev PriorD6Ledger
-    (_package : P13WeightedColdRestrictedPrefixPackage ctx node21) :=
-  P13ProducedPriorSupportLedger.Ledger (ctx := ctx)
 abbrev PriorD6Event
     (_package : P13WeightedColdRestrictedPrefixPackage ctx node21) :=
   P13ProducedPriorSupportLedger.Event (ctx := ctx)
 
-/-- The single property added when the three existing producers populate the
-persistent F4 ledger. -/
-def PriorD6Origin
-    (ordinary : P13ProducedPriorSupportLedger.OrdinaryTypeBLedger (ctx := ctx))
-    (typeB : TypeBProducedSupportLedgerConnector.Ledger (ctx := ctx))
-    (routeEight : P13ProducedPriorSupportLedger.RouteEightLedger (ctx := ctx))
-    (event : P13ProducedPriorSupportLedger.Event (ctx := ctx)) : Prop :=
-  (∃ entry ∈ ordinary.entries, event = .ordinary entry) ∨
-    (∃ entry ∈ typeB.entries, event = .decorated entry) ∨
-    (∃ entry ∈ routeEight.entries, event = .routeEight entry)
+/-- Producer provenance accumulated at every literal occurrence.  Each case
+contains the exact proof-carrying output of an existing manuscript producer. -/
+inductive PriorD6Origin :
+    P13ProducedPriorSupportLedger.Event (ctx := ctx) → Prop
+  | ordinary (entry : P13ProducedPriorSupportLedger.Node64To65Ordinary
+      (ctx := ctx)) : PriorD6Origin (.ordinary entry)
+  | decorated (entry : TypeBProducedSupportLedgerConnector.RecordedDecoratedHandoff
+      (ctx := ctx)) : PriorD6Origin (.decorated entry)
+  | routeEight (entry : P13ProducedPriorSupportLedger.RecordedRouteEightExtraction
+      (ctx := ctx)) : PriorD6Origin (.routeEight entry)
 
-abbrev AccumulatedPriorD6Ledger
-    (ordinary : P13ProducedPriorSupportLedger.OrdinaryTypeBLedger (ctx := ctx))
-    (typeB : TypeBProducedSupportLedgerConnector.Ledger (ctx := ctx))
-    (routeEight : P13ProducedPriorSupportLedger.RouteEightLedger (ctx := ctx)) :=
-  Core.ResidualRefinement.Ledger.{u, u}
+abbrev AccumulatedPriorD6Ledger :=
+  Core.ResidualRefinement.Ledger.{u, u + 3}
     (P13ProducedPriorSupportLedger.Event (ctx := ctx))
-    [PriorD6Origin ordinary typeB routeEight]
+    [PriorD6Origin]
 
 /-- The only graph-specific datum needed by the reusable accumulated-support
 runner. -/
@@ -76,43 +70,32 @@ noncomputable def priorD6SupportProfile :
 
 /-- Exact F4 branch state built only from the three existing proof-carrying
 producer ledgers: the ordinary `[64] -> [65]` edge, the decorated `[108] ->
-[66] -> [65]` edge, and route 8. The list consumer is a framework-derived view,
-so no caller-authored list can enter the cold scan. -/
+`[66] -> [65]` edge, and route 8. -/
 structure ProducedPriorD6State where
-  ordinary : P13ProducedPriorSupportLedger.OrdinaryTypeBLedger (ctx := ctx)
-  typeB : TypeBProducedSupportLedgerConnector.Ledger (ctx := ctx)
-  routeEight : P13ProducedPriorSupportLedger.RouteEightLedger (ctx := ctx)
-  baseState : AccumulatedPriorD6Ledger ordinary typeB routeEight
+  baseState : AccumulatedPriorD6Ledger (ctx := ctx)
+
+/-- The only D6 predecessor carrier is the complete accumulated residual.
+Every downstream projection remains indexed by its literal occurrences. -/
+abbrev PriorD6Ledger
+    (_package : P13WeightedColdRestrictedPrefixPackage ctx node21) :=
+  ProducedPriorD6State (ctx := ctx)
 
 noncomputable def ProducedPriorD6State.base
     (state : ProducedPriorD6State (ctx := ctx)) :=
   state.baseState.residuals
 
-/-- Compatibility view for the existing list-indexed D6 runner.  It is
-framework-derived from `baseState`; callers cannot provide or alter it. -/
-noncomputable def ProducedPriorD6State.ledger
-    (state : ProducedPriorD6State (ctx := ctx)) : package.PriorD6Ledger :=
-  (priorD6SupportProfile (ctx := ctx)).materialize state.baseState
-
 noncomputable def producedPriorD6State
-    (ordinary : P13ProducedPriorSupportLedger.OrdinaryTypeBLedger (ctx := ctx))
-    (typeB : TypeBProducedSupportLedgerConnector.Ledger (ctx := ctx))
-    (routeEight : P13ProducedPriorSupportLedger.RouteEightLedger (ctx := ctx))
-    (baseState : AccumulatedPriorD6Ledger ordinary typeB routeEight) :
+    (baseState : AccumulatedPriorD6Ledger (ctx := ctx)) :
     ProducedPriorD6State (ctx := ctx) where
-  ordinary := ordinary
-  typeB := typeB
-  routeEight := routeEight
   baseState := baseState
 
 theorem ProducedPriorD6State.event_origin
     (state : ProducedPriorD6State (ctx := ctx))
-    (event : package.PriorD6Event)
-    (member : event ∈ (state.ledger (package := package)).entries) :
-    (∃ entry ∈ state.ordinary.entries, event = .ordinary entry) ∨
-      (∃ entry ∈ state.typeB.entries, event = .decorated entry) ∨
-      (∃ entry ∈ state.routeEight.entries, event = .routeEight entry) := by
-  exact state.baseState.fact_of_mem_events .here member
+    (occurrence : state.baseState.residuals.Occurrence) :
+    PriorD6Origin (state.baseState.residuals.event occurrence) :=
+  state.baseState.require
+    (property := PriorD6Origin)
+    occurrence
 
 /-- Ambient vertex underlying a vertex of the selected restricted component. -/
 abbrev ambientVertex
@@ -173,8 +156,7 @@ theorem currentAmbientEndpoint_ne_of_val_lt
       package.input).getVert_injOn earlierLe laterLe pathVerticesEqual
   exact (Nat.ne_of_lt ordered) indicesEqual
 
-/-- Authoritative occurrence-indexed F4 support view.  The later list profile
-is retained only for structural-code compatibility. -/
+/-- Authoritative occurrence-indexed F4 support view. -/
 noncomputable def ProducedPriorD6State.supportView
     (state : ProducedPriorD6State (ctx := ctx)) :=
   (priorD6SupportProfile (ctx := ctx)).view state.baseState
@@ -194,8 +176,7 @@ theorem ProducedPriorD6State.recognizeF4_exact
           package.currentAmbientEndpoint stage ∈
             P13ProducedPriorSupportLedger.eventSupport
               hit.state.residual ∧
-          PriorD6Origin state.ordinary state.typeB state.routeEight
-            hit.state.residual
+          PriorD6Origin hit.state.residual
     | .absent _ =>
         ∀ occurrence : state.base.Occurrence,
           package.currentAmbientEndpoint stage ∉
@@ -262,29 +243,29 @@ theorem currentAmbientEndpoint_mem_boundedActiveInterface
       package.boundedInterfaceCurrentEndpoint stage := rfl
   simp [endpointExact]
 
-/-- Exact list-indexed profile.  Its support function is fixed to the
-manuscript event support; an arbitrary support interpretation cannot be
-supplied by a caller. -/
-noncomputable def d6Profile (ledger : package.PriorD6Ledger) :
-    Core.FiniteActiveSupportProjection.Profile package.PriorD6Event
-      ctx.G.Vertex where
-  entries := ledger.entries
-  vertexDecEq := ctx.G.object.input.vertices.decEq
-  support := P13ProducedPriorSupportLedger.eventSupport
+/-- Exact occurrence-indexed support view of the accumulated residual. -/
+noncomputable def d6Profile (ledger : package.PriorD6Ledger) :=
+  ledger.supportView
 
 abbrev D6Key (ledger : package.PriorD6Ledger) :=
-  (package.d6Profile ledger).Key
+  ledger.baseState.residuals.Occurrence
+
+def d6Entry (ledger : package.PriorD6Ledger)
+    (key : package.D6Key ledger) : package.PriorD6Event :=
+  ledger.baseState.residuals.event key
 
 abbrev D6Coordinate (ledger : package.PriorD6Ledger)
     (stage : package.Stage) :=
-  (package.d6Profile ledger).ActiveKey (package.boundedActiveInterface stage)
+  (package.d6Profile ledger).ActiveOccurrence
+    (package.boundedActiveInterface stage)
 
 /-- Exactly all already-produced D6/F4 keys whose complete support lies in
 the finite support observed at the current stage. -/
 @[implicit_reducible] noncomputable def d6Coordinates
     (ledger : package.PriorD6Ledger) (stage : package.Stage) :
     FinEnum (package.D6Coordinate ledger stage) :=
-  (package.d6Profile ledger).activeKeys (package.boundedActiveInterface stage)
+  (package.d6Profile ledger).activeOccurrences
+    (package.boundedActiveInterface stage)
 
 inductive D6Kind
   | node64To65Ordinary
@@ -333,7 +314,7 @@ noncomputable def d6SupportRoleMask (stage : package.Stage)
 noncomputable def d6StructuralCode (ledger : package.PriorD6Ledger)
     (stage : package.Stage) (coordinate : package.D6Coordinate ledger stage) :
     D6StructuralCode :=
-  let event := (package.d6Profile ledger).entry coordinate.1
+  let event := package.d6Entry ledger coordinate.1
   (package.d6Kind event, package.d6SupportRoleMask stage event)
 
 /-- Equality of occurrence-free labels recovers equality of the exact
@@ -345,17 +326,17 @@ theorem d6StructuralCode_eq_implies_kind_support_eq
     (left right : package.D6Coordinate ledger stage)
     (equal : package.d6StructuralCode ledger stage left =
       package.d6StructuralCode ledger stage right) :
-    package.d6Kind ((package.d6Profile ledger).entry left.1) =
-        package.d6Kind ((package.d6Profile ledger).entry right.1) ∧
+    package.d6Kind (package.d6Entry ledger left.1) =
+        package.d6Kind (package.d6Entry ledger right.1) ∧
       P13ProducedPriorSupportLedger.eventSupport
-          ((package.d6Profile ledger).entry left.1) =
+          (package.d6Entry ledger left.1) =
         P13ProducedPriorSupportLedger.eventSupport
-          ((package.d6Profile ledger).entry right.1) := by
+          (package.d6Entry ledger right.1) := by
   letI : DecidableEq ctx.G.Vertex := ctx.G.object.input.vertices.decEq
   constructor
   · exact congrArg Prod.fst equal
-  · let leftEvent := (package.d6Profile ledger).entry left.1
-    let rightEvent := (package.d6Profile ledger).entry right.1
+  · let leftEvent := package.d6Entry ledger left.1
+    let rightEvent := package.d6Entry ledger right.1
     have masksEqual : package.d6SupportRoleMask stage leftEvent =
         package.d6SupportRoleMask stage rightEvent := congrArg Prod.snd equal
     apply Finset.ext
@@ -428,9 +409,9 @@ theorem D6StructuralValue.eq_of_kind_support_eq
 noncomputable def d6StructuralValue (ledger : package.PriorD6Ledger)
     (stage : package.Stage) (coordinate : package.D6Coordinate ledger stage) :
     D6StructuralValue (ctx := ctx) where
-  kind := package.d6Kind ((package.d6Profile ledger).entry coordinate.1)
+  kind := package.d6Kind (package.d6Entry ledger coordinate.1)
   support := P13ProducedPriorSupportLedger.eventSupport
-    ((package.d6Profile ledger).entry coordinate.1)
+    (package.d6Entry ledger coordinate.1)
 
 theorem d6StructuralCode_eq_implies_value_eq
     (ledger : package.PriorD6Ledger) (stage : package.Stage)
@@ -746,7 +727,8 @@ noncomputable def routeEightD6ExactValue
 /-- Exact dependent value for every D6 subcoordinate actually present in a
 produced event. -/
 inductive EventD6ExactValue :
-    (event : package.PriorD6Event) → package.EventD6Coordinate event → Type u
+    (event : package.PriorD6Event) →
+      package.EventD6Coordinate event → Type (u + 3)
   | ordinary
       (entry : P13ProducedPriorSupportLedger.Node64To65Ordinary (ctx := ctx))
       (coordinate : OrdinaryD6Coordinate entry)
@@ -812,18 +794,18 @@ noncomputable def eventD6Support (event : package.PriorD6Event) :
 
 abbrev RawDeclaredD6Coordinate (ledger : package.PriorD6Ledger) :=
   Sigma fun key : package.D6Key ledger =>
-    package.EventD6Coordinate ((package.d6Profile ledger).entry key)
+    package.EventD6Coordinate (package.d6Entry ledger key)
 
 def RawDeclaredD6ExactValue (ledger : package.PriorD6Ledger) :
-    package.RawDeclaredD6Coordinate ledger → Type u
+    package.RawDeclaredD6Coordinate ledger → Type (u + 3)
   | ⟨key, coordinate⟩ =>
-      package.EventD6ExactValue ((package.d6Profile ledger).entry key) coordinate
+      package.EventD6ExactValue (package.d6Entry ledger key) coordinate
 
 noncomputable def rawDeclaredD6ExactValue (ledger : package.PriorD6Ledger)
     (coordinate : package.RawDeclaredD6Coordinate ledger) :
     package.RawDeclaredD6ExactValue ledger coordinate :=
   package.eventD6ExactValue
-    ((package.d6Profile ledger).entry coordinate.1) coordinate.2
+    (package.d6Entry ledger coordinate.1) coordinate.2
 
 abbrev ExactDeclaredD6Entry (ledger : package.PriorD6Ledger) :=
   Sigma fun coordinate : package.RawDeclaredD6Coordinate ledger =>
@@ -837,16 +819,17 @@ noncomputable def exactDeclaredD6Entry (ledger : package.PriorD6Ledger)
 @[implicit_reducible] noncomputable def rawDeclaredD6Coordinates
     (ledger : package.PriorD6Ledger) :
     FinEnum (package.RawDeclaredD6Coordinate ledger) := by
-  letI : FinEnum (package.D6Key ledger) := (package.d6Profile ledger).keys
+  letI : FinEnum (package.D6Key ledger) :=
+    ledger.baseState.residuals.occurrences
   letI : (key : package.D6Key ledger) → FinEnum
-      (package.EventD6Coordinate ((package.d6Profile ledger).entry key)) :=
-    fun key => package.eventD6Coordinates ((package.d6Profile ledger).entry key)
+      (package.EventD6Coordinate (package.d6Entry ledger key)) :=
+    fun key => package.eventD6Coordinates (package.d6Entry ledger key)
   infer_instance
 
 noncomputable def rawDeclaredD6Support (ledger : package.PriorD6Ledger)
     (coordinate : package.RawDeclaredD6Coordinate ledger) :
     Finset ctx.G.Vertex :=
-  package.eventD6Support ((package.d6Profile ledger).entry coordinate.1)
+  package.eventD6Support (package.d6Entry ledger coordinate.1)
     coordinate.2
 
 def DeclaredD6SupportedIn (ledger : package.PriorD6Ledger)
@@ -1115,13 +1098,13 @@ noncomputable def declaredD6NormalizationProfile
   memCarrier_iff_role := package.mem_boundedActiveInterface_iff_role stage
   coordinates := package.declaredD6Coordinates ledger stage
   kind coordinate := package.eventD6KindCode
-    ((package.d6Profile ledger).entry coordinate.1.1) coordinate.1.2
+    (package.d6Entry ledger coordinate.1.1) coordinate.1.2
   label coordinate := package.eventD6LabelCode stage
-    ((package.d6Profile ledger).entry coordinate.1.1) coordinate.1.2 coordinate.2
+    (package.d6Entry ledger coordinate.1.1) coordinate.1.2 coordinate.2
   support coordinate := package.rawDeclaredD6Support ledger coordinate.1
   supportContained coordinate := coordinate.2
   value coordinate := package.eventD6ValueCode stage
-    ((package.d6Profile ledger).entry coordinate.1.1) coordinate.1.2 coordinate.2
+    (package.d6Entry ledger coordinate.1.1) coordinate.1.2 coordinate.2
 
 abbrev D6DeclaredStructuralCode :=
   Core.FiniteRoleSupportNormalization.Profile.Code
@@ -1186,7 +1169,7 @@ kept, rather than compressed to a Boolean. -/
 structure D6Value (ledger : package.PriorD6Ledger)
     (stage : package.Stage) (coordinate : package.D6Coordinate ledger stage) where
   event : package.PriorD6Event
-  eventExact : event = (package.d6Profile ledger).entry coordinate.1
+  eventExact : event = package.d6Entry ledger coordinate.1
   kind : D6Kind
   kindExact : kind = package.d6Kind event
   support : Finset ctx.G.Vertex
@@ -1196,12 +1179,12 @@ structure D6Value (ledger : package.PriorD6Ledger)
 noncomputable def d6Value (ledger : package.PriorD6Ledger)
     (stage : package.Stage) (coordinate : package.D6Coordinate ledger stage) :
     package.D6Value ledger stage coordinate where
-  event := (package.d6Profile ledger).entry coordinate.1
+  event := package.d6Entry ledger coordinate.1
   eventExact := rfl
-  kind := package.d6Kind ((package.d6Profile ledger).entry coordinate.1)
+  kind := package.d6Kind (package.d6Entry ledger coordinate.1)
   kindExact := rfl
   support := P13ProducedPriorSupportLedger.eventSupport
-    ((package.d6Profile ledger).entry coordinate.1)
+    (package.d6Entry ledger coordinate.1)
   supportExact := rfl
   supportContained := coordinate.2
 
@@ -1210,68 +1193,56 @@ interface occurs in the finite D6 coordinate type. -/
 theorem d6Coordinates_complete (ledger : package.PriorD6Ledger)
     (stage : package.Stage) (key : package.D6Key ledger)
     (contained : P13ProducedPriorSupportLedger.eventSupport
-      ((package.d6Profile ledger).entry key) ⊆ package.boundedActiveInterface stage) :
+      (package.d6Entry ledger key) ⊆ package.boundedActiveInterface stage) :
     ∃ coordinate : package.D6Coordinate ledger stage, coordinate.1 = key :=
-  ((package.d6Profile ledger).mem_activeKeys_iff
+  ((package.d6Profile ledger).mem_activeOccurrences_iff
     (package.boundedActiveInterface stage) key).mp contained
 
 /-- Exact F4 output: one prior producer event, current-endpoint membership,
 and absence of every earlier ledger key. -/
 structure D6F4Hit (ledger : package.PriorD6Ledger)
     (stage : package.Stage) where
-  hit : (package.d6Profile ledger).Hit (package.currentAmbientEndpoint stage)
+  hit : Graph.FiniteResidualSupportLedger.View.FirstHit
+    (package.d6Profile ledger) (package.currentAmbientEndpoint stage)
   event : package.PriorD6Event
-  eventExact : event = (package.d6Profile ledger).entry hit.first.value
-  eventMem : event ∈ ledger.entries
+  eventExact : event = package.d6Entry ledger hit.occurrence
+  occurrenceMem : hit.occurrence ∈ ledger.baseState.residuals.entries
   endpointMem : package.currentAmbientEndpoint stage ∈
     P13ProducedPriorSupportLedger.eventSupport event
-  noEarlier : ∀ key ∈ hit.first.before,
+  noEarlier : ∀ key ∈ hit.before,
     package.currentAmbientEndpoint stage ∉
       P13ProducedPriorSupportLedger.eventSupport
-        ((package.d6Profile ledger).entry key)
+        (package.d6Entry ledger key)
 
 noncomputable def d6F4Hit (ledger : package.PriorD6Ledger)
     (stage : package.Stage)
-    (hit : (package.d6Profile ledger).Hit
-      (package.currentAmbientEndpoint stage)) :
+    (hit : Graph.FiniteResidualSupportLedger.View.FirstHit
+      (package.d6Profile ledger) (package.currentAmbientEndpoint stage)) :
     package.D6F4Hit ledger stage where
   hit := hit
-  event := (package.d6Profile ledger).entry hit.first.value
+  event := package.d6Entry ledger hit.occurrence
   eventExact := rfl
-  eventMem := by
-    exact ledger.entries.get_mem hit.first.value
-  endpointMem := hit.endpoint_mem_support
-  noEarlier := hit.no_earlier_support
+  occurrenceMem := hit.occurrence_mem _ _
+  endpointMem := by
+    change package.currentAmbientEndpoint stage ∈
+      (package.d6Profile ledger).support hit.occurrence
+    exact hit.vertexMember
+  noEarlier := hit.beforeAbsent
 
 theorem D6F4Hit.exact_typeB_or_routeEight
     {package : P13WeightedColdRestrictedPrefixPackage ctx node21}
     {ledger : package.PriorD6Ledger} {stage : package.Stage}
     (hit : package.D6F4Hit ledger stage) :
     ((∃ entry : P13ProducedPriorSupportLedger.Node64To65Ordinary (ctx := ctx),
-        hit.event = .ordinary entry ∧ .ordinary entry ∈ ledger.entries) ∨
+        hit.event = .ordinary entry) ∨
       (∃ entry : DecoratedEntry (ctx := ctx),
-        hit.event = .decorated entry ∧
-          .decorated entry ∈ ledger.entries)) ∨
+        hit.event = .decorated entry)) ∨
     (∃ entry : P13ProducedPriorSupportLedger.RecordedRouteEightExtraction
-        (ctx := ctx),
-      hit.event = .routeEight entry ∧
-        .routeEight entry ∈ ledger.entries) := by
-  cases eventEquation : hit.event with
-  | ordinary entry =>
-      have member : P13ProducedPriorSupportLedger.PriorSupportEvent.ordinary entry ∈ ledger.entries := by
-        rw [← eventEquation]
-        exact hit.eventMem
-      exact Or.inl (Or.inl ⟨entry, rfl, member⟩)
-  | decorated entry =>
-      have member : P13ProducedPriorSupportLedger.PriorSupportEvent.decorated entry ∈ ledger.entries := by
-        rw [← eventEquation]
-        exact hit.eventMem
-      exact Or.inl (Or.inr ⟨entry, rfl, member⟩)
-  | routeEight entry =>
-      have member : P13ProducedPriorSupportLedger.PriorSupportEvent.routeEight entry ∈ ledger.entries := by
-        rw [← eventEquation]
-        exact hit.eventMem
-      exact Or.inr ⟨entry, rfl, member⟩
+        (ctx := ctx), hit.event = .routeEight entry) := by
+  cases hit.event with
+  | ordinary entry => exact .inl (.inl ⟨entry, rfl⟩)
+  | decorated entry => exact .inl (.inr ⟨entry, rfl⟩)
+  | routeEight entry => exact .inr ⟨entry, rfl⟩
 
 /-- Negative result after the exact full scan of the supplied produced-prior-
 support ledger.  This asserts completeness only for that concrete ledger; it
@@ -1281,10 +1252,10 @@ structure D6Complete (ledger : package.PriorD6Ledger)
   endpointOutside : ∀ key : package.D6Key ledger,
     package.currentAmbientEndpoint stage ∉
       P13ProducedPriorSupportLedger.eventSupport
-        ((package.d6Profile ledger).entry key)
+        (package.d6Entry ledger key)
   projectionComplete : ∀ key : package.D6Key ledger,
     P13ProducedPriorSupportLedger.eventSupport
-        ((package.d6Profile ledger).entry key) ⊆ package.boundedActiveInterface stage →
+        (package.d6Entry ledger key) ⊆ package.boundedActiveInterface stage →
       ∃ coordinate : package.D6Coordinate ledger stage, coordinate.1 = key
   carrierCardinality : (package.boundedActiveInterface stage).card ≤ 30
 
@@ -1296,12 +1267,12 @@ inductive D6Decision (ledger : package.PriorD6Ledger)
 /-- Local finite D6 evaluation at one stored prefix. -/
 noncomputable def runD6 (ledger : package.PriorD6Ledger)
     (stage : package.Stage) : package.D6Decision ledger stage := by
-  cases (package.d6Profile ledger).classifyEndpoint
+  cases (package.d6Profile ledger).recognize
       (package.currentAmbientEndpoint stage) with
-  | hit hit => exact .f4 (package.d6F4Hit ledger stage hit)
-  | complete complete =>
+  | found hit => exact .f4 (package.d6F4Hit ledger stage hit)
+  | absent outside =>
       exact .complete {
-        endpointOutside := complete.endpointOutside
+        endpointOutside := outside
         projectionComplete := fun key contained =>
           package.d6Coordinates_complete ledger stage key contained
         carrierCardinality := package.boundedActiveInterface_card_le_30 stage }
@@ -1316,8 +1287,9 @@ theorem runD6_total (ledger : package.PriorD6Ledger)
 
 theorem d6CoordinateCount_le_priorEvents
     (ledger : package.PriorD6Ledger) (stage : package.Stage) :
-    (package.d6Coordinates ledger stage).card ≤ ledger.entries.length :=
-  (package.d6Profile ledger).activeKeys_card_le_entries
+    (package.d6Coordinates ledger stage).card ≤
+      ledger.baseState.residuals.occurrences.card :=
+  (package.d6Profile ledger).activeOccurrences_card_le_occurrences
     (package.boundedActiveInterface stage)
 
 end P13WeightedColdRestrictedPrefixPackage

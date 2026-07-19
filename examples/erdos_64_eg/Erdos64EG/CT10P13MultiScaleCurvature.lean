@@ -9,9 +9,6 @@ open scoped BigOperators
 
 universe u
 
-set_option maxRecDepth 100000
-set_option maxHeartbeats 0
-
 /-!
 # CT10: the complete multi-scale P13 curvature table
 
@@ -131,6 +128,25 @@ theorem p13BarrierFlatCount_audit (index : P13BarrierIndex) :
     p13BarrierIndex_sum_le_fourteen index⟩] at audited
   exact audited
 
+def p13MultiScaleCountCertificate :
+    Core.FiniteBitRelationBarrier.CountCertificate
+      p13MultiScaleBarrierProfile P13BarrierIndex where
+  leftLength := P13BarrierIndex.leftLength
+  rightLength := P13BarrierIndex.rightLength
+  storedSafe := p13BarrierSafeCount
+  storedFlat := p13BarrierFlatCount
+  safeExact := p13BarrierSafeCount_audit
+  flatExact := p13BarrierFlatCount_audit
+
+def p13MultiScaleCertifiedTable :
+    Core.FiniteBitRelationBarrier.CertifiedTable
+      p13MultiScaleBarrierProfile
+      (Fin 15) (fun length => length.1)
+      (fun length => P13MultiScaleCurvatureCertificate.semanticRelation length.1)
+      P13BarrierIndex where
+  semantic := p13MultiScaleSemanticCertificate
+  counts := p13MultiScaleCountCertificate
+
 def p13BarrierSafeProduct : Nat :=
   (p13BarrierClassification.classes.orderedValues.map
     p13BarrierSafeCount).prod
@@ -170,13 +186,10 @@ theorem p13MultiScaleBarrier_more_than_118_bits :
   p13Barrier_computation.2.1
 
 theorem p13Barrier_one_one_counts :
-    let index : P13BarrierIndex :=
-      ⟨(⟨0, by decide⟩, ⟨0, by decide⟩), by
-        change 0 + 0 ≤ 12
-        decide⟩
-    p13BarrierSafeCount index = 543958 ∧
-      p13BarrierObstructedCount index = 432672 ∧
-      p13BarrierFlatCount index = 111286 :=
+    P13MultiScaleCurvatureCertificate.safeCount 1 1 = 543958 ∧
+      P13MultiScaleCurvatureCertificate.safeCount 1 1 -
+          P13MultiScaleCurvatureCertificate.flatCount 1 1 = 432672 ∧
+      P13MultiScaleCurvatureCertificate.flatCount 1 1 = 111286 :=
   p13Barrier_computation.2.2
 
 noncomputable def p13BarrierStage
@@ -207,28 +220,20 @@ structure VerifiedP13MultiScaleCurvaturePrefix
   previous : BoundedSurplusScaleResidual ctx
   stage : p13BarrierClassification.VerifiedStage ctx.toBranchContext
   barrierCount : p13BarrierClassification.classCount = 91
-  semantic : ∀ length, length < 15 → ∀ source target,
-    (p13MultiScaleCompatibilityRow length source).getLsb target = true ↔
-      p13C length (p13CurvatureLabel source)
-        (p13CurvatureLabel target) = 1
+  certificate : Core.FiniteBitRelationBarrier.CertifiedTable
+    p13MultiScaleBarrierProfile
+    (Fin 15) (fun length => length.1)
+    (fun length => P13MultiScaleCurvatureCertificate.semanticRelation length.1)
+    P13BarrierIndex
   wellFormed : ∀ index : P13BarrierIndex,
     0 < p13BarrierFlatCount index ∧
       p13BarrierFlatCount index ≤ p13BarrierSafeCount index
-  safeCountAudit : ∀ index : P13BarrierIndex,
-    p13BarrierSafeCount index = p13MultiScaleBarrierProfile.safeCount
-      index.leftLength index.rightLength
-  flatCountAudit : ∀ index : P13BarrierIndex,
-    p13BarrierFlatCount index = p13MultiScaleBarrierProfile.flatCount
-      index.leftLength index.rightLength
   rateFloor : 2 ^ 118 * p13BarrierFlatProduct < p13BarrierSafeProduct
   oneOneCounts :
-    let index : P13BarrierIndex :=
-      ⟨(⟨0, by decide⟩, ⟨0, by decide⟩), by
-        change 0 + 0 ≤ 12
-        decide⟩
-    p13BarrierSafeCount index = 543958 ∧
-      p13BarrierObstructedCount index = 432672 ∧
-      p13BarrierFlatCount index = 111286
+    P13MultiScaleCurvatureCertificate.safeCount 1 1 = 543958 ∧
+      P13MultiScaleCurvatureCertificate.safeCount 1 1 -
+          P13MultiScaleCurvatureCertificate.flatCount 1 1 = 432672 ∧
+      P13MultiScaleCurvatureCertificate.flatCount 1 1 = 111286
   terminal :
     (p13BarrierClassification.run ctx.toBranchContext).terminal = .exhaustive
   trace : (p13BarrierClassification.run ctx.toBranchContext).trace =
@@ -242,10 +247,8 @@ noncomputable def verifiedP13MultiScaleCurvaturePrefix
   previous := previous
   stage := p13BarrierStage ctx
   barrierCount := p13Barrier_class_count
-  semantic := p13MultiScaleCompatibilityRow_semantic
+  certificate := p13MultiScaleCertifiedTable
   wellFormed := p13Barrier_counts_wellFormed
-  safeCountAudit := p13BarrierSafeCount_audit
-  flatCountAudit := p13BarrierFlatCount_audit
   rateFloor := p13MultiScaleBarrier_more_than_118_bits
   oneOneCounts := p13Barrier_one_one_counts
   terminal := p13BarrierStage_terminal ctx

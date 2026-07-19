@@ -38,7 +38,7 @@ namespace Exit4
 
 def routed (exit4 : Exit4 (ctx := ctx) boundaries) :
     Routes.TargetDefectHandoff.Residual packedStaticInput boundaries ctx :=
-  Routes.TargetDefectHandoff.route packedStaticInput boundaries ctx exit4.source
+  Routes.TargetDefectHandoff.handoff packedStaticInput boundaries ctx exit4.source
 
 end Exit4
 

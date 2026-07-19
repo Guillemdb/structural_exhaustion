@@ -215,12 +215,66 @@ theorem semanticBottleneckClassificationWork_le_vertices
         234 * ctx.G.object.input.vertices.card + 7 :=
   Semantic.Classifier.classificationWork_le_vertices _ _ _
 
-/-- Verified prefix through node [177].  This closes the finite classifier,
-not any of the four downstream aligned semantic consumers. -/
-structure VerifiedSemanticBottleneckClassificationPrefix
+/-- Exact dependent index of the manuscript's already selected overload and
+homogeneous-pattern branches.  It is used pointwise and is never enumerated. -/
+abbrev SemanticBottleneckClassificationIndex
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
-    Prop where
-  previous : VerifiedGeometricBottleneckClassificationPrefix ctx
+    Type u :=
+  Sigma fun overload : (coupledClassProfile ctx 49 49 49).Overload
+      ctx.toBranchContext (coupledClassItems ctx) =>
+    Graph.SurplusHomogeneousPattern.Audit
+      (geometricActivationStage ctx) 49 49 49
+      (coupledOverloadClassRoute ctx 49 49 49 overload)
+
+/-- Framework pointwise CT9→CT10 profile.  Every local index executes its own
+public exhaustive-classification capability while the complete geometric
+ledger is retained exactly once. -/
+noncomputable def semanticBottleneckPointwiseProfile
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedGeometricBottleneckClassificationPrefix ctx) :
+    Routes.Accumulated.PointwiseAdapter
+      .ct9 .ct10
+      (SemanticBottleneckClassificationIndex ctx)
+      (GeometricBottleneckClassificationLedger ctx previous.1) where
+  Source := fun _index =>
+    GeometricBottleneckClassificationLedger ctx previous.1
+  target := fun index =>
+    let predecessor := canonicalGeometricPredecessor ctx index.1 index.2
+    let profile := Graph.SurplusPatternSemanticBottleneck.ct10Profile
+      (geometricActivationStage ctx) predecessor.collision
+      predecessor.semanticTrigger
+    (profile.capability PackedProblem.{u}).executableInterface
+  adapter := fun index =>
+    let predecessor := canonicalGeometricPredecessor ctx index.1 index.2
+    let profile := Graph.SurplusPatternSemanticBottleneck.ct10Profile
+      (geometricActivationStage ctx) predecessor.collision
+      predecessor.semanticTrigger
+    {
+      targetContext := fun _source => ctx.toBranchContext
+      trigger := fun _source =>
+        ⟨(profile.input ctx.toBranchContext).data⟩
+    }
+  current := fun _index => id
+
+noncomputable def semanticBottleneckTransitionStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedGeometricBottleneckClassificationPrefix ctx) :=
+  Routes.Accumulated.advancePointwise
+    (semanticBottleneckPointwiseProfile ctx previous)
+    (geometricBottleneckClassificationLedgerStage ctx previous)
+
+abbrev SemanticBottleneckTransitionLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedGeometricBottleneckClassificationPrefix ctx) :=
+  Routes.Accumulated.PointwiseOutputLedger
+    (semanticBottleneckPointwiseProfile ctx previous)
+    (geometricBottleneckClassificationLedgerStage ctx previous)
+
+/-- Node `[177]` obligations attached to the exact pointwise CT10 execution. -/
+structure SemanticBottleneckClassificationFacts
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {previous : VerifiedGeometricBottleneckClassificationPrefix ctx}
+    (_stage : SemanticBottleneckTransitionLedger ctx previous) : Prop where
   classification : ∀
       (overload : (coupledClassProfile ctx 49 49 49).Overload
         ctx.toBranchContext (coupledClassItems ctx))
@@ -229,24 +283,45 @@ structure VerifiedSemanticBottleneckClassificationPrefix
         (coupledOverloadClassRoute ctx 49 49 49 overload)),
       Nonempty (SemanticBottleneckClassification ctx overload homogeneous)
 
+abbrev SemanticBottleneckClassificationLedger
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (previous : VerifiedGeometricBottleneckClassificationPrefix ctx) :=
+  Core.Routing.LedgerExtension
+    (SemanticBottleneckTransitionLedger ctx previous)
+    (SemanticBottleneckClassificationFacts ctx)
+
+/-- Verified prefix through node `[177]`; no aligned semantic consumer is
+claimed here. -/
+abbrev VerifiedSemanticBottleneckClassificationPrefix
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  Sigma (SemanticBottleneckClassificationLedger ctx)
+
 noncomputable def verifiedSemanticBottleneckClassificationPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedGeometricBottleneckClassificationPrefix ctx) :
-    VerifiedSemanticBottleneckClassificationPrefix ctx where
-  previous := previous
-  classification := fun overload homogeneous =>
-    ⟨semanticBottleneckClassification ctx overload homogeneous⟩
+    VerifiedSemanticBottleneckClassificationPrefix ctx :=
+  let stage := semanticBottleneckTransitionStage ctx previous
+  ⟨previous, ⟨stage, {
+    classification := fun overload homogeneous =>
+      ⟨semanticBottleneckClassification ctx overload homogeneous⟩
+  }⟩⟩
+
+/-- Canonical complete CT10 continuation stage after node `[177]`. -/
+noncomputable def semanticBottleneckClassificationLedgerStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (verified : VerifiedSemanticBottleneckClassificationPrefix ctx) :=
+  verified.2.previous.ledgerStage.extend verified.2.added
 
 theorem exists_verifiedSemanticBottleneckClassificationPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)
     (avoids : ¬Target object) :
     ∃ ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u},
-      PackedProblem.{u}.rank ctx.G ≤
-          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) ∧
-        VerifiedSemanticBottleneckClassificationPrefix.{u} ctx := by
-  obtain ⟨ctx, rankLe, previous⟩ :=
+      ∃ _ : VerifiedSemanticBottleneckClassificationPrefix.{u} ctx,
+        PackedProblem.{u}.rank ctx.G ≤
+          PackedProblem.{u}.rank (Graph.PackedFiniteObject.pack object) := by
+  obtain ⟨ctx, previous, rankLe⟩ :=
     exists_verifiedGeometricBottleneckClassificationPrefix object baseline avoids
-  exact ⟨ctx, rankLe,
-    verifiedSemanticBottleneckClassificationPrefix ctx previous⟩
+  exact ⟨ctx,
+    verifiedSemanticBottleneckClassificationPrefix ctx previous, rankLe⟩
 
 end Erdos64EG.Internal

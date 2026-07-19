@@ -249,7 +249,7 @@ example : k4MersenneCT1Run.checks = 1 :=
 minimum-degree-three proper core executes the exact CT2 closure path, while
 the exported theorem rules that branch out. -/
 
-universe u
+universe u v
 
 variable
   (ctx : StructuralExhaustion.Core.MinimalCounterexampleContext
@@ -417,12 +417,12 @@ noncomputable def exactPackingCeiling : P13CoverageResidual ctx packingPrefix wh
   windowCeiling := p13 ctx
   packing_le := Nat.le_refl _
 
-example : (exactPackingCeiling ctx packingPrefix).remainderFloor ≤
+noncomputable example : (exactPackingCeiling ctx packingPrefix).remainderFloor ≤
     (p13RemainderVertices ctx).card :=
   p13Remainder_large ctx packingPrefix
     (exactPackingCeiling ctx packingPrefix)
 
-example : VerifiedP13RemainderContinuation ctx packingPrefix
+noncomputable example : VerifiedP13RemainderContinuation ctx packingPrefix
     (exactPackingCeiling ctx packingPrefix) :=
   p13Remainder_node26_exact ctx packingPrefix
     (exactPackingCeiling ctx packingPrefix)
@@ -858,62 +858,55 @@ example : p13LabelClassification.Accepts
 /-! The next exact stage consumes CT6's actual active-ledger residual through
 the registered CT6-to-CT9 route and partitions only the surplus-slot list. -/
 
-variable (surplusPrefix : VerifiedSparseSurplusPrefix ctx)
+variable (surplusPairPrefix : VerifiedSurplusPairPrefix ctx)
 
 example : (surplusPairInput ctx).context = sparseSurplusContext ctx :=
-  surplusPairRoute_context_preserved ctx
+  surplusPairTransition_context_preserved ctx
 
-example : (runSurplusPairCT9 ctx).outcome.Valid :=
-  runSurplusPairCT9_verified ctx
+example : (runSurplusPairCT9 ctx surplusPairPrefix).outcome.Valid :=
+  runSurplusPairCT9_verified ctx surplusPairPrefix
 
 example : CT9.Graph.ValidTrace (surplusPairCapability ctx)
-    (surplusPairInput ctx) (runSurplusPairCT9 ctx).trace :=
-  runSurplusPairCT9_traceValid ctx
+    (surplusPairInput ctx) (runSurplusPairCT9 ctx surplusPairPrefix).trace :=
+  runSurplusPairCT9_traceValid ctx surplusPairPrefix
 
 example : ∃ result : CT9.ExecutionResult (surplusPairCapability ctx)
       (surplusPairInput ctx),
     result.outcome.Valid ∧ CT9.Graph.ValidTrace
       (surplusPairCapability ctx) (surplusPairInput ctx) result.trace :=
-  runSurplusPairCT9_total ctx
+  runSurplusPairCT9_total ctx surplusPairPrefix
 
 variable (twoLeSigma : 2 ≤
   (ctx.G.object.input.vertices.orderedValues.map
     (fun center => ctx.G.object.degree center - 3)).sum)
 
-example : (runSurplusPairCT9OfTwoLeSigma ctx twoLeSigma).execution.terminal =
-    .overloaded :=
-  (runSurplusPairCT9OfTwoLeSigma ctx twoLeSigma).terminal_eq
+example : (runSurplusPairCT9 ctx surplusPairPrefix).terminal = .overloaded :=
+  runSurplusPairCT9_terminal_overloaded_of_twoLe ctx surplusPairPrefix twoLeSigma
 
-example : (surplusPairOfTwoLeSigma ctx twoLeSigma).first ≠
-    (surplusPairOfTwoLeSigma ctx twoLeSigma).second :=
-  surplusPairOfTwoLeSigma_distinct ctx twoLeSigma
+example : (surplusPairOfTwoLeSigma ctx surplusPairPrefix twoLeSigma).first ≠
+    (surplusPairOfTwoLeSigma ctx surplusPairPrefix twoLeSigma).second :=
+  surplusPairOfTwoLeSigma_distinct ctx surplusPairPrefix twoLeSigma
 
 /-! Subsequent finite stages remain on the same selected graph. -/
 
 example : (runFourCycleAvoidingCT1 ctx).result.terminal = .avoiding :=
   runFourCycleAvoidingCT1_terminal ctx
 
-example :
-    (runSurplusPortClassificationCT10 ctx).outcome.Valid :=
-  (surplusPortClassificationStage ctx).verified
+variable
+  (classificationPrefix : VerifiedSurplusPortClassificationPrefix ctx)
+  (openPairPrefix : VerifiedOpenPortPairPrefix ctx)
+  (responsePrefix : VerifiedOpenPortResponsePrefix ctx)
+  (shoulderPrefix : VerifiedPortShoulderLedgerPrefix ctx)
 
-example : (runOpenPortPairCT9 ctx).outcome.Valid :=
-  (openPortPairStage ctx).verified
-
 example :
-    (∀ center, CT9.fibreCount (openPortPairCapability ctx)
-      (openPortPairInput ctx) center ≤ 1) ∨
-      (∃ source : Graph.OpenPortResponse.SourceResidual
-          (fixedPackedInput ctx) ctx.G.object
-          (packedStaticInput.fixedContext ctx).baseline
-          ((fixedPackedInput ctx).dart_has_tight_endpoint
-            (packedStaticInput.fixedContext ctx)),
-        Graph.OpenPortResponse.RoutedStage
-          (fixedPackedInput ctx) ctx.G.object
-          (packedStaticInput.fixedContext ctx).baseline
-          ((fixedPackedInput ctx).dart_has_tight_endpoint
-            (packedStaticInput.fixedContext ctx)) source) :=
-  openPortResponse_stateSpace ctx
+    (runSurplusPortClassificationCT10 ctx classificationPrefix).outcome.Valid :=
+  runSurplusPortClassificationCT10_verified ctx classificationPrefix
+
+example : (runOpenPortPairCT9 ctx openPairPrefix).outcome.Valid :=
+  runOpenPortPairCT9_verified ctx openPairPrefix
+
+example : OpenPortResponseState ctx responsePrefix.sourceLedger :=
+  responsePrefix.stateSpace
 
 example :
     (Graph.PortShoulderLedger.run
@@ -923,8 +916,8 @@ example :
         (packedStaticInput.fixedContext ctx))).terminal = .charge :=
   runPortShoulderLedgerCT5_terminal ctx
 
-example : OpenPortCompatibilityState ctx :=
-  openPortCompatibility_stateSpace ctx
+example : VerifiedOpenPortCompatibilityPrefix ctx :=
+  verifiedOpenPortCompatibilityPrefix ctx shoulderPrefix
 
 example (center : ctx.G.Vertex)
     (centerHigh : 4 ≤ ctx.G.object.degree center) :
@@ -936,20 +929,25 @@ example (center : ctx.G.Vertex)
     TriangularShoulderStage ctx center centerHigh :=
   triangularShoulder_stage ctx center centerHigh
 
+variable {shoulderLedger : Sort v}
+  {shoulderSource : Core.Routing.ResidualStage .ct5 shoulderLedger}
+  (bridgeStage : Core.Routing.ResidualStage .ct2
+    (BridgeReductionLedger ctx shoulderSource))
+
 example (dart : ctx.G.object.graph.Dart) :
     ¬ctx.G.object.graph.IsBridge dart.edge :=
-  dart_not_bridge ctx dart
+  dart_not_bridge ctx bridgeStage dart
 
 example (dart : ctx.G.object.graph.Dart)
     (bridge : ctx.G.object.graph.IsBridge dart.edge) :
     (packedStaticInput.bridgeCT2Run (by decide) ctx dart bridge).terminal =
       .deletionC2 :=
-  (bridgeReductionStage ctx).terminal dart bridge
+  (bridgeReductionStage ctx bridgeStage).terminal dart bridge
 
 example (dart : ctx.G.object.graph.Dart)
     (bridge : ctx.G.object.graph.IsBridge dart.edge) :
     (packedStaticInput.bridgeCT2Run (by decide) ctx dart bridge).checks = 1 :=
-  (bridgeReductionStage ctx).checks dart bridge
+  (bridgeReductionStage ctx bridgeStage).checks dart bridge
 
 variable (center : ctx.G.Vertex)
   (centerHigh : 4 ≤ ctx.G.object.degree center)
@@ -958,25 +956,32 @@ variable (center : ctx.G.Vertex)
 
 example : (Graph.TriangularPortReturn.certificate
     (triangularShoulderSetup ctx center centerHigh) triangularPort
-    (triangularPortRoot ctx center centerHigh triangularPort)).path.IsPath :=
-  (triangularPortReturnStage ctx center centerHigh triangularPort).pathIsSimple
+    (triangularPortRoot ctx bridgeStage center centerHigh triangularPort)).path.IsPath :=
+  (triangularPortReturnStage ctx bridgeStage center centerHigh triangularPort).pathIsSimple
 
 example : (Graph.TriangularPortReturn.run
     (triangularShoulderSetup ctx center centerHigh) triangularPort
-    (triangularPortRoot ctx center centerHigh triangularPort)).result.terminal = .c1 :=
-  (triangularPortReturnStage ctx center centerHigh triangularPort).terminal
+    (triangularPortRoot ctx bridgeStage center centerHigh triangularPort)).result.terminal = .c1 :=
+  (triangularPortReturnStage ctx bridgeStage center centerHigh triangularPort).terminal
 
 example : (Graph.TriangularPortReturn.run
     (triangularShoulderSetup ctx center centerHigh) triangularPort
-    (triangularPortRoot ctx center centerHigh triangularPort)).checks = 1 :=
-  (triangularPortReturnStage ctx center centerHigh triangularPort).checks
+    (triangularPortRoot ctx bridgeStage center centerHigh triangularPort)).checks = 1 :=
+  (triangularPortReturnStage ctx bridgeStage center centerHigh triangularPort).checks
 
 example (exponent : Nat) (lower : 2 ≤ exponent) :
     (Graph.TriangularPortReturn.certificate
       (triangularShoulderSetup ctx center centerHigh) triangularPort
-      (triangularPortRoot ctx center centerHigh triangularPort)).path.length ≠
+      (triangularPortRoot ctx bridgeStage center centerHigh triangularPort)).path.length ≠
         2 ^ exponent - 2 :=
-  triangularPortReturn_length_ne ctx center centerHigh triangularPort exponent lower
+  triangularPortReturn_length_ne ctx bridgeStage center centerHigh triangularPort
+    exponent lower
+
+variable
+  (returnLedgerStage : Core.Routing.ResidualStage .ct1
+    (TriangularPortReturnLedger ctx bridgeStage))
+  (landingLedgerStage : Core.Routing.ResidualStage .ct10
+    (TriangularFirstLandingLedger ctx returnLedgerStage))
 
 example : CT10.Graph.ValidTrace
     (Graph.TriangularFirstLanding.capability
@@ -990,12 +995,15 @@ example : CT10.Graph.ValidTrace
 example : Graph.TriangularFirstLanding.ClassifiedReturnAlternative
     (Graph.TriangularPortReturn.certificate
       (triangularShoulderSetup ctx center centerHigh) triangularPort
-      (triangularPortRoot ctx center centerHigh triangularPort)) :=
-  triangularPortReturn_classified ctx center centerHigh triangularPort
+      (triangularPortRoot ctx bridgeStage center centerHigh triangularPort)) :=
+  triangularPortReturn_classified ctx returnLedgerStage landingLedgerStage
+    center centerHigh triangularPort
 
 variable (secondTriangularPort : Graph.TriangularCrossShoulder.TriPort
     (triangularShoulderSetup ctx center centerHigh))
   (triangularPortsNe : triangularPort ≠ secondTriangularPort)
+  (crossLedgerStage : Core.Routing.ResidualStage .ct9
+    (TriangularCrossShoulderLedger ctx landingLedgerStage))
 
 example : Graph.TriangularCrossShoulder.HighShoulder triangularPort
       secondTriangularPort ∨
@@ -1004,12 +1012,12 @@ example : Graph.TriangularCrossShoulder.HighShoulder triangularPort
         secondTriangularPort)
       (Graph.TriangularCrossShoulder.input triangularPort
         secondTriangularPort) () ≤ 1 :=
-  triangularCrossShoulder_stateSpace ctx center centerHigh triangularPort
-    secondTriangularPort triangularPortsNe
+  triangularCrossShoulder_stateSpace ctx crossLedgerStage center centerHigh
+    triangularPort secondTriangularPort triangularPortsNe
 
 example : Graph.TriangularCrossShoulder.checks triangularPort
     secondTriangularPort ≤ 5 :=
-  (triangularCrossShoulderStage ctx center centerHigh triangularPort
+  (crossLedgerStage.output.added center centerHigh triangularPort
     secondTriangularPort triangularPortsNe).polynomial
 
 noncomputable example

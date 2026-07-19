@@ -19,13 +19,13 @@ from tools.render_schemas import render_schemas
 from tools.validate_machine_run import validate_record
 from tools.validate_repository import (
     AUTHOR_PROVISIONS,
-    ROUTE_EXPECTED_PROBLEM_INPUTS,
-    ROUTE_FRAMEWORK_RESPONSIBILITIES,
+    TRANSITION_EXPECTED_PROBLEM_INPUTS,
+    TRANSITION_FRAMEWORK_RESPONSIBILITIES,
     validate,
-    validate_routes,
     validate_tactic,
+    validate_transition_profiles,
 )
-from tools.verify_lean import automation_graph_route_errors
+from tools.verify_lean import automation_graph_transition_errors
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -147,12 +147,12 @@ def first_terminal_path(tactic: dict) -> tuple[list[dict], dict]:
     raise AssertionError(f"{tactic['tacticId']} has no reachable terminal")
 
 
-def test_catalog_is_the_compiled_schema_v8_ct1_to_ct17_registry() -> None:
+def test_catalog_is_the_compiled_schema_v9_ct1_to_ct17_registry() -> None:
     catalog = load("generated/lean-machines.json")
     schema = load("schemas/lean-machine-catalog.schema.json")
     assert list(Draft202012Validator(schema).iter_errors(catalog)) == []
     assert catalog["artifactType"] == "automationFirstLeanCatalog"
-    assert catalog["schemaVersion"] == "8.0.0"
+    assert catalog["schemaVersion"] == "9.0.0"
     assert catalog["sourceOfTruth"] == {
         "kind": "compiledLeanEnvironment",
         "rootModule": "StructuralExhaustion",
@@ -663,7 +663,7 @@ def test_graphs_are_closed_reachable_exact_and_only_ct12_is_cyclic() -> None:
             assert tactic["loopDecrease"] is None
 
 
-def test_residual_registry_and_routes_are_explicit_and_framework_owned() -> None:
+def test_transition_profiles_are_executable_and_framework_owned() -> None:
     catalog = load("generated/lean-machines.json")
     residuals = [
         residual for tactic in catalog["tactics"] for residual in tactic["residualKinds"]
@@ -671,7 +671,7 @@ def test_residual_registry_and_routes_are_explicit_and_framework_owned() -> None
     residual_ids = {residual["residualKindId"] for residual in residuals}
     assert len(residual_ids) == len(residuals)
     assert all(residual["semanticFields"] for residual in residuals)
-    assert {route["routeId"] for route in catalog["routes"]} == {
+    assert {profile["profileId"] for profile in catalog["transitionProfiles"]} == {
         "CT1.residual.avoiding->CT2",
         "CT1.residual.avoiding->CT2.localDeletion",
         "CT1.terminal.c1->CT12",
@@ -720,39 +720,60 @@ def test_residual_registry_and_routes_are_explicit_and_framework_owned() -> None
             "adapterType": None,
         },
     }
-    for route in catalog["routes"]:
-        route_id = route["routeId"]
-        assert route["sourceResidualKind"] in residual_ids
-        assert route["targetTacticId"] in tactic_ids()
-        assert "instanceAuthoringRequired" not in route
-        boundary = route["authoringBoundary"]
-        assert boundary["semanticDiscovery"] == expected_semantic_discovery[route_id]
-        assert boundary["problemSpecificInputs"] == ROUTE_EXPECTED_PROBLEM_INPUTS[
-            route_id
+    for profile in catalog["transitionProfiles"]:
+        profile_id = profile["profileId"]
+        assert profile["sourceResidualKind"] in residual_ids
+        assert profile["sourceTacticId"] in tactic_ids()
+        assert profile["targetTacticId"] in tactic_ids()
+        assert profile["familyId"] == (
+            f"{profile['sourceTacticId']}->{profile['targetTacticId']}"
+        )
+        assert profile["targetExecutableInterface"].endswith(
+            "executableInterface"
+        )
+        assert profile["transitionConstructor"].startswith(
+            "StructuralExhaustion.Routes."
+        )
+        assert profile["transitionConstructor"].endswith(".transition")
+        assert profile["advanceExecutor"].startswith(
+            "StructuralExhaustion.Routes."
+        )
+        assert profile["advanceExecutor"].endswith(".advance")
+        boundary = profile["authoringBoundary"]
+        assert boundary["semanticDiscovery"] == expected_semantic_discovery[profile_id]
+        assert boundary["problemSpecificInputs"] == TRANSITION_EXPECTED_PROBLEM_INPUTS[
+            profile_id
         ]
         assert (
             boundary["frameworkOwnedResponsibilities"]
-            == ROUTE_FRAMEWORK_RESPONSIBILITIES
+            == TRANSITION_FRAMEWORK_RESPONSIBILITIES
         )
-        for field in (
-            "discovery",
-            "triggerConstructor",
-            "soundnessTheorem",
-            "contextPreservationTheorem",
-            "provenanceTheorem",
-        ):
-            assert route[field].startswith("StructuralExhaustion.")
+
+    profiles_by_family = {
+        family["familyId"]: family["profileIds"]
+        for family in catalog["transitionFamilies"]
+    }
+    assert set(profiles_by_family) == {
+        profile["familyId"] for profile in catalog["transitionProfiles"]
+    }
+    for family_id, profile_ids in profiles_by_family.items():
+        assert profile_ids == [
+            profile["profileId"]
+            for profile in catalog["transitionProfiles"]
+            if profile["familyId"] == family_id
+        ]
 
 
-def test_generated_schemas_are_exact_catalog_residual_and_route_projections() -> None:
+def test_generated_schemas_are_exact_catalog_transition_projections() -> None:
     catalog = load("generated/lean-machines.json")
     index = load("schemas/generated/index.json")
-    assert index["schemaVersion"] == "2.0.0"
+    assert index["schemaVersion"] == "3.0.0"
     assert index["canonicalCatalog"] == "generated/lean-machines.json"
     assert [item["tacticId"] for item in index["tactics"]] == tactic_ids()
 
     tactic_by_id = {tactic["tacticId"]: tactic for tactic in catalog["tactics"]}
-    expected_paths: set[str] = set(index["routes"])
+    expected_paths: set[str] = set(index["transitionFamilies"])
+    expected_paths.update(index["transitionProfiles"])
     for item in index["tactics"]:
         tactic = tactic_by_id[item["tacticId"]]
         expected_paths.update(
@@ -793,12 +814,24 @@ def test_generated_schemas_are_exact_catalog_residual_and_route_projections() ->
         assert constants["terminalCount"]["const"] == len(tactic["terminals"])
         assert constants["manualObligationCount"]["const"] == 0
 
-    route_by_id = {route["routeId"]: route for route in catalog["routes"]}
-    for relative in index["routes"]:
+    family_by_id = {
+        family["familyId"]: family for family in catalog["transitionFamilies"]
+    }
+    for relative in index["transitionFamilies"]:
         schema = load(relative)
         Draft202012Validator.check_schema(schema)
-        route = schema["allOf"][1]["const"]
-        assert route == route_by_id[route["routeId"]]
+        family = schema["allOf"][1]["const"]
+        assert family == family_by_id[family["familyId"]]
+
+    profile_by_id = {
+        profile["profileId"]: profile
+        for profile in catalog["transitionProfiles"]
+    }
+    for relative in index["transitionProfiles"]:
+        schema = load(relative)
+        Draft202012Validator.check_schema(schema)
+        profile = schema["allOf"][1]["const"]
+        assert profile == profile_by_id[profile["profileId"]]
 
     actual_paths = {
         path.relative_to(ROOT).as_posix()
@@ -875,15 +908,17 @@ def test_run_validator_accepts_a_compiled_path_and_rejects_reordering() -> None:
 def test_manifest_projects_the_catalog_and_generated_files_exist() -> None:
     catalog = load("generated/lean-machines.json")
     manifest = load("generated/manifest.json")
-    route_manifest = load("generated/route-manifest.json")
+    transition_manifest = load("generated/transition-manifest.json")
     assert manifest["schemaVersion"] == "3.0.0"
     assert manifest["catalog"] == "generated/lean-machines.json"
     assert manifest["catalogStatus"] == "framework/generated/catalog-status.tex"
     assert (ROOT / manifest["catalogStatus"]).is_file()
     assert [item["tacticId"] for item in manifest["tactics"]] == tactic_ids()
-    assert manifest["routes"] == catalog["routes"]
-    assert route_manifest["schemaVersion"] == "2.0.0"
-    assert route_manifest["routes"] == catalog["routes"]
+    assert manifest["transitionFamilies"] == catalog["transitionFamilies"]
+    assert manifest["transitionProfiles"] == catalog["transitionProfiles"]
+    assert transition_manifest["schemaVersion"] == "1.0.0"
+    assert transition_manifest["transitionFamilies"] == catalog["transitionFamilies"]
+    assert transition_manifest["transitionProfiles"] == catalog["transitionProfiles"]
     for tactic in manifest["tactics"]:
         for key in ("mermaid", "cytoscape", "internals", "manuscriptFigure"):
             assert (ROOT / tactic[key]).is_file()
@@ -915,23 +950,30 @@ def test_catalog_status_is_computed_from_catalog() -> None:
     catalog = load("generated/lean-machines.json")
     status = catalog_status_tex(catalog)
     assert rf"\newcommand{{\CatalogTacticCount}}{{{len(catalog['tactics'])}}}" in status
-    assert rf"\newcommand{{\CatalogRouteCount}}{{{len(catalog['routes'])}}}" in status
-    capability_routes = sum(
-        route["authoringBoundary"]["semanticDiscovery"]["kind"]
-        == "capabilityDiscovery"
-        for route in catalog["routes"]
-    )
-    adapter_routes = sum(
-        route["authoringBoundary"]["semanticDiscovery"]["kind"]
-        == "problemSemanticAdapter"
-        for route in catalog["routes"]
-    )
     assert (
-        rf"\newcommand{{\CatalogCapabilityDiscoveryRouteCount}}{{{capability_routes}}}"
+        rf"\newcommand{{\CatalogTransitionFamilyCount}}{{{len(catalog['transitionFamilies'])}}}"
         in status
     )
     assert (
-        rf"\newcommand{{\CatalogProblemSemanticAdapterRouteCount}}{{{adapter_routes}}}"
+        rf"\newcommand{{\CatalogTransitionProfileCount}}{{{len(catalog['transitionProfiles'])}}}"
+        in status
+    )
+    capability_profiles = sum(
+        profile["authoringBoundary"]["semanticDiscovery"]["kind"]
+        == "capabilityDiscovery"
+        for profile in catalog["transitionProfiles"]
+    )
+    adapter_profiles = sum(
+        profile["authoringBoundary"]["semanticDiscovery"]["kind"]
+        == "problemSemanticAdapter"
+        for profile in catalog["transitionProfiles"]
+    )
+    assert (
+        rf"\newcommand{{\CatalogCapabilityDiscoveryTransitionProfileCount}}{{{capability_profiles}}}"
+        in status
+    )
+    assert (
+        rf"\newcommand{{\CatalogProblemSemanticAdapterTransitionProfileCount}}{{{adapter_profiles}}}"
         in status
     )
     manual_obligations = sum(
@@ -969,31 +1011,33 @@ def test_repository_validator_accepts_and_rejects_contract_corruption() -> None:
     validate_tactic(errors, wrong_concept_link)
     assert any("has conceptId" in error for error in errors)
 
-    broken_routes = deepcopy(catalog)
-    broken_routes["routes"][0]["sourceResidualKind"] = "CT1.residual.unknown"
+    broken_profiles = deepcopy(catalog)
+    broken_profiles["transitionProfiles"][0]["sourceResidualKind"] = (
+        "CT1.residual.unknown"
+    )
     errors = []
-    validate_routes(errors, broken_routes)
+    validate_transition_profiles(errors, broken_profiles)
     assert any("source residual kind is not registered" in error for error in errors)
 
     broken_authoring = deepcopy(catalog)
-    separating_route = next(
-        route
-        for route in broken_authoring["routes"]
-        if route["routeId"] == "CT2.residual.separatingContext->CT3"
+    separating_profile = next(
+        profile
+        for profile in broken_authoring["transitionProfiles"]
+        if profile["profileId"] == "CT2.residual.separatingContext->CT3"
     )
-    separating_route["authoringBoundary"]["semanticDiscovery"]["adapterType"] = (
-        "StructuralExhaustion.Routes.CT2ToCT10.DataDiscovery"
+    separating_profile["authoringBoundary"]["semanticDiscovery"]["adapterType"] = (
+        "Erdos64EG.Internal.DataDiscovery"
     )
     errors = []
-    validate_routes(errors, broken_authoring)
-    assert any("not the semantic adapter projection" in error for error in errors)
+    validate_transition_profiles(errors, broken_authoring)
+    assert any("semantic adapter is not a Lean type reference" in error for error in errors)
 
     hidden_adapter = deepcopy(catalog)
-    hidden_adapter["routes"][0]["authoringBoundary"]["problemSpecificInputs"].append(
-        "semanticDiscoveryAdapter"
-    )
+    hidden_adapter["transitionProfiles"][0]["authoringBoundary"][
+        "problemSpecificInputs"
+    ].append("semanticDiscoveryAdapter")
     errors = []
-    validate_routes(errors, hidden_adapter)
+    validate_transition_profiles(errors, hidden_adapter)
     assert any("input boundary is inconsistent" in error for error in errors)
 
     composite_output = deepcopy(catalog)
@@ -1002,7 +1046,7 @@ def test_repository_validator_accepts_and_rejects_contract_corruption() -> None:
     ][0]["ref"] = "FirstOutput|SecondOutput"
     assert any(
         "combines distinct Lean outputs" in error
-        for error in automation_graph_route_errors(composite_output)
+        for error in automation_graph_transition_errors(composite_output)
     )
 
     overlapping_output = deepcopy(catalog)
@@ -1012,7 +1056,7 @@ def test_repository_validator_accepts_and_rejects_contract_corruption() -> None:
     ]
     assert any(
         "generated outputs overlap inputs" in error
-        for error in automation_graph_route_errors(overlapping_output)
+        for error in automation_graph_transition_errors(overlapping_output)
     )
 
 

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/transition-profiles/CT14.residual.capacity-_CT14.schema.json",
+  "title": "CT14.residual.capacity->CT14 executable transition profile",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/transitionProfile"
+    },
+    {
+      "const": {
+        "transitionConstructor": "StructuralExhaustion.Routes.CT14ToCT14.transition",
+        "targetTacticId": "CT14",
+        "targetExecutableInterface": "StructuralExhaustion.CT14.Capability.executableInterface",
+        "sourceTacticId": "CT14",
+        "sourceResidualKind": "CT14.residual.capacity",
+        "selectionClass": "forced",
+        "profileId": "CT14.residual.capacity->CT14",
+        "familyId": "CT14->CT14",
+        "authoringBoundary": {
+          "semanticDiscovery": {
+            "kind": "capabilityDiscovery",
+            "adapterType": null
+          },
+          "problemSpecificInputs": [
+            "targetCapability"
+          ],
+          "frameworkOwnedResponsibilities": [
+            "exactSourceLedger",
+            "semanticDiscovery",
+            "targetContextConstruction",
+            "triggerConstruction",
+            "targetExecution",
+            "accumulatedLedgerOutput",
+            "transitionProvenance"
+          ]
+        },
+        "advanceExecutor": "StructuralExhaustion.Routes.CT14ToCT14.advance"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "registry": "StructuralExhaustion.Canonical.transitionProfiles"
+  }
+}
