@@ -54,16 +54,17 @@ abbrev sourceStage : Core.Routing.ResidualStage .ct9
 
 abbrev routedExecution := routedTransition.onLedger id
 
-def routedStage : routedExecution.EnabledStage sourceStage :=
+def routedStage : Core.Routing.ResidualStage .ct7
+    (routedExecution.EnabledStage sourceStage) :=
   Routes.CT9ToCT7.advance targetCapability adapter
     (fun _label => rfl) id sourceStage
 
-def routedLedger := routedStage.ledgerStage
+def routedLedger := routedStage
 
 def routedInput : CT7.Input targetSpec context :=
   routedTransition.trigger sourceStage ()
 
-def targetResult := routedStage.targetResult
+def targetResult := routedStage.output.targetResult
 
 theorem route_id :
     routedTransition.profileId = "CT9.residual.overload->CT7" :=

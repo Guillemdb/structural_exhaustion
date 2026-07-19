@@ -22,10 +22,10 @@ example (node84 : VerifiedTypeBLocalFanMassPrefix ctx)
 example
     (entry : Node64To65Ordinary (ctx := ctx))
     (occurrence : (Core.FiniteResidualLedger.Ledger.singleton
-      (.ordinary entry : Event (ctx := ctx))).Occurrence) :
+      (.first entry : Event (ctx := ctx))).Occurrence) :
     (Core.FiniteResidualLedger.Ledger.singleton
-      (.ordinary entry : Event (ctx := ctx))).event occurrence =
-        .ordinary entry :=
+      (.first entry : Event (ctx := ctx))).event occurrence =
+        .first entry :=
   Core.FiniteResidualLedger.Ledger.singleton_event _ occurrence
 
 example
@@ -36,11 +36,11 @@ example
 
 example
     (entry : RecordedRouteEightExtraction (ctx := ctx)) :
-    eventSupport (.routeEight entry) = entry.source.scope.coreVertices :=
+    eventSupport (.third entry) = entry.source.scope.coreVertices :=
   routeEight_event_has_exact_source_core entry
 
 example (entry : Node64To65Ordinary (ctx := ctx)) :
-    entry.highSurplus.center ∈ eventSupport (.ordinary entry) :=
+    entry.highSurplus.center ∈ eventSupport (.first entry) :=
   Node64To65Ordinary.center_mem_declaredSupport entry
 
 example (entry : Node64To65Ordinary (ctx := ctx)) :

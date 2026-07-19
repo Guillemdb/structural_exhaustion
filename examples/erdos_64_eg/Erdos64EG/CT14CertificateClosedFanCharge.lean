@@ -175,7 +175,7 @@ noncomputable def certificateClosedFanLedgerStage
     Core.Routing.ResidualStage .ct14
       (CertificateClosedFanLedger ctx source) := by
   let execution := certificateClosedFanTransitionStage ctx source
-  exact execution.ledgerStage.extend {
+  exact execution.extend {
     terminal := fun marked => by
       change (marked.chargeProfile.run ctx.toBranchContext).terminal = .capacity
       exact marked.chargeProfile.run_terminal ctx.toBranchContext

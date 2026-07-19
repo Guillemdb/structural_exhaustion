@@ -53,7 +53,7 @@ structure TerminalF5Support {ledger : package.PriorD6Ledger}
   f1Negative : ∀ stage : package.Stage, ¬package.F1Stage stage
   f4Negative : ∀ stage : package.Stage,
     ∃ complete : package.D6Complete ledger stage,
-      package.runD6 ledger stage = .complete complete
+      package.runD6 ledger stage = .inr complete
 
 /-- The repeated F5 subcase retains the exact repeated structural pair and the
 two semantic negatives which alone permit it to pass F2 and F3. -/
@@ -76,7 +76,7 @@ structure RepeatedF5Support {ledger : package.PriorD6Ledger}
   f1Negative : ∀ stage : package.Stage, ¬package.F1Stage stage
   f4Negative : ∀ stage : package.Stage,
     ∃ complete : package.D6Complete ledger stage,
-      package.runD6 ledger stage = .complete complete
+      package.runD6 ledger stage = .inr complete
 
 /-- Construct the whole-corridor F5 payload from the literal terminal Core
 outcome. -/

@@ -1,6 +1,6 @@
 ---
 name: implement-structural-exhaustion-route
-description: "Implement or consume a schema-9 executable transition profile between structural-exhaustion CTs. Use for CT1-to-CT2, CT1-to-CT12, CT2-to-CT3, CT2-to-CT10, CT5-to-CT14, CT6-to-CT9, CT9-to-CT7, or CT14-to-CT14 families; semantic discovery adapters; full-ledger preservation; public target execution; transition provenance; and focused transition fixtures."
+description: "Implement a framework-owned schema-9 executable transition profile between structural-exhaustion CTs. Use only when maintaining Routes for CT1-to-CT2, CT1-to-CT12, CT2-to-CT3, CT2-to-CT10, CT5-to-CT14, CT6-to-CT9, CT9-to-CT7, or CT14-to-CT14 families; semantic discovery adapters; full-ledger preservation; public target execution; transition provenance; and focused transition fixtures. Application proofs must not author or consume route plumbing."
 ---
 
 # Implement a Structural Exhaustion Transition
@@ -8,6 +8,10 @@ description: "Implement or consume a schema-9 executable transition profile betw
 Convert one proved source residual into a public target CT execution through
 the single framework-owned executable-transition API. Keep consumer choice out
 of tactic capabilities and source residuals.
+
+Use this skill only when maintaining or extending the framework itself. An
+example proof, including Erdős, never authors or consumes route plumbing; it
+invokes one framework-owned node executor and receives the successor stage.
 
 ## Read the schema-9 transition contract
 
@@ -44,43 +48,36 @@ accumulated branch ledger. Treat it as the full accumulated ledger. Supply a pro
 `current : Ledger → SourceResidual` only to let the profile inspect its current
 local residual. Never discard the outer ledger.
 
-Invoke the selected profile's mandatory public `.advance` declaration. It must perform
+Implement the selected profile behind its mandatory public node executor. It must perform
 semantic discovery, target-context and trigger construction, the target
 entry's public `execute`, exact predecessor retention, and transition
-provenance. Continue only through the returned enabled stage's `.ledgerStage`.
+provenance, then return the exact successor stage with the full ledger.
 The bare target result may be inspected and used in theorems, but it may never
 be chained, seeded as the next stage, or substituted for the accumulated
 ledger.
 
-After any ordinary or pointwise transition, consume the returned
-`.ledgerStage` literally. Do not rebuild the same type with
-`ResidualStage.exact execution`; that discards the operational handoff even
-when the equality certificate would make it sound.
+Keep internal ledger projection and extension encapsulated in that executor.
+Do not expose a route carrier, source projection, or manual continuation to an
+application, and do not rebuild an execution as a fresh root stage.
 
-For `Routes.Accumulated`, expose output types only through `OutputLedger` and
-execute identity-current edges through `advanceCurrent`; reserve `advance` for
-a real `Ledger → Source` projection and name that output with
-`ProjectedOutputLedger`. Never pass `id` to an application output type. Use
-`PointwiseOutputLedger` and
-`advancePointwise` for the pointwise analogue. Application code must never
-re-expand `transition.onLedger`, `.EnabledStage`, or `pointwiseFamily` merely
-to recover these output types. Already selected registered-route families use
-`SelectedPointwiseOutputLedger` and `advanceSelectedPointwise`.
-Registered specialized profiles that retain their own public executor expose
-the enabled type through `Core.Routing.CTTransition.OutputLedger`; `onLedger`
-is an internal constructor and must not appear in application code.
+Inside `Routes`, use the canonical accumulated, projected, registered, and
+pointwise carriers to implement one public node executor per supported edge.
+Keep `advance`, ledger output aliases, `onLedger`, enabled-stage types, source
+projections, and pointwise-family machinery private to that framework
+implementation. Application code names only the source CT, target CT/profile,
+incoming stage, and local mathematical instantiation; it receives the exact
+successor stage directly.
 
-When an application node retains the same CT label and adds one theorem or
-data value, call `ResidualStage.extend`; its output is a
-`LedgerExtension` containing the literal earlier `stage.output` and the new
-dependent value. When the manuscript requires one public CT execution for
+When a node retains the same CT label and adds one theorem or data value, the
+framework node executor must append that value while preserving the literal
+earlier stage. The application supplies only the new dependent value. When the manuscript requires one public CT execution for
 every local centre, port, or other index, use
 `PointwiseExecutableFamily`. It produces a dependent function pointwise and
 must not require a `FinEnum`, list, scan, or synthesized index universe. If
 every index instead executes a specialized transition profile whose typed
-provenance must be retained, use `PointwiseTransitionFamily`, call its
-`.advance`, continue through `.ledgerStage`, and inspect local certificates
-only through `.localStage`.
+provenance must be retained, encapsulate `PointwiseTransitionFamily` behind a
+framework pointwise node executor and expose only the successor stage and
+local certificates.
 
 The following surfaces are forbidden in framework and application changes:
 `TacticInterface`, `RouteRule`, `GeneratedRoute`, compatibility aliases,
@@ -127,7 +124,7 @@ For each profile, prove or expose:
 - source evidence needed later remains reachable through the ledger;
 - the target terminal, trace, semantics, totality, and local work bound hold;
   and
-- continuation begins from `.ledgerStage`.
+- the node executor returns the exact successor stage with the full ledger.
 
 Adapt only finite data already carried by the current residual or its immediate
 local structure. Preserve observable order with `OrderedCollection`. Never
@@ -142,8 +139,8 @@ canonical registry resolves the profile's `advanceExecutor`; do not duplicate
 that declaration in `automationDeclarations`.
 
 If a CT pair is not in `transitionFamilies`, place ordinary theorem
-composition behind one reusable Core, CT, or Graph executor that consumes and
-returns the complete accumulated ledger. Do not add application-owned CT
+composition behind one reusable Core, CT, or Graph node executor that consumes
+and returns the complete accumulated ledger. Do not add application-owned CT
 transport. Add a new family/profile only when the recurring mathematical
 conversion has a stable source residual, semantic adapter boundary, context
 preservation, public target execution, and provenance; then register its
@@ -154,7 +151,7 @@ uses it.
 
 Compile the source CT, transition profile, target CT, and fixture together.
 Pin the profile ID, exact predecessor ledger, target terminal, typed trace,
-and `.ledgerStage` continuation. Run the architecture linter and verify that
+and exact successor-stage continuation. Run the architecture linter and verify that
 every registered workflow link resolves to the compiled profile's public
 `.advance`, while ordinary compositions resolve to their framework executor.
 Reject application wrappers, missing automation, or any edge that chains a

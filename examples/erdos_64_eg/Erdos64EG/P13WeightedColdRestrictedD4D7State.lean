@@ -63,22 +63,22 @@ noncomputable def exactD4D7Coordinates :
 full graph record, D6 its full dependent labelled observation and proven
 semantics, and D7 the symbolic response against every supplied outside
 context. -/
-inductive ExactD4D7Value (ledger : package.PriorD6Ledger)
-  | d4 (value : Bool)
-  | d5 (value : TypeAFullD5Signature.BaseValue (V := ctx.G.Vertex))
-  | d6 (value : package.ExactDeclaredD6Entry ledger)
-  | d7 (response : PackedBoundariedGluing.Context ctx.G.Vertex →
+abbrev ExactD4D7Value (ledger : package.PriorD6Ledger) :=
+  Core.FiniteResidualLedger.Choice4 Bool
+    (TypeAFullD5Signature.BaseValue (V := ctx.G.Vertex))
+    (package.ExactDeclaredD6Entry ledger)
+    (PackedBoundariedGluing.Context ctx.G.Vertex →
       FiniteActiveInterfaceD7Signature.ExactValue (D7Stage (ctx := ctx)))
 
 noncomputable def exactD4D7Value :
     available.ExactD4D7Coordinate ledger →
       ExactD4D7Value (package := package) ledger (ctx := ctx)
-  | .inl coordinate => .d4 (package.d4Response stage coordinate)
-  | .inr (.inl coordinate) => .d5 (available.fullBaseValue coordinate)
+  | .inl coordinate => .first (package.d4Response stage coordinate)
+  | .inr (.inl coordinate) => .second (available.fullBaseValue coordinate)
   | .inr (.inr (.inl coordinate)) =>
-      .d6 (package.exactDeclaredD6Entry ledger coordinate.1)
+      .third (package.exactDeclaredD6Entry ledger coordinate.1)
   | .inr (.inr (.inr coordinate)) =>
-      .d7 (fun outside => d7DeclaredExactValue (ctx := ctx) coordinate.1 outside)
+      .fourth (fun outside => d7DeclaredExactValue (ctx := ctx) coordinate.1 outside)
 
 /-- The complete local projection.  The exhaustive D6 scan is stored without
 consuming its result, so an F4 candidate remains deferred until after the
@@ -158,7 +158,8 @@ theorem d6Value_exact (d6Decision : package.D6Decision ledger stage)
     (coordinate : package.DeclaredD6Coordinate ledger stage) :
     (available.exactD4D7Projection ledger d6Decision).value
       (.inr (.inr (.inl coordinate))) =
-        ExactD4D7Value.d6 (package.exactDeclaredD6Entry ledger coordinate.1) := by
+        Core.FiniteResidualLedger.Choice4.third
+          (package.exactDeclaredD6Entry ledger coordinate.1) := by
   rfl
 
 theorem d7Value_apply (d6Decision : package.D6Decision ledger stage)
@@ -166,7 +167,7 @@ theorem d7Value_apply (d6Decision : package.D6Decision ledger stage)
     (outside : PackedBoundariedGluing.Context ctx.G.Vertex) :
     match (available.exactD4D7Projection ledger d6Decision).value
       (.inr (.inr (.inr coordinate))) with
-    | .d7 response => response outside =
+    | .fourth response => response outside =
         d7DeclaredExactValue (ctx := ctx) coordinate.1 outside
     | _ => False := by
   rfl
@@ -189,17 +190,17 @@ noncomputable def runSurvivingSubcubicStage
       (package.runD6 ledger stage) := by
   rw [survivor.d6Exact]
   exact survivor.available.exactD4D7Projection ledger
-    (.complete survivor.priorComplete)
+    (.inr survivor.priorComplete)
 
 theorem f4_event_has_produced_origin
     (prior : ProducedPriorD6State (ctx := ctx)) (stage : package.Stage)
     (hit : package.D6F4Hit prior stage) :
     ((∃ entry : P13ProducedPriorSupportLedger.Node64To65Ordinary (ctx := ctx),
-        hit.event = .ordinary entry) ∨
+        hit.event = .first entry) ∨
       (∃ entry : TypeBProducedSupportLedgerConnector.RecordedDecoratedHandoff
-          (ctx := ctx), hit.event = .decorated entry)) ∨
+          (ctx := ctx), hit.event = .second entry)) ∨
       (∃ entry : P13ProducedPriorSupportLedger.RecordedRouteEightExtraction
-          (ctx := ctx), hit.event = .routeEight entry) :=
+          (ctx := ctx), hit.event = .third entry) :=
   hit.exact_typeB_or_routeEight
 
 end P13WeightedColdRestrictedPrefixPackage

@@ -807,7 +807,7 @@ def pairLedger {V : Type u}
     (object : FiniteObject V) (baseline : base.problem.Baseline object)
     (deletionCritical : ∀ dart : object.graph.Dart,
       object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :=
-  (pairStage base object baseline deletionCritical).ledgerStage
+  pairStage base object baseline deletionCritical
 
 /-- CT9 input read from the executable transition. -/
 def pairInput {V : Type u}
@@ -828,7 +828,7 @@ def pairResult {V : Type u}
     (object : FiniteObject V) (baseline : base.problem.Baseline object)
     (deletionCritical : ∀ dart : object.graph.Dart,
       object.degree dart.fst = 3 ∨ object.degree dart.snd = 3) :=
-  (pairStage base object baseline deletionCritical).targetResult
+  (pairStage base object baseline deletionCritical).output.targetResult
 
 /-- Semantic state-space split extracted from the exact CT9 outcome. -/
 inductive PairDecision {V : Type u}

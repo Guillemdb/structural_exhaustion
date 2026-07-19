@@ -36,13 +36,14 @@ abbrev sourceStage : Core.Routing.ResidualStage .ct6
 
 abbrev routedExecution := routedTransition.onLedger id
 
-def routedStage : routedExecution.EnabledStage sourceStage :=
+def routedStage : Core.Routing.ResidualStage .ct9
+    (routedExecution.EnabledStage sourceStage) :=
   advance targetCapability itemAdapter id sourceStage
 
-def routedLedger := routedStage.ledgerStage
+def routedLedger := routedStage
 
-theorem preserves_source : routedStage.previous = sourceStage :=
-  routedStage.previous_eq
+theorem preserves_source : routedStage.output.previous = sourceStage :=
+  routedStage.output.previous_eq
 
 theorem preserves_branch :
     routedTransition.targetContext sourceStage = input false :=
@@ -62,7 +63,7 @@ theorem transition_provenance :
   transition_profile_id targetCapability itemAdapter
 
 /-- CT9 is executed by the transition and retained in the accumulated ledger. -/
-def targetResult := routedStage.targetResult
+def targetResult := routedStage.output.targetResult
 
 theorem target_executes : targetResult.terminal = .overloaded :=
   rfl

@@ -240,7 +240,7 @@ noncomputable def verifiedInducedP13Prefix
     VerifiedInducedP13Prefix ctx :=
   let source := Core.Routing.ResidualStage.exact (tactic := .ct3) previous
   let stage := inducedP13TransitionStage ctx source
-  ⟨source, stage.ledgerStage.extend {
+  ⟨source, stage.extend {
     inducedPathStage := packedStaticInput.verifiedInducedPathStage 13 ctx
       (inducedP13_of_hss ctx) }⟩
 

@@ -303,24 +303,26 @@ abbrev AllPairTokenRoutingLedger
 /-- Verified proof prefix through the repaired node `[131]` routing block. -/
 abbrev VerifiedAllPairTokenRoutingPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
-  Sigma (AllPairTokenRoutingLedger ctx)
+  Sigma fun previous : VerifiedSparsePairResponsePrefix ctx =>
+    Core.Routing.ResidualStage .ct9
+      (AllPairTokenRoutingLedger ctx previous)
 
 noncomputable def verifiedAllPairTokenRoutingPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedSparsePairResponsePrefix ctx) :
     VerifiedAllPairTokenRoutingPrefix ctx :=
   let stage := allPairTokenRoutingTransitionStage ctx previous
-  ⟨previous, ⟨stage, {
+  ⟨previous, stage.extend {
     routing := allPairTokenRoutingVerifiedStage ctx
     localPolynomialChecks := allPairTokenRouting_checks_cubic ctx
-    polynomialPairs := previous.2.added.polynomialPairs
-  }⟩⟩
+    polynomialPairs := previous.2.output.added.polynomialPairs
+  }⟩
 
 /-- Canonical complete CT9 stage after node `[131]`. -/
 noncomputable def allPairTokenRoutingLedgerStage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedAllPairTokenRoutingPrefix ctx) :=
-  verified.2.previous.ledgerStage.extend verified.2.added
+  verified.2
 
 theorem exists_verifiedAllPairTokenRoutingPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)

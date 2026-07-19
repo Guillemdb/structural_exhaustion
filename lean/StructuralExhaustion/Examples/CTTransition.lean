@@ -26,13 +26,25 @@ abbrev root : ResidualStage .ct1 Nat := ResidualStage.exact 3
 def firstStage :=
   Routes.Accumulated.advanceCurrent ct2Entry ct1ToCT2Adapter root
 
-example : Routes.Accumulated.OutputLedger
-    ct2Entry ct1ToCT2Adapter root :=
+example : ResidualStage .ct2
+    (Routes.Accumulated.OutputLedger ct2Entry ct1ToCT2Adapter root) :=
+  firstStage
+
+@[simp] theorem firstLedger_retains_root :
+    firstStage.output.previous = root :=
+  rfl
+
+@[simp] theorem firstLedger_retains_execution :
+    firstStage.output.execution.result = 7 :=
+  rfl
+
+example : ResidualStage .ct2 (Routes.Accumulated.OutputLedger
+    ct2Entry ct1ToCT2Adapter root) :=
   firstStage
 
 theorem firstOutcome_exact :
-    firstStage.previous = root ∧
-      firstStage.execution.result = 7 :=
+    firstStage.output.previous = root ∧
+      firstStage.output.execution.result = 7 :=
   ⟨rfl, rfl⟩
 
 /-! Two target profiles for the same typed `CT1 → CT2` family.  The first
@@ -83,8 +95,8 @@ stage supplied to `run`. -/
 /-- At the fixture residual, inherited context `3 + 4` executes the Boolean
 target profile while retaining the exact incoming stage. -/
 theorem contextOnlyOutcome_exact :
-    contextOnlyStage.previous = root ∧
-      contextOnlyStage.execution.result = true :=
+    contextOnlyStage.output.previous = root ∧
+      contextOnlyStage.output.execution.result = true :=
   ⟨rfl, rfl⟩
 
 /-- A second CT consumes the complete first transition stage, not a rebuilt
@@ -107,11 +119,11 @@ abbrev ct2ToCT3Local :=
 ledger.  Only the current mathematical result is projected for CT3; the
 transition output still retains the whole outer ledger. -/
 theorem secondOutcome_retains_first
-    (first : ct1ToCT2.EnabledStage root) :
+    (first : ResidualStage .ct2 (ct1ToCT2.EnabledStage root)) :
     let second := Routes.Accumulated.advance ct3Entry ct2ToCT3Adapter
-      (fun ledger => ledger.execution.result) first.ledgerStage
-    second.previous = first.ledgerStage ∧
-      second.execution.result = first.execution.result + 2 := by
+      (fun ledger => ledger.execution.result) first
+    second.output.previous = first ∧
+      second.output.execution.result = first.output.execution.result + 2 := by
   exact ⟨rfl, rfl⟩
 
 /-! A semantic fact can be attached between the two CT executions without
@@ -121,15 +133,15 @@ def firstLedgerWithFact :
     ResidualStage .ct2
       (LedgerExtension (ct1ToCT2.EnabledStage root)
         (fun previous => previous.execution.result = 7)) :=
-  firstStage.ledgerStage.extend rfl
+  firstStage.extend rfl
 
 @[simp] theorem firstLedgerWithFact_previous :
-    firstLedgerWithFact.output.previous = firstStage :=
+    firstLedgerWithFact.output.previous = firstStage.output :=
   rfl
 
 @[simp] theorem firstLedgerWithFact_added :
     firstLedgerWithFact.output.added =
-      (rfl : firstStage.execution.result = 7) :=
+      (rfl : firstStage.output.execution.result = 7) :=
   rfl
 
 /-- The second transition reads the actual CT2 target result through the
@@ -139,12 +151,12 @@ def secondStageWithFact :=
     (fun ledger => ledger.previous.execution.result) firstLedgerWithFact
 
 @[simp] theorem secondStageWithFact_reads_actual_target :
-    secondStageWithFact.execution.result =
+    secondStageWithFact.output.execution.result =
       firstLedgerWithFact.output.previous.execution.result + 2 :=
   rfl
 
 @[simp] theorem secondStageWithFact_retains_extension :
-    secondStageWithFact.previous = firstLedgerWithFact :=
+    secondStageWithFact.output.previous = firstLedgerWithFact :=
   rfl
 
 /-! Pointwise CT execution is a dependent function, not an enumeration.  The
@@ -237,18 +249,19 @@ def pointwiseTransitionStage :=
   Routes.Accumulated.advanceSelectedPointwise
     pointwiseTransitionFamily pointwiseTransitionSource
 
-example : Routes.Accumulated.SelectedPointwiseOutputLedger
-    pointwiseTransitionFamily pointwiseTransitionSource :=
+example : ResidualStage .ct5
+    (Routes.Accumulated.SelectedPointwiseOutputLedger
+      pointwiseTransitionFamily pointwiseTransitionSource) :=
   pointwiseTransitionStage
 
 @[simp] theorem pointwiseTransitionStage_three :
-    (pointwiseTransitionStage.localStage 3).targetResult = 16 :=
+    (pointwiseTransitionStage.output.localStage 3).targetResult = 16 :=
   rfl
 
 /-- The aggregate is one target-labelled ledger that retains the common
 source once; no index enumeration or application wrapper is involved. -/
 theorem pointwiseTransitionLedger_exact :
-    pointwiseTransitionStage.ledgerStage.output = pointwiseTransitionStage :=
+    pointwiseTransitionStage.output.previous = pointwiseTransitionSource :=
   rfl
 
 /-! Ordinary total-residual families use the shorter framework constructor;
@@ -265,8 +278,9 @@ def accumulatedPointwiseStage :=
   Routes.Accumulated.advancePointwise accumulatedPointwiseProfile
     pointwiseTransitionSource
 
-example : Routes.Accumulated.PointwiseOutputLedger
-    accumulatedPointwiseProfile pointwiseTransitionSource :=
+example : ResidualStage .ct5
+    (Routes.Accumulated.PointwiseOutputLedger
+      accumulatedPointwiseProfile pointwiseTransitionSource) :=
   accumulatedPointwiseStage
 
 abbrev accumulatedPointwiseIndexThree :
@@ -276,7 +290,7 @@ abbrev accumulatedPointwiseIndexThree :
   exact 3
 
 def accumulatedPointwiseResultThree : Nat :=
-  (accumulatedPointwiseStage.localStage
+  (accumulatedPointwiseStage.output.localStage
     accumulatedPointwiseIndexThree).targetResult
 
 @[simp] theorem accumulatedPointwiseStage_three :
@@ -284,8 +298,8 @@ def accumulatedPointwiseResultThree : Nat :=
   rfl
 
 theorem accumulatedPointwiseLedger_exact :
-    accumulatedPointwiseStage.ledgerStage.output =
-      accumulatedPointwiseStage :=
+    accumulatedPointwiseStage.output.previous =
+      pointwiseTransitionSource :=
   rfl
 
 end StructuralExhaustion.Examples.CTTransition

@@ -138,17 +138,17 @@ abbrev DecoratedTypeBEvent :=
 /-! One fixed event language for the existing F4 Type-B or route-8 handoff.
 The three constructors are the three already-authored producer routes; they
 are not new proof-diagram cases. -/
-inductive PriorSupportEvent
-  | ordinary (entry : Node64To65Ordinary (ctx := ctx))
-  | decorated (entry : DecoratedTypeBEvent (ctx := ctx))
-  | routeEight (entry : RecordedRouteEightExtraction (ctx := ctx))
+abbrev PriorSupportEvent := Core.FiniteResidualLedger.Choice3
+  (Node64To65Ordinary (ctx := ctx))
+  (DecoratedTypeBEvent (ctx := ctx))
+  (RecordedRouteEightExtraction (ctx := ctx))
 
 abbrev Event := PriorSupportEvent (ctx := ctx)
 
 noncomputable def eventSupport : Event (ctx := ctx) → Finset ctx.G.Vertex
-  | .ordinary entry => entry.declaredSupport
-  | .decorated entry => entry.declaredSupport
-  | .routeEight entry => entry.declaredSupport
+  | .first entry => entry.declaredSupport
+  | .second entry => entry.declaredSupport
+  | .third entry => entry.declaredSupport
 
 /-- Occurrence-primary persistent ledger.  Equal event values emitted at two
 different proof steps remain distinct occurrences. -/
@@ -189,7 +189,7 @@ theorem PersistentLedger.recognize_exact
 
 theorem routeEight_event_has_exact_source_core
     (entry : RecordedRouteEightExtraction (ctx := ctx)) :
-    eventSupport (.routeEight entry) = entry.source.scope.coreVertices :=
+    eventSupport (.third entry) = entry.source.scope.coreVertices :=
   entry.declaredSupport_eq_source_core
 
 end Erdos64EG.Internal.P13ProducedPriorSupportLedger

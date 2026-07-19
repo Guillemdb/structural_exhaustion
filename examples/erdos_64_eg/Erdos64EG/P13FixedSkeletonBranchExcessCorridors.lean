@@ -276,7 +276,7 @@ theorem p13BranchExcessCorridorChecks_quadratic
 field and therefore cannot be supplied by an application. -/
 structure VerifiedP13BranchExcessCorridorPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 2)
+    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 4)
     extends Core.ExactHandoff node21 where
 
 def verifiedP13BranchExcessCorridorPrefix

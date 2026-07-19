@@ -17,8 +17,12 @@ def SquarePositive (residual : Residual) : Prop :=
 def Nonzero (residual : Residual) : Prop :=
   residual.value ≠ 0
 
-structure PositiveCertificate (residual : Residual) where
+structure PositiveCertificate (residual : Residual) : Type where
   proof : IsPositive residual
+
+instance : Core.ResidualRefinement.State.StageEntails
+    PositiveCertificate IsPositive where
+  prove certificate := certificate.proof
 
 def canonicalPositiveCertificate (residual : Residual) :
     PositiveCertificate residual :=
@@ -27,16 +31,62 @@ def canonicalPositiveCertificate (residual : Residual) :
 abbrev ExactPositiveCertificate (residual : Residual) :=
   Core.ExactHandoff (canonicalPositiveCertificate residual)
 
-structure PositiveSquareCertificate (residual : Residual) where
+structure PositiveSquareCertificate (residual : Residual) : Type where
   proof : SquarePositive residual
 
+instance : Core.ResidualRefinement.State.StageEntails
+    PositiveSquareCertificate SquarePositive where
+  prove certificate := certificate.proof
+
+structure NonzeroCertificate (residual : Residual) : Type where
+  proof : Nonzero residual
+
+instance : Core.ResidualRefinement.State.StageEntails
+    NonzeroCertificate Nonzero where
+  prove certificate := certificate.proof
+
+structure CombinedCertificate (residual : Residual) : Type where
+  positive : IsPositive residual
+  nonzero : Nonzero residual
+
+structure TripleCertificate (residual : Residual) : Type where
+  positive : IsPositive residual
+  nonzero : Nonzero residual
+  squarePositive : SquarePositive residual
+
+/-- A temporary named view assembled from the ledger.  It is consumed by a
+node producer and is not part of that node's output. -/
+structure CombinedInputs (residual : Residual) : Type where
+  positive : PositiveCertificate residual
+  nonzero : NonzeroCertificate residual
+
 structure PositiveSuccessor (residual : Residual)
-    (previous : PositiveCertificate residual) where
+    (previous : PositiveCertificate residual) : Type where
   proof : IsPositive residual
 
 abbrev PositiveDependentSuccessor (residual : Residual) :=
   Core.ResidualRefinement.State.DependentSuccessor
     PositiveCertificate PositiveSuccessor residual
+
+abbrev PositiveYes (residual : Residual)
+    (_certificate : PositiveCertificate residual) : Prop :=
+  IsPositive residual
+
+abbrev PositiveNo (residual : Residual)
+    (_certificate : PositiveCertificate residual) : Prop :=
+  ¬IsPositive residual
+
+abbrev PositiveFirstContinuation (residual : Residual) :=
+  Core.ResidualRefinement.State.DependentDecisionYesContinuation
+    PositiveCertificate PositiveYes PositiveNo
+    (fun residual certificate _proof => PositiveSuccessor residual certificate) residual
+
+abbrev PositiveSecondContinuation (residual : Residual) :=
+  Core.ResidualRefinement.State.DependentDecisionYesSuccessor
+    PositiveCertificate PositiveYes PositiveNo
+    (fun residual certificate _proof => PositiveSuccessor residual certificate)
+    (fun residual _certificate _proof _current =>
+      PositiveSquareCertificate residual) residual
 
 noncomputable def positiveCertificateNode {facts} :
     Core.ResidualRefinement.State.StageNode
@@ -69,6 +119,58 @@ noncomputable def positiveSquareCertificateNode {facts}
       fun _state positive certificate =>
       ⟨Nat.mul_pos positive certificate.proof⟩
 
+noncomputable def nonzeroCertificateNode {facts} :
+    Core.ResidualRefinement.State.StageNode
+      (facts := facts) NonzeroCertificate where
+  produce := fun state => ⟨Nat.ne_of_gt state.residual.positive⟩
+
+noncomputable def combinedCertificateNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available PositiveCertificate) facts]
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NonzeroCertificate) facts] :
+    Core.ResidualRefinement.State.StageNode
+      (facts := facts) CombinedCertificate :=
+  Core.ResidualRefinement.State.StageNode.derive
+    (((Core.ResidualRefinement.State.LedgerQuery.stage
+        (facts := facts) (Stage := PositiveCertificate)).andStage
+      (Stage := NonzeroCertificate)).map fun _residual inputs =>
+        CombinedInputs.mk inputs.fst inputs.snd)
+    fun _state inputs => ⟨inputs.positive.proof, inputs.nonzero.proof⟩
+
+/-- The same combination through registered theorem projections. The
+consumer never opens the earlier certificate structures. -/
+noncomputable def combinedEntailedCertificateNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available PositiveCertificate) facts]
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NonzeroCertificate) facts] :
+    Core.ResidualRefinement.State.StageNode
+      (facts := facts) CombinedCertificate :=
+  Core.ResidualRefinement.State.StageNode.derive
+    ((Core.ResidualRefinement.State.LedgerQuery.entailedStage
+      (facts := facts) (Stage := PositiveCertificate)
+      (property := IsPositive)).andEntailedStage
+        (Stage := NonzeroCertificate) (property := Nonzero))
+    fun _state inputs => ⟨inputs.fst, inputs.snd⟩
+
+noncomputable def tripleCertificateNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available PositiveCertificate) facts]
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NonzeroCertificate) facts]
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available PositiveSquareCertificate) facts] :
+    Core.ResidualRefinement.State.StageNode
+      (facts := facts) TripleCertificate :=
+  Core.ResidualRefinement.State.StageNode.derive
+    (((Core.ResidualRefinement.State.LedgerQuery.stage
+        (facts := facts) (Stage := PositiveCertificate)).andStage
+      (Stage := NonzeroCertificate)).andStage
+      (Stage := PositiveSquareCertificate))
+    fun _state inputs =>
+      ⟨inputs.fst.fst.proof, inputs.fst.snd.proof, inputs.snd.proof⟩
+
 noncomputable def positiveDependentSuccessorNode {facts}
     [Core.ResidualRefinement.Proofs.Contains
       (Core.ResidualRefinement.State.Available PositiveCertificate) facts] :
@@ -76,6 +178,51 @@ noncomputable def positiveDependentSuccessorNode {facts}
       (facts := facts) PositiveDependentSuccessor :=
   Core.ResidualRefinement.State.StageNode.mapStage
     fun _residual previous => ⟨previous.proof⟩
+
+noncomputable def positiveDecisionNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available PositiveCertificate) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      (Core.ResidualRefinement.State.DependentDecision
+        PositiveCertificate PositiveYes PositiveNo) :=
+  Core.ResidualRefinement.State.StageNode.decideUsingStage
+    (fun residual _certificate => Classical.propDecidable (IsPositive residual))
+    (fun _residual _certificate absent => absent)
+
+noncomputable def positiveFirstContinuationNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+    (Core.ResidualRefinement.State.Available
+        (Core.ResidualRefinement.State.DependentDecision
+          PositiveCertificate PositiveYes PositiveNo)) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      PositiveFirstContinuation :=
+  Core.ResidualRefinement.State.StageNode.continueDependentDecisionYes
+    fun _residual certificate _positive => ⟨certificate.proof⟩
+
+noncomputable def positiveSecondContinuationNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available PositiveFirstContinuation) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      PositiveSecondContinuation :=
+  Core.ResidualRefinement.State.StageNode.continueDependentDecisionYesAgain
+    fun _residual _certificate positive current =>
+      ⟨Nat.mul_pos positive current.proof⟩
+
+/-- The same branch continuation while retrieving an older mathematical fact
+through its registered stage entailment. -/
+noncomputable def positiveSecondContinuationFromEntailedNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available PositiveFirstContinuation) facts]
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available PositiveCertificate) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      PositiveSecondContinuation :=
+  Core.ResidualRefinement.State.StageNode.continueDependentDecisionYesAgainDerived
+      (Core.ResidualRefinement.State.LedgerQuery.entailedStage
+        (facts := facts) (Stage := PositiveCertificate)
+        (property := IsPositive))
+      fun _residual inherited _certificate _positive _current =>
+        ⟨Nat.mul_pos inherited inherited⟩
 
 /-- A genuinely predecessor-indexed output used to exercise simultaneous
 fact retrieval and exact dependent transport. -/
@@ -144,8 +291,26 @@ noncomputable def afterPositiveCertificateEcho :=
 noncomputable def afterPositiveAndCertificate :=
   positiveCertificateNode.run (positiveNode.run initialState)
 
+noncomputable def afterTwoCertificates :=
+  nonzeroCertificateNode.run afterCertificate
+
+noncomputable def afterCombinedCertificate :=
+  combinedCertificateNode.run afterTwoCertificates
+
+noncomputable def afterCombinedEntailedCertificate :=
+  combinedEntailedCertificateNode.run afterTwoCertificates
+
 noncomputable def afterPositiveDependentSuccessor :=
   positiveDependentSuccessorNode.run afterPositiveAndCertificate
+
+noncomputable def afterPositiveDecision :=
+  positiveDecisionNode.run afterCertificate
+
+noncomputable def afterPositiveFirstContinuation :=
+  positiveFirstContinuationNode.run afterPositiveDecision
+
+noncomputable def afterPositiveSecondContinuation :=
+  positiveSecondContinuationNode.run afterPositiveFirstContinuation
 
 noncomputable def afterPositiveSquareCertificate :=
   positiveSquareCertificateNode.run afterPositiveAndCertificate
@@ -172,11 +337,35 @@ theorem fact_and_stage_produce_square :
   (afterPositiveSquareCertificate.requireStage
     (Stage := PositiveSquareCertificate)).proof
 
+theorem two_stages_are_retrieved_without_rederivation :
+    IsPositive afterCombinedCertificate.residual ∧
+      Nonzero afterCombinedCertificate.residual := by
+  let combined := afterCombinedCertificate.requireStage
+    (Stage := CombinedCertificate)
+  exact ⟨combined.positive, combined.nonzero⟩
+
+theorem entailed_facts_are_retrieved_without_opening_stages :
+    IsPositive afterCombinedEntailedCertificate.residual ∧
+      Nonzero afterCombinedEntailedCertificate.residual := by
+  let combined := afterCombinedEntailedCertificate.requireStage
+    (Stage := CombinedCertificate)
+  exact ⟨combined.positive, combined.nonzero⟩
+
 theorem dependent_successor_retains_literal_predecessor :
     IsPositive afterPositiveDependentSuccessor.residual := by
   let successor := afterPositiveDependentSuccessor.requireStage
     (Stage := PositiveDependentSuccessor)
   exact successor.output.proof
+
+theorem repeated_yes_continuation_retains_current_output :
+    SquarePositive afterPositiveSecondContinuation.residual := by
+  let result := afterPositiveSecondContinuation.requireStage
+    (Stage := PositiveSecondContinuation)
+  cases result with
+  | yesBranch _ _ current output =>
+      exact output.proof
+  | noBranch certificate absent =>
+      exact False.elim (absent certificate.proof)
 
 noncomputable def afterPositive := positiveNode.run initialState
 noncomputable def afterSquare := squareNode.run afterPositive

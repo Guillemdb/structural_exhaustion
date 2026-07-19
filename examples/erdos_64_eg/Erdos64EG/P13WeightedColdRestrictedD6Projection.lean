@@ -48,11 +48,11 @@ contains the exact proof-carrying output of an existing manuscript producer. -/
 inductive PriorD6Origin :
     P13ProducedPriorSupportLedger.Event (ctx := ctx) → Prop
   | ordinary (entry : P13ProducedPriorSupportLedger.Node64To65Ordinary
-      (ctx := ctx)) : PriorD6Origin (.ordinary entry)
+      (ctx := ctx)) : PriorD6Origin (.first entry)
   | decorated (entry : TypeBProducedSupportLedgerConnector.RecordedDecoratedHandoff
-      (ctx := ctx)) : PriorD6Origin (.decorated entry)
+      (ctx := ctx)) : PriorD6Origin (.second entry)
   | routeEight (entry : P13ProducedPriorSupportLedger.RecordedRouteEightExtraction
-      (ctx := ctx)) : PriorD6Origin (.routeEight entry)
+      (ctx := ctx)) : PriorD6Origin (.third entry)
 
 abbrev AccumulatedPriorD6Ledger :=
   Core.ResidualRefinement.Ledger.{u, u + 3}
@@ -250,7 +250,7 @@ noncomputable def d6Profile (ledger : package.PriorD6Ledger) :=
 abbrev D6Key (ledger : package.PriorD6Ledger) :=
   ledger.baseState.residuals.Occurrence
 
-def d6Entry (ledger : package.PriorD6Ledger)
+noncomputable def d6Entry (ledger : package.PriorD6Ledger)
     (key : package.D6Key ledger) : package.PriorD6Event :=
   ledger.baseState.residuals.event key
 
@@ -278,10 +278,10 @@ inductive D6Kind
     .decoratedTypeBEnvelope, .routeEightCarrier]
     (by intro kind; cases kind <;> simp) (by simp)
 
-def d6Kind : package.PriorD6Event → D6Kind
-  | .ordinary _ => .node64To65Ordinary
-  | .decorated _ => .decoratedTypeBEnvelope
-  | .routeEight _ => .routeEightCarrier
+noncomputable def d6Kind : package.PriorD6Event → D6Kind
+  | .first _ => .node64To65Ordinary
+  | .second _ => .decoratedTypeBEnvelope
+  | .third _ => .routeEightCarrier
 
 /-! ## Occurrence-free structural normalization of the prior ledger
 
@@ -631,19 +631,23 @@ inductive RouteEightD6Coordinate
     (_entry : P13ProducedPriorSupportLedger.RecordedRouteEightExtraction
       (ctx := ctx)) : Type u where
   | carrier
-  deriving DecidableEq
 
-@[implicit_reducible] def routeEightD6Coordinates
+noncomputable instance
+    (entry : P13ProducedPriorSupportLedger.RecordedRouteEightExtraction
+      (ctx := ctx)) : DecidableEq (RouteEightD6Coordinate entry) :=
+  Classical.decEq _
+
+@[implicit_reducible] noncomputable def routeEightD6Coordinates
     (entry : P13ProducedPriorSupportLedger.RecordedRouteEightExtraction
       (ctx := ctx)) : FinEnum (RouteEightD6Coordinate entry) :=
   FinEnum.ofNodupList [.carrier]
     (by intro coordinate; cases coordinate; simp) (by simp)
 
 def EventD6Coordinate : package.PriorD6Event → Type _
-  | .ordinary entry => OrdinaryD6Coordinate entry
-  | .decorated entry =>
+  | .first entry => OrdinaryD6Coordinate entry
+  | .second entry =>
       DecoratedD6Coordinate entry ⊕ DecoratedFanResponseCoordinate entry
-  | .routeEight entry => RouteEightD6Coordinate entry
+  | .third entry => RouteEightD6Coordinate entry
 
 /-- Literal observation attached to each decorated base label.  The label is
 dependent, so equal vertices or numbers in different families never collapse. -/
@@ -725,79 +729,69 @@ noncomputable def routeEightD6ExactValue
   ⟨entry.declaredSupport, rfl⟩
 
 /-- Exact dependent value for every D6 subcoordinate actually present in a
-produced event. -/
-inductive EventD6ExactValue :
-    (event : package.PriorD6Event) →
-      package.EventD6Coordinate event → Type (u + 3)
-  | ordinary
-      (entry : P13ProducedPriorSupportLedger.Node64To65Ordinary (ctx := ctx))
-      (coordinate : OrdinaryD6Coordinate entry)
-      (value : OrdinaryD6ExactValue entry coordinate) :
-      EventD6ExactValue (.ordinary entry) coordinate
-  | decoratedBase (entry : DecoratedEntry (ctx := ctx))
-      (coordinate : DecoratedD6Coordinate entry)
-      (value : DecoratedD6ExactValue entry coordinate) :
-      EventD6ExactValue (.decorated entry) (.inl coordinate)
-  | decoratedResponse (entry : DecoratedEntry (ctx := ctx))
-      (coordinate : DecoratedFanResponseCoordinate entry)
-      (value : DecoratedFanResponseValue entry coordinate) :
-      EventD6ExactValue (.decorated entry) (.inr coordinate)
-  | routeEight
-      (entry : P13ProducedPriorSupportLedger.RecordedRouteEightExtraction
-        (ctx := ctx)) (coordinate : RouteEightD6Coordinate entry)
-      (value : RouteEightD6ExactValue entry coordinate) :
-      EventD6ExactValue (.routeEight entry) coordinate
+produced event.  The value is the producer's literal value; no application
+wrapper or second event eliminator is introduced. -/
+noncomputable def EventD6ExactValue (event : package.PriorD6Event)
+    (coordinate : package.EventD6Coordinate event) : Type u := by
+  cases event with
+  | first entry => exact OrdinaryD6ExactValue entry coordinate
+  | second entry =>
+      change DecoratedD6Coordinate entry ⊕
+        DecoratedFanResponseCoordinate entry at coordinate
+      cases coordinate with
+      | inl base => exact DecoratedD6ExactValue entry base
+      | inr response => exact DecoratedFanResponseValue entry response
+  | third entry => exact RouteEightD6ExactValue entry coordinate
 
 noncomputable def eventD6ExactValue (event : package.PriorD6Event)
     (coordinate : package.EventD6Coordinate event) :
     package.EventD6ExactValue event coordinate := by
   cases event with
-  | ordinary entry =>
-      exact .ordinary entry coordinate (ordinaryD6ExactValue entry coordinate)
-  | decorated entry =>
+  | first entry =>
+      exact ordinaryD6ExactValue entry coordinate
+  | second entry =>
       change DecoratedD6Coordinate entry ⊕
         DecoratedFanResponseCoordinate entry at coordinate
       cases coordinate with
       | inl base =>
-          exact .decoratedBase entry base (decoratedD6ExactValue entry base)
+          exact decoratedD6ExactValue entry base
       | inr response =>
-          exact .decoratedResponse entry response
-            (decoratedFanResponseValue entry response)
-  | routeEight entry =>
-      exact .routeEight entry coordinate (routeEightD6ExactValue entry coordinate)
+          exact decoratedFanResponseValue entry response
+  | third entry =>
+      exact routeEightD6ExactValue entry coordinate
 
 @[implicit_reducible] noncomputable def eventD6Coordinates
     (event : package.PriorD6Event) : FinEnum (package.EventD6Coordinate event) := by
   cases event with
-  | ordinary entry => exact ordinaryD6Coordinates entry
-  | decorated entry =>
+  | first entry => exact ordinaryD6Coordinates entry
+  | second entry =>
       letI : FinEnum (DecoratedD6Coordinate entry) := decoratedD6Coordinates entry
       letI : FinEnum (DecoratedFanResponseCoordinate entry) :=
         decoratedFanResponseCoordinates entry
       change FinEnum
         (DecoratedD6Coordinate entry ⊕ DecoratedFanResponseCoordinate entry)
       infer_instance
-  | routeEight entry => exact routeEightD6Coordinates entry
+  | third entry => exact routeEightD6Coordinates entry
 
 noncomputable def eventD6Support (event : package.PriorD6Event) :
     package.EventD6Coordinate event → Finset ctx.G.Vertex := by
   cases event with
-  | ordinary entry => exact fun _ => entry.declaredSupport
-  | decorated entry =>
+  | first entry => exact fun _ => entry.declaredSupport
+  | second entry =>
       intro coordinate
       change DecoratedD6Coordinate entry ⊕
         DecoratedFanResponseCoordinate entry at coordinate
       cases coordinate with
       | inl baseCoordinate => exact decoratedD6Support entry baseCoordinate
       | inr response => exact decoratedFanResponseSupport entry response
-  | routeEight entry => exact fun _ => entry.declaredSupport
+  | third entry => exact fun _ => entry.declaredSupport
 
 abbrev RawDeclaredD6Coordinate (ledger : package.PriorD6Ledger) :=
   Sigma fun key : package.D6Key ledger =>
     package.EventD6Coordinate (package.d6Entry ledger key)
 
 def RawDeclaredD6ExactValue (ledger : package.PriorD6Ledger) :
-    package.RawDeclaredD6Coordinate ledger → Type (u + 3)
+    package.RawDeclaredD6Coordinate ledger → Type u
   | ⟨key, coordinate⟩ =>
       package.EventD6ExactValue (package.d6Entry ledger key) coordinate
 
@@ -945,11 +939,11 @@ theorem d6CarrierRole_injective (stage : package.Stage)
       package.d6CarrierRole stage right rightMem) : left = right :=
   package.boundedCarrierCode_injective stage leftMem rightMem equal
 
-def eventD6KindCode (event : package.PriorD6Event)
+noncomputable def eventD6KindCode (event : package.PriorD6Event)
     (coordinate : package.EventD6Coordinate event) : D6DeclaredKindCode := by
   cases event with
-  | ordinary entry => exact 0
-  | decorated entry =>
+  | first entry => exact 0
+  | second entry =>
       change DecoratedD6Coordinate entry ⊕
         DecoratedFanResponseCoordinate entry at coordinate
       rcases coordinate with base | response
@@ -962,7 +956,7 @@ def eventD6KindCode (event : package.PriorD6Event)
       · rcases response with _ | first
         · exact 6
         · exact 7
-  | routeEight entry => exact 8
+  | third entry => exact 8
 
 theorem decoratedArmPosition_lt_28
     (entry : DecoratedEntry (ctx := ctx))
@@ -1009,11 +1003,11 @@ noncomputable def eventD6LabelCode (stage : package.Stage)
       (member : vertex ∈ package.eventD6Support event coordinate) :=
     package.d6CarrierRole stage vertex (supported member)
   cases event with
-  | ordinary entry =>
+  | first entry =>
       exact d6CenterLabel (role entry.highSurplus.center (by
         simp [eventD6Support,
           P13ProducedPriorSupportLedger.Node64To65Ordinary.center_mem_declaredSupport]))
-  | decorated entry =>
+  | second entry =>
           change DecoratedD6Coordinate entry ⊕
             DecoratedFanResponseCoordinate entry at coordinate
           rcases coordinate with base | response
@@ -1055,7 +1049,7 @@ noncomputable def eventD6LabelCode (stage : package.Stage)
                     simp [eventD6Support, decoratedFanResponseSupport,
                       ← entry.handoff.arm_first first,
                       (entry.handoff.arm first).path.start_mem_support]))
-  | routeEight entry => exact d6RouteEightLabel
+  | third entry => exact d6RouteEightLabel
 
 noncomputable def eventD6ValueCode (stage : package.Stage)
     (event : package.PriorD6Event)
@@ -1066,8 +1060,8 @@ noncomputable def eventD6ValueCode (stage : package.Stage)
       (member : vertex ∈ package.eventD6Support event coordinate) :=
     package.d6CarrierRole stage vertex (supported member)
   cases event with
-  | ordinary entry => exact none
-  | decorated entry =>
+  | first entry => exact none
+  | second entry =>
           change DecoratedD6Coordinate entry ⊕
             DecoratedFanResponseCoordinate entry at coordinate
           rcases coordinate with base | response
@@ -1083,7 +1077,7 @@ noncomputable def eventD6ValueCode (stage : package.Stage)
             · exact none
             · exact some (role (entry.handoff.arm first).terminal (by
                 simp [eventD6Support, decoratedFanResponseSupport]))
-  | routeEight entry => exact none
+  | third entry => exact none
 
 noncomputable def declaredD6NormalizationProfile
     (ledger : package.PriorD6Ledger) (stage : package.Stage) :
@@ -1234,21 +1228,21 @@ theorem D6F4Hit.exact_typeB_or_routeEight
     {ledger : package.PriorD6Ledger} {stage : package.Stage}
     (hit : package.D6F4Hit ledger stage) :
     ((∃ entry : P13ProducedPriorSupportLedger.Node64To65Ordinary (ctx := ctx),
-        hit.event = .ordinary entry) ∨
+        hit.event = .first entry) ∨
       (∃ entry : DecoratedEntry (ctx := ctx),
-        hit.event = .decorated entry)) ∨
+        hit.event = .second entry)) ∨
     (∃ entry : P13ProducedPriorSupportLedger.RecordedRouteEightExtraction
-        (ctx := ctx), hit.event = .routeEight entry) := by
+        (ctx := ctx), hit.event = .third entry) := by
   cases hit.event with
-  | ordinary entry => exact .inl (.inl ⟨entry, rfl⟩)
-  | decorated entry => exact .inl (.inr ⟨entry, rfl⟩)
-  | routeEight entry => exact .inr ⟨entry, rfl⟩
+  | first entry => exact .inl (.inl ⟨entry, rfl⟩)
+  | second entry => exact .inl (.inr ⟨entry, rfl⟩)
+  | third entry => exact .inr ⟨entry, rfl⟩
 
 /-- Negative result after the exact full scan of the supplied produced-prior-
 support ledger.  This asserts completeness only for that concrete ledger; it
 does not manufacture the still-absent node-[70], [72], or [73] producers. -/
 structure D6Complete (ledger : package.PriorD6Ledger)
-    (stage : package.Stage) where
+    (stage : package.Stage) : Type (u + 1) where
   endpointOutside : ∀ key : package.D6Key ledger,
     package.currentAmbientEndpoint stage ∉
       P13ProducedPriorSupportLedger.eventSupport
@@ -1259,19 +1253,16 @@ structure D6Complete (ledger : package.PriorD6Ledger)
       ∃ coordinate : package.D6Coordinate ledger stage, coordinate.1 = key
   carrierCardinality : (package.boundedActiveInterface stage).card ≤ 30
 
-inductive D6Decision (ledger : package.PriorD6Ledger)
-    (stage : package.Stage) where
-  | f4 (hit : package.D6F4Hit ledger stage)
-  | complete (state : package.D6Complete ledger stage)
+abbrev D6Decision (ledger : package.PriorD6Ledger)
+    (stage : package.Stage) :=
+  Sum (package.D6F4Hit ledger stage) (package.D6Complete ledger stage)
 
 /-- Local finite D6 evaluation at one stored prefix. -/
 noncomputable def runD6 (ledger : package.PriorD6Ledger)
-    (stage : package.Stage) : package.D6Decision ledger stage := by
-  cases (package.d6Profile ledger).recognize
-      (package.currentAmbientEndpoint stage) with
-  | found hit => exact .f4 (package.d6F4Hit ledger stage hit)
-  | absent outside =>
-      exact .complete {
+    (stage : package.Stage) : package.D6Decision ledger stage :=
+  ((package.d6Profile ledger).recognize
+      (package.currentAmbientEndpoint stage)).map
+    (package.d6F4Hit ledger stage) fun outside => {
         endpointOutside := outside
         projectionComplete := fun key contained =>
           package.d6Coordinates_complete ledger stage key contained
@@ -1279,11 +1270,11 @@ noncomputable def runD6 (ledger : package.PriorD6Ledger)
 
 theorem runD6_total (ledger : package.PriorD6Ledger)
     (stage : package.Stage) :
-    (∃ hit, package.runD6 ledger stage = .f4 hit) ∨
-      (∃ state, package.runD6 ledger stage = .complete state) := by
+    (∃ hit, package.runD6 ledger stage = .inl hit) ∨
+      (∃ state, package.runD6 ledger stage = .inr state) := by
   cases equation : package.runD6 ledger stage with
-  | f4 hit => exact Or.inl ⟨hit, rfl⟩
-  | complete state => exact Or.inr ⟨state, rfl⟩
+  | inl hit => exact Or.inl ⟨hit, rfl⟩
+  | inr state => exact Or.inr ⟨state, rfl⟩
 
 theorem d6CoordinateCount_le_priorEvents
     (ledger : package.PriorD6Ledger) (stage : package.Stage) :

@@ -42,7 +42,7 @@ noncomputable def transitionStage :=
 example : Graph.DegreeFourFanLedger.VerifiedExecutionStage object center
     centerHigh deletionCritical Assigned assignedDecidable context degreeFour
     (transitionStage object center centerHigh deletionCritical Assigned
-      assignedDecidable context).targetResult :=
+      assignedDecidable context).output.targetResult :=
   Graph.DegreeFourFanLedger.verifiedExecutionStage object center centerHigh
     deletionCritical Assigned assignedDecidable context degreeFour _ rfl
 
@@ -51,6 +51,6 @@ example : Graph.DegreeFourFanLedger.checks object center ≤
   (Graph.DegreeFourFanLedger.verifiedExecutionStage object center centerHigh
     deletionCritical Assigned assignedDecidable context degreeFour
     (transitionStage object center centerHigh deletionCritical Assigned
-      assignedDecidable context).targetResult rfl).polynomial
+      assignedDecidable context).output.targetResult rfl).polynomial
 
 end StructuralExhaustion.Examples.DegreeFourFanLedger

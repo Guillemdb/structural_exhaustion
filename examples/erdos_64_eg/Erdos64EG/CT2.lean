@@ -72,8 +72,9 @@ abbrev routedContext {V : Type u}
 contradiction, so the full CT1 ledger admits no enabled CT2 stage. -/
 theorem localTransition_not_enabled {V : Type u}
     (ctx : Core.MinimalCounterexampleContext (problem V) (@Target V)) :
-    ∀ stage : (localTransition ctx).OutputLedger
-        (currentAvoiding ctx) (ct1Ledger ctx),
+    ∀ stage : Core.Routing.ResidualStage .ct2
+      ((localTransition ctx).OutputLedger
+        (currentAvoiding ctx) (ct1Ledger ctx)),
       (routedProfile V).outcome ctx ≠ .enabled stage :=
   (routedProfile V).transition_not_enabled ctx
 

@@ -37,7 +37,7 @@ noncomputable def verifiedSparseEnvelopeFromPressure
 theorem verifiedSparseEnvelopeFromPressure_sameLabelPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : SparsePressureEntryResidual ctx) :
-    (verifiedSparseEnvelopeFromPressure ctx previous).envelope.output.previous.1.output =
+    (verifiedSparseEnvelopeFromPressure ctx previous).envelope.output.1.1.output =
       previous.2.output.previous.residual := rfl
 
 end Erdos64EG.Internal

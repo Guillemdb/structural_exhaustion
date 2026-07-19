@@ -128,8 +128,7 @@ structure VerifiedP13Node49ManuscriptEntropy
     (residual : P13Node24RefinementResidual.{u})
     (branch : P13Node34Stage residual)
     (node47 : VerifiedP13Node47FullRankResidual residual branch)
-    (node48 : VerifiedP13Node48FrontierCost residual branch node47) : Type (u + 4)
-    extends Core.ExactHandoff node48 where
+    (node48 : VerifiedP13Node48FrontierCost residual branch node47) : Type (u + 4) where
   entropyExact : p13ManuscriptRemainderEntropy residual =
     Real.logb 2 (p13RemainderGraphFamilyCount residual) /
       (p13RemainderVertices residual.ctx).card
@@ -142,8 +141,29 @@ noncomputable def VerifiedP13Node48FrontierCost.node49
     {node47 : VerifiedP13Node47FullRankResidual residual branch}
     (node48 : VerifiedP13Node48FrontierCost residual branch node47) :
     VerifiedP13Node49ManuscriptEntropy residual branch node47 node48 where
-  previous := node48
-  previousExact := rfl
+  entropyExact := by
+    simp [p13ManuscriptRemainderEntropy,
+      p13RemainderGraphFamilyCount,
+      p13RemainderGraphFamilyProfile,
+      Graph.ConstrainedLabelledGraphFamily.Profile.normalizedEntropy_eq]
+  semanticChecks := 0
+  semanticChecksZero := rfl
+
+/-- Ledger-native node `[49]` output.  Its input node is retained by the
+framework stage; the payload contains only node `[49]`'s new entropy fact. -/
+structure P13Node49Output
+    (residual : P13Node24RefinementResidual.{u}) : Type (u + 4) where
+  entropyExact : p13ManuscriptRemainderEntropy residual =
+    Real.logb 2 (p13RemainderGraphFamilyCount residual) /
+      (p13RemainderVertices residual.ctx).card
+  semanticChecks : Nat := 0
+  semanticChecksZero : semanticChecks = 0
+
+/-- Node `[49]` computes its sole new symbolic entropy statement from the
+current residual.  It neither accepts nor reconstructs any predecessor. -/
+noncomputable def p13Node49Output
+    (residual : P13Node24RefinementResidual.{u}) :
+    P13Node49Output residual where
   entropyExact := by
     simp [p13ManuscriptRemainderEntropy,
       p13RemainderGraphFamilyCount,

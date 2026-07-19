@@ -1,4 +1,4 @@
 interface:
   display_name: "Structural Exhaustion Proof Strategy"
   short_description: "Design full-ledger verified CT chains"
-  default_prompt: "Use $design-structural-exhaustion-proof to map this proof to schema-9 CT transitions that preserve the full accumulated ledger."
+  default_prompt: "Use $design-structural-exhaustion-proof to map this proof to CTs while framework-owned transitions preserve the full accumulated ledger."

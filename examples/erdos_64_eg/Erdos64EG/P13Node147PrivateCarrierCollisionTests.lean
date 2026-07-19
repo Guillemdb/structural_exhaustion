@@ -18,8 +18,6 @@ example : p13Route8Tau (p13PackingTheta ctx) <
 example : 0 < 3 - 13 * p13Route8Tau (p13PackingTheta ctx) :=
   p13Route8CollisionMargin_pos node146
 
-example : (p13Node147ArithmeticPrefix node146).previous = node146 := rfl
-
 example : p13Node147ArithmeticCheckCount
       (p13Node147ArithmeticPrefix node146) ≤
     (ctx.G.object.input.vertices.card + 1) ^ 1 :=

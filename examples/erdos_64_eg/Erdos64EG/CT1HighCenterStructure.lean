@@ -106,14 +106,15 @@ abbrev HighCenterStructureEnabledStage
     (previous : VerifiedSurplusPairPrefix ctx) :=
   Routes.Accumulated.OutputLedger
     (highCenterStructureEntry ctx)
-    (highCenterStructureAdapter ctx previous) previous.2.ledgerStage
+    (highCenterStructureAdapter ctx previous) previous.2
 
 def highCenterStructureTransitionStage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedSurplusPairPrefix ctx) :
-    HighCenterStructureEnabledStage ctx previous :=
+    Core.Routing.ResidualStage .ct1
+      (HighCenterStructureEnabledStage ctx previous) :=
   Routes.Accumulated.advanceCurrent (highCenterStructureEntry ctx)
-    (highCenterStructureAdapter ctx previous) previous.2.ledgerStage
+    (highCenterStructureAdapter ctx previous) previous.2
 
 /-- Graph consequences attached to the literal helper CT1 execution. -/
 structure HighCenterStructureFacts
@@ -134,9 +135,10 @@ structure HighCenterStructureFacts
 abbrev VerifiedHighCenterStructurePrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
   Sigma fun previous : VerifiedSurplusPairPrefix ctx =>
-    Core.Routing.LedgerExtension
-      (HighCenterStructureEnabledStage ctx previous)
-      (HighCenterStructureFacts ctx)
+    Core.Routing.ResidualStage .ct1
+      (Core.Routing.LedgerExtension
+        (HighCenterStructureEnabledStage ctx previous)
+        (HighCenterStructureFacts ctx))
 
 abbrev HighCenterStructureLedger
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
@@ -150,12 +152,12 @@ def verifiedHighCenterStructurePrefix
     (previous : VerifiedSurplusPairPrefix ctx) :
     VerifiedHighCenterStructurePrefix ctx :=
   let transitionStage := highCenterStructureTransitionStage ctx previous
-  ⟨previous, ⟨transitionStage, {
+  ⟨previous, transitionStage.extend {
     terminal := runFourCycleAvoidingCT1_terminal ctx
     trace := runFourCycleAvoidingCT1_trace ctx
     stage := highCenterStructureStage ctx
     cubicEndpoints := previous.1.cubicEndpoints
-  }⟩⟩
+  }⟩
 
 /-- Exact CT1 source stage used by the next manuscript transition. -/
 def highCenterStructureLedgerStage
@@ -163,7 +165,7 @@ def highCenterStructureLedgerStage
     (verified : VerifiedHighCenterStructurePrefix ctx) :
     Core.Routing.ResidualStage .ct1
       (HighCenterStructureLedger ctx verified) :=
-  verified.2.previous.ledgerStage.extend verified.2.added
+  verified.2
 
 theorem exists_verifiedHighCenterStructurePrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)

@@ -64,33 +64,34 @@ abbrev OpenPortPairEnabledStage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedSurplusPortClassificationPrefix ctx) :=
   Routes.Accumulated.OutputLedger (openPortPairEntry ctx)
-    (openPortPairAdapter ctx previous) previous.2.ledgerStage
+    (openPortPairAdapter ctx previous) previous.2
 
 /-- Complete CT9 application prefix, represented only by the prior dependent
 framework stage and the newly enabled stage. -/
 abbrev VerifiedOpenPortPairPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
-  Sigma (OpenPortPairEnabledStage ctx)
+  Sigma fun previous : VerifiedSurplusPortClassificationPrefix ctx =>
+    Core.Routing.ResidualStage .ct9 (OpenPortPairEnabledStage ctx previous)
 
 /-- Execute CT9 directly from the prior CT10 stage's canonical ledger. -/
 def openPortPairStage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedSurplusPortClassificationPrefix ctx) :
-    OpenPortPairEnabledStage ctx previous :=
+    Core.Routing.ResidualStage .ct9 (OpenPortPairEnabledStage ctx previous) :=
   Routes.Accumulated.advanceCurrent (openPortPairEntry ctx)
-    (openPortPairAdapter ctx previous) previous.2.ledgerStage
+    (openPortPairAdapter ctx previous) previous.2
 
 /-- Literal CT9 target result from the accumulated transition. -/
 def runOpenPortPairCT9
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedOpenPortPairPrefix ctx) :=
-  verified.2.targetResult
+  verified.2.output.targetResult
 
 /-- Canonical CT9 ledger passed to the next paper transition. -/
 def openPortPairLedger
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedOpenPortPairPrefix ctx) :=
-  verified.2.ledgerStage
+  verified.2
 
 def openPortPairDecision
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})

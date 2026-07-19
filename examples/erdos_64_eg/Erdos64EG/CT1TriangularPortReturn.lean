@@ -169,7 +169,7 @@ noncomputable def triangularPortReturnLedgerStage
       (BridgeReductionLedger ctx source)) :
     Core.Routing.ResidualStage .ct1
       (TriangularPortReturnLedger ctx bridgeStage) :=
-  (triangularPortReturnTransitionStage ctx bridgeStage).ledgerStage.extend
+  (triangularPortReturnTransitionStage ctx bridgeStage).extend
     (triangularPortReturnStage ctx bridgeStage)
 
 noncomputable def runTriangularPortReturnCT1

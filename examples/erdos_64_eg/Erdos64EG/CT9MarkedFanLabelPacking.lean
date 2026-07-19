@@ -120,7 +120,7 @@ noncomputable def markedFanLabelPackingLocalResult
     (source : Core.Routing.ResidualStage .ct9 Ledger)
     (marked : NonSingletonMarkedFan ctx) :
     markedFanLabelPackingLocalResult ctx
-        (markedFanLabelPackingTransitionStage ctx source) marked =
+        (markedFanLabelPackingTransitionStage ctx source).output marked =
       CT9.run (marked.packingProfile.capability PackedProblem.{u})
         (marked.packingProfile.input ctx.toBranchContext) :=
   rfl
@@ -146,6 +146,22 @@ abbrev MarkedFanLabelPackingLedger
     (MarkedFanLabelPackingTransitionLedger ctx source)
     (MarkedFanLabelPackingFacts ctx)
 
+noncomputable def markedFanLabelPackingFacts
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    {Ledger : Sort v}
+    (source : Core.Routing.ResidualStage .ct9 Ledger) :
+    MarkedFanLabelPackingFacts ctx
+      (markedFanLabelPackingTransitionStage ctx source).output where
+  terminal := fun marked => by
+    rw [markedFanLabelPackingLocalResult_transition]
+    exact CT9.run_terminal_bounded_of_bounded _ _
+      (marked.packingProfile.bounded ctx.toBranchContext)
+  trace := fun marked => by
+    rw [markedFanLabelPackingLocalResult_transition]
+    exact CT9.run_trace_bounded_of_bounded _ _
+      (marked.packingProfile.bounded ctx.toBranchContext)
+  degreeBound := fun marked => marked.degree_le_seven
+
 noncomputable def markedFanLabelPackingLedgerStage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     {Ledger : Sort v}
@@ -155,21 +171,8 @@ noncomputable def markedFanLabelPackingLedgerStage
   let execution := markedFanLabelPackingTransitionStage ctx source
   let executionStage : Core.Routing.ResidualStage .ct9
       (MarkedFanLabelPackingTransitionLedger ctx source) :=
-    execution.ledgerStage
-  exact executionStage.extend {
-    terminal := fun marked => by
-      change (markedFanLabelPackingLocalResult ctx execution marked).terminal =
-        .bounded
-      rw [markedFanLabelPackingLocalResult_transition]
-      exact CT9.run_terminal_bounded_of_bounded _ _
-        (marked.packingProfile.bounded ctx.toBranchContext)
-    trace := fun marked => by
-      change (markedFanLabelPackingLocalResult ctx execution marked).trace = _
-      rw [markedFanLabelPackingLocalResult_transition]
-      exact CT9.run_trace_bounded_of_bounded _ _
-        (marked.packingProfile.bounded ctx.toBranchContext)
-    degreeBound := fun marked => marked.degree_le_seven
-  }
+    execution
+  exact executionStage.extend (markedFanLabelPackingFacts ctx source)
 
 noncomputable def runMarkedFanLabelPackingCT9
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})

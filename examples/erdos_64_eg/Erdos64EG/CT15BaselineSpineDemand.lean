@@ -193,14 +193,16 @@ abbrev BaselineSpineDemandLedger
 
 abbrev VerifiedBaselineSpineDemandPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
-  Sigma (BaselineSpineDemandLedger ctx)
+  Sigma fun previous : VerifiedSurplusPortActivationPrefix ctx =>
+    Core.Routing.ResidualStage .ct15
+      (BaselineSpineDemandLedger ctx previous)
 
 noncomputable def verifiedBaselineSpineDemandPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedSurplusPortActivationPrefix ctx) :
     VerifiedBaselineSpineDemandPrefix ctx :=
   let stage := baselineSpineDemandTransitionStage ctx previous
-  ⟨previous, ⟨stage, {
+  ⟨previous, stage.extend {
     coordinateCount := baselineSpineProfile_coordinateCount ctx
     exactDeficit := baselineSpineProfile_exactDeficit ctx
     lowerBound := baselineSpineProfile_lowerBound ctx
@@ -209,13 +211,13 @@ noncomputable def verifiedBaselineSpineDemandPrefix
     verified := runBaselineSpineCT15_verified ctx
     total := runBaselineSpineCT15_total ctx
     linearBudget := runBaselineSpineCT15_linearBudget ctx
-  }⟩⟩
+  }⟩
 
 /-- Canonical CT15 continuation stage after node `[129]`. -/
 noncomputable def baselineSpineDemandLedgerStage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedBaselineSpineDemandPrefix ctx) :=
-  verified.2.previous.ledgerStage.extend verified.2.added
+  verified.2
 
 theorem exists_verifiedBaselineSpineDemandPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)

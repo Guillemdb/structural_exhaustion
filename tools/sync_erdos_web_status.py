@@ -3,11 +3,12 @@
 
 This is a narrow recovery path for the dashboard projection when unrelated
 downstream modules prevent recompiling the monolithic example aggregator.
-It never invents status: it parses only `formalizedNodeIds` and the canonical
-`ExampleNodeObligationDescriptor` constructors in `WebExport.lean`, updates
-the existing compiled raw descriptor, and leaves declarations/workflows/proof
-steps untouched.  The normal catalog renderer remains responsible for schema
-and cross-reference validation.
+It never invents status: it parses `formalizedNodeIds`, the canonical
+`ExampleNodeObligationDescriptor` constructors, and the stable workflow/stage/
+link/step identifiers in `WebExport.lean`.  It updates status and removes stale
+compiled records whose identifiers no longer occur in the Lean-owned source.
+The normal catalog renderer remains responsible for schema and cross-reference
+validation.
 """
 
 from __future__ import annotations
@@ -111,6 +112,26 @@ def extract_status(source: str) -> tuple[list[int], list[dict[str, object]]]:
     return ids, obligations
 
 
+def extract_live_ids(source: str) -> tuple[set[str], set[str], set[str]]:
+    """Read stable descriptor IDs without reconstructing any Lean value."""
+
+    stage_ids = {
+        lean_string(value)
+        for value in re.findall(r"\bstageId\s*:=\s*" + STRING, source)
+    }
+    link_ids = {
+        lean_string(value)
+        for value in re.findall(r"\blinkId\s*:=\s*" + STRING, source)
+    }
+    step_ids = {
+        lean_string(value)
+        for value in re.findall(r"\bstepId\s*:=\s*" + STRING, source)
+    }
+    if not stage_ids or not link_ids or not step_ids:
+        raise StatusSyncError("cannot locate Lean-owned workflow identifiers")
+    return stage_ids, link_ids, step_ids
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=Path.cwd())
@@ -119,13 +140,56 @@ def main() -> None:
     source_path = root / "examples/erdos_64_eg/Erdos64EG/WebExport.lean"
     raw_path = root / "build/example-exports/erdos-64.raw.json"
 
-    ids, obligations = extract_status(source_path.read_text(encoding="utf-8"))
+    source = source_path.read_text(encoding="utf-8")
+    ids, obligations = extract_status(source)
+    stage_ids, link_ids, step_ids = extract_live_ids(source)
     raw = json.loads(raw_path.read_text(encoding="utf-8"))
-    manuscript = raw["example"]["manuscript"]
+    example = raw["example"]
+    manuscript = example["manuscript"]
     manuscript["formalizedNodeIds"] = ids
+    # Keep every descriptor that was actually compiled into the raw artifact.
+    # Source-only deletion projection can break documentation links; a recovery
+    # sync is authoritative only for node status and obligations.
+    compiled_step_ids = {step["stepId"] for step in manuscript["proofSteps"]}
+    unavailable_evidence = sorted(
+        {
+            step_id
+            for obligation in obligations
+            for step_id in obligation["evidenceStepIds"]
+            if step_id not in compiled_step_ids
+        }
+    )
+    if unavailable_evidence:
+        # This recovery path may read a raw export older than WebExport.lean.
+        # Never manufacture a proof-step descriptor and never leave a dangling
+        # reference: until Lean regenerates that step, publish the obligation as
+        # missing and keep its statement visible.
+        for obligation in obligations:
+            if any(
+                step_id not in compiled_step_ids
+                for step_id in obligation["evidenceStepIds"]
+            ):
+                obligation["status"] = "missing"
+                obligation["evidenceStepIds"] = []
+        unavailable_nodes = {
+            int(obligation["nodeId"])
+            for obligation in obligations
+            if obligation["status"] == "missing"
+        }
+        manuscript["formalizedNodeIds"] = [
+            node_id for node_id in ids if node_id not in unavailable_nodes
+        ]
     manuscript["nodeObligations"] = obligations
     raw_path.write_text(json.dumps(raw, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"synced {len(ids)} green nodes and {len(obligations)} obligations")
+    print(
+        f"synced {len(ids)} green nodes, {len(obligations)} obligations, "
+        f"{len(stage_ids)} stages, {len(link_ids)} links, and {len(step_ids)} steps"
+    )
+    if unavailable_evidence:
+        print(
+            "raw export lacks Lean-owned proof steps; conservatively demoted "
+            + ", ".join(unavailable_evidence)
+        )
 
 
 if __name__ == "__main__":

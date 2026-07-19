@@ -1,6 +1,6 @@
 import Erdos64EG.P13Node146Route8Threshold
 import Erdos64EG.P13ExactHotNormalization
-import StructuralExhaustion.Core.ExactHandoff
+import StructuralExhaustion.Core.ResidualRefinement
 import StructuralExhaustion.Core.WorkBudget
 
 namespace Erdos64EG.Internal
@@ -92,25 +92,15 @@ theorem p13Node148_totalDemand_le_allowance_add_cold
 structure P13Node148To149
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
-    (node146No : P13Node146To148 ctx node21) : Type (u + 3)
-    extends Core.ExactHandoff node146No where
-  theta_ge : (1 : ℚ) / 78 ≤ p13PackingTheta ctx
-  aggregate : P13SequentialHotAggregate ctx node21
-  aggregateExact : aggregate = p13SequentialFinalHotAggregate ctx node21
+    (_node146No : P13Node146To148 ctx node21) : Type (u + 3) where
   densityCap : P13WindowDensityFiniteCapWithError ctx node21
-  correctedHandoff : VerifiedP13Node24FiniteDensityHandoff ctx node21
-  correctedHandoffExact : correctedHandoff.densityCap = densityCap
 
 /-- No payload on the existing edge `[148] -> [150]`.  It retains both the
 strict failure and the quantitative cold shortfall on the identical ledger. -/
 structure P13Node148To150
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
-    (node146No : P13Node146To148 ctx node21) : Type (u + 3)
-    extends Core.ExactHandoff node146No where
-  theta_ge : (1 : ℚ) / 78 ≤ p13PackingTheta ctx
-  aggregate : P13SequentialHotAggregate ctx node21
-  aggregateExact : aggregate = p13SequentialFinalHotAggregate ctx node21
+    (_node146No : P13Node146To148 ctx node21) : Type (u + 3) where
   failedCap : ¬P13WindowDensityFiniteCapWithError ctx node21
   hotPayment : p13Node148HotDemand ctx node21 ≤ p13Node148Allowance ctx node21
   totalPayment : p13Node148TotalDemand ctx ≤
@@ -119,100 +109,86 @@ structure P13Node148To150
     p13Node148ColdDemand ctx node21
   coldNonempty : 0 < (p13SequentialWeightedColdWindows ctx node21).length
 
-/-- Compatibility spelling for the original exact-predecessor projection.
-The data are now owned by `Core.ExactHandoff`. -/
-theorem P13Node148To149.exactPrevious
-    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
-    {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
-    {node146No : P13Node146To148 ctx node21}
-    (payload : P13Node148To149 ctx node21 node146No) :
-    payload.previous = node146No :=
-  payload.previousExact
+/-! ## Framework-owned node-[148] decision
 
-theorem P13Node148To150.exactPrevious
-    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
-    {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
-    {node146No : P13Node146To148 ctx node21}
-    (payload : P13Node148To150 ctx node21 node146No) :
-    payload.previous = node146No :=
-  payload.previousExact
+The node-[146] no payload and node-[145] ledger remain in the incoming
+state.  These declarations add only the cap decision and its new branch
+payload; neither branch copies an inherited field.
+-/
 
-/-- The earlier ledger exactness is inherited through the literal node-[146]
-predecessor instead of being duplicated as an application field. -/
-theorem P13Node148To149.ledgerExact
-    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
-    {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
-    {node146No : P13Node146To148 ctx node21}
-    (payload : P13Node148To149 ctx node21 node146No) :
-    payload.previous.previous = p13SequentialWeightedLedger ctx node21 := by
-  rw [payload.previousExact]
-  exact node146No.previousExact
+abbrev P13Node148Cap (residual : P13Node145RefinementResidual.{u}) : Prop :=
+  P13WindowDensityFiniteCapWithError residual.ctx residual.node21
 
-theorem P13Node148To150.ledgerExact
-    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
-    {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
-    {node146No : P13Node146To148 ctx node21}
-    (payload : P13Node148To150 ctx node21 node146No) :
-    payload.previous.previous = p13SequentialWeightedLedger ctx node21 := by
-  rw [payload.previousExact]
-  exact node146No.previousExact
+abbrev P13Node148FailedCap
+    (residual : P13Node145RefinementResidual.{u}) : Prop :=
+  ¬P13WindowDensityFiniteCapWithError residual.ctx residual.node21
 
-/-- The two constructors are exactly node `[148]`'s two outgoing edges. -/
-inductive P13Node148Outcome
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
-    (node146No : P13Node146To148 ctx node21) : Type (u + 3)
-  | to149 : P13Node148To149 ctx node21 node146No → P13Node148Outcome ctx node21 node146No
-  | to150 : P13Node148To150 ctx node21 node146No → P13Node148Outcome ctx node21 node146No
+noncomputable def p13Node148DecisionRefinement {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available P13Node146To148Stage) facts] :
+    Core.ResidualRefinement.State.DecisionNode (facts := facts)
+      P13Node148Cap P13Node148FailedCap :=
+  Core.ResidualRefinement.State.DecisionNode.complement _
+    (fun _state => Classical.propDecidable _)
 
-/-- Execute node `[148]` by one corrected natural-number comparison. -/
-noncomputable def runP13Node148
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
-    (node146No : P13Node146To148 ctx node21) :
-    P13Node148Outcome ctx node21 node146No := by
-  let aggregate := p13SequentialFinalHotAggregate ctx node21
-  by_cases cap : P13WindowDensityFiniteCapWithError ctx node21
-  · exact .to149 {
-      previous := node146No
-      previousExact := rfl
-      theta_ge := node146No.theta_ge
-      aggregate := aggregate
-      aggregateExact := rfl
-      densityCap := cap
-      correctedHandoff := ⟨⟨node21, rfl⟩, cap⟩
-      correctedHandoffExact := rfl
-    }
-  · have hotPayment := p13Node148_hotDemand_le_allowance ctx node21
-    have totalPayment := p13Node148_totalDemand_le_allowance_add_cold ctx node21
-    have coldShortfall :
-        p13Node148TotalDemand ctx - p13Node148Allowance ctx node21 ≤
-          p13Node148ColdDemand ctx node21 := by
-      omega
-    have overflow : VerifiedP13Node23FiniteOverflow ctx node21 :=
-      ⟨⟨node21, rfl⟩, cap⟩
-    exact .to150 {
-      previous := node146No
-      previousExact := rfl
-      theta_ge := node146No.theta_ge
-      aggregate := aggregate
-      aggregateExact := rfl
-      failedCap := cap
-      hotPayment := hotPayment
-      totalPayment := totalPayment
-      coldShortfall := coldShortfall
-      coldNonempty := overflow.cold_nonempty
-    }
+abbrev P13Node148To149Stage (residual : P13Node145RefinementResidual.{u}) :=
+  Core.ResidualRefinement.State.DependentSuccessor
+    P13Node146To148Stage
+    (fun residual node146No =>
+      P13Node148To149 residual.ctx residual.node21 node146No) residual
 
-theorem runP13Node148_exhaustive
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
-    (node146No : P13Node146To148 ctx node21) :
-    (∃ payload, runP13Node148 ctx node21 node146No = .to149 payload) ∨
-      (∃ payload, runP13Node148 ctx node21 node146No = .to150 payload) := by
-  cases runP13Node148 ctx node21 node146No with
-  | to149 payload => exact Or.inl ⟨payload, rfl⟩
-  | to150 payload => exact Or.inr ⟨payload, rfl⟩
+abbrev P13Node148To150Stage (residual : P13Node145RefinementResidual.{u}) :=
+  Core.ResidualRefinement.State.DependentSuccessor
+    P13Node146To148Stage
+    (fun residual node146No =>
+      P13Node148To150 residual.ctx residual.node21 node146No) residual
+
+noncomputable def p13Node148To149Refinement {facts}
+    [Core.ResidualRefinement.Proofs.Contains P13Node148Cap facts]
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available P13Node146To148Stage) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      P13Node148To149Stage :=
+  Core.ResidualRefinement.State.StageNode.usingFactAndStage
+    (required := P13Node148Cap) (Required := P13Node146To148Stage)
+    (fun _state cap node146No => ⟨node146No, ⟨cap⟩⟩)
+
+noncomputable def p13Node148To150Refinement {facts}
+    [Core.ResidualRefinement.Proofs.Contains P13Node148FailedCap facts]
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available P13Node146To148Stage) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      P13Node148To150Stage :=
+  Core.ResidualRefinement.State.StageNode.usingFactAndStage
+    (required := P13Node148FailedCap) (Required := P13Node146To148Stage)
+    (fun state failedCap node146No => by
+      have hotPayment :=
+        p13Node148_hotDemand_le_allowance state.residual.ctx state.residual.node21
+      have totalPayment :=
+        p13Node148_totalDemand_le_allowance_add_cold
+          state.residual.ctx state.residual.node21
+      have coldShortfall :
+          p13Node148TotalDemand state.residual.ctx -
+              p13Node148Allowance state.residual.ctx state.residual.node21 ≤
+            p13Node148ColdDemand state.residual.ctx state.residual.node21 := by
+        omega
+      have coldNonempty :
+          0 < (p13SequentialWeightedColdWindows
+            state.residual.ctx state.residual.node21).length := by
+        by_contra absent
+        have empty : (p13SequentialWeightedColdWindows
+            state.residual.ctx state.residual.node21).length = 0 :=
+          Nat.eq_zero_of_not_pos absent
+        apply failedCap
+        apply (p13Node148_cap_iff
+          state.residual.ctx state.residual.node21).mp
+        simpa [p13Node148ColdDemand, empty] using totalPayment
+      exact ⟨node146No,
+        { failedCap := failedCap
+          hotPayment := hotPayment
+          totalPayment := totalPayment
+          coldShortfall := coldShortfall
+          coldNonempty := coldNonempty }⟩)
 
 /-- Node `[148]` performs one primitive comparison after reusing the already
 verified local hot-product accounting. -/

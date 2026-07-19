@@ -1,11 +1,16 @@
 ---
 name: design-structural-exhaustion-proof
-description: "Select and chain structural-exhaustion CTs for a new Lean theorem from a manuscript or mathematical proof. Use when mapping proof prose to CT1-CT17, choosing reusable graph or Core profiles and schema-9 executable transition profiles, preserving full accumulated ledgers, auditing local finite universes, or coordinating an end-to-end verified example implementation."
+description: "Select and chain structural-exhaustion CTs for a new Lean theorem from a manuscript or mathematical proof. Use when mapping proof prose to CT1-CT17, choosing reusable graph or Core profiles, requiring framework-owned CT transitions, preserving full accumulated ledgers, auditing local finite universes, or coordinating an end-to-end verified example implementation."
 ---
 
 # Design a Structural Exhaustion Proof
 
 Translate the supplied mathematics into the smallest practical chain of existing CT contracts. Implement the mathematics stated by the source; do not invent replacement lemmas, global universes, or proof assumptions.
+
+For the Erdős--Gyárfás Problem 64 example, first read
+[`../implement-next-erdos-64-eg-ct/references/mandatory-node-template.md`](../implement-next-erdos-64-eg-ct/references/mandatory-node-template.md)
+completely. Its immutable topology, single-ledger, thin-output, query, and
+node-local obligation rules override any more general handoff option below.
 
 ## Establish the formal authority
 
@@ -71,15 +76,6 @@ Search for an existing constructor before defining a raw capability. In particul
   coordinate columns. Applications supply only the four alphabets, observed
   lists, and `Nodup`; never redeclare column bounds, padded code types,
   symbolic cardinalities, their product, or per-column `Fin` encoders.
-- `Core.ExactHandoff` for every diagram edge that retains its predecessor
-  unchanged while adding local facts. Extend this carrier instead of declaring
-  application fields such as `previous` and `previousExact` again.
-  Seed exact outputs with `StageNode.exact`, advance canonical dependent chains
-  with `StageNode.mapExactStage`, and combine a branch fact with an exact
-  predecessor through `StageNode.usingFactAndExactStage`. Use
-  `usingExactStage` only when a produced expression has a genuinely separate
-  canonical name. The successor must be produced from the retrieved value,
-  never from a recomputed copy whose equality proof is ignored.
 - `Core.ResidualRefinement.State.StageNode` for a sequential proof prefix on
   one stable carrier, with `require`/`requireStage` for inherited facts and
   `mapYesStage`/`mapNoStage` for one manuscript branch and `mapStages` when
@@ -99,38 +95,20 @@ Search for an existing constructor before defining a raw capability. In particul
   than spelling the complete accumulated fact list. A `usingStage` body must
   consume that stage; predecessor-indexed outputs use the exact-stage
   combinators above.
-- `Core.Routing.ResidualStage` for every CT edge. Pass the complete accumulated
-  ledger to the selected transition profile's public `.advance`, and continue
-  only from the returned enabled stage's `.ledgerStage`. A target result is an
-  inspection projection, never the next source carrier. Use
-  `ResidualStage.extend` and `LedgerExtension` whenever the same-CT ledger gains
-  one problem theorem or data value; never create application predecessor or
-  equality fields.
-  Never replace a returned transition or pointwise execution's `.ledgerStage`
-  with `ResidualStage.exact execution`, even when definitionally equal.
-- For an ordinary total accumulated-ledger edge, applications must use
-  `Routes.Accumulated.advanceCurrent` when the current source is the ledger,
-  `Routes.Accumulated.advance` only when a genuine mathematical projection is
-  required, and `Routes.Accumulated.OutputLedger` for the identity-current
-  output type. Never spell `id`; a genuinely projected output uses
-  `ProjectedOutputLedger`. For a
-  pointwise edge use `advancePointwise` and `PointwiseOutputLedger`. Never
-  re-expand `transition.onLedger`, `EnabledStage`, or the pointwise family in
-  an application type alias. A pointwise family of already selected registered
-  routes uses `advanceSelectedPointwise` and
-  `SelectedPointwiseOutputLedger`.
-  For a registered specialized route that has its own public `advance`, name
-  its enabled full-ledger output through
-  `Core.Routing.CTTransition.OutputLedger`; raw `onLedger` is framework-only.
+- For every CT edge, use one framework-owned node executor that accepts the
+  exact incoming stage and returns the successor stage with the full ledger
+  preserved and extended. Erdős application code supplies only the CT-local
+  mathematical instantiation. It must not mention route executors, output
+  ledger aliases, source projections, manual extension, `.ledgerStage`, or
+  restaging.
 - `Core.Routing.PointwiseExecutableFamily` for an obligation of the form
   `∀ localIndex, one public CT execution`. Supply the entry, context, and
   trigger pointwise. Do not enumerate, scan, or synthesize a finite universe
   for the index type.
-- `Core.Routing.PointwiseTransitionFamily` when that pointwise obligation is
-  a family of specialized typed transitions. Supply each semantic transition
-  and its current-residual projection, execute with `.advance`, retain the
-  aggregate `.ledgerStage`, and read individual evidence via `.localStage`.
-  Never replace it with an application `Sigma`/function wrapper.
+- Use the framework's pointwise node executor when an obligation is a family
+  of typed transitions. The application supplies only pointwise mathematics
+  and reads returned local evidence; it never constructs the family route or
+  aggregate ledger carrier.
 - `Core.Enumeration.finsetSubtype`, `sigma`, and
   `sigmaOrderedDistinctPairs`, including `subtype_card_eq_filter`,
   `finsetSubtype_card`, `finsetSubtype_sum_val_eq`, and `boolSubtype_card`, for
@@ -157,9 +135,6 @@ Search for an existing constructor before defining a raw capability. In particul
 - `PolynomialCheckBudget.add`/`branch` and `Counted.bind`/`zip` for composed
   local work. Never re-prove a polynomial envelope for a framework-composed
   schedule.
-- `Core.ExactPropertyHandoff` when a node retains its predecessor and adds
-  only one proposition. Keep the manuscript node name as a thin alias; never
-  create a problem-specific handoff structure for this pattern.
 - `Core.SupportStratifiedDetermination` when a quotient is valid on a final
   connected carrier but the proof audits whether it already descends to an
   earlier atom. Keep the two context types and boundary profiles distinct;
@@ -179,8 +154,7 @@ Before editing Lean, record one row for every selected manuscript step:
 
 Require every row to identify the exact local universe being inspected. Reject a row that says only "all graphs", "all subgraphs", "all colorings", or another ambient exponential universe.
 
-Use the corresponding registered transition profile only for these compiled
-residual flows:
+Verify that the framework registry owns these compiled residual flows:
 
 - CT1 avoidance to CT2;
 - CT1 C1 terminal to CT12;
@@ -191,16 +165,16 @@ residual flows:
 - CT9 capacity-one overload to CT7;
 - CT14 capacity ledger to CT14.
 
-For a compiled profile, invoke its mandatory public `.advance` executor on a
-`ResidualStage sourceTactic Ledger` and a projection from the complete ledger
-to the current local residual. Continue only via `.ledgerStage`. In example
-metadata use `kind := .registeredTransition` and the exact
-`transitionProfileId?`; the registry resolves the compiled `advanceExecutor`.
+For a compiled profile, application code supplies only the incoming stage and
+the target CT's local mathematics to the framework-owned node executor. It
+does not invoke the transition, construct a residual projection, or handle the
+continuation. Example metadata may use `kind := .registeredTransition` and the
+exact `transitionProfileId?`; the registry resolves the executor.
 
-For any other sequence, compose proved theorem outputs through a reusable
-Core, CT, or Graph executor that consumes and returns the complete accumulated
-ledger. Do not place predecessor, context, ledger, or execution plumbing in an
-application. Every direct cross-CT workflow edge must name its framework
+For any other sequence, first implement one reusable Core, CT, or Routes node
+executor that consumes and returns the complete accumulated ledger. Do not
+place predecessor, context, ledger, route, or execution plumbing in an
+application. Every direct cross-CT workflow edge must resolve to its framework
 executor, and the compiled catalog rejects empty or problem-owned automation.
 
 The following are forbidden: `TacticInterface`, `RouteRule`, `GeneratedRoute`,
@@ -223,7 +197,8 @@ If the manuscript's local step is not practical under the current API, generaliz
 
 1. Define one `Core.Problem` and shared contexts.
 2. Read and follow each selected `.agents/skills/implement-structural-exhaustion-ctN/SKILL.md` completely.
-3. Read and follow `.agents/skills/implement-structural-exhaustion-route/SKILL.md` for every registered transition profile used.
+3. Require the framework registry to resolve every CT transition; do not
+   author routing in the application.
 4. Implement only problem-specific primitives in the example package. Put theorem-independent finite machinery in `Core`, graph mathematics in `Graph`, and CT execution semantics in the relevant CT namespace.
 5. Invoke the public reference runner. Retain the terminal, typed path, and terminal-indexed outcome together.
 6. Prove semantic soundness, totality, the expected terminal, the exact trace, and the local work bound.

@@ -372,8 +372,8 @@ def ledgerStage (profile : FanClosedPort.FanWindowProfile V)
     (first second : FanClosedPort.OpenPort centerHigh deletionCritical)
     (assigned : FanClosedPort.AssignedPair centerHigh deletionCritical profile
       first second) :=
-  (executionStage (base := base) (baseline := baseline) centerHigh
-    deletionCritical profile first second assigned).ledgerStage
+  executionStage (base := base) (baseline := baseline) centerHigh
+    deletionCritical profile first second assigned
 
 def routedInput (profile : FanClosedPort.FanWindowProfile V)
     (first second : FanClosedPort.OpenPort centerHigh deletionCritical)
@@ -396,7 +396,7 @@ def run (profile : FanClosedPort.FanWindowProfile V)
       (capability (base := base) (object := object) (center := center) profile)
       (context base object baseline) :=
   (executionStage (base := base) (baseline := baseline) centerHigh
-    deletionCritical profile first second assigned).targetResult
+    deletionCritical profile first second assigned).output.targetResult
 
 theorem lowerMass_eq (profile : FanClosedPort.FanWindowProfile V) :
     CT14.lowerMass

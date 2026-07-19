@@ -73,8 +73,9 @@ def advance
     (minimality : Core.MinimalityKernel P (CT1.Target S) input.context)
     {Ledger : Sort uLedger} (current : Ledger → PackedAvoiding S input)
     (source : Core.Routing.ResidualStage .ct1 Ledger) :
-    ((transition capability minimality).onLedger current).Outcome source :=
-  Core.Routing.CTTransition.runOnLedger
+    Core.Routing.CTTransition.LedgerOutcome
+      ((transition capability minimality).onLedger current) source :=
+  Core.Routing.CTTransition.runLedgerOnLedger
     (transition capability minimality) current source
 
 /-- The complete inherited branch context is preserved definitionally. -/
@@ -146,8 +147,8 @@ theorem disabled_sound
     (minimality : Core.MinimalityKernel P (CT1.Target S) input.context)
     {Ledger : Sort uLedger} (current : Ledger → PackedAvoiding S input)
     (source : Core.Routing.ResidualStage .ct1 Ledger)
-    (notEnabled : ∀ stage :
-      ((transition capability minimality).onLedger current).EnabledStage source,
+    (notEnabled : ∀ stage : Core.Routing.ResidualStage .ct2
+      (((transition capability minimality).onLedger current).EnabledStage source),
       advance capability minimality current source ≠ .enabled stage) :
     ∀ piece : capability.pieces.Piece
       (targetContext minimality (current source.output)).G,
@@ -164,8 +165,8 @@ theorem disabled_sound
       | isTrue admissible =>
           cases outcomeEq : advance capability minimality current source with
           | enabled stage => exact (notEnabled stage outcomeEq).elim
-          | disabled reject _discovered =>
-              exact (reject ⟨⟨piece, proper, admissible⟩⟩).elim
+          | disabled rejected =>
+              exact (rejected.output.reject ⟨⟨piece, proper, admissible⟩⟩).elim
 
 @[simp] theorem transition_profile_id
     {P : Core.Problem.{uAmbient, uBranch}}
@@ -229,9 +230,8 @@ def transition
       (CT1ToCT2.targetContext minimality source))
     (fun _source trigger => trigger)
 
-/-- Discover and execute local deletion from an exact CT1 residual.  An
-enabled caller continues through the returned stage's `ledgerStage`, thereby
-retaining the CT1 predecessor as well as the CT2 execution. -/
+/-- Discover and execute local deletion from an exact CT1 residual. Both
+outcomes are complete accumulated ledgers. -/
 def advance
     {P : Core.Problem.{uAmbient, uBranch}}
     {S : CT1.Spec.{uIndex, uWitness} P} {input : CT1.Input P}
@@ -241,8 +241,9 @@ def advance
       capability)
     {Ledger : Sort uLedger} (current : Ledger → PackedAvoiding S input)
     (source : Core.Routing.ResidualStage .ct1 Ledger) :
-    ((transition capability minimality closure).onLedger current).Outcome source :=
-  Core.Routing.CTTransition.runOnLedger
+    Core.Routing.CTTransition.LedgerOutcome
+      ((transition capability minimality closure).onLedger current) source :=
+  Core.Routing.CTTransition.runLedgerOnLedger
     (transition capability minimality closure) current source
 
 /-- The complete inherited branch context is definitionally preserved. -/
@@ -300,22 +301,22 @@ theorem enabled_sound
       capability)
     {Ledger : Sort uLedger} (current : Ledger → PackedAvoiding S input)
     (source : Core.Routing.ResidualStage .ct1 Ledger)
-    (stage : ((transition capability minimality closure).onLedger current).EnabledStage
-      source)
+    (stage : Core.Routing.ResidualStage .ct2
+      (((transition capability minimality closure).onLedger current).EnabledStage source))
     (ran : advance capability minimality closure current source = .enabled stage) :
-    capability.pieces.Proper stage.execution.seed.seed.piece ∧
+    capability.pieces.Proper stage.output.execution.seed.seed.piece ∧
       capability.pieces.Admissible
         (CT1ToCT2.targetContext minimality (current source.output)).state
-          stage.execution.seed.seed.piece ∧
-      stage.targetResult = closure.executableInterface.execute
+          stage.output.execution.seed.seed.piece ∧
+      stage.output.targetResult = closure.executableInterface.execute
         (((transition capability minimality closure).onLedger current).targetContext
           source)
         (((transition capability minimality closure).onLedger current).trigger source
-          stage.execution.seed) := by
-  have proper := stage.execution.seed.seed.proper
-  have admissible := stage.execution.seed.seed.admissible
-  unfold advance Core.Routing.CTTransition.runOnLedger at ran
-  unfold Core.Routing.CTTransition.run at ran
+          stage.output.execution.seed) := by
+  have proper := stage.output.execution.seed.seed.proper
+  have admissible := stage.output.execution.seed.seed.admissible
+  unfold advance Core.Routing.CTTransition.runLedgerOnLedger at ran
+  unfold Core.Routing.CTTransition.runLedger at ran
   split at ran
   · cases ran
     exact ⟨proper, admissible, rfl⟩
@@ -332,8 +333,8 @@ theorem disabled_sound
       capability)
     {Ledger : Sort uLedger} (current : Ledger → PackedAvoiding S input)
     (source : Core.Routing.ResidualStage .ct1 Ledger)
-    (notEnabled : ∀ stage :
-      ((transition capability minimality closure).onLedger current).EnabledStage source,
+    (notEnabled : ∀ stage : Core.Routing.ResidualStage .ct2
+      (((transition capability minimality closure).onLedger current).EnabledStage source),
       advance capability minimality closure current source ≠ .enabled stage) :
     ∀ piece : capability.pieces.Piece
         (CT1ToCT2.targetContext minimality (current source.output)).G,
@@ -350,8 +351,8 @@ theorem disabled_sound
       | isTrue admissible =>
           cases outcomeEq : advance capability minimality closure current source with
           | enabled stage => exact (notEnabled stage outcomeEq).elim
-          | disabled reject _discovered =>
-              exact (reject ⟨⟨piece, proper, admissible⟩⟩).elim
+          | disabled rejected =>
+              exact (rejected.output.reject ⟨⟨piece, proper, admissible⟩⟩).elim
 
 /-- A valid local deletion closure forces transition discovery to be disabled:
 an enabled trigger executes the deletion-C2 path and contradicts minimality. -/
@@ -364,11 +365,11 @@ theorem advance_not_enabled_of_closure
     (source : Core.Routing.ResidualStage .ct1 Ledger)
     (closure : CT2.LocalDeletionClosureRule (Target := CT1.Target S)
       capability) :
-    ∀ stage :
-      ((transition capability minimality closure).onLedger current).EnabledStage source,
+    ∀ stage : Core.Routing.ResidualStage .ct2
+      (((transition capability minimality closure).onLedger current).EnabledStage source),
       advance capability minimality closure current source ≠ .enabled stage := by
   intro stage ran
-  exact stage.targetResult.verified
+  exact stage.output.targetResult.verified
 
 @[simp] theorem transition_profile_id
     {P : Core.Problem.{uAmbient, uBranch}}
@@ -516,8 +517,9 @@ theorem transition_not_enabled
     (profile : CertificateProfile.{uAmbient, uBranch, uPiece, uCode}
       PublicTarget)
     (ctx : Core.MinimalCounterexampleContext P PublicTarget) :
-    ∀ stage : ((profile.transition ctx).onLedger
-        (profile.currentAvoiding ctx)).EnabledStage (profile.sourceLedger ctx),
+    ∀ stage : Core.Routing.ResidualStage .ct2
+      (((profile.transition ctx).onLedger
+        (profile.currentAvoiding ctx)).EnabledStage (profile.sourceLedger ctx)),
       profile.outcome ctx ≠ .enabled stage :=
   advance_not_enabled_of_closure (profile.targetMinimality ctx)
     (profile.currentAvoiding ctx) (profile.sourceLedger ctx)

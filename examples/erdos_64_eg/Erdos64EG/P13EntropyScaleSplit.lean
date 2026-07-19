@@ -39,8 +39,7 @@ structure VerifiedP13Node50ManuscriptEntropySplit
     (node47 : VerifiedP13Node47FullRankResidual residual branch)
     (node48 : VerifiedP13Node48FrontierCost residual branch node47)
     (node49 : VerifiedP13Node49ManuscriptEntropy residual branch node47 node48) :
-    Type (u + 5)
-    extends Core.ExactHandoff node49 where
+    Type (u + 5) where
   outcome : (p13ManuscriptEntropySplitProfile residual).Outcome
   total : p13ManuscriptEntropyThreshold residual ≤
       p13ManuscriptRemainderEntropy residual ∨
@@ -58,8 +57,6 @@ noncomputable def VerifiedP13Node49ManuscriptEntropy.node50
     {node48 : VerifiedP13Node48FrontierCost residual branch node47}
     (node49 : VerifiedP13Node49ManuscriptEntropy residual branch node47 node48) :
     VerifiedP13Node50ManuscriptEntropySplit residual branch node47 node48 node49 where
-  previous := node49
-  previousExact := rfl
   outcome := (p13ManuscriptEntropySplitProfile residual).run
   total := (p13ManuscriptEntropySplitProfile residual).exhaustive
   work := (p13ManuscriptEntropySplitProfile residual).checks_eq_zero
@@ -98,6 +95,35 @@ theorem VerifiedP13Node50ManuscriptEntropySplit.high_or_low
       residual branch node47 node48 node49) :
     P13Node50High node50 ∨ P13Node50Low node50 :=
   node50.total
+
+/-- Ledger-native node `[50]` payload.  Node `[49]` remains in the accumulated
+stage ledger and is not copied into this output. -/
+structure P13Node50Output
+    (residual : P13Node24RefinementResidual.{u}) : Type (u + 4) where
+  outcome : (p13ManuscriptEntropySplitProfile residual).Outcome
+  total : p13ManuscriptEntropyThreshold residual ≤
+      p13ManuscriptRemainderEntropy residual ∨
+    p13ManuscriptRemainderEntropy residual <
+      p13ManuscriptEntropyThreshold residual
+  work : (p13ManuscriptEntropySplitProfile residual).workBudget.checks () = 0
+
+noncomputable def p13Node50Output
+    (residual : P13Node24RefinementResidual.{u}) : P13Node50Output residual where
+  outcome := (p13ManuscriptEntropySplitProfile residual).run
+  total := (p13ManuscriptEntropySplitProfile residual).exhaustive
+  work := (p13ManuscriptEntropySplitProfile residual).checks_eq_zero
+
+abbrev P13Node50OutputHigh
+    (residual : P13Node24RefinementResidual.{u})
+    (_node50 : P13Node50Output residual) : Prop :=
+  p13ManuscriptEntropyThreshold residual ≤
+    p13ManuscriptRemainderEntropy residual
+
+abbrev P13Node50OutputLow
+    (residual : P13Node24RefinementResidual.{u})
+    (_node50 : P13Node50Output residual) : Prop :=
+  p13ManuscriptRemainderEntropy residual <
+    p13ManuscriptEntropyThreshold residual
 
 /-! ## Retained conditional support for the earlier realized-state route
 

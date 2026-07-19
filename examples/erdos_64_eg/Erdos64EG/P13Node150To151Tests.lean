@@ -13,11 +13,8 @@ variable
   {node148 : P13Node148To150 ctx node21 node146No}
   (node150 : P13Node150FiniteColdMass ctx node21 node146No node148)
 
-example : (p13Node150To151 node150).previous = node150 :=
-  (p13Node150To151 node150).previousExact
-
 example :
-    (p13Node150To151 node150).ambientCubicWindows.length +
+    (p13WeightedColdCubicWindows (ctx := ctx) (node21 := node21)).length +
         (p13Node150To151 node150).nearCubicPayment.loss = node150.coldCount :=
   (p13Node150To151 node150).cubic_add_nonCubic_eq_coldCount
 

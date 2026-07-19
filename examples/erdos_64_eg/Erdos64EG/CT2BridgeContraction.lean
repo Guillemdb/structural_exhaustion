@@ -70,9 +70,9 @@ def bridgeReductionLedgerStage
     (source : Core.Routing.ResidualStage .ct5 Ledger) :
     Core.Routing.ResidualStage .ct2 (BridgeReductionLedger ctx source) :=
   let execution := bridgeReductionTransitionStage ctx source
-  execution.ledgerStage.extend <|
+  execution.extend <|
     packedStaticInput.bridgeReductionStageOfExecutions (by decide) ctx
-      execution.targetResult
+      execution.output.targetResult
 
 /-- Literal dependent CT2 result produced by the transition. -/
 def runBridgeReductionCT2

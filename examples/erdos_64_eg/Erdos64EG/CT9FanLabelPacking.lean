@@ -130,7 +130,7 @@ noncomputable def fanLabelPackingLedgerStage
     (source : Core.Routing.ResidualStage .ct1 Ledger) :
     Core.Routing.ResidualStage .ct9 (FanLabelPackingLedger ctx source) := by
   let execution := fanLabelPackingTransitionStage ctx source
-  exact execution.ledgerStage.extend (fun fan => {
+  exact execution.extend (fun fan => {
     terminal := by
       change (CT9.run (fan.packingProfile.capability PackedProblem.{u})
         (fan.packingProfile.input ctx.toBranchContext)).terminal = .bounded

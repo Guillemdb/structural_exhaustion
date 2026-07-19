@@ -106,7 +106,7 @@ theorem exists_d6Complete_of_outsideProducedSupports
         P13ProducedPriorSupportLedger.eventSupport
           (package.d6Entry ledger occurrence)) :
     ∃ complete : package.D6Complete ledger stage,
-      package.runD6 ledger stage = .complete complete := by
+      package.runD6 ledger stage = .inr complete := by
   rcases package.runD6_total ledger stage with ⟨hit, exactHit⟩ | complete
   · exact False.elim (outside hit.hit.occurrence (by
       simpa [hit.eventExact] using hit.endpointMem))
@@ -118,7 +118,7 @@ structure LocallyClearStage (ledger : package.PriorD6Ledger)
   available : package.D5Available stage
   d5Exact : package.runD5 stage = .d5 available
   priorComplete : package.D6Complete ledger stage
-  d6Exact : package.runD6 ledger stage = .complete priorComplete
+  d6Exact : package.runD6 ledger stage = .inr priorComplete
 
 /-- Proof-carrying local survivor over every literal stage of the exact
 restricted component path. -/

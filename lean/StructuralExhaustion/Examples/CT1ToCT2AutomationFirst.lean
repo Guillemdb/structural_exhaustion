@@ -100,7 +100,9 @@ def routedTrigger : CT2.Input capability routedContext :=
 def routedStage : routedLedgerTransition.EnabledStage sourceStage :=
   routedLedgerTransition.runEnabled sourceStage discoveredTrigger route_is_enabled
 
-def routedLedger := routedStage.ledgerStage
+def routedLedger : Core.Routing.ResidualStage .ct2
+    (routedLedgerTransition.EnabledStage sourceStage) :=
+  Core.Routing.ResidualStage.exact routedStage
 
 def routedOutcome := advance capability minimality currentAvoiding sourceStage
 
@@ -108,7 +110,7 @@ theorem route_provenance :
     routedTransition.profileId = transitionId :=
   rfl
 
-theorem route_executes : routedOutcome = .enabled routedStage := rfl
+theorem route_executes : routedOutcome = .enabled routedLedger := rfl
 
 theorem route_seed_sound :
     capability.pieces.Proper routedTrigger.seed.piece ∧
@@ -189,7 +191,8 @@ def localStage : (localLedgerTransition closure).EnabledStage sourceStage :=
   (localLedgerTransition closure).runEnabled sourceStage localDiscoveredTrigger
     (local_transition_is_enabled closure)
 
-def localLedger := (localStage closure).ledgerStage
+def localLedger := Core.Routing.ResidualStage.exact (tactic := .ct2)
+  (localStage closure)
 
 def localOutcome :=
   LocalDeletion.advance localCapability minimality closure currentAvoiding
@@ -199,7 +202,7 @@ theorem local_route_provenance :
     (localTransition closure).profileId = LocalDeletion.transitionId := rfl
 
 theorem local_transition_executes :
-    localOutcome closure = .enabled (localStage closure) := rfl
+    localOutcome closure = .enabled (localLedger closure) := rfl
 
 def localCT2Run := (localStage closure).targetResult
 
@@ -309,10 +312,16 @@ def disabledOutcome :=
     disabledSourceStage
 
 theorem disabled_transition_result :
-    disabledOutcome = .disabled disabledReject route_is_disabled := rfl
+    disabledOutcome = .disabled (Core.Routing.ResidualStage.exact {
+      previous := disabledSourceStage
+      previousExact := rfl
+      reject := disabledReject
+      discovered := route_is_disabled
+    }) := rfl
 
 theorem disabled_not_enabled :
-    ∀ stage : disabledLedgerTransition.EnabledStage disabledSourceStage,
+    ∀ stage : Core.Routing.ResidualStage .ct2
+      (disabledLedgerTransition.EnabledStage disabledSourceStage),
       disabledOutcome ≠ .enabled stage := by
   intro stage enabled
   rw [disabled_transition_result] at enabled
@@ -361,7 +370,12 @@ def disabledLocalOutcome := LocalDeletion.advance localCapability
 
 theorem disabled_local_transition_result :
     disabledLocalOutcome =
-      .disabled disabledLocalReject local_route_is_disabled :=
+      .disabled (Core.Routing.ResidualStage.exact {
+        previous := disabledSourceStage
+        previousExact := rfl
+        reject := disabledLocalReject
+        discovered := local_route_is_disabled
+      }) :=
   rfl
 
 /-! ## Certificate-target composition profile -/
@@ -421,10 +435,10 @@ theorem certificate_profile_reaches_avoiding :
   certificateProfileRun.terminal_eq
 
 theorem certificate_profile_transition_not_enabled :
-    ∀ stage :
-      ((certificateRouteProfile.transition neverTargetContext).onLedger
+    ∀ stage : Core.Routing.ResidualStage .ct2
+      (((certificateRouteProfile.transition neverTargetContext).onLedger
         (certificateRouteProfile.currentAvoiding neverTargetContext)).EnabledStage
-          (certificateRouteProfile.sourceLedger neverTargetContext),
+          (certificateRouteProfile.sourceLedger neverTargetContext)),
       certificateRouteProfile.outcome neverTargetContext ≠ .enabled stage :=
   certificateRouteProfile.transition_not_enabled neverTargetContext
 

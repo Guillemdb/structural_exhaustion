@@ -56,19 +56,20 @@ abbrev SurplusPairEnabledStage
 the literal complete transitioned CT6 ledger. -/
 abbrev VerifiedSurplusPairPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
-  Sigma (SurplusPairEnabledStage ctx)
+  Sigma fun previous : VerifiedSparseSurplusPrefix ctx =>
+    Core.Routing.ResidualStage .ct9 (SurplusPairEnabledStage ctx previous)
 
 /-- The exact CT9 execution returned by the registered transition. -/
 def runSurplusPairCT9
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedSurplusPairPrefix ctx) :=
-  verified.2.targetResult
+  verified.2.output.targetResult
 
 /-- Full CT9 ledger used by the helper CT1 attachment. -/
 def surplusPairLedger
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedSurplusPairPrefix ctx) :=
-  verified.2.ledgerStage
+  verified.2
 
 /-- The CT transition retains the identical packed graph, baseline, and
 branch state. -/

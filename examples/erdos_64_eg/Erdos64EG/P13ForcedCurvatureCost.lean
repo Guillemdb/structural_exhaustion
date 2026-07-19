@@ -972,14 +972,14 @@ theorem p13Node48CostError_div_remainder_tendsto_zero
         p13WindowRemainderRateDenominator))).mul rankErrorZero
   simpa [p13Node48CostError, mul_div_assoc] using scaled
 
-/-- Node `[48]`'s arithmetic payload indexed by the exact accumulated
-node-[47] predecessor.  The graph-owned simultaneous realization is a
-separate field of the same original node and is not fabricated here. -/
+/-- Node `[48]`'s complete forced-cost payload indexed by the exact accumulated
+node-[47] predecessor.  In accordance with the manuscript, construction and
+entropy of the remainder state family begin at node `[49]`; node `[48]` only
+converts the inherited full rank and wedge lower bound into cost units. -/
 structure VerifiedP13Node48FrontierCost
     (residual : P13Node24RefinementResidual.{u})
     (branch : P13Node34Stage residual)
-    (node47 : VerifiedP13Node47FullRankResidual residual branch) : Type (u + 4)
-    extends Core.ExactHandoff node47 where
+    (node47 : VerifiedP13Node47FullRankResidual residual branch) : Type (u + 4) where
   scaledCost :
     p13WindowWedgeRateNumerator *
         (p13RemainderVertices residual.ctx).card *
@@ -1005,6 +1005,17 @@ structure VerifiedP13Node48FrontierCost
           2 * p13WindowRemainderRateDenominator *
             Graph.InducedPathWindowLedger.totalSurplus residual.ctx.G.object *
             p13Node48NormalizationScale residual.ctx
+  forcedCost :
+    p13WindowForcedCurvatureCost *
+        (p13RemainderVertices residual.ctx).card ≤
+      p13CurvatureEntropyCost * p13CurvatureTargetRank residual.ctx +
+        p13Node48CostError residual
+  highEntropyForcedCost :
+    P13Node24HighEntropyDownstreamRequirement residual.ctx residual.node21 →
+      p13HighEntropyForcedCurvatureCost *
+          (p13RemainderVertices residual.ctx).card ≤
+        p13CurvatureEntropyCost * p13CurvatureTargetRank residual.ctx +
+          p13Node48CostError residual
   localWork : Nat := 0
   localWorkZero : localWork = 0
 
@@ -1013,11 +1024,17 @@ noncomputable def P13Node47FullRankResidual.node48
     {branch : P13Node34Stage residual}
     (node47 : VerifiedP13Node47FullRankResidual residual branch) :
     VerifiedP13Node48FrontierCost residual branch node47 where
-  previous := node47
-  previousExact := rfl
   scaledCost := p13Node48_scaledCost_from_node47 residual branch node47
   highEntropyScaledCost :=
     p13Node48_highEntropyScaledCost_from_node47 residual branch node47
+  forcedCost := by
+    simpa [p13Node48CostError] using
+      p13Node48_forcedCurvatureCost_from_node47 residual branch node47
+  highEntropyForcedCost := by
+    intro high
+    simpa [p13Node48CostError] using
+      p13Node48_highEntropyForcedCurvatureCost_from_node47
+        residual branch node47 high
   localWork := 0
   localWorkZero := rfl
 

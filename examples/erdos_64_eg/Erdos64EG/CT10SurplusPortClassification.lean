@@ -75,13 +75,16 @@ source stage is the first component and the enabled target execution is the
 second.  No application-owned predecessor handoff remains. -/
 abbrev VerifiedSurplusPortClassificationPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
-  Sigma (SurplusPortClassificationEnabledStage ctx)
+  Sigma fun previous : VerifiedHighCenterStructurePrefix ctx =>
+    Core.Routing.ResidualStage .ct10
+      (SurplusPortClassificationEnabledStage ctx previous)
 
 /-- Execute CT10 from the literal complete CT1-labelled application prefix. -/
 def surplusPortClassificationStage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedHighCenterStructurePrefix ctx) :
-    SurplusPortClassificationEnabledStage ctx previous :=
+    Core.Routing.ResidualStage .ct10
+      (SurplusPortClassificationEnabledStage ctx previous) :=
   Routes.Accumulated.advanceCurrent (surplusPortClassificationEntry ctx)
     (surplusPortClassificationAdapter ctx previous)
     (highCenterStructureLedgerStage ctx previous)
@@ -91,13 +94,13 @@ call to the CT10 runner. -/
 def runSurplusPortClassificationCT10
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedSurplusPortClassificationPrefix ctx) :=
-  verified.2.targetResult
+  verified.2.output.targetResult
 
 /-- Canonical CT10 ledger for the next manuscript edge. -/
 def surplusPortClassificationLedger
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedSurplusPortClassificationPrefix ctx) :=
-  verified.2.ledgerStage
+  verified.2
 
 theorem surplusPortClassificationTransition_profile_id
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})

@@ -287,7 +287,7 @@ noncomputable def degreeFourFanLocalResult
     (source : Core.Routing.ResidualStage .ct9
       (VerifiedFanLabelPackingPrefix ctx))
     (request : DegreeFourFanRequest ctx) :
-    degreeFourFanLocalResult ctx (degreeFourFanTransitionStage ctx source)
+    degreeFourFanLocalResult ctx (degreeFourFanTransitionStage ctx source).output
         request =
       request.fanProfile.run ctx.toBranchContext :=
   rfl
@@ -318,10 +318,10 @@ noncomputable def degreeFourFanLedgerStage
   let execution := degreeFourFanTransitionStage ctx source
   let executionStage : Core.Routing.ResidualStage .ct14
       (DegreeFourFanTransitionLedger ctx source) :=
-    execution.ledgerStage
+    execution
   exact executionStage.extend {
     exactRun := fun request => by
-      change degreeFourFanLocalResult ctx execution request = _
+      change degreeFourFanLocalResult ctx executionStage.output request = _
       rw [degreeFourFanLocalResult_transition]
     verified := fun request =>
       request.scope.degreeFourFanFacts request.noHigher request.center
@@ -397,7 +397,7 @@ noncomputable def certificateMarkingLocalResult
       (DegreeFourFanLedger ctx source))
     (request : DegreeFourFanRequest ctx) :
     certificateMarkingLocalResult ctx
-        (certificateMarkingTransitionStage ctx source fanStage) request =
+        (certificateMarkingTransitionStage ctx source fanStage).output request =
       CT14.run
         (request.scope.CertificateMarkingProfile.capability PackedProblem.{u}
           request.center)
@@ -455,10 +455,10 @@ noncomputable def degreeFourTypeBLedgerStage
   let execution := certificateMarkingTransitionStage ctx source fanStage
   let executionStage : Core.Routing.ResidualStage .ct14
       (CertificateMarkingTransitionLedger ctx source fanStage) :=
-    execution.ledgerStage
+    execution
   exact executionStage.extend {
     exactRun := fun request => by
-      change certificateMarkingLocalResult ctx execution request = _
+      change certificateMarkingLocalResult ctx executionStage.output request = _
       rw [certificateMarkingLocalResult_transition]
     localFlow := fun scope => scope.higher_or_degreeFour_certificateFlow
     polynomial := fun scope => scope.degreeFourCertificateChecks_polynomial

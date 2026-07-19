@@ -77,8 +77,9 @@ def advance
     {Ledger : Sort uLedger}
     (current : Ledger → CT2.SeparatingContextResidual capability ctx input)
     (source : Core.Routing.ResidualStage .ct2 Ledger) :
-    ((transition targetCapability sourceDiscovery).onLedger current).Outcome source :=
-  Core.Routing.CTTransition.runOnLedger
+    Core.Routing.CTTransition.LedgerOutcome
+      ((transition targetCapability sourceDiscovery).onLedger current) source :=
+  Core.Routing.CTTransition.runLedgerOnLedger
     (transition targetCapability sourceDiscovery) current source
 
 theorem branchContext_preserved
@@ -145,22 +146,22 @@ theorem enabled_sound
     {Ledger : Sort uLedger}
     (current : Ledger → CT2.SeparatingContextResidual capability ctx input)
     (source : Core.Routing.ResidualStage .ct2 Ledger)
-    (stage : ((transition targetCapability sourceDiscovery).onLedger current).EnabledStage
-      source)
+    (stage : Core.Routing.ResidualStage .ct3
+      (((transition targetCapability sourceDiscovery).onLedger current).EnabledStage source))
     (ran : advance targetCapability sourceDiscovery current source = .enabled stage) :
     sourceDiscovery.discover (current source.output) =
-      .enabled stage.execution.seed ∧
+      .enabled stage.output.execution.seed ∧
       (((transition targetCapability sourceDiscovery).onLedger current).trigger source
-        stage.execution.seed).piece =
-          sourceDiscovery.piece (current source.output) stage.execution.seed ∧
-      stage.targetResult = targetCapability.executableInterface.execute
+        stage.output.execution.seed).piece =
+          sourceDiscovery.piece (current source.output) stage.output.execution.seed ∧
+      stage.output.targetResult = targetCapability.executableInterface.execute
         (((transition targetCapability sourceDiscovery).onLedger current).targetContext
           source)
         (((transition targetCapability sourceDiscovery).onLedger current).trigger source
-          stage.execution.seed) :=
+          stage.output.execution.seed) :=
   by
-    unfold advance Core.Routing.CTTransition.runOnLedger at ran
-    unfold Core.Routing.CTTransition.run at ran
+    unfold advance Core.Routing.CTTransition.runLedgerOnLedger at ran
+    unfold Core.Routing.CTTransition.runLedger at ran
     split at ran
     · cases ran
       exact ⟨by assumption, rfl, rfl⟩
@@ -182,16 +183,15 @@ theorem disabled_sound
     {Ledger : Sort uLedger}
     (current : Ledger → CT2.SeparatingContextResidual capability ctx input)
     (source : Core.Routing.ResidualStage .ct2 Ledger)
-    (notEnabled : ∀ stage :
-      ((transition targetCapability sourceDiscovery).onLedger current).EnabledStage
-        source,
+    (notEnabled : ∀ stage : Core.Routing.ResidualStage .ct3
+      (((transition targetCapability sourceDiscovery).onLedger current).EnabledStage source),
       advance targetCapability sourceDiscovery current source ≠ .enabled stage) :
     IsEmpty (sourceDiscovery.Seed (current source.output)) := by
   constructor
   intro seed
   cases outcomeEq : advance targetCapability sourceDiscovery current source with
   | enabled stage => exact (notEnabled stage outcomeEq).elim
-  | disabled reject _discovered => exact reject seed
+  | disabled rejected => exact rejected.output.reject seed
 
 @[simp] theorem source_tactic_id
     {P : Core.Problem.{uAmbient, uBranch}}

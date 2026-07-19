@@ -18,7 +18,7 @@ general case.
 
 The application supplies only the two mathematical projections in `Adapter`.
 The source and target CTs determine the profile identity.  `advance` is the
-only executor and its result continues through `EnabledStage.ledgerStage`.
+only executor and its result is already the complete target-labelled ledger.
 -/
 
 /-- Stable source residual kind shared by ordinary accumulated-ledger
@@ -83,8 +83,9 @@ def advance
     {Ledger : Sort uLedger}
     (current : Ledger → Source)
     (source : ResidualStage sourceTactic Ledger) :
-    ProjectedOutputLedger target adapter current source :=
-  (transition target adapter).runEnabledOnLedger current source () rfl
+    ResidualStage targetTactic
+      (ProjectedOutputLedger target adapter current source) :=
+  (transition target adapter).runEnabledLedgerOnLedger current source () rfl
 
 /-- The common full-ledger case where the current mathematical source is the
 accumulated ledger itself. -/
@@ -94,7 +95,7 @@ def advanceCurrent
     {Ledger : Sort uLedger}
     (adapter : Adapter Ledger target)
     (source : ResidualStage sourceTactic Ledger) :
-    OutputLedger target adapter source :=
+    ResidualStage targetTactic (OutputLedger target adapter source) :=
   advance target adapter id source
 
 /-! ## Pointwise selected and ordinary accumulated transitions -/
@@ -108,7 +109,7 @@ def advanceSelectedPointwise
     {Ledger : Sort uLedger}
     (family : PointwiseTransitionFamily sourceTactic targetTactic Ledger)
     (source : ResidualStage sourceTactic Ledger) :
-    family.EnabledStage source :=
+    ResidualStage targetTactic (family.EnabledStage source) :=
   family.advance source
 
 /-- Canonical output-ledger type for a pointwise family of selected
@@ -157,7 +158,8 @@ def advancePointwise
     {Index : Type uIndex} {Ledger : Sort uLedger}
     (profile : PointwiseAdapter sourceTactic targetTactic Index Ledger)
     (source : ResidualStage sourceTactic Ledger) :
-    (pointwiseFamily profile).EnabledStage source :=
+    ResidualStage targetTactic
+      ((pointwiseFamily profile).EnabledStage source) :=
   (pointwiseFamily profile).advance source
 
 /-- Canonical shared output-ledger type for an ordinary pointwise CT edge. -/

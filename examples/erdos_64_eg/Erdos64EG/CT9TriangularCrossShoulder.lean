@@ -100,7 +100,7 @@ noncomputable def triangularCrossShoulderLedgerStage
     (source : Core.Routing.ResidualStage .ct10 Ledger) :
     Core.Routing.ResidualStage .ct9
       (TriangularCrossShoulderLedger ctx source) :=
-  (triangularCrossShoulderTransitionStage ctx source).ledgerStage.extend
+  (triangularCrossShoulderTransitionStage ctx source).extend
     (triangularCrossShoulderStage ctx)
 
 noncomputable def runTriangularCrossShoulderCT9

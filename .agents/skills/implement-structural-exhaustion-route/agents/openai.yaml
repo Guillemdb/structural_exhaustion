@@ -1,4 +1,4 @@
 interface:
   display_name: "Structural Exhaustion CT Transitions"
   short_description: "Implement full-ledger CT transitions"
-  default_prompt: "Use $implement-structural-exhaustion-route to implement this schema-9 CT transition through its public advance executor and full accumulated ledger."
+  default_prompt: "Use $implement-structural-exhaustion-route to implement this transition entirely inside the framework and expose one full-ledger node executor."

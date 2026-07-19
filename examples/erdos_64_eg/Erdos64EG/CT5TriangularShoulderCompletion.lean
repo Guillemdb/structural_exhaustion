@@ -103,7 +103,7 @@ noncomputable def triangularShoulderLedgerStage
     {Ledger : Sort v}
     (source : Core.Routing.ResidualStage .ct10 Ledger) :
     Core.Routing.ResidualStage .ct5 (TriangularShoulderLedger ctx source) :=
-  (triangularShoulderTransitionStage ctx source).ledgerStage.extend
+  (triangularShoulderTransitionStage ctx source).extend
     (triangularShoulder_stage ctx)
 
 /-- Literal dependent CT5 result produced by the transition. -/

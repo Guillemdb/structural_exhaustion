@@ -15,7 +15,7 @@ namespace Ordinary
 `[64] -> [65]` producer.  This is the reusable occurrence-preserving core
 schedule specialized to the exact node-[64] residual type. -/
 abbrev Schedule :=
-  Core.FiniteResidualLedger.Ledger
+  Core.FiniteResidualLedger.Ledger.{u, u + 3}
     (P13ProducedPriorSupportLedger.Node64To65Ordinary (ctx := ctx))
 
 /-- The exact one-step schedule created when the existing node-[64] producer
@@ -23,7 +23,7 @@ emits one ordinary node-[65] input. -/
 noncomputable def singleton
     (entry : P13ProducedPriorSupportLedger.Node64To65Ordinary (ctx := ctx)) :
     Schedule (ctx := ctx) :=
-  Core.FiniteResidualLedger.Ledger.singleton entry
+  Core.FiniteResidualLedger.Ledger.singletonAt entry
 
 @[simp] theorem singleton_event
     (entry : P13ProducedPriorSupportLedger.Node64To65Ordinary (ctx := ctx))
@@ -118,20 +118,20 @@ variable {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
 noncomputable def ordinaryPersistent
     (schedule : Ordinary.Schedule (ctx := ctx)) :
     P13ProducedPriorSupportLedger.PersistentLedger (ctx := ctx) :=
-  schedule.map P13ProducedPriorSupportLedger.PriorSupportEvent.ordinary
+  schedule.map fun entry => .first entry
 
 noncomputable def decoratedPersistent
     (realization : Node84GlobalFanMass.Realization node84) :
     P13ProducedPriorSupportLedger.PersistentLedger (ctx := ctx) :=
   (Core.FiniteResidualLedger.Ledger.ofEnumeration
-    realization.groupedFamilySchedule).map fun grouped => .decorated
+    realization.groupedFamilySchedule).map fun grouped => .second
       (Global.recordedDecorated (realization.canonicalGroupedSource grouped))
 
 noncomputable def routeEightPersistent
     (realization : Node84GlobalFanMass.Realization node84) :
     P13ProducedPriorSupportLedger.PersistentLedger (ctx := ctx) :=
   (Core.FiniteResidualLedger.Ledger.ofEnumeration
-    (Global.extractedSupports realization)).map fun extracted => .routeEight
+    (Global.extractedSupports realization)).map fun extracted => .third
       (Global.recordedRouteEight realization extracted)
 
 /-- The single persistent F4 base ledger.  Its occurrence type is the tagged
@@ -151,7 +151,9 @@ theorem persistentBase_event_origin
     P13WeightedColdRestrictedPrefixPackage.PriorD6Origin
       ((persistentBase ordinarySchedule realization).event occurrence) := by
   rcases occurrence with occurrence | occurrence
-  · exact .ordinary (ordinarySchedule.event occurrence)
+  · simpa [persistentBase, ordinaryPersistent] using
+      (P13WeightedColdRestrictedPrefixPackage.PriorD6Origin.ordinary
+        (ordinarySchedule.event occurrence))
   · rcases occurrence with grouped | extracted
     · exact .decorated (Global.recordedDecorated
         (realization.canonicalGroupedSource grouped))
@@ -178,8 +180,10 @@ noncomputable def CompleteState.ordinaryState
       (P13ProducedPriorSupportLedger.Event (ctx := ctx))
       [P13WeightedColdRestrictedPrefixPackage.PriorD6Origin] :=
   Core.ResidualRefinement.Ledger.certify
-    (ordinaryPersistent state.ordinarySchedule) fun occurrence =>
-      .ordinary (state.ordinarySchedule.event occurrence)
+    (ordinaryPersistent state.ordinarySchedule) fun occurrence => by
+      simpa [ordinaryPersistent] using
+        (P13WeightedColdRestrictedPrefixPackage.PriorD6Origin.ordinary
+          (state.ordinarySchedule.event occurrence))
 
 noncomputable def CompleteState.decoratedState
     (state : CompleteState (ctx := ctx) (node84 := node84)) :
@@ -252,7 +256,9 @@ theorem outside_all_produced_occurrences
       vertex ∉ (Global.recordedRouteEight state.realization extracted).declaredSupport) := by
   refine ⟨?_, ?_, ?_⟩
   · intro occurrence
-    exact outside (.inl occurrence)
+    simpa [CompleteState.base, persistentBase, ordinaryPersistent,
+      P13ProducedPriorSupportLedger.eventSupport] using
+        outside (.inl occurrence)
   · intro grouped
     exact outside (.inr (.inl grouped))
   · intro extracted

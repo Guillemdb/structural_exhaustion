@@ -114,7 +114,7 @@ noncomputable def triangularFirstLandingLedgerStage
       (TriangularFirstLandingLedger ctx source) := by
   let semanticStage : Core.Routing.ResidualStage .ct10
       (TriangularFirstLandingExecutionLedger ctx source) :=
-    (triangularFirstLandingTransitionStage ctx source).ledgerStage.extend
+    (triangularFirstLandingTransitionStage ctx source).extend
       (triangularFirstLandingStage ctx)
   exact semanticStage.extend (fun center centerHigh port =>
     Graph.TriangularFirstLanding.classifyReturn

@@ -41,8 +41,9 @@ def advance
     {Ledger : Sort uLedger}
     (current : Ledger → CT14.CapacityResidual sourceCapability ctx)
     (source : Core.Routing.ResidualStage .ct14 Ledger) :
-    ((transition targetCapability).onLedger current).EnabledStage source :=
-  (transition targetCapability).runEnabledOnLedger current source () rfl
+    Core.Routing.ResidualStage .ct14
+      (((transition targetCapability).onLedger current).EnabledStage source) :=
+  (transition targetCapability).runEnabledLedgerOnLedger current source () rfl
 
 @[simp] theorem transition_profile_id
     {P : Core.Problem.{uAmbient, uBranch}}

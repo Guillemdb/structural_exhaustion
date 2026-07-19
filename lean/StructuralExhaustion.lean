@@ -60,6 +60,8 @@ import StructuralExhaustion.Graph
 import StructuralExhaustion.Examples.FiniteLexFirstSimplePath
 import StructuralExhaustion.Examples.FiniteTwoBoundaryPiece
 import StructuralExhaustion.Examples.FiniteActiveInterfaceD7Response
+import StructuralExhaustion.Examples.FiniteJointCapacityRecoverableJoin
+import StructuralExhaustion.Examples.CT4PrivateCarrierCapacity
 import StructuralExhaustion.CT1.Automation
 import StructuralExhaustion.CT1.TargetEncoding
 import StructuralExhaustion.CT2.Automation
@@ -254,6 +256,7 @@ import StructuralExhaustion.Examples.SequentialCompatibleExtensionLedger
 import StructuralExhaustion.Examples.FiniteResidualLedger
 import StructuralExhaustion.Examples.FiniteSameInterfaceExchange
 import StructuralExhaustion.Examples.ResidualRefinement
+import StructuralExhaustion.Examples.NestedResidualDecision
 import StructuralExhaustion.Examples.ResidualSupportRefinement
 import StructuralExhaustion.Examples.CertifiedResidualLedger
 import StructuralExhaustion.Examples.FiniteSupportRawCurvature

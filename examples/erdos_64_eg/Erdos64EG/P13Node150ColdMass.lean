@@ -1,5 +1,4 @@
 import Erdos64EG.P13Node148LiveHotDecision
-import StructuralExhaustion.Core.ExactHandoff
 import StructuralExhaustion.Core.ZeroWorkBudget
 import Erdos64EG.P13ExactManuscriptHotRate
 
@@ -212,7 +211,7 @@ theorem p13Node150_manuscriptRoute8ColdMassCrossMultiplied
         p13ExactManuscriptDyadicCertificateScale)
   · norm_num [p13ManuscriptDyadicRateNumerator_exact,
       p13ManuscriptDyadicSkeletonNumerator_exact]
-  · exact node148.previous.crossMultiplied
+  · exact node146No.crossMultiplied
   · simpa [p13ManuscriptDyadicPrintedSkeletonBits,
       p13Node150ColdCount, Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm,
       Nat.add_assoc] using
@@ -274,7 +273,7 @@ theorem p13Node150_route8ColdMassCrossMultiplied
         p13ExactHotCertificateScale)
   · norm_num [p13WindowDensityRateNumerator,
       p13WindowDensitySkeletonNumerator]
-  · exact node148.previous.crossMultiplied
+  · exact node146No.crossMultiplied
   · simpa [p13Node148TotalDemand, p13Node148Allowance,
       p13Node148ColdDemand, p13SequentialPrintedSkeletonBits,
       p13Node150ColdCount, Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm,
@@ -317,8 +316,7 @@ structure P13Node150FiniteColdMass
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
     (node146No : P13Node146To148 ctx node21)
-    (node148 : P13Node148To150 ctx node21 node146No) : Type (u + 4)
-    extends Core.ExactHandoff node148 where
+    (_node148 : P13Node148To150 ctx node21 node146No) : Type (u + 4) where
   coldCount : Nat
   coldCountExact : coldCount = p13Node150ColdCount ctx node21
   coldNonempty : 0 < coldCount
@@ -348,8 +346,6 @@ noncomputable def p13Node150FiniteColdMass
     {node146No : P13Node146To148 ctx node21}
     (node148 : P13Node148To150 ctx node21 node146No) :
     P13Node150FiniteColdMass ctx node21 node146No node148 where
-  previous := node148
-  previousExact := rfl
   coldCount := p13Node150ColdCount ctx node21
   coldCountExact := rfl
   coldNonempty := node148.coldNonempty
@@ -377,5 +373,20 @@ def p13Node150WorkBudget
 @[simp] theorem p13Node150WorkBudget_checks
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
     (p13Node150WorkBudget ctx).checks () = 0 := rfl
+
+abbrev P13Node150RefinementStage
+    (residual : P13Node145RefinementResidual.{u}) :=
+  Core.ResidualRefinement.State.DependentSuccessor
+    P13Node148To150Stage
+    (fun residual node148 => P13Node150FiniteColdMass residual.ctx
+      residual.node21 node148.previous node148.output) residual
+
+noncomputable def p13Node150Refinement {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available P13Node148To150Stage) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      P13Node150RefinementStage :=
+  Core.ResidualRefinement.State.StageNode.mapStage
+    (fun _residual node148 => p13Node150FiniteColdMass node148.output)
 
 end Erdos64EG.Internal

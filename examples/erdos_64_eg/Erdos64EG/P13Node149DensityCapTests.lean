@@ -12,13 +12,12 @@ example
     {node146No : P13Node146To148 ctx node21}
     (node148Yes : P13Node148To149 ctx node21 node146No) :
     let node149 := verifiedP13Node149DensityCap node148Yes
-    node149.previous = node148Yes ∧
-      p13WindowDensityRateNumerator * p13 ctx *
+    p13WindowDensityRateNumerator * p13 ctx *
           Nat.log 2 ctx.G.object.input.vertices.card * p13ExactHotCertificateScale ≤
         p13SequentialPrintedSkeletonBits ctx +
           p13SequentialHotNormalizationError ctx node21 := by
   let node149 := verifiedP13Node149DensityCap node148Yes
-  exact ⟨node149.exactPrevious, node149.correctedThetaCap⟩
+  exact node149.correctedThetaCap
 
 example
     {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}

@@ -294,23 +294,25 @@ abbrev SemanticBottleneckClassificationLedger
 claimed here. -/
 abbrev VerifiedSemanticBottleneckClassificationPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
-  Sigma (SemanticBottleneckClassificationLedger ctx)
+  Sigma fun previous : VerifiedGeometricBottleneckClassificationPrefix ctx =>
+    Core.Routing.ResidualStage .ct10
+      (SemanticBottleneckClassificationLedger ctx previous)
 
 noncomputable def verifiedSemanticBottleneckClassificationPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedGeometricBottleneckClassificationPrefix ctx) :
     VerifiedSemanticBottleneckClassificationPrefix ctx :=
   let stage := semanticBottleneckTransitionStage ctx previous
-  ⟨previous, ⟨stage, {
+  ⟨previous, stage.extend {
     classification := fun overload homogeneous =>
       ⟨semanticBottleneckClassification ctx overload homogeneous⟩
-  }⟩⟩
+  }⟩
 
 /-- Canonical complete CT10 continuation stage after node `[177]`. -/
 noncomputable def semanticBottleneckClassificationLedgerStage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedSemanticBottleneckClassificationPrefix ctx) :=
-  verified.2.previous.ledgerStage.extend verified.2.added
+  verified.2
 
 theorem exists_verifiedSemanticBottleneckClassificationPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)

@@ -244,9 +244,10 @@ noncomputable def ledgerStage
     (realization : Realization node84) :
     Core.Routing.ResidualStage .ct14 (Ledger realization) := by
   let execution := transitionStage realization
-  exact execution.ledgerStage.extend {
+  exact execution.extend {
     verified := Graph.SupportIndexedFanMass.Profile.verifiedExecutionStage
-      realization.producer.profile ctx.toBranchContext execution.targetResult rfl
+      realization.producer.profile ctx.toBranchContext
+        execution.output.targetResult rfl
     residualMassBound := globalFanMass_bound_of_producer realization.producer
   }
 
@@ -262,25 +263,17 @@ def Verified.facts
     (global : Verified node84) :=
   global.ledgerStage.output.added
 
+theorem Verified.residualMassBound
+    {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
+    (global : Verified node84) :
+    global.realization.producer.profile.residualMass ≤
+      416 * global.realization.producer.profile.globalSurplus :=
+  global.ledgerStage.output.added.residualMassBound
+
 noncomputable def verify
     {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
     (realization : Realization node84) : Verified node84 :=
   ⟨realization, ledgerStage realization⟩
-
-/-- A conditional handoff toward node `[85]`.  It records only the exact
-verified global node-`[84]` output; it does not assert the sublinearity and global
-deficit hypotheses still required to prove node `[85]`. -/
-abbrev ConditionalNode85Handoff
-    {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
-    (global : Verified node84) :=
-  Core.Routing.LedgerExtension (Verified node84)
-    (fun previous => previous.realization.producer.profile.residualMass ≤
-      416 * previous.realization.producer.profile.globalSurplus)
-
-def Verified.toConditionalNode85Handoff
-    {node84 : VerifiedTypeBLocalFanMassPrefix ctx}
-    (global : Verified node84) : ConditionalNode85Handoff global :=
-  ⟨global, global.facts.residualMassBound⟩
 
 end Node84GlobalFanMass
 

@@ -176,7 +176,7 @@ noncomputable def fanClosedPortLedgerStage
     (source : Core.Routing.ResidualStage .ct9 Ledger) :
     Core.Routing.ResidualStage .ct5 (FanClosedPortLedger ctx source) :=
   let execution := fanClosedPortTransitionStage ctx source
-  execution.ledgerStage.extend {
+  execution.extend {
     stage := fun request =>
       fanClosedPairStage ctx request.center request.centerHigh
         request.Assigned request.assignedDecidable request.first request.second

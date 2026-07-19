@@ -287,7 +287,7 @@ noncomputable def typeBLocalFanMassLocalResult
       (VerifiedTypeBResidualCenterLedgerPrefix ctx))
     (request : TypeBLocalFanMassRequest ctx) :
     typeBLocalFanMassLocalResult ctx
-        (typeBLocalFanMassTransitionStage ctx source) request =
+        (typeBLocalFanMassTransitionStage ctx source).output request =
       CT14.run
         ((request.scope.localFanMassProfile request.selected).capability
           PackedProblem.{u})
@@ -325,11 +325,11 @@ noncomputable def typeBLocalFanMassLedgerStage
   let execution := typeBLocalFanMassTransitionStage ctx source
   let executionStage : Core.Routing.ResidualStage .ct14
       (TypeBLocalFanMassTransitionLedger ctx source) :=
-    execution.ledgerStage
+    execution
   exact executionStage.extend {
     verified := fun request => by
       apply Graph.SelectedSurplusMass.Profile.verifiedExecutionStage
-      change typeBLocalFanMassLocalResult ctx execution request = _
+      change typeBLocalFanMassLocalResult ctx executionStage.output request = _
       rw [typeBLocalFanMassLocalResult_transition]
     route := fun scope noHigher => scope.localFanMassRoute noHigher
   }

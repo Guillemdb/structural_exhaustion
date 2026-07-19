@@ -27,13 +27,14 @@ abbrev sourceStage : Core.Routing.ResidualStage .ct14
 
 abbrev routedExecution := routedTransition.onLedger id
 
-def routedStage : routedExecution.EnabledStage sourceStage :=
+def routedStage : Core.Routing.ResidualStage .ct14
+    (routedExecution.EnabledStage sourceStage) :=
   Routes.CT14ToCT14.advance targetCapability id sourceStage
 
-def routedLedger := routedStage.ledgerStage
+def routedLedger := routedStage
 
-theorem preserves_source : routedStage.previous = sourceStage :=
-  routedStage.previous_eq
+theorem preserves_source : routedStage.output.previous = sourceStage :=
+  routedStage.output.previous_eq
 
 theorem preserves_branch :
     routedTransition.targetContext sourceStage = ctx .capacity :=
@@ -43,7 +44,7 @@ theorem transition_provenance :
     routedTransition.profileId = "CT14.residual.capacity->CT14" :=
   Routes.CT14ToCT14.transition_profile_id targetCapability
 
-def targetResult := routedStage.targetResult
+def targetResult := routedStage.output.targetResult
 
 theorem target_executes : targetResult.terminal = .capacity := rfl
 

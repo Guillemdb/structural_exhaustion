@@ -20,11 +20,6 @@ example (below : P13Route8BelowThreshold ctx) :
     (p13PackingTheta ctx) (p13Route8_denominator_pos_of_below below)).2
       ((p13Route8BelowThreshold_iff_theta ctx).mp below)
 
-example :
-    (∃ payload, runP13Node146 ctx node21 = .to147 payload) ∨
-      (∃ payload, runP13Node146 ctx node21 = .to148 payload) :=
-  runP13Node146_exhaustive ctx node21
-
 example : p13Node146LocalCheckCount ctx ≤
     (ctx.G.object.input.vertices.card + 1) ^ 1 :=
   p13Node146LocalCheckCount_polynomial ctx
@@ -34,7 +29,7 @@ example : (p13Node146WorkBudget ctx).checks () = 1 := by
 
 #print axioms p13Route8BelowThreshold_iff_theta
 #print axioms p13Route8Tau_lt_three_thirteenths_iff
-#print axioms runP13Node146_exhaustive
+#print axioms p13Node146AccumulatedRun
 #print axioms p13Node146LocalCheckCount_polynomial
 #print axioms p13Node146WorkBudget_checks
 

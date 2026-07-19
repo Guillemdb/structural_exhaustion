@@ -83,14 +83,14 @@ noncomputable def ledgerStage
     (degreeFour : TypeBFanCompatiblePairAssignment.DegreeFourResidual residual) :
     LedgerStage residual degreeFour := by
   let execution := transitionStage residual degreeFour
-  exact execution.ledgerStage.extend {
+  exact execution.extend {
     verified := Graph.DegreeFourFanLedger.verifiedExecutionStage ctx.G.object
       residual.highSurplus.center residual.highSurplus.high
       (TypeBFanShoulderIncidenceCoordinates.profile residual).deletionCritical
       (TypeBFanWholePortAssignment.Assigned residual)
       (Graph.InducedCoreFanAssignment.assignedDecidable ctx.G.object
         residual.support.core)
-      ctx.toBranchContext degreeFour.degreeFour execution.targetResult rfl
+      ctx.toBranchContext degreeFour.degreeFour execution.output.targetResult rfl
   }
 
 /-- Honest node-`[80]` frontier. The current ancestry supplies neither an

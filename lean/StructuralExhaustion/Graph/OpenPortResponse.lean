@@ -89,8 +89,7 @@ def ledgerStage
     {Ledger : Sort uLedger}
     (sourceLedger : Core.Routing.ResidualStage .ct9 Ledger)
     (source : SourceResidual base object baseline deletionCritical) :=
-  (executionStage base object baseline deletionCritical sourceLedger source
-    ).ledgerStage
+  executionStage base object baseline deletionCritical sourceLedger source
 
 def routedInput
     (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))
@@ -115,7 +114,7 @@ def run
     (sourceLedger : Core.Routing.ResidualStage .ct9 Ledger)
     (source : SourceResidual base object baseline deletionCritical) :=
   (executionStage base object baseline deletionCritical sourceLedger source
-    ).targetResult
+    ).output.targetResult
 
 theorem transition_profile_id
     (base : MinimumDegreeCycle.StaticInput V (fun _ => Unit))

@@ -246,27 +246,29 @@ abbrev CoupledClassOverloadLedger
 tests. -/
 abbrev VerifiedCoupledClassOverloadPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
-  Sigma (CoupledClassOverloadLedger ctx)
+  Sigma fun previous : VerifiedCapacityTokenPrefix ctx =>
+    Core.Routing.ResidualStage .ct9
+      (CoupledClassOverloadLedger ctx previous)
 
 noncomputable def verifiedCoupledClassOverloadPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedCapacityTokenPrefix ctx) :
     VerifiedCoupledClassOverloadPrefix ctx :=
   let stage := coupledClassTransitionStage ctx previous
-  ⟨previous, ⟨stage, {
+  ⟨previous, stage.extend {
     stage := fun windowSize remainderSize primitiveSize => ⟨
       Graph.SurplusClasswiseOverload.verifiedStage
         (coupledClassActivationStage ctx)
         windowSize remainderSize primitiveSize⟩
     exactPairCount := coupledPairCount_eq_chooseSurplus ctx
     polynomial := coupledClassChecks_cubic ctx
-  }⟩⟩
+  }⟩
 
 /-- Canonical complete CT9 stage after the coupled overload decision. -/
 noncomputable def coupledClassOverloadLedgerStage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedCoupledClassOverloadPrefix ctx) :=
-  verified.2.previous.ledgerStage.extend verified.2.added
+  verified.2
 
 theorem exists_verifiedCoupledClassOverloadPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)

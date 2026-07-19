@@ -5,11 +5,96 @@ This ledger records the Lean-checked proof content in
 
 ## Current audited frontier
 
-The reviewed authority has exactly 48 green nodes: the dependency-closed
-prefix `[1]`--`[48]`, with the Part-III decision branches represented by their
-exact conditional Lean payloads.
+The Lean web descriptor currently records 61 green nodes, adding the
+dependency-ready branch nodes [53], [55]--[63] to the 51-node prefix. The
+generated JSON still requires regeneration after the current focused build;
+the Lean-owned descriptor is authoritative.
+Conditional branch evidence remains governed by that ledger rather than by
+historical narratives below.
 Historical implementation narratives below describe
 available conditional Lean support but are not node-status claims.
+
+## 2026-07-19 — automatic accumulated-ledger transition cutover
+
+- Every registered forced or branching CT route now returns a complete
+  target-labelled ledger (or a ledger-valued exhaustive outcome) directly.
+  Pointwise CT families use the same rule without enumerating their index.
+- Removed the public `EnabledStage.ledgerStage` conversion and migrated all
+  framework fixtures, graph profiles, and Erdős consumers. Application code
+  can no longer continue from a bare enabled stage by accident.
+- Migrated the node-[24] entry of the node-[25]--[34] refinement chain from a
+  manual checkpoint to the actual node-[24] mathematical output. The generic
+  `StageNode.run` operation now attaches it and retains it automatically.
+- Corrected the node-[52] accounting module to import and consume its actual
+  accumulated node-[47]--[51] producer.
+- Replaced the proof-specific three-constructor prior-support wrapper with the
+  framework-friendly nested finite sum. This preserves exactly the same three
+  paper routes while avoiding generation of an enormous specialized recursor.
+
+## 2026-07-19 — compositional accumulated-input queries
+
+- Added the framework-owned `ResidualRefinement.State.LedgerQuery` API and
+  `StageNode.derive`.  `fact`, `stage`, `andFact`, and `andStage` compose any
+  finite collection of branch-local dependencies at one stable residual;
+  `map` may assemble a temporary named input view.
+- Removed the fixed-arity `usingTwoStages` and `usingThreeStages` APIs.  The
+  checked non-Erdős fixtures now consume two and three certificates through
+  the same compositional query abstraction, without local reconstruction or
+  copied predecessor fields.
+- The sequential Type-A audit confirms that the legacy
+  `VerifiedP13WindowDensityOutput` is mis-scoped: it packages the strict-quarter
+  conclusion at node `[24]`, while the immutable diagram produces that fact at
+  nodes `[55]`--`[56]`. The stable node-`[24]` ledger is therefore retained as
+  written. The high-entropy node `[52]` remains a separate sibling obligation;
+  the large-budget branch reaches nodes `[55]`--`[56]` independently, and
+  downstream code may not recover the fact from the legacy bundle.
+
+## 2026-07-19 — nodes [57]--[63] accumulated CT11 migration
+
+- Replaced the legacy node-[24] strict-quarter shortcut by the exact
+  node-[56] output. `node57_eventually` preserves the manuscript's
+  asymptotic quantifier and converts the normalized inequality to a finite
+  natural-number inequality only after proving the remainder denominator is
+  positive on the same eventual tail.
+- Nodes [57]--[61] now use `StageNode.derive` and compositional `LedgerQuery`
+  retrieval. Their outputs contain only the new strict-quarter fact, integer
+  charge, negative edge, and CT11-localized support; predecessors remain in
+  the accumulated framework ledger.
+- CT11 scans the canonical connected-component schedule once and node [62]
+  scans only the selected support. The combined work is at most twice the
+  ambient vertex count. The exact existing Type-A and Type-B outputs are
+  retained, with no new paper node or edge.
+- Focused builds passed for `P13NegativeSupportLocalization`,
+  `TypeANodes57To63Provenance`, and its axiom-audit fixture. The broader web
+  target is presently blocked by an unrelated stale
+  `P13Node150ColdMassTests` consumer from the concurrent API migration.
+
+## 2026-07-19 — nodes [52]--[53] branch-preserving cutover
+
+- Added framework continuations for a second yes-edge successor and for
+  completing the no edge after a yes continuation. Both retain the literal
+  dependent predecessor and pass the complementary constructor unchanged.
+- Migrated node [52]'s conditional symbolic-capacity handoff to the accumulated
+  node-[51] high stage. The remaining obligation is only the graph-owned
+  same-context window/remainder join.
+- Replaced node [53]'s primary evidence. The former declaration proved a fact
+  about the deprecated realized-state experiment and incorrectly identified
+  node [53] with the large-budget outcome. The new `P13Node53Refinement`
+  consumes the manuscript node-[50] low constructor, compares the exact
+  remaining skeleton bits with the inherited curvature cost, and retains both
+  original node-[53] edges while preserving node [51] on the high branch.
+- Strengthened nested-decision provenance with framework
+  `DependentDecisionAt`: node [53]'s inner decision is indexed by the literal
+  accumulated node-[50] value and stores no second predecessor copy.
+- Implemented node [55] as the exact nested large-budget leaf using
+  `continueDependentNestedNo`. It adds no mathematical field, retains node
+  [24]'s density facts through the ledger.
+- Implemented node [56] through a compositional `LedgerQuery` for the exact
+  node-[25], node-[29], and node-[55] inputs.  Core owns the reusable scaled
+  density-plus-supply normalization; the Erdős output contains only the new
+  finite net cap and exact limiting constant.  The explicit error is proved
+  `o(|R|)`, yielding the manuscript's eventual strict-quarter conclusion with
+  zero graph scans.
 
 Node `[31]` now uses its literal wedge schedule,
 raw outside-context response, cardinality `W2(R)`, proof-level attained maximum,
@@ -3426,3 +3511,129 @@ introduced.  Node [153] remains yellow for its later independent
   gives node `[35]` four narrow proved tasks that do not enumerate every
   manuscript obligation. This transition audit does not change those statuses
   or obligation scopes; they require the dedicated yellow-node rescope.
+
+### 2026-07-19 node-[52] recoverable-join refactor
+
+- Refactored the useful part of the former node-[52] compatibility wrapper
+  into `Core.FiniteJointCapacity.RecoverableTypeJoin`. The framework now
+  derives pair injectivity from semantic left/right recovery and owns the
+  symbolic finite-type product-capacity proof.
+- Added a non-Erdős Boolean-pair transfer fixture. Its focused Lean check and
+  the focused framework build pass.
+- Replaced the application-selected window family by the exact final
+  `P13SequentialHotAggregate` from the packing-order hot/cold ledger, and the
+  right family by the predicate-defined constrained graph family `𝒢(R)` of
+  manuscript node [49]. The conditional node-[52] payload is attached to the
+  manuscript node-[51] value with `Core.Routing.LedgerExtension`; no
+  application-level predecessor equality, replacement family, graph
+  enumeration, or pair-injectivity field remains.
+- The focused node-[52] support file passes Lean. Node [52] remains yellow:
+  the accumulated ledger still lacks the graph-semantic theorem joining every
+  final hot state with every remainder state in one recoverable labelled
+  skeleton completion. The conditional payload is not counted as proof
+  evidence, and no new diagram node, edge, case, or finite universe was added.
+
+### 2026-07-19 accumulated nodes [47]--[51]
+
+- Added `Core.ResidualRefinement.State.DependentDecision` and its
+  `decideUsingStage` executor. A decision about a data-bearing predecessor now
+  retrieves and retains the literal accumulated stage on both outcomes.
+- Added the generic `DependentDecisionYesContinuation` and
+  `continueDependentDecisionYes`, so a proof may extend one existing decision
+  edge without reconstructing the predecessor or the complementary branch.
+- Migrated the manuscript full-rank chain [47]--[51] to one operational
+  residual-refinement run. Nodes [47]--[50] use `StageNode.mapStage`; node [50]
+  uses the dependent-stage decision; node [51] continues only its exact high
+  constructor. The rank-drop and low-entropy branches retain their full prior
+  fact lists unchanged.
+- Removed application-level `ExactHandoff` storage from the manuscript payload
+  structures for nodes [47]--[51]. Those types are predecessor-indexed and now
+  contain only their new local mathematical conclusions; exact predecessor and
+  property accumulation are owned exclusively by the framework ledger.
+- Focused source checks pass for every changed manuscript module. A
+  single-worker focused Lake build passes through
+  `P13Nodes47To51Refinement` and `P13JointWindowRemainderAccounting`. The run
+  proves the stable node-[24] residual is retained and exposes a zero-scan
+  framework transport budget.
+- Updated both Erdős workflow skills to reject rederived inherited facts and
+  require framework retrieval/attachment at every node.
+### 2026-07-19 nodes `[145]`--`[151]` accumulated-ledger cutover
+
+The route-8 threshold and live-hot chain now uses
+`Core.ResidualRefinement` as its only manuscript handoff mechanism.
+Node `[145]` attaches the canonical sequential weighted ledger once;
+node `[146]` adds only the threshold branch arithmetic; node `[148]` adds
+only the cap or cold-shortfall payload; and nodes `[149]`, `[150]`, and
+`[151]` are dependent `StageNode` successors.  Application structures no
+longer store `ExactHandoff`, predecessor copies, copied `theta_ge` facts,
+copied hot aggregates, or reconstructed cold lists.  Node `[151]` retains
+only its new near-cubic payment and cubic/non-cubic partition certificate.
+Focused single-worker builds of nodes `[146]`, `[148]`, `[149]`, `[150]`,
+and the `[150] -> [151]` connector pass.
+### 2026-07-19 node `[147]` dependency trace and CT4 carrier capacity
+
+The node-[147] arithmetic prefix is now a dependent `StageNode` successor of
+the accumulated node-[146] yes stage; it no longer stores the predecessor or
+copies `tau_lt`.  The reusable no-two-carrier bookkeeping from manuscript
+nodes `[119]`--`[120]` is implemented by
+`CT4.PrivateCarrierProfile`: private ownership and three distinct selected
+slots per entry give a global injection and the exact capacity bound.  The
+thin Erdős specialization proves `3 * |Xi| <= |carriers|` with zero local
+scans.  Focused framework, example, Erdős specialization, and node-[147]
+test builds pass.
+
+The remaining node-[147] blocker has been traced to its first missing
+manuscript producer rather than assumed at the terminal: the current Type-A
+chain has the node-[108] decorated-handoff output but no typed node-[107] no
+edge into route-8 node `[109]`, hence no graph-owned `[109]`--`[114]`
+trace-basin/carrier-core stage.  The exact obligation is recorded in
+`ERDOS_ORIGINAL_PAPER_BLOCKERS.md`.
+## 2026-07-19 — automatic full-ledger CT continuation
+
+- Added framework executors that return the target-labelled accumulated
+  ledger directly for forced, projected, full-current, and pointwise CT
+  transitions.  Application code no longer needs to unwrap an enabled stage
+  and call `.ledgerStage` before continuing.
+- Added `CTTransition.runLedger` for genuine discovery branches.  Its enabled
+  branch appends the exact public execution and its disabled branch appends
+  the exact rejection certificate; both retain the literal incoming ledger.
+- Migrated the first eight application transitions to the new API:
+  triangular cross-shoulder, high-centre port, triangular shoulder,
+  bridge contraction, triangular port return, triangular first landing,
+  fan-window cycle, and fan closed-port.  Their focused one-job builds pass.
+- Updated implementation and review skills to reject application-created
+  checkpoints and application calls to `.ledgerStage`.  Only the genuine
+  theorem root may seed a residual; every later edge must use a
+  ledger-returning framework executor.
+
+## 2026-07-19 — node `[52] -> [54]` entropy-cap closure
+
+- Added the framework-owned
+  `StageNode.closeDependentDecisionYesSuccessor` combinator. It consumes the
+  latest accumulated yes-edge payload, preserves the exact decision and its
+  untouched no edge, and records a local terminal certificate without
+  application-level branch reconstruction.
+- Implemented the existing node `[52] -> [54]` edge. Node `[52]`'s exact
+  finite feasibility inequality excludes its strict reverse by
+  `not_lt_of_ge`; this is the integral, error-bearing form of the paper's
+  high-theta entropy-cap closure.
+- The focused Core build and direct Lean check of
+  `P13JointWindowRemainderAccounting.lean` pass. The edge performs zero
+  semantic checks and enumerates no graph, context, state product, assignment,
+  or Boolean universe.
+- Node `[54]` remains partially tracked rather than green because its other
+  incoming edge, node `[53]`'s strict small-budget branch, is a distinct
+  manuscript obligation. Node `[52]` also remains yellow until its joint
+  window--remainder feasibility producer is proved.
+
+## 2026-07-19 — node `[56]` inherited-fact cleanup
+
+- Registered node `[29]`'s surplus-adjusted incidence ceiling and node `[24]`'s
+  remainder-scaled density cap as reusable `StageEntails` consequences at
+  their original producers.
+- Replaced node `[56]`'s unused node-[25] certificate and direct predecessor
+  field reopening by one ledger query for those two propositions plus the
+  exact node-[55] branch stage. Node `[56]` now stores only its new net-cap
+  conclusion.
+- Focused builds of the producer stages and a direct Lean check of
+  `P13Node56Refinement.lean` pass. No graph or ambient family is rescanned.

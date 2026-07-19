@@ -182,14 +182,14 @@ noncomputable def fanClosedMassLedgerStage
       (FanClosedPortLedger ctx crossStage)) :
     Core.Routing.ResidualStage .ct14 (FanClosedMassLedger ctx source) := by
   let execution := fanClosedMassTransitionStage ctx source
-  exact execution.ledgerStage.extend (fun request =>
+  exact execution.extend (fun request =>
     Graph.FanClosedPortMass.verifiedExecutionStage request.centerHigh
       ((fixedPackedInput ctx).dart_has_tight_endpoint
         (packedStaticInput.fixedContext ctx))
       (p13FanWindowProfile ctx request.Assigned request.assignedDecidable)
       request.first request.second request.pair request.assigned
       (source.output.added.stage request)
-      (execution.localStage request).targetResult rfl)
+      (execution.output.localStage request).targetResult rfl)
 
 /-- Literal CT14 result at one request, projected from the specialized local
 stage retained by the shared ledger. -/

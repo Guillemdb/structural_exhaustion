@@ -1,6 +1,9 @@
 import StructuralExhaustion.CT4.Theorems
+import StructuralExhaustion.Core.EnumerationCombinators
 
 namespace StructuralExhaustion.CT4
+
+universe uEntry uCarrier uSlot
 
 variable {P : Core.Problem}
 
@@ -154,5 +157,88 @@ def missingResidual (profile : FunctionalCardinalityProfile P)
     (profile.functional input) card_lt
 
 end FunctionalCardinalityProfile
+
+/-! ## Private-carrier capacity
+
+This profile is the reusable form of the manuscript pattern “each indexed
+object selects `k` private carriers, and private carriers of distinct indexed
+objects are disjoint”.  Applications expose only the already constructed
+finite entry/carrier ledgers and the semantic privacy proofs.  The framework
+owns the product-demand enumeration and the global injection/counting step.
+-/
+
+structure PrivateCarrierProfile (P : Core.Problem) where
+  Entry : Type uEntry
+  Carrier : Type uCarrier
+  Slot : Type uSlot
+  entries : FinEnum Entry
+  carriers : FinEnum Carrier
+  slots : FinEnum Slot
+  Private : Input P → Entry → Carrier → Prop
+  chosen : Input P → Entry → Slot → Carrier
+  chosen_private : ∀ input entry slot,
+    Private input entry (chosen input entry slot)
+  chosen_distinct : ∀ input entry,
+    Function.Injective (chosen input entry)
+  private_owner : ∀ input carrier left right,
+    Private input left carrier → Private input right carrier → left = right
+
+namespace PrivateCarrierProfile
+
+variable (profile : PrivateCarrierProfile P)
+
+@[implicit_reducible]
+def demands : FinEnum (profile.Entry × profile.Slot) :=
+  Core.Enumeration.prod profile.entries profile.slots
+
+/-- The carrier selected for an entry/slot pair. -/
+def payer (input : Input P) (demand : profile.Entry × profile.Slot) :
+    profile.Carrier :=
+  profile.chosen input demand.1 demand.2
+
+/-- Privacy plus within-entry distinctness makes the complete charging map
+injective.  No ambient graph or state universe is enumerated. -/
+theorem payer_injective (input : Input P) :
+    Function.Injective (profile.payer input) := by
+  intro left right equal
+  have ownerEqual : left.1 = right.1 :=
+    profile.private_owner input (profile.payer input left) left.1 right.1
+      (profile.chosen_private input left.1 left.2)
+      (equal ▸ profile.chosen_private input right.1 right.2)
+  cases left with
+  | mk leftEntry leftSlot =>
+    cases right with
+    | mk rightEntry rightSlot =>
+      simp only at ownerEqual
+      subst rightEntry
+      have slotEqual : leftSlot = rightSlot :=
+        profile.chosen_distinct input leftEntry equal
+      subst rightSlot
+      rfl
+
+/-- Exact private-carrier capacity bound.  The left side is the number of
+entry/slot demands and the right side is the literal carrier ledger size. -/
+theorem slot_mul_entry_le_carrier (input : Input P) :
+    profile.entries.card * profile.slots.card ≤ profile.carriers.card := by
+  letI : Fintype profile.Entry := @FinEnum.instFintype _ profile.entries
+  letI : Fintype profile.Slot := @FinEnum.instFintype _ profile.slots
+  letI : Fintype profile.Carrier := @FinEnum.instFintype _ profile.carriers
+  have bound : Fintype.card (profile.Entry × profile.Slot) ≤
+      Fintype.card profile.Carrier :=
+    Fintype.card_le_of_injective (profile.payer input)
+      (profile.payer_injective input)
+  simpa [FinEnum.card_eq_fintypeCard, Fintype.card_prod] using bound
+
+/-- This capacity theorem performs no search: the application has already
+selected the private carriers while building its local ledger. -/
+def localCheckCount (_profile : PrivateCarrierProfile P)
+    (_input : Input P) : Nat := 0
+
+theorem localCheckCount_polynomial (input : Input P) :
+    profile.localCheckCount input ≤
+      (profile.entries.card + profile.carriers.card + 1) ^ 1 := by
+  simp [localCheckCount]
+
+end PrivateCarrierProfile
 
 end StructuralExhaustion.CT4

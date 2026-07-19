@@ -205,7 +205,7 @@ def ct6ToCT9Stage (profile : Profile V) (object : FiniteObject V)
 /-- Accumulated CT9 ledger used by every downstream transition. -/
 def ct6ToCT9Ledger (profile : Profile V) (object : FiniteObject V)
     (baseline : profile.base.problem.Baseline object) :=
-  (profile.ct6ToCT9Stage object baseline).ledgerStage
+  profile.ct6ToCT9Stage object baseline
 
 /-- CT9 input read from the executable transition; no graph module rebuilds
 the route context or trigger. -/

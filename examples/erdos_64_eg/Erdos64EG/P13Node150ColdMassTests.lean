@@ -15,9 +15,6 @@ variable
 example : 0 < (p13Node150FiniteColdMass node148).coldCount :=
   (p13Node150FiniteColdMass node148).coldNonempty
 
-example : (p13Node150FiniteColdMass node148).previous = node148 :=
-  (p13Node150FiniteColdMass node148).previousExact
-
 example : p13Route8ColdMassNumerator = 1108581006 := by simp
 
 example : p13NegativeNetColdMassNumerator = 8608581006 := by simp

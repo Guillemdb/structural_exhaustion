@@ -1,5 +1,5 @@
 import Erdos64EG.P13SequentialWeightedHotColdLedger
-import StructuralExhaustion.Core.ExactHandoff
+import StructuralExhaustion.Core.ResidualRefinement
 import StructuralExhaustion.Core.WorkBudget
 
 namespace Erdos64EG.Internal
@@ -97,8 +97,7 @@ theorem p13Route8_denominator_pos_of_below
 /-- Yes payload on the existing edge `[146] -> [147]`. -/
 structure P13Node146To147
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 5)
-    extends Core.ExactHandoff (p13SequentialWeightedLedger ctx node21) where
+    (_node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 5) where
   below : P13Route8BelowThreshold ctx
   theta_lt : p13PackingTheta ctx < (1 : ℚ) / 78
   denominatorPositive : 0 < 1 - 13 * p13PackingTheta ctx
@@ -107,59 +106,89 @@ structure P13Node146To147
 /-- No payload on the existing edge `[146] -> [148]`. -/
 structure P13Node146To148
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 5)
-    extends Core.ExactHandoff (p13SequentialWeightedLedger ctx node21) where
+    (_node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 5) where
   notBelow : ¬P13Route8BelowThreshold ctx
   crossMultiplied : ctx.G.object.input.vertices.card ≤ 78 * p13 ctx
   theta_ge : (1 : ℚ) / 78 ≤ p13PackingTheta ctx
 
-/-- The two constructors are exactly the two outgoing edges of node `[146]`. -/
-inductive P13Node146Outcome
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 5)
-  | to147 : P13Node146To147 ctx node21 → P13Node146Outcome ctx node21
-  | to148 : P13Node146To148 ctx node21 → P13Node146Outcome ctx node21
+/-! ## Framework-owned accumulated execution
 
-/-- Execute node `[146]` by one natural-number comparison. -/
-noncomputable def runP13Node146
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) :
-    P13Node146Outcome ctx node21 := by
-  let previous := p13SequentialWeightedLedger ctx node21
-  by_cases below : P13Route8BelowThreshold ctx
-  · exact .to147 {
-      previous := previous
-      previousExact := rfl
-      below := below
-      theta_lt := (p13Route8BelowThreshold_iff_theta ctx).mp below
+The stable residual names the graph prefix.  Node `[145]` attaches its
+canonical weighted ledger exactly once; every later state retains it by type.
+Node `[146]` contributes only the threshold decision and its arithmetic
+consequences.
+-/
+
+structure P13Node145RefinementResidual where
+  ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}
+  node21 : VerifiedP13MultiScaleCurvaturePrefix ctx
+
+abbrev P13Node145LedgerStage (residual : P13Node145RefinementResidual.{u}) :=
+  P13SequentialWeightedLedger residual.ctx residual.node21
+
+noncomputable def p13Node145LedgerRefinement {facts} :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      P13Node145LedgerStage where
+  produce := fun state =>
+    p13SequentialWeightedLedger state.residual.ctx state.residual.node21
+
+abbrev P13Node146Below (residual : P13Node145RefinementResidual.{u}) : Prop :=
+  P13Route8BelowThreshold residual.ctx
+
+abbrev P13Node146NotBelow
+    (residual : P13Node145RefinementResidual.{u}) : Prop :=
+  ¬P13Route8BelowThreshold residual.ctx
+
+noncomputable def p13Node146DecisionRefinement {facts} :
+    Core.ResidualRefinement.State.DecisionNode (facts := facts)
+      P13Node146Below P13Node146NotBelow :=
+  Core.ResidualRefinement.State.DecisionNode.complement _
+    (fun state => p13Route8BelowThresholdDecidable state.residual.ctx)
+
+abbrev P13Node146To147Stage (residual : P13Node145RefinementResidual.{u}) :=
+  P13Node146To147 residual.ctx residual.node21
+
+abbrev P13Node146To148Stage (residual : P13Node145RefinementResidual.{u}) :=
+  P13Node146To148 residual.ctx residual.node21
+
+noncomputable def p13Node146To147Refinement {facts}
+    [Core.ResidualRefinement.Proofs.Contains P13Node146Below facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      P13Node146To147Stage :=
+  Core.ResidualRefinement.State.StageNode.usingFact
+      (required := P13Node146Below) fun state below =>
+    { below := below
+      theta_lt := (p13Route8BelowThreshold_iff_theta state.residual.ctx).mp below
       denominatorPositive := p13Route8_denominator_pos_of_below below
       tau_lt := (p13Route8Tau_lt_three_thirteenths_iff
-        (p13PackingTheta ctx)
+        (p13PackingTheta state.residual.ctx)
         (p13Route8_denominator_pos_of_below below)).2
-          ((p13Route8BelowThreshold_iff_theta ctx).mp below)
-    }
-  · have crossMultiplied :
-        ctx.G.object.input.vertices.card ≤ 78 * p13 ctx := by
-      unfold P13Route8BelowThreshold at below
-      omega
-    exact .to148 {
-      previous := previous
-      previousExact := rfl
-      notBelow := below
-      crossMultiplied := crossMultiplied
-      theta_ge := le_of_not_gt
-        (fun thetaLt => below ((p13Route8BelowThreshold_iff_theta ctx).mpr thetaLt))
-    }
+          ((p13Route8BelowThreshold_iff_theta state.residual.ctx).mp below) }
 
-/-- Exhaustiveness of the literal yes/no decision. -/
-theorem runP13Node146_exhaustive
-    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) :
-    (∃ payload, runP13Node146 ctx node21 = .to147 payload) ∨
-      (∃ payload, runP13Node146 ctx node21 = .to148 payload) := by
-  cases runP13Node146 ctx node21 with
-  | to147 payload => exact Or.inl ⟨payload, rfl⟩
-  | to148 payload => exact Or.inr ⟨payload, rfl⟩
+noncomputable def p13Node146To148Refinement {facts}
+    [Core.ResidualRefinement.Proofs.Contains P13Node146NotBelow facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      P13Node146To148Stage :=
+  Core.ResidualRefinement.State.StageNode.usingFact
+      (required := P13Node146NotBelow) fun state notBelow =>
+    { notBelow := notBelow
+      crossMultiplied := by
+        change ¬(78 * p13 state.residual.ctx <
+          state.residual.ctx.G.object.input.vertices.card) at notBelow
+        omega
+      theta_ge := le_of_not_gt
+        (fun thetaLt => notBelow
+          ((p13Route8BelowThreshold_iff_theta state.residual.ctx).mpr thetaLt)) }
+
+noncomputable def p13Node145InitialState
+    (residual : P13Node145RefinementResidual.{u}) :=
+  p13Node145LedgerRefinement.run
+    (Core.ResidualRefinement.State.initial residual)
+
+noncomputable def p13Node146AccumulatedRun
+    (residual : P13Node145RefinementResidual.{u}) :=
+  (p13Node146DecisionRefinement.run (p13Node145InitialState residual)).mapStages
+    p13Node146To147Refinement p13Node146To148Refinement
 
 /-- The node performs one primitive arithmetic comparison. -/
 def p13Node146LocalCheckCount

@@ -74,10 +74,10 @@ def directFanWindowLedgerStage
     (source : Core.Routing.ResidualStage .ct14 Ledger) :
     Core.Routing.ResidualStage .ct1 (DirectFanWindowLedger ctx source) :=
   let execution := directFanWindowTransitionStage ctx source
-  execution.ledgerStage.extend {
-    terminal := execution.targetResult.terminal_eq
-    trace := execution.targetResult.trace_eq
-    checks := execution.targetResult.checks_eq
+  execution.extend {
+    terminal := execution.output.targetResult.terminal_eq
+    trace := execution.output.targetResult.trace_eq
+    checks := execution.output.targetResult.checks_eq
     directFree := Graph.FanWindowCycle.directCycleFree_of_avoids
       (fixedPackedInput ctx) ctx.G.object
       (packedStaticInput.fixedContext ctx).avoids

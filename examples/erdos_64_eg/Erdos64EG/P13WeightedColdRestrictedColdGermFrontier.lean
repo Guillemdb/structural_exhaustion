@@ -226,7 +226,7 @@ structure TerminalColdGermFrontier {ledger : package.PriorD6Ledger}
   f1Negative : package.F1Clear
   f4Negative : ∀ stage : package.Stage,
     ∃ complete : package.D6Complete ledger stage,
-      package.runD6 ledger stage = .complete complete
+      package.runD6 ledger stage = .inr complete
 
 noncomputable def terminalColdGermFrontier
     {ledger : package.PriorD6Ledger}

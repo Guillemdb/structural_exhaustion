@@ -4,7 +4,7 @@ import StructuralExhaustion.Core.WorkBudget
 
 namespace StructuralExhaustion.Core.ResidualRefinement
 
-universe uOccurrence uResidual uTarget uInput
+universe uOccurrence uResidual uTarget uInput uStage
 
 /-!
 # Accumulating residual refinements
@@ -135,6 +135,13 @@ accumulated fact while the application supplies only the stage producer. -/
 structure StageNode (Stage : Residual → Sort uTarget) where
   produce : (state : State Residual facts) → Stage state.residual
 
+/-- A reusable theorem projection from a proof-carrying stage to one of its
+mathematical consequences. The stage remains the sole ledger entry; later
+consumers request registered consequences without copying predecessor data. -/
+class StageEntails (Stage : Residual → Sort uTarget)
+    (property : Residual → Prop) where
+  prove : ∀ {residual}, Stage residual → property residual
+
 /-- One literal accumulated stage together with a successor whose type may
 depend on that exact retrieved value.  This is the framework-owned carrier
 for a diagram edge whose target payload is predecessor-indexed but whose
@@ -145,6 +152,126 @@ structure DependentSuccessor
     (residual : Residual) where
   previous : Previous residual
   output : Next residual previous
+
+/-- An exhaustive decision about one literal data-bearing predecessor
+retrieved from the accumulated ledger.  Both constructors retain that exact
+value; applications cannot decide a proposition about one stage and attach
+the result to another. -/
+inductive DependentDecision
+    (Previous : Residual → Type uInput)
+    (yes no : (residual : Residual) → Previous residual → Prop)
+    (residual : Residual) : Type uInput where
+  | yesBranch (previous : Previous residual) (proof : yes residual previous) :
+      DependentDecision Previous yes no residual
+  | noBranch (previous : Previous residual) (proof : no residual previous) :
+      DependentDecision Previous yes no residual
+
+/-- A decision whose predecessor is already fixed by the surrounding
+dependent stage. Unlike `DependentDecision`, this type stores no second copy
+of that value, so a nested decision cannot silently switch predecessors. -/
+inductive DependentDecisionAt
+    {Previous : Residual → Type uInput}
+    (yes no : (residual : Residual) → Previous residual → Prop)
+    (residual : Residual) (previous : Previous residual) : Type where
+  | yesBranch (proof : yes residual previous) :
+      DependentDecisionAt yes no residual previous
+  | noBranch (proof : no residual previous) :
+      DependentDecisionAt yes no residual previous
+
+namespace DependentDecisionAt
+
+/-- Execute a decision at one literal predecessor. -/
+noncomputable def decide
+    {Previous : Residual → Type uInput}
+    {yes no : (residual : Residual) → Previous residual → Prop}
+    {residual : Residual} {previous : Previous residual}
+    (yesDecidable : Decidable (yes residual previous))
+    (no_of_not_yes : ¬yes residual previous → no residual previous) :
+    DependentDecisionAt yes no residual previous :=
+  match yesDecidable with
+  | .isTrue proof => .yesBranch proof
+  | .isFalse absent => .noBranch (no_of_not_yes absent)
+
+end DependentDecisionAt
+
+/-- Framework-owned continuation of only the yes edge of a dependent stage
+decision.  The no edge retains the same predecessor and proof unchanged. -/
+inductive DependentDecisionYesContinuation
+    (Previous : Residual → Type uInput)
+    (yes no : (residual : Residual) → Previous residual → Prop)
+    (Next : (residual : Residual) → (previous : Previous residual) →
+      yes residual previous → Type uTarget)
+    (residual : Residual) : Type (max uInput uTarget) where
+  | yesBranch (previous : Previous residual) (proof : yes residual previous)
+      (output : Next residual previous proof) :
+      DependentDecisionYesContinuation Previous yes no Next residual
+  | noBranch (previous : Previous residual) (proof : no residual previous) :
+      DependentDecisionYesContinuation Previous yes no Next residual
+
+/-- A further successor on the yes edge of an already continued dependent
+decision. The exact predecessor, its branch proof, and the current yes output
+are retained by the framework; the no edge is passed through unchanged. -/
+inductive DependentDecisionYesSuccessor
+    (Previous : Residual → Type uInput)
+    (yes no : (residual : Residual) → Previous residual → Prop)
+    (Current : (residual : Residual) → (previous : Previous residual) →
+      yes residual previous → Type uTarget)
+    (Next : (residual : Residual) → (previous : Previous residual) →
+      (proof : yes residual previous) → Current residual previous proof →
+        Type uStage)
+    (residual : Residual) : Type (max uInput uTarget uStage) where
+  | yesBranch (previous : Previous residual) (proof : yes residual previous)
+      (current : Current residual previous proof)
+      (output : Next residual previous proof current) :
+      DependentDecisionYesSuccessor Previous yes no Current Next residual
+  | noBranch (previous : Previous residual) (proof : no residual previous) :
+      DependentDecisionYesSuccessor Previous yes no Current Next residual
+
+/-- Complete the no edge after the yes edge has already acquired an output.
+The existing yes output is retained literally; only the no constructor gains
+the newly produced mathematical payload. -/
+inductive DependentDecisionNoAfterYes
+    (Previous : Residual → Type uInput)
+    (yes no : (residual : Residual) → Previous residual → Prop)
+    (YesOutput : (residual : Residual) → (previous : Previous residual) →
+      yes residual previous → Type uTarget)
+    (NoOutput : (residual : Residual) → (previous : Previous residual) →
+      no residual previous → Type uStage)
+    (residual : Residual) : Type (max uInput uTarget uStage) where
+  | yesBranch (previous : Previous residual) (proof : yes residual previous)
+      (output : YesOutput residual previous proof) :
+      DependentDecisionNoAfterYes Previous yes no YesOutput NoOutput residual
+  | noBranch (previous : Previous residual) (proof : no residual previous)
+      (output : NoOutput residual previous proof) :
+      DependentDecisionNoAfterYes Previous yes no YesOutput NoOutput residual
+
+/-- Continue the no leaf of a decision nested on the no edge of an earlier
+decision. The outer yes output and inner yes leaf are retained unchanged. -/
+inductive DependentNestedNoContinuation
+    (Previous : Residual → Type uInput)
+    (outerYes outerNo : (residual : Residual) → Previous residual → Prop)
+    (OuterYesOutput : (residual : Residual) →
+      (previous : Previous residual) → outerYes residual previous → Type uTarget)
+    (innerYes innerNo : (residual : Residual) → Previous residual → Prop)
+    (Next : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → innerNo residual previous → Type uStage)
+    (residual : Residual) : Type (max uInput uTarget uStage) where
+  | outerYesBranch (previous : Previous residual)
+      (proof : outerYes residual previous)
+      (output : OuterYesOutput residual previous proof) :
+      DependentNestedNoContinuation Previous outerYes outerNo OuterYesOutput
+        innerYes innerNo Next residual
+  | innerYesBranch (previous : Previous residual)
+      (outerProof : outerNo residual previous)
+      (innerProof : innerYes residual previous) :
+      DependentNestedNoContinuation Previous outerYes outerNo OuterYesOutput
+        innerYes innerNo Next residual
+  | innerNoBranch (previous : Previous residual)
+      (outerProof : outerNo residual previous)
+      (innerProof : innerNo residual previous)
+      (output : Next residual previous outerProof innerProof) :
+      DependentNestedNoContinuation Previous outerYes outerNo OuterYesOutput
+        innerYes innerNo Next residual
 
 /-- Package a canonical data producer as an exact-output stage.  Applications
 name only the mathematical output; the framework supplies the retained value
@@ -200,6 +327,172 @@ noncomputable def StageNode.mapStage
   StageNode.usingStage (Required := Previous) fun state previous =>
     ⟨previous, produceNext state.residual previous⟩
 
+/-- Retrieve one accumulated data stage and perform an exhaustive decision on
+that exact value.  Retrieval, value retention, and branch packaging are
+framework-owned; an application supplies only decidability and the theorem
+for the complementary outcome. -/
+noncomputable def StageNode.decideUsingStage
+    {Previous : Residual → Type uInput}
+    {yes no : (residual : Residual) → Previous residual → Prop}
+    [Proofs.Contains (Available Previous) facts]
+    (yesDecidable : (residual : Residual) → (previous : Previous residual) →
+      Decidable (yes residual previous))
+    (no_of_not_yes : (residual : Residual) → (previous : Previous residual) →
+      ¬ yes residual previous → no residual previous) :
+    StageNode (facts := facts) (DependentDecision Previous yes no) :=
+  StageNode.usingStage (Required := Previous) fun state previous =>
+    match yesDecidable state.residual previous with
+    | .isTrue proof => .yesBranch previous proof
+    | .isFalse absent =>
+        .noBranch previous (no_of_not_yes state.residual previous absent)
+
+/-- Continue the yes constructor of an accumulated dependent decision with
+one new mathematical producer.  Applications do not reconstruct the decision,
+its predecessor, or its complementary branch. -/
+noncomputable def StageNode.continueDependentDecisionYes
+    {Previous : Residual → Type uInput}
+    {yes no : (residual : Residual) → Previous residual → Prop}
+    {Next : (residual : Residual) → (previous : Previous residual) →
+      yes residual previous → Type uTarget}
+    [Proofs.Contains
+      (Available (DependentDecision Previous yes no)) facts]
+    (produce : (residual : Residual) → (previous : Previous residual) →
+      (proof : yes residual previous) → Next residual previous proof) :
+    StageNode (facts := facts)
+      (DependentDecisionYesContinuation Previous yes no Next) :=
+  StageNode.usingStage
+    (Required := DependentDecision Previous yes no) fun state decision =>
+      match decision with
+      | .yesBranch previous proof =>
+          .yesBranch previous proof (produce state.residual previous proof)
+      | .noBranch previous proof => .noBranch previous proof
+
+/-- Continue the yes edge of an already continued dependent decision.  The
+application supplies only the new mathematical producer; it cannot rebuild
+the earlier decision, predecessor, branch proof, or current output. -/
+noncomputable def StageNode.continueDependentDecisionYesAgain
+    {Previous : Residual → Type uInput}
+    {yes no : (residual : Residual) → Previous residual → Prop}
+    {Current : (residual : Residual) → (previous : Previous residual) →
+      yes residual previous → Type uTarget}
+    {Next : (residual : Residual) → (previous : Previous residual) →
+      (proof : yes residual previous) → Current residual previous proof →
+        Type uStage}
+    [Proofs.Contains
+      (Available
+        (DependentDecisionYesContinuation Previous yes no Current)) facts]
+    (produce : (residual : Residual) → (previous : Previous residual) →
+      (proof : yes residual previous) → (current : Current residual previous proof) →
+        Next residual previous proof current) :
+    StageNode (facts := facts)
+      (DependentDecisionYesSuccessor Previous yes no Current Next) :=
+  StageNode.usingStage
+    (Required := DependentDecisionYesContinuation Previous yes no Current)
+      fun state decision =>
+        match decision with
+        | .yesBranch previous proof current =>
+            .yesBranch previous proof current
+              (produce state.residual previous proof current)
+        | .noBranch previous proof => .noBranch previous proof
+
+/-- Replace the latest payload on the continued yes edge by a terminal
+certificate derived from that payload. The preceding decision, its literal
+yes proof, and the untouched no edge are transported by the framework; an
+application supplies only the local closing implication. The consumed stage
+remains in the accumulated ledger, so this operation does not discard its
+mathematical output. -/
+noncomputable def StageNode.closeDependentDecisionYesSuccessor
+    {Previous : Residual → Type uInput}
+    {yes no : (residual : Residual) → Previous residual → Prop}
+    {Current : (residual : Residual) → (previous : Previous residual) →
+      yes residual previous → Type uTarget}
+    {Latest : (residual : Residual) → (previous : Previous residual) →
+      (proof : yes residual previous) → Current residual previous proof →
+        Type uStage}
+    {Closed : (residual : Residual) → (previous : Previous residual) →
+      (proof : yes residual previous) → Current residual previous proof →
+        Type uOccurrence}
+    [Proofs.Contains
+      (Available
+        (DependentDecisionYesSuccessor Previous yes no Current Latest)) facts]
+    (close : (residual : Residual) → (previous : Previous residual) →
+      (proof : yes residual previous) →
+      (current : Current residual previous proof) →
+      Latest residual previous proof current →
+        Closed residual previous proof current) :
+    StageNode (facts := facts)
+      (DependentDecisionYesSuccessor Previous yes no Current Closed) :=
+  StageNode.usingStage
+    (Required := DependentDecisionYesSuccessor Previous yes no Current Latest)
+      fun state decision =>
+        match decision with
+        | .yesBranch previous proof current latest =>
+            .yesBranch previous proof current
+              (close state.residual previous proof current latest)
+        | .noBranch previous proof => .noBranch previous proof
+
+/-- Continue the untouched no edge of an accumulated yes continuation.  This
+is the framework-owned diamond completion used when the two constructors of
+one manuscript decision have different successor nodes. -/
+noncomputable def StageNode.continueDependentDecisionNoAfterYes
+    {Previous : Residual → Type uInput}
+    {yes no : (residual : Residual) → Previous residual → Prop}
+    {YesOutput : (residual : Residual) → (previous : Previous residual) →
+      yes residual previous → Type uTarget}
+    {NoOutput : (residual : Residual) → (previous : Previous residual) →
+      no residual previous → Type uStage}
+    [Proofs.Contains
+      (Available
+        (DependentDecisionYesContinuation Previous yes no YesOutput)) facts]
+    (produce : (residual : Residual) → (previous : Previous residual) →
+      (proof : no residual previous) → NoOutput residual previous proof) :
+    StageNode (facts := facts)
+      (DependentDecisionNoAfterYes Previous yes no YesOutput NoOutput) :=
+  StageNode.usingStage
+    (Required := DependentDecisionYesContinuation Previous yes no YesOutput)
+      fun state decision =>
+        match decision with
+        | .yesBranch previous proof output => .yesBranch previous proof output
+        | .noBranch previous proof =>
+            .noBranch previous proof (produce state.residual previous proof)
+
+/-- Continue exactly the inner no leaf of a nested dependent decision.  All
+other leaves and their literal proofs are transported by the framework. -/
+noncomputable def StageNode.continueDependentNestedNo
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterYesOutput : (residual : Residual) →
+      (previous : Previous residual) → outerYes residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) → Previous residual → Prop}
+    {Next : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → innerNo residual previous → Type uStage}
+    [Proofs.Contains
+      (Available (DependentDecisionNoAfterYes Previous outerYes outerNo
+        OuterYesOutput (fun residual previous _outerProof =>
+          DependentDecisionAt innerYes innerNo residual previous))) facts]
+    (produce : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (innerProof : innerNo residual previous) →
+        Next residual previous outerProof innerProof) :
+    StageNode (facts := facts)
+      (DependentNestedNoContinuation Previous outerYes outerNo OuterYesOutput
+        innerYes innerNo Next) :=
+  StageNode.usingStage
+    (Required := DependentDecisionNoAfterYes Previous outerYes outerNo
+      OuterYesOutput (fun residual previous _outerProof =>
+        DependentDecisionAt innerYes innerNo residual previous))
+      fun state decision =>
+        match decision with
+        | .yesBranch previous proof output =>
+            .outerYesBranch previous proof output
+        | .noBranch previous outerProof innerDecision =>
+            match innerDecision with
+            | .yesBranch innerProof =>
+                .innerYesBranch previous outerProof innerProof
+            | .noBranch innerProof =>
+                .innerNoBranch previous outerProof innerProof
+                  (produce state.residual previous outerProof innerProof)
+
 def StageNode.asNode {Stage : Residual → Sort uTarget}
     (node : StageNode (facts := facts) Stage) :
     Node (facts := facts) (Available Stage) where
@@ -212,6 +505,150 @@ noncomputable def requireStage {Stage : Residual → Sort uTarget}
     (state : State Residual facts)
     [Proofs.Contains (Available Stage) facts] : Stage state.residual :=
   Classical.choice (state.require (property := Available Stage))
+
+/-! ## Compositional typed ledger queries -/
+
+/-- A typed, branch-local read from one accumulated residual ledger.  Queries
+compose without changing the residual and cannot manufacture unavailable
+facts.  Their result is temporary input to a node producer; it is never
+copied into the node's accumulated output by the framework. -/
+structure LedgerQuery (Result : Residual → Sort uTarget) where
+  read : (state : State Residual facts) → Result state.residual
+
+namespace LedgerQuery
+
+/-- Query one proposition already present in the accumulated ledger. -/
+def fact {property : Residual → Prop}
+    [Proofs.Contains property facts] :
+    LedgerQuery (facts := facts) property where
+  read := fun state => state.require
+
+/-- Query one data-bearing stage already present in the accumulated ledger. -/
+noncomputable def stage {Stage : Residual → Sort uTarget}
+    [Proofs.Contains (Available Stage) facts] :
+    LedgerQuery (facts := facts) Stage where
+  read := fun state => state.requireStage
+
+/-- Transform the result of a query without reading the ledger again.  This
+is the preferred way to assemble a problem-specific named input view. -/
+def map {Input : Residual → Sort uInput}
+    {Output : Residual → Sort uTarget}
+    (query : LedgerQuery (facts := facts) Input)
+    (transform : (residual : Residual) → Input residual → Output residual) :
+    LedgerQuery (facts := facts) Output where
+  read := fun state => transform state.residual (query.read state)
+
+/-- Retrieve a proposition through a registered theorem projection from an
+accumulated certificate stage. -/
+noncomputable def entailedStage
+    {Stage : Residual → Sort uInput}
+    {property : Residual → Prop}
+    [Proofs.Contains (Available Stage) facts]
+    [StageEntails Stage property] :
+    LedgerQuery (facts := facts) property :=
+  (stage (facts := facts) (Stage := Stage)).map fun _residual certificate =>
+    StageEntails.prove certificate
+
+/-- Combine two arbitrary queries at the identical residual.  Repeated use
+supports any finite number of dependencies; no arity-specific retrieval API
+is required. -/
+def and {Left : Residual → Sort uInput}
+    {Right : Residual → Sort uTarget}
+    (left : LedgerQuery (facts := facts) Left)
+    (right : LedgerQuery (facts := facts) Right) :
+    LedgerQuery (facts := facts) (fun residual =>
+      PProd (Left residual) (Right residual)) where
+  read := fun state => ⟨left.read state, right.read state⟩
+
+/-- Append one accumulated proposition to an existing query. -/
+def andFact {Input : Residual → Sort uInput}
+    {property : Residual → Prop}
+    (query : LedgerQuery (facts := facts) Input)
+    [Proofs.Contains property facts] :
+    LedgerQuery (facts := facts) (fun residual =>
+      PProd (Input residual) (property residual)) :=
+  query.and (fact (facts := facts) (property := property))
+
+/-- Append one accumulated data stage to an existing query. -/
+noncomputable def andStage {Input : Residual → Sort uInput}
+    {Stage : Residual → Sort uTarget}
+    (query : LedgerQuery (facts := facts) Input)
+    [Proofs.Contains (Available Stage) facts] :
+    LedgerQuery (facts := facts) (fun residual =>
+      PProd (Input residual) (Stage residual)) :=
+  query.and (stage (facts := facts) (Stage := Stage))
+
+/-- Append one registered mathematical consequence of an accumulated stage
+to a query. Repetition collects any finite family of earlier results from the
+same residual without arity-specific retrieval plumbing. -/
+noncomputable def andEntailedStage
+    {Input : Residual → Sort uInput}
+    {Stage : Residual → Sort uStage}
+    {property : Residual → Prop}
+    (query : LedgerQuery (facts := facts) Input)
+    [Proofs.Contains (Available Stage) facts]
+    [StageEntails Stage property] :
+    LedgerQuery (facts := facts) (fun residual =>
+      PProd (Input residual) (property residual)) :=
+  query.and (entailedStage (facts := facts) (Stage := Stage)
+    (property := property))
+
+end LedgerQuery
+
+/-- Derive one new node certificate from an arbitrary typed ledger query.
+The query resolves every inherited dependency at one stable residual; the
+producer is responsible only for the node's new mathematical statement. -/
+def StageNode.derive
+    {Input : Residual → Sort uInput}
+    {Stage : Residual → Sort uTarget}
+    (query : LedgerQuery (facts := facts) Input)
+    (produce : (state : State Residual facts) →
+      Input state.residual → Stage state.residual) :
+    StageNode (facts := facts) Stage where
+  produce := fun state => produce state (query.read state)
+
+/-- Prove one proposition from an arbitrary typed ledger query. This is the
+proposition-valued counterpart of `StageNode.derive`. -/
+def Node.derive
+    {Input : Residual → Sort uInput}
+    {property : Residual → Prop}
+    (query : LedgerQuery (facts := facts) Input)
+    (prove : (state : State Residual facts) →
+      Input state.residual → property state.residual) :
+    Node (facts := facts) property where
+  prove := fun state => prove state (query.read state)
+
+/-- Continue a dependent yes edge while resolving an arbitrary typed query
+from the same accumulated ledger. The application receives no `State` and
+cannot rebuild, replace, or reach around the residual. -/
+noncomputable def StageNode.continueDependentDecisionYesAgainDerived
+    {Previous : Residual → Type uInput}
+    {yes no : (residual : Residual) → Previous residual → Prop}
+    {Current : (residual : Residual) → (previous : Previous residual) →
+      yes residual previous → Type uTarget}
+    {Input : Residual → Sort uStage}
+    {Next : (residual : Residual) → (previous : Previous residual) →
+      (proof : yes residual previous) → Current residual previous proof →
+        Type uOccurrence}
+    [Proofs.Contains
+      (Available
+        (DependentDecisionYesContinuation Previous yes no Current)) facts]
+    (query : LedgerQuery (facts := facts) Input)
+    (produce : (residual : Residual) → Input residual →
+      (previous : Previous residual) → (proof : yes residual previous) →
+      (current : Current residual previous proof) →
+        Next residual previous proof current) :
+    StageNode (facts := facts)
+      (DependentDecisionYesSuccessor Previous yes no Current Next) :=
+  StageNode.derive
+    (query.andStage
+      (Stage := DependentDecisionYesContinuation Previous yes no Current))
+    fun state inputAndDecision =>
+      match inputAndDecision.snd with
+      | .yesBranch previous proof current =>
+          .yesBranch previous proof current
+            (produce state.residual inputAndDecision.fst previous proof current)
+      | .noBranch previous proof => .noBranch previous proof
 
 /-- Build a data-bearing node from one accumulated proposition and one
 accumulated certificate stage. Retrieval and `Nonempty` elimination are

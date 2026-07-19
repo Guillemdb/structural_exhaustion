@@ -106,7 +106,7 @@ def highCenterPortLedgerStage
     {Ledger : Sort uLedger}
     (source : Core.Routing.ResidualStage .ct5 Ledger) :
     Core.Routing.ResidualStage .ct10 (HighCenterPortLedger ctx source) :=
-  (highCenterPortTransitionStage ctx source).ledgerStage.extend
+  (highCenterPortTransitionStage ctx source).extend
     (highCenterPort_stage ctx)
 
 /-- The high-centre CT10 execution extends the exact compatibility prefix.

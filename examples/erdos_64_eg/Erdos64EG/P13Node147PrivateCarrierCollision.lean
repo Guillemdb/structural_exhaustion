@@ -34,15 +34,14 @@ theorem p13Route8CollisionMargin_pos
     0 < 3 - 13 * p13Route8Tau (p13PackingTheta ctx) := by
   linarith [node146.tau_lt]
 
-/-- Exact dependency-ready prefix of node `[147]`.  It retains the literal
-yes payload and the two algebraically equivalent strict margins.  It is not a
+/-- Exact dependency-ready prefix of node `[147]`.  It adds only the two
+algebraically equivalent strict margins.  The literal node-[146] payload is
+retained by the framework state rather than copied into this structure.  It is not a
 terminal outcome: the structural carrier ledgers required for contradiction
 are deliberately absent from this type. -/
 structure P13Node147ArithmeticPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx) : Type (u + 4) where
-  previous : P13Node146To147 ctx node21
-  tau_lt : p13Route8Tau (p13PackingTheta ctx) < (3 : ℚ) / 13
   coefficientGap : p13Route8Tau (p13PackingTheta ctx) <
     12 * ((1 : ℚ) / 4 - p13Route8Tau (p13PackingTheta ctx))
   marginPositive : 0 < 3 - 13 * p13Route8Tau (p13PackingTheta ctx)
@@ -54,10 +53,26 @@ def p13Node147ArithmeticPrefix
     {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
     (node146 : P13Node146To147 ctx node21) :
     P13Node147ArithmeticPrefix ctx node21 where
-  previous := node146
-  tau_lt := node146.tau_lt
   coefficientGap := p13Route8CollisionCoefficientGap node146
   marginPositive := p13Route8CollisionMargin_pos node146
+
+abbrev P13Node147ArithmeticStage
+    (residual : P13Node145RefinementResidual.{u}) :=
+  Core.ResidualRefinement.State.DependentSuccessor
+    P13Node146To147Stage
+    (fun residual _node146 =>
+      P13Node147ArithmeticPrefix residual.ctx residual.node21) residual
+
+/-- Framework-owned `[146] -> [147]` handoff.  The application supplies only
+the new arithmetic payload; all earlier facts and the exact predecessor remain
+available in the accumulated state. -/
+noncomputable def p13Node147ArithmeticRefinement {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available P13Node146To147Stage) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      P13Node147ArithmeticStage :=
+  Core.ResidualRefinement.State.StageNode.mapStage
+    (fun _residual node146 => p13Node147ArithmeticPrefix node146)
 
 /-- Node `[147]` adds no scan beyond reading the node-`[146]` payload and
 combining its fixed rational inequality. -/

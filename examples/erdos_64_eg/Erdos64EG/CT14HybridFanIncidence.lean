@@ -158,7 +158,7 @@ noncomputable def hybridFanIncidenceLedgerStage
     Core.Routing.ResidualStage .ct14
       (HybridFanIncidenceLedger ctx source) := by
   let execution := hybridFanIncidenceTransitionStage ctx source
-  exact execution.ledgerStage.extend (fun request =>
+  exact execution.extend (fun request =>
     Graph.HybridFanIncidence.verifiedExecutionStage
       request.fan.centerHigh
       ((fixedPackedInput ctx).dart_has_tight_endpoint
@@ -169,7 +169,7 @@ noncomputable def hybridFanIncidenceLedgerStage
       (fourCycleFree ctx) request.degreeLeEight
       (source.output.previous.localStage request.fan).targetResult
       (source.output.added request.fan)
-      (execution.localStage request).targetResult rfl)
+      (execution.output.localStage request).targetResult rfl)
 
 noncomputable def runHybridFanIncidenceCT14
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})

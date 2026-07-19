@@ -392,14 +392,15 @@ abbrev CapacityTokenLedger
 /-- Verified prefix through the whole nodes `[133]`--`[136]` CT block. -/
 abbrev VerifiedCapacityTokenPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
-  Sigma (CapacityTokenLedger ctx)
+  Sigma fun previous : VerifiedAllPairTokenRoutingPrefix ctx =>
+    Core.Routing.ResidualStage .ct9 (CapacityTokenLedger ctx previous)
 
 noncomputable def verifiedCapacityTokenPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedAllPairTokenRoutingPrefix ctx) :
     VerifiedCapacityTokenPrefix ctx :=
   let stage := capacityTokenTransitionStage ctx previous
-  ⟨previous, ⟨stage, {
+  ⟨previous, stage.extend {
     routing := capacityTokenRoutingStage ctx
     auditExit := sparsePairAuditExit_closed ctx
     windowJoin := exactWindowJoinIdentity ctx
@@ -416,13 +417,13 @@ noncomputable def verifiedCapacityTokenPrefix
     roleCount := totalCapacityRoleCount ctx
     windowChecks := windowJoinChecks_quadratic ctx
     ledgerChecks := capacityLedgerChecks_cubic ctx
-  }⟩⟩
+  }⟩
 
 /-- Canonical complete CT9 stage after node `[136]`. -/
 noncomputable def capacityTokenLedgerStage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedCapacityTokenPrefix ctx) :=
-  verified.2.previous.ledgerStage.extend verified.2.added
+  verified.2
 
 theorem exists_verifiedCapacityTokenPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)

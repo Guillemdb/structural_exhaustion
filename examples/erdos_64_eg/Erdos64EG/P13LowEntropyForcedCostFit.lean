@@ -30,7 +30,7 @@ structure P13Node53LowEntropyInput
     (realized : P13CurvatureProductCostRealization ctx node21 node24)
     (node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized)
     (node50 : VerifiedP13Node50EntropyScaleSplit
-      ctx node21 node24 realized node49) : Type (u + 1)
+      ctx node21 node24 realized node49) : Type (u + 6)
     extends Core.ExactHandoff node50 where
   outcomePrevious : VerifiedP13Node49FiniteEntropy
     ctx node21 node24 realized
@@ -149,7 +149,7 @@ structure VerifiedP13Node53LargeBudget
     (node50 : VerifiedP13Node50EntropyScaleSplit
       ctx node21 node24 realized node49)
     (input : P13Node53LowEntropyInput
-      ctx node21 node24 realized node49 node50) : Type (u + 1)
+      ctx node21 node24 realized node49 node50) : Type (u + 6)
     extends Core.ExactHandoff input where
   strictLarge : p13Node53ForcedPower ctx ^ 10 <
     p13Node53FlatPower ctx ^ 10 * p13Node53UpperPower ctx
@@ -208,7 +208,7 @@ inductive P13Node50BudgetRoute
     (realized : P13CurvatureProductCostRealization ctx node21 node24)
     (node49 : VerifiedP13Node49FiniteEntropy ctx node21 node24 realized)
     (node50 : VerifiedP13Node50EntropyScaleSplit
-      ctx node21 node24 realized node49) : Type (u + 2)
+      ctx node21 node24 realized node49) : Type (u + 6)
   | high (output : VerifiedP13Node51HighEntropyBits
       ctx node21 node24 realized node49 node50)
   | low

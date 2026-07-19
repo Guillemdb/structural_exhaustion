@@ -1,5 +1,5 @@
 import Erdos64EG.P13Node150ColdMass
-import StructuralExhaustion.Core.ExactHandoff
+import StructuralExhaustion.Core.ResidualRefinement
 import Erdos64EG.P13NearCubicSpineHandoff
 import Erdos64EG.P13WeightedColdBranchExcess
 
@@ -24,18 +24,13 @@ structure P13Node151AmbientCubicColdHandoff
     (node146No : P13Node146To148 ctx node21)
     (node148 : P13Node148To150 ctx node21 node146No)
     (node150 : P13Node150FiniteColdMass ctx node21 node146No node148) :
-    Type (u + 4) extends Core.ExactHandoff node150 where
+    Type (u + 4) where
   spine : P13NearCubicSpineBound ctx node21.previous.windowSize
     node21.previous.remainderSize node21.previous.primitiveSize
-  coldWindows : List (P13SequentialWeightedColdWindow ctx node21)
-  coldWindowsExact : coldWindows = p13SequentialWeightedColdWindows ctx node21
-  coldCountExact : coldWindows.length = node150.coldCount
   nearCubicPayment : P13WeightedColdNearCubicPayment ctx node21
-  ambientCubicWindows : List (P13WeightedColdCubicWindow ctx node21)
-  ambientCubicWindowsExact : ambientCubicWindows =
-    p13WeightedColdCubicWindows (ctx := ctx) (node21 := node21)
-  nonCubicLossExact : nearCubicPayment.loss =
-    (p13WeightedColdNonCubicWindows (ctx := ctx) (node21 := node21)).length
+  cubicPartition :
+    (p13WeightedColdCubicWindows (ctx := ctx) (node21 := node21)).length +
+        nearCubicPayment.loss = node150.coldCount
 
 noncomputable def p13Node150To151
     {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
@@ -47,20 +42,13 @@ noncomputable def p13Node150To151
   let payment := verifiedP13WeightedColdNearCubicPayment
     (ctx := ctx) (node21 := node21)
   refine {
-    previous := node150
-    previousExact := rfl
     spine := P13NearCubicSpineBound.ofBoundedSurplus node21.previous
-    coldWindows := p13SequentialWeightedColdWindows ctx node21
-    coldWindowsExact := rfl
-    coldCountExact := ?_
     nearCubicPayment := payment
-    ambientCubicWindows :=
-      p13WeightedColdCubicWindows (ctx := ctx) (node21 := node21)
-    ambientCubicWindowsExact := rfl
-    nonCubicLossExact := payment.loss_exact
+    cubicPartition := ?_
   }
-  rw [node150.coldCountExact]
-  rfl
+  rw [payment.loss_exact, node150.coldCountExact]
+  exact p13WeightedCold_cubic_nonCubic_length
+    (ctx := ctx) (node21 := node21)
 
 namespace P13Node151AmbientCubicColdHandoff
 
@@ -89,13 +77,27 @@ theorem cubic_add_nonCubic_eq_coldCount
     {node150 : P13Node150FiniteColdMass ctx node21 node146No node148}
     (handoff : P13Node151AmbientCubicColdHandoff
       ctx node21 node146No node148 node150) :
-    handoff.ambientCubicWindows.length + handoff.nearCubicPayment.loss =
+    (p13WeightedColdCubicWindows (ctx := ctx) (node21 := node21)).length +
+        handoff.nearCubicPayment.loss =
       node150.coldCount := by
-  rw [handoff.ambientCubicWindowsExact, handoff.nonCubicLossExact,
-    ← handoff.coldCountExact, handoff.coldWindowsExact]
-  exact p13WeightedCold_cubic_nonCubic_length
-    (ctx := ctx) (node21 := node21)
+  exact handoff.cubicPartition
 
 end P13Node151AmbientCubicColdHandoff
+
+abbrev P13Node151RefinementStage
+    (residual : P13Node145RefinementResidual.{u}) :=
+  Core.ResidualRefinement.State.DependentSuccessor
+    P13Node150RefinementStage
+    (fun residual node150 => P13Node151AmbientCubicColdHandoff residual.ctx
+      residual.node21 node150.previous.previous node150.previous.output
+        node150.output) residual
+
+noncomputable def p13Node151Refinement {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available P13Node150RefinementStage) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      P13Node151RefinementStage :=
+  Core.ResidualRefinement.State.StageNode.mapStage
+    (fun _residual node150 => p13Node150To151 node150.output)
 
 end Erdos64EG.Internal

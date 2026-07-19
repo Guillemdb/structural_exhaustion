@@ -203,10 +203,10 @@ structure RoutedDeletionPrefix
   transitionProfileId :
     ((input.certificateDeletionProfile encoding).transition ctx).profileId =
       Routes.CT1ToCT2.LocalDeletion.transitionId
-  transitionNotEnabled : ∀ stage :
-    (((input.certificateDeletionProfile encoding).transition ctx).onLedger
+  transitionNotEnabled : ∀ stage : Core.Routing.ResidualStage .ct2
+    ((((input.certificateDeletionProfile encoding).transition ctx).onLedger
       ((input.certificateDeletionProfile encoding).currentAvoiding ctx)).EnabledStage
-        ((input.certificateDeletionProfile encoding).sourceLedger ctx),
+        ((input.certificateDeletionProfile encoding).sourceLedger ctx)),
     (input.certificateDeletionProfile encoding).outcome ctx ≠ .enabled stage
   dartHasTightEndpoint : ∀ dart : ctx.G.graph.Dart,
     ctx.G.degree dart.fst = input.minimumDegree ∨

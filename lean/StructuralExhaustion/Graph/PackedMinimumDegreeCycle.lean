@@ -608,7 +608,7 @@ noncomputable def inducedPathPackingLedger
     {Ledger : Sort v}
     (current : Ledger → input.VerifiedInducedPathStage order ctx)
     (source : Core.Routing.ResidualStage .ct1 Ledger) :=
-  (input.inducedPathPackingTransitionStage order positive ctx current source).ledgerStage
+  input.inducedPathPackingTransitionStage order positive ctx current source
 
 theorem inducedPathPackingTransition_profile_id
     (input : StaticInput) (order : Nat) (positive : 0 < order)
@@ -622,7 +622,7 @@ theorem inducedPathPackingTransitionResult_eq
     {Ledger : Sort v}
     (current : Ledger → input.VerifiedInducedPathStage order ctx)
     (source : Core.Routing.ResidualStage .ct1 Ledger) :
-    (input.inducedPathPackingTransitionStage order positive ctx current source).targetResult =
+    (input.inducedPathPackingTransitionStage order positive ctx current source).output.targetResult =
       (InducedPathPacking.profile ctx.G.object order positive).run
         ctx.toBranchContext := rfl
 
@@ -684,7 +684,7 @@ noncomputable def inducedPathPackingPrefix
     (source : Core.Routing.ResidualStage .ct1 Ledger) :
     input.InducedPathPackingPrefix order positive ctx current source :=
   let stage := input.inducedPathPackingTransitionStage order positive ctx current source
-  stage.ledgerStage.extend {
+  stage.extend {
     packingStage := InducedPathPacking.verifiedStage ctx.G.object order positive
       ctx.toBranchContext
     transitionProfileId :=
@@ -799,7 +799,7 @@ noncomputable def inducedPathPackingAttachmentPrefix
       (input.inducedPathPackingAttachmentAdapter order positive
         classification ctx Ledger)
       id source
-  stage.ledgerStage.extend {
+  stage.extend {
     classificationStage :=
       classification.profile.verifiedStage ctx.toBranchContext
     actualLabelsLegal := by

@@ -159,7 +159,8 @@ abbrev SurplusPortActivationLedger
 node-`[126]` ledger through the executable CT12→CT6 edge. -/
 abbrev VerifiedSurplusPortActivationPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
-  Sigma (SurplusPortActivationLedger ctx)
+  Sigma fun source : SurplusPortActivationSource ctx =>
+    Core.Routing.ResidualStage .ct6 (SurplusPortActivationLedger ctx source)
 
 noncomputable def verifiedSurplusPortActivationPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
@@ -168,17 +169,17 @@ noncomputable def verifiedSurplusPortActivationPrefix
   let source : SurplusPortActivationSource ctx :=
     Core.Routing.ResidualStage.exact (tactic := .ct12) previous
   let stage := surplusPortActivationTransitionStage ctx source
-  ⟨source, ⟨stage, {
+  ⟨source, stage.extend {
     activated := fun slot ↦ ⟨activeSurplusDemand ctx slot⟩
     scheduleLength := activatedSurplusSchedule_length_eq_sigma ctx
     work := activatedSurplusWork_le_cubic ctx
-  }⟩⟩
+  }⟩
 
 /-- Canonical CT6 continuation stage with all activation facts accumulated. -/
 noncomputable def surplusPortActivationLedgerStage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedSurplusPortActivationPrefix ctx) :=
-  verified.2.previous.ledgerStage.extend verified.2.added
+  verified.2
 
 theorem exists_verifiedSurplusPortActivationPrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)

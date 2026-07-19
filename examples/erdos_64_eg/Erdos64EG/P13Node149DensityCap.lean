@@ -1,5 +1,4 @@
 import Erdos64EG.P13Node148LiveHotDecision
-import StructuralExhaustion.Core.ExactHandoff
 import Erdos64EG.P13Node24DensityArithmetic
 import StructuralExhaustion.Core.WorkBudget
 
@@ -55,12 +54,8 @@ structure VerifiedP13Node149DensityCap
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (node21 : VerifiedP13MultiScaleCurvaturePrefix ctx)
     (node146No : P13Node146To148 ctx node21)
-    (node148Yes : P13Node148To149 ctx node21 node146No) : Type (u + 3)
-    extends Core.ExactHandoff node148Yes where
-  densityCap : P13WindowDensityFiniteCapWithError ctx node21
-  densityCapExact : densityCap = node148Yes.densityCap
+    (_node148Yes : P13Node148To149 ctx node21 node146No) : Type (u + 3) where
   correctedHandoff : VerifiedP13Node24FiniteDensityHandoff ctx node21
-  correctedHandoffExact : correctedHandoff = node148Yes.correctedHandoff
 
 noncomputable def verifiedP13Node149DensityCap
     {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
@@ -68,12 +63,7 @@ noncomputable def verifiedP13Node149DensityCap
     {node146No : P13Node146To148 ctx node21}
     (node148Yes : P13Node148To149 ctx node21 node146No) :
     VerifiedP13Node149DensityCap ctx node21 node146No node148Yes where
-  previous := node148Yes
-  previousExact := rfl
-  densityCap := node148Yes.densityCap
-  densityCapExact := rfl
-  correctedHandoff := node148Yes.correctedHandoff
-  correctedHandoffExact := rfl
+  correctedHandoff := ⟨⟨node21, rfl⟩, node148Yes.densityCap⟩
 
 namespace VerifiedP13Node149DensityCap
 
@@ -81,12 +71,6 @@ variable {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget
   {node21 : VerifiedP13MultiScaleCurvaturePrefix ctx}
   {node146No : P13Node146To148 ctx node21}
   {node148Yes : P13Node148To149 ctx node21 node146No}
-
-/-- Compatibility spelling; exact predecessor storage is framework-owned. -/
-theorem exactPrevious
-    (node149 : VerifiedP13Node149DensityCap ctx node21 node146No node148Yes) :
-    node149.previous = node148Yes :=
-  node149.previousExact
 
 /-- The complete error-bearing cross-multiplied density conclusion. -/
 theorem correctedThetaCap
@@ -171,5 +155,21 @@ theorem localCheckCount_polynomial
   simp [localCheckCount]
 
 end VerifiedP13Node149DensityCap
+
+abbrev P13Node149RefinementStage
+    (residual : P13Node145RefinementResidual.{u}) :=
+  Core.ResidualRefinement.State.DependentSuccessor
+    P13Node148To149Stage
+    (fun residual node148 => VerifiedP13Node149DensityCap residual.ctx
+      residual.node21 node148.previous node148.output) residual
+
+noncomputable def p13Node149Refinement {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available P13Node148To149Stage) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      P13Node149RefinementStage :=
+  Core.ResidualRefinement.State.StageNode.mapStage
+    (fun _residual node148 =>
+      verifiedP13Node149DensityCap node148.output)
 
 end Erdos64EG.Internal

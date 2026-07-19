@@ -209,7 +209,7 @@ noncomputable def degreeFourB2LocalResult
       (DegreeFourTypeBLedger ctx source9 fanStage))
     (request : DegreeFourB2Request ctx) :
     degreeFourB2LocalResult ctx
-        (degreeFourB2TransitionStage ctx source80) request =
+        (degreeFourB2TransitionStage ctx source80).output request =
       request.support.completionProfile.run ctx.toBranchContext :=
   rfl
 
@@ -256,10 +256,10 @@ noncomputable def degreeFourB2LedgerStage
   let execution := degreeFourB2TransitionStage ctx source80
   let executionStage : Core.Routing.ResidualStage .ct12
       (DegreeFourB2TransitionLedger ctx source80) :=
-    execution.ledgerStage
+    execution
   exact executionStage.extend {
     exactRun := fun request => by
-      change degreeFourB2LocalResult ctx execution request = _
+      change degreeFourB2LocalResult ctx executionStage.output request = _
       rw [degreeFourB2LocalResult_transition]
     route := fun scope noHigher => scope.degreeFourB2Route noHigher
     certificateFailure := fun scope noHigher center residual =>

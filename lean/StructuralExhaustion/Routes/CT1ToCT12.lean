@@ -108,8 +108,9 @@ def advance
     (adapter : SemanticAdapter (S := S) (input := input) targetCapability)
     {Ledger : Sort uLedger} (current : Ledger → PackedC1 S input)
     (source : Core.Routing.ResidualStage .ct1 Ledger) :
-    ((transition targetCapability adapter).onLedger current).EnabledStage source :=
-  Core.Routing.CTTransition.runEnabledOnLedger
+    Core.Routing.ResidualStage .ct12
+      (((transition targetCapability adapter).onLedger current).EnabledStage source) :=
+  Core.Routing.CTTransition.runEnabledLedgerOnLedger
     (transition targetCapability adapter) current source () rfl
 
 theorem branchContext_preserved
@@ -142,7 +143,7 @@ theorem enabled_sound
     (adapter : SemanticAdapter (S := S) (input := input) targetCapability)
     {Ledger : Sort uLedger} (current : Ledger → PackedC1 S input)
     (source : Core.Routing.ResidualStage .ct1 Ledger) :
-    (advance targetCapability adapter current source).targetResult =
+    (advance targetCapability adapter current source).output.targetResult =
       targetCapability.executableInterface.execute
         (((transition targetCapability adapter).onLedger current).targetContext source)
         (((transition targetCapability adapter).onLedger current).trigger source ()) := rfl

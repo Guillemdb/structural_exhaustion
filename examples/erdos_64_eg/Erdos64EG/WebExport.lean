@@ -1,5 +1,4 @@
 import Erdos64EG
-import Erdos64EG.Tests
 import Erdos64EG.P13Node24To26
 import Erdos64EG.P13Node27To28
 import Erdos64EG.P13Node28To29
@@ -14,6 +13,7 @@ import Erdos64EG.P13Node36To37
 import Erdos64EG.P13Node36To38
 import Erdos64EG.P13Node38To39
 import Erdos64EG.P13Nodes35To47Refinement
+import Erdos64EG.P13Nodes47To51Refinement
 import Erdos64EG.P13Node24AsymptoticTransport
 import StructuralExhaustion.Canonical.ExampleExport
 import StructuralExhaustion.CT15.FunctionalAdmissibleRank
@@ -473,16 +473,17 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.type-a-nodes57-63-local-provenance"
       title := "Nodes [57]--[63] dependency-indexed Type-A chain"
-      summary := "The complete local node-[57]--[63] contracts retain the literal node-[56] strict-quarter input, localize its negative component, and run only the two original node-[62] routes. The chain remains conditional because node [56] is not yet green."
+      summary := "Node [57] consumes the accumulated node-[56] cap on its genuine eventual tail. Nodes [58]--[60] retain the exact integer net charge, CT11 localizes a negative canonical component at node [61], and node [62] returns exactly the paper's Type-A or Type-B edge."
       kind := .adapter
       primaryDeclaration :=
-        `Erdos64EG.Internal.TypeANodes57To63Provenance.node57
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.node57_eventually
       evidenceDeclarations := [
-        `Erdos64EG.Internal.TypeANodes57To63Provenance.node58,
-        `Erdos64EG.Internal.TypeANodes57To63Provenance.node59,
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.strictQuarterNat_of_normalized,
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.node57Refinement,
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.node58Refinement,
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.node59Refinement,
         `Erdos64EG.Internal.TypeANodes57To63Provenance.node60_impossible,
-        `Erdos64EG.Internal.TypeANodes57To63Provenance.canonicalLedger,
-        `Erdos64EG.Internal.TypeANodes57To63Provenance.node61,
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.node61Refinement,
         `Erdos64EG.Internal.TypeANodes57To63Provenance.node62,
         `Erdos64EG.Internal.TypeANodes57To63Provenance.localChecks_linear
       ]
@@ -604,10 +605,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-node146-route8-threshold"
       title := "Node [146] route-8 density threshold"
-      summary := "One exact comparison decides 78 p13 < n, proves its equivalence with theta < 1/78 and tau(theta) < 3/13, and retains the canonical node-[145] ledger on both original outgoing edges."
+      summary := "The framework attaches the canonical node-[145] ledger once. One exact comparison then decides 78 p13 < n and adds only the corresponding theta/tau arithmetic payload; both original outgoing states retain the complete accumulated ledger automatically."
       kind := .adapter
       primaryDeclaration :=
-        `Erdos64EG.Internal.runP13Node146
+        `Erdos64EG.Internal.p13Node146AccumulatedRun
       evidenceDeclarations := [
         `Erdos64EG.Internal.p13PackingTheta,
         `Erdos64EG.Internal.p13Route8Tau,
@@ -617,7 +618,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.p13Route8_denominator_pos_of_below,
         `Erdos64EG.Internal.P13Node146To147,
         `Erdos64EG.Internal.P13Node146To148,
-        `Erdos64EG.Internal.runP13Node146_exhaustive,
+        `Erdos64EG.Internal.p13Node145LedgerRefinement,
+        `Erdos64EG.Internal.p13Node146DecisionRefinement,
+        `Erdos64EG.Internal.p13Node146To147Refinement,
+        `Erdos64EG.Internal.p13Node146To148Refinement,
         `Erdos64EG.Internal.p13Node146LocalCheckCount_polynomial,
         `Erdos64EG.Internal.p13Node146WorkBudget,
         `Erdos64EG.Internal.p13Node146WorkBudget_checks
@@ -626,31 +630,35 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-node147-private-carrier-arithmetic"
       title := "Node [147] private-carrier arithmetic prefix"
-      summary := "The exact node-[146] yes payload yields the strict numerical margin required by the route-8 carrier squeeze; the structural carrier and basin ledgers remain missing, so node [147] stays partial."
+      summary := "The framework-owned node-[146] yes state yields the strict numerical margin required by the route-8 carrier squeeze. CT4 now owns the private-carrier injection used at nodes [119]--[120]; the graph-semantic node-[109]--[114] route-8 entry/core producer remains missing, so node [147] stays partial."
       kind := .adapter
       primaryDeclaration :=
-        `Erdos64EG.Internal.p13Node147ArithmeticPrefix
+        `Erdos64EG.Internal.p13Node147ArithmeticRefinement
       evidenceDeclarations := [
         `Erdos64EG.Internal.p13Route8CollisionCoefficientGap,
         `Erdos64EG.Internal.p13Route8CollisionMargin_pos,
         `Erdos64EG.Internal.P13Node147ArithmeticPrefix,
+        `Erdos64EG.Internal.p13Node147ArithmeticRefinement,
+        `StructuralExhaustion.CT4.PrivateCarrierProfile.slot_mul_entry_le_carrier,
+        `Erdos64EG.Internal.P13Route8PrivateCarrierLedger.three_mul_entries_le_carriers,
         `Erdos64EG.Internal.p13Node147ArithmeticCheckCount_polynomial
       ]
     },
     {
       stageId := "proof-slice.p13-node148-live-hot-decision"
       title := "Node [148] live-hot entropy decision"
-      summary := "The exact node-[146] no payload and final recoverable hot aggregate execute the corrected total-demand comparison and return exactly the original node-[149] or node-[150] residual."
+      summary := "On the accumulated node-[146] no state, the framework executes the corrected total-demand comparison. The two payloads add only the finite cap or the cold shortfall facts; the node-[145] ledger, threshold facts, and hot aggregate remain inherited rather than copied."
       kind := .adapter
       primaryDeclaration :=
-        `Erdos64EG.Internal.runP13Node148
+        `Erdos64EG.Internal.p13Node148DecisionRefinement
       evidenceDeclarations := [
         `Erdos64EG.Internal.p13Node148_hotDemand_le_allowance,
         `Erdos64EG.Internal.p13Node148_totalDemand_eq_hot_add_cold,
         `Erdos64EG.Internal.p13Node148_totalDemand_le_allowance_add_cold,
         `Erdos64EG.Internal.P13Node148To149,
         `Erdos64EG.Internal.P13Node148To150,
-        `Erdos64EG.Internal.runP13Node148_exhaustive,
+        `Erdos64EG.Internal.p13Node148To149Refinement,
+        `Erdos64EG.Internal.p13Node148To150Refinement,
         `Erdos64EG.Internal.p13Node148LocalCheckCount_polynomial,
         `Erdos64EG.Internal.p13Node148WorkBudget_checks
       ]
@@ -658,12 +666,13 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-node149-density-cap"
       title := "Node [149] normalized P₁₃ density cap"
-      summary := "The exact node-[148] yes payload retains its complete dependent predecessor and yields theta ≤ theta_win plus one explicit graph-order error tending to zero."
+      summary := "The accumulated node-[148] yes state yields theta ≤ theta_win plus one explicit graph-order error tending to zero. Node [149] adds only its corrected density handoff; the framework retains every predecessor stage."
       kind := .theorem
       primaryDeclaration :=
         `Erdos64EG.Internal.VerifiedP13Node149DensityCap.theta_le_thetaWindow_add_oOne
       evidenceDeclarations := [
         `Erdos64EG.Internal.verifiedP13Node149DensityCap,
+        `Erdos64EG.Internal.p13Node149Refinement,
         `Erdos64EG.Internal.VerifiedP13Node149DensityCap.correctedThetaCap,
         `Erdos64EG.Internal.p13Node149ThetaWindow_eq_exact,
         `Erdos64EG.Internal.p13SequentialHotNormalizationError_real_upper,
@@ -676,7 +685,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-node150-cold-mass"
       title := "Node [150] normalized cold-mass handoff"
-      summary := "The exact node-[148] no payload yields the paper's two printed cold-mass coefficients with a uniform vanishing normalization error; the surviving-spine exclusions required by node [151] remain missing."
+      summary := "The accumulated node-[148] no state yields the paper's two printed cold-mass coefficients with a uniform vanishing normalization error. Node [150] adds only this cold-mass output; the framework retains the threshold, cap-failure, and weighted ledger inputs."
       kind := .adapter
       primaryDeclaration :=
         `Erdos64EG.Internal.p13Node150FiniteColdMass
@@ -689,6 +698,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.p13ManuscriptDyadicHotNormalizationRealEnvelope_isLittleO,
         `Erdos64EG.Internal.p13ManuscriptDyadicHotNormalization_div_nlog_tendsto_zero,
         `Erdos64EG.Internal.P13Node150FiniteColdMass,
+        `Erdos64EG.Internal.p13Node150Refinement,
         `Erdos64EG.Internal.p13Node150LocalCheckCount_polynomial
       ]
     },
@@ -1414,10 +1424,12 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.P13Node34Stage.node47
+        `Erdos64EG.Internal.p13Node47Refinement
       evidenceDeclarations := [
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage,
+        `Erdos64EG.Internal.P13Node47RefinementStage,
         `Erdos64EG.Internal.VerifiedP13Node47FullRankResidual,
-        `StructuralExhaustion.Core.ExactHandoff
+        `Erdos64EG.Internal.P13Node34Stage.node47
       ]
     },
     {
@@ -2631,8 +2643,13 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       title := "Forced curvature cost"
       summary := "From the literal node-[47] output and its full accumulated residual, Lean proves the ordinary and conditional high-entropy curvature-cost inequalities with the manuscript's exact logarithmic count ratio and an explicit additive error. For every fixed authored threshold triple that error is o(|R|)."
       kind := .theorem
-      primaryDeclaration := `Erdos64EG.Internal.P13Node47FullRankResidual.node48
+      primaryDeclaration := `Erdos64EG.Internal.p13Node48Refinement
       evidenceDeclarations := [
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage,
+        `Erdos64EG.Internal.P13Node48RefinementStage,
+        `Erdos64EG.Internal.P13Node48ForcedCurvatureFact,
+        `Erdos64EG.Internal.P13Node48CostFact,
+        `Erdos64EG.Internal.P13Node48HighEntropyCostFact,
         `StructuralExhaustion.Core.DensityAsymptoticTransport.nat_partition_density_with_error,
         `StructuralExhaustion.Core.DensityAsymptoticTransport.nat_scaled_wedge_with_error,
         `StructuralExhaustion.Core.DensityAsymptoticTransport.scaled_le_main_add_error_div,
@@ -2680,8 +2697,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       title := "Constrained remainder-graph entropy"
       summary := "Node [49] defines the original paper's constrained labelled-graph family G(R) on the fixed remainder carrier and its normalized entropy symbolically, without executing an enumeration of labelled graphs."
       kind := .theorem
-      primaryDeclaration := `Erdos64EG.Internal.VerifiedP13Node48FrontierCost.node49
+      primaryDeclaration := `Erdos64EG.Internal.p13Node49Refinement
       evidenceDeclarations := [
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage,
+        `Erdos64EG.Internal.P13Node49RefinementStage,
         `StructuralExhaustion.Core.FiniteTypeEntropy.Profile.stateCount,
         `StructuralExhaustion.Core.FiniteTypeEntropy.Profile.normalizedEntropy,
         `StructuralExhaustion.Core.FiniteTypeEntropy.Profile.semanticChecks_eq_zero,
@@ -2700,7 +2719,8 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.p13RemainderGraphFamilyProfile,
         `Erdos64EG.Internal.p13RemainderGraphFamilyCount,
         `Erdos64EG.Internal.p13ManuscriptRemainderEntropy,
-        `Erdos64EG.Internal.VerifiedP13Node49ManuscriptEntropy
+        `Erdos64EG.Internal.P13Node49Output,
+        `Erdos64EG.Internal.p13Node49Output
       ]
     },
     {
@@ -2708,8 +2728,13 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       title := "Exact manuscript entropy dichotomy"
       summary := "Node [50] retains the exact node-[49] constrained-family entropy and applies the Core-owned ordered split to eta(R) and (1/10)log2 n, producing exactly the original yes and no edges with zero primitive inspections."
       kind := .theorem
-      primaryDeclaration := `Erdos64EG.Internal.VerifiedP13Node49ManuscriptEntropy.node50
+      primaryDeclaration := `Erdos64EG.Internal.p13Node50DecisionRefinement
       evidenceDeclarations := [
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideUsingStage,
+        `Erdos64EG.Internal.P13Node50RefinementStage,
+        `Erdos64EG.Internal.P13Node50RefinementDecision,
+        `Erdos64EG.Internal.p13Node50Refinement,
         `StructuralExhaustion.Core.PolynomialCheckBudget.zero,
         `StructuralExhaustion.Core.OrderThresholdSplit.Profile.Outcome,
         `StructuralExhaustion.Core.OrderThresholdSplit.Profile.run,
@@ -2717,7 +2742,8 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `StructuralExhaustion.Core.OrderThresholdSplit.Profile.checks_eq_zero,
         `Erdos64EG.Internal.p13ManuscriptEntropyThreshold,
         `Erdos64EG.Internal.p13ManuscriptEntropySplitProfile,
-        `Erdos64EG.Internal.VerifiedP13Node50ManuscriptEntropySplit,
+        `Erdos64EG.Internal.P13Node50Output,
+        `Erdos64EG.Internal.p13Node50Output,
         `Erdos64EG.Internal.P13Node50High,
         `Erdos64EG.Internal.P13Node50Low,
         `Erdos64EG.Internal.VerifiedP13Node50ManuscriptEntropySplit.high_or_low
@@ -2725,54 +2751,45 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     },
     {
       stageId := "proof-slice.p13-high-remainder-bits"
-      title := "High-power remainder bit contribution"
-      summary := "Node [51] consumes only node [50]'s actual high constructor and derives (|R|/10) log₂ n ≤ log₂ N_R; the strict low constructor is retained unchanged for its separate consumer."
+      title := "High-entropy remainder bit contribution"
+      summary := "Node [51] consumes only the manuscript high edge of node [50] over the constrained family G(R) and derives (|R|/10) log₂ n ≤ log₂ |G(R)| by symbolic arithmetic from node [49]'s exact entropy identity."
       kind := .theorem
-      primaryDeclaration := `Erdos64EG.Internal.routeP13Node50To51
+      primaryDeclaration := `Erdos64EG.Internal.p13Node51Refinement
       evidenceDeclarations := [
-        `StructuralExhaustion.Core.FinitePowerScaleSplit.Profile.logb_budget_of_upper,
-        `Erdos64EG.Internal.VerifiedP13Node51HighEntropyBits,
-        `Erdos64EG.Internal.verifiedP13Node51HighEntropyBits,
-        `Erdos64EG.Internal.P13Node50To51Route,
-        `Erdos64EG.Internal.routeP13Node50To51
-      ]
-    },
-    {
-      stageId := "proof-slice.p13-joint-accounting-frontier"
-      title := "Conditional joint window--remainder capacity"
-      summary := "For a supplied same-context multiscale-window × exact-remainder injection into the literal baseline skeleton, Lean proves the finite joint-capacity inequality. The missing realization remains an explicit node-[52] obligation, not an outcome."
-      kind := .theorem
-      primaryDeclaration := `Erdos64EG.Internal.p13Node52_jointCapacity
-      evidenceDeclarations := [
-        `StructuralExhaustion.Core.FiniteJointCapacity.Profile.left_mul_right_le_codeCard,
-        `StructuralExhaustion.Core.FiniteJointCapacity.Profile.checks_eq_zero,
-        `Erdos64EG.Internal.P13Node52JointAccountingRealization,
-        `Erdos64EG.Internal.p13Node52JointCapacityProfile,
-        `Erdos64EG.Internal.p13Node52_jointCapacity
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueDependentDecisionYes,
+        `Erdos64EG.Internal.P13Node51RefinementStage,
+        `Erdos64EG.Internal.p13Nodes25To51Run_retains_residual,
+        `Erdos64EG.Internal.p13Nodes47To51Refinement_polynomial,
+        `Erdos64EG.Internal.P13Node50High,
+        `Erdos64EG.Internal.p13ManuscriptEntropyThreshold,
+        `Erdos64EG.Internal.p13ManuscriptRemainderEntropy,
+        `Erdos64EG.Internal.p13RemainderGraphFamilyCount,
+        `Erdos64EG.Internal.P13Node51Output,
+        `Erdos64EG.Internal.p13Node51Output,
+        `Erdos64EG.Internal.verifiedP13Node51ManuscriptHighEntropyBits
       ]
     },
     {
       stageId := "proof-slice.p13-low-entropy-forced-cost-fit"
-      title := "Exact low-entropy forced-cost fit"
-      summary := "Node [53] consumes node [50]'s actual strict-low constructor and proves symbolically that the forced curvature power fits strictly inside the flat power times the low-entropy allowance. The small-budget edge is impossible; the large edge has only a conditional quarter-budget consumer."
+      title := "Accumulated remaining-budget decision"
+      summary := "Node [53] consumes the exact low constructor of the accumulated node-[50] decision, compares the literal remaining labelled-skeleton bits with the inherited full-rank curvature cost, and retains both original outgoing edges. Node [51]'s high output is preserved unchanged."
       kind := .theorem
-      primaryDeclaration := `Erdos64EG.Internal.verifiedP13Node53LargeBudget
+      primaryDeclaration := `Erdos64EG.Internal.p13Node53Refinement
       evidenceDeclarations := [
-        `StructuralExhaustion.Core.FinitePoweredBudgetTransfer.Profile.forced_pow_lt_flat_pow_mul_upper,
-        `StructuralExhaustion.Core.FinitePoweredBudgetTransfer.Profile.checks_eq_zero,
-        `Erdos64EG.Internal.P13Node53LowEntropyInput,
-        `Erdos64EG.Internal.p13Node53ForcedPower,
-        `Erdos64EG.Internal.p13Node53FlatPower,
-        `Erdos64EG.Internal.p13Node53UpperPower,
-        `Erdos64EG.Internal.P13Node53SmallBudget,
-        `Erdos64EG.Internal.p13Node53_forcedPower_le_flatPower_mul_stateCount,
-        `Erdos64EG.Internal.p13Node53PoweredBudgetProfile,
-        `Erdos64EG.Internal.VerifiedP13Node53LargeBudget,
-        `Erdos64EG.Internal.verifiedP13Node53LargeBudget,
-        `Erdos64EG.Internal.p13Node53_smallBudget_impossible,
-        `Erdos64EG.Internal.P13Node50BudgetRoute,
-        `Erdos64EG.Internal.routeP13Node50Budget,
-        `Erdos64EG.Internal.routeP13Node50Budget_exhaustive
+        `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionNoAfterYes,
+        `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionAt,
+        `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionAt.decide,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueDependentDecisionNoAfterYes,
+        `Erdos64EG.Internal.p13Node53SkeletonBits,
+        `Erdos64EG.Internal.p13Node53WindowBits,
+        `Erdos64EG.Internal.p13Node53RemainderBits,
+        `Erdos64EG.Internal.p13Node53RemainingNoncurvatureBits,
+        `Erdos64EG.Internal.p13Node53ForcedCurvatureBits,
+        `Erdos64EG.Internal.P13Node53Decision,
+        `Erdos64EG.Internal.P13Node53RefinementStage,
+        `Erdos64EG.Internal.p13Nodes25To53Run,
+        `Erdos64EG.Internal.p13Nodes25To53Run_retains_residual,
+        `Erdos64EG.Internal.p13Node53LocalChecks_constant
       ]
     }
   ]
@@ -2954,9 +2971,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.type-a-nodes57-63-local-provenance"
       kind := .frameworkComposition
       label := "conditional original Part-V chain"
-      description := "The local chain exposes exactly what follows once the original node-[56] strict-quarter payload is produced; this workflow link records conditional provenance and does not bypass that missing predecessor."
+      description := "The eventual node-[56] inequality is converted to the exact finite strict-quarter payload, attached through the accumulated ledger, and passed to the original Part-V chain without discarding its error term."
       evidenceDeclarations := [
-        `Erdos64EG.Internal.TypeANodes57To63Provenance.node57
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.node57_eventually,
+        `Erdos64EG.Internal.TypeANodes57To63Provenance.node57Refinement
       ]
     },
     {
@@ -3023,7 +3041,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       label := "decide the original route-8 density threshold"
       description := "The exact node-[145] packing-order ledger is retained on both outcomes while one cross-multiplied comparison selects the existing edge to node [147] or [148]."
       evidenceDeclarations := [
-        `Erdos64EG.Internal.runP13Node146_exhaustive
+        `Erdos64EG.Internal.p13Node146AccumulatedRun
       ]
     },
     {
@@ -3034,7 +3052,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       label := "yes: retain the strict route-8 margin"
       description := "The literal node-[146] yes payload supplies the denominator-safe tau bound and its equivalent positive collision coefficient; the existing route-8 carrier ledger is still required for terminal closure."
       evidenceDeclarations := [
-        `Erdos64EG.Internal.p13Node147ArithmeticPrefix
+        `Erdos64EG.Internal.p13Node147ArithmeticRefinement
       ]
     },
     {
@@ -3045,7 +3063,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       label := "no: execute the live-hot comparison"
       description := "The exact node-[146] no payload is retained as an index while the already constructed final hot aggregate pays the hot demand and one corrected comparison selects the existing edge to node [149] or [150]."
       evidenceDeclarations := [
-        `Erdos64EG.Internal.runP13Node148_exhaustive
+        `Erdos64EG.Internal.p13Node148DecisionRefinement
       ]
     },
     {
@@ -3671,10 +3689,11 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       label := "node-[34] no-rank-drop to node [47]"
       description := "The complementary full-rank constructor crosses the panel independently of Branch D and is retained by node [47] with exact equality and a maximal family."
       automationDeclarations := [
-        `StructuralExhaustion.Core.ExactHandoff.refl
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.P13Node34Stage.node47
+        `Erdos64EG.Internal.P13Node34Stage.node47,
+        `Erdos64EG.Internal.p13Node47Refinement
       ]
     },
     {
@@ -3683,14 +3702,15 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-forced-curvature-cost-split"
       kind := .frameworkComposition
       label := "exact node-[47] to node-[48] handoff"
-      description := "Node [48] consumes the literal node-[47] full-rank value. Its inherited full residual supplies the same-context node-[24] density and node-[30] wedge ledgers; the framework exact handoff retains node [47] while the node-local arithmetic adds the two finite error-bearing inequalities. No realized/open split exists in the diagram or in Lean."
+      description := "Node [48] consumes the literal node-[47] full-rank value retrieved from the accumulated residual ledger. All earlier density, wedge, normalization-error, and surplus properties remain in that ledger; node [48] adds only its two finite error-bearing inequalities. No realized/open split exists in the diagram or in Lean."
       automationDeclarations := [
-        `StructuralExhaustion.Core.ExactHandoff.refl
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage
       ]
       evidenceDeclarations := [
         `Erdos64EG.Internal.p13Node48_scaledCost_from_node47,
         `Erdos64EG.Internal.p13Node48_highEntropyScaledCost_from_node47,
-        `Erdos64EG.Internal.P13Node47FullRankResidual.node48
+        `Erdos64EG.Internal.P13Node47FullRankResidual.node48,
+        `Erdos64EG.Internal.p13Node48Refinement
       ]
     },
     {
@@ -3699,11 +3719,14 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-finite-remainder-entropy"
       kind := .frameworkComposition
       label := "fixed remainder to constrained graph family"
-      description := "The exact node-[48] residual fixes R and its current net-deficiency cap. The graph framework then forms the finite subtype of labelled simple graphs satisfying the four original constraints and transports node [48] unchanged into node [49]."
+      description := "The accumulated node-[48] stage fixes R and its current net-deficiency cap. The graph framework forms the symbolic finite subtype satisfying the four original constraints, while StageNode.mapStage retains node [48] and every earlier ledger fact automatically."
+      automationDeclarations := [
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage
+      ]
       evidenceDeclarations := [
-        `StructuralExhaustion.Core.ExactHandoff,
         `StructuralExhaustion.Graph.ConstrainedLabelledGraphFamily.Profile.State,
-        `Erdos64EG.Internal.VerifiedP13Node48FrontierCost.node49
+        `Erdos64EG.Internal.VerifiedP13Node48FrontierCost.node49,
+        `Erdos64EG.Internal.p13Node49Refinement
       ]
     },
     {
@@ -3712,11 +3735,15 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-entropy-scale-split"
       kind := .frameworkComposition
       label := "exact entropy to manuscript threshold"
-      description := "Node [50] consumes the identical dependent node-[49] output through Core.ExactHandoff and uses the generic ordered-threshold runner on the two symbolic real quantities printed in the original diagram."
+      description := "Node [50] consumes the identical dependent node-[49] output from the accumulated ledger, adds the generic ordered-threshold result, and uses the framework dependent-stage decision so both original edges retain that exact node-[50] value."
+      automationDeclarations := [
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideUsingStage
+      ]
       evidenceDeclarations := [
-        `StructuralExhaustion.Core.ExactHandoff,
-        `Erdos64EG.Internal.VerifiedP13Node50EntropyScaleSplit.toExactHandoff,
-        `Erdos64EG.Internal.VerifiedP13Node49ManuscriptEntropy.node50
+        `Erdos64EG.Internal.VerifiedP13Node49ManuscriptEntropy.node50,
+        `Erdos64EG.Internal.p13Node50Refinement,
+        `Erdos64EG.Internal.p13Node50DecisionRefinement
       ]
     },
     {
@@ -3724,25 +3751,16 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       sourceStageId := "proof-slice.p13-entropy-scale-split"
       targetStageId := "proof-slice.p13-high-remainder-bits"
       kind := .frameworkComposition
-      label := "actual high constructor"
-      description := "The connector pattern-matches node [50]'s stored outcome. Only its exact high constructor produces node [51]; the strict reverse is retained without a logarithmic claim."
-      evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node51HighEntropyBits.toExactHandoff,
-        `Erdos64EG.Internal.VerifiedP13Node51HighEntropyBits.exactPrevious,
-        `Erdos64EG.Internal.routeP13Node50To51
+      label := "manuscript high edge"
+      description := "The framework continues only the exact high constructor of the accumulated node-[50] decision. Node [51] adds the symbolic bit inequality; the low constructor and every earlier property are retained unchanged."
+      automationDeclarations := [
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueDependentDecisionYes
       ]
-    },
-    {
-      linkId := "proof-slice.node51-node52-joint-accounting-frontier"
-      sourceStageId := "proof-slice.p13-high-remainder-bits"
-      targetStageId := "proof-slice.p13-joint-accounting-frontier"
-      kind := .frameworkComposition
-      label := "exact high-bit payload"
-      description := "A supplied realization retains the exact node-[51] proof and must use node-[24] global completions, node-[48] remainder states, and one injective literal baseline-skeleton code. No absence outcome is manufactured."
       evidenceDeclarations := [
-        `Erdos64EG.Internal.P13Node52JointAccountingRealization.toExactHandoff,
-        `Erdos64EG.Internal.P13Node52JointAccountingRealization.exactPrevious,
-        `Erdos64EG.Internal.p13Node52_jointCapacity
+        `Erdos64EG.Internal.P13Node50High,
+        `Erdos64EG.Internal.verifiedP13Node51ManuscriptHighEntropyBits,
+        `Erdos64EG.Internal.p13Node51Refinement,
+        `Erdos64EG.Internal.p13Nodes25To51Run_retains_residual
       ]
     },
     {
@@ -4676,7 +4694,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
   references absent from this list are displayed yellow as partial coverage. -/
   formalizedNodeIds := [
     1, 2, 3,
-    4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50
+    4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 53, 55, 56, 57, 58, 59, 60, 61, 62, 63
   ]
   nodeObligations :=
     ExampleNodeObligationDescriptor.provedForStep 23 "erdos.p13-density-handoff" [
@@ -4832,7 +4850,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       ("N47-PROV", "Consume the exact node-[34] full-rank constructor on its separate diagram edge."),
       ("N47-RANK", "Retain rOmega(R) = W2(R) and an attained surviving family of cardinality W2(R)."),
       ("N47-SEPARATION", "Do not consume node [37] or any rank-drop terminal; this is the complementary node-[34] continuation."),
-      ("N47-HANDOFF", "Use the generic exact predecessor handoff with zero scans.")
+      ("N47-HANDOFF", "Retrieve node [34] from the full accumulated residual and append only node [47] through StageNode.mapStage with zero scans.")
     ] ++ ExampleNodeObligationDescriptor.provedForStep 48 "erdos.forced-curvature-cost-split" [
       ("N48-PROV", "Consume the literal node-[47] full-rank value on the same full accumulated residual, retaining rOmega(R)=W2(R) and the inherited node-[24] density, node-[30] wedge, normalization-error, and surplus ledgers."),
       ("N48-WINDOW-FINITE", "Derive the corrected ordinary finite curvature magnitude with the fixed normalization scale, thirty times the normalization error, and twice the scaled total surplus explicit."),
@@ -4842,7 +4860,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       ("N48-ASYMPTOTIC", "For every fixed authored threshold triple, bound the exact normalization and surplus error by a uniform graph-order envelope, prove it is o(n), use node [25]'s positive remainder density, and conclude the cost error is o(|R|)."),
       ("N48-WORK", "Use zero-scan symbolic arithmetic and the inherited local ledgers; enumerate no graph, context, quotient, state, or Boolean universe.")
     ] ++ ExampleNodeObligationDescriptor.provedForStep 49 "erdos.finite-remainder-state-entropy" [
-      ("N49-PROV", "Consume node [48]'s exact full accumulated residual rather than an unrelated caller-supplied realization."),
+      ("N49-PROV", "Retrieve node [48] from the full accumulated residual through StageNode.mapStage rather than accepting or reconstructing an unrelated realization."),
       ("N49-ATOM", "Define the fixed atom part inherited from R and require candidate subcubicity on it."),
       ("N49-P13", "Require componentwise P13-freeness through the equivalent whole-graph induced-P13-free predicate."),
       ("N49-CORE", "Require that every nonempty internal vertex set contains a vertex of internal degree at most two, i.e. that the candidate has no internal 3-core."),
@@ -4852,12 +4870,86 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       ("N49-ENTROPY", "Define eta(R)=log2|G(R)|/|R| from that exact family and expose it to node [50]."),
       ("N49-WORK", "Keep the family and its cardinality symbolic; perform zero semantic scans and enumerate no labelled-graph universe.")
     ] ++ ExampleNodeObligationDescriptor.provedForStep 50 "erdos.entropy-scale-split" [
-      ("N50-PROV", "Consume the exact dependent node-[49] output on the identical remainder and constrained graph family."),
+      ("N50-PROV", "Retrieve the exact dependent node-[49] output from the accumulated ledger on the identical remainder and constrained graph family."),
       ("N50-THRESHOLD", "Define the original threshold (1/10)log2 n and compare it with the literal eta(R) from node [49]."),
       ("N50-YES", "Represent the original yes edge by (1/10)log2 n <= eta(R)."),
       ("N50-NO", "Represent the original no edge by eta(R) < (1/10)log2 n."),
-      ("N50-EXHAUSTIVE", "Prove the yes and no branches exhaustive with no third outcome or added diagram edge."),
+      ("N50-EXHAUSTIVE", "Use the framework dependent-stage decision so the yes and no branches are exhaustive, retain the same literal node-[50] value, and add no third outcome or diagram edge."),
       ("N50-WORK", "Use a proof-level ordered split with zero primitive checks; evaluate neither logarithms nor the constrained graph family.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 51 "erdos.high-remainder-bits" [
+      ("N51-PROV", "Continue only the exact high constructor of the accumulated node-[50] decision on the identical node-[49] constrained graph family G(R)."),
+      ("N51-ENTROPY", "Use node [49]'s exact identity eta(R)=log2|G(R)|/|R| without evaluating the constrained graph family."),
+      ("N51-BITS", "Multiply the high-edge inequality by |R| and rewrite to obtain the manuscript bit contribution (|R|/10)log2 n <= log2|G(R)|."),
+      ("N51-LOW", "Make no claim on the node-[50] low edge; that edge belongs to its separate node-[53] consumer."),
+      ("N51-SCOPE", "Assert no same-context window/remainder realization, no node-[52] joint accounting, and no node-[54] entropy cap."),
+      ("N51-WORK", "Perform no new finite scan; reuse node [50]'s zero-check ordered split and symbolic real arithmetic only.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 52
+      "erdos.window-remainder-framework-handoff" [
+      ("N52-PROV", "Consume node [51]'s exact high-entropy bit contribution on the identical accumulated residual and near-cubic spine."),
+      ("N52-SCOPE", "State only the original finite feasibility inequality on the exact high branch; introduce no graph completion, context universe, Cartesian product, or extra branch."),
+      ("N52-WORK", "Use only symbolic arithmetic and framework ledger composition; perform zero semantic inspections and no ambient-universe enumeration.")
+    ] ++ ExampleNodeObligationDescriptor.missing 52 [
+      ("N52-WINDOW", "Consume the original paper's independently target-testable multiscale window package, including independence across the selected vertex-disjoint packing."),
+      ("N52-FEASIBILITY", "Derive (1-13 theta)/10 + 118.108581006 theta <= 1.5 + o(1) with the exact finite normalization error retained."),
+      ("N52-DENSITY", "Solve the feasibility inequality to obtain theta <= 0.01198542083... + o(1) and emit the exact node-[54] input.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 54
+      "erdos.node54-entropy-cap-closure" [
+      ("N54-52-PROV", "Consume the literal node-[52] feasibility payload from the accumulated high edge while retaining node [50]'s low edge unchanged."),
+      ("N54-52-STRICT", "Identify the finite high-theta alternative as the strict reverse of node [52]'s exact error-bearing cap."),
+      ("N54-52-CLOSE", "Prove the strict node-[52] high-theta leaf impossible by symbolic order arithmetic."),
+      ("N54-WORK", "Perform zero semantic checks and enumerate no graph, context, state, product, assignment, or Boolean universe.")
+    ] ++ ExampleNodeObligationDescriptor.missing 54 [
+      ("N54-53-CLOSE", "Consume and close the separate node-[53] strict small-budget edge prescribed by the second incoming arrow to node [54].")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 53
+      "erdos.low-entropy-forced-cost-fit" [
+      ("N53-PROV", "Consume only the exact low constructor of the accumulated node-[50] decision and preserve node [51]'s high output unchanged."),
+      ("N53-BUDGET", "Define the remaining non-curvature budget from the exact labelled-skeleton, hot-window, and node-[49] constrained-family bit counts."),
+      ("N53-COST", "Consume the inherited full-rank curvature cost without recomputing node [47] or node [48]."),
+      ("N53-YES", "Retain the strict small-budget edge remainingBits < forcedCurvatureBits for node [54]."),
+      ("N53-NO", "Retain the complementary large-budget edge forcedCurvatureBits <= remainingBits for node [55]."),
+      ("N53-EXHAUSTIVE", "Use the framework no-after-yes continuation so both node-[53] edges are exhaustive on the literal node-[50] value."),
+      ("N53-WORK", "Perform one proof-level real-order comparison and no graph, state, product, context, or Boolean-universe enumeration.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 55
+      "erdos.large-budget-residual-handoff" [
+      ("N55-PROV", "Consume the exact node-[50] low constructor and node-[53] complementary large-budget constructor on the identical accumulated residual."),
+      ("N55-DENSITY", "Retain node [24]'s corrected window-density handoff from the accumulated ledger without restating or reproving it."),
+      ("N55-BRANCH", "Expose exactly Residual C on the original node-[53] no edge, adding no case, hypothesis, or stronger net-cap conclusion."),
+      ("N55-HANDOFF", "Preserve node [51] on the outer high edge and node [54]'s strict small-budget leaf while continuing only the nested large-budget leaf."),
+      ("N55-WORK", "Use zero-check framework routing and perform no mathematical recomputation or finite scan.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 56
+      "erdos.large-budget-net-cap" [
+      ("N56-PROV", "Retrieve node [24]'s remainder-scaled density cap, node [29]'s surplus-adjusted incidence supply, and node [55]'s exact large-budget branch from one accumulated LedgerQuery."),
+      ("N56-SUPPLY", "Use node [29]'s literal supply and surplus partition to bound the net-deficiency numerator by 15p13 plus total surplus, without rebuilding the incidence ledger."),
+      ("N56-FINITE", "Combine node [24]'s error-bearing window density with the inherited supply through Core.scaled_density_supply_with_error."),
+      ("N56-ERROR", "Define the explicit normalization-plus-surplus error and prove it is o(|R|) for every fixed-threshold near-cubic residual family."),
+      ("N56-TAU", "Identify the main coefficient with tau_win and prove the exact rational inequality tau_win < 1/4."),
+      ("N56-STRICT", "Derive the eventual strict-quarter normalized net-deficiency bound printed in the original node."),
+      ("N56-LEDGER", "Append only node [56]'s new net-cap certificate; retain all predecessors solely in the framework ledger."),
+      ("N56-WORK", "Perform zero graph checks and only constant-size ordered-field arithmetic; enumerate no graph, state, context, support, or universe family.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 57
+      "erdos.type-a-nodes57-63-local-provenance" [
+      ("N57-PROV", "Consume the exact node-[56] output from the accumulated ledger on the same eventual tail."),
+      ("N57-STRICT", "Convert the normalized strict-quarter inequality to its exact denominator-free natural-number form without dropping the node-[56] error." )
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 58
+      "erdos.type-a-nodes57-63-local-provenance" [
+      ("N58-CHARGE", "Define the manuscript net charge as the exact quarter-scaled integer numerator on the identical remainder.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 59
+      "erdos.type-a-nodes57-63-local-provenance" [
+      ("N59-SPLIT", "Retain the strict negative constructor forced by node [57] on the exact node-[58] charge.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 60
+      "erdos.type-a-nodes57-63-local-provenance" [
+      ("N60-CLOSE", "Contradict the nonnegative edge using the identical strict negative integer charge.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 61
+      "erdos.type-a-nodes57-63-local-provenance" [
+      ("N61-DECOMP", "Use the canonical connected-component decomposition and its exact additive charge identity."),
+      ("N61-CT11", "Run CT11 on that finite ordered component list and return an actual connected negative support." )
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 62
+      "erdos.type-a-nodes57-63-local-provenance" [
+      ("N62-SPLIT", "Inspect only the selected support's actual high centers and return exactly the original Type-A or Type-B edge.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 63
+      "erdos.type-a-nodes57-63-local-provenance" [
+      ("N63-TYPE-A", "On the no-high-center edge, construct the exact subcubic Type-A support profile on the same localized support."),
+      ("N63-WORK", "Bound the component and selected-support scans by twice the ambient vertex count.")
     ]
   proofSteps := [
     {
@@ -5651,28 +5743,29 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       stepId := "erdos.type-a-nodes57-63-local-provenance"
       stageId? := some "proof-slice.type-a-nodes57-63-local-provenance"
       title := "Nodes [57]--[63] local Type-A chain"
-      plainExplanation := "Every local constructor in the original Part-V chain is implemented: the quarter-unit charge is retained, its negative component is localized, and node [62] returns only the paper's existing Type-A or Type-B route. These declarations accept the still-yellow node-[56] payload, so they do not make any of nodes [57]--[63] unconditionally reachable."
+      plainExplanation := "The accumulated node-[56] cap yields the exact strict-quarter inequality on its proved eventual tail. The framework attaches that fact once, retains the exact integer net charge, and CT11 scans only the canonical component schedule to select a negative connected support. Node [62] then returns only the paper's Type-A or Type-B route."
       formalStatement := "[56]\\Longrightarrow[57]\\Longrightarrow[58]\\Longrightarrow[59]\\Longrightarrow[61]\\Longrightarrow([63]\\text{ or }[64])"
       status := .implemented
-      correspondence := .partialCoverage
+      correspondence := .exact
       manuscriptRefs := [{ label := "fig:proof-diagram-part-v", title := "Large-budget discharge chain", nodeIds := [57, 58, 59, 60, 61, 62, 63] }]
       declarationGroups := [{
         groupId := "type-a-57-63-local-chain"
-        title := "Exact conditional chain and linear schedule"
+        title := "Exact accumulated chain and linear CT11 schedule"
         role := .compositionProvenance
         explanation := "The indexed payloads preserve each immediate predecessor and the identical remainder/support; the only scan is the canonical component list plus the selected support."
         declarations := [
-          `Erdos64EG.Internal.TypeANodes57To63Provenance.node57,
-          `Erdos64EG.Internal.TypeANodes57To63Provenance.node58,
-          `Erdos64EG.Internal.TypeANodes57To63Provenance.node59,
+          `Erdos64EG.Internal.TypeANodes57To63Provenance.node57_eventually,
+          `Erdos64EG.Internal.TypeANodes57To63Provenance.strictQuarterNat_of_normalized,
+          `Erdos64EG.Internal.TypeANodes57To63Provenance.node57Refinement,
+          `Erdos64EG.Internal.TypeANodes57To63Provenance.node58Refinement,
+          `Erdos64EG.Internal.TypeANodes57To63Provenance.node59Refinement,
           `Erdos64EG.Internal.TypeANodes57To63Provenance.node60_impossible,
-          `Erdos64EG.Internal.TypeANodes57To63Provenance.canonicalLedger,
-          `Erdos64EG.Internal.TypeANodes57To63Provenance.node61,
+          `Erdos64EG.Internal.TypeANodes57To63Provenance.node61Refinement,
           `Erdos64EG.Internal.TypeANodes57To63Provenance.node62,
           `Erdos64EG.Internal.TypeANodes57To63Provenance.localChecks_linear
         ]
       }]
-      scopeNotes := "All local contracts are present, but every cell stays yellow because the exact node-[56] strict-quarter producer is not green. No new node, edge, or case is introduced."
+      scopeNotes := "The strict-quarter step is explicitly eventual, exactly as in the manuscript's o(|R|) statement; no error-free finite claim is made. No new node, edge, or case is introduced."
       workBound := "One canonical component scan plus one selected-support degree scan; at most twice the ambient vertex count."
     },
     {
@@ -5871,7 +5964,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         role := .executionAudit
         explanation := "The runner derives positivity of the actual graph order from the inherited minimum-degree baseline, proves the two rational equivalences without dividing by a nonpositive denominator, and returns exactly the two original outgoing payloads with constant work."
         declarations := [
-          `Erdos64EG.Internal.runP13Node146,
+          `Erdos64EG.Internal.p13Node146AccumulatedRun,
           `Erdos64EG.Internal.p13PackingTheta,
           `Erdos64EG.Internal.p13Route8Tau,
           `Erdos64EG.Internal.p13VertexCount_pos,
@@ -5880,7 +5973,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.p13Route8_denominator_pos_of_below,
           `Erdos64EG.Internal.P13Node146To147,
           `Erdos64EG.Internal.P13Node146To148,
-          `Erdos64EG.Internal.runP13Node146_exhaustive,
+          `Erdos64EG.Internal.p13Node146DecisionRefinement,
           `Erdos64EG.Internal.p13Node146LocalCheckCount_polynomial,
           `Erdos64EG.Internal.p13Node146WorkBudget,
           `Erdos64EG.Internal.p13Node146WorkBudget_checks
@@ -5893,7 +5986,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       stepId := "erdos.p13-node147-private-carrier-arithmetic"
       stageId? := some "proof-slice.p13-node147-private-carrier-arithmetic"
       title := "Node [147] private-carrier arithmetic prefix"
-      plainExplanation := "The node-[146] yes residual proves the strict coefficient gap needed by the private-carrier squeeze. The Type-A route-8 collection, basin injection, and matching upper/lower carrier budgets have not yet reached this node, so the terminal contradiction is not claimed."
+      plainExplanation := "The accumulated node-[146] yes residual proves the strict coefficient gap needed by the private-carrier squeeze. CT4 proves the reusable private-carrier no-overcounting inequality, but the Type-A route-8 collection and canonical carrier-core stage from nodes [109]--[114] have not yet reached this node, so the terminal contradiction is not claimed."
       formalStatement := "\\tau(\\theta)<\\frac3{13}\\Longrightarrow\\tau(\\theta)<12\\left(\\frac14-\\tau(\\theta)\\right)"
       status := .implemented
       correspondence := .partialCoverage
@@ -5907,9 +6000,12 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         explanation := "This proves exactly the arithmetic prefix available from node [146] and records zero new local scans. It deliberately does not manufacture the absent carrier ledger."
         declarations := [
           `Erdos64EG.Internal.p13Node147ArithmeticPrefix,
+          `Erdos64EG.Internal.p13Node147ArithmeticRefinement,
           `Erdos64EG.Internal.P13Node147ArithmeticPrefix,
           `Erdos64EG.Internal.p13Route8CollisionCoefficientGap,
           `Erdos64EG.Internal.p13Route8CollisionMargin_pos,
+          `StructuralExhaustion.CT4.PrivateCarrierProfile.slot_mul_entry_le_carrier,
+          `Erdos64EG.Internal.P13Route8PrivateCarrierLedger.three_mul_entries_le_carriers,
           `Erdos64EG.Internal.p13Node147ArithmeticCheckCount_polynomial
         ]
       }]
@@ -5933,13 +6029,13 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         role := .executionAudit
         explanation := "Both outgoing payloads are indexed by the literal node-[146] no input. Exact hot/cold partition and hot payment turn a failed total cap into a cold shortfall without enumerating any assignment universe."
         declarations := [
-          `Erdos64EG.Internal.runP13Node148,
+          `Erdos64EG.Internal.p13Node148DecisionRefinement,
           `Erdos64EG.Internal.p13Node148_hotDemand_le_allowance,
           `Erdos64EG.Internal.p13Node148_totalDemand_eq_hot_add_cold,
           `Erdos64EG.Internal.p13Node148_totalDemand_le_allowance_add_cold,
           `Erdos64EG.Internal.P13Node148To149,
           `Erdos64EG.Internal.P13Node148To150,
-          `Erdos64EG.Internal.runP13Node148_exhaustive,
+          `Erdos64EG.Internal.p13Node148To150Refinement,
           `Erdos64EG.Internal.p13Node148LocalCheckCount_polynomial,
           `Erdos64EG.Internal.p13Node148WorkBudget_checks
         ]
@@ -8127,12 +8223,11 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         groupId := "p13-node47-full-rank-handoff"
         title := "Independent exact full-rank continuation"
         role := .compositionProvenance
-        explanation := "Core retains node [34] exactly; the payload exposes its full-rank equality and maximal surviving family."
+        explanation := "The accumulated stage retains node [34]; the node-[47] payload exposes only its full-rank equality and maximal surviving family."
         declarations := [
           `Erdos64EG.Internal.P13Node34Stage.node47,
           `Erdos64EG.Internal.VerifiedP13Node47FullRankResidual,
-          `StructuralExhaustion.Core.ExactHandoff,
-          `StructuralExhaustion.Core.ExactHandoff.refl
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage
         ]
       }]
       scopeNotes := "Node [47] is the complementary node-[34] edge and is not downstream of node [46] or node [37]. Node [31]'s canonical functional-admissible rank profile makes this exact handoff faithful to the manuscript rank."
@@ -8155,9 +8250,13 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-node48-support"
           title := "Exact finite curvature cost"
           role := .compositionProvenance
-          explanation := "The exact node-[47] producer retains its predecessor through Core.ExactHandoff, instantiates generic partition-density and scaled-wedge transports, and converts the node-[21] count ratio into the manuscript's entropy-cost units."
+          explanation := "The node-[48] successor consumes the exact node-[47] stage from the accumulated residual ledger, instantiates generic partition-density and scaled-wedge transports, and registers the scaled, ordinary-cost, and conditional high-entropy conclusions as reusable ledger entailments."
           declarations := [
-            `StructuralExhaustion.Core.ExactHandoff.refl,
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage,
+            `Erdos64EG.Internal.P13Node48RefinementStage,
+            `Erdos64EG.Internal.P13Node48ForcedCurvatureFact,
+            `Erdos64EG.Internal.P13Node48CostFact,
+            `Erdos64EG.Internal.P13Node48HighEntropyCostFact,
             `StructuralExhaustion.Core.DensityAsymptoticTransport.nat_partition_density_with_error,
             `StructuralExhaustion.Core.DensityAsymptoticTransport.nat_scaled_wedge_with_error,
             `StructuralExhaustion.Core.DensityAsymptoticTransport.scaled_le_main_add_error_div,
@@ -8242,7 +8341,8 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
             `Erdos64EG.Internal.p13RemainderGraphFamilyProfile,
             `Erdos64EG.Internal.p13RemainderGraphFamilyCount,
             `Erdos64EG.Internal.p13ManuscriptRemainderEntropy,
-            `Erdos64EG.Internal.VerifiedP13Node49ManuscriptEntropy,
+            `Erdos64EG.Internal.P13Node49Output,
+            `Erdos64EG.Internal.p13Node49Output,
             `Erdos64EG.Internal.VerifiedP13Node48FrontierCost.node49
           ]
         }
@@ -8276,9 +8376,8 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
             `StructuralExhaustion.Core.OrderThresholdSplit.Profile.checks_eq_zero,
             `Erdos64EG.Internal.p13ManuscriptEntropyThreshold,
             `Erdos64EG.Internal.p13ManuscriptEntropySplitProfile,
-            `Erdos64EG.Internal.VerifiedP13Node50ManuscriptEntropySplit,
-            `Erdos64EG.Internal.VerifiedP13Node50ManuscriptEntropySplit.toExactHandoff,
-            `Erdos64EG.Internal.VerifiedP13Node49ManuscriptEntropy.node50,
+            `Erdos64EG.Internal.P13Node50Output,
+            `Erdos64EG.Internal.p13Node50Output,
             `Erdos64EG.Internal.P13Node50High,
             `Erdos64EG.Internal.P13Node50Low,
             `Erdos64EG.Internal.VerifiedP13Node50ManuscriptEntropySplit.high_or_low
@@ -8291,9 +8390,9 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
     {
       stepId := "erdos.high-remainder-bits"
       stageId? := some "proof-slice.p13-high-remainder-bits"
-      title := "High-power remainder bit contribution"
-      plainExplanation := "Node [51] pattern-matches node [50]'s stored outcome. On the exact high constructor, positivity from node [49] and the Core logarithmic power transfer give the total-bit lower bound. The low constructor is passed through unchanged, and no joint window/remainder accounting is claimed."
-      formalStatement := "n^{|R|}\\le N_R^{10}\\Longrightarrow (|R|/10)\\log_2n\\le\\log_2N_R"
+      title := "High-entropy remainder bit contribution"
+      plainExplanation := "Node [51] consumes the exact high-edge proposition of the manuscript node-[50] entropy split on the full accumulated residual. Node [49]'s eta(R)=log2|G(R)|/|R| identity then gives the printed remainder-bit contribution by symbolic real arithmetic."
+      formalStatement := "\\eta(R)\\ge\\frac1{10}\\log_2 n\\Longrightarrow (|R|/10)\\log_2 n\\le\\log_2|\\mathcal G(R)|"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
@@ -8302,109 +8401,206 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       declarationGroups := [
         {
           groupId := "p13-node51-high-bits"
-          title := "Exact node-50 high-constructor transfer"
+          title := "Exact node-50 high-entropy transfer"
           role := .compositionProvenance
-          explanation := "The generic theorem converts the supplied upper Nat-power inequality to a weighted real-log budget. The Erdős route extracts that inequality only by matching the actual stored node-[50] constructor."
+          explanation := "The framework retains the literal node-[50] decision and its high-edge proof in the accumulated ledger. The Erdős layer adds only the manuscript bit inequality, using node-[49]'s registered entropy identity."
           declarations := [
-            `StructuralExhaustion.Core.FinitePowerScaleSplit.Profile.logb_budget_of_upper,
-            `Erdos64EG.Internal.VerifiedP13Node51HighEntropyBits,
-            `Erdos64EG.Internal.VerifiedP13Node51HighEntropyBits.toExactHandoff,
-            `Erdos64EG.Internal.VerifiedP13Node51HighEntropyBits.exactPrevious,
-            `Erdos64EG.Internal.verifiedP13Node51HighEntropyBits,
-            `Erdos64EG.Internal.P13Node50To51Route,
-            `Erdos64EG.Internal.routeP13Node50To51
+            `StructuralExhaustion.Core.ExactHandoff,
+            `Erdos64EG.Internal.P13Node50High,
+            `Erdos64EG.Internal.p13ManuscriptEntropyThreshold,
+            `Erdos64EG.Internal.p13ManuscriptRemainderEntropy,
+            `Erdos64EG.Internal.p13RemainderGraphFamilyCount,
+            `Erdos64EG.Internal.P13Node51Output,
+            `Erdos64EG.Internal.p13Node51Output
           ]
         }
       ]
-      scopeNotes := "Node [51] is only the high-branch arithmetic handoff. It feeds node [52]'s realized/open joint-accounting frontier; it does not assert that the realization is available or prove the downstream entropy cap."
-      workBound := "No new finite scan and no real-number search. The proof applies one monotone logarithm theorem to the two powers already compared at node [50], followed by fixed scalar arithmetic."
+      scopeNotes := "Node [51] is only the high-branch arithmetic handoff. It feeds the original node-[52] window-plus-remainder accounting step; it does not prove window/remainder independence or the downstream entropy cap."
+      workBound := "No new finite scan and no real-number search. The proof reuses the zero-check node-[50] ordered split and node-[49]'s symbolic entropy identity; it evaluates no graph family, state universe, context universe, assignment cube, or Boolean universe."
     },
     {
-      stepId := "erdos.joint-window-remainder-accounting-frontier"
-      stageId? := some "proof-slice.p13-joint-accounting-frontier"
-      title := "Conditional joint window--remainder capacity"
-      plainExplanation := "For a supplied realization using actual node-[24] global completions, exact node-[48] remainder states, recoverable coordinates, and an injective literal baseline-skeleton code, Lean proves the joint finite capacity. It does not construct a realized/open split."
-      formalStatement := "\\mathsf{JointAccountingRealized}_{52}\\Longrightarrow N_{\\rm win}N_R\\le N_{\\rm skel}"
+      stepId := "erdos.window-remainder-framework-handoff"
+      title := "Accumulated node-[52] framework handoff"
+      plainExplanation := "The framework continues only node [51]'s exact high constructor, retains the low constructor unchanged, and indexes node [52]'s one local feasibility proposition by the complete accumulated residual. No application-owned completion or product universe is introduced."
+      formalStatement := "\\text{high}_{51}\\longrightarrow\\left[\\frac{1-13\\theta}{10}+118.108581006\\,\\theta\\le1.5+o(1)\\right]"
       status := .implemented
-      correspondence := .partialCoverage
+      correspondence := .supporting
       manuscriptRefs := [
-        { label := "def:joint-accounting-frontier", title := "Joint-accounting frontier", nodeIds := [52] }
+        { label := "prop:two-budget", title := "Two-budget routing", nodeIds := [52] }
       ]
       declarationGroups := [
         {
-          groupId := "p13-node52-conditional-capacity"
-          title := "Capacity of a supplied same-context realization"
+          groupId := "p13-node52-accumulated-handoff"
+          title := "Branch-preserving local feasibility handoff"
           role := .compositionProvenance
-          explanation := "Core proves the product-capacity inequality without materializing a product. The Erdős realization type records the graph-semantic gluing and recoverability that a future producer must construct."
+          explanation := "Core owns repeated yes-edge continuation, exact predecessor retention, and low-edge pass-through. The Erdős layer names only the paper's finite feasibility proposition on that exact residual."
           declarations := [
-            `StructuralExhaustion.Core.FiniteJointCapacity.Profile.left_mul_right_le_codeCard,
-            `StructuralExhaustion.Core.FiniteJointCapacity.Profile.checks_eq_zero,
-            `Erdos64EG.Internal.P13Node52JointAccountingRealization,
-            `Erdos64EG.Internal.P13Node52JointAccountingRealization.toExactHandoff,
-            `Erdos64EG.Internal.P13Node52JointAccountingRealization.exactPrevious,
-            `Erdos64EG.Internal.p13Node52JointCapacityProfile,
-            `Erdos64EG.Internal.p13Node52_jointCapacity
+            `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionYesSuccessor,
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueDependentDecisionYesAgainDerived,
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.closeDependentDecisionYesSuccessor,
+            `Erdos64EG.Internal.P13Node52Feasibility,
+            `Erdos64EG.Internal.P13Node52RefinementStage,
+            `Erdos64EG.Internal.p13Node52InheritedQuery,
+            `Erdos64EG.Internal.p13Node52RefinementFromLocalAccounting,
+            `Erdos64EG.Internal.p13Node52LocalChecks_eq_zero
           ]
         }
       ]
-      scopeNotes := "Node [52] remains yellow. Conditional capacity is proved, but the original same-context joint realization, window lower demand, finite high cap, and entropy contradiction are not produced."
-      workBound := "Zero semantic checks to select the proof-level dichotomy and zero pair scans in Core capacity transport. No Cartesian product, graph family, state universe, subset family, context universe, function space, assignment cube, or Boolean universe is generated or scanned."
+      scopeNotes := "This step formalizes only the framework transition and the exact local proposition owned by node [52]. It does not claim that the feasibility inequality has yet been produced or that node [54] closes."
+      workBound := "Zero semantic checks and no graph, context, state-product, assignment-cube, or Boolean-universe enumeration."
+    },
+    {
+      stepId := "erdos.window-remainder-density-accounting"
+      title := "Window-plus-remainder accounting"
+      plainExplanation := "The original node [52] must add node [51]'s remainder bits to the inherited independently target-testable multiscale window contribution, compare the resulting local bit total with the near-cubic skeleton budget, and solve the resulting scalar inequality."
+      formalStatement := "\\frac{1-13\\theta}{10}+118.108581006\\,\\theta\\le1.5+o(1)\\Longrightarrow\\theta\\le0.01198542083\\ldots+o(1)"
+      status := .next
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "prop:two-budget", title := "Two-budget routing", nodeIds := [52] },
+        { label := "prop:p13-density", title := "Near-cubic P13 window density bounds", nodeIds := [52] }
+      ]
+      scopeNotes := "Framework routing and the exact finite target proposition are implemented. The missing producer is the paper's local addition of the inherited window and remainder bit contributions against their common skeleton budget."
+      workBound := "Pure symbolic arithmetic over inherited ledger facts, with zero ambient graph, context, state-product, assignment-cube, or Boolean-universe enumeration."
+    },
+    {
+      stepId := "erdos.node54-entropy-cap-closure"
+      title := "Node-[52] to node-[54] entropy-cap closure"
+      plainExplanation := "From node [52]'s exact finite feasibility inequality, the framework closes its strict reverse, the integral error-bearing form of the paper's high-theta alternative. The node-[50] low edge is retained unchanged."
+      formalStatement := "A\\le B\\Longrightarrow\\neg(B<A)"
+      status := .implemented
+      correspondence := .supporting
+      manuscriptRefs := [
+        { label := "prop:entropy-high-theta", title := "Entropy cap closes the high-theta branch", nodeIds := [54] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node54-high-theta-terminal"
+        title := "Framework-owned strict-cap terminal"
+        role := .compositionProvenance
+        explanation := "Core consumes the accumulated node-[52] successor, preserves the original branch proof and untouched low edge, and replaces only the latest high-edge payload by the local terminal certificate."
+        declarations := [
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.closeDependentDecisionYesSuccessor,
+          `Erdos64EG.Internal.P13Node54HighTheta,
+          `Erdos64EG.Internal.VerifiedP13Node54EntropyCap,
+          `Erdos64EG.Internal.p13Node54_highTheta_impossible,
+          `Erdos64EG.Internal.P13Node54RefinementStage,
+          `Erdos64EG.Internal.p13Node54Refinement,
+          `Erdos64EG.Internal.p13Node54LocalChecks_eq_zero
+        ]
+      }]
+      scopeNotes := "This completely implements the existing [52] -> [54] closing implication once node [52]'s feasibility payload is available. Node [52]'s graph-semantic joint-accounting producer remains separate, and the node-[53] small-budget edge is not claimed here."
+      workBound := "Zero checks: one symbolic order contradiction, with no graph, context, state, product, assignment, or Boolean-universe scan."
     },
     {
       stepId := "erdos.low-entropy-forced-cost-fit"
       stageId? := some "proof-slice.p13-low-entropy-forced-cost-fit"
-      title := "Exact low-entropy forced-cost fit"
-      plainExplanation := "Node [53] is executed only on node [50]'s stored strict-low constructor. The exact node-[48] telescoping ledger first bounds the forced curvature power by the flat power times node [49]'s actual state count. Raising this supplied inequality to scale ten and composing it with node [50]'s strict power bound proves that the printed small-budget comparison is impossible."
-      formalStatement := "A=543958^{|\\Omega|},\\ B=111286^{|\\Omega|},\\ U=n^{|R|},\\quad N_R^{10}<U\\Longrightarrow A^{10}<B^{10}U"
+      title := "Accumulated node-[53] budget decision"
+      plainExplanation := "Node [53] consumes only node [50]'s exact low constructor. It compares the exact remaining labelled-skeleton bits after the hot-window and node-[49] remainder demands with the inherited full-rank curvature cost, retaining both manuscript edges. The high constructor and node [51] output pass through unchanged."
+      formalStatement := "B_{\\rm skel}-B_{\\rm win}-B_R<K_{\\Omega}\\quad\\text{or}\\quad K_{\\Omega}\\le B_{\\rm skel}-B_{\\rm win}-B_R"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:low-entropy-forced-cost-fit", title := "Exact low-entropy forced-cost fit", nodeIds := [53] }
+        { label := "def:Theta", title := "Finite-size packing threshold", nodeIds := [53] },
+        { label := "prop:entropy-high-theta", title := "Small-budget entropy closure", nodeIds := [53, 54] }
       ]
       declarationGroups := [
         {
-          groupId := "p13-node53-powered-fit"
-          title := "Exact strict-low powered-budget transfer"
+          groupId := "p13-node53-accumulated-decision"
+          title := "Exact branch-preserving remaining-budget split"
           role := .compositionProvenance
-          explanation := "Core transports one supplied multiplicative bound through a supplied strict state-count power bound with zero checks. The Erdős route extracts the low inequality from the actual node-[50] constructor, uses node [48]'s nonempty terminal fibre and node [49]'s exact count, and retains only a conditional node-[55] consumer."
+          explanation := "Core retrieves the literal node-[50] decision, preserves its node-[51] high continuation, and executes the complementary comparison only on the low constructor. The Erdős layer supplies the exact manuscript bit expressions and no predecessor plumbing."
           declarations := [
-            `StructuralExhaustion.Core.FinitePoweredBudgetTransfer.Profile.forced_pow_lt_flat_pow_mul_upper,
-            `StructuralExhaustion.Core.FinitePoweredBudgetTransfer.Profile.checks_eq_zero,
-            `Erdos64EG.Internal.P13Node50To51Route.lowInput,
-            `Erdos64EG.Internal.P13Node53LowEntropyInput,
-            `Erdos64EG.Internal.p13Node53ForcedPower,
-            `Erdos64EG.Internal.p13Node53FlatPower,
-            `Erdos64EG.Internal.p13Node53UpperPower,
-            `Erdos64EG.Internal.P13Node53SmallBudget,
-            `Erdos64EG.Internal.p13Node53_forcedPower_le_flatPower_mul_stateCount,
-            `Erdos64EG.Internal.p13Node53PoweredBudgetProfile,
-            `Erdos64EG.Internal.VerifiedP13Node53LargeBudget,
-            `Erdos64EG.Internal.verifiedP13Node53LargeBudget,
-            `Erdos64EG.Internal.p13Node53_smallBudget_impossible,
-            `Erdos64EG.Internal.P13Node50BudgetRoute,
-            `Erdos64EG.Internal.routeP13Node50Budget,
-            `Erdos64EG.Internal.routeP13Node50Budget_exhaustive
+            `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionNoAfterYes,
+            `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionAt,
+            `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionAt.decide,
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueDependentDecisionNoAfterYes,
+            `Erdos64EG.Internal.p13Node53RemainingNoncurvatureBits,
+            `Erdos64EG.Internal.p13Node53ForcedCurvatureBits,
+            `Erdos64EG.Internal.P13Node53Small,
+            `Erdos64EG.Internal.P13Node53Large,
+            `Erdos64EG.Internal.P13Node53Decision,
+            `Erdos64EG.Internal.p13Node53Refinement,
+            `Erdos64EG.Internal.p13Nodes25To53Run_retains_residual,
+            `Erdos64EG.Internal.p13Node53LocalChecks_constant
           ]
         }
       ]
-      scopeNotes := "Node [53] closes only its own small-budget edge on the exact node-[50] low branch. Its surviving large-budget payload does not imply the independent same-context P13QuarterNetBudget required by node [55], and it makes no high-entropy joint-capacity or node-[54] claim."
-      workBound := "Zero semantic checks and no evaluated powers. The proof symbolically transports the exact local conditional-fibre ledger and one already stored natural-power inequality; no graph, state, subset, context, function, assignment, or Boolean universe is scanned."
+      scopeNotes := "Node [53] performs only the diagrammed dichotomy. Node [54] must still close the strict edge using a proved joint target-testable family; node [55] must consume the complementary large-budget edge and the window-only net-cap producer."
+      workBound := "One proof-level real-order comparison; no graph family, state family, product, context, assignment, or Boolean universe is evaluated."
     },
     {
-      stepId := "erdos.closure-robust-part-iv"
-      title := "Closure-robust window-only Part IV"
-      plainExplanation := "The production Part-IV spine does not enumerate ambient vertices or require a Boolean-product realization. After node [24] supplies its exact within-cap handoff, the genuine fixed cold-skeleton/F2--F5 proof still owes the strict-quarter window budget. Once that downstream theorem is supplied, the verified node-47 predecessor composes directly through the node-55 budget to the literal node-56 net-deficiency bound."
-      formalStatement := "\\mathsf{WindowDensity}_{24}(G)\\Longrightarrow 4\\bigl(D^+(R)-\\sigma_R\\bigr)<|R|"
-      status := .next
-      correspondence := .partialCoverage
+      stepId := "erdos.large-budget-residual-handoff"
+      title := "Accumulated node-[55] large-budget residual"
+      plainExplanation := "Node [55] is exactly the nested no leaf of node [53]. The framework preserves node [51]'s high output and node [54]'s small-budget leaf, while the full residual ledger continues with node [24]'s density handoff already available by type."
+      formalStatement := "K_{\\Omega}\\le B_{\\rm skel}-B_{\\rm win}-B_R\\Longrightarrow\\mathsf{ResidualC}"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "rem:closure-robust", title := "Large-budget residual", nodeIds := [55] }
+      ]
+      declarationGroups := [
+        {
+          groupId := "p13-node55-nested-large-leaf"
+          title := "Framework-owned nested no-edge continuation"
+          role := .compositionProvenance
+          explanation := "The framework carries all earlier outputs and branch proofs. The Erdős output is a zero-field marker because node [55] adds no theorem beyond selection of the exact large-budget leaf."
+          declarations := [
+            `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionAt,
+            `StructuralExhaustion.Core.ResidualRefinement.State.DependentNestedNoContinuation,
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueDependentNestedNo,
+            `Erdos64EG.Internal.P13Node55Output,
+            `Erdos64EG.Internal.P13Node55RefinementStage,
+            `Erdos64EG.Internal.p13Node55Refinement,
+            `Erdos64EG.Internal.p13Nodes25To55Run,
+            `Erdos64EG.Internal.p13Nodes25To55Run_retains_residual,
+            `Erdos64EG.Internal.p13Node55LocalChecks_eq_zero
+          ]
+        }
+      ]
+      scopeNotes := "Node [55] does not claim node [56]'s strict-quarter inequality. The separate accumulated node-[56] producer consumes this exact leaf."
+      workBound := "Zero checks; only accumulated branch transport."
+    },
+    {
+      stepId := "erdos.large-budget-net-cap"
+      title := "Accumulated node-[56] large-budget net cap"
+      plainExplanation := "On the exact node-[55] leaf, one compositional ledger query retrieves node [24]'s remainder-scaled density cap, node [29]'s surplus-adjusted incidence supply, and the branch marker. Core combines those inherited facts without reopening either predecessor. The resulting explicit normalization-plus-surplus error is o(|R|), and the exact limiting coefficient tau_win is below one quarter."
+      formalStatement := "\\frac{D^+(R)-\\sigma_R}{|R|}\\le\\tau_{\\rm win}+o(1)<\\frac14"
+      status := .implemented
+      correspondence := .exact
       manuscriptRefs := [
         { label := "prop:p13-density", title := "Window-only P13 density handoff", nodeIds := [24] },
-        { label := "rem:closure-robust", title := "Closure without forced curvature cost", nodeIds := [47, 54, 55, 56] },
-        { label := "lem:netcharge-superadd", title := "Net-charge quarter handoff", nodeIds := [55, 56] }
+        { label := "rem:closure-robust", title := "Closure without forced curvature cost", nodeIds := [55, 56] },
+        { label := "lem:netcharge-superadd", title := "Net-charge quarter handoff", nodeIds := [56] }
       ]
-      declarationGroups := []
-      scopeNotes := "This is a typed partial frontier, not a green Part-IV closure. Node [48]'s open constructor and node [53]'s proved large-budget constructor both route rigorously to a same-context quarter-budget consumer, but no production declaration currently supplies that additional strict-quarter hot/cold budget. Nodes [49]--[53] are implemented on their respective exact branches, while the high-entropy joint-capacity arithmetic and nodes [54]--[56] remain unclosed. The exact node-[21]-to-Part-XI four-way partition is available, but its non-dyadic outputs still lack the aggregate bounded-multiplicity and D4--D7 consumers required by that downstream budget. P13PartIVFiniteRouting is deliberately absent from the production import graph and serves only as a negative audit of the invalid ambient-state enumeration route."
-      workBound := "After the structural node-24 theorem, the composition is constant-size arithmetic. The missing proof must use the genuine fixed cold-skeleton/F2--F5 local argument; it may not enumerate vertices, states, supports, contexts, subgraphs, or graph families."
+      declarationGroups := [{
+        groupId := "p13-node56-ledger-net-cap"
+        title := "Typed multi-input net-deficiency transport"
+        role := .compositionProvenance
+        explanation := "LedgerQuery resolves all inherited inputs at one residual, StageNode.derive appends only the new node-[56] certificate, and Core owns the generic density-plus-supply normalization."
+        declarations := [
+          `StructuralExhaustion.Core.ResidualRefinement.State.LedgerQuery,
+          `StructuralExhaustion.Core.ResidualRefinement.State.LedgerQuery.entailedStage,
+          `StructuralExhaustion.Core.ResidualRefinement.State.LedgerQuery.andEntailedStage,
+          `StructuralExhaustion.Core.ResidualRefinement.State.LedgerQuery.stage,
+          `StructuralExhaustion.Core.ResidualRefinement.State.LedgerQuery.andStage,
+          `StructuralExhaustion.Core.ResidualRefinement.State.LedgerQuery.map,
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.derive,
+          `StructuralExhaustion.Core.DensityAsymptoticTransport.scaled_density_supply_with_error,
+          `Erdos64EG.Internal.P13Node24RemainderDensityFact,
+          `Erdos64EG.Internal.P13Node29SurplusAdjustedSupplyFact,
+          `Erdos64EG.Internal.P13Node56Inputs,
+          `Erdos64EG.Internal.P13Node56Output,
+          `Erdos64EG.Internal.p13Node56InputsQuery,
+          `Erdos64EG.Internal.p13Node56_supply_from_node29,
+          `Erdos64EG.Internal.p13Node56Refinement,
+          `Erdos64EG.Internal.p13Nodes25To56Run,
+          `Erdos64EG.Internal.p13Node56NetError_div_remainder_tendsto_zero,
+          `Erdos64EG.Internal.p13Node56_strictQuarter_eventually,
+          `Erdos64EG.Internal.p13Node56LocalChecks_eq_zero
+        ]
+      }]
+      scopeNotes := "This proves exactly node [56] on the large-budget branch. It does not close the separate node-[52] high-entropy join or node [54], and it introduces no replacement branch or stronger finite error-free assertion."
+      workBound := "Zero graph checks. Ledger retrieval is proof-level; normalization is constant-size arithmetic, and the asymptotic proof uses only graph-order envelopes already established upstream."
     },
     {
       stepId := "erdos.surplus-ct6"

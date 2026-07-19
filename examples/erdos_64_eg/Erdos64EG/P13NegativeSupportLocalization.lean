@@ -365,8 +365,8 @@ upstream natural-subtraction budget, not from a selected negative-cell
 certificate. -/
 structure QuarterDecomposition where
   node21 : VerifiedP13MultiScaleCurvaturePrefix ctx
-  coverage : P13CoverageResidual ctx (p13MultiScalePackingPrefix node21)
-  pressure : P13QuarterNetDeficiencyHandoff ctx node21 coverage
+  strictQuarter :
+    4 * p13NetDeficiencyNumerator ctx < (p13RemainderVertices ctx).card
   previous : VerifiedSparseSurplusPrefix ctx
   cells : Core.OrderedCollection (SupportCell ctx)
   covers : ∀ vertex ∈ p13RemainderVertices ctx,
@@ -383,14 +383,13 @@ structure QuarterDecomposition where
 strict-quarter output to the graph-owned canonical component schedule. -/
 structure CanonicalQuarterLedger where
   node21 : VerifiedP13MultiScaleCurvaturePrefix ctx
-  coverage : P13CoverageResidual ctx (p13MultiScalePackingPrefix node21)
-  pressure : P13QuarterNetDeficiencyHandoff ctx node21 coverage
+  strictQuarter :
+    4 * p13NetDeficiencyNumerator ctx < (p13RemainderVertices ctx).card
 
 noncomputable def CanonicalQuarterLedger.toQuarterDecomposition
     (ledger : CanonicalQuarterLedger ctx) : QuarterDecomposition ctx where
   node21 := ledger.node21
-  coverage := ledger.coverage
-  pressure := ledger.pressure
+  strictQuarter := ledger.strictQuarter
   previous := verifiedSparseSurplusPrefix ctx
     ledger.node21.previous.previous.residual
   cells := Canonical.cells ctx
@@ -405,7 +404,7 @@ theorem QuarterDecomposition.negativeTotal
   have strictQuarterInt :
       4 * (p13NetDeficiencyNumerator ctx : Int) <
         ((p13RemainderVertices ctx).card : Int) := by
-    exact_mod_cast decomposition.pressure.strictQuarter
+    exact_mod_cast decomposition.strictQuarter
   exact decomposition.chargeUpper.trans_lt (by omega)
 
 /-- The strict-quarter handoff and exact additive ledger provide CT11's

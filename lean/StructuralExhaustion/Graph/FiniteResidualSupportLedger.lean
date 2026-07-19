@@ -110,6 +110,22 @@ inductive Result (view : View ledger Vertex) (vertex : Vertex) where
   | absent (none : ∀ occurrence : ledger.Occurrence,
       vertex ∉ view.support occurrence)
 
+namespace Result
+
+/-- Framework-owned elimination of an ordered support scan into an
+application's two semantic payloads.  Consumers retain the literal first-hit
+or total-absence certificate and do not introduce a second decision type. -/
+noncomputable def map {Found Absent : Type*}
+    (result : Result view vertex)
+    (onFound : FirstHit view vertex → Found)
+    (onAbsent : (∀ occurrence : ledger.Occurrence,
+      vertex ∉ view.support occurrence) → Absent) : Sum Found Absent := by
+  cases result with
+  | found hit => exact .inl (onFound hit)
+  | absent none => exact .inr (onAbsent none)
+
+end Result
+
 /-- Scan exactly the finite occurrence order and return the first support hit. -/
 noncomputable def recognize (view : View ledger Vertex) (vertex : Vertex) :
     Result view vertex := by

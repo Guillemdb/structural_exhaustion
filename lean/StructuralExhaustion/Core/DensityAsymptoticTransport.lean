@@ -218,6 +218,43 @@ theorem scaled_le_main_add_error_div
   have scaledDifferencePositive := mul_pos differencePositive scalePositive
   nlinarith
 
+/-- Combine an error-bearing scaled density estimate with an independently
+accumulated supply inequality.  This is the generic algebra behind a
+``mass pays load'' handoff: applications provide the two mathematical
+certificates, while the framework performs all normalization and error
+transport.  No member of either underlying family is inspected. -/
+theorem scaled_density_supply_with_error
+    {rate mass main remainder densityError coefficient load surplus scale : ℝ}
+    (ratePositive : 0 < rate)
+    (scalePositive : 0 < scale)
+    (density : rate * mass * scale ≤
+      main * remainder * scale + densityError)
+    (supply : load ≤ coefficient * mass + surplus)
+    (coefficientNonnegative : 0 ≤ coefficient) :
+    load ≤
+      (coefficient * main / rate) * remainder +
+        coefficient * densityError / (rate * scale) + surplus := by
+  have rateScalePositive : 0 < rate * scale :=
+    mul_pos ratePositive scalePositive
+  have densityNormalized :
+      mass ≤ (main / rate) * remainder + densityError / (rate * scale) := by
+    have normalizedIdentity :
+        (main / rate) * remainder + densityError / (rate * scale) =
+          (main * remainder * scale + densityError) / (rate * scale) := by
+      field_simp [ne_of_gt ratePositive, ne_of_gt scalePositive]
+    rw [normalizedIdentity, le_div_iff₀ rateScalePositive]
+    simpa [mul_assoc, mul_left_comm, mul_comm] using density
+  have scaledDensity :=
+    mul_le_mul_of_nonneg_left densityNormalized coefficientNonnegative
+  calc
+    load ≤ coefficient * mass + surplus := supply
+    _ ≤ coefficient *
+          ((main / rate) * remainder + densityError / (rate * scale)) +
+        surplus := by
+          simpa [add_comm] using add_le_add_right scaledDensity surplus
+    _ = (coefficient * main / rate) * remainder +
+          coefficient * densityError / (rate * scale) + surplus := by ring
+
 /-- If `remainder` retains a fixed positive fraction of `order`, an error
 which is little-o after division by `order` is also little-o after division by
 `remainder`.  This theorem inspects no family members. -/

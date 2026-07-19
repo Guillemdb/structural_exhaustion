@@ -134,7 +134,7 @@ noncomputable def typeBCompletionLocalResult
       (VerifiedTypeBDemandSystemPrefix ctx))
     (support : TypeBAssignedSupport ctx) :
     typeBCompletionLocalResult ctx
-        (typeBCompletionTransitionStage ctx source) support =
+        (typeBCompletionTransitionStage ctx source).output support =
       support.completionProfile.run ctx.toBranchContext :=
   rfl
 
@@ -167,11 +167,11 @@ noncomputable def typeBCompletionLedgerStage
   let execution := typeBCompletionTransitionStage ctx source
   let executionStage : Core.Routing.ResidualStage .ct12
       (TypeBCompletionTransitionLedger ctx source) :=
-    execution.ledgerStage
+    execution
   exact executionStage.extend {
     completion := fun support => support.completionStage
     iterationsLeVertices := fun support => by
-      change (typeBCompletionLocalResult ctx execution support).iterations ≤
+      change (typeBCompletionLocalResult ctx executionStage.output support).iterations ≤
         ctx.G.object.input.vertices.card
       rw [typeBCompletionLocalResult_transition]
       exact support.completion_iterations_le_vertices

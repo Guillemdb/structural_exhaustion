@@ -75,6 +75,23 @@ noncomputable def node32 (residual : P13Node24RefinementResidual.{u}) :
 
 end P13Node24RefinementResidual
 
+/-! ## Automatic node-[24] entry
+
+Node `[24]` contributes its mathematical output as the first accumulated
+stage in this refinement segment. `StageNode.run` performs the ledger update;
+there is no application-authored checkpoint or detached carrier attachment.
+-/
+
+abbrev P13Node24Stage
+    (residual : P13Node24RefinementResidual.{u}) :=
+  Core.ExactHandoff residual.node24
+
+noncomputable def p13Node24Entry :
+    Core.ResidualRefinement.State.StageNode
+      (facts := []) P13Node24Stage :=
+  Core.ResidualRefinement.State.StageNode.exact
+    P13Node24RefinementResidual.node24
+
 /-- Each certificate is the framework's exact-output carrier at the stable
 residual. Earlier certificates live in the accumulated fact bundle. -/
 abbrev P13Node25Stage (residual : P13Node24RefinementResidual.{u}) :=
@@ -92,6 +109,22 @@ abbrev P13Node28Stage (residual : P13Node24RefinementResidual.{u}) :=
 abbrev P13Node29Stage (residual : P13Node24RefinementResidual.{u}) :=
   Core.ExactHandoff residual.node29
 
+/-- Node `[29]`'s reusable surplus-adjusted incidence ceiling, stated once at
+its producer and inherited by all later accumulated branches. -/
+abbrev P13Node29SurplusAdjustedSupplyFact
+    (residual : P13Node24RefinementResidual.{u}) : Prop :=
+  (p13RemainderCurvatureProfile residual.ctx).positiveDeficiency -
+      Graph.InducedPathWindowLedger.remainderSurplus residual.ctx.G.object ≤
+    15 * Graph.InducedPathWindowLedger.packingNumber residual.ctx.G.object +
+      Graph.InducedPathWindowLedger.totalSurplus residual.ctx.G.object
+
+instance : Core.ResidualRefinement.State.StageEntails
+    P13Node29Stage P13Node29SurplusAdjustedSupplyFact where
+  prove stage := by
+    exact stage.output.surplusAdjustedSupply.trans <|
+      (Nat.sub_le _ _).trans <|
+        Nat.add_le_add_left stage.output.windowSurplus_le_total _
+
 abbrev P13Node30Stage (residual : P13Node24RefinementResidual.{u}) :=
   Core.ExactHandoff residual.node30
 
@@ -101,11 +134,19 @@ abbrev P13Node31Stage (residual : P13Node24RefinementResidual.{u}) :=
 abbrev P13Node32Stage (residual : P13Node24RefinementResidual.{u}) :=
   Core.ExactHandoff residual.node32
 
-noncomputable def p13Node25Refinement :
+noncomputable def p13Node25Refinement {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available P13Node24Stage) facts] :
     Core.ResidualRefinement.State.StageNode
-      (facts := []) P13Node25Stage :=
-  Core.ResidualRefinement.State.StageNode.exact
-    P13Node24RefinementResidual.node25
+      (facts := facts) P13Node25Stage :=
+  Core.ResidualRefinement.State.StageNode.mapExactStage
+    (Previous := fun (residual : P13Node24RefinementResidual.{u}) =>
+      VerifiedP13Node24FiniteDensityHandoff residual.ctx residual.node21)
+    (expected := fun (residual : P13Node24RefinementResidual.{u}) =>
+      residual.node24)
+    (fun _residual
+      (node24 : VerifiedP13Node24FiniteDensityHandoff _ _) =>
+        node24.node25)
 
 noncomputable def p13Node26Refinement {facts}
     [Core.ResidualRefinement.Proofs.Contains
@@ -177,8 +218,11 @@ noncomputable def p13Node32Refinement {facts}
     (expected := fun residual => residual.node31)
     (fun _residual previous => previous.node32)
 
+abbrev P13Node24Facts :=
+  [Core.ResidualRefinement.State.Available P13Node24Stage]
 abbrev P13Node25Facts :=
-  [Core.ResidualRefinement.State.Available P13Node25Stage]
+  Core.ResidualRefinement.State.Available P13Node25Stage ::
+    P13Node24Facts
 abbrev P13Node26Facts :=
   Core.ResidualRefinement.State.Available P13Node26Stage :: P13Node25Facts
 abbrev P13Node27Facts :=
@@ -194,8 +238,13 @@ abbrev P13Node31Facts :=
 abbrev P13Node32Facts :=
   Core.ResidualRefinement.State.Available P13Node32Stage :: P13Node31Facts
 
+noncomputable def p13Node24State
+    (residual : P13Node24RefinementResidual.{u}) :=
+  p13Node24Entry.run
+    (Core.ResidualRefinement.State.initial residual)
+
 noncomputable def p13Node25State (residual : P13Node24RefinementResidual.{u}) :=
-  p13Node25Refinement.run (Core.ResidualRefinement.State.initial residual)
+  p13Node25Refinement.run (p13Node24State residual)
 
 noncomputable def p13Node26State (residual : P13Node24RefinementResidual.{u}) :=
   p13Node26Refinement.run (p13Node25State residual)

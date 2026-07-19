@@ -71,13 +71,15 @@ theorem enabled_discovery :
 def enabledStage : enabledLedgerTransition.EnabledStage sourceStage :=
   enabledLedgerTransition.runEnabled sourceStage () enabled_discovery
 
-def enabledLedger := enabledStage.ledgerStage
+def enabledLedger : Core.Routing.ResidualStage .ct10
+    (enabledLedgerTransition.EnabledStage sourceStage) :=
+  Core.Routing.ResidualStage.exact enabledStage
 
 def enabledOutcome :=
   advance targetCapability enabledDiscovery currentCriticality sourceStage
 
 theorem enabled_attempt_materializes :
-    enabledOutcome = .enabled enabledStage :=
+    enabledOutcome = .enabled enabledLedger :=
   rfl
 
 theorem preserves_branch :
@@ -143,7 +145,12 @@ def disabledOutcome :=
     disabledSourceStage
 
 theorem disabled_attempt_generates_nothing :
-    disabledOutcome = .disabled rejectNoSeed disabled_discovery :=
+    disabledOutcome = .disabled (Core.Routing.ResidualStage.exact {
+      previous := disabledSourceStage
+      previousExact := rfl
+      reject := rejectNoSeed
+      discovered := disabled_discovery
+    }) :=
   rfl
 
 theorem disabled_has_no_seed :
@@ -152,6 +159,6 @@ theorem disabled_has_no_seed :
   disabled_sound targetCapability disabledDiscovery currentCriticality
     disabledSourceStage <| by
     intro stage _enabled
-    exact nomatch stage.execution.seed
+    exact nomatch stage.output.execution.seed
 
 end StructuralExhaustion.Examples.CT2ToCT10AutomationFirst

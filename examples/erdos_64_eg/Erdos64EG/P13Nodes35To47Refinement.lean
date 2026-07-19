@@ -99,12 +99,11 @@ structure VerifiedP13Node40EnlargedSupport
     (node38 : VerifiedP13Node38ProperRepresentativeDecision
       residual.ctx residual.node21 residual.node24 residual.node26 residual.node27
         residual.node28 residual.node29 residual.node30 residual.node31
-        residual.node32 branch.rankDrop branch.node35 node36) : Type (u + 3)
-    extends Core.ExactHandoff node38 where
+        residual.node32 branch.rankDrop branch.node35 node36) : Type (u + 3) where
   strict :
     (p13CurvatureDeterminationSupportProfile residual.ctx).SupportLt
       branch.node35.certificate.original branch.node35.certificate.carrier
-  locationEdge : previous.location = .enlarged strict
+  locationEdge : node38.location = .enlarged strict
   originalLeCarrier :
     (p13CurvatureDeterminationSupportProfile residual.ctx).supportLe
       branch.node35.certificate.original branch.node35.certificate.carrier
@@ -161,8 +160,6 @@ noncomputable def routeP13Node36To40
           exact False.elim (node38.node39 equal locationEdge)
       | enlarged strict =>
           exact .enlarged node36 node38 {
-            previous := node38
-            previousExact := rfl
             strict := strict
             locationEdge := locationEdge
             originalLeCarrier := strict.1
@@ -271,7 +268,7 @@ structure VerifiedP13Node44RepairIdentity
     {node40 : VerifiedP13Node40EnlargedSupport residual branch node36 node38}
     {node41 : VerifiedP13Node41CarrierScope residual branch node40}
     (node43 : VerifiedP13Node43WholeDelocalization residual branch node41) :
-    Type (u + 3) extends Core.ExactHandoff node43 where
+    Type (u + 3) where
   repairIdentity : ∀ internalVertices boundaryLeaves internalEdges
       cycleRank surplus : Int,
     3 * internalVertices + surplus + boundaryLeaves =
@@ -294,8 +291,6 @@ def VerifiedP13Node43WholeDelocalization.node44
     {node41 : VerifiedP13Node41CarrierScope residual branch node40}
     (node43 : VerifiedP13Node43WholeDelocalization residual branch node41) :
     VerifiedP13Node44RepairIdentity residual branch node43 where
-  previous := node43
-  previousExact := rfl
   repairIdentity := oneThreeRepair_identity
   graphRepairIdentity := oneThreeRepair_component_identity
 
@@ -312,8 +307,7 @@ structure VerifiedP13Node45ClosedExactBarrier
     {node40 : VerifiedP13Node40EnlargedSupport residual branch node36 node38}
     {node41 : VerifiedP13Node41CarrierScope residual branch node40}
     {node43 : VerifiedP13Node43WholeDelocalization residual branch node41}
-    (node44 : VerifiedP13Node44RepairIdentity residual branch node43) : Type (u + 3)
-    extends Core.ExactHandoff node44 where
+    (node44 : VerifiedP13Node44RepairIdentity residual branch node43) : Type (u + 3) where
   exactRawLabels : Function.Injective
     branch.output.circuit.candidate.quotientCode
 
@@ -330,8 +324,6 @@ noncomputable def VerifiedP13Node44RepairIdentity.node45
     {node43 : VerifiedP13Node43WholeDelocalization residual branch node41}
     (node44 : VerifiedP13Node44RepairIdentity residual branch node43) :
     VerifiedP13Node45ClosedExactBarrier residual branch node44 where
-  previous := node44
-  previousExact := rfl
   exactRawLabels := by
     exact
       Graph.SupportStratifiedDetermination.Candidate.code_injective_of_equal_carrier_whole
@@ -392,8 +384,7 @@ theorem routeP13Node36To40_rankDrop_closed
 full-rank edge.  It does not consume a rank-drop terminal. -/
 structure VerifiedP13Node47FullRankResidual
     (residual : P13Node24RefinementResidual.{u})
-    (branch : P13Node34Stage residual) : Type (u + 3)
-    extends Core.ExactHandoff branch.output where
+    (branch : P13Node34Stage residual) : Type (u + 3) where
   fullRank : p13CurvatureTargetRank residual.ctx =
     (p13RemainderCurvatureProfile residual.ctx).wedgeCount
   maximalFamily :
@@ -405,8 +396,6 @@ def P13Node34Stage.node47
     {residual : P13Node24RefinementResidual.{u}}
     (branch : P13Node34Stage residual) :
     VerifiedP13Node47FullRankResidual residual branch where
-  previous := branch.output
-  previousExact := rfl
   fullRank := branch.output.fullRankExact
   maximalFamily := branch.output.maximalFamily
 

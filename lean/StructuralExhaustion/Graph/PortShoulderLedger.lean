@@ -323,7 +323,7 @@ def accumulatedLedgerStage
     Core.Routing.ResidualStage .ct5
       (AccumulatedLedger base object baseline deletionCritical source) :=
   (transitionStage base object baseline deletionCritical source
-    ).ledgerStage.extend
+    ).extend
       (verifiedStage base object baseline deletionCritical)
 
 end StructuralExhaustion.Graph.PortShoulderLedger

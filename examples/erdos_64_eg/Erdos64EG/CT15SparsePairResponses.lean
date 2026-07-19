@@ -124,25 +124,26 @@ literal CT15 predecessor is the `previous` component of the ledger extension,
 not an application-owned equality field. -/
 abbrev VerifiedSparsePairResponsePrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
-  Sigma (SparsePairResponseLedger ctx)
+  Sigma fun previous : VerifiedBaselineSpineDemandPrefix ctx =>
+    Core.Routing.ResidualStage .ct15 (SparsePairResponseLedger ctx previous)
 
 noncomputable def verifiedSparsePairResponsePrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (previous : VerifiedBaselineSpineDemandPrefix ctx) :
     VerifiedSparsePairResponsePrefix ctx :=
   let stage := sparsePairResponseTransitionStage ctx previous
-  ⟨previous, ⟨stage, {
+  ⟨previous, stage.extend {
     pairStage := sparsePairResponseStage ctx
     ct15 := sparsePairCT15_verified ctx
     partition := sparsePair_exact_partition ctx
     polynomialPairs := sparsePair_schedule_quartic ctx
-  }⟩⟩
+  }⟩
 
 /-- Canonical complete CT15 stage after nodes `[130]`--`[132]`. -/
 noncomputable def sparsePairResponseLedgerStage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedSparsePairResponsePrefix ctx) :=
-  verified.2.previous.ledgerStage.extend verified.2.added
+  verified.2
 
 theorem exists_verifiedSparsePairResponsePrefix {V : Type u}
     (object : Object V) (baseline : Baseline object)

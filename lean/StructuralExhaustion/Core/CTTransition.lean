@@ -312,17 +312,6 @@ abbrev OutputLedger
     (source : ResidualStage sourceTactic Ledger) :=
   (transition.onLedger current).EnabledStage source
 
-/-- Exhaustive automatic transition result.  Disabled discovery retains the
-exact seed-impossibility proof; enabled discovery retains and executes the
-target entry. -/
-inductive Outcome
-    (transition : CTTransition.{uSource, uContext, uTrigger, uResult, uSeed}
-      sourceTactic targetTactic Source target)
-    (source : ResidualStage sourceTactic Source) where
-  | enabled (stage : transition.EnabledStage source)
-  | disabled (reject : transition.Seed source → False)
-      (discovered : transition.discover source = .disabled reject)
-
 /-- Execute a semantically enabled transition and retain the entire incoming
 ledger.  Forced transitions use this directly and never expose an impossible
 disabled branch to applications. -/
@@ -340,31 +329,7 @@ def runEnabled
       (transition.trigger source seed)
   }
 
-/-- Discover, construct, and execute the target CT while retaining the literal
-source residual.  This is the only operation applications need after supplying
-their mathematical adapter to a framework transition constructor. -/
-def run
-    (transition : CTTransition.{uSource, uContext, uTrigger, uResult, uSeed}
-      sourceTactic targetTactic Source target)
-    (source : ResidualStage sourceTactic Source) : transition.Outcome source :=
-  match discovery : transition.discover source with
-  | .enabled seed =>
-      .enabled <| transition.runEnabled source seed discovery
-  | .disabled reject => .disabled reject discovery
-
-/-- Execute a reusable local transition over an arbitrary accumulated ledger.
-The projection reads the current local residual, while the enabled output
-retains the entire outer ledger. -/
-def runOnLedger
-    {Ledger : Sort uLedger}
-    (transition : CTTransition.{uSource, uContext, uTrigger, uResult, uSeed}
-      sourceTactic targetTactic Source target)
-    (current : Ledger → Source)
-    (source : ResidualStage sourceTactic Ledger) :
-    (transition.onLedger current).Outcome source :=
-  (transition.onLedger current).run source
-
-/-- Forced counterpart of `runOnLedger`.  Transition profiles whose semantic seed
+/-- Forced transition executor. Transition profiles whose semantic seed
 is uniquely enabled return the complete next ledger directly. -/
 def runEnabledOnLedger
     {Ledger : Sort uLedger}
@@ -377,6 +342,24 @@ def runEnabledOnLedger
       (transition.onLedger current).discover source = .enabled seed) :
     (transition.onLedger current).EnabledStage source :=
   (transition.onLedger current).runEnabled source seed discovered
+
+/-- Execute a forced transition and return the target-labelled accumulated
+ledger directly.  This is the application-facing composition operation: the
+entire incoming ledger is retained inside the enabled execution, and callers
+cannot accidentally continue from the bare target result. -/
+def runEnabledLedgerOnLedger
+    {Ledger : Sort uLedger}
+    (transition : CTTransition.{uSource, uContext, uTrigger, uResult, uSeed}
+      sourceTactic targetTactic Source target)
+    (current : Ledger → Source)
+    (source : ResidualStage sourceTactic Ledger)
+    (seed : (transition.onLedger current).Seed source)
+    (discovered :
+      (transition.onLedger current).discover source = .enabled seed) :
+    ResidualStage targetTactic
+      ((transition.onLedger current).EnabledStage source) :=
+  ResidualStage.exact
+    (transition.runEnabledOnLedger current source seed discovered)
 
 /-- The source residual in every enabled stage is definitionally the value
 passed to `run`. -/
@@ -407,25 +390,60 @@ def EnabledStage.targetResult
       (transition.trigger source stage.execution.seed) :=
   stage.execution.result
 
-/-- Canonical accumulated ledger for the next transition.  Unlike the bare
-target-result projection, this residual stores the exact predecessor and the
-target execution together.  Repeated use therefore builds a proof-indexed
-history without application-specific `previous` fields. -/
-def EnabledStage.ledgerStage
-    {transition : CTTransition.{uSource, uContext, uTrigger, uResult, uSeed}
-      sourceTactic targetTactic Source target}
-    {source : ResidualStage sourceTactic Source}
-    (stage : transition.EnabledStage source) :
-    ResidualStage targetTactic (transition.EnabledStage source) :=
-  ResidualStage.exact stage
+/-- Exact disabled-discovery evidence attached to the same incoming ledger. -/
+structure DisabledStage
+    (transition : CTTransition.{uSource, uContext, uTrigger, uResult, uSeed}
+      sourceTactic targetTactic Source target)
+    (source : ResidualStage sourceTactic Source) where
+  previous : ResidualStage sourceTactic Source
+  previousExact : previous = source
+  reject : transition.Seed source → False
+  discovered : transition.discover source = .disabled reject
 
-@[simp] theorem EnabledStage.ledgerStage_output
-    {transition : CTTransition.{uSource, uContext, uTrigger, uResult, uSeed}
-      sourceTactic targetTactic Source target}
-    {source : ResidualStage sourceTactic Source}
-    (stage : transition.EnabledStage source) :
-    stage.ledgerStage.output = stage :=
-  rfl
+/-- A total CT execution whose every output branch is already a complete
+ledger stage.  Enabled execution changes the CT label and appends its public
+execution; disabled discovery retains the source label and appends the exact
+seed-impossibility certificate. -/
+inductive LedgerOutcome
+    (transition : CTTransition.{uSource, uContext, uTrigger, uResult, uSeed}
+      sourceTactic targetTactic Source target)
+    (source : ResidualStage sourceTactic Source) where
+  | enabled :
+      ResidualStage targetTactic (transition.EnabledStage source) →
+      LedgerOutcome transition source
+  | disabled :
+      ResidualStage sourceTactic (DisabledStage transition source) →
+      LedgerOutcome transition source
+
+/-- Run a general CT and automatically update the ledger on both discovery
+branches.  No caller-authored checkpoint or branch residual is required. -/
+def runLedger
+    (transition : CTTransition.{uSource, uContext, uTrigger, uResult, uSeed}
+      sourceTactic targetTactic Source target)
+    (source : ResidualStage sourceTactic Source) :
+    LedgerOutcome transition source :=
+  match discovery : transition.discover source with
+  | .enabled seed =>
+      .enabled <| ResidualStage.exact <|
+        transition.runEnabled source seed discovery
+  | .disabled reject =>
+      .disabled <| ResidualStage.exact {
+        previous := source
+        previousExact := rfl
+        reject := reject
+        discovered := discovery
+      }
+
+/-- General ledger-updating execution over a projection of the complete
+incoming ledger.  Both discovery outcomes retain that complete outer ledger. -/
+def runLedgerOnLedger
+    {Ledger : Sort uLedger}
+    (transition : CTTransition.{uSource, uContext, uTrigger, uResult, uSeed}
+      sourceTactic targetTactic Source target)
+    (current : Ledger → Source)
+    (source : ResidualStage sourceTactic Ledger) :
+    LedgerOutcome (transition.onLedger current) source :=
+  (transition.onLedger current).runLedger source
 
 /-- Stable source CT spelling derived from the transition type. -/
 def sourceTacticId
@@ -505,22 +523,14 @@ pointwise evaluation, not enumeration of `family.Index`. -/
 def advance
     (family : PointwiseTransitionFamily.{uLedger, uIndex, uSource, uContext,
       uTrigger, uResult, uSeed} sourceTactic targetTactic Ledger)
-    (source : ResidualStage sourceTactic Ledger) : family.EnabledStage source :=
-  ExactStageHandoff.refl source {
+    (source : ResidualStage sourceTactic Ledger) :
+    ResidualStage targetTactic (family.EnabledStage source) :=
+  ResidualStage.exact <| ExactStageHandoff.refl source {
     localStage := fun index =>
       (family.transition index).runEnabledOnLedger
         (family.current index) source (family.seed index source)
         (family.discovered index source)
   }
-
-/-- Canonical target-labelled ledger for the next manuscript transition. -/
-def EnabledStage.ledgerStage
-    {family : PointwiseTransitionFamily.{uLedger, uIndex, uSource, uContext,
-      uTrigger, uResult, uSeed} sourceTactic targetTactic Ledger}
-    {source : ResidualStage sourceTactic Ledger}
-    (stage : family.EnabledStage source) :
-    ResidualStage targetTactic (family.EnabledStage source) :=
-  ResidualStage.exact stage
 
 /-- Read one local specialized transition without reconstructing it. -/
 def EnabledStage.localStage
@@ -535,7 +545,7 @@ def EnabledStage.localStage
     (family : PointwiseTransitionFamily.{uLedger, uIndex, uSource, uContext,
       uTrigger, uResult, uSeed} sourceTactic targetTactic Ledger)
     (source : ResidualStage sourceTactic Ledger) (index : family.Index) :
-    (family.advance source).localStage index =
+    (family.advance source).output.localStage index =
       (family.transition index).runEnabledOnLedger
         (family.current index) source (family.seed index source)
         (family.discovered index source) :=

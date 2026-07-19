@@ -12,6 +12,24 @@ Occurrences, rather than event values, are the primary finite universe.  Thus
 two production steps remain distinct even when they emit equal events.
 -/
 
+/-- Framework-owned three-way tagged value.  This is preferable to a
+nested `Sum` for dependent consumers: it exposes one eliminator while the
+single ledger remains completely polymorphic in the payload type. -/
+inductive Choice3 (First : Type uOccurrence) (Second : Type uEvent)
+    (Third : Type uPayload) : Type (max uOccurrence uEvent uPayload)
+  | first (value : First)
+  | second (value : Second)
+  | third (value : Third)
+
+/-- Framework-owned four-way tagged value for clause-labelled payloads. -/
+inductive Choice4 (First : Type uOccurrence) (Second : Type uEvent)
+    (Third : Type uPayload) (Fourth : Type uValue) :
+    Type (max uOccurrence uEvent uPayload uValue)
+  | first (value : First)
+  | second (value : Second)
+  | third (value : Third)
+  | fourth (value : Fourth)
+
 /-- A finite occurrence-indexed event ledger. -/
 structure Ledger (Event : Type uEvent) where
   Occurrence : Type uOccurrence
@@ -98,6 +116,22 @@ noncomputable def singleton (event : Event) : Ledger.{0, uEvent} Event where
   Occurrence := PUnit
   occurrences := inferInstance
   event := fun _ => event
+
+/-- One exact emitted occurrence lifted to the occurrence universe required
+by a larger persistent ledger.  This avoids application-owned singleton
+records when the result will be appended to schedules with nontrivial
+occurrence types. -/
+noncomputable def singletonAt (event : Event) :
+    Ledger.{uOccurrence, uEvent} Event where
+  Occurrence := ULift.{uOccurrence} PUnit
+  occurrences := inferInstance
+  event := fun _ => event
+
+@[simp] theorem singletonAt_event (event : Event)
+    (occurrence : (singletonAt event :
+      Ledger.{uOccurrence, uEvent} Event).Occurrence) :
+    (singletonAt event : Ledger.{uOccurrence, uEvent} Event).event occurrence = event :=
+  rfl
 
 @[simp] theorem singleton_event (event : Event)
     (occurrence : (singleton event).Occurrence) :

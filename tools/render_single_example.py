@@ -10,7 +10,19 @@ ledger into the already hydrated detail artifact and recomputes its coverage.
 from __future__ import annotations
 
 import argparse
+import hashlib
+import re
 from pathlib import Path
+
+TYPED_MATHEMATICAL_LABEL_PATTERN = re.compile(
+    r"\\label\[(?:theorem|lemma|proposition|corollary|claim|definition|remark)\]"
+    r"\{([^}]+)\}"
+)
+ENVIRONMENT_MATHEMATICAL_LABEL_PATTERN = re.compile(
+    r"\\begin\{(?:theorem|lemma|proposition|corollary|claim|definition|remark)\}"
+    r"(?:\[[^\]]*\])?\s*\\label(?:\[[^\]]+\])?\{([^}]+)\}"
+)
+DIAGRAM_NODE_PATTERN = re.compile(r"\\textbf\{\[([0-9]+)\]\}")
 
 try:
     from tools.render_example_catalog import (
@@ -74,6 +86,127 @@ def main() -> None:
         manuscript["formalizedNodeIds"] = formalized_node_ids
         manuscript["nodeObligations"] = node_obligations
         manuscript["coverage"]["verifiedDiagramNodes"] = len(formalized_node_ids)
+
+        # The recovery synchronizer may also remove obsolete Lean-owned
+        # descriptors.  Project those removals into the hydrated artifact
+        # without attempting to hydrate any new declaration range.
+        raw_workflows = {
+            workflow["workflowId"]: workflow
+            for workflow in raw_artifact["example"].get("workflows", [])
+        }
+        for workflow in detail.get("workflows", []):
+            raw_workflow = raw_workflows.get(workflow["workflowId"])
+            if raw_workflow is None:
+                continue
+            live_stage_ids = {
+                stage["stageId"] for stage in raw_workflow.get("stages", [])
+            }
+            live_link_ids = {
+                link["linkId"] for link in raw_workflow.get("links", [])
+            }
+            workflow["stages"] = [
+                stage for stage in workflow["stages"]
+                if stage["stageId"] in live_stage_ids
+            ]
+            workflow["links"] = [
+                link for link in workflow["links"]
+                if link["linkId"] in live_link_ids
+            ]
+        live_step_ids = {
+            step["stepId"] for step in raw_manuscript.get("proofSteps", [])
+        }
+        manuscript["proofSteps"] = [
+            step for step in manuscript["proofSteps"]
+            if step["stepId"] in live_step_ids
+        ]
+        referenced_labels = {
+            reference["label"]
+            for step in manuscript["proofSteps"]
+            for reference in step["manuscriptRefs"]
+        }
+
+        manuscript_path = args.source_root.resolve() / raw_manuscript["path"]
+        manuscript_bytes = manuscript_path.read_bytes()
+        manuscript_source = manuscript_bytes.decode("utf-8")
+        live_labels = set(re.findall(
+            r"\\label(?:\[[^\]]+\])?\{([^}]+)\}", manuscript_source,
+        ))
+        manuscript["sha256"] = hashlib.sha256(manuscript_bytes).hexdigest()
+        manuscript["fragments"] = [
+            fragment for fragment in manuscript["fragments"]
+            if fragment["label"] in live_labels
+            and fragment["label"] in referenced_labels
+        ]
+
+        # Status and obligation data in this recovery mode are parsed directly
+        # from the Lean descriptor source.  Refresh that exact provenance hash
+        # as well; otherwise the backend correctly rejects the newly projected
+        # status as belonging to an older descriptor revision.
+        descriptor_source = detail.get("sourceOfTruth", {}).get("descriptorSource")
+        if isinstance(descriptor_source, dict):
+            descriptor_path = args.source_root.resolve() / descriptor_source["path"]
+            descriptor_source["sha256"] = hashlib.sha256(
+                descriptor_path.read_bytes()
+            ).hexdigest()
+
+        used_declarations: set[str] = set()
+        for workflow in detail.get("workflows", []):
+            for stage in workflow["stages"]:
+                used_declarations.add(stage["primaryDeclarationId"])
+                used_declarations.update(stage["evidenceDeclarationIds"])
+            for link in workflow["links"]:
+                used_declarations.update(link["automationDeclarationIds"])
+                used_declarations.update(link["evidenceDeclarationIds"])
+        for binding in detail.get("interfaceBindings", []):
+            used_declarations.add(binding["problemDeclarationId"])
+            used_declarations.add(binding["frameworkDeclarationId"])
+        for step in manuscript["proofSteps"]:
+            for group in step["declarationGroups"]:
+                used_declarations.update(group["declarationIds"])
+        detail["declarations"] = [
+            declaration for declaration in detail["declarations"]
+            if declaration["declarationId"] in used_declarations
+        ]
+
+        explained = {
+            declaration_id
+            for step in manuscript["proofSteps"]
+            for group in step["declarationGroups"]
+            for declaration_id in group["declarationIds"]
+        }
+        fragment_kinds = {
+            fragment["label"]: fragment["environment"]
+            for fragment in manuscript["fragments"]
+        }
+        implemented_steps = [
+            step for step in manuscript["proofSteps"]
+            if step["status"] == "implemented"
+        ]
+        verified_objects = {
+            reference["label"]
+            for step in implemented_steps
+            for reference in step["manuscriptRefs"]
+            if fragment_kinds.get(reference["label"]) in {
+                "theorem", "lemma", "proposition", "corollary",
+                "claim", "definition", "remark",
+            }
+        }
+        manuscript["coverage"].update({
+            "implementedSteps": len(implemented_steps),
+            "totalSteps": len(manuscript["proofSteps"]),
+            "explainedDeclarations": len(explained),
+            "displayedDeclarations": len(detail["declarations"]),
+            "verifiedMathematicalObjects": len(verified_objects),
+            "verifiedDiagramNodes": len(formalized_node_ids),
+            "totalMathematicalObjects": len(
+                set(TYPED_MATHEMATICAL_LABEL_PATTERN.findall(manuscript_source))
+                | set(ENVIRONMENT_MATHEMATICAL_LABEL_PATTERN.findall(manuscript_source))
+            ),
+            "totalDiagramNodes": len(
+                {int(value) for value in DIAGRAM_NODE_PATTERN.findall(manuscript_source)}
+            ),
+            "verifiedWorkflowSteps": len(implemented_steps),
+        })
     else:
         detail = hydrate_example(raw_artifact, args.source_root.resolve(), load_json(args.catalog))
     validate_detail_semantics(detail)

@@ -70,8 +70,9 @@ def advance
     {Ledger : Sort uLedger}
     (current : Ledger → CT6.ActiveLedgerResidual S sourceCapability input)
     (source : Core.Routing.ResidualStage .ct6 Ledger) :
-    ((transition targetCapability adapter).onLedger current).EnabledStage source :=
-  (transition targetCapability adapter).runEnabledOnLedger
+    Core.Routing.ResidualStage .ct9
+      (((transition targetCapability adapter).onLedger current).EnabledStage source) :=
+  (transition targetCapability adapter).runEnabledLedgerOnLedger
     current source () rfl
 
 @[simp] theorem transition_profile_id

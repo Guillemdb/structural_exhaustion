@@ -66,10 +66,16 @@ abbrev SparseSurplusEnabledStage
   Routes.Accumulated.OutputLedger
     (sparseSurplusEntry ctx) (sparseSurplusAdapter ctx) source
 
+abbrev SparseSurplusTransitionLedgerStage
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (source : SparseSurplusSource ctx) :=
+  Core.Routing.ResidualStage .ct6 (SparseSurplusEnabledStage ctx source)
+
 /-- Execute CT6 from the literal complete node-[18] ledger. -/
 def sparseSurplusTransitionStage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
-    (source : SparseSurplusSource ctx) : SparseSurplusEnabledStage ctx source :=
+    (source : SparseSurplusSource ctx) :
+    SparseSurplusTransitionLedgerStage ctx source :=
   Routes.Accumulated.advanceCurrent (sparseSurplusEntry ctx)
     (sparseSurplusAdapter ctx) source
 
@@ -166,12 +172,13 @@ abbrev SparseSurplusLedger
 extension. -/
 abbrev VerifiedSparseSurplusPrefix
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
-  Sigma (SparseSurplusLedger ctx)
+  Sigma fun source : SparseSurplusSource ctx =>
+    Core.Routing.ResidualStage .ct6 (SparseSurplusLedger ctx source)
 
 def sparseSurplusFacts
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (source : SparseSurplusSource ctx) :
-    SparseSurplusFacts ctx (sparseSurplusTransitionStage ctx source) where
+    SparseSurplusFacts ctx (sparseSurplusTransitionStage ctx source).output where
   terminal := runSparseSurplusCT6_terminal ctx
   trace := runSparseSurplusCT6_trace ctx
   totalEqSigma := runSparseSurplusCT6_total_eq_sigma ctx
@@ -184,20 +191,20 @@ def verifiedSparseSurplusPrefix
   let source : SparseSurplusSource ctx :=
     Core.Routing.ResidualStage.exact (tactic := .ct10) previous
   let stage := sparseSurplusTransitionStage ctx source
-  ⟨source, ⟨stage, sparseSurplusFacts ctx source⟩⟩
+  ⟨source, stage.extend (sparseSurplusFacts ctx source)⟩
 
 /-- Canonical complete CT6 ledger for every downstream edge. -/
 def sparseSurplusLedgerStage
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedSparseSurplusPrefix ctx) :=
-  verified.2.previous.ledgerStage.extend verified.2.added
+  verified.2
 
 /-- The active residual extracted from the literal CT6 target result. -/
 def sparseSurplusResidual
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
     (verified : VerifiedSparseSurplusPrefix ctx) :=
-  verified.2.previous.targetResult.activeLedgerResidual_of_terminal_eq
-    verified.2.added.terminal
+  verified.2.output.previous.targetResult.activeLedgerResidual_of_terminal_eq
+    verified.2.output.added.terminal
 
 theorem VerifiedSparseSurplusPrefix.cubicEndpoints
     (verified : VerifiedSparseSurplusPrefix ctx) :
@@ -205,7 +212,7 @@ theorem VerifiedSparseSurplusPrefix.cubicEndpoints
       4 ≤ ctx.G.object.degree center →
       ctx.G.object.graph.Adj center neighbor →
       ctx.G.object.degree neighbor = 3 :=
-  verified.2.added.cubicEndpoints
+  verified.2.output.added.cubicEndpoints
 
 /-- Starting from the official counterexample boundary, retain the identical
 minimal graph and execute the complete ordered surplus CT6 audit. -/

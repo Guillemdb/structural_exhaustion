@@ -38,9 +38,10 @@ do not run the coordinatewise CT15 interpreter merely to decide this rank
 object.
 Build every proof-level zero-scan certificate with
 `Core.PolynomialCheckBudget.zero`; do not repeat the budget record in CT15
-profiles or applications. When a downstream node retains a CT15 residual or
-decision unchanged, extend `Core.ExactHandoff` and add only its new semantic
-fields.
+profiles or applications. A downstream node consumes the exact incoming stage
+and full accumulated ledger through the framework node executor, retrieves the
+CT15 decision through one `LedgerQuery`, and adds only its new semantic fact.
+Never expose an exact-handoff or routing carrier in application code.
 On a strict-loss edge, first check which quotient stage the manuscript uses.
 `Profile.pairCircuitOfRankDrop` produces a circuit for an already
 `Admissible` quotient.  Since `Admissible` includes context-universal response

@@ -26,7 +26,11 @@ EXPECTED_SKILLS = {
     MANUSCRIPT_REPAIR_REVIEW,
     *CT_SKILLS,
 }
-SKILLS_WITH_REFERENCES = {MANUSCRIPT_REPAIR, MANUSCRIPT_REPAIR_REVIEW}
+SKILLS_WITH_REFERENCES = {
+    ERDOS_NEXT_CT,
+    MANUSCRIPT_REPAIR,
+    MANUSCRIPT_REPAIR_REVIEW,
+}
 
 
 def read_skill(name: str) -> str:
@@ -171,7 +175,7 @@ def test_strategy_skill_covers_selection_locality_and_delegation() -> None:
         "SimpleGraph V",
     ):
         assert prohibited_universe in skill
-    assert "implement-structural-exhaustion-route/SKILL.md" in skill
+    assert "Require the framework registry to resolve every CT transition" in skill
 
 
 def test_route_skill_covers_every_registered_transition_profile() -> None:
@@ -196,7 +200,7 @@ def test_route_skill_covers_every_registered_transition_profile() -> None:
         ("CT2 criticality to CT10", "DataDiscovery", "CT2ToCT10AutomationFirst.lean"),
         (
             "CT5 charge ledger to CT14",
-            "forced empty trigger",
+            "no semantic adapter",
             "CT5ToCT14AutomationFirst.lean",
         ),
         ("CT6 active ledger to CT9", "ItemCollectionAdapter", "CT6ToCT9AutomationFirst.lean"),
@@ -224,7 +228,6 @@ def test_erdos_next_ct_skill_advances_one_unconditional_stage() -> None:
         "generated/lean-machines.json",
         "design-structural-exhaustion-proof/SKILL.md",
         "implement-structural-exhaustion-ctN/SKILL.md",
-        "implement-structural-exhaustion-route/SKILL.md",
     ):
         assert authority in skill
 
@@ -348,6 +351,33 @@ def test_erdos_skills_require_complete_node_obligation_ledgers() -> None:
             "web",
         ):
             assert requirement in normalized
+
+
+def test_erdos_skills_require_the_mandatory_node_authoring_contract() -> None:
+    template = (
+        SKILLS_ROOT
+        / ERDOS_NEXT_CT
+        / "references"
+        / "mandatory-node-template.md"
+    )
+    assert template.is_file()
+    contract = " ".join(template.read_text(encoding="utf-8").split()).lower()
+
+    for name in (ERDOS_NEXT_CT, ERDOS_REVIEW, "design-structural-exhaustion-proof"):
+        assert "mandatory-node-template.md" in read_skill(name)
+
+    for requirement in (
+        "one full accumulated framework ledger",
+        "retrieve; never rederive or copy",
+        "output contains only mathematics first established by that node",
+        "one compositional",
+        "stageentails",
+        "never introduce an erdős-specific sum, route, exceptional case",
+        "extends core.exacthandoff",
+        "caller-supplied account",
+        "any `no` keeps the node yellow",
+    ):
+        assert requirement in contract
 
 
 def test_erdos_skills_require_framework_automation_patterns() -> None:

@@ -105,6 +105,18 @@ function manuscriptWithStatuses(): ExampleManuscript {
   };
 }
 
+function proofDiagramBody(source: string, label: string): string {
+  const figures = [...source.matchAll(/\\begin\{figure\}[\s\S]*?\\end\{figure\}/g)];
+  const figure = figures.find((candidate) =>
+    candidate[0].includes(`\\label{${label}}`));
+  if (!figure) throw new Error(`missing proof diagram ${label}`);
+  const tikz = figure[0].match(
+    /\\begin\{tikzpicture\}[\s\S]*?\\end\{tikzpicture\}%?/,
+  );
+  if (!tikz) throw new Error(`missing TikZ body for ${label}`);
+  return tikz[0];
+}
+
 function generatedManuscript(): ExampleManuscript {
   const detail = JSON.parse(readFileSync(
     resolve(process.cwd(), "../../generated/examples/erdos-64.json"),
@@ -169,6 +181,36 @@ describe("Erdős Chapter 1 proof flow", () => {
       .toEqual(currentNodeIds);
     expect(isOriginalErdosProofNode(157)).toBe(true);
     expect(isOriginalErdosProofNode(158)).toBe(false);
+  });
+
+  it("keeps every live Chapter 1 diagram identical to the original TikZ source", () => {
+    const originalManuscript = readFileSync(
+      resolve(process.cwd(), "../../original_erdos_64_proof.tex"),
+      "utf8",
+    );
+    const currentManuscript = readFileSync(
+      resolve(process.cwd(), "../../proofs/erdos_64_eg/erdos_64_proof.tex"),
+      "utf8",
+    );
+    const parts = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi"];
+
+    for (const part of parts) {
+      const label = `fig:proof-diagram-part-${part}`;
+      expect(proofDiagramBody(currentManuscript, label), label)
+        .toBe(proofDiagramBody(originalManuscript, label));
+    }
+  });
+
+  it("ships cropped original-figure assets rather than full manuscript pages", () => {
+    for (let part = 1; part <= 11; part += 1) {
+      const svg = readFileSync(
+        resolve(process.cwd(), `public/assets/erdos-original/part-${part}.svg`),
+        "utf8",
+      );
+      expect(svg, `Part ${part} must be an isolated figure`).toMatch(/<[^>]*svg[^>]*viewBox=/);
+      expect(svg, `Part ${part} must not be a 612×792 manuscript page`)
+        .not.toContain('viewBox="0 0 612 792"');
+    }
   });
 
   it("uses formalizedNodeIds as the sole green authority", () => {
