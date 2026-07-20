@@ -136,6 +136,32 @@ theorem nat_partition_density_with_error
       rw [← partition]
       ring
 
+/-- Turn a density cap on the occupied part of an exact fixed-width
+partition into a lower bound for its complement.  The coefficient identity
+is supplied explicitly, so applications do not normalize large concrete
+numerals and the framework never inspects the packed family. -/
+theorem nat_partition_complement_lower
+    {rate complementRate width budget mass remainder order : Nat}
+    (rateSplit : rate = complementRate + width * budget)
+    (partition : remainder + width * mass = order)
+    (density : rate * mass ≤ budget * order) :
+    complementRate * order ≤ rate * remainder := by
+  have scaledDensity :
+      width * (rate * mass) ≤ width * (budget * order) :=
+    Nat.mul_le_mul_left width density
+  have withCommonTerm :
+      complementRate * order + width * (budget * order) ≤
+        rate * remainder + width * (budget * order) := by
+    calc
+      complementRate * order + width * (budget * order) =
+          rate * order := by rw [rateSplit]; ring
+      _ = rate * remainder + width * (rate * mass) := by
+        rw [← partition]
+        ring
+      _ ≤ rate * remainder + width * (budget * order) :=
+        Nat.add_le_add_left scaledDensity _
+  exact Nat.le_of_add_le_add_right withCommonTerm
+
 /-- Combine a scaled density cap with a local wedge/supply ledger while
 retaining the density error. The rate identities are explicit inputs, so
 applications never normalize large concrete products. -/

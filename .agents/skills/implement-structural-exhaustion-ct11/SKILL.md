@@ -32,3 +32,11 @@ The framework owns decomposition audit, admissibility scan, negative-budget loca
 ## Practicality and completion
 
 CT11 performs a finite scan over the supplied cells. Prove that collection size and each budget evaluation are polynomial in the input. Do not enumerate decompositions; supply the one mathematical decomposition proved by the source. Pin first negative cell order in a small fixture.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

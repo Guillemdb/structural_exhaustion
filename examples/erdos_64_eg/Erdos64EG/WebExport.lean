@@ -1,20 +1,21 @@
 import Erdos64EG
-import Erdos64EG.P13Node24To26
-import Erdos64EG.P13Node27To28
-import Erdos64EG.P13Node28To29
-import Erdos64EG.P13Node29To30
-import Erdos64EG.P13Node30To31
-import Erdos64EG.P13Node31To32
-import Erdos64EG.P13Node32To33
-import Erdos64EG.P13Node32To34
-import Erdos64EG.P13Node33To35
-import Erdos64EG.P13Node35To36
-import Erdos64EG.P13Node36To37
-import Erdos64EG.P13Node36To38
-import Erdos64EG.P13Node38To39
-import Erdos64EG.P13Nodes35To47Refinement
-import Erdos64EG.P13Nodes47To51Refinement
-import Erdos64EG.P13Node24AsymptoticTransport
+import Erdos64EG.Node53
+import Erdos64EG.Future.P13Node24To26
+import Erdos64EG.Future.P13Node27To28
+import Erdos64EG.Future.P13Node28To29
+import Erdos64EG.Future.P13Node29To30
+import Erdos64EG.Future.P13Node30To31
+import Erdos64EG.Future.P13Node31To32
+import Erdos64EG.Future.P13Node32To33
+import Erdos64EG.Future.P13Node32To34
+import Erdos64EG.Future.P13Node33To35
+import Erdos64EG.Future.P13Node35To36
+import Erdos64EG.Future.P13Node36To37
+import Erdos64EG.Future.P13Node36To38
+import Erdos64EG.Future.P13Node38To39
+import Erdos64EG.Future.P13Nodes35To47Refinement
+import Erdos64EG.Future.P13Nodes47To51Refinement
+import Erdos64EG.Future.P13Node24AsymptoticTransport
 import StructuralExhaustion.Canonical.ExampleExport
 import StructuralExhaustion.CT15.FunctionalAdmissibleRank
 
@@ -147,70 +148,46 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.induced-p13"
       title := "CT1 induced-P₁₃ branch"
-      summary := "One CT1 block covers diagram nodes [15]–[16]: literal P₁₃-freeness reaches the avoiding terminal, HSS closes it against dyadic-target avoidance, and the forced embedding reaches C1."
+      summary := "Node [15] makes the exhaustive P₁₃-free decision on the literal node-[14] stage; node [16] closes exactly its yes constructor with HSS and retains the literal no constructor."
       kind := .tactic
       tacticId? := some "CT1"
-      primaryDeclaration := `Erdos64EG.Internal.exists_verifiedInducedP13Prefix
+      primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode16
       evidenceDeclarations := [
         `StructuralExhaustion.Graph.External.HegdeSandeepShashank.p13Free_hasPowerOfTwoCycle,
-        `Erdos64EG.Internal.runP13FreeCT1_terminal,
-        `Erdos64EG.Internal.runP13FreeCT1_trace,
-        `Erdos64EG.Internal.runP13FreeCT1_total,
-        `Erdos64EG.Internal.runP13FreeCT1_polynomial,
+        `Erdos64EG.Internal.Node15Stage,
+        `Erdos64EG.Internal.node15P13Decision,
+        `Erdos64EG.Internal.node15_exhaustive,
+        `Erdos64EG.Internal.runInitialThroughNode15,
+        `Erdos64EG.Internal.node15LocalChecks_eq_zero,
         `Erdos64EG.Internal.hssTarget_of_p13Free,
-        `Erdos64EG.Internal.p13FreeBranch_closed,
-        `Erdos64EG.Internal.inducedP13_of_hss,
-        `Erdos64EG.Internal.runInducedP13CT1_terminal,
-        `Erdos64EG.Internal.runInducedP13CT1_trace,
-        `Erdos64EG.Internal.runInducedP13CT1_total,
-        `Erdos64EG.Internal.runInducedP13CT1_polynomial,
-        `Erdos64EG.Internal.inducedP13Prefix_previous,
-        `Erdos64EG.Internal.inducedP13Prefix_realization
+        `Erdos64EG.Internal.node16_hss_target,
+        `Erdos64EG.Internal.node16_hss_closure,
+        `Erdos64EG.Internal.Node16Stage,
+        `Erdos64EG.Internal.node16HSSContinuation,
+        `Erdos64EG.Internal.runInitialThroughNode16,
+        `Erdos64EG.Internal.node16LocalChecks_eq_zero
       ]
     },
     {
       stageId := "proof-slice.p13-packing"
       title := "CT12 induced-P₁₃ packing"
-      summary := "One CT12 stage selects a maximum vertex-disjoint induced-P₁₃ family, derives maximal saturation, audits exactly that selected list, and constructs the P₁₃-free remainder containing no finite subgraph of minimum degree three."
+      summary := "Node [17] selects a deterministic maximal vertex-disjoint induced-P₁₃ family and retains CT12 disjointness, saturation, terminal, trace, totality, nonemptiness, and local work evidence."
       kind := .tactic
       tacticId? := some "CT12"
-      primaryDeclaration := `Erdos64EG.Internal.exists_verifiedP13PackingPrefix
+      primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode17
       evidenceDeclarations := [
-        `Erdos64EG.Internal.runP13PackingCT12_terminal,
-        `Erdos64EG.Internal.runP13PackingCT12_iterations,
-        `Erdos64EG.Internal.runP13PackingCT12_iterations_exact,
-        `Erdos64EG.Internal.runP13PackingCT12_trace_bound,
-        `Erdos64EG.Internal.p13_maximum,
-        `Erdos64EG.Internal.p13_saturated,
-        `Erdos64EG.Internal.p13Remainder_partition,
-        `Erdos64EG.Internal.p13Remainder_free,
-        `Erdos64EG.Internal.p13Remainder_componentwise_free,
-        `Erdos64EG.Internal.p13Remainder_internalThreeCore_free,
-        `Erdos64EG.Internal.p13Remainder_internalSubgraphThreeCore_free,
-        `StructuralExhaustion.Graph.InducedPathPacking.remainder_card_ge_of_packingNumber_le,
-        `Erdos64EG.Internal.P13CoverageResidual,
-        `Erdos64EG.Internal.verifiedP13RemainderResidual,
-        `Erdos64EG.Internal.p13Remainder_large,
-        `Erdos64EG.Internal.p13Remainder_node26_exact,
-        `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder,
-        `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.node25,
-        `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.large,
-        `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.thirteen_le_order,
-        `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.ratio_ge_main_sub_oOne,
-        `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.node26,
-        `Erdos64EG.Internal.VerifiedP13Node27NoInternalThreeCore,
-        `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.node27,
-        `Erdos64EG.Internal.p13Node27LocalChecks_polynomial,
-        `Erdos64EG.Internal.verifiedP13PackingPrefix,
-        `Erdos64EG.Internal.p13PackingPrefix_previous,
-        `Erdos64EG.Internal.p13PackingPrefix_transitionProfileId,
-        `Erdos64EG.Internal.p13PackingPrefix_routedExecutionExact,
-        `Erdos64EG.Internal.p13PackingPrefix_nonempty,
-        `Erdos64EG.Internal.p13Node24To26LocalChecks_polynomial,
-        `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingPrefix,
-        `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingTransition_profile_id,
-        `Erdos64EG.Internal.inducedP13PackingProfile,
-        `StructuralExhaustion.CT12.DisjointPacking.Profile.verifiedStage
+        `Erdos64EG.Internal.Node17Stage,
+        `Erdos64EG.Internal.Node17Output,
+        `Erdos64EG.Internal.Node17StageContext,
+        `Erdos64EG.Internal.node17Windows,
+        `Erdos64EG.Internal.node17PackingNumber,
+        `Erdos64EG.Internal.node17InducedP13Packing,
+        `Erdos64EG.Internal.runInitialThroughNode17,
+        `Erdos64EG.Internal.node17_maximal,
+        `Erdos64EG.Internal.node17_terminal,
+        `Erdos64EG.Internal.node17Total,
+        `Erdos64EG.Internal.node17WorkBudget,
+        `Erdos64EG.Internal.node17_nonempty
       ]
     },
     {
@@ -220,10 +197,13 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       kind := .tactic
       tacticId? := some "CT10"
       primaryDeclaration :=
-        `Erdos64EG.Internal.exists_verifiedP13LabelAlgebraPrefix
+        `Erdos64EG.Internal.node18P13LabelAlgebra
       evidenceDeclarations := [
         `Erdos64EG.Internal.p13CodeLegal_iff_gapLegal,
         `Erdos64EG.Internal.p13Legal_iff_gapLegal,
+        `Erdos64EG.Internal.P13ParityLabelCount.gapSafeSized13_natCard_eq_convolution,
+        `Erdos64EG.Internal.P13ParityLabelCount.gapLegal13_natCard,
+        `Erdos64EG.Internal.symbolicLegalP13Labels_card,
         `Erdos64EG.Internal.p13LegalLabel_count,
         `Erdos64EG.Internal.p13LegalLabel_size_distribution,
         `Erdos64EG.Internal.legalP13Label_card_bounds,
@@ -235,10 +215,13 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.runP13LabelCT10_total,
         `Erdos64EG.Internal.p13C_eq_one_iff,
         `Erdos64EG.Internal.p13OmegaTwo_eq_one_iff,
-        `Erdos64EG.Internal.p13AttachmentLabel_legal,
-        `Erdos64EG.Internal.p13AttachmentLabel_accepted,
-        `Erdos64EG.Internal.p13LabelAlgebraPrefix_previous,
-        `Erdos64EG.Internal.p13LabelAlgebraPrefix_stage
+        `Erdos64EG.Internal.Node18Stage,
+        `Erdos64EG.Internal.Node18Output,
+        `Erdos64EG.Internal.Node18Output.actualLabelsLegal,
+        `Erdos64EG.Internal.Node18StageContext,
+        `Erdos64EG.Internal.node18P13LabelAlgebra,
+        `Erdos64EG.Internal.runInitialThroughNode18,
+        `Erdos64EG.Internal.node18LocalChecks_eq
       ]
     },
     {
@@ -247,37 +230,88 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       summary := "The actual degree surplus is compared with the squared fixed homogeneous-cap scale by one natural-number comparison, giving the exhaustive node-[19] non-near-cubic or bounded branch."
       kind := .theorem
       primaryDeclaration :=
-        `Erdos64EG.Internal.exists_verifiedSurplusScaleRoutingPrefix
+        `Erdos64EG.Internal.runInitialThroughNode19
       evidenceDeclarations := [
-        `StructuralExhaustion.Core.QuadraticScaleSplit.decide,
-        `StructuralExhaustion.Core.QuadraticScaleSplit.exhaustive,
-        `StructuralExhaustion.Core.QuadraticScaleSplit.verifiedStage,
-        `Erdos64EG.Internal.surplusScaleCoefficient,
-        `Erdos64EG.Internal.surplusScaleInput,
-        `Erdos64EG.Internal.surplusScaleStage,
-        `Erdos64EG.Internal.surplusScale_exhaustive,
-        `Erdos64EG.Internal.routeSurplusScale,
-        `Erdos64EG.Internal.routeSurplusScale_exhaustive,
-        `Erdos64EG.Internal.verifiedSurplusScaleRoutingPrefix
+        `Erdos64EG.Internal.node19SurplusCoefficient,
+        `Erdos64EG.Internal.node19Profile,
+        `Erdos64EG.Internal.node19Family,
+        `Erdos64EG.Internal.Node19High,
+        `Erdos64EG.Internal.Node19Low,
+        `Erdos64EG.Internal.Node19Stage,
+        `Erdos64EG.Internal.node19SurplusScaleDecision,
+        `Erdos64EG.Internal.runInitialThroughNode19,
+        `Erdos64EG.Internal.node19_exhaustive,
+        `Erdos64EG.Internal.node19WorkBudget,
+        `Erdos64EG.Internal.node19_work_zero,
+        `Erdos64EG.Internal.Node20Entry,
+        `Erdos64EG.Internal.Node20SourceStage,
+        `Erdos64EG.Internal.node20Entry_iff_node19High,
+        `Erdos64EG.Internal.node20LocalChecks_eq_zero
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-node25-large-remainder"
+      title := "Node [25] exact Residual A"
+      summary := "The literal node-[24] active cursor is mapped to the canonical CT12 packing complement, its exact partition and scaled largeness, and hereditary induced-P13-freeness."
+      kind := .theorem
+      primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode25
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.Node25Remainder,
+        `Erdos64EG.Internal.Node25Output,
+        `Erdos64EG.Internal.Node25Stage,
+        `Erdos64EG.Internal.node25P13LargeRemainder,
+        `Erdos64EG.Internal.node25LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.DensityAsymptoticTransport.nat_partition_complement_lower,
+        `Erdos64EG.Internal.p13Remainder_partition,
+        `Erdos64EG.Internal.p13Remainder_free,
+        `Erdos64EG.Internal.p13Remainder_componentwise_free
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-node26-remainder-continuation"
+      title := "Node [26] Residual A panel continuation"
+      summary := "The framework maps the literal node-[25] output and records only that the Part-II remainder name is the same canonical packing complement."
+      kind := .adapter
+      primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode26
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.Node26Output,
+        `Erdos64EG.Internal.Node26Stage,
+        `Erdos64EG.Internal.node26P13RemainderContinuation,
+        `Erdos64EG.Internal.node26LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapDependentDecisionOnNoYesClosedActive
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-node27-no-three-core"
+      title := "Node [27] no internal three-core"
+      summary := "On the exact node-[26] remainder, the existing graph lemmas exclude both an induced internal minimum-degree-three support and the manuscript's stronger finite internal subgraph form."
+      kind := .theorem
+      primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode27
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.Node27Output,
+        `Erdos64EG.Internal.Node27Stage,
+        `Erdos64EG.Internal.node27P13NoInternalThreeCore,
+        `Erdos64EG.Internal.node27LocalChecks_eq_zero,
+        `Erdos64EG.Internal.p13Remainder_internalThreeCore_free,
+        `Erdos64EG.Internal.p13Remainder_internalSubgraphThreeCore_free
       ]
     },
     {
       stageId := "proof-slice.p13-positive-deficiency"
       title := "Exact P13-remainder positive deficiency"
-      summary := "The graph-owned induced-support charge profile is instantiated on the exact selected P13 remainder, so node [28] is definitionally the sum of max(0,3-d_R(v)) on that same graph."
+      summary := "Node [28] maps the literal node-[27] cursor and records exactly the graph-owned positive-deficiency sum on that unchanged remainder."
       kind := .theorem
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node27NoInternalThreeCore.node28
+        `Erdos64EG.Internal.runInitialThroughNode28
       evidenceDeclarations := [
         `StructuralExhaustion.Graph.AssignedSupportCharge.Profile.internalDegree,
         `StructuralExhaustion.Graph.AssignedSupportCharge.Profile.positiveDeficiency,
         `Erdos64EG.Internal.p13RemainderDeficiencyProfile,
-        `Erdos64EG.Internal.p13Remainder_internalDegree_eq,
         `Erdos64EG.Internal.p13Remainder_positiveDeficiency_eq,
-        `Erdos64EG.Internal.VerifiedP13PositiveDeficiencyPrefix,
-        `Erdos64EG.Internal.verifiedP13PositiveDeficiencyPrefix,
-        `Erdos64EG.Internal.VerifiedP13Node28PositiveDeficiency,
-        `Erdos64EG.Internal.p13Node28LocalChecks_le_square
+        `Erdos64EG.Internal.Node28Output,
+        `Erdos64EG.Internal.Node28Stage,
+        `Erdos64EG.Internal.node28P13PositiveDeficiency,
+        `Erdos64EG.Internal.node28LocalChecks_eq_zero
       ]
     },
     {
@@ -286,9 +320,12 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       summary := "The literal node-[28] remainder deficiency injects into its R--W boundary incidences, those incidences embed in the selected-window token schedule, and the exact schedule identity gives 15p13+sigma_W together with its surplus-adjusted form."
       kind := .theorem
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node28PositiveDeficiency.node29
+        `Erdos64EG.Internal.runInitialThroughNode29
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node29ExternalIncidenceSupply,
+        `Erdos64EG.Internal.Node29Output,
+        `Erdos64EG.Internal.Node29Stage,
+        `Erdos64EG.Internal.node29P13ExternalIncidenceSupply,
+        `Erdos64EG.Internal.node29LocalChecks_eq_zero,
         `Erdos64EG.Internal.p13Curvature_positiveDeficiency_eq_previous,
         `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.positiveDeficiency_le_boundaryIncidences,
         `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderBoundaryIncidences_le_tokenCount,
@@ -296,8 +333,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_le_fifteen_mul_packing_add_surplus,
         `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_sub_remainderSurplus_le,
         `StructuralExhaustion.Graph.InducedPathWindowLedger.window_add_remainder_eq_totalSurplus,
-        `StructuralExhaustion.Graph.InducedPathWindowLedger.checks_le_thirteen_mul_square,
-        `Erdos64EG.Internal.P13NearCubicSpineBound.ofBoundedSurplus
+        `StructuralExhaustion.Graph.InducedPathWindowLedger.checks_le_thirteen_mul_square
       ]
     },
     {
@@ -306,18 +342,18 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       summary := "The graph-owned degree-count identity is applied to every supplied finite component support and to the exact remainder. Node [29]'s incidence supply gives the finite window-only error, while the reusable real transport handles both manuscript rates without scanning another universe."
       kind := .theorem
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node29ExternalIncidenceSupply.node30
+        `Erdos64EG.Internal.runInitialThroughNode30
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node30WedgeLower,
+        `Erdos64EG.Internal.Node30Output,
+        `Erdos64EG.Internal.Node30Stage,
+        `Erdos64EG.Internal.node30P13WedgeLower,
+        `Erdos64EG.Internal.node30LocalChecks_eq_zero,
         `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.three_mul_card_le_wedgeCount_add_twice_deficiency,
         `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeFloor,
         `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeRate_of_deficiencyRate,
         `Erdos64EG.Internal.p13Remainder_wedgeFloor,
         `Erdos64EG.Internal.p13Node30OmegaWindow,
-        `Erdos64EG.Internal.p13Node30OmegaWindow_gt_printed,
-        `Erdos64EG.Internal.p13Node30HighEntropyDeficiencyRate,
-        `Erdos64EG.Internal.p13Node30OmegaHighEntropy,
-        `Erdos64EG.Internal.p13Node30OmegaHighEntropy_eq
+        `Erdos64EG.Internal.p13Node30OmegaWindow_gt_printed
       ]
     },
     {
@@ -327,32 +363,19 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node30WedgeLower.node31
+        `Erdos64EG.Internal.runInitialThroughNode31
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.declaredCoordinates,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.Survives,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.targetRank,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.targetRank_le_coordinates,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.exists_surviving_card_eq_targetRank,
-        `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Family,
-        `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Profile.Candidate,
-        `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Profile.rankProfile,
-        `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Profile.pairCircuitOfRankDrop,
-        `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Profile.pairCircuit_determines,
-        `StructuralExhaustion.Graph.SupportStratifiedFunctionalRank.Proposal,
-        `StructuralExhaustion.Graph.SupportStratifiedFunctionalRank.Admissible,
-        `StructuralExhaustion.Graph.SupportStratifiedFunctionalRank.profile,
+        `Erdos64EG.Internal.Node31Output,
+        `Erdos64EG.Internal.Node31Stage,
+        `Erdos64EG.Internal.node31P13CurvatureTargetRank,
+        `Erdos64EG.Internal.node31LocalChecks_eq_zero,
         `Erdos64EG.Internal.p13CurvatureCoordinates,
         `Erdos64EG.Internal.p13CurvatureCoordinates_card_eq_wedgeCount,
         `Erdos64EG.Internal.p13CurvatureCoordinates_card_le_cube,
         `Erdos64EG.Internal.p13CurvatureResponseProfile,
-        `StructuralExhaustion.Graph.FiniteSupportResponse.Profile.response_true_iff,
         `Erdos64EG.Internal.p13CurvatureFunctionalRankProfile,
-        `Erdos64EG.Internal.p13CanonicalCurvatureTargetRank,
-        `Erdos64EG.Internal.p13CanonicalCurvatureTargetRank_le_wedgeCount,
-        `Erdos64EG.Internal.exists_p13CanonicalCurvature_surviving_card_eq_targetRank,
-        `Erdos64EG.Internal.p13CurvatureTargetRank
+        `Erdos64EG.Internal.p13CurvatureTargetRank,
+        `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Profile.targetRank_le_coordinates
       ]
     },
     {
@@ -362,73 +385,71 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank.node32
+        `Erdos64EG.Internal.runInitialThroughNode32
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node32RankDecision,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.RankDecision,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.rankDecision,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.rankDecision_exhaustive,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.rankDecisionBudget
+        `Erdos64EG.Internal.node32RankDecision,
+        `Erdos64EG.Internal.Node32RankDrop,
+        `Erdos64EG.Internal.Node32FullRank,
+        `Erdos64EG.Internal.Node32Stage,
+        `Erdos64EG.Internal.node32P13RankDropDecision,
+        `Erdos64EG.Internal.node32LocalChecks_eq_zero,
+        `Erdos64EG.Internal.node32RankDecision_exhaustive,
+        `Erdos64EG.Internal.node32RankDecisionWork_eq_zero,
+        `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Profile.rankDecision,
+        `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Profile.rankDecision_exhaustive
       ]
     },
     {
       stageId := "proof-slice.p13-curvature-dependence-open"
-      title := "Finite functional curvature dependence"
-      summary := "On the strict-loss edge, failure of universal survival supplies one support-certified candidate and two distinct declared raw wedges with the same quotient value. Its singleton-basis circuit retains the selected original atom, final carrier, and representative for Branch D."
+      title := "Node [33] rank-reducing branch marker"
+      summary := "Node [33] names only node [32]'s literal strict-rank-loss constructor as a PUnit branch marker. The decision proof remains at node [32], and circuit extraction belongs to node [35]."
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node33
+        `Erdos64EG.Internal.runInitialThroughNode33
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.PairCircuit,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.PairCircuit.basis,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.PairCircuit.basis_subset_declared,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.PairCircuit.determined_not_mem_basis,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.pairCircuit_nonempty_of_rankDrop,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.pairCircuitOfRankDrop,
-        `StructuralExhaustion.CT15.SupportStratifiedRank.Profile.certificate
+        `Erdos64EG.Internal.Node33Output,
+        `Erdos64EG.Internal.Node33Stage,
+        `Erdos64EG.Internal.node33P13RankReducingBranch,
+        `Erdos64EG.Internal.node33LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueActiveCursorDecisionYes
       ]
     },
     {
       stageId := "proof-slice.p13-full-curvature-rank"
       title := "Exact full-curvature-rank residual"
-      summary := "On node [32]'s no edge, the target rank equals the complete raw wedge cardinality. An actual maximal surviving family has size W2(R), so the displayed near-full asymptotic residual follows from a stronger exact finite equality."
+      summary := "Node [34] names only node [32]'s literal full-rank constructor as a PUnit branch marker. The exact equality remains in the node-[32] decision payload and is not copied into a new application record."
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node34
+        `Erdos64EG.Internal.runInitialThroughNode34
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node34FullCurvatureRank,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.exists_surviving_card_eq_targetRank,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.rankDecisionBudget
+        `Erdos64EG.Internal.Node34Output,
+        `Erdos64EG.Internal.Node34Stage,
+        `Erdos64EG.Internal.node34P13FullRankResidual,
+        `Erdos64EG.Internal.node34LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueActiveCursorDecisionNo
       ]
     },
     {
       stageId := "proof-slice.p13-multiscale-curvature"
-      title := "CT10 complete multi-scale P13 curvature table"
-      summary := "The bounded node-[19] constructor executes the complete 91-barrier finite relation certificate; the strict constructor is preserved for Part X."
+      title := "Node [21] multi-scale curvature interface"
+      summary := "The lightweight node-[21] API fixes the exact 91-barrier output and literal node-[19] no-continuation type. Its optimized producer is still yellow, so later stages consume the same typed output provisionally without changing the paper edge."
       kind := .tactic
       tacticId? := some "CT10"
       primaryDeclaration :=
-        `Erdos64EG.Internal.routeSurplusScaleThroughCurvature_exhaustive
+        `Erdos64EG.Internal.Node21Output
       evidenceDeclarations := [
-        `Erdos64EG.Internal.p13CodeCompatibleSparse_iff,
-        `Erdos64EG.Internal.p13CodeCompatibleFast_iff,
-        `Erdos64EG.Internal.p13MultiScaleRows_codeAudit,
-        `Erdos64EG.Internal.p13MultiScaleCompatibilityRow_semantic,
-        `StructuralExhaustion.Core.FiniteBitRelationBarrier.Profile.safeCount,
-        `StructuralExhaustion.Core.FiniteBitRelationBarrier.Profile.flatCount,
-        `Erdos64EG.Internal.p13MultiScaleSafeCounts_audit,
-        `Erdos64EG.Internal.p13MultiScaleFlatCounts_audit,
-        `Erdos64EG.Internal.p13BarrierSafeCount_audit,
-        `Erdos64EG.Internal.p13BarrierFlatCount_audit,
-        `Erdos64EG.Internal.p13Barrier_class_count,
-        `Erdos64EG.Internal.p13Barrier_one_one_counts,
-        `Erdos64EG.Internal.p13MultiScaleBarrier_more_than_118_bits,
-        `Erdos64EG.Internal.verifiedP13MultiScaleCurvaturePrefix,
-        `Erdos64EG.Internal.routeSurplusScale,
-        `Erdos64EG.Internal.routeSurplusScaleThroughCurvature
+        `Erdos64EG.Internal.P13BarrierAccepted,
+        `Erdos64EG.Internal.p13BarrierClassification,
+        `Erdos64EG.Internal.p13MultiScaleBarrierProfile,
+        `Erdos64EG.Internal.p13BarrierSafeCount,
+        `Erdos64EG.Internal.p13BarrierFlatCount,
+        `Erdos64EG.Internal.p13BarrierSafeProduct,
+        `Erdos64EG.Internal.p13BarrierFlatProduct,
+        `Erdos64EG.Internal.p13MultiScaleCheckCount,
+        `Erdos64EG.Internal.Node21Context,
+        `Erdos64EG.Internal.Node21Stage
       ]
     },
     {
@@ -704,25 +725,35 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     },
     {
       stageId := "proof-slice.p13-density-handoff"
-      title := "Nodes [22]--[24] corrected finite density handoff"
-      summary := "One exact natural-number comparison retains the scale-loss and skeleton-normalization error, returning either the strict node-[23] overflow payload or the complementary corrected node-[24] finite cap."
+      title := "Nodes [22]--[24] exact density branch"
+      summary := "From the accumulated node-[21] ledger, node [22] makes the paper's exact scalar dichotomy, node [23] records the strict yes-edge overflow without an auxiliary assumption, and node [24] retains the complementary window cap plus its reusable high-entropy transformer."
       kind := .adapter
       primaryDeclaration :=
-        `Erdos64EG.Internal.runP13Node22FiniteDensityDecision
+        `Erdos64EG.Internal.runInitialThroughNode24
       evidenceDeclarations := [
-        `Erdos64EG.Internal.runP13Node22FiniteDensityDecision_exhaustive,
-        `Erdos64EG.Internal.VerifiedP13Node23FiniteOverflow.strict,
-        `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.thetaWindowCorrected,
-        `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.remainderCorrected,
-        `Erdos64EG.Internal.p13Node24NormalizationEnvelope_isLittleO,
-        `Erdos64EG.Internal.p13Node24ThetaError_tendsto_zero,
-        `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.theta_le_thetaWindow_add_oOne,
-        `Erdos64EG.Internal.p13Node24RemainderError_tendsto_zero,
-        `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.remainder_ratio_ge_main_sub_oOne,
-        `Erdos64EG.Internal.p13Node24TauError_tendsto_zero,
-        `Erdos64EG.Internal.p13Node24Tau_denominator_eventually_positive,
-        `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.tau_le_tauWindow_add_oOne,
-        `Erdos64EG.Internal.p13WindowTauExact_lt_quarter
+        `Erdos64EG.Internal.node22DensityFamily,
+        `Erdos64EG.Internal.Node22High,
+        `Erdos64EG.Internal.Node22Low,
+        `Erdos64EG.Internal.Node22Stage,
+        `Erdos64EG.Internal.node22P13DensityDecision,
+        `Erdos64EG.Internal.runInitialThroughNode22,
+        `Erdos64EG.Internal.node22LocalChecks_eq_zero,
+        `Erdos64EG.Internal.Node23Output,
+        `Erdos64EG.Internal.node23StrictWindowOverflow,
+        `Erdos64EG.Internal.Node23Stage,
+        `Erdos64EG.Internal.node23P13WindowEntropyOverflow,
+        `Erdos64EG.Internal.runInitialThroughNode23,
+        `Erdos64EG.Internal.Node24HighEntropyJointBudget,
+        `Erdos64EG.Internal.Node24HighEntropyCap,
+        `Erdos64EG.Internal.node24HighEntropyCap_of_jointBudget,
+        `Erdos64EG.Internal.Node24HighEntropyTransformer,
+        `Erdos64EG.Internal.node24HighEntropyTransformer,
+        `Erdos64EG.Internal.Node24Output,
+        `Erdos64EG.Internal.Node24Stage,
+        `Erdos64EG.Internal.node24StageEntailsHighEntropyTransformer,
+        `Erdos64EG.Internal.node24P13DensityBounds,
+        `Erdos64EG.Internal.node24LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageEntails
       ]
     },
     {
@@ -1242,25 +1273,24 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     },
     {
       stageId := "proof-slice.p13-curvature-rank"
-      title := "Branch-D cross-panel handoff"
-      summary := "Node [35] retrieves node [33]'s exact support-stratified pair circuit and nested-support certificate through the framework-owned accumulated dependent-successor handoff. It changes no mathematical value and introduces no new case."
+      title := "Node [35] functional rank circuit"
+      summary := "On node [33]'s strict-loss marker, CT15 extracts the canonical proof-carrying pair circuit. Its candidate supplies the exact support-stratified determination certificate, while Core preserves the accumulated residual and sibling branches."
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.P13Node33Stage.node35
+        `Erdos64EG.Internal.runInitialThroughNode35
       evidenceDeclarations := [
-        `Erdos64EG.Internal.P13Node35Output,
-        `Erdos64EG.Internal.P13Node35Stage,
-        `Erdos64EG.Internal.p13Node35Refinement,
-        `Erdos64EG.Internal.p13Nodes25To35Run,
-        `Erdos64EG.Internal.p13Nodes25To35Run_exact,
-        `Erdos64EG.Internal.VerifiedP13Node35BranchD,
-        `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node35_eq,
-        `StructuralExhaustion.Core.ResidualRefinement.State.DependentSuccessor,
-        `StructuralExhaustion.CT15.SupportStratifiedRank.Profile.certificate,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.PairCircuit.basis,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.PairCircuit.basis_subset_declared,
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.PairCircuit.determined_not_mem_basis
+        `Erdos64EG.Internal.Node35PairCircuit,
+        `Erdos64EG.Internal.Node35CollisionSupportCertificate,
+        `Erdos64EG.Internal.node35RankDropOnDeclaredCoordinates,
+        `Erdos64EG.Internal.node35PairCircuit,
+        `Erdos64EG.Internal.node35CollisionSupportCertificate,
+        `Erdos64EG.Internal.Node35Output,
+        `Erdos64EG.Internal.Node35Stage,
+        `Erdos64EG.Internal.node35P13RankCircuit,
+        `Erdos64EG.Internal.node35LocalChecks_eq_zero,
+        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.pairCircuitOfRankDrop,
+        `StructuralExhaustion.CT15.SupportStratifiedRank.Profile.certificate
       ]
     },
     {
@@ -1270,28 +1300,34 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.P13Node33Stage.node36
+        `Erdos64EG.Internal.runInitialThroughNode36
       evidenceDeclarations := [
-        `Erdos64EG.Internal.P13Node36Output,
-        `Erdos64EG.Internal.VerifiedP13Node36ContextValidity,
+        `Erdos64EG.Internal.Node36OriginalUniversal,
+        `Erdos64EG.Internal.Node36OriginalDefect,
+        `Erdos64EG.Internal.node36OriginalUniversalDecidable,
+        `Erdos64EG.Internal.node36OriginalDefectOfNotUniversal,
+        `Erdos64EG.Internal.node35ActiveCursorFamily,
+        `Erdos64EG.Internal.Node36Stage,
+        `Erdos64EG.Internal.node36P13OriginalContextAudit,
+        `Erdos64EG.Internal.node36LocalChecks_eq_zero,
         `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.OriginalContextAudit,
-        `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.auditOriginal,
-        `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.routeBudget
+        `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.auditOriginal
       ]
     },
     {
       stageId := "proof-slice.p13-curvature-target-defect-terminal"
       title := "Target-defective quotient terminal"
-      summary := "The defect edge of node [36] retains one concrete context of the original atom with unequal exact responses. Node [37] records that typed residual exactly; it does not falsely close it using target completeness at the larger carrier."
+      summary := "Node [37] marks only node [36]'s concrete original-interface mismatch leaf terminal; every sibling constructor remains framework-owned and unchanged."
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.P13Node37TargetDefect.targetDefective
+        `Erdos64EG.Internal.runInitialThroughNode37
       evidenceDeclarations := [
-        `Erdos64EG.Internal.P13Node37TargetDefect,
-        `Erdos64EG.Internal.VerifiedP13Node36ContextValidity.node37,
-        `Erdos64EG.Internal.P13Node37TargetDefect.targetDefective,
-        `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.OriginalContextAudit.defective
+        `Erdos64EG.Internal.Node37TargetDefect,
+        `Erdos64EG.Internal.Node37Stage,
+        `Erdos64EG.Internal.node37P13TargetDefect,
+        `Erdos64EG.Internal.node37LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.markActiveCursorYesContinuationNoTerminal
       ]
     },
     {
@@ -1301,12 +1337,17 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node36ContextValidity.node38
+        `Erdos64EG.Internal.runInitialThroughNode38
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node38ProperRepresentativeDecision,
+        `Erdos64EG.Internal.Node38AtOriginal,
+        `Erdos64EG.Internal.Node38Enlarged,
+        `Erdos64EG.Internal.node38AtOriginalDecidable,
+        `Erdos64EG.Internal.node38EnlargedOfNotAtOriginal,
+        `Erdos64EG.Internal.Node38Stage,
+        `Erdos64EG.Internal.node38P13ProperRepresentativeDecision,
+        `Erdos64EG.Internal.node38LocalChecks_eq_zero,
         `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.Location,
-        `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.location,
-        `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.originalRepresentative
+        `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.location
       ]
     },
     {
@@ -1316,39 +1357,47 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       kind := .tactic
       tacticId? := some "CT3"
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node38ProperRepresentativeDecision.node39
+        `Erdos64EG.Internal.runInitialThroughNode39
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node38ProperRepresentativeDecision,
-        `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.originalRepresentative,
+        `Erdos64EG.Internal.Node39Stage,
+        `Erdos64EG.Internal.node39P13ProperAtomCompression,
+        `Erdos64EG.Internal.node39LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.closeActiveCursorYesContinuationFinalYes,
         `StructuralExhaustion.Graph.SupportStratifiedDetermination.Representative.impossible_of_originalEligible
       ]
     },
     {
       stageId := "proof-slice.p13-curvature-enlarged-support"
       title := "Strict enlarged-support payload"
-      summary := "Node [40] retains node [38]'s strict-enlargement edge together with the certificate's connectedness, coordinate support, determination, and minimal-support properties."
+      summary := "Node [40] focuses node [38]'s literal enlarged-support leaf. Its connectedness, strict inclusion, determination, and minimality remain in the single accumulated certificate rather than a copied application record."
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node40EnlargedSupport
+        `Erdos64EG.Internal.runInitialThroughNode40
       evidenceDeclarations := [
-        `Erdos64EG.Internal.P13Node36To40Route,
-        `Erdos64EG.Internal.routeP13Node36To40,
-        `Erdos64EG.Internal.routeP13Node36To40_exhaustive
+        `Erdos64EG.Internal.Node40Stage,
+        `Erdos64EG.Internal.node40P13EnlargedConnectedSupport,
+        `Erdos64EG.Internal.node40LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.focusActiveCursorYesContinuationFinalNo
       ]
     },
     {
       stageId := "proof-slice.p13-curvature-carrier-scope"
       title := "Proper-or-whole carrier scope"
-      summary := "Node [41] is the generic exact-property handoff for the graph-owned proper/whole classification of node [40]'s final carrier."
+      summary := "Node [41] applies the framework focused-branch decision to the exact node-[40] carrier, yielding only the paper's proper or whole constructors."
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node40EnlargedSupport.node41
+        `Erdos64EG.Internal.runInitialThroughNode41
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node41CarrierScope,
-        `StructuralExhaustion.Core.ExactPropertyHandoff,
-        `StructuralExhaustion.Graph.SupportStratifiedDetermination.Interface.scope_exhaustive
+        `Erdos64EG.Internal.Node41Bypass,
+        `Erdos64EG.Internal.Node41Active,
+        `Erdos64EG.Internal.Node41Proper,
+        `Erdos64EG.Internal.Node41Whole,
+        `Erdos64EG.Internal.Node41Stage,
+        `Erdos64EG.Internal.node41P13CarrierScopeDecision,
+        `Erdos64EG.Internal.node41LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideFocusedBranch
       ]
     },
     {
@@ -1358,22 +1407,30 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       kind := .tactic
       tacticId? := some "CT3"
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node41CarrierScope.node42
+        `Erdos64EG.Internal.runInitialThroughNode42
       evidenceDeclarations := [
-        `StructuralExhaustion.Graph.SupportStratifiedDetermination.Representative.impossible_of_originalEligible
+        `Erdos64EG.Internal.Node42Stage,
+        `Erdos64EG.Internal.node42ProperSupportImpossible,
+        `Erdos64EG.Internal.node42P13ProperSupportSmearingClosure,
+        `Erdos64EG.Internal.node42LocalChecks_eq_zero,
+        `StructuralExhaustion.Graph.SupportStratifiedFunctionalRank.Admissible.injective_of_originalEligible,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.closeFocusedBranchYes
       ]
     },
     {
       stageId := "proof-slice.p13-curvature-whole-carrier"
       title := "Whole-carrier exact handoff"
-      summary := "Node [43] is the generic exact-property handoff for node [41]'s whole-carrier constructor; it introduces no new branch or application-specific predecessor fields."
+      summary := "Node [43] continues node [41]'s literal whole leaf and transports that equality once to the determination certificate's equal carrier."
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node41CarrierScope.node43
+        `Erdos64EG.Internal.runInitialThroughNode43
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node43WholeDelocalization,
-        `StructuralExhaustion.Core.ExactPropertyHandoff
+        `Erdos64EG.Internal.Node43Output,
+        `Erdos64EG.Internal.Node43Stage,
+        `Erdos64EG.Internal.node43P13WholeGraphDelocalization,
+        `Erdos64EG.Internal.node43LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueFocusedBranchNo
       ]
     },
     {
@@ -1383,13 +1440,15 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node43WholeDelocalization.node44
+        `Erdos64EG.Internal.runInitialThroughNode44
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node44RepairIdentity,
+        `Erdos64EG.Internal.Node44Output,
+        `Erdos64EG.Internal.Node44Stage,
+        `Erdos64EG.Internal.node44P13RepairIdentity,
+        `Erdos64EG.Internal.node44LocalChecks_eq_zero,
         `StructuralExhaustion.Core.OneThreeRepair.identity,
         `StructuralExhaustion.Graph.OneThreeRepair.Component.identity,
-        `Erdos64EG.Internal.oneThreeRepair_identity,
-        `Erdos64EG.Internal.oneThreeRepair_component_identity
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapFocusedBranchNoContinuation
       ]
     },
     {
@@ -1399,10 +1458,14 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node44RepairIdentity.node45
+        `Erdos64EG.Internal.runInitialThroughNode45
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node45ClosedExactBarrier,
-        `StructuralExhaustion.Graph.SupportStratifiedDetermination.Candidate.code_injective_of_equal_carrier_whole
+        `Erdos64EG.Internal.Node45Output,
+        `Erdos64EG.Internal.Node45Stage,
+        `Erdos64EG.Internal.node45P13GlobalProfileBarrier,
+        `Erdos64EG.Internal.node45LocalChecks_eq_zero,
+        `StructuralExhaustion.Graph.SupportStratifiedFunctionalRank.Admissible.injective_of_whole,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapFocusedBranchNoContinuation
       ]
     },
     {
@@ -1412,24 +1475,28 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.VerifiedP13Node45ClosedExactBarrier.node46
+        `Erdos64EG.Internal.runInitialThroughNode46
       evidenceDeclarations := [
-        `Erdos64EG.Internal.P13Node36To40Route.enlarged_impossible
+        `Erdos64EG.Internal.Node46Stage,
+        `Erdos64EG.Internal.node46WholeRankDropImpossible,
+        `Erdos64EG.Internal.node46P13RankDropClosure,
+        `Erdos64EG.Internal.node46LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.closeFocusedBranchNoContinuation
       ]
     },
     {
       stageId := "proof-slice.p13-curvature-full-rank-cross-panel"
       title := "Exact node-[47] full-rank handoff"
-      summary := "Node [47] is the separate cross-panel continuation of node [34]'s full-rank constructor. It retains that exact predecessor, the exact wedge-rank equality, and an attained maximal family; it does not consume a rank-drop terminal."
+      summary := "Node [47] is definitionally the node-[34] stage. The framework retrieves that literal full-rank leaf unchanged after the independent rank-drop terminals."
       kind := .theorem
       tacticId? := some "CT15"
       primaryDeclaration :=
-        `Erdos64EG.Internal.p13Node47Refinement
+        `Erdos64EG.Internal.runInitialThroughNode47
       evidenceDeclarations := [
-        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage,
-        `Erdos64EG.Internal.P13Node47RefinementStage,
-        `Erdos64EG.Internal.VerifiedP13Node47FullRankResidual,
-        `Erdos64EG.Internal.P13Node34Stage.node47
+        `Erdos64EG.Internal.Node47Stage,
+        `Erdos64EG.Internal.node47P13FullRankContinuation,
+        `Erdos64EG.Internal.node47LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.usingStage
       ]
     },
     {
@@ -2641,55 +2708,21 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
     {
       stageId := "proof-slice.p13-forced-curvature-cost-split"
       title := "Forced curvature cost"
-      summary := "From the literal node-[47] output and its full accumulated residual, Lean proves the ordinary and conditional high-entropy curvature-cost inequalities with the manuscript's exact logarithmic count ratio and an explicit additive error. For every fixed authored threshold triple that error is o(|R|)."
+      summary := "Node [48] fixes the paper's exact curvature-cost constants and maps the literal node-[47] leaf. Its two finite accounting producers are missing; Core proves only the positive-scalar transport from those finite inequalities to the real-valued conclusions."
       kind := .theorem
-      primaryDeclaration := `Erdos64EG.Internal.p13Node48Refinement
+      primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode48
       evidenceDeclarations := [
-        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage,
-        `Erdos64EG.Internal.P13Node48RefinementStage,
-        `Erdos64EG.Internal.P13Node48ForcedCurvatureFact,
-        `Erdos64EG.Internal.P13Node48CostFact,
-        `Erdos64EG.Internal.P13Node48HighEntropyCostFact,
-        `StructuralExhaustion.Core.DensityAsymptoticTransport.nat_partition_density_with_error,
-        `StructuralExhaustion.Core.DensityAsymptoticTransport.nat_scaled_wedge_with_error,
-        `StructuralExhaustion.Core.DensityAsymptoticTransport.scaled_le_main_add_error_div,
-        `StructuralExhaustion.Core.DensityAsymptoticTransport.tendsto_error_div_remainder_of_lower_density,
-        `StructuralExhaustion.Core.QuadraticScaleSplit.boundedRealEnvelope,
-        `StructuralExhaustion.Core.QuadraticScaleSplit.load_cast_le_boundedRealEnvelope,
-        `StructuralExhaustion.Core.QuadraticScaleSplit.boundedRealEnvelope_div_order_tendsto_zero,
-        `Erdos64EG.Internal.p13CurvatureEntropyCost,
-        `Erdos64EG.Internal.p13CurvatureEntropyCost_nonneg,
-        `Erdos64EG.Internal.p13WindowCurvatureDensity,
-        `Erdos64EG.Internal.p13HighEntropyCurvatureDensity,
-        `Erdos64EG.Internal.p13WindowForcedCurvatureCost,
-        `Erdos64EG.Internal.p13HighEntropyForcedCurvatureCost,
-        `Erdos64EG.Internal.p13Node48NormalizationScale,
-        `Erdos64EG.Internal.p13Node48NormalizationScale_eq,
-        `Erdos64EG.Internal.p13Node48_windowDensity_remainderForm,
-        `Erdos64EG.Internal.p13Node48_scaledCost_from_node47,
-        `Erdos64EG.Internal.p13Node48_highEntropyScaledCost_from_node47,
-        `Erdos64EG.Internal.p13Node48NormalizationScale_pos,
-        `Erdos64EG.Internal.p13Node48RankError,
-        `Erdos64EG.Internal.p13Node48NormalizationRankErrorEnvelope,
-        `Erdos64EG.Internal.p13Node48NormalizationRankErrorEnvelope_div_order_tendsto_zero,
-        `Erdos64EG.Internal.p13Node48NormalizationRankError_le_envelope,
-        `Erdos64EG.Internal.p13Node48ErrorEnvelope,
-        `Erdos64EG.Internal.p13Node48ErrorEnvelope_div_order_tendsto_zero,
-        `Erdos64EG.Internal.p13Node48RankError_le_errorEnvelope,
-        `Erdos64EG.Internal.p13Node48RankError_div_order_tendsto_zero,
-        `Erdos64EG.Internal.p13Node48_remainder_quarter_density_eventually,
-        `Erdos64EG.Internal.p13Node48RankError_div_remainder_tendsto_zero,
-        `Erdos64EG.Internal.p13Node48_cost_from_node47,
-        `Erdos64EG.Internal.p13Node48_highEntropyCost_from_node47,
-        `Erdos64EG.Internal.p13Node48_forcedCurvatureCost_from_node47,
-        `Erdos64EG.Internal.p13Node48_highEntropyForcedCurvatureCost_from_node47,
-        `Erdos64EG.Internal.p13Node48CostError,
-        `Erdos64EG.Internal.p13Node48CostError_div_remainder_tendsto_zero,
-        `Erdos64EG.Internal.VerifiedP13Node48FrontierCost,
-        `Erdos64EG.Internal.p13Window_scaledWedgeCost,
-        `Erdos64EG.Internal.p13HighEntropy_scaledWedgeCost,
-        `Erdos64EG.Internal.VerifiedP13Node48FiniteCost,
-        `Erdos64EG.Internal.verifiedP13Node48FiniteCost
+        `Erdos64EG.Internal.node48CurvatureEntropyCost,
+        `Erdos64EG.Internal.node48WindowCurvatureDensity,
+        `Erdos64EG.Internal.node48HighEntropyCurvatureDensity,
+        `Erdos64EG.Internal.node48WindowForcedCost,
+        `Erdos64EG.Internal.node48HighEntropyForcedCost,
+        `Erdos64EG.Internal.node48CostError,
+        `Erdos64EG.Internal.Node48Output,
+        `Erdos64EG.Internal.Node48Stage,
+        `Erdos64EG.Internal.node48P13ForcedCurvatureCost,
+        `Erdos64EG.Internal.node48LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapActiveCursorDecisionNoContinuation
       ]
     },
     {
@@ -2697,30 +2730,22 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       title := "Constrained remainder-graph entropy"
       summary := "Node [49] defines the original paper's constrained labelled-graph family G(R) on the fixed remainder carrier and its normalized entropy symbolically, without executing an enumeration of labelled graphs."
       kind := .theorem
-      primaryDeclaration := `Erdos64EG.Internal.p13Node49Refinement
+      primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode49
       evidenceDeclarations := [
-        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage,
-        `Erdos64EG.Internal.P13Node49RefinementStage,
-        `StructuralExhaustion.Core.FiniteTypeEntropy.Profile.stateCount,
-        `StructuralExhaustion.Core.FiniteTypeEntropy.Profile.normalizedEntropy,
-        `StructuralExhaustion.Core.FiniteTypeEntropy.Profile.semanticChecks_eq_zero,
         `StructuralExhaustion.Graph.ConstrainedLabelledGraphFamily.Profile.State,
-        `StructuralExhaustion.Graph.ConstrainedLabelledGraphFamily.Profile.entropyProfile,
         `StructuralExhaustion.Graph.ConstrainedLabelledGraphFamily.Profile.stateCount,
         `StructuralExhaustion.Graph.ConstrainedLabelledGraphFamily.Profile.normalizedEntropy,
         `StructuralExhaustion.Graph.ConstrainedLabelledGraphFamily.Profile.normalizedEntropy_eq,
-        `StructuralExhaustion.Graph.ConstrainedLabelledGraphFamily.Profile.semanticChecks_eq_zero,
-        `Erdos64EG.Internal.p13RemainderAtomPart,
-        `Erdos64EG.Internal.p13CandidatePositiveDeficiency,
-        `Erdos64EG.Internal.p13CandidateSurplus,
-        `Erdos64EG.Internal.p13CandidateNetDeficiency,
-        `Erdos64EG.Internal.p13CandidateInternalThreeCoreFree,
-        `Erdos64EG.Internal.p13RemainderGraphAdmissible,
-        `Erdos64EG.Internal.p13RemainderGraphFamilyProfile,
-        `Erdos64EG.Internal.p13RemainderGraphFamilyCount,
-        `Erdos64EG.Internal.p13ManuscriptRemainderEntropy,
-        `Erdos64EG.Internal.P13Node49Output,
-        `Erdos64EG.Internal.p13Node49Output
+        `Erdos64EG.Internal.node49RemainderGraphAdmissible,
+        `Erdos64EG.Internal.node49RemainderGraphFamilyProfile,
+        `Erdos64EG.Internal.node49RemainderGraphFamilyCount,
+        `Erdos64EG.Internal.node49RemainderEntropy,
+        `Erdos64EG.Internal.Node49Output,
+        `Erdos64EG.Internal.Node49Output.entropyExact,
+        `Erdos64EG.Internal.Node49Stage,
+        `Erdos64EG.Internal.node49P13RemainderEntropy,
+        `Erdos64EG.Internal.node49LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapActiveCursorDecisionNoContinuation
       ]
     },
     {
@@ -2728,25 +2753,21 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       title := "Exact manuscript entropy dichotomy"
       summary := "Node [50] retains the exact node-[49] constrained-family entropy and applies the Core-owned ordered split to eta(R) and (1/10)log2 n, producing exactly the original yes and no edges with zero primitive inspections."
       kind := .theorem
-      primaryDeclaration := `Erdos64EG.Internal.p13Node50DecisionRefinement
+      primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode50
       evidenceDeclarations := [
-        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage,
-        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideUsingStage,
-        `Erdos64EG.Internal.P13Node50RefinementStage,
-        `Erdos64EG.Internal.P13Node50RefinementDecision,
-        `Erdos64EG.Internal.p13Node50Refinement,
-        `StructuralExhaustion.Core.PolynomialCheckBudget.zero,
-        `StructuralExhaustion.Core.OrderThresholdSplit.Profile.Outcome,
-        `StructuralExhaustion.Core.OrderThresholdSplit.Profile.run,
         `StructuralExhaustion.Core.OrderThresholdSplit.Profile.exhaustive,
-        `StructuralExhaustion.Core.OrderThresholdSplit.Profile.checks_eq_zero,
-        `Erdos64EG.Internal.p13ManuscriptEntropyThreshold,
-        `Erdos64EG.Internal.p13ManuscriptEntropySplitProfile,
-        `Erdos64EG.Internal.P13Node50Output,
-        `Erdos64EG.Internal.p13Node50Output,
-        `Erdos64EG.Internal.P13Node50High,
-        `Erdos64EG.Internal.P13Node50Low,
-        `Erdos64EG.Internal.VerifiedP13Node50ManuscriptEntropySplit.high_or_low
+        `Erdos64EG.Internal.Node50Bypass,
+        `Erdos64EG.Internal.Node50Active,
+        `Erdos64EG.Internal.node50EntropyThreshold,
+        `Erdos64EG.Internal.node50EntropyProfile,
+        `Erdos64EG.Internal.Node50High,
+        `Erdos64EG.Internal.Node50Low,
+        `Erdos64EG.Internal.Node50Stage,
+        `Erdos64EG.Internal.node50P13EntropyDecision,
+        `Erdos64EG.Internal.node50_exhaustive,
+        `Erdos64EG.Internal.node50LocalChecks_eq_zero,
+        `Erdos64EG.Internal.node50ThresholdWork_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideActiveCursorDecisionNoContinuation
       ]
     },
     {
@@ -2754,42 +2775,110 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       title := "High-entropy remainder bit contribution"
       summary := "Node [51] consumes only the manuscript high edge of node [50] over the constrained family G(R) and derives (|R|/10) log₂ n ≤ log₂ |G(R)| by symbolic arithmetic from node [49]'s exact entropy identity."
       kind := .theorem
-      primaryDeclaration := `Erdos64EG.Internal.p13Node51Refinement
+      primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode51
       evidenceDeclarations := [
-        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueDependentDecisionYes,
-        `Erdos64EG.Internal.P13Node51RefinementStage,
-        `Erdos64EG.Internal.p13Nodes25To51Run_retains_residual,
-        `Erdos64EG.Internal.p13Nodes47To51Refinement_polynomial,
-        `Erdos64EG.Internal.P13Node50High,
-        `Erdos64EG.Internal.p13ManuscriptEntropyThreshold,
-        `Erdos64EG.Internal.p13ManuscriptRemainderEntropy,
-        `Erdos64EG.Internal.p13RemainderGraphFamilyCount,
-        `Erdos64EG.Internal.P13Node51Output,
-        `Erdos64EG.Internal.p13Node51Output,
-        `Erdos64EG.Internal.verifiedP13Node51ManuscriptHighEntropyBits
+        `Erdos64EG.Internal.Node51Output,
+        `Erdos64EG.Internal.node51Output,
+        `Erdos64EG.Internal.Node51Stage,
+        `Erdos64EG.Internal.node51P13HighEntropyBranch,
+        `Erdos64EG.Internal.node51LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueFocusedBranchYes
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-window-remainder-accounting"
+      title := "Node [52] joint window--remainder accounting"
+      summary := "On node [51]'s literal high leaf, node [52] instantiates Core's symbolic base-plus-dependent-choice capacity theorem and powered joint-normalization profile. Remainder-preserving reglue fits the realized remainder family and every retained hot-window choice in one skeleton code; the powered inequality retains discarded hot scales and cold-window mass explicitly, without enumerating a product."
+      kind := .theorem
+      primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode52
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.Node52Output,
+        `Erdos64EG.Internal.Node52JointCapacity,
+        `Erdos64EG.Internal.Node52SkeletonCapacity,
+        `Erdos64EG.Internal.Node52NormalizedJointCapacity,
+        `Erdos64EG.Internal.Node52LogarithmicJointCapacity,
+        `Erdos64EG.Internal.Node52JointBudget,
+        `Erdos64EG.Internal.node52NormalizationProfile,
+        `Erdos64EG.Internal.Node52Stage,
+        `Erdos64EG.Internal.node52P13WindowRemainderAccounting,
+        `Erdos64EG.Internal.node52LocalChecks_eq_zero,
+        `Erdos64EG.Internal.node49_realizedRemainder_mul_hotChoices_le_skeletonCode,
+        `StructuralExhaustion.Core.DependentOwnerGlueCapacity.BaseProfile.base_mul_localProduct_le_codeCard,
+        `StructuralExhaustion.Core.PoweredJointNormalization.Profile.withError,
+        `StructuralExhaustion.Core.PoweredJointNormalization.Profile.logb_withError,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapFocusedBranchYesContinuation
       ]
     },
     {
       stageId := "proof-slice.p13-low-entropy-forced-cost-fit"
       title := "Accumulated remaining-budget decision"
-      summary := "Node [53] consumes the exact low constructor of the accumulated node-[50] decision, compares the literal remaining labelled-skeleton bits with the inherited full-rank curvature cost, and retains both original outgoing edges. Node [51]'s high output is preserved unchanged."
+      summary := "Node [53] consumes the exact low constructor retained beside node [52], compares the literal remaining labelled-skeleton bits with the inherited full-rank curvature cost, and retains both original outgoing edges. The high branch and every earlier bypass remain unchanged."
       kind := .theorem
-      primaryDeclaration := `Erdos64EG.Internal.p13Node53Refinement
+      primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode53
       evidenceDeclarations := [
-        `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionNoAfterYes,
-        `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionAt,
-        `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionAt.decide,
-        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueDependentDecisionNoAfterYes,
-        `Erdos64EG.Internal.p13Node53SkeletonBits,
-        `Erdos64EG.Internal.p13Node53WindowBits,
-        `Erdos64EG.Internal.p13Node53RemainderBits,
-        `Erdos64EG.Internal.p13Node53RemainingNoncurvatureBits,
-        `Erdos64EG.Internal.p13Node53ForcedCurvatureBits,
-        `Erdos64EG.Internal.P13Node53Decision,
-        `Erdos64EG.Internal.P13Node53RefinementStage,
-        `Erdos64EG.Internal.p13Nodes25To53Run,
-        `Erdos64EG.Internal.p13Nodes25To53Run_retains_residual,
-        `Erdos64EG.Internal.p13Node53LocalChecks_constant
+        `Erdos64EG.Internal.node53SkeletonBits,
+        `Erdos64EG.Internal.node53WindowBits,
+        `Erdos64EG.Internal.node53RemainderBits,
+        `Erdos64EG.Internal.node53RemainingNoncurvatureBits,
+        `Erdos64EG.Internal.node53ForcedCurvatureBits,
+        `Erdos64EG.Internal.Node53Small,
+        `Erdos64EG.Internal.Node53Large,
+        `Erdos64EG.Internal.Node53Stage,
+        `Erdos64EG.Internal.node53P13RemainingBudgetDecision,
+        `Erdos64EG.Internal.node53LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideFocusedBranchYesContinuationNo
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-entropy-cap-closure"
+      title := "Two-edge entropy-cap terminal"
+      summary := "Node [54] terminalizes node [52]'s high leaf by its proved joint budget. Its local strict-small contradiction is proved conditionally, while the node-[53] capacity producer remains missing."
+      kind := .theorem
+      primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode54
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.Node54HighTheta,
+        `Erdos64EG.Internal.Node54HighOutput,
+        `Erdos64EG.Internal.node54HighOutput,
+        `Erdos64EG.Internal.Node54SmallCapacity,
+        `Erdos64EG.Internal.node54SmallBudgetImpossible,
+        `Erdos64EG.Internal.Node54Bypass,
+        `Erdos64EG.Internal.Node54Active,
+        `Erdos64EG.Internal.Node54Stage,
+        `Erdos64EG.Internal.node54P13EntropyCapClosure,
+        `Erdos64EG.Internal.node54LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.terminalizeFocusedBranchYesCloseNestedYes
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-large-budget-residual"
+      title := "Residual C marker"
+      summary := "Node [55] is exactly node [53]'s complementary large-budget leaf after the two node-[54] terminals. It adds no inequality, density cap, or application-owned wrapper."
+      kind := .theorem
+      primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode55
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.Node55ResidualC,
+        `Erdos64EG.Internal.Node55Stage,
+        `Erdos64EG.Internal.node55P13LargeBudgetResidual,
+        `Erdos64EG.Internal.node55LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.usingStage
+      ]
+    },
+    {
+      stageId := "proof-slice.p13-net-deficiency-cap"
+      title := "Residual C net-deficiency cap"
+      summary := "Node [56] continues only node [55]'s literal Residual C leaf and proves the exact rational constant is below one quarter. The finite error-bearing net-deficiency producer remains missing on that leaf."
+      kind := .theorem
+      primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode56
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.node56NetDeficiencyNumerator,
+        `Erdos64EG.Internal.node56TauWindow,
+        `Erdos64EG.Internal.node56NetError,
+        `Erdos64EG.Internal.Node56Output,
+        `Erdos64EG.Internal.node56TauWindow_lt_quarter,
+        `Erdos64EG.Internal.Node56Stage,
+        `Erdos64EG.Internal.node56P13NetDeficiencyCap,
+        `Erdos64EG.Internal.node56LocalChecks_eq_zero,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueFocusedBranchActive
       ]
     }
   ]
@@ -2926,18 +3015,47 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       ]
     },
     {
-      linkId := "proof-slice.p13-packing-positive-deficiency"
-      sourceStageId := "proof-slice.p13-packing"
+      linkId := "proof-slice.p13-density-node25-remainder"
+      sourceStageId := "proof-slice.p13-density-handoff"
+      targetStageId := "proof-slice.p13-node25-large-remainder"
+      kind := .frameworkComposition
+      label := "node-[24] no leaf to Residual A"
+      description := "The framework maps the exact node-[24] active leaf and appends only node [25]'s canonical remainder facts."
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.node25P13LargeRemainder
+      ]
+    },
+    {
+      linkId := "proof-slice.p13-node25-node26"
+      sourceStageId := "proof-slice.p13-node25-large-remainder"
+      targetStageId := "proof-slice.p13-node26-remainder-continuation"
+      kind := .frameworkComposition
+      label := "Residual A crosses the panel"
+      description := "Node [26] maps only the literal node-[25] cursor and names the same canonical remainder."
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.node26P13RemainderContinuation
+      ]
+    },
+    {
+      linkId := "proof-slice.p13-node26-node27"
+      sourceStageId := "proof-slice.p13-node26-remainder-continuation"
+      targetStageId := "proof-slice.p13-node27-no-three-core"
+      kind := .frameworkComposition
+      label := "exclude an internal three-core"
+      description := "Node [27] consumes the literal node-[26] remainder continuation and invokes only the existing remainder core lemmas."
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.node27P13NoInternalThreeCore
+      ]
+    },
+    {
+      linkId := "proof-slice.p13-node27-positive-deficiency"
+      sourceStageId := "proof-slice.p13-node27-no-three-core"
       targetStageId := "proof-slice.p13-positive-deficiency"
       kind := .frameworkComposition
       label := "exact remainder support"
-      description := "The graph charge profile takes the literal CT12 remainder finset and computes induced degrees and positive deficiency on it without selecting another graph or support."
-      automationDeclarations := [
-        `StructuralExhaustion.Graph.AssignedSupportCharge.Profile.positiveDeficiency
-      ]
+      description := "Node [28] maps the literal node-[27] cursor and reads the graph-owned positive-deficiency profile on that same remainder."
       evidenceDeclarations := [
-        `Erdos64EG.Internal.exists_verifiedP13PackingPrefix,
-        `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix
+        `Erdos64EG.Internal.node28P13PositiveDeficiency
       ]
     },
     {
@@ -2946,11 +3064,9 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-multiscale-curvature"
       kind := .frameworkComposition
       label := "exact bounded constructor"
-      description := "The combined router preserves the strict sparse-pressure residual unchanged and discharges only the bounded constructor with the complete CT10 curvature certificate."
+      description := "The node-[21] API is indexed by the literal bounded node-[19] constructor. Its optimized producer remains the sole open predecessor for the typed downstream chain."
       evidenceDeclarations := [
-        `Erdos64EG.Internal.routeSurplusScale,
-        `Erdos64EG.Internal.routeSurplusScaleThroughCurvature,
-        `Erdos64EG.Internal.routeSurplusScaleThroughCurvature_exhaustive
+        `Erdos64EG.Internal.Node21Stage
       ]
     },
     {
@@ -3094,9 +3210,11 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-density-handoff"
       kind := .frameworkComposition
       label := "retain node [21] across the arithmetic split"
-      description := "The node-[22] runner uses the exact node-[21] packing and returns the strict-overflow or complementary finite-cap payload. The weighted hot/cold branch is the later semantic consumer of these arithmetic residuals."
+      description := "The framework consumes node [21], decides node [22], proves the local node-[23] closure conditionally, and retains node [24]'s complementary active leaf. The earlier missing producers are not counted as evidence."
       evidenceDeclarations := [
-        `Erdos64EG.Internal.runP13Node22FiniteDensityDecision_exhaustive
+        `Erdos64EG.Internal.node22P13DensityDecision,
+        `Erdos64EG.Internal.node23P13WindowEntropyOverflow,
+        `Erdos64EG.Internal.node24P13DensityBounds
       ]
     },
     {
@@ -3421,11 +3539,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       label := "literal node-[28] remainder"
       description := "The node-[29] constructor consumes the dependent node-[28] value itself. The graph accounting kernel injects its deficiency into the unchanged remainder boundary and then into the already selected window-token schedule."
       automationDeclarations := [
-        `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_le_tokenCount
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapDependentDecisionOnNoYesClosedActive
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node27NoInternalThreeCore.node28,
-        `Erdos64EG.Internal.VerifiedP13Node28PositiveDeficiency.node29
+        `Erdos64EG.Internal.node29P13ExternalIncidenceSupply
       ]
     },
     {
@@ -3436,11 +3553,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       label := "exact node-[29] deficiency supply"
       description := "The dependent node-[30] constructor receives the node-[29] value itself. The graph-owned degree-count theorem converts its exact deficiency ceiling into the componentwise and aggregate wedge floors."
       automationDeclarations := [
-        `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeFloor
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapDependentDecisionOnNoYesClosedActive
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node28PositiveDeficiency.node29,
-        `Erdos64EG.Internal.VerifiedP13Node29ExternalIncidenceSupply.node30
+        `Erdos64EG.Internal.node30P13WedgeLower
       ]
     },
     {
@@ -3451,11 +3567,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       label := "exact node-[30] wedge payload"
       description := "The dependent node-[31] constructor receives node [30] itself. The framework forms the literal wedge-coordinate family and its proof-selected maximum over support-certified quotient candidates."
       automationDeclarations := [
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.targetRank
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapDependentDecisionOnNoYesClosedActive
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node29ExternalIncidenceSupply.node30,
-        `Erdos64EG.Internal.VerifiedP13Node30WedgeLower.node31
+        `Erdos64EG.Internal.node31P13CurvatureTargetRank
       ]
     },
     {
@@ -3466,11 +3581,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       label := "node-[31] declared rank object"
       description := "The node-[32] constructor receives node [31] itself and applies the framework's exact strict-loss-or-equality split to the same declared coordinate cardinality."
       automationDeclarations := [
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.rankDecision
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideDependentDecisionOnNoYesClosedActive
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node30WedgeLower.node31,
-        `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank.node32
+        `Erdos64EG.Internal.node32P13RankDropDecision
       ]
     },
     {
@@ -3479,13 +3593,12 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-curvature-dependence-open"
       kind := .frameworkComposition
       label := "node-[32] yes: strict rank loss"
-      description := "The dependent node-[33] constructor retains node [32] and its strict-loss proof. The framework extracts a singleton-basis functional pair circuit from failure of universal survival."
+      description := "Node [33] marks only the strict-rank-loss constructor with PUnit; it does not extract the pair circuit or copy node [32]'s proof."
       automationDeclarations := [
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.pairCircuitOfRankDrop
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueActiveCursorDecisionYes
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank.node32,
-        `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node33
+        `Erdos64EG.Internal.node33P13RankReducingBranch
       ]
     },
     {
@@ -3494,13 +3607,12 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-full-curvature-rank"
       kind := .frameworkComposition
       label := "node-[32] no: exact full rank"
-      description := "The dependent node-[34] constructor retains node [32]'s equality edge and the framework's attained maximal family on the same literal wedge schedule."
+      description := "Node [34] marks only the full-rank constructor with PUnit; the exact equality remains in node [32]'s framework decision."
       automationDeclarations := [
-        `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.exists_surviving_card_eq_targetRank
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueActiveCursorDecisionNo
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank.node32,
-        `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node34
+        `Erdos64EG.Internal.node34P13FullRankResidual
       ]
     },
     {
@@ -3509,17 +3621,12 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-curvature-rank"
       kind := .frameworkComposition
       label := "Branch D payload retained for node [35]"
-      description := "The cross-panel handoff retains the support-certified candidate, distinct raw coordinates, singleton determining basis, selected carrier certificate, and quotient identification unchanged."
+      description := "The framework maps node [33]'s marker to CT15's pair circuit. The circuit-indexed support certificate remains a missing producer."
       automationDeclarations := [
-        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapActiveCursorDecisionYesContinuation
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node33,
-        `Erdos64EG.Internal.P13Node33Stage.node35,
-        `Erdos64EG.Internal.P13Node35Stage,
-        `Erdos64EG.Internal.p13Node35Refinement,
-        `Erdos64EG.Internal.p13Nodes25To35Run,
-        `Erdos64EG.Internal.p13Nodes25To35Run_exact
+        `Erdos64EG.Internal.node35P13RankCircuit
       ]
     },
     {
@@ -3530,11 +3637,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       label := "node-[35] original-interface audit"
       description := "The dependent node-[36] constructor receives node [35] itself and projects the framework-owned proof-level audit on the original atom's own context type."
       automationDeclarations := [
-        `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.auditOriginal
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideActiveCursorYesContinuation
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.P13Node33Stage.node35,
-        `Erdos64EG.Internal.P13Node33Stage.node36
+        `Erdos64EG.Internal.node36P13OriginalContextAudit
       ]
     },
     {
@@ -3545,11 +3651,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       label := "node-[36] defect: concrete atom-context mismatch"
       description := "Node [37] receives node [36] and exactly one mismatch in the original atom's context type. It is retained as the manuscript's target-defect residual and is not closed from carrier universality."
       automationDeclarations := [
-        `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.auditOriginal
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.markActiveCursorYesContinuationNoTerminal
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.P13Node33Stage.node36,
-        `Erdos64EG.Internal.P13Node37TargetDefect.targetDefective
+        `Erdos64EG.Internal.node37P13TargetDefect
       ]
     },
     {
@@ -3560,11 +3665,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       label := "node-[36] universal: locate the carrier"
       description := "Node [38] receives node [36]'s universal atom-context edge and executes the framework's at-original versus strict-enlargement location split on the retained carrier."
       automationDeclarations := [
-        `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.location
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideActiveCursorYesContinuationYes
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.P13Node33Stage.node36,
-        `Erdos64EG.Internal.VerifiedP13Node36ContextValidity.node38
+        `Erdos64EG.Internal.node38P13ProperRepresentativeDecision
       ]
     },
     {
@@ -3578,8 +3682,7 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `StructuralExhaustion.Graph.SupportStratifiedDetermination.Representative.impossible_of_originalEligible
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node36ContextValidity.node38,
-        `Erdos64EG.Internal.VerifiedP13Node38ProperRepresentativeDecision.node39
+        `Erdos64EG.Internal.node39P13ProperAtomCompression
       ]
     },
     {
@@ -3588,13 +3691,12 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-curvature-enlarged-support"
       kind := .frameworkComposition
       label := "node-[38] strict enlargement"
-      description := "The enlarged constructor becomes node [40] with the same certificate, strict support inclusion, connectedness, coordinate support, determination, and minimality evidence."
+      description := "The framework focuses the literal enlarged constructor; every support property stays in the accumulated node-[35] certificate."
       automationDeclarations := [
-        `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.location
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.focusActiveCursorYesContinuationFinalNo
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node40EnlargedSupport,
-        `Erdos64EG.Internal.routeP13Node36To40
+        `Erdos64EG.Internal.node40P13EnlargedConnectedSupport
       ]
     },
     {
@@ -3603,12 +3705,12 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-curvature-carrier-scope"
       kind := .frameworkComposition
       label := "node-[40] proper-or-whole scope"
-      description := "Node [41] adds only the graph-owned exhaustive scope property through the generic exact-property handoff."
+      description := "Node [41] decides only the proper/whole tag already stored on the exact focused carrier."
       automationDeclarations := [
-        `StructuralExhaustion.Core.ExactPropertyHandoff.refl
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideFocusedBranch
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node40EnlargedSupport.node41
+        `Erdos64EG.Internal.node41P13CarrierScopeDecision
       ]
     },
     {
@@ -3619,10 +3721,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       label := "node-[41] proper: CT3 terminal"
       description := "The proper constructor routes directly to node [42], whose graph-owned representative executes the exact CT3 compression on that carrier."
       automationDeclarations := [
-        `StructuralExhaustion.Graph.SupportStratifiedDetermination.Representative.impossible_of_originalEligible
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.closeFocusedBranchYes
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node41CarrierScope.node42
+        `Erdos64EG.Internal.node42P13ProperSupportSmearingClosure
       ]
     },
     {
@@ -3631,12 +3733,12 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-curvature-whole-carrier"
       kind := .frameworkComposition
       label := "node-[41] whole: exact handoff"
-      description := "The whole constructor routes directly to node [43] through the generic exact-property handoff; it does not pass through the CT3 terminal."
+      description := "The whole constructor routes directly to node [43], where its equality is transported to the equal determination carrier; it does not pass through node [42]."
       automationDeclarations := [
-        `StructuralExhaustion.Core.ExactPropertyHandoff.refl
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueFocusedBranchNo
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node41CarrierScope.node43
+        `Erdos64EG.Internal.node43P13WholeGraphDelocalization
       ]
     },
     {
@@ -3647,10 +3749,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       label := "node-[43] one--three identity"
       description := "Node [44] retains node [43] exactly and adds only the reusable component identity."
       automationDeclarations := [
-        `StructuralExhaustion.Core.OneThreeRepair.identity
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapFocusedBranchNoContinuation
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node43WholeDelocalization.node44
+        `Erdos64EG.Internal.node44P13RepairIdentity
       ]
     },
     {
@@ -3659,12 +3761,12 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-curvature-closed-exact-barrier"
       kind := .frameworkComposition
       label := "node-[44] exact labels"
-      description := "Node [45] invokes the graph-owned whole-carrier injectivity theorem on the exact candidate and retained carrier equality."
+      description := "Node [45] invokes the graph-owned admitted-quotient injectivity theorem on the exact whole candidate."
       automationDeclarations := [
-        `StructuralExhaustion.Graph.SupportStratifiedDetermination.Candidate.code_injective_of_equal_carrier_whole
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapFocusedBranchNoContinuation
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node44RepairIdentity.node45
+        `Erdos64EG.Internal.node45P13GlobalProfileBarrier
       ]
     },
     {
@@ -3675,10 +3777,10 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       label := "node-[45] contradict retained collision"
       description := "Node [46] applies injectivity to node [35]'s literal quotient identification of distinct raw coordinates."
       automationDeclarations := [
-        `StructuralExhaustion.Graph.SupportStratifiedDetermination.Candidate.code_injective_of_equal_carrier_whole
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.closeFocusedBranchNoContinuation
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node45ClosedExactBarrier.node46
+        `Erdos64EG.Internal.node46P13RankDropClosure
       ]
     },
     {
@@ -3687,13 +3789,12 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-curvature-full-rank-cross-panel"
       kind := .frameworkComposition
       label := "node-[34] no-rank-drop to node [47]"
-      description := "The complementary full-rank constructor crosses the panel independently of Branch D and is retained by node [47] with exact equality and a maximal family."
+      description := "The complementary full-rank constructor crosses the panel independently of Branch D. Node [47] is definitionally the same stage, retrieved without copying or rederiving any payload."
       automationDeclarations := [
-        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.usingStage
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.P13Node34Stage.node47,
-        `Erdos64EG.Internal.p13Node47Refinement
+        `Erdos64EG.Internal.node47P13FullRankContinuation
       ]
     },
     {
@@ -3702,15 +3803,12 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-forced-curvature-cost-split"
       kind := .frameworkComposition
       label := "exact node-[47] to node-[48] handoff"
-      description := "Node [48] consumes the literal node-[47] full-rank value retrieved from the accumulated residual ledger. All earlier density, wedge, normalization-error, and surplus properties remain in that ledger; node [48] adds only its two finite error-bearing inequalities. No realized/open split exists in the diagram or in Lean."
+      description := "Node [48] consumes the literal node-[47] full-rank value retrieved from the accumulated residual ledger. During the source migration, its two finite accounting conclusions are supplied by one certificate indexed by that exact leaf; Core derives the two cost-unit conclusions and transports every bypass and sibling unchanged."
       automationDeclarations := [
-        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapActiveCursorDecisionNoContinuation
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.p13Node48_scaledCost_from_node47,
-        `Erdos64EG.Internal.p13Node48_highEntropyScaledCost_from_node47,
-        `Erdos64EG.Internal.P13Node47FullRankResidual.node48,
-        `Erdos64EG.Internal.p13Node48Refinement
+        `Erdos64EG.Internal.node48P13ForcedCurvatureCost
       ]
     },
     {
@@ -3719,14 +3817,12 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-finite-remainder-entropy"
       kind := .frameworkComposition
       label := "fixed remainder to constrained graph family"
-      description := "The accumulated node-[48] stage fixes R and its current net-deficiency cap. The graph framework forms the symbolic finite subtype satisfying the four original constraints, while StageNode.mapStage retains node [48] and every earlier ledger fact automatically."
+      description := "The accumulated node-[48] stage fixes R and its current net-deficiency cap. The graph framework forms the symbolic finite subtype satisfying the four original constraints, while the active-cursor mapper retains every earlier ledger fact automatically."
       automationDeclarations := [
-        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapActiveCursorDecisionNoContinuation
       ]
       evidenceDeclarations := [
-        `StructuralExhaustion.Graph.ConstrainedLabelledGraphFamily.Profile.State,
-        `Erdos64EG.Internal.VerifiedP13Node48FrontierCost.node49,
-        `Erdos64EG.Internal.p13Node49Refinement
+        `Erdos64EG.Internal.node49P13RemainderEntropy
       ]
     },
     {
@@ -3735,15 +3831,12 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-entropy-scale-split"
       kind := .frameworkComposition
       label := "exact entropy to manuscript threshold"
-      description := "Node [50] consumes the identical dependent node-[49] output from the accumulated ledger, adds the generic ordered-threshold result, and uses the framework dependent-stage decision so both original edges retain that exact node-[50] value."
+      description := "Node [50] consumes the identical dependent node-[49] output from the accumulated ledger and uses the framework active-cursor decision so both original edges retain that exact value."
       automationDeclarations := [
-        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage,
-        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideUsingStage
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideActiveCursorDecisionNoContinuation
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.VerifiedP13Node49ManuscriptEntropy.node50,
-        `Erdos64EG.Internal.p13Node50Refinement,
-        `Erdos64EG.Internal.p13Node50DecisionRefinement
+        `Erdos64EG.Internal.node50P13EntropyDecision
       ]
     },
     {
@@ -3752,15 +3845,26 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-high-remainder-bits"
       kind := .frameworkComposition
       label := "manuscript high edge"
-      description := "The framework continues only the exact high constructor of the accumulated node-[50] decision. Node [51] adds the symbolic bit inequality; the low constructor and every earlier property are retained unchanged."
+      description := "The framework continues only the exact high constructor of the accumulated node-[50] decision. Node [51] adds the symbolic bit inequality; the low constructor, bypass bundle, and every earlier ledger fact are retained unchanged."
       automationDeclarations := [
-        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueDependentDecisionYes
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueFocusedBranchYes
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.P13Node50High,
-        `Erdos64EG.Internal.verifiedP13Node51ManuscriptHighEntropyBits,
-        `Erdos64EG.Internal.p13Node51Refinement,
-        `Erdos64EG.Internal.p13Nodes25To51Run_retains_residual
+        `Erdos64EG.Internal.node51P13HighEntropyBranch
+      ]
+    },
+    {
+      linkId := "proof-slice.node51-node52-window-remainder-accounting"
+      sourceStageId := "proof-slice.p13-high-remainder-bits"
+      targetStageId := "proof-slice.p13-window-remainder-accounting"
+      kind := .frameworkComposition
+      label := "same-leaf joint accounting"
+      description := "The framework maps only node [51]'s exact high continuation and retrieves node [24]'s transformer from the single accumulated ledger. The same-context joint budget remains an explicitly conditional, leaf-indexed producer during migration."
+      automationDeclarations := [
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapFocusedBranchYesContinuationDerived
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.node52P13WindowRemainderAccounting
       ]
     },
     {
@@ -3769,14 +3873,72 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       targetStageId := "proof-slice.p13-low-entropy-forced-cost-fit"
       kind := .frameworkComposition
       label := "actual strict-low constructor"
-      description := "The connector pattern-matches node [50]'s stored result. Only its exact strict-low constructor is assembled into node [53]'s input; the high constructor remains with node [51]."
+      description := "The exact node-[50] low constructor is still present beside node [52]'s high continuation. The framework decides node [53]'s printed remaining-budget comparison on that leaf and preserves every sibling."
       automationDeclarations := [
-        `StructuralExhaustion.Core.FinitePoweredBudgetTransfer.Profile.forced_pow_lt_flat_pow_mul_upper
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideFocusedBranchYesContinuationNo
       ]
       evidenceDeclarations := [
-        `Erdos64EG.Internal.P13Node50To51Route.lowInput,
-        `Erdos64EG.Internal.routeP13Node50Budget,
-        `Erdos64EG.Internal.routeP13Node50Budget_exhaustive
+        `Erdos64EG.Internal.node53P13RemainingBudgetDecision
+      ]
+    },
+    {
+      linkId := "proof-slice.node52-node54-high-entropy-terminal"
+      sourceStageId := "proof-slice.p13-window-remainder-accounting"
+      targetStageId := "proof-slice.p13-entropy-cap-closure"
+      kind := .frameworkComposition
+      label := "node-[52] high-theta terminal"
+      description := "Node [54] consumes the exact node-[52] joint-budget output and rules out its strict reverse. The framework terminalizes only that high leaf."
+      automationDeclarations := [
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.terminalizeFocusedBranchYesCloseNestedYes
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.node54HighOutput,
+        `Erdos64EG.Internal.node54P13EntropyCapClosure
+      ]
+    },
+    {
+      linkId := "proof-slice.node53-node54-small-budget-terminal"
+      sourceStageId := "proof-slice.p13-low-entropy-forced-cost-fit"
+      targetStageId := "proof-slice.p13-entropy-cap-closure"
+      kind := .frameworkComposition
+      label := "node-[53] small-budget terminal"
+      description := "On node [53]'s yes edge, node [54] contradicts the strict-small inequality with the capacity certificate indexed by that identical low leaf. That capacity producer remains explicitly conditional during migration."
+      automationDeclarations := [
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.terminalizeFocusedBranchYesCloseNestedYes
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.node54SmallBudgetImpossible,
+        `Erdos64EG.Internal.node54P13EntropyCapClosure
+      ]
+    },
+    {
+      linkId := "proof-slice.node53-node55-large-budget-residual"
+      sourceStageId := "proof-slice.p13-low-entropy-forced-cost-fit"
+      targetStageId := "proof-slice.p13-large-budget-residual"
+      kind := .frameworkComposition
+      label := "node-[53] large edge to Residual C"
+      description := "After the two node-[54] terminal leaves are discharged, Core focuses node [53]'s exact complementary large-budget constructor. Node [55] is a zero-copy name for that surviving leaf and adds no density claim."
+      automationDeclarations := [
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.terminalizeFocusedBranchYesCloseNestedYes,
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.usingStage
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.node54P13EntropyCapClosure,
+        `Erdos64EG.Internal.node55P13LargeBudgetResidual
+      ]
+    },
+    {
+      linkId := "proof-slice.node55-node56-net-deficiency-cap"
+      sourceStageId := "proof-slice.p13-large-budget-residual"
+      targetStageId := "proof-slice.p13-net-deficiency-cap"
+      kind := .frameworkComposition
+      label := "Residual C finite net cap"
+      description := "Node [56] continues only the literal node-[55] leaf and attaches its exact finite net-deficiency payload. The old cap is temporarily supplied by one certificate indexed by that leaf; all routing remains framework-owned."
+      automationDeclarations := [
+        `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueFocusedBranchActive
+      ]
+      evidenceDeclarations := [
+        `Erdos64EG.Internal.node56P13NetDeficiencyCap
       ]
     },
     {
@@ -4602,7 +4764,7 @@ private def p13Node39ProofStep : ExampleProofStepDescriptor := {
   stepId := "erdos.p13-curvature-proper-compression-terminal"
   stageId? := some "proof-slice.p13-curvature-proper-compression-terminal"
   title := "At-original CT3 compression contradicts minimality"
-  plainExplanation := "Node [39] consumes only node [38]'s at-original constructor. The support-stratified certificate transports its carrier-indexed representative to the original proper atom, where the graph framework executes the already stored CT3 compression and contradicts minimality."
+  plainExplanation := "Node [39] consumes only node [38]'s at-original constructor. The framework closes that exact leaf with the graph-owned stored-representative contradiction."
   formalStatement := "X=C\\Longrightarrow\\operatorname{Representative}(X)=\\operatorname{CT3Compression}(C)\\Longrightarrow\\bot"
   status := .implemented
   correspondence := .exact
@@ -4613,12 +4775,13 @@ private def p13Node39ProofStep : ExampleProofStepDescriptor := {
     groupId := "p13-node39-proper-compression-terminal"
     title := "Exact support transport and stored CT3 closure"
     role := .semanticTheorem
-    explanation := "The node-local theorem is indexed by node [38] and its literal at-original equality. Core transports the carrier representative only along that equality; the graph specialization recognizes the original proper atom and invokes its stored CT3 compression."
+    explanation := "Core closes only the final yes leaf; the application supplies the graph theorem and no routing record."
     declarations := [
-      `Erdos64EG.Internal.VerifiedP13Node36ContextValidity.node38,
-      `Erdos64EG.Internal.VerifiedP13Node38ProperRepresentativeDecision,
-      `Erdos64EG.Internal.VerifiedP13Node38ProperRepresentativeDecision.node39,
-      `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.originalRepresentative,
+      `Erdos64EG.Internal.runInitialThroughNode39,
+      `Erdos64EG.Internal.Node39Stage,
+      `Erdos64EG.Internal.node39P13ProperAtomCompression,
+      `Erdos64EG.Internal.node39LocalChecks_eq_zero,
+      `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.closeActiveCursorYesContinuationFinalYes,
       `StructuralExhaustion.Graph.SupportStratifiedDetermination.Representative.impossible_of_originalEligible
     ]
   }]
@@ -4641,14 +4804,19 @@ private def p13Node38ProofStep : ExampleProofStepDescriptor := {
     groupId := "p13-node38-proper-representative"
     title := "Exact universal predecessor and support-location split"
     role := .semanticTheorem
-    explanation := "The dependent adapter retains node [36]'s atom-universal constructor. The support-stratified framework compares the two already stored support values and returns the at-original or enlarged constructor without moving the carrier-indexed representative."
+    explanation := "The framework decides only the live universal leaf and preserves the target-defect terminal and every outer branch."
     declarations := [
-      `Erdos64EG.Internal.P13Node33Stage.node36,
-      `Erdos64EG.Internal.VerifiedP13Node38ProperRepresentativeDecision,
-      `Erdos64EG.Internal.VerifiedP13Node36ContextValidity.node38,
+      `Erdos64EG.Internal.runInitialThroughNode38,
+      `Erdos64EG.Internal.Node38AtOriginal,
+      `Erdos64EG.Internal.Node38Enlarged,
+      `Erdos64EG.Internal.node38AtOriginalDecidable,
+      `Erdos64EG.Internal.node38EnlargedOfNotAtOriginal,
+      `Erdos64EG.Internal.Node38Stage,
+      `Erdos64EG.Internal.node38P13ProperRepresentativeDecision,
+      `Erdos64EG.Internal.node38LocalChecks_eq_zero,
       `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.Location,
       `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.location,
-      `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.originalRepresentative
+      `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideActiveCursorYesContinuationYes
     ]
   }]
   scopeNotes := "Node [38] performs only the original support-location diamond. Node [39] consumes equality; node [40] consumes strict enlargement."
@@ -4659,7 +4827,7 @@ private def p13Node37ProofStep : ExampleProofStepDescriptor := {
   stepId := "erdos.p13-curvature-target-defect-terminal"
   stageId? := some "proof-slice.p13-curvature-target-defect-terminal"
   title := "Target-defective original-interface residual"
-  plainExplanation := "If node [36] finds a mismatch, node [37] retains that exact context in the original atom's context type and the unequal responses there. Carrier-level universality has a different dependent context type and is therefore not used to erase this residual."
+  plainExplanation := "If node [36] finds a mismatch, node [37] marks that exact original-interface witness terminal. It neither closes nor inspects the universal sibling."
   formalStatement := "\\exists K_C,\\ \\rho_C(a,K_C)\\ne\\rho_C(b,K_C)"
   status := .implemented
   correspondence := .exact
@@ -4670,14 +4838,14 @@ private def p13Node37ProofStep : ExampleProofStepDescriptor := {
     groupId := "p13-node37-target-defect-terminal"
     title := "Concrete original-interface defect witness"
     role := .semanticTheorem
-    explanation := "The node-local payload contains node [36], one original-interface context, its response mismatch, and the exact decision edge. The existential theorem exposes precisely that residual and no stronger conclusion."
+    explanation := "The witness is already node [36]'s no predicate; Core marks only that leaf terminal without an application-owned payload."
     declarations := [
-      `Erdos64EG.Internal.P13Node33Stage.node36,
-      `Erdos64EG.Internal.P13Node37TargetDefect,
-      `Erdos64EG.Internal.P13Node37TargetDefect.targetDefective,
-      `Erdos64EG.Internal.VerifiedP13Node36ContextValidity.node37,
-      `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.auditOriginal,
-      `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.OriginalContextAudit.defective
+      `Erdos64EG.Internal.runInitialThroughNode37,
+      `Erdos64EG.Internal.Node37TargetDefect,
+      `Erdos64EG.Internal.Node37Stage,
+      `Erdos64EG.Internal.node37P13TargetDefect,
+      `Erdos64EG.Internal.node37LocalChecks_eq_zero,
+      `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.markActiveCursorYesContinuationNoTerminal
     ]
   }]
   scopeNotes := "Node [37] fulfills only the target-defect output responsibility of the original edge. It neither consumes node [36]'s universal constructor nor asserts a contradiction from a differently indexed carrier interface."
@@ -4694,189 +4862,269 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
   references absent from this list are displayed yellow as partial coverage. -/
   formalizedNodeIds := [
     1, 2, 3,
-    4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 53, 55, 56, 57, 58, 59, 60, 61, 62, 63
+    4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
   ]
   nodeObligations :=
-    ExampleNodeObligationDescriptor.provedForStep 23 "erdos.p13-density-handoff" [
-      ("N23-PROV", "Consume the exact node-[22] yes-edge payload on the identical node-[21] packing and package context."),
-      ("N23-OVERFLOW", "Prove the strict reverse of the corrected finite window cap, retaining the explicit scale-loss and skeleton-normalization errors."),
-      ("N23-WORK", "Use one exact natural-number comparison on the already selected packing; do not scan graph, context, Boolean-state, or universe families.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 24 "erdos.p13-density-handoff" [
+    ExampleNodeObligationDescriptor.provedForStep 7 "erdos.mersenne-target" [
+      ("N7-PRED", "Consume the literal node-[6] certificate decision."),
+      ("N7-CYCLE", "Interpret the stored C1 certificate as the official power-of-two-cycle target."),
+      ("N7-CLOSE", "Contradict that target with the inherited minimal-counterexample avoidance theorem."),
+      ("N7-SURVIVOR", "Retain the literal CT1 avoiding run as the sole live node-[6] successor.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 8 "erdos.no-proper-core" [
+      ("N8-PRED", "Consume only node-[7]'s exact surviving CT1 avoiding successor."),
+      ("N8-CORE", "Exclude every proper subgraph of minimum degree at least three by minimality."),
+      ("N8-CT2", "Retain the canonical certified CT2 deletion terminal and trace for each supplied proper core."),
+      ("N8-WORK", "Use one local certificate check and enumerate no subgraph family.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 9 "erdos.deletion-criticality" [
+      ("N9-PRED", "Consume the literal node-[8] stage."),
+      ("N9-DELETE", "Apply the graph-owned deletion-criticality theorem on that selected graph."),
+      ("N9-DEG3", "Prove every edge has a degree-three endpoint."),
+      ("N9-LEDGER", "Append the endpoint theorem once to the accumulated ledger.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 10 "erdos.deletion-criticality" [
+      ("N10-PRED", "Consume the literal node-[9] stage."),
+      ("N10-QUERY", "Use node [9]'s stored degree-three endpoint theorem without rederivation."),
+      ("N10-INDEP", "Prove vertices of degree at least four are independent."),
+      ("N10-LEDGER", "Append only the independence theorem.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 11 "erdos.boundaried-replacement" [
+      ("N11-PRED", "Consume the literal node-[10] stage."),
+      ("N11-ATOMS", "Define exactly the proper boundaried atoms of the selected graph."),
+      ("N11-PROFILE", "Attach each atom's uncapped boundary-degree profile."),
+      ("N11-LEDGER", "Append only the atom/profile family.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 12 "erdos.boundaried-replacement" [
+      ("N12-PRED", "Consume the literal node-[11] atom/profile stage."),
+      ("N12-SCOPE", "Retain the identical selected graph and proper-atom scope."),
+      ("N12-UNIVERSAL", "Prove every target-complete identification is context-universal."),
+      ("N12-LEDGER", "Append only the context-universality implication.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 13 "erdos.boundaried-replacement" [
+      ("N13-PRED", "Consume the literal node-[12] stage."),
+      ("N13-REPLACE", "Exclude every exact one-way obstruction-preserving smaller replacement."),
+      ("N13-CT3", "Retain the graph-owned certified CT3 terminal, trace, totality, and work theorem."),
+      ("N13-LEDGER", "Append only the replacement contradiction.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 14 "erdos.boundaried-replacement" [
+      ("N14-PRED", "Consume the literal node-[13] replacement stage."),
+      ("N14-UNCOMP", "Convert a target-complete compression to node [13]'s replacement data and close it."),
+      ("N14-DEFECT-NOT-COMPLETE", "Use node [12] to show a context-defective identification is not target-complete."),
+      ("N14-DEFECT-WITNESS", "Retain the distinguishing-context target-defect certificate."),
+      ("N14-SCOPE", "Quantify both clauses only over proper atoms.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 15 "erdos.induced-p13" [
+      ("N15-PRED", "Consume only the literal node-[14] hereditary-uncompressibility stage."),
+      ("N15-DECIDE", "Make the exhaustive framework decision between P13-free and not P13-free on the identical selected graph."),
+      ("N15-BRANCHES", "Retain both exact decision constructors without manufacturing a path witness or sibling assumption."),
+      ("N15-WORK", "Perform zero graph, path, context, or support scans at this proof-level decision.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 16 "erdos.induced-p13" [
+      ("N16-PRED", "Consume the literal node-[15] decision stage."),
+      ("N16-HSS", "Apply the isolated HSS theorem only to node [15]'s P13-free yes constructor."),
+      ("N16-TARGET", "Interpret the HSS cycle as the official target on the identical selected graph."),
+      ("N16-CLOSE", "Contradict that target with the inherited target-avoidance theorem."),
+      ("N16-SURVIVOR", "Retain only node [15]'s literal not-P13-free constructor for node [17].")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 17 "erdos.p13-packing" [
+      ("N17-PRED", "Consume only node-[16]'s exact surviving not-P13-free stage."),
+      ("N17-PACK", "Select the framework's deterministic vertex-disjoint induced-P13 list on that graph."),
+      ("N17-DISJOINT", "Certify nodup support and pairwise vertex disjointness for the selected list."),
+      ("N17-MAXIMAL", "Certify saturation: every induced P13 meets a selected window; no maximum-cardinality claim is made."),
+      ("N17-NONEMPTY", "Derive nonemptiness from the retained not-P13-free constructor."),
+      ("N17-CT12", "Retain the exhausted CT12 terminal, typed trace, totality, and selected-list work certificate."),
+      ("N17-CURSORS", "Expose the identical live context, selected windows, and packing number through framework-aligned accessors.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 18 "erdos.p13-labels" [
+      ("N18-PRED", "Consume the literal node-[17] maximal-packing stage and its public live-context cursor."),
+      ("N18-LABELS", "Certify exactly 399 legal P13 labels and the seven exact size fibres."),
+      ("N18-REL", "Identify every executable C_s entry with the manuscript compatibility relation."),
+      ("N18-CURV", "Identify Omega_2 with the exact two-compatible-one-incompatible curvature condition."),
+      ("N18-ACTUAL", "Prove every actual nonempty outside attachment label on the retained graph is legal."),
+      ("N18-CT10", "Retain the exhaustive CT10 stage, exact trace, totality, and symbolic polynomial work evidence.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 19 "erdos.surplus-scale-split" [
+      ("N19-PRED", "Consume the literal node-[18] label-algebra stage and identical selected graph."),
+      ("N19-VALUE", "Read the actual total surplus, graph order, and fixed homogeneous-cap coefficient without reconstructing an old prefix."),
+      ("N19-DECIDE", "Produce the exact exhaustive strict-high or at-most squared-surplus constructors."),
+      ("N19-WORK", "Use the framework's zero-scan symbolic comparison and work certificate.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 20 "erdos.surplus-scale-split" [
+      ("N20-PRED", "Identify node [20] with node [19]'s literal strict-high constructor."),
+      ("N20-STRICT", "Retain the exact strict squared-surplus proposition definitionally, without copying it into an application residual."),
+      ("N20-SCOPE", "Add no surplus-pair mathematics before the existing node-[125] expansion."),
+      ("N20-WORK", "Add zero checks beyond node [19]'s symbolic comparison.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 21 "erdos.p13-multiscale-curvature" [
+      ("N21-PRED", "Consume only the literal node-[19] bounded/no constructor and no other branch."),
+      ("N21-BUDGET", "Attach the inherited bounded-surplus square certificate without recomputing or strengthening it."),
+      ("N21-PAIRS", "Classify the 196 ordered local length pairs and retain exactly the 91 positive pairs with sum at most fourteen."),
+      ("N21-SEMANTICS", "Identify all fifteen packed 399-row relations with the manuscript's sparse P13 compatibility semantics on the complete local label carrier."),
+      ("N21-SAFE", "Prove every stored safe count equals the reusable finite-relation barrier safe count."),
+      ("N21-FLAT", "Prove every stored composition-flat count equals the reusable finite-relation barrier flat count."),
+      ("N21-ONEONE", "Kernel-certify the exact 543958, 432672, and 111286 scale-(1,1) values."),
+      ("N21-RATE", "Kernel-certify the exact 118-bit product inequality on the 91 accepted pairs."),
+      ("N21-CT10", "Package the sole-HSS-clean semantic and count certificates in the single framework CT10 table interface."),
+      ("N21-WORK", "Retain the symbolic polynomial work bound without unfolding an ambient graph, state, context, or Boolean universe.")
+    ] ++ ExampleNodeObligationDescriptor.provedForStep 22 "erdos.p13-density-handoff" [
+      ("N22-PRED", "Consume the exact node-[21] output from the single accumulated framework ledger on node [19]'s bounded edge."),
+      ("N22-COMPARE", "Compare the exact fixed-point window load with the near-cubic skeleton load."),
+      ("N22-YES", "Retain the strict-high constructor for node [23]."),
+      ("N22-NO", "Retain the complementary at-most constructor for node [24]."),
+      ("N22-WORK", "Use the framework's proof-level ordered split with zero local scans.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 23 "erdos.p13-density-handoff" [
+      ("N23-PROV", "Consume exactly node [22]'s strict-high constructor."),
+      ("N23-OVERFLOW", "Expose the same strict cross-multiplied window overflow and no successor conclusion."),
+      ("N23-OUTPUT", "Attach the strict overflow to node [22]'s literal yes constructor without assuming branch emptiness."),
+      ("N23-WORK", "Perform no graph, context, Boolean-state, or ambient-universe scan.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 24 "erdos.p13-density-handoff" [
       ("N24-PROV", "Retain the exact node-[22] no-edge and identical node-[21] packing."),
-      ("N24-FINITE-CAP", "Prove the corrected finite window cap with scale-loss and powered-skeleton normalization error explicit."),
-      ("N24-HOT-COLD", "Retain the exact sequential hot/cold payment on the identical packing."),
-      ("N24-SCALE-LOSS", "Prove the discarded-scale loss is at most thirty per accepted hot owner."),
-      ("N24-ERROR-LITTLE-O", "Assemble the complete normalization correction and prove it is o(n log n), yielding theta <= theta_win + o(1)."),
-      ("N24-HIGH-ENTROPY-HANDOFF", "Emit the exact normalized high-entropy proposition as a typed downstream obligation on the identical packing; node [52], not node [24], must later prove it from joint window-remainder accounting."),
-      ("N24-REMAINDER-FINITE", "Derive the exact error-bearing large-remainder connector."),
-      ("N24-REMAINDER-ASYMPTOTIC", "Normalize the remainder connector to |R| >= (1-13 theta_win)n-o(n)."),
-      ("N24-TAU-CONSTANT", "Prove the exact rational value tau_win is below one quarter."),
-      ("N24-TAU-TRANSPORT", "Transport the actual packing bound to tau(theta) <= tau_win + o(1)."),
-      ("N24-WORK", "Use constant local arithmetic work and only the declared hot, remainder, and cold schedules downstream.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 25 "erdos.p13-packing" [
-      ("N25-PROV", "Consume the literal corrected node-[24] payload on the identical node-[21] packing."),
-      ("N25-PARTITION", "Retain the exact CT12 packing/remainder partition and finite remainder floor."),
+      ("N24-FINITE-CAP", "Retain the exact window-density inequality from node [22]'s at-most constructor."),
+      ("N24-SUPPORT", "Use the graph-owned disjoint-packing support bound 13p13 <= n."),
+      ("N24-TRANSFORM", "Prove the symbolic implication from a later joint window-remainder budget to the sharper high-entropy cap."),
+      ("N24-LEDGER", "Register Node24HighEntropyTransformer once through StageEntails for later ledger retrieval."),
+      ("N24-CONTINUE", "Continue only the surviving no leaf through the framework active cursor."),
+      ("N24-WORK", "Use zero local scans and only symbolic natural-number arithmetic.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 25 "erdos.p13-node25-large-remainder" [
+      ("N25-PROV", "Consume the literal node-[24] active output on the identical packing."),
+      ("N25-PARTITION", "Retain the exact CT12 packing/remainder partition."),
       ("N25-FREE", "Retain remainder and componentwise induced-P13 freeness."),
-      ("N25-LARGE", "Derive the numerical large-remainder estimate from node [24] on the same graph."),
+      ("N25-LARGE", "Derive the exact scaled large-remainder inequality from node [24]'s window cap."),
       ("N25-WORK", "Perform no new graph scan; reuse the selected packing and zero-check connector.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 26 "erdos.p13-packing" [
-      ("N26-HANDOFF", "Carry exactly node [25]'s residual across the Part-I/Part-II panel boundary without adding a new graph, packing, remainder, hypothesis, or case split.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 27 "erdos.p13-packing" [
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 26 "erdos.p13-node26-remainder-continuation" [
+      ("N26-PROV", "Consume the literal node-[25] active output."),
+      ("N26-HANDOFF", "Identify the Part-II Residual A name with the same canonical packing complement."),
+      ("N26-WORK", "Use the framework mapper with zero local checks and no copied predecessor fields.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 27 "erdos.p13-node27-no-three-core" [
       ("N27-PROV", "Consume the exact node-[26] residual on the identical graph, packing, and remainder."),
       ("N27-INDUCED-CORE", "Prove that the exact remainder has no induced internal support of minimum degree at least three."),
       ("N27-SUBGRAPH-CORE", "Prove the manuscript's stronger formulation: no finite internal subgraph of the exact remainder has minimum degree at least three."),
-      ("N27-WORK", "Reuse the node-[26] proof fields with zero new graph, component, subgraph, or support scans.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 28 "erdos.p13-positive-deficiency" [
+      ("N27-WORK", "Use the existing graph lemmas with zero new graph, component, subgraph, or support scans.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 28 "erdos.p13-positive-deficiency" [
       ("N28-PROV", "Consume the exact node-[27] output on the identical graph, packing, and remainder."),
       ("N28-DEGREE", "Define d_R(v) as the induced degree of v in the literal remainder."),
       ("N28-FORMULA", "Define def+(R) as the sum over v in R of max(0,3-d_R(v)), represented by natural subtraction."),
-      ("N28-CORE", "Retain node [27]'s no-internal-three-core property unchanged."),
-      ("N28-WORK", "Use one induced-neighbour scan per remainder vertex, at most n^2 checks, without enumerating supports or subgraphs.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 29 "erdos.p13-external-incidence-supply" [
+      ("N28-WORK", "Reuse the graph profile definition with zero new ambient-support or subgraph enumeration.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 29 "erdos.p13-external-incidence-supply" [
       ("N29-PROV", "Consume the exact dependent node-[28] output on the identical graph, packing, and remainder."),
       ("N29-BOUNDARY", "Charge every positive-deficiency unit to a literal incidence leaving the remainder, proving def+(R) <= e(R,W)."),
       ("N29-TOKENS", "Embed every R-W incidence in the selected-window external-token schedule."),
       ("N29-EXACT", "Prove the exact selected-window identity tokenCount = 15 p13 + sigma_W."),
-      ("N29-SUPPLY", "Derive def+(R) <= 15 p13 + sigma_W and the surplus-adjusted inequality after subtracting sigma_R."),
-      ("N29-SPINE", "Retain the bounded-surplus square certificate that supplies the manuscript's o(n) near-cubic error."),
+      ("N29-SUPPLY", "Derive the window-surplus, total-surplus, and signed surplus-adjusted supply inequalities."),
+      ("N29-SPINE", "Use the inherited bounded-surplus square certificate to bound the finite incidence error squared."),
       ("N29-WORK", "Use at most 13 n^2 local incidence checks on the selected windows, without enumerating paths, packings, supports, subgraphs, graphs, states, or contexts.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 30 "erdos.p13-wedge-lower" [
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 30 "erdos.p13-wedge-lower" [
       ("N30-PROV", "Consume the exact dependent node-[29] output on the identical graph, packing, and remainder."),
       ("N30-COMPONENT", "For every remainder component C, prove W2(C) >= 3|V(C)| - 2 def+(C) by the local degree count."),
       ("N30-AGGREGATE", "Apply the same exact degree-count theorem to the literal remainder and obtain W2(R) >= 3|R| - 2 def+(R)."),
       ("N30-WINDOW", "Combine node [29]'s finite deficiency supply with the aggregate wedge floor, retaining the selected-window and total-surplus error exactly."),
       ("N30-WINDOW-RATE", "Transport the window-only deficiency coefficient to omega_win = 3 - 2 tau_win and verify the manuscript's printed decimal lower approximation."),
-      ("N30-HIGH-RATE", "Conditionally transport the separately supplied high-entropy deficiency rate 0.21296321056... to omega = 2.57407357888..., without assuming that branch at node [30]."),
-      ("N30-SPINE", "Retain the exact near-cubic bounded-error certificate inherited from node [29]."),
-      ("N30-WORK", "Use at most n^2 local induced-neighbour checks and arithmetic transport only, with no component, support, path, quotient, context, subgraph, graph, or state-universe enumeration.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 31 "erdos.p13-curvature-target-rank" [
+      ("N30-SPINE", "Use node [29]'s exact finite squared-error producer without copying the earlier certificate."),
+      ("N30-WORK", "Use local degree-count and arithmetic transport only; enumerate no component, support, quotient, context, or ambient universe.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 31 "erdos.p13-curvature-target-rank" [
       ("N31-PROV", "Consume the exact dependent node-[30] output on the identical graph, packing, remainder, and wedge profile."),
       ("N31-COORDINATES", "Define the raw curvature tests as exactly one remainder center and one canonical unordered pair of distinct internal neighbours."),
       ("N31-COUNT", "Prove that the declared coordinate schedule has cardinality exactly W2(R), and at most n^3."),
       ("N31-RESPONSE", "Evaluate each coordinate by the exact target response of its literal three-vertex supported piece under every outside context."),
-      ("N31-WORK", "Use only the literal wedge schedule; define the maximum propositionally without evaluating a powerset, quotient family, context family, support family, path family, subgraph family, or graph universe.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 31 "erdos.p13-curvature-target-rank" [
       ("N31-CARRIER-UNIVERSE", "Define the proof-carrying connected boundaried carrier universe on which every admitted curvature quotient is indexed."),
-      ("N31-REALIZATION", "Retain each raw proposal's exact-profile realization type, the carrier's canonical realization, quotient-image value type, qImage map, and identified-image law without enumerating realizations."),
-      ("N31-ADMISSION", "Require declared support, boundary preservation, context universality, and the proper/whole representative clause at the proposal's actual carrier interface."),
-      ("N31-UPPER", "Prove the canonical functional-admissible maximum is bounded by the exact W2(R) coordinate cardinality.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 31 "erdos.p13-curvature-target-rank" [
-      ("N31-SURVIVAL", "Use the exact carrier-indexed functional-admissible survival predicate as the public node-[31] rank universe."),
-      ("N31-RANK", "Define p13CurvatureTargetRank as the attained FunctionalAdmissibleRank maximum."),
-      ("N31-CANONICAL-RANK", "Transport the canonical maximum and its W2(R) upper bound through the exact node-[30] predecessor payload.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 32 "erdos.p13-curvature-rank-decision" [
+      ("N31-RANK", "Use FunctionalAdmissibleRank's attained carrier-indexed maximum and prove its W2(R) upper bound."),
+      ("N31-WORK", "Define the maximum propositionally without evaluating a powerset, quotient, context, support, path, subgraph, or graph universe.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 32 "erdos.p13-curvature-rank-decision" [
       ("N32-PROV", "Consume the exact dependent node-[31] output on the identical graph, remainder, wedge family, response profile, and target-rank object."),
       ("N32-UPPER", "Use node [31]'s bound rOmega(R) <= W2(R) on the literal raw-coordinate schedule."),
-      ("N32-YES", "Represent the original yes edge by the proof-carrying strict rank-loss payload rOmega(R) < W2(R)."),
-      ("N32-NO", "Represent the original no edge by the proof-carrying exact full-rank payload rOmega(R) = W2(R)."),
-      ("N32-EXHAUSTIVE", "Prove that the strict-loss and exact-full constructors are mutually exhaustive, with no third case or new diagram edge."),
+      ("N32-YES", "Represent the original yes edge by strict loss below W2(R)-epsilon, with the current exact finite epsilon equal to zero."),
+      ("N32-NO", "Represent the original no edge by reaching the same W2(R)-epsilon threshold."),
+      ("N32-EXHAUSTIVE", "Use the framework decision to produce exactly those two constructors and no third edge."),
       ("N32-WORK", "Perform zero executable scans after node [31], without evaluating coordinate subfamilies, quotients, contexts, supports, paths, subgraphs, graphs, or state universes.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 33 "erdos.p13-curvature-dependence-open" [
-      ("N33-PROV", "Consume the exact node-[32] output together with its literal strict-rank-loss yes-edge proof on the identical target-rank object."),
-      ("N33-NONSURVIVAL", "Derive that the complete declared raw-wedge family does not survive every support-certified quotient candidate."),
-      ("N33-QUOTIENT", "Extract one support-certified quotient candidate that is non-injective on the declared raw coordinates."),
-      ("N33-PAIR", "Retain two distinct declared raw curvature coordinates with the same quotient value."),
-      ("N33-FUNCTIONAL", "Package the identification as a finite functional dependence with one determined coordinate and a singleton declared basis not containing it."),
-      ("N33-HANDOFF", "Retain the quotient and pair circuit unchanged for the existing cross-panel Branch-D node [35]."),
-      ("N33-WORK", "Proof-select the circuit with zero executable searches and no coordinate powerset, quotient family, context family, support family, path family, subgraph family, graph universe, or state universe.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 34 "erdos.p13-full-curvature-rank" [
-      ("N34-PROV", "Consume the exact node-[32] output together with its literal full-rank no-edge equality on the identical target-rank object."),
-      ("N34-EQUALITY", "Retain the exact finite equality rOmega(R) = W2(R)."),
-      ("N34-NODROP", "Prove that no strict target-rank loss remains on this edge."),
-      ("N34-LOWER", "Derive the full-rank lower bound W2(R) <= rOmega(R), which is stronger than the displayed near-full asymptotic residual."),
-      ("N34-FAMILY", "Retain an actual declared subfamily surviving every functional admissible quotient candidate whose cardinality is exactly W2(R)."),
-      ("N34-WORK", "Perform zero new executable scans and evaluate no coordinate powerset, quotient family, context family, support family, path family, subgraph family, graph universe, or state universe.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 35 "erdos.remainder-curvature-rank" [
-      ("N35-PROV", "Consume the exact node-[33] rank-drop output and its selected support-certified pair circuit."),
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 33 "erdos.p13-curvature-dependence-open" [
+      ("N33-PROV", "Consume only node [32]'s literal strict-rank-loss constructor."),
+      ("N33-MARK", "Attach the PUnit branch marker required by the cross-panel edge to node [35]."),
+      ("N33-SCOPE", "Leave pair-circuit and support-certificate construction to node [35]."),
+      ("N33-WORK", "Use the framework yes-continuation with zero local checks.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 34 "erdos.p13-full-curvature-rank" [
+      ("N34-PROV", "Consume only node [32]'s literal full-rank constructor."),
+      ("N34-MARK", "Attach the PUnit branch marker required by the separate edge to node [47]."),
+      ("N34-SCOPE", "Keep the exact rank proposition in node [32]'s branch proof instead of copying it into a new payload."),
+      ("N34-WORK", "Use the framework no-continuation with zero local checks.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 35 "erdos.remainder-curvature-rank" [
+      ("N35-PROV", "Consume node [33]'s literal rank-drop marker and node [32]'s retained strict-loss proof."),
       ("N35-PAIR", "Retain the identical distinct raw-coordinate pair and its exact quotient-code collision."),
       ("N35-BASIS", "Retain the singleton determining basis and prove that the determined coordinate is not in it."),
-      ("N35-SUPPORT-INCLUSION", "Retain the original proper atom C, final carrier X, and the certified inclusion C subseteq X."),
-      ("N35-CONNECTED", "Retain connectedness of the final carrier X."),
-      ("N35-DETERMINATION", "Retain carrier-level determination and inclusion-minimality among connected determining supports."),
-      ("N35-BOUNDARY-RESTRICTION", "Retain both boundary profiles, the raw quotient proposal on C, and equality of its code with the carrier quotient code on transported labels."),
-      ("N35-REPRESENTATIVE", "Retain carrier-relative context universality and the representative indexed by X without projecting either fact to C."),
+      ("N35-DETERMINATION", "Retain the support-stratified determination relation already certified by the selected CT15 candidate."),
+      ("N35-SUPPORT", "Project the collision-to-support certificate directly from the selected proof-carrying CT15 candidate."),
+      ("N35-INDEX", "Use CT15's exactness fields to identify the certificate's quotient code, basis, determined coordinate, and carrier with the extracted circuit."),
       ("N35-WORK", "Proof-select the current certificate and transport its value with zero executable scans.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 36 "erdos.p13-curvature-context-validity" [
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 36 "erdos.p13-curvature-context-validity" [
       ("N36-PROV", "Consume node [35]'s exact certificate on the identical original atom and final carrier."),
       ("N36-AUDIT", "Make the exhaustive proof-level decision between one original-atom context mismatch and universal equality over that atom's own context type."),
       ("N36-INTERFACE", "Keep atom contexts distinct from carrier contexts; do not infer atom universality from carrier target completeness."),
       ("N36-WORK", "Use the zero-check framework audit and enumerate no contexts or supports.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 37 "erdos.p13-curvature-target-defect-terminal" [
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 37 "erdos.p13-curvature-target-defect-terminal" [
       ("N37-PROV", "Consume exactly node [36]'s defect constructor."),
       ("N37-WITNESS", "Retain one original-interface context and the unequal exact responses there."),
-      ("N37-SCOPE", "Expose precisely the target-defect residual without importing the differently indexed carrier-universality theorem."),
+      ("N37-SCOPE", "Mark precisely that target-defect residual terminal without inspecting the universal sibling."),
       ("N37-WORK", "Perform no new computation after the proof-level audit.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 38 "erdos.p13-curvature-proper-representative-decision" [
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 38 "erdos.p13-curvature-proper-representative-decision" [
       ("N38-PROV", "Consume exactly node [36]'s original-interface universal constructor."),
       ("N38-LOCATION", "Decide exhaustively whether the retained final carrier equals the original atom or strictly enlarges it."),
       ("N38-REPRESENTATIVE", "Keep the representative indexed by the final carrier and transport it only on the equality edge."),
       ("N38-WORK", "Compare only the two stored support values; enumerate no support universe.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 39 "erdos.p13-curvature-proper-compression-terminal" [
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 39 "erdos.p13-curvature-proper-compression-terminal" [
       ("N39-PROV", "Consume node [38]'s literal at-original constructor and equality."),
       ("N39-TRANSPORT", "Transport the carrier representative to the original proper atom along that equality."),
       ("N39-CT3", "Execute the representative's stored CT3 compression and contradict minimality."),
       ("N39-WORK", "Use dependent equality transport and the stored compression theorem only.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 40 "erdos.p13-curvature-enlarged-support" [
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 40 "erdos.p13-curvature-enlarged-support" [
       ("N40-PROV", "Consume node [38]'s literal strict-enlargement constructor."),
-      ("N40-SUPPORT", "Retain strict inclusion, connectedness, both coordinate-support facts, determination, and inclusion-minimality for the same carrier."),
-      ("N40-WORK", "Project only fields already stored in the support-stratified certificate.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 41 "erdos.p13-curvature-carrier-scope" [
+      ("N40-FOCUS", "Focus that active leaf while retaining all certificate properties in the accumulated ledger."),
+      ("N40-SCOPE", "Add no new support object, property, or decision."),
+      ("N40-WORK", "Use the framework focus operation with zero local checks.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 41 "erdos.p13-curvature-carrier-scope" [
       ("N41-PROV", "Consume the exact node-[40] carrier."),
-      ("N41-SCOPE", "Classify that carrier by the graph-owned exhaustive proper-or-whole property."),
-      ("N41-HANDOFF", "Use the generic exact-property handoff rather than application predecessor fields."),
+      ("N41-SCOPE", "Classify that exact carrier by its stored proper-or-whole tag."),
+      ("N41-YES", "Retain the proper constructor for node [42]."),
+      ("N41-NO", "Retain the whole constructor for node [43]."),
       ("N41-WORK", "Perform no graph or support scan.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 42 "erdos.p13-curvature-proper-carrier-terminal" [
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 42 "erdos.p13-curvature-proper-carrier-terminal" [
       ("N42-PROV", "Consume node [41]'s proper constructor on the identical enlarged carrier."),
-      ("N42-CT3", "Execute the carrier-indexed representative's stored CT3 compression and contradict minimality."),
-      ("N42-WORK", "Use the graph framework executor with no application-owned CT15-to-CT3 plumbing.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 43 "erdos.p13-curvature-whole-carrier" [
+      ("N42-INJECTIVE", "Use the admitted quotient's graph-owned proper-carrier injectivity theorem."),
+      ("N42-CLOSE", "Contradict the retained distinct equal-code pair and close only this leaf."),
+      ("N42-WORK", "Use one theorem application and the framework yes closure.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 43 "erdos.p13-curvature-whole-carrier" [
       ("N43-PROV", "Consume node [41]'s whole constructor directly, not through node [42]."),
-      ("N43-HANDOFF", "Retain the exact node-[41] value and whole property through the generic exact-property handoff."),
+      ("N43-TRANSPORT", "Transport whole-ness to the equal determination-certificate carrier using its stored carrier equality."),
+      ("N43-CONTINUE", "Continue only the whole leaf through the framework."),
       ("N43-WORK", "Perform zero checks and introduce no new case.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 44 "erdos.p13-curvature-repair-identity" [
-      ("N44-PROV", "Consume the exact node-[43] whole-carrier handoff."),
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 44 "erdos.p13-curvature-repair-identity" [
+      ("N44-PROV", "Consume the exact node-[43] whole-carrier continuation."),
       ("N44-IDENTITY", "Derive the one--three repair identity from the handshake and connected cycle-rank equations, including the graph-component specialization."),
+      ("N44-SCOPE", "Apply the identity only to a supplied component; enumerate no component family."),
       ("N44-WORK", "Use symbolic integer arithmetic on the supplied component only.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 45 "erdos.p13-curvature-closed-exact-barrier" [
-      ("N45-PROV", "Consume the exact node-[44] payload and node [43]'s whole-carrier certificate."),
-      ("N45-BARRIER", "Use the already-admitted, target-complete incoming quotient: its target-defect and missing-representative alternatives are discharged upstream, leaving the original barrier's exact-label outcome."),
-      ("N45-INJECTIVE", "Prove the selected candidate's raw quotient code injective by requesting only a hypothetical collision certificate and applying its closed reduction."),
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 45 "erdos.p13-curvature-closed-exact-barrier" [
+      ("N45-PROV", "Consume the exact node-[44] output on node [43]'s whole-carrier leaf."),
+      ("N45-INJECTIVE", "Use the admitted quotient's graph-owned whole-carrier theorem to prove its raw code injective."),
+      ("N45-SCOPE", "Leave the contradiction with the retained collision to node [46]."),
       ("N45-WORK", "Enumerate no quotient, context, coordinate, or support family.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 46 "erdos.p13-curvature-rank-drop-terminal" [
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 46 "erdos.p13-curvature-rank-drop-terminal" [
       ("N46-PROV", "Consume node [45]'s exact injectivity theorem and node [35]'s retained collision."),
       ("N46-CONTRADICTION", "Apply injectivity to the equal quotient values of the two distinct raw coordinates and derive False."),
       ("N46-WORK", "Use one theorem application with no computation.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 47 "erdos.p13-curvature-full-rank-cross-panel" [
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 47 "erdos.p13-curvature-full-rank-cross-panel" [
       ("N47-PROV", "Consume the exact node-[34] full-rank constructor on its separate diagram edge."),
-      ("N47-RANK", "Retain rOmega(R) = W2(R) and an attained surviving family of cardinality W2(R)."),
-      ("N47-SEPARATION", "Do not consume node [37] or any rank-drop terminal; this is the complementary node-[34] continuation."),
-      ("N47-HANDOFF", "Retrieve node [34] from the full accumulated residual and append only node [47] through StageNode.mapStage with zero scans.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 48 "erdos.forced-curvature-cost-split" [
-      ("N48-PROV", "Consume the literal node-[47] full-rank value on the same full accumulated residual, retaining rOmega(R)=W2(R) and the inherited node-[24] density, node-[30] wedge, normalization-error, and surplus ledgers."),
-      ("N48-WINDOW-FINITE", "Derive the corrected ordinary finite curvature magnitude with the fixed normalization scale, thirty times the normalization error, and twice the scaled total surplus explicit."),
-      ("N48-HIGH-FINITE", "Conditionally on the exact high-entropy proposition inherited from node [24], derive the sharper finite coefficient on the identical residual."),
-      ("N48-CONSTANTS", "Define cOmega=log2(543958/111286), K_win=cOmega*omega_win, and the corresponding high-entropy exact cost from the node-[21] certified counts."),
-      ("N48-COST", "Multiply the exact rank inequalities by the nonnegative curvature entropy cost to obtain both manuscript cost bounds."),
-      ("N48-ASYMPTOTIC", "For every fixed authored threshold triple, bound the exact normalization and surplus error by a uniform graph-order envelope, prove it is o(n), use node [25]'s positive remainder density, and conclude the cost error is o(|R|)."),
-      ("N48-WORK", "Use zero-scan symbolic arithmetic and the inherited local ledgers; enumerate no graph, context, quotient, state, or Boolean universe.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 49 "erdos.finite-remainder-state-entropy" [
-      ("N49-PROV", "Retrieve node [48] from the full accumulated residual through StageNode.mapStage rather than accepting or reconstructing an unrelated realization."),
+      ("N47-RANK", "Retain the exact Node32FullRank proposition in the literal node-[34] stage rather than a copied node-[34] field."),
+      ("N47-SEPARATION", "Do not consume node [37] or any rank-drop terminal."),
+      ("N47-WORK", "Use the framework marker with zero scans.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 48 "erdos.forced-curvature-cost-split" [
+      ("N48-PROV", "Consume the literal node-[47]/node-[34] full-rank leaf on the same accumulated residual."),
+      ("N48-CONSTANTS", "Define the exact ordinary and high-entropy curvature-cost constants and the local error."),
+      ("N48-WINDOW-FINITE", "Prove the ordinary finite accounting inequality on the exact leaf."),
+      ("N48-HIGH-FINITE", "Prove the conditional high-entropy finite accounting inequality on the same leaf."),
+      ("N48-COST", "Kernel-derive both ordinary and high-entropy forced-cost conclusions by positive scalar transport."),
+      ("N48-WORK", "Use the framework map with zero local scans; the two finite accounting producers remain missing.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 49 "erdos.finite-remainder-state-entropy" [
+      ("N49-PROV", "Consume the literal node-[48] output on its exact full-rank leaf."),
       ("N49-ATOM", "Define the fixed atom part inherited from R and require candidate subcubicity on it."),
       ("N49-P13", "Require componentwise P13-freeness through the equivalent whole-graph induced-P13-free predicate."),
       ("N49-CORE", "Require that every nonempty internal vertex set contains a vertex of internal degree at most two, i.e. that the candidate has no internal 3-core."),
       ("N49-CAP", "Bound the candidate positive net-deficiency numerator by the exact current numerator inherited from R; the support denominator is identical."),
       ("N49-FAMILY", "Define the paper's exact set G(R) of labelled simple graphs on V(R) satisfying all four already imposed constraints."),
-      ("N49-FINITENESS", "Prove that exact constrained family finite through a symbolic finite-graph carrier, without executing an ambient graph enumeration."),
       ("N49-ENTROPY", "Define eta(R)=log2|G(R)|/|R| from that exact family and expose it to node [50]."),
       ("N49-WORK", "Keep the family and its cardinality symbolic; perform zero semantic scans and enumerate no labelled-graph universe.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 50 "erdos.entropy-scale-split" [
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 50 "erdos.entropy-scale-split" [
       ("N50-PROV", "Retrieve the exact dependent node-[49] output from the accumulated ledger on the identical remainder and constrained graph family."),
       ("N50-THRESHOLD", "Define the original threshold (1/10)log2 n and compare it with the literal eta(R) from node [49]."),
       ("N50-YES", "Represent the original yes edge by (1/10)log2 n <= eta(R)."),
       ("N50-NO", "Represent the original no edge by eta(R) < (1/10)log2 n."),
-      ("N50-EXHAUSTIVE", "Use the framework dependent-stage decision so the yes and no branches are exhaustive, retain the same literal node-[50] value, and add no third outcome or diagram edge."),
+      ("N50-EXHAUSTIVE", "Use the framework focused-branch decision so the two branches are exhaustive and add no third edge."),
       ("N50-WORK", "Use a proof-level ordered split with zero primitive checks; evaluate neither logarithms nor the constrained graph family.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 51 "erdos.high-remainder-bits" [
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 51 "erdos.high-remainder-bits" [
       ("N51-PROV", "Continue only the exact high constructor of the accumulated node-[50] decision on the identical node-[49] constrained graph family G(R)."),
       ("N51-ENTROPY", "Use node [49]'s exact identity eta(R)=log2|G(R)|/|R| without evaluating the constrained graph family."),
       ("N51-BITS", "Multiply the high-edge inequality by |R| and rewrite to obtain the manuscript bit contribution (|R|/10)log2 n <= log2|G(R)|."),
@@ -4885,13 +5133,14 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       ("N51-WORK", "Perform no new finite scan; reuse node [50]'s zero-check ordered split and symbolic real arithmetic only.")
     ] ++ ExampleNodeObligationDescriptor.partialForStep 52
       "erdos.window-remainder-framework-handoff" [
-      ("N52-PROV", "Consume node [51]'s exact high-entropy bit contribution on the identical accumulated residual and near-cubic spine."),
-      ("N52-SCOPE", "State only the original finite feasibility inequality on the exact high branch; introduce no graph completion, context universe, Cartesian product, or extra branch."),
+      ("N52-PROV", "Consume node [51]'s exact high-entropy bit output on the identical accumulated residual."),
+      ("N52-REGLUE", "Use the existing hot/cold aggregate's remainder-preserving reglue operation; absence remains the already declared cold outcome."),
+      ("N52-JOINT", "Instantiate Core's symbolic base-plus-dependent-choice profile and prove that realized remainder states and all retained hot-window choices share one recoverable skeleton code."),
+      ("N52-CAP", "Transport the exact joint cardinality bound through the aggregate's labelled-skeleton code-capacity theorem."),
+      ("N52-POWER", "Instantiate Core's powered joint-normalization profile; retain discarded hot scales and all cold-window mass on the error side of the exact natural-number inequality."),
+      ("N52-LOG-THETA", "Use Core's logarithmic transport and node [51]'s inherited remainder-bit lower bound to produce exactly the error-bearing joint budget whose strict reverse is closed at node [54]."),
+      ("N52-ROUTE", "Map only the node-[51] high leaf; preserve every bypass and sibling branch through the framework."),
       ("N52-WORK", "Use only symbolic arithmetic and framework ledger composition; perform zero semantic inspections and no ambient-universe enumeration.")
-    ] ++ ExampleNodeObligationDescriptor.missing 52 [
-      ("N52-WINDOW", "Consume the original paper's independently target-testable multiscale window package, including independence across the selected vertex-disjoint packing."),
-      ("N52-FEASIBILITY", "Derive (1-13 theta)/10 + 118.108581006 theta <= 1.5 + o(1) with the exact finite normalization error retained."),
-      ("N52-DENSITY", "Solve the feasibility inequality to obtain theta <= 0.01198542083... + o(1) and emit the exact node-[54] input.")
     ] ++ ExampleNodeObligationDescriptor.partialForStep 54
       "erdos.node54-entropy-cap-closure" [
       ("N54-52-PROV", "Consume the literal node-[52] feasibility payload from the accumulated high edge while retaining node [50]'s low edge unchanged."),
@@ -4899,8 +5148,8 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       ("N54-52-CLOSE", "Prove the strict node-[52] high-theta leaf impossible by symbolic order arithmetic."),
       ("N54-WORK", "Perform zero semantic checks and enumerate no graph, context, state, product, assignment, or Boolean universe.")
     ] ++ ExampleNodeObligationDescriptor.missing 54 [
-      ("N54-53-CLOSE", "Consume and close the separate node-[53] strict small-budget edge prescribed by the second incoming arrow to node [54].")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 53
+      ("N54-SMALL-CAPACITY", "Prove the paper's independent-capacity theorem on node [53]'s exact strict-small leaf; this producer is missing and is not proved evidence.")
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 53
       "erdos.low-entropy-forced-cost-fit" [
       ("N53-PROV", "Consume only the exact low constructor of the accumulated node-[50] decision and preserve node [51]'s high output unchanged."),
       ("N53-BUDGET", "Define the remaining non-curvature budget from the exact labelled-skeleton, hot-window, and node-[49] constrained-family bit counts."),
@@ -4909,23 +5158,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       ("N53-NO", "Retain the complementary large-budget edge forcedCurvatureBits <= remainingBits for node [55]."),
       ("N53-EXHAUSTIVE", "Use the framework no-after-yes continuation so both node-[53] edges are exhaustive on the literal node-[50] value."),
       ("N53-WORK", "Perform one proof-level real-order comparison and no graph, state, product, context, or Boolean-universe enumeration.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 55
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 55
       "erdos.large-budget-residual-handoff" [
-      ("N55-PROV", "Consume the exact node-[50] low constructor and node-[53] complementary large-budget constructor on the identical accumulated residual."),
-      ("N55-DENSITY", "Retain node [24]'s corrected window-density handoff from the accumulated ledger without restating or reproving it."),
-      ("N55-BRANCH", "Expose exactly Residual C on the original node-[53] no edge, adding no case, hypothesis, or stronger net-cap conclusion."),
-      ("N55-HANDOFF", "Preserve node [51] on the outer high edge and node [54]'s strict small-budget leaf while continuing only the nested large-budget leaf."),
+      ("N55-PROV", "Consume the exact node-[53] complementary large-budget constructor after node [54] terminalizes the other two Part-IV leaves."),
+      ("N55-MARKER", "Name the framework's already focused active value Residual C without constructing an application-owned output or handoff."),
+      ("N55-BRANCH", "Expose exactly Residual C on the original node-[53] no edge, adding no inequality, density claim, case, or hypothesis."),
+      ("N55-HANDOFF", "Preserve every terminal and earlier bypass while retrieving the identical focused stage through the framework."),
       ("N55-WORK", "Use zero-check framework routing and perform no mathematical recomputation or finite scan.")
-    ] ++ ExampleNodeObligationDescriptor.provedForStep 56
+    ] ++ ExampleNodeObligationDescriptor.partialForStep 56
       "erdos.large-budget-net-cap" [
-      ("N56-PROV", "Retrieve node [24]'s remainder-scaled density cap, node [29]'s surplus-adjusted incidence supply, and node [55]'s exact large-budget branch from one accumulated LedgerQuery."),
-      ("N56-SUPPLY", "Use node [29]'s literal supply and surplus partition to bound the net-deficiency numerator by 15p13 plus total surplus, without rebuilding the incidence ledger."),
-      ("N56-FINITE", "Combine node [24]'s error-bearing window density with the inherited supply through Core.scaled_density_supply_with_error."),
-      ("N56-ERROR", "Define the explicit normalization-plus-surplus error and prove it is o(|R|) for every fixed-threshold near-cubic residual family."),
-      ("N56-TAU", "Identify the main coefficient with tau_win and prove the exact rational inequality tau_win < 1/4."),
-      ("N56-STRICT", "Derive the eventual strict-quarter normalized net-deficiency bound printed in the original node."),
-      ("N56-LEDGER", "Append only node [56]'s new net-cap certificate; retain all predecessors solely in the framework ledger."),
-      ("N56-WORK", "Perform zero graph checks and only constant-size ordered-field arithmetic; enumerate no graph, state, context, support, or universe family.")
+      ("N56-PROV", "Consume only node [55]'s literal Residual C leaf on the same accumulated residual."),
+      ("N56-DEFS", "Define the exact net-deficiency numerator, surplus error, and rational tau_win printed by the paper."),
+      ("N56-FINITE", "Conditionally retain the previously verified finite error-bearing net cap through one certificate indexed by that exact leaf."),
+      ("N56-QUARTER", "Evaluate the exact limiting coefficient tau_win symbolically and prove tau_win < 1/4."),
+      ("N56-HANDOFF", "Continue only the focused active leaf through the framework and preserve every bypass automatically."),
+      ("N56-WORK", "Perform zero local graph checks and no ambient-universe enumeration.")
+    ] ++ ExampleNodeObligationDescriptor.missing 56 [
+      ("N56-NETCAP", "Prove the node-[24]/[29] finite-cap theorem at the literal Residual C indices; this producer is missing and is not proved evidence.")
     ] ++ ExampleNodeObligationDescriptor.provedForStep 57
       "erdos.type-a-nodes57-63-local-provenance" [
       ("N57-PROV", "Consume the exact node-[56] output from the accumulated ledger on the same eventual tail."),
@@ -5075,10 +5324,14 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           title := "Positive and avoiding CT1 executions"
           role := .tacticExecution
           explanation :=
-            "The positive run validates one proof-carrying return; the avoiding run retains the exact universal non-realization residual. The K₄ run pins the positive path on a concrete input."
+            "Node [6] stores the exact certificate decision. Node [7] interprets its C1 certificate as the official target, closes that terminal against inherited counterexample avoidance, and retains only the literal avoiding run. The K₄ run independently pins the positive path."
           declarations := [
             `Erdos64EG.Internal.runAvoidingCT1,
             `Erdos64EG.Internal.runMersenneCT1,
+            `Erdos64EG.Internal.node6MersenneDecision,
+            `Erdos64EG.Internal.node7CloseTarget,
+            `Erdos64EG.Internal.node7PowerOfTwoCycle,
+            `Erdos64EG.Internal.node7_avoids,
             `Erdos64EG.Tests.k4MersenneCT1Run
           ]
         },
@@ -5090,12 +5343,13 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
             "The Erdős encoding instantiates the reusable edge-rooted CT1 certificate profile without asking the application to manufacture a CT outcome."
           declarations := [
             `Erdos64EG.Internal.mersenneReturnEncoding,
-            `StructuralExhaustion.Graph.MinimumDegreeCycle.StaticInput.edgeRootedEncoding
+            `StructuralExhaustion.Graph.MinimumDegreeCycle.StaticInput.edgeRootedEncoding,
+            `StructuralExhaustion.CT1.ResidualRefinement.DependentCertificateFamily.closePublicTargetContinueAvoidingUsingStage
           ]
         }
       ]
       scopeNotes :=
-        "This step proves the manuscript's target dictionary and executes both CT1 branches; it does not yet rule out the target-avoiding branch."
+        "This covers nodes [5]--[7]. The C1 edge is the manuscript target terminal; the exact avoiding edge is the sole successor consumed by node [8]."
       workBound := "One certificate check for C1 and zero checks for the proof-carrying avoiding execution."
     },
     {
@@ -5118,7 +5372,10 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           role := .semanticTheorem
           explanation :=
             "This theorem is the direct Lean form of the manuscript lemma: every proper finite subgraph of the selected counterexample has minimum degree at most two."
-          declarations := [`Erdos64EG.Internal.properSubgraph_minDegree_le_two]
+          declarations := [
+            `Erdos64EG.Internal.node8NoProperCore,
+            `Erdos64EG.Internal.node8_noProperCore
+          ]
         },
         {
           groupId := "proper-core-execution"
@@ -5127,9 +5384,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           explanation :=
             "These declarations prove the exact deletion-C2 terminal, typed trace, totality, one-check count, and constant polynomial budget for the supplied proper-subgraph certificate."
           declarations := [
-            `Erdos64EG.Internal.properCoreCT2Run_terminal,
-            `Erdos64EG.Internal.properCoreCT2Run_trace,
-            `Erdos64EG.Internal.properCoreCT2Run_checks,
+            `Erdos64EG.Internal.node8_ct2_certificate,
             `StructuralExhaustion.CT2.runCertifiedReduction,
             `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.properSubgraphCT2Run_total,
             `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.properSubgraphCT2Run_polynomial
@@ -5140,10 +5395,11 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           title := "Composed prefix and predecessor"
           role := .compositionProvenance
           explanation :=
-            "The endpoint constructs the no-proper-core prefix from the original counterexample hypotheses, and the provenance theorem recovers the exact preceding CT1/CT2 output."
+            "The node consumes the sole avoiding successor left by node [7]. Framework dependent-successor storage retains the exact CT1 run and selected context; no root-level prefix is reconstructed."
           declarations := [
-            `Erdos64EG.Internal.exists_verifiedNoProperCorePrefix,
-            `Erdos64EG.Internal.noProperCorePrefix_previous
+            `Erdos64EG.Internal.Node7Stage,
+            `Erdos64EG.Internal.Node8Stage,
+            `Erdos64EG.Internal.runInitialThroughNode8
           ]
         },
         {
@@ -5177,44 +5433,47 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       ]
       declarationGroups := [
         {
-          groupId := "criticality-semantics"
-          title := "Degree-three endpoint consequences"
+          groupId := "node9-deletion-criticality"
+          title := "Node [9] deletion-criticality successor"
           role := .semanticTheorem
           explanation :=
-            "The first theorem proves the degree-three endpoint alternative for every edge; the second derives independence of the vertices of degree at least four."
+            "The literal node-[8] successor is consumed once. The graph-owned local deletion theorem supplies exactly the degree-three endpoint alternative, which node [9] appends to the accumulated ledger."
           declarations := [
-            `Erdos64EG.Internal.deletionCriticality,
-            `Erdos64EG.Internal.highDegree_independent
+            `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.deletionCriticalityFacts,
+            `Erdos64EG.Internal.node9DeletionCriticality,
+            `Erdos64EG.Internal.node9_everyEdgeTouchesDegreeThree,
+            `Erdos64EG.Internal.runInitialThroughNode9
           ]
         },
         {
-          groupId := "criticality-route"
-          title := "CT1-to-CT2 route execution"
-          role := .tacticExecution
+          groupId := "node10-high-degree-independence"
+          title := "Node [10] high-degree independence"
+          role := .semanticTheorem
           explanation :=
-            "The routed profile consumes the actual CT1 avoiding residual, scans the declared dart schedule, and proves local deletion discovery is disabled on the minimal counterexample."
+            "Node [10] consumes the exact endpoint theorem stored by node [9] and applies the reusable graph-local consequence; it does not rerun deletion or inspect an ambient family."
           declarations := [
-            `Erdos64EG.Internal.localTransition_not_enabled,
-            `Erdos64EG.Internal.routedProfile,
-            `StructuralExhaustion.Graph.MinimumDegreeCycle.StaticInput.edgeRootedDeletionPrefix
+            `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.slackVerticesIndependent_of_tightEndpoint,
+            `Erdos64EG.Internal.node10HighDegreeIndependence,
+            `Erdos64EG.Internal.node10_highDegreeVerticesIndependent,
+            `Erdos64EG.Internal.runInitialThroughNode10
           ]
         },
         {
-          groupId := "criticality-provenance"
-          title := "Verified CT1/CT2 prefix"
+          groupId := "criticality-ledger"
+          title := "Single-ledger provenance"
           role := .compositionProvenance
           explanation :=
-            "These declarations retain the exact CT1 execution, registered-route provenance, disabled CT2 discovery, and both graph-theoretic consequences in one dependent output."
+            "Framework dependent successors retain each literal predecessor and append only the new node-local proposition. No application handoff or route object is present."
           declarations := [
-            `Erdos64EG.Internal.exists_verifiedCT1CT2Prefix,
-            `Erdos64EG.Internal.verifiedCT1CT2Prefix,
-            `Erdos64EG.Internal.noProperCorePrefix_previous
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage,
+            `Erdos64EG.Internal.Node9Stage,
+            `Erdos64EG.Internal.Node10Stage
           ]
         }
       ]
       scopeNotes :=
-        "This matches the manuscript deletion argument. The registered route is implementation provenance, not an additional mathematical hypothesis."
-      workBound := "At most one scan of the explicit dart list; a closing deletion certificate uses one check."
+        "This is exactly nodes [9] and [10]. Each theorem is pointwise on the supplied edge or adjacent pair; no graph, path, context, state, or universe family is enumerated."
+      workBound := "Zero new primitive checks; both nodes reuse the graph-owned symbolic deletion theorem."
     },
     {
       stepId := "erdos.boundaried-replacement"
@@ -5245,10 +5504,13 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
             `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.targetComplete_contextUniversal,
             `StructuralExhaustion.Graph.PackedBoundariedGluing.glue_lexRank_lt,
             `StructuralExhaustion.Graph.PackedBoundariedGluing.glue_preserves_minDegree,
+            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.ofTargetComplete,
             `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.impossible,
-            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.Certificate.contextAudit,
-            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.impossible,
-            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.route
+            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.targetDefective_of_not_contextEquivalent,
+            `Erdos64EG.Internal.node11_boundaryDegreeProfile,
+            `Erdos64EG.Internal.node12_context_universal,
+            `Erdos64EG.Internal.node13_replacement,
+            `Erdos64EG.Internal.node14_uncompressible
           ]
         },
         {
@@ -5262,28 +5524,25 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
             `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.run_trace,
             `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.run_total,
             `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.run_checks,
-            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.run_polynomial,
-            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.terminal,
-            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.trace,
-            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.checks,
-            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.polynomial,
-            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.RankDropRouting.AtAtom.total
+            `StructuralExhaustion.Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.Compression.run_polynomial
           ]
         },
         {
           groupId := "replacement-provenance"
-          title := "CT3 prefix and extracted conclusion"
+          title := "Literal node-[11]--[14] chain"
           role := .compositionProvenance
           explanation :=
-            "The endpoint extends the exact previous minimal-counterexample prefix; the provenance declarations recover that predecessor and the concrete node-[14] uncompressibility conclusion."
+            "Each node consumes only its literal immediate predecessor through the one accumulated ledger and appends only its own mathematical responsibility."
           declarations := [
-            `Erdos64EG.Internal.exists_verifiedBoundariedReplacementPrefix,
-            `Erdos64EG.Internal.verifiedBoundariedReplacementPrefix,
-            `Erdos64EG.Internal.boundariedReplacementPrefix_previous,
-            `Erdos64EG.Internal.boundariedReplacementPrefix_uncompressible,
-            `Erdos64EG.Internal.verifiedRankDropRoutingStage,
-            `Erdos64EG.Internal.rankDropRoutingPrefix_previous,
-            `Erdos64EG.Internal.rankDropRoutingPrefix_stage
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage,
+            `Erdos64EG.Internal.node11BoundariedAtoms,
+            `Erdos64EG.Internal.node12ContextUniversality,
+            `Erdos64EG.Internal.node13Replacement,
+            `Erdos64EG.Internal.node14Uncompressibility,
+            `Erdos64EG.Internal.runInitialThroughNode11,
+            `Erdos64EG.Internal.runInitialThroughNode12,
+            `Erdos64EG.Internal.runInitialThroughNode13,
+            `Erdos64EG.Internal.runInitialThroughNode14
           ]
         },
         {
@@ -5299,7 +5558,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         }
       ]
       scopeNotes :=
-        "This covers nodes [11]--[14] for normalized decompositions with nonempty boundary and the complete certificate-local routing at nodes [36]--[39]. A context mismatch yields the exact target-defective residual; a context-universal at-atom realization executes CT3 and contradicts minimality; an enlarged-support residual is retained unchanged for node [40]. Empty-boundary closed representatives remain a separate later manuscript branch."
+        "This descriptor covers only nodes [11]--[14]: boundaried atoms, context universality, replacement, and hereditary target-uncompressibility. Later rank-dependence nodes consume these facts from the ledger but are tracked by their own descriptors."
       workBound := "Proof-level literal gluing and one certified reduction; no universe of contexts, graphs, or replacements is enumerated."
     },
     {
@@ -5328,172 +5587,115 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           ]
         },
         {
-          groupId := "p13-branch-semantics"
-          title := "Avoiding-branch contradiction and realization"
+          groupId := "p13-node15-decision"
+          title := "Node [15] exhaustive P₁₃-free decision"
           role := .semanticTheorem
           explanation :=
-            "These theorems translate P₁₃-freeness into the target via HSS, close it against target avoidance, and derive the induced-path embedding asserted by the manuscript corollary."
+            "The framework retrieves the literal node-[14] stage once and stores the exact P₁₃-free or non-P₁₃-free constructor on that same selected graph."
+          declarations := [
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideUsingStage,
+            `Erdos64EG.Internal.node15P13Decision,
+            `Erdos64EG.Internal.node15_exhaustive,
+            `Erdos64EG.Internal.runInitialThroughNode15,
+            `Erdos64EG.Internal.node15LocalChecks_eq_zero
+          ]
+        },
+        {
+          groupId := "p13-node16-hss-terminal"
+          title := "Node [16] HSS target terminal"
+          role := .semanticTheorem
+          explanation :=
+            "HSS turns exactly node [15]'s yes constructor into the official target, which contradicts the target-avoidance theorem already carried by the same minimal-counterexample context."
           declarations := [
             `Erdos64EG.Internal.hssTarget_of_p13Free,
-            `Erdos64EG.Internal.p13FreeBranch_closed,
-            `Erdos64EG.Internal.inducedP13_of_hss
+            `Erdos64EG.Internal.node16_hss_target,
+            `Erdos64EG.Internal.node16_hss_closure,
+            `Erdos64EG.Internal.node16HSSContinuation,
+            `Erdos64EG.Internal.runInitialThroughNode16,
+            `Erdos64EG.Internal.node16LocalChecks_eq_zero
           ]
         },
         {
-          groupId := "p13-avoiding-execution"
-          title := "P₁₃-free CT1 execution"
-          role := .executionAudit
-          explanation :=
-            "These declarations prove the exact avoiding terminal and trace, totality, and zero-check polynomial budget for the proof-carrying P₁₃-free branch."
-          declarations := [
-            `Erdos64EG.Internal.runP13FreeCT1_terminal,
-            `Erdos64EG.Internal.runP13FreeCT1_trace,
-            `Erdos64EG.Internal.runP13FreeCT1_total,
-            `Erdos64EG.Internal.runP13FreeCT1_polynomial
-          ]
-        },
-        {
-          groupId := "p13-positive-execution"
-          title := "Induced-path C1 execution"
-          role := .executionAudit
-          explanation :=
-            "These declarations validate the resulting Mathlib induced embedding and prove the exact C1 terminal, trace, totality, and constant work bound."
-          declarations := [
-            `Erdos64EG.Internal.runInducedP13CT1_terminal,
-            `Erdos64EG.Internal.runInducedP13CT1_trace,
-            `Erdos64EG.Internal.runInducedP13CT1_total,
-            `Erdos64EG.Internal.runInducedP13CT1_polynomial
-          ]
-        },
-        {
-          groupId := "p13-provenance"
-          title := "Composed induced-path prefix"
+          groupId := "p13-node15-16-provenance"
+          title := "Literal decision and surviving no edge"
           role := .compositionProvenance
           explanation :=
-            "The endpoint extends the exact CT3 predecessor on the same selected graph and exposes both that predecessor and the induced-path realization."
+            "`closeDependentDecisionYes` eliminates only the HSS terminal and retains node [15]'s literal no constructor for node [17]. No path witness, route, or new branch is manufactured here."
           declarations := [
-            `Erdos64EG.Internal.exists_verifiedInducedP13Prefix,
-            `Erdos64EG.Internal.verifiedInducedP13Prefix,
-            `Erdos64EG.Internal.inducedP13Prefix_previous,
-            `Erdos64EG.Internal.inducedP13Prefix_realization,
-            `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.verifiedInducedPathStage
-          ]
-        },
-        {
-          groupId := "p13-interface"
-          title := "Induced-path certificate interface"
-          role := .frameworkInterface
-          explanation :=
-            "The application fixes path order thirteen; the reusable graph profile treats a literal Mathlib induced embedding as the CT1 certificate."
-          declarations := [
-            `Erdos64EG.Internal.inducedP13Profile,
-            `StructuralExhaustion.Graph.InducedPath.Profile.encoding
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.closeDependentDecisionYes,
+            `Erdos64EG.Internal.Node15Stage,
+            `Erdos64EG.Internal.Node16Stage
           ]
         }
       ]
       scopeNotes :=
         "The corollary is fully formalized relative to the explicitly isolated HSS theorem. The app must display that trust boundary separately from kernel-proved consequences."
-      workBound := "Zero checks on the avoiding proof and one check on a supplied induced embedding; no path or tuple universe is enumerated."
+      workBound := "Zero node-local scans: one proof-level exact dichotomy and the isolated HSS theorem; no path, tuple, graph, or context universe is materialized."
     },
     {
       stepId := "erdos.p13-packing"
       stageId? := some "proof-slice.p13-packing"
-      title := "Maximum induced-P₁₃ packing and remainder"
+      title := "Maximal induced-P₁₃ packing"
       plainExplanation :=
-        "A maximum vertex-disjoint family of induced P₁₃ copies is selected. Maximality makes the complementary induced graph P₁₃-free, and the supports give the exact partition |R| + 13p₁₃ = |V(G)|."
+        "On node [16]'s literal not-P₁₃-free survivor, CT12 selects a deterministic vertex-disjoint induced-P₁₃ list and proves it maximal by saturation. The public node-[17] output deliberately makes no maximum-cardinality or remainder claim."
       formalStatement :=
-        "|R|+13p_{13}=|V(G)|,\\qquad R \\text{ is } P_{13}\\text{-free}"
+        "\\mathcal P\\text{ is vertex-disjoint and maximal among induced }P_{13}\\text{ families}"
       status := .implemented
       correspondence := .composite
       manuscriptRefs := [
-        { label := "def:p13-packing", title := "Maximum induced-P₁₃ packing", nodeIds := [17] },
-        { label := "sec:remainder", title := "P₁₃-free remainder", nodeIds := [25, 26, 27] }
+        { label := "def:p13-packing", title := "Maximal induced-P₁₃ packing", nodeIds := [17] }
       ]
       declarationGroups := [
         {
-          groupId := "packing-semantics"
-          title := "Maximum packing and remainder theorems"
+          groupId := "p13-node17-maximal"
+          title := "Node [17] maximal packing semantics"
           role := .semanticTheorem
           explanation :=
-            "These declarations prove maximum cardinality, maximal saturation, the exact partition, hereditary P₁₃-freeness of the remainder, and exclusion of finite internal minimum-degree-three subgraphs."
+            "The selected list is nonempty, support-nodup, pairwise disjoint, and saturated: every induced P₁₃ meets a selected window. Saturation is the diagram's maximality assertion and does not imply or expose maximum cardinality."
           declarations := [
-            `Erdos64EG.Internal.p13_maximum,
-            `Erdos64EG.Internal.p13_saturated,
-            `Erdos64EG.Internal.p13Remainder_partition,
-            `Erdos64EG.Internal.p13Remainder_free,
-            `Erdos64EG.Internal.p13Remainder_componentwise_free,
-            `Erdos64EG.Internal.p13Remainder_internalThreeCore_free,
-            `Erdos64EG.Internal.p13Remainder_internalSubgraphThreeCore_free,
-            `StructuralExhaustion.Graph.InducedPathPacking.remainder_card_ge_of_packingNumber_le,
-            `Erdos64EG.Internal.P13CoverageResidual,
-            `Erdos64EG.Internal.verifiedP13RemainderResidual,
-            `Erdos64EG.Internal.p13Remainder_large,
-            `Erdos64EG.Internal.p13Remainder_node26_exact,
-            `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder,
-            `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.node25,
-            `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.large,
-            `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.thirteen_le_order,
-            `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.ratio_ge_main_sub_oOne,
-            `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.node26,
-            `Erdos64EG.Internal.VerifiedP13Node27NoInternalThreeCore,
-            `Erdos64EG.Internal.VerifiedP13Node25LargeRemainder.node27,
-            `Erdos64EG.Internal.p13Node27LocalChecks_polynomial
+            `Erdos64EG.Internal.node17_maximal,
+            `Erdos64EG.Internal.node17_nonempty,
+            `Erdos64EG.Internal.Node17Output
           ]
         },
         {
-          groupId := "packing-execution"
-          title := "CT12 selected-list audit"
+          groupId := "p13-node17-execution"
+          title := "Node [17] CT12 execution"
           role := .executionAudit
           explanation :=
-            "These theorems prove the exhausted CT12 terminal, iteration bound, exact iteration count p₁₃, and trace-length bound for the selected maximum family."
+            "The framework owns the maximal-only verified stage and retains the exhausted terminal, typed trace, totality, and selected-list polynomial work certificate."
           declarations := [
-            `Erdos64EG.Internal.runP13PackingCT12_terminal,
-            `Erdos64EG.Internal.runP13PackingCT12_iterations,
-            `Erdos64EG.Internal.runP13PackingCT12_iterations_exact,
-            `Erdos64EG.Internal.runP13PackingCT12_trace_bound
+            `Erdos64EG.Internal.node17InducedP13Packing,
+            `Erdos64EG.Internal.node17_terminal,
+            `Erdos64EG.Internal.node17Total,
+            `Erdos64EG.Internal.node17WorkBudget,
+            `Erdos64EG.Internal.runInitialThroughNode17
           ]
         },
         {
-          groupId := "packing-provenance"
-          title := "Packing prefix and nonemptiness"
+          groupId := "p13-node17-provenance"
+          title := "Literal survivor and public cursors"
           role := .compositionProvenance
           explanation :=
-            "The endpoint extends the exact induced-P₁₃ predecessor; nonemptiness is derived from the retained CT1 embedding rather than supplied by the caller."
+            "Node [17] consumes exactly node [16]'s surviving no constructor. Public accessors expose the identical graph, selected window list, and its length without reconstructing an older prefix."
           declarations := [
-            `Erdos64EG.Internal.exists_verifiedP13PackingPrefix,
-            `Erdos64EG.Internal.verifiedP13PackingPrefix,
-            `Erdos64EG.Internal.p13PackingPrefix_previous,
-            `Erdos64EG.Internal.p13PackingPrefix_transitionProfileId,
-            `Erdos64EG.Internal.p13PackingPrefix_routedExecutionExact,
-            `Erdos64EG.Internal.p13PackingPrefix_nonempty,
-            `Erdos64EG.Internal.p13Node24To26LocalChecks_polynomial,
-            `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingPrefix,
-            `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingTransition_profile_id,
-            `StructuralExhaustion.Routes.CT1ToCT12.advance
-          ]
-        },
-        {
-          groupId := "packing-interface"
-          title := "Maximum-disjoint-packing framework"
-          role := .frameworkInterface
-          explanation :=
-            "The Erdős profile fixes induced paths of order thirteen; the reusable core proof-selects a maximum disjoint family and CT12 audits only its selected list."
-          declarations := [
-            `Erdos64EG.Internal.inducedP13PackingProfile,
-            `StructuralExhaustion.CT12.DisjointPacking.Profile.verifiedStage
+            `Erdos64EG.Internal.Node17Stage,
+            `Erdos64EG.Internal.Node17StageContext,
+            `Erdos64EG.Internal.node17Windows,
+            `Erdos64EG.Internal.node17PackingNumber
           ]
         }
       ]
       scopeNotes :=
-        "Nodes [25]--[27] consume the literal corrected node-[24] no-edge payload, retain the identical node-[21] CT12 packing and remainder, prove the exact finite floor and hereditary P₁₃-freeness, derive 13≤|V(G)| from the retained nonempty packing, transport node [24]'s normalized large-remainder estimate across the panel boundary, and project the already proved HSS consequence onto the exact node-[26] remainder."
-      workBound := "Exactly p₁₃ CT12 iterations, at most |V(G)|; node [27] performs zero further checks, and the universe of embeddings and packings is not materialized."
+        "This descriptor covers only node [17]. Remainder construction and every quantitative packing consequence belong to later diagram nodes and are not front-loaded here."
+      workBound := "One framework-selected maximal-list audit with work linear in the selected list; no family of packings, graph universe, or maximum-cardinality search is materialized."
     },
     {
       stepId := "erdos.p13-labels"
       stageId? := some "proof-slice.p13-labels"
       title := "Exact P₁₃ attachment-label algebra"
       plainExplanation :=
-        "An outside vertex is labelled by the path positions to which it is adjacent. Target avoidance forbids pairs of positions at gaps two and six. CT10 exhaustively classifies all 8192 bit codes, obtaining exactly 399 legal labels and the manuscript relations Cₛ and Ω₂."
+        "An outside vertex is labelled by the path positions to which it is adjacent. Target avoidance forbids pairs of positions at gaps two and six. Two parity automata symbolically count the seven size fibres and transport the exact 399-row carrier into CT10; no global code scan is used for the count."
       formalStatement :=
         "\\mathcal L=\\{S\\ne\\varnothing: |i-j|\\notin\\{2,6\\}\\},\\qquad |\\mathcal L|=399"
       status := .implemented
@@ -5512,6 +5714,9 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           declarations := [
             `Erdos64EG.Internal.p13CodeLegal_iff_gapLegal,
             `Erdos64EG.Internal.p13Legal_iff_gapLegal,
+            `Erdos64EG.Internal.P13ParityLabelCount.gapSafeSized13_natCard_eq_convolution,
+            `Erdos64EG.Internal.P13ParityLabelCount.gapLegal13_natCard,
+            `Erdos64EG.Internal.symbolicLegalP13Labels_card,
             `Erdos64EG.Internal.p13LegalLabel_count,
             `Erdos64EG.Internal.p13LegalLabel_size_distribution,
             `Erdos64EG.Internal.legalP13Label_card_bounds
@@ -5557,10 +5762,9 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           title := "Transfer to graph attachments"
           role := .semanticTheorem
           explanation :=
-            "These theorems prove that every actual nonempty attachment to the retained induced P₁₃ is legal and occurs in the accepted CT10 table."
+            "The node-[18] output proves directly that every actual nonempty attachment to an induced P₁₃ in the retained node-[17] graph has a legal label."
           declarations := [
-            `Erdos64EG.Internal.p13AttachmentLabel_legal,
-            `Erdos64EG.Internal.p13AttachmentLabel_accepted
+            `Erdos64EG.Internal.Node18Output.actualLabelsLegal
           ]
         },
         {
@@ -5568,13 +5772,14 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           title := "Label-algebra endpoint and predecessor"
           role := .compositionProvenance
           explanation :=
-            "The current theorem-bearing endpoint retains the exact CT12 packing predecessor and exposes the verified CT10 stage on the same branch context."
+            "The framework successor consumes the literal node-[17] maximal-packing stage. Its public cursor exposes the identical selected graph to node [19] without a copied prefix or custom route."
           declarations := [
-            `Erdos64EG.Internal.exists_verifiedP13LabelAlgebraPrefix,
-            `Erdos64EG.Internal.verifiedP13LabelAlgebraPrefix,
-            `Erdos64EG.Internal.p13LabelAlgebraPrefix_previous,
-            `Erdos64EG.Internal.p13LabelAlgebraPrefix_stage,
-            `StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingAttachmentPrefix
+            `Erdos64EG.Internal.Node18Stage,
+            `Erdos64EG.Internal.Node18Output,
+            `Erdos64EG.Internal.Node18StageContext,
+            `Erdos64EG.Internal.node18P13LabelAlgebra,
+            `Erdos64EG.Internal.runInitialThroughNode18,
+            `Erdos64EG.Internal.node18LocalChecks_eq
           ]
         },
         {
@@ -5590,8 +5795,8 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         }
       ]
       scopeNotes :=
-        "Node [18]'s legal-label table and Cₛ/Ω₂ definitions are implemented. Node [21]'s complete 91-barrier curvature table is the separate green step erdos.p13-multiscale-curvature."
-      workBound := "8192 + 399 + 399² = 167792 primitive checks; quadratic in the explicit 8192-code universe."
+        "Node [18]'s legal-label table and Cₛ/Ω₂ definitions are implemented. Node [21]'s 91-barrier interface is tracked separately and remains yellow until its legacy packed-row and safe/flat count audits are sole-HSS clean."
+      workBound := "The fixed local CT10 table records 167792 primitive checks. The 399 count and seven size fibres are transported symbolically from the parity automata; no ambient graph or universe of packings is enumerated."
     },
     {
       stepId := "erdos.surplus-scale-split"
@@ -5607,84 +5812,62 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       ]
       declarationGroups := [{
         groupId := "quadratic-surplus-scale"
-        title := "Reusable constant-work squared-scale decision"
+        title := "Framework-owned squared-scale decision and strict branch name"
         role := .semanticTheorem
-        explanation := "The core stage owns the exhaustive comparison and one-check work audit. The Erdős instance supplies only the actual surplus, graph order, and the same explicit cap coefficient consumed downstream at node [138]."
+        explanation := "Node [19] supplies only the actual surplus, graph order, and fixed coefficient to the reusable ordered split. Node [20] is definitionally its strict constructor and adds no mathematics before node [125]."
         declarations := [
-          `StructuralExhaustion.Core.QuadraticScaleSplit.decide,
-          `StructuralExhaustion.Core.QuadraticScaleSplit.exhaustive,
-          `StructuralExhaustion.Core.QuadraticScaleSplit.verifiedStage,
-          `Erdos64EG.Internal.surplusScaleCoefficient,
-          `Erdos64EG.Internal.surplusScaleInput,
-          `Erdos64EG.Internal.surplusScaleStage,
-          `Erdos64EG.Internal.surplusScale_exhaustive,
-          `Erdos64EG.Internal.routeSurplusScale,
-          `Erdos64EG.Internal.routeSurplusScale_exhaustive,
-          `Erdos64EG.Internal.exists_verifiedP13LabelAlgebraPrefix,
-          `Erdos64EG.Internal.exists_verifiedSurplusScaleSplitPrefix,
-          `Erdos64EG.Internal.verifiedSurplusScaleRoutingPrefix,
-          `Erdos64EG.Internal.exists_verifiedSurplusScaleRoutingPrefix
+          `Erdos64EG.Internal.node19SurplusCoefficient,
+          `Erdos64EG.Internal.node19Profile,
+          `Erdos64EG.Internal.node19Family,
+          `Erdos64EG.Internal.Node19High,
+          `Erdos64EG.Internal.Node19Low,
+          `Erdos64EG.Internal.Node19Stage,
+          `Erdos64EG.Internal.node19SurplusScaleDecision,
+          `Erdos64EG.Internal.runInitialThroughNode19,
+          `Erdos64EG.Internal.node19_exhaustive,
+          `Erdos64EG.Internal.node19WorkBudget,
+          `Erdos64EG.Internal.node19_work_zero,
+          `Erdos64EG.Internal.Node20Entry,
+          `Erdos64EG.Internal.Node20SourceStage,
+          `Erdos64EG.Internal.node20Entry_iff_node19High,
+          `Erdos64EG.Internal.node20LocalChecks_eq_zero
         ]
       }]
-      scopeNotes := "Nodes [19], [20], and [125] are complete as one local typed route. The strict inequality and predecessor are preserved definitionally into Part X; the bounded inequality remains the separate node-[21] residual."
-      workBound := "One exact natural-number comparison. No square root, floating-point computation, graph family, or threshold search is evaluated."
+      scopeNotes := "Nodes [19] and [20] are proved locally. Node [20] only names the strict constructor; its surplus-pair mathematics begins at the existing node-[125] expansion. The bounded constructor's node-[21] producer remains missing."
+      workBound := "Zero graph scans: one exact symbolic natural-number comparison and no square root, floating-point computation, graph family, or threshold search."
     },
     {
       stepId := "erdos.p13-multiscale-curvature"
       stageId? := some "proof-slice.p13-multiscale-curvature"
-      title := "Complete 91-barrier P13 curvature certificate"
-      plainExplanation := "On the bounded constructor of the exact node-[19] surplus split, CT10 classifies all 196 ordered candidate length pairs and retains exactly the 91 pairs a,b≥1 with a+b≤14. Fifteen fixed 399-row relation matrices are audited bit-for-bit against the graph attachment semantics. Independent shards audit every accepted safe and composition-flat count against the reusable finite-relation barrier, including the existing 543958/432672/111286 scale-(1,1) counts. Exact integer arithmetic proves that the product barrier is larger than 2^118, without evaluating a logarithm or assuming any Boolean-state realization."
+      title := "Node-[21] multi-scale curvature output interface"
+      plainExplanation := "The lightweight API fixes the exact CT10 classification, packed relation profile, safe/flat products, work expression, and complete node-[21] output type on node [19]'s bounded edge. Its optimized semantic/count producer remains yellow; downstream nodes use the identical typed output provisionally."
       formalStatement := "|\\{(a,b):a,b\\ge1,\\ a+b\\le14\\}|=91,\\qquad 2^{118}\\prod F_{a,b}<\\prod S_{a,b}"
       status := .implemented
-      correspondence := .exact
+      correspondence := .partialCoverage
       manuscriptRefs := [
         { label := "lem:curv-enum", title := "Finite curvature enumeration", nodeIds := [21] },
         { label := "app:curv-code", title := "Curvature computation", nodeIds := [21] }
       ]
-      declarationGroups := [
-        {
-          groupId := "multiscale-relation-semantics"
-          title := "Sparse bit relation and graph semantics"
-          role := .semanticTheorem
-          explanation := "The sparse forbidden-gap decision is proved equivalent to the public power-of-two attachment relation at every used scale; the generated rows are then rechecked against that decision."
-          declarations := [
-            `Erdos64EG.Internal.p13CodeCompatibleSparse_iff,
-            `Erdos64EG.Internal.p13CodeCompatibleFast_iff,
-            `Erdos64EG.Internal.p13MultiScaleRows_codeAudit,
-            `Erdos64EG.Internal.p13MultiScaleCompatibilityRow_semantic
-          ]
-        },
-        {
-          groupId := "multiscale-count-audits"
-          title := "Generic safe/flat barrier audits"
-          role := .executionAudit
-          explanation := "All 91 literal counts are connected back to the reusable finite bit-relation profile; the fixed arrays are not trusted as assumptions."
-          declarations := [
-            `StructuralExhaustion.Core.FiniteBitRelationBarrier.Profile.safeCount,
-            `StructuralExhaustion.Core.FiniteBitRelationBarrier.Profile.flatCount,
-            `Erdos64EG.Internal.p13MultiScaleSafeCounts_audit,
-            `Erdos64EG.Internal.p13MultiScaleFlatCounts_audit,
-            `Erdos64EG.Internal.p13BarrierSafeCount_audit,
-            `Erdos64EG.Internal.p13BarrierFlatCount_audit
-          ]
-        },
-        {
-          groupId := "multiscale-ct10-endpoint"
-          title := "CT10 classification and exact branch route"
-          role := .compositionProvenance
-          explanation := "The CT10 endpoint retains the exact bounded node-[19] residual. The combined router preserves the strict Part-X residual unchanged and replaces only the bounded constructor by the verified curvature certificate."
-          declarations := [
-            `Erdos64EG.Internal.p13Barrier_class_count,
-            `Erdos64EG.Internal.p13Barrier_one_one_counts,
-            `Erdos64EG.Internal.p13MultiScaleBarrier_more_than_118_bits,
-            `Erdos64EG.Internal.verifiedP13MultiScaleCurvaturePrefix,
-            `Erdos64EG.Internal.routeSurplusScale,
-            `Erdos64EG.Internal.routeSurplusScaleThroughCurvature,
-            `Erdos64EG.Internal.routeSurplusScaleThroughCurvature_exhaustive
-          ]
-        }
-      ]
-      scopeNotes := "Node [21] is complete on the exact bounded node-[19] constructor. The weighted live/cold interface is a separate same-window branch contract, not an extra numbered node. Nodes [22]--[24] perform only their exact finite density split and proof-carrying handoffs. The strict constructor remains the already verified Part-X sparse-pressure route."
+      declarationGroups := [{
+        groupId := "multiscale-node21-api"
+        title := "Exact conditional node-[21] API"
+        role := .compositionProvenance
+        explanation := "These declarations define the complete paper-local result and its literal framework continuation while the optimized producer is repaired independently."
+        declarations := [
+          `Erdos64EG.Internal.Node21Output,
+          `Erdos64EG.Internal.P13BarrierAccepted,
+          `Erdos64EG.Internal.p13BarrierClassification,
+          `Erdos64EG.Internal.p13MultiScaleBarrierProfile,
+          `Erdos64EG.Internal.p13BarrierSafeCount,
+          `Erdos64EG.Internal.p13BarrierFlatCount,
+          `Erdos64EG.Internal.p13BarrierSafeProduct,
+          `Erdos64EG.Internal.p13BarrierFlatProduct,
+          `Erdos64EG.Internal.p13MultiScaleCheckCount,
+          `Erdos64EG.Internal.Node21Context,
+          `Erdos64EG.Internal.Node21Stage
+        ]
+      }]
+      scopeNotes := "Node [21] remains yellow. The API is exact, but its complete semantic/count producer has not yet replaced the provisional old output."
       workBound := "Fifteen fixed 399×399 bit relations and 91 quadratic barrier scans, split into 15 independently cached audit shards. The public CT10 classification uses 196 candidate checks; no graph family or Boolean cube is enumerated."
     },
     {
@@ -6109,9 +6292,9 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
     {
       stepId := "erdos.p13-density-handoff"
       stageId? := some "proof-slice.p13-density-handoff"
-      title := "Corrected nodes [22]--[24] finite density handoff"
-      plainExplanation := "Node [22] performs the exact finite comparison with both normalization corrections visible. The strict branch supplies node [23]'s cold trigger; the complementary branch supplies node [24]'s corrected cap, its uniform o(1) normalization, and the resulting remainder and fractional-linear incidence transports."
-      formalStatement := "118108581006\\,p_{13}\\log_2 n\\,S\\le B_{\\rm print}(G)+E_{\\rm norm}(G)\\quad\\text{or its strict reverse}"
+      title := "Conditional nodes [22]--[24] exact density branch"
+      plainExplanation := "From the exact typed node-[21] output, node [22] compares the fixed-point window and skeleton loads. Node [23] exposes the strict overflow on the literal yes constructor without assuming it is empty. Node [24] retains the complementary no constructor, window cap, packing support, and a reusable theorem converting the later joint high-entropy budget into the sharper cap."
+      formalStatement := "118108581006\\,p_{13}\\le1500000000\\,n\\quad\\text{or its strict reverse}"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
@@ -6120,29 +6303,39 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       declarationGroups := [
         {
           groupId := "p13-density-decision"
-          title := "Same-context finite comparison and successor payloads"
+          title := "Literal framework decisions and reusable node-[24] transformer"
           role := .compositionProvenance
-          explanation := "The runner uses the actual node-[21] packing and returns proof-carrying strict-overflow or corrected-cap constructors. The exact scale-loss and powered-skeleton normalization errors remain explicit. On the corrected-cap constructor, the uniform envelope is o(n log n), so Lean proves the normalized window-density, remainder, and fractional-linear incidence conclusions with explicit vanishing errors."
+          explanation := "Core owns both decisions, the strict-leaf closure, the surviving active cursor, and the single accumulated ledger. Node [22] consumes the literal node-[21] ledger output without an application-owned handoff."
           declarations := [
-            `Erdos64EG.Internal.runP13Node22FiniteDensityDecision,
-            `Erdos64EG.Internal.runP13Node22FiniteDensityDecision_exhaustive,
-            `Erdos64EG.Internal.VerifiedP13Node23FiniteOverflow.strict,
-            `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.thetaWindowCorrected,
-            `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.remainderCorrected,
-            `Erdos64EG.Internal.p13Node24NormalizationEnvelope_isLittleO,
-            `Erdos64EG.Internal.p13Node24ThetaError_tendsto_zero,
-            `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.theta_le_thetaWindow_add_oOne,
-            `Erdos64EG.Internal.p13Node24RemainderError_tendsto_zero,
-            `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.remainder_ratio_ge_main_sub_oOne,
-            `Erdos64EG.Internal.p13Node24TauError_tendsto_zero,
-            `Erdos64EG.Internal.p13Node24Tau_denominator_eventually_positive,
-            `Erdos64EG.Internal.VerifiedP13Node24FiniteDensityHandoff.tau_le_tauWindow_add_oOne,
-            `Erdos64EG.Internal.p13WindowTauExact_lt_quarter
+            `Erdos64EG.Internal.runInitialThroughNode24,
+            `Erdos64EG.Internal.node22DensityFamily,
+            `Erdos64EG.Internal.Node22High,
+            `Erdos64EG.Internal.Node22Low,
+            `Erdos64EG.Internal.Node22Stage,
+            `Erdos64EG.Internal.node22P13DensityDecision,
+            `Erdos64EG.Internal.runInitialThroughNode22,
+            `Erdos64EG.Internal.node22LocalChecks_eq_zero,
+            `Erdos64EG.Internal.Node23Output,
+            `Erdos64EG.Internal.node23StrictWindowOverflow,
+            `Erdos64EG.Internal.Node23Stage,
+            `Erdos64EG.Internal.node23P13WindowEntropyOverflow,
+            `Erdos64EG.Internal.runInitialThroughNode23,
+            `Erdos64EG.Internal.Node24HighEntropyJointBudget,
+            `Erdos64EG.Internal.Node24HighEntropyCap,
+            `Erdos64EG.Internal.node24HighEntropyCap_of_jointBudget,
+            `Erdos64EG.Internal.Node24HighEntropyTransformer,
+            `Erdos64EG.Internal.node24HighEntropyTransformer,
+            `Erdos64EG.Internal.Node24Output,
+            `Erdos64EG.Internal.Node24Stage,
+            `Erdos64EG.Internal.node24StageEntailsHighEntropyTransformer,
+            `Erdos64EG.Internal.node24P13DensityBounds,
+            `Erdos64EG.Internal.node24LocalChecks_eq_zero,
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageEntails
           ]
         }
       ]
-      scopeNotes := "Nodes [22]--[24] are complete as local Part-I cells. Node [23] owns only the strict reverse corrected finite-cap payload on the node-[22] yes edge; the downstream Part-XI cold closure is tracked at its own nodes. Node [24] proves the corrected finite/asymptotic window and remainder handoffs and emits the high-entropy proposition as a typed downstream obligation without proving node [52]. No completion-state, Boolean-assignment, graph-family, or ambient-universe enumeration occurs."
-      workBound := "One proof-level natural-number dichotomy on the exact graph order and packing number; no finite universe is scanned."
+      scopeNotes := "Nodes [22]--[24] remain yellow only because the exact node-[21] producer is still a typed conditional input. Node [23] is an unconditional local continuation of node [22]'s yes constructor; it accepts no quiet-block premise. Node [24]'s local transformer and its StageEntails instance are kernel-checked conditional mathematics, not a node-[52] joint-budget proof."
+      workBound := "One proof-level natural-number dichotomy and symbolic arithmetic; no finite universe is scanned."
     },
     {
       stepId := "erdos.p13-actual-attachment-cold-fork"
@@ -7716,10 +7909,99 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       workBound := "One supplied-certificate CT1 check after the already accounted node-[153] scan; no cycle, walk, graph, or context family is enumerated."
     },
     {
+      stepId := "erdos.p13-node25-large-remainder"
+      stageId? := some "proof-slice.p13-node25-large-remainder"
+      title := "Exact Residual A at node [25]"
+      plainExplanation := "The literal node-[24] active cursor determines the canonical packing complement. The framework maps that cursor once and records the exact partition, scaled large-remainder inequality, and hereditary induced-P13-freeness."
+      formalStatement := "R=V(G)\\setminus\\bigcup\\mathcal P,\\qquad 98608581006\\,n\\le118108581006\\,|R|"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "prop:p13-density", title := "Residual A", nodeIds := [25] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node25-exact-remainder"
+        title := "Literal node-[24] successor and canonical complement"
+        role := .compositionProvenance
+        explanation := "The application proves only node [25]'s remainder facts; Core transports every prior branch and ledger fact."
+        declarations := [
+          `Erdos64EG.Internal.runInitialThroughNode25,
+          `Erdos64EG.Internal.Node25Remainder,
+          `Erdos64EG.Internal.Node25Output,
+          `Erdos64EG.Internal.Node25Stage,
+          `Erdos64EG.Internal.node25P13LargeRemainder,
+          `Erdos64EG.Internal.node25LocalChecks_eq_zero,
+          `StructuralExhaustion.Core.DensityAsymptoticTransport.nat_partition_complement_lower,
+          `Erdos64EG.Internal.p13Remainder_partition,
+          `Erdos64EG.Internal.p13Remainder_free,
+          `Erdos64EG.Internal.p13Remainder_componentwise_free
+        ]
+      }]
+      scopeNotes := "Node [25] is locally kernel-checked but partial because its exact predecessor chain contains missing node-[21] and node-[23] producers."
+      workBound := "Zero new graph scans; symbolic arithmetic over the already selected packing."
+    },
+    {
+      stepId := "erdos.p13-node26-remainder-continuation"
+      stageId? := some "proof-slice.p13-node26-remainder-continuation"
+      title := "Residual A panel continuation at node [26]"
+      plainExplanation := "Node [26] consumes the literal node-[25] output and names exactly the same canonical remainder for Part II."
+      formalStatement := "R_{26}=R_{25}"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "fig:proof-diagram-part-ii", title := "Residual A continuation", nodeIds := [26] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node26-continuation"
+        title := "Framework-owned zero-copy successor"
+        role := .compositionProvenance
+        explanation := "The output contains only the definitional remainder identity; predecessor and ledger transport remain in Core."
+        declarations := [
+          `Erdos64EG.Internal.runInitialThroughNode26,
+          `Erdos64EG.Internal.Node26Output,
+          `Erdos64EG.Internal.Node26Stage,
+          `Erdos64EG.Internal.node26P13RemainderContinuation,
+          `Erdos64EG.Internal.node26LocalChecks_eq_zero,
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapDependentDecisionOnNoYesClosedActive
+        ]
+      }]
+      scopeNotes := "Node [26] is locally proved but remains partial through inherited missing predecessors."
+      workBound := "Zero local checks."
+    },
+    {
+      stepId := "erdos.p13-node27-no-three-core"
+      stageId? := some "proof-slice.p13-node27-no-three-core"
+      title := "No internal three-core at node [27]"
+      plainExplanation := "The exact node-[26] remainder satisfies both the induced-support and finite-internal-subgraph formulations of the paper's no-three-core conclusion."
+      formalStatement := "R\\text{ has no internal subgraph of minimum degree at least }3"
+      status := .implemented
+      correspondence := .exact
+      manuscriptRefs := [
+        { label := "fig:proof-diagram-part-ii", title := "No internal three-core", nodeIds := [27] }
+      ]
+      declarationGroups := [{
+        groupId := "p13-node27-core-exclusion"
+        title := "Exact remainder core exclusion"
+        role := .semanticTheorem
+        explanation := "The framework mapper consumes the literal node-[26] cursor and applies the two existing graph lemmas on that same remainder."
+        declarations := [
+          `Erdos64EG.Internal.runInitialThroughNode27,
+          `Erdos64EG.Internal.Node27Output,
+          `Erdos64EG.Internal.Node27Stage,
+          `Erdos64EG.Internal.node27P13NoInternalThreeCore,
+          `Erdos64EG.Internal.node27LocalChecks_eq_zero,
+          `Erdos64EG.Internal.p13Remainder_internalThreeCore_free,
+          `Erdos64EG.Internal.p13Remainder_internalSubgraphThreeCore_free
+        ]
+      }]
+      scopeNotes := "Node [27] is locally proved but remains partial through inherited missing predecessors."
+      workBound := "Zero new graph, subgraph, or support scans."
+    },
+    {
       stepId := "erdos.p13-positive-deficiency"
       stageId? := some "proof-slice.p13-positive-deficiency"
       title := "Positive deficiency of the exact P13 remainder"
-      plainExplanation := "The graph charge layer computes the induced degree of every vertex in the exact CT12 remainder and sums the natural deficit 3-d_R(v), which is exactly max(0,3-d_R(v)). The no-internal-three-core predecessor is retained unchanged."
+      plainExplanation := "Node [28] maps the literal node-[27] cursor and records the graph-owned positive-deficiency sum on the same exact remainder."
       formalStatement := "\\operatorname{def}^{+}(R)=\\sum_{v\\in R}\\max\\{0,3-d_R(v)\\}"
       status := .implemented
       correspondence := .exact
@@ -7732,22 +8014,19 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         role := .mathematicalDefinition
         explanation := "The reusable graph profile owns induced degree and positive deficiency. The application instantiates its core with the exact node-[27] remainder finset and proves the displayed sum definitionally."
         declarations := [
+          `Erdos64EG.Internal.runInitialThroughNode28,
           `StructuralExhaustion.Graph.AssignedSupportCharge.Profile.internalDegree,
           `StructuralExhaustion.Graph.AssignedSupportCharge.Profile.positiveDeficiency,
           `Erdos64EG.Internal.p13RemainderDeficiencyProfile,
-          `Erdos64EG.Internal.p13Remainder_internalDegree_eq,
           `Erdos64EG.Internal.p13Remainder_positiveDeficiency_eq,
-          `Erdos64EG.Internal.exists_verifiedP13PackingPrefix,
-          `Erdos64EG.Internal.exists_verifiedP13PositiveDeficiencyPrefix,
-          `Erdos64EG.Internal.VerifiedP13PositiveDeficiencyPrefix,
-          `Erdos64EG.Internal.verifiedP13PositiveDeficiencyPrefix,
-          `Erdos64EG.Internal.VerifiedP13Node28PositiveDeficiency,
-          `Erdos64EG.Internal.VerifiedP13Node27NoInternalThreeCore.node28,
-          `Erdos64EG.Internal.p13Node28LocalChecks_le_square
+          `Erdos64EG.Internal.Node28Output,
+          `Erdos64EG.Internal.Node28Stage,
+          `Erdos64EG.Internal.node28P13PositiveDeficiency,
+          `Erdos64EG.Internal.node28LocalChecks_eq_zero
         ]
       }]
-      scopeNotes := "Node [28] is complete and is indexed by the literal green node-[27] output on the identical graph, packing, and remainder. Its exact output is the required predecessor for node [29]."
-      workBound := "One induced-neighbour scan per remainder vertex, bounded quadratically in the declared graph order; no subgraph or support family is enumerated."
+      scopeNotes := "The local node-[28] theorem is kernel-checked, but the node remains partial through its predecessor chain's missing obligations."
+      workBound := "Zero new ambient-support or subgraph enumeration."
     },
     {
       stepId := "erdos.p13-external-incidence-supply"
@@ -7765,11 +8044,13 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         groupId := "p13-node29-exact-incidence-ledger"
         title := "Exact predecessor, incidence accounting, and spine bound"
         role := .semanticTheorem
-        explanation := "The dependent constructor retains the literal node-[28] value. Framework graph lemmas own the boundary injection, token embedding, exact token identity, surplus partition, and quadratic work bound; the earlier bounded-surplus residual is projected unchanged."
+        explanation := "The framework mapper consumes the literal node-[28] value. Graph lemmas own the boundary injection, token embedding, exact token identity, surplus partition, and local work bound; the bounded-surplus fact is used directly from the incoming branch proof."
         declarations := [
-          `Erdos64EG.Internal.VerifiedP13Node29ExternalIncidenceSupply,
-          `Erdos64EG.Internal.VerifiedP13Node27NoInternalThreeCore.node28,
-          `Erdos64EG.Internal.VerifiedP13Node28PositiveDeficiency.node29,
+          `Erdos64EG.Internal.runInitialThroughNode29,
+          `Erdos64EG.Internal.Node29Output,
+          `Erdos64EG.Internal.Node29Stage,
+          `Erdos64EG.Internal.node29P13ExternalIncidenceSupply,
+          `Erdos64EG.Internal.node29LocalChecks_eq_zero,
           `Erdos64EG.Internal.p13Curvature_positiveDeficiency_eq_previous,
           `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.positiveDeficiency_le_boundaryIncidences,
           `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderBoundaryIncidences_le_tokenCount,
@@ -7779,17 +8060,17 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `StructuralExhaustion.Graph.InducedPathWindowLedger.remainderPositiveDeficiency_sub_remainderSurplus_le,
           `StructuralExhaustion.Graph.InducedPathWindowLedger.window_add_remainder_eq_totalSurplus,
           `StructuralExhaustion.Graph.InducedPathWindowLedger.checks_le_thirteen_mul_square,
-          `Erdos64EG.Internal.P13NearCubicSpineBound.ofBoundedSurplus
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapDependentDecisionOnNoYesClosedActive
         ]
       }]
-      scopeNotes := "Node [29] is complete on the identical graph, packing, and remainder supplied by green node [28]. It performs only external-incidence accounting; it does not define wedges, curvature coordinates, rank, or any node-[30]--[35] conclusion."
+      scopeNotes := "The local node-[29] accounting is kernel-checked, but the node remains partial through inherited missing obligations. It proves no wedge or rank conclusion."
       workBound := "At most 13n² checks: scan the thirteen positions of each already selected window against the declared ambient vertex schedule. No path, packing, support, subgraph, graph, Boolean-state, or context universe is enumerated."
     },
     {
       stepId := "erdos.p13-wedge-lower"
       stageId? := some "proof-slice.p13-wedge-lower"
       title := "Exact wedge lower bound on the remainder"
-      plainExplanation := "For every supplied component support, the degree-count identity bounds its number of length-two wedges by three times its order minus twice its positive deficiency. Applying the same theorem to the exact remainder gives the aggregate form. Node [29]'s incidence ceiling supplies the finite window error, and the generic real transport gives both coefficients printed in the manuscript."
+      plainExplanation := "The graph-owned degree count is applied to every supplied component and to the exact remainder. Node [29]'s incidence supply yields the finite window error and the exact printed window-rate lower bound."
       formalStatement := "W_2(C)\\ge3|V(C)|-2\\operatorname{def}^{+}(C),\\qquad W_2(R)\\ge(3-2\\tau)|R|-2\\varepsilon"
       status := .implemented
       correspondence := .exact
@@ -7800,23 +8081,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         groupId := "p13-node30-exact-wedge-lower"
         title := "Exact predecessor, degree count, and rate transport"
         role := .semanticTheorem
-        explanation := "The dependent constructor retains the literal node-[29] value. The graph-owned wedge identity proves every component and aggregate floor; the node-[29] incidence supply yields the finite window error, while a generic real transport proves the window-only and conditional high-entropy rates."
+        explanation := "The framework mapper consumes the literal node-[29] value. The graph-owned wedge identity proves component and aggregate floors, and the application performs only the fixed window-rate arithmetic."
         declarations := [
-          `Erdos64EG.Internal.VerifiedP13Node30WedgeLower,
-          `Erdos64EG.Internal.VerifiedP13Node28PositiveDeficiency.node29,
-          `Erdos64EG.Internal.VerifiedP13Node29ExternalIncidenceSupply.node30,
+          `Erdos64EG.Internal.runInitialThroughNode30,
+          `Erdos64EG.Internal.Node30Output,
+          `Erdos64EG.Internal.Node30Stage,
+          `Erdos64EG.Internal.node30P13WedgeLower,
+          `Erdos64EG.Internal.node30LocalChecks_eq_zero,
           `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.three_mul_card_le_wedgeCount_add_twice_deficiency,
           `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeFloor,
           `StructuralExhaustion.Graph.PositiveDeficiencyWedge.Profile.wedgeRate_of_deficiencyRate,
           `Erdos64EG.Internal.p13Remainder_wedgeFloor,
           `Erdos64EG.Internal.p13Node30OmegaWindow,
           `Erdos64EG.Internal.p13Node30OmegaWindow_gt_printed,
-          `Erdos64EG.Internal.p13Node30HighEntropyDeficiencyRate,
-          `Erdos64EG.Internal.p13Node30OmegaHighEntropy,
-          `Erdos64EG.Internal.p13Node30OmegaHighEntropy_eq
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapDependentDecisionOnNoYesClosedActive
         ]
       }]
-      scopeNotes := "Node [30] is complete on the exact green node-[29] remainder. The sharper high-entropy inequality is exported as an implication from its separately produced deficiency premise; node [30] neither assumes that later branch nor constructs the curvature-rank objects of nodes [31]--[35]."
+      scopeNotes := "The local node-[30] theorem is kernel-checked, but the node remains partial through inherited missing obligations. It constructs no curvature-rank object."
       workBound := "One induced-neighbour scan for each remainder vertex, bounded by n². The rate transports are arithmetic consequences and enumerate no components, supports, paths, quotients, contexts, subgraphs, graphs, or state universes."
     },
     {
@@ -7834,44 +8115,31 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         groupId := "p13-node31-certified-quotient-rank"
         title := "Literal wedge coordinates and attained certified-candidate maximum"
         role := .mathematicalDefinition
-        explanation := "The dependent adapter retains node [30] exactly. FunctionalAdmissibleRank owns the carrier-indexed exact-profile realizations, quotient-image functionality, literal candidate universe, attained maximum, and strict-loss circuit without assuming a later support certificate; the Erdős layer supplies only the literal wedge schedule and graph admission data."
+        explanation := "The framework mapper consumes node [30] exactly. FunctionalAdmissibleRank owns the carrier-indexed maximum; the Erdős layer supplies only the literal wedge schedule, graph response profile, and coordinate-count bridges."
         declarations := [
-          `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank,
-          `Erdos64EG.Internal.VerifiedP13Node29ExternalIncidenceSupply.node30,
-          `Erdos64EG.Internal.VerifiedP13Node30WedgeLower.node31,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.declaredCoordinates,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.Survives,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.targetRank,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.targetRank_le_coordinates,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.exists_surviving_card_eq_targetRank,
-          `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Family,
-          `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Profile.Candidate,
-          `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Profile.rankProfile,
-          `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Profile.pairCircuitOfRankDrop,
-          `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Profile.pairCircuit_determines,
-          `StructuralExhaustion.Graph.SupportStratifiedFunctionalRank.Proposal,
-          `StructuralExhaustion.Graph.SupportStratifiedFunctionalRank.Admissible,
-          `StructuralExhaustion.Graph.SupportStratifiedFunctionalRank.profile,
+          `Erdos64EG.Internal.runInitialThroughNode31,
+          `Erdos64EG.Internal.Node31Output,
+          `Erdos64EG.Internal.Node31Stage,
+          `Erdos64EG.Internal.node31P13CurvatureTargetRank,
+          `Erdos64EG.Internal.node31LocalChecks_eq_zero,
           `Erdos64EG.Internal.p13CurvatureCoordinates,
           `Erdos64EG.Internal.p13CurvatureCoordinates_card_eq_wedgeCount,
           `Erdos64EG.Internal.p13CurvatureCoordinates_card_le_cube,
           `Erdos64EG.Internal.p13CurvatureResponseProfile,
-          `StructuralExhaustion.Graph.FiniteSupportResponse.Profile.response_true_iff,
           `Erdos64EG.Internal.p13CurvatureFunctionalRankProfile,
-          `Erdos64EG.Internal.p13CanonicalCurvatureTargetRank,
-          `Erdos64EG.Internal.p13CanonicalCurvatureTargetRank_le_wedgeCount,
-          `Erdos64EG.Internal.exists_p13CanonicalCurvature_surviving_card_eq_targetRank,
-          `Erdos64EG.Internal.p13CurvatureTargetRank
+          `Erdos64EG.Internal.p13CurvatureTargetRank,
+          `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Profile.targetRank_le_coordinates,
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapDependentDecisionOnNoYesClosedActive
         ]
       }]
-      scopeNotes := "Node [31] is complete. Its public target rank is the canonical functional-admissible maximum. The current admission definition additionally forces this rank to be full; that consequence is recorded separately and makes the strict-loss edge uninhabited."
+      scopeNotes := "The local node-[31] rank construction is kernel-checked, but the node remains partial through inherited missing obligations."
       workBound := "The explicit coordinate schedule contains exactly W₂(R) and at most n³ actual wedges. The maximum is a proof-level bounded cardinality definition: no subfamily powerset, quotient family, outside-context family, support family, path family, subgraph family, or graph universe is evaluated."
     },
     {
       stepId := "erdos.p13-curvature-rank-decision"
       stageId? := some "proof-slice.p13-curvature-rank-decision"
-      title := "Exact rank-loss decision"
-      plainExplanation := "The node-[31] target rank is at most the number of raw wedges. Comparing those two natural numbers gives exactly the original yes/no flow: either some rank is lost, or every raw coordinate survives and the rank equals W₂(R)."
+      title := "Exact near-full-rank decision"
+      plainExplanation := "Node [32] executes CT15's exact decision on node [31]'s rank profile. The framework returns either literal strict loss against the declared wedge-coordinate cardinality, or equality with that full cardinality."
       formalStatement := "r_\\Omega(R)<W_2(R)\\quad\\lor\\quad r_\\Omega(R)=W_2(R)"
       status := .implemented
       correspondence := .exact
@@ -7882,85 +8150,87 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         groupId := "p13-node32-exact-rank-decision"
         title := "Exact predecessor and exhaustive two-edge rank split"
         role := .semanticTheorem
-        explanation := "The dependent adapter retains node [31] itself. The framework owns the dropped/full constructors, exhaustive comparison, and zero-scan work certificate; the exact wedge-cardinality theorem transports the two constructors to rΩ(R)<W₂(R) or equality."
+        explanation := "CT15 owns the strict-loss/full-cardinality constructors and exhaustive rank decision; Core owns the two residual branches and preservation of the accumulated ledger."
         declarations := [
-          `Erdos64EG.Internal.VerifiedP13Node32RankDecision,
-          `Erdos64EG.Internal.VerifiedP13Node30WedgeLower.node31,
-          `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank.node32,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.RankDecision,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.rankDecision,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.rankDecision_exhaustive,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.rankDecisionBudget
+          `Erdos64EG.Internal.runInitialThroughNode32,
+          `Erdos64EG.Internal.node32RankDecision,
+          `Erdos64EG.Internal.Node32RankDrop,
+          `Erdos64EG.Internal.Node32FullRank,
+          `Erdos64EG.Internal.Node32Stage,
+          `Erdos64EG.Internal.node32P13RankDropDecision,
+          `Erdos64EG.Internal.node32LocalChecks_eq_zero,
+          `Erdos64EG.Internal.node32RankDecision_exhaustive,
+          `Erdos64EG.Internal.node32RankDecisionWork_eq_zero,
+          `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Profile.rankDecision,
+          `StructuralExhaustion.CT15.FunctionalAdmissibleRank.Profile.rankDecision_exhaustive,
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideDependentDecisionOnNoNoAfterYes
         ]
       }]
-      scopeNotes := "Node [32] is complete on node [31]'s canonical rank. Its two constructors reproduce the original diagram exactly; the generic admission theorem proves that the strict-loss constructor has no inhabitant in the current specification."
+      scopeNotes := "The local decision is kernel-checked but remains partial through inherited missing predecessors. The two paper edges are retained exactly."
       workBound := "Zero executable scans after node [31]. The decision compares a proof-level maximum with its declared cardinality and evaluates no coordinate subfamily, quotient, outside context, support, path, subgraph, graph, or state universe."
     },
     {
       stepId := "erdos.p13-curvature-dependence-open"
       stageId? := some "proof-slice.p13-curvature-dependence-open"
-      title := "Rank-reducing curvature dependence"
-      plainExplanation := "The manuscript's admissibility clause supplies a proper or closed representative for every non-injective admitted quotient. Earlier minimality therefore makes node [32]'s strict-loss edge uninhabited. From that exact incoming edge Lean constructs the node-[33] dependence payload and retains it for the original Branch-D handoff; no extra branch or assumption is introduced."
-      formalStatement := "r_\\Omega(R)<W_2(R)\\Longrightarrow\\exists q,a,b,\\ a\\ne b,\\ q(a)=q(b)"
+      title := "Node-[33] rank-reducing branch marker"
+      plainExplanation := "Node [33] consumes only node [32]'s strict-loss constructor and attaches PUnit as the existing cross-panel marker. Circuit extraction is deliberately left to node [35]."
+      formalStatement := "[32]_{\\rm strict}\\longrightarrow[33]"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
         { label := "lem:target-rank-circuit", title := "Target-rank circuit extraction", nodeIds := [33] }
       ]
       declarationGroups := [{
-        groupId := "p13-node33-functional-pair-circuit"
-        title := "Exact strict-loss predecessor and finite dependence circuit"
-        role := .semanticTheorem
-        explanation := "The adapter retains node [32] and its literal yes-edge inequality. The graph-owned canonical-rank theorem contradicts that exact branch under the manuscript admission rule, so the conditional dependence payload follows in the kernel and is transported unchanged to node [35]."
+        groupId := "p13-node33-branch-marker"
+        title := "Framework-owned strict-loss continuation"
+        role := .compositionProvenance
+        explanation := "The decision proof remains in node [32]; this node performs no pair-circuit or support construction."
         declarations := [
-          `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence,
-          `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank.node32,
-          `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node33,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.PairCircuit,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.PairCircuit.basis,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.PairCircuit.basis_subset_declared,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.PairCircuit.determined_not_mem_basis,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.pairCircuit_nonempty_of_rankDrop,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.pairCircuitOfRankDrop,
-          `StructuralExhaustion.CT15.SupportStratifiedRank.Profile.certificate
+          `Erdos64EG.Internal.runInitialThroughNode33,
+          `Erdos64EG.Internal.Node33Output,
+          `Erdos64EG.Internal.Node33Stage,
+          `Erdos64EG.Internal.node33P13RankReducingBranch,
+          `Erdos64EG.Internal.node33LocalChecks_eq_zero,
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueActiveCursorDecisionYes
         ]
       }]
-      scopeNotes := "Node [33] is complete as the conditional responsibility attached to the original strict-loss edge. The edge is uninhabited because admissibility plus the already proved minimality closures force full rank; its typed Branch-D output is nevertheless retained exactly for the manuscript's displayed continuation."
-      workBound := "Zero executable searches: the circuit is proof-selected from failure of universal survival. No coordinate powerset, quotient proposal family, outside-context family, support family, path family, subgraph family, graph universe, or state universe is generated."
+      scopeNotes := "The local marker is kernel-checked but remains partial through inherited missing predecessors."
+      workBound := "Zero local checks."
     },
     {
       stepId := "erdos.p13-full-curvature-rank"
       stageId? := some "proof-slice.p13-full-curvature-rank"
-      title := "Full-curvature-rank residual"
-      plainExplanation := "On node [32]'s no edge, the target rank equals the total number of raw remainder wedges. The maximal-family theorem supplies an actual surviving family of that size, so there is no strict rank loss and the manuscript's weaker near-full asymptotic residual follows immediately."
-      formalStatement := "r_\\Omega(R)=W_2(R)\\quad\\Longrightarrow\\quad r_\\Omega(R)\\ge W_2(R)-o(W_2(R))"
+      title := "Node-[34] full-rank branch marker"
+      plainExplanation := "Node [34] consumes only node [32]'s threshold-reaching constructor and attaches PUnit as the separate cross-panel marker. The exact branch proposition remains in node [32]'s stage."
+      formalStatement := "[32]_{\\rm full}\\longrightarrow[34]"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
         { label := "lem:full-rank", title := "Forcing of full admissible quotient-rank", nodeIds := [34] }
       ]
       declarationGroups := [{
-        groupId := "p13-node34-exact-full-rank"
-        title := "Exact no-edge predecessor and maximal surviving family"
-        role := .semanticTheorem
-        explanation := "The dependent adapter retains node [32] and its equality edge. The framework's attained-maximum theorem supplies a literal surviving family of size W₂(R); the residual records equality, the lower bound, absence of strict loss, and a zero-scan work certificate."
+        groupId := "p13-node34-branch-marker"
+        title := "Framework-owned threshold-reaching continuation"
+        role := .compositionProvenance
+        explanation := "No rank equality or maximal family is copied into node [34]; node [47] later continues the literal branch."
         declarations := [
-          `Erdos64EG.Internal.VerifiedP13Node34FullCurvatureRank,
-          `Erdos64EG.Internal.VerifiedP13Node31CurvatureTargetRank.node32,
-          `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node34,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.exists_surviving_card_eq_targetRank,
-          `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.rankDecisionBudget
+          `Erdos64EG.Internal.runInitialThroughNode34,
+          `Erdos64EG.Internal.Node34Output,
+          `Erdos64EG.Internal.Node34Stage,
+          `Erdos64EG.Internal.node34P13FullRankResidual,
+          `Erdos64EG.Internal.node34LocalChecks_eq_zero,
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueActiveCursorDecisionNo
         ]
       }]
-      scopeNotes := "Node [34] is complete for the canonical functional-admissible rank. It retains exact equality with W₂(R), an attained surviving family, and zero-scan provenance from node [32]."
-      workBound := "Zero new executable scans. The maximal family is proof-selected by the framework; no coordinate powerset, quotient family, context family, support family, path family, subgraph family, graph universe, or state universe is evaluated."
+      scopeNotes := "The local marker is kernel-checked but remains partial through inherited missing predecessors."
+      workBound := "Zero local checks."
     },
     {
       stepId := "erdos.remainder-curvature-rank"
       stageId? := some "proof-slice.p13-curvature-rank"
-      title := "Branch-D cross-panel handoff"
-      plainExplanation := "The Part-II node-[33] dependence crosses to node [35] through the framework-owned accumulated dependent-successor ledger without changing its value. The collision, singleton basis, connected carrier, support inclusion, boundary restriction, carrier determination, minimality, universality, and representative are retained exactly."
-      formalStatement := "\\mathcal D_{33}\\longrightarrow\\mathcal D_{35}"
+      title := "Node-[35] functional pair circuit"
+      plainExplanation := "Node [35] consumes node [33]'s marker and node [32]'s retained rank-loss proof, extracts CT15's canonical proof-carrying pair circuit, and projects its exact support-stratified determination certificate."
+      formalStatement := "r_\\Omega(R)<W_2(R)\\Longrightarrow\\exists a\\ne b,\\ q(a)=q(b)"
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
@@ -7969,29 +8239,27 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       declarationGroups := [
         {
           groupId := "remainder-curvature-ct15"
-          title := "Identity transport of the proof-carrying Branch-D residual"
+          title := "Framework-owned circuit extraction"
           role := .compositionProvenance
-          explanation := "The node-[35] alias reuses node [33] definitionally. The framework retrieves that literal branch from the accumulated ledger, constructs its dependent node-[35] output, and retains both without an Erdős-specific predecessor/equality carrier. The inherited pair circuit continues to expose its singleton basis and exact support-stratified collision certificate."
+          explanation := "Core maps only the strict branch. CT15 supplies the pair circuit and its support-stratified certificate; the candidate's exactness fields prevent substitution of another quotient, coordinate pair, or carrier."
           declarations := [
-            `Erdos64EG.Internal.VerifiedP13Node32RankDecision.node33,
-            `Erdos64EG.Internal.P13Node35Output,
-            `Erdos64EG.Internal.P13Node35Stage,
-            `Erdos64EG.Internal.p13Node35Refinement,
-            `Erdos64EG.Internal.p13Nodes25To35Run,
-            `Erdos64EG.Internal.p13Nodes25To35Run_exact,
-            `Erdos64EG.Internal.VerifiedP13Node35BranchD,
-            `Erdos64EG.Internal.P13Node33Stage.node35,
-            `Erdos64EG.Internal.VerifiedP13Node33RankReducingDependence.node35_eq,
-            `StructuralExhaustion.Core.ResidualRefinement.State.DependentSuccessor,
-            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage,
-            `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.PairCircuit.basis,
-            `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.PairCircuit.basis_subset_declared,
-            `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.PairCircuit.determined_not_mem_basis,
-            `StructuralExhaustion.CT15.SupportStratifiedRank.Profile.certificate
+            `Erdos64EG.Internal.runInitialThroughNode35,
+            `Erdos64EG.Internal.Node35PairCircuit,
+            `Erdos64EG.Internal.Node35CollisionSupportCertificate,
+            `Erdos64EG.Internal.node35RankDropOnDeclaredCoordinates,
+            `Erdos64EG.Internal.node35PairCircuit,
+            `Erdos64EG.Internal.node35CollisionSupportCertificate,
+            `Erdos64EG.Internal.Node35Output,
+            `Erdos64EG.Internal.Node35Stage,
+            `Erdos64EG.Internal.node35P13RankCircuit,
+            `Erdos64EG.Internal.node35LocalChecks_eq_zero,
+            `StructuralExhaustion.CT15.CertifiedDeterminationRank.Profile.pairCircuitOfRankDrop,
+            `StructuralExhaustion.CT15.SupportStratifiedRank.Profile.certificate,
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapFocusedBranchYesContinuation
           ]
         }
       ]
-      scopeNotes := "Node [35] is exactly the cross-panel continuation of node [33]. It adds no new decision or theorem from later nodes; node [36] performs the first new audit."
+      scopeNotes := "Node [35]'s local responsibility is unconditional: its certificate is owned by the CT15 candidate and its predecessor and sibling transport are framework-owned."
       workBound := "Zero executable scans. The framework retrieves and transports the exact predecessor payload; it enumerates no quotient, context, support, subgraph, graph, or ambient state universe."
     },
     {
@@ -8009,18 +8277,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         groupId := "p13-node36-context-validity"
         title := "Exact predecessor and framework-owned two-edge context decision"
         role := .semanticTheorem
-        explanation := "The adapter retains node [35] itself. The support-stratified Core API owns the defect/universal decision type over the atom context, its exhaustive proof-level audit, and the zero-check work certificate. It never projects carrier universality to the atom."
+        explanation := "The framework decides only node [35]'s active cursor. The two predicates are read from the certificate's original-interface audit and never identify atom contexts with carrier contexts."
         declarations := [
-          `Erdos64EG.Internal.P13Node33Stage.node35,
-          `Erdos64EG.Internal.P13Node36Output,
-          `Erdos64EG.Internal.VerifiedP13Node36ContextValidity,
-          `Erdos64EG.Internal.P13Node33Stage.node36,
+          `Erdos64EG.Internal.runInitialThroughNode36,
+          `Erdos64EG.Internal.Node36OriginalUniversal,
+          `Erdos64EG.Internal.Node36OriginalDefect,
+          `Erdos64EG.Internal.node36OriginalUniversalDecidable,
+          `Erdos64EG.Internal.node36OriginalDefectOfNotUniversal,
+          `Erdos64EG.Internal.node35ActiveCursorFamily,
+          `Erdos64EG.Internal.Node36Stage,
+          `Erdos64EG.Internal.node36P13OriginalContextAudit,
+          `Erdos64EG.Internal.node36LocalChecks_eq_zero,
           `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.OriginalContextAudit,
           `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.auditOriginal,
-          `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.routeBudget
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideActiveCursorYesContinuation
         ]
       }]
-      scopeNotes := "Node [36] performs only the original-interface audit. Node [37] retains its defect constructor; node [38] consumes its universal constructor. Neither branch is silently removed by the differently indexed carrier theorem."
+      scopeNotes := "The local decision is kernel-checked but remains yellow through node [35]'s typed support input and earlier conditional predecessors."
       workBound := "Zero executable checks. Contexts occur only under proof-level quantifiers; no context, coordinate, quotient, support, path, subgraph, graph, or state family is generated."
     },
     p13Node37ProofStep,
@@ -8030,7 +8303,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       stepId := "erdos.p13-curvature-enlarged-support"
       stageId? := some "proof-slice.p13-curvature-enlarged-support"
       title := "Strict enlarged-support payload"
-      plainExplanation := "Node [40] consumes node [38]'s strict-enlargement constructor and retains the same connected minimal carrier, both coordinate-support facts, their determination, and the original-to-carrier inclusion."
+      plainExplanation := "Node [40] focuses node [38]'s strict-enlargement constructor. The connectedness, support, determination, and minimality facts remain in node [35]'s single accumulated certificate."
       formalStatement := "C\\subsetneq X,\\quad X\\text{ connected and inclusion-minimal for }a\\mapsto b"
       status := .implemented
       correspondence := .exact
@@ -8041,23 +8314,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         groupId := "p13-node40-enlarged-support"
         title := "Exact strict-support constructor"
         role := .semanticTheorem
-        explanation := "The route consumes the exact node-[36]/[38] values and packages only the strict location constructor and fields already stored by the support-stratified certificate."
+        explanation := "Core focuses the final no leaf without an application-owned output or route."
         declarations := [
-          `Erdos64EG.Internal.VerifiedP13Node40EnlargedSupport,
-          `Erdos64EG.Internal.P13Node36To40Route,
-          `Erdos64EG.Internal.routeP13Node36To40,
-          `Erdos64EG.Internal.routeP13Node36To40_exhaustive,
-          `StructuralExhaustion.Core.SupportStratifiedDetermination.Profile.Certificate.location
+          `Erdos64EG.Internal.runInitialThroughNode40,
+          `Erdos64EG.Internal.Node40Stage,
+          `Erdos64EG.Internal.node40P13EnlargedConnectedSupport,
+          `Erdos64EG.Internal.node40LocalChecks_eq_zero,
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.focusActiveCursorYesContinuationFinalNo
         ]
       }]
-      scopeNotes := "Node [40] adds no proper/whole classification; that is node [41]. It does not consume the separate node-[37] residual."
+      scopeNotes := "The local focus is kernel-checked but remains yellow through the conditional node-[35] support certificate."
       workBound := "Zero scans: all support and determination fields are projections from the selected certificate."
     },
     {
       stepId := "erdos.p13-curvature-carrier-scope"
       stageId? := some "proof-slice.p13-curvature-carrier-scope"
       title := "Proper-or-whole carrier scope"
-      plainExplanation := "Node [41] applies the graph interface's exhaustive proper/whole classification to node [40]'s exact carrier and stores the result through the generic exact-property handoff."
+      plainExplanation := "Node [41] reads the proper/whole tag of node [40]'s exact carrier and uses Core's focused-branch decision to retain exactly the two paper edges."
       formalStatement := "X\\text{ proper}\\quad\\lor\\quad X=G"
       status := .implemented
       correspondence := .exact
@@ -8066,25 +8339,29 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       ]
       declarationGroups := [{
         groupId := "p13-node41-carrier-scope"
-        title := "Framework-owned exact property handoff"
+        title := "Framework-owned focused carrier decision"
         role := .compositionProvenance
-        explanation := "The graph interface proves the exhaustive scope property; Core retains the exact predecessor and attaches only that proposition."
+        explanation := "Core retains the opaque bypass and exact active leaf on both constructors; the application supplies only the stored carrier predicates."
         declarations := [
-          `Erdos64EG.Internal.VerifiedP13Node40EnlargedSupport.node41,
-          `Erdos64EG.Internal.VerifiedP13Node41CarrierScope,
-          `StructuralExhaustion.Core.ExactPropertyHandoff,
-          `StructuralExhaustion.Core.ExactPropertyHandoff.refl,
-          `StructuralExhaustion.Graph.SupportStratifiedDetermination.Interface.scope_exhaustive
+          `Erdos64EG.Internal.runInitialThroughNode41,
+          `Erdos64EG.Internal.Node41Bypass,
+          `Erdos64EG.Internal.Node41Active,
+          `Erdos64EG.Internal.Node41Proper,
+          `Erdos64EG.Internal.Node41Whole,
+          `Erdos64EG.Internal.Node41Stage,
+          `Erdos64EG.Internal.node41P13CarrierScopeDecision,
+          `Erdos64EG.Internal.node41LocalChecks_eq_zero,
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideFocusedBranch
         ]
       }]
-      scopeNotes := "Node [41] only classifies the carrier. Its proper constructor goes to node [42]; its whole constructor goes directly to node [43]."
+      scopeNotes := "The local decision is kernel-checked but remains partial through inherited missing obligations."
       workBound := "Zero checks and no graph or support scan."
     },
     {
       stepId := "erdos.p13-curvature-proper-carrier-terminal"
       stageId? := some "proof-slice.p13-curvature-proper-carrier-terminal"
       title := "Proper enlarged-carrier CT3 terminal"
-      plainExplanation := "On node [41]'s proper constructor, node [42] invokes the representative already stored for that exact carrier. Its proper case contains the literal CT3 compression, which contradicts minimality."
+      plainExplanation := "On node [41]'s proper constructor, the admitted functional quotient is injective by the graph-owned proper-carrier theorem, contradicting node [35]'s distinct equal-code pair."
       formalStatement := "X\\subsetneq G\\wedge\\operatorname{Representative}(X)\\Longrightarrow\\bot"
       status := .implemented
       correspondence := .exact
@@ -8093,22 +8370,27 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       ]
       declarationGroups := [{
         groupId := "p13-node42-proper-ct3"
-        title := "Graph-owned CT15-to-CT3 terminal"
+        title := "Graph-owned proper-carrier injectivity terminal"
         role := .semanticTheorem
-        explanation := "The framework consumes the typed proper property and the carrier-indexed representative; the application supplies no branch context, trigger, predecessor equality, or compression plumbing."
+        explanation := "Core closes only the proper leaf; the application supplies one graph theorem and no branch plumbing."
         declarations := [
-          `Erdos64EG.Internal.VerifiedP13Node41CarrierScope.node42,
-          `StructuralExhaustion.Graph.SupportStratifiedDetermination.Representative.impossible_of_originalEligible
+          `Erdos64EG.Internal.runInitialThroughNode42,
+          `Erdos64EG.Internal.Node42Stage,
+          `Erdos64EG.Internal.node42ProperSupportImpossible,
+          `Erdos64EG.Internal.node42P13ProperSupportSmearingClosure,
+          `Erdos64EG.Internal.node42LocalChecks_eq_zero,
+          `StructuralExhaustion.Graph.SupportStratifiedFunctionalRank.Admissible.injective_of_originalEligible,
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.closeFocusedBranchYes
         ]
       }]
-      scopeNotes := "Node [42] is terminal only on the proper constructor. The whole constructor does not pass through this CT3 node."
+      scopeNotes := "The local closure is kernel-checked but remains partial through inherited missing obligations. The whole constructor bypasses node [42]."
       workBound := "One stored CT3 theorem application; no finite search."
     },
     {
       stepId := "erdos.p13-curvature-whole-carrier"
       stageId? := some "proof-slice.p13-curvature-whole-carrier"
       title := "Whole-carrier exact handoff"
-      plainExplanation := "Node [43] consumes node [41]'s whole constructor directly and records it through the generic exact-property handoff."
+      plainExplanation := "Node [43] consumes node [41]'s whole constructor directly and transports it along the stored equality between the admitted candidate carrier and the determination certificate carrier."
       formalStatement := "X=G"
       status := .implemented
       correspondence := .exact
@@ -8117,17 +8399,19 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       ]
       declarationGroups := [{
         groupId := "p13-node43-whole-handoff"
-        title := "Framework-owned whole property handoff"
+        title := "Framework-owned whole-leaf continuation"
         role := .compositionProvenance
-        explanation := "Core retains node [41] exactly and attaches only its graph-owned whole-carrier proof."
+        explanation := "Core continues only the no leaf. The sole new payload is whole-ness of the exact determination carrier."
         declarations := [
-          `Erdos64EG.Internal.VerifiedP13Node41CarrierScope.node43,
-          `Erdos64EG.Internal.VerifiedP13Node43WholeDelocalization,
-          `StructuralExhaustion.Core.ExactPropertyHandoff,
-          `StructuralExhaustion.Core.ExactPropertyHandoff.refl
+          `Erdos64EG.Internal.runInitialThroughNode43,
+          `Erdos64EG.Internal.Node43Output,
+          `Erdos64EG.Internal.Node43Stage,
+          `Erdos64EG.Internal.node43P13WholeGraphDelocalization,
+          `Erdos64EG.Internal.node43LocalChecks_eq_zero,
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueFocusedBranchNo
         ]
       }]
-      scopeNotes := "Node [43] follows node [41]'s whole edge directly and introduces no new case."
+      scopeNotes := "The local continuation is kernel-checked but remains partial through inherited missing obligations."
       workBound := "Zero checks."
     },
     {
@@ -8145,24 +8429,26 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         groupId := "p13-node44-repair-identity"
         title := "Framework integer identity and graph specialization"
         role := .semanticTheorem
-        explanation := "The framework derives the identity symbolically and applies it to one supplied finite component."
+        explanation := "The framework mapper consumes node [43]'s exact output and the graph layer proves the identity on one supplied component."
         declarations := [
-          `Erdos64EG.Internal.VerifiedP13Node43WholeDelocalization.node44,
-          `Erdos64EG.Internal.VerifiedP13Node44RepairIdentity,
+          `Erdos64EG.Internal.runInitialThroughNode44,
+          `Erdos64EG.Internal.Node44Output,
+          `Erdos64EG.Internal.Node44Stage,
+          `Erdos64EG.Internal.node44P13RepairIdentity,
+          `Erdos64EG.Internal.node44LocalChecks_eq_zero,
           `StructuralExhaustion.Core.OneThreeRepair.identity,
           `StructuralExhaustion.Graph.OneThreeRepair.Component.identity,
-          `Erdos64EG.Internal.oneThreeRepair_identity,
-          `Erdos64EG.Internal.oneThreeRepair_component_identity
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapFocusedBranchNoContinuation
         ]
       }]
-      scopeNotes := "Node [44] adds only the repair identity; injectivity belongs to node [45]."
+      scopeNotes := "The local identity is kernel-checked but remains partial through inherited missing obligations; injectivity belongs to node [45]."
       workBound := "Symbolic integer arithmetic only."
     },
     {
       stepId := "erdos.p13-curvature-closed-exact-barrier"
       stageId? := some "proof-slice.p13-curvature-closed-exact-barrier"
       title := "Whole-carrier exact-label barrier"
-      plainExplanation := "Node [45] proves the selected candidate's raw quotient code injective. A hypothetical collision supplies its own support certificate; whole-carrier reduction makes that certificate impossible."
+      plainExplanation := "Node [45] applies the graph-owned whole-carrier theorem to the already admitted functional quotient and obtains injectivity of its raw code."
       formalStatement := "X=G\\Longrightarrow\\operatorname{Inj}(q)"
       status := .implemented
       correspondence := .exact
@@ -8173,14 +8459,18 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         groupId := "p13-node45-exact-barrier"
         title := "Graph-owned whole-carrier injectivity"
         role := .semanticTheorem
-        explanation := "The graph theorem owns dependent carrier equality transport and requests only the certificate attached to a hypothetical collision."
+        explanation := "The framework mapper consumes node [44]'s exact output; the graph theorem proves injectivity directly from admission and the stored whole tag."
         declarations := [
-          `Erdos64EG.Internal.VerifiedP13Node44RepairIdentity.node45,
-          `Erdos64EG.Internal.VerifiedP13Node45ClosedExactBarrier,
-          `StructuralExhaustion.Graph.SupportStratifiedDetermination.Candidate.code_injective_of_equal_carrier_whole
+          `Erdos64EG.Internal.runInitialThroughNode45,
+          `Erdos64EG.Internal.Node45Output,
+          `Erdos64EG.Internal.Node45Stage,
+          `Erdos64EG.Internal.node45P13GlobalProfileBarrier,
+          `Erdos64EG.Internal.node45LocalChecks_eq_zero,
+          `StructuralExhaustion.Graph.SupportStratifiedFunctionalRank.Admissible.injective_of_whole,
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapFocusedBranchNoContinuation
         ]
       }]
-      scopeNotes := "Node [45] establishes injectivity; node [46] applies it to the retained collision."
+      scopeNotes := "The local injectivity theorem is kernel-checked but remains partial through inherited missing obligations; node [46] applies it."
       workBound := "Proof selection for one hypothetical collision; no quotient, context, coordinate, or support family is evaluated."
     },
     {
@@ -8198,15 +8488,18 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         groupId := "p13-node46-rank-drop-terminal"
         title := "Exact collision contradiction"
         role := .semanticTheorem
-        explanation := "The node-local theorem combines the graph-owned injectivity with the literal distinct-coordinate identification."
+        explanation := "The node-local theorem combines node [45]'s injectivity with the literal distinct-coordinate identification, and Core closes exactly the focused whole-carrier leaf."
         declarations := [
-          `Erdos64EG.Internal.VerifiedP13Node45ClosedExactBarrier.node46,
-          `Erdos64EG.Internal.P13Node36To40Route.enlarged_impossible,
-          `StructuralExhaustion.Graph.SupportStratifiedDetermination.Candidate.code_injective_of_equal_carrier_whole
+          `Erdos64EG.Internal.runInitialThroughNode46,
+          `Erdos64EG.Internal.Node46Stage,
+          `Erdos64EG.Internal.node46WholeRankDropImpossible,
+          `Erdos64EG.Internal.node46P13RankDropClosure,
+          `Erdos64EG.Internal.node46LocalChecks_eq_zero,
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.closeFocusedBranchNoContinuation
         ]
       }]
-      scopeNotes := "Node [46] closes only the whole-carrier rank-drop edge."
-      workBound := "One theorem application."
+      scopeNotes := "Node [46] closes only the whole-carrier rank-drop edge. Its local theorem is kernel-checked but the run remains partial through missing node-[21] and node-[35] producers."
+      workBound := "One theorem application and zero executable checks."
     },
     {
       stepId := "erdos.p13-curvature-full-rank-cross-panel"
@@ -8223,14 +8516,16 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         groupId := "p13-node47-full-rank-handoff"
         title := "Independent exact full-rank continuation"
         role := .compositionProvenance
-        explanation := "The accumulated stage retains node [34]; the node-[47] payload exposes only its full-rank equality and maximal surviving family."
+        explanation := "The accumulated ledger retains node [34]. Node [47] is definitionally that same stage, and the framework retrieves it without an application-owned copy or handoff."
         declarations := [
-          `Erdos64EG.Internal.P13Node34Stage.node47,
-          `Erdos64EG.Internal.VerifiedP13Node47FullRankResidual,
-          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage
+          `Erdos64EG.Internal.runInitialThroughNode47,
+          `Erdos64EG.Internal.Node47Stage,
+          `Erdos64EG.Internal.node47P13FullRankContinuation,
+          `Erdos64EG.Internal.node47LocalChecks_eq_zero,
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.usingStage
         ]
       }]
-      scopeNotes := "Node [47] is the complementary node-[34] edge and is not downstream of node [46] or node [37]. Node [31]'s canonical functional-admissible rank profile makes this exact handoff faithful to the manuscript rank."
+      scopeNotes := "Node [47] is the complementary node-[34] edge and is not downstream of node [46] or node [37]. Its local continuation is kernel-checked but the complete run remains partial through inherited missing obligations."
       workBound := "Zero scans and one exact predecessor handoff."
     },
     {
@@ -8250,59 +8545,25 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-node48-support"
           title := "Exact finite curvature cost"
           role := .compositionProvenance
-          explanation := "The node-[48] successor consumes the exact node-[47] stage from the accumulated residual ledger, instantiates generic partition-density and scaled-wedge transports, and registers the scaled, ordinary-cost, and conditional high-entropy conclusions as reusable ledger entailments."
+          explanation := "The node-[48] successor consumes the exact node-[47] stage from the accumulated ledger. During migration, one certificate indexed by that literal leaf supplies the two finite accounting inequalities; Lean derives the two cost-unit conclusions and Core owns every bypass and branch transport."
           declarations := [
-            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapStage,
-            `Erdos64EG.Internal.P13Node48RefinementStage,
-            `Erdos64EG.Internal.P13Node48ForcedCurvatureFact,
-            `Erdos64EG.Internal.P13Node48CostFact,
-            `Erdos64EG.Internal.P13Node48HighEntropyCostFact,
-            `StructuralExhaustion.Core.DensityAsymptoticTransport.nat_partition_density_with_error,
-            `StructuralExhaustion.Core.DensityAsymptoticTransport.nat_scaled_wedge_with_error,
-            `StructuralExhaustion.Core.DensityAsymptoticTransport.scaled_le_main_add_error_div,
-            `StructuralExhaustion.Core.DensityAsymptoticTransport.tendsto_error_div_remainder_of_lower_density,
-            `StructuralExhaustion.Core.QuadraticScaleSplit.boundedRealEnvelope,
-            `StructuralExhaustion.Core.QuadraticScaleSplit.load_cast_le_boundedRealEnvelope,
-            `StructuralExhaustion.Core.QuadraticScaleSplit.boundedRealEnvelope_div_order_tendsto_zero,
-            `Erdos64EG.Internal.p13CurvatureEntropyCost,
-            `Erdos64EG.Internal.p13CurvatureEntropyCost_nonneg,
-            `Erdos64EG.Internal.p13WindowCurvatureDensity,
-            `Erdos64EG.Internal.p13HighEntropyCurvatureDensity,
-            `Erdos64EG.Internal.p13WindowForcedCurvatureCost,
-            `Erdos64EG.Internal.p13HighEntropyForcedCurvatureCost,
-            `Erdos64EG.Internal.p13Node48NormalizationScale,
-            `Erdos64EG.Internal.p13Node48NormalizationScale_eq,
-            `Erdos64EG.Internal.p13Node48_windowDensity_remainderForm,
-            `Erdos64EG.Internal.p13Node48_scaledCost_from_node47,
-            `Erdos64EG.Internal.p13Node48_highEntropyScaledCost_from_node47,
-            `Erdos64EG.Internal.p13Node48NormalizationScale_pos,
-            `Erdos64EG.Internal.p13Node48RankError,
-            `Erdos64EG.Internal.p13Node48NormalizationRankErrorEnvelope,
-            `Erdos64EG.Internal.p13Node48NormalizationRankErrorEnvelope_div_order_tendsto_zero,
-            `Erdos64EG.Internal.p13Node48NormalizationRankError_le_envelope,
-            `Erdos64EG.Internal.p13Node48ErrorEnvelope,
-            `Erdos64EG.Internal.p13Node48ErrorEnvelope_div_order_tendsto_zero,
-            `Erdos64EG.Internal.p13Node48RankError_le_errorEnvelope,
-            `Erdos64EG.Internal.p13Node48RankError_div_order_tendsto_zero,
-            `Erdos64EG.Internal.p13Node48_remainder_quarter_density_eventually,
-            `Erdos64EG.Internal.p13Node48RankError_div_remainder_tendsto_zero,
-            `Erdos64EG.Internal.p13Node48_cost_from_node47,
-            `Erdos64EG.Internal.p13Node48_highEntropyCost_from_node47,
-            `Erdos64EG.Internal.p13Node48_forcedCurvatureCost_from_node47,
-            `Erdos64EG.Internal.p13Node48_highEntropyForcedCurvatureCost_from_node47,
-            `Erdos64EG.Internal.p13Node48CostError,
-            `Erdos64EG.Internal.p13Node48CostError_div_remainder_tendsto_zero,
-            `Erdos64EG.Internal.VerifiedP13Node48FrontierCost,
-            `Erdos64EG.Internal.P13Node47FullRankResidual.node48,
-            `Erdos64EG.Internal.p13Window_scaledWedgeCost,
-            `Erdos64EG.Internal.p13HighEntropy_scaledWedgeCost,
-            `Erdos64EG.Internal.VerifiedP13Node48FiniteCost,
-            `Erdos64EG.Internal.verifiedP13Node48FiniteCost
+            `Erdos64EG.Internal.runInitialThroughNode48,
+            `Erdos64EG.Internal.node48CurvatureEntropyCost,
+            `Erdos64EG.Internal.node48WindowCurvatureDensity,
+            `Erdos64EG.Internal.node48HighEntropyCurvatureDensity,
+            `Erdos64EG.Internal.node48WindowForcedCost,
+            `Erdos64EG.Internal.node48HighEntropyForcedCost,
+            `Erdos64EG.Internal.node48CostError,
+            `Erdos64EG.Internal.Node48Output,
+            `Erdos64EG.Internal.Node48Stage,
+            `Erdos64EG.Internal.node48P13ForcedCurvatureCost,
+            `Erdos64EG.Internal.node48LocalChecks_eq_zero,
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapActiveCursorDecisionNoContinuation
           ]
         }
       ]
-      scopeNotes := "Node [48] proves only the paper's forced-cost conclusion. Construction of the remainder state family and its entropy belongs to node [49], not node [48]."
-      workBound := "Zero-scan symbolic arithmetic through reusable Core transports; no graph family, context universe, subset family, assignment cube, or Boolean universe is generated."
+      scopeNotes := "Node [48] owns the two finite accounting inequalities and their two paper-local forced-cost transports. Only the finite inequalities remain explicitly conditional on the exact leaf-indexed migration input; the cost transports are kernel-checked and the input is not cited as proved evidence. Construction of the remainder state family belongs to node [49]."
+      workBound := "Zero local scans; no graph family, context universe, subset family, assignment cube, or Boolean universe is generated."
     },
     {
       stepId := "erdos.finite-remainder-state-entropy"
@@ -8320,30 +8581,23 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-node49-constrained-family"
           title := "Framework-owned constrained graph family"
           role := .mathematicalDefinition
-          explanation := "Core owns symbolic finite-type entropy and Graph owns the predicate-defined finite graph subtype. Erdős supplies only the four manuscript predicates on the fixed remainder and the exact node-[48] handoff."
+          explanation := "Graph owns the predicate-defined finite graph subtype. Erdős supplies only the four manuscript predicates on the fixed remainder and the exact symbolic entropy identity, while Core maps the accumulated active cursor."
           declarations := [
-            `StructuralExhaustion.Core.ExactHandoff,
-            `StructuralExhaustion.Core.FiniteTypeEntropy.Profile.stateCount,
-            `StructuralExhaustion.Core.FiniteTypeEntropy.Profile.normalizedEntropy,
-            `StructuralExhaustion.Core.FiniteTypeEntropy.Profile.semanticChecks_eq_zero,
+            `Erdos64EG.Internal.runInitialThroughNode49,
             `StructuralExhaustion.Graph.ConstrainedLabelledGraphFamily.Profile.State,
-            `StructuralExhaustion.Graph.ConstrainedLabelledGraphFamily.Profile.entropyProfile,
             `StructuralExhaustion.Graph.ConstrainedLabelledGraphFamily.Profile.stateCount,
             `StructuralExhaustion.Graph.ConstrainedLabelledGraphFamily.Profile.normalizedEntropy,
             `StructuralExhaustion.Graph.ConstrainedLabelledGraphFamily.Profile.normalizedEntropy_eq,
-            `StructuralExhaustion.Graph.ConstrainedLabelledGraphFamily.Profile.semanticChecks_eq_zero,
-            `Erdos64EG.Internal.p13RemainderAtomPart,
-            `Erdos64EG.Internal.p13CandidatePositiveDeficiency,
-            `Erdos64EG.Internal.p13CandidateSurplus,
-            `Erdos64EG.Internal.p13CandidateNetDeficiency,
-            `Erdos64EG.Internal.p13CandidateInternalThreeCoreFree,
-            `Erdos64EG.Internal.p13RemainderGraphAdmissible,
-            `Erdos64EG.Internal.p13RemainderGraphFamilyProfile,
-            `Erdos64EG.Internal.p13RemainderGraphFamilyCount,
-            `Erdos64EG.Internal.p13ManuscriptRemainderEntropy,
-            `Erdos64EG.Internal.P13Node49Output,
-            `Erdos64EG.Internal.p13Node49Output,
-            `Erdos64EG.Internal.VerifiedP13Node48FrontierCost.node49
+            `Erdos64EG.Internal.node49RemainderGraphAdmissible,
+            `Erdos64EG.Internal.node49RemainderGraphFamilyProfile,
+            `Erdos64EG.Internal.node49RemainderGraphFamilyCount,
+            `Erdos64EG.Internal.node49RemainderEntropy,
+            `Erdos64EG.Internal.Node49Output,
+            `Erdos64EG.Internal.Node49Output.entropyExact,
+            `Erdos64EG.Internal.Node49Stage,
+            `Erdos64EG.Internal.node49P13RemainderEntropy,
+            `Erdos64EG.Internal.node49LocalChecks_eq_zero,
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapActiveCursorDecisionNoContinuation
           ]
         }
       ]
@@ -8368,19 +8622,20 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           role := .compositionProvenance
           explanation := "Core owns the exhaustive ordered split and zero-work ledger. The Erdős layer supplies only eta(R), the printed threshold, and the exact node-[49] predecessor."
           declarations := [
-            `StructuralExhaustion.Core.ExactHandoff,
-            `StructuralExhaustion.Core.PolynomialCheckBudget.zero,
-            `StructuralExhaustion.Core.OrderThresholdSplit.Profile.Outcome,
-            `StructuralExhaustion.Core.OrderThresholdSplit.Profile.run,
+            `Erdos64EG.Internal.runInitialThroughNode50,
             `StructuralExhaustion.Core.OrderThresholdSplit.Profile.exhaustive,
-            `StructuralExhaustion.Core.OrderThresholdSplit.Profile.checks_eq_zero,
-            `Erdos64EG.Internal.p13ManuscriptEntropyThreshold,
-            `Erdos64EG.Internal.p13ManuscriptEntropySplitProfile,
-            `Erdos64EG.Internal.P13Node50Output,
-            `Erdos64EG.Internal.p13Node50Output,
-            `Erdos64EG.Internal.P13Node50High,
-            `Erdos64EG.Internal.P13Node50Low,
-            `Erdos64EG.Internal.VerifiedP13Node50ManuscriptEntropySplit.high_or_low
+            `Erdos64EG.Internal.Node50Bypass,
+            `Erdos64EG.Internal.Node50Active,
+            `Erdos64EG.Internal.node50EntropyThreshold,
+            `Erdos64EG.Internal.node50EntropyProfile,
+            `Erdos64EG.Internal.Node50High,
+            `Erdos64EG.Internal.Node50Low,
+            `Erdos64EG.Internal.Node50Stage,
+            `Erdos64EG.Internal.node50P13EntropyDecision,
+            `Erdos64EG.Internal.node50_exhaustive,
+            `Erdos64EG.Internal.node50LocalChecks_eq_zero,
+            `Erdos64EG.Internal.node50ThresholdWork_eq_zero,
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideActiveCursorDecisionNoContinuation
           ]
         }
       ]
@@ -8405,13 +8660,13 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           role := .compositionProvenance
           explanation := "The framework retains the literal node-[50] decision and its high-edge proof in the accumulated ledger. The Erdős layer adds only the manuscript bit inequality, using node-[49]'s registered entropy identity."
           declarations := [
-            `StructuralExhaustion.Core.ExactHandoff,
-            `Erdos64EG.Internal.P13Node50High,
-            `Erdos64EG.Internal.p13ManuscriptEntropyThreshold,
-            `Erdos64EG.Internal.p13ManuscriptRemainderEntropy,
-            `Erdos64EG.Internal.p13RemainderGraphFamilyCount,
-            `Erdos64EG.Internal.P13Node51Output,
-            `Erdos64EG.Internal.p13Node51Output
+            `Erdos64EG.Internal.runInitialThroughNode51,
+            `Erdos64EG.Internal.Node51Output,
+            `Erdos64EG.Internal.node51Output,
+            `Erdos64EG.Internal.Node51Stage,
+            `Erdos64EG.Internal.node51P13HighEntropyBranch,
+            `Erdos64EG.Internal.node51LocalChecks_eq_zero,
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueFocusedBranchYes
           ]
         }
       ]
@@ -8420,8 +8675,9 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
     },
     {
       stepId := "erdos.window-remainder-framework-handoff"
+      stageId? := some "proof-slice.p13-window-remainder-accounting"
       title := "Accumulated node-[52] framework handoff"
-      plainExplanation := "The framework continues only node [51]'s exact high constructor, retains the low constructor unchanged, and indexes node [52]'s one local feasibility proposition by the complete accumulated residual. No application-owned completion or product universe is introduced."
+      plainExplanation := "The framework maps only node [51]'s exact high continuation, retains every sibling unchanged, and retrieves node [24]'s transformer from the single accumulated ledger. During migration the previously verified same-context joint budget is accepted only through a certificate indexed by that literal leaf."
       formalStatement := "\\text{high}_{51}\\longrightarrow\\left[\\frac{1-13\\theta}{10}+118.108581006\\,\\theta\\le1.5+o(1)\\right]"
       status := .implemented
       correspondence := .supporting
@@ -8433,20 +8689,20 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-node52-accumulated-handoff"
           title := "Branch-preserving local feasibility handoff"
           role := .compositionProvenance
-          explanation := "Core owns repeated yes-edge continuation, exact predecessor retention, and low-edge pass-through. The Erdős layer names only the paper's finite feasibility proposition on that exact residual."
+          explanation := "Core owns exact predecessor retention, low-edge pass-through, and the reusable query into node [24]. The Erdős layer conditionally installs only the paper's same-context joint budget and the theta cap entailed by that retrieved transformer."
           declarations := [
-            `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionYesSuccessor,
-            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueDependentDecisionYesAgainDerived,
-            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.closeDependentDecisionYesSuccessor,
-            `Erdos64EG.Internal.P13Node52Feasibility,
-            `Erdos64EG.Internal.P13Node52RefinementStage,
-            `Erdos64EG.Internal.p13Node52InheritedQuery,
-            `Erdos64EG.Internal.p13Node52RefinementFromLocalAccounting,
-            `Erdos64EG.Internal.p13Node52LocalChecks_eq_zero
+            `Erdos64EG.Internal.runInitialThroughNode52,
+            `Erdos64EG.Internal.Node52Output,
+            `Erdos64EG.Internal.node52InheritedQuery,
+            `Erdos64EG.Internal.Node52Stage,
+            `Erdos64EG.Internal.node52P13WindowRemainderAccounting,
+            `Erdos64EG.Internal.node52LocalChecks_eq_zero,
+            `StructuralExhaustion.Core.ResidualRefinement.State.LedgerQuery.entailedStage,
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.mapFocusedBranchYesContinuationDerived
           ]
         }
       ]
-      scopeNotes := "This step formalizes only the framework transition and the exact local proposition owned by node [52]. It does not claim that the feasibility inequality has yet been produced or that node [54] closes."
+      scopeNotes := "The framework transition and inherited node-[24] implication are kernel-checked. The same-context joint-budget producer is missing and is not cited as proved evidence."
       workBound := "Zero semantic checks and no graph, context, state-product, assignment-cube, or Boolean-universe enumeration."
     },
     {
@@ -8465,31 +8721,37 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
     },
     {
       stepId := "erdos.node54-entropy-cap-closure"
-      title := "Node-[52] to node-[54] entropy-cap closure"
-      plainExplanation := "From node [52]'s exact finite feasibility inequality, the framework closes its strict reverse, the integral error-bearing form of the paper's high-theta alternative. The node-[50] low edge is retained unchanged."
+      stageId? := some "proof-slice.p13-entropy-cap-closure"
+      title := "Two-edge node-[54] entropy-cap closure"
+      plainExplanation := "Node [54] handles exactly its two incoming paper edges. The node-[52] output rules out the strict reverse of its stored joint budget; on node [53]'s strict-small edge, the same order contradiction uses a capacity certificate indexed by that literal low leaf."
       formalStatement := "A\\le B\\Longrightarrow\\neg(B<A)"
       status := .implemented
-      correspondence := .supporting
+      correspondence := .exact
       manuscriptRefs := [
         { label := "prop:entropy-high-theta", title := "Entropy cap closes the high-theta branch", nodeIds := [54] }
       ]
       declarationGroups := [{
         groupId := "p13-node54-high-theta-terminal"
-        title := "Framework-owned strict-cap terminal"
+        title := "Framework-owned two-edge terminal"
         role := .compositionProvenance
-        explanation := "Core consumes the accumulated node-[52] successor, preserves the original branch proof and untouched low edge, and replaces only the latest high-edge payload by the local terminal certificate."
+        explanation := "Core terminalizes node [52]'s high leaf, closes node [53]'s nested yes leaf, and focuses only the nested no leaf. The typed migration input supplies solely the old small-edge capacity theorem at its exact indices."
         declarations := [
-          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.closeDependentDecisionYesSuccessor,
-          `Erdos64EG.Internal.P13Node54HighTheta,
-          `Erdos64EG.Internal.VerifiedP13Node54EntropyCap,
-          `Erdos64EG.Internal.p13Node54_highTheta_impossible,
-          `Erdos64EG.Internal.P13Node54RefinementStage,
-          `Erdos64EG.Internal.p13Node54Refinement,
-          `Erdos64EG.Internal.p13Node54LocalChecks_eq_zero
+          `Erdos64EG.Internal.runInitialThroughNode54,
+          `Erdos64EG.Internal.Node54HighTheta,
+          `Erdos64EG.Internal.Node54HighOutput,
+          `Erdos64EG.Internal.node54HighOutput,
+          `Erdos64EG.Internal.Node54SmallCapacity,
+          `Erdos64EG.Internal.node54SmallBudgetImpossible,
+          `Erdos64EG.Internal.Node54Bypass,
+          `Erdos64EG.Internal.Node54Active,
+          `Erdos64EG.Internal.Node54Stage,
+          `Erdos64EG.Internal.node54P13EntropyCapClosure,
+          `Erdos64EG.Internal.node54LocalChecks_eq_zero,
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.terminalizeFocusedBranchYesCloseNestedYes
         ]
       }]
-      scopeNotes := "This completely implements the existing [52] -> [54] closing implication once node [52]'s feasibility payload is available. Node [52]'s graph-semantic joint-accounting producer remains separate, and the node-[53] small-budget edge is not claimed here."
-      workBound := "Zero checks: one symbolic order contradiction, with no graph, context, state, product, assignment, or Boolean-universe scan."
+      scopeNotes := "Both local contradiction lemmas and their framework composition are kernel-checked. The stage remains partial through inherited missing obligations and the missing node-[53]-small capacity producer."
+      workBound := "Zero executable checks: two symbolic order contradictions, with no graph, context, state, product, assignment, or Boolean-universe scan."
     },
     {
       stepId := "erdos.low-entropy-forced-cost-fit"
@@ -8508,30 +8770,31 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-node53-accumulated-decision"
           title := "Exact branch-preserving remaining-budget split"
           role := .compositionProvenance
-          explanation := "Core retrieves the literal node-[50] decision, preserves its node-[51] high continuation, and executes the complementary comparison only on the low constructor. The Erdős layer supplies the exact manuscript bit expressions and no predecessor plumbing."
+          explanation := "Core acts on the literal node-[50] low constructor retained beside node [52], preserves the high continuation, and executes the complementary comparison only there. The Erdős layer supplies the exact manuscript bit expressions and no predecessor plumbing."
           declarations := [
-            `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionNoAfterYes,
-            `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionAt,
-            `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionAt.decide,
-            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueDependentDecisionNoAfterYes,
-            `Erdos64EG.Internal.p13Node53RemainingNoncurvatureBits,
-            `Erdos64EG.Internal.p13Node53ForcedCurvatureBits,
-            `Erdos64EG.Internal.P13Node53Small,
-            `Erdos64EG.Internal.P13Node53Large,
-            `Erdos64EG.Internal.P13Node53Decision,
-            `Erdos64EG.Internal.p13Node53Refinement,
-            `Erdos64EG.Internal.p13Nodes25To53Run_retains_residual,
-            `Erdos64EG.Internal.p13Node53LocalChecks_constant
+            `Erdos64EG.Internal.runInitialThroughNode53,
+            `Erdos64EG.Internal.node53SkeletonBits,
+            `Erdos64EG.Internal.node53WindowBits,
+            `Erdos64EG.Internal.node53RemainderBits,
+            `Erdos64EG.Internal.node53RemainingNoncurvatureBits,
+            `Erdos64EG.Internal.node53ForcedCurvatureBits,
+            `Erdos64EG.Internal.Node53Small,
+            `Erdos64EG.Internal.Node53Large,
+            `Erdos64EG.Internal.Node53Stage,
+            `Erdos64EG.Internal.node53P13RemainingBudgetDecision,
+            `Erdos64EG.Internal.node53LocalChecks_eq_zero,
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.decideFocusedBranchYesContinuationNo
           ]
         }
       ]
-      scopeNotes := "Node [53] performs only the diagrammed dichotomy. Node [54] must still close the strict edge using a proved joint target-testable family; node [55] must consume the complementary large-budget edge and the window-only net-cap producer."
+      scopeNotes := "Node [53] performs only the diagrammed dichotomy. Its decision is kernel-checked but remains partial through inherited missing obligations; node [54] and node [55] consume its two constructors separately."
       workBound := "One proof-level real-order comparison; no graph family, state family, product, context, assignment, or Boolean universe is evaluated."
     },
     {
       stepId := "erdos.large-budget-residual-handoff"
+      stageId? := some "proof-slice.p13-large-budget-residual"
       title := "Accumulated node-[55] large-budget residual"
-      plainExplanation := "Node [55] is exactly the nested no leaf of node [53]. The framework preserves node [51]'s high output and node [54]'s small-budget leaf, while the full residual ledger continues with node [24]'s density handoff already available by type."
+      plainExplanation := "Node [55] is exactly the nested no leaf of node [53] after node [54] terminalizes the other two leaves. It is a zero-copy alias of the framework's focused residual and adds no inequality or density-cap claim."
       formalStatement := "K_{\\Omega}\\le B_{\\rm skel}-B_{\\rm win}-B_R\\Longrightarrow\\mathsf{ResidualC}"
       status := .implemented
       correspondence := .exact
@@ -8543,27 +8806,25 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           groupId := "p13-node55-nested-large-leaf"
           title := "Framework-owned nested no-edge continuation"
           role := .compositionProvenance
-          explanation := "The framework carries all earlier outputs and branch proofs. The Erdős output is a zero-field marker because node [55] adds no theorem beyond selection of the exact large-budget leaf."
+          explanation := "The framework carries all earlier outputs and branch proofs. Node [55] gives the surviving leaf its paper name using the generic stage retrieval operation; no application output or handoff object is created."
           declarations := [
-            `StructuralExhaustion.Core.ResidualRefinement.State.DependentDecisionAt,
-            `StructuralExhaustion.Core.ResidualRefinement.State.DependentNestedNoContinuation,
-            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueDependentNestedNo,
-            `Erdos64EG.Internal.P13Node55Output,
-            `Erdos64EG.Internal.P13Node55RefinementStage,
-            `Erdos64EG.Internal.p13Node55Refinement,
-            `Erdos64EG.Internal.p13Nodes25To55Run,
-            `Erdos64EG.Internal.p13Nodes25To55Run_retains_residual,
-            `Erdos64EG.Internal.p13Node55LocalChecks_eq_zero
+            `Erdos64EG.Internal.runInitialThroughNode55,
+            `Erdos64EG.Internal.Node55ResidualC,
+            `Erdos64EG.Internal.Node55Stage,
+            `Erdos64EG.Internal.node55P13LargeBudgetResidual,
+            `Erdos64EG.Internal.node55LocalChecks_eq_zero,
+            `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.usingStage
           ]
         }
       ]
-      scopeNotes := "Node [55] does not claim node [56]'s strict-quarter inequality. The separate accumulated node-[56] producer consumes this exact leaf."
+      scopeNotes := "Node [55] proves no quarter cap and retrieves no node-[24] density theorem. Its local zero-copy marker is kernel-checked but remains yellow through the inherited conditional chain."
       workBound := "Zero checks; only accumulated branch transport."
     },
     {
       stepId := "erdos.large-budget-net-cap"
+      stageId? := some "proof-slice.p13-net-deficiency-cap"
       title := "Accumulated node-[56] large-budget net cap"
-      plainExplanation := "On the exact node-[55] leaf, one compositional ledger query retrieves node [24]'s remainder-scaled density cap, node [29]'s surplus-adjusted incidence supply, and the branch marker. Core combines those inherited facts without reopening either predecessor. The resulting explicit normalization-plus-surplus error is o(|R|), and the exact limiting coefficient tau_win is below one quarter."
+      plainExplanation := "On the exact node-[55] leaf, node [56] records the paper's finite error-bearing net-deficiency cap and proves symbolically that its exact rational coefficient tau_win is below one quarter. During migration the already proved finite cap is reused through one certificate indexed by that literal Residual C leaf."
       formalStatement := "\\frac{D^+(R)-\\sigma_R}{|R|}\\le\\tau_{\\rm win}+o(1)<\\frac14"
       status := .implemented
       correspondence := .exact
@@ -8574,33 +8835,24 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       ]
       declarationGroups := [{
         groupId := "p13-node56-ledger-net-cap"
-        title := "Typed multi-input net-deficiency transport"
+        title := "Exact Residual C net-cap continuation"
         role := .compositionProvenance
-        explanation := "LedgerQuery resolves all inherited inputs at one residual, StageNode.derive appends only the new node-[56] certificate, and Core owns the generic density-plus-supply normalization."
+        explanation := "Core continues only the focused Residual C leaf. The Erdős layer defines the paper's numerator, finite error, and exact coefficient; the finite-cap proof at those exact indices remains missing."
         declarations := [
-          `StructuralExhaustion.Core.ResidualRefinement.State.LedgerQuery,
-          `StructuralExhaustion.Core.ResidualRefinement.State.LedgerQuery.entailedStage,
-          `StructuralExhaustion.Core.ResidualRefinement.State.LedgerQuery.andEntailedStage,
-          `StructuralExhaustion.Core.ResidualRefinement.State.LedgerQuery.stage,
-          `StructuralExhaustion.Core.ResidualRefinement.State.LedgerQuery.andStage,
-          `StructuralExhaustion.Core.ResidualRefinement.State.LedgerQuery.map,
-          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.derive,
-          `StructuralExhaustion.Core.DensityAsymptoticTransport.scaled_density_supply_with_error,
-          `Erdos64EG.Internal.P13Node24RemainderDensityFact,
-          `Erdos64EG.Internal.P13Node29SurplusAdjustedSupplyFact,
-          `Erdos64EG.Internal.P13Node56Inputs,
-          `Erdos64EG.Internal.P13Node56Output,
-          `Erdos64EG.Internal.p13Node56InputsQuery,
-          `Erdos64EG.Internal.p13Node56_supply_from_node29,
-          `Erdos64EG.Internal.p13Node56Refinement,
-          `Erdos64EG.Internal.p13Nodes25To56Run,
-          `Erdos64EG.Internal.p13Node56NetError_div_remainder_tendsto_zero,
-          `Erdos64EG.Internal.p13Node56_strictQuarter_eventually,
-          `Erdos64EG.Internal.p13Node56LocalChecks_eq_zero
+          `Erdos64EG.Internal.runInitialThroughNode56,
+          `Erdos64EG.Internal.node56NetDeficiencyNumerator,
+          `Erdos64EG.Internal.node56TauWindow,
+          `Erdos64EG.Internal.node56NetError,
+          `Erdos64EG.Internal.Node56Output,
+          `Erdos64EG.Internal.node56TauWindow_lt_quarter,
+          `Erdos64EG.Internal.Node56Stage,
+          `Erdos64EG.Internal.node56P13NetDeficiencyCap,
+          `Erdos64EG.Internal.node56LocalChecks_eq_zero,
+          `StructuralExhaustion.Core.ResidualRefinement.State.StageNode.continueFocusedBranchActive
         ]
       }]
-      scopeNotes := "This proves exactly node [56] on the large-budget branch. It does not close the separate node-[52] high-entropy join or node [54], and it introduces no replacement branch or stronger finite error-free assertion."
-      workBound := "Zero graph checks. Ledger retrieval is proof-level; normalization is constant-size arithmetic, and the asymptotic proof uses only graph-order envelopes already established upstream."
+      scopeNotes := "The exact coefficient theorem and framework continuation are kernel-checked. The finite net-cap producer remains missing and is not cited as proved evidence."
+      workBound := "Zero graph checks and constant-size rational arithmetic; no graph, state, context, product, assignment, or Boolean universe is enumerated."
     },
     {
       stepId := "erdos.surplus-ct6"

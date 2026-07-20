@@ -105,6 +105,19 @@ theorem three_mul_card_le_wedgeCount_add_twice_deficiency :
   simpa [wedgeCount, positiveDeficiency, Finset.sum_add_distrib,
     Finset.mul_sum, Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc] using summed
 
+/-- Framework-owned composition of the exact wedge identity with any already
+proved upper bound on positive deficiency.  Applications provide only their
+problem-specific supply ceiling; no degree sum is re-expanded downstream. -/
+theorem three_mul_card_le_wedgeCount_add_twice_cap {cap : Nat}
+    (deficiency_le : profile.positiveDeficiency ≤ cap) :
+    3 * profile.core.card ≤ profile.wedgeCount + 2 * cap := by
+  calc
+    3 * profile.core.card ≤
+        profile.wedgeCount + 2 * profile.positiveDeficiency :=
+      profile.three_mul_card_le_wedgeCount_add_twice_deficiency
+    _ ≤ profile.wedgeCount + 2 * cap :=
+      Nat.add_le_add_left (Nat.mul_le_mul_left 2 deficiency_le) _
+
 theorem wedgeFloor :
     3 * profile.core.card - 2 * profile.positiveDeficiency ≤
       profile.wedgeCount := by

@@ -156,3 +156,8 @@ every registered workflow link resolves to the compiled profile's public
 `.advance`, while ordinary compositions resolve to their framework executor.
 Reject application wrappers, missing automation, or any edge that chains a
 bare target result.
+
+Never create a family or carrier in an application node. A route transports
+the literal incoming residual and its one ledger; Core projections may expose
+existing collections but may not replace them with application-owned images,
+subtypes, or enumerations.

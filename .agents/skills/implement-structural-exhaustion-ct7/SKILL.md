@@ -30,3 +30,11 @@ Supply the object and context types, realization predicate, exact response funct
 ## Practicality and completion
 
 Enumerate only the local comparison contexts, never all ambient completions. Bound realization and response checks by a constant number of passes over this enumerator and prove the resulting polynomial estimate. Test all three terminal families if the application can reach them.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

@@ -82,6 +82,20 @@ structure DeletionCriticalityFacts (input : StaticInput)
       input.minimumDegree + 1 ≤ ctx.G.object.degree right →
         ¬ctx.G.object.graph.Adj left right
 
+/-- Packed graph-local independence consequence of a supplied tight-endpoint
+theorem. -/
+theorem slackVerticesIndependent_of_tightEndpoint (input : StaticInput)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target)
+    (tightEndpoint : ∀ dart : ctx.G.object.graph.Dart,
+      ctx.G.object.degree dart.fst = input.minimumDegree ∨
+        ctx.G.object.degree dart.snd = input.minimumDegree) :
+    ∀ {left right : ctx.G.Vertex},
+      input.minimumDegree + 1 ≤ ctx.G.object.degree left →
+        input.minimumDegree + 1 ≤ ctx.G.object.degree right →
+          ¬ctx.G.object.graph.Adj left right :=
+  MinimumDegreeCycle.slackVerticesIndependent_of_tightEndpoint
+    (input.fixed ctx.G.Vertex) (input.fixedContext ctx) tightEndpoint
+
 /-- Obtain packed deletion criticality through the existing fixed-vertex
 projection; no packed graph family is enumerated. -/
 def deletionCriticalityFacts (input : StaticInput)
@@ -89,6 +103,7 @@ def deletionCriticalityFacts (input : StaticInput)
     DeletionCriticalityFacts input ctx := by
   let facts := MinimumDegreeCycle.deletionCriticalityFacts
     (input.fixed ctx.G.Vertex) (input.fixedContext ctx)
-  exact ⟨facts.tightEndpoint, facts.slackVerticesIndependent⟩
+  exact ⟨facts.tightEndpoint,
+    slackVerticesIndependent_of_tightEndpoint input ctx facts.tightEndpoint⟩
 
 end StructuralExhaustion.Graph.PackedMinimumDegreeCycle

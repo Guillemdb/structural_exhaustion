@@ -30,3 +30,11 @@ Supply coordinate and closed-code types, explicit coordinate `FinEnum`, support 
 ## Practicality and completion
 
 Bound support scanning and code computation polynomially in the local coordinate count. Do not enumerate closed structures or candidate codes. Test all three terminal modes when meaningful and pin the exact computed code in the successful fixture.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

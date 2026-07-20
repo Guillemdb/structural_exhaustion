@@ -1,0 +1,16 @@
+import Erdos64EG.Future.P13WeightedColdRestrictedF1Completion
+
+namespace Erdos64EG.Internal
+
+open StructuralExhaustion
+open StructuralExhaustion.Graph
+
+#check InducedPathRestrictedPrefixCompletion.cycleOfCompletion
+#check P13WeightedColdRestrictedPrefixPackage.f1Scan
+#check P13WeightedColdRestrictedPrefixPackage.f1_first_hit_sound
+#check P13WeightedColdRestrictedPrefixPackage.f1_first_hit_no_earlier
+#check P13WeightedColdRestrictedPrefixPackage.f1Cycle
+#check P13WeightedColdRestrictedPrefixPackage.f1Checks_eq
+#print axioms P13WeightedColdRestrictedPrefixPackage.f1Cycle
+
+end Erdos64EG.Internal

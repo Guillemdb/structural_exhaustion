@@ -1,5 +1,6 @@
 import StructuralExhaustion.Core.Enumeration
 import StructuralExhaustion.Core.WorkBudget
+import StructuralExhaustion.Core.FinitePoweredBudgetTransfer
 
 namespace StructuralExhaustion.Core.ConditionalFibreProductCost
 
@@ -261,6 +262,127 @@ theorem power_le_flat_mul_skeleton (profile : Profile.{u, v})
   exact lower.trans (telescoped.trans capacity)
 
 end Certificate
+
+/-!
+## Carrier-indexed forced-cost outputs
+
+`Certificate` is the arithmetic core of the conditional-fibre argument.  A
+proof node, however, must not be able to combine that certificate with an
+unrelated application-owned state count.  The following output contract fixes
+the state schedule to the literal incoming carrier and records its exact count
+in the same object as the complete fibre certificate.
+
+Applications instantiate the local predicate and prove the per-coordinate
+ledger.  They do not define a second state family, transport a certificate
+between carriers, or separately assert the resulting powered inequality.
+-/
+
+/-- The unique conditional-fibre profile on a literal incoming carrier. -/
+def onCarrier (incoming : Core.OrderedCollection.{u} α)
+    (coordinates : Core.OrderedCollection.{v} β)
+    (accepts : β → α → Bool) (safe flat stateCount : Nat) : Profile.{u, v} where
+  State := α
+  Coordinate := β
+  states := incoming
+  coordinates := coordinates
+  accepts := accepts
+  safe := safe
+  flat := flat
+  skeletonCount := stateCount
+
+/-- A forced-cost result inseparably tied to the exact incoming state carrier.
+The complete conditional-fibre certificate, exact carrier count, and powered
+conclusion cannot be assembled from different residuals. -/
+structure CertifiedCarrierOutput
+    (incoming : Core.OrderedCollection.{u} α)
+    (coordinates : Core.OrderedCollection.{v} β)
+    (accepts : β → α → Bool) (safe flat stateCount : Nat) where
+  certificate : Certificate
+    (onCarrier incoming coordinates accepts safe flat stateCount)
+  stateCount_eq : stateCount = incoming.values.length
+
+namespace CertifiedCarrierOutput
+
+/-- The exact incoming carrier used by the bundled certificate. -/
+@[simp]
+theorem profile_states
+    {incoming : Core.OrderedCollection.{u} α}
+    {coordinates : Core.OrderedCollection.{v} β}
+    {accepts : β → α → Bool} {safe flat stateCount : Nat}
+    (_output : CertifiedCarrierOutput incoming coordinates accepts safe flat stateCount) :
+    (onCarrier incoming coordinates accepts safe flat stateCount).states = incoming :=
+  rfl
+
+/-- The powered forced-cost theorem, stated with the exact count owned by the
+incoming residual rather than a detached skeleton-capacity parameter. -/
+theorem power_le_flat_mul_stateCount
+    {incoming : Core.OrderedCollection.{u} α}
+    {coordinates : Core.OrderedCollection.{v} β}
+    {accepts : β → α → Bool} {safe flat stateCount : Nat}
+    (output : CertifiedCarrierOutput incoming coordinates accepts safe flat stateCount) :
+    safe ^ coordinates.values.length ≤
+      flat ^ coordinates.values.length * stateCount := by
+  exact Certificate.power_le_flat_mul_skeleton
+    (onCarrier incoming coordinates accepts safe flat stateCount)
+    output.certificate
+
+/-- Framework-owned composition of a completed conditional-fibre calculation
+with a later strict power bound on its exact incoming state count.  The
+application supplies only that already-selected branch inequality; Core owns
+the telescope, exponent alignment, positivity transport, and resulting strict
+powered comparison. -/
+def poweredBudgetProfile
+    {incoming : Core.OrderedCollection.{u} α}
+    {coordinates : Core.OrderedCollection.{v} β}
+    {accepts : β → α → Bool} {safe flat stateCount : Nat}
+    (output : CertifiedCarrierOutput incoming coordinates accepts safe flat stateCount)
+    (upper scale : Nat) (stateCount_pow_lt_upper : stateCount ^ scale < upper)
+    (flat_pos : 0 < flat) :
+    Core.FinitePoweredBudgetTransfer.Profile where
+  forced := safe ^ coordinates.values.length
+  flat := flat ^ coordinates.values.length
+  stateCount := stateCount
+  upper := upper
+  scale := scale
+  forced_le_flat_mul_stateCount := output.power_le_flat_mul_stateCount
+  stateCount_pow_lt_upper := stateCount_pow_lt_upper
+  flat_pos := Nat.pow_pos flat_pos
+
+/-- Direct strict conclusion of `poweredBudgetProfile`.  This is the standard
+full-fibre-to-low-budget closure and performs no additional scan. -/
+theorem forced_pow_lt_flat_pow_mul_upper
+    {incoming : Core.OrderedCollection.{u} α}
+    {coordinates : Core.OrderedCollection.{v} β}
+    {accepts : β → α → Bool} {safe flat stateCount upper scale : Nat}
+    (output : CertifiedCarrierOutput incoming coordinates accepts safe flat stateCount)
+    (stateCount_pow_lt_upper : stateCount ^ scale < upper)
+    (flat_pos : 0 < flat) :
+    (safe ^ coordinates.values.length) ^ scale <
+      (flat ^ coordinates.values.length) ^ scale * upper :=
+  (output.poweredBudgetProfile upper scale stateCount_pow_lt_upper flat_pos)
+    |>.forced_pow_lt_flat_pow_mul_upper
+
+/-- Construct the enforced output from the one local ledger and terminal
+nonemptiness proof.  Exact carrier cardinality supplies the initial capacity;
+there is no independent application-owned capacity handoff. -/
+def ofLedger
+    {incoming : Core.OrderedCollection.{u} α}
+    {coordinates : Core.OrderedCollection.{v} β}
+    {accepts : β → α → Bool} {safe flat stateCount : Nat}
+    (stateCount_eq : stateCount = incoming.values.length)
+    (ledger : Ledger (onCarrier incoming coordinates accepts safe flat stateCount)
+      incoming.values coordinates.values)
+    (finalNonempty : 0 < ledger.finalStates.length) :
+    CertifiedCarrierOutput incoming coordinates accepts safe flat stateCount where
+  certificate := {
+    ledger := ledger
+    startCapacity := by
+      simpa [onCarrier] using Nat.le_of_eq stateCount_eq.symm
+    finalNonempty := finalNonempty
+  }
+  stateCount_eq := stateCount_eq
+
+end CertifiedCarrierOutput
 
 /-! The checker touches each state at most once for each supplied coordinate:
 after a test, later scans inspect only the retained sublist. -/

@@ -17,13 +17,14 @@
 
 | Task ID | Paper assertion | Producer | Lean evidence | Edge | Status |
 |---|---|---|---|---|---|
-| N10-PRED | Consume literal node-[9] stage | [9] | pending | [9]->[10] | pending |
-| N10-QUERY | Retrieve the node-[9] degree-three endpoint fact | [9] | pending | [9]->[10] | pending |
-| N10-INDEP | Prove high-degree independence | [10] | existing theorem; attachment pending | [10]->[11] | partial |
-| N10-ENTAILS | Register independence once | [10] | pending | downstream | pending |
+| N10-PRED | Consume literal node-[9] stage | [9] | `Node10Stage`; `node10HighDegreeIndependence` | [9]->[10] | proved |
+| N10-QUERY | Consume the node-[9] degree-three endpoint fact | [9] | literal predecessor payload `node9.output` | [9]->[10] | proved |
+| N10-INDEP | Prove high-degree independence | [10] | `Node10HighDegreeIndependentFact`; `node10_highDegreeVerticesIndependent` | [10]->[11] | proved |
+| N10-ENTAILS | Register independence once | [10] | `StageEntails Node10Stage Node10HighDegreeIndependentFact` | downstream | proved |
 
 ## Framework and validation record
 
-- Do not rederive deletion criticality from the graph context.
-- Focused kernel command: pending.
+- Deletion criticality is not rederived from the graph context; the graph-local
+  successor theorem consumes the endpoint proposition queried from node `[9]`.
+- Focused one-job kernel build passed through node [14].
 - Dashboard/TeX synchronization: pending.

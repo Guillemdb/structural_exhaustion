@@ -7,6 +7,23 @@ open StructuralExhaustion.Core
 
 universe uAmbient uBranch uResidual uPrevious uCode uNext
 
+/-- A CT1 certificate problem whose ambient type, public target, encoding, and
+input are all determined by the literal predecessor retrieved from a residual
+ledger.  This is the appropriate framework surface when a predecessor packs
+or otherwise changes the carrier type: the application describes the family
+once, while CT1 owns predecessor retrieval and branch execution. -/
+structure DependentCertificateFamily
+    (Residual : Type uResidual) (Previous : Residual → Type uPrevious) where
+  problem : (residual : Residual) → Previous residual →
+    Core.Problem.{uAmbient, uBranch}
+  PublicTarget : (residual : Residual) → (previous : Previous residual) →
+    (problem residual previous).Ambient → Prop
+  encoding : (residual : Residual) → (previous : Previous residual) →
+    CT1.TargetCertificateEncoding.{uAmbient, uBranch, uCode}
+      (PublicTarget residual previous)
+  input : (residual : Residual) → (previous : Previous residual) →
+    CT1.Input (problem residual previous)
+
 /-- Exact two-way result of one proof-carrying CT1 target decision.  This is a
 CT1-owned execution carrier, not an application route: each constructor stores
 the canonical certified run for its terminal. -/
@@ -51,6 +68,113 @@ noncomputable def executeCertificateUsingStage
           CertificateDecision encoding (input residual previous))) :=
   Core.ResidualRefinement.State.StageNode.mapStage fun residual previous =>
     decideCertificate encoding (input residual previous)
+
+/-- The terminal-indexed CT1 result for one member of a predecessor-dependent
+certificate family. -/
+abbrev DependentCertificateFamily.Decision
+    {Residual : Type uResidual} {Previous : Residual → Type uPrevious}
+    (family : DependentCertificateFamily.{uAmbient, uBranch, uResidual,
+      uPrevious, uCode} Residual Previous)
+    (residual : Residual) (previous : Previous residual) :=
+  CertificateDecision (family.encoding residual previous)
+    (family.input residual previous)
+
+/-- Framework-owned successor that retains the exact predecessor and its
+dependent CT1 decision. -/
+abbrev DependentCertificateFamily.DecisionSuccessor
+    {Residual : Type uResidual} {Previous : Residual → Type uPrevious}
+    (family : DependentCertificateFamily.{uAmbient, uBranch, uResidual,
+      uPrevious, uCode} Residual Previous) :=
+  Core.ResidualRefinement.State.DependentSuccessor Previous family.Decision
+
+/-- Retrieve one predecessor, instantiate its exact dependent CT1 family,
+and execute its exhaustive certificate decision. -/
+noncomputable def DependentCertificateFamily.executeUsingStage
+    {Residual : Type uResidual} {Previous : Residual → Type uPrevious}
+    (family : DependentCertificateFamily.{uAmbient, uBranch, uResidual,
+      uPrevious, uCode} Residual Previous)
+    {facts : List (Residual → Prop)}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available Previous) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      family.DecisionSuccessor :=
+  Core.ResidualRefinement.State.StageNode.mapStage fun residual previous =>
+    decideCertificate (family.encoding residual previous)
+      (family.input residual previous)
+
+inductive DependentAvoidingContinuation
+    {Residual : Type uResidual} {Previous : Residual → Type uPrevious}
+    (family : DependentCertificateFamily.{uAmbient, uBranch, uResidual,
+      uPrevious, uCode} Residual Previous)
+    (Next : (residual : Residual) → (previous : Previous residual) →
+      CT1.CertifiedAvoidingRun
+        (family.encoding residual previous).spec
+        (family.input residual previous) → Type uNext)
+    (residual : Residual) : Type
+      (max (max (max uAmbient uBranch) uCode) (max uPrevious uNext) + 3) where
+  | c1 (previous : Previous residual)
+      (run : CT1.CertifiedC1Run
+        (family.encoding residual previous).spec
+        (family.input residual previous))
+  | avoiding (previous : Previous residual)
+      (run : CT1.CertifiedAvoidingRun
+        (family.encoding residual previous).spec
+        (family.input residual previous))
+      (output : Next residual previous run)
+
+/-- Framework eliminator for a dependent CT1 continuation.  Application
+code can inspect the terminal branch without reconstructing the nested CT1
+predecessor chain. -/
+def DependentAvoidingContinuation.elim
+    {Residual : Type uResidual} {Previous : Residual → Type uPrevious}
+    {family : DependentCertificateFamily Residual Previous}
+    {Next : (residual : Residual) → (previous : Previous residual) →
+      CT1.CertifiedAvoidingRun
+        (family.encoding residual previous).spec
+        (family.input residual previous) → Type uNext}
+    {residual : Residual}
+    (continuation : DependentAvoidingContinuation family Next residual)
+    (motive : DependentAvoidingContinuation family Next residual → Sort uβ)
+    (onC1 : ∀ (previous : Previous residual)
+      (run : CT1.CertifiedC1Run
+        (family.encoding residual previous).spec
+        (family.input residual previous)),
+      motive (.c1 previous run))
+    (onAvoiding : ∀ (previous : Previous residual)
+      (run : CT1.CertifiedAvoidingRun
+        (family.encoding residual previous).spec
+        (family.input residual previous))
+      (output : Next residual previous run),
+      motive (.avoiding previous run output)) : motive continuation := by
+  cases continuation with
+  | c1 previous run => exact onC1 previous run
+  | avoiding previous run output => exact onAvoiding previous run output
+
+noncomputable def DependentCertificateFamily.continueAvoidingUsingStage
+    {Residual : Type uResidual} {Previous : Residual → Type uPrevious}
+    (family : DependentCertificateFamily Residual Previous)
+    {Next : (residual : Residual) → (previous : Previous residual) →
+      CT1.CertifiedAvoidingRun
+        (family.encoding residual previous).spec
+        (family.input residual previous) → Type uNext}
+    (produce : (residual : Residual) → (previous : Previous residual) →
+      (run : CT1.CertifiedAvoidingRun
+        (family.encoding residual previous).spec
+        (family.input residual previous)) → Next residual previous run)
+    {facts : List (Residual → Prop)}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available family.DecisionSuccessor) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      (fun residual => DependentAvoidingContinuation family Next residual) :=
+  Core.ResidualRefinement.State.StageNode.derive
+    (Core.ResidualRefinement.State.LedgerQuery.stage
+      (facts := facts) (Stage := family.DecisionSuccessor))
+    (fun _state decision =>
+      match decision.output with
+      | .c1 run => .c1 decision.previous run
+      | .avoiding run => .avoiding decision.previous run
+          (produce _ decision.previous run))
+
 
 theorem CertificateDecision.verified
     {P : Core.Problem.{uAmbient, uBranch}}
@@ -136,6 +260,85 @@ inductive CertificatePublicTargetContinuation
   | c1 (run : CT1.CertifiedC1Run encoding.spec input)
       (target : PublicTarget input.context.G)
   | avoiding (run : CT1.CertifiedAvoidingRun encoding.spec input)
+
+/-- Public-target continuation specialized only after the literal dependent
+predecessor has been recovered. -/
+abbrev DependentCertificateFamily.PublicTargetContinuation
+    {Residual : Type uResidual} {Previous : Residual → Type uPrevious}
+    (family : DependentCertificateFamily.{uAmbient, uBranch, uResidual,
+      uPrevious, uCode} Residual Previous)
+    (residual : Residual) (previous : Previous residual) :=
+  CertificatePublicTargetContinuation (family.encoding residual previous)
+    (family.input residual previous)
+
+/-- Framework-owned successor of a dependent certificate decision that
+continues its C1 edge and preserves its avoiding edge literally. -/
+abbrev DependentCertificateFamily.PublicTargetSuccessor
+    {Residual : Type uResidual} {Previous : Residual → Type uPrevious}
+    (family : DependentCertificateFamily.{uAmbient, uBranch, uResidual,
+      uPrevious, uCode} Residual Previous) :=
+  Core.ResidualRefinement.State.DependentSuccessor family.DecisionSuccessor
+    (fun residual decision =>
+      family.PublicTargetContinuation residual decision.previous)
+
+/-- Continue the C1 edge of the exact decision stored by a dependent family.
+The application supplies no predecessor, cast, branch proof, or route. -/
+noncomputable def DependentCertificateFamily.continuePublicTargetUsingStage
+    {Residual : Type uResidual} {Previous : Residual → Type uPrevious}
+    (family : DependentCertificateFamily.{uAmbient, uBranch, uResidual,
+      uPrevious, uCode} Residual Previous)
+    {facts : List (Residual → Prop)}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available family.DecisionSuccessor) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      family.PublicTargetSuccessor :=
+  Core.ResidualRefinement.State.StageNode.mapStage fun _residual decision =>
+    match decision.output with
+    | .c1 run => .c1 run (publicTarget_of_certifiedC1 run)
+    | .avoiding run => .avoiding run
+
+/-- The sole live successor after the C1 constructor of a dependent
+certificate decision has been contradicted by an inherited public-target
+avoidance theorem.  It retains the literal predecessor and the canonical
+avoiding run; no application-owned branch or handoff wrapper is needed. -/
+abbrev DependentCertificateFamily.AvoidingSuccessor
+    {Residual : Type uResidual} {Previous : Residual → Type uPrevious}
+    (family : DependentCertificateFamily.{uAmbient, uBranch, uResidual,
+      uPrevious, uCode} Residual Previous) :=
+  Core.ResidualRefinement.State.DependentSuccessor Previous
+    (fun residual previous =>
+      CT1.CertifiedAvoidingRun
+        (family.encoding residual previous).spec
+        (family.input residual previous))
+
+/-- Close exactly the C1 constructor of an accumulated dependent CT1
+decision using a public-target avoidance theorem and continue with its
+literal avoiding constructor.  The framework recovers the public target from
+the stored C1 certificate, performs the contradiction, and preserves the
+exact predecessor and avoiding run.  Applications provide only the inherited
+mathematical avoidance fact. -/
+noncomputable def
+    DependentCertificateFamily.closePublicTargetContinueAvoidingUsingStage
+    {Residual : Type uResidual} {Previous : Residual → Type uPrevious}
+    (family : DependentCertificateFamily.{uAmbient, uBranch, uResidual,
+      uPrevious, uCode} Residual Previous)
+    (avoids : (residual : Residual) → (previous : Previous residual) →
+      ¬ family.PublicTarget residual previous
+          (family.input residual previous).context.G)
+    {facts : List (Residual → Prop)}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available family.DecisionSuccessor) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      family.AvoidingSuccessor :=
+  Core.ResidualRefinement.State.StageNode.derive
+    (Core.ResidualRefinement.State.LedgerQuery.stage
+      (facts := facts) (Stage := family.DecisionSuccessor))
+    (fun state decision =>
+      match decision.output with
+      | .c1 run =>
+          (avoids state.residual decision.previous
+            (publicTarget_of_certifiedC1 run)).elim
+      | .avoiding run => ⟨decision.previous, run⟩)
 
 /-- Continue the literal C1 edge of an accumulated certificate decision and
 preserve its avoidance edge without reconstructing either branch. -/

@@ -161,3 +161,7 @@ Do not call a node verified because downstream theorems happen to hold. Verifica
 ## Completion report
 
 Report the repaired residual, selected invariant, CT route, closure of both sides, reusable framework changes, red-team verdict, and checks run. Do not ask the user to supply an unfilled schema or missing consumer contract. If an audit exposes one, re-enter step 7 and derive, refine, or replace it. Leave the original manuscript unchanged during those iterations. Only a proved impossibility for the exact branch state after the complete methodology audit may be reported as an unresolved scope obstruction.
+
+Never repair a branch by defining a new application-owned family or carrier.
+All invariants must refine the literal incoming residual and be appended to
+its single Core ledger; missing views require generic Core projections.

@@ -1,4 +1,4 @@
-import Erdos64EG.CT10GeometricBottleneckClassification
+import Erdos64EG.Future.CT10GeometricBottleneckClassification
 
 #print axioms StructuralExhaustion.Core.FiniteCodeCollision.collision_of_card_lt_length
 #print axioms StructuralExhaustion.Graph.SurplusPatternCoarseRouting.verifiedCollision

@@ -44,3 +44,11 @@ The framework owns saturation decisions, peel states, first restoration selectio
 ## Practicality and completion
 
 Require a polynomial bound on both iteration count and work per iteration. Reject recursion whose next frontier grows without a decreasing global measure, even if each individual state is finite. Test zero, one-step residual, and multi-step exhaustion cases relevant to the capability.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

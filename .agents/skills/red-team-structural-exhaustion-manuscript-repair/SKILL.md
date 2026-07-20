@@ -117,3 +117,8 @@ Return **PASS** only when there are no blocking or required-cleanup findings, al
 ## Iteration rule
 
 On FAIL, fix only the sketch and reusable prototype layers, then rerun the complete audit. Do not carry a finding as an assumption. Do not merge a partially audited repair. Record countermodels and failed attempts in the defect history so later agents do not repeat them. If the proposed lemma is false, negate it, reopen the resulting structural residual, and return to invariant selection; do not stop at the countermodel. Continue repair--audit iterations until PASS or until the repair skill has proved a genuine methodology-level scope obstruction for the exact branch state.
+
+Automatically FAIL any repair that defines a new node-local family, subtype,
+image, enumeration, or replacement carrier. All quantified collections must
+be Core-exposed data already owned by the literal incoming residual and its
+single ledger.

@@ -39,3 +39,11 @@ Reject witness types such as all `SimpleGraph V`, all subgraphs, all color funct
 ## Completion gate
 
 Expose the public-target bridge when the theorem uses an independently named predicate. Add a small accepted and avoiding fixture where both branches are relevant. Compile the application package and run the architecture linter; do not supply a completed C1 certificate as a capability field.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

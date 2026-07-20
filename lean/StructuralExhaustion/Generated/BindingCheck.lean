@@ -498,6 +498,9 @@ import StructuralExhaustion
 #check StructuralExhaustion.CT12.DisjointPacking.Profile.run
 #check StructuralExhaustion.CT12.DisjointPacking.Profile.run_iterations_eq_values
 #check StructuralExhaustion.CT12.DisjointPacking.Profile.verifiedStage
+#check StructuralExhaustion.CT12.DisjointPacking.Profile.MaximalVerifiedStage
+#check StructuralExhaustion.CT12.DisjointPacking.Profile.VerifiedStage.toMaximal
+#check StructuralExhaustion.CT12.DisjointPacking.Profile.maximalVerifiedStage
 #check StructuralExhaustion.CT12.DisjointPacking.Profile.run_total
 #check StructuralExhaustion.Core.FiniteRefinedLedger.Profile.demands
 #check StructuralExhaustion.Core.FiniteRefinedLedger.Profile.Candidate

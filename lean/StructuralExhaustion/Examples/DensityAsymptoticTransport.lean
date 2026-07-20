@@ -50,6 +50,12 @@ example {mass remainder order scale error : Nat}
     5 * mass * scale ≤ 2 * remainder * scale + error :=
   nat_partition_density_with_error (by norm_num) partition density
 
+example {mass remainder order : Nat}
+    (partition : remainder + 3 * mass = order)
+    (density : 11 * mass ≤ 2 * order) :
+    5 * order ≤ 11 * remainder :=
+  nat_partition_complement_lower (by norm_num) partition density
+
 example {packing remainder wedge surplus scale error : Nat}
     (density : 5 * packing * scale ≤
       2 * remainder * scale + error)

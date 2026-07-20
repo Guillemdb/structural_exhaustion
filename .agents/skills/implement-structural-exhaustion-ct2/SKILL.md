@@ -39,3 +39,11 @@ Do not enumerate every subgraph, every graph interface, or every ambient context
 ## Completion gate
 
 If a residual feeds CT3 or CT10, use the registered route skill rather than embedding consumer data in CT2. Compile both enabled and disabled discovery cases when relevant. Leave no target decider in the local deletion path and no caller-authored outcome in the capability.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

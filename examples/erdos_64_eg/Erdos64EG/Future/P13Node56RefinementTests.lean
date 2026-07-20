@@ -1,0 +1,16 @@
+import Erdos64EG.Future.P13Node56Refinement
+
+namespace Erdos64EG.Internal
+
+#check p13Node56InputsQuery
+#check p13Node56Refinement
+#check p13Nodes25To56Run
+#check p13Node56NetError_div_remainder_tendsto_zero
+#check p13Node56_strictQuarter_eventually
+
+#print axioms p13Node56_supply_from_node29
+#print axioms p13Node56NetError_div_remainder_tendsto_zero
+#print axioms p13Node56_strictQuarter_eventually
+#print axioms p13Nodes25To56Run_retains_residual
+
+end Erdos64EG.Internal

@@ -228,7 +228,10 @@ tracked at their own nodes, not counted against `[23]` or `[24]`.
 
 Earlier branch-complete, predecessor-linked endpoint theorems include:
 
-- `Erdos64EG.Internal.exists_verifiedSurplusScaleSplitPrefix` for node `[19]`;
+- `Erdos64EG.Internal.runInitialThroughNode19` and
+  `Erdos64EG.Internal.node19_exhaustive` for node `[19]`, with
+  `Erdos64EG.Internal.node20Entry_iff_node19High` naming only its strict node-
+  `[20]` constructor;
 - `Erdos64EG.Internal.routeSurplusScaleThroughCurvature_exhaustive` for the
   exact split whose bounded constructor is discharged at node `[21]` and
   whose strict constructor remains the Part-X residual;
@@ -289,17 +292,18 @@ contains:
 - the CT3 boundaried-replacement stage: boundary-degree fibres, universal
   context response, the replacement contradiction, and hereditary
   target-uncompressibility; and
-- the CT1 induced-`P₁₃` stage: the exact avoiding execution, HSS closure,
-  forced induced embedding, C1 execution, totality, and constant work bound;
+- the node-`[15]` framework decision and node-`[16]` HSS closure: the exact
+  P₁₃-free/not-P₁₃-free constructors, branch-local HSS contradiction, and
+  literal surviving no constructor;
   and
-- the CT12 induced-`P₁₃` packing stage: maximum cardinality, maximal
-  saturation, an exhausted selected-list execution, the exact
-  `|R| + 13 p₁₃ = |V(G)|` partition, hereditary `P₁₃`-freeness of the
-  remainder, and absence of every finite internal subgraph of minimum degree
-  at least three; and
+- the node-`[17]` CT12 induced-`P₁₃` packing stage: the deterministic selected
+  list, nodup and pairwise-disjoint supports, maximal saturation, nonemptiness,
+  exhausted execution, totality, work certificate, and public context/window/
+  packing-number cursors; no maximum-cardinality claim is part of node `[17]`;
+  and
 - the CT10 induced-`P₁₃` attachment-label stage: compact exact coding of
   all `8192` subsets, symbolic equivalence between the code test and the
-  manuscript gap test, the complete `399`-row table with size distribution
+  manuscript gap test, the exact `399` count with size distribution
   `13,60,122,122,63,17,2`, the exact `C_s` and `Ω₂` relations, and proof
   that every actual nonempty attachment in the selected graph belongs to the
   accepted table; and
@@ -581,9 +585,10 @@ order and do not define a separate graph representation.
 | `lem:no-proper-core`, node `[8]` | Target-avoiding lexicographically minimal packed context and one explicit proper-subgraph certificate | CT2 certified-reduction profile through `Graph.PackedMinimumDegreeCycle` | Every proper subgraph has minimum degree at most two; exact deletion-C2 terminal and trace; totality and semantic contradiction | One local certificate check; degree-zero polynomial budget |
 | `lem:deletion-critical`, nodes `[9]`, `[10]`, `[67]` | The fixed-vertex view of the same packed minimal context and its exact CT1 avoiding output | Registered CT1-to-local-deletion CT2 route | Exact disabled dart discovery, a degree-three endpoint on every edge, and independence of degree-at-least-four vertices | At most one scan of the declared dart list; each explicit deletion-C2 branch has one local check |
 | `def:boundaried-gluing` through `cor:uncompressible`, nodes `[11]`–`[14]` (also reused at `[36]`–`[39]`) | `VerifiedNoProperCorePrefix` on the same packed minimal context | Literal `Graph.PackedBoundariedGluing` semantics plus the CT3 certified-reduction kernel | Exact vertex and edge arithmetic for gluing; local-to-global lexicographic decrease; degree preservation at atom, context, and boundary vertices; target and baseline transport through a reconstruction isomorphism; replacement contradiction and hereditary target-uncompressibility for normalized decompositions with nonempty boundary; composed `VerifiedBoundariedReplacementPrefix` | Proof-level construction only: one certified reduction, no enumeration of contexts, graphs, subgraphs, or replacements |
-| `thm:p13free`, `cor:p13-exists`, nodes `[15]`–`[16]` | `VerifiedBoundariedReplacementPrefix` and target avoidance on the identical packed minimal context | CT1 target-certificate profile through `Graph.InducedPath.Profile`; HSS is the sole trusted external closure | Literal `P₁₃`-free avoiding terminal and trace; HSS contradiction; induced `P₁₃` realization; exact C1 terminal and trace; totality; composed `VerifiedInducedP13Prefix` retaining all preceding outputs | Zero checks on the proof-carrying avoiding run; one check on a supplied Mathlib induced embedding; degree-zero polynomial budgets; no tuple, path, subgraph, or graph universe is enumerated |
-| `sec:remainder`, node `[17]` and the packing-derived clauses of `[25]`–`[27]` | `VerifiedInducedP13Prefix` on the identical selected packed graph | Registered `CT1.terminal.c1->CT12` route plus the CT12 disjoint-packing profile through `Graph.InducedPathPacking` | The route preserves the branch context, materializes exactly the selected-list CT12 input, and derives its nonemptiness from the CT1 realization; a maximum vertex-disjoint induced-`P₁₃` family; maximal saturation; exact exhausted CT12 run with `p₁₃` iterations; `13 p₁₃ ≤ n`; `|R| + 13 p₁₃ = n`; `R` and every induced subgraph of `R` are `P₁₃`-free; HSS rules out every finite internal subgraph of minimum degree at least three; composed `VerifiedP13PackingPrefix` retaining every prior stage | CT12 visits exactly the selected packing list, once per packed window and hence at most `n` iterations; trace length at most `4n + 3`; the embedding and packing universes are not materialized |
-| `lem:labels` and the definitions of `C_s` and `Ω₂`, node `[18]` | `VerifiedP13PackingPrefix` on the identical selected packed graph | CT10 exact accepted-class profile through `CT10.ExhaustiveClassification` and `Graph.InducedPathAttachment` | Exact legality equivalence; `8192` compact candidates; `399` legal labels; size distribution `13,60,122,122,63,17,2`; legal sizes `1`–`7`; exhaustive terminal, exact typed trace, semantic validity and totality; exact `C_s` and `Ω₂`; every actual attachment accepted; composed `VerifiedP13LabelAlgebraPrefix` retaining the exact CT12 predecessor | `167792 = 8192 + 399 + 399²` primitive candidate/direct/row checks, bounded quadratically in the explicit candidate universe; no graph, path, subgraph, or context universe is enumerated |
+| `thm:p13free`, `cor:p13-exists`, nodes `[15]`–`[16]` | Literal `Node14Stage` and its accumulated target-avoidance ledger | Framework `DependentDecision` followed by `StageNode.closeDependentDecisionYes`; HSS is the sole trusted external closure | Exact P₁₃-free/not-P₁₃-free decision; HSS target and contradiction on only the yes constructor; exact surviving no constructor in `Node16Stage` | Zero node-local scans; no path, tuple, graph, support, or context universe is materialized |
+| `def:p13-packing`, node `[17]` | Literal `Node16Stage` surviving no constructor on the identical selected graph | `Graph.InducedPathMaximalPacking` and CT12 maximal-only verified stage | Deterministic selected windows; nodup support; pairwise disjointness; saturation/maximality; nonemptiness; exhausted terminal, typed trace, totality, and public graph/window/count cursors. No maximum-cardinality or remainder theorem is exposed at node `[17]` | Selected-list-local CT12 audit; no family of packings, maximum search, graph universe, or path universe is materialized |
+| `lem:labels` and the definitions of `C_s` and `Ω₂`, node `[18]` | Literal `Node17Stage` and `Node17StageContext` on the identical selected graph | CT10 exact accepted-class profile through `CT10.ExhaustiveClassification`, symbolic parity counting, and `Graph.InducedPathAttachment` | Exact `399` legal labels; size distribution `13,60,122,122,63,17,2`; exhaustive CT10 stage; exact `C_s` and `Ω₂` semantics; every actual nonempty attachment label is legal; `Node18Stage` retains the exact node-[17] predecessor | Fixed local table records `167792` checks; the total and fibres are transported symbolically, with no graph, path, packing, subgraph, or context universe enumerated |
+| `def:near-cubic-spine`, nodes `[19]`–`[20]` | Literal `Node18Stage` and its public live-context cursor | `Core.OrderThresholdSplit.DependentProfileFamily` | Exact exhaustive strict-high/at-most squared-surplus constructors; node `[20]` is definitionally only the strict constructor and adds no surplus-pair mathematics before node `[125]` | Zero graph scans and one symbolic natural-number comparison; no square-root or threshold search |
 | `lem:sparse-upper-envelope`, `lem:sparse-slack-surplus`, node `[126]` | `VerifiedSparseSurplusPrefix` at node `[125]`, retaining the selected packed context, CT2 no-proper-core theorem, deletion criticality, and the exact CT6 degree-excess ledger | `Graph.DegeneracyPeeling.Profile` with the exact CT12 list-peeling runner | Actual cubic root; literal complement; induced-core freeness; exhausted terminal; exact typed trace; validity and totality; exactly `n-1` iterations; `e(G-v)≤2(n-1)-3`; `m≤2n-2`; `σ=2m-3n=n-6-2λ`; exact equality with the existing CT6 degree-excess ledger; composed `VerifiedSparseEnvelopePrefix` | Linear CT12 schedule on one proof-selected list. The sharp edge proof recurses only on a strictly smaller explicit support; no graph, subgraph, order, path, or context universe is enumerated |
 | `lem:sparse-excess-port-extraction`, cubic-endpoint clause of `lem:sparse-port-activation`, nodes `[127]`–`[128]` | `VerifiedP13LabelAlgebraPrefix` and deletion criticality on the identical selected packed graph | CT6 ordered activity profile through `Graph.SurplusPortActivity` | Exact active-ledger terminal and trace; first-failure semantics for the first high centre with a non-cubic neighbour; deletion-critical exclusion of every failure; exact `Σ_v(d(v)-3)` ledger; excess-slot cardinality; composed `VerifiedSparseSurplusPrefix` | One failure test per declared vertex and at most `|V|²` primitive adjacency/degree tests; no enumeration of paths, subgraphs, graphs, or attachment tables |
 | Remaining clauses of `lem:sparse-port-activation`, nodes `[127]`--`[128]` | `VerifiedSparseEnvelopePrefix`, CT2 bridgelessness, and the actual CT6 active ledger on the identical graph | `Graph.SurplusPortActivation` with open suppression and triangular return profiles | One activated demand for every CT6 slot; exact root return; open or triangular response; exact `T(p)`, `Γ(p)` edge/vertex supports; activated schedule length equal to the CT6 residual and to `σ(G)`; composed `VerifiedSurplusPortActivationPrefix` | One local certificate per supplied slot; schedule-linear outer scan; no path-family, cycle-family, subgraph, graph, or pair-universe enumeration |
@@ -1118,11 +1123,15 @@ the graph-level cycle predicate. The bounded local computations certify:
 `p13Label_checks_quadratic` states the concrete candidate-square bound used
 by the generic profile.
 
-The fixed computation is isolated behind two modules. `P13LabelKernel`
-contains only the thirteen-bit definitions and CT10 profile, while
-`P13LabelCertificate` contains the isolated finite-reflection reports. The
-pair-gap semantic theorem is kernel-checked with `decide`; the full table
-cardinality, histogram, fixed-width cardinality, legal-size report, and source
+The ambient code predicate remains isolated behind `P13LabelKernel` and
+`P13LabelCertificate`.  The node-[18] count itself is now symbolic:
+`P13ParityLabelCount` splits the thirteen positions by parity, identifies each
+half with an eight-state weighted automaton, convolves the two exact
+histograms, and transports the resulting seven fibres to the CT10 class type.
+It also exposes `symbolicLegalP13Labels` and a `Fin 399` index for downstream
+local tables. The pair-gap semantic theorem is kernel-checked with `decide`;
+the full table cardinality and size distribution no longer depend on native
+finite reflection. The fixed-width cardinality, legal-size report, and source
 count remain behind the cached module boundary. The module imports no Erdős
 proof stage after `InternalProblem`, so later edits reuse its `.olean`.
 `VerifiedP13LabelAlgebraPrefix` deliberately omits the report-only table count
@@ -3637,3 +3646,122 @@ trace-basin/carrier-core stage.  The exact obligation is recorded in
   conclusion.
 - Focused builds of the producer stages and a direct Lean check of
   `P13Node56Refinement.lean` pass. No graph or ambient family is rescanned.
+
+## 2026-07-19 — CT1 target-terminal closure and nodes `[7]`–`[14]`
+
+- Added the CT1-owned
+  `DependentCertificateFamily.closePublicTargetContinueAvoidingUsingStage`
+  executor.  From the one accumulated certificate decision it interprets the
+  stored C1 certificate as the public target, contradicts an inherited target
+  avoidance theorem, and retains the literal predecessor and exact avoiding
+  run as the sole live successor.  A non-graph fixture verifies this behavior
+  without enumerating target codes.
+- Node `[7]` now closes the Mersenne-return constructor against the selected
+  counterexample's already stored target avoidance.  Node `[8]` consumes only
+  that exact avoiding successor; it no longer bypasses node `[7]` or carries a
+  dead C1 constructor.  Focused one-job builds through node `[8]` pass with
+  only `propext`, `Classical.choice`, and `Quot.sound`.
+- Nodes `[9]`–`[14]` were then rewritten as a literal immediate-predecessor
+  chain.  Their sole new payloads are, respectively: deletion criticality,
+  high-degree independence, boundary profiles, context universality, the
+  replacement contradiction, and the two hereditary-uncompressibility
+  clauses.  They use the existing graph-owned local theorems and framework
+  `StageNode.mapStage`; no custom handoff, checkpoint, dummy branch, caller
+  supplied conclusion, graph enumeration, or global search remains.
+- The independent templates for nodes `[7]`–`[14]` record these exact local
+  responsibilities.  A serialized one-job kernel build now passes through
+  node `[14]`; the exposed theorems use only `propext`, `Classical.choice`,
+  and `Quot.sound`.
+
+## 2026-07-20 — framework-only nodes `[46]`–`[56]`
+
+- Replaced the active Part-III/IV prefix with literal framework carriers.
+  Node `[46]` closes only the whole-support rank-drop leaf, node `[47]` is the
+  zero-copy reappearance of Residual B, nodes `[48]`–`[50]` add the curvature
+  cost, symbolic constrained-family entropy, and exact ordered entropy split,
+  and node `[51]` proves only the high-entropy remainder-bit inequality.
+- Node `[52]` is once again a single assertion, not an application-created
+  decision. It maps only the node-`[51]` high leaf, retrieves node `[24]`'s
+  scalar transformer from the accumulated ledger, and preserves the exact
+  low leaf for node `[53]`.
+- Added generic Core carriers for independently advancing the yes and no
+  leaves of a focused decision, terminalizing the two prescribed node-`[54]`
+  inputs, and continuing only the surviving focused leaf. A non-Erdos fixture
+  verifies that every intermediate stage remains retrievable from the same
+  accumulated ledger.
+- The original Part-IV topology now runs literally as
+  `[50] yes -> [51] -> [52] -> [54]` and
+  `[50] no -> [53]`, with `[53] yes -> [54]` and
+  `[53] no -> [55] -> [56]`. Node `[55]` is a zero-copy branch marker; the
+  strict-quarter constant is proved only at node `[56]`.
+- Serialized direct kernel checks pass for Core, its fixture, and every node
+  `[46]`–`[56]`, with no `sorryAx`. These nodes remain yellow: old verified
+  mathematical outputs are temporarily accepted only through exactly
+  leaf-indexed typed inputs at `[48]`, `[52]`, `[54]`, and `[56]`, in addition
+  to the inherited migration boundaries at `[21]`, `[23]`, and `[35]`.
+- The constrained graph family at node `[49]` is predicate-defined on the
+  fixed remainder subtype. Its cardinality and entropy remain symbolic; no
+  graph universe, support family, Boolean cube, or completion family is
+  enumerated.
+
+## 2026-07-20 — framework-only nodes `[57]`–`[60]`
+
+- Added the reusable focused-active continuation carrier and executors in
+  Core.  They retain the literal active leaf and accumulated ledger while an
+  application maps its payload, appends one dependent payload, decides one
+  local predicate, or continues the no leaf after the yes leaf closes.  The
+  non-Erdos fixture kernel-checks and retrieves earlier stages from the same
+  ledger.
+- Node `[57]` maps only the exact node-`[56]` Residual C leaf to the paper's
+  denominator-free strict-quarter inequality.  The already proved old output
+  is temporarily exposed by one leaf-indexed typed input, so this node remains
+  conditional/yellow during the optimization.
+- Node `[58]` adds only the exact real-valued net charge. Node `[59]` performs
+  the exhaustive `0 <= N(R)` versus `N(R) < 0` ordered split. Node `[60]`
+  closes only the nonnegative constructor by symbolic arithmetic from the
+  retained strict-quarter inequality, leaving the literal strict-negative
+  constructor for node `[61]`.
+- Serialized direct kernel checks pass for Core, the fixture, and nodes
+  `[57]`--`[60]`.  Their exposed local producers use only `propext`,
+  `Classical.choice`, and `Quot.sound`; the end-to-end runners additionally
+  use only the permitted HSS theorem.  No graph family or ambient universe is
+  enumerated.
+## 2026-07-20 — nodes [22]--[23] branch-semantics correction
+
+- Kept node [22] as the framework-owned exhaustive strict/at-most density
+  decision and exposed `node22DensityDecision_exhaustive`; no caller chooses
+  either edge.
+- Replaced the node-[23] quiet-block closure input by `Node23Output`, attached
+  directly to node [22]'s literal strict constructor.  Node [23] now records
+  only the exact cross-multiplied overflow inequality prescribed by the
+  diagram.
+- Added the reusable nested yes/no continuation forms to Core and exercised
+  them in `StructuralExhaustion.Examples.ResidualRefinement`; node [24] uses
+  the no-after-yes continuation so node [23]'s sibling output is preserved.
+- Focused checks passed for Core, the transfer fixture, and nodes [22]--[24].
+  The public endpoints contain no `sorryAx`; only the previously declared HSS
+  theorem appears on the root-to-node runner dependency cone.
+
+## 2026-07-20 — nodes `[31]`--`[32]` CT15 rank-dichotomy correction
+
+- Node `[31]` now has the paper-local responsibility only: it appends the
+  exact curvature response semantics, declared wedge-coordinate count, rank
+  upper bound, and maximal surviving-coordinate witness to node `[30]`'s
+  accumulated residual. It does not choose a branch.
+- Node `[32]` now executes the proof-relevant `CT15` `rankDecision` itself.
+  Its yes constructor is literal strict declared-coordinate rank loss and its
+  no constructor is equality with the full declared coordinate cardinality.
+  Core owns both residual carriers and preserves the single ledger.
+- Removed the application-owned zero-loss `OrderThresholdSplit` wrapper and
+  all stale threshold declarations. Node `[35]` consumes the literal strict
+  constructor; node `[48]` consumes the complementary equality after Core has
+  carried it through Residual B.
+- Focused kernel checks pass for nodes `[31]`, `[32]`, `[35]`, and `[48]`.
+  The node-local rank decision depends only on `propext`, `Classical.choice`,
+  and `Quot.sound`; the end-to-end runners retain the already documented HSS
+  theorem and cached node-[21] native finite certificates.
+- The WebExport source and independent node templates now cite the CT15
+  decision and exhaustiveness declarations. The broad export target is still
+  prevented from rebuilding by pre-existing stale imports in unrelated
+  `Future` modules; a focused declaration check confirms every replacement
+  evidence name elaborates.

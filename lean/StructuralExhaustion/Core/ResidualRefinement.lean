@@ -4,7 +4,7 @@ import StructuralExhaustion.Core.WorkBudget
 
 namespace StructuralExhaustion.Core.ResidualRefinement
 
-universe uOccurrence uResidual uTarget uInput uStage
+universe uOccurrence uNext uResidual uTarget uInput uStage
 
 /-!
 # Accumulating residual refinements
@@ -178,6 +178,17 @@ inductive DependentDecisionAt
   | noBranch (proof : no residual previous) :
       DependentDecisionAt yes no residual previous
 
+/-- Result of closing the yes constructor of a dependent decision by
+contradiction.  Only the literal no predecessor and its proof survive; the
+framework never asks an application to fabricate an output on the closed
+branch. -/
+structure DependentDecisionYesClosed
+    (Previous : Residual → Type uInput)
+    (yes no : (residual : Residual) → Previous residual → Prop)
+    (residual : Residual) where
+  previous : Previous residual
+  proof : no residual previous
+
 namespace DependentDecisionAt
 
 /-- Execute a decision at one literal predecessor. -/
@@ -207,6 +218,24 @@ inductive DependentDecisionYesContinuation
       DependentDecisionYesContinuation Previous yes no Next residual
   | noBranch (previous : Previous residual) (proof : no residual previous) :
       DependentDecisionYesContinuation Previous yes no Next residual
+
+/-- Framework-owned continuation of only the no constructor of a dependent
+decision.  The yes constructor is transported literally, while the no
+constructor gains exactly one new mathematical payload.  This is the mirror
+of `DependentDecisionYesContinuation`; it prevents applications whose next
+paper node lies on the negative edge from inventing a dummy positive-edge
+handoff. -/
+inductive DependentDecisionNoContinuation
+    (Previous : Residual → Type uInput)
+    (yes no : (residual : Residual) → Previous residual → Prop)
+    (Next : (residual : Residual) → (previous : Previous residual) →
+      no residual previous → Type uTarget)
+    (residual : Residual) : Type (max uInput uTarget) where
+  | yesBranch (previous : Previous residual) (proof : yes residual previous) :
+      DependentDecisionNoContinuation Previous yes no Next residual
+  | noBranch (previous : Previous residual) (proof : no residual previous)
+      (output : Next residual previous proof) :
+      DependentDecisionNoContinuation Previous yes no Next residual
 
 /-- A further successor on the yes edge of an already continued dependent
 decision. The exact predecessor, its branch proof, and the current yes output
@@ -261,6 +290,7 @@ inductive DependentNestedNoContinuation
       (output : OuterYesOutput residual previous proof) :
       DependentNestedNoContinuation Previous outerYes outerNo OuterYesOutput
         innerYes innerNo Next residual
+
   | innerYesBranch (previous : Previous residual)
       (outerProof : outerNo residual previous)
       (innerProof : innerYes residual previous) :
@@ -272,6 +302,820 @@ inductive DependentNestedNoContinuation
       (output : Next residual previous outerProof innerProof) :
       DependentNestedNoContinuation Previous outerYes outerNo OuterYesOutput
         innerYes innerNo Next residual
+
+/-- A new exhaustive decision made only on the populated no leaf of an
+earlier no-continuation.  The untouched outer yes leaf is transported
+literally; the two inner constructors retain the exact outer-no payload. -/
+inductive DependentDecisionOnNoContinuation
+    (Previous : Residual → Type uInput)
+    (outerYes outerNo : (residual : Residual) → Previous residual → Prop)
+    (OuterNoOutput : (residual : Residual) →
+      (previous : Previous residual) → outerNo residual previous → Type uTarget)
+    (innerYes innerNo : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop)
+    (residual : Residual) : Type (max uInput uTarget) where
+  | outerYesBranch (previous : Previous residual)
+      (proof : outerYes residual previous) :
+      DependentDecisionOnNoContinuation Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo residual
+  | innerYesBranch (previous : Previous residual)
+      (outerProof : outerNo residual previous)
+      (output : OuterNoOutput residual previous outerProof)
+      (proof : innerYes residual previous outerProof output) :
+      DependentDecisionOnNoContinuation Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo residual
+  | innerNoBranch (previous : Previous residual)
+      (outerProof : outerNo residual previous)
+      (output : OuterNoOutput residual previous outerProof)
+      (proof : innerNo residual previous outerProof output) :
+      DependentDecisionOnNoContinuation Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo residual
+
+/-- Continue only the inner-yes constructor of a decision made on an earlier
+no continuation.  The unrelated outer-yes leaf and the complementary inner-no
+leaf are transported literally. -/
+inductive DependentDecisionOnNoYesContinuation
+    (Previous : Residual → Type uInput)
+    (outerYes outerNo : (residual : Residual) → Previous residual → Prop)
+    (OuterNoOutput : (residual : Residual) →
+      (previous : Previous residual) → outerNo residual previous → Type uTarget)
+    (innerYes innerNo : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop)
+    (YesOutput : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerYes residual previous outerProof outerOutput → Type uStage)
+    (residual : Residual) : Type (max uInput uTarget uStage) where
+  | outerYesBranch (previous : Previous residual)
+      (proof : outerYes residual previous) :
+      DependentDecisionOnNoYesContinuation Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo YesOutput residual
+  | innerYesBranch (previous : Previous residual)
+      (outerProof : outerNo residual previous)
+      (outerOutput : OuterNoOutput residual previous outerProof)
+      (innerProof : innerYes residual previous outerProof outerOutput)
+      (output : YesOutput residual previous outerProof outerOutput innerProof) :
+      DependentDecisionOnNoYesContinuation Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo YesOutput residual
+  | innerNoBranch (previous : Previous residual)
+      (outerProof : outerNo residual previous)
+      (outerOutput : OuterNoOutput residual previous outerProof)
+      (innerProof : innerNo residual previous outerProof outerOutput) :
+      DependentDecisionOnNoYesContinuation Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo YesOutput residual
+
+/-- Complete the inner-no edge after the inner-yes edge has acquired its
+successor payload.  This is the nested-decision analogue of
+`DependentDecisionNoAfterYes`; all three literal constructors are retained. -/
+inductive DependentDecisionOnNoNoAfterYes
+    (Previous : Residual → Type uInput)
+    (outerYes outerNo : (residual : Residual) → Previous residual → Prop)
+    (OuterNoOutput : (residual : Residual) →
+      (previous : Previous residual) → outerNo residual previous → Type uTarget)
+    (innerYes innerNo : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop)
+    (YesOutput : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerYes residual previous outerProof outerOutput → Type uStage)
+    (NoOutput : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uOccurrence)
+    (residual : Residual) : Type
+      (max uInput uTarget uStage uOccurrence) where
+  | outerYesBranch (previous : Previous residual)
+      (proof : outerYes residual previous) :
+      DependentDecisionOnNoNoAfterYes Previous outerYes outerNo OuterNoOutput
+        innerYes innerNo YesOutput NoOutput residual
+  | innerYesBranch (previous : Previous residual)
+      (outerProof : outerNo residual previous)
+      (outerOutput : OuterNoOutput residual previous outerProof)
+      (innerProof : innerYes residual previous outerProof outerOutput)
+      (output : YesOutput residual previous outerProof outerOutput innerProof) :
+      DependentDecisionOnNoNoAfterYes Previous outerYes outerNo OuterNoOutput
+        innerYes innerNo YesOutput NoOutput residual
+  | innerNoBranch (previous : Previous residual)
+      (outerProof : outerNo residual previous)
+      (outerOutput : OuterNoOutput residual previous outerProof)
+      (innerProof : innerNo residual previous outerProof outerOutput)
+      (output : NoOutput residual previous outerProof outerOutput innerProof) :
+      DependentDecisionOnNoNoAfterYes Previous outerYes outerNo OuterNoOutput
+        innerYes innerNo YesOutput NoOutput residual
+
+/-- Result of closing the inner yes leaf of a decision made on an earlier
+no-continuation.  The unrelated outer yes leaf and the complementary inner no
+leaf survive literally. -/
+inductive DependentDecisionOnNoYesClosed
+    (Previous : Residual → Type uInput)
+    (outerYes outerNo : (residual : Residual) → Previous residual → Prop)
+    (OuterNoOutput : (residual : Residual) →
+      (previous : Previous residual) → outerNo residual previous → Type uTarget)
+    (innerYes innerNo : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop)
+    (residual : Residual) : Type (max uInput uTarget) where
+  | outerYesBranch (previous : Previous residual)
+      (proof : outerYes residual previous) :
+      DependentDecisionOnNoYesClosed Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo residual
+  | innerNoBranch (previous : Previous residual)
+      (outerProof : outerNo residual previous)
+      (output : OuterNoOutput residual previous outerProof)
+      (proof : innerNo residual previous outerProof output) :
+      DependentDecisionOnNoYesClosed Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo residual
+
+/-- A reusable active cursor after the inner-yes leaf of a nested decision has
+been closed.  The untouched outer leaf remains a bypass, while the surviving
+inner-no leaf carries exactly the latest mathematical output.  Repeated nodes
+map the active payload through `mapDependentDecisionOnNoYesClosedActive`; the
+complete earlier stages remain available in the accumulated ledger. -/
+inductive DependentDecisionOnNoYesClosedActive
+    (Previous : Residual → Type uInput)
+    (outerYes outerNo : (residual : Residual) → Previous residual → Prop)
+    (OuterNoOutput : (residual : Residual) →
+      (previous : Previous residual) → outerNo residual previous → Type uTarget)
+    (innerYes innerNo : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop)
+    (Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage)
+    (residual : Residual) : Type (max uInput uTarget uStage) where
+  | outerYesBranch (previous : Previous residual)
+      (proof : outerYes residual previous) :
+      DependentDecisionOnNoYesClosedActive Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo Current residual
+  | innerNoBranch (previous : Previous residual)
+      (outerProof : outerNo residual previous)
+      (outerOutput : OuterNoOutput residual previous outerProof)
+      (innerProof : innerNo residual previous outerProof outerOutput)
+      (current : Current residual previous outerProof outerOutput innerProof) :
+      DependentDecisionOnNoYesClosedActive Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo Current residual
+
+/-- Exhaustive yes/no refinement of the live payload of an active nested
+cursor.  The bypass constructor is preserved literally. -/
+inductive ActiveCursorDecision
+    (Previous : Residual → Type uInput)
+    (outerYes outerNo : (residual : Residual) → Previous residual → Prop)
+    (OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget)
+    (innerYes innerNo : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop)
+    (Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage)
+    (yes no : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      Current residual previous outerProof outerOutput innerProof → Prop)
+    (residual : Residual) : Type (max uInput uTarget uStage) where
+  | outerYesBranch (previous : Previous residual) (proof : outerYes residual previous)
+  | yesBranch (previous) (outerProof) (outerOutput) (innerProof) (current)
+      (proof : yes residual previous outerProof outerOutput innerProof current)
+  | noBranch (previous) (outerProof) (outerOutput) (innerProof) (current)
+      (proof : no residual previous outerProof outerOutput innerProof current)
+
+/-- Continue only the yes constructor of an `ActiveCursorDecision`.  The
+outer bypass and the no constructor are retained literally; only the selected
+yes constructor receives one new mathematical payload. -/
+inductive ActiveCursorDecisionYesContinuation
+    (Previous : Residual → Type uInput)
+    (outerYes outerNo : (residual : Residual) → Previous residual → Prop)
+    (OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget)
+    (innerYes innerNo : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop)
+    (Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage)
+    (yes no : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      Current residual previous outerProof outerOutput innerProof → Prop)
+    (YesOutput : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      yes residual previous outerProof outerOutput innerProof current →
+        Type uOccurrence)
+    (residual : Residual) : Type (max uInput uTarget uStage uOccurrence) where
+  | outerYesBranch (previous : Previous residual)
+      (proof : outerYes residual previous)
+  | yesBranch (previous) (outerProof) (outerOutput) (innerProof) (current)
+      (proof : yes residual previous outerProof outerOutput innerProof current)
+      (output : YesOutput residual previous outerProof outerOutput innerProof
+        current proof)
+  | noBranch (previous) (outerProof) (outerOutput) (innerProof) (current)
+      (proof : no residual previous outerProof outerOutput innerProof current)
+
+/-- Continue only the no constructor of an `ActiveCursorDecision`.  The
+outer bypass and the yes constructor are retained literally; only the selected
+no constructor receives one new mathematical payload. -/
+inductive ActiveCursorDecisionNoContinuation
+    (Previous : Residual → Type uInput)
+    (outerYes outerNo : (residual : Residual) → Previous residual → Prop)
+    (OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget)
+    (innerYes innerNo : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop)
+    (Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage)
+    (yes no : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      Current residual previous outerProof outerOutput innerProof → Prop)
+    (NoOutput : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      no residual previous outerProof outerOutput innerProof current →
+        Type uOccurrence)
+    (residual : Residual) : Type (max uInput uTarget uStage uOccurrence) where
+  | outerYesBranch (previous : Previous residual)
+      (proof : outerYes residual previous)
+  | yesBranch (previous) (outerProof) (outerOutput) (innerProof) (current)
+      (proof : yes residual previous outerProof outerOutput innerProof current)
+  | noBranch (previous) (outerProof) (outerOutput) (innerProof) (current)
+      (proof : no residual previous outerProof outerOutput innerProof current)
+      (output : NoOutput residual previous outerProof outerOutput innerProof
+        current proof)
+
+/-- The two already handled constructors of an active-cursor no
+continuation.  This is framework-owned so an application can focus the sole
+live no leaf without defining its own bypass sum. -/
+inductive ActiveCursorDecisionNoContinuationBypass
+    (Previous : Residual → Type uInput)
+    (outerYes outerNo : (residual : Residual) → Previous residual → Prop)
+    (OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget)
+    (innerYes innerNo : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop)
+    (Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage)
+    (yes no : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      Current residual previous outerProof outerOutput innerProof → Prop)
+    (residual : Residual) : Type (max uInput uTarget uStage) where
+  | outerYesBranch (previous : Previous residual)
+      (proof : outerYes residual previous)
+  | yesBranch (previous) (outerProof) (outerOutput) (innerProof) (current)
+      (proof : yes residual previous outerProof outerOutput innerProof current)
+
+/-- The sole live leaf of an active-cursor no continuation, including its
+literal current output. -/
+structure ActiveCursorDecisionNoContinuationActive
+    (Previous : Residual → Type uInput)
+    (outerNo : (residual : Residual) → Previous residual → Prop)
+    (OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget)
+    (innerNo : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop)
+    (Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage)
+    (no : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      Current residual previous outerProof outerOutput innerProof → Prop)
+    (NoOutput : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      no residual previous outerProof outerOutput innerProof current →
+        Type uOccurrence)
+    (residual : Residual) : Type (max uInput uTarget uStage uOccurrence) where
+  previous : Previous residual
+  outerProof : outerNo residual previous
+  outerOutput : OuterNoOutput residual previous outerProof
+  innerProof : innerNo residual previous outerProof outerOutput
+  current : Current residual previous outerProof outerOutput innerProof
+  proof : no residual previous outerProof outerOutput innerProof current
+  output : NoOutput residual previous outerProof outerOutput innerProof current proof
+
+/-! ## Focused decisions below an active yes continuation -/
+
+/-- A reusable cursor with one active mathematical leaf and an opaque bundle
+of already terminal or independently handled leaves. -/
+inductive FocusedBranch
+    (Bypass : Residual → Type uInput)
+    (Active : Residual → Type uTarget)
+    (residual : Residual) : Type (max uInput uTarget) where
+  | bypass (data : Bypass residual)
+  | active (data : Active residual)
+
+/-- Framework-owned bypass data for a nested decision whose yes and no leaves
+already carry outputs while only the no payload remains active. -/
+inductive DependentDecisionOnNoNoAfterYesBypass
+    (Previous : Residual → Type uInput)
+    (outerYes outerNo : (residual : Residual) → Previous residual → Prop)
+    (OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget)
+    (innerYes : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop)
+    (YesOutput : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerYes residual previous outerProof outerOutput → Type uStage)
+    (residual : Residual) : Type (max uInput uTarget uStage) where
+  | outerYesBranch (previous : Previous residual)
+      (proof : outerYes residual previous)
+  | innerYesBranch (previous : Previous residual)
+      (outerProof : outerNo residual previous)
+      (outerOutput : OuterNoOutput residual previous outerProof)
+      (innerProof : innerYes residual previous outerProof outerOutput)
+      (output : YesOutput residual previous outerProof outerOutput innerProof)
+
+/-- Framework-owned exact data on the active inner-no leaf. Applications
+consume this view but never repackage or transport it themselves. -/
+structure DependentDecisionOnNoNoAfterYesActive
+    (Previous : Residual → Type uInput)
+    (outerNo : (residual : Residual) → Previous residual → Prop)
+    (OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget)
+    (innerNo : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop)
+    (Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage)
+    (residual : Residual) : Type (max uInput uTarget uStage) where
+  previous : Previous residual
+  outerProof : outerNo residual previous
+  outerOutput : OuterNoOutput residual previous outerProof
+  innerProof : innerNo residual previous outerProof outerOutput
+  current : Current residual previous outerProof outerOutput innerProof
+
+/-- An exhaustive decision on the active leaf of a `FocusedBranch`. -/
+inductive FocusedBranchDecision
+    (Bypass : Residual → Type uInput)
+    (Active : Residual → Type uTarget)
+    (yes no : (residual : Residual) → Active residual → Prop)
+    (residual : Residual) : Type (max uInput uTarget) where
+  | bypass (data : Bypass residual)
+  | yesBranch (data : Active residual) (proof : yes residual data)
+  | noBranch (data : Active residual) (proof : no residual data)
+
+/-- Result of closing only the yes leaf of a focused decision. -/
+inductive FocusedBranchDecisionYesClosed
+    (Bypass : Residual → Type uInput)
+    (Active : Residual → Type uTarget)
+    (yes no : (residual : Residual) → Active residual → Prop)
+    (residual : Residual) : Type (max uInput uTarget) where
+  | bypass (data : Bypass residual)
+  | activeNo (data : Active residual) (proof : no residual data)
+
+/-- Result of closing only the live no leaf of a focused continuation.  Its
+yes constructor is retained as an already handled sibling leaf. -/
+inductive FocusedBranchDecisionNoClosed
+    (Bypass : Residual → Type uInput)
+    (Active : Residual → Type uTarget)
+    (yes no : (residual : Residual) → Active residual → Prop)
+    (residual : Residual) : Type (max uInput uTarget) where
+  | bypass (data : Bypass residual)
+  | activeYes (data : Active residual) (proof : yes residual data)
+
+/-- Independent continuation of a focused decision's no leaf. -/
+inductive FocusedBranchDecisionNoContinuation
+    (Bypass : Residual → Type uInput)
+    (Active : Residual → Type uTarget)
+    (yes no : (residual : Residual) → Active residual → Prop)
+    (Output : (residual : Residual) → (data : Active residual) →
+      no residual data → Type uStage)
+    (residual : Residual) : Type (max uInput uTarget uStage) where
+  | bypass (data : Bypass residual)
+  | yesBranch (data : Active residual) (proof : yes residual data)
+  | activeNo (data : Active residual) (proof : no residual data)
+      (output : Output residual data proof)
+
+/-- Framework-owned bypass for a new decision below the live leaf of a
+focused-no continuation. -/
+inductive FocusedBranchDecisionNoContinuationBypass
+    (Bypass : Residual → Type uInput)
+    (Active : Residual → Type uTarget)
+    (yes no : (residual : Residual) → Active residual → Prop)
+    (residual : Residual) : Type (max uInput uTarget) where
+  | bypass (data : Bypass residual)
+  | yesBranch (data : Active residual) (proof : yes residual data)
+
+/-- The literal live leaf, including the output already attached by the
+preceding focused-no continuation. -/
+structure FocusedBranchDecisionNoContinuationActive
+    (Active : Residual → Type uTarget)
+    (no : (residual : Residual) → Active residual → Prop)
+    (Output : (residual : Residual) → (data : Active residual) →
+      no residual data → Type uStage)
+    (residual : Residual) : Type (max uTarget uStage) where
+  data : Active residual
+  proof : no residual data
+  output : Output residual data proof
+
+/-- Independent continuation of a focused decision's yes leaf. -/
+inductive FocusedBranchDecisionYesContinuation
+    (Bypass : Residual → Type uInput)
+    (Active : Residual → Type uTarget)
+    (yes no : (residual : Residual) → Active residual → Prop)
+    (Output : (residual : Residual) → (data : Active residual) →
+      yes residual data → Type uStage)
+    (residual : Residual) : Type (max uInput uTarget uStage) where
+  | bypass (data : Bypass residual)
+  | activeYes (data : Active residual) (proof : yes residual data)
+      (output : Output residual data proof)
+  | noBranch (data : Active residual) (proof : no residual data)
+
+/-- Exhaustive decision on the payload already attached to a focused yes
+continuation.  Core transports the bypass and untouched outer-no sibling
+literally; applications provide only the next local predicate and its
+complement. -/
+inductive FocusedBranchYesContinuationDecision
+    (Bypass : Residual → Type uInput)
+    (Active : Residual → Type uTarget)
+    (outerYes outerNo : (residual : Residual) → Active residual → Prop)
+    (Output : (residual : Residual) → (data : Active residual) →
+      outerYes residual data → Type uStage)
+    (innerYes innerNo : (residual : Residual) → (data : Active residual) →
+      (outerProof : outerYes residual data) → Output residual data outerProof → Prop)
+    (residual : Residual) : Type (max uInput uTarget uStage) where
+  | bypass (data : Bypass residual)
+  | activeYesYes (data : Active residual) (outerProof : outerYes residual data)
+      (output : Output residual data outerProof)
+      (innerProof : innerYes residual data outerProof output)
+  | activeYesNo (data : Active residual) (outerProof : outerYes residual data)
+      (output : Output residual data outerProof)
+      (innerProof : innerNo residual data outerProof output)
+  | noBranch (data : Active residual) (proof : outerNo residual data)
+
+/-- Result of marking the inner-no leaf of a decision on a continued yes
+payload terminal.  Every sibling and the terminal certificate are retained
+literally in the accumulated ledger. -/
+inductive FocusedBranchYesContinuationNoTerminal
+    (Bypass : Residual → Type uInput)
+    (Active : Residual → Type uTarget)
+    (outerYes outerNo : (residual : Residual) → Active residual → Prop)
+    (Output : (residual : Residual) → (data : Active residual) →
+      outerYes residual data → Type uStage)
+    (innerYes innerNo : (residual : Residual) → (data : Active residual) →
+      (outerProof : outerYes residual data) → Output residual data outerProof → Prop)
+    (residual : Residual) : Type (max uInput uTarget uStage) where
+  | bypass (data : Bypass residual)
+  | activeYes (data : Active residual) (outerProof : outerYes residual data)
+      (output : Output residual data outerProof)
+      (innerProof : innerYes residual data outerProof output)
+  | terminalNo (data : Active residual) (outerProof : outerYes residual data)
+      (output : Output residual data outerProof)
+      (innerProof : innerNo residual data outerProof output)
+  | noBranch (data : Active residual) (proof : outerNo residual data)
+
+/-- Decide one further predicate on the untouched no leaf of a focused
+decision whose yes leaf already carries its successor payload.  This is the
+generic carrier for two diagram branches that advance independently: the
+outer yes payload is retained literally, while the outer no leaf is split
+exhaustively without application-owned routing. -/
+inductive FocusedBranchYesContinuationNoDecision
+    (Bypass : Residual → Type uInput)
+    (Active : Residual → Type uTarget)
+    (outerYes outerNo : (residual : Residual) → Active residual → Prop)
+    (OuterYesOutput : (residual : Residual) → (data : Active residual) →
+      outerYes residual data → Type uStage)
+    (innerYes innerNo : (residual : Residual) →
+      (data : Active residual) → outerNo residual data → Prop)
+    (residual : Residual) : Type (max uInput uTarget uStage) where
+  | bypass (data : Bypass residual)
+  | outerYesBranch (data : Active residual)
+      (proof : outerYes residual data)
+      (output : OuterYesOutput residual data proof)
+  | innerYesBranch (data : Active residual)
+      (outerProof : outerNo residual data)
+      (proof : innerYes residual data outerProof)
+  | innerNoBranch (data : Active residual)
+      (outerProof : outerNo residual data)
+      (proof : innerNo residual data outerProof)
+
+/-- Framework-owned terminal data retained after the already continued outer
+yes leaf reaches a terminal manuscript node. -/
+inductive FocusedBranchYesTerminalBypass
+    (Bypass : Residual → Type uInput)
+    (Active : Residual → Type uTarget)
+    (outerYes : (residual : Residual) → Active residual → Prop)
+    (OuterYesOutput : (residual : Residual) → (data : Active residual) →
+      outerYes residual data → Type uStage)
+    (Terminal : (residual : Residual) → (data : Active residual) →
+      (proof : outerYes residual data) →
+      OuterYesOutput residual data proof → Type uOccurrence)
+    (residual : Residual) : Type
+      (max uInput uTarget uStage uOccurrence) where
+  | bypass (data : Bypass residual)
+  | terminal (data : Active residual)
+      (proof : outerYes residual data)
+      (output : OuterYesOutput residual data proof)
+      (certificate : Terminal residual data proof output)
+
+/-- The exact surviving nested-no leaf after its two sibling leaves have
+been terminalized or closed by the framework. -/
+structure FocusedBranchNestedNoActive
+    (Active : Residual → Type uTarget)
+    (outerNo : (residual : Residual) → Active residual → Prop)
+    (innerNo : (residual : Residual) →
+      (data : Active residual) → outerNo residual data → Prop)
+    (residual : Residual) : Type uTarget where
+  data : Active residual
+  outerProof : outerNo residual data
+  innerProof : innerNo residual data outerProof
+
+/-- A data-bearing successor on the active leaf of a reusable focused
+branch.  The framework retains the active indices; the application output
+contains only mathematics first proved at the successor node. -/
+inductive FocusedBranchActiveContinuation
+    (Bypass : Residual → Type uInput)
+    (Active : Residual → Type uTarget)
+    (Output : (residual : Residual) → Active residual → Type uStage)
+    (residual : Residual) : Type (max uInput uTarget uStage) where
+  | bypass (data : Bypass residual)
+  | active (data : Active residual) (output : Output residual data)
+
+/-- The type-level family of one existing `ActiveCursorDecisionYesContinuation`.
+Packing these parameters once keeps downstream paper diamonds from repeating
+transport plumbing. -/
+structure ActiveCursorYesContinuationFamily (Residual : Type uResidual) where
+  Previous : Residual → Type uInput
+  outerYes : (residual : Residual) → Previous residual → Prop
+  outerNo : (residual : Residual) → Previous residual → Prop
+  OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+    outerNo residual previous → Type uTarget
+  innerYes : (residual : Residual) →
+    (previous : Previous residual) →
+    (outerProof : outerNo residual previous) →
+    OuterNoOutput residual previous outerProof → Prop
+  innerNo : (residual : Residual) →
+    (previous : Previous residual) →
+    (outerProof : outerNo residual previous) →
+    OuterNoOutput residual previous outerProof → Prop
+  Current : (residual : Residual) → (previous : Previous residual) →
+    (outerProof : outerNo residual previous) →
+    (outerOutput : OuterNoOutput residual previous outerProof) →
+    innerNo residual previous outerProof outerOutput → Type uStage
+  yes : (residual : Residual) → (previous : Previous residual) →
+    (outerProof : outerNo residual previous) →
+    (outerOutput : OuterNoOutput residual previous outerProof) →
+    (innerProof : innerNo residual previous outerProof outerOutput) →
+    Current residual previous outerProof outerOutput innerProof → Prop
+  no : (residual : Residual) → (previous : Previous residual) →
+    (outerProof : outerNo residual previous) →
+    (outerOutput : OuterNoOutput residual previous outerProof) →
+    (innerProof : innerNo residual previous outerProof outerOutput) →
+    Current residual previous outerProof outerOutput innerProof → Prop
+  YesOutput : (residual : Residual) → (previous : Previous residual) →
+    (outerProof : outerNo residual previous) →
+    (outerOutput : OuterNoOutput residual previous outerProof) →
+    (innerProof : innerNo residual previous outerProof outerOutput) →
+    (current : Current residual previous outerProof outerOutput innerProof) →
+    yes residual previous outerProof outerOutput innerProof current →
+      Type uOccurrence
+
+namespace ActiveCursorYesContinuationFamily
+
+variable {Residual : Type uResidual}
+variable (family : ActiveCursorYesContinuationFamily Residual)
+
+abbrev Source (residual : Residual) :=
+  ActiveCursorDecisionYesContinuation family.Previous family.outerYes
+    family.outerNo family.OuterNoOutput family.innerYes family.innerNo
+    family.Current family.yes family.no family.YesOutput residual
+
+/-- One exact populated yes leaf, bundled only inside Core. -/
+structure ActiveData (residual : Residual) where
+  previous : family.Previous residual
+  outerProof : family.outerNo residual previous
+  outerOutput : family.OuterNoOutput residual previous outerProof
+  innerProof : family.innerNo residual previous outerProof outerOutput
+  current : family.Current residual previous outerProof outerOutput innerProof
+  yesProof : family.yes residual previous outerProof outerOutput innerProof current
+  output : family.YesOutput residual previous outerProof outerOutput innerProof
+    current yesProof
+
+structure OuterBypassData (residual : Residual) where
+  previous : family.Previous residual
+  proof : family.outerYes residual previous
+
+structure InitialNoData (residual : Residual) where
+  previous : family.Previous residual
+  outerProof : family.outerNo residual previous
+  outerOutput : family.OuterNoOutput residual previous outerProof
+  innerProof : family.innerNo residual previous outerProof outerOutput
+  current : family.Current residual previous outerProof outerOutput innerProof
+  proof : family.no residual previous outerProof outerOutput innerProof current
+
+inductive Decision
+    (nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop)
+    (residual : Residual) where
+  | outerBypass (data : family.OuterBypassData residual)
+  | yesBranch (data : family.ActiveData residual)
+      (proof : nextYes residual data)
+  | noBranch (data : family.ActiveData residual)
+      (proof : nextNo residual data)
+  | initialNo (data : family.InitialNoData residual)
+
+inductive NoTerminal
+    (nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop)
+    (residual : Residual) where
+  | outerBypass (data : family.OuterBypassData residual)
+  | activeYes (data : family.ActiveData residual)
+      (proof : nextYes residual data)
+  | terminalNo (data : family.ActiveData residual)
+      (proof : nextNo residual data)
+  | initialNo (data : family.InitialNoData residual)
+
+inductive YesDecision
+    (nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop)
+    (finalYes finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop)
+    (residual : Residual) where
+  | outerBypass (data : family.OuterBypassData residual)
+  | finalYes (data : family.ActiveData residual)
+      (nextProof : nextYes residual data)
+      (proof : finalYes residual data nextProof)
+  | finalNo (data : family.ActiveData residual)
+      (nextProof : nextYes residual data)
+      (proof : finalNo residual data nextProof)
+  | nextNo (data : family.ActiveData residual)
+      (proof : nextNo residual data)
+  | initialNo (data : family.InitialNoData residual)
+
+inductive FinalYesClosed
+    (nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop)
+    (finalYes finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop)
+    (residual : Residual) where
+  | outerBypass (data : family.OuterBypassData residual)
+  | activeNo (data : family.ActiveData residual)
+      (nextProof : nextYes residual data)
+      (proof : finalNo residual data nextProof)
+  | nextNo (data : family.ActiveData residual)
+      (proof : nextNo residual data)
+  | initialNo (data : family.InitialNoData residual)
+
+inductive FinalNoBypass
+    (nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop)
+    (finalYes finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop)
+    (residual : Residual) where
+  | outerBypass (data : family.OuterBypassData residual)
+  | finalYes (data : family.ActiveData residual)
+      (nextProof : nextYes residual data)
+      (proof : finalYes residual data nextProof)
+  | nextNo (data : family.ActiveData residual)
+      (proof : nextNo residual data)
+  | initialNo (data : family.InitialNoData residual)
+
+structure FinalNoData
+    (nextYes : (residual : Residual) → family.ActiveData residual → Prop)
+    (finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop)
+    (residual : Residual) where
+  data : family.ActiveData residual
+  nextProof : nextYes residual data
+  proof : finalNo residual data nextProof
+
+abbrev FinalNoActive
+    (nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop)
+    (finalYes finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop)
+    (residual : Residual) :=
+  FocusedBranch
+    (family.FinalNoBypass nextYes nextNo finalYes finalNo)
+    (family.FinalNoData nextYes finalNo) residual
+
+end ActiveCursorYesContinuationFamily
+
+/-- Reusable view of a populated yes continuation.  It packages only the
+type parameters of the framework carrier; applications never provide routing
+callbacks or predecessor values. -/
+structure FocusedYesContinuationFamily (Residual : Type uResidual) where
+  Bypass : Residual → Type uInput
+  Active : Residual → Type uTarget
+  outerYes : (residual : Residual) → Active residual → Prop
+  outerNo : (residual : Residual) → Active residual → Prop
+  Output : (residual : Residual) → (data : Active residual) →
+    outerYes residual data → Type uStage
+
+namespace FocusedYesContinuationFamily
+
+variable {Residual : Type uResidual}
+variable (family : FocusedYesContinuationFamily Residual)
+
+abbrev Source := FocusedBranchDecisionYesContinuation family.Bypass family.Active
+  family.outerYes family.outerNo family.Output
+
+structure ActiveData (residual : Residual) where
+  data : family.Active residual
+  outerProof : family.outerYes residual data
+  output : family.Output residual data outerProof
+
+inductive Decision
+    (nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop)
+    (residual : Residual) where
+  | bypass (data : family.Bypass residual)
+  | yesBranch (data : family.ActiveData residual) (proof : nextYes residual data)
+  | noBranch (data : family.ActiveData residual) (proof : nextNo residual data)
+  | outerNo (data : family.Active residual) (proof : family.outerNo residual data)
+
+inductive NoTerminal
+    (nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop)
+    (residual : Residual) where
+  | bypass (data : family.Bypass residual)
+  | activeYes (data : family.ActiveData residual) (proof : nextYes residual data)
+  | terminalNo (data : family.ActiveData residual) (proof : nextNo residual data)
+  | outerNo (data : family.Active residual) (proof : family.outerNo residual data)
+
+inductive YesDecision
+    (nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop)
+    (finalYes finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop)
+    (residual : Residual) where
+  | bypass (data : family.Bypass residual)
+  | finalYes (data : family.ActiveData residual) (nextProof : nextYes residual data)
+      (proof : finalYes residual data nextProof)
+  | finalNo (data : family.ActiveData residual) (nextProof : nextYes residual data)
+      (proof : finalNo residual data nextProof)
+  | nextNo (data : family.ActiveData residual) (proof : nextNo residual data)
+  | outerNo (data : family.Active residual) (proof : family.outerNo residual data)
+
+inductive FinalYesClosed
+    (nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop)
+    (finalYes finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop)
+    (residual : Residual) where
+  | bypass (data : family.Bypass residual)
+  | activeNo (data : family.ActiveData residual) (nextProof : nextYes residual data)
+      (proof : finalNo residual data nextProof)
+  | nextNo (data : family.ActiveData residual) (proof : nextNo residual data)
+  | outerNo (data : family.Active residual) (proof : family.outerNo residual data)
+
+inductive FinalNoBypass
+    (nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop)
+    (finalYes finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop)
+    (residual : Residual) where
+  | bypass (data : family.Bypass residual)
+  | finalYes (data : family.ActiveData residual) (nextProof : nextYes residual data)
+      (proof : finalYes residual data nextProof)
+  | nextNo (data : family.ActiveData residual) (proof : nextNo residual data)
+  | outerNo (data : family.Active residual) (proof : family.outerNo residual data)
+
+structure FinalNoData
+    (nextYes : (residual : Residual) → family.ActiveData residual → Prop)
+    (finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop)
+    (residual : Residual) where
+  data : family.ActiveData residual
+  nextProof : nextYes residual data
+  proof : finalNo residual data nextProof
+
+abbrev FinalNoActive
+    (nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop)
+    (finalYes finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop) :=
+  FocusedBranch (family.FinalNoBypass nextYes nextNo finalYes finalNo)
+    (family.FinalNoData nextYes finalNo)
+
+end FocusedYesContinuationFamily
 
 /-- Package a canonical data producer as an exact-output stage.  Applications
 name only the mathematical output; the framework supplies the retained value
@@ -346,6 +1190,25 @@ noncomputable def StageNode.decideUsingStage
     | .isFalse absent =>
         .noBranch previous (no_of_not_yes state.residual previous absent)
 
+/-- Close exactly the yes constructor of an accumulated dependent decision
+and retain its no constructor as the sole successor.  The application proves
+only the local contradiction; decision elimination and branch preservation
+are framework-owned. -/
+noncomputable def StageNode.closeDependentDecisionYes
+    {Previous : Residual → Type uInput}
+    {yes no : (residual : Residual) → Previous residual → Prop}
+    [Proofs.Contains (Available (DependentDecision Previous yes no)) facts]
+    (close : (residual : Residual) → (previous : Previous residual) →
+      yes residual previous → False) :
+    StageNode (facts := facts)
+      (DependentDecisionYesClosed Previous yes no) :=
+  StageNode.usingStage
+    (Required := DependentDecision Previous yes no) fun state decision =>
+      match decision with
+      | .yesBranch previous proof =>
+          (close state.residual previous proof).elim
+      | .noBranch previous proof => ⟨previous, proof⟩
+
 /-- Continue the yes constructor of an accumulated dependent decision with
 one new mathematical producer.  Applications do not reconstruct the decision,
 its predecessor, or its complementary branch. -/
@@ -366,6 +1229,1274 @@ noncomputable def StageNode.continueDependentDecisionYes
       | .yesBranch previous proof =>
           .yesBranch previous proof (produce state.residual previous proof)
       | .noBranch previous proof => .noBranch previous proof
+
+/-- Continue the no constructor of an accumulated dependent decision with
+one new mathematical producer. Applications supply only the negative-edge
+mathematics; predecessor retrieval, branch elimination, and transport of the
+untouched positive edge are framework-owned. -/
+noncomputable def StageNode.continueDependentDecisionNo
+    {Previous : Residual → Type uInput}
+    {yes no : (residual : Residual) → Previous residual → Prop}
+    {Next : (residual : Residual) → (previous : Previous residual) →
+      no residual previous → Type uTarget}
+    [Proofs.Contains
+      (Available (DependentDecision Previous yes no)) facts]
+    (produce : (residual : Residual) → (previous : Previous residual) →
+      (proof : no residual previous) → Next residual previous proof) :
+    StageNode (facts := facts)
+      (DependentDecisionNoContinuation Previous yes no Next) :=
+  StageNode.usingStage
+    (Required := DependentDecision Previous yes no) fun state decision =>
+      match decision with
+      | .yesBranch previous proof => .yesBranch previous proof
+      | .noBranch previous proof =>
+          .noBranch previous proof (produce state.residual previous proof)
+
+/-- Decide a new predicate only on the populated no constructor of an earlier
+decision.  Applications provide the local decision and complement proof;
+Core owns predecessor retrieval and preservation of the untouched leaf. -/
+noncomputable def StageNode.decideOnDependentNoContinuation
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) →
+      (previous : Previous residual) → outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    [Proofs.Contains
+      (Available (DependentDecisionNoContinuation Previous outerYes outerNo
+        OuterNoOutput)) facts]
+    (yesDecidable : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (output : OuterNoOutput residual previous outerProof) →
+      Decidable (innerYes residual previous outerProof output))
+    (no_of_not_yes : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (output : OuterNoOutput residual previous outerProof) →
+      ¬innerYes residual previous outerProof output →
+      innerNo residual previous outerProof output) :
+    StageNode (facts := facts)
+      (DependentDecisionOnNoContinuation Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo) :=
+  StageNode.usingStage
+    (Required := DependentDecisionNoContinuation Previous outerYes outerNo
+      OuterNoOutput) fun state decision =>
+      match decision with
+      | .yesBranch previous proof => .outerYesBranch previous proof
+      | .noBranch previous outerProof output =>
+          match yesDecidable state.residual previous outerProof output with
+          | .isTrue proof => .innerYesBranch previous outerProof output proof
+          | .isFalse absent => .innerNoBranch previous outerProof output
+              (no_of_not_yes state.residual previous outerProof output absent)
+
+/-- Close only the inner yes leaf of a decision performed on an earlier no
+continuation. Core owns leaf elimination and preservation of both unaffected
+constructors. -/
+noncomputable def StageNode.closeDependentDecisionOnNoYes
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) →
+      (previous : Previous residual) → outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    [Proofs.Contains
+      (Available (DependentDecisionOnNoContinuation Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo)) facts]
+    (close : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (output : OuterNoOutput residual previous outerProof) →
+      innerYes residual previous outerProof output → False) :
+    StageNode (facts := facts)
+      (DependentDecisionOnNoYesClosed Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo) :=
+  StageNode.usingStage
+    (Required := DependentDecisionOnNoContinuation Previous outerYes outerNo
+      OuterNoOutput innerYes innerNo) fun state decision =>
+      match decision with
+      | .outerYesBranch previous proof => .outerYesBranch previous proof
+      | .innerYesBranch previous outerProof output proof =>
+          (close state.residual previous outerProof output proof).elim
+      | .innerNoBranch previous outerProof output proof =>
+          .innerNoBranch previous outerProof output proof
+
+/-- Attach one new mathematical payload to the literal inner-yes leaf of a
+decision made on an earlier no continuation.  Core owns all three branch
+transports; applications provide only the selected leaf's local output. -/
+noncomputable def StageNode.continueDependentDecisionOnNoYes
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) →
+      (previous : Previous residual) → outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    {YesOutput : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerYes residual previous outerProof outerOutput → Type uStage}
+    [Proofs.Contains
+      (Available (DependentDecisionOnNoContinuation Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo)) facts]
+    (produce : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerYes residual previous outerProof outerOutput) →
+        YesOutput residual previous outerProof outerOutput innerProof) :
+    StageNode (facts := facts)
+      (DependentDecisionOnNoYesContinuation Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo YesOutput) :=
+  StageNode.usingStage
+    (Required := DependentDecisionOnNoContinuation Previous outerYes outerNo
+      OuterNoOutput innerYes innerNo) fun state decision =>
+      match decision with
+      | .outerYesBranch previous proof => .outerYesBranch previous proof
+      | .innerYesBranch previous outerProof outerOutput innerProof =>
+          .innerYesBranch previous outerProof outerOutput innerProof
+            (produce state.residual previous outerProof outerOutput innerProof)
+      | .innerNoBranch previous outerProof outerOutput innerProof =>
+          .innerNoBranch previous outerProof outerOutput innerProof
+
+/-- Continue the untouched inner-no edge after the inner-yes edge has already
+received its exact successor payload. -/
+noncomputable def StageNode.continueDependentDecisionOnNoNoAfterYes
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) →
+      (previous : Previous residual) → outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    {YesOutput : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerYes residual previous outerProof outerOutput → Type uStage}
+    {NoOutput : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uOccurrence}
+    [Proofs.Contains
+      (Available (DependentDecisionOnNoYesContinuation Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo YesOutput)) facts]
+    (produce : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+        NoOutput residual previous outerProof outerOutput innerProof) :
+    StageNode (facts := facts)
+      (DependentDecisionOnNoNoAfterYes Previous outerYes outerNo OuterNoOutput
+        innerYes innerNo YesOutput NoOutput) :=
+  StageNode.usingStage
+    (Required := DependentDecisionOnNoYesContinuation Previous outerYes outerNo
+      OuterNoOutput innerYes innerNo YesOutput) fun state continuation =>
+      match continuation with
+      | .outerYesBranch previous proof => .outerYesBranch previous proof
+      | .innerYesBranch previous outerProof outerOutput innerProof output =>
+          .innerYesBranch previous outerProof outerOutput innerProof output
+      | .innerNoBranch previous outerProof outerOutput innerProof =>
+          .innerNoBranch previous outerProof outerOutput innerProof
+            (produce state.residual previous outerProof outerOutput innerProof)
+
+/-- Replace only the payload on the inner-no leaf after both inner branches
+have received their paper-local outputs.  The outer bypass and the populated
+inner-yes sibling are transported literally, while the complete predecessor
+stage remains available in the accumulated ledger. -/
+noncomputable def StageNode.mapDependentDecisionOnNoNoAfterYes
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) →
+      (previous : Previous residual) → outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    {YesOutput : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerYes residual previous outerProof outerOutput → Type uStage}
+    {Current : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uOccurrence}
+    {Next : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uNext}
+    [Proofs.Contains
+      (Available (DependentDecisionOnNoNoAfterYes Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo YesOutput Current)) facts]
+    (produce : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      Current residual previous outerProof outerOutput innerProof →
+        Next residual previous outerProof outerOutput innerProof) :
+    StageNode (facts := facts)
+      (DependentDecisionOnNoNoAfterYes Previous outerYes outerNo OuterNoOutput
+        innerYes innerNo YesOutput Next) :=
+  StageNode.usingStage
+    (Required := DependentDecisionOnNoNoAfterYes Previous outerYes outerNo
+      OuterNoOutput innerYes innerNo YesOutput Current) fun state continuation =>
+      match continuation with
+      | .outerYesBranch previous proof => .outerYesBranch previous proof
+      | .innerYesBranch previous outerProof outerOutput innerProof output =>
+          .innerYesBranch previous outerProof outerOutput innerProof output
+      | .innerNoBranch previous outerProof outerOutput innerProof output =>
+          .innerNoBranch previous outerProof outerOutput innerProof
+            (produce state.residual previous outerProof outerOutput innerProof output)
+
+/-- Advance the active inner-no leaf while retaining its exact predecessor
+payload in a proof-relevant `DependentSuccessor`.  This is the standard
+provenance-preserving mapper for facts needed many nodes later: applications
+prove only `Next`, while Core stores the literal `Current` value beside it. -/
+noncomputable def StageNode.accumulateDependentDecisionOnNoNoAfterYes
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    {YesOutput : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerYes residual previous outerProof outerOutput → Type uStage}
+    {Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uOccurrence}
+    {Next : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      Current residual previous outerProof outerOutput innerProof → Type uNext}
+    [Proofs.Contains (Available (DependentDecisionOnNoNoAfterYes Previous
+      outerYes outerNo OuterNoOutput innerYes innerNo YesOutput Current)) facts]
+    (produce : ∀ residual previous outerProof outerOutput innerProof current,
+      Next residual previous outerProof outerOutput innerProof current) :
+    StageNode (facts := facts)
+      (DependentDecisionOnNoNoAfterYes Previous outerYes outerNo OuterNoOutput
+        innerYes innerNo YesOutput
+        (fun residual previous outerProof outerOutput innerProof =>
+          DependentSuccessor
+            (fun _ => Current residual previous outerProof outerOutput innerProof)
+            (fun _ current => Next residual previous outerProof outerOutput
+              innerProof current) residual)) :=
+  StageNode.mapDependentDecisionOnNoNoAfterYes
+    (Current := Current)
+    (Next := fun residual previous outerProof outerOutput innerProof =>
+      DependentSuccessor
+        (fun _ => Current residual previous outerProof outerOutput innerProof)
+        (fun _ current => Next residual previous outerProof outerOutput innerProof current)
+        residual)
+    fun residual previous outerProof outerOutput innerProof current =>
+      ⟨current, produce residual previous outerProof outerOutput innerProof current⟩
+
+/-- Start the reusable active cursor on the sole surviving inner-no leaf.
+Core eliminates the already-closed shape and preserves the unrelated outer
+leaf; application code supplies only the next paper-local mathematical
+producer. -/
+noncomputable def StageNode.continueDependentDecisionOnNoYesClosed
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) →
+      (previous : Previous residual) → outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    {Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage}
+    [Proofs.Contains
+      (Available (DependentDecisionOnNoYesClosed Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo)) facts]
+    (produce : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+        Current residual previous outerProof outerOutput innerProof) :
+    StageNode (facts := facts)
+      (DependentDecisionOnNoYesClosedActive Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo Current) :=
+  StageNode.usingStage
+    (Required := DependentDecisionOnNoYesClosed Previous outerYes outerNo
+      OuterNoOutput innerYes innerNo) fun state decision =>
+      match decision with
+      | .outerYesBranch previous proof => .outerYesBranch previous proof
+      | .innerNoBranch previous outerProof outerOutput innerProof =>
+          .innerNoBranch previous outerProof outerOutput innerProof
+            (produce state.residual previous outerProof outerOutput innerProof)
+
+/-- Advance one paper node on an existing active cursor.  The producer sees
+the literal latest output, while Core transports every branch proof and the
+bypass constructor.  The consumed cursor remains in the accumulated ledger,
+so the new active payload contains only the new node-local mathematics. -/
+noncomputable def StageNode.mapDependentDecisionOnNoYesClosedActive
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) →
+      (previous : Previous residual) → outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    {Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage}
+    {Next : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uOccurrence}
+    [Proofs.Contains
+      (Available (DependentDecisionOnNoYesClosedActive Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo Current)) facts]
+    (produce : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      Current residual previous outerProof outerOutput innerProof →
+        Next residual previous outerProof outerOutput innerProof) :
+    StageNode (facts := facts)
+      (DependentDecisionOnNoYesClosedActive Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo Next) :=
+  StageNode.usingStage
+    (Required := DependentDecisionOnNoYesClosedActive Previous outerYes outerNo
+      OuterNoOutput innerYes innerNo Current) fun state cursor =>
+      match cursor with
+      | .outerYesBranch previous proof => .outerYesBranch previous proof
+      | .innerNoBranch previous outerProof outerOutput innerProof current =>
+          .innerNoBranch previous outerProof outerOutput innerProof
+            (produce state.residual previous outerProof outerOutput innerProof current)
+
+/-- Decide one new paper predicate on the live payload of an active cursor.
+Core owns the branch carrier and preserves the bypass and complete history. -/
+noncomputable def StageNode.decideDependentDecisionOnNoYesClosedActive
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    {Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage}
+    {yes no : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      Current residual previous outerProof outerOutput innerProof → Prop}
+    [Proofs.Contains (Available (DependentDecisionOnNoYesClosedActive Previous
+      outerYes outerNo OuterNoOutput innerYes innerNo Current)) facts]
+    (decideYes : ∀ residual previous outerProof outerOutput innerProof current,
+      Decidable (yes residual previous outerProof outerOutput innerProof current))
+    (noOfNotYes : ∀ residual previous outerProof outerOutput innerProof current,
+      ¬ yes residual previous outerProof outerOutput innerProof current →
+      no residual previous outerProof outerOutput innerProof current) :
+    StageNode (facts := facts) (ActiveCursorDecision Previous outerYes outerNo
+      OuterNoOutput innerYes innerNo Current yes no) :=
+  StageNode.usingStage
+    (Required := DependentDecisionOnNoYesClosedActive Previous outerYes outerNo
+      OuterNoOutput innerYes innerNo Current) fun state cursor =>
+    match cursor with
+    | DependentDecisionOnNoYesClosedActive.outerYesBranch previous proof =>
+        ActiveCursorDecision.outerYesBranch previous proof
+    | DependentDecisionOnNoYesClosedActive.innerNoBranch previous outerProof outerOutput innerProof current =>
+        match decideYes state.residual previous outerProof outerOutput innerProof current with
+        | .isTrue proof => ActiveCursorDecision.yesBranch previous outerProof outerOutput innerProof current proof
+        | .isFalse absent => ActiveCursorDecision.noBranch previous outerProof outerOutput innerProof current
+            (noOfNotYes state.residual previous outerProof outerOutput innerProof current absent)
+
+/-- Append one payload only to the yes constructor of an active-cursor
+decision.  Core owns elimination of the decision and transports the outer
+bypass and complementary no constructor without application callbacks. -/
+noncomputable def StageNode.continueActiveCursorDecisionYes
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    {Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage}
+    {yes no : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      Current residual previous outerProof outerOutput innerProof → Prop}
+    {YesOutput : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      yes residual previous outerProof outerOutput innerProof current →
+        Type uOccurrence}
+    [Proofs.Contains (Available (ActiveCursorDecision Previous outerYes outerNo
+      OuterNoOutput innerYes innerNo Current yes no)) facts]
+    (produce : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      (proof : yes residual previous outerProof outerOutput innerProof current) →
+        YesOutput residual previous outerProof outerOutput innerProof current proof) :
+    StageNode (facts := facts) (ActiveCursorDecisionYesContinuation Previous
+      outerYes outerNo OuterNoOutput innerYes innerNo Current yes no YesOutput) :=
+  StageNode.usingStage
+    (Required := ActiveCursorDecision Previous outerYes outerNo OuterNoOutput
+      innerYes innerNo Current yes no) fun state decision =>
+    match decision with
+    | .outerYesBranch previous proof => .outerYesBranch previous proof
+    | .yesBranch previous outerProof outerOutput innerProof current proof =>
+        .yesBranch previous outerProof outerOutput innerProof current proof
+          (produce state.residual previous outerProof outerOutput innerProof
+            current proof)
+    | .noBranch previous outerProof outerOutput innerProof current proof =>
+        .noBranch previous outerProof outerOutput innerProof current proof
+
+/-- Append one payload only to the no constructor of an active-cursor
+decision.  This executor is independent of the yes continuation, so two
+successor nodes can be accumulated from the same literal decision stage. -/
+noncomputable def StageNode.continueActiveCursorDecisionNo
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    {Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage}
+    {yes no : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      Current residual previous outerProof outerOutput innerProof → Prop}
+    {NoOutput : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      no residual previous outerProof outerOutput innerProof current →
+        Type uOccurrence}
+    [Proofs.Contains (Available (ActiveCursorDecision Previous outerYes outerNo
+      OuterNoOutput innerYes innerNo Current yes no)) facts]
+    (produce : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      (proof : no residual previous outerProof outerOutput innerProof current) →
+        NoOutput residual previous outerProof outerOutput innerProof current proof) :
+    StageNode (facts := facts) (ActiveCursorDecisionNoContinuation Previous
+      outerYes outerNo OuterNoOutput innerYes innerNo Current yes no NoOutput) :=
+  StageNode.usingStage
+    (Required := ActiveCursorDecision Previous outerYes outerNo OuterNoOutput
+      innerYes innerNo Current yes no) fun state decision =>
+    match decision with
+    | .outerYesBranch previous proof => .outerYesBranch previous proof
+    | .yesBranch previous outerProof outerOutput innerProof current proof =>
+        .yesBranch previous outerProof outerOutput innerProof current proof
+    | .noBranch previous outerProof outerOutput innerProof current proof =>
+        .noBranch previous outerProof outerOutput innerProof current proof
+          (produce state.residual previous outerProof outerOutput innerProof
+            current proof)
+
+/-- Replace the mathematical payload on the literal no continuation of an
+active cursor. Both bypass constructors and every branch proof are preserved
+by Core; applications supply only the next local payload. -/
+noncomputable def StageNode.mapActiveCursorDecisionNoContinuation
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    {Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage}
+    {yes no : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      Current residual previous outerProof outerOutput innerProof → Prop}
+    {Output : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      no residual previous outerProof outerOutput innerProof current →
+        Type uOccurrence}
+    {Next : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      no residual previous outerProof outerOutput innerProof current →
+        Type uNext}
+    [Proofs.Contains (Available (ActiveCursorDecisionNoContinuation Previous
+      outerYes outerNo OuterNoOutput innerYes innerNo Current yes no Output)) facts]
+    (produce : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      (proof : no residual previous outerProof outerOutput innerProof current) →
+      Output residual previous outerProof outerOutput innerProof current proof →
+        Next residual previous outerProof outerOutput innerProof current proof) :
+    StageNode (facts := facts) (ActiveCursorDecisionNoContinuation Previous
+      outerYes outerNo OuterNoOutput innerYes innerNo Current yes no Next) :=
+  StageNode.usingStage
+    (Required := ActiveCursorDecisionNoContinuation Previous outerYes outerNo
+      OuterNoOutput innerYes innerNo Current yes no Output)
+      fun state continuation =>
+        match continuation with
+        | .outerYesBranch previous proof => .outerYesBranch previous proof
+        | .yesBranch previous outerProof outerOutput innerProof current proof =>
+            .yesBranch previous outerProof outerOutput innerProof current proof
+        | .noBranch previous outerProof outerOutput innerProof current proof output =>
+            .noBranch previous outerProof outerOutput innerProof current proof
+              (produce state.residual previous outerProof outerOutput innerProof
+                current proof output)
+
+/-- Focus and decide a predicate on the sole live leaf of an active-cursor no
+continuation. Core owns the bypass sum and retains the literal active data. -/
+noncomputable def StageNode.decideActiveCursorDecisionNoContinuation
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    {Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage}
+    {yes no : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      Current residual previous outerProof outerOutput innerProof → Prop}
+    {Output : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      no residual previous outerProof outerOutput innerProof current →
+        Type uOccurrence}
+    {nextYes nextNo : (residual : Residual) →
+      ActiveCursorDecisionNoContinuationActive Previous outerNo OuterNoOutput
+        innerNo Current no Output residual → Prop}
+    [Proofs.Contains (Available (ActiveCursorDecisionNoContinuation Previous
+      outerYes outerNo OuterNoOutput innerYes innerNo Current yes no Output)) facts]
+    (decideYes : ∀ residual active, Decidable (nextYes residual active))
+    (noOfNotYes : ∀ residual active,
+      ¬ nextYes residual active → nextNo residual active) :
+    StageNode (facts := facts) (FocusedBranchDecision
+      (ActiveCursorDecisionNoContinuationBypass Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo Current yes no)
+      (ActiveCursorDecisionNoContinuationActive Previous outerNo OuterNoOutput
+        innerNo Current no Output) nextYes nextNo) :=
+  StageNode.usingStage
+    (Required := ActiveCursorDecisionNoContinuation Previous outerYes outerNo
+      OuterNoOutput innerYes innerNo Current yes no Output)
+      fun state continuation =>
+        match continuation with
+        | .outerYesBranch previous proof =>
+            .bypass (.outerYesBranch previous proof)
+        | .yesBranch previous outerProof outerOutput innerProof current proof =>
+            .bypass (.yesBranch previous outerProof outerOutput innerProof
+              current proof)
+        | .noBranch previous outerProof outerOutput innerProof current proof output =>
+            let active :
+                ActiveCursorDecisionNoContinuationActive Previous outerNo
+                  OuterNoOutput innerNo Current no Output state.residual := {
+              previous := previous
+              outerProof := outerProof
+              outerOutput := outerOutput
+              innerProof := innerProof
+              current := current
+              proof := proof
+              output := output
+            }
+            match decideYes state.residual active with
+            | .isTrue nextProof => .yesBranch active nextProof
+            | .isFalse absent =>
+                .noBranch active (noOfNotYes state.residual active absent)
+
+/-- Focus and exhaustively decide a new predicate on the sole live leaf of a
+focused-no continuation. Core retains both earlier bypass constructors and
+the exact attached predecessor output. -/
+noncomputable def StageNode.decideFocusedBranchNoContinuation
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {yes no : (residual : Residual) → Active residual → Prop}
+    {Output : (residual : Residual) → (data : Active residual) →
+      no residual data → Type uStage}
+    {nextYes nextNo : (residual : Residual) →
+      FocusedBranchDecisionNoContinuationActive Active no Output residual → Prop}
+    [Proofs.Contains (Available
+      (FocusedBranchDecisionNoContinuation Bypass Active yes no Output)) facts]
+    (decideYes : ∀ residual active, Decidable (nextYes residual active))
+    (noOfNotYes : ∀ residual active,
+      ¬ nextYes residual active → nextNo residual active) :
+    StageNode (facts := facts) (FocusedBranchDecision
+      (FocusedBranchDecisionNoContinuationBypass Bypass Active yes no)
+      (FocusedBranchDecisionNoContinuationActive Active no Output)
+      nextYes nextNo) :=
+  StageNode.usingStage
+    (Required := FocusedBranchDecisionNoContinuation Bypass Active yes no Output)
+      fun state continuation =>
+        match continuation with
+        | .bypass data => .bypass (.bypass data)
+        | .yesBranch data proof => .bypass (.yesBranch data proof)
+        | .activeNo data proof output =>
+            let active : FocusedBranchDecisionNoContinuationActive
+                Active no Output state.residual := ⟨data, proof, output⟩
+            match decideYes state.residual active with
+            | .isTrue nextProof => .yesBranch active nextProof
+            | .isFalse absent =>
+                .noBranch active (noOfNotYes state.residual active absent)
+
+/-- Replace the latest payload on the yes continuation with one new
+branch-local payload.  The preceding continuation remains available in the
+single accumulated ledger; the outer bypass and no constructor are once again
+transported literally. -/
+noncomputable def StageNode.mapActiveCursorDecisionYesContinuation
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    {Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage}
+    {yes no : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      Current residual previous outerProof outerOutput innerProof → Prop}
+    {YesOutput : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      yes residual previous outerProof outerOutput innerProof current →
+        Type uOccurrence}
+    {NextOutput : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      yes residual previous outerProof outerOutput innerProof current →
+        Type uNext}
+    [Proofs.Contains (Available (ActiveCursorDecisionYesContinuation Previous
+      outerYes outerNo OuterNoOutput innerYes innerNo Current yes no YesOutput)) facts]
+    (produce : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      (proof : yes residual previous outerProof outerOutput innerProof current) →
+      YesOutput residual previous outerProof outerOutput innerProof current proof →
+        NextOutput residual previous outerProof outerOutput innerProof current proof) :
+    StageNode (facts := facts) (ActiveCursorDecisionYesContinuation Previous
+      outerYes outerNo OuterNoOutput innerYes innerNo Current yes no NextOutput) :=
+  StageNode.usingStage
+    (Required := ActiveCursorDecisionYesContinuation Previous outerYes outerNo
+      OuterNoOutput innerYes innerNo Current yes no YesOutput)
+      fun state continuation =>
+    match continuation with
+    | .outerYesBranch previous proof => .outerYesBranch previous proof
+    | .yesBranch previous outerProof outerOutput innerProof current proof output =>
+        .yesBranch previous outerProof outerOutput innerProof current proof
+          (produce state.residual previous outerProof outerOutput innerProof
+            current proof output)
+    | .noBranch previous outerProof outerOutput innerProof current proof =>
+        .noBranch previous outerProof outerOutput innerProof current proof
+
+/-- Decide a new paper predicate on the exact payload of an already continued
+active yes leaf. -/
+noncomputable def StageNode.decideActiveCursorYesContinuation
+    (family : ActiveCursorYesContinuationFamily Residual)
+    {nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop}
+    [Proofs.Contains (Available family.Source) facts]
+    (decideYes : ∀ residual data, Decidable (nextYes residual data))
+    (noOfNotYes : ∀ residual data,
+      ¬ nextYes residual data → nextNo residual data) :
+    StageNode (facts := facts) (family.Decision nextYes nextNo) :=
+  StageNode.usingStage (Required := family.Source) fun state source =>
+    match source with
+    | .outerYesBranch previous proof =>
+        .outerBypass ⟨previous, proof⟩
+    | .yesBranch previous outerProof outerOutput innerProof current yesProof output =>
+        let data : family.ActiveData state.residual :=
+          ⟨previous, outerProof, outerOutput, innerProof, current, yesProof, output⟩
+        match decideYes state.residual data with
+        | .isTrue proof => .yesBranch data proof
+        | .isFalse absent => .noBranch data (noOfNotYes state.residual data absent)
+    | .noBranch previous outerProof outerOutput innerProof current proof =>
+        .initialNo ⟨previous, outerProof, outerOutput, innerProof, current, proof⟩
+
+/-- Mark only the negative leaf of a focused decision terminal. -/
+noncomputable def StageNode.markActiveCursorYesContinuationNoTerminal
+    (family : ActiveCursorYesContinuationFamily Residual)
+    {nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop}
+    [Proofs.Contains (Available (family.Decision nextYes nextNo)) facts] :
+    StageNode (facts := facts) (family.NoTerminal nextYes nextNo) :=
+  StageNode.usingStage (Required := family.Decision nextYes nextNo)
+    fun _state decision =>
+      match decision with
+      | .outerBypass data => .outerBypass data
+      | .yesBranch data proof => .activeYes data proof
+      | .noBranch data proof => .terminalNo data proof
+      | .initialNo data => .initialNo data
+
+/-- Decide one further predicate on the positive leaf of the first decision.
+The first negative leaf remains an independent sibling. -/
+noncomputable def StageNode.decideActiveCursorYesContinuationYes
+    (family : ActiveCursorYesContinuationFamily Residual)
+    {nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop}
+    {finalYes finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop}
+    [Proofs.Contains (Available (family.Decision nextYes nextNo)) facts]
+    (decideYes : ∀ residual data nextProof,
+      Decidable (finalYes residual data nextProof))
+    (noOfNotYes : ∀ residual data nextProof,
+      ¬ finalYes residual data nextProof → finalNo residual data nextProof) :
+    StageNode (facts := facts)
+      (family.YesDecision nextYes nextNo finalYes finalNo) :=
+  StageNode.usingStage (Required := family.Decision nextYes nextNo)
+    fun state decision =>
+      match decision with
+      | .outerBypass data => .outerBypass data
+      | .yesBranch data nextProof =>
+          match decideYes state.residual data nextProof with
+          | .isTrue proof => .finalYes data nextProof proof
+          | .isFalse absent =>
+              .finalNo data nextProof
+                (noOfNotYes state.residual data nextProof absent)
+      | .noBranch data proof => .nextNo data proof
+      | .initialNo data => .initialNo data
+
+/-- Close only the final positive leaf of a focused nested decision. -/
+noncomputable def StageNode.closeActiveCursorYesContinuationFinalYes
+    (family : ActiveCursorYesContinuationFamily Residual)
+    {nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop}
+    {finalYes finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop}
+    [Proofs.Contains
+      (Available (family.YesDecision nextYes nextNo finalYes finalNo)) facts]
+    (close : ∀ residual data nextProof,
+      finalYes residual data nextProof → False) :
+    StageNode (facts := facts)
+      (family.FinalYesClosed nextYes nextNo finalYes finalNo) :=
+  StageNode.usingStage
+    (Required := family.YesDecision nextYes nextNo finalYes finalNo)
+      fun state decision =>
+        match decision with
+        | .outerBypass data => .outerBypass data
+        | .finalYes data nextProof proof =>
+            (close state.residual data nextProof proof).elim
+        | .finalNo data nextProof proof => .activeNo data nextProof proof
+        | .nextNo data proof => .nextNo data proof
+        | .initialNo data => .initialNo data
+
+/-- Independently focus the final negative leaf.  All other leaves become an
+opaque framework bypass, yielding the small reusable cursor used downstream. -/
+noncomputable def StageNode.focusActiveCursorYesContinuationFinalNo
+    (family : ActiveCursorYesContinuationFamily Residual)
+    {nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop}
+    {finalYes finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop}
+    [Proofs.Contains
+      (Available (family.YesDecision nextYes nextNo finalYes finalNo)) facts] :
+    StageNode (facts := facts)
+      (family.FinalNoActive nextYes nextNo finalYes finalNo) :=
+  StageNode.usingStage
+    (Required := family.YesDecision nextYes nextNo finalYes finalNo)
+      fun _state decision =>
+        match decision with
+        | .outerBypass data => .bypass (.outerBypass data)
+        | .finalYes data nextProof proof =>
+            .bypass (.finalYes data nextProof proof)
+        | .finalNo data nextProof proof => .active ⟨data, nextProof, proof⟩
+        | .nextNo data proof => .bypass (.nextNo data proof)
+        | .initialNo data => .bypass (.initialNo data)
+
+/-- Decide a paper predicate on a populated focused-yes payload. -/
+noncomputable def StageNode.decideFocusedYesContinuation
+    (family : FocusedYesContinuationFamily Residual)
+    {nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop}
+    [Proofs.Contains (Available family.Source) facts]
+    (decideYes : ∀ residual data, Decidable (nextYes residual data))
+    (noOfNotYes : ∀ residual data, ¬nextYes residual data → nextNo residual data) :
+    StageNode (facts := facts) (family.Decision nextYes nextNo) :=
+  StageNode.usingStage (Required := family.Source) fun state source =>
+    match source with
+    | .bypass data => .bypass data
+    | .activeYes data outerProof output =>
+        let active : family.ActiveData state.residual := ⟨data, outerProof, output⟩
+        match decideYes state.residual active with
+        | .isTrue proof => .yesBranch active proof
+        | .isFalse absent => .noBranch active (noOfNotYes state.residual active absent)
+    | .noBranch data proof => .outerNo data proof
+
+/-- Decide a second predicate only on the positive leaf. -/
+noncomputable def StageNode.decideFocusedYesContinuationYes
+    (family : FocusedYesContinuationFamily Residual)
+    {nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop}
+    {finalYes finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop}
+    [Proofs.Contains (Available (family.Decision nextYes nextNo)) facts]
+    (decideYes : ∀ residual data nextProof,
+      Decidable (finalYes residual data nextProof))
+    (noOfNotYes : ∀ residual data nextProof, ¬finalYes residual data nextProof →
+      finalNo residual data nextProof) :
+    StageNode (facts := facts) (family.YesDecision nextYes nextNo finalYes finalNo) :=
+  StageNode.usingStage (Required := family.Decision nextYes nextNo) fun state decision =>
+    match decision with
+    | .bypass data => .bypass data
+    | .yesBranch data nextProof =>
+        match decideYes state.residual data nextProof with
+        | .isTrue proof => .finalYes data nextProof proof
+        | .isFalse absent => .finalNo data nextProof
+            (noOfNotYes state.residual data nextProof absent)
+    | .noBranch data proof => .nextNo data proof
+    | .outerNo data proof => .outerNo data proof
+
+/-- Mark the negative leaf terminal without changing or rebuilding it. -/
+noncomputable def StageNode.markFocusedYesContinuationNoTerminal
+    (family : FocusedYesContinuationFamily Residual)
+    {nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop}
+    [Proofs.Contains (Available (family.Decision nextYes nextNo)) facts] :
+    StageNode (facts := facts) (family.NoTerminal nextYes nextNo) :=
+  StageNode.usingStage (Required := family.Decision nextYes nextNo) fun _state decision =>
+    match decision with
+    | .bypass data => .bypass data
+    | .yesBranch data proof => .activeYes data proof
+    | .noBranch data proof => .terminalNo data proof
+    | .outerNo data proof => .outerNo data proof
+
+/-- Close only the final positive leaf. -/
+noncomputable def StageNode.closeFocusedYesContinuationFinalYes
+    (family : FocusedYesContinuationFamily Residual)
+    {nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop}
+    {finalYes finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop}
+    [Proofs.Contains (Available
+      (family.YesDecision nextYes nextNo finalYes finalNo)) facts]
+    (close : ∀ residual data nextProof, finalYes residual data nextProof → False) :
+    StageNode (facts := facts)
+      (family.FinalYesClosed nextYes nextNo finalYes finalNo) :=
+  StageNode.usingStage
+    (Required := family.YesDecision nextYes nextNo finalYes finalNo) fun state decision =>
+    match decision with
+    | .bypass data => .bypass data
+    | .finalYes data nextProof proof =>
+        (close state.residual data nextProof proof).elim
+    | .finalNo data nextProof proof => .activeNo data nextProof proof
+    | .nextNo data proof => .nextNo data proof
+    | .outerNo data proof => .outerNo data proof
+
+/-- Focus the final negative leaf; Core owns every bypass constructor. -/
+noncomputable def StageNode.focusFocusedYesContinuationFinalNo
+    (family : FocusedYesContinuationFamily Residual)
+    {nextYes nextNo : (residual : Residual) → family.ActiveData residual → Prop}
+    {finalYes finalNo : (residual : Residual) →
+      (data : family.ActiveData residual) → nextYes residual data → Prop}
+    [Proofs.Contains (Available
+      (family.YesDecision nextYes nextNo finalYes finalNo)) facts] :
+    StageNode (facts := facts)
+      (family.FinalNoActive nextYes nextNo finalYes finalNo) :=
+  StageNode.usingStage
+    (Required := family.YesDecision nextYes nextNo finalYes finalNo) fun _state decision =>
+    match decision with
+    | .bypass data => .bypass (.bypass data)
+    | .finalYes data nextProof proof => .bypass (.finalYes data nextProof proof)
+    | .finalNo data nextProof proof => .active ⟨data, nextProof, proof⟩
+    | .nextNo data proof => .bypass (.nextNo data proof)
+    | .outerNo data proof => .bypass (.outerNo data proof)
+
+/-- Focus and exhaustively decide the active inner-no payload while preserving
+the populated sibling and outer bypass as framework-owned data. -/
+noncomputable def StageNode.decideDependentDecisionOnNoNoAfterYes
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    {YesOutput : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerYes residual previous outerProof outerOutput → Type uStage}
+    {Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uOccurrence}
+    {yes no : (residual : Residual) →
+      DependentDecisionOnNoNoAfterYesActive Previous outerNo OuterNoOutput
+        innerNo Current residual → Prop}
+    [Proofs.Contains
+      (Available (DependentDecisionOnNoNoAfterYes Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo YesOutput Current)) facts]
+    (decideYes : ∀ residual data, Decidable (yes residual data))
+    (noOfNotYes : ∀ residual data, ¬ yes residual data → no residual data) :
+    StageNode (facts := facts)
+      (FocusedBranchDecision
+        (DependentDecisionOnNoNoAfterYesBypass Previous outerYes outerNo
+          OuterNoOutput innerYes YesOutput)
+        (DependentDecisionOnNoNoAfterYesActive Previous outerNo OuterNoOutput
+          innerNo Current) yes no) :=
+  StageNode.usingStage
+    (Required := DependentDecisionOnNoNoAfterYes Previous outerYes outerNo
+      OuterNoOutput innerYes innerNo YesOutput Current) fun state source =>
+      match source with
+      | .outerYesBranch previous proof =>
+          .bypass (.outerYesBranch previous proof)
+      | .innerYesBranch previous outerProof outerOutput innerProof output =>
+          .bypass (.innerYesBranch previous outerProof outerOutput innerProof output)
+      | .innerNoBranch previous outerProof outerOutput innerProof current =>
+          let data : DependentDecisionOnNoNoAfterYesActive Previous outerNo
+              OuterNoOutput innerNo Current state.residual :=
+            ⟨previous, outerProof, outerOutput, innerProof, current⟩
+          match decideYes state.residual data with
+          | .isTrue proof => .yesBranch data proof
+          | .isFalse absent =>
+              .noBranch data (noOfNotYes state.residual data absent)
+
+/-- Exhaustively decide one predicate on a reusable focused cursor. -/
+noncomputable def StageNode.decideFocusedBranch
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {yes no : (residual : Residual) → Active residual → Prop}
+    [Proofs.Contains (Available (FocusedBranch Bypass Active)) facts]
+    (decideYes : ∀ residual data, Decidable (yes residual data))
+    (noOfNotYes : ∀ residual data, ¬ yes residual data → no residual data) :
+    StageNode (facts := facts) (FocusedBranchDecision Bypass Active yes no) :=
+  StageNode.usingStage (Required := FocusedBranch Bypass Active)
+    fun state cursor =>
+      match cursor with
+      | .bypass data => .bypass data
+      | .active data =>
+          match decideYes state.residual data with
+          | .isTrue proof => .yesBranch data proof
+          | .isFalse absent => .noBranch data (noOfNotYes state.residual data absent)
+
+noncomputable def StageNode.closeFocusedBranchYes
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {yes no : (residual : Residual) → Active residual → Prop}
+    [Proofs.Contains
+      (Available (FocusedBranchDecision Bypass Active yes no)) facts]
+    (close : ∀ residual data, yes residual data → False) :
+    StageNode (facts := facts)
+      (FocusedBranchDecisionYesClosed Bypass Active yes no) :=
+  StageNode.usingStage (Required := FocusedBranchDecision Bypass Active yes no)
+    fun state decision =>
+      match decision with
+      | .bypass data => .bypass data
+      | .yesBranch data proof => (close state.residual data proof).elim
+      | .noBranch data proof => .activeNo data proof
+
+/-- Close only the active no leaf of a focused no continuation.  The opaque
+bypass and the already handled yes leaf are retained as terminal data. -/
+noncomputable def StageNode.closeFocusedBranchNoContinuation
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {yes no : (residual : Residual) → Active residual → Prop}
+    {Output : (residual : Residual) → (data : Active residual) →
+      no residual data → Type uStage}
+    [Proofs.Contains
+      (Available (FocusedBranchDecisionNoContinuation
+        Bypass Active yes no Output)) facts]
+    (close : ∀ residual data proof,
+      Output residual data proof → False) :
+    StageNode (facts := facts)
+      (FocusedBranchDecisionNoClosed Bypass Active yes no) :=
+  StageNode.usingStage
+    (Required := FocusedBranchDecisionNoContinuation
+      Bypass Active yes no Output) fun state continuation =>
+      match continuation with
+      | .bypass data => .bypass data
+      | .yesBranch data proof => .activeYes data proof
+      | .activeNo data proof output =>
+          (close state.residual data proof output).elim
+
+/-- Continue only the yes leaf of a focused decision.  The bypass and no leaf
+are transported literally by Core. -/
+noncomputable def StageNode.continueFocusedBranchYes
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {yes no : (residual : Residual) → Active residual → Prop}
+    {Output : (residual : Residual) → (data : Active residual) →
+      yes residual data → Type uStage}
+    [Proofs.Contains
+      (Available (FocusedBranchDecision Bypass Active yes no)) facts]
+    (produce : ∀ residual data proof, Output residual data proof) :
+    StageNode (facts := facts)
+      (FocusedBranchDecisionYesContinuation Bypass Active yes no Output) :=
+  StageNode.usingStage
+    (Required := FocusedBranchDecision Bypass Active yes no)
+      fun state decision =>
+        match decision with
+        | .bypass data => .bypass data
+        | .yesBranch data proof =>
+            .activeYes data proof (produce state.residual data proof)
+        | .noBranch data proof => .noBranch data proof
+
+/-- Replace the payload on the literal yes continuation of a focused
+decision.  Core retains the predecessor continuation in the accumulated
+ledger and transports both untouched leaves. -/
+noncomputable def StageNode.mapFocusedBranchYesContinuation
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {yes no : (residual : Residual) → Active residual → Prop}
+    {Output : (residual : Residual) → (data : Active residual) →
+      yes residual data → Type uStage}
+    {Next : (residual : Residual) → (data : Active residual) →
+      yes residual data → Type uOccurrence}
+    [Proofs.Contains (Available
+      (FocusedBranchDecisionYesContinuation Bypass Active yes no Output)) facts]
+    (produce : ∀ residual data proof,
+      Output residual data proof → Next residual data proof) :
+    StageNode (facts := facts)
+      (FocusedBranchDecisionYesContinuation Bypass Active yes no Next) :=
+  StageNode.usingStage
+    (Required := FocusedBranchDecisionYesContinuation Bypass Active yes no Output)
+      fun state continuation =>
+        match continuation with
+        | .bypass data => .bypass data
+        | .activeYes data proof output =>
+            .activeYes data proof (produce state.residual data proof output)
+        | .noBranch data proof => .noBranch data proof
+
+/-- Decide one paper-local predicate on the payload already attached to the
+yes leaf.  The accumulated ledger supplies the predecessor continuation;
+Core alone transports the bypass and untouched no sibling. -/
+noncomputable def StageNode.decideFocusedBranchYesContinuation
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {outerYes outerNo : (residual : Residual) → Active residual → Prop}
+    {Output : (residual : Residual) → (data : Active residual) →
+      outerYes residual data → Type uStage}
+    {innerYes innerNo : (residual : Residual) → (data : Active residual) →
+      (outerProof : outerYes residual data) → Output residual data outerProof → Prop}
+    [Proofs.Contains (Available
+      (FocusedBranchDecisionYesContinuation Bypass Active outerYes outerNo Output)) facts]
+    (decideYes : ∀ residual data outerProof output,
+      Decidable (innerYes residual data outerProof output))
+    (noOfNotYes : ∀ residual data outerProof output,
+      ¬ innerYes residual data outerProof output →
+        innerNo residual data outerProof output) :
+    StageNode (facts := facts)
+      (FocusedBranchYesContinuationDecision Bypass Active outerYes outerNo
+        Output innerYes innerNo) :=
+  StageNode.usingStage
+    (Required := FocusedBranchDecisionYesContinuation
+      Bypass Active outerYes outerNo Output) fun state continuation =>
+      match continuation with
+      | .bypass data => .bypass data
+      | .activeYes data outerProof output =>
+          match decideYes state.residual data outerProof output with
+          | .isTrue innerProof =>
+              .activeYesYes data outerProof output innerProof
+          | .isFalse absent =>
+              .activeYesNo data outerProof output
+                (noOfNotYes state.residual data outerProof output absent)
+      | .noBranch data proof => .noBranch data proof
+
+/-- Mark only the inner-no leaf of a decision on a continued yes payload
+terminal.  Core retains the terminal certificate and transports all sibling
+constructors without an application callback. -/
+noncomputable def StageNode.markFocusedBranchYesContinuationNoTerminal
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {outerYes outerNo : (residual : Residual) → Active residual → Prop}
+    {Output : (residual : Residual) → (data : Active residual) →
+      outerYes residual data → Type uStage}
+    {innerYes innerNo : (residual : Residual) → (data : Active residual) →
+      (outerProof : outerYes residual data) → Output residual data outerProof → Prop}
+    [Proofs.Contains (Available
+      (FocusedBranchYesContinuationDecision Bypass Active outerYes outerNo
+        Output innerYes innerNo)) facts]
+    : StageNode (facts := facts)
+      (FocusedBranchYesContinuationNoTerminal Bypass Active outerYes outerNo
+        Output innerYes innerNo) :=
+  StageNode.usingStage
+    (Required := FocusedBranchYesContinuationDecision Bypass Active outerYes
+      outerNo Output innerYes innerNo) fun _state decision =>
+      match decision with
+      | .bypass data => .bypass data
+      | .activeYesYes data outerProof output innerProof =>
+          .activeYes data outerProof output innerProof
+      | .activeYesNo data outerProof output innerProof =>
+          .terminalNo data outerProof output innerProof
+      | .noBranch data proof => .noBranch data proof
+
+/-- Decide a second paper predicate only on the untouched no leaf after the
+outer yes leaf has already advanced.  Core retains the outer successor and
+the opaque bypass and constructs exactly the two complementary inner leaves. -/
+noncomputable def StageNode.decideFocusedBranchYesContinuationNo
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {outerYes outerNo : (residual : Residual) → Active residual → Prop}
+    {OuterYesOutput : (residual : Residual) → (data : Active residual) →
+      outerYes residual data → Type uStage}
+    {innerYes innerNo : (residual : Residual) →
+      (data : Active residual) → outerNo residual data → Prop}
+    [Proofs.Contains (Available
+      (FocusedBranchDecisionYesContinuation Bypass Active outerYes outerNo
+        OuterYesOutput)) facts]
+    (decideYes : ∀ residual data outerProof,
+      Decidable (innerYes residual data outerProof))
+    (noOfNotYes : ∀ residual data outerProof,
+      ¬ innerYes residual data outerProof →
+        innerNo residual data outerProof) :
+    StageNode (facts := facts)
+      (FocusedBranchYesContinuationNoDecision Bypass Active outerYes outerNo
+        OuterYesOutput innerYes innerNo) :=
+  StageNode.usingStage
+    (Required := FocusedBranchDecisionYesContinuation Bypass Active outerYes
+      outerNo OuterYesOutput) fun state continuation =>
+      match continuation with
+      | .bypass data => .bypass data
+      | .activeYes data proof output =>
+          .outerYesBranch data proof output
+      | .noBranch data outerProof =>
+          match decideYes state.residual data outerProof with
+          | .isTrue proof => .innerYesBranch data outerProof proof
+          | .isFalse absent =>
+              .innerNoBranch data outerProof
+                (noOfNotYes state.residual data outerProof absent)
+
+/-- Turn the already continued outer-yes leaf into terminal evidence, close
+the inner-yes leaf, and expose only the literal inner-no leaf as the new
+focused cursor.  No application callback transports any sibling branch. -/
+noncomputable def StageNode.terminalizeFocusedBranchYesCloseNestedYes
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {outerYes outerNo : (residual : Residual) → Active residual → Prop}
+    {OuterYesOutput : (residual : Residual) → (data : Active residual) →
+      outerYes residual data → Type uStage}
+    {innerYes innerNo : (residual : Residual) →
+      (data : Active residual) → outerNo residual data → Prop}
+    {Terminal : (residual : Residual) → (data : Active residual) →
+      (proof : outerYes residual data) →
+      OuterYesOutput residual data proof → Type uOccurrence}
+    [Proofs.Contains (Available
+      (FocusedBranchYesContinuationNoDecision Bypass Active outerYes outerNo
+        OuterYesOutput innerYes innerNo)) facts]
+    (terminal : ∀ residual data proof output,
+      Terminal residual data proof output)
+    (close : ∀ residual data outerProof,
+      innerYes residual data outerProof → False) :
+    StageNode (facts := facts)
+      (FocusedBranch
+        (FocusedBranchYesTerminalBypass Bypass Active outerYes OuterYesOutput
+          Terminal)
+        (FocusedBranchNestedNoActive Active outerNo innerNo)) :=
+  StageNode.usingStage
+    (Required := FocusedBranchYesContinuationNoDecision Bypass Active outerYes
+      outerNo OuterYesOutput innerYes innerNo) fun state decision =>
+      match decision with
+      | .bypass data => .bypass (.bypass data)
+      | .outerYesBranch data proof output =>
+          .bypass (.terminal data proof output
+            (terminal state.residual data proof output))
+      | .innerYesBranch data outerProof proof =>
+          (close state.residual data outerProof proof).elim
+      | .innerNoBranch data outerProof proof =>
+          .active ⟨data, outerProof, proof⟩
+
+/-- Append one node-local payload to the active constructor of a focused
+branch.  Core owns the bypass transport and retains the exact active data. -/
+noncomputable def StageNode.continueFocusedBranchActive
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {Output : (residual : Residual) → Active residual → Type uStage}
+    [Proofs.Contains (Available (FocusedBranch Bypass Active)) facts]
+    (produce : ∀ residual data, Output residual data) :
+    StageNode (facts := facts)
+      (FocusedBranchActiveContinuation Bypass Active Output) :=
+  StageNode.usingStage (Required := FocusedBranch Bypass Active)
+    fun state branch =>
+      match branch with
+      | .bypass data => .bypass data
+      | .active data => .active data (produce state.residual data)
+
+noncomputable def StageNode.continueFocusedBranchNo
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {yes no : (residual : Residual) → Active residual → Prop}
+    {Output : (residual : Residual) → (data : Active residual) →
+      no residual data → Type uStage}
+    [Proofs.Contains
+      (Available (FocusedBranchDecision Bypass Active yes no)) facts]
+    (produce : ∀ residual data proof, Output residual data proof) :
+    StageNode (facts := facts)
+      (FocusedBranchDecisionNoContinuation Bypass Active yes no Output) :=
+  StageNode.usingStage (Required := FocusedBranchDecision Bypass Active yes no)
+    fun state decision =>
+      match decision with
+      | .bypass data => .bypass data
+      | .yesBranch data proof => .yesBranch data proof
+      | .noBranch data proof => .activeNo data proof (produce state.residual data proof)
+
+noncomputable def StageNode.mapFocusedBranchNoContinuation
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {yes no : (residual : Residual) → Active residual → Prop}
+    {Output : (residual : Residual) → (data : Active residual) →
+      no residual data → Type uStage}
+    {Next : (residual : Residual) → (data : Active residual) →
+      no residual data → Type uOccurrence}
+    [Proofs.Contains (Available
+      (FocusedBranchDecisionNoContinuation Bypass Active yes no Output)) facts]
+    (produce : ∀ residual data proof,
+      Output residual data proof → Next residual data proof) :
+    StageNode (facts := facts)
+      (FocusedBranchDecisionNoContinuation Bypass Active yes no Next) :=
+  StageNode.usingStage
+    (Required := FocusedBranchDecisionNoContinuation Bypass Active yes no Output)
+      fun state continuation =>
+        match continuation with
+        | .bypass data => .bypass data
+        | .yesBranch data proof => .yesBranch data proof
+        | .activeNo data proof output =>
+            .activeNo data proof (produce state.residual data proof output)
 
 /-- Continue the yes edge of an already continued dependent decision.  The
 application supplies only the new mathematical producer; it cannot rebuild
@@ -617,6 +2748,98 @@ def Node.derive
       Input state.residual → property state.residual) :
     Node (facts := facts) property where
   prove := fun state => prove state (query.read state)
+
+/-- Replace the payload on the exact no leaf of an active-cursor continuation
+while resolving any additional inherited input from the same accumulated
+ledger.  Core appends the literal continuation to the query and transports
+both bypass constructors unchanged. -/
+noncomputable def StageNode.mapActiveCursorDecisionNoContinuationDerived
+    {Previous : Residual → Type uInput}
+    {outerYes outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget}
+    {innerYes innerNo : (residual : Residual) →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    {Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage}
+    {yes no : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      Current residual previous outerProof outerOutput innerProof → Prop}
+    {Output Next : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      no residual previous outerProof outerOutput innerProof current →
+        Type uOccurrence}
+    {Input : Residual → Sort uNext}
+    [Proofs.Contains (Available (ActiveCursorDecisionNoContinuation Previous
+      outerYes outerNo OuterNoOutput innerYes innerNo Current yes no Output)) facts]
+    (query : LedgerQuery (facts := facts) Input)
+    (produce : (residual : Residual) → Input residual →
+      (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      (innerProof : innerNo residual previous outerProof outerOutput) →
+      (current : Current residual previous outerProof outerOutput innerProof) →
+      (proof : no residual previous outerProof outerOutput innerProof current) →
+      Output residual previous outerProof outerOutput innerProof current proof →
+        Next residual previous outerProof outerOutput innerProof current proof) :
+    StageNode (facts := facts) (ActiveCursorDecisionNoContinuation Previous
+      outerYes outerNo OuterNoOutput innerYes innerNo Current yes no Next) :=
+  StageNode.derive
+    (query.andStage
+      (Stage := ActiveCursorDecisionNoContinuation Previous outerYes outerNo
+        OuterNoOutput innerYes innerNo Current yes no Output))
+    fun state inputAndContinuation =>
+      match inputAndContinuation.snd with
+      | .outerYesBranch previous proof => .outerYesBranch previous proof
+      | .yesBranch previous outerProof outerOutput innerProof current proof =>
+          .yesBranch previous outerProof outerOutput innerProof current proof
+      | .noBranch previous outerProof outerOutput innerProof current proof output =>
+          .noBranch previous outerProof outerOutput innerProof current proof
+            (produce state.residual inputAndContinuation.fst previous outerProof
+              outerOutput innerProof current proof output)
+
+/-- Replace the payload on the exact yes leaf of a focused continuation while
+resolving any additional inherited input from the same accumulated ledger.
+Core appends the literal continuation to the query and transports its bypass
+and no leaves unchanged; applications provide only the new branch-local
+mathematics. -/
+noncomputable def StageNode.mapFocusedBranchYesContinuationDerived
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {yes no : (residual : Residual) → Active residual → Prop}
+    {Output : (residual : Residual) → (data : Active residual) →
+      yes residual data → Type uStage}
+    {Input : Residual → Sort uNext}
+    {Next : (residual : Residual) → (data : Active residual) →
+      yes residual data → Type uOccurrence}
+    [Proofs.Contains (Available
+      (FocusedBranchDecisionYesContinuation Bypass Active yes no Output)) facts]
+    (query : LedgerQuery (facts := facts) Input)
+    (produce : (residual : Residual) → Input residual →
+      (data : Active residual) → (proof : yes residual data) →
+      Output residual data proof → Next residual data proof) :
+    StageNode (facts := facts)
+      (FocusedBranchDecisionYesContinuation Bypass Active yes no Next) :=
+  StageNode.derive
+    (query.andStage
+      (Stage := FocusedBranchDecisionYesContinuation
+        Bypass Active yes no Output))
+    fun state inputAndContinuation =>
+      match inputAndContinuation.snd with
+      | .bypass data => .bypass data
+      | .activeYes data proof output =>
+          .activeYes data proof
+            (produce state.residual inputAndContinuation.fst data proof output)
+      | .noBranch data proof => .noBranch data proof
 
 /-- Continue a dependent yes edge while resolving an arbitrary typed query
 from the same accumulated ledger. The application receives no `State` and

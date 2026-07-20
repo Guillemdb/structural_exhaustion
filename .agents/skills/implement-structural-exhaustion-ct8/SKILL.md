@@ -30,3 +30,11 @@ Supply state, exact-type, and response-context types; explicit exact-type and re
 ## Practicality and completion
 
 Bound pair discovery and response comparison in terms of the sequence, type, and context counts; require a polynomial estimate. Do not generate the sequence by unbounded recursion and do not enumerate all objects of a given type. Pin first-hit order in a small fixture.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

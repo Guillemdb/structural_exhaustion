@@ -31,3 +31,11 @@ Supply the index and failure-data types, failure predicate, failure-data extract
 ## Practicality and completion
 
 The machine performs one finite pass over the declared order. Prove its length is polynomial in the input and never use a recursively expanding frontier as the order. If frontier saturation is the actual mathematics, use `Core.FiniteSaturation.Machine` with its strict measure instead. Pin both terminal traces when both are meaningful.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

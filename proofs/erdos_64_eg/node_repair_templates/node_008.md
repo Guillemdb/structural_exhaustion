@@ -17,14 +17,14 @@
 
 | Task ID | Paper assertion | Producer | Lean evidence | Edge | Status |
 |---|---|---|---|---|---|
-| N8-PRED | Consume literal node-[6] no-stage | [6] | `Node8Stage`; `node8NoProperCore` via `CT1.ResidualRefinement.continueCertificateAvoidingUsingStage` | no->[8] | proved |
-| N8-QUERY | Retrieve minimality and avoidance from the ledger | [4],[6] | literal `Node6Stage` predecessor retained by `CertificateAvoidingContinuation` | no->[8] | proved |
+| N8-PRED | Consume literal node-[6] no-stage after the sibling C1 edge is closed at [7] | [6],[7] | `Node7Stage = DependentCertificateFamily.AvoidingSuccessor`; `Node8Stage`; `node8NoProperCore` | no->[8] | proved |
+| N8-QUERY | Retrieve minimality and avoidance from the ledger | [4],[6] | literal node-[5] predecessor and exact CT1 avoiding run retained by `AvoidingSuccessor` | no->[8] | proved |
 | N8-CORE | Prove no proper minimum-degree-three subgraph | [8] | `Node8Output`; `node8_noProperCore`; `SelectedNoProperCore.certificate` | [8]->[9] | proved |
 | N8-CERT | Preserve CT execution, semantics, totality, and work | CT2 | `node8_ct2_certificate`; `EdgeRootedNoProperCorePrefix.properCoreTotal`; `.properCorePolynomial` | [8]->[9] | proved |
 
 ## Framework and validation record
 
-- Uses the framework-owned literal CT1 avoiding continuation and the reusable
+- Uses the framework-owned literal CT1 avoiding successor and the reusable
   packed-minimality/CT2 executor `StaticInput.selectNoProperCore`.
 - No reconstruction from root inputs is permitted.
 - Focused kernel command: `cd examples/erdos_64_eg && lake build

@@ -30,3 +30,11 @@ Supply target, offset, position, and value types; target, block, and orbit value
 ## Practicality and completion
 
 Prove a polynomial bound for the product of targets, offsets, bounded scales, and positions. Reject a scale limit derived from open-ended search or recursion and never materialize an infinite orbit. Test each reachable terminal and boundary scales zero and the declared maximum.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

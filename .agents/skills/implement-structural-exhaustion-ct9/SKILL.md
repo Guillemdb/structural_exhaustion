@@ -33,3 +33,11 @@ Prefer `CT9.ParityCapacityOneSpec` when labels are parity bits from a rank map a
 ## Practicality and completion
 
 Only enumerate labels and scan the supplied local items. Never enumerate all partitions or all subsets. Prove a polynomial work bound from the product of item and label counts, test both overload and bounded terminals where meaningful, and pin the selected first overloaded label.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

@@ -1,0 +1,11 @@
+import Erdos64EG.Future.P13WeightedColdBranchExcess
+
+namespace Erdos64EG.Internal
+
+#check p13WeightedColdCubicWindows_nodup
+#check p13WeightedColdBranchExcessStubs_nodup
+#check p13WeightedColdBranchExcessSchedule_nodup
+
+#print axioms p13WeightedColdBranchExcessSchedule_nodup
+
+end Erdos64EG.Internal

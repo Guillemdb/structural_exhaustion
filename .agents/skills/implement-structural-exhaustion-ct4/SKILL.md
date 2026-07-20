@@ -33,3 +33,11 @@ The framework owns canonical first-eligible assignment, availability search, fib
 ## Practicality and completion
 
 Bound the assignment scan by the product of local demand and payer counts and prove it polynomial in the surrounding input. Do not use all color functions or all graph maps as either universe. Test each terminal shape needed by the instance and compile the general theorem separately from its small fixture.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

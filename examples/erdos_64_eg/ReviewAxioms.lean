@@ -1,5 +1,5 @@
-import Erdos64EG.CT9HomogeneousPattern
-import Erdos64EG.SurplusScaleSplit
+import Erdos64EG.Future.CT9HomogeneousPattern
+import Erdos64EG.Shared.SurplusScaleSplit
 
 #print axioms StructuralExhaustion.Core.GreedyMatchingStar.exists_pattern_of_cap_lt_card
 #print axioms StructuralExhaustion.Graph.SurplusHomogeneousPattern.audit

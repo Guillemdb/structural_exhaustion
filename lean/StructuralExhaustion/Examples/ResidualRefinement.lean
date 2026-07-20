@@ -81,6 +81,13 @@ abbrev PositiveFirstContinuation (residual : Residual) :=
     PositiveCertificate PositiveYes PositiveNo
     (fun residual certificate _proof => PositiveSuccessor residual certificate) residual
 
+/-- Mirror fixture: a paper node may live only on the no edge, while the
+framework transports the untouched yes edge without an application handoff. -/
+abbrev PositiveNoContinuation (residual : Residual) :=
+  Core.ResidualRefinement.State.DependentDecisionNoContinuation
+    PositiveCertificate PositiveYes PositiveNo
+    (fun residual _certificate proof => NonzeroCertificate residual) residual
+
 abbrev PositiveSecondContinuation (residual : Residual) :=
   Core.ResidualRefinement.State.DependentDecisionYesSuccessor
     PositiveCertificate PositiveYes PositiveNo
@@ -199,6 +206,66 @@ noncomputable def positiveFirstContinuationNode {facts}
   Core.ResidualRefinement.State.StageNode.continueDependentDecisionYes
     fun _residual certificate _positive => ⟨certificate.proof⟩
 
+noncomputable def positiveNoContinuationNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available
+        (Core.ResidualRefinement.State.DependentDecision
+          PositiveCertificate PositiveYes PositiveNo)) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      PositiveNoContinuation :=
+  Core.ResidualRefinement.State.StageNode.continueDependentDecisionNo
+    fun _residual certificate _absent =>
+      ⟨Nat.ne_of_gt certificate.proof⟩
+
+/-! A nested decision fixture: the outer no leaf already carries a payload,
+then its inner yes and no successors are populated independently. -/
+
+abbrev NestedPositiveDecision (residual : Residual) :=
+  Core.ResidualRefinement.State.DependentDecisionOnNoContinuation
+    PositiveCertificate
+    (fun _ _ => False) (fun _ _ => True)
+    (fun _ _ _ => PUnit)
+    (fun residual _ _ _ => IsPositive residual)
+    (fun residual _ _ _ => ¬IsPositive residual) residual
+
+abbrev NestedPositiveYesContinuation (residual : Residual) :=
+  Core.ResidualRefinement.State.DependentDecisionOnNoYesContinuation
+    PositiveCertificate
+    (fun _ _ => False) (fun _ _ => True)
+    (fun _ _ _ => PUnit)
+    (fun residual _ _ _ => IsPositive residual)
+    (fun residual _ _ _ => ¬IsPositive residual)
+    (fun residual _ _ _ _ => PositiveSquareCertificate residual) residual
+
+abbrev NestedPositiveBothContinuations (residual : Residual) :=
+  Core.ResidualRefinement.State.DependentDecisionOnNoNoAfterYes
+    PositiveCertificate
+    (fun _ _ => False) (fun _ _ => True)
+    (fun _ _ _ => PUnit)
+    (fun residual _ _ _ => IsPositive residual)
+    (fun residual _ _ _ => ¬IsPositive residual)
+    (fun residual _ _ _ _ => PositiveSquareCertificate residual)
+    (fun residual _ _ _ _ => NonzeroCertificate residual) residual
+
+noncomputable def nestedPositiveYesContinuationNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedPositiveDecision) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedPositiveYesContinuation :=
+  Core.ResidualRefinement.State.StageNode.continueDependentDecisionOnNoYes
+    fun residual certificate _outer _output positive =>
+      ⟨Nat.mul_pos positive certificate.proof⟩
+
+noncomputable def nestedPositiveBothContinuationsNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available
+        NestedPositiveYesContinuation) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedPositiveBothContinuations :=
+  Core.ResidualRefinement.State.StageNode.continueDependentDecisionOnNoNoAfterYes
+    fun _residual certificate _outer _output _absent =>
+      ⟨Nat.ne_of_gt certificate.proof⟩
+
 noncomputable def positiveSecondContinuationNode {facts}
     [Core.ResidualRefinement.Proofs.Contains
       (Core.ResidualRefinement.State.Available PositiveFirstContinuation) facts] :
@@ -309,6 +376,9 @@ noncomputable def afterPositiveDecision :=
 noncomputable def afterPositiveFirstContinuation :=
   positiveFirstContinuationNode.run afterPositiveDecision
 
+noncomputable def afterPositiveNoContinuation :=
+  positiveNoContinuationNode.run afterPositiveDecision
+
 noncomputable def afterPositiveSecondContinuation :=
   positiveSecondContinuationNode.run afterPositiveFirstContinuation
 
@@ -366,6 +436,17 @@ theorem repeated_yes_continuation_retains_current_output :
       exact output.proof
   | noBranch certificate absent =>
       exact False.elim (absent certificate.proof)
+
+theorem no_continuation_transports_the_untouched_yes_edge :
+    match afterPositiveNoContinuation.requireStage
+      (Stage := PositiveNoContinuation) with
+    | .yesBranch certificate proof => IsPositive seed
+    | .noBranch _certificate _proof output => Nonzero seed := by
+  generalize resultEq : afterPositiveNoContinuation.requireStage
+    (Stage := PositiveNoContinuation) = result
+  cases result with
+  | yesBranch certificate proof => exact proof
+  | noBranch _certificate _proof output => exact output.proof
 
 noncomputable def afterPositive := positiveNode.run initialState
 noncomputable def afterSquare := squareNode.run afterPositive
@@ -632,6 +713,852 @@ theorem every_occurrence_has_all_properties
   exact ⟨state.get (.there (.there .here)), state.get (.there .here),
     state.latest⟩
 
+/-! ## Reusable active cursor after a nested yes-leaf closure -/
+
+abbrev NestedFixturePrevious (_residual : Residual) : Type := PUnit
+
+abbrev NestedFixtureOuterYes (_residual : Residual)
+    (_previous : PUnit) : Prop := False
+
+abbrev NestedFixtureOuterNo (_residual : Residual)
+    (_previous : PUnit) : Prop := True
+
+abbrev NestedFixtureOuterOutput (_residual : Residual)
+    (_previous : PUnit) (_proof : True) : Type := PUnit
+
+abbrev NestedFixtureInnerYes (_residual : Residual)
+    (_previous : PUnit) (_outerProof : True)
+    (_outerOutput : PUnit) : Prop := False
+
+abbrev NestedFixtureInnerNo (_residual : Residual)
+    (_previous : PUnit) (_outerProof : True)
+    (_outerOutput : PUnit) : Prop := True
+
+abbrev NestedFixtureCurrent (_residual : Residual) (_previous : PUnit)
+    (_outerProof : True) (_outerOutput : PUnit) (_innerProof : True) : Type := PUnit
+
+abbrev NestedFixtureNext (_residual : Residual) (_previous : PUnit)
+    (_outerProof : True) (_outerOutput : PUnit) (_innerProof : True) : Type := Bool
+
+abbrev NestedFixtureClosed (residual : Residual) :=
+  Core.ResidualRefinement.State.DependentDecisionOnNoYesClosed
+    NestedFixturePrevious NestedFixtureOuterYes NestedFixtureOuterNo
+    NestedFixtureOuterOutput NestedFixtureInnerYes NestedFixtureInnerNo residual
+
+abbrev NestedFixtureActiveUnit (residual : Residual) :=
+  Core.ResidualRefinement.State.DependentDecisionOnNoYesClosedActive
+    NestedFixturePrevious NestedFixtureOuterYes NestedFixtureOuterNo
+    NestedFixtureOuterOutput NestedFixtureInnerYes NestedFixtureInnerNo
+    NestedFixtureCurrent
+    residual
+
+abbrev NestedFixtureActiveBool (residual : Residual) :=
+  Core.ResidualRefinement.State.DependentDecisionOnNoYesClosedActive
+    NestedFixturePrevious NestedFixtureOuterYes NestedFixtureOuterNo
+    NestedFixtureOuterOutput NestedFixtureInnerYes NestedFixtureInnerNo
+    NestedFixtureNext
+    residual
+
+noncomputable def nestedFixtureClosedNode {facts} :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureClosed where
+  produce := fun _state =>
+    .innerNoBranch PUnit.unit trivial PUnit.unit trivial
+
+noncomputable def nestedFixtureStartNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureClosed) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureActiveUnit :=
+  Core.ResidualRefinement.State.StageNode.continueDependentDecisionOnNoYesClosed
+    (fun _residual _previous _outerProof _outerOutput _innerProof => PUnit.unit)
+
+noncomputable def nestedFixtureMapNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureActiveUnit) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureActiveBool :=
+  Core.ResidualRefinement.State.StageNode.mapDependentDecisionOnNoYesClosedActive
+    (Current := NestedFixtureCurrent) (Next := NestedFixtureNext)
+    (fun _residual _previous _outerProof _outerOutput _innerProof _current => true)
+
+noncomputable def nestedFixtureAfterClosed :=
+  nestedFixtureClosedNode.run (Core.ResidualRefinement.State.initial seed)
+
+noncomputable def nestedFixtureAfterStart :=
+  nestedFixtureStartNode.run nestedFixtureAfterClosed
+
+noncomputable def nestedFixtureAfterMap :=
+  nestedFixtureMapNode.run nestedFixtureAfterStart
+
+/-- Mapping the active leaf adds only its new output and leaves the earlier
+active certificate retrievable from the same accumulated ledger. -/
+theorem nested_active_cursor_accumulates :
+    Nonempty (NestedFixtureActiveUnit nestedFixtureAfterMap.residual) ∧
+      Nonempty (NestedFixtureActiveBool nestedFixtureAfterMap.residual) := by
+  exact ⟨nestedFixtureAfterMap.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureActiveUnit),
+    nestedFixtureAfterMap.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureActiveBool)⟩
+
+abbrev NestedFixtureDecisionYes (_residual : Residual) (_previous : PUnit)
+    (_outerProof : True) (_outerOutput : PUnit) (_innerProof : True)
+    (current : Bool) : Prop := current = true
+
+abbrev NestedFixtureDecisionNo (_residual : Residual) (_previous : PUnit)
+    (_outerProof : True) (_outerOutput : PUnit) (_innerProof : True)
+    (current : Bool) : Prop := current = false
+
+abbrev NestedFixtureDecision (residual : Residual) :=
+  Core.ResidualRefinement.State.ActiveCursorDecision
+    NestedFixturePrevious NestedFixtureOuterYes NestedFixtureOuterNo
+    NestedFixtureOuterOutput NestedFixtureInnerYes NestedFixtureInnerNo
+    NestedFixtureNext NestedFixtureDecisionYes NestedFixtureDecisionNo residual
+
+noncomputable def nestedFixtureDecideNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureActiveBool) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureDecision :=
+  Core.ResidualRefinement.State.StageNode.decideDependentDecisionOnNoYesClosedActive
+    (yes := NestedFixtureDecisionYes) (no := NestedFixtureDecisionNo)
+    (fun _ _ _ _ _ current => inferInstanceAs (Decidable (current = true)))
+    (fun _ _ _ _ _ current absent => by
+      cases current <;> simp_all)
+
+noncomputable def nestedFixtureMapFalseNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureActiveUnit) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureActiveBool :=
+  Core.ResidualRefinement.State.StageNode.mapDependentDecisionOnNoYesClosedActive
+    (Current := NestedFixtureCurrent) (Next := NestedFixtureNext)
+    (fun _ _ _ _ _ _ => false)
+
+noncomputable def nestedFixtureYesDecision :=
+  nestedFixtureDecideNode.run nestedFixtureAfterMap
+
+noncomputable def nestedFixtureFalseActive :=
+  nestedFixtureMapFalseNode.run nestedFixtureAfterStart
+
+noncomputable def nestedFixtureNoDecision :=
+  nestedFixtureDecideNode.run nestedFixtureFalseActive
+
+/-- Both local outcomes preserve the active predecessor and append the
+decision to the same accumulated ledger. -/
+theorem nested_active_decision_preserves_ledger :
+    (Nonempty (NestedFixtureActiveBool nestedFixtureYesDecision.residual) ∧
+      Nonempty (NestedFixtureDecision nestedFixtureYesDecision.residual)) ∧
+    (Nonempty (NestedFixtureActiveBool nestedFixtureNoDecision.residual) ∧
+      Nonempty (NestedFixtureDecision nestedFixtureNoDecision.residual)) := by
+  exact ⟨⟨nestedFixtureYesDecision.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureActiveBool),
+      nestedFixtureYesDecision.latest⟩,
+    ⟨nestedFixtureNoDecision.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureActiveBool),
+      nestedFixtureNoDecision.latest⟩⟩
+
+/-! ## Independent continuations of one active-cursor decision -/
+
+abbrev NestedFixtureYesPayload (_residual : Residual) (_previous : PUnit)
+    (_outerProof : True) (_outerOutput : PUnit) (_innerProof : True)
+    (_current : Bool) (_proof : _current = true) : Type := PUnit
+
+abbrev NestedFixtureNoPayload (_residual : Residual) (_previous : PUnit)
+    (_outerProof : True) (_outerOutput : PUnit) (_innerProof : True)
+    (_current : Bool) (_proof : _current = false) : Type := PUnit
+
+abbrev NestedFixtureYesNext (_residual : Residual) (_previous : PUnit)
+    (_outerProof : True) (_outerOutput : PUnit) (_innerProof : True)
+    (_current : Bool) (_proof : _current = true) : Type := Bool
+
+abbrev NestedFixtureNoNext (_residual : Residual) (_previous : PUnit)
+    (_outerProof : True) (_outerOutput : PUnit) (_innerProof : True)
+    (_current : Bool) (_proof : _current = false) : Type := Bool
+
+abbrev NestedFixtureYesContinuation (residual : Residual) :=
+  Core.ResidualRefinement.State.ActiveCursorDecisionYesContinuation
+    NestedFixturePrevious NestedFixtureOuterYes NestedFixtureOuterNo
+    NestedFixtureOuterOutput NestedFixtureInnerYes NestedFixtureInnerNo
+    NestedFixtureNext NestedFixtureDecisionYes NestedFixtureDecisionNo
+    NestedFixtureYesPayload residual
+
+abbrev NestedFixtureNoContinuation (residual : Residual) :=
+  Core.ResidualRefinement.State.ActiveCursorDecisionNoContinuation
+    NestedFixturePrevious NestedFixtureOuterYes NestedFixtureOuterNo
+    NestedFixtureOuterOutput NestedFixtureInnerYes NestedFixtureInnerNo
+    NestedFixtureNext NestedFixtureDecisionYes NestedFixtureDecisionNo
+    NestedFixtureNoPayload residual
+
+abbrev NestedFixtureYesMapped (residual : Residual) :=
+  Core.ResidualRefinement.State.ActiveCursorDecisionYesContinuation
+    NestedFixturePrevious NestedFixtureOuterYes NestedFixtureOuterNo
+    NestedFixtureOuterOutput NestedFixtureInnerYes NestedFixtureInnerNo
+    NestedFixtureNext NestedFixtureDecisionYes NestedFixtureDecisionNo
+    NestedFixtureYesNext residual
+
+abbrev NestedFixtureNoMapped (residual : Residual) :=
+  Core.ResidualRefinement.State.ActiveCursorDecisionNoContinuation
+    NestedFixturePrevious NestedFixtureOuterYes NestedFixtureOuterNo
+    NestedFixtureOuterOutput NestedFixtureInnerYes NestedFixtureInnerNo
+    NestedFixtureNext NestedFixtureDecisionYes NestedFixtureDecisionNo
+    NestedFixtureNoNext residual
+
+abbrev NestedFixtureNoFocusedBypass :=
+  Core.ResidualRefinement.State.ActiveCursorDecisionNoContinuationBypass
+    NestedFixturePrevious NestedFixtureOuterYes NestedFixtureOuterNo
+    NestedFixtureOuterOutput NestedFixtureInnerYes NestedFixtureInnerNo
+    NestedFixtureNext NestedFixtureDecisionYes NestedFixtureDecisionNo
+
+abbrev NestedFixtureNoFocusedActive :=
+  Core.ResidualRefinement.State.ActiveCursorDecisionNoContinuationActive
+    NestedFixturePrevious NestedFixtureOuterNo NestedFixtureOuterOutput
+    NestedFixtureInnerNo NestedFixtureNext NestedFixtureDecisionNo
+    NestedFixtureNoNext
+
+abbrev NestedFixtureNoFocusedYes (_residual : Residual)
+    (active : NestedFixtureNoFocusedActive _residual) : Prop :=
+  active.output = true
+
+abbrev NestedFixtureNoFocusedNo (_residual : Residual)
+    (active : NestedFixtureNoFocusedActive _residual) : Prop :=
+  active.output = false
+
+abbrev NestedFixtureNoFocusedDecision :=
+  Core.ResidualRefinement.State.FocusedBranchDecision
+    NestedFixtureNoFocusedBypass NestedFixtureNoFocusedActive
+    NestedFixtureNoFocusedYes NestedFixtureNoFocusedNo
+
+noncomputable def nestedFixtureYesContinuationNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureDecision) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureYesContinuation :=
+  Core.ResidualRefinement.State.StageNode.continueActiveCursorDecisionYes
+    (YesOutput := NestedFixtureYesPayload)
+    (fun _ _ _ _ _ _ _ => PUnit.unit)
+
+noncomputable def nestedFixtureNoContinuationNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureDecision) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureNoContinuation :=
+  Core.ResidualRefinement.State.StageNode.continueActiveCursorDecisionNo
+    (NoOutput := NestedFixtureNoPayload)
+    (fun _ _ _ _ _ _ _ => PUnit.unit)
+
+noncomputable def nestedFixtureMapYesContinuationNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureYesContinuation)
+        facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureYesMapped :=
+  Core.ResidualRefinement.State.StageNode.mapActiveCursorDecisionYesContinuation
+    (YesOutput := NestedFixtureYesPayload) (NextOutput := NestedFixtureYesNext)
+    (fun _ _ _ _ _ _ _ _ => true)
+
+noncomputable def nestedFixtureMapNoContinuationNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureNoContinuation)
+        facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureNoMapped :=
+  Core.ResidualRefinement.State.StageNode.mapActiveCursorDecisionNoContinuation
+    (Output := NestedFixtureNoPayload) (Next := NestedFixtureNoNext)
+    (fun _ _ _ _ _ _ _ _ => true)
+
+/-- The same no-leaf mapping while querying an earlier exact decision from
+the one accumulated ledger. -/
+noncomputable def nestedFixtureMapNoContinuationDerivedNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureNoContinuation)
+        facts]
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureDecision) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureNoMapped :=
+  Core.ResidualRefinement.State.StageNode.mapActiveCursorDecisionNoContinuationDerived
+    (Output := NestedFixtureNoPayload)
+    (Next := NestedFixtureNoNext)
+    (Core.ResidualRefinement.State.LedgerQuery.stage
+      (facts := facts) (Stage := NestedFixtureDecision))
+    (fun _ _inherited _ _ _ _ _ _ _ => true)
+
+noncomputable def nestedFixtureDecideNoContinuationNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureNoMapped) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureNoFocusedDecision :=
+  Core.ResidualRefinement.State.StageNode.decideActiveCursorDecisionNoContinuation
+    (nextYes := NestedFixtureNoFocusedYes)
+    (nextNo := NestedFixtureNoFocusedNo)
+    (fun _ active => inferInstanceAs (Decidable (active.output = true)))
+    (fun _ _active absent => Bool.eq_false_of_not_eq_true absent)
+
+noncomputable def nestedFixtureAfterYesContinuation :=
+  nestedFixtureYesContinuationNode.run nestedFixtureYesDecision
+
+/-- The no continuation is deliberately run after the yes continuation from
+the same accumulated state.  It retrieves the original decision and leaves
+the already appended yes stage untouched. -/
+noncomputable def nestedFixtureAfterBothContinuations :=
+  nestedFixtureNoContinuationNode.run nestedFixtureAfterYesContinuation
+
+noncomputable def nestedFixtureAfterMappedYes :=
+  nestedFixtureMapYesContinuationNode.run nestedFixtureAfterBothContinuations
+
+noncomputable def nestedFixtureAfterNoContinuationActive :=
+  nestedFixtureNoContinuationNode.run nestedFixtureNoDecision
+
+noncomputable def nestedFixtureAfterMappedNo :=
+  nestedFixtureMapNoContinuationNode.run nestedFixtureAfterNoContinuationActive
+
+noncomputable def nestedFixtureAfterMappedNoDerived :=
+  nestedFixtureMapNoContinuationDerivedNode.run
+    nestedFixtureAfterNoContinuationActive
+
+noncomputable def nestedFixtureAfterNoContinuationDecision :=
+  nestedFixtureDecideNoContinuationNode.run nestedFixtureAfterMappedNo
+
+/-- The decision, both independent branch continuations, and the next mapped
+yes payload are all retrievable from one accumulated ledger. -/
+theorem active_cursor_branch_continuations_accumulate :
+    Nonempty (NestedFixtureDecision nestedFixtureAfterMappedYes.residual) ∧
+      Nonempty
+        (NestedFixtureYesContinuation nestedFixtureAfterMappedYes.residual) ∧
+      Nonempty
+        (NestedFixtureNoContinuation nestedFixtureAfterMappedYes.residual) ∧
+      Nonempty (NestedFixtureYesMapped nestedFixtureAfterMappedYes.residual) := by
+  exact ⟨nestedFixtureAfterMappedYes.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureDecision),
+    nestedFixtureAfterMappedYes.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureYesContinuation),
+    nestedFixtureAfterMappedYes.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureNoContinuation),
+      nestedFixtureAfterMappedYes.latest⟩
+
+theorem active_cursor_derived_query_accumulates :
+    Nonempty (NestedFixtureDecision
+        nestedFixtureAfterMappedNoDerived.residual) ∧
+      Nonempty (NestedFixtureNoContinuation
+        nestedFixtureAfterMappedNoDerived.residual) ∧
+      Nonempty (NestedFixtureNoMapped
+        nestedFixtureAfterMappedNoDerived.residual) := by
+  exact ⟨nestedFixtureAfterMappedNoDerived.require
+      (property := Core.ResidualRefinement.State.Available NestedFixtureDecision),
+    nestedFixtureAfterMappedNoDerived.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureNoContinuation),
+    nestedFixtureAfterMappedNoDerived.latest⟩
+
+theorem active_cursor_no_continuation_focus_accumulates :
+    Nonempty
+        (NestedFixtureNoContinuation
+          nestedFixtureAfterNoContinuationDecision.residual) ∧
+      Nonempty
+        (NestedFixtureNoMapped
+          nestedFixtureAfterNoContinuationDecision.residual) ∧
+      Nonempty
+        (NestedFixtureNoFocusedDecision
+          nestedFixtureAfterNoContinuationDecision.residual) := by
+  exact ⟨nestedFixtureAfterNoContinuationDecision.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureNoContinuation),
+    nestedFixtureAfterNoContinuationDecision.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureNoMapped),
+    nestedFixtureAfterNoContinuationDecision.latest⟩
+
+/-! ## Focused decisions below an active yes continuation -/
+
+abbrev NestedFixtureFamily :=
+  Core.ResidualRefinement.State.ActiveCursorYesContinuationFamily.mk
+    NestedFixturePrevious NestedFixtureOuterYes NestedFixtureOuterNo
+    NestedFixtureOuterOutput NestedFixtureInnerYes NestedFixtureInnerNo
+    NestedFixtureNext NestedFixtureDecisionYes NestedFixtureDecisionNo
+    NestedFixtureYesPayload
+
+abbrev NestedFixtureAuditYes (_residual : Residual)
+    (_data : NestedFixtureFamily.ActiveData _residual) : Prop := True
+
+abbrev NestedFixtureAuditNo (_residual : Residual)
+    (_data : NestedFixtureFamily.ActiveData _residual) : Prop := False
+
+abbrev NestedFixtureFinalYes (_residual : Residual)
+    (_data : NestedFixtureFamily.ActiveData _residual)
+    (_audit : NestedFixtureAuditYes _residual _data) : Prop := False
+
+abbrev NestedFixtureFinalNo (_residual : Residual)
+    (_data : NestedFixtureFamily.ActiveData _residual)
+    (_audit : NestedFixtureAuditYes _residual _data) : Prop := True
+
+abbrev NestedFixtureAuditDecision :=
+  NestedFixtureFamily.Decision NestedFixtureAuditYes NestedFixtureAuditNo
+
+abbrev NestedFixtureAuditNoTerminal :=
+  NestedFixtureFamily.NoTerminal NestedFixtureAuditYes NestedFixtureAuditNo
+
+abbrev NestedFixtureFinalDecision :=
+  NestedFixtureFamily.YesDecision NestedFixtureAuditYes NestedFixtureAuditNo
+    NestedFixtureFinalYes NestedFixtureFinalNo
+
+abbrev NestedFixtureFinalYesClosed :=
+  NestedFixtureFamily.FinalYesClosed NestedFixtureAuditYes NestedFixtureAuditNo
+    NestedFixtureFinalYes NestedFixtureFinalNo
+
+abbrev NestedFixtureFinalNoActive :=
+  NestedFixtureFamily.FinalNoActive NestedFixtureAuditYes NestedFixtureAuditNo
+    NestedFixtureFinalYes NestedFixtureFinalNo
+
+noncomputable def nestedFixtureAuditDecisionNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureYesContinuation)
+        facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureAuditDecision :=
+  Core.ResidualRefinement.State.StageNode.decideActiveCursorYesContinuation
+    NestedFixtureFamily
+    (fun _ _ => isTrue trivial)
+    (fun _ _ absent => (absent trivial).elim)
+
+noncomputable def nestedFixtureAuditNoTerminalNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureAuditDecision)
+        facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureAuditNoTerminal :=
+  Core.ResidualRefinement.State.StageNode.markActiveCursorYesContinuationNoTerminal
+    NestedFixtureFamily
+
+noncomputable def nestedFixtureFinalDecisionNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureAuditDecision)
+        facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFinalDecision :=
+  Core.ResidualRefinement.State.StageNode.decideActiveCursorYesContinuationYes
+    NestedFixtureFamily
+    (fun _ _ _ => isFalse id)
+    (fun _ _ _ _ => trivial)
+
+noncomputable def nestedFixtureFinalYesClosedNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureFinalDecision)
+        facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFinalYesClosed :=
+  Core.ResidualRefinement.State.StageNode.closeActiveCursorYesContinuationFinalYes
+    NestedFixtureFamily (fun _ _ _ impossible => impossible)
+
+noncomputable def nestedFixtureFinalNoActiveNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureFinalDecision)
+        facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFinalNoActive :=
+  Core.ResidualRefinement.State.StageNode.focusActiveCursorYesContinuationFinalNo
+    NestedFixtureFamily
+
+abbrev NestedFixtureFocusedBypass (residual : Residual) : Type :=
+  NestedFixtureFamily.FinalNoBypass NestedFixtureAuditYes NestedFixtureAuditNo
+    NestedFixtureFinalYes NestedFixtureFinalNo residual
+
+abbrev NestedFixtureFocusedActive (residual : Residual) : Type :=
+  NestedFixtureFamily.FinalNoData NestedFixtureAuditYes NestedFixtureFinalNo residual
+
+abbrev NestedFixtureFocusedYes (_residual : Residual)
+    (_data : NestedFixtureFocusedActive _residual) : Prop := False
+
+abbrev NestedFixtureFocusedNo (_residual : Residual)
+    (_data : NestedFixtureFocusedActive _residual) : Prop := True
+
+abbrev NestedFixtureFocusedDecision (residual : Residual) : Type :=
+  Core.ResidualRefinement.State.FocusedBranchDecision
+    NestedFixtureFocusedBypass NestedFixtureFocusedActive
+    NestedFixtureFocusedYes NestedFixtureFocusedNo residual
+
+abbrev NestedFixtureFocusedYesClosed (residual : Residual) : Type :=
+  Core.ResidualRefinement.State.FocusedBranchDecisionYesClosed
+    NestedFixtureFocusedBypass NestedFixtureFocusedActive
+    NestedFixtureFocusedYes NestedFixtureFocusedNo residual
+
+abbrev NestedFixtureFocusedNoContinuation (residual : Residual) : Type :=
+  Core.ResidualRefinement.State.FocusedBranchDecisionNoContinuation
+    NestedFixtureFocusedBypass NestedFixtureFocusedActive
+    NestedFixtureFocusedYes NestedFixtureFocusedNo
+    (fun _ _ _ => PUnit) residual
+
+abbrev NestedFixtureFocusedYesContinuation (residual : Residual) : Type :=
+  Core.ResidualRefinement.State.FocusedBranchDecisionYesContinuation
+    NestedFixtureFocusedBypass NestedFixtureFocusedActive
+    NestedFixtureFocusedYes NestedFixtureFocusedNo
+    (fun _ _ _ => PUnit) residual
+
+abbrev NestedFixtureFocusedYesMapped (residual : Residual) : Type :=
+  Core.ResidualRefinement.State.FocusedBranchDecisionYesContinuation
+    NestedFixtureFocusedBypass NestedFixtureFocusedActive
+    NestedFixtureFocusedYes NestedFixtureFocusedNo
+    (fun _ _ _ => Bool) residual
+
+abbrev NestedFixtureFocusedInnerYes (_residual : Residual)
+    (data : NestedFixtureFocusedActive _residual)
+    (_outer : NestedFixtureFocusedNo _residual data) : Prop := False
+
+abbrev NestedFixtureFocusedInnerNo (_residual : Residual)
+    (data : NestedFixtureFocusedActive _residual)
+    (_outer : NestedFixtureFocusedNo _residual data) : Prop := True
+
+abbrev NestedFixtureFocusedNestedDecision (residual : Residual) : Type :=
+  Core.ResidualRefinement.State.FocusedBranchYesContinuationNoDecision
+    NestedFixtureFocusedBypass NestedFixtureFocusedActive
+    NestedFixtureFocusedYes NestedFixtureFocusedNo
+    (fun _ _ _ => PUnit)
+    NestedFixtureFocusedInnerYes NestedFixtureFocusedInnerNo residual
+
+abbrev NestedFixtureFocusedNestedTerminalBypass
+    (residual : Residual) : Type :=
+  Core.ResidualRefinement.State.FocusedBranchYesTerminalBypass
+    NestedFixtureFocusedBypass NestedFixtureFocusedActive
+    NestedFixtureFocusedYes (fun _ _ _ => PUnit)
+    (fun _ _ _ _ => PUnit) residual
+
+abbrev NestedFixtureFocusedNestedNoActive (residual : Residual) : Type :=
+  Core.ResidualRefinement.State.FocusedBranchNestedNoActive
+    NestedFixtureFocusedActive NestedFixtureFocusedNo
+    NestedFixtureFocusedInnerNo residual
+
+abbrev NestedFixtureFocusedNestedClosed (residual : Residual) : Type :=
+  Core.ResidualRefinement.State.FocusedBranch
+    NestedFixtureFocusedNestedTerminalBypass
+    NestedFixtureFocusedNestedNoActive residual
+
+abbrev NestedFixtureFocusedActiveContinuation (residual : Residual) : Type :=
+  Core.ResidualRefinement.State.FocusedBranchActiveContinuation
+    NestedFixtureFocusedNestedTerminalBypass
+    NestedFixtureFocusedNestedNoActive
+    (fun _ _ => Bool) residual
+
+abbrev NestedFixtureFocusedNoMapped :=
+  Core.ResidualRefinement.State.FocusedBranchDecisionNoContinuation
+    NestedFixtureFocusedBypass NestedFixtureFocusedActive
+    NestedFixtureFocusedYes NestedFixtureFocusedNo
+    (fun _ _ _ => Bool)
+
+abbrev NestedFixtureFocusedTerminalYes (_residual : Residual)
+    (_data : NestedFixtureFocusedActive _residual) : Prop := True
+
+abbrev NestedFixtureFocusedTerminalNo (_residual : Residual)
+    (_data : NestedFixtureFocusedActive _residual) : Prop := False
+
+abbrev NestedFixtureFocusedTerminalDecision :=
+  Core.ResidualRefinement.State.FocusedBranchDecision
+    NestedFixtureFocusedBypass NestedFixtureFocusedActive
+    NestedFixtureFocusedTerminalYes NestedFixtureFocusedTerminalNo
+
+abbrev NestedFixtureFocusedTerminalNoContinuation :=
+  Core.ResidualRefinement.State.FocusedBranchDecisionNoContinuation
+    NestedFixtureFocusedBypass NestedFixtureFocusedActive
+    NestedFixtureFocusedTerminalYes NestedFixtureFocusedTerminalNo
+    (fun _ _ _ => PUnit)
+
+abbrev NestedFixtureFocusedTerminalNoClosed :=
+  Core.ResidualRefinement.State.FocusedBranchDecisionNoClosed
+    NestedFixtureFocusedBypass NestedFixtureFocusedActive
+    NestedFixtureFocusedTerminalYes NestedFixtureFocusedTerminalNo
+
+noncomputable def nestedFixtureFocusedDecisionNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureFinalNoActive) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFocusedDecision :=
+  Core.ResidualRefinement.State.StageNode.decideFocusedBranch
+    (fun _ _ => isFalse id) (fun _ _ _ => trivial)
+
+noncomputable def nestedFixtureFocusedYesClosedNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureFocusedDecision)
+        facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFocusedYesClosed :=
+  Core.ResidualRefinement.State.StageNode.closeFocusedBranchYes
+    (fun _ _ impossible => impossible)
+
+noncomputable def nestedFixtureFocusedNoContinuationNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureFocusedDecision)
+        facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFocusedNoContinuation :=
+  Core.ResidualRefinement.State.StageNode.continueFocusedBranchNo
+    (fun _ _ _ => PUnit.unit)
+
+noncomputable def nestedFixtureFocusedYesContinuationNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureFocusedDecision)
+        facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFocusedYesContinuation :=
+  Core.ResidualRefinement.State.StageNode.continueFocusedBranchYes
+    (fun _ _ _ => PUnit.unit)
+
+noncomputable def nestedFixtureFocusedYesMappedNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedYesContinuation) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFocusedYesMapped :=
+  Core.ResidualRefinement.State.StageNode.mapFocusedBranchYesContinuation
+    (Output := fun _ _ _ => PUnit)
+    (Next := fun _ _ _ => Bool)
+    (fun _ _ _ _ => true)
+
+noncomputable def nestedFixtureFocusedNestedDecisionNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedYesContinuation) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFocusedNestedDecision :=
+  Core.ResidualRefinement.State.StageNode.decideFocusedBranchYesContinuationNo
+      (fun _ _ _ => isFalse id)
+      (fun _ _ _ _ => trivial)
+
+noncomputable def nestedFixtureFocusedNestedClosedNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedNestedDecision) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFocusedNestedClosed :=
+  Core.ResidualRefinement.State.StageNode.terminalizeFocusedBranchYesCloseNestedYes
+      (fun _ _ _ _ => PUnit.unit)
+      (fun _ _ _ impossible => impossible)
+
+noncomputable def nestedFixtureFocusedActiveContinuationNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedNestedClosed) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFocusedActiveContinuation :=
+  Core.ResidualRefinement.State.StageNode.continueFocusedBranchActive
+    (fun _ _ => true)
+
+/-- The same focused mapping while retrieving an independent earlier stage
+from the one accumulated ledger. -/
+noncomputable def nestedFixtureFocusedYesMappedDerivedNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedYesContinuation) facts]
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureFinalNoActive) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFocusedYesMapped :=
+  Core.ResidualRefinement.State.StageNode.mapFocusedBranchYesContinuationDerived
+    (Output := fun _ _ _ => PUnit)
+    (Next := fun _ _ _ => Bool)
+    (Core.ResidualRefinement.State.LedgerQuery.stage
+      (facts := facts) (Stage := NestedFixtureFinalNoActive))
+    (fun _ _inherited _ _ _ => true)
+
+noncomputable def nestedFixtureFocusedNoMappedNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedNoContinuation) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFocusedNoMapped :=
+  Core.ResidualRefinement.State.StageNode.mapFocusedBranchNoContinuation
+    (Output := fun _ _ _ => PUnit)
+    (Next := fun _ _ _ => Bool)
+    (fun _ _ _ _ => true)
+
+noncomputable def nestedFixtureFocusedTerminalDecisionNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available NestedFixtureFinalNoActive) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFocusedTerminalDecision :=
+  Core.ResidualRefinement.State.StageNode.decideFocusedBranch
+    (fun _ _ => isTrue trivial) (fun _ _ absent => (absent trivial).elim)
+
+noncomputable def nestedFixtureFocusedTerminalNoContinuationNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedTerminalDecision) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFocusedTerminalNoContinuation :=
+  Core.ResidualRefinement.State.StageNode.continueFocusedBranchNo
+    (fun _ _ impossible => impossible.elim)
+
+noncomputable def nestedFixtureFocusedTerminalNoClosedNode {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedTerminalNoContinuation) facts] :
+    Core.ResidualRefinement.State.StageNode (facts := facts)
+      NestedFixtureFocusedTerminalNoClosed :=
+  Core.ResidualRefinement.State.StageNode.closeFocusedBranchNoContinuation
+    (Output := fun _ _ _ => PUnit)
+    (fun _ _ impossible _ => impossible.elim)
+
+noncomputable def nestedFixtureAfterAuditDecision :=
+  nestedFixtureAuditDecisionNode.run nestedFixtureAfterYesContinuation
+
+noncomputable def nestedFixtureAfterAuditTerminal :=
+  nestedFixtureAuditNoTerminalNode.run nestedFixtureAfterAuditDecision
+
+noncomputable def nestedFixtureAfterFinalDecision :=
+  nestedFixtureFinalDecisionNode.run nestedFixtureAfterAuditTerminal
+
+noncomputable def nestedFixtureAfterFinalYesClosed :=
+  nestedFixtureFinalYesClosedNode.run nestedFixtureAfterFinalDecision
+
+noncomputable def nestedFixtureAfterFinalNoActive :=
+  nestedFixtureFinalNoActiveNode.run nestedFixtureAfterFinalYesClosed
+
+noncomputable def nestedFixtureAfterFocusedDecision :=
+  nestedFixtureFocusedDecisionNode.run nestedFixtureAfterFinalNoActive
+
+noncomputable def nestedFixtureAfterFocusedYesClosed :=
+  nestedFixtureFocusedYesClosedNode.run nestedFixtureAfterFocusedDecision
+
+noncomputable def nestedFixtureAfterFocusedNoContinuation :=
+  nestedFixtureFocusedNoContinuationNode.run nestedFixtureAfterFocusedYesClosed
+
+noncomputable def nestedFixtureAfterFocusedYesContinuation :=
+  nestedFixtureFocusedYesContinuationNode.run nestedFixtureAfterFocusedDecision
+
+noncomputable def nestedFixtureAfterFocusedYesMapped :=
+  nestedFixtureFocusedYesMappedNode.run nestedFixtureAfterFocusedYesContinuation
+
+noncomputable def nestedFixtureAfterFocusedNestedDecision :=
+  nestedFixtureFocusedNestedDecisionNode.run
+    nestedFixtureAfterFocusedYesContinuation
+
+noncomputable def nestedFixtureAfterFocusedNestedClosed :=
+  nestedFixtureFocusedNestedClosedNode.run
+    nestedFixtureAfterFocusedNestedDecision
+
+noncomputable def nestedFixtureAfterFocusedActiveContinuation :=
+  nestedFixtureFocusedActiveContinuationNode.run
+    nestedFixtureAfterFocusedNestedClosed
+
+noncomputable def nestedFixtureAfterFocusedYesMappedDerived :=
+  nestedFixtureFocusedYesMappedDerivedNode.run
+    nestedFixtureAfterFocusedYesContinuation
+
+noncomputable def nestedFixtureAfterFocusedNoMapped :=
+  nestedFixtureFocusedNoMappedNode.run nestedFixtureAfterFocusedNoContinuation
+
+noncomputable def nestedFixtureAfterFocusedTerminalDecision :=
+  nestedFixtureFocusedTerminalDecisionNode.run nestedFixtureAfterFinalNoActive
+
+noncomputable def nestedFixtureAfterFocusedTerminalNoContinuation :=
+  nestedFixtureFocusedTerminalNoContinuationNode.run
+    nestedFixtureAfterFocusedTerminalDecision
+
+noncomputable def nestedFixtureAfterFocusedTerminalNoClosed :=
+  nestedFixtureFocusedTerminalNoClosedNode.run
+    nestedFixtureAfterFocusedTerminalNoContinuation
+
+theorem focused_active_cursor_accumulates :
+    Nonempty
+        (NestedFixtureFinalYesClosed
+          nestedFixtureAfterFocusedNoMapped.residual) ∧
+      Nonempty
+        (NestedFixtureFocusedNoContinuation
+          nestedFixtureAfterFocusedNoMapped.residual) ∧
+      Nonempty
+        (NestedFixtureFocusedNoMapped
+          nestedFixtureAfterFocusedNoMapped.residual) := by
+  exact ⟨nestedFixtureAfterFocusedNoMapped.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureFinalYesClosed),
+    nestedFixtureAfterFocusedNoMapped.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedNoContinuation),
+    nestedFixtureAfterFocusedNoMapped.latest⟩
+
+theorem focused_no_closure_accumulates :
+    Nonempty
+        (NestedFixtureFocusedTerminalDecision
+          nestedFixtureAfterFocusedTerminalNoClosed.residual) ∧
+      Nonempty
+        (NestedFixtureFocusedTerminalNoContinuation
+          nestedFixtureAfterFocusedTerminalNoClosed.residual) ∧
+      Nonempty
+        (NestedFixtureFocusedTerminalNoClosed
+          nestedFixtureAfterFocusedTerminalNoClosed.residual) := by
+  exact ⟨nestedFixtureAfterFocusedTerminalNoClosed.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedTerminalDecision),
+    nestedFixtureAfterFocusedTerminalNoClosed.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedTerminalNoContinuation),
+    nestedFixtureAfterFocusedTerminalNoClosed.latest⟩
+
+theorem focused_yes_continuation_accumulates :
+    Nonempty
+        (NestedFixtureFocusedDecision
+          nestedFixtureAfterFocusedYesMapped.residual) ∧
+      Nonempty
+        (NestedFixtureFocusedYesContinuation
+          nestedFixtureAfterFocusedYesMapped.residual) ∧
+      Nonempty
+        (NestedFixtureFocusedYesMapped
+          nestedFixtureAfterFocusedYesMapped.residual) := by
+  exact ⟨nestedFixtureAfterFocusedYesMapped.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedDecision),
+    nestedFixtureAfterFocusedYesMapped.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedYesContinuation),
+    nestedFixtureAfterFocusedYesMapped.latest⟩
+
+theorem focused_yes_then_no_decision_accumulates :
+    Nonempty
+        (NestedFixtureFocusedYesContinuation
+          nestedFixtureAfterFocusedActiveContinuation.residual) ∧
+      Nonempty
+        (NestedFixtureFocusedNestedDecision
+          nestedFixtureAfterFocusedActiveContinuation.residual) ∧
+      Nonempty
+        (NestedFixtureFocusedNestedClosed
+          nestedFixtureAfterFocusedActiveContinuation.residual) ∧
+      Nonempty
+        (NestedFixtureFocusedActiveContinuation
+          nestedFixtureAfterFocusedActiveContinuation.residual) := by
+  exact ⟨nestedFixtureAfterFocusedActiveContinuation.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedYesContinuation),
+    nestedFixtureAfterFocusedActiveContinuation.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedNestedDecision),
+    nestedFixtureAfterFocusedActiveContinuation.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedNestedClosed),
+    nestedFixtureAfterFocusedActiveContinuation.latest⟩
+
+theorem focused_yes_continuation_derived_query_accumulates :
+    Nonempty
+        (NestedFixtureFinalNoActive
+          nestedFixtureAfterFocusedYesMappedDerived.residual) ∧
+      Nonempty
+        (NestedFixtureFocusedYesContinuation
+          nestedFixtureAfterFocusedYesMappedDerived.residual) ∧
+      Nonempty
+        (NestedFixtureFocusedYesMapped
+          nestedFixtureAfterFocusedYesMappedDerived.residual) := by
+  exact ⟨nestedFixtureAfterFocusedYesMappedDerived.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureFinalNoActive),
+    nestedFixtureAfterFocusedYesMappedDerived.require
+      (property := Core.ResidualRefinement.State.Available
+        NestedFixtureFocusedYesContinuation),
+    nestedFixtureAfterFocusedYesMappedDerived.latest⟩
+
 #print axioms all_properties_accumulated
 #print axioms all_properties_by_type
 #print axioms refinedYesBranch_retains_facts
@@ -648,9 +1575,20 @@ theorem every_occurrence_has_all_properties
 #print axioms mixed_split_polynomial
 #print axioms produced_chain_retains_origin
 #print axioms every_produced_occurrence_has_certificate
+#print axioms no_continuation_transports_the_untouched_yes_edge
 #print axioms every_certified_occurrence_is_positive
 #print axioms exact_certificate_echo_retains_output
 #print axioms fact_and_stage_produce_square
 #print axioms one_lt_or_eq_decision_is_exhaustive
+#print axioms nested_active_cursor_accumulates
+#print axioms nested_active_decision_preserves_ledger
+#print axioms active_cursor_derived_query_accumulates
+#print axioms focused_yes_continuation_derived_query_accumulates
+#print axioms active_cursor_branch_continuations_accumulate
+#print axioms active_cursor_no_continuation_focus_accumulates
+#print axioms focused_active_cursor_accumulates
+#print axioms focused_no_closure_accumulates
+#print axioms focused_yes_continuation_accumulates
+#print axioms focused_yes_then_no_decision_accumulates
 
 end StructuralExhaustion.Examples.ResidualRefinement

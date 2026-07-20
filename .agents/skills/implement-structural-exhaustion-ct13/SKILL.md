@@ -30,3 +30,11 @@ Supply the finite payer enumerator, eligibility and decider, finite obstructions
 ## Practicality and completion
 
 Bound both finite searches and reconciliation by polynomial functions of the local payer, obstruction, and tier-two sizes. Do not enumerate global resource assignments. Test all terminal modes reachable by the application and pin canonical tie-breaking.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

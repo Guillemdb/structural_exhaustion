@@ -76,4 +76,19 @@ example : singletonRun.iterations = 3 := by
 example : singletonRun.trace.length ≤ 4 * 3 + 3 :=
   singletonProfile.run_trace_le_vertices context
 
+/-- Application nodes that require only maximality consume the framework's
+restricted view and cannot project a maximum-cardinality theorem. -/
+noncomputable def singletonMaximalStage :
+    singletonProfile.MaximalVerifiedStage context :=
+  singletonProfile.maximalVerifiedStage context
+
+example (item : Fin 3) :
+    ∃ selected ∈ singletonProfile.values,
+      ¬Disjoint (singletonProfile.support item)
+        (singletonProfile.support selected) :=
+  singletonMaximalStage.saturated item
+
+example : (singletonProfile.run context).terminal = .exhausted :=
+  singletonMaximalStage.terminal
+
 end StructuralExhaustion.Examples.CT12DisjointPacking

@@ -60,6 +60,18 @@ with its own exact branch certificate.
 
 ## 4. Retrieve; never rederive or copy
 
+### Incoming residual only; never create a family
+
+A node may quantify only over carriers, collections, schedules, fibres, and
+families already contained in its literal incoming residual and exposed by
+the single accumulated ledger. It must never define a new application-owned
+family of graphs, states, completions, contexts, supports, witnesses, or
+realizations, even as an image, subtype, sigma type, chosen representative,
+or extensionally equal replacement. If the needed view is not exposed, add a
+generic Core projection/query for the existing residual; do not manufacture a
+new carrier in the node. Every output fact must refine the same incoming
+residual, and Core alone appends it to the common ledger.
+
 For every required inherited value, record its original producer. Retrieve all
 inputs from the current ledger with one compositional
 `Core.ResidualRefinement.State.LedgerQuery`, using `fact`, `stage`,
@@ -194,6 +206,7 @@ usingTwoStages / usingThreeStages / usingNStages
 caller-supplied account, outcome, terminal, closure, or survival hypotheses
 ResidualStage.exact after the root
 manual checkpoint or replacement ledger
+node-local graph/state/completion/context/support/witness/realization family
 ```
 
 Also reject a `usingStage` body that ignores the retrieved stage, a consumer

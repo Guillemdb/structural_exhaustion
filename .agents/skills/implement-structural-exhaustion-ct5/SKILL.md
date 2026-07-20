@@ -30,3 +30,11 @@ Supply local sites, the dependent witness family, active and support predicates,
 ## Practicality and completion
 
 Prove a polynomial work bound from the sum of local witness counts plus the ledger pass. Do not let a witness type range over ambient graphs, arbitrary subsets, or recursively generated proofs. If the generic machine lacks the reusable cost theorem needed by several examples, add that theorem to CT5 or `Core.WorkBudget` and keep the application lemma thin. Compile every terminal branch used by the proof and a small order-sensitive fixture.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

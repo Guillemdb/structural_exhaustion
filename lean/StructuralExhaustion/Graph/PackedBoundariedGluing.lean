@@ -1067,7 +1067,23 @@ structure VerifiedStage
       (CT3.certifiedCompressionBudget ctx).coefficient *
         ((CT3.certifiedCompressionBudget ctx).size
             compression.certifiedInput + 1) ^
-          (CT3.certifiedCompressionBudget ctx).degree
+        (CT3.certifiedCompressionBudget ctx).degree
+
+namespace VerifiedStage
+
+/-! A named, framework-owned view of the CT3 terminal fact.  Erdős stages
+must consume this proposition from their incoming ledger rather than copying
+the `compressionImpossible` field into an application handoff.  The
+quantification is deliberately only over proper atoms and admissible
+compressions, matching the CT3 contract. -/
+
+theorem hereditaryTargetUncompressible
+    (stage : VerifiedStage input boundaries ctx) :
+    ∀ (atom : ProperAtom input boundaries ctx)
+      (compression : Compression input boundaries atom), False :=
+  stage.compressionImpossible
+
+end VerifiedStage
 
 noncomputable def verifiedStage
     (ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target) :

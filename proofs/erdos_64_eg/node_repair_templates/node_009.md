@@ -25,5 +25,5 @@
 ## Framework and validation record
 
 - Erdős code must not mention route `OutputLedger` or CT transition internals.
-- Focused kernel command: `lake env lean Erdos64EG/Node9DeletionCriticality.lean`.
+- Focused kernel command: `cd examples/erdos_64_eg && lake -Kjobs=1 build Erdos64EG.Node14Uncompressibility` (passed through node [9]).
 - Dashboard/TeX synchronization: outside this node-local repair slice.

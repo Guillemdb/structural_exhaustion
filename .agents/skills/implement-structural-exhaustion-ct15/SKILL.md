@@ -87,3 +87,11 @@ diagram edge asks to test the properties contained in admissibility.
 ## Practicality and completion
 
 Bound all work by a constant number of passes over local coordinates and polynomial-time charge evaluation. Do not make coordinates range over all target substructures. Test the first-hit rank drop and both full-rank comparison outcomes needed by the instance.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

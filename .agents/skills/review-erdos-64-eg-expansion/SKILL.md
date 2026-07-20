@@ -222,3 +222,14 @@ nodes/CT, exact unconditional endpoint, provenance chain, paper correction,
 framework abstractions, transfer, local work bound, TeX--Lean--web coverage,
 trust result, and commands. If blocked, identify the previous unconditional
 frontier and one precise missing implication; never call the failed node green.
+
+## Reject node-local families
+
+Fail the review whenever an Erdős node defines a new family, carrier,
+collection, subtype, image, sigma type, chosen representative set, or
+enumeration of graphs, states, completions, contexts, supports, witnesses, or
+realizations. Every such object must already be part of the literal incoming
+residual and retrieved from the one accumulated ledger through Core. An
+extensional equality to an incoming object does not excuse replacement. If a
+consumer lacks a view, require a generic Core projection/query of the existing
+residual; never permit application-owned reconstruction.

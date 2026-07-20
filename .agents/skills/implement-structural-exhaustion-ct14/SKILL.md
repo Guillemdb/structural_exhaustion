@@ -30,3 +30,11 @@ Supply the member type and explicit enumerator, label type and decidable equalit
 ## Practicality and completion
 
 The machine scans the member enumerator a constant number of times. Prove its size and arithmetic cost are polynomial in the input. Do not enumerate label assignments or member subsets. Test every optional-data failure used by the theorem and at least one successful aggregate comparison.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

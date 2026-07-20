@@ -204,3 +204,10 @@ commands; and the next dependency-ready manuscript section.
 If validation fails, leave the verified frontier unchanged. Report the exact
 last unconditional node and blocker. Stop after the one selected CT is proved,
 tested, synchronized, and recorded.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family or replacement carrier. Work only on the
+literal incoming residual and retrieve every collection through the single
+Core-owned accumulated ledger. If a view is missing, extend Core with a
+projection/query of that same residual; do not create an application family.

@@ -42,6 +42,28 @@ example : profile.flatCount 1 1 = 2 := by native_decide
 
 example : profile.obstructedCount 1 1 = 0 := by native_decide
 
+def featureCodes : Fin 4 → BitVec 2
+  | 0 => 0b00#2
+  | 1 => 0b01#2
+  | 2 => 0b10#2
+  | 3 => 0b11#2
+
+def featureColumns : Fin 2 → BitVec 4
+  | 0 => 0b1010#4
+  | 1 => 0b1100#4
+
+theorem featureColumns_exact (feature : Fin 2) (target : Fin 4) :
+    (featureColumns feature).getLsb target =
+      (featureCodes target).getLsb feature := by
+  decide +revert
+
+example (mask : BitVec 2) (target : Fin 4) :
+    (Core.FiniteBitRelationBarrier.featureAvoidanceRow
+      featureColumns mask).getLsb target =
+        decide (mask &&& featureCodes target = 0#2) :=
+  Core.FiniteBitRelationBarrier.featureAvoidanceRow_getLsb_eq_decide_and_zero
+    featureColumns featureCodes featureColumns_exact mask target
+
 example : profile.checks 1 1 ≤ 2 * (2 + 1) ^ 2 :=
   profile.checks_quadratic 1 1
 

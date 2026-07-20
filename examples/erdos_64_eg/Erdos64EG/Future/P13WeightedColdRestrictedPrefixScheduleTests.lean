@@ -1,0 +1,14 @@
+import Erdos64EG.Future.P13WeightedColdRestrictedPrefixSchedule
+
+namespace Erdos64EG.Internal.Tests
+
+#check p13WeightedColdRestrictedPrefixPackage?
+#check p13WeightedColdRestrictedPrefixPackages
+#check componentOccurrence_mem_prefixPackages
+#check p13WeightedColdRestrictedPrefixPackages_length_le
+#check p13WeightedColdRestrictedPrefixPackages_length_le_vertices
+
+#print axioms componentOccurrence_mem_prefixPackages
+#print axioms p13WeightedColdRestrictedPrefixPackages_length_le_vertices
+
+end Erdos64EG.Internal.Tests

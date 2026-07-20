@@ -270,6 +270,26 @@ def fixedContext (input : StaticInput)
       · exact smaller
     · exact baseline
 
+/-! The fixed-context bridge is intentionally exposed through small
+framework-owned projections.  Consumers should use these rather than
+reconstructing the ordinary context (or copying its baseline/avoidance
+certificates) in an application handoff. -/
+
+@[simp] theorem fixedContext_graph
+    (input : StaticInput)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target) :
+    (input.fixedContext ctx).G = ctx.G.object := rfl
+
+@[simp] theorem fixedContext_baseline
+    (input : StaticInput)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target) :
+    (input.fixedContext ctx).baseline = ctx.baseline := rfl
+
+@[simp] theorem fixedContext_avoids
+    (input : StaticInput)
+    (ctx : Core.MinimalCounterexampleContext input.problem input.Target) :
+    (input.fixedContext ctx).avoids = ctx.avoids := rfl
+
 /-- Turn one explicit proper subgraph retaining the baseline into the exact
 certificate-driven CT2 input. -/
 def properSubgraphCT2Input (input : StaticInput)
@@ -543,6 +563,14 @@ structure SelectedNoProperCore (input : StaticInput)
     (StaticInput.problem.{u} input).rank (PackedFiniteObject.pack object)
   certificate : NoProperCoreCertificate input context
 
+/-! Selection-only output; proper-core closure is a later manuscript node. -/
+structure SelectedMinimalContext (input : StaticInput)
+    {V : Type u} (object : FiniteObject V) : Type (u + 1) where
+  context : Core.MinimalCounterexampleContext
+    (StaticInput.problem.{u} input) (StaticInput.Target.{u} input)
+  rank_le : (StaticInput.problem.{u} input).rank context.G ≤
+    (StaticInput.problem.{u} input).rank (PackedFiniteObject.pack object)
+
 /-- Framework-owned packed-minimality/CT2 executor from one current avoiding
 context.  Natural-number well-ordering is proof-level and no graph or
 subgraph universe is enumerated. -/
@@ -556,6 +584,20 @@ noncomputable def selectNoProperCore (input : StaticInput)
   let context := Classical.choose witness
   have verified := Classical.choose_spec witness
   exact ⟨context, verified.1, input.noProperCoreCertificate context⟩
+
+noncomputable def selectMinimalContext (input : StaticInput)
+    {V : Type u} (object : FiniteObject V)
+    (baseline : input.minimumDegree ≤ object.minDegree)
+    (avoids : ¬ HasCycleWithLength object.graph input.LengthOK) :
+    SelectedMinimalContext input object := by
+  let initial : Core.AvoidingContext
+      (StaticInput.problem.{u} input) (StaticInput.Target.{u} input) :=
+    Core.AvoidingContext.ofBranch
+      ⟨PackedFiniteObject.pack object, baseline, ()⟩ avoids
+  let witness := initial.exists_minimalCounterexample (fun _packed => ())
+  let ctx := Classical.choose witness
+  have rankLe := Classical.choose_spec witness
+  exact ⟨ctx, rankLe⟩
 
 /-- Native work certificate used by every proper-subgraph run in this graph
 profile. -/

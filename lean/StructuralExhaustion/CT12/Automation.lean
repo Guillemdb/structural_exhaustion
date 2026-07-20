@@ -96,6 +96,9 @@ def disjointPackingCapabilityProfile : Core.CapabilityProfile where
     "StructuralExhaustion.CT12.DisjointPacking.Profile.run",
     "StructuralExhaustion.CT12.DisjointPacking.Profile.run_iterations_eq_values",
     "StructuralExhaustion.CT12.DisjointPacking.Profile.verifiedStage",
+    "StructuralExhaustion.CT12.DisjointPacking.Profile.MaximalVerifiedStage",
+    "StructuralExhaustion.CT12.DisjointPacking.Profile.VerifiedStage.toMaximal",
+    "StructuralExhaustion.CT12.DisjointPacking.Profile.maximalVerifiedStage",
     "StructuralExhaustion.CT12.DisjointPacking.Profile.run_total"]
 
 /-- Finite demand completion with a semantic disjoint-choice/overlap split;

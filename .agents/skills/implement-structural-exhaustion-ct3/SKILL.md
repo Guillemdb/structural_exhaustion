@@ -47,3 +47,11 @@ Keep coordinates, candidates, and rows small and proof-specified. Do not materia
 ## Completion gate
 
 Test every response coordinate, every canonical row, and each intended representative. Pin the exact `checkLimit`, terminal, trace, semantic soundness, and target-preservation theorem. Do not replace the universal contract with a fixture or claim later manuscript stages.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

@@ -71,6 +71,13 @@ def labelCodes (order : Nat) : FinEnum (LabelCode order) :=
   FinEnum.ofEquiv (Fin (2 ^ order))
     (BitVec.equivFin : BitVec order ≃+* Fin (2 ^ order)).toEquiv
 
+/-- The compact path-label carrier has the expected symbolic cardinality. -/
+theorem labelCodes_card (order : Nat) :
+    @FinEnum.card (LabelCode order) (labelCodes order) = 2 ^ order :=
+  by
+    change FinEnum.card (Fin (2 ^ order)) = 2 ^ order
+    exact FinEnum.card_fin
+
 @[simp] theorem mem_decodeCode_iff {order : Nat}
     (code : LabelCode order) (position : Fin order) :
     position ∈ decodeCode code ↔ code.getLsb position = true := by

@@ -26,11 +26,10 @@ structure Proposal (carrier : Carrier input ctx Coordinate) : Type (max u v + 1)
   identifiedImages : ∀ {left right}, code left = code right →
     ∀ realization, qImage realization left = qImage realization right
 
-/-- The paper's admission audit at the proposal's actual carrier interface.
-It requires declared-coordinate support, boundary-profile preservation,
-context-universal target response, and the proper/whole representative clause.
--/
-structure Admissible
+/-- A raw proposal audit at its actual carrier interface.  This is suitable
+for a quotient induced on a smaller support before outside-context validity
+and representative data have been established. -/
+structure Proposed
     (coordinateSupport : Coordinate → Finset ctx.G.Vertex)
     (declared : Finset Coordinate) {carrier : Carrier input ctx Coordinate}
     (proposal : Proposal input ctx Coordinate carrier) : Prop where
@@ -39,6 +38,14 @@ structure Admissible
   preservesBoundary : ∀ {left right}, proposal.code left = proposal.code right →
     (carrier.coordinatePiece left).boundaryDegree carrier.boundaries =
       (carrier.coordinatePiece right).boundaryDegree carrier.boundaries
+
+/-- Full admission extends a raw proposal with outside-context target
+completeness and the representative/certified-reduction clause. -/
+structure Admissible
+    (coordinateSupport : Coordinate → Finset ctx.G.Vertex)
+    (declared : Finset Coordinate) {carrier : Carrier input ctx Coordinate}
+    (proposal : Proposal input ctx Coordinate carrier) : Prop
+    extends Proposed input ctx Coordinate coordinateSupport declared proposal where
   targetComplete : ∀ {left right}, proposal.code left = proposal.code right →
     ∀ outside : Context carrier.Boundary,
       SupportStratifiedDetermination.response input ctx Coordinate carrier left outside =
@@ -50,10 +57,31 @@ structure Admissible
 def declaredCoordinates (coordinates : FinEnum Coordinate) : Finset Coordinate :=
   @List.toFinset Coordinate coordinates.decEq coordinates.orderedValues
 
-/-- Exact graph specialization of the manuscript's functional-admissible rank
-family.  Candidates range propositionally over every proof-carrying connected
-carrier and every admitted proposal on it. -/
+/-- Graph specialization for functional raw proposals.  Applications must not
+use this profile as an entropy rank when context-defective proposals are still
+present; it is the profile for a later restriction/audit step. -/
 def family (coordinateSupport : Coordinate → Finset ctx.G.Vertex)
+    (coordinates : FinEnum Coordinate) : CT15.FunctionalAdmissibleRank.Family where
+  Coordinate := Coordinate
+  Carrier := Carrier input ctx Coordinate
+  Proposal := Proposal input ctx Coordinate
+  code := fun proposal ↦ proposal.code
+  Admissible := fun proposal ↦
+    Proposed input ctx Coordinate coordinateSupport
+      (@declaredCoordinates Coordinate coordinates) proposal
+  Realization := fun _carrier proposal ↦ proposal.Realization
+  ImageValue := fun _carrier proposal ↦ proposal.ImageValue
+  qImage := fun proposal ↦ proposal.qImage
+  identifiedImages := fun proposal ↦ proposal.identifiedImages
+
+def profile (coordinateSupport : Coordinate → Finset ctx.G.Vertex)
+    (coordinates : FinEnum Coordinate) :
+    CT15.FunctionalAdmissibleRank.Profile
+      (family input ctx Coordinate coordinateSupport coordinates) where
+  coordinates := coordinates
+
+/-- Fully admitted functional-quotient specialization used by target rank. -/
+def admittedFamily (coordinateSupport : Coordinate → Finset ctx.G.Vertex)
     (coordinates : FinEnum Coordinate) : CT15.FunctionalAdmissibleRank.Family where
   Coordinate := Coordinate
   Carrier := Carrier input ctx Coordinate
@@ -67,10 +95,10 @@ def family (coordinateSupport : Coordinate → Finset ctx.G.Vertex)
   qImage := fun proposal ↦ proposal.qImage
   identifiedImages := fun proposal ↦ proposal.identifiedImages
 
-def profile (coordinateSupport : Coordinate → Finset ctx.G.Vertex)
+def admittedProfile (coordinateSupport : Coordinate → Finset ctx.G.Vertex)
     (coordinates : FinEnum Coordinate) :
     CT15.FunctionalAdmissibleRank.Profile
-      (family input ctx Coordinate coordinateSupport coordinates) where
+      (admittedFamily input ctx Coordinate coordinateSupport coordinates) where
   coordinates := coordinates
 
 namespace Admissible
@@ -80,6 +108,25 @@ variable {coordinateSupport : Coordinate → Finset ctx.G.Vertex}
 variable {coordinates : FinEnum Coordinate}
 variable {carrier : Carrier input ctx Coordinate}
 variable {proposal : Proposal input ctx Coordinate carrier}
+
+/-- Promote a raw proposal after the later outside-context audit and
+representative/reduction producer have both succeeded. -/
+def ofProposed
+    (proposed : Proposed input ctx Coordinate coordinateSupport
+      (@declaredCoordinates Coordinate coordinates) proposal)
+    (targetComplete : ∀ {left right}, proposal.code left = proposal.code right →
+      ∀ outside : Context carrier.Boundary,
+        SupportStratifiedDetermination.response input ctx Coordinate carrier left outside =
+          SupportStratifiedDetermination.response input ctx Coordinate carrier right outside)
+    (representedReduction : ¬Function.Injective proposal.code →
+      Nonempty
+        (SupportStratifiedDetermination.Representative
+          input ctx Coordinate carrier)) :
+    Admissible input ctx Coordinate coordinateSupport
+      (@declaredCoordinates Coordinate coordinates) proposal where
+  toProposed := proposed
+  targetComplete := targetComplete
+  representedReduction := representedReduction
 
 /-- Admission's representative clause closes every non-injective proposal on
 an eligible proper carrier, using exactly the existing CT3 representative. -/
@@ -109,15 +156,15 @@ variable {input ctx Coordinate}
 variable (coordinateSupport : Coordinate → Finset ctx.G.Vertex)
 variable (coordinates : FinEnum Coordinate)
 
-abbrev ExactProfile :=
-  profile input ctx Coordinate coordinateSupport coordinates
+abbrev AdmittedProfile :=
+  admittedProfile input ctx Coordinate coordinateSupport coordinates
 
 /-- Under the manuscript's current admission definition, every candidate code
 is injective: its carrier is either an eligible proper interface or the whole
 graph, and the representative clause contradicts non-injectivity in either
 case. -/
 theorem candidate_code_injective
-    (candidate : (ExactProfile coordinateSupport coordinates).Candidate) :
+    (candidate : (AdmittedProfile coordinateSupport coordinates).Candidate) :
     Function.Injective candidate.proposal.code := by
   have admitted : Admissible input ctx Coordinate coordinateSupport
       (@declaredCoordinates Coordinate coordinates) candidate.proposal :=
@@ -127,8 +174,8 @@ theorem candidate_code_injective
   · exact admitted.injective_of_whole whole
 
 theorem declared_survives :
-    (ExactProfile coordinateSupport coordinates).Survives
-      (ExactProfile coordinateSupport coordinates).rankProfile.declaredCoordinates := by
+    (AdmittedProfile coordinateSupport coordinates).Survives
+      (AdmittedProfile coordinateSupport coordinates).rankProfile.declaredCoordinates := by
   refine ⟨Finset.Subset.rfl, ?_⟩
   intro candidate
   exact (candidate_code_injective coordinateSupport coordinates candidate).injOn
@@ -136,19 +183,19 @@ theorem declared_survives :
 /-- Consequently the functional-admissible target rank is definitionally
 forced to the full declared-coordinate cardinality. -/
 theorem targetRank_eq_coordinatesCard :
-    (ExactProfile coordinateSupport coordinates).targetRank = coordinates.card := by
+    (AdmittedProfile coordinateSupport coordinates).targetRank = coordinates.card := by
   apply Nat.le_antisymm
-  · exact (ExactProfile coordinateSupport coordinates).rankProfile.targetRank_le_coordinates
+  · exact (AdmittedProfile coordinateSupport coordinates).rankProfile.targetRank_le_coordinates
   · have lower :=
-      (ExactProfile coordinateSupport coordinates).rankProfile
+      (AdmittedProfile coordinateSupport coordinates).rankProfile
         |>.surviving_card_le_targetRank
           (declared_survives coordinateSupport coordinates)
-    rw [(ExactProfile coordinateSupport coordinates).rankProfile.declaredCoordinates_card]
+    rw [(AdmittedProfile coordinateSupport coordinates).rankProfile.declaredCoordinates_card]
       at lower
     exact lower
 
 theorem no_rankDrop :
-    ¬(ExactProfile coordinateSupport coordinates).targetRank < coordinates.card :=
+    ¬(AdmittedProfile coordinateSupport coordinates).targetRank < coordinates.card :=
   Nat.not_lt_of_ge (targetRank_eq_coordinatesCard coordinateSupport coordinates).ge
 
 end Profile

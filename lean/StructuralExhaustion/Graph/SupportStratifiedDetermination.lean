@@ -107,6 +107,31 @@ theorem scope_exhaustive (support : Interface input ctx Coordinate) :
   | whole closedReconstruct =>
       exact Or.inr ⟨closedReconstruct, rfl⟩
 
+/-- The proper/whole tag stored by the graph interface is an executable
+decision without inspecting any graph, context, or support universe. -/
+def originalEligibleDecidable (support : Interface input ctx Coordinate) :
+    Decidable support.OriginalEligible := by
+  cases scopeEq : support.scope with
+  | proper boundaryNonempty rank_lt =>
+      exact isTrue ⟨boundaryNonempty, rank_lt, scopeEq⟩
+  | whole closedReconstruct =>
+      apply isFalse
+      rintro ⟨boundaryNonempty, rank_lt, properEq⟩
+      rw [scopeEq] at properEq
+      cases properEq
+
+/-- The negative constructor of the proper-support decision is exactly the
+stored whole-support constructor.  Applications need not reopen `Scope` or
+reimplement the complement proof at each diagram diamond. -/
+theorem whole_of_not_originalEligible
+    (support : Interface input ctx Coordinate)
+    (absent : ¬ support.OriginalEligible) : support.IsWhole := by
+  cases scopeEq : support.scope with
+  | proper boundaryNonempty rank_lt =>
+      exact (absent ⟨boundaryNonempty, rank_lt, scopeEq⟩).elim
+  | whole closedReconstruct =>
+      exact ⟨closedReconstruct, scopeEq⟩
+
 end Interface
 
 /-- A common code for support-specific boundary profiles.  Equality never

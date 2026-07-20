@@ -49,3 +49,11 @@ For `ExhaustiveClassification`, include the candidate predicate scan in the
 work ledger. Do not enumerate all refinements of an ambient graph or hide a
 completed promoted result in the capability. Test enabled and disabled route
 discovery when CT2 is the source and pin first-hit class order.
+
+## Absolute residual-carrier rule
+
+Never define a node-local family, subtype, image, enumeration, chosen
+representative collection, or replacement carrier. The CT may inspect only
+collections already owned by the literal incoming residual and retrieved
+from its single accumulated ledger. If access is missing, add a generic Core
+projection/query of that same residual; do not manufacture application data.

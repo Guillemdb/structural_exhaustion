@@ -17,17 +17,18 @@
 
 | Task ID | Paper assertion | Producer | Lean evidence | Edge | Status |
 |---|---|---|---|---|---|
-| N11-PRED | Consume literal node-[10] stage | [10] | blocked: no `Node10Stage`/`node10Stage` declaration exists in the nodes [1]--[52] Lean cone | [10]->[11] | blocked |
-| N11-QUERY | Retrieve only the inherited facts required by the atom definition | earlier ledger | blocked on N11-PRED; must use one `LedgerQuery` against the literal node-[10] ledger | [10]->[11] | blocked |
-| N11-ATOMS | Define the exact paper-local boundaried atoms | [11] | graph primitives ready: `PackedBoundariedGluing.Piece` and `MinimumDegreeCycleReplacement.ProperAtom`; thin stage instantiation blocked on N11-PRED | [11]->[12] | blocked |
-| N11-PROFILE | Construct the boundary-degree profile | [11] | graph primitive ready: `PackedBoundariedGluing.Piece.boundaryDegree`; thin payload must retain the full function on boundary labels; blocked on N11-PRED | [11]->[12] | blocked |
-| N11-LEDGER | Append only the new atom/profile payload | framework | must be a framework `StageNode` successor of literal `Node10Stage`; blocked on N11-PRED | downstream | blocked |
+| N11-PRED | Consume literal node-[10] stage | [10] | `Node11Stage`, predecessor `Node10Stage` | [10]->[11] | implemented; check pending |
+| N11-QUERY | Retrieve only the inherited facts required by the atom definition | earlier ledger | no inherited theorem is needed; `StageNode.mapStage` retrieves the literal `Node10Stage` | [10]->[11] | proved |
+| N11-ATOMS | Define the exact paper-local boundaried atoms | [11] | `Node11ProperAtom`, `Node11BoundariedAtomFamily` | [11]->[12] | proved |
+| N11-PROFILE | Construct the boundary-degree profile | [11] | `Node11AtomProfile`, `node11_boundaryDegreeProfile` | [11]->[12] | proved |
+| N11-LEDGER | Append only the new atom/profile payload | framework | `node11BoundariedAtoms`, `runInitialThroughNode11` | downstream | proved |
 
 ## Framework and validation record
 
 - Node [11] must not bundle nodes [12]--[14].
 - No `ExactHandoff`, predecessor field, or all-boundaries future theorem is permitted.
-- Dependency audit command: `rg -n --glob '*.lean' '\bNode10Stage\b|\bnode10Stage\b|Node10' examples/erdos_64_eg lean` (2026-07-19: no node-[10] stage declaration).
+- Literal predecessor: `Erdos64EG.Node10HighDegreeIndependence.Node10Stage`.
 - Existing `Erdos64EG/CT3.lean` is not node-[11] evidence: it explicitly bundles nodes `[11]`--`[14]` and extends `Core.ExactHandoff`.
-- Focused kernel command: blocked until the literal node-[10] stage exists; no node-[11] Lean module was authored.
-- Dashboard/TeX synchronization: blocked; node [11] remains yellow.
+- Focused one-job kernel build passed through node [14].
+- Trust output: `runInitialThroughNode11` and `node11_boundaryDegreeProfile` use only `propext`, `Classical.choice`, and `Quot.sound`; no `sorryAx`.
+- Dashboard/TeX synchronization: the node template and umbrella import now expose node [11] independently; generated dashboard refresh remains repository-level work.

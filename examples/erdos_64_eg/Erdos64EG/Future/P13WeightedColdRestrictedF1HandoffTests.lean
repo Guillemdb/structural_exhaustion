@@ -1,0 +1,18 @@
+import Erdos64EG.Future.P13WeightedColdRestrictedF1Handoff
+
+namespace Erdos64EG.Internal
+
+open StructuralExhaustion
+open StructuralExhaustion.Graph
+
+#check P13WeightedColdRestrictedPrefixPackage.F1Stage
+#check P13WeightedColdRestrictedPrefixPackage.firstOffsetHit
+#check P13WeightedColdRestrictedPrefixPackage.f1StageData
+#check P13WeightedColdRestrictedPrefixPackage.continuationProfile
+#check P13WeightedColdRestrictedPrefixPackage.runContinuation_total
+#check P13WeightedColdRestrictedPrefixPackage.stage_major_offset_order
+#check P13WeightedColdRestrictedPrefixPackage.f1_offset_order_exact
+#check P13WeightedColdRestrictedPrefixPackage.continuationLocalPredicateCallsUpper_eq
+#print axioms P13WeightedColdRestrictedPrefixPackage.runContinuation_total
+
+end Erdos64EG.Internal

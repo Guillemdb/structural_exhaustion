@@ -216,3 +216,11 @@ Finish only when the requested slice:
 - passes the architecture linter and repository validator;
 - has no manual node obligations; and
 - describes the current implementation directly without claiming unimplemented manuscript stages.
+
+## Absolute residual-carrier rule
+
+Every CT instantiation operates on collections already owned by the literal
+incoming residual. Never design a node-local family, image, subtype, chosen
+representative collection, or replacement carrier. Missing access is solved
+with a generic Core ledger projection/query, while preserving the same
+residual.

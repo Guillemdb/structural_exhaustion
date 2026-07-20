@@ -391,6 +391,15 @@ counterexample exists.
 \end{proof}
 
 \begin{remark}[Status of the routed leaves]\label[remark]{rem:formal-status}
+This remark records the manuscript route, not unconditional Lean coverage.
+The Lean-owned proved frontier currently ends at node~[20].  Nodes~[21]--[60]
+are partial: their local transformations compile, but proved producers are
+still missing at nodes~[21], [23], [35], [48], [52], [54], [56], and [57].
+Within that partial chain, nodes~[58]--[60] add only the
+paper's exact net-charge definition, exhaustive sign split, and local
+nonnegative-branch contradiction; their kernel-checked implementations add
+no further assumption or diagram edge.
+
 The normalized entropy and fan-mass arguments are invoked only after the
 sparse surplus-token branch has been discharged.  \Cref{def:near-cubic-spine}
 names the estimate available on the surviving branch, and
@@ -1131,7 +1140,7 @@ The table records every named object in the proof-dependency diagram.  The \emph
 12 & --- & Near-cubic budget & $B_{\mathrm{skel}}=\frac32 n\log_2n+o(n\log n)$ & budget scale & \cref{lem:near-cubic-budget} \\
 13 & [15], [16] & $P_{13}$-free theorem & $P_{13}$-free $+\delta\ge3$ gives target cycle & forces induced $P_{13}$ & \cref{thm:p13free} \\
 14 & [18] & $P_{13}$ label algebra & $399$ labels and relations $C_s$ & finite algebra basis & \cref{lem:labels} \\
-15 & [21] & Curvature enumeration & $543958,432672,111286$ and $c_\Omega$ & verified finite computation & \cref{lem:curv-enum} \\
+15 & [21] & Curvature enumeration & $543958,432672,111286$ and $c_\Omega$ & finite computation; current Lean producer conditional on the typed node-[21] carrier & \cref{lem:curv-enum} \\
 16 & [21], [145] & Weighted live/cold window interface & in packing order, extend the recoverable joint hot aggregate by one complete safe/flat package at \(\log_2n-O(1)\) separated scales, or retain the identical window with failure of that exact extension & bounded dependent hot product or cold geometric route & \cref{lem:p13-window-package,def:cold-window-ledger}; \cref{app:curv-code} \\
 16a--r & [153] & Unnumbered local support for first-failure extraction & same-window attachment, return normalization, local component schedules, D1--D7 projections, and bounded CT10/CT8 obligations are retained as internal producers and residuals of node [153] & no auxiliary diagram vertices or edges; each computation scans only its actual finite support & \cref{rem:p13-weighted-live-cold-handoff,rem:p13-component-d4d7-full-semantics,rem:p13-long-prefix-full-semantics} \\
 17 & [22]--[24] & $P_{13}$ density bound & after surplus-token routing supplies \cref{def:near-cubic-spine}, $\theta\le\theta_{\rm win}+o(1)$; high entropy gives $\theta\le0.01198542083\ldots+o(1)$ & window entropy overflow / window-only cap & \cref{lem:p13-window-package}, \cref{prop:p13-density} \\
@@ -1524,7 +1533,7 @@ The pre-retokenization clause of \cref{def:total-surplus-pair-token-route} and t
 \cref{lem:dominant-type} & 2BUD & [49] \texttt{(eta)}, [50] \texttt{(expensive)} & inv 15, 26 & A dominant local vertex-type appears in the low-entropy branch. & Handles the cheap-entropy regime. \\
 \cref{lem:high-remainder-bits} & 2BUD & [51] \texttt{(expbranch)} & node [49] positivity; node [50] high-power constructor & The realized remainder family contributes at least $(|R|/10)\log_2n$ bits. & Supplies the exact arithmetic input for the node-[52] joint accounting problem. \\
 \cref{prop:two-budget} & 2BUD & [52] \texttt{(windowacct)} & inv 20, 27, 29 & Two-budget routing: high entropy closes by window count; repetitive low entropy gives a rank input; nonrepetitive low entropy routes forward. & Prevents entropy overcounting and preserves the net-charge route. \\
-\cref{lem:low-entropy-forced-cost-fit} & 2BUD & [53] \texttt{(smallbudget)} & node [48] realized ledger; node [49] exact state count; node [50] strict low constructor & The exact forced curvature power fits strictly inside the flat power times the low-entropy allowance, so the printed small-budget edge is impossible. & Routes the actual low constructor toward node [55], conditionally on its separate quarter-budget producer. \\
+\cref{lem:low-entropy-forced-cost-fit} & 2BUD & [53] \texttt{(smallbudget)} & node [48] realized ledger; node [49] exact state count; node [50] strict low constructor & The exact forced curvature power fits strictly inside the flat power times the low-entropy allowance, so the printed small-budget edge is impossible. & The complementary no constructor is node [55]; the strict-quarter cap belongs only to node [56]. \\
 \cref{rem:closure-robust} & 2BUD & [54] \texttt{(entcap)} & inv 8, 24, 29 & Closure already holds at $K=0$ (curvature machinery dispensable). & Over-determination / graceful degradation. \\
 \bottomrule
 \end{longtable}
@@ -6533,7 +6542,8 @@ Thus dependence is the cold outcome prescribed by nodes [145]--[157], not a
 third branch, and no coordinatewise activity is promoted to simultaneous
 Boolean realization.
 
-The Lean interface verifies the variable-factor telescope, positive scale
+Conditional on the exact typed node-[21] output, the Lean interface verifies
+the variable-factor telescope, positive scale
 multiplicity with bounded scale loss, graph-semantic connector tests, and the
 packing-order compatible-extension ledger.  Its final aggregate carries a
 finite dependent joint-state family, a left inverse recovering every retained
@@ -6561,11 +6571,11 @@ the local surplus payment gives
 These are exact finite inequalities; no asymptotic estimate or ambient-window
 substitution is used.
 
-Since node [21] retains the exact inequality
+The typed node-[21] output retains the exact inequality
 \(\sigma(G)^2\le K n\), the discarded loss also satisfies
 \(|\mathcal P_{\rm cold}^{\rm noncub}|^2\le K n\).  This is the finite
-square-root form of the paper's \(o(n)\) assertion and uses only the verified
-node-[21] predecessor.
+square-root form of the paper's \(o(n)\) assertion and uses only that typed
+predecessor; it is not unconditional node-[21] evidence.
 
 The remaining hot-side obligation is the exact arithmetic passage from the
 per-package weighted rate bounds to the dependent product cardinality, and
@@ -7454,7 +7464,8 @@ response, context, state, graph, or universe family.
 \end{remark}
 
 \begin{remark}[Formal weighted live/cold handoff]\label[remark]{rem:p13-weighted-live-cold-handoff}
-The formal handoff processes the exact node-[21] packing in its declared
+From the accumulated framework ledger at node [21], the formal handoff processes
+the exact node-[21] packing in its declared
 order.  Starting from the original graph as the empty aggregate, it either
 accepts a graph-semantic compatible extension of the current aggregate or
 rejects that identical window while leaving the aggregate unchanged.  A
@@ -8108,13 +8119,13 @@ On the live terminal at node~[149], the window-only conclusion is
 \theta_{\rm win}:=\frac{1.5}{118.108581006}
 =0.01270017798\ldots .
 \]
-The Lean interface retains the exact node-[148] predecessor and the literal
-finite natural-number normalization error.  The latter is bounded by a
-graph-order-only envelope \(E(n)=o(n\log n)\), including both the powered
-skeleton versus \(\operatorname{Nat.log}\) rounding and the discarded-scale
-loss.  Dividing
-the exact finite cap by its positive binary-log budget gives an explicit
-additive term tending to zero, and hence the displayed node-[149] conclusion.
+The current Lean node-[22] constructor makes the exhaustive strict/at-most
+comparison.  Node~[23] attaches the strict overflow inequality to the literal
+yes constructor, without an auxiliary closure assumption, while node~[24]
+consumes the literal no constructor and retains its exact finite ceiling and
+cross-multiplied cap.  The chain remains conditional only on the typed
+node-[21] producer, so the normalized conclusion displayed here is not yet
+unconditional Lean evidence.
 
 In the high-entropy branch of \cref{prop:two-budget}, where the remainder also
 contributes $\frac1{10}\log_2 n$ bits per remainder vertex, the sharper bound is
@@ -8137,10 +8148,10 @@ and
 \frac{15\theta_{\rm win}}{1-13\theta_{\rm win}}
 =0.22817486846\ldots<\frac14 .
 \]
-The window-only node-[149] inequality now follows from the weighted
-live-package aggregation.  The sharper high-entropy inequality and the
-strict-quarter cold closure still require the corresponding terminal cold
-routes of
+The window-only node-[149] inequality is the intended consequence of the
+weighted live-package aggregation once its conditional producers are
+discharged.  The sharper high-entropy inequality and the strict-quarter cold
+closure still require the corresponding terminal cold routes of
 \cref{lem:p13-window-package,thm:cold-branch-quantitative-closure}.
 The normalized high-entropy comparison would then be
 \begin{equation}
@@ -9020,6 +9031,14 @@ which implies the stated weaker bound
 $r_\Omega(R)\ge W_2(R)-o(W_2(R))$.
 \end{proof}
 
+In the Lean realization, the node~[31] rank universe is the proof-carrying
+support-stratified CT15 candidate family.  Hence the strict-loss circuit at
+node~[35] already contains its determination certificate, including its
+original atom, connected final carrier, exact quotient collision,
+representative, and support-minimality data.  Node~[35] projects this
+certificate directly from the accumulated node~[33] residual; it requires no
+separate collision-to-support input.
+
 \begin{corollary}[Conditional finite curvature magnitude and product cost]\label[corollary]{cor:forced-curvature-cost}
 Assume the node-[24] packing cap and retain the node-[47] full-rank ledger on
 the same remainder.  Put
@@ -9075,6 +9094,11 @@ Finally, multiplication by the fixed nonnegative constant $c_\Omega$ carries
 the $o(|R|)$ rank error to an $o(|R|)$ cost error.
 \end{proof}
 
+The two finite accounting inequalities required at node~[48] remain missing
+obligations.  Positive scalar transport from either inequality to its
+real-valued cost conclusion is proved, but that conditional transport is not
+evidence for the missing finite producer.  Node~[48] is therefore partial.
+
 \begin{remark}[Provenance of the curvature constant]\label[remark]{rem:curvature-provenance}
 The ingredients of \cref{cor:forced-curvature-cost} play distinct roles.
 The \emph{independence} of the remainder curvature tests---that they realize
@@ -9086,7 +9110,8 @@ delocalization is excluded by \cref{lem:proper-smearing}; whole-graph
 delocalization is excluded by the closed exact-profile argument in
 \cref{lem:no-silent-global-smearing}.  Thus each rank-reduction route is
 unavailable in the main spine.  The value $c_\Omega$, by contrast, is the
-logarithm of the exact finite count ratio certified at node [21].  Node [48]
+logarithm of the exact finite count ratio retained in the typed node-[21]
+output.  Node [48]
 merely converts the already forced rank into these fixed budget units.
 Construction and entropy of the remainder state family begin at node [49];
 they are not additional obligations of node [48].
@@ -9273,8 +9298,8 @@ A^{10}\le (B|\mathcal G(R)|)^{10}
 \]
 because $B>0$.  The proof transports these supplied natural-number
 inequalities symbolically; it evaluates no power and scans no finite family.
-The surviving large-budget output reaches node [55] only after the separate
-same-context strict-quarter budget required there has been proved.
+The complementary no constructor of node [53] is exactly node [55]; the
+strict-quarter cap is proved only at the subsequent node [56].
 \end{proof}
 
 \begin{lemma}[Dominant local type in the low-entropy branch]\label[lemma]{lem:dominant-type}
@@ -9410,17 +9435,27 @@ In branch (a), the realized target-complete remainder states number at least
 n^{|R|/10}.
 \]
 For the formal proof this first sentence is a separate node-[52] obligation,
-not a consequence of the definition of \(\eta(R)\).  The latter counts the
-predicate-defined candidate graphs in \(\mathcal G(R)\); it does not by itself
-show that its cardinality is a realized target-complete contribution in the
-same entropy comparison as the window coordinates.  Until this local
-realization statement is established from the preceding residual ledger, the
-following addition of the two inherited bit contributions remains the open
-node-[52] handoff.  The Lean interface therefore gives node [52] only the
-finite, error-bearing feasibility proposition on the accumulated node-[51]
-high constructor.  The framework preserves the complementary low constructor
-and every predecessor; node [52] introduces no completion universe, product
-schedule, or additional branch.
+not a consequence of the definition of \(\eta(R)\).  Lean now proves the
+required same-completion statement by a recoverable symbolic join.  Starting
+from any realized remainder state, the hot aggregate reglues an arbitrary
+dependent family of retained window choices while preserving the restricted
+remainder graph.  Recovery of the remainder state and every window choice
+makes the resulting map into the labelled skeleton code injective.  Hence
+\[
+ |\mathcal G_{\rm real}(R)|\,
+ \left|\prod_{W\in\mathcal P_{\rm hot}}\mathcal S_W\right|
+ \le |\mathcal C_{\rm skel}|.
+\]
+This is the exact finite node-[52] joint-capacity certificate.  It is symbolic:
+no remainder family, Cartesian product, or completion universe is enumerated.
+Failure to supply the required reglue operation is precisely the already
+declared cold outcome, not a new branch.  Lean also instantiates the reusable
+powered joint-normalization profile and proves the exact natural-number
+inequality in which every discarded hot scale and every cold-window bit is
+retained on the error side.  The framework then takes base-two logarithms and
+node [52] substitutes exactly the node-[51] remainder-bit lower bound.  The
+result is the error-bearing joint budget consumed by node [54]; the
+error-free finite surrogate is not used.
 Thus the remainder contributes
 \[
 \frac{|R|}{10}\log_2 n
@@ -9431,12 +9466,14 @@ bits.  Together with the window package of \cref{lem:p13-window-package} and the
 near-cubic skeleton budget $\frac32 n\log_2 n+o(n\log n)$ of
 \cref{lem:near-cubic-budget}, the feasibility inequality of
 \cref{prop:p13-density} follows and bounds $\theta$.
-The formal node-[54] consumer is exactly the strict-cap consequence of this
-inequality: it excludes the strict reverse finite comparison by
-$A\le B\Rightarrow\neg(B<A)$.  This implements the displayed edge
-$[52]\to[54]$ without introducing a new case or enumerating any state family;
-the graph-semantic producer of the node-[52] feasibility inequality remains a
-separate obligation.
+The formal node-[54] consumer is the strict-cap consequence of the normalized
+error-bearing inequality: it excludes the strict reverse comparison by
+$A\le B\Rightarrow\neg(B<A)$.  The exact joint-capacity, powered
+normalization, logarithmic transport, and node-[51] substitution are now
+kernel-checked.  Thus node [52] supplies precisely the non-strict inequality
+whose strict reverse is terminalized on the displayed $[52]\to[54]$ edge;
+the usual near-cubic estimate merely rewrites its skeleton term in the
+printed asymptotic notation.
 
 In branch (b), the local-type coordinate is subexponential, so
 \cref{lem:dominant-type} produces a dominant radius-$2$ type.  In the
@@ -9453,18 +9490,14 @@ bit budget (after the hot-window and node-[49] remainder demands) with the
 full-rank curvature cost inherited from nodes~[47]--[48].  The framework keeps
 the node-[51] high output unchanged and records both the strict small-budget
 edge to node~[54] and the complementary large-budget edge to node~[55].
-Node~[55] is implemented as that exact complementary leaf: it adds no new
-inequality, and the corrected node-[24] density handoff is retrieved from the
-same accumulated residual rather than copied into a new record.  The
-strict-quarter conclusion remains solely the responsibility of node~[56].
-That node is implemented by one framework ledger query which retrieves the
-node-[25] positive normalization scale, the node-[29] surplus-adjusted
-incidence supply, and the exact node-[55] leaf at the same residual.  The
-framework's generic density--supply transport gives the finite cap with the
-normalization and total-surplus errors explicit; the inherited near-cubic
-envelope proves that error is (o(|R|)), and the exact rational computation
-gives (	au_{m win}<1/4).  No predecessor fact is restated in the
-node-[56] output.
+Node~[55] is the zero-copy name of that exact complementary leaf and adds no
+new inequality.  The strict-quarter conclusion belongs solely to node~[56].
+Its current local implementation proves the exact rational bound
+\(\tau_{\rm win}<1/4\), while the finite error-bearing net-cap producer is
+missing.  Likewise, node~[54] proves the local contradiction once the
+node-[53] small-edge capacity inequality is available, but that capacity
+producer is still missing.  These are proof obligations, not additional
+manuscript branches.
 \end{proof}
 
 \begin{figure}[t]
@@ -9498,8 +9531,8 @@ every node/.style={font=\scriptsize}
 \draw[arr,orange!80!black] (eta.south east) to[out=-60,in=90] (low.north);
 
 \node[box,text width=2.70cm] (bits) at (-1.95,1.10) {remainder states\\spend at least\\\((|R|/10)\log_2 n\)};
-\node[box,text width=2.70cm] (pack) at (-1.95,-0.20) {joint window--remainder\\accounting realized?};
-\node[good,text width=2.70cm] (cap) at (-1.95,-1.55) {overflow closes;\\open or fits\\routes forward};
+\node[box,text width=2.70cm] (pack) at (-1.95,-0.20) {\textbf{[52]} joint window--remainder\\accounting};
+\node[good,text width=2.70cm] (cap) at (-1.95,-1.55) {\textbf{[54]} entropy cap\\closes};
 \draw[arr,green!45!black] (bits)--(pack);
 \draw[arr,green!45!black] (pack)--(cap);
 
@@ -9516,7 +9549,7 @@ every node/.style={font=\scriptsize}
 \draw[arr,red!70!black] (cost)--(large);
 \end{tikzpicture}%
 }
-\caption[Visual proof of the two-budget routing funnel]{Visual proof of the two-budget routing funnel.  Panel I splits the \(P_{13}\)-free remainder by the exact denominator-free comparison \(n^{|R|}\le N_R^{10}\).  Panel II shows the high-entropy branch: taking logarithms spends at least \((|R|/10)\log_2 n\) bits, after which node [52] asks for the missing same-context joint window--remainder accounting.  Only a proved joint-capacity overflow closes; the open or fitting outcomes route forward.  Panel III shows the structurally repetitive low-entropy branch: subexponential radius-\(2\) type data gives a dominant local type, and an internal length-two wedge in that type supplies positive linear curvature rank.  Panel IV records the routing convention of \cref{prop:two-budget}: nonrepetitive low-entropy data is passed to the large-budget net-charge branch, and curvature cost is carried forward only on branches where the preceding rank-forcing lemmas have established it.}
+\caption[Visual proof of the two-budget routing funnel]{Visual proof of the two-budget routing funnel.  Panel I splits the \(P_{13}\)-free remainder by the exact denominator-free comparison \(n^{|R|}\le N_R^{10}\).  Panel II shows the high-entropy branch: taking logarithms spends at least \((|R|/10)\log_2 n\) bits.  Node [52] is the joint-accounting assertion; its unique outgoing edge is the node-[54] entropy-cap closure.  A missing Lean producer is implementation status, not an additional branch.  Panel III shows the structurally repetitive low-entropy branch: subexponential radius-\(2\) type data gives a dominant local type, and an internal length-two wedge in that type supplies positive linear curvature rank.  Panel IV records the routing convention of \cref{prop:two-budget}: nonrepetitive low-entropy data is passed to the large-budget net-charge branch, and curvature cost is carried forward only on branches where the preceding rank-forcing lemmas have established it.}
 \label{fig:two-budget-routing-funnel}
 \end{figure}
 
@@ -9791,17 +9824,20 @@ where
 =0.22817486846\ldots<\frac14 .
 \]
 
-In the Lean realization, the displayed estimate is retained first in the
+The intended Lean realization first retains the displayed estimate in the
 finite form
 \[
 \defp(R)-\sigma_R
 \le \tau_{\rm win}|R|+E_{56}(R),
 \]
-where (E_{56}) is the sum of the exact node-[24] normalization correction
-and the node-[29] total-surplus term.  The fixed-threshold near-cubic ledger
-proves (E_{56}(R)/|R|\to0), so the strict-quarter conclusion holds on the
-eventual tail.  This is the error-bearing form of node~[56], not an
-error-free assertion for every finite order.
+where \(E_{56}\) is the sum of the exact node-[24] normalization correction
+and the node-[29] total-surplus term.  At present the exact finite inequality
+is a missing node-[56] obligation; the local node-[56] producer independently
+kernel-checks the exact constant
+\(\tau_{\rm win}<1/4\).  Migrating the earlier asymptotic ledger will prove
+\(E_{56}(R)/|R|\to0\) on the eventual tail.  Thus this remains the intended
+error-bearing form of node~[56], not unconditional or error-free evidence for
+every finite order.
 
 \begin{definition}[Canonical support decomposition]\label[definition]{def:canonical-decomp}
 The \emph{canonical support decomposition} of the residual consists of:
@@ -17595,7 +17631,8 @@ The output is:
 (4, 4, 6648206, 1190878, 5457328, 0.284770329720...)
 \end{lstlisting}
 
-The formal companion stores the same fifteen \(399\times399\) Boolean
+The intended finite node-[21] companion stores the same fifteen
+\(399\times399\) Boolean
 matrices as fixed bit rows.  Compact whole-row certificates identify every
 stored row with the power-of-two attachment predicate, and bounded fixed-table
 audit shards recheck every accepted safe and flat count against the generic
@@ -17607,7 +17644,9 @@ that exactly \(91\) pairs are present, and certifies the rounding-free bound
   2^{118}\prod_{a,b}F_{a,b}<\prod_{a,b}W_{a,b}.
 \]
 
-This is the finite node~[21] certificate.  The construction and routing of
+This is the finite node~[21] certificate prescribed by the manuscript.  Its
+current Lean producer remains yellow until the exact legacy carrier input is
+removed.  The construction and routing of
 independent window coordinates belong to the subsequent hot/cold branch at
 nodes~[22]--[24]; they are not premises of the finite computation.
 
@@ -17916,7 +17955,7 @@ These do not degrade to nontrivial residual reductions: their negation is either
 \textbf{Node} & \textbf{Closing lemma} & \textbf{Closing condition} & \textbf{Slack} & \textbf{Redundant cover?} & \textbf{Residual counterexample (if false, no cover)} \\
 \midrule
 \endhead
-{[23]} \texttt{overflow} & \cref{prop:p13-density} via \cref{eq:feasibility} & $\theta\le0.011985$ (else window entropy $>$ skeleton budget) & feasibility gap $0.1+116.8\theta\le1.5$; binds only at $\theta\approx0.012$ & \textbf{Target-compatible auxiliary closure.} The dense correlated-window residual is closed in \cref{lem:app-dense-window-closure} by the stated quiet-block input. & $G$ has a \emph{dense induced-$P_{13}$ packing}: $\theta>0.011985$, so the maximal disjoint packing covers $>15.6\%$ of vertices, yet the window entropy still fits under the skeleton budget. The target-compatible auxiliary closure shows that such entropy-cheap density must either create close cycle lengths in a dyadic-safe atom or pay quadratic boundary, in both cases restoring a contradiction. \\
+{[23]} \texttt{overflow} & node~[22] yes constructor & the exact strict cross-multiplied window-load inequality & exact arithmetic & \textbf{Typed output, not an assumption.} The constructor is retained for the later hot/cold analysis. & $G$ carries the dense induced-$P_{13}$ packing inequality selected by node~[22].  Any later structural treatment of correlated or cold windows consumes this retained residual; it is not a premise used to manufacture node~[23]. \\
 {[29]}\,$\to$\,{[28]} \texttt{stub} & \cref{lem:stub-positive} & each induced $P_{13}$ exports $\le15+\sigma(P)$ incidences & exact ($12$-edge identity); only $\theta$ feeds the normalized form & \textbf{Framework-independent.} Uses only $\delta\ge3$, ``induced $P_{13}$ has $12$ edges'', and disjointness. & If the constant $15$ were miscounted, the residual $G$ would be one whose remainder borrows more than $15$ incidences per window, contradicting the induced-path edge count. Thus failure here is a numerical misstatement of the incidence identity, not a new graph-theoretic residual. \\
 \bottomrule
 \end{longtable}

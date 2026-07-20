@@ -1,0 +1,22 @@
+import Erdos64EG.Future.P13WeightedColdRestrictedExactContinuation
+
+namespace Erdos64EG.Internal
+
+open StructuralExhaustion
+
+#check P13WeightedColdRestrictedPrefixPackage.StageF2
+#check P13WeightedColdRestrictedPrefixPackage.StageF3
+#check P13WeightedColdRestrictedPrefixPackage.ExactF5
+#check P13WeightedColdRestrictedPrefixPackage.f4_absent
+#check P13WeightedColdRestrictedPrefixPackage.repeatedStageF2
+#check P13WeightedColdRestrictedPrefixPackage.repeatedStageF3
+#check P13WeightedColdRestrictedPrefixPackage.exactF5OfClear
+#check P13WeightedColdRestrictedPrefixPackage.exactLaterSemantics
+#check P13WeightedColdRestrictedPrefixPackage.runExactContinuation_total
+#check P13WeightedColdRestrictedPrefixPackage.exactContinuation_checks
+
+#print axioms P13WeightedColdRestrictedPrefixPackage.f4_absent
+#print axioms P13WeightedColdRestrictedPrefixPackage.exactF5OfClear
+#print axioms P13WeightedColdRestrictedPrefixPackage.runExactContinuation_total
+
+end Erdos64EG.Internal

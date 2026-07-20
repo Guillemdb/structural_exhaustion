@@ -104,6 +104,20 @@ theorem run_total {P : Core.Problem.{uAmbient, uBranch}}
     profile.run_trace_valid context, profile.run_iterations_le_vertices context,
     profile.run_trace_le_vertices context⟩
 
+/-- The selected-list CT12 audit has a uniform linear primitive-check budget
+in the host-vertex count. Applications reuse this certificate instead of
+restating the iteration estimate at each packing node. -/
+noncomputable def workBudget {P : Core.Problem.{uAmbient, uBranch}}
+    (context : Core.BranchContext P) : Core.PolynomialCheckBudget Unit where
+  size := fun _ => profile.vertices.card
+  checks := fun _ => (profile.run context).iterations
+  coefficient := 1
+  degree := 1
+  bounded := by
+    intro _input
+    simpa using (profile.run_iterations_le_vertices context).trans
+      (Nat.le_succ profile.vertices.card)
+
 /-- Complete reusable CT12 result for a maximum disjoint packing. -/
 structure VerifiedStage {P : Core.Problem.{uAmbient, uBranch}}
     (context : Core.BranchContext P) : Prop where
@@ -112,6 +126,35 @@ structure VerifiedStage {P : Core.Problem.{uAmbient, uBranch}}
     (Function.onFun Disjoint profile.support)
   maximum : ∀ other : profile.Packing,
     other.1.card ≤ profile.values.length
+  saturated : ∀ item : Item, ∃ selected ∈ profile.values,
+    ¬Disjoint (profile.support item) (profile.support selected)
+  terminal : (profile.run context).terminal = .exhausted
+  iterations_eq_values :
+    (profile.run context).iterations = profile.values.length
+  verified : (profile.run context).outcome.Valid
+  traceValid : CT12.Graph.ValidTrace
+    (CT12.ListPeeling.capability P Item) (profile.run context).trace
+  iterations_le_vertices :
+    (profile.run context).iterations ≤ profile.vertices.card
+  trace_length_le_vertices :
+    (profile.run context).trace.length ≤ 4 * profile.vertices.card + 3
+  total : ∃ result : CT12.ExecutionResult
+      (CT12.ListPeeling.capability P Item) (profile.input context),
+    result.outcome.Valid ∧
+    CT12.Graph.ValidTrace (CT12.ListPeeling.capability P Item)
+      result.trace ∧
+    result.iterations ≤ profile.vertices.card ∧
+    result.trace.length ≤ 4 * profile.vertices.card + 3
+
+/-- Maximal-only public view of a selected disjoint packing.  This is the
+contract used by proof nodes that need disjointness, saturation, and the
+selected-list CT12 audit but do not establish or consume a
+maximum-cardinality assertion. -/
+structure MaximalVerifiedStage {P : Core.Problem.{uAmbient, uBranch}}
+    (context : Core.BranchContext P) : Prop where
+  nodup : profile.values.Nodup
+  pairwise : profile.values.Pairwise
+    (Function.onFun Disjoint profile.support)
   saturated : ∀ item : Item, ∃ selected ∈ profile.values,
     ¬Disjoint (profile.support item) (profile.support selected)
   terminal : (profile.run context).terminal = .exhausted
@@ -150,6 +193,32 @@ noncomputable def verifiedStage {P : Core.Problem.{uAmbient, uBranch}}
   iterations_le_vertices := profile.run_iterations_le_vertices context
   trace_length_le_vertices := profile.run_trace_le_vertices context
   total := profile.run_total context
+
+/-- Forget only the maximum-cardinality field of a verified packing stage.
+All maximality and selected-list execution evidence is retained verbatim. -/
+def VerifiedStage.toMaximal {P : Core.Problem.{uAmbient, uBranch}}
+    {context : Core.BranchContext P}
+    (stage : profile.VerifiedStage context) :
+    profile.MaximalVerifiedStage context where
+  nodup := stage.nodup
+  pairwise := stage.pairwise
+  saturated := stage.saturated
+  terminal := stage.terminal
+  iterations_eq_values := stage.iterations_eq_values
+  verified := stage.verified
+  traceValid := stage.traceValid
+  iterations_le_vertices := stage.iterations_le_vertices
+  trace_length_le_vertices := stage.trace_length_le_vertices
+  total := stage.total
+
+/-- Framework-owned maximal-only projection of the existing proof-selected
+packing.  The internal producer may know maximum cardinality; application
+nodes consuming this API cannot access or claim it. -/
+noncomputable def maximalVerifiedStage
+    {P : Core.Problem.{uAmbient, uBranch}}
+    (context : Core.BranchContext P) :
+    profile.MaximalVerifiedStage context :=
+  (profile.verifiedStage context).toMaximal
 
 end Profile
 
