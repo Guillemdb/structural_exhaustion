@@ -17,7 +17,7 @@
 
 Forbidden: cold-branch closure or downstream node24 obligations.
 
-Node [23] remains yellow only because node [21] is still a typed predecessor.
+Node [23] remains partial only because node [21] has missing predecessor obligations.
 Its own focused kernel check passes with no `sorryAx`.  It assumes no
 quiet-block closure and does not infer a contradiction from the scalar
 inequality alone; node [24]'s complementary edge is retained by Core.

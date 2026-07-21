@@ -26,13 +26,16 @@ headline theorem.
 ## Establish authority
 
 Work from the repository root, inspect `git status --short`, and preserve
-unrelated changes. Read completely:
+unrelated changes.  `original_erdos_64_proof.tex` is the sole mathematical
+and directed-flow specification.  The live manuscript is a synchronization
+target only: its implementation-status prose, repairs, or omissions may never
+weaken, replace, reinterpret, or block an obligation stated by the original.
+Read completely:
 
-- the architecture and every Chapter 1 `Proof-dependency diagram` panel in
-  `proofs/erdos_64_eg/erdos_64_proof.tex`;
-- the selected row of the `Detailed dependency table` and every definition or
-  proof it cites;
-- `original_erdos_64_proof.tex` for immutable diagram topology only;
+- every Chapter 1 diagram, selected dependency row, definition, lemma, and
+  proof used by the node in `original_erdos_64_proof.tex`;
+- the corresponding material in `proofs/erdos_64_eg/erdos_64_proof.tex` only
+  to synchronize it after the original-paper obligation is kernel-checked;
 - `Erdos64EG/OfficialStatement.lean`, `Erdos64EG/InternalProblem.lean`, the
   exact predecessor modules, `Erdos64EG/WebExport.lean`, `Erdos64EG.lean`,
   `Tests.lean`, `README.md`, and
@@ -47,7 +50,8 @@ consumes routing.
 
 ## Preserve the original directed proof
 
-Treat `original_erdos_64_proof.tex` as closed; never edit that file. Never add,
+Treat `original_erdos_64_proof.tex` as closed and authoritative; never edit
+that file. Never add,
 rename, split, merge, or remove a node, edge, case, join, branch label, or exit.
 Every public outcome must correspond to an existing directed edge and record
 its source node, target node, branch label, producer, and consumer.
@@ -84,6 +88,11 @@ Count a stage as unconditional only when:
 
 A wrapper, structure, capability, fixture, or conditional theorem is not an
 implemented stage.
+
+Never encode dashboard completion metadata in Lean. Do not create a
+caller-supplied migration or status input for a missing producer. The
+producer is either derived from the predecessor ledger or remains absent from
+the accepted proof path.
 
 ## Enforce the single-ledger framework API
 

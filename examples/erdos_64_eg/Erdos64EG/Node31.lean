@@ -1,33 +1,12 @@
 import Erdos64EG.Node30
 import Erdos64EG.Shared.CT15RemainderCurvature
-import Erdos64EG.Shared.P13CurvatureResidualView
+import Erdos64EG.Shared.P13RealizedRemainderResponse
 
 namespace Erdos64EG.Internal
 
 open StructuralExhaustion
 
 universe u
-
-/-- The one accumulated node-[21] hot aggregate, read at node [31] through
-the shared ledger view. -/
-noncomputable def node31AccumulatedHotAggregate {V : Type u}
-    {residual : InitialResidual V}
-    (node18 : Node18Stage residual)
-    (bounded : Node19Low residual node18)
-    (node21 : Node21Output node18 bounded) :=
-  p13AccumulatedFinalHotAggregate node18 bounded node21
-
-/-- Node [31]'s thin P13 specialization of Core's exact conditional-fibre
-rank profile.  The carrier, projection enumeration, prefix filtering, and
-outside-context normalization are all framework-owned. -/
-noncomputable def node31ConditionalFibreRankProfile {V : Type u}
-    {residual : InitialResidual V}
-    (node18 : Node18Stage residual)
-    (bounded : Node19Low residual node18)
-    (node21 : Node21Output node18 bounded) :
-    Core.ConditionalFibreRank.Profile :=
-  p13AccumulatedCurvatureRankProfile
-    (node31AccumulatedHotAggregate node18 bounded node21)
 
 /-!
 # Diagram node [31]: curvature target-rank
@@ -54,17 +33,26 @@ structure Node31Facts {V : Type u} {residual : InitialResidual V}
           (Node21Context node18).G.object.input.vertices
           ((p13CurvatureResponseProfile
             (Node21Context node18)).coordinatePiece coordinate) outside)
+  realizedResponseExact : ∀ coordinate state,
+    p13RealizedRemainderResponse
+        (node18 := node18) (bounded := _bounded) (node21 := _node21)
+        coordinate state = true ↔
+      packedStaticInput.Target
+        (Graph.PackedBoundariedGluing.glue
+          (Node21Context node18).G.object.input.vertices
+          ((p13CurvatureResponseProfile
+            (Node21Context node18)).coordinatePiece coordinate)
+          (Graph.FiniteSupportOutsideContext.context
+            (p13RealizedRemainderAmbientObject state)
+            (p13CurvatureSupport coordinate)))
   targetRankBound :
     p13CurvatureTargetRank (Node21Context node18) ≤
       (p13RemainderCurvatureProfile (Node21Context node18)).wedgeCount
   maximalSurvivingCoordinates :
     ∃ coordinates : Finset (P13CurvatureCoordinate (Node21Context node18)),
-      (p13CurvatureFunctionalRankProfile
+      (p13CurvatureRankProfile
         (Node21Context node18)).Survives coordinates ∧
       coordinates.card = p13CurvatureTargetRank (Node21Context node18)
-  conditionalFibreProfile : Core.ConditionalFibreRank.Profile
-  conditionalFibreProfileExact : conditionalFibreProfile =
-    node31ConditionalFibreRankProfile node18 _bounded _node21
 
 /-- Node [31] retains the literal node-[30] certificate through Core's
 proof-relevant successor carrier.  Later nodes can therefore retrieve every
@@ -86,17 +74,6 @@ abbrev coordinateCount (output : Node31Output node18 bounded node21 low) :
 
 abbrev node30 (output : Node31Output node18 bounded node21 low) :
     Node30Output node18 bounded node21 low := output.previous
-
-abbrev conditionalFibreProfile
-    (output : Node31Output node18 bounded node21 low) :
-    Core.ConditionalFibreRank.Profile :=
-  output.output.conditionalFibreProfile
-
-theorem conditionalFibreProfile_eq
-    (output : Node31Output node18 bounded node21 low) :
-    output.conditionalFibreProfile =
-      node31ConditionalFibreRankProfile node18 bounded node21 :=
-  output.output.conditionalFibreProfileExact
 
 end Node31Output
 
@@ -127,13 +104,12 @@ noncomputable def node31P13CurvatureTargetRank {V : Type u} {facts}
           p13CurvatureCoordinates_card_eq_wedgeCount (Node21Context node18)
         responseExact :=
           (p13CurvatureResponseProfile (Node21Context node18)).response_true_iff
+        realizedResponseExact :=
+          p13RealizedRemainderResponse_true_iff
         targetRankBound :=
           p13CurvatureTargetRank_le_wedgeCount (Node21Context node18)
         maximalSurvivingCoordinates :=
           exists_p13Curvature_surviving_card_eq_targetRank (Node21Context node18)
-        conditionalFibreProfile :=
-          node31ConditionalFibreRankProfile node18 bounded node21
-        conditionalFibreProfileExact := rfl
       }
 
 noncomputable def runInitialThroughNode31 {V : Type u}

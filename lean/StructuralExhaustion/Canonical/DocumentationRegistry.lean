@@ -218,7 +218,7 @@ def capabilities : List CapabilityDescriptor := [
       `StructuralExhaustion.Core.FiniteDisjointPacking.Profile.maximum_saturated]
     relatedCapabilityIds := ["core.finite-enumeration"]
     relatedTacticIds := ["CT12"]
-    examples := [exampleRef "even-cycle" "ct12-maximal-matching" "Maximum matching by induced-P2 packing"]
+    examples := [exampleRef "even-cycle" "main" "Minimum degree three gives an even cycle"]
   },
   {
     capabilityId := "core.work-budget"
@@ -277,7 +277,7 @@ def capabilities : List CapabilityDescriptor := [
       `StructuralExhaustion.Graph.InducedPath.Profile.run]
     relatedCapabilityIds := ["graph.finite-object"]
     relatedTacticIds := ["CT1"]
-    examples := [exampleRef "even-cycle" "ct1-induced-edge" "Every edge is an induced P2"]
+    examples := [exampleRef "even-cycle" "main" "Minimum degree three gives an even cycle"]
   },
   {
     capabilityId := "graph.endpoint-parity-cycle"
@@ -318,7 +318,7 @@ def capabilities : List CapabilityDescriptor := [
       `StructuralExhaustion.Graph.PackedFiniteObject.ProperSubgraph]
     relatedCapabilityIds := ["graph.finite-object", "core.work-budget"]
     relatedTacticIds := ["CT2"]
-    examples := [exampleRef "even-cycle" "ct2-audit" "Proper-subgraph and deletion audit"]
+    examples := [exampleRef "even-cycle" "main" "Minimum degree three gives an even cycle"]
   },
   {
     capabilityId := "graph.boundaried-gluing"
@@ -339,7 +339,7 @@ def capabilities : List CapabilityDescriptor := [
       `StructuralExhaustion.Graph.PackedBoundariedGluing.glueGraph]
     relatedCapabilityIds := ["graph.packed-reduction", "core.exact-handoff"]
     relatedTacticIds := ["CT3"]
-    examples := [exampleRef "even-cycle" "ct3-series" "Two-terminal series replacement"]
+    examples := [exampleRef "even-cycle" "main" "Minimum degree three gives an even cycle"]
   },
   {
     capabilityId := "graph.maximum-matching"
@@ -360,7 +360,7 @@ def capabilities : List CapabilityDescriptor := [
       `StructuralExhaustion.Graph.MaximumMatching.remainder_no_edges]
     relatedCapabilityIds := ["core.disjoint-packing", "graph.induced-path"]
     relatedTacticIds := ["CT12"]
-    examples := [exampleRef "even-cycle" "ct12-maximal-matching" "Maximum matching by induced-P2 packing"]
+    examples := [exampleRef "even-cycle" "main" "Minimum degree three gives an even cycle"]
   },
   {
     capabilityId := "graph.greedy-coloring"

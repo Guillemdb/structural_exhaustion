@@ -1,6 +1,7 @@
 import StructuralExhaustion.Core.Enumeration
 import StructuralExhaustion.Core.WorkBudget
 import StructuralExhaustion.Core.FinitePoweredBudgetTransfer
+import StructuralExhaustion.Core.FiniteBitRelationBarrier
 
 namespace StructuralExhaustion.Core.ConditionalFibreProductCost
 
@@ -84,6 +85,24 @@ theorem statesAfter_append (profile : Profile.{u, v})
   | cons coordinate coordinates ih =>
       simp only [List.cons_append, statesAfter_cons]
       exact ih (profile.retain states coordinate)
+
+/-- A state accepted by every scheduled coordinate survives the complete
+conditional filtration.  This is the framework-level bookkeeping behind the
+paper convention that one actual target-avoiding realization keeps the final
+fibre nonempty; applications do not prove terminal nonemptiness separately. -/
+theorem mem_statesAfter_of_accepts (profile : Profile.{u, v})
+    {state : profile.State} {states : List profile.State}
+    (member : state ∈ states) (coordinates : List profile.Coordinate)
+    (accepted : ∀ coordinate, coordinate ∈ coordinates →
+      profile.accepts coordinate state = true) :
+    state ∈ profile.statesAfter states coordinates := by
+  induction coordinates generalizing states with
+  | nil => simpa using member
+  | cons coordinate coordinates ih =>
+      apply ih
+      · simp [Profile.retain, member, accepted coordinate (by simp)]
+      · intro later laterMem
+        exact accepted later (by simp [laterMem])
 
 theorem statesAfter_sublist (profile : Profile.{u, v})
     (states : List profile.State) (coordinates : List profile.Coordinate) :
@@ -184,6 +203,22 @@ theorem finalStates_sublist {profile : Profile.{u, v}}
     List.Sublist ledger.finalStates states := by
   rw [ledger.finalStates_eq_statesAfter]
   exact profile.statesAfter_sublist states coordinates
+
+/-- A complete local ledger needs no separately authored terminal-fibre
+certificate when the incoming carrier contains one state accepted at every
+coordinate.  Core transports that witness through the literal filters. -/
+theorem finalNonempty_of_acceptedWitness
+    {profile : Profile.{u, v}} {states : List profile.State}
+    {coordinates : List profile.Coordinate}
+    (ledger : Ledger profile states coordinates)
+    (state : profile.State) (member : state ∈ states)
+    (accepted : ∀ coordinate, coordinate ∈ coordinates →
+      profile.accepts coordinate state = true) :
+    0 < ledger.finalStates.length := by
+  rw [List.length_pos_iff]
+  exact List.ne_nil_of_mem (by
+    rw [ledger.finalStates_eq_statesAfter]
+    exact profile.mem_statesAfter_of_accepts member coordinates accepted)
 
 /-- Uniform local costs telescope over the complete coordinate schedule. -/
 theorem power_product_le {profile : Profile.{u, v}}
@@ -382,7 +417,146 @@ def ofLedger
   }
   stateCount_eq := stateCount_eq
 
+/-- Construct the carrier-indexed output when terminal nonemptiness is
+supplied by one incoming state accepted by the complete authored schedule.
+The application identifies only that semantic witness; Core performs all
+filter-membership transport and packages the telescope. -/
+def ofLedgerWithAcceptedWitness
+    {incoming : Core.OrderedCollection.{u} α}
+    {coordinates : Core.OrderedCollection.{v} β}
+    {accepts : β → α → Bool} {safe flat stateCount : Nat}
+    (stateCount_eq : stateCount = incoming.values.length)
+    (ledger : Ledger (onCarrier incoming coordinates accepts safe flat stateCount)
+      incoming.values coordinates.values)
+    (state : α) (member : state ∈ incoming.values)
+    (accepted : ∀ coordinate, coordinate ∈ coordinates.values →
+      accepts coordinate state = true) :
+    CertifiedCarrierOutput incoming coordinates accepts safe flat stateCount :=
+  ofLedger stateCount_eq ledger
+    (ledger.finalNonempty_of_acceptedWitness state member accepted)
+
 end CertifiedCarrierOutput
+
+/-!
+## Certified-table-owned factors
+
+The carrier telescope above is deliberately generic.  This wrapper prevents
+an application from pairing a genuine carrier ledger with unrelated numeric
+factors: both factors are definitionally selected from one audited finite
+relation table and one of its certified indices.
+-/
+
+/-- A carrier-indexed product certificate whose safe and flat factors come
+from one exact entry of a `FiniteBitRelationBarrier.CertifiedTable`. -/
+structure CertifiedTableCarrierOutput
+    {size : Nat}
+    {barrier : Core.FiniteBitRelationBarrier.Profile size}
+    {Length : Type*} {lengthValue : Length → Nat}
+    {relation : Length → Fin size → Fin size → Bool}
+    {Index : Type*}
+    (table : Core.FiniteBitRelationBarrier.CertifiedTable
+      barrier Length lengthValue relation Index)
+    (index : Index)
+    (incoming : Core.OrderedCollection.{u} α)
+    (coordinates : Core.OrderedCollection.{v} β)
+    (accepts : β → α → Bool) (stateCount : Nat) where
+  carrier : CertifiedCarrierOutput incoming coordinates accepts
+    (table.counts.storedSafe index) (table.counts.storedFlat index) stateCount
+
+namespace CertifiedTableCarrierOutput
+
+/-- The powered product inequality with factors still expressed through the
+audited table.  Rewriting to printed constants is therefore downstream
+presentation, never an independent mathematical premise. -/
+theorem power_le_flat_mul_stateCount
+    {size : Nat}
+    {barrier : Core.FiniteBitRelationBarrier.Profile size}
+    {Length : Type*} {lengthValue : Length → Nat}
+    {relation : Length → Fin size → Fin size → Bool}
+    {Index : Type*}
+    {table : Core.FiniteBitRelationBarrier.CertifiedTable
+      barrier Length lengthValue relation Index}
+    {index : Index}
+    {incoming : Core.OrderedCollection.{u} α}
+    {coordinates : Core.OrderedCollection.{v} β}
+    {accepts : β → α → Bool} {stateCount : Nat}
+    (output : CertifiedTableCarrierOutput table index incoming coordinates
+      accepts stateCount) :
+    table.counts.storedSafe index ^ coordinates.values.length ≤
+      table.counts.storedFlat index ^ coordinates.values.length * stateCount :=
+  output.carrier.power_le_flat_mul_stateCount
+
+/-- The same inequality rewritten to the semantic bit-table counts certified
+at the selected index. -/
+theorem semanticCounts_power_le
+    {size : Nat}
+    {barrier : Core.FiniteBitRelationBarrier.Profile size}
+    {Length : Type*} {lengthValue : Length → Nat}
+    {relation : Length → Fin size → Fin size → Bool}
+    {Index : Type*}
+    {table : Core.FiniteBitRelationBarrier.CertifiedTable
+      barrier Length lengthValue relation Index}
+    {index : Index}
+    {incoming : Core.OrderedCollection.{u} α}
+    {coordinates : Core.OrderedCollection.{v} β}
+    {accepts : β → α → Bool} {stateCount : Nat}
+    (output : CertifiedTableCarrierOutput table index incoming coordinates
+      accepts stateCount) :
+    barrier.safeCount (table.counts.leftLength index)
+          (table.counts.rightLength index) ^ coordinates.values.length ≤
+      barrier.flatCount (table.counts.leftLength index)
+          (table.counts.rightLength index) ^ coordinates.values.length *
+        stateCount := by
+  simpa [table.counts.safeExact index, table.counts.flatExact index] using
+    output.power_le_flat_mul_stateCount
+
+end CertifiedTableCarrierOutput
+
+/-- A table-owned carrier certificate with stable public factor names.
+The exactness fields connect those names to the audited table once, while
+downstream arithmetic never unfolds the table implementation. -/
+structure CertifiedNamedTableCarrierOutput
+    {size : Nat}
+    {barrier : Core.FiniteBitRelationBarrier.Profile size}
+    {Length : Type*} {lengthValue : Length → Nat}
+    {relation : Length → Fin size → Fin size → Bool}
+    {Index : Type*}
+    (table : Core.FiniteBitRelationBarrier.CertifiedTable
+      barrier Length lengthValue relation Index)
+    (index : Index)
+    (incoming : Core.OrderedCollection.{u} α)
+    (coordinates : Core.OrderedCollection.{v} β)
+    (accepts : β → α → Bool)
+    (safe flat stateCount : Nat) where
+  safeExact : table.counts.storedSafe index = safe
+  flatExact : table.counts.storedFlat index = flat
+  carrier : CertifiedCarrierOutput incoming coordinates accepts
+    safe flat stateCount
+
+namespace CertifiedNamedTableCarrierOutput
+
+/-- The framework telescope exposed using the stable factor names certified
+by the same table entry. -/
+theorem power_le_flat_mul_stateCount
+    {size : Nat}
+    {barrier : Core.FiniteBitRelationBarrier.Profile size}
+    {Length : Type*} {lengthValue : Length → Nat}
+    {relation : Length → Fin size → Fin size → Bool}
+    {Index : Type*}
+    {table : Core.FiniteBitRelationBarrier.CertifiedTable
+      barrier Length lengthValue relation Index}
+    {index : Index}
+    {incoming : Core.OrderedCollection.{u} α}
+    {coordinates : Core.OrderedCollection.{v} β}
+    {accepts : β → α → Bool}
+    {safe flat stateCount : Nat}
+    (output : CertifiedNamedTableCarrierOutput table index incoming coordinates
+      accepts safe flat stateCount) :
+    safe ^ coordinates.values.length ≤
+      flat ^ coordinates.values.length * stateCount :=
+  output.carrier.power_le_flat_mul_stateCount
+
+end CertifiedNamedTableCarrierOutput
 
 /-! The checker touches each state at most once for each supplied coordinate:
 after a test, later scans inspect only the retained sublist. -/

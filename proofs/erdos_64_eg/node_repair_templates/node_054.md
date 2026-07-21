@@ -17,18 +17,21 @@
 
 | Task ID | Original-paper assertion | Incoming ledger producer | Local Lean declaration/framework run | Outgoing edge | Status |
 |---|---|---|---|---|---|
-| N54-52-PROV | Consume the literal node-[52] output on node [50]'s high constructor. | `[52]` | `Node54HighOutput`; framework terminal bypass | terminal | kernel-checked, conditional |
-| N54-52-STRICT | Identify high theta as the strict reverse of node [52]'s exact finite joint budget. | `[52]` | `Node54HighTheta` | terminal | kernel-checked, conditional |
-| N54-52-CLOSE | Derive `not highTheta` by `A <= B -> not (B < A)`. | `[52]` | `node54HighOutput` | terminal | kernel-checked, conditional |
-| N54-53-PROV | Consume only node [53]'s literal strict-small constructor. | `[53]` | `node54P13EntropyCapClosure` | terminal | kernel-checked, conditional |
-| N54-53-CAPACITY | Prove the same-branch independent-capacity certificate from the accumulated rank/entropy ledger. | earlier rank/entropy ledger | node-[53] small-leaf capacity theorem | terminal | missing producer; local contradiction proved conditionally |
-| N54-53-CLOSE | Contradict `remaining < forced` with `forced <= remaining`. | N54-53-CAPACITY, `[53]` | `node54SmallBudgetImpossible` | terminal | kernel-checked, conditional |
-| N54-ROUTE | Preserve earlier bypasses, retain node-[52] terminal evidence, eliminate only node-[53] small, and expose only node-[53] large. | framework | `Node54Bypass`; `Node54Active`; `terminalizeFocusedBranchYesCloseNestedYes` | `[55]` | kernel-checked, conditional |
-| N54-WORK | Perform no local finite scan. | order arithmetic | `node54LocalChecks = 0` | terminal | kernel-checked, conditional |
+| N54-52-PROV | Consume the literal node-[52] output on node [50]'s high constructor. | `[52]` | `Node54HighTerminal`; framework terminal bypass | terminal | kernel-checked |
+| N54-52-STRICT | Identify high theta as the strict reverse of node [52]'s exact finite joint budget. | `[52]` | `Node54HighTheta` | terminal | kernel-checked |
+| N54-52-CLOSE | Derive `not highTheta` by `A <= B -> not (B < A)`. | `[52]` | `node54HighTerminal` | terminal | kernel-checked |
+| N54-53-PROV | Consume only node [53]'s literal strict-small constructor. | `[53]` | no public shortcut accepted; must be implemented through the eventual `Node54Stage` terminalizer | terminal | missing |
+| N54-53-CAPACITY | Retrieve the certified powered table product on the identical realized-state carrier. | missing producer on the full-rank path | no unconditional ledger producer yet | terminal | missing |
+| N54-53-CLOSE | Raise the product inequality to power ten, use the strict node-[50] bound, and contradict node [53]. | N54-53-CAPACITY, `[53]` | no public shortcut accepted; must retrieve the capacity fact from the ledger | terminal | missing |
+| N54-ROUTE | Preserve earlier bypasses, retain node-[52] terminal evidence, eliminate only node-[53] small, and expose only node-[53] large. | framework | not yet declared as `Node54Stage` | `[55]` | missing |
+| N54-WORK | Perform no local finite scan. | order arithmetic | `node54HighLocalChecks = 0` | terminal | kernel-checked |
 
 ## Status
 
-Yellow. The node-[52] terminal is kernel-checked conditionally. The node-[53] small closure
-temporarily consumes one certificate indexed by the literal low/small leaf;
-it cannot be used by the large-budget sibling and is not green evidence. The
-entire local framework carrier and both consumers kernel-check.
+Yellow. The `[52] -> [54]` incoming edge is kernel-checked. The `[53] --yes--> [54]`
+edge is not exposed as a public conditional theorem: node [54] may consume only
+the literal previous framework stage and facts retrieved from the single
+accumulated ledger. The missing item is the earlier full-rank-path producer of
+the powered table-product fact. Until that producer exists in the ledger, the
+complete `Node54Stage` terminalizer is not declared, and node [55] cannot be
+treated as receiving an unconditional large residual from node [54].

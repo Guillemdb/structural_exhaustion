@@ -49,6 +49,14 @@ structure P13SequentialHotAggregate
   global : JointState → P13GlobalGraphCompletion ctx
   remainderGraph : JointState → SimpleGraph (P13RemainderVertex ctx) :=
     fun joint => (global joint).object.graph.comap (fun vertex => vertex.1)
+  /-- The cached projection is definitionally the remainder of the same
+  graph-owned completion.  Keeping this equation in the accumulated ledger
+  prevents downstream nodes from silently changing the carrier projection. -/
+  remainderGraph_exact : ∀ joint,
+    remainderGraph joint =
+      (global joint).object.graph.comap (fun vertex => vertex.1) := by
+    intro joint
+    rfl
   remainderGraph_reglue : ∀ joint choice,
     remainderGraph (reglue joint choice) = remainderGraph joint
   commutes : ∀ joint owner coordinate,
@@ -172,6 +180,17 @@ theorem exactPoweredRate_le_fixedCapacity
 
 end P13SequentialHotAggregate
 
+/-- A distinguished joint state whose global completion is literally the
+original counterexample.  This is the witness that makes every final
+curvature-flat fibre nonempty; it is carried by Core's one sequential ledger,
+not by a node-local checkpoint. -/
+structure P13OriginalCompletionWitness
+    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
+    {node21 : P13BarrierRateCertificate}
+    (aggregate : P13SequentialHotAggregate ctx node21) : Type (u + 2) where
+  joint : aggregate.JointState
+  globalExact : aggregate.global joint = p13OriginalGlobalCompletion ctx
+
 /-- An extension is precisely the paper's successful hot step.  It provides
 the new graph-owned completion, preserves every response already retained,
 and makes the new window commute.  Failure of this entire type is cold. -/
@@ -193,6 +212,11 @@ structure P13SequentialCompatibleExtension
   oldChoicesRecovered : ∀ joint (owner : Fin aggregate.retained.length),
     HEq (aggregate.recover (restrictOldJoint joint) owner)
       (next.recover joint (oldOwner owner))
+  /-- Every accepted hot extension embeds the preceding joint carrier.  In
+  particular the original target-avoiding completion is never lost. -/
+  liftOldJoint : aggregate.JointState → next.JointState
+  global_liftOldJoint : ∀ joint,
+    next.global (liftOldJoint joint) = aggregate.global joint
 
 noncomputable def p13SequentialExtend
     {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
@@ -202,6 +226,22 @@ noncomputable def p13SequentialExtend
     (extension : P13SequentialCompatibleExtension aggregate window) :
     P13SequentialHotAggregate ctx node21 :=
   extension.next
+
+/-- P13 specialization of Core's proof-relevant witness transport. -/
+def p13SequentialTransportOriginalWitness
+    {ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}}
+    {node21 : P13BarrierRateCertificate}
+    {aggregate : P13SequentialHotAggregate ctx node21}
+    {window : P13SelectedConnectorWindow ctx}
+    (extension : P13SequentialCompatibleExtension aggregate window) :
+    P13OriginalCompletionWitness aggregate →
+      P13OriginalCompletionWitness extension.next := by
+  intro witness
+  exact {
+    joint := extension.liftOldJoint witness.joint
+    globalExact := (extension.global_liftOldJoint witness.joint).trans
+      witness.globalExact
+  }
 
 /-- Empty aggregate supplied unconditionally by the original counterexample. -/
 noncomputable def p13SequentialInitialAggregate
@@ -218,6 +258,7 @@ noncomputable def p13SequentialInitialAggregate
   recover_reglue := by intro _ _ owner; exact Fin.elim0 owner
   global := fun _ => p13OriginalGlobalCompletion ctx
   remainderGraph_reglue := by intros; rfl
+  remainderGraph_exact := by intros; rfl
   commutes := by intro _ owner; exact Fin.elim0 owner
   Code := ULift.{u + 1} Unit
   codes := inferInstance
@@ -225,6 +266,14 @@ noncomputable def p13SequentialInitialAggregate
   skeletonCode := id
   skeletonCodeInjective := fun _ _ equal => equal
   skeletonCodeInjectiveOnGlue := by intros; rfl
+
+/-- The initial aggregate owns the literal original completion. -/
+noncomputable def p13SequentialInitialOriginalWitness
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (node21 : P13BarrierRateCertificate) :
+    P13OriginalCompletionWitness (p13SequentialInitialAggregate ctx node21) :=
+  { joint := ⟨()⟩
+    globalExact := rfl }
 
 noncomputable abbrev p13SequentialWeightedProfile
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
@@ -303,6 +352,19 @@ noncomputable def p13SequentialFinalHotAggregate
     (node21 : P13BarrierRateCertificate) :
     P13SequentialHotAggregate ctx node21 :=
   (p13SequentialWeightedLedger ctx node21).finalAggregate
+
+/-- Core transports the distinguished original completion through the exact
+hot/cold ledger.  Rejected windows retain it definitionally; accepted windows
+use the extension-owned lift. -/
+noncomputable def p13SequentialFinalOriginalWitness
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})
+    (node21 : P13BarrierRateCertificate) :
+    P13OriginalCompletionWitness
+      (p13SequentialFinalHotAggregate ctx node21) :=
+  (p13SequentialWeightedLedger ctx node21).finalWitness
+    P13OriginalCompletionWitness
+    p13SequentialTransportOriginalWitness
+    (p13SequentialInitialOriginalWitness ctx node21)
 
 theorem p13SequentialFinal_localProduct_le_fixedCapacity
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u})

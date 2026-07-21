@@ -2738,6 +2738,50 @@ def StageNode.derive
     StageNode (facts := facts) Stage where
   produce := fun state => produce state (query.read state)
 
+/-- Query-bearing version of
+`terminalizeFocusedBranchYesCloseNestedYes`.  The additional input is read
+once from the same accumulated ledger as the nested decision; Core still owns
+all bypass transport, terminal packaging, and surviving-leaf selection. -/
+noncomputable def StageNode.terminalizeFocusedBranchYesCloseNestedYesDerived
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {outerYes outerNo : (residual : Residual) → Active residual → Prop}
+    {OuterYesOutput : (residual : Residual) → (data : Active residual) →
+      outerYes residual data → Type uStage}
+    {innerYes innerNo : (residual : Residual) →
+      (data : Active residual) → outerNo residual data → Prop}
+    {Terminal : (residual : Residual) → (data : Active residual) →
+      (proof : outerYes residual data) →
+      OuterYesOutput residual data proof → Type uOccurrence}
+    {Input : Residual → Sort uNext}
+    [Proofs.Contains (Available
+      (FocusedBranchYesContinuationNoDecision Bypass Active outerYes outerNo
+        OuterYesOutput innerYes innerNo)) facts]
+    (query : LedgerQuery (facts := facts) Input)
+    (terminal : ∀ residual, Input residual → ∀ data proof output,
+      Terminal residual data proof output)
+    (close : ∀ residual, Input residual → ∀ data outerProof,
+      innerYes residual data outerProof → False) :
+    StageNode (facts := facts)
+      (FocusedBranch
+        (FocusedBranchYesTerminalBypass Bypass Active outerYes OuterYesOutput
+          Terminal)
+        (FocusedBranchNestedNoActive Active outerNo innerNo)) :=
+  StageNode.derive
+    (query.andStage
+      (Stage := FocusedBranchYesContinuationNoDecision Bypass Active
+        outerYes outerNo OuterYesOutput innerYes innerNo))
+    fun state inputAndDecision =>
+      match inputAndDecision.snd with
+      | .bypass data => .bypass (.bypass data)
+      | .outerYesBranch data proof output =>
+          .bypass (.terminal data proof output
+            (terminal state.residual inputAndDecision.fst data proof output))
+      | .innerYesBranch data outerProof proof =>
+          (close state.residual inputAndDecision.fst data outerProof proof).elim
+      | .innerNoBranch data outerProof proof =>
+          .active ⟨data, outerProof, proof⟩
+
 /-- Prove one proposition from an arbitrary typed ledger query. This is the
 proposition-valued counterpart of `StageNode.derive`. -/
 def Node.derive

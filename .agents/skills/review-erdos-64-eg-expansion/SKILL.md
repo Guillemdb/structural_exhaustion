@@ -24,8 +24,11 @@ ledgers, caller-supplied results, or obligations outside the paper node.
 
 ## Freeze topology and scope
 
-Treat `original_erdos_64_proof.tex` as the immutable authority and never edit
-that file. Compare the complete live Chapter 1 diagram against it. Never add,
+Treat `original_erdos_64_proof.tex` as the immutable mathematical and topology
+authority and never edit that file.  The live manuscript is only a derived
+synchronization view; its status prose or missing implementation notes are
+never evidence that an original-paper obligation may be skipped, weakened, or
+declared unavailable. Compare the complete live Chapter 1 diagram against it. Never add,
 rename, split, merge, or remove a node, edge, branch label, join, or exit. Any
 difference fails the review.
 
@@ -43,7 +46,8 @@ Work from the repository root, inspect the dirty worktree, and preserve
 unrelated edits. Read:
 
 - all Chapter 1 proof-flow diagrams, the detailed dependency row, and every
-  cited definition/proof in `proofs/erdos_64_eg/erdos_64_proof.tex`;
+  cited definition/proof in `original_erdos_64_proof.tex`, followed by the
+  corresponding live material solely for synchronization;
 - `OfficialStatement.lean`, `InternalProblem.lean`, the exact predecessor and
   reviewed Erdős modules, `Erdos64EG.lean`, `Tests.lean`, `WebExport.lean`,
   `README.md`, and `IMPLEMENTATION_LOG.md`;
@@ -113,6 +117,11 @@ Existing decisions must use framework dependent-stage combinators so each
 branch retains the literal predecessor and ledger. Reject application-owned
 sum types, repeated decisions, invented residual cases, or a branch that must
 prove its complement before proceeding.
+
+Reject any Lean declaration whose name, input, proposition, or carrier
+encodes dashboard completion or migration status. Missing proof evidence has
+no callable interface and cannot be supplied by a consumer; it must be proved
+at its paper producer or omitted from the accepted proof path.
 
 Treat framework automation and residual refinement, routing, provenance,
 support recognition, execution, traces, and work accounting as binding

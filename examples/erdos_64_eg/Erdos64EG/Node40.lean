@@ -39,7 +39,7 @@ noncomputable def node40P13EnlargedConnectedSupport {V : Type u} {facts}
 
 noncomputable def runInitialThroughNode40 {V : Type u}
     (residual : InitialResidual V) :=
-  (runInitialThroughNode39 residual).mapYesStage
+  (runInitialThroughNode38 residual).mapYesStage
     node40P13EnlargedConnectedSupport
 
 def node40LocalChecks : Nat := 0

@@ -1,4 +1,5 @@
 import Erdos64EG.Node47
+import Erdos64EG.Shared.P13RealizedRemainderResponse
 
 namespace Erdos64EG.Internal
 
@@ -47,6 +48,28 @@ theorem node48CurvatureEntropyCost_nonneg :
 private theorem node48RemainderRatePositive :
     (0 : ℝ) < node25RemainderRateNumerator := by
   norm_num [node25RemainderRateNumerator]
+
+/-- Product-cost fit in the exact finite form consumed by node [54], once
+the node-[32] no branch has ruled out strict realized product failure.  The
+table factors are selected through node [21]'s named `(1,1)` certificate and
+Core owns the conditional-fibre telescope. -/
+private theorem node48_forcedPowerFit_of_noProductDrop {V : Type u}
+    {residual : InitialResidual V} {node18 : Node18Stage residual}
+    {bounded : Node19Low residual node18}
+    {node21 : Node21Output node18 bounded}
+    (fullRank :
+      p13CurvatureTargetRank (Node21Context node18) =
+        (p13CurvatureCoordinates
+          (Node21Context node18)).toOrderedCollection.values.length)
+    (noProductDrop :
+      ¬ P13RealizedCurvatureProductDrop node18 bounded node21) :
+    543958 ^ p13CurvatureTargetRank (Node21Context node18) ≤
+      111286 ^ p13CurvatureTargetRank (Node21Context node18) *
+        Nat.card (P13RealizedRemainderState node18 bounded node21) := by
+  exact
+    (p13RealizedCurvatureTableAccountingOfNoProductDrop
+      node18 bounded node21 noProductDrop)
+      |>.power_le_flat_mul_stateCount_of_fullRank fullRank
 
 /-- Every node-[48] cardinality is taken from the literal remainder carried by
 node [31].  Its equality certificate identifies that carrier with the
@@ -230,9 +253,15 @@ noncomputable def node48P13ForcedCurvatureCost {V : Type u}
     Core.ResidualRefinement.State.StageNode (facts := facts)
       (@Node48Stage V) :=
   Core.ResidualRefinement.State.StageNode.mapFocusedBranchNoContinuation
-    (Output := fun _ data fullRank => Node34Output data.previous data.outerProof
+    (Bypass := @Node32Bypass V)
+    (Active := @Node32Active V)
+    (yes := fun _ data => Node32RankDrop data.previous)
+    (no := fun _ data => Node32FullRank data.previous)
+    (Output := fun _ data fullRank => Node47Output data.previous data.outerProof
       data.outerOutput data.innerProof data.current fullRank)
-    fun residual data fullRank node47 =>
+    (Next := fun _ data fullRank => Node48Output data.previous data.outerProof
+      data.outerOutput data.innerProof data.current fullRank)
+    fun residual data fullRank _node47 =>
       let node18 := data.previous
       let bounded := data.outerProof
       let node21 := data.outerOutput

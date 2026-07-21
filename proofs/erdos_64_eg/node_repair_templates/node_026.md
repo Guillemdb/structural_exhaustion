@@ -17,7 +17,7 @@
 
 Forbidden: `ExactHandoff`, `previousExact`, or canonical recomputation.
 
-Node [26] is kernel-checked but remains conditional/yellow solely because its
+Node [26] is locally kernel-checked but remains partial solely because its
 incoming ledger depends on the accumulated node-[21] framework ledger and
 `Node23DenseWindowQuietBlockInput`. Its thin output is only the node-[26]
 identity; the framework retains the predecessor. The node-local producer

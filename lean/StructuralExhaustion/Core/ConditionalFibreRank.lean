@@ -78,6 +78,14 @@ def CertifiedPrefix (profile : Profile.{u, v}) (size : Nat) : Prop :=
   ∃ ledger : profile.Ledger profile.incoming.values
       (profile.coordinates.values.take size), True
 
+/-- A complete ledger over the first `size` authored coordinates certifies
+that prefix for the rank definition. -/
+theorem certifiedPrefix_of_ledger (profile : Profile.{u, v}) {size : Nat}
+    (ledger : profile.Ledger profile.incoming.values
+      (profile.coordinates.values.take size)) :
+    profile.CertifiedPrefix size :=
+  ⟨ledger, trivial⟩
+
 /-- Target rank is literally the largest certified coordinate subfamily. -/
 noncomputable def targetRank (profile : Profile.{u, v}) : Nat := by
   classical
@@ -87,6 +95,14 @@ theorem targetRank_le (profile : Profile.{u, v}) :
     profile.targetRank ≤ profile.coordinates.values.length := by
   classical
   exact Nat.findGreatest_le _
+
+/-- Eliminate absence of the strict product-rank failure into the exact
+full-prefix equality.  Applications should use this order-theoretic Core
+lemma instead of repeating `Nat.le_antisymm` at each residual branch. -/
+theorem fullRankOfNotDrop (profile : Profile.{u, v})
+    (notDropped : ¬ profile.targetRank < profile.coordinates.values.length) :
+    profile.targetRank = profile.coordinates.values.length :=
+  Nat.le_antisymm profile.targetRank_le (Nat.le_of_not_gt notDropped)
 
 inductive FirstFailure (profile : Profile.{u, v}) :
     List profile.State → List profile.Coordinate → Type (max u v)
@@ -112,6 +128,42 @@ theorem incompatible {profile : Profile.{u, v}} {states coordinates}
   induction failure with
   | here fails => cases ledger with | cons pays _ => exact fails pays
   | later _ failure ih => cases ledger with | cons _ tail => exact ih tail
+
+/-- When one incoming realization is accepted by the entire remaining
+schedule, a rank failure cannot be caused by an empty retained fibre.  It is
+necessarily a failure of one literal local safe/flat inequality.  This keeps
+the semantic witness bookkeeping in Core and leaves applications only the
+graph-specific counting implication. -/
+theorem exists_failedInequality_of_acceptedWitness
+    {profile : Profile.{u, v}} {states : List profile.State}
+    {coordinates : List profile.Coordinate}
+    (failure : profile.FirstFailure states coordinates)
+    (state : profile.State) (member : state ∈ states)
+    (accepted : ∀ coordinate, coordinate ∈ coordinates →
+      profile.accepts coordinate state = true) :
+    ∃ current : List profile.State, ∃ coordinate : profile.Coordinate,
+      ¬profile.safe * (profile.retain current coordinate).length ≤
+        profile.flat * current.length := by
+  induction failure with
+  | @here current coordinate remaining fails =>
+      refine ⟨current, coordinate, ?_⟩
+      intro inequality
+      apply fails
+      refine ⟨inequality, ?_⟩
+      have acceptedHead : profile.accepts coordinate state = true :=
+        accepted coordinate (by simp)
+      have retainedMember : state ∈ profile.retain current coordinate := by
+        simpa [Profile.retain, acceptedHead] using member
+      rw [List.length_pos_iff]
+      exact List.ne_nil_of_mem retainedMember
+  | @later current coordinate remaining pays tail ih =>
+      have acceptedHead : profile.accepts coordinate state = true :=
+        accepted coordinate (by simp)
+      have retainedMember : state ∈ profile.retain current coordinate := by
+        simpa [Profile.retain, acceptedHead] using member
+      apply ih retainedMember
+      · intro later laterMem
+        exact accepted later (by simp [laterMem])
 
 end FirstFailure
 
@@ -179,6 +231,58 @@ noncomputable def run (profile : Profile.{u, v}) : profile.Outcome := by
           exact notFull existsFull
         omega
       exact Outcome.dropped rank_lt failure
+
+/-- Recover the complete carrier-indexed product certificate from an exact
+full-rank equality for this same conditional-fibre profile.  The equality and
+the returned certificate cannot refer to different state carriers: both are
+indexed by `profile`.  Applications therefore only prove their local semantic
+rank equality; Core owns elimination of the impossible first-failure outcome
+and returns the bundled telescope. -/
+noncomputable def fullOutputOfRankEq (profile : Profile.{u, v})
+    (full : profile.targetRank = profile.coordinates.values.length) :
+    ConditionalFibreProductCost.Profile.CertifiedCarrierOutput
+      profile.incoming profile.coordinates profile.accepts
+        profile.safe profile.flat profile.stateCount := by
+  cases outcome : profile.run with
+  | dropped rank_lt _failure =>
+      exact False.elim (Nat.ne_of_lt rank_lt full)
+  | full output => exact output
+
+/-- Contrapositive branch eliminator for the product-cost telescope.  Once a
+branch proves that strict product-rank failure would route to an already
+closed predecessor branch, Core converts that impossibility into the complete
+carrier-indexed product certificate. -/
+noncomputable def fullOutputOfNotDrop (profile : Profile.{u, v})
+    (notDropped : ¬ profile.targetRank < profile.coordinates.values.length) :
+    ConditionalFibreProductCost.Profile.CertifiedCarrierOutput
+      profile.incoming profile.coordinates profile.accepts
+        profile.safe profile.flat profile.stateCount :=
+  profile.fullOutputOfRankEq (profile.fullRankOfNotDrop notDropped)
+
+/-- Recover the exact first-failure object from a strict product-rank drop.
+This is the contrapositive witness used by applications: once a branch knows
+that every such first failure routes to an already closed rank-drop/cold edge,
+`fullOutputOfNotDrop` supplies the product telescope. -/
+noncomputable def firstFailureOfRankDrop (profile : Profile.{u, v})
+    (rankDrop : profile.targetRank < profile.coordinates.values.length) :
+    profile.FirstFailure profile.incoming.values profile.coordinates.values := by
+  cases result : profile.runFrom profile.incoming.values
+      profile.incomingNonempty profile.coordinates.values with
+  | inl failure => exact failure
+  | inr ledger =>
+      have certifiedFull : profile.CertifiedPrefix
+          profile.coordinates.values.length := by
+        have ledger : profile.Ledger profile.incoming.values
+            (profile.coordinates.values.take
+              profile.coordinates.values.length) := by
+          simpa [List.take_length] using ledger
+        exact profile.certifiedPrefix_of_ledger ledger
+      have rank_ge :
+          profile.coordinates.values.length ≤ profile.targetRank := by
+        unfold targetRank
+        classical
+        exact Nat.le_findGreatest (by omega) certifiedFull
+      exact False.elim ((Nat.not_lt_of_ge rank_ge) rankDrop)
 
 end Profile
 

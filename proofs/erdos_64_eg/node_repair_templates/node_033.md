@@ -18,7 +18,7 @@ Forbidden: circuit extraction (node [35]), context validity, or contradiction.
   `runInitialThroughNode32` accumulated state.
 
 Every listed obligation is kernel-checked, conditional. Node [33] remains
-yellow solely because its incoming ledger depends on
+partial solely because its incoming ledger depends on
 the accumulated node-[21] framework ledger and `Node23DenseWindowQuietBlockInput`. Its local
 producer showed no `sorryAx`. Node [33] has no support-localization or closure
 obligation.

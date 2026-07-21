@@ -11,12 +11,10 @@ universe u
 
 Node [34] names only the literal no constructor of node [32].  It neither
 charges curvature nor enters Part III.  Its branch-local payload is exactly
-the full declared-coordinate equality supplied by CT15's exhaustive node-[32]
-rank decision.
+the full declared-coordinate equality supplied by CT15's node-[32] decision.
 -/
 
-/-- Node [34] is a branch name, not a second copy of node [32]'s proof.  The
-framework decision carrier retains the exact complementary equality. -/
+/-- Node [34] is a branch name, not a second copy of node [32]'s proof. -/
 abbrev Node34Output {V : Type u} {residual : InitialResidual V}
     (node18 : Node18Stage residual)
     (_bounded : Node19Low residual node18)

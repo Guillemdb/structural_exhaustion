@@ -244,6 +244,7 @@ private theorem node52JointCapacity {V : Type u}
           Nat.card (∀ owner,
             P13RetainedLocalChoice aggregate.retained owner) := by
       rw [active.output.stateCountExact]
+      rfl
     _ ≤ aggregate.codes.card :=
       node49_realizedRemainder_mul_hotChoices_le_skeletonCode aggregate
 
@@ -338,36 +339,8 @@ private theorem node52NormalizedJointCapacity {V : Type u}
 
 private theorem node52StateCountPos {V : Type u}
     {residual : InitialResidual V} (active : Node50Active V residual) :
-    0 < active.output.stateCount := by
-  let aggregate := node49CanonicalAggregate active.data.previous
-    active.data.outerProof active.data.outerOutput
-  have choices : ∀ owner,
-      P13RetainedLocalChoice aggregate.retained owner := by
-    intro owner
-    let package := (aggregate.retained.get owner).package
-    have rate := package.exactStatePowerLower
-    have lengthPos : 0 < package.states.values.length := by
-      by_contra notPositive
-      have lengthZero : package.states.values.length = 0 :=
-        Nat.eq_zero_of_not_pos notPositive
-      rw [lengthZero] at rate
-      norm_num [node52CertificateScale, node52CapacityExponent] at rate
-    exact ⟨package.states.values.get ⟨0, lengthPos⟩,
-      package.states.values.get_mem ⟨0, lengthPos⟩⟩
-  let joint := aggregate.glue choices
-  let Realized := Core.DependentOwnerGlueCapacity.RealizedProjection
-    aggregate.JointState
-    (SimpleGraph (P13RemainderVertex
-      (Node21Context active.data.previous))) aggregate.remainderGraph
-  have realizedNonempty : Nonempty Realized :=
-    ⟨Core.DependentOwnerGlueCapacity.realizedProjectionValue
-      aggregate.remainderGraph joint⟩
-  have cardPos : 0 < Nat.card Realized := by
-    letI := realizedNonempty
-    exact Nat.card_pos
-  calc
-    0 < Nat.card Realized := cardPos
-    _ = active.output.stateCount := active.output.stateCountExact.symm
+    0 < active.output.stateCount :=
+  active.output.stateCountPos
 
 private theorem node52LogarithmicJointCapacity {V : Type u}
     {residual : InitialResidual V} (active : Node50Active V residual) :

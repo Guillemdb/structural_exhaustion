@@ -185,9 +185,10 @@ function storyStatus(
 }
 
 function nodeStatusLabel(status: "implemented" | "partial" | "next" | "notStarted") {
-  if (status === "implemented") return "Complete";
-  if (status === "partial") return "Partial";
-  return "Paper only";
+  if (status === "implemented") return "Checked NodeX.lean";
+  if (status === "partial") return "Unchecked NodeX.lean";
+  if (status === "next") return "Frontier";
+  return "No node file";
 }
 
 function ErdosLivingProofContent({
@@ -206,13 +207,11 @@ function ErdosLivingProofContent({
     [causalEvidence],
   );
   const frontierNodeIds = useMemo(() => {
-    const completed = new Set(manuscript.formalizedNodeIds);
-    return unique(manuscript.proofSteps
-      .filter((step) => step.status === "next")
-      .flatMap((step) => step.manuscriptRefs.flatMap((reference) => reference.nodeIds)))
-      .filter((nodeId) => ORIGINAL_ERDOS_PROOF_NODE_IDS.has(nodeId) && !completed.has(nodeId))
+    return ERDOS_PROOF_FLOW_NODES
+      .filter((node) => statuses.get(node.nodeId) === "next")
+      .map((node) => node.nodeId)
       .sort((left, right) => left - right);
-  }, [manuscript]);
+  }, [statuses]);
   const frontierNodes = useMemo(() => new Set(frontierNodeIds), [frontierNodeIds]);
   const initialNodeId = frontierNodeIds[0]
     ?? manuscript.formalizedNodeIds.at(-1)
@@ -392,8 +391,9 @@ function ErdosLivingProofContent({
       <aside className="erdos-scope-banner">
         <strong>Kernel-checked partial formalization.</strong>
         <span>
-          Green certifies a complete original-paper cell; yellow records real Lean evidence without
-          claiming the whole cell. The amber frontier ring is navigation, not a third proof status.
+          Green means the direct NodeX.lean file is kernel checked; yellow means the direct
+          node file exists but is not checked. Orange marks no-file frontier nodes whose direct
+          parent is green, and white marks no direct node file.
         </span>
       </aside>
 
@@ -436,10 +436,10 @@ function ErdosLivingProofContent({
                 <span>Status</span>
                 <select value={nodeFilter} onChange={(event) => setNodeFilter(event.target.value as NodeFilter)}>
                   <option value="all">All statuses</option>
-                  <option value="implemented">Green · complete</option>
-                  <option value="partial">Yellow · partial</option>
-                  <option value="paper">White · paper only</option>
-                  <option value="frontier">Amber ring · frontier</option>
+                  <option value="implemented">Green · checked file</option>
+                  <option value="partial">Yellow · unchecked file</option>
+                  <option value="paper">White · no file</option>
+                  <option value="frontier">Orange · frontier</option>
                 </select>
               </label>
               <label>
@@ -615,12 +615,12 @@ function ErdosLivingProofContent({
             <article>
               <span>01</span>
               <h3>Read color as proof status</h3>
-              <p><b>Green</b> means the complete original-paper node appears in the Lean-exported formalized-node set. <b>Yellow</b> means implemented evidence exists but the whole paper cell is not claimed. White is paper only.</p>
+              <p><b>Green</b> means the direct NodeX.lean file is kernel checked. <b>Yellow</b> means that direct node file exists but is not checked. White means no direct node file.</p>
             </article>
             <article>
               <span>02</span>
-              <h3>Read the amber ring as direction</h3>
-              <p>A frontier marker identifies a dependency-ready next step exported by the implementation plan. It does not turn a paper-only node yellow or green.</p>
+              <h3>Read orange as frontier</h3>
+              <p>Orange identifies a no-file node whose direct parent is green, so it is dependency-ready to expand next.</p>
             </article>
             <article>
               <span>03</span>

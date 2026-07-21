@@ -103,11 +103,9 @@ structure Node49Output {V : Type u} {residual : InitialResidual V}
     (_bounded : Node19Low residual node18)
     (node21 : Node21Output node18 _bounded) : Type (u + 2) where
   stateCount : Nat
-  stateCountExact : stateCount = Nat.card
-    (Core.DependentOwnerGlueCapacity.RealizedProjection
-      (node49CanonicalAggregate node18 _bounded node21).JointState
-      (SimpleGraph (P13RemainderVertex (Node21Context node18)))
-      (node49CanonicalAggregate node18 _bounded node21).remainderGraph)
+  stateCountExact : stateCount =
+    Nat.card (P13RealizedRemainderState node18 _bounded node21)
+  stateCountPos : 0 < stateCount
   entropy : ℝ
   entropyExact : entropy = Real.logb 2 stateCount /
     (p13RemainderVertices (Node21Context node18)).card
@@ -127,15 +125,12 @@ private noncomputable def node49Output {V : Type u}
   -- Mentioning its new mathematical conclusion here prevents this successor
   -- from silently reaching around the framework stage to an older node.
   have _forcedCost := node48.forcedCost
-  let aggregate := node49CanonicalAggregate node18 bounded node21
-  let State := Core.DependentOwnerGlueCapacity.RealizedProjection
-    aggregate.JointState
-    (SimpleGraph (P13RemainderVertex (Node21Context node18)))
-    aggregate.remainderGraph
   exact {
-    stateCount := Nat.card State
+    stateCount := Nat.card (P13RealizedRemainderState node18 bounded node21)
     stateCountExact := rfl
-    entropy := Real.logb 2 (Nat.card State) /
+    stateCountPos := p13RealizedRemainderState_card_pos node18 bounded node21
+    entropy := Real.logb 2
+        (Nat.card (P13RealizedRemainderState node18 bounded node21)) /
       (p13RemainderVertices (Node21Context node18)).card
     entropyExact := rfl
     semanticChecks := 0

@@ -24,7 +24,7 @@
 
 Forbidden: deciding the high-entropy branch, proving curvature rank, or enumerating ambient graphs.
 
-Node [30] is kernel-checked but remains conditional/yellow solely because its
+Node [30] is locally kernel-checked but remains partial solely because its
 incoming ledger depends on the accumulated node-[21] framework ledger and
 `Node23DenseWindowQuietBlockInput`. It proves only the displayed finite floors
 and conditional rate transport, and its thin output copies no predecessor

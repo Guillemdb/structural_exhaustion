@@ -44,18 +44,11 @@ noncomputable def node51Output {V : Type u}
       dsimp [r, n] at partition ⊢
       omega
     have logCountNonnegative : 0 ≤ Real.logb 2 count := by
-      by_cases countZero : count = 0
-      · simp [countZero]
-      · apply Real.logb_nonneg (by norm_num)
-        exact_mod_cast Nat.one_le_iff_ne_zero.mpr countZero
+      apply Real.logb_nonneg (by norm_num)
+      exact_mod_cast active.output.stateCountPos
     simpa [n, r, count, nZero, rZero] using logCountNonnegative
   · have nPositive : 0 < n := Nat.pos_of_ne_zero nZero
-    have countPositive : 0 < count := by
-      by_contra countNotPositive
-      have countZero : count = 0 := Nat.eq_zero_of_not_pos countNotPositive
-      rw [countZero] at highPower
-      have powerPositive : 0 < n ^ r := Nat.pow_pos nPositive
-      omega
+    have countPositive : 0 < count := active.output.stateCountPos
     have highPowerReal : (n : ℝ) ^ r ≤ (count : ℝ) ^ 10 := by
       exact_mod_cast highPower
     have logged :

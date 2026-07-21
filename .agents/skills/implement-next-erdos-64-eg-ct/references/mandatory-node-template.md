@@ -6,6 +6,11 @@ this contract remains yellow even if isolated declarations compile.
 
 ## 1. Freeze the paper identity
 
+`original_erdos_64_proof.tex` is the sole mathematical specification for this
+card.  The live manuscript is a derived synchronization artifact and cannot
+change a responsibility, supply an excuse for an omitted proof, or override
+the original proof strategy.  Never edit the original.
+
 Fill this card from `original_erdos_64_proof.tex` and the corresponding prose
 in `proofs/erdos_64_eg/erdos_64_proof.tex` before reading application code:
 
@@ -57,6 +62,12 @@ the ledger. There is one accumulated ledger, not event-specific, branch-local,
 or application-owned parallel ledgers. A decision may return several typed
 branch stages, but each contains the same incoming accumulated ledger extended
 with its own exact branch certificate.
+
+Dashboard completion metadata is never part of this state flow. It may not
+occur in a Lean declaration name, input type, proposition, branch carrier, or
+certificate. A partially implemented obligation has no callable proof API;
+the legal node input is still only the literal predecessor stage and its one
+accumulated ledger.
 
 ## 4. Retrieve; never rederive or copy
 

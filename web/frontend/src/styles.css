@@ -4315,17 +4315,6 @@ summary:focus-visible {
   box-shadow: 0 4px 12px rgba(25, 63, 87, 0.08);
 }
 
-.erdos-proof-index__node.is-frontier::after {
-  position: absolute;
-  top: 0.35rem;
-  right: 0.35rem;
-  width: 0.42rem;
-  height: 0.42rem;
-  border: 2px solid var(--amber);
-  border-radius: 50%;
-  content: "";
-}
-
 .erdos-proof-index__number {
   display: grid;
   width: 1.85rem;
@@ -4349,6 +4338,12 @@ summary:focus-visible {
   border-color: #c79e16;
   color: #3f3210;
   background: #e2bd3f;
+}
+
+.erdos-proof-index__node--next .erdos-proof-index__number {
+  border-color: #d18a2c;
+  color: #fff;
+  background: #d18a2c;
 }
 
 .erdos-proof-index__node strong,
@@ -4475,7 +4470,7 @@ summary:focus-visible {
 .erdos-node-status--closed { color: #fff; background: #397a50; }
 .erdos-node-status--partial { color: #3f3210; background: #e2bd3f; }
 .erdos-node-status--paper { color: #536269; background: #e6e8e6; }
-.erdos-node-frontier { border: 2px solid var(--amber); color: #76501f; background: #fff; }
+.erdos-node-frontier { border: 2px solid #d18a2c; color: #fff; background: #d18a2c; }
 
 .erdos-node-story ul { margin: 0.45rem 0 0; padding: 0; list-style: none; }
 .erdos-node-story li + li { margin-top: 0.4rem; }
@@ -4668,12 +4663,10 @@ summary:focus-visible {
 .erdos-reading-guide h3 { margin: 0.4rem 0; color: var(--navy); font: 600 0.95rem Georgia, serif; }
 .erdos-reading-guide article p { margin: 0; color: var(--muted); font-size: 0.73rem; line-height: 1.55; }
 
-/* A frontier is a ring around the underlying white paper-only status. */
 .proof-flow-node-chip--next {
-  border: 2px solid var(--amber);
-  color: #52636b;
-  background: #fbfaf6;
-  box-shadow: 0 0 0 3px rgba(209, 138, 44, 0.13);
+  border: 2px solid #d18a2c;
+  color: #fff;
+  background: #d18a2c;
 }
 
 @media (max-width: 1380px) {

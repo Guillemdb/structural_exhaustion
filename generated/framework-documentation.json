@@ -232,8 +232,8 @@
     "inputs": "Finite vertex and item types plus a nonempty support map."},
    "layer": "core",
    "examples":
-   [{"workflowId": "ct12-maximal-matching",
-     "title": "Maximum matching by induced-P2 packing",
+   [{"workflowId": "main",
+     "title": "Minimum degree three gives an even cycle",
      "exampleId": "even-cycle"}],
    "depth": "walkthrough",
    "declarations":
@@ -305,8 +305,8 @@
     "inputs": "A target predicate, path order, and proof-carrying embedding."},
    "layer": "graph",
    "examples":
-   [{"workflowId": "ct1-induced-edge",
-     "title": "Every edge is an induced P2",
+   [{"workflowId": "main",
+     "title": "Minimum degree three gives an even cycle",
      "exampleId": "even-cycle"}],
    "depth": "walkthrough",
    "declarations":
@@ -355,8 +355,8 @@
     "inputs": "One proof-specified proper subgraph; no universe of graphs or subgraphs."},
    "layer": "graph",
    "examples":
-   [{"workflowId": "ct2-audit",
-     "title": "Proper-subgraph and deletion audit",
+   [{"workflowId": "main",
+     "title": "Minimum degree three gives an even cycle",
      "exampleId": "even-cycle"}],
    "depth": "walkthrough",
    "declarations":
@@ -381,8 +381,8 @@
     "Packed boundaried pieces, boundary-degree data, gluing semantics, and one replacement certificate."},
    "layer": "graph",
    "examples":
-   [{"workflowId": "ct3-series",
-     "title": "Two-terminal series replacement",
+   [{"workflowId": "main",
+     "title": "Minimum degree three gives an even cycle",
      "exampleId": "even-cycle"}],
    "depth": "walkthrough",
    "declarations":
@@ -407,8 +407,8 @@
     "A `FiniteObject`; the framework supplies edge supports and the selected maximum family."},
    "layer": "graph",
    "examples":
-   [{"workflowId": "ct12-maximal-matching",
-     "title": "Maximum matching by induced-P2 packing",
+   [{"workflowId": "main",
+     "title": "Minimum degree three gives an even cycle",
      "exampleId": "even-cycle"}],
    "depth": "walkthrough",
    "declarations":

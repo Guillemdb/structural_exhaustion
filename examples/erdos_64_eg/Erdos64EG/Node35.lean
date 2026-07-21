@@ -26,7 +26,7 @@ sibling branch.
 
 noncomputable abbrev Node35PairCircuit {V : Type u} {residual : InitialResidual V}
     (node18 : Node18Stage residual) :=
-  (p13CurvatureFunctionalRankProfile (Node21Context node18)).PairCircuit
+  (p13CurvatureRankProfile (Node21Context node18)).PairCircuit
 
 noncomputable abbrev Node35DeterminationSupportProfile {V : Type u}
     {residual : InitialResidual V} (node18 : Node18Stage residual) :=
@@ -58,11 +58,11 @@ theorem node35RankDropOnDeclaredCoordinates {V : Type u}
     {bounded : Node19Low residual node18}
     {node21 : Node21Output node18 bounded}
     {low : Node22Low residual node18 bounded node21}
-    (node31 : Node31Output node18 bounded node21 low)
+    (_node31 : Node31Output node18 bounded node21 low)
     (rankDrop : Node32RankDrop node18) :
-    (p13CurvatureFunctionalRankProfile (Node21Context node18)).targetRank <
+    (p13CurvatureRankProfile (Node21Context node18)).targetRank <
       (p13CurvatureCoordinates (Node21Context node18)).card := by
-  exact rankDrop
+  simpa [Node32RankDrop, p13CurvatureCoordinates] using rankDrop
 
 /-- CT15's proof-level pair-circuit extractor on the literal node-[32] edge. -/
 noncomputable def node35PairCircuit {V : Type u}
@@ -72,8 +72,9 @@ noncomputable def node35PairCircuit {V : Type u}
     {node21 : Node21Output node18 bounded}
     {low : Node22Low residual node18 bounded node21}
     (node31 : Node31Output node18 bounded node21 low)
-    (rankDrop : Node32RankDrop node18) : Node35PairCircuit node18 :=
-  (p13CurvatureFunctionalRankProfile (Node21Context node18))
+    (rankDrop : Node32RankDrop node18) :
+    Node35PairCircuit node18 :=
+  (p13CurvatureRankProfile (Node21Context node18))
     |>.pairCircuitOfRankDrop
       (node35RankDropOnDeclaredCoordinates node18 node31 rankDrop)
 
@@ -83,7 +84,7 @@ noncomputable def node35CollisionSupportCertificate {V : Type u}
     {residual : InitialResidual V} (node18 : Node18Stage residual)
     (circuit : Node35PairCircuit node18) :
     Node35CollisionSupportCertificate node18 circuit := by
-  let rankProfile := p13CurvatureFunctionalRankProfile (Node21Context node18)
+  let rankProfile := p13CurvatureRankProfile (Node21Context node18)
   let certificate := CT15.SupportStratifiedRank.Profile.certificate
     rankProfile circuit
   exact {
@@ -153,7 +154,7 @@ noncomputable def node35P13RankCircuit {V : Type u}
 
 noncomputable def runInitialThroughNode35 {V : Type u}
     (residual : InitialResidual V) :=
-  (runInitialThroughNode34 residual).mapYesStage
+  (runInitialThroughNode33 residual).mapYesStage
     node35P13RankCircuit
 
 /-- Pair-circuit extraction is proof-level; node [35] scans no finite or

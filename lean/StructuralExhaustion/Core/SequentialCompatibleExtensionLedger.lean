@@ -62,6 +62,24 @@ theorem finalValid {profile aggregate windows}
   | accept _ _ _ ih => exact ih
   | reject _ _ _ ih => exact ih
 
+/-- Transport any proof-relevant witness owned by the aggregate through the
+exact accepted/rejected ledger.  Accepted steps use the extension's transport
+map; rejected steps definitionally retain the same aggregate and witness.
+This is the generic single-ledger mechanism used for distinguished residual
+realizations, rather than an application-maintained checkpoint. -/
+def finalWitness {profile aggregate windows}
+    (Witness : profile.Aggregate → Type*)
+    (transport : ∀ {current window},
+      (extension : profile.Extension current window) →
+        Witness current → Witness (profile.extend extension)) :
+    (ledger : Ledger profile aggregate windows) →
+      Witness aggregate → Witness ledger.finalAggregate
+  | .nil _, witness => witness
+  | .accept _ extension rest, witness =>
+      rest.finalWitness Witness transport (transport extension witness)
+  | .reject _ _ rest, witness =>
+      rest.finalWitness Witness transport witness
+
 theorem length_partition {profile aggregate windows}
     (ledger : Ledger profile aggregate windows) :
     ledger.hot.length + ledger.cold.length = windows.length := by
@@ -91,6 +109,39 @@ theorem hot_nodup {profile aggregate windows}
 theorem cold_nodup {profile aggregate windows}
     (ledger : Ledger profile aggregate windows) (nodup : windows.Nodup) :
     ledger.cold.Nodup := ledger.cold_sublist.nodup nodup
+
+/-- Framework-owned exhaustive hot/cold split for one completed ledger.
+The hot constructor certifies that every scheduled extension was retained;
+the cold constructor exposes a literal rejected scheduled window.  Applications
+never author a Boolean flag or rebuild either list. -/
+inductive HotColdOutcome {profile : Profile.{u, v}} {aggregate windows}
+    (ledger : Ledger profile aggregate windows) : Type (max (u + 1) (v + 1)) where
+  | hot (cold_empty : ledger.cold = []) : HotColdOutcome ledger
+  | cold (window : profile.Window) (member : window ∈ ledger.cold) :
+      HotColdOutcome ledger
+
+/-- Decide the exact hot/cold outcome by inspecting only the already-produced
+rejection list.  This performs no extension search and creates no second
+ledger. -/
+def hotColdOutcome {profile : Profile.{u, v}} {aggregate windows}
+    (ledger : Ledger profile aggregate windows) : HotColdOutcome ledger :=
+  match coldEq : ledger.cold with
+  | [] => .hot coldEq
+  | window :: _ => .cold window (by simpa [coldEq])
+
+/-- On the hot outcome, the retained list has the full scheduled length. -/
+theorem hot_length_eq_windows_length {profile : Profile.{u, v}} {aggregate windows}
+    (ledger : Ledger profile aggregate windows) (cold_empty : ledger.cold = []) :
+    ledger.hot.length = windows.length := by
+  have partition := ledger.length_partition
+  simpa [cold_empty] using partition
+
+/-- Every rejected witness returned by the framework is one of the original
+scheduled windows. -/
+theorem coldOutcome_mem_windows {profile : Profile.{u, v}} {aggregate windows}
+    (ledger : Ledger profile aggregate windows) {window : profile.Window}
+    (member : window ∈ ledger.cold) : window ∈ windows :=
+  ledger.cold_sublist.subset member
 
 end Ledger
 

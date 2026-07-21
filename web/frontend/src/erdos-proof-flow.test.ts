@@ -25,7 +25,7 @@ function manuscriptWithStatuses(): ExampleManuscript {
     path: "proofs/synthetic.tex",
     sha256: "a".repeat(64),
     fragments: [],
-    formalizedNodeIds: [1, 3],
+    formalizedNodeIds: [1, 3, 18],
     nodeObligations: [
       {
         nodeId: 1,
@@ -38,17 +38,17 @@ function manuscriptWithStatuses(): ExampleManuscript {
       {
         nodeId: 2,
         obligationId: "compiled-node-2",
-        title: "Compiled complete ledger",
-        statement: "A complete ledger cannot promote a non-formalized node.",
-        status: "proved",
+        title: "Compiled node-file ledger",
+        statement: "An existing unchecked node file is yellow.",
+        status: "partial",
         evidenceStepIds: ["implemented"],
       },
       {
         nodeId: 19,
         obligationId: "compiled-node-19",
         title: "Compiled frontier ledger",
-        statement: "A complete ledger cannot promote a frontier node.",
-        status: "proved",
+        statement: "A missing node file can be frontier-orange when its parent is green.",
+        status: "missing",
         evidenceStepIds: [],
       },
     ],
@@ -225,15 +225,10 @@ describe("Erdős Chapter 1 proof flow", () => {
 
     expect(statuses.get(1)).toBe("implemented");
     expect(statuses.get(3)).toBe("implemented");
+    expect(statuses.get(18)).toBe("implemented");
     expect(statuses.get(2)).toBe("partial");
-    expect(statuses.get(4)).toBe("partial");
+    expect(statuses.get(4)).toBeUndefined();
     expect(statuses.get(19)).toBe("next");
-
-    const withoutObligations = proofFlowNodeStatuses({
-      ...manuscript,
-      nodeObligations: [],
-    });
-    expect([...statuses.entries()]).toEqual([...withoutObligations.entries()]);
   });
 
   it("renders green, yellow, frontier, and untouched nodes from compiled status data", () => {
@@ -252,14 +247,14 @@ describe("Erdős Chapter 1 proof flow", () => {
       .toMatchObject({
         verified: false,
         status: "partial",
-        obligationsProved: 1,
+        obligationsProved: 0,
         obligationsTotal: 1,
-        obligationsRemaining: 0,
+        obligationsRemaining: 1,
       });
     expect(elements.find((element) => element.data.id === "proof-node:4")?.data)
       .toMatchObject({
         verified: false,
-        status: "partial",
+        status: "notStarted",
         obligationsProved: 0,
         obligationsTotal: 1,
         obligationsRemaining: 1,
@@ -269,7 +264,7 @@ describe("Erdős Chapter 1 proof flow", () => {
     expect(elements.find((element) => element.data.id === "proof-node:5")?.data)
       .toMatchObject({ verified: false, status: "notStarted" });
 
-    expect(elements.find((element) => element.data.id === "proof-node:4")?.data.label)
+    expect(elements.find((element) => element.data.id === "proof-node:2")?.data.label)
       .toContain("Obligations 0/1 · 1 left");
     expect(proofFlowNodeSteps(manuscript).get(2)).toEqual(["paper", "implemented"]);
   });
@@ -318,7 +313,6 @@ describe("Erdős Chapter 1 proof flow", () => {
     const manuscript = generatedManuscript();
     const statuses = proofFlowNodeStatuses(manuscript);
     const formalized = new Set(manuscript.formalizedNodeIds);
-    const evidenceNodes = implementedEvidenceNodeIds(manuscript);
 
     const greenNodeIds = ERDOS_PROOF_FLOW_NODES
       .filter((node) => statuses.get(node.nodeId) === "implemented")
@@ -332,16 +326,12 @@ describe("Erdős Chapter 1 proof flow", () => {
       .filter(([, status]) => status === "partial")
       .map(([nodeId]) => nodeId)
       .sort((left, right) => left - right);
-    const expectedPartialNodeIds = [...evidenceNodes]
-      .filter((nodeId) => !formalized.has(nodeId))
+    const expectedPartialNodeIds = (manuscript.nodeObligations ?? [])
+      .filter((obligation) => obligation.status === "partial")
+      .map((obligation) => obligation.nodeId)
+      .filter((nodeId, index, nodeIds) => nodeIds.indexOf(nodeId) === index)
       .sort((left, right) => left - right);
     expect(partialNodeIds).toEqual(expectedPartialNodeIds);
-
-    const withoutObligations = proofFlowNodeStatuses({
-      ...manuscript,
-      nodeObligations: [],
-    });
-    expect([...statuses.entries()]).toEqual([...withoutObligations.entries()]);
   });
 
   it("projects only compiled ledgers or one whole-cell fallback in the current artifact", () => {

@@ -23,7 +23,7 @@ support-stratified circuit is extracted at node [35]. Forbidden: proving
 full-rank curvature cost, closing either branch, or enumerating quotient or
 support families.
 
-Node [32] is kernel-checked but remains conditional/yellow solely because its
+Node [32] is locally kernel-checked but remains partial solely because its
 incoming ledger depends on the accumulated node-[21] framework ledger and
 `Node23DenseWindowQuietBlockInput`. The node-local producer showed no
 `sorryAx`; no focused-validation task remains.

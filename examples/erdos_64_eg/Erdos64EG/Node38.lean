@@ -96,7 +96,7 @@ noncomputable def node38P13ProperRepresentativeDecision {V : Type u} {facts}
 
 noncomputable def runInitialThroughNode38 {V : Type u}
     (residual : InitialResidual V) :=
-  (runInitialThroughNode37 residual).mapYesStage
+  (runInitialThroughNode36 residual).mapYesStage
     node38P13ProperRepresentativeDecision
 
 def node38LocalChecks : Nat := 0

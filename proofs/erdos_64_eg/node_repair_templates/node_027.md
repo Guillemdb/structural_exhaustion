@@ -17,7 +17,7 @@
 
 Forbidden: defining a new remainder, re-running the packing, or proving node28 deficiency facts.
 
-Node [27] is kernel-checked but remains conditional/yellow solely because its
+Node [27] is locally kernel-checked but remains partial solely because its
 incoming ledger depends on the accumulated node-[21] framework ledger and
 `Node23DenseWindowQuietBlockInput`. Its thin output contains only the
 node-[27] no-three-core certificate; it does not copy its predecessor. The

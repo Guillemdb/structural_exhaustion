@@ -103,6 +103,21 @@ theorem rankDecision_exhaustive :
   | dropped rank_lt => exact Or.inl rank_lt
   | full rank_eq => exact Or.inr rank_eq
 
+/-- Framework-owned decidability for the strict rank-loss constructor. -/
+noncomputable def rankDropDecidable :
+    Decidable (profile.targetRank < profile.coordinates.card) := by
+  cases profile.rankDecision with
+  | dropped rank_lt => exact isTrue rank_lt
+  | full rank_eq => exact isFalse (Nat.not_lt_of_ge rank_eq.ge)
+
+/-- Eliminate absence of the strict constructor into the exact full-rank
+certificate.  Applications must not repeat this order-theoretic plumbing. -/
+theorem fullRankOfNotDrop
+    (notDropped : ¬ profile.targetRank < profile.coordinates.card) :
+    profile.targetRank = profile.coordinates.card :=
+  Nat.le_antisymm profile.targetRank_le_coordinates
+    (Nat.le_of_not_gt notDropped)
+
 /-- The exact candidate and identified coordinate pair selected by strict rank
 loss.  Any graph support, context, boundary, and representative data remain
 inside `candidate`. -/

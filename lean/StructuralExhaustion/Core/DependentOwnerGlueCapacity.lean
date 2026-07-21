@@ -29,6 +29,14 @@ def realizedProjectionValue {Global : Type w} {Base : Type b}
     RealizedProjection Global Base project :=
   ⟨project global, ⟨global, rfl⟩⟩
 
+/-- The canonical realized-projection witness exposes exactly the value of
+the incoming ledger projection.  Applications should rewrite with this
+framework lemma rather than unfold the proof-carrying image subtype. -/
+@[simp] theorem realizedProjectionValue_val
+    {Global : Type w} {Base : Type b}
+    (project : Global → Base) (global : Global) :
+    (realizedProjectionValue project global).1 = project global := rfl
+
 /-- Exact ordered enumeration of the values realized by a projection.
 
 The source enumeration is the only carrier supplied by an application.  The

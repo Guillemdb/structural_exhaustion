@@ -432,6 +432,23 @@ export const ERDOS_PROOF_FLOW_NODES = ERDOS_PROOF_FLOW_PARTS.flatMap(
   (part) => part.nodes,
 );
 
+const ERDOS_PROOF_FLOW_PARENT_IDS = ERDOS_PROOF_FLOW_PARTS.reduce<Map<number, Set<number>>>(
+  (parents, part) => {
+    for (const edge of part.edges) {
+      const incoming = parents.get(edge.target) ?? new Set<number>();
+      incoming.add(edge.source);
+      parents.set(edge.target, incoming);
+    }
+    for (const continuation of part.continuations) {
+      const incoming = parents.get(continuation.target) ?? new Set<number>();
+      incoming.add(continuation.source);
+      parents.set(continuation.target, incoming);
+    }
+    return parents;
+  },
+  new Map<number, Set<number>>(),
+);
+
 export function proofFlowNodeElementId(nodeId: number): string {
   return `proof-node:${nodeId}`;
 }
@@ -462,26 +479,56 @@ export function proofFlowNodeStatuses(
     "implemented" | "partial" | "next" | "notStarted"
   >();
   const formalized = new Set(manuscript.formalizedNodeIds);
+  const obligationsByNode = new Map<number, ErdosNodeObligation[]>();
+  for (const obligation of manuscript.nodeObligations ?? []) {
+    obligationsByNode.set(
+      obligation.nodeId,
+      [...(obligationsByNode.get(obligation.nodeId) ?? []), obligation],
+    );
+  }
 
-  // Any implemented evidence for an otherwise incomplete manuscript cell is
-  // partial coverage, even when another proof step also marks that cell as the
-  // next frontier. Only the compiled formalized-node list can make a cell green.
+  // In current Erdős artifacts, the node-obligation ledger is the durable
+  // per-node file-status projection: proved means a checked NodeX.lean, partial
+  // means a NodeX.lean exists but is not checked, and missing means no direct
+  // node file. Older artifacts without that ledger fall back to proof-step data.
   const priority = { notStarted: 0, next: 1, partial: 2, implemented: 3 } as const;
-  for (const step of manuscript.proofSteps) {
-    for (const reference of step.manuscriptRefs) {
-      for (const nodeId of reference.nodeIds) {
-        if (formalized.has(nodeId)) continue;
-        const status: "partial" | "next" | "notStarted" = step.status === "implemented"
-          ? "partial"
-          : step.status;
-        const previous = statuses.get(nodeId);
-        if (!previous || priority[status] > priority[previous]) {
-          statuses.set(nodeId, status);
+  for (const node of ERDOS_PROOF_FLOW_NODES) {
+    if (formalized.has(node.nodeId)) {
+      statuses.set(node.nodeId, "implemented");
+      continue;
+    }
+
+    const obligations = obligationsByNode.get(node.nodeId) ?? [];
+    if (obligations.some((obligation) => obligation.status === "partial")) {
+      statuses.set(node.nodeId, "partial");
+    }
+  }
+
+  if (obligationsByNode.size === 0) {
+    for (const step of manuscript.proofSteps) {
+      for (const reference of step.manuscriptRefs) {
+        for (const nodeId of reference.nodeIds) {
+          if (formalized.has(nodeId)) continue;
+          const status: "partial" | "next" | "notStarted" = step.status === "implemented"
+            ? "partial"
+            : step.status;
+          const previous = statuses.get(nodeId);
+          if (!previous || priority[status] > priority[previous]) {
+            statuses.set(nodeId, status);
+          }
         }
       }
     }
   }
-  for (const nodeId of formalized) statuses.set(nodeId, "implemented");
+
+  for (const node of ERDOS_PROOF_FLOW_NODES) {
+    if (statuses.has(node.nodeId)) continue;
+    const parents = ERDOS_PROOF_FLOW_PARENT_IDS.get(node.nodeId) ?? new Set<number>();
+    if ([...parents].some((parentId) => statuses.get(parentId) === "implemented")) {
+      statuses.set(node.nodeId, "next");
+    }
+  }
+
   return statuses;
 }
 

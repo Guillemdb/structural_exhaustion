@@ -27,7 +27,7 @@ Forbidden: curvature/wedge estimates, a second incidence ledger, or re-proving p
 
 The exact square bound is node [29]'s finite producer for the displayed
 `o(n)` error; conversion to asymptotic notation remains a later transport.
-Node [29] is kernel-checked but remains conditional/yellow solely because its
+Node [29] is locally kernel-checked but remains partial solely because its
 incoming ledger depends on the accumulated node-[21] framework ledger and
 `Node23DenseWindowQuietBlockInput`. Its thin output contains only the new
 incidence consequences, not predecessor payloads. The node-local producer

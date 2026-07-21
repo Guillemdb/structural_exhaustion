@@ -26,10 +26,10 @@ export interface ErdosNodeStoryProps {
 }
 
 const statusLabels: Record<ErdosNodeStoryStatus, string> = {
-  verified: "Verified original-paper node",
-  closed: "Verified terminal branch",
-  partial: "Partially formalized",
-  paper: "Paper only",
+  verified: "Checked NodeX.lean file",
+  closed: "Checked terminal NodeX.lean file",
+  partial: "Unchecked NodeX.lean file",
+  paper: "No direct node file",
 };
 
 const authorRoles = new Set<ExampleDeclarationGroup["role"]>([
@@ -155,7 +155,7 @@ export function ErdosNodeStory({
         </div>
         <div className="erdos-node-story__state">
           <span className={`erdos-node-status erdos-node-status--${status}`}>{statusLabels[status]}</span>
-          {isFrontier ? <span className="erdos-node-frontier">Current frontier</span> : null}
+          {isFrontier ? <span className="erdos-node-frontier">Frontier</span> : null}
         </div>
       </header>
 

@@ -70,6 +70,19 @@ structure Node30Output {V : Type u} {residual : InitialResidual V}
         2 * node25RemainderRateNumerator *
           Graph.InducedPathWindowLedger.totalSurplus
             (Node21Context node18).G.object
+  /-- Exact finite producer for the large-budget net-deficiency cap:
+  after multiplying by the fixed remainder denominator, the window-supplied
+  deficiency is bounded by the paper's `τ_win` numerator plus the inherited
+  near-cubic surplus error. -/
+  netDeficiencyFiniteCap :
+    node25RemainderRateNumerator *
+        (p13RemainderCurvatureProfile
+          (Node21Context node18)).positiveDeficiency ≤
+      15 * node22SkeletonRateNumerator *
+          (p13RemainderVertices (Node21Context node18)).card +
+        node25RemainderRateNumerator *
+          Graph.InducedPathWindowLedger.totalSurplus
+            (Node21Context node18).G.object
   rateTransport : ∀ (rate error : ℝ),
     ((p13RemainderCurvatureProfile
       (Node21Context node18)).positiveDeficiency : ℝ) ≤
@@ -221,6 +234,55 @@ noncomputable def node30P13WedgeLower {V : Type u} {facts}
                 node25RemainderRateNumerator,
                 node22SkeletonRateNumerator])
               remainderDensityScaled windowFiniteSupply)
+        netDeficiencyFiniteCap := by
+          have supplyScaled :
+              node25RemainderRateNumerator *
+                  (p13RemainderCurvatureProfile ctx).positiveDeficiency ≤
+                node25RemainderRateNumerator *
+                  (15 *
+                      Graph.InducedPathWindowLedger.packingNumber
+                        ctx.G.object +
+                    Graph.InducedPathWindowLedger.totalSurplus
+                      ctx.G.object) :=
+            Nat.mul_le_mul_left node25RemainderRateNumerator
+              node29.totalSurplusSupply
+          have packingScaled :
+              15 *
+                  (node25RemainderRateNumerator *
+                    Graph.InducedPathWindowLedger.packingNumber
+                      ctx.G.object) ≤
+                15 *
+                  (node22SkeletonRateNumerator *
+                    (p13RemainderVertices ctx).card) :=
+            Nat.mul_le_mul_left 15 remainderDensity
+          calc
+            node25RemainderRateNumerator *
+                (p13RemainderCurvatureProfile ctx).positiveDeficiency ≤
+              node25RemainderRateNumerator *
+                (15 *
+                    Graph.InducedPathWindowLedger.packingNumber
+                      ctx.G.object +
+                  Graph.InducedPathWindowLedger.totalSurplus
+                    ctx.G.object) := supplyScaled
+            _ = 15 *
+                  (node25RemainderRateNumerator *
+                    Graph.InducedPathWindowLedger.packingNumber
+                      ctx.G.object) +
+                node25RemainderRateNumerator *
+                  Graph.InducedPathWindowLedger.totalSurplus
+                    ctx.G.object := by ring
+            _ ≤ 15 *
+                  (node22SkeletonRateNumerator *
+                    (p13RemainderVertices ctx).card) +
+                node25RemainderRateNumerator *
+                  Graph.InducedPathWindowLedger.totalSurplus
+                    ctx.G.object :=
+              Nat.add_le_add_right packingScaled _
+            _ = 15 * node22SkeletonRateNumerator *
+                  (p13RemainderVertices ctx).card +
+                node25RemainderRateNumerator *
+                  Graph.InducedPathWindowLedger.totalSurplus
+                    ctx.G.object := by ring
         rateTransport := rateTransport
         windowRateTransport := by
           intro error deficiency

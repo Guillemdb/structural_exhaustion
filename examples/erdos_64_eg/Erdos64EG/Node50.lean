@@ -33,6 +33,12 @@ def previous {V : Type u} {residual : InitialResidual V}
     (active : Node50Active V residual) : Node18Stage residual :=
   active.data.previous
 
+def node49Output {V : Type u} {residual : InitialResidual V}
+    (active : Node50Active V residual) :
+    Node49Output active.data.previous active.data.outerProof
+      active.data.outerOutput :=
+  active.output
+
 end Node50Active
 
 /-- Yes edge `[50] -> [51]`. -/

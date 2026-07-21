@@ -215,13 +215,17 @@ noncomputable def p13CurvatureProposedFunctionalRankProfile
     (P13CurvatureCoordinate ctx) p13CurvatureSupport
       (p13CurvatureCoordinates ctx)
 
-/-- The manuscript's node-[31] entropy-rank universe.  Every candidate owns
-the complete support-stratified determination certificate required by the
-later Branch-D audit.  Rank loss therefore returns that certificate through
-CT15 itself; no later node may request support data from its caller. -/
-noncomputable def p13CurvatureFunctionalRankProfile
+/-- The single manuscript rank profile used by nodes [31]--[48]. -/
+noncomputable def p13CurvatureRankProfile
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
   p13CurvatureDeterminationRankProfile ctx
+
+/-- Compatibility name for older proof fragments in the current import cone.
+It is definitionally the same single manuscript rank profile, not a second
+rank notion. -/
+noncomputable def p13CurvatureFunctionalRankProfile
+    (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
+  p13CurvatureRankProfile ctx
 
 noncomputable def p13CurvatureAdmittedFunctionalRankProfile
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :=
@@ -238,7 +242,7 @@ noncomputable def p13CanonicalCurvatureTargetRank
 noncomputable def p13CurvatureTargetRank
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
     Nat :=
-  (p13CurvatureFunctionalRankProfile ctx).targetRank
+  (p13CurvatureRankProfile ctx).targetRank
 
 theorem p13CurvatureTargetRank_le_wedgeCount
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
@@ -246,16 +250,16 @@ theorem p13CurvatureTargetRank_le_wedgeCount
       (p13RemainderCurvatureProfile ctx).wedgeCount := by
   calc
     p13CurvatureTargetRank ctx ≤ (p13CurvatureCoordinates ctx).card :=
-      (p13CurvatureFunctionalRankProfile ctx).targetRank_le_coordinates
+      (p13CurvatureRankProfile ctx).targetRank_le_coordinates
     _ = (p13RemainderCurvatureProfile ctx).wedgeCount :=
       p13CurvatureCoordinates_card_eq_wedgeCount ctx
 
 theorem exists_p13Curvature_surviving_card_eq_targetRank
     (ctx : Core.MinimalCounterexampleContext PackedProblem.{u} PackedTarget.{u}) :
     ∃ family : Finset (P13CurvatureCoordinate ctx),
-      (p13CurvatureFunctionalRankProfile ctx).Survives family ∧
+      (p13CurvatureRankProfile ctx).Survives family ∧
         family.card = p13CurvatureTargetRank ctx :=
-  (p13CurvatureFunctionalRankProfile ctx)
+  (p13CurvatureRankProfile ctx)
     |>.exists_surviving_card_eq_targetRank
 
 theorem p13CanonicalCurvatureTargetRank_le_wedgeCount

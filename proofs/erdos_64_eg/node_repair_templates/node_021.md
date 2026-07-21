@@ -35,9 +35,9 @@ barrier data, `Node21Context`, `Node21Output`, and `Node21Stage` types.
 of the finite audits and producer.  Node `[22]` imports only the API, so a
 typed provisional node-[21] output can drive downstream source refactors
 without replaying the unfinished node-[21] computation; this does not change
-node `[21]`'s yellow status.
+node `[21]`'s partial status.
 
-Dashboard rule: node `[21]` remains yellow while any of N21-SEMANTICS,
+Dashboard rule: node `[21]` remains partial while any of N21-SEMANTICS,
 N21-SAFE, or N21-FLAT depends on a native finite-audit axiom. The old output
 may be consumed provisionally by downstream refactors, but it is not green
 kernel evidence.

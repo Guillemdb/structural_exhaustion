@@ -24,7 +24,7 @@
 
 ## Status
 
-Node [40] is kernel-checked but remains conditional/yellow solely because its
+Node [40] is locally kernel-checked but remains partial solely because its
 incoming ledger depends on the accumulated node-[21] framework ledger,
 `Node23DenseWindowQuietBlockInput`, and
 the missing node-[35] collision-support obligation. Its local producer showed no

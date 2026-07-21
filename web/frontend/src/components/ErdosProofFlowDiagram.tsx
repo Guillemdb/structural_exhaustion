@@ -38,10 +38,10 @@ function statusLabel(
   unconditionallyClosed = false,
 ) {
   if (unconditionallyClosed) return "Unconditionally closed in Lean";
-  if (status === "implemented") return "Formalized in Lean";
-  if (status === "partial") return "Partially formalized in Lean";
-  if (status === "next") return "Current formalization frontier";
-  return "Paper proof only";
+  if (status === "implemented") return "Kernel-checked NodeX.lean file";
+  if (status === "partial") return "NodeX.lean exists but is not kernel checked";
+  if (status === "next") return "Frontier: direct parent is green";
+  return "No NodeX.lean file";
 }
 
 export function ErdosProofFlowDiagram({
@@ -157,7 +157,7 @@ export function ErdosProofFlowDiagram({
         </div>
         <p>
           {diagramView === "implemented"
-            ? "Green means that Lean verifies the complete claim prescribed by the corresponding cell of the original proof; darker green marks a verified terminal leaf that closes its branch unconditionally. Yellow marks partial Lean coverage, amber marks the declared next frontier, and white is paper-only."
+            ? "Green means the corresponding direct NodeX.lean file has a fresh kernel-checked artifact. Yellow means the direct NodeX.lean file exists but is not checked. Orange marks a no-file frontier node with a green direct parent, and white means no direct Lean node file."
             : diagramView === "paper"
               ? "This is the typeset page from the original reference manuscript, preserving its exact TikZ geometry, labels, arrows, mathematical notation, and caption for direct comparison with the implemented flowchart."
               : "The interactive Lean map and the exact typeset paper diagram are shown together. Select a numbered node on the left to keep its original-paper counterpart identified on the right."}

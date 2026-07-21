@@ -18,7 +18,7 @@
 
 Forbidden: ExactHandoff or copied node24 payload.
 
-Node [25] is kernel-checked but remains conditional/yellow solely because its
+Node [25] is locally kernel-checked but remains partial solely because its
 incoming ledger depends on the accumulated node-[21] framework ledger and
 `Node23DenseWindowQuietBlockInput`. Its thin output contains only the
 node-[25] remainder facts; it does not copy the predecessor payload. The

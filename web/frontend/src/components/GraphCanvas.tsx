@@ -266,10 +266,10 @@ export const graphStyles: cytoscape.StylesheetJson = [
   {
     selector: 'node[kind = "proofFlowNode"][status = "next"]',
     style: {
-      "background-color": "#fbfaf6",
-      "border-color": "#d18a2c",
-      "border-width": 5,
-      color: "#263b46",
+      "background-color": "#d18a2c",
+      "border-color": "#f5d198",
+      "border-width": 3,
+      color: "#ffffff",
     },
   },
   {

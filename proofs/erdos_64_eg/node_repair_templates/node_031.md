@@ -16,7 +16,7 @@
 | N31-SEM | Attach the exact coordinate response semantics and keep the induced raw proposal audit distinct | CT15/[31] | `Node31Facts.responseExact`; `p13CurvatureProposedFunctionalRankProfile` is reserved for the restricted proposal tested downstream | kernel-checked, conditional |
 | N31-LEDGER | Append the rank state without deciding node32 | framework | generic active-cursor map | kernel-checked, conditional |
 
-Node [31] is kernel-checked but remains conditional/yellow solely because its
+Node [31] is locally kernel-checked but remains partial solely because its
 incoming ledger depends on the accumulated node-[21] framework ledger and
 `Node23DenseWindowQuietBlockInput`. Its thin output contains only the new CT15
 rank facts; it does not copy node [30]. The node-local producer showed no

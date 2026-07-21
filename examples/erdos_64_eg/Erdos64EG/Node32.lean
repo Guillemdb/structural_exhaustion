@@ -14,24 +14,25 @@ the exact finite full-rank certificate consumed by Residual B.  Core owns the
 two branch carriers and preserves the one accumulated ledger.
 -/
 
-/-- Node [32]'s yes edge is CT15's literal strict rank-loss proposition. -/
+/-- Node [32]'s yes edge is CT15's literal strict rank-loss proposition on
+the single manuscript curvature rank. -/
 abbrev Node32RankDrop {V : Type u} {r : InitialResidual V}
     (n18 : Node18Stage r) : Prop :=
-  (p13CurvatureFunctionalRankProfile (Node21Context n18)).targetRank <
+  (p13CurvatureRankProfile (Node21Context n18)).targetRank <
     (p13CurvatureCoordinates (Node21Context n18)).card
 
 /-- Node [32]'s no edge is CT15's exact full-cardinality certificate.  The
 weaker asymptotic inequality displayed in the paper follows immediately. -/
 abbrev Node32FullRank {V : Type u} {r : InitialResidual V}
     (n18 : Node18Stage r) : Prop :=
-  (p13CurvatureFunctionalRankProfile (Node21Context n18)).targetRank =
+  (p13CurvatureRankProfile (Node21Context n18)).targetRank =
     (p13CurvatureCoordinates (Node21Context n18)).card
 
 /-- The proof-relevant CT15 decision used by node [32].  This is a projection
 of the node-[31] rank profile, not an application-owned threshold test. -/
 noncomputable def node32RankDecision {V : Type u} {r : InitialResidual V}
     (n18 : Node18Stage r) :=
-  (p13CurvatureFunctionalRankProfile (Node21Context n18)).rankDecision
+  (p13CurvatureRankProfile (Node21Context n18)).rankDecision
 
 /-- Read CT15's proof-relevant decision as the decidability evidence consumed
 by Core's accumulated-ledger branch executor. -/
@@ -46,7 +47,7 @@ noncomputable def node32RankDropDecidable {V : Type u}
 theorem node32RankDecision_exhaustive {V : Type u}
     {r : InitialResidual V} (n18 : Node18Stage r) :
     Node32RankDrop n18 ∨ Node32FullRank n18 :=
-  (p13CurvatureFunctionalRankProfile (Node21Context n18))
+  (p13CurvatureRankProfile (Node21Context n18))
     |>.rankDecision_exhaustive
 
 abbrev Node32Bypass {V : Type u} :=
@@ -79,7 +80,7 @@ noncomputable def node32P13RankDropDecision {V : Type u} {facts}
     (fun _ data => node32RankDropDecidable data.previous)
     (fun _ data absent => by
       exact Nat.le_antisymm
-        (p13CurvatureFunctionalRankProfile
+        (p13CurvatureRankProfile
           (Node21Context data.previous)).targetRank_le_coordinates
         (Nat.le_of_not_gt absent))
 
@@ -93,7 +94,7 @@ theorem node32LocalChecks_eq_zero : node32LocalChecks = 0 := rfl
 
 theorem node32RankDecisionWork_eq_zero {V : Type u}
     {residual : InitialResidual V} (node18 : Node18Stage residual) :
-    ((p13CurvatureFunctionalRankProfile (Node21Context node18))
+    ((p13CurvatureRankProfile (Node21Context node18))
         |>.rankDecisionBudget).checks () = 0 :=
   rfl
 

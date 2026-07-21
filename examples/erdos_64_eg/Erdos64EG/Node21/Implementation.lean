@@ -120,6 +120,22 @@ def p13MultiScaleCertifiedTable :
   semantic := p13MultiScaleSemanticCertificate
   counts := p13MultiScaleCountCertificate
 
+/-- Constant-time public projection of the audited safe column. -/
+@[simp] theorem p13MultiScaleCertifiedTable_storedSafe
+    (index : P13BarrierIndex) :
+    (Core.FiniteBitRelationBarrier.CertifiedTable.counts
+      p13MultiScaleCertifiedTable).storedSafe index =
+      p13BarrierSafeCount index := by
+  simp [p13MultiScaleCertifiedTable, p13MultiScaleCountCertificate]
+
+/-- Constant-time public projection of the audited flat column. -/
+@[simp] theorem p13MultiScaleCertifiedTable_storedFlat
+    (index : P13BarrierIndex) :
+    (Core.FiniteBitRelationBarrier.CertifiedTable.counts
+      p13MultiScaleCertifiedTable).storedFlat index =
+      p13BarrierFlatCount index := by
+  simp [p13MultiScaleCertifiedTable, p13MultiScaleCountCertificate]
+
 private theorem p13Barrier_wellFormed_computation :
     p13BarrierClassification.classes.orderedValues.all (fun index =>
       decide (0 < p13BarrierFlatCount index ∧

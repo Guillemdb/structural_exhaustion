@@ -47,7 +47,7 @@ noncomputable def node43P13WholeGraphDelocalization {V : Type u} {facts}
 
 noncomputable def runInitialThroughNode43 {V : Type u}
     (residual : InitialResidual V) :=
-  (runInitialThroughNode42 residual).mapYesStage
+  (runInitialThroughNode41 residual).mapYesStage
     node43P13WholeGraphDelocalization
 
 def node43LocalChecks : Nat := 0

@@ -19,12 +19,12 @@ accumulated ledger.
 /-- The exact forced curvature power `A=543958^r`. -/
 noncomputable def node53ForcedPower {V : Type u}
     {residual : InitialResidual V} (active : Node50Active V residual) : Nat :=
-  543958 ^ (p13CurvatureCoordinates (Node21Context active.previous)).card
+  543958 ^ p13CurvatureTargetRank (Node21Context active.previous)
 
 /-- The exact flat comparison power `B=111286^r`. -/
 noncomputable def node53FlatPower {V : Type u}
     {residual : InitialResidual V} (active : Node50Active V residual) : Nat :=
-  111286 ^ (p13CurvatureCoordinates (Node21Context active.previous)).card
+  111286 ^ p13CurvatureTargetRank (Node21Context active.previous)
 
 /-- The strict low-entropy allowance `U=n^|R|` inherited from node [50]. -/
 noncomputable def node53UpperPower {V : Type u}

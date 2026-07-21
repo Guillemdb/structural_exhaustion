@@ -18,7 +18,7 @@
 
 Forbidden: external-incidence estimates (node29), a copied graph carrier, or a global graph-family scan.
 
-Node [28] is kernel-checked but remains conditional/yellow solely because its
+Node [28] is locally kernel-checked but remains partial solely because its
 incoming ledger depends on the accumulated node-[21] framework ledger and
 `Node23DenseWindowQuietBlockInput`. Its exact deficiency identity is its only
 local output; inherited graph data are not copied into that output. The

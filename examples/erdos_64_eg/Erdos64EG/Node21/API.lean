@@ -39,11 +39,25 @@ def p13BarrierClassification :
 
 abbrev P13BarrierIndex := p13BarrierClassification.Class
 
+/-- The certified scale-`(1,1)` barrier used by the later curvature-cost
+accounting.  It is an actual member of node [21]'s classified table, not a
+pair of detached numeric constants. -/
+def p13OneOneBarrierIndex : P13BarrierIndex :=
+  ⟨(⟨0, by decide⟩, ⟨0, by decide⟩), by
+    change 0 + 0 < 13
+    decide⟩
+
 def P13BarrierIndex.leftLength (index : P13BarrierIndex) : Nat :=
   index.1.1.1 + 1
 
 def P13BarrierIndex.rightLength (index : P13BarrierIndex) : Nat :=
   index.1.2.1 + 1
+
+@[simp] theorem p13OneOneBarrierIndex_leftLength :
+    p13OneOneBarrierIndex.leftLength = 1 := rfl
+
+@[simp] theorem p13OneOneBarrierIndex_rightLength :
+    p13OneOneBarrierIndex.rightLength = 1 := rfl
 
 /-- The fixed packed compatibility rows used by the node-[21] finite
 certificate.  Their graph semantics are proved by the producer module. -/
@@ -132,6 +146,24 @@ def Node21Output.barrierRateCertificate {V : Type u}
     {bounded : Node19Low residual node18}
     (output : Node21Output node18 bounded) : P13BarrierRateCertificate where
   rateFloor := output.rateFloor
+
+/-- The safe factor used downstream, obtained by selecting the certified
+`(1,1)` table entry. -/
+theorem Node21Output.oneOneSafeExact {V : Type u}
+    {residual : InitialResidual V} {node18 : Node18Stage residual}
+    {bounded : Node19Low residual node18}
+    (output : Node21Output node18 bounded) :
+    p13BarrierSafeCount p13OneOneBarrierIndex = 543958 := by
+  simpa [p13BarrierSafeCount] using output.oneOneCounts.1
+
+/-- The flat factor used downstream, obtained from the same certified table
+entry as `oneOneSafeExact`. -/
+theorem Node21Output.oneOneFlatExact {V : Type u}
+    {residual : InitialResidual V} {node18 : Node18Stage residual}
+    {bounded : Node19Low residual node18}
+    (output : Node21Output node18 bounded) :
+    p13BarrierFlatCount p13OneOneBarrierIndex = 111286 := by
+  simpa [p13BarrierFlatCount] using output.oneOneCounts.2.2
 
 /-- Exact existing diagram edge `[19] no -> [21]`. -/
 abbrev Node21Stage {V : Type u} (residual : InitialResidual V) :=

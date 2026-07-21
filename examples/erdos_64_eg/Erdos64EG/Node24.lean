@@ -1,4 +1,5 @@
 import Erdos64EG.Node23
+import Erdos64EG.Shared.P13SequentialWindowLedger
 
 namespace Erdos64EG.Internal
 
@@ -110,6 +111,15 @@ instance node24StageEntailsHighEntropyTransformer {V : Type u} :
     Core.ResidualRefinement.State.StageEntails
       (@Node24Stage V) (@Node24HighEntropyTransformer V) where
   prove := fun _stage => node24HighEntropyTransformer
+
+/-- Node [24] preserves the exact accumulated hot/cold split produced by
+the framework from node [21].  The stage exposes the split for later ledger
+queries; the hot-branch invariant is obtained only by matching the
+framework `HotColdOutcome.hot` constructor. -/
+instance node24StageEntailsAccumulatedHotColdSplit {V : Type u} :
+    Core.ResidualRefinement.State.StageEntails
+      (@Node24Stage V) (@P13AccumulatedHotColdSplitAvailable V) where
+  prove := fun _stage => p13AccumulatedHotColdSplitAvailable
 
 /-- Framework-owned `[23] -> [24]` continuation.  The Erdős layer supplies
 only the two local arithmetic certificates. -/

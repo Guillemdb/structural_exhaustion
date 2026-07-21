@@ -21,4 +21,4 @@
 Forbidden: asserting the high-entropy premise, closing node [52], adding a new
 dichotomy, or assigning remainder construction and asymptotic transport to
 node [24]. The focused kernel check passes with no `sorryAx`; node [24]
-remains yellow only until the typed node-[21] producer is replaced.
+remains partial only until the missing node-[21] producer is proved.
