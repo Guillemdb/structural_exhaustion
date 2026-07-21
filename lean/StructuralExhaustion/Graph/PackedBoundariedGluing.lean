@@ -1045,6 +1045,79 @@ theorem run_total (compression : Compression input boundaries atom) :
 
 end Compression
 
+/-! ## Same-interface silent-exchange closure -/
+
+/-- Generic graph-owned payload for a silent same-interface exchange.  This is
+the reusable closure pattern used by bounded-germ arguments: the application
+must supply the actual proper atom and replacement semantics, while the graph
+framework constructs the literal CT3 compression and closes it by minimality. -/
+structure SilentExchange
+    {ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target}
+    (atom : ProperAtom input boundaries ctx) where
+  replacement : Piece T
+  targetComplete : TargetComplete input boundaries replacement atom.source
+  internalTargetFree : ¬ input.Target (Piece.pack boundaries replacement)
+  internalBaseline :
+    replacement.InternalBaseline boundaries input.minimumDegree
+  locallySmaller : Piece.LexSmaller replacement atom.source
+
+namespace SilentExchange
+
+variable {input : PackedMinimumDegreeCycle.StaticInput}
+variable {T : Type u} {boundaries : FinEnum T} [Nonempty T]
+variable {ctx : Core.MinimalCounterexampleContext input.problem.{u} input.Target}
+variable {atom : ProperAtom input boundaries ctx}
+
+/-- The literal graph-layer compression induced by a silent same-interface
+exchange. -/
+noncomputable def compression (exchange : SilentExchange input boundaries atom) :
+    Compression input boundaries atom :=
+  Compression.ofTargetComplete input boundaries exchange.replacement
+    exchange.targetComplete exchange.internalTargetFree exchange.internalBaseline
+    exchange.locallySmaller
+
+noncomputable def run (exchange : SilentExchange input boundaries atom) :
+    CT3.CertifiedCompressionRun ctx exchange.compression.certifiedInput :=
+  exchange.compression.run
+
+theorem terminal (exchange : SilentExchange input boundaries atom) :
+    exchange.run.terminal = .compression :=
+  exchange.compression.run_terminal
+
+theorem trace (exchange : SilentExchange input boundaries atom) :
+    exchange.run.trace =
+      [.entry, .vectorComputation, .compressionSearch,
+        .compressionTerminal] :=
+  exchange.compression.run_trace
+
+theorem checks (exchange : SilentExchange input boundaries atom) :
+    exchange.run.checks = 1 :=
+  exchange.compression.run_checks
+
+theorem polynomial (exchange : SilentExchange input boundaries atom) :
+    exchange.run.checks ≤
+      (CT3.certifiedCompressionBudget ctx).coefficient *
+        ((CT3.certifiedCompressionBudget ctx).size
+            exchange.compression.certifiedInput + 1) ^
+          (CT3.certifiedCompressionBudget ctx).degree :=
+  exchange.compression.run_polynomial
+
+theorem total (exchange : SilentExchange input boundaries atom) :
+    ∃ result : CT3.CertifiedCompressionRun ctx
+        exchange.compression.certifiedInput,
+      result.terminal = .compression ∧
+        result.trace =
+          [.entry, .vectorComputation, .compressionSearch,
+            .compressionTerminal] :=
+  exchange.compression.run_total
+
+/-- Silent same-interface exchange closure: once the graph-owned semantic
+payload is present, no additional application proof is needed. -/
+theorem impossible (exchange : SilentExchange input boundaries atom) : False :=
+  exchange.compression.impossible
+
+end SilentExchange
+
 /-- Universal airtight CT3 result for every literal normalized atom and every
 locally smaller obstruction-preserving replacement. -/
 structure VerifiedStage

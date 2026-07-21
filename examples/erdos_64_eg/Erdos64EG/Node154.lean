@@ -51,13 +51,11 @@ abbrev Node154Bypass (V : Type u) :=
     (@Node148LiveHotCap V) (@Node148LiveHotFailure V)
 
 abbrev Node154NoG1Output {V : Type u} {residual : InitialResidual V}
-    (active : Node154LiveLeaf V residual) (_noG1 : Node154NoG1 active) :=
-  Sigma (fun _ : PUnit =>
-    PLift (
+    (active : Node154LiveLeaf V residual) (_noG1 : Node154NoG1 active) : Prop :=
     ∀ entry ∈ node152BranchExcessSchedule active.data,
       ¬∃ vertex ∈ (node153CorridorProducer active.data).stages entry |>.values,
         InducedPathColdCorridor.F1
-          (node153CorridorProducer active.data) PowerOfTwoLength entry vertex))
+          (node153CorridorProducer active.data) PowerOfTwoLength entry vertex
 
 abbrev Node154DecisionStage {V : Type u} (residual : InitialResidual V) :=
   Core.ResidualRefinement.State.FocusedBranchDecision
@@ -112,11 +110,11 @@ noncomputable def node154NoG1Continuation {V : Type u} {facts}
     (yes := @Node154G1Hit V)
     (no := @Node154NoG1 V)
     (fun _residual active noG1 =>
-      ⟨PUnit.unit, ⟨by
+      by
         intro entry member targetHit
         apply noG1
         rcases targetHit with ⟨vertex, stageMember, proof⟩
-        exact ⟨entry, member, vertex, stageMember, proof⟩⟩⟩)
+        exact ⟨entry, member, vertex, stageMember, proof⟩)
 
 noncomputable def runInitialThroughNode154 {V : Type u}
     (residual : InitialResidual V) :=

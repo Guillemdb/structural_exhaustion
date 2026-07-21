@@ -141,9 +141,9 @@ noncomputable def p13RealizedCurvatureSystem {V : Type u}
 
 /-- The framework product-cost profile on the literal realized remainder
 carrier.  The application supplies only the already-defined state carrier,
-curvature coordinate schedule, and response predicate; Core owns the
-conditional-fibre telescope recovered on the full-output branch.  This is not
-a second manuscript rank. -/
+curvature coordinate schedule, and response predicate.  Core owns the
+product-cost telescope recovered on the full-output branch.  This is not a
+second manuscript rank. -/
 noncomputable def p13RealizedCurvatureProductCostProfile {V : Type u}
     {residual : InitialResidual V} (node18 : Node18Stage residual)
     (bounded : Node19Low residual node18)
@@ -168,128 +168,5 @@ noncomputable def p13RealizedCurvatureProductCostProfile {V : Type u}
     rw [← Core.Enumeration.natCard_eq
       (p13RealizedRemainderStates node18 bounded node21)]
     exact p13RealizedRemainderState_card_pos node18 bounded node21
-
-/-- Strict failure of the realized curvature product-cost rank.  This is the
-only negative object used by the contrapositive bridge: a P13 structural
-theorem must route this failure to the already existing node-[32] rank-drop
-edge, not to a new branch. -/
-abbrev P13RealizedCurvatureProductDrop {V : Type u}
-    {residual : InitialResidual V} (node18 : Node18Stage residual)
-    (bounded : Node19Low residual node18)
-    (node21 : Node21Output node18 bounded) : Prop :=
-  (p13RealizedCurvatureProductCostProfile node18 bounded node21).targetRank <
-    (p13CurvatureCoordinates
-      (Node21Context node18)).toOrderedCollection.values.length
-
-/-- Core-extracted first failed fibre for the realized curvature product-cost
-profile.  Applications use this as the structural contradiction witness; the
-failure object is tied to the literal incoming residual carrier. -/
-noncomputable def p13RealizedCurvatureFirstFailureOfProductDrop {V : Type u}
-    {residual : InitialResidual V} (node18 : Node18Stage residual)
-    (bounded : Node19Low residual node18)
-    (node21 : Node21Output node18 bounded)
-    (drop : P13RealizedCurvatureProductDrop node18 bounded node21) :
-    let profile := p13RealizedCurvatureProductCostProfile node18 bounded node21
-    profile.FirstFailure profile.incoming.values profile.coordinates.values :=
-  (p13RealizedCurvatureProductCostProfile node18 bounded node21)
-    |>.firstFailureOfRankDrop drop
-
-/-- Contrapositive product-cost output on the exact node-[32] no path.  The
-application proves only that every strict product failure would have routed to
-the existing rank-drop branch; Core then returns the full carrier-indexed
-conditional-fibre telescope. -/
-noncomputable def p13RealizedCurvatureProductOutputOfNoDrop {V : Type u}
-    {residual : InitialResidual V} (node18 : Node18Stage residual)
-    (bounded : Node19Low residual node18)
-    (node21 : Node21Output node18 bounded)
-    (noProductDrop :
-      ¬ P13RealizedCurvatureProductDrop node18 bounded node21) :
-    Core.ConditionalFibreProductCost.Profile.CertifiedCarrierOutput
-      (p13RealizedRemainderStates node18 bounded node21).toOrderedCollection
-      (p13CurvatureCoordinates
-        (Node21Context node18)).toOrderedCollection
-      (fun coordinate state => p13RealizedRemainderResponse coordinate state)
-      543958 111286
-      (Nat.card (P13RealizedRemainderState node18 bounded node21)) :=
-  (p13RealizedCurvatureProductCostProfile node18 bounded node21)
-    |>.fullOutputOfNotDrop noProductDrop
-
-/-- Node [21]'s certified `(1,1)` table acting on the literal realized
-remainder carrier.  The factors are selected through the certified table
-index, so later nodes cannot provide `543958` or `111286` independently. -/
-structure P13RealizedCurvatureTableAccounting {V : Type u}
-    {residual : InitialResidual V} (node18 : Node18Stage residual)
-    (bounded : Node19Low residual node18)
-    (node21 : Node21Output node18 bounded) : Type (u + 1) where
-  certificate :
-    Core.ConditionalFibreProductCost.Profile.CertifiedNamedTableCarrierOutput
-      p13MultiScaleCertifiedTable p13OneOneBarrierIndex
-      (p13RealizedRemainderStates node18 bounded node21).toOrderedCollection
-      (p13CurvatureCoordinates (Node21Context node18)).toOrderedCollection
-      (fun coordinate state => p13RealizedRemainderResponse coordinate state)
-      543958 111286
-      (Nat.card (P13RealizedRemainderState node18 bounded node21))
-
-/-- Named node-[21] table accounting recovered from the contrapositive
-product-cost output.  This fixes the constants to the audited `(1,1)` table
-entry and prevents node [48] or [54] from passing detached numeric factors. -/
-noncomputable def p13RealizedCurvatureTableAccountingOfNoProductDrop
-    {V : Type u} {residual : InitialResidual V}
-    (node18 : Node18Stage residual)
-    (bounded : Node19Low residual node18)
-    (node21 : Node21Output node18 bounded)
-    (noProductDrop :
-      ¬ P13RealizedCurvatureProductDrop node18 bounded node21) :
-    P13RealizedCurvatureTableAccounting node18 bounded node21 where
-  certificate := {
-    safeExact := by
-      simp [p13MultiScaleCertifiedTable_storedSafe,
-        node21.oneOneSafeExact]
-    flatExact := by
-      simp [p13MultiScaleCertifiedTable_storedFlat,
-        node21.oneOneFlatExact]
-    carrier := p13RealizedCurvatureProductOutputOfNoDrop
-      node18 bounded node21 noProductDrop
-  }
-
-namespace P13RealizedCurvatureTableAccounting
-
-/-- The exact powered curvature-cost inequality obtained from the
-framework-owned conditional-fibre telescope on the literal realized remainder
-carrier.  The `543958` and `111286` factors are selected by node `[21]`'s
-certified `(1,1)` table entry; this theorem performs no separate arithmetic
-or carrier construction. -/
-theorem power_le_flat_mul_stateCount {V : Type u}
-    {residual : InitialResidual V} {node18 : Node18Stage residual}
-    {bounded : Node19Low residual node18}
-    {node21 : Node21Output node18 bounded}
-    (accounting :
-      P13RealizedCurvatureTableAccounting node18 bounded node21) :
-    543958 ^
-        (p13CurvatureCoordinates (Node21Context node18)).toOrderedCollection.values.length ≤
-      111286 ^
-          (p13CurvatureCoordinates (Node21Context node18)).toOrderedCollection.values.length *
-        Nat.card (P13RealizedRemainderState node18 bounded node21) :=
-  accounting.certificate.power_le_flat_mul_stateCount
-
-/-- The same powered product-cost inequality expressed with node `[31]`'s
-target-rank exponent on the node `[32]` full-rank branch. -/
-theorem power_le_flat_mul_stateCount_of_fullRank {V : Type u}
-    {residual : InitialResidual V} {node18 : Node18Stage residual}
-    {bounded : Node19Low residual node18}
-    {node21 : Node21Output node18 bounded}
-    (accounting :
-      P13RealizedCurvatureTableAccounting node18 bounded node21)
-    (fullRank :
-      p13CurvatureTargetRank (Node21Context node18) =
-        (p13CurvatureCoordinates
-          (Node21Context node18)).toOrderedCollection.values.length) :
-    543958 ^ p13CurvatureTargetRank (Node21Context node18) ≤
-      111286 ^ p13CurvatureTargetRank (Node21Context node18) *
-        Nat.card (P13RealizedRemainderState node18 bounded node21) := by
-  rw [fullRank]
-  exact accounting.power_le_flat_mul_stateCount
-
-end P13RealizedCurvatureTableAccounting
 
 end Erdos64EG.Internal

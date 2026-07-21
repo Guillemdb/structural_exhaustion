@@ -120,4 +120,71 @@ theorem exact_table_sound {P : Core.Problem} {S : Spec P}
       S.response (S.rowPiece row) context = S.rowResponse row context :=
   table.exact
 
+/-! ## Good-terminal replacement extraction -/
+
+/-- A CT3 replacement candidate with all structural facts needed by downstream
+compression consumers: admissibility in the inherited ambient object, strict
+decrease, exact response equality, and derived response inclusion. -/
+structure StrictResponseReplacement {P : Core.Problem} (S : Spec P)
+    (input : Input S) where
+  candidate : S.Candidate
+  admissible : S.Admissible input.context.G input.piece candidate
+  smaller : S.Smaller input.context.G input.piece candidate
+  sameResponse : SameResponse S (S.candidatePiece candidate) input.piece
+
+namespace StrictResponseReplacement
+
+theorem included {P : Core.Problem} {S : Spec P} {input : Input S}
+    (replacement : StrictResponseReplacement S input) :
+    ResponseIncluded S (S.candidatePiece replacement.candidate) input.piece :=
+  sameResponse_included S replacement.sameResponse
+
+end StrictResponseReplacement
+
+/-- Reusable bridge for CT3 tables whose exact rows are themselves admissible
+strict replacement candidates.  This is framework-level plumbing: the
+application supplies only the row-to-candidate interpretation and its local
+semantic facts; CT3 owns the terminal extraction. -/
+structure RowCandidateEmbedding {P : Core.Problem} (S : Spec P)
+    (input : Input S) where
+  rowCandidate : S.Row → S.Candidate
+  rowCandidatePiece : ∀ row,
+    S.candidatePiece (rowCandidate row) = S.rowPiece row
+  rowAdmissible : ∀ row,
+    S.Admissible input.context.G input.piece (rowCandidate row)
+  rowSmaller : ∀ row,
+    S.Smaller input.context.G input.piece (rowCandidate row)
+  rowResponse_exact : ∀ row context,
+    S.rowResponse row context = S.response (S.rowPiece row) context
+
+/-- Compression facts already contain a strict same-response replacement. -/
+def strictResponseReplacement_of_compresses {P : Core.Problem}
+    {S : Spec P} {input : Input S} {candidate : S.Candidate}
+    (compresses : Compresses S input candidate) :
+    StrictResponseReplacement S input where
+  candidate := candidate
+  admissible := compresses.1
+  smaller := compresses.2.1
+  sameResponse := compresses.2.2
+
+/-- A known exact table row becomes the same strict replacement once the table
+row is interpreted as an admissible strictly smaller candidate. -/
+def strictResponseReplacement_of_rowMatches {P : Core.Problem}
+    {S : Spec P} {input : Input S} (embedding : RowCandidateEmbedding S input)
+    {row : S.Row} (rowMatches : RowMatches S input row) :
+    StrictResponseReplacement S input where
+  candidate := embedding.rowCandidate row
+  admissible := embedding.rowAdmissible row
+  smaller := embedding.rowSmaller row
+  sameResponse := by
+    intro context
+    calc
+      S.response (S.candidatePiece (embedding.rowCandidate row)) context =
+          S.response (S.rowPiece row) context := by
+        rw [embedding.rowCandidatePiece row]
+      _ = S.rowResponse row context := by
+        rw [embedding.rowResponse_exact row context]
+      _ = S.response input.piece context := by
+        exact (rowMatches context).symm
+
 end StructuralExhaustion.CT3

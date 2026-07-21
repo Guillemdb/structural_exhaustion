@@ -14,8 +14,8 @@ universe u
 
 Node [153] consumes the exact node-[152] branch-excess residual.  For each
 literal selected stub it runs the graph-owned first-failure machine.  The
-semantic F2/F3/F5 promotion work beyond this scan is intentionally kept as an
-explicit residual requirement; it is not assumed by this node.
+semantic F2/F3/F5 promotion work beyond this scan must be produced by later
+framework stages from this exact residual; it is not assumed by this node.
 -/
 
 theorem node153_minimality_dart_not_bridge

@@ -13,7 +13,7 @@ universe u
 The finite inequalities below are transported from the exact node-[30]
 certificate retained proof-relevantly inside node [31], together with node
 [47]'s full-rank proof.  Core owns that provenance; node [48] accepts no
-certificate or checkpoint input.
+caller-supplied certificate or replacement state.
 -/
 
 noncomputable def node48CurvatureEntropyCost : ℝ :=
@@ -49,28 +49,6 @@ private theorem node48RemainderRatePositive :
     (0 : ℝ) < node25RemainderRateNumerator := by
   norm_num [node25RemainderRateNumerator]
 
-/-! The product-fit payload is produced here, where the paper's full-rank
-edge is available.  The conditional-fibre telescope itself is framework
-owned; this declaration only transports its conclusion to the node-48
-ledger and introduces no new carrier or route. -/
-theorem node48_forcedPowerFit_of_noProductDrop {V : Type u}
-    {residual : InitialResidual V} {node18 : Node18Stage residual}
-    {bounded : Node19Low residual node18}
-    {node21 : Node21Output node18 bounded}
-    (noProductDrop :
-      ¬ P13RealizedCurvatureProductDrop node18 bounded node21)
-    (fullRank :
-      p13CurvatureTargetRank (Node21Context node18) =
-        (p13CurvatureCoordinates
-          (Node21Context node18)).toOrderedCollection.values.length) :
-    543958 ^ p13CurvatureTargetRank (Node21Context node18) ≤
-      111286 ^ p13CurvatureTargetRank (Node21Context node18) *
-        Nat.card (P13RealizedRemainderState node18 bounded node21) := by
-  exact
-    (p13RealizedCurvatureTableAccountingOfNoProductDrop
-      node18 bounded node21 noProductDrop)
-      |>.power_le_flat_mul_stateCount_of_fullRank fullRank
-
 /-- Every node-[48] cardinality is taken from the literal remainder carried by
 node [31].  Its equality certificate identifies that carrier with the
 canonical packing complement used by the earlier arithmetic profiles. -/
@@ -79,7 +57,7 @@ theorem node48_remainderCard_eq {V : Type u}
     {bounded : Node19Low residual node18}
     {node21 : Node21Output node18 bounded}
     {low : Node22Low residual node18 bounded node21}
-    (node31 : Node31Output node18 bounded node21 low) :
+    (_node31 : Node31Output node18 bounded node21 low) :
     (Node25Remainder node18).input.vertices.card =
       (p13RemainderVertices (Node21Context node18)).card := by
   exact Graph.FiniteObject.induceFinset_vertexCount
@@ -268,7 +246,8 @@ noncomputable def node48P13ForcedCurvatureCost {V : Type u}
       let low := data.innerProof
       let node31 := data.current
       let ctx := Node21Context node18
-      let node30 := node31.node30
+      let node30 :=
+        Core.ResidualRefinement.State.DependentSuccessor.inherited node31
       have remainderCardExact := node48_remainderCard_eq node31
       have wedge_le_rank :
           (p13RemainderCurvatureProfile ctx).wedgeCount ≤

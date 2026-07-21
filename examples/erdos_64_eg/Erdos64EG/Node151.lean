@@ -249,10 +249,7 @@ noncomputable def node151AmbientCubicColdRefinement {V : Type u} {facts}
   Core.ResidualRefinement.State.StageNode (facts := facts)
       (@Node151Stage V) :=
   Core.ResidualRefinement.State.StageNode.mapFocusedBranchNoContinuation
-    (Output := fun residual active failed =>
-      Node150ColdResidual (residual := residual) active
-        (Node148To150.mk failed active.output.crossMultiplied
-          (node148_totalDemand_eq_hot_add_cold active)))
+    (Output := fun _residual active failed => Node150ColdMarker active failed)
     (Next := fun residual active failed =>
       { loss : Nat //
         loss = (node151ColdNonCubicWindows active).length ∧

@@ -23,9 +23,9 @@ def Node59Nonnegative {V : Type u} {residual : InitialResidual V}
   match node58 with
   | ⟨⟨.bypass _, _⟩, _⟩ => False
   | ⟨⟨.degraded _data _node56, _node57⟩, output⟩ =>
-      0 ≤ output.netChargeQuarter
+      0 ≤ output.remainderNetChargeQuarter
   | ⟨⟨.alternate _data _low _node56, _node57⟩, output⟩ =>
-      0 ≤ output.netChargeQuarter
+      0 ≤ output.remainderNetChargeQuarter
 
 /-- No edge `[59] -> [61]`: the quarter-scaled net charge is negative.
 Closed/bypass leaves are transported by Core and never create application
@@ -35,9 +35,9 @@ def Node59Negative {V : Type u} {residual : InitialResidual V}
   match node58 with
   | ⟨⟨.bypass _, _⟩, _⟩ => True
   | ⟨⟨.degraded _data _node56, _node57⟩, output⟩ =>
-      output.netChargeQuarter < 0
+      output.remainderNetChargeQuarter < 0
   | ⟨⟨.alternate _data _low _node56, _node57⟩, output⟩ =>
-      output.netChargeQuarter < 0
+      output.remainderNetChargeQuarter < 0
 
 /-- The complete carrier after node [59]. -/
 abbrev Node59Stage {V : Type u} (residual : InitialResidual V) :=

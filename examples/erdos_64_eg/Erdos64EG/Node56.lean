@@ -38,46 +38,6 @@ noncomputable def node56CoverageNetBudgetUpper
       Graph.InducedPathWindowLedger.windowSurplus ctx.G.object -
     Graph.InducedPathWindowLedger.remainderSurplus ctx.G.object
 
-/-- Current-chain form of the legacy `P13QuarterNetBudget`: the finite
-strict-quarter budget on the same selected packing and remainder. -/
-def Node56QuarterNetBudget {V : Type u} {residual : InitialResidual V}
-    (node18 : Node18Stage residual) : Prop :=
-  4 * node56CoverageNetBudgetUpper (Node21Context node18) <
-    (p13RemainderVertices (Node21Context node18)).card
-
-/-- The node-[29] surplus-adjusted incidence supply bounds the actual
-`def⁺(R)-σ_R` numerator by the exact finite budget. -/
-theorem node56RemainderNetDeficiencyNumerator_le_budget
-    {V : Type u} {residual : InitialResidual V}
-    (budgetLedger : Node29RemainderNetBudgetAvailable residual)
-    (active : Node50Active V residual) :
-    node56RemainderNetDeficiencyNumerator
-        (Node21Context active.previous) ≤
-      node56CoverageNetBudgetUpper (Node21Context active.previous) := by
-  let ctx := Node21Context active.previous
-  unfold node56RemainderNetDeficiencyNumerator
-    node56CoverageNetBudgetUpper
-  simpa [ctx, Node50Active.previous] using
-    budgetLedger active.data.previous active.data.outerProof
-      active.data.outerOutput active.data.innerProof
-
-/-- The exact finite strict-quarter bridge used by nodes [57]--[60]. -/
-theorem node56RemainderStrictQuarter_of_budget
-    {V : Type u} {residual : InitialResidual V}
-    (budgetLedger : Node29RemainderNetBudgetAvailable residual)
-    (active : Node50Active V residual)
-    (budget : Node56QuarterNetBudget active.previous) :
-    4 * node56RemainderNetDeficiencyNumerator
-        (Node21Context active.previous) <
-      (p13RemainderVertices (Node21Context active.previous)).card := by
-  have scaled :
-      4 * node56RemainderNetDeficiencyNumerator
-          (Node21Context active.previous) ≤
-        4 * node56CoverageNetBudgetUpper (Node21Context active.previous) :=
-    Nat.mul_le_mul_left 4
-      (node56RemainderNetDeficiencyNumerator_le_budget budgetLedger active)
-  exact scaled.trans_lt budget
-
 theorem node56TauWin_lt_quarter :
     node56TauWin < (1 / 4 : ℝ) := by
   norm_num [node56TauWin, node30WindowDeficiencyRate,
@@ -86,6 +46,14 @@ theorem node56TauWin_lt_quarter :
 /-- Only the net-cap mathematics first established at node [56]. -/
 structure Node56Output {V : Type u} {residual : InitialResidual V}
     (active : Node50Active V residual) : Type (u + 2) where
+  /-- The finite remainder net-budget cap retrieved from node [29]'s ledger
+  producer on the identical incoming residual.  This is the exact
+  `def⁺(R)-σ_R` budget exported by node [56]; it is not rederived from a
+  nested predecessor payload. -/
+  remainderNetDeficiencyFiniteBudgetCap :
+    node56RemainderNetDeficiencyNumerator
+        (Node21Context active.previous) ≤
+      node56CoverageNetBudgetUpper (Node21Context active.previous)
   netDeficiencyFiniteCap :
     node25RemainderRateNumerator *
         (p13RemainderCurvatureProfile
@@ -114,18 +82,28 @@ structure Node56Output {V : Type u} {residual : InitialResidual V}
             (Node21Context active.previous)).card +
         Graph.InducedPathWindowLedger.totalSurplus
           (Node21Context active.previous).G.object
-  /-- Conditional strict-quarter eliminator.  The producer of
-  `Node56QuarterNetBudget` is a separate predecessor obligation; once present
-  in the accumulated ledger, nodes [57]--[60] consume this bridge without
-  reopening incidence accounting. -/
-  remainderStrictQuarterOfBudget :
-    Node56QuarterNetBudget active.previous →
-      4 * node56RemainderNetDeficiencyNumerator
-          (Node21Context active.previous) <
-        (p13RemainderVertices
-          (Node21Context active.previous)).card
   tauWin_lt_quarter : node56TauWin < (1 / 4 : ℝ)
   localWork : 0 = 0 := rfl
+
+/-- Retrieve node [29]'s remainder net-budget statement on the active
+Part-IV residual.  This is ordinary ledger consumption: node [56] supplies no
+new hypothesis and does not reopen incidence accounting. -/
+theorem node56RemainderNetDeficiencyNumerator_le_budget
+    {V : Type u} {residual : InitialResidual V}
+    (budgetLedger : Node29RemainderNetBudgetAvailable residual)
+    (active : Node50Active V residual) :
+    node56RemainderNetDeficiencyNumerator (Node21Context active.previous) ≤
+      node56CoverageNetBudgetUpper (Node21Context active.previous) := by
+  simpa [node56RemainderNetDeficiencyNumerator,
+    node56CoverageNetBudgetUpper, Node50Active.previous] using
+    budgetLedger active.data.previous active.data.outerProof
+      active.data.outerOutput active.data.innerProof
+
+/-- Node [56]'s inherited input view.  It contains only ledger-retrieved
+facts; it is not an application-owned carrier or handoff. -/
+structure Node56LedgerInputs {V : Type u}
+    (residual : InitialResidual V) : Type (u + 1) where
+  remainderBudget : Node29RemainderNetBudgetAvailable residual
 
 /-- The complete carrier after the large-budget net-cap node. -/
 abbrev Node56Stage {V : Type u} (residual : InitialResidual V) :=
@@ -146,16 +124,26 @@ noncomputable def node56P13LargeBudgetNetCap {V : Type u} {facts}
       (Core.ResidualRefinement.State.Available (@Node55Stage V)) facts]
     [Core.ResidualRefinement.Proofs.Contains
       (Core.ResidualRefinement.State.Available (@Node29Stage V)) facts] :
-    Core.ResidualRefinement.State.StageNode (facts := facts)
+  Core.ResidualRefinement.State.StageNode (facts := facts)
       (@Node56Stage V) :=
   Core.ResidualRefinement.State.StageNode.mergeGuardedDegradationDerived
-    (Core.ResidualRefinement.State.LedgerQuery.entailedStage
+    ((Core.ResidualRefinement.State.LedgerQuery.entailedStage
       (facts := facts) (Stage := @Node29Stage V)
-      (property := @Node29RemainderNetBudgetAvailable V))
-    fun _residual budgetLedger active => by
+      (property := @Node29RemainderNetBudgetAvailable V)).map
+        fun _residual budgetLedger =>
+          ({ remainderBudget := budgetLedger } :
+            Node56LedgerInputs _residual))
+    fun _residual inputs active => by
       let node31 := active.data.current
-      let node30 := node31.node30
+      let node30 :=
+        Core.ResidualRefinement.State.DependentSuccessor.inherited node31
       let ctx := Node21Context active.data.previous
+      have remainderFiniteBudget :
+          node56RemainderNetDeficiencyNumerator ctx ≤
+            node56CoverageNetBudgetUpper ctx := by
+        simpa [ctx, Node50Active.previous] using
+          node56RemainderNetDeficiencyNumerator_le_budget
+            inputs.remainderBudget active
       have finiteCap :
           node25RemainderRateNumerator *
               (p13RemainderCurvatureProfile ctx).positiveDeficiency ≤
@@ -212,16 +200,14 @@ noncomputable def node56P13LargeBudgetNetCap {V : Type u} {facts}
           exact_mod_cast numeratorLe
         exact numeratorLeReal.trans realCap
       exact {
+        remainderNetDeficiencyFiniteBudgetCap := by
+          simpa [ctx, Node50Active.previous] using remainderFiniteBudget
         netDeficiencyFiniteCap := by
           simpa [ctx, Node50Active.previous] using finiteCap
         netDeficiencyRealCap := by
           simpa [ctx, Node50Active.previous] using realCap
         remainderNetDeficiencyRealCap := by
           simpa [ctx, Node50Active.previous] using remainderNetRealCap
-        remainderStrictQuarterOfBudget := by
-          intro budget
-          simpa [ctx, Node50Active.previous] using
-            (node56RemainderStrictQuarter_of_budget budgetLedger active budget)
         tauWin_lt_quarter := node56TauWin_lt_quarter
         localWork := rfl
       }

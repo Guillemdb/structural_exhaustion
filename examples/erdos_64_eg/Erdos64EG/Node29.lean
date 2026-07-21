@@ -99,7 +99,7 @@ abbrev Node29Stage {V : Type u} (residual : InitialResidual V) :=
 
 /-- Node [29]'s reusable ledger consequence in the exact finite form later
 needed by node [56]: the actual remainder numerator `def⁺(R)-σ_R` is bounded
-by the packing/window budget transported along the same residual. -/
+by the paper's packed-window surplus-adjusted budget on the same residual. -/
 def Node29RemainderNetBudgetAvailable {V : Type u}
     (residual : InitialResidual V) : Prop :=
   ∀ (node18 : Node18Stage residual)
@@ -128,7 +128,7 @@ theorem node29RemainderNetBudgetAvailable {V : Type u}
         (ctx.G.object.minDegree_le_degree vertex))
 
 /-- Register node [29]'s finite net-budget ledger consequence once at its
-producer.  Later nodes retrieve this through Core queries rather than
+producer. Later nodes retrieve this through Core queries rather than
 reopening incidence accounting. -/
 instance node29StageEntailsRemainderNetBudgetAvailable {V : Type u} :
     Core.ResidualRefinement.State.StageEntails

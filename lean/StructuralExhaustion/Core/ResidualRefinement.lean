@@ -153,6 +153,29 @@ structure DependentSuccessor
   previous : Previous residual
   output : Next residual previous
 
+namespace DependentSuccessor
+
+/-- Framework-owned retrieval of the inherited predecessor payload from a
+dependent successor.  Applications use this accessor instead of defining
+node-specific projections for accumulated data. -/
+abbrev inherited {Previous : Residual → Sort uInput}
+    {Next : (residual : Residual) → Previous residual → Sort uTarget}
+    {residual : Residual}
+    (stage : DependentSuccessor Previous Next residual) :
+    Previous residual :=
+  stage.previous
+
+/-- Framework-owned retrieval of the new local payload from a dependent
+successor. -/
+abbrev latest {Previous : Residual → Sort uInput}
+    {Next : (residual : Residual) → Previous residual → Sort uTarget}
+    {residual : Residual}
+    (stage : DependentSuccessor Previous Next residual) :
+    Next residual stage.previous :=
+  stage.output
+
+end DependentSuccessor
+
 /-- An exhaustive decision about one literal data-bearing predecessor
 retrieved from the accumulated ledger.  Both constructors retain that exact
 value; applications cannot decide a proposition about one stage and attach
@@ -683,6 +706,31 @@ structure DependentDecisionOnNoNoAfterYesActive
   innerProof : innerNo residual previous outerProof outerOutput
   current : Current residual previous outerProof outerOutput innerProof
 
+namespace DependentDecisionOnNoNoAfterYesActive
+
+/-- Framework-owned retrieval of the active inner-no payload.  This is the
+generic replacement for application-specific active-output projections. -/
+abbrev activeOutput
+    {Previous : Residual → Type uInput}
+    {outerNo : (residual : Residual) → Previous residual → Prop}
+    {OuterNoOutput : (residual : Residual) → (previous : Previous residual) →
+      outerNo residual previous → Type uTarget}
+    {innerNo : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      OuterNoOutput residual previous outerProof → Prop}
+    {Current : (residual : Residual) → (previous : Previous residual) →
+      (outerProof : outerNo residual previous) →
+      (outerOutput : OuterNoOutput residual previous outerProof) →
+      innerNo residual previous outerProof outerOutput → Type uStage}
+    {residual : Residual}
+    (data : DependentDecisionOnNoNoAfterYesActive Previous outerNo
+      OuterNoOutput innerNo Current residual) :
+    Current residual data.previous data.outerProof data.outerOutput
+      data.innerProof :=
+  data.current
+
+end DependentDecisionOnNoNoAfterYesActive
+
 /-- An exhaustive decision on the active leaf of a `FocusedBranch`. -/
 inductive FocusedBranchDecision
     (Bypass : Residual → Type uInput)
@@ -718,7 +766,7 @@ inductive FocusedBranchDecisionNoContinuation
     (Active : Residual → Type uTarget)
     (yes no : (residual : Residual) → Active residual → Prop)
     (Output : (residual : Residual) → (data : Active residual) →
-      no residual data → Type uStage)
+      no residual data → Sort uStage)
     (residual : Residual) : Type (max uInput uTarget uStage) where
   | bypass (data : Bypass residual)
   | yesBranch (data : Active residual) (proof : yes residual data)
@@ -741,7 +789,7 @@ structure FocusedBranchDecisionNoContinuationActive
     (Active : Residual → Type uTarget)
     (no : (residual : Residual) → Active residual → Prop)
     (Output : (residual : Residual) → (data : Active residual) →
-      no residual data → Type uStage)
+      no residual data → Sort uStage)
     (residual : Residual) : Type (max uTarget uStage) where
   data : Active residual
   proof : no residual data
@@ -753,7 +801,7 @@ inductive FocusedBranchDecisionYesContinuation
     (Active : Residual → Type uTarget)
     (yes no : (residual : Residual) → Active residual → Prop)
     (Output : (residual : Residual) → (data : Active residual) →
-      yes residual data → Type uStage)
+      yes residual data → Sort uStage)
     (residual : Residual) : Type (max uInput uTarget uStage) where
   | bypass (data : Bypass residual)
   | activeYes (data : Active residual) (proof : yes residual data)
@@ -769,7 +817,7 @@ inductive FocusedBranchYesContinuationDecision
     (Active : Residual → Type uTarget)
     (outerYes outerNo : (residual : Residual) → Active residual → Prop)
     (Output : (residual : Residual) → (data : Active residual) →
-      outerYes residual data → Type uStage)
+      outerYes residual data → Sort uStage)
     (innerYes innerNo : (residual : Residual) → (data : Active residual) →
       (outerProof : outerYes residual data) → Output residual data outerProof → Prop)
     (residual : Residual) : Type (max uInput uTarget uStage) where
@@ -790,7 +838,7 @@ inductive FocusedBranchYesContinuationNoTerminal
     (Active : Residual → Type uTarget)
     (outerYes outerNo : (residual : Residual) → Active residual → Prop)
     (Output : (residual : Residual) → (data : Active residual) →
-      outerYes residual data → Type uStage)
+      outerYes residual data → Sort uStage)
     (innerYes innerNo : (residual : Residual) → (data : Active residual) →
       (outerProof : outerYes residual data) → Output residual data outerProof → Prop)
     (residual : Residual) : Type (max uInput uTarget uStage) where
@@ -813,7 +861,7 @@ inductive FocusedBranchYesContinuationNoDecision
     (Active : Residual → Type uTarget)
     (outerYes outerNo : (residual : Residual) → Active residual → Prop)
     (OuterYesOutput : (residual : Residual) → (data : Active residual) →
-      outerYes residual data → Type uStage)
+      outerYes residual data → Sort uStage)
     (innerYes innerNo : (residual : Residual) →
       (data : Active residual) → outerNo residual data → Prop)
     (residual : Residual) : Type (max uInput uTarget uStage) where
@@ -835,10 +883,10 @@ inductive FocusedBranchYesTerminalBypass
     (Active : Residual → Type uTarget)
     (outerYes : (residual : Residual) → Active residual → Prop)
     (OuterYesOutput : (residual : Residual) → (data : Active residual) →
-      outerYes residual data → Type uStage)
+      outerYes residual data → Sort uStage)
     (Terminal : (residual : Residual) → (data : Active residual) →
       (proof : outerYes residual data) →
-      OuterYesOutput residual data proof → Type uOccurrence)
+      OuterYesOutput residual data proof → Sort uOccurrence)
     (residual : Residual) : Type
       (max uInput uTarget uStage uOccurrence) where
   | bypass (data : Bypass residual)
@@ -2262,7 +2310,7 @@ noncomputable def StageNode.continueFocusedBranchYes
     {Active : Residual → Type uTarget}
     {yes no : (residual : Residual) → Active residual → Prop}
     {Output : (residual : Residual) → (data : Active residual) →
-      yes residual data → Type uStage}
+      yes residual data → Sort uStage}
     [Proofs.Contains
       (Available (FocusedBranchDecision Bypass Active yes no)) facts]
     (produce : ∀ residual data proof, Output residual data proof) :
@@ -2285,7 +2333,7 @@ noncomputable def StageNode.mapFocusedBranchYesContinuation
     {Active : Residual → Type uTarget}
     {yes no : (residual : Residual) → Active residual → Prop}
     {Output : (residual : Residual) → (data : Active residual) →
-      yes residual data → Type uStage}
+      yes residual data → Sort uStage}
     {Next : (residual : Residual) → (data : Active residual) →
       yes residual data → Type uOccurrence}
     [Proofs.Contains (Available
@@ -2311,7 +2359,7 @@ noncomputable def StageNode.decideFocusedBranchYesContinuation
     {Active : Residual → Type uTarget}
     {outerYes outerNo : (residual : Residual) → Active residual → Prop}
     {Output : (residual : Residual) → (data : Active residual) →
-      outerYes residual data → Type uStage}
+      outerYes residual data → Sort uStage}
     {innerYes innerNo : (residual : Residual) → (data : Active residual) →
       (outerProof : outerYes residual data) → Output residual data outerProof → Prop}
     [Proofs.Contains (Available
@@ -2346,7 +2394,7 @@ noncomputable def StageNode.markFocusedBranchYesContinuationNoTerminal
     {Active : Residual → Type uTarget}
     {outerYes outerNo : (residual : Residual) → Active residual → Prop}
     {Output : (residual : Residual) → (data : Active residual) →
-      outerYes residual data → Type uStage}
+      outerYes residual data → Sort uStage}
     {innerYes innerNo : (residual : Residual) → (data : Active residual) →
       (outerProof : outerYes residual data) → Output residual data outerProof → Prop}
     [Proofs.Contains (Available
@@ -2374,7 +2422,7 @@ noncomputable def StageNode.decideFocusedBranchYesContinuationNo
     {Active : Residual → Type uTarget}
     {outerYes outerNo : (residual : Residual) → Active residual → Prop}
     {OuterYesOutput : (residual : Residual) → (data : Active residual) →
-      outerYes residual data → Type uStage}
+      outerYes residual data → Sort uStage}
     {innerYes innerNo : (residual : Residual) →
       (data : Active residual) → outerNo residual data → Prop}
     [Proofs.Contains (Available
@@ -2410,12 +2458,12 @@ noncomputable def StageNode.terminalizeFocusedBranchYesCloseNestedYes
     {Active : Residual → Type uTarget}
     {outerYes outerNo : (residual : Residual) → Active residual → Prop}
     {OuterYesOutput : (residual : Residual) → (data : Active residual) →
-      outerYes residual data → Type uStage}
+      outerYes residual data → Sort uStage}
     {innerYes innerNo : (residual : Residual) →
       (data : Active residual) → outerNo residual data → Prop}
     {Terminal : (residual : Residual) → (data : Active residual) →
       (proof : outerYes residual data) →
-      OuterYesOutput residual data proof → Type uOccurrence}
+      OuterYesOutput residual data proof → Sort uOccurrence}
     [Proofs.Contains (Available
       (FocusedBranchYesContinuationNoDecision Bypass Active outerYes outerNo
         OuterYesOutput innerYes innerNo)) facts]
@@ -2462,7 +2510,7 @@ noncomputable def StageNode.continueFocusedBranchNo
     {Active : Residual → Type uTarget}
     {yes no : (residual : Residual) → Active residual → Prop}
     {Output : (residual : Residual) → (data : Active residual) →
-      no residual data → Type uStage}
+      no residual data → Sort uStage}
     [Proofs.Contains
       (Available (FocusedBranchDecision Bypass Active yes no)) facts]
     (produce : ∀ residual data proof, Output residual data proof) :
@@ -2480,7 +2528,7 @@ noncomputable def StageNode.mapFocusedBranchNoContinuation
     {Active : Residual → Type uTarget}
     {yes no : (residual : Residual) → Active residual → Prop}
     {Output : (residual : Residual) → (data : Active residual) →
-      no residual data → Type uStage}
+      no residual data → Sort uStage}
     {Next : (residual : Residual) → (data : Active residual) →
       no residual data → Type uOccurrence}
     [Proofs.Contains (Available

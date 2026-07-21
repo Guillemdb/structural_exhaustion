@@ -9,40 +9,21 @@ universe u
 /-!
 # Diagram node [145]: hot/cold window interface
 
-Node [145] consumes the surviving node-[24] residual and exposes the single
-framework-owned sequential compatible-extension ledger used by the cold
-branch.  It does not choose a new carrier, reorder windows, or author a
-hot/cold flag: the ledger, final aggregate, original-completion witness, and
-hot/cold outcome are all the accumulated values already registered by the
-node-[21]/node-[24] stage entailment.
+Node [145] consumes the surviving node-[24] residual and advances the branch
+cursor to the hot/cold interface.  The sequential compatible-extension ledger
+remains available from its framework ledger producer; this node does not copy
+it into an Erdős-owned output record.
 -/
 
-/-- The exact ledger interface first made explicit at node [145].  Every
-field is a projection of the accumulated sequential ledger on the identical
-node-[21] packing. -/
-structure Node145Output {V : Type u} {residual : InitialResidual V}
-    (node18 : Node18Stage residual)
-    (bounded : Node19Low residual node18)
-    (node21 : Node21Output node18 bounded)
-    (_low : Node22Low residual node18 bounded node21) : Type (u + 4) where
-  ledger :
-    P13SequentialWeightedLedger (Node21Context node18)
-      node21.barrierRateCertificate
-  ledgerExact :
-    ledger = p13AccumulatedSequentialWindowLedger node18 bounded node21
-  finalAggregate :
-    P13SequentialHotAggregate (Node21Context node18)
-      node21.barrierRateCertificate
-  finalAggregateExact :
-    finalAggregate = ledger.finalAggregate
-  originalWitness :
-    P13OriginalCompletionWitness finalAggregate
-  hotColdOutcome :
-    StructuralExhaustion.Core.SequentialCompatibleExtensionLedger.Ledger.HotColdOutcome
-      ledger
-
 /-- Node [145] is the same branch cursor as node [24], with the node-[24]
-low leaf replaced by the accumulated hot/cold ledger interface. -/
+low leaf advanced by a framework-owned unit payload. -/
+abbrev Node145Marker {V : Type u} {residual : InitialResidual V}
+    (_node18 : Node18Stage residual)
+    (_bounded : Node19Low residual _node18)
+    (_node21 : Node21Output _node18 _bounded)
+    (_low : Node22Low residual _node18 _bounded _node21) : Type (u + 3) :=
+  PUnit
+
 abbrev Node145Stage {V : Type u} (residual : InitialResidual V) :=
   Core.ResidualRefinement.State.DependentDecisionOnNoNoAfterYes
     (@Node18Stage V) (@Node19High V) (@Node19Low V)
@@ -51,25 +32,7 @@ abbrev Node145Stage {V : Type u} (residual : InitialResidual V) :=
     (fun _residual node18 bounded node21 high =>
       Node23Output node18 bounded node21 high)
     (fun _residual node18 bounded node21 low =>
-      Node145Output node18 bounded node21 low) residual
-
-private noncomputable def node145Output {V : Type u}
-    {residual : InitialResidual V} (node18 : Node18Stage residual)
-    (bounded : Node19Low residual node18)
-    (node21 : Node21Output node18 bounded)
-    (low : Node22Low residual node18 bounded node21)
-    (_node24 : Node24Output node18 bounded node21 low) :
-    Node145Output node18 bounded node21 low := by
-  let ledger := p13AccumulatedSequentialWindowLedger node18 bounded node21
-  exact {
-    ledger := ledger
-    ledgerExact := rfl
-    finalAggregate := ledger.finalAggregate
-    finalAggregateExact := rfl
-    originalWitness :=
-      p13AccumulatedOriginalCompletionWitness node18 bounded node21
-    hotColdOutcome := ledger.hotColdOutcome
-  }
+      Node145Marker node18 bounded node21 low) residual
 
 /-- Framework-owned `[24] -> [145]` successor.  The Erdős layer merely exposes
 the accumulated sequential ledger as the first cold-branch interface. -/
@@ -82,9 +45,8 @@ noncomputable def node145P13HotColdWindowInterface {V : Type u} {facts}
     (Current := fun _ node18 bounded node21 low =>
       Node24Output node18 bounded node21 low)
     (Next := fun _ node18 bounded node21 low =>
-      Node145Output node18 bounded node21 low)
-    fun _residual node18 bounded node21 low node24 =>
-      node145Output node18 bounded node21 low node24
+      Node145Marker node18 bounded node21 low)
+    fun _residual _node18 _bounded _node21 _low _node24 => PUnit.unit
 
 noncomputable def runInitialThroughNode145 {V : Type u}
     (residual : InitialResidual V) :=

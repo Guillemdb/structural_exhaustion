@@ -17,58 +17,40 @@ carrier collision as the explicit residual to be consumed by a later checked
 CT4/CT7/CT16 carrier package.
 -/
 
+theorem node147Route8Tau_lt {V : Type u}
+    {residual : InitialResidual V} {active : Node146Active V residual}
+    (below : Node146Route8BelowThreshold active) :
+    node146Route8Tau (node146PackingTheta (Node21Context active.previous)) <
+      (3 : ℚ) / 13 := by
+  exact (node146Route8Tau_lt_three_thirteenths_iff
+    (node146PackingTheta (Node21Context active.previous))
+    (node146Route8_denominator_pos_of_below
+      (Node21Context active.previous) below)).2
+    ((node146Route8BelowThreshold_iff_theta
+      (Node21Context active.previous)).mp below)
+
 theorem node147CollisionCoefficientGap {V : Type u}
     {residual : InitialResidual V} {active : Node146Active V residual}
-    (node146 : Node146To147 active) :
+    (below : Node146Route8BelowThreshold active) :
     node146Route8Tau (node146PackingTheta (Node21Context active.previous)) <
       12 * ((1 : ℚ) / 4 -
         node146Route8Tau (node146PackingTheta
           (Node21Context active.previous))) := by
-  linarith [node146.tau_lt]
+  linarith [node147Route8Tau_lt (active := active) below]
 
 theorem node147CollisionMargin_pos {V : Type u}
     {residual : InitialResidual V} {active : Node146Active V residual}
-    (node146 : Node146To147 active) :
+    (below : Node146Route8BelowThreshold active) :
     0 < 3 - 13 *
       node146Route8Tau (node146PackingTheta
         (Node21Context active.previous)) := by
-  linarith [node146.tau_lt]
-
-/-- Exact checked residual at node `[147]`.
-
-The two arithmetic fields are proved from the predecessor payload.  The
-terminal private-carrier collision is deliberately not asserted here: it
-requires the separate checked carrier ledger/no-go package from the route-8
-branch. -/
-structure Node147Residual {V : Type u} {residual : InitialResidual V}
-    (active : Node146Active V residual) (_node146 : Node146To147 active) :
-    Type (u + 3) where
-  coefficientGap :
-    node146Route8Tau (node146PackingTheta (Node21Context active.previous)) <
-      12 * ((1 : ℚ) / 4 -
-        node146Route8Tau (node146PackingTheta
-          (Node21Context active.previous)))
-  marginPositive :
-    0 < 3 - 13 *
-      node146Route8Tau (node146PackingTheta
-        (Node21Context active.previous))
+  linarith [node147Route8Tau_lt (active := active) below]
 
 abbrev Node147ResidualStage {V : Type u} (residual : InitialResidual V) :=
   Core.ResidualRefinement.State.FocusedBranchDecisionYesContinuation
     (@Node146Bypass V) (@Node146Active V)
     (@Node146Route8BelowThreshold V) (@Node146Route8NotBelow V)
-    (fun _residual active below =>
-      Node147Residual active (Node146To147.mk below
-        ((node146Route8BelowThreshold_iff_theta
-          (Node21Context active.previous)).mp below)
-        (node146Route8_denominator_pos_of_below
-          (Node21Context active.previous) below)
-        ((node146Route8Tau_lt_three_thirteenths_iff
-          (node146PackingTheta (Node21Context active.previous))
-          (node146Route8_denominator_pos_of_below
-            (Node21Context active.previous) below)).2
-          ((node146Route8BelowThreshold_iff_theta
-            (Node21Context active.previous)).mp below)))) residual
+    (fun _residual _active _below => PUnit) residual
 
 noncomputable def node147Route8ResidualRefinement {V : Type u} {facts}
     [Core.ResidualRefinement.Proofs.Contains
@@ -76,11 +58,9 @@ noncomputable def node147Route8ResidualRefinement {V : Type u} {facts}
     Core.ResidualRefinement.State.StageNode (facts := facts)
       (@Node147ResidualStage V) :=
   Core.ResidualRefinement.State.StageNode.mapFocusedBranchYesContinuation
-    fun _residual _active _below node146 =>
-      {
-        coefficientGap := node147CollisionCoefficientGap node146
-        marginPositive := node147CollisionMargin_pos node146
-      }
+    (Output := fun _residual active below => Node146To147Marker active below)
+    (Next := fun _residual _active _below => PUnit)
+    fun _residual _active _below _node146 => PUnit.unit
 
 noncomputable def runInitialThroughNode147Residual {V : Type u}
     (residual : InitialResidual V) :=

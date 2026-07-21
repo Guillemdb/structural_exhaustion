@@ -7,46 +7,35 @@ open StructuralExhaustion
 universe u
 
 /-!
-# Diagram node [60]: net-cap contradiction
+# Diagram node [60]: net-cap contradiction checkpoint
 
-Node [60] closes exactly the yes edge of node [59].  Node [57] already proved
-the strict negative quarter-scaled net charge on every live node-[56] leaf, and
-node [58] only named that integer.  The application supplies the local
-contradiction; Core owns elimination of the yes constructor and preservation of
-the no constructor for node [61].
+The previous implementation attempted to close the node-[59] yes edge by
+reading a stale strict-negativity field from node [57].  That field is not a
+node-[57] paper-local output and node [56] only exports the error-bearing
+large-budget cap.  Until the finite/asymptotic strict-quarter consequence is
+registered at its producer, node [60] must not claim a terminal closure.
+
+This checkpoint preserves the literal node-[59] split and the full ledger by a
+Core stage retrieval.  It introduces no new residual, no caller-supplied
+assumption, and no custom router.
 -/
 
-/-- The complete carrier after node [60]: node-[59]'s yes leaf is terminal,
-and Core retains only the literal no leaf. -/
+/-- The complete carrier currently accepted at node [60]: the literal node-[59]
+decision remains available.  The eventual closure will replace this
+pass-through with `DependentDecisionYesClosed` once the strict-quarter ledger
+fact is produced upstream. -/
 abbrev Node60Stage {V : Type u} (residual : InitialResidual V) :=
-  Core.ResidualRefinement.State.DependentDecisionYesClosed
-    (@Node58Stage V) (@Node59Nonnegative V) (@Node59Negative V) residual
+  Node59Stage residual
 
-/-- Framework-owned closure `[59] yes -> [60]`. -/
+/-- Framework-owned node-[60] checkpoint. -/
 noncomputable def node60P13NetCapContradiction {V : Type u} {facts}
     [Core.ResidualRefinement.Proofs.Contains
       (Core.ResidualRefinement.State.Available (@Node59Stage V)) facts] :
     Core.ResidualRefinement.State.StageNode (facts := facts)
       (@Node60Stage V) :=
-  Core.ResidualRefinement.State.StageNode.closeDependentDecisionYes
-    (fun _residual node58 nonnegative => by
-      cases node58 with
-      | mk node57 node58Output =>
-          cases node57 with
-          | mk node56 node57Output =>
-              cases node56 with
-              | bypass _ =>
-                  simp [Node59Nonnegative] at nonnegative
-              | degraded _data _node56 =>
-                  have strict := node57Output.strictNetChargeQuarter
-                  change 0 ≤ node58Output.netChargeQuarter at nonnegative
-                  rw [node58Output.netChargeQuarterExact] at nonnegative
-                  exact (Int.not_lt_of_ge nonnegative) strict
-              | alternate _data _low _node56 =>
-                  have strict := node57Output.strictNetChargeQuarter
-                  change 0 ≤ node58Output.netChargeQuarter at nonnegative
-                  rw [node58Output.netChargeQuarterExact] at nonnegative
-                  exact (Int.not_lt_of_ge nonnegative) strict)
+  Core.ResidualRefinement.State.StageNode.usingStage
+    (Required := @Node59Stage V)
+    fun _state node59 => node59
 
 noncomputable def runInitialThroughNode60 {V : Type u}
     (residual : InitialResidual V) :=

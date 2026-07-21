@@ -13,8 +13,7 @@ Node [58] names the exact quarter-scaled net-charge numerator on the identical
 large-budget residual carried by node [57].  The manuscript object uses the
 remainder surplus `σ_R`; this node consumes node [57]'s produced numerator
 instead of recomputing a separate value.  The total-surplus numerator is
-retained only as the finite node-[60] contradiction certificate and is not the
-node-[61] support-localization object.
+not a node-[58] object.
 The node does not inspect components or perform the node-[59] nonnegativity
 split.
 -/
@@ -33,17 +32,6 @@ structure Node58Output {V : Type u} {residual : InitialResidual V}
       4 * (((p13RemainderCurvatureProfile
             (Node21Context active.previous)).positiveDeficiency : Int) -
           (Graph.InducedPathWindowLedger.remainderSurplus
-            (Node21Context active.previous).G.object : Int)) -
-        ((p13RemainderVertices
-          (Node21Context active.previous)).card : Int)
-  /-- Finite-total numerator used only by the current node-[60]
-  terminal proof.  Node-[61] must consume `remainderNetChargeQuarter`. -/
-  netChargeQuarter : Int
-  netChargeQuarterExact :
-    netChargeQuarter =
-      4 * (((p13RemainderCurvatureProfile
-            (Node21Context active.previous)).positiveDeficiency : Int) -
-          (Graph.InducedPathWindowLedger.totalSurplus
             (Node21Context active.previous).G.object : Int)) -
         ((p13RemainderVertices
           (Node21Context active.previous)).card : Int)
@@ -79,33 +67,17 @@ noncomputable def node58P13NetCharge {V : Type u} {facts}
     fun _residual node57 =>
       match node57 with
       | ⟨.bypass _, _⟩ => PUnit.unit
-      | ⟨.degraded data _node56, _node57Output⟩ =>
+      | ⟨.degraded _data _node56, _node57Output⟩ =>
           { remainderNetChargeQuarter :=
               _node57Output.remainderNetChargeQuarter
             remainderNetChargeQuarterExact :=
               _node57Output.remainderNetChargeQuarterExact
-            netChargeQuarter :=
-              4 * (((p13RemainderCurvatureProfile
-                    (Node21Context data.data.previous)).positiveDeficiency : Int) -
-                  (Graph.InducedPathWindowLedger.totalSurplus
-                    (Node21Context data.data.previous).G.object : Int)) -
-                ((p13RemainderVertices
-                  (Node21Context data.data.previous)).card : Int)
-            netChargeQuarterExact := rfl
             localWork := rfl }
-      | ⟨.alternate data _ _node56, _node57Output⟩ =>
+      | ⟨.alternate _data _ _node56, _node57Output⟩ =>
           { remainderNetChargeQuarter :=
               _node57Output.remainderNetChargeQuarter
             remainderNetChargeQuarterExact :=
               _node57Output.remainderNetChargeQuarterExact
-            netChargeQuarter :=
-              4 * (((p13RemainderCurvatureProfile
-                    (Node21Context data.data.previous)).positiveDeficiency : Int) -
-                  (Graph.InducedPathWindowLedger.totalSurplus
-                    (Node21Context data.data.previous).G.object : Int)) -
-                ((p13RemainderVertices
-                  (Node21Context data.data.previous)).card : Int)
-            netChargeQuarterExact := rfl
             localWork := rfl }
 
 noncomputable def runInitialThroughNode58 {V : Type u}

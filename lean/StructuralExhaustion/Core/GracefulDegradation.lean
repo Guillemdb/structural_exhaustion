@@ -2,7 +2,7 @@ import StructuralExhaustion.Core.ResidualRefinement
 
 namespace StructuralExhaustion.Core.ResidualRefinement.State
 
-universe uInput uOccurrence uQuery uResidual uStage uTarget
+universe uInput uOccurrence uResidual uStage uTarget
 
 /-!
 # Guarded graceful degradation
@@ -251,10 +251,9 @@ noncomputable def StageNode.mergeGuardedDegradation
       | .alternate data alternateOutput =>
           .alternate data alternateOutput (produce state.residual data.data)
 
-/-- Query-bearing version of `mergeGuardedDegradation`.  Core reads the
-additional input and the exact guarded-degradation continuation from the same
-accumulated ledger, then applies one common downstream producer to both live
-leaves while preserving their typed reasons. -/
+/-- Query-bearing version of `mergeGuardedDegradation`.  The additional
+input is read from the same accumulated ledger as the guarded-degradation
+stage; applications still supply only the downstream mathematical producer. -/
 noncomputable def StageNode.mergeGuardedDegradationDerived
     {Bypass : Residual → Type uInput}
     {Active : Residual → Type uTarget}
@@ -272,8 +271,8 @@ noncomputable def StageNode.mergeGuardedDegradationDerived
     {AlternateOutput : (residual : Residual) →
       FocusedBranchNestedNoActive Active outerNo innerNo residual →
         Type uOccurrence}
+    {Input : Residual → Sort uStage}
     {Next : (residual : Residual) → Active residual → Type uOccurrence}
-    {Input : Residual → Sort uQuery}
     [Proofs.Contains (Available
       (GuardedDegradationAlternateContinuation Bypass Active outerYes outerNo
         OuterYesOutput innerYes innerNo Terminal guard AlternateOutput)) facts]
@@ -291,7 +290,8 @@ noncomputable def StageNode.mergeGuardedDegradationDerived
       match inputAndResult.snd with
       | .bypass data => .bypass data
       | .degraded data =>
-          .degraded data (produce state.residual inputAndResult.fst data.data)
+          .degraded data
+            (produce state.residual inputAndResult.fst data.data)
       | .alternate data alternateOutput =>
           .alternate data alternateOutput
             (produce state.residual inputAndResult.fst data.data)

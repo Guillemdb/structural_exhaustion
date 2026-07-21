@@ -30,8 +30,7 @@ abbrev Node148Bypass (V : Type u) :=
 abbrev Node148Active (V : Type u) :=
   Core.ResidualRefinement.State.FocusedBranchDecisionNoContinuationActive
     (@Node146Active V) (@Node146Route8NotBelow V)
-    (fun residual active _notBelow =>
-      Node146To148 (residual := residual) active)
+    (fun _residual active notBelow => Node146To148Marker active notBelow)
 
 namespace Node148Active
 
@@ -47,7 +46,7 @@ def node21 {V : Type u} {residual : InitialResidual V}
 
 def node146No {V : Type u} {residual : InitialResidual V}
     (active : Node148Active V residual) :
-    Node146To148 active.data :=
+    Node146To148Marker active.data active.proof :=
   active.output
 
 end Node148Active
@@ -97,24 +96,17 @@ theorem node148_totalDemand_eq_hot_add_cold {V : Type u}
   rw [← partition]
   ring
 
-/-- Yes payload on `[148] -> [149]`. -/
-structure Node148To149 {V : Type u} {residual : InitialResidual V}
-    (active : Node148Active V residual) : Type (u + 3) where
-  densityCap : Node148LiveHotCap active
-  totalDemandExact :
-    node148TotalDemand active =
-      node148HotDemand active + node148ColdDemand active
+/-- Framework marker on the `[148] -> [149]` yes edge. -/
+abbrev Node148To149Marker {V : Type u} {residual : InitialResidual V}
+    (_active : Node148Active V residual)
+    (_cap : Node148LiveHotCap _active) : Type (u + 3) :=
+  PUnit
 
-/-- No payload on `[148] -> [150]`. -/
-structure Node148To150 {V : Type u} {residual : InitialResidual V}
-    (active : Node148Active V residual) : Type (u + 3) where
-  failedCap : Node148LiveHotFailure active
-  lowerThreshold :
-    (Node21Context active.node18).G.object.input.vertices.card ≤
-      78 * p13 (Node21Context active.node18)
-  totalDemandExact :
-    node148TotalDemand active =
-      node148HotDemand active + node148ColdDemand active
+/-- Framework marker on the `[148] -> [150]` no edge. -/
+abbrev Node148To150Marker {V : Type u} {residual : InitialResidual V}
+    (_active : Node148Active V residual)
+    (_failed : Node148LiveHotFailure _active) : Type (u + 3) :=
+  PUnit
 
 abbrev Node148DecisionStage {V : Type u} (residual : InitialResidual V) :=
   Core.ResidualRefinement.State.FocusedBranchDecision
@@ -125,13 +117,13 @@ abbrev Node148To149Stage {V : Type u} (residual : InitialResidual V) :=
   Core.ResidualRefinement.State.FocusedBranchDecisionYesContinuation
     (Node148Bypass V) (Node148Active V)
     (@Node148LiveHotCap V) (@Node148LiveHotFailure V)
-    (fun _residual active _cap => Node148To149 active) residual
+    (fun _residual active cap => Node148To149Marker active cap) residual
 
 abbrev Node148To150Stage {V : Type u} (residual : InitialResidual V) :=
   Core.ResidualRefinement.State.FocusedBranchDecisionNoContinuation
     (Node148Bypass V) (Node148Active V)
     (@Node148LiveHotCap V) (@Node148LiveHotFailure V)
-    (fun _residual active _failed => Node148To150 active) residual
+    (fun _residual active failed => Node148To150Marker active failed) residual
 
 /-- Framework-owned exhaustive cap decision on the literal node-[146] no
 leaf. -/
@@ -150,9 +142,7 @@ noncomputable def node148To149Refinement {V : Type u} {facts}
     Core.ResidualRefinement.State.StageNode (facts := facts)
       (@Node148To149Stage V) :=
   Core.ResidualRefinement.State.StageNode.continueFocusedBranchYes
-    fun _residual active cap =>
-      { densityCap := cap
-        totalDemandExact := node148_totalDemand_eq_hot_add_cold active }
+    fun _residual _active _cap => PUnit.unit
 
 noncomputable def node148To150Refinement {V : Type u} {facts}
     [Core.ResidualRefinement.Proofs.Contains
@@ -160,10 +150,7 @@ noncomputable def node148To150Refinement {V : Type u} {facts}
     Core.ResidualRefinement.State.StageNode (facts := facts)
       (@Node148To150Stage V) :=
   Core.ResidualRefinement.State.StageNode.continueFocusedBranchNo
-    fun _residual active failed =>
-      { failedCap := failed
-        lowerThreshold := active.output.crossMultiplied
-        totalDemandExact := node148_totalDemand_eq_hot_add_cold active }
+    fun _residual _active _failed => PUnit.unit
 
 noncomputable def runInitialThroughNode148Decision {V : Type u}
     (residual : InitialResidual V) :=

@@ -56,7 +56,7 @@ structure Node31Facts {V : Type u} {residual : InitialResidual V}
 
 /-- Node [31] retains the literal node-[30] certificate through Core's
 proof-relevant successor carrier.  Later nodes can therefore retrieve every
-node-[30] inequality without a checkpoint or caller input. -/
+node-[30] inequality through the exact predecessor chain. -/
 abbrev Node31Output {V : Type u} {residual : InitialResidual V}
     (node18 : Node18Stage residual)
     (bounded : Node19Low residual node18)
@@ -71,9 +71,6 @@ abbrev coordinateCount (output : Node31Output node18 bounded node21 low) :
     (p13CurvatureCoordinates (Node21Context node18)).card =
       (p13RemainderCurvatureProfile (Node21Context node18)).wedgeCount :=
   output.output.coordinateCount
-
-abbrev node30 (output : Node31Output node18 bounded node21 low) :
-    Node30Output node18 bounded node21 low := output.previous
 
 end Node31Output
 

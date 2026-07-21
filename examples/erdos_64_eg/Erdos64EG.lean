@@ -10,6 +10,13 @@ import Erdos64EG.Node153
 import Erdos64EG.Node154
 import Erdos64EG.Node155
 import Erdos64EG.Node156
+import Erdos64EG.Node157
+import Erdos64EG.Node158
+import Erdos64EG.Node159
+import Erdos64EG.Node160
+import Erdos64EG.Node161
+import Erdos64EG.Node162
+import Erdos64EG.Node163
 
 /-!
 Structural-exhaustion implementation of the current Erdős Problem 64 proof
