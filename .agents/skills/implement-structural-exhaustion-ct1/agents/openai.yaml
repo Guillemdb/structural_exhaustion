@@ -1,4 +1,0 @@
-interface:
-  display_name: "Structural Exhaustion CT1"
-  short_description: "Implement finite target realization"
-  default_prompt: "Use $implement-structural-exhaustion-ct1 to implement the CT1 target-realization contract for this proof step."

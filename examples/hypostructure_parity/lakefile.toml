@@ -1,0 +1,14 @@
+name = "hypostructure_parity"
+version = "0.1.0"
+defaultTargets = ["HypostructureParity"]
+
+[[require]]
+name = "erdos_64_eg"
+path = "../erdos_64_eg"
+
+[[require]]
+name = "hypostructure_erdos_64_eg"
+path = "../hypostructure_erdos_64_eg"
+
+[[lean_lib]]
+name = "HypostructureParity"

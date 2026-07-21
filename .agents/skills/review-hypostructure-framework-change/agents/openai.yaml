@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review a Hypostructure Framework Change"
+  short_description: "Audit framework architecture and trust"
+  default_prompt: "Use $review-hypostructure-framework-change to audit this Hypostructure change for ownership, execution, trust, and transfer."

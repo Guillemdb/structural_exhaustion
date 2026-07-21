@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implement a Hypostructure PDE Proof"
+  short_description: "Build a represented PDE proof workflow"
+  default_prompt: "Use $implement-hypostructure-pde-proof to implement this represented PDE argument through the Hypostructure PDE layer."

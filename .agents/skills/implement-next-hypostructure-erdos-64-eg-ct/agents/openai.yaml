@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implement Next Hypostructure Erdős 64 CT"
+  short_description: "Advance the Hypostructure Erdős 64 proof"
+  default_prompt: "Use $implement-next-hypostructure-erdos-64-eg-ct to advance the migrated Erdős 64 proof by one dependency-ready CT."

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Structural Exhaustion CT14"
-  short_description: "Implement aggregate mass and multiplicity"
-  default_prompt: "Use $implement-structural-exhaustion-ct14 to implement the CT14 aggregate mass contract for this proof step."

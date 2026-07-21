@@ -1,4 +1,0 @@
-interface:
-  display_name: "Structural Exhaustion CT10"
-  short_description: "Implement finite refinement classification"
-  default_prompt: "Use $implement-structural-exhaustion-ct10 to implement the CT10 refinement-classification contract for this proof step."

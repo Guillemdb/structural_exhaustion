@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "baseline": {
+    "commit": null,
+    "tag": null,
+    "source_date": null,
+    "captured_at": null,
+    "clean_worktree": null,
+    "stale_hash_mode": false
+  },
+  "toolchain": {
+    "lean_toolchain": null,
+    "mathlib_input_revision": null,
+    "mathlib_commit": null
+  },
+  "inputs": [
+    {
+      "path": "lean/lean-toolchain",
+      "sha256": null
+    },
+    {
+      "path": "lean/lake-manifest.json",
+      "sha256": null
+    },
+    {
+      "path": "uv.lock",
+      "sha256": null
+    },
+    {
+      "path": "web/frontend/package-lock.json",
+      "sha256": null
+    },
+    {
+      "path": "original_erdos_64_proof.tex",
+      "sha256": null
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "generated/kernel-verification.json",
+      "sha256": null,
+      "clean_build": null
+    },
+    {
+      "path": "generated/lean-machines.json",
+      "sha256": null,
+      "clean_build": null
+    },
+    {
+      "path": "generated/framework-documentation.json",
+      "sha256": null,
+      "clean_build": null
+    },
+    {
+      "path": "generated/examples/erdos-64.json",
+      "sha256": null,
+      "clean_build": null
+    },
+    {
+      "path": "generated/examples/erdos-64-history.json",
+      "sha256": null,
+      "clean_build": null
+    },
+    {
+      "path": "generated/node-index.csv",
+      "sha256": null,
+      "clean_build": null
+    }
+  ],
+  "raw_erdos_export": {
+    "path": null,
+    "sha256": null,
+    "clean_build": null
+  },
+  "trusted_axiom_allowlist": {
+    "path": "migration/hypostructure/trust-allowlist.json",
+    "sha256": null,
+    "entries": []
+  },
+  "direct_node_sources": [],
+  "direct_node_oleans": [],
+  "web_export_declarations": [],
+  "per_node_work_bounds": [],
+  "validation": {
+    "framework_build": null,
+    "erdos_example_build": null,
+    "generate": null,
+    "kernel": null,
+    "validate": null,
+    "web_test": null,
+    "test": null
+  }
+}

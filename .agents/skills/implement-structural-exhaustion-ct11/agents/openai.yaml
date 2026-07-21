@@ -1,4 +1,0 @@
-interface:
-  display_name: "Structural Exhaustion CT11"
-  short_description: "Implement finite-sum localization"
-  default_prompt: "Use $implement-structural-exhaustion-ct11 to implement the CT11 finite-sum localization contract for this proof step."

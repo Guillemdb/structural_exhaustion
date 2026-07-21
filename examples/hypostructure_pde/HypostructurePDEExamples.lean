@@ -1,0 +1,6 @@
+import HypostructurePDEExamples.AdditiveLocalTail
+import HypostructurePDEExamples.NestedWindows
+import HypostructurePDEExamples.CoordinatePath
+import HypostructurePDEExamples.Gauge
+import HypostructurePDEExamples.CompactExtraction
+import HypostructurePDEExamples.NavierStokes2D

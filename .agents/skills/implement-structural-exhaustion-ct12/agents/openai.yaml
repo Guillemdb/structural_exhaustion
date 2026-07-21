@@ -1,4 +1,0 @@
-interface:
-  display_name: "Structural Exhaustion CT12"
-  short_description: "Implement well-founded structural peeling"
-  default_prompt: "Use $implement-structural-exhaustion-ct12 to implement the CT12 well-founded peeling contract for this proof step."

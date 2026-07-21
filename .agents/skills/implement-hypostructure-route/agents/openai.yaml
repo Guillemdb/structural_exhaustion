@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implement a Hypostructure Route"
+  short_description: "Implement typed Hypostructure transitions"
+  default_prompt: "Use $implement-hypostructure-route to implement this framework-owned typed CT transition."

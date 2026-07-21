@@ -1,4 +1,0 @@
-interface:
-  display_name: "Structural Exhaustion CT16"
-  short_description: "Implement support and closed-code checks"
-  default_prompt: "Use $implement-structural-exhaustion-ct16 to implement the CT16 support and closed-code contract for this proof step."

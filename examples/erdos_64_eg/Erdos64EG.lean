@@ -18,6 +18,7 @@ import Erdos64EG.Node161
 import Erdos64EG.Node162
 import Erdos64EG.Node163
 import Erdos64EG.Node164
+import Erdos64EG.OnlyTypeAOrB
 
 /-!
 Structural-exhaustion implementation of the current Erdős Problem 64 proof

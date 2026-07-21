@@ -1,0 +1,33 @@
+import Hypostructure.PDE.Atlas
+import Hypostructure.PDE.Equation
+import Hypostructure.PDE.Model
+import Hypostructure.PDE.Representation
+import Hypostructure.PDE.Observable
+import Hypostructure.PDE.Target
+import Hypostructure.PDE.Coordinate
+import Hypostructure.PDE.LocalTail
+import Hypostructure.PDE.FastTrack.Signature
+import Hypostructure.PDE.GeneratorForm
+import Hypostructure.PDE.Quotient
+import Hypostructure.PDE.CT4
+import Hypostructure.PDE.CT5
+import Hypostructure.PDE.CT6
+import Hypostructure.PDE.CT7
+import Hypostructure.PDE.CT8
+import Hypostructure.PDE.CT9
+import Hypostructure.PDE.CT10
+import Hypostructure.PDE.CT11
+import Hypostructure.PDE.CT12
+import Hypostructure.PDE.CT13
+import Hypostructure.PDE.CT14
+import Hypostructure.PDE.CT15
+import Hypostructure.PDE.CT16
+import Hypostructure.PDE.CT17
+
+/-!
+# Generic PDE specialization
+
+This barrel intentionally excludes `Hypostructure.PDE.NavierStokes`.  A
+domain-independent PDE consumer does not acquire model-specific equations or
+constants by importing the specialization API.
+-/

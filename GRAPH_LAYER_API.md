@@ -231,6 +231,37 @@ isomorphisms, degree preservation, and exact size change. Core owns:
 An application cannot expose a `glue`, `handoff`, `replacementOutput`, or
 `routedResult` declaration.
 
+### 6.1 Proper atom and boundary-profile registration
+
+`Hypostructure.Graph.BoundariedAtom` is the executable Graph surface for a
+proper connected atom already represented by an exact owned decomposition:
+
+```lean
+structure ProperBoundariedAtom (object : FiniteObject) where
+  decomposition : OwnedDecomposition object
+  connected : decomposition.piece.graph.Connected
+  decreases : decomposition.piece.pack.LexicographicallySmaller object
+
+def BoundaryPiece.boundaryDegreeProfile
+    (piece : BoundaryPiece boundary) : boundary.Vertex -> Nat
+
+def executeFocusedBoundariedAtomFamily
+    (focus : Core.Residual.Focus.Profile Previous)
+    (context : Core.Residual.Focus.ActiveQuery focus MinimalContext)
+    (previous : Previous) : FocusedBoundariedAtomStage focus context
+```
+
+Graph derives the proper-subgraph embedding, exact uncapped degree vector, and
+coordinate equality. `Core.Residual.Focus.run` decides activity, preserves the
+literal predecessor, and performs the sole ledger extension. The application
+supplies neither a profile function nor a successor payload.
+
+This registration is symbolic and performs no finite scan: its family is a
+dependent function over any typed proper atom supplied by a downstream
+consumer. It is therefore not a CT3 execution. CT3 begins only when a later
+node supplies a response-compression proposal and the framework classifies or
+executes that proposal against the registered boundary/context semantics.
+
 ## 7. Interfaces and exact responses
 
 A boundary interface is the smallest code through which compatible outside

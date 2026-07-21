@@ -1,4 +1,0 @@
-interface:
-  display_name: "Implement Next Erdős 64 CT"
-  short_description: "Advance one full-ledger Erdős 64 CT"
-  default_prompt: "Use $implement-next-erdos-64-eg-ct to implement the next manuscript CT from the full accumulated ledger while the framework handles every transition."

@@ -4,6 +4,7 @@ __pycache__/
 *.py[cod]
 
 lean/.lake/
+hypostructure/.lake/
 examples/*/.lake/
 *.olean
 *.ilean

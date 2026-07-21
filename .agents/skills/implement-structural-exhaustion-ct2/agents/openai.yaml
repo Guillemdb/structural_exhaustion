@@ -1,4 +1,0 @@
-interface:
-  display_name: "Structural Exhaustion CT2"
-  short_description: "Implement local deletion and replacement"
-  default_prompt: "Use $implement-structural-exhaustion-ct2 to implement the CT2 local deletion or replacement contract for this proof step."

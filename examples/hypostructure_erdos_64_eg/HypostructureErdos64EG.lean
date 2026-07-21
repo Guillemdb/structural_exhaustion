@@ -1,0 +1,12 @@
+import HypostructureErdos64EG.InitialResidual
+import HypostructureErdos64EG.Node1
+import HypostructureErdos64EG.Node2
+import HypostructureErdos64EG.Node3
+import HypostructureErdos64EG.Node4
+import HypostructureErdos64EG.Node5
+import HypostructureErdos64EG.Node6
+import HypostructureErdos64EG.Node7
+import HypostructureErdos64EG.Node8
+import HypostructureErdos64EG.Node9
+import HypostructureErdos64EG.Node10
+import HypostructureErdos64EG.Node11

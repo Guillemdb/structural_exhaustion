@@ -48,8 +48,8 @@ noncomputable def node164FiniteSameInterfaceRetrieval {V : Type u}
     (Output := @Node163StrictResponseReplacementOutput V)
     (Next := @Node164FiniteSameInterfaceReplacementOutput V)
     (Core.ResidualRefinement.State.LedgerQuery.pure
-      (facts := facts) (fun _residual => PUnit.unit))
-    fun _residual _unit active _allGood node163 => by
+      (facts := facts) (fun _residual => ()))
+    fun _residual (_unit : Unit) active _allGood node163 => by
       intro entry member
       exact node163 entry member
 

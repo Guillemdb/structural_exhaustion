@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implement Hypostructure CT4"
+  short_description: "Implement CT4 with live Hypostructure APIs"
+  default_prompt: "Use $implement-hypostructure-ct4 to implement this CT4 step against the live Hypostructure contract."

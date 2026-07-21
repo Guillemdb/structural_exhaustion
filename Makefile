@@ -1,4 +1,4 @@
-.PHONY: help lint build framework-build example-build even-cycle-example-build erdos-example-build greedy-coloring-example-build mantel-example-build mathlib-cache export example-export erdos-web-status-sync erdos-proof-history schemas generate validate kernel verify test manuscript checksums web web-build web-test web-frontend-test
+.PHONY: help lint build framework-build example-build even-cycle-example-build erdos-example-build greedy-coloring-example-build mantel-example-build mathlib-cache export example-export erdos-web-status-sync erdos-proof-history schemas generate validate kernel verify test manuscript checksums web web-build web-test web-frontend-test hypostructure-framework-build hypostructure-fixtures-build hypostructure-erdos-build hypostructure-pde-build hypostructure-parity-build hypostructure-mathlib-cache hypostructure-lint hypostructure-test migration-test
 
 .DEFAULT_GOAL := build
 
@@ -7,6 +7,10 @@ UV ?= uv
 NPM ?= npm
 UV_CACHE_DIR ?= /tmp/uv-cache
 LEAN_DIR := lean
+HYPOSTRUCTURE_DIR := hypostructure
+HYPOSTRUCTURE_ERDOS_EXAMPLE_DIR := examples/hypostructure_erdos_64_eg
+HYPOSTRUCTURE_PDE_EXAMPLE_DIR := examples/hypostructure_pde
+HYPOSTRUCTURE_PARITY_DIR := examples/hypostructure_parity
 EVEN_CYCLE_EXAMPLE_DIR := examples/even_cycle
 ERDOS_EXAMPLE_DIR := examples/erdos_64_eg
 GREEDY_COLORING_EXAMPLE_DIR := examples/greedy_coloring
@@ -26,6 +30,13 @@ help:
 	  '  make lint        Reject legacy APIs, proof injection, admissions, and forbidden imports' \
 	  '  make mathlib-cache  Download Mathlib oleans for the framework and external examples' \
 	  '  make framework-build  Compile only the reusable Lean framework package' \
+	  '  make hypostructure-framework-build  Compile the independent Hypostructure package' \
+	  '  make hypostructure-fixtures-build  Compile cross-domain Core, Graph, and PDE fixtures' \
+	  '  make hypostructure-erdos-build  Compile the Hypostructure-native EG registration and fixtures' \
+	  '  make hypostructure-pde-build  Compile the independent PDE and NS2D example ladder' \
+	  '  make hypostructure-parity-build  Prove normalized legacy/new EG parity fixtures' \
+	  '  make hypostructure-lint  Enforce the Hypostructure production import firewall' \
+	  '  make hypostructure-test  Build and lint the current Hypostructure migration slice' \
 	  '  make even-cycle-example-build  Compile the external even-cycle example package' \
 	  '  make erdos-example-build  Compile the partial Erdős Problem 64 example package' \
 	  '  make greedy-coloring-example-build  Compile the external greedy-coloring example' \
@@ -49,6 +60,35 @@ lint:
 
 framework-build:
 	cd $(LEAN_DIR) && lake build
+
+hypostructure-framework-build:
+	cd $(HYPOSTRUCTURE_DIR) && lake build
+
+hypostructure-fixtures-build: hypostructure-framework-build
+	cd $(HYPOSTRUCTURE_DIR) && lake build Hypostructure.PDE Hypostructure.Fixtures.PDEBasics Hypostructure.Fixtures.PDERows1To4 Hypostructure.Fixtures.ClosedLedger Hypostructure.Fixtures.CompactExtraction Hypostructure.Fixtures.LocalToGlobal Hypostructure.Fixtures.Response Hypostructure.Fixtures.Finite Hypostructure.Fixtures.ExecutionRouting Hypostructure.Fixtures.Decision Hypostructure.Fixtures.Focus Hypostructure.Fixtures.NormalForms Hypostructure.Fixtures.GraphAssembly Hypostructure.Fixtures.GraphProgress Hypostructure.Fixtures.GraphMinimality Hypostructure.Fixtures.GraphDeletionCriticality Hypostructure.Fixtures.GraphBoundariedAtom Hypostructure.Fixtures.GraphResponse Hypostructure.Fixtures.RootedReturn Hypostructure.Fixtures.CT1 Hypostructure.Fixtures.CT2 Hypostructure.Fixtures.CT3 Hypostructure.Fixtures.CT4 Hypostructure.Fixtures.CT5 Hypostructure.Fixtures.CT6 Hypostructure.Fixtures.CT7 Hypostructure.Fixtures.CT8 Hypostructure.Fixtures.CT9 Hypostructure.Fixtures.CT10 Hypostructure.Fixtures.CT11 Hypostructure.Fixtures.CT12 Hypostructure.Fixtures.CT13 Hypostructure.Fixtures.CT14 Hypostructure.Fixtures.CT15 Hypostructure.Fixtures.CT16 Hypostructure.Fixtures.CT17 Hypostructure.Fixtures.RouteRegistry
+
+hypostructure-erdos-build: hypostructure-framework-build
+	cd $(HYPOSTRUCTURE_ERDOS_EXAMPLE_DIR) && lake build
+	cd $(HYPOSTRUCTURE_ERDOS_EXAMPLE_DIR) && lake build HypostructureErdos64EG.Fixtures.K4
+
+hypostructure-pde-build: hypostructure-fixtures-build
+	cd $(HYPOSTRUCTURE_PDE_EXAMPLE_DIR) && lake build
+
+hypostructure-parity-build: hypostructure-erdos-build
+	cd $(HYPOSTRUCTURE_PARITY_DIR) && lake build
+
+hypostructure-mathlib-cache:
+	cd $(HYPOSTRUCTURE_DIR) && lake exe cache get
+	cd $(HYPOSTRUCTURE_ERDOS_EXAMPLE_DIR) && lake exe cache get
+	cd $(HYPOSTRUCTURE_PDE_EXAMPLE_DIR) && lake exe cache get
+	cd $(HYPOSTRUCTURE_PARITY_DIR) && lake exe cache get
+
+hypostructure-lint:
+	$(PYTHON) tools/check_hypostructure_imports.py --root .
+
+hypostructure-test: hypostructure-lint hypostructure-fixtures-build hypostructure-erdos-build hypostructure-pde-build hypostructure-parity-build
+
+migration-test: test hypostructure-test
 
 even-cycle-example-build:
 	cd $(EVEN_CYCLE_EXAMPLE_DIR) && lake build

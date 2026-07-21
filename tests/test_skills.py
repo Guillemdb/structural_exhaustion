@@ -1,35 +1,48 @@
 from __future__ import annotations
 
-import json
 import re
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS_ROOT = ROOT / ".agents/skills"
-STRATEGY = "design-structural-exhaustion-proof"
-ROUTE = "implement-structural-exhaustion-route"
-ERDOS_NEXT_CT = "implement-next-erdos-64-eg-ct"
-ERDOS_REVIEW = "review-erdos-64-eg-expansion"
-MANUSCRIPT_REPAIR = "repair-structural-exhaustion-manuscript"
-MANUSCRIPT_REPAIR_REVIEW = "red-team-structural-exhaustion-manuscript-repair"
+
 CT_SKILLS = {
-    f"implement-structural-exhaustion-ct{number}": f"CT{number}"
+    f"implement-hypostructure-ct{number}": f"CT{number}"
     for number in range(1, 18)
 }
-EXPECTED_SKILLS = {
-    STRATEGY,
-    ROUTE,
-    ERDOS_NEXT_CT,
-    ERDOS_REVIEW,
-    MANUSCRIPT_REPAIR,
-    MANUSCRIPT_REPAIR_REVIEW,
-    *CT_SKILLS,
+MIGRATED_WORKFLOWS = {
+    "design-hypostructure-proof",
+    "implement-hypostructure-route",
+    "implement-next-hypostructure-erdos-64-eg-ct",
+    "review-hypostructure-erdos-64-eg-expansion",
+    "repair-hypostructure-manuscript",
+    "red-team-hypostructure-manuscript-repair",
 }
-SKILLS_WITH_REFERENCES = {
-    ERDOS_NEXT_CT,
-    MANUSCRIPT_REPAIR,
-    MANUSCRIPT_REPAIR_REVIEW,
+FRAMEWORK_WORKFLOWS = {
+    "understand-hypostructure-framework",
+    "implement-hypostructure-proof",
+    "implement-hypostructure-graph-proof",
+    "implement-hypostructure-pde-proof",
+    "extend-hypostructure-framework",
+    "review-hypostructure-framework-change",
+    "maintain-hypostructure-migration",
+}
+EXPECTED_SKILLS = {*CT_SKILLS, *MIGRATED_WORKFLOWS, *FRAMEWORK_WORKFLOWS}
+
+REFERENCE_FILES = {
+    "implement-next-hypostructure-erdos-64-eg-ct": {
+        "mandatory-node-template.md"
+    },
+    "repair-hypostructure-manuscript": {"repair-worksheet.md"},
+    "red-team-hypostructure-manuscript-repair": {"red-team-checklist.md"},
+    "implement-hypostructure-proof": {"proof-work-packet.md"},
+    "implement-hypostructure-graph-proof": {"graph-proof-work-packet.md"},
+    "implement-hypostructure-pde-proof": {"pde-proof-work-packet.md"},
+    "extend-hypostructure-framework": {"extension-work-packet.md"},
+    "review-hypostructure-framework-change": {
+        "framework-review-checklist.md"
+    },
 }
 
 
@@ -49,9 +62,17 @@ def frontmatter(content: str) -> dict[str, str]:
 
 
 def quoted_yaml_value(content: str, key: str) -> str:
-    match = re.search(rf'^\s+{re.escape(key)}: "(?P<value>.*)"$', content, re.MULTILINE)
+    match = re.search(
+        rf'^\s+{re.escape(key)}: "(?P<value>.*)"$',
+        content,
+        re.MULTILINE,
+    )
     assert match is not None
     return match.group("value")
+
+
+def normalized(name: str) -> str:
+    return " ".join(read_skill(name).split())
 
 
 def test_skill_inventory_and_metadata_are_complete() -> None:
@@ -81,7 +102,16 @@ def test_skill_inventory_and_metadata_are_complete() -> None:
         )
         assert not (directory / "scripts").exists()
         assert not (directory / "assets").exists()
-        assert (directory / "references").exists() == (name in SKILLS_WITH_REFERENCES)
+
+        expected_references = REFERENCE_FILES.get(name)
+        references = directory / "references"
+        if expected_references is None:
+            assert not references.exists()
+        else:
+            assert references.is_dir()
+            assert {
+                path.name for path in references.iterdir() if path.is_file()
+            } == expected_references
 
         ui = (directory / "agents/openai.yaml").read_text(encoding="utf-8")
         assert ui.startswith("interface:\n")
@@ -93,312 +123,274 @@ def test_skill_inventory_and_metadata_are_complete() -> None:
         short_description = quoted_yaml_value(ui, "short_description")
         default_prompt = quoted_yaml_value(ui, "default_prompt")
         assert 25 <= len(short_description) <= 64
-        assert f"${name}" in default_prompt
+        assert "$" + name in default_prompt
 
-    assert total_description_length < 8000
+    assert total_description_length < 14000
 
 
-def test_each_ct_skill_tracks_its_live_contract_and_fixture() -> None:
-    catalog = json.loads(
-        (ROOT / "generated/lean-machines.json").read_text(encoding="utf-8")
-    )
-    catalog_ids = {tactic["tacticId"] for tactic in catalog["tactics"]}
-    assert catalog_ids == {f"CT{number}" for number in range(1, 18)}
-
-    for name, tactic_id in CT_SKILLS.items():
+def test_skill_links_resolve() -> None:
+    for name in EXPECTED_SKILLS:
         skill = read_skill(name)
-        assert f'select(.tacticId == "{tactic_id}")' in skill
-        assert f"{tactic_id}/Automation.lean" in skill
-        assert f"Examples/{tactic_id}AutomationFirst.lean" in skill
-        assert "The framework owns" in skill
-        assert "polynomial" in skill.lower()
-        assert "terminal" in skill.lower()
-        assert "trace" in skill.lower()
+        for reference in re.findall(
+            r"(?<!/)references/[a-zA-Z0-9_.-]+\.md", skill
+        ):
+            assert (SKILLS_ROOT / name / reference).is_file()
+        for target_path in re.findall(r"\]\(([^)]+)\)", skill):
+            if "://" not in target_path and not target_path.startswith("#"):
+                assert (SKILLS_ROOT / name / target_path).resolve().is_file()
+        for target in re.findall(
+            r"\$([a-z0-9]+(?:-[a-z0-9]+)+)(?![A-Za-z0-9-])",
+            skill,
+        ):
+            assert target in EXPECTED_SKILLS
 
 
-def test_ct_skills_encode_the_specialized_reuse_surfaces() -> None:
-    required_by_skill = {
-        "implement-structural-exhaustion-ct1": (
-            "TargetCertificateEncoding",
-            "TargetEncoding",
-            "workBound",
-        ),
-        "implement-structural-exhaustion-ct2": (
-            "LocalDeletionCapability",
-            "Capability.deletionOnly",
-            "localDeletionBudget",
-        ),
-        "implement-structural-exhaustion-ct3": (
-            "TargetCompressionContract",
-            "response_correct",
-            "localCheckBound",
-        ),
-        "implement-structural-exhaustion-ct4": ("FunctionalCardinalityProfile",),
-        "implement-structural-exhaustion-ct6": ("ActiveLedgerRun",),
-        "implement-structural-exhaustion-ct9": (
-            "OverloadedRun",
-            "ParityCapacityOneSpec",
-        ),
-        "implement-structural-exhaustion-ct11": ("NegativeBudgetProfile",),
-        "implement-structural-exhaustion-ct12": ("ListPeeling",),
+def test_legacy_skill_names_and_production_paths_are_removed() -> None:
+    forbidden_names = (
+        "design-structural-exhaustion-proof",
+        "implement-structural-exhaustion-ct",
+        "implement-structural-exhaustion-route",
+        "repair-structural-exhaustion-manuscript",
+        "red-team-structural-exhaustion-manuscript-repair",
+    )
+    parity_only = {
+        "implement-next-hypostructure-erdos-64-eg-ct",
+        "review-hypostructure-erdos-64-eg-expansion",
+        "maintain-hypostructure-migration",
     }
-    for name, declarations in required_by_skill.items():
+
+    for name in EXPECTED_SKILLS:
         skill = read_skill(name)
-        for declaration in declarations:
-            assert declaration in skill
+        assert not any(forbidden in skill for forbidden in forbidden_names)
+        assert "generated/lean-machines.json" not in skill
+        if name not in parity_only:
+            assert "lean/StructuralExhaustion" not in skill
 
 
-def test_strategy_skill_covers_selection_locality_and_delegation() -> None:
-    skill = read_skill(STRATEGY)
-    for number in range(1, 18):
-        assert f"| CT{number} |" in skill
-    assert "implement-structural-exhaustion-ctN/SKILL.md" in skill
-    for declaration in (
-        "Graph.MinimumDegreeCycle.StaticInput",
-        "Graph.EndpointParityCycle.Profile",
-        "Graph.GreedyColoring",
-        "CT1.TargetCertificateEncoding",
-        "CT2.LocalDeletionCapability",
-        "CT3.TargetCompressionContract",
-        "CT4.FunctionalCardinalityProfile",
-        "CT9.ParityCapacityOneSpec",
-        "CT11.NegativeBudgetProfile",
-        "CT12.ListPeeling",
-        "Core.FiniteSaturation.Machine",
-        "Core.PolynomialCheckBudget",
-    ):
-        assert declaration in skill
-    for prohibited_universe in (
-        "all graphs",
-        "all subgraphs",
-        "all colorings",
-        "SimpleGraph V",
-    ):
-        assert prohibited_universe in skill
-    assert "Require the framework registry to resolve every CT transition" in skill
-
-
-def test_route_skill_covers_every_registered_transition_profile() -> None:
-    skill = read_skill(ROUTE)
-    catalog = json.loads(
-        (ROOT / "generated/lean-machines.json").read_text(encoding="utf-8")
-    )
-    assert len(catalog["transitionProfiles"]) == 9
-    for route_phrase, adapter, example in (
-        ("CT1 avoidance to CT2", "MinimalityKernel", "CT1ToCT2AutomationFirst.lean"),
-        (
-            "CT1 avoidance to local-deletion CT2",
-            "LocalDeletionCapability",
-            "CT1ToCT2AutomationFirst.lean",
-        ),
-        (
-            "CT1 C1 terminal to CT12",
-            "SemanticAdapter",
-            "EvenCycleExample/CT12MaximalMatching.lean",
-        ),
-        ("CT2 separating context to CT3", "PieceDiscovery", "CT2ToCT3AutomationFirst.lean"),
-        ("CT2 criticality to CT10", "DataDiscovery", "CT2ToCT10AutomationFirst.lean"),
-        (
-            "CT5 charge ledger to CT14",
-            "no semantic adapter",
-            "CT5ToCT14AutomationFirst.lean",
-        ),
-        ("CT6 active ledger to CT9", "ItemCollectionAdapter", "CT6ToCT9AutomationFirst.lean"),
-        ("CT9 capacity-one overload to CT7", "ObjectAdapter", "CT9ToCT7AutomationFirst.lean"),
-        (
-            "CT14 capacity ledger to CT14",
-            "independently declared target capability",
-            "CT14ToCT14AutomationFirst.lean",
-        ),
-    ):
-        assert route_phrase in skill
-        assert adapter in skill
-        assert example in skill
-
-
-def test_erdos_next_ct_skill_advances_one_unconditional_stage() -> None:
-    skill = read_skill(ERDOS_NEXT_CT)
-
-    for authority in (
-        "proofs/erdos_64_eg/erdos_64_proof.tex",
-        "Erdos64EG/OfficialStatement.lean",
-        "Erdos64EG/InternalProblem.lean",
-        "Proof-dependency diagram",
-        "Detailed dependency table",
-        "generated/lean-machines.json",
-        "design-structural-exhaustion-proof/SKILL.md",
-        "implement-structural-exhaustion-ctN/SKILL.md",
-    ):
-        assert authority in skill
-
-    for one_stage_guardrail in (
-        "Advance exactly one CT per invocation",
-        "first dependency-ready manuscript stage that fails the audit",
-        "caller-supplied contract",
-        "preceding execution result",
-        "Do not start a second CT",
-    ):
-        assert one_stage_guardrail in skill
-
-    for rigorous_output in (
-        "public framework runner",
-        "terminal-indexed outcome",
-        "typed trace",
-        "semantic soundness",
-        "totality",
-        "Core.PolynomialCheckBudget",
-    ):
-        assert rigorous_output in skill
-
-
-def test_erdos_next_ct_skill_keeps_tex_lean_and_web_bidirectionally_indexed() -> None:
-    skill = read_skill(ERDOS_NEXT_CT)
-    normalized = " ".join(skill.split())
-
-    for authority in (
-        "Erdos64EG/WebExport.lean",
-        "generated/examples/erdos-64.json",
-        "ExampleProofStepDescriptor",
-        "ExampleDeclarationGroup",
-        "erdosManuscript",
-    ):
-        assert authority in skill
-
-    for invariant in (
-        "Maintain the bidirectional TeX--Lean--web index",
-        "never put Lean declaration names or implementation status in a LaTeX label",
-        "The union of `p`'s declaration groups must equal `D(s)`",
-        "Every displayed stage must map to exactly one proof step",
-        "TeX label or diagram node -> proof step -> workflow stage",
-        "selected Lean declaration -> declaration group and role",
-        "explainedDeclarations == displayedDeclarations",
-        "instead of hand-editing generated JSON",
-        "recorded in TeX, Lean, and the generated web projection",
-    ):
-        assert invariant in normalized
-
-
-def test_erdos_next_ct_skill_requires_transfer_and_current_state_log() -> None:
-    skill = read_skill(ERDOS_NEXT_CT)
-    normalized = " ".join(skill.split())
-
-    for transfer_requirement in (
-        "non-Erdős problem instantiation",
-        "standard textbook graph theorem",
-        "does not alone satisfy this problem-transfer requirement",
-        "builds as an external example package",
-        "Reuse the generalized graph/core material",
-    ):
-        assert transfer_requirement in normalized
-
-    assert "examples/erdos_64_eg/IMPLEMENTATION_LOG.md" in skill
-    for log_field in (
-        "manuscript section, theorem labels, and diagram nodes",
-        "provenance chain from the official problem through prior CT outputs",
-        "runner, terminal or residual, typed trace, semantic theorem, totality",
-        "Reconcile the whole ledger against the compiled Lean declarations",
-        "next dependency-ready manuscript section",
-        "If validation fails, leave the verified frontier unchanged",
-    ):
-        assert log_field in normalized
-
-    for layer_rule in (
-        "examples/erdos_64_eg",
-        "lean/StructuralExhaustion/Graph",
-        "API design error",
-        "Never put Erdős names or constants in `Core`",
-    ):
-        assert layer_rule in normalized
-
-    for prohibited_global_search in (
-        "all `SimpleGraph V`",
-        "all subgraphs",
-        "all colorings",
-        "all ambient contexts",
-    ):
-        assert prohibited_global_search in normalized
-
-
-def test_erdos_skills_freeze_the_original_diagram_topology() -> None:
-    for name in (ERDOS_NEXT_CT, ERDOS_REVIEW):
-        normalized = " ".join(read_skill(name).split())
-        for guardrail in (
-            "`original_erdos_64_proof.tex`",
-            "Never add, rename, split, merge",
-            "never edit that file",
-            "existing directed edge",
-            "source node",
-            "target node",
-            "branch label",
-            "internal helper",
-            "new consumer",
-        ):
-            assert guardrail.lower() in normalized.lower()
-
-    review = " ".join(read_skill(ERDOS_REVIEW).split())
-    assert "any difference fails the review" in review.lower()
-
-
-def test_erdos_skills_require_complete_node_obligation_ledgers() -> None:
-    for name in (ERDOS_NEXT_CT, ERDOS_REVIEW):
-        normalized = " ".join(read_skill(name).split()).lower()
+def test_each_ct_skill_is_live_status_aware() -> None:
+    framework_root = ROOT / "hypostructure/Hypostructure"
+    for name, tactic_id in CT_SKILLS.items():
+        assert (framework_root / tactic_id).is_dir()
+        skill = read_skill(name)
+        lower = skill.lower()
         for requirement in (
-            "complete obligation ledger",
-            "stable task id",
-            "every asserted object",
-            "every unfinished task",
-            "removing a node from `formalizednodeids` alone",
-            "web",
+            "migration/hypostructure/api-feature-matrix.csv",
+            f"hypostructure/hypostructure/{tactic_id.lower()}",
+            "core.residual.query",
+            "$extend-hypostructure-framework",
+            "terminal",
+            "trace",
+            "total",
+            "work",
+            "fixture",
         ):
-            assert requirement in normalized
+            assert requirement.lower() in lower
+        assert "application" in lower
+        assert any(word in lower for word in ("do not", "forbid", "never"))
 
 
-def test_erdos_skills_require_the_mandatory_node_authoring_contract() -> None:
-    template = (
-        SKILLS_ROOT
-        / ERDOS_NEXT_CT
-        / "references"
-        / "mandatory-node-template.md"
-    )
-    assert template.is_file()
-    contract = " ".join(template.read_text(encoding="utf-8").split()).lower()
+def test_ct_suite_covers_every_tactic_role() -> None:
+    expected_roles = {
+        "CT1": "target",
+        "CT2": "deletion",
+        "CT3": "response",
+        "CT4": "charging",
+        "CT5": "witness",
+        "CT6": "failure",
+        "CT7": "context",
+        "CT8": "repetition",
+        "CT9": "fibre",
+        "CT10": "classification",
+        "CT11": "negative",
+        "CT12": "peeling",
+        "CT13": "fallback",
+        "CT14": "aggregate",
+        "CT15": "rank",
+        "CT16": "support",
+        "CT17": "compatibility",
+    }
+    for name, tactic_id in CT_SKILLS.items():
+        assert expected_roles[tactic_id] in read_skill(name).lower()
 
-    for name in (ERDOS_NEXT_CT, ERDOS_REVIEW, "design-structural-exhaustion-proof"):
-        assert "mandatory-node-template.md" in read_skill(name)
 
+def test_design_and_route_skills_cover_live_framework_contracts() -> None:
+    design = read_skill("design-hypostructure-proof")
+    for number in range(1, 18):
+        assert f"| CT{number} |" in design
     for requirement in (
-        "one full accumulated framework ledger",
-        "retrieve; never rederive or copy",
-        "output contains only mathematics first established by that node",
-        "one compositional",
-        "stageentails",
-        "never introduce an erdős-specific sum, route, exceptional case",
-        "extends core.exacthandoff",
-        "caller-supplied account",
-        "any `no` keeps the node yellow",
+        "HYPOSTRUCTURE_MIGRATION_GUIDE.md",
+        "migration/hypostructure/api-feature-matrix.csv",
+        "$understand-hypostructure-framework",
+        "$implement-hypostructure-ctN",
+        "$extend-hypostructure-framework",
+        "Core.Residual",
+        "Graph",
+        "PDE",
+    ):
+        assert requirement in design
+
+    route = normalized("implement-hypostructure-route").lower()
+    for requirement in (
+        "routes.registry",
+        "core.routing.profile",
+        "core.routing.transition",
+        "routes.accumulated",
+        "baseline",
+        "planned",
+        "literal",
+        "provenance",
+        "semantic discovery",
+        "$extend-hypostructure-framework",
+    ):
+        assert requirement in route
+
+
+def test_framework_orientation_and_implementation_skills_are_complete() -> None:
+    required = {
+        "understand-hypostructure-framework": (
+            "DOMAIN_INDEPENDENT_CORE.md",
+            "GRAPH_LAYER_API.md",
+            "PDE_LAYER_API.md",
+            "specified",
+            "kernel checked",
+            "Core.Provision",
+            "Routes.Registry",
+        ),
+        "implement-hypostructure-proof": (
+            "Core.Problem",
+            "Core.Residual.Ledger.initial",
+            "Core.Residual.Query",
+            "Core.Routing.Profile",
+            "Core.PolynomialCheckBudget",
+            "Core.Metadata",
+            "#print axioms",
+        ),
+        "implement-hypostructure-graph-proof": (
+            "GRAPH_LAYER_API.md",
+            "Graph.FiniteObject",
+            "Graph.TargetInterface",
+            "SimpleGraph V",
+            "Hypostructure.Graph.CTN",
+            "#print axioms",
+        ),
+        "implement-hypostructure-pde-proof": (
+            "PDE_LAYER_API.md",
+            "pde-row-matrix.csv",
+            "PDE.LocalModel",
+            "PDE.LocalAtlas",
+            "continuum",
+            "Hypostructure.PDE.CTN",
+            "Navier-Stokes",
+        ),
+        "extend-hypostructure-framework": (
+            "Core.Provision",
+            "Core.Metadata",
+            "Spec",
+            "Capability",
+            "Automation",
+            "Core.Routing.Profile",
+            "decision record",
+            "$review-hypostructure-framework-change",
+        ),
+        "review-hypostructure-framework-change": (
+            "parameterization test",
+            "Core.Provision",
+            "Core.Metadata",
+            "Core.Routing.Profile",
+            "Routes.Registry.Entry",
+            "Core.PolynomialCheckBudget",
+            "#print axioms",
+            "PASS",
+            "FAIL",
+        ),
+    }
+    for name, requirements in required.items():
+        skill = read_skill(name)
+        for requirement in requirements:
+            assert requirement.lower() in skill.lower()
+
+
+def test_erdos_migration_skills_use_new_packages_and_evidence() -> None:
+    for name in (
+        "implement-next-hypostructure-erdos-64-eg-ct",
+        "review-hypostructure-erdos-64-eg-expansion",
+    ):
+        skill = normalized(name).lower()
+        for requirement in (
+            "examples/hypostructure_erdos_64_eg",
+            "migration/hypostructure/eg-node-matrix.csv",
+            "original_erdos_64_proof.tex",
+            "literal",
+            "accumulated",
+            "parity",
+            "framework gap",
+            "trust",
+        ):
+            assert requirement in skill
+
+    contract = (
+        SKILLS_ROOT
+        / "implement-next-hypostructure-erdos-64-eg-ct"
+        / "references/mandatory-node-template.md"
+    ).read_text(encoding="utf-8").lower()
+    for requirement in (
+        "literal predecessor",
+        "accumulated ledger",
+        "typed quer",
+        "author primitive",
+        "framework output",
+        "every outcome",
+        "work",
     ):
         assert requirement in contract
 
 
-def test_erdos_skills_require_framework_automation_patterns() -> None:
-    for name in (ERDOS_NEXT_CT, ERDOS_REVIEW):
-        normalized = " ".join(read_skill(name).split()).lower()
-        for requirement in (
-            "binding implementation specification",
-            "residual refinement",
-            "routing",
-            "provenance",
-            "support recognition",
-            "thin",
-        ):
-            assert requirement in normalized
+def test_migration_skill_preserves_evidence_separation_and_cutover() -> None:
+    skill = normalized("maintain-hypostructure-migration").lower()
+    for requirement in (
+        "hypostructure_migration_guide.md",
+        "api-feature-matrix.csv",
+        "eg-node-matrix.csv",
+        "pde-row-matrix.csv",
+        "baseline",
+        "parity",
+        "math",
+        "work",
+        "trust-allowlist.json",
+        "decision",
+        "dual-run",
+        "cutover",
+        "update_hypostructure_migration_records.py",
+        "check_hypostructure_imports.py",
+    ):
+        assert requirement in skill
 
-    red_team = " ".join(
-        read_skill("red-team-structural-exhaustion-manuscript-repair").split()
+
+def test_manuscript_repair_skills_retain_total_residual_audit() -> None:
+    repair = normalized("repair-hypostructure-manuscript").lower()
+    red_team = normalized(
+        "red-team-hypostructure-manuscript-repair"
     ).lower()
-    assert "attack framework-pattern deviations" in red_team
-    assert "blocks pass" in red_team
-    assert "application-local abstractions" in red_team
+    for requirement in (
+        "exact incoming",
+        "residual",
+        "both-sides",
+        "typed",
+        "consumer",
+        "termination",
+        "$red-team-hypostructure-manuscript-repair",
+    ):
+        assert requirement in repair
+    for requirement in (
+        "quantifier",
+        "residual",
+        "hidden assumption",
+        "every outcome",
+        "trust",
+        "pass",
+        "fail",
+    ):
+        assert requirement in red_team
 
 
 def test_live_erdos_diagram_preserves_original_topology() -> None:
@@ -426,82 +418,7 @@ def test_live_erdos_diagram_preserves_original_topology() -> None:
 
     original = diagram_source(ROOT / "original_erdos_64_proof.tex")
     live = diagram_source(ROOT / "proofs/erdos_64_eg/erdos_64_proof.tex")
-
-    # This also rejects unnumbered progress boxes disguised as internal nodes.
     assert node_anchors(live) == node_anchors(original)
-    # Endpoints, direction, and every branch label are immutable.
     assert normalized_commands(r"(\\draw\b.*?;)", live) == normalized_commands(
         r"(\\draw\b.*?;)", original
     )
-
-
-def test_erdos_expansion_review_skill_audits_and_repairs_the_full_claim() -> None:
-    skill = read_skill(ERDOS_REVIEW)
-    normalized = " ".join(skill.split())
-
-    for authority in (
-        "implement-next-erdos-64-eg-ct/SKILL.md",
-        "design-structural-exhaustion-proof/SKILL.md",
-        "implement-structural-exhaustion-ctN/SKILL.md",
-        "proofs/erdos_64_eg/erdos_64_proof.tex",
-        "OfficialStatement.lean",
-        "InternalProblem.lean",
-        "WebExport.lean",
-        "generated/lean-machines.json",
-        "generated/examples/erdos-64.json",
-    ):
-        assert authority in skill
-
-    for unconditional_guardrail in (
-        "Do not implement the next CT",
-        "public endpoint",
-        "exact preceding execution output",
-        "public framework runner",
-        "terminal-indexed outcome",
-        "typed path and trace",
-        "semantic soundness",
-        "totality",
-        "#print axioms",
-        "sole permitted external theorem",
-        "Hegde--Sandeep--Shashank",
-        "previous unconditional frontier",
-    ):
-        assert unconditional_guardrail in normalized
-
-    for manuscript_sync in (
-        "repair the paper only with mathematics already kernel-verified",
-        "Never weaken or rewrite the paper merely to conceal an unproved Lean obligation",
-        "TeX label or diagram node -> proof step -> workflow stage",
-        "Lean declaration -> declaration group and role",
-        "explainedDeclarations == displayedDeclarations",
-        "ExampleDeclarationGroup",
-        "make export",
-        "IMPLEMENTATION_LOG.md",
-    ):
-        assert manuscript_sync in normalized
-
-    for architecture_rule in (
-        "Apply the parameterization test declaration by declaration",
-        "`Core`",
-        "That CT namespace",
-        "`Routes`",
-        "`Graph`",
-        "named textbook example",
-        "exact new graph/core/CT/route profile",
-        "Core.PolynomialCheckBudget",
-        "all `SimpleGraph V`",
-        "recursively expanding frontier",
-    ):
-        assert architecture_rule in normalized
-
-    for validation in (
-        "make lint",
-        "make framework-build",
-        "make erdos-example-build",
-        "make example-build",
-        "tests/test_example_catalog.py",
-        "make web-frontend-test",
-        "latexmk",
-        "git diff --check",
-    ):
-        assert validation in skill

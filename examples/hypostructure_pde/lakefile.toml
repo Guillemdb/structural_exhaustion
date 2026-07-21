@@ -1,0 +1,10 @@
+name = "hypostructure_pde"
+version = "0.1.0"
+defaultTargets = ["HypostructurePDEExamples"]
+
+[[require]]
+name = "hypostructure"
+path = "../../hypostructure"
+
+[[lean_lib]]
+name = "HypostructurePDEExamples"

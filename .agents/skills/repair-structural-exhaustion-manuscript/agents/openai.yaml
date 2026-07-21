@@ -1,4 +1,0 @@
-interface:
-  display_name: "Repair Structural-Exhaustion Manuscript"
-  short_description: "Close manuscript defects by typed residual branches"
-  default_prompt: "Use $repair-structural-exhaustion-manuscript to autonomously derive every missing local lemma and repair this manuscript defect through a locally closed structural-exhaustion branch; never ask me to supply an absent repair lemma."
