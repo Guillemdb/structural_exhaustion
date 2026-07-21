@@ -49,20 +49,20 @@ private theorem node48RemainderRatePositive :
     (0 : ℝ) < node25RemainderRateNumerator := by
   norm_num [node25RemainderRateNumerator]
 
-/-- Product-cost fit in the exact finite form consumed by node [54], once
-the node-[32] no branch has ruled out strict realized product failure.  The
-table factors are selected through node [21]'s named `(1,1)` certificate and
-Core owns the conditional-fibre telescope. -/
-private theorem node48_forcedPowerFit_of_noProductDrop {V : Type u}
+/-! The product-fit payload is produced here, where the paper's full-rank
+edge is available.  The conditional-fibre telescope itself is framework
+owned; this declaration only transports its conclusion to the node-48
+ledger and introduces no new carrier or route. -/
+theorem node48_forcedPowerFit_of_noProductDrop {V : Type u}
     {residual : InitialResidual V} {node18 : Node18Stage residual}
     {bounded : Node19Low residual node18}
     {node21 : Node21Output node18 bounded}
+    (noProductDrop :
+      ¬ P13RealizedCurvatureProductDrop node18 bounded node21)
     (fullRank :
       p13CurvatureTargetRank (Node21Context node18) =
         (p13CurvatureCoordinates
-          (Node21Context node18)).toOrderedCollection.values.length)
-    (noProductDrop :
-      ¬ P13RealizedCurvatureProductDrop node18 bounded node21) :
+          (Node21Context node18)).toOrderedCollection.values.length) :
     543958 ^ p13CurvatureTargetRank (Node21Context node18) ≤
       111286 ^ p13CurvatureTargetRank (Node21Context node18) *
         Nat.card (P13RealizedRemainderState node18 bounded node21) := by

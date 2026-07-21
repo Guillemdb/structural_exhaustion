@@ -418,16 +418,16 @@ describe("ExamplePage", () => {
     expect(screen.getByText("Verified EG proof flow")).toBeVisible();
     expect(screen.getByText("157-node proof dependency map")).toBeVisible();
     expect(screen.getByLabelText(
-      /Node 1: finite simple graph G\. Formalized in Lean/,
+      /Node 1: finite simple graph G\. Kernel-checked NodeX\.lean file/,
     )).toBeVisible();
     expect(screen.getByLabelText(
-      /Node 2: counterexample.*Partially formalized in Lean/,
+      /Node 2: counterexample.*NodeX\.lean exists but is not kernel checked/,
     )).toBeVisible();
     expect(screen.getByText("partially formalized")).toBeVisible();
     expect(document.querySelector('[aria-label^="Node 157:"]')).toBeVisible();
 
     fireEvent.click(screen.getByLabelText(
-      /Node 2: counterexample.*Partially formalized in Lean/,
+      /Node 2: counterexample.*NodeX\.lean exists but is not kernel checked/,
     ));
     expect(screen.getByLabelText(
       /\d+ of \d+ obligations proved; \d+ remaining/,
@@ -453,7 +453,7 @@ describe("ExamplePage", () => {
     expect(within(partialLedger).getAllByRole("listitem")).toHaveLength(1);
 
     fireEvent.click(screen.getByLabelText(
-      /Node 1: finite simple graph G\. Formalized in Lean/,
+      /Node 1: finite simple graph G\. Kernel-checked NodeX\.lean file/,
     ));
     const fullImplementation = screen.getByRole("region", { name: "Full Lean implementation" });
     expect(fullImplementation).toBeVisible();

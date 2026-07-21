@@ -295,6 +295,15 @@ def main() -> None:
         manuscript["formalizedNodeIds"] = [
             node_id for node_id in ids if node_id not in unavailable_nodes
         ]
+    else:
+        missing_nodes = {
+            int(obligation["nodeId"])
+            for obligation in obligations
+            if obligation["status"] == "missing"
+        }
+        manuscript["formalizedNodeIds"] = [
+            node_id for node_id in ids if node_id not in missing_nodes
+        ]
     manuscript["nodeObligations"] = obligations
     raw_path.write_text(json.dumps(raw, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     unchecked_existing = sorted(existing_node_ids - checked_node_ids)

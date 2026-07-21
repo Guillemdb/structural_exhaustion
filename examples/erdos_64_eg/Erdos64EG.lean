@@ -1,6 +1,15 @@
 import Erdos64EG.OfficialStatement
-import Erdos64EG.Node56
+import Erdos64EG.Node60
 import Erdos64EG.Node147
+import Erdos64EG.Node148
+import Erdos64EG.Node149
+import Erdos64EG.Node150
+import Erdos64EG.Node151
+import Erdos64EG.Node152
+import Erdos64EG.Node153
+import Erdos64EG.Node154
+import Erdos64EG.Node155
+import Erdos64EG.Node156
 
 /-!
 Structural-exhaustion implementation of the current Erdős Problem 64 proof
@@ -142,12 +151,12 @@ remainder, and the degree-four Type B chain implements nodes `[80]`--`[83]`
 with certificate provenance fixed before CT12 completion.  Its unresolved,
 remaining-negative, and minimal-overlap outputs remain explicit residuals;
 node `[75]` proves that every ordinary residual center is paid by an actual
-    assigned surplus unit.  The fresh remainder-curvature chain kernel-checks the
-    local responsibilities of nodes `[25]`--`[60]` through framework-owned
-decision and focused-branch carriers.  It includes the signed surplus
-inequality, literal wedge count, admitted-rank circuit, original-interface
-audit, proper-support closure, and whole-support barrier.  These nodes remain
-    conditional (yellow), rather than green, until the explicit typed inputs at
-    nodes `[21]`, `[23]`, `[35]`, `[48]`, `[52]`, `[54]`, `[56]`, and `[57]` are
-    replaced by direct producers.
+assigned surplus unit.  The fresh remainder-curvature chain kernel-checks the
+local responsibilities of nodes `[25]`--`[60]` through framework-owned
+decision and focused-branch carriers.  Nodes `[57]` and `[58]` now consume the
+literal predecessor residuals: node `[57]` retains the large-budget net cap
+from node `[56]`, and node `[58]` only names the quarter-scaled net charge
+before the paper's node-`[59]` sign decision.  Node `[59]` is the framework
+dependent sign split, and node `[60]` closes its nonnegative branch by the
+strict net-cap certificate already carried from node `[57]`.
 -/

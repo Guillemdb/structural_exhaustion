@@ -97,6 +97,44 @@ abbrev Node29Stage {V : Type u} (residual : InitialResidual V) :=
     (fun _residual node18 bounded node21 low =>
       Node29Output node18 bounded node21 low) residual
 
+/-- Node [29]'s reusable ledger consequence in the exact finite form later
+needed by node [56]: the actual remainder numerator `def⁺(R)-σ_R` is bounded
+by the packing/window budget transported along the same residual. -/
+def Node29RemainderNetBudgetAvailable {V : Type u}
+    (residual : InitialResidual V) : Prop :=
+  ∀ (node18 : Node18Stage residual)
+    (bounded : Node19Low residual node18)
+    (node21 : Node21Output node18 bounded)
+    (_low : Node22Low residual node18 bounded node21),
+    (p13RemainderCurvatureProfile (Node21Context node18)).positiveDeficiency -
+        Graph.InducedPathWindowLedger.remainderSurplus
+          (Node21Context node18).G.object ≤
+      15 * Graph.InducedPathWindowLedger.packingNumber
+          (Node21Context node18).G.object +
+        Graph.InducedPathWindowLedger.windowSurplus
+          (Node21Context node18).G.object -
+        Graph.InducedPathWindowLedger.remainderSurplus
+          (Node21Context node18).G.object
+
+theorem node29RemainderNetBudgetAvailable {V : Type u}
+    {residual : InitialResidual V} :
+    Node29RemainderNetBudgetAvailable residual := by
+  intro node18 _bounded _node21 _low
+  let ctx := Node21Context node18
+  exact
+    Graph.InducedPathWindowLedger.remainderPositiveDeficiency_sub_remainderSurplus_le
+      ctx.G.object
+      (fun vertex => ctx.baseline.trans
+        (ctx.G.object.minDegree_le_degree vertex))
+
+/-- Register node [29]'s finite net-budget ledger consequence once at its
+producer.  Later nodes retrieve this through Core queries rather than
+reopening incidence accounting. -/
+instance node29StageEntailsRemainderNetBudgetAvailable {V : Type u} :
+    Core.ResidualRefinement.State.StageEntails
+      (@Node29Stage V) (@Node29RemainderNetBudgetAvailable V) where
+  prove := fun _stage => node29RemainderNetBudgetAvailable
+
 noncomputable def node29P13ExternalIncidenceSupply {V : Type u} {facts}
     [Core.ResidualRefinement.Proofs.Contains
       (Core.ResidualRefinement.State.Available (@Node28Stage V)) facts] :

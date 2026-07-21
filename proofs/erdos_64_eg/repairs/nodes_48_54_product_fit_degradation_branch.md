@@ -2,12 +2,12 @@
 
 ## Status and scope
 
-This is a level-2 structural repair worksheet.  It does not modify
-`original_erdos_64_proof.tex`, the live manuscript, the Lean development, or
-the web diagram.  It freezes the gap between the full curvature-rank output
-and the powered entropy comparison, and designs an exhaustive branch that
-uses only the existing residual, its accumulated ledger, and framework-owned
-routing.
+This is the implemented level-2 structural repair overlay.  It does not
+modify `original_erdos_64_proof.tex` or the topology of the original numbered
+diagram.  The Lean development and web evidence expose it separately.  It
+freezes the gap between the full curvature-rank output and the powered entropy
+comparison and exhausts it using only the existing residual, its accumulated
+ledger, and framework-owned routing.
 
 The repair deliberately does **not** request a graph switching theorem.  It
 applies the methodology's hypothesis-extraction rule: the extra hypothesis
@@ -34,7 +34,8 @@ is to decide the product-fit statement on the current residual.
 
 ## Exact incoming state
 
-The split is executed only on the literal residual reaching node [48].  The
+The split is executed only on the literal node-[53] small-budget leaf, the
+first consumer that actually requires product fit.  The
 single accumulated ledger already contains:
 
 - the fixed minimal target-avoiding graph and its selected induced-`P13`
@@ -86,37 +87,27 @@ All four blanks of the methodology's both-sides test are filled.  The split
 spends only recorded finite data and therefore passes the
 bookkeeping-versus-new-theorem test.
 
-## Directed repair flow
+## Implemented directed repair flow
 
 ```text
-node [47]: full curvature target rank
-                  |
-                  v
-      framework decision: ProductFit?
-           / yes                    \ no
-          v                          v
- node [48]: powered cost       CurvatureCostUnpaid
-          |                          |
-          v                          | forget only curvature currency
- original Part-IV flow               | preserve the complete residual ledger
- [49] -> [50] -> [51]/[53]           v
-          |                       robust window-only interface
-          +----> [54] closes          at node [56]
-          |
-          +----> [55] -> [56] <-------+
-                         |
-                         v
-             existing net-charge/local-analysis chain
-             CT5 -> CT11 -> Type A / Type B consumers
-                         |
-                    C1--C5 closure
+[47] -> [48] -> [49] -> [50] -> [51]/[53]
+                                  |
+                         [53] small: ProductFit?
+                            / yes          \ no
+                           v                v
+                    [54] closes     typed fit-failure
+                                             \
+[53] large -> [55] --------------------------> [56]
+                                                   |
+                                                   v
+                                      existing Part-V continuation
 ```
 
-The negative edge does not pretend to satisfy `Node53Large`.  It bypasses
-nodes [48]--[55], whose only new role is curvature/entropy routing, and enters
-the common node-[56] interface directly.  This distinction is essential:
-failure to pay curvature cost does not imply the node-[53] large-budget
-inequality.
+The negative edge does not pretend to satisfy `Node53Large`.  Nodes [48]--[53]
+remain unchanged; node [55] is executed only on the literal large-budget
+constructor.  Core preserves the failed guard independently and rejoins both
+live reasons at node [56].  This distinction is essential: failure to pay
+curvature cost does not imply the node-[53] large-budget inequality.
 
 ## Why node [56] is the correct join
 
@@ -218,23 +209,26 @@ This refinement is not required for correctness of the repair.  It must not
 delay or condition the robust node-[56] handoff, and it must not introduce a
 second residual carrier.
 
-## Required framework changes before Lean implementation
+## Implemented framework interface
 
-1. Provide a generic decision combinator that appends `P` or `not P` to the
+1. `terminalizeGuardOrDegrade` appends `P` or `not P` to the
    one accumulated residual and preserves every previous fact.
-2. Provide a generic **degradation projection**: a branch may forget an
+2. `continueGuardedDegradationAlternate` lets the original alternate branch
+   receive its paper-local payload while preserving guard failure unchanged.
+3. `mergeGuardedDegradation` supplies a generic **degradation projection**:
+   a branch may forget an
    unusable optional currency/certificate and expose a weaker consumer
    trigger already entailed by the ledger.
-3. Provide a generic join on equal consumer triggers.  The two producers may
+4. The same executor provides a generic join on equal consumer triggers.  The two producers may
    carry different branch reasons, but application code sees only the common
    `WindowOnlyNetChargeInput`.
-4. Make node [56] consume that common trigger, not the historical
+5. Node [56] consumes that common trigger, not the historical
    `Node55Active` shape and not `Node55Output.largeBudget`.
-5. Preserve the original node-[53] no branch and node [55] statement.  Their
+6. The original node-[53] no branch and node [55] statement remain.  Their
    ledger still records the large-budget fact even though the common
    downstream node-[56] theorem does not need it.
-6. Record product-fit provenance only on the positive branch.  Nodes [48]
-   and [54] must be unable, by type, to retrieve it on the degradation branch.
+7. Product-fit provenance occurs only in node [54]'s guarded terminal proof;
+   its negation is retained on the degradation branch.
 
 These are framework-level residual operations.  The Erdős layer supplies
 only the local proposition `ProductFit` and the proof that the incoming
@@ -244,14 +238,14 @@ ledger entails `WindowOnlyNetChargeInput`.
 
 | ID | Obligation | Owner | Status |
 |---|---|---|---|
-| PF-1 | Define `ProductFit` from the literal incoming residual-owned finite data. | Erdős node-local statement | ready from existing quantities |
-| PF-2 | Decide `ProductFit` without enumerating ambient graphs or universes. | Core finite decision | ready in principle |
-| PF-3 | On `ProductFit`, construct exactly the powered certificate consumed by node [48]/[54]. | existing Core powered-budget machinery | existing arithmetic; reconnect required |
-| PF-4 | On `not ProductFit`, retain a proof-relevant negative constructor. | Core decision carrier | framework work |
-| DG-1 | Project `WindowOnlyNetChargeInput` from either incoming ledger. | Core entailment/projection | framework work |
-| DG-2 | Prove the projection uses no node-[48] curvature-cost fact and no node-[53] large-budget fact. | dependency audit | supported by current node-[56] body |
-| DG-3 | Join original node-[55] and degradation paths at the same node-[56] trigger. | Core branch join | framework work |
-| NC-1 | Reuse node-[56] finite and real net-deficiency cap. | Erdős instantiation of CT5 | existing local proof |
+| PF-1 | Define `ProductFit` from the literal incoming residual-owned finite data. | Erdős node-local statement | kernel-checked |
+| PF-2 | Decide `ProductFit` without enumerating ambient graphs or universes. | Core finite decision | kernel-checked |
+| PF-3 | On `ProductFit`, construct exactly the powered certificate consumed by node [54]. | existing Core powered-budget machinery | kernel-checked |
+| PF-4 | On `not ProductFit`, retain a proof-relevant negative constructor. | Core decision carrier | kernel-checked |
+| DG-1 | Project the common node-[50] active residual from either incoming ledger. | Core parametric producer | kernel-checked |
+| DG-2 | Ensure the projection uses no curvature-fit fact and no node-[53] large-budget fact. | dependency enforced by producer type | kernel-checked |
+| DG-3 | Join original node-[55] and degradation paths at node [56]. | Core branch join | kernel-checked |
+| NC-1 | Reuse node-[56] finite and real net-deficiency cap. | Erdős instantiation | kernel-checked |
 | NC-2 | Localize negative net charge to an admissible support. | CT11 | original downstream obligation |
 | NC-3 | Route every localized Type A/Type B outcome to C1--C5 or its declared consumer. | existing downstream CT chain | outside this repair's immediate code cut |
 
@@ -259,10 +253,10 @@ ledger entails `WindowOnlyNetChargeInput`.
 
 | Leaf | Result | Consumer | Closure status |
 |---|---|---|---|
-| `ProductFit` and node-[50] high | original nodes [51]--[54] | entropy terminal | unchanged |
-| `ProductFit`, node-[50] low, node-[53] small | original node [54] | powered-budget terminal | unchanged once PF-3 is connected |
-| `ProductFit`, node-[50] low, node-[53] large | original node [55] | common node-[56] trigger | unchanged |
-| `not ProductFit` | curvature-cost-unpaid degradation residual | common node-[56] trigger | designed; DG-1--DG-3 remain |
+| node-[50] high | original nodes [51]--[52] | node-[54] entropy terminal | kernel-checked |
+| `ProductFit`, node-[50] low, node-[53] small | node [54] | powered-budget terminal | kernel-checked |
+| node-[50] low, node-[53] large | node [55] | common node-[56] trigger | kernel-checked |
+| `not ProductFit` on node-[53] small | curvature-cost-unpaid degradation residual | common node-[56] trigger | kernel-checked through node [56] |
 | node-[56] localized Type A/Type B leaves | existing local analysis | C1--C5 / declared consumers | inherited downstream proof obligations |
 
 ## Progress and termination
@@ -294,21 +288,17 @@ transport and local CT execution.
 - Both branches operate on one literal residual and one accumulated ledger.
 - The proposed computation is local and practical.
 
-### Open checks before merger
+### Remaining downstream checks
 
-- Kernel-check the generic degradation projection and common-trigger join.
-- Refactor node [56]'s input type so its mathematical contract exactly matches
-  what its proof consumes.
 - Re-run the dependency audit through the full Type A/Type B closure to ensure
   no later consumer retrieves `Node53Large` indirectly.
-- Red-team every terminal downstream leaf and update TeX--Lean--web evidence
-  only after those checks pass.
+- Red-team every terminal downstream leaf before claiming the later CT11/Type
+  A/Type B closure complete.
 
 ## Verdict
 
-**DESIGN ADMITTED; IMPLEMENTATION NOT YET VERIFIED.**  The repair passes the
-methodology's both-sides and bookkeeping tests.  The decisive design choice
-is to route failed curvature product fit into the paper's existing
-curvature-free net-charge closure, not to prove a graph switching theorem and
-not to force the failure into the node-[53] large-budget inequality.
-
+**KERNEL-VERIFIED THROUGH NODE [56].**  The repair passes the methodology's
+both-sides and bookkeeping tests.  Failed product fit reaches the same
+curvature-independent node-[56] producer as the original large-budget leaf,
+without being mislabeled as that leaf.  The later CT11/Type A/Type B closure
+remains a separate downstream obligation.

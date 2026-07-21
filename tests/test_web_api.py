@@ -32,10 +32,10 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         "nodes": 124,
         "transitions": 108,
         "terminals": 55,
-        "residualKinds": 37,
-        "transitionFamilies": 8,
-        "transitionProfiles": 9,
-        "implementedTransitions": 33,
+        "residualKinds": 54,
+        "transitionFamilies": 28,
+        "transitionProfiles": 29,
+        "implementedTransitions": 9,
         "manualObligations": 0,
     }
     assert [item["tacticId"] for item in response["tactics"]] == [
@@ -57,11 +57,16 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         family["sourceTacticId"] for family in response["transitionFamilies"]
     } == {
         "CT1",
+        "CT10",
+        "CT12",
+        "CT14",
+        "CT15",
         "CT2",
+        "CT3",
         "CT5",
         "CT6",
+        "CT7",
         "CT9",
-        "CT14",
     }
     assert response["exampleVerification"]["exampleCatalogHash"] == (
         response["exampleCatalog"]["catalogHash"]
@@ -81,32 +86,8 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         ("erdos-64", "CT3", "CT1", "frameworkComposition"),
         ("erdos-64", "CT1", "CT12", "registeredTransition"),
         ("erdos-64", "CT12", "CT10", "frameworkComposition"),
-        ("erdos-64", "CT3", "CT15", "frameworkComposition"),
-        ("erdos-64", "CT10", "CT6", "frameworkComposition"),
-        ("erdos-64", "CT6", "CT9", "registeredTransition"),
-        ("erdos-64", "CT9", "CT1", "sharedProblem"),
-        ("erdos-64", "CT1", "CT10", "sharedProblem"),
-        ("erdos-64", "CT10", "CT9", "sharedProblem"),
-        ("erdos-64", "CT9", "CT7", "registeredTransition"),
-        ("erdos-64", "CT7", "CT5", "sharedProblem"),
-        ("erdos-64", "CT5", "CT7", "sharedProblem"),
-        ("erdos-64", "CT7", "CT10", "sharedProblem"),
-        ("erdos-64", "CT10", "CT5", "sharedProblem"),
-        ("erdos-64", "CT10", "CT14", "frameworkComposition"),
-        ("erdos-64", "CT14", "CT12", "frameworkComposition"),
-        ("erdos-64", "CT12", "CT14", "frameworkComposition"),
-        ("erdos-64", "CT5", "CT2", "sharedProblem"),
-        ("erdos-64", "CT2", "CT1", "frameworkComposition"),
-        ("erdos-64", "CT1", "CT10", "frameworkComposition"),
-        ("erdos-64", "CT10", "CT9", "sharedProblem"),
-        ("erdos-64", "CT9", "CT5", "sharedProblem"),
-        ("erdos-64", "CT5", "CT14", "registeredTransition"),
-        ("erdos-64", "CT14", "CT1", "frameworkComposition"),
-        ("erdos-64", "CT1", "CT9", "frameworkComposition"),
-        ("erdos-64", "CT9", "CT14", "frameworkComposition"),
-        ("erdos-64", "CT12", "CT15", "frameworkComposition"),
-        ("erdos-64", "CT15", "CT9", "frameworkComposition"),
-        ("erdos-64", "CT9", "CT10", "frameworkComposition"),
+        ("erdos-64", "CT15", "CT3", "frameworkComposition"),
+        ("erdos-64", "CT15", "CT3", "frameworkComposition"),
         ("even-cycle", "CT6", "CT9", "registeredTransition"),
         ("greedy-coloring", "CT12", "CT4", "scheduleAudit"),
     ]
@@ -115,22 +96,19 @@ def test_artifact_repository_projects_the_generated_framework() -> None:
         and transition["automationDeclarationIds"]
         for transition in response["implementedTransitions"]
     )
-    ct10_to_ct6 = next(
+    ct12_to_ct10 = next(
         transition
         for transition in response["implementedTransitions"]
-        if transition["sourceTacticId"] == "CT10"
-        and transition["targetTacticId"] == "CT6"
+        if transition["sourceTacticId"] == "CT12"
+        and transition["targetTacticId"] == "CT10"
     )
-    assert ct10_to_ct6["exampleId"] == "erdos-64"
-    assert ct10_to_ct6["linkId"] == "proof-slice.labels-surplus-ct6"
-    assert ct10_to_ct6["automationClass"] == "frameworkExecutor"
-    assert ct10_to_ct6["automationDeclarationIds"] == [
-        "StructuralExhaustion.Graph.SurplusPortActivity.run"
+    assert ct12_to_ct10["exampleId"] == "erdos-64"
+    assert ct12_to_ct10["linkId"] == "proof-slice.p13-packing-labels"
+    assert ct12_to_ct10["automationClass"] == "frameworkExecutor"
+    assert ct12_to_ct10["automationDeclarationIds"] == [
+        "StructuralExhaustion.Graph.PackedMinimumDegreeCycle.StaticInput.inducedPathPackingAttachmentPrefix"
     ]
-    assert ct10_to_ct6["evidenceDeclarationIds"] == [
-        "Erdos64EG.Internal.verifiedSparseSurplusPrefix",
-        "Erdos64EG.Internal.VerifiedSparseSurplusPrefix.previous",
-    ]
+    assert ct12_to_ct10["evidenceDeclarationIds"] == []
 
 
 def test_artifact_repository_projects_all_compiled_examples() -> None:
@@ -144,7 +122,7 @@ def test_artifact_repository_projects_all_compiled_examples() -> None:
         "mantel",
     ]
     assert response["examples"][0]["proofStatus"] == "partial"
-    assert response["examples"][1]["workflowCount"] >= 3
+    assert response["examples"][1]["workflowCount"] == 1
 
     even_cycle = repository.example_response("even-cycle")
     assert even_cycle is not None
@@ -176,10 +154,6 @@ def test_artifact_repository_projects_all_compiled_examples() -> None:
     ]
     assert other_registered == [
         ("erdos-64", "CT1.terminal.c1->CT12"),
-        ("erdos-64", "CT6.residual.activeLedger->CT9"),
-        ("erdos-64", "CT9.residual.overload->CT7"),
-        ("erdos-64", "CT5.residual.chargeLedger->CT14"),
-        ("erdos-64", "CT14.residual.capacity->CT14"),
     ]
 
     erdos = repository.examples["erdos-64"]
@@ -382,12 +356,12 @@ def test_api_and_spa_are_served_from_one_application(tmp_path: Path) -> None:
 
             framework = await get("/api/v1/framework")
             assert framework.status_code == 200
-            assert framework.json()["totals"]["transitionFamilies"] == 8
-            assert framework.json()["totals"]["transitionProfiles"] == 9
-            assert framework.json()["totals"]["implementedTransitions"] == 33
+            assert framework.json()["totals"]["transitionFamilies"] == 28
+            assert framework.json()["totals"]["transitionProfiles"] == 29
+            assert framework.json()["totals"]["implementedTransitions"] == 9
             assert any(
-                transition["sourceTacticId"] == "CT10"
-                and transition["targetTacticId"] == "CT6"
+                transition["sourceTacticId"] == "CT12"
+                and transition["targetTacticId"] == "CT10"
                 for transition in framework.json()["implementedTransitions"]
             )
 
@@ -426,7 +400,7 @@ def test_api_and_spa_are_served_from_one_application(tmp_path: Path) -> None:
             assert erdos.status_code == 200
             assert erdos.json()["example"]["schemaVersion"] == "1.4.0"
             assert erdos.json()["example"]["manuscript"]["fragments"]
-            assert erdos.json()["example"]["manuscript"]["coverage"]["verifiedDiagramNodes"] == 39
+            assert erdos.json()["example"]["manuscript"]["coverage"]["verifiedDiagramNodes"] == 56
             assert erdos.json()["example"]["manuscript"]["coverage"]["totalDiagramNodes"] == 157
 
             erdos_history = await get("/api/v1/examples/erdos-64/history")

@@ -149,23 +149,44 @@ def main() -> None:
                 descriptor_path.read_bytes()
             ).hexdigest()
 
-        used_declarations: set[str] = set()
-        for workflow in detail.get("workflows", []):
-            for stage in workflow["stages"]:
-                used_declarations.add(stage["primaryDeclarationId"])
-                used_declarations.update(stage["evidenceDeclarationIds"])
-            for link in workflow["links"]:
-                used_declarations.update(link["automationDeclarationIds"])
-                used_declarations.update(link["evidenceDeclarationIds"])
-        for binding in detail.get("interfaceBindings", []):
-            used_declarations.add(binding["problemDeclarationId"])
-            used_declarations.add(binding["frameworkDeclarationId"])
+        explained_declarations: set[str] = set()
         for step in manuscript["proofSteps"]:
             for group in step["declarationGroups"]:
-                used_declarations.update(group["declarationIds"])
+                explained_declarations.update(group["declarationIds"])
+        # Status-only recovery updates the existing hydrated page without
+        # hydrating new declaration groups.  Keep the declaration table aligned
+        # with manuscript explanations; otherwise workflow-only declarations
+        # from stale stages violate the detail invariant that every displayed
+        # declaration has a manuscript explanation.
+        used_declarations = explained_declarations
         detail["declarations"] = [
             declaration for declaration in detail["declarations"]
             if declaration["declarationId"] in used_declarations
+        ]
+        for workflow in detail.get("workflows", []):
+            workflow["stages"] = [
+                stage for stage in workflow["stages"]
+                if {
+                    stage["primaryDeclarationId"],
+                    *stage["evidenceDeclarationIds"],
+                } <= used_declarations
+            ]
+            live_stage_ids = {stage["stageId"] for stage in workflow["stages"]}
+            workflow["links"] = [
+                link for link in workflow["links"]
+                if link["sourceStageId"] in live_stage_ids
+                and link["targetStageId"] in live_stage_ids
+                and {
+                    *link["automationDeclarationIds"],
+                    *link["evidenceDeclarationIds"],
+                } <= used_declarations
+            ]
+        detail["interfaceBindings"] = [
+            binding for binding in detail.get("interfaceBindings", [])
+            if {
+                binding["problemDeclarationId"],
+                binding["frameworkDeclarationId"],
+            } <= used_declarations
         ]
 
         explained = {

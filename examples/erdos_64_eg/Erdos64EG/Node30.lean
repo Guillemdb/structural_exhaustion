@@ -83,6 +83,8 @@ structure Node30Output {V : Type u} {residual : InitialResidual V}
         node25RemainderRateNumerator *
           Graph.InducedPathWindowLedger.totalSurplus
             (Node21Context node18).G.object
+  remainderPositive :
+    0 < (p13RemainderVertices (Node21Context node18)).card
   rateTransport : ∀ (rate error : ℝ),
     ((p13RemainderCurvatureProfile
       (Node21Context node18)).positiveDeficiency : ℝ) ≤
@@ -201,6 +203,48 @@ noncomputable def node30P13WedgeLower {V : Type u} {facts}
         intro rate error deficiency
         exact (p13RemainderCurvatureProfile ctx).wedgeRate_of_deficiencyRate
           rate error deficiency
+      have orderPositive : 0 < ctx.G.object.input.vertices.card := by
+        have minPositive : 0 < ctx.G.object.minDegree := by
+          have baseline := ctx.baseline
+          change 3 ≤ ctx.G.object.minDegree at baseline
+          exact lt_of_lt_of_le (by norm_num) baseline
+        letI : Nonempty ctx.G.Vertex :=
+          ctx.G.object.nonempty_of_minDegree_pos minPositive
+        letI : FinEnum ctx.G.Vertex := ctx.G.object.input.vertices
+        rw [FinEnum.card_eq_fintypeCard]
+        exact Fintype.card_pos
+      have remainderPositive :
+          0 < (p13RemainderVertices ctx).card := by
+        by_contra notPositive
+        have remainderZero :
+            (p13RemainderVertices ctx).card = 0 :=
+          Nat.eq_zero_of_not_pos notPositive
+        let packing :=
+          Graph.InducedPathWindowLedger.packingNumber ctx.G.object
+        have orderEq : ctx.G.object.input.vertices.card = 13 * packing := by
+          omega
+        have density' :
+            node22WindowRateNumerator * packing ≤
+              node22SkeletonRateNumerator * (13 * packing) := by
+          rw [show ctx.G.object.input.vertices.card = 13 * packing from orderEq]
+            at density
+          exact density
+        by_cases packingZero : packing = 0
+        · have orderZero : ctx.G.object.input.vertices.card = 0 := by
+            simpa [packingZero] using orderEq
+          omega
+        · have packingPositive : 0 < packing := Nat.pos_of_ne_zero packingZero
+          have coeffLe :
+              node22WindowRateNumerator ≤ 13 * node22SkeletonRateNumerator := by
+            have scaled :
+                node22WindowRateNumerator * packing ≤
+                  (13 * node22SkeletonRateNumerator) * packing := by
+              calc
+                node22WindowRateNumerator * packing ≤
+                    node22SkeletonRateNumerator * (13 * packing) := density'
+                _ = (13 * node22SkeletonRateNumerator) * packing := by ring
+            exact Nat.le_of_mul_le_mul_right scaled packingPositive
+          norm_num [node22WindowRateNumerator, node22SkeletonRateNumerator] at coeffLe
       exact {
         componentWedgeFloor := by
           intro component
@@ -283,6 +327,8 @@ noncomputable def node30P13WedgeLower {V : Type u} {facts}
                 node25RemainderRateNumerator *
                   Graph.InducedPathWindowLedger.totalSurplus
                     ctx.G.object := by ring
+        remainderPositive := by
+          simpa [ctx] using remainderPositive
         rateTransport := rateTransport
         windowRateTransport := by
           intro error deficiency

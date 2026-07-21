@@ -1,4 +1,4 @@
-import Erdos64EG.Future.P13SelectedWindowCorridor
+import Erdos64EG.Shared.P13MultiScaleConnectorState
 
 namespace Erdos64EG.Internal
 

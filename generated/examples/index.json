@@ -36,13 +36,8 @@
         "CT1",
         "CT2",
         "CT3",
-        "CT5",
-        "CT6",
-        "CT7",
-        "CT9",
         "CT10",
         "CT12",
-        "CT14",
         "CT15"
       ],
       "workflowCount": 1,
@@ -55,7 +50,7 @@
         }
       ],
       "detailFile": "erdos-64.json",
-      "detailHash": "b5f5ee67e24facf35d75ba52ef3faffdbcb03c74b84b43c03a0bb538aabca95d"
+      "detailHash": "d39aeb8cca8ab60a7615f99ab16ad28975045ba01701ac5dd118d81db856ddea"
     },
     {
       "exampleId": "even-cycle",
@@ -77,7 +72,7 @@
         }
       ],
       "detailFile": "even-cycle.json",
-      "detailHash": "32f7e1f8daed9e951b777ec493b11ce3de5cd3e0e63ee48aad4d4b6ebf8bfe7d"
+      "detailHash": "88b0bb5d39c0ae3c1f58388f5e35331c43f6b68a300c4826f93929e85e77b5d7"
     },
     {
       "exampleId": "greedy-coloring",

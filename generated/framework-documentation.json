@@ -88,7 +88,7 @@
     "An object class, a baseline property, a well-founded rank, and the facts currently retained on the branch."},
    "leanUser":
    {"summary":
-    "`Core.Problem` and its indexed contexts are the shared carrier for every CT input and typed route.",
+    "`Core.Problem` and its indexed contexts are the shared carrier for every CT input and typed transition.",
     "result": "Definitionally aligned contexts and projections used by CT capabilities and routes.",
     "inputs":
     "Define the four problem fields once, then construct `BranchContext`, `AvoidingContext`, or `MinimalCounterexampleContext`."},

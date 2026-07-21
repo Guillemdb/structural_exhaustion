@@ -162,8 +162,8 @@ describe("ErdosNodeStory", () => {
       />,
     );
 
-    expect(screen.getByText("Partially formalized")).toBeVisible();
-    expect(screen.getByText("Current frontier")).toBeVisible();
+    expect(screen.getByText("Unchecked NodeX.lean file")).toBeVisible();
+    expect(screen.getByText("Frontier")).toBeVisible();
     expect(screen.getByText("Define target-relative coordinates")).toBeVisible();
     expect(screen.getByText("Execute the rank dichotomy")).toBeVisible();
     expect(screen.getAllByText("lem:rank")).toHaveLength(1);

@@ -62,7 +62,7 @@ packings. -/
 def greedy : List Item → List Item
   | [] => []
   | item :: tail =>
-      let selected := profile.greedy tail
+      let selected := greedy tail
       if profile.compatible item selected then item :: selected else selected
 
 theorem greedy_sublist : ∀ values : List Item,
@@ -107,11 +107,11 @@ theorem greedy_saturated : ∀ (values : List Item) (item : Item),
       simp only [greedy]
       split <;> rename_i decision
       · rcases member with rfl | tailMember
-        · refine ⟨head, by simp, ?_⟩
+        · refine ⟨candidate, by simp, ?_⟩
           exact Finset.not_disjoint_iff.mpr
-            ⟨profile.representative head,
-              profile.representative_mem head,
-              profile.representative_mem head⟩
+            ⟨profile.representative candidate,
+              profile.representative_mem candidate,
+              profile.representative_mem candidate⟩
         · obtain ⟨selected, selectedMem, intersects⟩ :=
             ih candidate tailMember
           exact ⟨selected, by simp [selectedMem], intersects⟩

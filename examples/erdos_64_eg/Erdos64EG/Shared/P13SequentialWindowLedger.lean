@@ -1,5 +1,5 @@
 import Erdos64EG.Node21
-import Erdos64EG.Future.P13SequentialWeightedHotColdLedger
+import Erdos64EG.Shared.P13SequentialWeightedHotColdLedger
 import StructuralExhaustion.Core.CachedWitness
 
 namespace Erdos64EG.Internal

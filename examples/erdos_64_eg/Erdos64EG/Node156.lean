@@ -1,0 +1,108 @@
+import Erdos64EG.Node154
+
+namespace Erdos64EG.Internal
+
+open StructuralExhaustion
+open StructuralExhaustion.Graph
+open StructuralExhaustion.Graph.InducedPathColdCorridor
+
+universe u
+
+/-!
+# Diagram node [156]: G2/G3 split below no-G1
+
+Node [156] consumes the literal no-G1 continuation emitted by node [154].
+Core focuses that live leaf and decides whether a scheduled cold corridor has
+the graph-owned F4 event.  The yes branch is the paper's G2 event residual.
+The no branch is the exact G3 residual consumed by node [157]; it proves only
+the absence of G2 on the same scheduled stubs.
+-/
+
+abbrev Node156Active (V : Type u) :=
+  Core.ResidualRefinement.State.FocusedBranchDecisionNoContinuationActive
+    (Node154LiveLeaf V) (@Node154NoG1 V) (@Node154NoG1Output V)
+
+abbrev Node156G2Event {V : Type u} {residual : InitialResidual V}
+    (active : Node156Active V residual) : Prop :=
+  ∃ entry ∈ node152BranchExcessSchedule active.data.data,
+    ∃ vertex ∈ (node153CorridorProducer active.data.data).stages entry |>.values,
+      InducedPathColdCorridor.F4 entry vertex
+
+abbrev Node156G3Silent {V : Type u} {residual : InitialResidual V}
+    (active : Node156Active V residual) : Prop :=
+  ¬Node156G2Event active
+
+abbrev Node156G3Output {V : Type u} {residual : InitialResidual V}
+    (active : Node156Active V residual) (_g3 : Node156G3Silent active) :=
+  Sigma (fun _ : PUnit =>
+    PLift (
+    ∀ entry ∈ node152BranchExcessSchedule active.data.data,
+      ¬∃ vertex ∈
+        (node153CorridorProducer active.data.data).stages entry |>.values,
+          InducedPathColdCorridor.F4 entry vertex))
+
+abbrev Node156DecisionStage {V : Type u} (residual : InitialResidual V) :=
+  Core.ResidualRefinement.State.FocusedBranchDecision
+    (Core.ResidualRefinement.State.FocusedBranchDecisionNoContinuationBypass
+      (Node154Bypass V) (Node154LiveLeaf V)
+      (@Node154G1Hit V) (@Node154NoG1 V))
+    (Node156Active V) (@Node156G2Event V) (@Node156G3Silent V)
+    residual
+
+abbrev Node156Stage {V : Type u} (residual : InitialResidual V) :=
+  Core.ResidualRefinement.State.FocusedBranchDecisionNoContinuation
+    (Core.ResidualRefinement.State.FocusedBranchDecisionNoContinuationBypass
+      (Node154Bypass V) (Node154LiveLeaf V)
+      (@Node154G1Hit V) (@Node154NoG1 V))
+    (Node156Active V) (@Node156G2Event V) (@Node156G3Silent V)
+    (@Node156G3Output V) residual
+
+noncomputable def node156G2G3Decision {V : Type u} {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available (@Node154Stage V)) facts] :
+  Core.ResidualRefinement.State.StageNode (facts := facts)
+    (@Node156DecisionStage V) :=
+  Core.ResidualRefinement.State.StageNode.decideFocusedBranchNoContinuation
+    (fun _residual active => Classical.propDecidable
+      (Node156G2Event active))
+    (fun _residual _active absent => absent)
+
+noncomputable def node156G3Continuation {V : Type u} {facts}
+    [Core.ResidualRefinement.Proofs.Contains
+      (Core.ResidualRefinement.State.Available (@Node156DecisionStage V))
+        facts] :
+  Core.ResidualRefinement.State.StageNode (facts := facts)
+    (@Node156Stage V) :=
+  Core.ResidualRefinement.State.StageNode.continueFocusedBranchNo
+    (fun _residual active noG2 =>
+      ⟨PUnit.unit, ⟨by
+        intro entry member targetEvent
+        apply noG2
+        rcases targetEvent with ⟨vertex, stageMember, proof⟩
+        exact ⟨entry, member, vertex, stageMember, proof⟩⟩⟩)
+
+noncomputable def runInitialThroughNode156Decision {V : Type u}
+    (residual : InitialResidual V) :=
+  (runInitialThroughNode154 residual).mapYesStage
+    node156G2G3Decision
+
+noncomputable def runInitialThroughNode156 {V : Type u}
+    (residual : InitialResidual V) :=
+  (runInitialThroughNode156Decision residual).mapYesStage
+    node156G3Continuation
+
+theorem node156_exhaustive {V : Type u} {residual : InitialResidual V}
+    (active : Node156Active V residual) :
+    Node156G2Event active ∨ Node156G3Silent active := by
+  classical
+  exact em (Node156G2Event active)
+
+def node156LocalChecks : Nat := 0
+
+theorem node156LocalChecks_eq_zero : node156LocalChecks = 0 := rfl
+
+#print axioms node156G2G3Decision
+#print axioms node156G3Continuation
+#print axioms runInitialThroughNode156
+
+end Erdos64EG.Internal

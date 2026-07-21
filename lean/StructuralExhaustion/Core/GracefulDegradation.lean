@@ -2,7 +2,7 @@ import StructuralExhaustion.Core.ResidualRefinement
 
 namespace StructuralExhaustion.Core.ResidualRefinement.State
 
-universe uInput uOccurrence uResidual uStage uTarget
+universe uInput uOccurrence uQuery uResidual uStage uTarget
 
 /-!
 # Guarded graceful degradation
@@ -250,5 +250,50 @@ noncomputable def StageNode.mergeGuardedDegradation
           .degraded data (produce state.residual data.data)
       | .alternate data alternateOutput =>
           .alternate data alternateOutput (produce state.residual data.data)
+
+/-- Query-bearing version of `mergeGuardedDegradation`.  Core reads the
+additional input and the exact guarded-degradation continuation from the same
+accumulated ledger, then applies one common downstream producer to both live
+leaves while preserving their typed reasons. -/
+noncomputable def StageNode.mergeGuardedDegradationDerived
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {outerYes outerNo : (residual : Residual) → Active residual → Prop}
+    {OuterYesOutput : (residual : Residual) → (data : Active residual) →
+      outerYes residual data → Type uStage}
+    {innerYes innerNo : (residual : Residual) →
+      (data : Active residual) → outerNo residual data → Prop}
+    {Terminal : (residual : Residual) → (data : Active residual) →
+      (proof : outerYes residual data) →
+      OuterYesOutput residual data proof → Type uOccurrence}
+    {guard : (residual : Residual) → (data : Active residual) →
+      (outerProof : outerNo residual data) →
+      innerYes residual data outerProof → Prop}
+    {AlternateOutput : (residual : Residual) →
+      FocusedBranchNestedNoActive Active outerNo innerNo residual →
+        Type uOccurrence}
+    {Next : (residual : Residual) → Active residual → Type uOccurrence}
+    {Input : Residual → Sort uQuery}
+    [Proofs.Contains (Available
+      (GuardedDegradationAlternateContinuation Bypass Active outerYes outerNo
+        OuterYesOutput innerYes innerNo Terminal guard AlternateOutput)) facts]
+    (query : LedgerQuery (facts := facts) Input)
+    (produce : ∀ residual, Input residual → ∀ data, Next residual data) :
+    StageNode (facts := facts)
+      (GuardedDegradationMerged Bypass Active outerYes outerNo OuterYesOutput
+        innerYes innerNo Terminal guard AlternateOutput Next) :=
+  StageNode.derive
+    (query.andStage
+      (Stage := GuardedDegradationAlternateContinuation Bypass Active
+        outerYes outerNo OuterYesOutput innerYes innerNo Terminal guard
+        AlternateOutput))
+    fun state inputAndResult =>
+      match inputAndResult.snd with
+      | .bypass data => .bypass data
+      | .degraded data =>
+          .degraded data (produce state.residual inputAndResult.fst data.data)
+      | .alternate data alternateOutput =>
+          .alternate data alternateOutput
+            (produce state.residual inputAndResult.fst data.data)
 
 end StructuralExhaustion.Core.ResidualRefinement.State

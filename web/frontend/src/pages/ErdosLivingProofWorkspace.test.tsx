@@ -76,7 +76,7 @@ describe("ErdosLivingProofWorkspace", () => {
     );
 
     expect(screen.getByRole("heading", { name: "Erdős–Gyárfás Problem 64" })).toBeVisible();
-    expect(screen.getByText("50/157")).toBeVisible();
+    expect(screen.getByText("56/157")).toBeVisible();
     expect(screen.getByText("Fresh compiled descriptor")).toBeVisible();
 
     fireEvent.change(screen.getByPlaceholderText("e.g. rank, CT15, node 31"), {

@@ -184,20 +184,20 @@ proves only the consequences of a caller-supplied realization and remains
 conditional support. There is no open-realization branch in the original
 diagram.
 
-Node `[150]` is 8/9 proved in `P13Node150ColdMass.lean`. It retains the exact
-node-[148] no predecessor, uses the manuscript's longer certified hot rate,
-proves both printed threshold coefficients, and transports the explicit
-binary-log correction to an `o(n)` cold-count error. Its sole missing
-obligation is the upstream surviving-cold exclusion and near-cubic spine
-state required by node `[151]`; therefore it remains yellow.
+Node `[150]` is implemented by the direct `Node150.lean` residual. It consumes
+only the literal node-[148] no edge through Core's focused no-continuation
+mapping, preserves the failed live-hot cap, the route-8 lower-threshold
+certificate, the exact hot/cold demand partition, the unpaid-total inequality,
+and the cold-window count computed from the node-[21] barrier certificate. The
+deprecated future cold-mass theorem is not imported: the hot-payment producer
+and the stronger cold-mass lower bound are retained as explicit residual
+requirements, not assumptions.
 
-Node `[149]` is implemented by `P13Node149DensityCap.lean`. It consumes the
-literal node-[148] yes payload, retains the complete dependent predecessor,
-and exports both the corrected finite cap and the manuscript conclusion
-`theta <= theta_win + o(1)`. The complete natural-number normalization error
-is bounded by a graph-order-only envelope proved `o(n log n)`; division by the
-positive exact binary-log budget gives one explicit additive term tending to
-zero. No graph family, state family, or assignment universe is enumerated.
+Node `[149]` is implemented by the direct `Node149.lean` terminal. It consumes
+only the literal node-[148] yes edge through Core's focused yes-continuation
+mapping, carries the exact density cap selected by node `[148]`, and preserves
+the exact total-demand partition from the same accumulated ledger. It imports
+no deprecated future prefix or custom handoff code.
 
 Node `[146]` is implemented by `P13Node146Route8Threshold.lean`. It consumes
 the canonical `p13SequentialWeightedLedger` produced at `[145]`, defines the
@@ -208,13 +208,14 @@ decision carrying the identical predecessor to `[147]` or `[148]`. Its work
 certificate charges one primitive comparison and enumerates no graph,
 context, state, or assignment universe.
 
-Node `[148]` is implemented by `P13Node148LiveHotDecision.lean`. Both
-successor payloads are indexed by the exact node-[146] no residual. The
-runner retains the final recoverable hot aggregate, proves the exact hot/cold
-demand partition and hot payment, and uses one corrected comparison to route
-to `[149]` or `[150]`. Node `[147]` remains yellow at 4/9 obligations: the
-strict carrier coefficient margin is Lean-proved, while the route-8 basin,
-private-carrier injection, and matching upper/lower budgets remain missing.
+Node `[148]` is implemented by the direct `Node148.lean` chain. It consumes
+only the literal node-[146] no residual, uses Core's focused no-continuation
+decision machinery, proves the exact hot/cold demand partition on the current
+barrier-certificate ledger, and routes to `[149]` or `[150]` without importing
+the deprecated future `VerifiedP13MultiScaleCurvaturePrefix` implementation.
+Node `[147]` remains yellow at 4/9 obligations: the strict carrier coefficient
+margin is Lean-proved, while the route-8 basin, private-carrier injection, and
+matching upper/lower budgets remain missing.
 
 Nodes `[23]` and `[24]` are green as local Part-I cells with complete ledgers
 in `ERDOS_64_NODE_23_OBLIGATION_LEDGER.md` and
@@ -3765,3 +3766,23 @@ trace-basin/carrier-core stage.  The exact obligation is recorded in
   prevented from rebuilding by pre-existing stale imports in unrelated
   `Future` modules; a focused declaration check confirms every replacement
   evidence name elaborates.
+
+## 2026-07-21 — framework-native cold branch nodes `[151]`--`[153]`
+
+- Node `[151]` consumes only the node-`[150]` cold residual on the failed
+  live-hot cap branch. It filters the exact node-`[21]` weighted cold-window
+  ledger into cubic and non-cubic windows, proves the exact partition, and
+  derives the cubic-window surplus-loss bound from the retained near-cubic
+  budget.
+- Node `[152]` appends the literal thirteen-stub branch-excess schedule for
+  each node-`[151]` cubic cold window. The finite schedule, length identity,
+  nodup proof, and cold-count inequality are all local consequences of the
+  previous residual and framework ledger.
+- Node `[153]` consumes only node `[152]` and runs the graph-owned cold-corridor
+  first-failure machine on every scheduled stub. The F2/F3/F5 promotion facts
+  not yet supplied by the current chain are retained as explicit residual
+  requirements rather than assumed.
+- The direct branch no longer imports `Erdos64EG.Future.*` for nodes
+  `[145]`--`[153]` or their shared weighted-ledger dependencies; those reusable
+  dependencies now live under `Erdos64EG.Shared`. Focused kernel checks pass
+  for `Erdos64EG.Node151`, `Erdos64EG.Node152`, and `Erdos64EG.Node153`.
