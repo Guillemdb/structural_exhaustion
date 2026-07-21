@@ -184,9 +184,14 @@ Apply the parameterization test declaration by declaration:
 | Parameterized graph mathematics | `Graph` |
 | Fixed Problem 64 data and arithmetic | Erdős example |
 
-Never put Erdős names in Core. Confirm that a named textbook example consumes
-the exact new graph/core/CT/route profile through the same framework node
-executor and proves execution, trace, semantics, totality, and work.
+Never put Erdős constants, names, objects, node ids, P13 tables, or other
+Problem-64-specific carriers in Core, CT namespaces, Routes, or generic Graph
+primitives. The framework layer may expose only parameterized interfaces; the
+Erdős example must instantiate them and pass concrete graph objects, constants,
+finite tables, targets, budgets, degrees, path lengths, and labels as
+parameters. Confirm that a named textbook example consumes the exact new
+graph/core/CT/route profile through the same framework node executor and
+proves execution, trace, semantics, totality, and work.
 
 ## Reconcile TeX, Lean, web, and status
 

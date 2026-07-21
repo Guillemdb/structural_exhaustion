@@ -2722,6 +2722,15 @@ structure LedgerQuery (Result : Residual → Sort uTarget) where
 
 namespace LedgerQuery
 
+/-- A query with no external dependencies.  Use this when a framework
+derived-stage combinator should still retrieve the exact predecessor stage
+from the accumulated ledger, but the node has no other inherited fact to
+assemble. -/
+def pure {Result : Residual → Sort uTarget}
+    (value : ∀ residual, Result residual) :
+    LedgerQuery (facts := facts) Result where
+  read := fun state => value state.residual
+
 /-- Query one proposition already present in the accumulated ledger. -/
 def fact {property : Residual → Prop}
     [Proofs.Contains property facts] :

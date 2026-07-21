@@ -175,7 +175,7 @@ the already stored component path; it does not scan a state or context
 universe. -/
 noncomputable def state (LengthOK : Nat → Prop)
     (lengthOKDecidable : DecidablePred LengthOK) :
-    Core.FixedTwoBoundaryCutState.State (Coordinate input) :=
+    Core.FixedTwoBoundaryCutState.State 13 13 (Coordinate input) :=
   TwoStubComponent.fixedState LengthOK lengthOKDecidable
     (data input) (canonicalPath input)
     (semantics input LengthOK lengthOKDecidable)
@@ -197,7 +197,7 @@ theorem state_windowOffset (LengthOK : Nat → Prop)
 
 theorem state_targetResponse (LengthOK : Nat → Prop)
     (lengthOKDecidable : DecidablePred LengthOK)
-    (offset : Core.FixedTwoBoundaryCutState.TargetOffset) :
+    (offset : Core.FixedTwoBoundaryCutState.TargetOffset 13) :
     (state input LengthOK lengthOKDecidable).targetResponse offset =
       decide (LengthOK ((canonicalPath input).path.length + offset.val)) := rfl
 

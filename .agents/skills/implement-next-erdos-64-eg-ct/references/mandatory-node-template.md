@@ -186,8 +186,13 @@ thin Erdős instantiation:
 | Fixed Problem 64 data and paper-specific arithmetic | Erdős example |
 
 Do not generalize a paper-local theorem into a claim about all graphs. Do not
-put Erdős constants or names in the framework. The parameterization test
-decides ownership; difficulty proving one application lemma does not.
+put Erdős constants, names, objects, node ids, P13 tables, or other
+Problem-64-specific carriers in `Core`, CT namespaces, Routes, or generic
+`Graph` primitives. The framework layer may expose only parameterized
+interfaces; the Erdős example instantiates them and passes its concrete graph
+objects, constants, finite tables, targets, budgets, degrees, path lengths,
+and labels as parameters. The parameterization test decides ownership;
+difficulty proving one application lemma does not.
 
 ## 9. Keep computation local
 

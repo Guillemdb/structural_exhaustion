@@ -21,8 +21,8 @@ for contexts outside the declared response family.
 
 abbrev BoundaryRole := Fin 2
 abbrev CappedDegree := Fin 4
-abbrev WindowOffset := Fin 13
-abbrev TargetOffset := Fin 13
+abbrev WindowOffset (windowLength : Nat) := Fin windowLength
+abbrev TargetOffset (targetOffsetCount : Nat) := Fin targetOffsetCount
 
 /-- Saturate a boundary degree at three. -/
 def capDegree (degree : Nat) : CappedDegree :=
@@ -36,32 +36,35 @@ theorem capDegree_eq_of_lt_four {degree : Nat} (bounded : degree < 4) :
   simp [capDegree]
   omega
 
-/-- Observe a connector length only through the thirteen target tests obtained
-by adding the fixed P13 offsets. -/
+/-- Observe a connector length only through the declared finite target-offset
+alphabet.  The framework does not choose the alphabet size; applications
+instantiate it at their boundary. -/
 def targetOffsetResponse (LengthOK : Nat → Prop)
     (lengthOKDecidable : DecidablePred LengthOK) (connectorLength : Nat) :
-    TargetOffset → Bool :=
+    TargetOffset targetOffsetCount → Bool :=
   fun offset ↦ decide (LengthOK (connectorLength + offset.val))
 
 theorem targetOffsetResponse_eq_true_iff
     (LengthOK : Nat → Prop) (lengthOKDecidable : DecidablePred LengthOK)
-    (connectorLength : Nat) (offset : TargetOffset) :
+    (connectorLength : Nat) (offset : TargetOffset targetOffsetCount) :
     targetOffsetResponse LengthOK lengthOKDecidable connectorLength offset = true ↔
       LengthOK (connectorLength + offset.val) := by
   simp [targetOffsetResponse]
 
 /-- The ambient-independent normalized code. -/
-structure State (LocalCoordinate : Type uCoordinate) where
+structure State (windowLength targetOffsetCount : Nat)
+    (LocalCoordinate : Type uCoordinate) where
   boundaryDegree : BoundaryRole → CappedDegree
-  windowOffset : BoundaryRole → WindowOffset
-  targetResponse : TargetOffset → Bool
+  windowOffset : BoundaryRole → WindowOffset windowLength
+  targetResponse : TargetOffset targetOffsetCount → Bool
   localResponse : LocalCoordinate → Bool
 
-def stateEquiv (LocalCoordinate : Type uCoordinate) :
-    State LocalCoordinate ≃
+def stateEquiv (windowLength targetOffsetCount : Nat)
+    (LocalCoordinate : Type uCoordinate) :
+    State windowLength targetOffsetCount LocalCoordinate ≃
       ((BoundaryRole → CappedDegree) ×
-        (BoundaryRole → WindowOffset) ×
-        (TargetOffset → Bool) ×
+        (BoundaryRole → WindowOffset windowLength) ×
+        (TargetOffset targetOffsetCount → Bool) ×
         (LocalCoordinate → Bool)) where
   toFun state := (state.boundaryDegree, state.windowOffset,
     state.targetResponse, state.localResponse)
@@ -69,23 +72,30 @@ def stateEquiv (LocalCoordinate : Type uCoordinate) :
   left_inv := by intro state; cases state; rfl
   right_inv := by intro data; rcases data with ⟨a, b, c, d⟩; rfl
 
-instance (LocalCoordinate : Type uCoordinate) [Fintype LocalCoordinate]
-    [DecidableEq LocalCoordinate] : DecidableEq (State LocalCoordinate) :=
-  (stateEquiv LocalCoordinate).decidableEq
+instance (windowLength targetOffsetCount : Nat)
+    (LocalCoordinate : Type uCoordinate) [Fintype LocalCoordinate]
+    [DecidableEq LocalCoordinate] :
+    DecidableEq (State windowLength targetOffsetCount LocalCoordinate) :=
+  (stateEquiv windowLength targetOffsetCount LocalCoordinate).decidableEq
 
-noncomputable instance (LocalCoordinate : Type uCoordinate)
-    [Fintype LocalCoordinate] : Fintype (State LocalCoordinate) := by
+noncomputable instance (windowLength targetOffsetCount : Nat)
+    (LocalCoordinate : Type uCoordinate) [Fintype LocalCoordinate] :
+    Fintype (State windowLength targetOffsetCount LocalCoordinate) := by
   classical
-  exact Fintype.ofEquiv _ (stateEquiv LocalCoordinate).symm
+  exact Fintype.ofEquiv _
+    (stateEquiv windowLength targetOffsetCount LocalCoordinate).symm
 
 /-- Exact cardinality of the normalized state.  It depends only on the fixed
 local alphabet, never on an ambient vertex type or graph order. -/
-theorem state_card (LocalCoordinate : Type uCoordinate)
+theorem state_card (windowLength targetOffsetCount : Nat)
+    (LocalCoordinate : Type uCoordinate)
     [Fintype LocalCoordinate] :
-    Fintype.card (State LocalCoordinate) =
-      4 ^ 2 * 13 ^ 2 * 2 ^ 13 * 2 ^ Fintype.card LocalCoordinate := by
+    Fintype.card (State windowLength targetOffsetCount LocalCoordinate) =
+      4 ^ 2 * windowLength ^ 2 * 2 ^ targetOffsetCount *
+        2 ^ Fintype.card LocalCoordinate := by
   classical
-  rw [Fintype.card_congr (stateEquiv LocalCoordinate)]
+  rw [Fintype.card_congr
+    (stateEquiv windowLength targetOffsetCount LocalCoordinate)]
   simp only [Fintype.card_prod, Fintype.card_fun, Fintype.card_fin,
     Fintype.card_bool]
   ring
@@ -93,14 +103,18 @@ theorem state_card (LocalCoordinate : Type uCoordinate)
 /-- Phantom ambient-indexed presentation, useful when comparing producers on
 different host vertex types.  The ambient type is intentionally absent from
 the stored code. -/
-abbrev StateFor (_Ambient : Type*) (LocalCoordinate : Type uCoordinate) :=
-  State LocalCoordinate
+abbrev StateFor (windowLength targetOffsetCount : Nat)
+    (_Ambient : Type*) (LocalCoordinate : Type uCoordinate) :=
+  State windowLength targetOffsetCount LocalCoordinate
 
 theorem state_card_independent_of_ambient
+    (windowLength targetOffsetCount : Nat)
     (LeftAmbient RightAmbient : Type*)
     (LocalCoordinate : Type uCoordinate) [Fintype LocalCoordinate] :
-    Fintype.card (StateFor LeftAmbient LocalCoordinate) =
-      Fintype.card (StateFor RightAmbient LocalCoordinate) := rfl
+    Fintype.card
+        (StateFor windowLength targetOffsetCount LeftAmbient LocalCoordinate) =
+      Fintype.card
+        (StateFor windowLength targetOffsetCount RightAmbient LocalCoordinate) := rfl
 
 /-- The sole D4--D7 semantic input: a fixed finite coordinate alphabet and a
 graph-derived bit on every prefix. -/
@@ -111,18 +125,20 @@ structure LocalProjection (Prefix : Type uPrefix)
 /-- Structural observations available on any corridor prefix.  Actual
 interface identities may exist in the producer, but the projection below
 forgets them and retains only their two fixed roles. -/
-structure PrefixObservations (Prefix : Type uPrefix) where
+structure PrefixObservations (windowLength : Nat) (Prefix : Type uPrefix) where
   boundaryDegree : Prefix → BoundaryRole → Nat
-  windowOffset : Prefix → BoundaryRole → WindowOffset
+  windowOffset : Prefix → BoundaryRole → WindowOffset windowLength
   connectorLength : Prefix → Nat
 
 /-- Project any corridor prefix to the fixed normalized state. -/
 def project (LengthOK : Nat → Prop)
     (lengthOKDecidable : DecidablePred LengthOK)
     {Prefix : Type uPrefix} {LocalCoordinate : Type uCoordinate}
-    (observations : PrefixObservations Prefix)
+    {windowLength targetOffsetCount : Nat}
+    (observations : PrefixObservations windowLength Prefix)
     (localProjection : LocalProjection Prefix LocalCoordinate)
-    (segment : Prefix) : State LocalCoordinate where
+    (segment : Prefix) :
+    State windowLength targetOffsetCount LocalCoordinate where
   boundaryDegree role := capDegree (observations.boundaryDegree segment role)
   windowOffset := observations.windowOffset segment
   targetResponse := targetOffsetResponse LengthOK lengthOKDecidable
@@ -132,30 +148,36 @@ def project (LengthOK : Nat → Prop)
 @[simp] theorem project_localResponse
     (LengthOK : Nat → Prop) (lengthOKDecidable : DecidablePred LengthOK)
     {Prefix : Type uPrefix} {LocalCoordinate : Type uCoordinate}
-    (observations : PrefixObservations Prefix)
+    {windowLength targetOffsetCount : Nat}
+    (observations : PrefixObservations windowLength Prefix)
     (localProjection : LocalProjection Prefix LocalCoordinate) (segment : Prefix)
     (coordinate : LocalCoordinate) :
-    (project LengthOK lengthOKDecidable observations localProjection segment).localResponse
-        coordinate = localProjection.response segment coordinate := rfl
+    (project (targetOffsetCount := targetOffsetCount) LengthOK
+        lengthOKDecidable observations localProjection segment).localResponse
+      coordinate = localProjection.response segment coordinate := rfl
 
 @[simp] theorem project_boundaryDegree
     (LengthOK : Nat → Prop) (lengthOKDecidable : DecidablePred LengthOK)
     {Prefix : Type uPrefix} {LocalCoordinate : Type uCoordinate}
-    (observations : PrefixObservations Prefix)
+    {windowLength targetOffsetCount : Nat}
+    (observations : PrefixObservations windowLength Prefix)
     (localProjection : LocalProjection Prefix LocalCoordinate) (segment : Prefix)
     (role : BoundaryRole) :
-    (project LengthOK lengthOKDecidable observations localProjection segment).boundaryDegree
-        role = capDegree (observations.boundaryDegree segment role) := rfl
+    (project (targetOffsetCount := targetOffsetCount) LengthOK
+        lengthOKDecidable observations localProjection segment).boundaryDegree
+      role = capDegree (observations.boundaryDegree segment role) := rfl
 
 @[simp] theorem project_targetResponse
     (LengthOK : Nat → Prop) (lengthOKDecidable : DecidablePred LengthOK)
     {Prefix : Type uPrefix} {LocalCoordinate : Type uCoordinate}
-    (observations : PrefixObservations Prefix)
+    {windowLength targetOffsetCount : Nat}
+    (observations : PrefixObservations windowLength Prefix)
     (localProjection : LocalProjection Prefix LocalCoordinate) (segment : Prefix)
-    (offset : TargetOffset) :
-    (project LengthOK lengthOKDecidable observations localProjection segment).targetResponse
-        offset = decide (LengthOK
-          (observations.connectorLength segment + offset.val)) := rfl
+    (offset : TargetOffset targetOffsetCount) :
+    (project (targetOffsetCount := targetOffsetCount) LengthOK
+        lengthOKDecidable observations localProjection segment).targetResponse
+      offset = decide (LengthOK
+        (observations.connectorLength segment + offset.val)) := rfl
 
 /-- Typed F2 residual.  `Context` is only the explicitly declared context
 family supplied by the consumer; it is not silently identified with all
@@ -205,14 +227,18 @@ coordinates.  No context search is performed here. -/
 def compareEqualCodes
     (LengthOK : Nat → Prop) (lengthOKDecidable : DecidablePred LengthOK)
     {Prefix : Type uPrefix} {LocalCoordinate : Type uCoordinate}
-    (observations : PrefixObservations Prefix)
+    {windowLength targetOffsetCount : Nat}
+    (observations : PrefixObservations windowLength Prefix)
     (localProjection : LocalProjection Prefix LocalCoordinate)
     (Context : Type uContext) (response : Prefix → Context → Bool)
     (left right : Prefix)
     (contextComparison :
       PairContextComparison Prefix Context response left right)
-    (equalCode : project LengthOK lengthOKDecidable observations localProjection left =
-      project LengthOK lengthOKDecidable observations localProjection right) :
+    (equalCode :
+      project (targetOffsetCount := targetOffsetCount) LengthOK
+          lengthOKDecidable observations localProjection left =
+        project (targetOffsetCount := targetOffsetCount) LengthOK
+          lengthOKDecidable observations localProjection right) :
     EqualCodeComparison localProjection Context response left right := by
   cases contextComparison with
   | inl distinguished =>

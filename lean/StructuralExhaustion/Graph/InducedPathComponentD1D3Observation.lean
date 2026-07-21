@@ -15,8 +15,8 @@ variable {V : Type u} {object : FiniteObject V}
 
 This module consumes one exact component boundary schedule and its computed
 declared-order BFS path.  It records the two literal boundary degrees, the two
-literal `Fin 13` window offsets, and the connector length, then projects those
-observations to one `FixedTwoBoundaryCutState.State (Fin 0)`.
+literal induced-path window offsets, and the connector length, then projects
+those observations to one `FixedTwoBoundaryCutState.State 13 13 (Fin 0)`.
 
 The empty coordinate type records that no D4--D7 response has been supplied.
 Accordingly the result retains `MissingD4D7Reconstruction`.  It is one state,
@@ -49,7 +49,7 @@ noncomputable def canonicalPath :
 
 /-- Genuine two-boundary observations owned by the computed node-170 data. -/
 noncomputable def observations :
-    Core.FixedTwoBoundaryCutState.PrefixObservations Unit :=
+    Core.FixedTwoBoundaryCutState.PrefixObservations 13 Unit :=
   (data input).observations (canonicalPath input)
 
 /-- The unique empty-coordinate response. -/
@@ -60,14 +60,14 @@ def emptyLocalProjection :
 /-- Exactly one normalized D1--D3 state. -/
 noncomputable def state (LengthOK : Nat → Prop)
     (lengthOKDecidable : DecidablePred LengthOK) :
-    Core.FixedTwoBoundaryCutState.State (Fin 0) :=
+    Core.FixedTwoBoundaryCutState.State 13 13 (Fin 0) :=
   Core.FixedTwoBoundaryCutState.project LengthOK lengthOKDecidable
     (observations input) emptyLocalProjection ()
 
 /-- Honest stopping output after the one structural projection. -/
 structure OneStateResidual (LengthOK : Nat → Prop)
     (lengthOKDecidable : DecidablePred LengthOK) where
-  value : Core.FixedTwoBoundaryCutState.State (Fin 0)
+  value : Core.FixedTwoBoundaryCutState.State 13 13 (Fin 0)
   valueExact : value = state input LengthOK lengthOKDecidable
   missing : TwoStubComponent.MissingD4D7Reconstruction
     (data input) (canonicalPath input)
@@ -108,7 +108,7 @@ theorem windowOffset_one (LengthOK : Nat → Prop)
 
 theorem targetResponse_eq (LengthOK : Nat → Prop)
     (lengthOKDecidable : DecidablePred LengthOK)
-    (offset : Core.FixedTwoBoundaryCutState.TargetOffset) :
+    (offset : Core.FixedTwoBoundaryCutState.TargetOffset 13) :
     (run input LengthOK lengthOKDecidable).value.targetResponse offset =
       decide (LengthOK ((componentPath input).length + offset.val)) := rfl
 

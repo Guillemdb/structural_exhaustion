@@ -136,13 +136,14 @@ structure CanonicalComponentPath
     tieBreak.rank path ≤ tieBreak.rank candidate
 
 /-- The structural observations which can be projected without D4--D7.  The
-two interface degrees and P13 offsets are literal, and connector length is
-observed later only through the fixed thirteen target bits. -/
+two interface degrees and induced-path offsets are literal, and connector
+length is observed later only through the application-supplied target offset
+alphabet. -/
 noncomputable def observations
     (data : TwoStubComponent object DeclaredSuccessor)
     {tieBreak : PathTieBreak data}
     (canonical : CanonicalComponentPath data tieBreak) :
-    Core.FixedTwoBoundaryCutState.PrefixObservations Unit where
+    Core.FixedTwoBoundaryCutState.PrefixObservations 13 Unit where
   boundaryDegree _ role :=
     if role = 0 then object.degree data.anchor.neighbor
     else object.degree data.successor.neighbor
@@ -166,7 +167,7 @@ noncomputable def fixedState
     {tieBreak : PathTieBreak data}
     (canonical : CanonicalComponentPath data tieBreak)
     (semantics : DeclaredLocalSemantics data canonical) :
-    Core.FixedTwoBoundaryCutState.State semantics.LocalCoordinate :=
+    Core.FixedTwoBoundaryCutState.State 13 13 semantics.LocalCoordinate :=
   Core.FixedTwoBoundaryCutState.project LengthOK lengthOKDecidable
     (data.observations canonical)
     ⟨fun _ ↦ semantics.localResponse⟩ ()

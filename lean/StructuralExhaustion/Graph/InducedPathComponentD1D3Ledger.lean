@@ -19,7 +19,8 @@ variable {V : Type u} {object : FiniteObject V}
 The input retains one already computed component schedule and a proved
 non-bridge fact for every literal stub in that schedule.  Each schedule entry
 is re-anchored, its true cyclic `List.next` successor is retained, and one
-declared-order BFS-tree connector is projected to `State (Fin 0)`.
+declared-order BFS-tree connector is projected to
+`State 13 13 (Fin 0)`.
 
 The deterministic collision scan stops at equality of these coarse states.
 It does not compare D4--D7 responses and does not execute CT8 removal.
@@ -135,7 +136,7 @@ theorem observation_missing_d4_d7 (LengthOK : Nat → Prop)
         (connectorInput input stub))) :=
   ⟨(observation input LengthOK lengthOKDecidable stub).missing⟩
 
-abbrev State := Core.FixedTwoBoundaryCutState.State (Fin 0)
+abbrev State := Core.FixedTwoBoundaryCutState.State 13 13 (Fin 0)
 
 /-- A stored row keeps its exact schedule entry beside its computed state. -/
 abbrev Row (LengthOK : Nat → Prop)
