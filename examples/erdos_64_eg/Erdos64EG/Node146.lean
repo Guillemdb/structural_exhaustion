@@ -104,29 +104,17 @@ abbrev Node146DecisionStage {V : Type u} (residual : InitialResidual V) :=
     (@Node146Bypass V) (@Node146Active V)
     (@Node146Route8BelowThreshold V) (@Node146Route8NotBelow V) residual
 
-/-- Framework marker on the `[146] -> [147]` yes edge. -/
-abbrev Node146To147Marker {V : Type u} {residual : InitialResidual V}
-    (_active : Node146Active V residual)
-    (_below : Node146Route8BelowThreshold _active) : Type (u + 3) :=
-  PUnit
-
-/-- Framework marker on the `[146] -> [148]` no edge. -/
-abbrev Node146To148Marker {V : Type u} {residual : InitialResidual V}
-    (_active : Node146Active V residual)
-    (_notBelow : Node146Route8NotBelow _active) : Type (u + 3) :=
-  PUnit
-
 abbrev Node146Stage {V : Type u} (residual : InitialResidual V) :=
   Core.ResidualRefinement.State.FocusedBranchDecisionYesContinuation
     (@Node146Bypass V) (@Node146Active V)
     (@Node146Route8BelowThreshold V) (@Node146Route8NotBelow V)
-    (fun _residual active below => Node146To147Marker active below) residual
+    (fun _residual _active _below => PUnit) residual
 
 abbrev Node146To148Stage {V : Type u} (residual : InitialResidual V) :=
   Core.ResidualRefinement.State.FocusedBranchDecisionNoContinuation
     (@Node146Bypass V) (@Node146Active V)
     (@Node146Route8BelowThreshold V) (@Node146Route8NotBelow V)
-    (fun _residual active notBelow => Node146To148Marker active notBelow) residual
+    (fun _residual _active _notBelow => PUnit) residual
 
 noncomputable def node146Route8ThresholdDecision {V : Type u} {facts}
     [Core.ResidualRefinement.Proofs.Contains
@@ -134,8 +122,7 @@ noncomputable def node146Route8ThresholdDecision {V : Type u} {facts}
   Core.ResidualRefinement.State.StageNode (facts := facts)
       (@Node146DecisionStage V) :=
   Core.ResidualRefinement.State.StageNode.decideDependentDecisionOnNoNoAfterYes
-    (Current := fun _ node18 bounded node21 low =>
-      Node145Marker node18 bounded node21 low)
+    (Current := fun _ _node18 _bounded _node21 _low => PUnit)
     (yes := @Node146Route8BelowThreshold V)
     (no := @Node146Route8NotBelow V)
     (fun _ active => by

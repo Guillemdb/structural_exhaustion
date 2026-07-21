@@ -39,7 +39,7 @@ noncomputable abbrev support : Finset ctx.G.Vertex :=
   WalkTypeASupportProfile.support ctx.G.object walk
 
 noncomputable def highCenters : Finset ctx.G.Vertex :=
-  NegativeSupportHandoff.highCenters ctx.G.object (support walk)
+  NegativeSupportHandoff.highCentersAtLeast ctx.G.object 4 (support walk)
 
 structure High where
   center : ctx.G.Vertex
@@ -83,7 +83,7 @@ noncomputable def degreeSplit (minimumDegreeThree : 3 ≤ ctx.G.object.minDegree
     have notHigh : ¬4 ≤ ctx.G.object.degree vertex := by
       intro high
       have selected : vertex ∈ highCenters walk := by
-        simpa [highCenters, NegativeSupportHandoff.highCenters, member, high]
+        simpa [highCenters, NegativeSupportHandoff.highCentersAtLeast, member, high]
       rw [empty] at selected
       simp at selected
     omega

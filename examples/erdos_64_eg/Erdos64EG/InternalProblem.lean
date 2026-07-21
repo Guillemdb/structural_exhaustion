@@ -1,5 +1,6 @@
 import StructuralExhaustion.Graph.MinimumDegreeCycle
 import StructuralExhaustion.Core.CounterexampleBranch
+import StructuralExhaustion.Core.StrictGapAbsorption
 
 namespace Erdos64EG.Internal
 
@@ -142,6 +143,14 @@ Node `[1]` is the unique place where this residual is initialized. -/
 structure InitialResidual (V : Type u) where
   object : Object V
   baseline : Baseline object
+  largeEnoughTail :
+    _root_.StructuralExhaustion.Core.StrictGapAbsorption.LargeEnoughTail
+
+/-- Root ledger fact: the current counterexample lies in the sufficiently
+large tail used by the paper's asymptotic strict-gap arguments. -/
+def InitialLargeEnoughTail {V : Type u} (_residual : InitialResidual V) :
+    Prop :=
+  _root_.StructuralExhaustion.Core.StrictGapAbsorption.LargeEnoughTail
 
 /-- Execute the exact node-`[2]` counterexample decision and the node-`[3]`
 negative terminal.  The framework retains the literal decision branch and the
@@ -149,10 +158,13 @@ single accumulated ledger; the Erdős application supplies only its graph and
 minimum-degree predicate. -/
 noncomputable def runInitialCounterexampleDecision {V : Type u}
     (residual : InitialResidual V) :=
+  let initialState :=
+    (Core.ResidualRefinement.State.initial residual).add
+      (@InitialLargeEnoughTail V) residual.largeEnoughTail
   Core.CounterexampleBranch.run
     (P := problem V) (Target := @Target V)
     InitialResidual.object (fun current => current.baseline)
-    (Core.ResidualRefinement.State.initial residual)
+    initialState
 
 /-- Node `[2]` has exactly the original two exhaustive outcomes. -/
 theorem runInitialCounterexampleDecision_exhaustive {V : Type u}

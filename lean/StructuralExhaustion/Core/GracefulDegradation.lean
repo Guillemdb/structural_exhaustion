@@ -52,7 +52,8 @@ inductive GuardedDegradation
       (outerProof : outerNo residual data) →
       innerYes residual data outerProof → Prop)
     (residual : Residual) :
-    Type (max uInput uTarget uStage uOccurrence) where
+    Type (max (max (max (uInput + 1) (uOccurrence + 2))
+      (uStage + 2)) (uTarget + 1)) where
   | bypass
       (data : FocusedBranchYesTerminalBypass Bypass Active outerYes
         OuterYesOutput Terminal residual)
@@ -82,7 +83,8 @@ inductive GuardedDegradationAlternateContinuation
       FocusedBranchNestedNoActive Active outerNo innerNo residual →
         Type uOccurrence)
     (residual : Residual) :
-    Type (max uInput uTarget uStage uOccurrence) where
+    Type (max (max (max (uInput + 1) (uOccurrence + 2))
+      (uStage + 2)) (uTarget + 1)) where
   | bypass
       (data : FocusedBranchYesTerminalBypass Bypass Active outerYes
         OuterYesOutput Terminal residual)
@@ -115,7 +117,8 @@ inductive GuardedDegradationMerged
         Type uOccurrence)
     (Next : (residual : Residual) → Active residual → Type uOccurrence)
     (residual : Residual) :
-    Type (max uInput uTarget uStage uOccurrence) where
+    Type (max (max (max (uInput + 1) (uOccurrence + 2))
+      (uStage + 2)) (uTarget + 1)) where
   | bypass
       (data : FocusedBranchYesTerminalBypass Bypass Active outerYes
         OuterYesOutput Terminal residual)

@@ -1,5 +1,5 @@
 import Erdos64EG.OfficialStatement
-import Erdos64EG.Node60
+import Erdos64EG.Node63
 import Erdos64EG.Node147
 import Erdos64EG.Node148
 import Erdos64EG.Node149
@@ -17,6 +17,7 @@ import Erdos64EG.Node160
 import Erdos64EG.Node161
 import Erdos64EG.Node162
 import Erdos64EG.Node163
+import Erdos64EG.Node164
 
 /-!
 Structural-exhaustion implementation of the current Erdős Problem 64 proof
@@ -165,5 +166,10 @@ literal predecessor residuals: node `[57]` retains the large-budget net cap
 from node `[56]`, and node `[58]` only names the quarter-scaled net charge
 before the paper's node-`[59]` sign decision.  Node `[59]` is the framework
 dependent sign split, and node `[60]` closes its nonnegative branch by the
-strict net-cap certificate already carried from node `[57]`.
+strict net-cap certificate already carried from node `[57]`.  Node `[61]`
+runs CT11 on the literal remainder-component decomposition to select a
+connected negative support; node `[62]` is the framework high/no-high split;
+node `[64]` routes the high branch to the ordinary Type-B handoff; and node
+`[63]` routes the no-high branch to the Type-A handoff while Core retains the
+same accumulated predecessor ledger on both leaves.
 -/

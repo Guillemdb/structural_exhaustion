@@ -1,0 +1,2092 @@
+\pdfoutput=1
+\documentclass[11pt]{amsart}
+
+\usepackage[margin=1.1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{array,booktabs,longtable}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage[nameinlink,capitalize]{cleveref}
+
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+\raggedbottom
+\emergencystretch=2em
+\numberwithin{equation}{section}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\Wloc}{\mathcal W}
+\newcommand{\Diss}{\mathcal D}
+\newcommand{\Err}{\mathcal E}
+\newcommand{\EntropyGrad}{\mathfrak G}
+\newcommand{\State}{\mathfrak S}
+\newcommand{\SDiff}{\mathrm{SDiff}}
+\newcommand{\diver}{\operatorname{div}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\esssup}{\operatorname*{ess\,sup}}
+\newcommand{\Ploc}{P_{\mathrm{loc}}}
+\newcommand{\kappachi}{\kappa_{\chi,R}}
+
+\title[Conditional localized entropy and compactification]
+{A Conditional Localized Entropy Functional and State-Space Compactification \\
+for Navier--Stokes Singular Branches}
+
+\author{Guillem Duran Ballester}
+\email{guillem@fragile.tech}
+\date{}
+
+\subjclass[2020]{35Q30, 35B44, 35B40, 76D05}
+\keywords{Navier--Stokes equations, singularity formation, local energy estimates, entropy methods, ancient solutions, state-space compactification}
+
+\begin{document}
+
+\begin{abstract}
+Assuming the companion Navier--Stokes manuscripts on local Type~I reduction
+\cite{BallesterSetup}, residual Type~I exclusion \cite{BallesterResidual},
+and Type~II regularity \cite{BallesterTypeII}, we construct a localized
+entropy functional \(\Wloc\) on the singular-branch state space supplied by
+those works.  The functional combines local enstrophy, a localized
+critical-norm velocity budget in \(L^3\), mean-free local pressure in
+\(L^{3/2}\), and a
+normalized backward adjoint weight adapted to the modulated drift of the
+repaired-gauge representation.  Under the imported companion estimates, the
+time derivative of \(\Wloc\) decomposes into an explicit nonnegative
+dissipation, a cutoff-normalizer term controlled by the local Caccioppoli
+estimate, a harmonic-pressure remainder controlled by the localized
+pressure decomposition, a modulation correction controlled by the moving
+corrected monotonicity, and a Type~I rescaling defect controlled by the
+velocity no-escape estimate.  We then identify, in the constrained first
+variation of \(\Wloc\), three Euler--Lagrange residuals -- velocity,
+pressure, and adjoint -- whose simultaneous vanishing characterizes a
+quantitative \emph{zero-gradient balance}.  This balance is matched
+row-by-row with the five terminal model classes of the companion
+architecture, and entropy-critical limits are assigned to the first
+applicable class in the order (1)--(5).  The localized entropy is therefore
+a conditional organizing quantity for the companion program, not a
+replacement for its local PDE estimates.
+\end{abstract}
+
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+
+The local study of possible finite-time singularities for the
+three-dimensional incompressible Navier--Stokes equations
+\begin{equation}\label{eq:NS}
+	\partial_t u - \Delta u + (u\cdot\nabla)u + \nabla p = 0,
+	\qquad \diver u = 0,
+\end{equation}
+on \(\R^3\times(T-\delta,T)\) is governed by a persistent tension between
+scale-critical compactness and the nonlocal structure of the pressure.  Since
+Leray's construction of global weak solutions \cite{Leray1934}, the basic
+local framework has been provided by suitable weak solutions and the partial
+regularity results of Scheffer, Caffarelli--Kohn--Nirenberg, Lin, and
+subsequent authors
+\cite{Scheffer1976,CKN1982,Lin1998,GustafsonKangTsai2007}.  In that
+framework, the relevant local quantities are the scale-invariant velocity
+and pressure functionals, the local energy inequality, and the compactness
+mechanisms surviving parabolic rescaling.  The pressure term is
+indispensable but nonlocal, and that is precisely what complicates a clean
+compactification of singular branches.
+
+The companion manuscripts \cite{BallesterSetup,BallesterResidual,BallesterTypeII}
+respond to this difficulty by a detailed local state-space stratification.
+The setup paper \cite{BallesterSetup} reduces a singular branch either to a
+bounded centered ancient profile produced by Seregin-type extraction, or to
+a local Type~II branch.  The residual paper \cite{BallesterResidual} closes
+the remaining Type~I residual strata.  The Type~II paper
+\cite{BallesterTypeII} proves the repaired-gauge representation, the
+localized pressure decomposition, the compact-cylinder Caccioppoli estimate,
+the multibubble and cascade exclusions, the scale-collapse and scale-rigid
+routing, the windowwise carrier package, the corrected monotonicity, and
+the terminal critical-profile decomposition.  Together these papers yield a
+finite decision tree.
+
+\subsection*{Purpose of this paper}
+
+The companion papers organize the singularity problem as a decision tree of
+named local strata.  Conditional on the estimates and closure theorems
+imported from those papers, this paper shows that the same decision tree can
+be read off from a \emph{single monotone scalar quantity} -- a localized
+entropy \(\Wloc\).  The point is not to bypass the local PDE estimates but
+to package them as the error budget of one identity.  A reader who accepts
+the companion estimates obtains, from the present paper, a one-quantity
+description of the entire stratification.
+
+The motivation comes from two classical sources.  Following Arnold's formal
+interpretation of Euler flow as geodesic motion on the group of
+volume-preserving diffeomorphisms \cite{Arnold1966,EbinMarsden1970}, one may
+regard the convective term as a transport term built into the ambient
+geometry.  Following Hamilton and Perelman \cite{Hamilton1982,Perelman2002},
+one expects a useful organizing quantity to couple a backward adjoint weight
+to the dissipative part of the equation and to penalize failure of
+compactification.  In the present setting, however, the functional must be
+strictly local and compatible with the actual PDE estimates available in the
+companion papers.  We therefore work with local enstrophy, a localized
+critical-norm velocity budget, and mean-free local pressure rather than with
+a global geometric invariant, and we measure the adjoint concentration via a
+Fisher-information component associated with the local backward adjoint
+density on a compact cylinder.
+
+\subsection*{What is rigorously proved here}
+
+The paper is self-contained at the level of the entropy formalism, while its
+local PDE inputs are the imported companion packages stated in
+\Cref{imp:setup-branch-reduction,imp:typeii-analytic-package,imp:residual-typeI-closure,imp:typeii-terminal-closures}.
+Specifically, we prove:
+
+\begin{enumerate}[label=\textup{(\arabic*)},leftmargin=2.2em]
+	\item the f-equation associated with the normalized backward adjoint
+	weight (\cref{prop:f-equation});
+	\item a localized monotonicity identity for \(\Wloc\) with explicit
+	error decomposition (\cref{thm:local-monotonicity}), with each error term
+	tagged to a specific companion theorem;
+	\item the exact constrained first variation
+	(\cref{prop:principal-part}) in a fixed independent-variable framework;
+	\item a conditional matching of the zero-gradient balance with the five
+	terminal model classes (\cref{thm:zero-gradient-recovery}), with the
+	matching specified by an explicit topology and table
+	(\cref{table:gradient-classes-correspondence});
+	\item an ordered-classification theorem assigning every entropy-critical
+	limit to the first applicable terminal class
+	(\cref{thm:five-classes-ordered}).
+\end{enumerate}
+
+The local PDE estimates underlying these statements live in the companion
+papers; \cref{sec:companion-input} restates the exact inputs used here and
+cites them by theorem number.
+
+\subsection*{Main result}
+
+\begin{theorem}[Conditional entropy reduction of the companion program]
+\label{thm:intro-main}
+Within the singular-branch framework of
+\cite{BallesterSetup,BallesterResidual,BallesterTypeII}, there is a
+localized entropy functional
+\(\Wloc=\Wloc_{\chi,R}[V,P,\rho](s;\sigma)\) with the following properties.
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.2em]
+	\item \textbf{Monotonicity (\cref{thm:local-monotonicity}).}
+	Along every admissible branch state,
+	\[
+		\Wloc(s_1;\sigma)-\Wloc(s_2;\sigma)
+		\ge \int_{s_1}^{s_2}\Diss_{\chi,R}(\tau;\sigma)\,d\tau
+		- \Err_{\chi,R}(s_1,s_2;\sigma),
+	\]
+	with \(\Diss_{\chi,R}\ge 0\) explicit and
+	\(\Err_{\chi,R}=\Err^{\mathrm{cut}}+\Err^{\mathrm{prs}}+\Err^{\mathrm{mod}}+\Err^{\mathrm{T1}}\)
+	a sum of four explicit terms, each controlled by a named companion
+	theorem.
+
+	\item \textbf{First variation (\cref{prop:principal-part}).}
+	The constrained first variation of \(\Wloc\) decomposes into three
+	displayed Euler--Lagrange residuals
+	\(\EntropyGrad_{\chi,R}=
+	\bigl(\mathfrak M^{\mathrm{vel}},\mathfrak M^{\mathrm{prs}},\mathfrak M^{\mathrm{adj}}\bigr)\),
+	written out in the fixed independent-variable framework in
+	\eqref{eq:vel-principal-full}--\eqref{eq:adj-principal-full}.
+
+	\item \textbf{Compactification (\cref{prop:entropy-compactification}).}
+	Every admissible singular branch with finite corrected entropy and error
+	budget has an entropy-critical subsequential limit.
+
+	\item \textbf{Conditional classification
+	(\cref{thm:zero-gradient-recovery,thm:five-classes-ordered}).}
+	Using the imported row-entry dictionary, an admissible zero-gradient branch
+	state lies in one of five terminal model classes:
+	(1) compact single-core, (2) multiple-core, (3) rotational or
+	stationary-hull, (4) scale-cascade, (5) diffuse or tail-defect.
+	The correspondence between vanishing components of
+	\(\bigl(\Err_{\chi,R},\mathfrak M^{\mathrm{vel}},\mathfrak M^{\mathrm{prs}},\mathfrak M^{\mathrm{adj}}\bigr)\)
+	and the five classes is recorded in
+	\cref{table:gradient-classes-correspondence}.
+
+	\item \textbf{Ordering (\cref{thm:five-classes-ordered}).}  Every
+	entropy-critical limit lies in the \emph{first} applicable class in the
+	order (1)--(5).
+
+	\item \textbf{Closure (\cref{thm:eliminate-terminal-classes}).}  Each of
+	the five terminal model classes is excluded, under the imported
+	hypotheses, by the terminal-class exclusion package
+	\Cref{imp:terminal-class-exclusion}.
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}
+\Cref{thm:intro-main} is an organizational theorem: the local PDE content
+remains in the companion papers.  What is new here is the entropy
+formulation, the explicit error decomposition, and the explicit
+correspondence between Euler--Lagrange residuals and terminal model classes.
+\end{remark}
+
+\subsection*{Relation to the literature}
+
+The local Navier--Stokes background used throughout consists of Leray's weak
+solutions \cite{Leray1934}, the suitable weak solution framework and partial
+regularity results \cite{Scheffer1976,CKN1982,Lin1998}, classical
+critical-space and local theory
+\cite{Ladyzhenskaya1969,Temam1977,ConstantinFoias1988,Kato1984,LemarieRieusset2002},
+the endpoint regularity theorem of Escauriaza--Seregin--\v Sver\'ak
+\cite{ESS2003}, the self-similar rigidity theorem of
+Ne\v cas--R\r u\v zi\v cka--\v Sver\'ak \cite{NRS1996}, the Liouville theorem
+of Koch--Nadirashvili--Seregin--\v Sver\'ak \cite{KNSS2009}, and the local
+Type~I and ancient-solution inputs of Albritton--Barker and Seregin
+\cite{AlbrittonBarker2019,Seregin2012}.  The pressure terms in the present
+functional are measured in the same mean-free local norms controlled by the
+Calder\'on--Zygmund estimates \cite{CalderonZygmund1952,Stein1970} already
+used in \cite{BallesterTypeII}.
+
+\subsection*{Structure of the paper}
+
+\Cref{sec:companion-input} records the companion results imported into the
+entropy formulation, with theorem-numbered package statements.  \Cref{sec:functional}
+defines the local adjoint weight, derives the f-equation, and defines the
+localized entropy functional.  \Cref{sec:monotonicity} carries out the
+explicit \(\frac{d}{ds}\Wloc\) calculation, displays the four-piece error
+decomposition, and proves the localized monotonicity identity.
+\Cref{sec:gradient} computes the constrained first variation and displays
+the three Euler--Lagrange residuals in the fixed independent-variable
+framework.
+\Cref{sec:critical} extracts entropy-critical limits, identifies them with
+the five terminal model classes via an explicit correspondence table, and
+proves the ordered classification.  \Cref{sec:reduction} applies the imported
+terminal-class exclusion package to exclude each terminal class under the
+stated hypotheses.
+
+\section{Companion Input and the Admissible State Space}
+\label{sec:companion-input}
+
+We import companion results as named theorem packages.  Each package below
+restates only the hypotheses and conclusions used in the entropy argument and
+cites the stable theorem numbers in the companion manuscripts.  Later sections
+refer to these imported packages by the labels introduced here, rather than
+repeating long source-paper citations.
+
+\begin{theorem}[Imported setup and branch-reduction package]
+\label{thm:companion-package}
+\label{imp:setup-branch-reduction}
+Let \((u,p)\) be a suitable weak Navier--Stokes solution with a hypothetical
+singular point.  The setup paper supplies the scale-invariant local
+boundedness criteria, the positive concentration token at a singular point,
+the local Type~I/Type~II branch dichotomy, the local Seregin extraction in the
+Type~I branch, the pointwise Type~I velocity no-escape estimate, and the
+direct Liouville closures for the small, stationary, uniformly tight, and
+structure-controlled bounded centered ancient Type~I profiles.  These are
+\cite[Theorems~4.1, 4.2, 5.7, 6.5, 7.3, 8.4; Lemma~8.7; Theorems~15.7--15.9,
+21.4, and~25.5]{BallesterSetup}.
+\end{theorem}
+
+\begin{theorem}[Imported represented Type~II analytic package]
+\label{imp:typeii-analytic-package}
+Every local Type~II branch produced by \Cref{imp:setup-branch-reduction}
+admits the repaired-gauge representation used in this paper, the local
+pressure decomposition and pressure-normalization comparison, the stability
+topology for subsequences, the renormalized local energy inequality, the
+compact-cylinder Caccioppoli estimate, the fixed- and moving-cutoff corrected
+monotonicity formulae, and the ordered local state-space decomposition.  These
+are
+\cite[Theorems~3.26, 3.36--3.38, 5.4, 9.11, 9.19, 10.3, 10.4, 10.17, 10.18,
+and~10.25; Propositions~3.35 and~5.1; Lemma~5.3]{BallesterTypeII}.
+\end{theorem}
+
+\begin{theorem}[Imported Type~II terminal-closure package]
+\label{imp:typeii-terminal-closures}
+In the represented Type~II state space of \Cref{imp:typeii-analytic-package},
+the compact single-core, multibubble, same-point cascade, separated-point,
+rough-core, scale-collapse, scale-rigid, windowwise carrier, cost-divergence,
+critical-profile, retained compact-test, diffuse-tail, exterior, and final
+local Type~II terminal alternatives are either routed to a previous
+alternative or excluded.  This is the combined content of
+\cite[Theorems~2.19, 4.19, 4.20, 4.45, 5.4, 5.7, 6.7, 6.20, 6.24, 7.130,
+8.6, 8.14, 8.38, 8.41, 8.46, 9.42, 9.82, 9.85, 9.89, 9.91, 9.94, 9.103,
+9.113, 9.134, 9.139, 10.5, 10.6, 10.38, and~10.39; Corollaries~7.123,
+7.128, 9.43, and~9.142; Proposition~4.43]{BallesterTypeII}.
+\end{theorem}
+
+\begin{theorem}[Imported residual Type~I closure package]
+\label{imp:residual-typeI-closure}
+For a residual Type~I branch satisfying the setup normalization and retained
+local \(L^3\)-mass hypotheses, the residual state-space stratification closes
+the rotational, stationary-hull, affine/parasitic, critical-tail,
+diffuse-defect, generic terminal, and remaining residual classes.  In
+particular the residual hypothesis left open by
+\Cref{imp:setup-branch-reduction} is verified.  This is
+\cite[Theorems~1.14, 4.4, 9.27, 9.38, 9.91, 9.98, 9.113, 10.25, 11.2, 11.3,
+and~12.1; Propositions~6.10 and~7.1; Remark~7.4; Corollary~12.2]{BallesterResidual}.
+\end{theorem}
+
+\begin{theorem}[Imported terminal-class exclusion package]
+\label{imp:terminal-class-exclusion}
+Under the admissibility, normalization, branch-topology, retained-mass, and
+finite-budget hypotheses used in this paper, the five terminal classes are
+excluded by the following companion results:
+\begin{center}\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.18\textwidth}
+				>{\raggedright\arraybackslash}p{0.34\textwidth}
+				>{\raggedright\arraybackslash}p{0.40\textwidth}@{}}
+\toprule
+Terminal class & Companion manifestation & Exclusion input \\
+\midrule
+\(\mathcal C_{\mathrm{core}}\) &
+bounded centered Type~I profiles; compact single-core or retained compact-test
+Type~II states &
+\cite[Theorems~15.7--15.9, 21.4, and~25.5]{BallesterSetup};
+\cite[Theorems~2.19, 9.103, and~10.5]{BallesterTypeII} \\
+\(\mathcal C_{\mathrm{multi}}\) &
+multibubble, same-point cascade, separated-point, and terminal decoupling
+states &
+\cite[Theorems~4.19, 4.20, 4.45, 8.6, 8.14, and~10.6]{BallesterTypeII} \\
+\(\mathcal C_{\mathrm{rot}}\) &
+rotational, stationary-hull, and axisymmetric residual branches &
+\cite[Theorem~4.4; Propositions~6.10 and~7.1; Remark~7.4; Theorem~10.25]{BallesterResidual} \\
+\(\mathcal C_{\mathrm{cascade}}\) &
+scale-collapse, scale-rigid, windowwise carrier, and cost-divergence states &
+\cite[Theorems~6.7, 6.20, 6.24, 7.130, and~9.42;
+Corollaries~7.123, 7.128, and~9.43; Proposition~4.43]{BallesterTypeII} \\
+\(\mathcal C_{\mathrm{tail}}\) &
+diffuse, critical-tail, exterior, and terminal inactive defects &
+\cite[Theorems~9.27, 9.38, 9.91, 9.98, and~9.113]{BallesterResidual};
+\cite[Theorems~8.38, 8.41, 8.46, 9.89, 9.91, and~9.94]{BallesterTypeII} \\
+\bottomrule
+\end{tabular}
+\end{center}
+Thus each of the terminal classes
+\(\mathcal C_{\mathrm{core}}, \mathcal C_{\mathrm{multi}},
+\mathcal C_{\mathrm{rot}}, \mathcal C_{\mathrm{cascade}},
+\mathcal C_{\mathrm{tail}}\) has no admissible state satisfying these
+hypotheses.
+\end{theorem}
+
+\begin{definition}[Admissible branch state]
+\label{def:admissible-state}
+An \emph{admissible branch state} is either:
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.2em]
+		\item a bounded centered ancient profile
+		\((V,P)\) on \(\R^3\times(-\infty,0)\)
+		produced by the Type~I Seregin extraction imported in
+		\Cref{imp:setup-branch-reduction}; in this
+		case we set the modulation coefficients to the centered self-similar
+		values \(a(s)\equiv\tfrac12\), \(b(s)\equiv0\), and set
+		\(\nu=1\) in the unified equation below; or
+		\item a represented local Type~II branch \((V,P,a,b)\) on a compact
+		parabolic cylinder \(Q_R=B_R\times(-R^2,0)\) in the sense of the
+		represented Type~II analytic package \Cref{imp:typeii-analytic-package},
+		satisfying the renormalized
+	suitable equation
+	\begin{equation}\label{eq:renorm-NS}
+		\partial_\tau V+(V\cdot\nabla)V+\nabla P-\nu\Delta V
+		= a(\tau)V+a(\tau)(y\cdot\nabla V)+b(\tau)\cdot\nabla V,
+		\qquad \diver V=0,
+	\end{equation}
+		with \(\nu>0\), \(a,b\in L^\infty(-R^2,0)\), the localized pressure
+		decomposition, and the renormalized local energy inequality imported in
+		\Cref{imp:typeii-analytic-package}.
+\end{enumerate}
+We write \(\State\) for the collection of admissible branch states.
+\end{definition}
+
+\begin{remark}\label{rem:typeI-as-subcase}
+Setting \(a\equiv\tfrac12\), \(b\equiv0\), and \(\nu=1\), the renormalized
+equation \eqref{eq:renorm-NS} reduces to the centered self-similar equation
+\[
+	\partial_\tau V+(V\cdot\nabla)V+\nabla P-\Delta V
+	= \tfrac12 V+\tfrac12(y\cdot\nabla V),
+\]
+which is exactly the centered ancient equation produced by Seregin
+extraction.  Thus the Type~I and Type~II cases are simultaneous specializations of
+\eqref{eq:renorm-NS}, justifying the unified treatment below.  All
+calculations of \cref{sec:monotonicity,sec:gradient} are performed on
+\eqref{eq:renorm-NS} and apply to both cases by setting \((a,b,\nu)\) to
+their respective values.
+\end{remark}
+
+The entropy formalism does not introduce a new state space; it is defined on
+the state space already produced by
+\Cref{imp:setup-branch-reduction,imp:typeii-analytic-package}.  The role
+of the entropy is to organize which branch changes are dissipative, which
+are merely routing mechanisms, and which terminal regimes remain after all
+routing has been exhausted.
+
+\begin{remark}[Regularity convention]
+\label{rem:regularity-convention}
+The differential identities in \cref{sec:functional,sec:monotonicity,sec:gradient}
+are first stated and proved for smooth represented branch states and smooth
+positive adjoint weights on compact subcylinders.  For suitable weak or
+limiting branch states, the same formulae are used in the integrated or
+distributional sense obtained by applying the smooth identities to the
+regularized representatives supplied by the companion compactness and local
+energy packages, then passing to the branch topology.  The exact residuals
+and the four error functionals in \cref{def:errors} record the terms that
+must survive this passage to the limit.
+\end{remark}
+
+\section{A Localized Entropy Functional}
+\label{sec:functional}
+
+Throughout this section, fix an admissible branch state
+\((V,P,a,b)\in\State\) represented on \(Q_R=B_R\times(-R^2,0)\), after
+restricting a Type~I ancient profile to \(Q_R\) if necessary, and fix a
+terminal parameter \(\sigma\in(-R^2,0)\).  For \(s\in(-R^2,\sigma)\) set
+\begin{equation}\label{eq:theta}
+	\theta=\theta(s;\sigma):=\sigma-s>0.
+\end{equation}
+Fix a nonnegative, nontrivial cutoff \(\chi\in C_c^\infty(B_R)\); we keep
+\(\chi\) and \(R\) fixed throughout the section.  All errors involving
+derivatives of \(\chi\) are systematically tracked.
+
+\subsection{The normalized backward adjoint weight}
+
+\begin{definition}[Normalized backward adjoint weight]
+\label{def:adjoint-weight}
+A \emph{normalized backward adjoint weight} for \((V,P,a,b)\) on
+\((s_0,\sigma)\) is a positive function
+\(\rho\in C^2(B_R\times(s_0,\sigma))\), \(s_0>-R^2\), satisfying
+\begin{equation}\label{eq:adjoint-rho}
+	-\partial_s\rho-\Delta\rho-\diver\bigl((a(s)y+b(s)-V)\rho\bigr)
+	+\kappachi(s)\rho=0
+	\qquad\text{in }B_R\times(s_0,\sigma),
+\end{equation}
+together with the scalar normalization coefficient
+\begin{equation}\label{eq:kappa-def}
+	\kappachi(s)
+	:=\frac{\displaystyle\int_{B_R}
+	\bigl(\Delta\chi^2-(a(s)y+b(s)-V)\cdot\nabla\chi^2\bigr)\rho\,dy}
+	{\displaystyle\int_{B_R}\chi^2\rho\,dy},
+\end{equation}
+	taken on intervals where the denominator is positive, together with the
+	normalization
+\begin{equation}\label{eq:rho-normalization}
+	\int_{B_R}\chi^2(y)\rho(y,s;\sigma)\,dy=1
+	\qquad\text{for every }s\in(s_0,\sigma).
+\end{equation}
+We write
+\begin{equation}\label{eq:rho-f}
+	\rho(y,s;\sigma)=(4\pi\theta)^{-3/2}e^{-f(y,s;\sigma)},
+\end{equation}
+which uniquely determines \(f\in C^2(B_R\times(s_0,\sigma))\) on the support
+of \(\rho\).
+\end{definition}
+
+\begin{remark}
+The drift \(a(s)y+b(s)-V(y,s)\) in \eqref{eq:adjoint-rho} matches the drift
+of the renormalized equation \eqref{eq:renorm-NS}.  This is the local
+analogue of the conjugate heat equation used in the Hamilton--Perelman
+\(\mathcal W\)-functional.  In contrast to that setting, equation
+\eqref{eq:adjoint-rho} is solved on a compact spatial domain and the
+normalization \eqref{eq:rho-normalization} is imposed via the cutoff
+\(\chi\).  The scalar coefficient \(\kappachi\) is not an additional branch
+modulation; it is the Lagrange multiplier enforcing the weighted mass
+constraint.  Existence for fixed terminal datum can be obtained by solving
+the unnormalized adjoint equation and dividing by
+\(\int\chi^2\rho\), which produces exactly \eqref{eq:kappa-def} on intervals
+where this mass is nonzero.
+\end{remark}
+
+\begin{lemma}[Weighted adjoint mass balance]
+\label{lem:adjoint-rho-conserves-norm}
+For every \(\rho\) satisfying \eqref{eq:adjoint-rho},
+\begin{equation}\label{eq:adjoint-rho-conserves-norm}
+	\frac{d}{ds}\int_{B_R}\chi^2\rho\,dy
+	=-\int_{B_R}\bigl(\Delta\chi^2-(a(s)y+b(s)-V)\cdot\nabla\chi^2\bigr)\rho\,dy
+	+\kappachi(s)\int_{B_R}\chi^2\rho\,dy,
+\end{equation}
+because \(\chi\in C_c^\infty(B_R)\).  In particular, with \(\kappachi\)
+defined by \eqref{eq:kappa-def}, the normalization
+\eqref{eq:rho-normalization} is preserved once it holds at one time.
+\end{lemma}
+
+\begin{proof}
+Multiply \eqref{eq:adjoint-rho} by \(\chi^2\), integrate, and integrate by
+parts.  Using \(\diver V=0\),
+\[
+\begin{aligned}
+	\frac{d}{ds}\int\chi^2\rho
+	&=\int\chi^2\bigl(-\Delta\rho-\diver((a y+b-V)\rho)+\kappachi\rho\bigr)\\
+	&=-\int\Delta\chi^2\,\rho+\int\nabla\chi^2\cdot(a y+b-V)\rho
+	+\kappachi\int\chi^2\rho+\text{boundary terms}.
+\end{aligned}
+\]
+The boundary terms vanish because the support of \(\chi\) is compactly
+contained in \(B_R\).  This is \eqref{eq:adjoint-rho-conserves-norm}.
+Substituting \eqref{eq:kappa-def} gives zero derivative.
+\end{proof}
+
+We now derive the equation satisfied by \(f\).  This is the essential
+piece of preparation for the entropy calculation in
+\cref{sec:monotonicity}.
+
+\begin{proposition}[The f-equation]
+\label{prop:f-equation}
+Let \(\rho=(4\pi\theta)^{-3/2}e^{-f}\) satisfy \eqref{eq:adjoint-rho}.
+Then on \(\{\rho>0\}\),
+\begin{equation}\label{eq:f-equation}
+	\partial_s f+\Delta f-|\nabla f|^2+(a(s)y+b(s)-V)\cdot\nabla f
+	=3a(s)+\frac{3}{2\theta}-\kappachi(s).
+\end{equation}
+Equivalently,
+\begin{equation}\label{eq:f-equation-rewritten}
+	-\partial_s f
+	=\Delta f-|\nabla f|^2+(a(s)y+b(s)-V)\cdot\nabla f
+	-3a(s)-\frac{3}{2\theta}+\kappachi(s).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+By \eqref{eq:rho-f}, \(\rho=(4\pi\theta)^{-3/2}e^{-f}\), hence
+\[
+\begin{aligned}
+	\partial_s\rho
+	&=\frac{3}{2}(4\pi\theta)^{-5/2}(4\pi)e^{-f}-(4\pi\theta)^{-3/2}e^{-f}\partial_s f\\
+	&=\frac{3}{2\theta}\rho-(\partial_s f)\rho,
+\end{aligned}
+\]
+where we used \(\partial_s\theta=-1\), so
+\(\partial_s\bigl((4\pi\theta)^{-3/2}\bigr)
+=(4\pi\theta)^{-3/2}\cdot\frac{3}{2\theta}\).  Similarly,
+\[
+\nabla\rho=-(\nabla f)\rho,\qquad
+\Delta\rho=\bigl(|\nabla f|^2-\Delta f\bigr)\rho.
+\]
+Compute the convective term:
+\[
+\begin{aligned}
+	\diver\bigl((a y+b-V)\rho\bigr)
+	&=\diver(a y+b-V)\,\rho+(a y+b-V)\cdot\nabla\rho\\
+	&=3a(s)\,\rho-(a y+b-V)\cdot(\nabla f)\rho,
+\end{aligned}
+\]
+using \(\diver(a y)=3a\), \(\diver b=0\), and \(\diver V=0\).
+Substituting these into \eqref{eq:adjoint-rho} and dividing by \(\rho>0\),
+\[
+	-\frac{3}{2\theta}+\partial_s f-\bigl(|\nabla f|^2-\Delta f\bigr)
+	-3a(s)+(a y+b-V)\cdot\nabla f+\kappachi(s)=0,
+\]
+which is equivalent to \eqref{eq:f-equation}.
+\end{proof}
+
+\begin{remark}\label{rem:f-equation-shape}
+\Cref{eq:f-equation} is a Hamilton--Jacobi-type equation with viscosity
+\(\Delta f\), nonlinear gradient term \(-|\nabla f|^2\), and modulated drift
+\((a y+b-V)\cdot\nabla f\).  In the centered self-similar Type~I case
+\(a\equiv\tfrac12\), \(b\equiv0\), \(\nu=1\), the right-hand side becomes
+\(\tfrac32+\tfrac{3}{2\theta}-\kappachi\).  The added scalar
+\(\kappachi\) is the cutoff-normalization correction; it disappears in the
+unlocalized whole-space heat-kernel model and is included in the cutoff error
+in the local theory below.
+\end{remark}
+
+\subsection{Pressure normalization}
+
+We write
+\begin{equation}\label{eq:pressure-tilde}
+	\widetilde P(y,s):=P(y,s)-(P)_{B_R}(s),
+	\qquad (P)_{B_R}(s):=\frac{1}{|B_R|}\int_{B_R}P(y,s)\,dy
+\end{equation}
+for the mean-free local pressure.  By the pressure package in
+\Cref{imp:typeii-analytic-package}, this normalization differs from the
+localized Calder\'on--Zygmund piece \(\Ploc\) only by a function of time.  We
+use \(\widetilde P\) inside the entropy integrand because the
+Calder\'on--Zygmund continuity bound and the renormalized local energy
+inequality both reference \(\widetilde P\).
+
+\subsection{The localized entropy functional}
+
+\begin{definition}[Localized entropy functional]
+\label{def:entropy}
+Let \((V,P,a,b)\in\State\), let \(\rho\) be a normalized backward adjoint
+weight, and let \(f\) be defined by \eqref{eq:rho-f}.  The corresponding
+\emph{localized entropy} at time \(s\) relative to terminal time \(\sigma\)
+is
+\begin{equation}\label{eq:entropy-def}
+\begin{aligned}
+	\Wloc_{\chi,R}[V,P,\rho](s;\sigma)
+	:= \int_{B_R}\chi^2
+	\Bigl[
+			\theta |\nabla V|^2
+		+ \theta |V|^3
+		+ \theta |\widetilde P|^{3/2}
+		+ \theta |\nabla f|^2
+		+ f - 3
+	\Bigr]\rho\,dy.
+\end{aligned}
+\end{equation}
+\end{definition}
+
+\begin{lemma}[Parabolic scaling bookkeeping]
+\label{lem:scaling-bookkeeping}
+\label{rem:scaling}
+Let \(z=\lambda y\), \(t=\lambda^2s\), and
+\(\sigma_\lambda=\lambda^{-2}\sigma\).  Set
+\[
+	V_\lambda(y,s)=\lambda V(z,t),\qquad
+	P_\lambda(y,s)=\lambda^2P(z,t),\qquad
+	\rho_\lambda(y,s)=\lambda^3\rho(z,t),
+\]
+\[
+	\chi_\lambda(y)=\chi(z),\qquad
+	f_\lambda(y,s)=f(z,t),\qquad
+	\theta_\lambda(s;\sigma_\lambda)=\lambda^{-2}\theta(t;\sigma).
+\]
+Then \(\rho_\lambda\,dy=\rho\,dz\),
+\(\int\chi_\lambda^2\rho_\lambda\,dy=\int\chi^2\rho\,dz\), and
+\[
+\begin{aligned}
+	\theta_\lambda|\nabla_y f_\lambda|^2
+	&=\theta|\nabla_z f|^2,\\
+	\theta_\lambda|V_\lambda|^3
+	&=\lambda\,\theta|V|^3,\\
+	\theta_\lambda|P_\lambda|^{3/2}
+	&=\lambda\,\theta|P|^{3/2},\\
+	\theta_\lambda|\nabla_y V_\lambda|^2
+	&=\lambda^2\theta|\nabla_z V|^2 .
+\end{aligned}
+\]
+Thus the adjoint Fisher part and the cutoff normalization are exactly
+covariant, while the velocity and pressure terms have the expected local
+coercive weights in the renormalized branch variables.  The entropy
+identity below uses these terms as a controlled local budget; no standalone
+scale-invariance assertion is used in the proof.
+\end{lemma}
+
+\begin{remark}[Heat-kernel normalization]
+In the unlocalized whole-space model
+\(\rho_*(y,s)=(4\pi\theta)^{-3/2}\exp(-|y|^2/(4\theta))\), one has
+\(f=|y|^2/(4\theta)\) and
+\[
+	\int_{\R^3}(\theta|\nabla f|^2+f)\rho_*\,dy=3.
+\]
+Therefore the constant \(-3\) normalizes the pure adjoint heat-kernel state
+to zero when \(V\equiv0\) and \(P\equiv0\).
+\end{remark}
+
+\begin{remark}\label{rem:cutoff-track}
+The cutoff \(\chi\) and the radius \(R\) are tracked explicitly: we will
+show in \cref{sec:monotonicity} that all derivatives of \(\chi\) appear
+inside one named error term \(\Err^{\mathrm{cut}}_{\chi,R}\) and are
+controlled by the compact-cylinder Caccioppoli estimate
+imported in \Cref{imp:typeii-analytic-package}.
+\end{remark}
+
+\section{Monotonicity up to Controlled Local Error}
+\label{sec:monotonicity}
+
+We now compute \(\frac{d}{ds}\Wloc_{\chi,R}\) along the renormalized
+equation \eqref{eq:renorm-NS}, the f-equation \eqref{eq:f-equation}, and
+the local pressure decomposition imported in \Cref{imp:typeii-analytic-package}.
+To make the
+monotonicity statement auditable, we first record an exact identity with no
+implicit commutator terms.  The companion papers are used only afterward,
+to dominate the exact residual by the four named error classes.
+
+\subsection{Setup of the calculation}
+
+For convenience write
+\begin{equation}\label{eq:integrand}
+	\mathcal I(y,s):=\theta |\nabla V|^2+\theta |V|^3
+	+\theta |\widetilde P|^{3/2}+\theta |\nabla f|^2+f-3,
+\end{equation}
+so that \(\Wloc_{\chi,R}=\int\chi^2\mathcal I\rho\,dy\).  We use the
+following localized transport identity with
+\[
+	B(y,s):=a(s)y+b(s)-V(y,s),\qquad
+	L:=\partial_s-\Delta+B\cdot\nabla,
+\]
+throughout the monotonicity calculation.
+
+\begin{lemma}[Localized transport identity]
+\label{lem:localized-transport-identity}
+Let \(\rho\) be a smooth positive solution of \eqref{eq:adjoint-rho}.  For
+any smooth scalar density \(F\), define
+\begin{align}
+	\mathfrak C_{\chi,R}[F](s)
+	&:=\int_{B_R}\bigl[
+	-F\Delta\chi^2-2\nabla\chi^2\cdot\nabla F
+	+F B\cdot\nabla\chi^2\bigr]\rho\,dy,\label{eq:cutoff-functional}\\
+	\mathfrak N_{\chi,R}[F](s)
+	&:=\int_{B_R}\chi^2\kappachi(s)F\rho\,dy.\label{eq:normalizer-functional}
+\end{align}
+Then
+\begin{equation}\label{eq:transport-identity}
+	\frac{d}{ds}\int_{B_R}\chi^2 F\rho\,dy
+	=\int_{B_R}\chi^2 L F\,\rho\,dy
+	+\mathfrak C_{\chi,R}[F](s)
+	+\mathfrak N_{\chi,R}[F](s).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Differentiate under the integral and use \(\partial_s\rho\) from
+\eqref{eq:adjoint-rho}:
+\[
+\begin{aligned}
+	\frac{d}{ds}\int\chi^2F\rho
+	&=\int\chi^2(\partial_sF)\rho
+	+\int\chi^2F\bigl(-\Delta\rho-\diver(B\rho)+\kappachi\rho\bigr)\\
+	&=\int\chi^2(\partial_sF)\rho\,dy
+	+\int\bigl(-\Delta(\chi^2F)+B\cdot\nabla(\chi^2F)\bigr)\rho\,dy
+	+\int\chi^2\kappachi F\rho\,dy,
+\end{aligned}
+\]
+where the boundary integrals vanish by \(\chi\in C_c^\infty(B_R)\);
+expanding derivatives of \(\chi^2\) gives
+\eqref{eq:transport-identity}.
+\end{proof}
+
+Applying \cref{lem:localized-transport-identity} to \(F=\mathcal I\) gives
+the exact master identity
+\begin{equation}\label{eq:dW-ds-master}
+	\frac{d}{ds}\Wloc_{\chi,R}
+	=\int_{B_R}\chi^2 L\mathcal I\,\rho\,dy
+	+\mathfrak C_{\chi,R}[\mathcal I](s)
+	+\mathfrak N_{\chi,R}[\mathcal I](s).
+\end{equation}
+
+\subsection{Exact residual and dissipation}
+
+The nonnegative part of the intrinsic calculation is the following
+dissipation:
+\begin{equation}\label{eq:dissipation}
+\boxed{
+\begin{aligned}
+	\Diss_{\chi,R}(s;\sigma)
+	:=
+	&\int\chi^2\Bigl[2\nu\theta|\nabla^2 V|^2
+	+|\nabla V|^2
+	+6\nu\theta|V||\nabla V|^2
+	+|V|^3\\
+	&\qquad\quad+|\widetilde P|^{3/2}
+	+2\theta|\nabla^2 f|^2\Bigr]\rho\,dy.
+\end{aligned}}
+\end{equation}
+The boxed expression is manifestly nonnegative.  No spectral-gap or
+Bakry--\'Emery Poincar\'e inequality is used in this version of the entropy
+identity.
+
+We now define the exact intrinsic residual by
+\begin{equation}\label{eq:intrinsic-residual}
+	\mathfrak R_{\chi,R}^{\mathrm{int}}(s;\sigma)
+	:=\int_{B_R}\chi^2 L\mathcal I\,\rho\,dy
+	+\Diss_{\chi,R}(s;\sigma).
+\end{equation}
+Equivalently, splitting
+\(\mathcal I=\mathcal I_{\nabla V}+\mathcal I_V+\mathcal I_P+\mathcal I_f+\mathcal I_0\)
+with
+\[
+	\mathcal I_{\nabla V}:=\theta|\nabla V|^2,\quad
+	\mathcal I_V:=\theta|V|^3,\quad
+	\mathcal I_P:=\theta|\widetilde P|^{3/2},\quad
+	\mathcal I_f:=\theta|\nabla f|^2,\quad
+	\mathcal I_0:=f-3,
+\]
+the residual is the sum of the five displayed scalar defects
+\begin{align}
+	\mathfrak R_{\nabla V}
+	&:=\int\chi^2 L\mathcal I_{\nabla V}\rho
+	+2\nu\theta\int\chi^2|\nabla^2 V|^2\rho
+	+\int\chi^2|\nabla V|^2\rho,\label{eq:R-gradV}\\
+	\mathfrak R_V
+	&:=\int\chi^2 L\mathcal I_V\rho
+	+6\nu\theta\int\chi^2|V||\nabla V|^2\rho
+	+\int\chi^2|V|^3\rho,\label{eq:R-V}\\
+	\mathfrak R_P
+	&:=\int\chi^2 L\mathcal I_P\rho
+	+\int\chi^2|\widetilde P|^{3/2}\rho,\label{eq:R-P}\\
+	\mathfrak R_f
+	&:=\int\chi^2 L\mathcal I_f\rho
+	+2\theta\int\chi^2|\nabla^2f|^2\rho,\label{eq:R-f}\\
+	\mathfrak R_0
+	&:=\int\chi^2 L\mathcal I_0\rho.\label{eq:R-zero}
+\end{align}
+Thus
+\[
+	\mathfrak R_{\chi,R}^{\mathrm{int}}
+	=\mathfrak R_{\nabla V}+\mathfrak R_V+\mathfrak R_P+\mathfrak R_f+\mathfrak R_0.
+\]
+Every term not explicitly present in \(\Diss_{\chi,R}\), including pressure
+couplings, drift/modulation couplings, first-order Fisher terms, and scalar
+normalization terms, is therefore visible in one of
+\eqref{eq:R-gradV}--\eqref{eq:R-zero}.  Combining
+\eqref{eq:dW-ds-master} and \eqref{eq:intrinsic-residual} gives the exact
+differential identity
+\begin{equation}\label{eq:dW-ds-assembled}
+	\frac{d}{ds}\Wloc_{\chi,R}
+	=-\Diss_{\chi,R}(s;\sigma)
+	+\mathfrak R_{\chi,R}^{\mathrm{int}}(s;\sigma)
+	+\mathfrak C_{\chi,R}[\mathcal I](s)
+	+\mathfrak N_{\chi,R}[\mathcal I](s).
+\end{equation}
+This is the identity used below.  All terms outside the displayed
+dissipation are accounted for by the exact residual
+\(\mathfrak R_{\chi,R}^{\mathrm{int}}\) and the two explicit localization
+functionals \(\mathfrak C_{\chi,R}\) and \(\mathfrak N_{\chi,R}\).
+
+\subsection{The four-piece error budget}
+
+We now define the four named error contributions as a domination package for
+the exact residual in \eqref{eq:dW-ds-assembled}.  This is the precise place
+where the companion papers enter.
+
+\begin{definition}[Named error terms]
+\label{def:errors}
+On \((s_1,s_2)\subset(-R^2,\sigma)\), a four-piece error decomposition is a
+quadruple of nonnegative absolutely continuous interval functionals
+\[
+	\Err^{\mathrm{cut}}_{\chi,R},\qquad
+	\Err^{\mathrm{prs}}_{\chi,R},\qquad
+	\Err^{\mathrm{mod}}_{\chi,R},\qquad
+	\Err^{\mathrm{T1}}_{\chi,R},
+\]
+with \(\Err^{\mathrm{T1}}_{\chi,R}\equiv0\) in the Type~II case, such that
+there are nonnegative densities
+\(\mathfrak e^{\mathrm{cut}},\mathfrak e^{\mathrm{prs}},
+\mathfrak e^{\mathrm{mod}},\mathfrak e^{\mathrm{T1}}\in L^1_{\mathrm{loc}}\)
+with
+\[
+	\Err^\bullet_{\chi,R}(s_1,s_2)
+	=\int_{s_1}^{s_2}\mathfrak e^\bullet_{\chi,R}(s)\,ds,
+\]
+and
+\begin{equation}\label{eq:error-domination}
+\begin{aligned}
+	&\int_{s_1}^{s_2}
+	\Bigl|
+	\mathfrak R_{\chi,R}^{\mathrm{int}}(s;\sigma)
+	+\mathfrak C_{\chi,R}[\mathcal I](s)
+	+\mathfrak N_{\chi,R}[\mathcal I](s)
+	\Bigr|\,ds\\
+	&\qquad\le
+	\Err^{\mathrm{cut}}_{\chi,R}(s_1,s_2)
+	+\Err^{\mathrm{prs}}_{\chi,R}(s_1,s_2)
+	+\Err^{\mathrm{mod}}_{\chi,R}(s_1,s_2)
+	+\Err^{\mathrm{T1}}_{\chi,R}(s_1,s_2).
+\end{aligned}
+\end{equation}
+The total error is
+\[
+	\Err_{\chi,R}:=\Err^{\mathrm{cut}}_{\chi,R}
+	+\Err^{\mathrm{prs}}_{\chi,R}
+	+\Err^{\mathrm{mod}}_{\chi,R}
+	+\Err^{\mathrm{T1}}_{\chi,R}.
+\]
+\end{definition}
+
+\begin{remark}\label{rem:err-interpretation}
+\(\Err^{\mathrm{cut}}\) measures derivatives falling on \(\chi\) and the
+cutoff normalizer \(\kappachi\), i.e. the terms represented by
+\(\mathfrak C_{\chi,R}\) and \(\mathfrak N_{\chi,R}\).
+\(\Err^{\mathrm{prs}}\) measures the components of
+\(\mathfrak R_{\chi,R}^{\mathrm{int}}\) involving the local pressure
+decomposition and its harmonic remainder.
+\(\Err^{\mathrm{mod}}\) measures the components of
+\(\mathfrak R_{\chi,R}^{\mathrm{int}}\) carrying \(a(s)\), \(b(s)\), and
+moving-cutoff modulation.
+\(\Err^{\mathrm{T1}}\) measures the Type~I rescaling defect for centered
+ancient profiles only.  Each term will now be controlled by a named
+companion theorem.
+\end{remark}
+
+\subsection{Companion-theorem control of the four error terms}
+
+\begin{theorem}[Imported companion domination of the exact residual]
+\label{ass:companion-error-domination}
+\label{imp:exact-error-domination}
+For every admissible represented branch, every cutoff
+\(\chi\in C_c^\infty(B_R)\) with \(\chi\equiv1\) on \(B_{R/2}\), and every
+interval \((s_1,s_2)\Subset(-R^2,\sigma)\), the companion estimates provide
+a four-piece error decomposition in the sense of \cref{def:errors}.  More
+precisely:
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.2em]
+	\item The cutoff and normalizer terms
+	\(\mathfrak C_{\chi,R}[\mathcal I]\) and
+	\(\mathfrak N_{\chi,R}[\mathcal I]\) are included in
+	\(\Err^{\mathrm{cut}}_{\chi,R}\) and are controlled by the compact
+	cylinder Caccioppoli, cutoff, and renormalized local-energy estimates
+	\cite[Theorem~5.4 and Proposition~5.1]{BallesterTypeII}.
+
+	\item The pressure components of
+	\(\mathfrak R_{\chi,R}^{\mathrm{int}}\), including the harmonic-pressure
+	remainder from the local decomposition of \(\widetilde P\), are included
+	in \(\Err^{\mathrm{prs}}_{\chi,R}\) and are controlled by the pressure
+	decomposition and pressure-normalization comparison
+	\cite[Theorem~3.26 and Lemma~5.3]{BallesterTypeII}.
+
+	\item The terms in \(\mathfrak R_{\chi,R}^{\mathrm{int}}\) containing
+	the modulation coefficients \(a,b\) and the moving cutoff are included in
+	\(\Err^{\mathrm{mod}}_{\chi,R}\) and are controlled by the fixed- and
+	moving-cutoff corrected monotonicity formulae
+	\cite[Theorems~9.11 and~9.19]{BallesterTypeII}.
+
+	\item In the Type~I rescaling case, the rescaling defect is included in
+	\(\Err^{\mathrm{T1}}_{\chi,R}\) and is controlled by the velocity
+	no-escape estimate \cite[Theorem~6.5]{BallesterSetup}; in the
+	Type~II case this term is identically zero.
+\end{enumerate}
+Together these estimates imply the domination inequality
+\eqref{eq:error-domination}.  This theorem is not an additional PDE
+claim of the entropy paper; it records the precise imported content from the
+companion manuscripts needed to turn the exact identity
+\eqref{eq:dW-ds-assembled} into monotonicity.
+\end{theorem}
+
+\begin{lemma}[Assembly of the exact domination inequality]
+\label{lem:exact-domination-assembly}
+Assume the four imported bounds in \Cref{imp:exact-error-domination}.  Then
+the single domination estimate \eqref{eq:error-domination} follows with no
+omitted remainder.
+\end{lemma}
+
+\begin{proof}
+The exact scalar integrand in \eqref{eq:error-domination} is first expanded
+using the displayed identity
+\(\mathfrak R_{\chi,R}^{\mathrm{int}}
+=\mathfrak R_{\nabla V}+\mathfrak R_V+\mathfrak R_P+\mathfrak R_f
++\mathfrak R_0\), together with the explicit cutoff-normalizer terms
+\(\mathfrak C_{\chi,R}[\mathcal I]\) and
+\(\mathfrak N_{\chi,R}[\mathcal I]\).  The companion estimates quoted in
+\Cref{imp:exact-error-domination}\textup{(i)--(iv)} are assumed precisely for
+this expanded list of terms: cutoff and normalizer contributions are assigned
+to \(\Err^{\mathrm{cut}}\), pressure-decomposition contributions to
+\(\Err^{\mathrm{prs}}\), repaired-gauge and moving-window contributions to
+\(\Err^{\mathrm{mod}}\), and the Type~I rescaling defect to
+\(\Err^{\mathrm{T1}}\).  Applying those four estimates term by term and then
+using the triangle inequality in time gives \eqref{eq:error-domination}.  No
+spatial boundary term remains because the transport identity is tested with
+\(\chi\in C_c^\infty(B_R)\).  This lemma concerns the monotonicity identity
+only; the cutoff derivatives appearing in the separate first-variation
+identity are tracked separately in \(\mathcal B_{\chi,R}\) and enter later
+through the imported zero-gradient bridge.
+\end{proof}
+
+\subsection{The localized monotonicity identity}
+
+We can now state the main identity.
+
+\begin{theorem}[Localized monotonicity identity]
+\label{thm:local-monotonicity}
+Let \((V,P,a,b)\in\State\) be an admissible represented branch on \(Q_R\),
+let \(\chi\in C_c^\infty(B_R)\) satisfy \(\chi\equiv1\) on \(B_{R/2}\), and
+let \(-R^2<s_1<s_2<\sigma<0\).  If \(\rho\) is a normalized backward
+adjoint weight on a time interval containing \([s_1,s_2]\), then
+	\begin{equation}\label{eq:monotonicity}
+		\Wloc_{\chi,R}(s_1;\sigma)-\Wloc_{\chi,R}(s_2;\sigma)
+		\ge
+		\int_{s_1}^{s_2}\Diss_{\chi,R}(\tau;\sigma)\,d\tau
+		-\Err_{\chi,R}(s_1,s_2;\sigma),
+	\end{equation}
+where \(\Diss_{\chi,R}\ge 0\) is given by \eqref{eq:dissipation}, and
+	\(\Err_{\chi,R}=\Err^{\mathrm{cut}}+\Err^{\mathrm{prs}}+\Err^{\mathrm{mod}}+\Err^{\mathrm{T1}}\)
+is the four-piece error of \cref{def:errors}, supplied by
+\cref{imp:exact-error-domination}.
+\end{theorem}
+
+\begin{proof}
+Integrating the exact identity \eqref{eq:dW-ds-assembled} on
+\((s_1,s_2)\) gives
+\[
+	\Wloc_{\chi,R}(s_2;\sigma)-\Wloc_{\chi,R}(s_1;\sigma)
+	=-\int_{s_1}^{s_2}\Diss_{\chi,R}(\tau;\sigma)\,d\tau
+	+\int_{s_1}^{s_2}
+	\bigl[
+	\mathfrak R_{\chi,R}^{\mathrm{int}}
+	+\mathfrak C_{\chi,R}[\mathcal I]
+	+\mathfrak N_{\chi,R}[\mathcal I]
+	\bigr]\,d\tau .
+\]
+By \cref{lem:exact-domination-assembly}, the absolute value of the last
+integral is bounded by \(\Err_{\chi,R}(s_1,s_2;\sigma)\).  Rearranging
+gives \eqref{eq:monotonicity}.  Nonnegativity of
+\(\Diss_{\chi,R}\) is immediate from \eqref{eq:dissipation}.
+\end{proof}
+
+\begin{corollary}[Existence of one-sided entropy limits]
+\label{cor:entropy-limit}
+For every admissible singular branch and every fixed local cutoff
+\(\chi\), on every interval where \(\Wloc_{\chi,R}(\cdot;\sigma)\) is finite
+and the four error terms are absolutely continuous and additive in their
+upper limit, the improper tail error
+\[
+	\Err_{\chi,R}(s,\sigma;\sigma)
+	:=\lim_{r\uparrow\sigma}\Err_{\chi,R}(s,r;\sigma)
+\]
+exists whenever the total error is finite.  On such intervals, the function
+\[
+	s\longmapsto
+	\Wloc_{\chi,R}(s;\sigma)+\Err_{\chi,R}(s,\sigma;\sigma)
+\]
+is nonincreasing as \(s\uparrow\sigma\).  Consequently, if the corrected
+entropy and terminal error remain finite up to \(\sigma\), then
+\(\Wloc_{\chi,R}(\cdot;\sigma)\) has a finite one-sided limit after
+accounting for the controlled terminal error.
+\end{corollary}
+
+\begin{proof}
+Fix \(s_1<s_2<\sigma\).  By additivity,
+\[
+	\Err_{\chi,R}(s_1,\sigma;\sigma)
+	=\Err_{\chi,R}(s_1,s_2;\sigma)
+	+\Err_{\chi,R}(s_2,\sigma;\sigma).
+\]
+Adding this identity to \cref{thm:local-monotonicity} gives
+\[
+\begin{aligned}
+	&\Wloc_{\chi,R}(s_1;\sigma)+\Err_{\chi,R}(s_1,\sigma;\sigma)\\
+	&\qquad\ge
+	\Wloc_{\chi,R}(s_2;\sigma)+\Err_{\chi,R}(s_2,\sigma;\sigma)
+	+\int_{s_1}^{s_2}\Diss_{\chi,R}(\tau;\sigma)\,d\tau .
+\end{aligned}
+\]
+Thus the corrected entropy is finite and monotone decreasing as time
+advances toward \(\sigma\).  Monotone convergence yields the asserted
+one-sided limit.
+\end{proof}
+
+\begin{remark}[Closed-form check on the model heat kernel]
+\label{rem:heat-kernel-check}
+Let \(V\equiv0\), \(P\equiv0\), \(a\equiv0\), \(b\equiv0\), and
+\(\rho_*=(4\pi\theta)^{-3/2}\exp(-|y|^2/(4\theta))\), so
+\(f_*=|y|^2/(4\theta)\) and the f-equation \eqref{eq:f-equation} reduces to
+\(\partial_s f_*+\Delta f_*-|\nabla f_*|^2=3/(2\theta)\), satisfied
+identically.  All velocity and pressure terms vanish, and direct
+computation gives
+\[
+	\theta|\nabla f_*|^2+f_*-3
+	=\frac{|y|^2}{4\theta}+\frac{|y|^2}{4\theta}-3
+	=\frac{|y|^2}{2\theta}-3.
+\]
+The Gaussian moments
+\[
+	\int_{\R^3}\frac{|y|^2}{2\theta}\,
+	(4\pi\theta)^{-3/2}e^{-|y|^2/(4\theta)}\,dy=3,
+	\qquad
+	\int_{\R^3}\rho_*\,dy=1
+\]
+yield \(\Wloc_{1,\infty}[0,0,\rho_*](s;\sigma)=3-3=0\), confirming that the
+constant \(-3\) is the correct dimensional offset.  This is the Perelman
+\(\mathcal W\)-style normalization, transported to the local
+compact-cylinder setting.
+\end{remark}
+
+\section{First Variation and Vanishing Entropy Gradient}
+\label{sec:gradient}
+
+To recover the terminal singular geometries from the entropy functional
+quantitatively, we use a constrained first variation of \(\Wloc\) as a
+diagnostic.  The variational framework is fixed once and for all in this
+section: \(V\), \(P\), and \(f\) are varied independently, while the
+constraints \(\diver V=0\), \(\int P=0\), and
+\(\int\chi^2\rho=1\) are imposed on the test directions.  We do not vary
+the Calder\'on--Zygmund pressure map \(P[V]\), nor do we vary the adjoint
+equation itself.  Those PDE relations enter later through the branch
+equation and the companion row-entry package, not through the first
+variation.
+
+\subsection{Constrained perturbations}
+
+Let \((V,P,a,b)\in\State\) be an admissible branch state, fix a cutoff
+\(\chi\in C_c^\infty(B_R)\) and a normalized adjoint weight
+\(\rho=(4\pi\theta)^{-3/2}e^{-f}\).  We allow simultaneous perturbations
+\begin{equation}\label{eq:perturbations}
+	V_\varepsilon=V+\varepsilon\varphi,\qquad
+	P_\varepsilon=P+\varepsilon\psi,\qquad
+	f_\varepsilon=f+\varepsilon\eta,
+\end{equation}
+with \(\varphi\in C_c^\infty(B_R;\R^3)\) divergence-free,
+\(\psi\in C_c^\infty(B_R)\) with \(\int_{B_R}\psi=0\), and
+\(\eta\in C_c^\infty(B_R)\) satisfying
+\begin{equation}\label{eq:eta-constraint}
+	\int_{B_R}\chi^2\eta\rho\,dy=0,
+\end{equation}
+which preserves the normalization \eqref{eq:rho-normalization} to first
+order, since \(\rho_\varepsilon=(4\pi\theta)^{-3/2}e^{-(f+\varepsilon\eta)}\).
+We do \emph{not} perturb \((a,b,\nu)\); these are fixed parameters of the
+represented branch.
+
+\subsection{The three Euler--Lagrange residuals: full statement}
+
+Recall the integrand
+\(\mathcal I=\theta|\nabla V|^2+\theta|V|^3+\theta|\widetilde P|^{3/2}
++\theta|\nabla f|^2+f-3\).
+
+\begin{proposition}[Exact constrained first variation]
+\label{prop:principal-part}
+For perturbations \eqref{eq:perturbations} as above, the first variation of
+\(\Wloc_{\chi,R}\) decomposes as
+\begin{equation}\label{eq:first-variation-identity}
+	\left.\frac{d}{d\varepsilon}\right|_{\varepsilon=0}
+	\Wloc_{\chi,R}[V_\varepsilon,P_\varepsilon,\rho_\varepsilon](s;\sigma)
+	= \int_{B_R}\chi^2\rho
+	\Bigl(
+			\mathfrak M^{\mathrm{vel}}\cdot\varphi
+		+ \mathfrak M^{\mathrm{prs}}\,\psi
+		+ \mathfrak M^{\mathrm{adj}}\,\eta
+	\Bigr)\,dy
+	+ \mathcal B_{\chi,R}[\varphi,\psi,\eta],
+\end{equation}
+where \(\rho_\varepsilon=(4\pi\theta)^{-3/2}e^{-(f+\varepsilon\eta)}\).  The
+cutoff contribution is supported where \(\nabla\chi\ne0\):
+\begin{equation}\label{eq:cB-explicit}
+	\mathcal B_{\chi,R}[\varphi,\psi,\eta]
+	=\int_{B_R}
+	\bigl[
+	-2\theta\,((\nabla V)\nabla\chi^2)\cdot\varphi
+	-2\theta\,\eta\,\nabla\chi^2\cdot\nabla f
+	\bigr]\rho\,dy,
+\end{equation}
+and the residual representatives, understood as weighted constrained
+functionals and pointwise on the set where their displayed weights are
+nonzero, are
+\begin{align}
+	\mathfrak M^{\mathrm{vel}}(y,s)
+	&=-2\theta\rho^{-1}\diver(\rho\,\nabla V)+3\theta|V|V,
+	\label{eq:vel-principal-full}\\[4pt]
+	\mathfrak M^{\mathrm{prs}}(y,s)
+	&=\tfrac32\theta|\widetilde P|^{-1/2}\widetilde P
+	-\lambda_{\mathrm{prs}}(s)(\chi^2\rho)^{-1},
+	\label{eq:prs-principal-full}\\[4pt]
+	\mathfrak M^{\mathrm{adj}}(y,s)
+	&=-2\theta\rho^{-1}\diver(\rho\,\nabla f)
+	+1-\mathcal I-\Lambda(s).
+	\label{eq:adj-principal-full}
+\end{align}
+The factor \( |\widetilde P|^{-1/2}\widetilde P\) is interpreted as \(0\)
+on \(\{\widetilde P=0\}\), the continuous derivative of
+\(|\widetilde P|^{3/2}\) at the origin.
+Here
+\begin{equation}\label{eq:lambda-prs-def}
+	\lambda_{\mathrm{prs}}(s)
+	:=\frac1{|B_R|}\int_{B_R}\chi^2\rho\,
+	\tfrac32\theta|\widetilde P|^{-1/2}\widetilde P\,dy
+\end{equation}
+is the canonical representative of the mean-free pressure projection, and
+\(\Lambda(s)\) is the Lagrange multiplier
+\begin{equation}\label{eq:Lambda-def}
+	\Lambda(s):=\int_{B_R}\chi^2\rho\,
+	\bigl[-2\theta\rho^{-1}\diver(\rho\nabla f)+1-\mathcal I\bigr]\,dy
+\end{equation}
+for the normalized-adjoint constraint \eqref{eq:eta-constraint}.  With these
+choices, \(\chi^2\rho\,\mathfrak M^{\mathrm{prs}}\) has zero Lebesgue mean
+and \(\mathfrak M^{\mathrm{adj}}\) has zero \(\chi^2\rho\)-mean.
+\end{proposition}
+
+\begin{proof}
+Differentiate \eqref{eq:entropy-def} in \(\varepsilon\) and evaluate at
+\(\varepsilon=0\).  Since this is the independent-variable framework,
+\(P\) does not vary through \(V\), and \(\rho\) varies only through
+\(f_\varepsilon\).
+
+The \(V\)-terms give
+\[
+	\int\chi^2\rho\,
+	\bigl(2\theta\nabla V:\nabla\varphi+3\theta|V|V\cdot\varphi\bigr)\,dy.
+\]
+Integrating only the interior weight \(\rho\) by parts gives
+\[
+	2\theta\int\chi^2\rho\,\nabla V:\nabla\varphi
+	=\int\chi^2\rho\,
+	\bigl[-2\theta\rho^{-1}\diver(\rho\nabla V)\bigr]\cdot\varphi\,dy
+	-2\theta\int\rho\,((\nabla V)\nabla\chi^2)\cdot\varphi\,dy.
+\]
+Thus the first term in \eqref{eq:cB-explicit} is exactly the cutoff
+correction not included in the interior residual
+\eqref{eq:vel-principal-full}.  Since \(\varphi\) is divergence-free, the
+interior representative is understood modulo gradients.
+
+The pressure term gives
+\[
+	\int\chi^2\rho\,
+	\tfrac32\theta|\widetilde P|^{-1/2}\widetilde P\,\psi\,dy.
+\]
+Here \(\delta\widetilde P=\psi\) because the direction \(\psi\) has zero
+Lebesgue mean.  The same constraint means that subtracting
+\(\lambda_{\mathrm{prs}}(\chi^2\rho)^{-1}\) does not change the functional.
+The value in \eqref{eq:lambda-prs-def} is chosen only to fix the representative
+by imposing zero Lebesgue mean on \(\chi^2\rho\,\mathfrak M^{\mathrm{prs}}\).
+This is \eqref{eq:prs-principal-full}.
+
+For the adjoint variable,
+\(\partial_\varepsilon\rho_\varepsilon|_{\varepsilon=0}=-\eta\rho\).  Hence
+\[
+	\delta_f\Wloc
+	=\int\chi^2\rho\,
+	\bigl(2\theta\nabla f\cdot\nabla\eta+(1-\mathcal I)\eta\bigr)\,dy.
+\]
+Again integrating only the interior weight \(\rho\) by parts gives
+\[
+	2\theta\int\chi^2\rho\,\nabla f\cdot\nabla\eta
+	=\int\chi^2\rho\,
+	\bigl[-2\theta\rho^{-1}\diver(\rho\nabla f)\bigr]\eta\,dy
+	-2\theta\int\rho\,\eta\,\nabla\chi^2\cdot\nabla f\,dy.
+\]
+This gives \eqref{eq:adj-principal-full} together with the second cutoff
+term in \eqref{eq:cB-explicit}.  Since
+\(\int\chi^2\rho\,dy=1\), the choice \eqref{eq:Lambda-def} subtracts the
+weighted mean of the interior adjoint coefficient; subtracting this constant
+does not change the functional on test functions satisfying
+\(\int\chi^2\eta\rho=0\).
+\end{proof}
+
+\begin{remark}\label{rem:no-hidden-terms}
+The residuals in \eqref{eq:vel-principal-full}--\eqref{eq:adj-principal-full}
+are interior variational residuals of \(\Wloc\), not the Navier--Stokes
+equation itself.  All derivatives of the cutoff have been placed in the
+single explicit functional \(\mathcal B_{\chi,R}\), so there is no double
+counting between \(\mathfrak M^{\mathrm{vel}},\mathfrak M^{\mathrm{adj}}\)
+and \(\mathcal B_{\chi,R}\).  The pressure equation, the modulated branch
+equation, and the adjoint equation are imposed separately through \(\State\)
+and \cref{imp:exact-error-domination}.  This avoids mixing two different
+variational problems: independent \((V,P,f)\) variation and reduced
+variation through \(P[V]\) or \(\rho[V]\).
+\end{remark}
+
+\subsection{Zero-gradient branch states}
+
+\begin{definition}[Zero-gradient branch state]
+\label{def:zero-gradient-state}
+An admissible branch state \(S=(V,P,a,b)\in\State\) is a
+\emph{zero-gradient branch state} if there exist a cutoff
+\(\chi\in C_c^\infty(B_R)\), a normalized adjoint weight
+\(\rho=(4\pi\theta)^{-3/2}e^{-f}\), a row index
+\(k\in\{1,\dots,5\}\), and admissible row data \(\mathcal D_k\), such that
+the constrained first variation vanishes after the row normalization:
+\begin{equation}\label{eq:zero-gradient-condition}
+	\mathcal Z_k(S,\rho,\chi;\mathcal D_k)=0
+	\qquad\text{in }\mathcal T_{\mathrm{br}}.
+\end{equation}
+Here
+\[
+	\langle A,\phi\rangle_{\chi^2\rho}:=\int_{B_R}\chi^2\rho\,A\phi\,dy
+\]
+for scalar residuals, with the analogous dot product for vector residuals,
+and \(\mathcal Z_k=0\) means the following simultaneous conditions.
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.2em]
+	\item The pressure residual vanishes in the dual of mean-free pressure
+	variations:
+	\[
+		\langle \mathfrak M^{\mathrm{prs}},\psi\rangle_{\chi^2\rho}=0
+		\qquad
+		\text{for every }\psi\in C_c^\infty(B_R),\quad
+		\int_{B_R}\psi\,dy=0.
+	\]
+
+	\item The adjoint residual vanishes in the dual of normalization-preserving
+	adjoint variations, except in row \(k=5\), where the only allowed
+	nonzero part is the tail measure specified by \(\mathcal D_5\):
+	\[
+		\langle \mathfrak M^{\mathrm{adj}},\eta\rangle_{\chi^2\rho}=0
+		\qquad
+		\text{for every }\eta\in C_c^\infty(B_R),\quad
+		\int_{B_R}\chi^2\eta\rho\,dy=0,
+	\]
+	after discarding the row-\(5\) tail defect outside every compact subset
+	on which the companion topology has retained mass.
+
+	\item The velocity residual vanishes in the divergence-free dual after the
+	row-specific normalization.  For rows \(k=1,2,4\), this says that
+	\(\mathfrak M^{\mathrm{vel}}\) is a gradient on the retained compact
+	core, on each separated core, or on each selected scale window,
+	respectively.  For row \(k=3\), there is a constant
+	\(\Omega\in\mathfrak{so}(3)\) in \(\mathcal D_3\) such that
+	\[
+		\mathfrak M^{\mathrm{vel}}
+		-\theta\bigl(\Omega V-(\Omega y)\cdot\nabla V\bigr)
+	\]
+	is a gradient in the divergence-free dual.  For row \(k=5\), the velocity
+	residual is a gradient modulo the tail defect measure in \(\mathcal D_5\).
+
+	\item The cutoff first-variation functional satisfies
+	\begin{equation}\label{eq:cB-vanish}
+		\mathcal B_{\chi,R}\to0
+	\end{equation}
+	in \(\mathcal T_{\mathrm{br}}\), after the same row normalization.
+\end{enumerate}
+For \(k=1\) and no defect data, \eqref{eq:zero-gradient-condition} reduces
+to the strict vanishing of
+\(\mathfrak M^{\mathrm{vel}},\mathfrak M^{\mathrm{prs}},
+\mathfrak M^{\mathrm{adj}}\) and \(\mathcal B_{\chi,R}\) as constrained
+functionals.
+\end{definition}
+
+\begin{remark}\label{rem:component-vanishing}
+Because the three residuals come with the constraints
+\(\diver\varphi=0\), \(\int\psi=0\), \(\int\chi^2\eta\rho=0\) on the
+admissible perturbations, all equalities above are equalities in constrained
+duals.  Thus gradients are invisible to the velocity variation, constants
+are invisible to the mean-free pressure variation after the projection
+\eqref{eq:lambda-prs-def}, and constants in the adjoint Euler--Lagrange
+equation are fixed by the multiplier \(\Lambda(s)\).  Rows (3)--(5) do not
+change the Euler--Lagrange residuals; they specify the additional symmetry,
+window normalization, or tail defect that the companion topology permits
+before testing the same constrained duals.
+\end{remark}
+
+\subsection{Quantitative correspondence with the five terminal classes}
+
+\begin{definition}[Limiting branch topology]
+\label{def:branch-topology}
+The limiting topology used in \cref{table:gradient-classes-correspondence}
+is the companion branch topology \(\mathcal T_{\mathrm{br}}\).  It consists
+of local strong convergence of \(V\) in \(L^3_{\mathrm{loc}}\), local strong
+convergence of \(\widetilde P\) in \(L^{3/2}_{\mathrm{loc}}\) modulo
+mean-free normalization, weak convergence of the adjoint measures
+\(\rho\,dy\) on compact subsets, convergence of the modulation parameters
+\((a,b)\) in the topology supplied by the repaired-gauge representation,
+and convergence of the four interval error functionals in
+\cref{def:errors}.  The Type~I branch uses the Seregin extraction topology
+imported in \Cref{imp:setup-branch-reduction}; the Type~II branch uses the
+stability and state-decomposition topology imported in
+\Cref{imp:typeii-analytic-package}.
+\end{definition}
+
+We now state the imported correspondence used by
+\cref{thm:zero-gradient-recovery}.  The table records the residual pattern
+for each terminal class; the row-entry implication itself is imported from
+the companion state-decomposition theorems and stated explicitly below.  In
+the scale-cascade row we distinguish the \emph{raw modulation carrier} from
+the normalized error \(\Err^{\mathrm{mod}}\) appearing in
+\cref{def:entropy-critical}.
+
+\begin{table}[htbp]
+\caption{Quantitative correspondence between zero-gradient branch states
+and terminal model classes.  Each row records the residuals required to
+vanish, the row-specific modulation or defect datum, and the imported theorem
+package that closes the corresponding terminal class.  The notation
+\(\Err^{*}\to0\) means the named normalized error term vanishes in the
+limiting branch topology.}
+\label{table:gradient-classes-correspondence}
+\centering\small
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.18\textwidth}
+								>{\raggedright\arraybackslash}p{0.30\textwidth}
+								>{\raggedright\arraybackslash}p{0.20\textwidth}
+								>{\raggedright\arraybackslash}p{0.24\textwidth}@{}}
+\toprule
+Class & Vanishing residuals \& errors & Active modulation & Closing theorem \\
+\midrule
+(1) Compact single-core
+& \(\mathfrak M^{\mathrm{vel}}=\theta\nabla\Pi\),
+\(\mathfrak M^{\mathrm{prs}}=0\) in the mean-free dual,
+\(\mathfrak M^{\mathrm{adj}}=0\) in the normalized-adjoint dual,
+\(\Err^{\mathrm{cut}},\Err^{\mathrm{prs}},\Err^{\mathrm{T1}}\to0\),
+\(\Err^{\mathrm{mod}}\to0\)
+& \(a=\frac12\), \(b=0\) (Type~I) or \(a,b\to\) const (Type~II)
+& \Cref{imp:setup-branch-reduction,imp:typeii-terminal-closures} \\[3pt]
+\midrule
+(2) Multiple-core
+& \(\mathfrak M^{\mathrm{vel}}\) is a sum of localized gradients
+\(\sum_j\theta\nabla\Pi_j\) supported near separated cores;
+\(\mathfrak M^{\mathrm{prs}}=0\) in the mean-free dual on each core;
+\(\mathfrak M^{\mathrm{adj}}=0\) in the normalized-adjoint dual;
+\(\Err^{*}\to0\) on each core
+& \(a,b\) bounded; per-core modulation
+& \Cref{imp:typeii-terminal-closures} \\[3pt]
+\midrule
+(3) Rotational / stationary-hull
+& \(\partial_s V=0\) modulo rotation; in the residual-dual formulation,
+\(\mathfrak M^{\mathrm{vel}}
+-\theta(\Omega V-(\Omega y)\cdot\nabla V)=\theta\nabla\Pi\) with
+\(\Omega\) constant; \(\mathfrak M^{\mathrm{prs}}=0\) in the mean-free dual;
+\(\mathfrak M^{\mathrm{adj}}=0\) in the normalized-adjoint dual;
+\(\Err^{*}\to0\)
+& \(b\) remains the translation modulation; \(\Omega\in\mathfrak{so}(3)\)
+is a separate residual symmetry parameter
+& \Cref{imp:residual-typeI-closure} \\[3pt]
+\midrule
+(4) Scale-cascade
+& \(\mathfrak M^{\mathrm{vel}}=\theta\nabla\Pi\) holds on each scale
+window; \(\mathfrak M^{\mathrm{prs}}=0\) in the mean-free dual;
+\(\mathfrak M^{\mathrm{adj}}=0\) in the normalized-adjoint dual;
+\(\Err^{\mathrm{cut}},\Err^{\mathrm{prs}},\Err^{\mathrm{T1}}\to0\);
+normalized \(\Err^{\mathrm{mod}}\to0\) on selected windows
+& raw modulation carrier \(J_1\), \(J_6\), or \(J_7\) before row-specific normalization
+& \Cref{imp:typeii-terminal-closures} \\[3pt]
+\midrule
+(5) Diffuse / tail-defect
+& \(\mathfrak M^{\mathrm{vel}}=\theta\nabla\Pi\) modulo a tail defect
+measure; \(\mathfrak M^{\mathrm{prs}}=0\) in the mean-free dual;
+\(\mathfrak M^{\mathrm{adj}}=0\) modulo a tail concentration in
+\(\rho\); \(\Err^{*}\to0\) inside compact, defect supported in tail
+& \(a,b\) bounded
+& \Cref{imp:residual-typeI-closure,imp:typeii-terminal-closures} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{theorem}[Imported entropy-critical zero-gradient bridge]
+\label{imp:entropy-critical-zero-gradient}
+In the limiting branch topology supplied by
+\Cref{imp:setup-branch-reduction,imp:typeii-analytic-package}, every
+entropy-critical limit obtained from \Cref{thm:local-monotonicity} is a
+zero-gradient branch state in the sense of \cref{def:zero-gradient-state}.
+This is the zero-gradient bridge supplied by the ordered local state-space
+decomposition and compactness topology
+\cite[Theorems~10.17 and~10.18; Proposition~3.35]{BallesterTypeII}, together
+with the residual closure bridge
+\cite[Theorems~1.14 and~12.1; Corollary~12.2]{BallesterResidual}.
+\end{theorem}
+
+\begin{theorem}[Imported zero-gradient row-entry dictionary]
+\label{prop:conditional-row-entry-dictionary}
+In the limiting branch topology supplied by
+\Cref{imp:setup-branch-reduction,imp:typeii-analytic-package}, every
+admissible zero-gradient branch state satisfying the finite-budget hypotheses
+of the companion state space enters one of the five rows of
+\cref{table:gradient-classes-correspondence}; after applying the order
+\((1)\)--\((5)\), the row is unique.  The exact companion theorem numbers for
+the five rows are displayed in \Cref{imp:terminal-class-exclusion}.  More
+precisely:
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.2em]
+	\item A zero-gradient state with one retained compact core and vanishing
+	cutoff, pressure, modulation, and Type~I rescaling errors satisfies the
+	compact single-core hypotheses closed by
+	\Cref{imp:setup-branch-reduction,imp:typeii-terminal-closures}.
+
+	\item A zero-gradient state whose velocity residual splits into finitely
+	many separated localized gradients satisfies the multibubble or
+	separated-profile hypotheses closed by
+	\Cref{imp:typeii-terminal-closures}.
+
+	\item A zero-gradient state with a residual skew parameter
+	\(\Omega\in\mathfrak{so}(3)\), in the sense that the velocity residual is
+	a gradient modulo \(\Omega V-(\Omega y)\cdot\nabla V\), satisfies the
+	rotational or stationary-hull hypotheses closed by
+	\Cref{imp:residual-typeI-closure}.
+
+	\item A zero-gradient state whose compact-window residuals vanish but
+	whose raw modulation carrier is carried by the canonical windowwise schedule
+	satisfies the scale-cascade hypotheses closed by
+	\Cref{imp:typeii-terminal-closures}.
+
+	\item A zero-gradient state whose compact residuals vanish only modulo a
+	tail defect satisfies the diffuse or tail-defect hypotheses of
+	\Cref{imp:residual-typeI-closure,imp:typeii-terminal-closures}.
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}
+Each item is a direct restatement of the row hypotheses in
+\cref{table:gradient-classes-correspondence} together with the imported
+theorem package that supplies the corresponding state-space entry.  The
+dictionary records the exact external input needed by the entropy argument
+and does not replace the companion proofs.
+\end{remark}
+
+\begin{theorem}[Imported zero-gradient row recovery]
+\label{thm:zero-gradient-recovery}
+Let \(S_\infty\in\State\) be an entropy-critical limit.  Then \(S_\infty\) is
+a zero-gradient branch state in the sense of \cref{def:zero-gradient-state}
+and belongs to a unique ordered row of
+\cref{table:gradient-classes-correspondence}.  Conversely, a state satisfying
+one of the rows of \cref{table:gradient-classes-correspondence} satisfies the
+zero-gradient condition in \(\mathcal T_{\mathrm{br}}\), with the row-specific
+normalization in the scale-cascade case and modulo the displayed tail defect
+in the diffuse/tail row.
+\end{theorem}
+
+\begin{proof}
+\Cref{imp:entropy-critical-zero-gradient} gives the zero-gradient conclusion
+for entropy-critical limits.  The unique ordered row assignment is exactly
+\Cref{prop:conditional-row-entry-dictionary}.  Conversely, fix a row of
+\cref{table:gradient-classes-correspondence} and the corresponding limiting
+state \(S\).  Each row specifies which residuals vanish.  For every row,
+the velocity residual is required to be a gradient (possibly summed over
+cores in row (2), with a rotational correction in row (3), with row-specific
+scale normalization in row (4), or modulo a tail defect in row (5)); by
+\cref{rem:component-vanishing}, this is precisely the divergence-free
+constraint saying \(\mathfrak M^{\mathrm{vel}}=0\) modulo the allowed row
+defect.  Similarly \(\mathfrak M^{\mathrm{prs}}=0\) in the mean-free dual is
+the pressure constraint, and \(\mathfrak M^{\mathrm{adj}}=0\) in the
+normalized-adjoint dual, modulo the displayed tail concentration in row (5),
+is the normalization-preserving constraint.  Hence \(S\) satisfies
+\eqref{eq:zero-gradient-condition} in \(\mathcal T_{\mathrm{br}}\), with the
+row-specific convention already stated in the theorem.
+The vanishing of \(\mathcal B_{\chi,R}\) in the limit is part of the
+imported zero-gradient bridge and row-entry dictionary: the same cutoff
+compactness estimates that place
+\(\mathfrak C_{\chi,R}[\mathcal I]\) and
+\(\mathfrak N_{\chi,R}[\mathcal I]\) in \(\Err^{\mathrm{cut}}\) also give
+the dual convergence of the first-variation cutoff functional
+\eqref{eq:cB-explicit} in \(\mathcal T_{\mathrm{br}}\).
+\end{proof}
+
+\begin{remark}
+\Cref{thm:zero-gradient-recovery} relies on the imported zero-gradient bridge
+\cref{imp:entropy-critical-zero-gradient} and the imported row-entry package
+\cref{prop:conditional-row-entry-dictionary}.  The entropy argument supplies
+the exact residuals and the four-piece error pattern; the companion
+state-decomposition theorems supply the conversion from that pattern to one of
+the five terminal model classes.  This is the intended conditional division of
+labor.
+\end{remark}
+
+\section{Entropy-Critical Limits and the Ordered Classification}
+\label{sec:critical}
+
+\subsection{Entropy-critical limits}
+
+\begin{definition}[Entropy-critical limit]
+\label{def:entropy-critical}
+An admissible branch state \(S_\infty\in\State\) is \emph{entropy-critical}
+if there exist admissible represented branch segments \(S^{(n)}(\tau)\) on a
+common normalized cylinder, times \(s_n\uparrow\sigma\), and a fixed cutoff
+\(\chi\in C_c^\infty(B_R)\) such that:
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.2em]
+		\item \(S^{(n)}(s_n)\to S_\infty\) in the companion compactness topology
+		imported in
+		\Cref{imp:setup-branch-reduction,imp:typeii-analytic-package};
+	\item \(\Wloc_{\chi,R}[S^{(n)}](s_n;\sigma)\) converges to a finite limit;
+	\item there are window lengths \(\delta_n\downarrow0\), with
+	\(s_n-\delta_n>-R^2\), such that the dissipation and error contributions
+	of \cref{thm:local-monotonicity} satisfy
+	\begin{equation}\label{eq:critical-vanishing}
+		\int_{s_n-\delta_n}^{s_n}
+		\Diss_{\chi,R}^{S^{(n)}}(\tau;\sigma)\,d\tau\to0,
+		\qquad
+		\Err^{\bullet,S^{(n)}}_{\chi,R}
+		\bigl(s_n-\delta_n,s_n;\sigma\bigr)\to0
+	\end{equation}
+	for each \(\bullet\in\{\mathrm{cut},\mathrm{prs},\mathrm{mod},\mathrm{T1}\}\),
+	with the convention that \(\Err^{\mathrm{T1}}\equiv0\) in the Type~II case.
+	The superscript \(S^{(n)}\) indicates that the dissipation and error
+	functionals are evaluated along the branch segment \(S^{(n)}(\tau)\).
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+\Cref{def:entropy-critical} requires the four error components to vanish
+individually, not only in total, and only on shrinking terminal windows.  This
+is the window strength obtained from a finite integrated error budget.  In
+particular, a sequence in the scale-cascade row (4) of the table fails the
+definition unless \(\Err^{\mathrm{mod}}\to0\) on the selected windowwise
+subsequence supplied by \Cref{imp:typeii-terminal-closures}.
+\end{remark}
+
+\begin{lemma}[Shrinking-window selection]
+\label{lem:shrinking-window-selection}
+Let \(F_0,F_1,\dots,F_m\ge0\) be integrable on \((s_*,\sigma)\).  Then
+there are \(s_n\uparrow\sigma\) and \(\delta_n\downarrow0\), with
+\(s_n-\delta_n>s_*\), such that
+\[
+	\int_{s_n-\delta_n}^{s_n}F_j(\tau)\,d\tau\to0
+	\qquad\text{for every }j=0,\dots,m.
+\]
+\end{lemma}
+
+\begin{proof}
+Choose any \(\delta_n\downarrow0\) and \(s_n\uparrow\sigma\) with
+\((s_n-\delta_n,s_n)\subset(s_*,\sigma)\).  Absolute continuity of the
+Lebesgue integral gives the displayed convergence for each fixed \(F_j\).
+Since the family is finite, the same sequence works for all \(j=0,\dots,m\).
+\end{proof}
+
+\begin{lemma}[Uniform shrinking-window selection]
+\label{lem:uniform-shrinking-window-selection}
+Let \(s_n\uparrow\sigma\).  For each \(n\), let
+\(F_{n,0},\dots,F_{n,m}\ge0\) be nonnegative densities on
+\((s_*,\sigma)\).  Assume the finite family is uniformly integrable in
+terminal neighborhoods:
+\[
+	\lim_{\delta\downarrow0}
+	\sup_n\sum_{j=0}^m\int_{\sigma-\delta}^{\sigma}F_{n,j}(\tau)\,d\tau=0.
+\]
+Then, after passing to a subsequence, there are \(\delta_n\downarrow0\) with
+\(s_n-\delta_n>s_*\) such that
+\[
+	\int_{s_n-\delta_n}^{s_n}F_{n,j}(\tau)\,d\tau\to0
+	\qquad\text{for every }j=0,\dots,m.
+\]
+\end{lemma}
+
+\begin{proof}
+Choose \(\varepsilon_\ell\downarrow0\) so that
+\[
+	\sup_n\sum_{j=0}^m
+	\int_{\sigma-\varepsilon_\ell}^{\sigma}F_{n,j}(\tau)\,d\tau
+	\le \ell^{-1}.
+\]
+Passing to a subsequence, arrange \(\sigma-s_n<\varepsilon_n/2\).  Choose
+\[
+	0<\delta_n<\min\{\varepsilon_n/2,\;1/n,\;s_n-s_*\}.
+\]
+Then \((s_n-\delta_n,s_n)\subset(\sigma-\varepsilon_n,\sigma)\), so each
+displayed integral is bounded by the corresponding terminal-neighborhood
+sum, which tends to zero.
+\end{proof}
+
+\begin{proposition}[Entropy compactification]
+\label{prop:entropy-compactification}
+Every hypothetical singular branch in the companion state space satisfying
+the finite corrected entropy budget
+\[
+	\sup_{s\in(s_*,\sigma)}\bigl|\Wloc_{\chi,R}(s;\sigma)\bigr|<\infty,
+	\qquad
+	\lim_{s\uparrow\sigma}\Err_{\chi,R}(s_*,s;\sigma)<\infty
+\]
+for some \(s_*<\sigma\), with the four error components supplied by
+\Cref{imp:exact-error-domination}, has an entropy-critical subsequential
+limit.
+\end{proposition}
+
+\begin{proof}
+Let
+\[
+	E_*(\sigma):=\lim_{s\uparrow\sigma}\Err_{\chi,R}(s_*,s;\sigma)<\infty.
+\]
+By additivity, the tail error is
+\[
+	\Err_{\chi,R}(s,\sigma;\sigma)
+	=E_*(\sigma)-\Err_{\chi,R}(s_*,s;\sigma),
+\]
+and tends to \(0\) as \(s\uparrow\sigma\).  Hence
+\cref{cor:entropy-limit} gives a finite one-sided limit for
+\(\Wloc_{\chi,R}(\cdot;\sigma)\).
+The compactness components of
+\Cref{imp:setup-branch-reduction,imp:typeii-analytic-package} provide
+subsequential limits in the corresponding state-space topologies.  Telescoping
+\begin{equation}\label{eq:telescoping}
+	\sum_n\bigl(\Wloc(s_n;\sigma)-\Wloc(s_{n+1};\sigma)\bigr)
+	+\sum_n\Err_{\chi,R}(s_n,s_{n+1};\sigma)
+	\ge \sum_n\int_{s_n}^{s_{n+1}}\Diss\,ds
+\end{equation}
+along a sequence \(s_n\uparrow\sigma\), together with the finiteness of
+the entropy limit and the finite integrated error budget, gives finite
+integrated dissipation and finite integrated error near the terminal time for
+this fixed singular branch.  Applying
+\cref{lem:shrinking-window-selection} to the dissipation density and the
+four error densities gives shrinking terminal windows on which each
+component vanishes.  Passing to the subsequence selected by the companion
+compactness theorem preserves this vanishing.  If the companion extraction is
+formulated instead as a sequence of already rescaled representatives, the
+same conclusion follows from \cref{lem:uniform-shrinking-window-selection}
+provided the companion compactness package supplies the stated uniform
+terminal integrability on the common cylinder.  Without that uniform version
+one applies the fixed-branch selection before rescaling, which is the case
+used above.  The resulting limit is entropy-critical.
+\end{proof}
+
+\subsection{Ordered classification of entropy-critical limits}
+
+The point of the entropy formalism is that nonterminal routing rows in the
+companion decision tree carry one of the four named error channels.  Once all
+four normalized errors vanish on the selected terminal windows, only the five
+terminal classes of \cref{table:gradient-classes-correspondence} remain.  The
+scale-cascade row is included only after its raw modulation carrier has been
+converted to the row-specific normalized window.  The next theorem strengthens
+the classification: every entropy-critical limit is assigned to the
+\emph{first} applicable class in a fixed order, eliminating ambiguity in cases
+where a state could in principle satisfy more than one row of the table.
+
+\begin{theorem}[Ordered classification of entropy-critical limits]
+\label{thm:five-classes-ordered}
+Every entropy-critical limit \(S_\infty\) belongs to at least one of the
+following five terminal model classes.  Its \emph{ordered class} is the first
+applicable class in the order below, i.e. row \(j\) with rows
+\((1),\dots,(j-1)\) removed:
+\begin{enumerate}[label=\textup{(\arabic*)},leftmargin=2.2em]
+	\item \textbf{Compact single-core class.}
+	\(\mathfrak M^{\mathrm{vel}}\) is a single localized gradient
+	\(\theta\nabla\Pi\) supported in a compact subset \(K_1\subset B_R\), with
+	\(K_1\) the support of one nonvanishing core; \(\Err^{*}\to0\)
+	uniformly on every compact set inside \(B_R\); modulation \((a,b)\) is
+	either the centered self-similar pair \((1/2,0)\) (Type~I case) or
+	convergent to a constant pair (Type~II case).
+	\item \textbf{Multiple-core class.}
+	\(\mathfrak M^{\mathrm{vel}}\) is a finite sum
+	\(\sum_{j=1}^N\theta\nabla\Pi_j\) with disjoint supports
+	\(K_1,\dots,K_N\), each carrying nontrivial critical \(L^3\) mass;
+	\(N\ge2\); modulation per core is bounded.
+	\item \textbf{Rotational or stationary-hull class.}
+	\(\partial_s V\equiv0\) modulo a constant skew-symmetric rotation
+	\(\Omega\), i.e.\
+	\(\mathfrak M^{\mathrm{vel}}
+	=\theta\nabla\Pi+\theta(\Omega V-(\Omega y)\cdot\nabla V)\)
+	for some constant \(\Omega\in\mathfrak{so}(3)\); the translation
+	modulation \(b\) is not identified with \(\Omega y\); \(\Err^{*}\to0\).
+	\item \textbf{Scale-cascade class.}
+	\(\mathfrak M^{\mathrm{vel}}=\theta\nabla\Pi\) on each scale window
+	and the modulation channel is resolved by the canonical windowwise schedule
+	imported in \Cref{imp:typeii-terminal-closures}.  Before the row-specific
+	window normalization this is the active carrier component \(J_1\), \(J_6\),
+	or \(J_7\); on the selected entropy-critical windows the normalized
+	\(\Err^{\mathrm{mod}}\) contribution vanishes.
+	\item \textbf{Diffuse or tail-defect class.}
+	\(\mathfrak M^{\mathrm{vel}}=\theta\nabla\Pi\) modulo a defect measure
+	supported in a tail (logarithmic, Young, or coherent critical) of
+	\(B_R\); the velocity converges weakly inside compacts but loses mass
+	to the tail.
+\end{enumerate}
+The ordered classes are therefore mutually exclusive by definition, and each
+entropy-critical limit is assigned to exactly one ordered class.
+\end{theorem}
+
+\begin{proof}
+\textbf{Exhaustiveness.}  By \cref{def:entropy-critical}, an
+entropy-critical limit \(S_\infty\) is obtained on windows where the
+dissipation and all four error components vanish in the companion branch
+topology.  The imported zero-gradient row-entry dictionary
+\Cref{prop:conditional-row-entry-dictionary} is formulated precisely for
+this terminal regime: it converts the vanishing entropy-gradient data into a
+zero-gradient branch state and then assigns that state to one of the five rows
+of \cref{table:gradient-classes-correspondence}.  Thus
+\cref{thm:zero-gradient-recovery} places \(S_\infty\) in classes (1)--(5).
+
+\textbf{Order assignment.}  Apply the criteria in order:
+
+\emph{Class (1)} fires if \(\mathfrak M^{\mathrm{vel}}\) is one localized
+gradient supported on a single compact subset.  This is the most
+restrictive class, and its hypotheses are checked first.
+
+\emph{Class (2)} fires if \(\mathfrak M^{\mathrm{vel}}\) decomposes into
+multiple disjoint localized gradients.  This class subsumes class (1) only
+in the trivial sense \(N=1\), so the raw class (2) criterion is stated with
+\(N\ge2\).
+
+\emph{Class (3)} fires if the residual symmetry data admits a constant
+skew rotation \(\Omega\) but
+class (1)/(2) does not apply.  Stationarity modulo rotation is
+tested only after the compact-core alternatives have been removed by the
+ordering.
+
+\emph{Class (4)} fires when the modulation channel is the active carrier in
+the canonical windowwise schedule before the row-specific normalization.  The
+selected entropy-critical windows have normalized \(\Err^{\mathrm{mod}}\to0\),
+so disjointness is determined by the imported carrier labels, not by a failure
+of the entropy-critical definition.
+
+\emph{Class (5)} fires when \(\Err^{*}\to0\) inside compact subsets but
+the velocity loses mass to a tail defect.  The residual trichotomy imported in
+\Cref{imp:residual-typeI-closure} routes active or affine defects back to
+classes (1)--(4); class (5) is the genuinely tail-supported remainder.
+
+\textbf{Mutual exclusion.}  Define the ordered row
+\(\mathcal C_j^{\mathrm{ord}}\) as the raw row \(\mathcal C_j\) minus
+\(\mathcal C_1\cup\cdots\cup\mathcal C_{j-1}\).  These ordered rows are
+pairwise disjoint by construction.  Since the row-entry dictionary is
+exhaustive for entropy-critical limits, every such limit lies in exactly one
+ordered row.
+\end{proof}
+
+\begin{corollary}[Five-class summary table]
+\label{cor:five-classes-table}
+The classification of \cref{thm:five-classes-ordered} matches the
+companion state space as follows.
+
+\begin{center}\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.21\textwidth}
+								>{\raggedright\arraybackslash}p{0.49\textwidth}
+								>{\raggedright\arraybackslash}p{0.20\textwidth}@{}}
+\toprule
+Terminal class & Manifestations in the companion state space & Closed in \\
+\midrule
+(1) Compact single-core & Direct Type~I bounded ancient branches; Type~II compact single-core and retained compact-test branches & \Cref{imp:setup-branch-reduction,imp:typeii-terminal-closures} \\
+(2) Multiple-core & Multibubble, separated-profile, and same-point cascade branches & \Cref{imp:typeii-terminal-closures} \\
+(3) Rotational/stationary-hull & Rotational relative equilibria and stationary-hull residual branches & \Cref{imp:residual-typeI-closure} \\
+(4) Scale-cascade & Scale-collapse, scale-rigid, cost-divergence, and carrier-routing branches & \Cref{imp:typeii-terminal-closures} \\
+(5) Diffuse/tail-defect & Critical-tail defects, diffuse terminal defects, terminal nonactive branches, and exterior concentration & \Cref{imp:residual-typeI-closure,imp:typeii-terminal-closures} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{corollary}
+
+\begin{proof}
+This is the manifestation column of
+\cref{table:gradient-classes-correspondence}, restricted to the limiting
+topology after \(\Diss\to0\) and \(\Err^{*}\to0\), with the row-specific
+window normalization for class (4).
+\end{proof}
+
+\section{Reduction to the Companion Exclusion Theorems}
+\label{sec:reduction}
+
+The entropy formulation becomes effective only after it is paired with
+the closure results from the companion papers.  The closure hypotheses have
+already been imported in theorem-numbered form in
+\Cref{imp:terminal-class-exclusion}.
+
+\begin{theorem}[Elimination of the terminal classes]
+\label{thm:eliminate-terminal-classes}
+Under the admissibility, normalization, retained-mass, branch-topology, and
+finite-budget hypotheses of \Cref{imp:terminal-class-exclusion}, each of the
+five terminal model classes in \cref{thm:five-classes-ordered} is empty:
+\begin{enumerate}[label=\textup{(\roman*)},leftmargin=2.2em]
+	\item the compact single-core class is excluded by
+	\Cref{imp:setup-branch-reduction,imp:typeii-terminal-closures};
+	\item the multiple-core class is excluded by
+	\Cref{imp:typeii-terminal-closures};
+	\item the rotational or stationary-hull class is excluded by
+	\Cref{imp:residual-typeI-closure};
+	\item the scale-cascade class is excluded by
+	\Cref{imp:typeii-terminal-closures};
+	\item the diffuse or tail-defect class is excluded by
+	\Cref{imp:residual-typeI-closure,imp:typeii-terminal-closures}.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+This is \Cref{imp:terminal-class-exclusion} applied to the row assigned by
+\Cref{thm:five-classes-ordered}.  The role of the entropy formulation is to
+show that every entropy-critical limit enters exactly one of the rows to which
+the imported terminal-class exclusion package applies.
+\end{proof}
+
+Combining the assembly results, we obtain the entropy version of the
+three-paper exclusion program.
+
+\begin{corollary}[Entropy reformulation of the local exclusion program]
+\label{cor:entropy-reformulation}
+Assume the imported packages
+\Cref{imp:setup-branch-reduction,imp:typeii-analytic-package,imp:residual-typeI-closure,imp:typeii-terminal-closures},
+the exact error domination \Cref{imp:exact-error-domination}, the
+zero-gradient bridge
+\Cref{imp:entropy-critical-zero-gradient,prop:conditional-row-entry-dictionary},
+the terminal exclusion package \Cref{imp:terminal-class-exclusion}, and the
+finite corrected entropy budget hypothesis of
+\Cref{prop:entropy-compactification}.  Then every entropy-critical
+subsequential limit of a hypothetical singular branch is assigned to one of
+the five ordered terminal classes of \cref{thm:five-classes-ordered}.  By
+\cref{thm:eliminate-terminal-classes}, each such terminal class is excluded
+under the stated hypotheses.  Hence no hypothetical singular branch satisfying
+the imported framework and finite-budget hypotheses remains.
+\end{corollary}
+
+\begin{proof}
+Combine
+\cref{prop:entropy-compactification},
+\cref{thm:five-classes-ordered}, and
+\cref{thm:eliminate-terminal-classes}.
+\end{proof}
+
+\begin{remark}
+\Cref{cor:entropy-reformulation} is an entropy-level summary of the
+companion papers, not a replacement for them.  The local pressure
+decomposition, carrier routing, terminal profile analysis, and residual
+compactification remain the substantive PDE content.  The entropy
+formalism shows that these arguments fit together as a finite
+compactification mechanism for one monotone scalar quantity.
+\end{remark}
+
+\section{Comparison with Hamilton--Perelman Monotonicity}
+\label{sec:hamilton-perelman}
+
+The analogy with Hamilton and Perelman is useful but should not be
+overstated.  In Ricci flow, the \(\mathcal W\)-functional is global and
+geometric, with the scalar curvature appearing explicitly
+\cite{Hamilton1982,Perelman2002}.  In the present Navier--Stokes setting,
+there is no corresponding global geometric functional available at the
+level of the companion proofs.  The pressure is nonlocal, and the branch
+changes are genuinely local.  For that reason, the functional \(\Wloc\) is
+localized from the outset.
+
+Nevertheless, the two theories share a common pattern.
+
+\begin{enumerate}[label=\textup{(\arabic*)},leftmargin=2.2em]
+	\item Both use a backward adjoint weight to measure concentration near a
+	candidate terminal time.  In Ricci flow, this is the conjugate heat
+	kernel; here, it is the local backward adjoint weight \(\rho\) with
+	modulated drift \(a y+b-V\).
+	\item Both produce a monotone quantity whose defect is a sum of a
+	nonnegative dissipation and explicit local error terms.  In Ricci flow,
+	the dissipation is the squared norm of a gradient soliton operator; here,
+	the dissipation \(\Diss_{\chi,R}\) is given explicitly by
+	\eqref{eq:dissipation} and the four error terms by
+	\cref{def:errors}.
+	\item In both settings, a critical point of the monotone quantity
+	represents a terminal model geometry.  In Ricci flow, gradient shrinking
+	solitons.  Here, by
+	\cref{thm:zero-gradient-recovery,thm:five-classes-ordered}, one of five
+	terminal model classes.
+\end{enumerate}
+
+The decisive difference is that, in the present paper, the critical
+classes are not derived from an abstract classification theorem.  They are
+read off from the local state-space decomposition already established in
+the companion manuscripts, and the row-by-row correspondence in
+\cref{table:gradient-classes-correspondence} makes the matching explicit.
+
+\section{Concluding Remarks}
+
+The companion papers already provide a complete local routing
+architecture.  The point of the present manuscript is to show that this
+architecture admits a coherent entropy interpretation in standard PDE
+language, with the calculation of \(\frac{d}{ds}\Wloc\) carried out in
+full and every error term tagged to a named companion theorem.  Once the
+local enstrophy, mean-free pressure, localized critical-norm velocity budget,
+and backward
+adjoint weight are assembled into \(\Wloc\), the decision tree may be read
+as a compactness statement for the entropy flow: every singular branch
+either dissipates into a previously closed local row or converges to one of
+five terminal model classes.
+
+This viewpoint suggests two further directions.  First, it separates the
+purely local analytic input from the compactification mechanism, which may
+be useful in formalization or in alternative singularity analyses.  In
+particular, the four-piece error decomposition makes it possible to
+identify \emph{which} local estimate is responsible for closing
+\emph{which} branch of the architecture, a feature that should make the
+proof amenable to LLM-assisted audit and formal verification.  Second, it
+clarifies the role of the local pressure decomposition: the pressure does
+not obstruct a monotone quantity once it is measured in the local
+mean-free norms naturally produced by the companion proofs.
+
+\subsection*{Possible extensions}
+
+The localized entropy framework is portable to other critical PDE problems
+with a similar pressure/gauge nonlocality, provided one has a local
+state-space stratification on which to define the analogue of
+\(\Wloc\).  Candidate settings include energy-supercritical wave
+equations (with the pressure replaced by a nonlocal phase), harmonic map
+heat flow with bubbling at the terminal time (with the pressure replaced
+by the Lagrange multiplier of the constraint), and Yang--Mills heat flow
+with the gauge as the analogue of the modulation \((a,b)\).  In each case,
+the same five-row classification structure is plausible: compact
+single-core, multiple-core, symmetry-reduced terminal state, scale
+cascade, diffuse or tail defect.  The role of the present paper is to
+provide the template; the local PDE estimates would have to be redone for
+each setting.
+
+\begin{thebibliography}{99}
+
+\bibitem{AlbrittonBarker2019}
+D.~Albritton and T.~Barker,
+\emph{On local Type I singularities of the Navier--Stokes equations and
+Liouville theorems},
+J. Math. Fluid Mech. \textbf{21} (2019), Article 43.
+
+\bibitem{Arnold1966}
+V.~I. Arnold,
+\emph{Sur la g\'eom\'etrie diff\'erentielle des groupes de {L}ie de dimension
+infinie et ses applications \`a l'hydrodynamique des fluides parfaits},
+Ann. Inst. Fourier (Grenoble) \textbf{16} (1966), no.~1, 319--361.
+
+\bibitem{BallesterResidual}
+G.~Duran Ballester,
+\emph{Local Exclusion of Residual Type I Navier--Stokes Seregin Limits},
+companion manuscript, 2026.
+
+\bibitem{BallesterSetup}
+G.~Duran Ballester,
+\emph{Conditional Local Type I Navier--Stokes Reduction: Concentration,
+Seregin Limits, and Liouville-Class Closures},
+companion manuscript, 2026.
+
+\bibitem{BallesterTypeII}
+G.~Duran Ballester,
+\emph{Type II Regularity for Navier--Stokes},
+companion manuscript, 2026.
+
+\bibitem{CalderonZygmund1952}
+A.~P. Calder\'on and A.~Zygmund,
+\emph{On the existence of certain singular integrals},
+Acta Math. \textbf{88} (1952), 85--139.
+
+\bibitem{CKN1982}
+L.~Caffarelli, R.~Kohn, and L.~Nirenberg,
+\emph{Partial regularity of suitable weak solutions of the Navier--Stokes
+equations},
+Comm. Pure Appl. Math. \textbf{35} (1982), no.~6, 771--831.
+
+\bibitem{ConstantinFoias1988}
+P.~Constantin and C.~Foias,
+\emph{Navier--Stokes Equations},
+University of Chicago Press, Chicago, 1988.
+
+\bibitem{EbinMarsden1970}
+D.~G. Ebin and J.~Marsden,
+\emph{Groups of diffeomorphisms and the motion of an incompressible fluid},
+Ann. of Math. (2) \textbf{92} (1970), no.~1, 102--163.
+
+\bibitem{ESS2003}
+L.~Escauriaza, G.~A. Seregin, and V.~{\v S}ver\'ak,
+\emph{\(L_{3,\infty}\)-solutions of the Navier--Stokes equations and backward
+uniqueness},
+Russian Math. Surveys \textbf{58} (2003), no.~2, 211--250.
+
+\bibitem{GustafsonKangTsai2007}
+S.~Gustafson, K.~Kang, and T.-P.~Tsai,
+\emph{Interior regularity criteria for suitable weak solutions of the
+Navier--Stokes equations},
+Comm. Math. Phys. \textbf{273} (2007), no.~1, 161--176.
+
+\bibitem{Hamilton1982}
+R.~S. Hamilton,
+\emph{Three-manifolds with positive Ricci curvature},
+J. Differential Geom. \textbf{17} (1982), no.~2, 255--306.
+
+\bibitem{Kato1984}
+T.~Kato,
+\emph{Strong \(L^p\)-solutions of the Navier--Stokes equation in
+\(\mathbb R^m\), with applications to weak solutions},
+Math. Z. \textbf{187} (1984), no.~4, 471--480.
+
+\bibitem{KNSS2009}
+G.~Koch, N.~Nadirashvili, G.~Seregin, and V.~{\v S}ver\'ak,
+\emph{Liouville theorems for the Navier--Stokes equations and applications},
+Acta Math. \textbf{203} (2009), no.~1, 83--105.
+
+\bibitem{Ladyzhenskaya1969}
+O.~A. Ladyzhenskaya,
+\emph{The Mathematical Theory of Viscous Incompressible Flow},
+Gordon and Breach, New York, 1969.
+
+\bibitem{LemarieRieusset2002}
+P.~G. Lemari\'e-Rieusset,
+\emph{Recent Developments in the Navier--Stokes Problem},
+Chapman \& Hall/CRC, Boca Raton, FL, 2002.
+
+\bibitem{Leray1934}
+J.~Leray,
+\emph{Sur le mouvement d'un liquide visqueux emplissant l'espace},
+Acta Math. \textbf{63} (1934), no.~1, 193--248.
+
+\bibitem{Lin1998}
+F.-H.~Lin,
+\emph{A new proof of the Caffarelli--Kohn--Nirenberg theorem},
+Comm. Pure Appl. Math. \textbf{51} (1998), no.~3, 241--257.
+
+\bibitem{NRS1996}
+J.~Ne\v cas, M.~R\r u\v zi\v cka, and V.~{\v S}ver\'ak,
+\emph{On Leray's self-similar solutions of the Navier--Stokes equations},
+Acta Math. \textbf{176} (1996), no.~2, 283--294.
+
+\bibitem{Perelman2002}
+G.~Perelman,
+\emph{The entropy formula for the Ricci flow and its geometric applications},
+arXiv:math/0211159.
+
+\bibitem{Scheffer1976}
+V.~Scheffer,
+\emph{Partial regularity of solutions to the Navier--Stokes equations},
+Pacific J. Math. \textbf{66} (1976), no.~2, 535--552.
+
+\bibitem{Seregin2012}
+G.~Seregin,
+\emph{A certain necessary condition of potential blow up for Navier--Stokes
+equations},
+Comm. Math. Phys. \textbf{312} (2012), no.~3, 833--845.
+
+\bibitem{Stein1970}
+E.~M. Stein,
+\emph{Singular Integrals and Differentiability Properties of Functions},
+Princeton University Press, Princeton, NJ, 1970.
+
+\bibitem{Temam1977}
+R.~Temam,
+\emph{Navier--Stokes Equations: Theory and Numerical Analysis},
+North-Holland, Amsterdam, 1977.
+
+\end{thebibliography}
+
+\end{document}

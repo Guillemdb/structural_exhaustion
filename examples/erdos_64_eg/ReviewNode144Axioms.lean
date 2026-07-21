@@ -1,8 +1,0 @@
-import Erdos64EG.Future.CT10GeometricBottleneckClassification
-
-#print axioms StructuralExhaustion.Core.FiniteCodeCollision.collision_of_card_lt_length
-#print axioms StructuralExhaustion.Graph.SurplusPatternCoarseRouting.verifiedCollision
-#print axioms StructuralExhaustion.Graph.SurplusPatternCoarseRouting.canonicalGermResidual
-#print axioms Erdos64EG.Internal.coarseBottleneckDecision
-#print axioms Erdos64EG.Internal.coarseBottleneck_quadraticSpine
-#print axioms Erdos64EG.Internal.exists_verifiedGeometricBottleneckClassificationPrefix

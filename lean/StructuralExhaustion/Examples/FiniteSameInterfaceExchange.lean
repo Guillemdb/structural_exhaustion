@@ -1,4 +1,5 @@
 import StructuralExhaustion.Graph.FiniteSameInterfaceExchange
+import StructuralExhaustion.Graph.FiniteSameInterfacePackedBoundary
 import Mathlib.Tactic
 
 namespace StructuralExhaustion.Examples.FiniteSameInterfaceExchange
@@ -92,10 +93,50 @@ theorem exact_response_reflection (code : Bool) :
       table.targetResponseSource (table.decode code) :=
   table.sourceReflect code
 
+namespace PackedBoundaryProfileFixture
+
+open Graph.FiniteSameInterfaceExchange.PackedBoundary
+
+variable {input : Graph.PackedMinimumDegreeCycle.StaticInput}
+variable {T : Type} {boundaries : FinEnum T} [Nonempty T]
+variable {ctx :
+  Core.MinimalCounterexampleContext input.problem input.Target}
+variable {atom :
+  Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.ProperAtom
+    input boundaries ctx}
+variable {CodePiece : Type}
+variable {representatives :
+  Graph.FiniteSameInterfaceExchange.Representatives CodePiece}
+variable {boundary :
+  Graph.FiniteSameInterfaceExchange.BoundaryCompatible representatives}
+variable {table :
+  Graph.FiniteSameInterfaceExchange.ResponseTable representatives}
+
+/-- Non-Erdős API fixture: a problem supplies one closure certificate, and
+the graph framework constructs the packed-boundary silent exchange. -/
+noncomputable def packedSilentExchange
+    (certificate :
+      MinimumDegreeCycleReplacement.ClosureCertificate
+        input boundaries atom representatives table boundary) :
+    Graph.PackedBoundariedGluing.MinimumDegreeCycleReplacement.SilentExchange
+      input boundaries atom :=
+  MinimumDegreeCycleReplacement.ClosureCertificate.silentExchange certificate
+
+/-- Non-Erdős closure fixture for the same public profile API. -/
+theorem packedProfile_closes
+    (certificate :
+      MinimumDegreeCycleReplacement.ClosureCertificate
+        input boundaries atom representatives table boundary) :
+    False :=
+  MinimumDegreeCycleReplacement.ClosureCertificate.impossible certificate
+
+end PackedBoundaryProfileFixture
+
 #print axioms increment_exact
 #print axioms finite_checks
 #print axioms exact_response_reflection
 #print axioms universal_table_checks
 #print axioms universal_table_coverage
+#print axioms PackedBoundaryProfileFixture.packedProfile_closes
 
 end StructuralExhaustion.Examples.FiniteSameInterfaceExchange

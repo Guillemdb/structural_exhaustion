@@ -58,7 +58,7 @@ noncomputable def node147Route8ResidualRefinement {V : Type u} {facts}
     Core.ResidualRefinement.State.StageNode (facts := facts)
       (@Node147ResidualStage V) :=
   Core.ResidualRefinement.State.StageNode.mapFocusedBranchYesContinuation
-    (Output := fun _residual active below => Node146To147Marker active below)
+    (Output := fun _residual _active _below => PUnit)
     (Next := fun _residual _active _below => PUnit)
     fun _residual _active _below _node146 => PUnit.unit
 

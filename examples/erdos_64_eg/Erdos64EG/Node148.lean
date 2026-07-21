@@ -30,7 +30,7 @@ abbrev Node148Bypass (V : Type u) :=
 abbrev Node148Active (V : Type u) :=
   Core.ResidualRefinement.State.FocusedBranchDecisionNoContinuationActive
     (@Node146Active V) (@Node146Route8NotBelow V)
-    (fun _residual active notBelow => Node146To148Marker active notBelow)
+    (fun _residual _active _notBelow => PUnit)
 
 namespace Node148Active
 
@@ -46,7 +46,7 @@ def node21 {V : Type u} {residual : InitialResidual V}
 
 def node146No {V : Type u} {residual : InitialResidual V}
     (active : Node148Active V residual) :
-    Node146To148Marker active.data active.proof :=
+    PUnit :=
   active.output
 
 end Node148Active
@@ -96,18 +96,6 @@ theorem node148_totalDemand_eq_hot_add_cold {V : Type u}
   rw [← partition]
   ring
 
-/-- Framework marker on the `[148] -> [149]` yes edge. -/
-abbrev Node148To149Marker {V : Type u} {residual : InitialResidual V}
-    (_active : Node148Active V residual)
-    (_cap : Node148LiveHotCap _active) : Type (u + 3) :=
-  PUnit
-
-/-- Framework marker on the `[148] -> [150]` no edge. -/
-abbrev Node148To150Marker {V : Type u} {residual : InitialResidual V}
-    (_active : Node148Active V residual)
-    (_failed : Node148LiveHotFailure _active) : Type (u + 3) :=
-  PUnit
-
 abbrev Node148DecisionStage {V : Type u} (residual : InitialResidual V) :=
   Core.ResidualRefinement.State.FocusedBranchDecision
     (Node148Bypass V) (Node148Active V)
@@ -117,13 +105,13 @@ abbrev Node148To149Stage {V : Type u} (residual : InitialResidual V) :=
   Core.ResidualRefinement.State.FocusedBranchDecisionYesContinuation
     (Node148Bypass V) (Node148Active V)
     (@Node148LiveHotCap V) (@Node148LiveHotFailure V)
-    (fun _residual active cap => Node148To149Marker active cap) residual
+    (fun _residual _active _cap => PUnit) residual
 
 abbrev Node148To150Stage {V : Type u} (residual : InitialResidual V) :=
   Core.ResidualRefinement.State.FocusedBranchDecisionNoContinuation
     (Node148Bypass V) (Node148Active V)
     (@Node148LiveHotCap V) (@Node148LiveHotFailure V)
-    (fun _residual active failed => Node148To150Marker active failed) residual
+    (fun _residual _active _failed => PUnit) residual
 
 /-- Framework-owned exhaustive cap decision on the literal node-[146] no
 leaf. -/

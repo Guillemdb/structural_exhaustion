@@ -28,6 +28,7 @@ import StructuralExhaustion.Core.ChunkedFiniteCount
 import StructuralExhaustion.Core.FiniteWeightedAutomaton
 import StructuralExhaustion.Core.GreedyMatchingStar
 import StructuralExhaustion.Core.QuadraticScaleSplit
+import StructuralExhaustion.Core.StrictGapAbsorption
 import StructuralExhaustion.Core.OneThreeRepair
 import StructuralExhaustion.Core.EnumerationArithmetic
 import StructuralExhaustion.Core.FiniteSaturation

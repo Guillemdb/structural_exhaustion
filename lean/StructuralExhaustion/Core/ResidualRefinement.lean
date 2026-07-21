@@ -1904,7 +1904,7 @@ noncomputable def StageNode.decideFocusedBranchNoContinuation
     {Active : Residual → Type uTarget}
     {yes no : (residual : Residual) → Active residual → Prop}
     {Output : (residual : Residual) → (data : Active residual) →
-      no residual data → Type uStage}
+      no residual data → Sort uStage}
     {nextYes nextNo : (residual : Residual) →
       FocusedBranchDecisionNoContinuationActive Active no Output residual → Prop}
     [Proofs.Contains (Available
@@ -2335,7 +2335,7 @@ noncomputable def StageNode.mapFocusedBranchYesContinuation
     {Output : (residual : Residual) → (data : Active residual) →
       yes residual data → Sort uStage}
     {Next : (residual : Residual) → (data : Active residual) →
-      yes residual data → Type uOccurrence}
+      yes residual data → Sort uOccurrence}
     [Proofs.Contains (Available
       (FocusedBranchDecisionYesContinuation Bypass Active yes no Output)) facts]
     (produce : ∀ residual data proof,
@@ -2350,6 +2350,32 @@ noncomputable def StageNode.mapFocusedBranchYesContinuation
         | .activeYes data proof output =>
             .activeYes data proof (produce state.residual data proof output)
         | .noBranch data proof => .noBranch data proof
+
+/-- Close a focused yes leaf after it has already been continued with a
+payload.  Core consumes the exact accumulated yes-continuation stage,
+transports the bypass and untouched no sibling, and exposes the canonical
+focused-yes-closed state.  The caller supplies only the mathematical
+contradiction for the latest payload. -/
+noncomputable def StageNode.closeFocusedBranchYesContinuation
+    {Bypass : Residual → Type uInput}
+    {Active : Residual → Type uTarget}
+    {yes no : (residual : Residual) → Active residual → Prop}
+    {Output : (residual : Residual) → (data : Active residual) →
+      yes residual data → Sort uStage}
+    [Proofs.Contains (Available
+      (FocusedBranchDecisionYesContinuation Bypass Active yes no Output)) facts]
+    (close : ∀ residual data proof,
+      Output residual data proof → False) :
+    StageNode (facts := facts)
+      (FocusedBranchDecisionYesClosed Bypass Active yes no) :=
+  StageNode.usingStage
+    (Required := FocusedBranchDecisionYesContinuation
+      Bypass Active yes no Output) fun state continuation =>
+      match continuation with
+      | .bypass data => .bypass data
+      | .activeYes data proof output =>
+          (close state.residual data proof output).elim
+      | .noBranch data proof => .activeNo data proof
 
 /-- Decide one paper-local predicate on the payload already attached to the
 yes leaf.  The accumulated ledger supplies the predecessor continuation;
@@ -2530,7 +2556,7 @@ noncomputable def StageNode.mapFocusedBranchNoContinuation
     {Output : (residual : Residual) → (data : Active residual) →
       no residual data → Sort uStage}
     {Next : (residual : Residual) → (data : Active residual) →
-      no residual data → Type uOccurrence}
+      no residual data → Sort uOccurrence}
     [Proofs.Contains (Available
       (FocusedBranchDecisionNoContinuation Bypass Active yes no Output)) facts]
     (produce : ∀ residual data proof,
@@ -2909,10 +2935,10 @@ noncomputable def StageNode.mapFocusedBranchYesContinuationDerived
     {Active : Residual → Type uTarget}
     {yes no : (residual : Residual) → Active residual → Prop}
     {Output : (residual : Residual) → (data : Active residual) →
-      yes residual data → Type uStage}
+      yes residual data → Sort uStage}
     {Input : Residual → Sort uNext}
     {Next : (residual : Residual) → (data : Active residual) →
-      yes residual data → Type uOccurrence}
+      yes residual data → Sort uOccurrence}
     [Proofs.Contains (Available
       (FocusedBranchDecisionYesContinuation Bypass Active yes no Output)) facts]
     (query : LedgerQuery (facts := facts) Input)

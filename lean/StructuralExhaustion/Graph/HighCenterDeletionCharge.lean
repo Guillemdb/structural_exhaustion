@@ -219,14 +219,14 @@ theorem neg_inducedRemaining_le_receiverOverload
     -profile.inducedRemainingQuarterCharge ≤
       (profile.receiverOverload coreFree : Int) := by
   let subcubic := profile.subcubicProfile coreFree
-  have bound := subcubic.neg_quarterCharge_le_totalOverload
+  have bound := subcubic.neg_signedCharge_le_totalOverload
   have supportEq : subcubic.dischargeInput.support =
       (Finset.univ : Finset {vertex : V // vertex ∈ profile.remainingCore}) := by
     ext vertex
     simp [Graph.LowDegreeReceiverRouting.SubcubicProfile.dischargeInput]
   have sumEq :
       (∑ vertex ∈ subcubic.dischargeInput.support,
-        subcubic.dischargeInput.quarterCharge vertex) =
+        subcubic.dischargeInput.signedCharge vertex) =
           profile.inducedRemainingQuarterCharge := by
     rw [supportEq]
     unfold inducedRemainingQuarterCharge

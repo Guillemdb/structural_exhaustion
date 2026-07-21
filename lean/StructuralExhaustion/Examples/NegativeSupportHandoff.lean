@@ -7,9 +7,10 @@ open StructuralExhaustion
 /-!
 # Transfer check on the textbook complete graph `K₅`
 
-The full vertex support of `K₅` is connected, every vertex is a high center,
-and its exact cubic-baseline net charge is negative.  The example exercises
-the ordinary negative-support handoff independently of the Erdős package.
+The full vertex support of `K₅` is connected, every vertex is a high center
+above the explicitly supplied threshold, and its exact cubic-baseline net
+charge is negative.  The example exercises the ordinary negative-support
+handoff independently of the Erdős package.
 -/
 
 abbrev Vertex := Fin 5
@@ -23,6 +24,12 @@ def input : Graph.FiniteInput graph where
     infer_instance
 
 def object : Graph.FiniteObject Vertex := ⟨graph, input⟩
+
+def threshold : Nat := 4
+
+def chargeParameters : Graph.AssignedSupportCharge.Parameters where
+  baseline := 3
+  scale := 4
 
 def connected :
     Graph.NegativeSupportHandoff.ConnectedOn object Finset.univ := by
@@ -44,7 +51,8 @@ def connected :
         simp
 
 def support :
-    Graph.NegativeSupportHandoff.ConnectedNegativeSupport object where
+    Graph.NegativeSupportHandoff.ConnectedNegativeSupportWith object
+      chargeParameters threshold where
   core := Finset.univ
   connected := connected
   negative := by decide
@@ -55,17 +63,22 @@ def high : support.HighSurplusWitness where
   high := by decide
 
 def ordinary :=
-  Routes.NegativeSupportHandoff.ordinary support high
+  Routes.NegativeSupportHandoff.ordinaryAtLeast chargeParameters threshold
+    support high
 
 example : ordinary.highSurplus.center = 0 :=
   rfl
 
 example : ordinary.highSurplus.center ∈
-    Graph.NegativeSupportHandoff.highCenters object support.core :=
-  ordinary.highSurplus.center_mem_highCenters
+    Graph.NegativeSupportHandoff.highCentersAtLeast object threshold support.core := by
+  letI : DecidableEq Vertex := inferInstance
+  change (0 : Vertex) ∈
+    Graph.NegativeSupportHandoff.highCentersAtLeast object threshold support.core
+  exact Finset.mem_filter.mpr ⟨high.center_mem, high.high⟩
 
 example :
-    (Graph.NegativeSupportHandoff.chargeProfile object support.core).netQuarterCharge < 0 :=
+    (Graph.NegativeSupportHandoff.chargeProfileWith object chargeParameters
+      threshold support.core).netCharge < 0 :=
   support.negative
 
 end StructuralExhaustion.Examples.NegativeSupportHandoffK5

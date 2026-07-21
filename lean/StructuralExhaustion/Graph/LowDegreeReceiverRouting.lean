@@ -117,13 +117,19 @@ namespace SubcubicProfile
 
 variable {object : Graph.FiniteObject V} (profile : SubcubicProfile object)
 
+def dischargeParameters : Core.FiniteReceiverDischarge.Parameters where
+  sourceDegree := 3
+  scale := 4
+  scale_pos := by norm_num
+
 noncomputable def dischargeInput : Core.FiniteReceiverDischarge.Input V where
+  parameters := dischargeParameters
   vertices := object.input.vertices
   support := by
     letI : FinEnum V := object.input.vertices
     exact Finset.univ
   degree := object.degree
-  degree_le_three := fun vertex _member => profile.degree_le_three vertex
+  degree_le_source := fun vertex _member => profile.degree_le_three vertex
 
 noncomputable def receiverFor (vertex : V) : V :=
   Classical.choose
@@ -152,14 +158,15 @@ noncomputable def dischargeRouting :
     constructor
     · letI : FinEnum V := object.input.vertices
       simp [dischargeInput]
-    · exact profile.receiverFor_degree_le_two cubic.1
+    · have degree := profile.receiverFor_degree_le_two cubic.1
+      simp [dischargeInput, dischargeParameters]
+      omega
 
 theorem dischargeRouting_reachable
-    (cubic : {vertex // vertex ∈ profile.dischargeInput.cubicSet}) :
+    (cubic : {vertex // vertex ∈ profile.dischargeInput.sourceSet}) :
     object.graph.Reachable cubic.1
       (profile.dischargeRouting.route cubic).1 := by
-  change object.graph.Reachable cubic.1 (profile.receiverFor cubic.1)
-  exact profile.receiverFor_reachable cubic.1
+  simpa [dischargeRouting] using profile.receiverFor_reachable cubic.1
 
 abbrev Unsaturated : Prop := profile.dischargeRouting.Unsaturated
 
@@ -180,10 +187,10 @@ theorem not_unsaturated_iff_nonempty_saturated :
   profile.dischargeRouting.not_unsaturated_iff_nonempty_saturated
 
 /-- Exact graph-level unsaturated receiver discharge. -/
-theorem quarterCharge_nonnegative (unsaturated : profile.Unsaturated) :
+theorem signedCharge_nonnegative (unsaturated : profile.Unsaturated) :
     0 ≤ ∑ vertex ∈ profile.dischargeInput.support,
-      profile.dischargeInput.quarterCharge vertex :=
-  profile.dischargeRouting.quarterCharge_nonnegative unsaturated
+      profile.dischargeInput.signedCharge vertex :=
+  profile.dischargeRouting.signedCharge_nonnegative unsaturated
 
 theorem totalOverload_eq_zero_of_unsaturated
     (unsaturated : profile.Unsaturated) :
@@ -192,11 +199,11 @@ theorem totalOverload_eq_zero_of_unsaturated
 
 /-- Unconditional receiver inequality, retaining the exact overload as the
 Type A continuation quantity. -/
-theorem neg_quarterCharge_le_totalOverload :
+theorem neg_signedCharge_le_totalOverload :
     -(∑ vertex ∈ profile.dischargeInput.support,
-      profile.dischargeInput.quarterCharge vertex) ≤
+      profile.dischargeInput.signedCharge vertex) ≤
         (profile.totalOverload : Int) :=
-  profile.dischargeRouting.neg_quarterCharge_le_totalOverload
+  profile.dischargeRouting.neg_signedCharge_le_totalOverload
 
 end SubcubicProfile
 

@@ -19,17 +19,11 @@ noncomputable def node150ColdCount {V : Type u}
   (p13SequentialWeightedColdWindows (Node21Context active.node18)
     active.node21.barrierRateCertificate).length
 
-/-- Framework marker on the `[150]` cold residual edge. -/
-abbrev Node150ColdMarker {V : Type u} {residual : InitialResidual V}
-    (_active : Node148Active V residual)
-    (_failed : Node148LiveHotFailure _active) : Type (u + 3) :=
-  PUnit
-
 abbrev Node150Stage {V : Type u} (residual : InitialResidual V) :=
   Core.ResidualRefinement.State.FocusedBranchDecisionNoContinuation
     (Node148Bypass V) (Node148Active V)
     (@Node148LiveHotCap V) (@Node148LiveHotFailure V)
-    (fun _residual active failed => Node150ColdMarker active failed)
+    (fun _residual _active _failed => PUnit)
     residual
 
 noncomputable def node150ColdResidual {V : Type u} {facts}
@@ -38,8 +32,8 @@ noncomputable def node150ColdResidual {V : Type u} {facts}
     Core.ResidualRefinement.State.StageNode (facts := facts)
       (@Node150Stage V) :=
   Core.ResidualRefinement.State.StageNode.mapFocusedBranchNoContinuation
-    (Output := fun _residual active failed => Node148To150Marker active failed)
-    (Next := fun _residual active failed => Node150ColdMarker active failed)
+    (Output := fun _residual _active _failed => PUnit)
+    (Next := fun _residual _active _failed => PUnit)
     fun _residual _active _failed _node148No => PUnit.unit
 
 noncomputable def runInitialThroughNode150 {V : Type u}

@@ -1205,7 +1205,7 @@ abbrev NestedFixtureFocusedYesMapped (residual : Residual) : Type :=
   Core.ResidualRefinement.State.FocusedBranchDecisionYesContinuation
     NestedFixtureFocusedBypass NestedFixtureFocusedActive
     NestedFixtureFocusedYes NestedFixtureFocusedNo
-    (fun _ _ _ => Bool) residual
+    (fun _ _ _ => True) residual
 
 abbrev NestedFixtureFocusedInnerYes (_residual : Residual)
     (data : NestedFixtureFocusedActive _residual)
@@ -1266,7 +1266,7 @@ abbrev NestedFixtureFocusedTerminalNoContinuation :=
   Core.ResidualRefinement.State.FocusedBranchDecisionNoContinuation
     NestedFixtureFocusedBypass NestedFixtureFocusedActive
     NestedFixtureFocusedTerminalYes NestedFixtureFocusedTerminalNo
-    (fun _ _ _ => PUnit)
+    (fun _ _ _ => Unit)
 
 abbrev NestedFixtureFocusedTerminalNoClosed :=
   Core.ResidualRefinement.State.FocusedBranchDecisionNoClosed
@@ -1316,8 +1316,8 @@ noncomputable def nestedFixtureFocusedYesMappedNode {facts}
       NestedFixtureFocusedYesMapped :=
   Core.ResidualRefinement.State.StageNode.mapFocusedBranchYesContinuation
     (Output := fun _ _ _ => PUnit)
-    (Next := fun _ _ _ => Bool)
-    (fun _ _ _ _ => true)
+    (Next := fun _ _ _ => True)
+    (fun _ _ _ _ => trivial)
 
 noncomputable def nestedFixtureFocusedNestedDecisionNode {facts}
     [Core.ResidualRefinement.Proofs.Contains
@@ -1360,10 +1360,10 @@ noncomputable def nestedFixtureFocusedYesMappedDerivedNode {facts}
       NestedFixtureFocusedYesMapped :=
   Core.ResidualRefinement.State.StageNode.mapFocusedBranchYesContinuationDerived
     (Output := fun _ _ _ => PUnit)
-    (Next := fun _ _ _ => Bool)
+    (Next := fun _ _ _ => True)
     (Core.ResidualRefinement.State.LedgerQuery.stage
       (facts := facts) (Stage := NestedFixtureFinalNoActive))
-    (fun _ _inherited _ _ _ => true)
+    (fun _ _inherited _ _ _ => trivial)
 
 noncomputable def nestedFixtureFocusedNoMappedNode {facts}
     [Core.ResidualRefinement.Proofs.Contains
@@ -1400,7 +1400,7 @@ noncomputable def nestedFixtureFocusedTerminalNoClosedNode {facts}
     Core.ResidualRefinement.State.StageNode (facts := facts)
       NestedFixtureFocusedTerminalNoClosed :=
   Core.ResidualRefinement.State.StageNode.closeFocusedBranchNoContinuation
-    (Output := fun _ _ _ => PUnit)
+    (Output := fun _ _ _ => Unit)
     (fun _ _ impossible _ => impossible.elim)
 
 noncomputable def nestedFixtureAfterAuditDecision :=
@@ -1491,12 +1491,15 @@ theorem focused_no_closure_accumulates :
       Nonempty
         (NestedFixtureFocusedTerminalNoClosed
           nestedFixtureAfterFocusedTerminalNoClosed.residual) := by
+  let continuation :
+      NestedFixtureFocusedTerminalNoContinuation
+        nestedFixtureAfterFocusedTerminalNoClosed.residual :=
+    nestedFixtureAfterFocusedTerminalNoClosed.requireStage
+      (Stage := NestedFixtureFocusedTerminalNoContinuation)
   exact ⟨nestedFixtureAfterFocusedTerminalNoClosed.require
       (property := Core.ResidualRefinement.State.Available
         NestedFixtureFocusedTerminalDecision),
-    nestedFixtureAfterFocusedTerminalNoClosed.require
-      (property := Core.ResidualRefinement.State.Available
-        NestedFixtureFocusedTerminalNoContinuation),
+    ⟨continuation⟩,
     nestedFixtureAfterFocusedTerminalNoClosed.latest⟩
 
 theorem focused_yes_continuation_accumulates :

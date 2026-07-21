@@ -27,7 +27,7 @@ noncomputable def node149DensityCap {V : Type u} {facts}
     Core.ResidualRefinement.State.StageNode (facts := facts)
       (@Node149Stage V) :=
   Core.ResidualRefinement.State.StageNode.mapFocusedBranchYesContinuation
-    (Output := fun _residual active cap => Node148To149Marker active cap)
+    (Output := fun _residual _active _cap => PUnit)
     (Next := fun _residual _active _cap => PUnit)
     fun _residual _active _cap _node148Yes => PUnit.unit
 

@@ -1,5 +1,6 @@
 import Erdos64EG.Node55
 import StructuralExhaustion.Core.GracefulDegradation
+import StructuralExhaustion.Core.StrictGapAbsorption
 
 namespace Erdos64EG.Internal
 
@@ -82,6 +83,14 @@ structure Node56Output {V : Type u} {residual : InitialResidual V}
             (Node21Context active.previous)).card +
         Graph.InducedPathWindowLedger.totalSurplus
           (Node21Context active.previous).G.object
+  /-- The paper's strict large-budget consequence after absorbing the
+  inherited `o(|R|)` surplus tail: the natural finite numerator is already
+  below one quarter of the remainder scale. -/
+  remainderNetChargeQuarterNegative :
+    4 * ((node56RemainderNetDeficiencyNumerator
+          (Node21Context active.previous) : Int)) -
+        ((p13RemainderVertices
+          (Node21Context active.previous)).card : Int) < 0
   tauWin_lt_quarter : node56TauWin < (1 / 4 : ℝ)
   localWork : 0 = 0 := rfl
 
@@ -104,6 +113,7 @@ facts; it is not an application-owned carrier or handoff. -/
 structure Node56LedgerInputs {V : Type u}
     (residual : InitialResidual V) : Type (u + 1) where
   remainderBudget : Node29RemainderNetBudgetAvailable residual
+  largeEnoughTail : InitialLargeEnoughTail residual
 
 /-- The complete carrier after the large-budget net-cap node. -/
 abbrev Node56Stage {V : Type u} (residual : InitialResidual V) :=
@@ -123,15 +133,19 @@ noncomputable def node56P13LargeBudgetNetCap {V : Type u} {facts}
     [Core.ResidualRefinement.Proofs.Contains
       (Core.ResidualRefinement.State.Available (@Node55Stage V)) facts]
     [Core.ResidualRefinement.Proofs.Contains
-      (Core.ResidualRefinement.State.Available (@Node29Stage V)) facts] :
+      (Core.ResidualRefinement.State.Available (@Node29Stage V)) facts]
+    [Core.ResidualRefinement.Proofs.Contains
+      (@InitialLargeEnoughTail V) facts] :
   Core.ResidualRefinement.State.StageNode (facts := facts)
       (@Node56Stage V) :=
   Core.ResidualRefinement.State.StageNode.mergeGuardedDegradationDerived
-    ((Core.ResidualRefinement.State.LedgerQuery.entailedStage
+    (((Core.ResidualRefinement.State.LedgerQuery.entailedStage
       (facts := facts) (Stage := @Node29Stage V)
-      (property := @Node29RemainderNetBudgetAvailable V)).map
-        fun _residual budgetLedger =>
-          ({ remainderBudget := budgetLedger } :
+      (property := @Node29RemainderNetBudgetAvailable V)).andFact
+        (property := @InitialLargeEnoughTail V)).map
+        fun _residual inputs =>
+          ({ remainderBudget := inputs.1
+             largeEnoughTail := inputs.2 } :
             Node56LedgerInputs _residual))
     fun _residual inputs active => by
       let node31 := active.data.current
@@ -199,6 +213,27 @@ noncomputable def node56P13LargeBudgetNetCap {V : Type u} {facts}
               ((p13RemainderCurvatureProfile ctx).positiveDeficiency : ℝ) := by
           exact_mod_cast numeratorLe
         exact numeratorLeReal.trans realCap
+      have strictGap :
+          Core.StrictGapAbsorption.ErrorWithinGap node56TauWin
+            (1 / 4 : ℝ) ((p13RemainderVertices ctx).card : ℝ)
+            (Graph.InducedPathWindowLedger.totalSurplus
+              ctx.G.object : ℝ) := by
+        apply inputs.largeEnoughTail.withinGap
+        exact {
+          gap_pos := by
+            exact sub_pos.mpr node56TauWin_lt_quarter
+        }
+      have netChargeNegative :
+          4 * ((node56RemainderNetDeficiencyNumerator ctx : Int)) -
+              ((p13RemainderVertices ctx).card : Int) < 0 := by
+        exact Core.StrictGapAbsorption.quarter_charge_negative
+          (quantity := node56RemainderNetDeficiencyNumerator ctx)
+          (scale := (p13RemainderVertices ctx).card)
+          (error := Graph.InducedPathWindowLedger.totalSurplus ctx.G.object)
+          node30.remainderPositive
+          remainderNetRealCap
+          node56TauWin_lt_quarter
+          strictGap
       exact {
         remainderNetDeficiencyFiniteBudgetCap := by
           simpa [ctx, Node50Active.previous] using remainderFiniteBudget
@@ -208,6 +243,8 @@ noncomputable def node56P13LargeBudgetNetCap {V : Type u} {facts}
           simpa [ctx, Node50Active.previous] using realCap
         remainderNetDeficiencyRealCap := by
           simpa [ctx, Node50Active.previous] using remainderNetRealCap
+        remainderNetChargeQuarterNegative := by
+          simpa [ctx, Node50Active.previous] using netChargeNegative
         tauWin_lt_quarter := node56TauWin_lt_quarter
         localWork := rfl
       }

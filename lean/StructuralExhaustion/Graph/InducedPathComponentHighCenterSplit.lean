@@ -21,7 +21,7 @@ variable {V : Type u} (object : FiniteObject V)
 variable (componentInput : InducedPathComponentBoundarySchedule.Input object)
 
 noncomputable def activeHighCenters : Finset V :=
-  NegativeSupportHandoff.highCenters object
+  NegativeSupportHandoff.highCentersAtLeast object 4
     (InducedPathComponentD4.activeSupport componentInput)
 
 /-- A genuine high center found inside the identical component support. -/
@@ -80,7 +80,7 @@ noncomputable def run (minimumDegreeThree : 3 ≤ object.minDegree) :
       intro high
       have centerMember : vertex ∈ activeHighCenters object componentInput := by
         classical
-        simp [activeHighCenters, NegativeSupportHandoff.highCenters, member, high]
+        simp [activeHighCenters, NegativeSupportHandoff.highCentersAtLeast, member, high]
       rw [empty] at centerMember
       simp at centerMember
     omega

@@ -256,4 +256,97 @@ theorem netQuarterCharge_nonnegative_or_remaining_negative
 
 end Profile
 
+/-! ## Parameterized support charge
+
+The definitions above are the historical quarter-unit/cubic specialization.
+The framework-facing API below keeps the baseline degree and signed scale as
+explicit parameters so routes can be reused by graph problems with different
+local budgets or obstruction thresholds.
+-/
+
+/-- Generic local charge parameters.  `baseline` is the ambient minimum-degree
+baseline used in deficiency/surplus accounting; `scale` is the integral
+normalization of the unit vertex cost. -/
+structure Parameters where
+  baseline : Nat
+  scale : Nat
+
+/-- Parameterized support-charge profile. -/
+structure ParameterizedProfile (object : FiniteObject V)
+    (parameters : Parameters) where
+  /-- Vertices counted by the support's deficiency and size. -/
+  core : Finset V
+  /-- Ambient high-center occurrences whose surplus is assigned here. -/
+  assignedCenters : Finset V
+
+namespace ParameterizedProfile
+
+variable {object : FiniteObject V} {parameters : Parameters}
+    (profile : ParameterizedProfile object parameters)
+
+/-- Degree inside the literal induced core. -/
+def internalDegree (vertex : V) : Nat := by
+  letI : FinEnum V := object.input.vertices
+  letI : DecidableEq V := object.input.vertices.decEq
+  letI : DecidableRel object.graph.Adj := object.input.decideAdj
+  exact (object.graph.neighborFinset vertex ∩ profile.core).card
+
+/-- Positive deficiency `max(0, baseline - d_core(v))`. -/
+def positiveDeficiencyAt (vertex : V) : Nat :=
+  parameters.baseline - profile.internalDegree vertex
+
+def positiveDeficiency : Nat :=
+  ∑ vertex ∈ profile.core, profile.positiveDeficiencyAt vertex
+
+/-- Ambient degree surplus above the supplied baseline. -/
+def surplusAt (center : V) : Nat :=
+  object.degree center - parameters.baseline
+
+def assignedSurplus : Nat :=
+  ∑ center ∈ profile.assignedCenters,
+    surplusAt (object := object) (parameters := parameters) center
+
+/-- Core-vertex charge `scale * δ⁺ - 1`, in caller-supplied units. -/
+def coreChargeAt (vertex : V) : Int :=
+  parameters.scale * (profile.positiveDeficiencyAt vertex : Int) - 1
+
+def coreCharge : Int :=
+  ∑ vertex ∈ profile.core, profile.coreChargeAt vertex
+
+/-- Extra assigned-center entry `-scale * surplus - 1`, in caller-supplied
+units. -/
+def centerChargeAt (center : V) : Int :=
+  -parameters.scale *
+      (surplusAt (object := object) (parameters := parameters) center :
+        Int) - 1
+
+def centerCharge : Int :=
+  ∑ center ∈ profile.assignedCenters,
+    centerChargeAt (object := object) (parameters := parameters) center
+
+/-- The parameterized net support charge. -/
+def netCharge : Int :=
+  parameters.scale * (profile.positiveDeficiency : Int) -
+    parameters.scale * (profile.assignedSurplus : Int) -
+      (profile.core.card : Int)
+
+theorem coreCharge_eq :
+    profile.coreCharge =
+      parameters.scale * (profile.positiveDeficiency : Int) -
+        (profile.core.card : Int) := by
+  classical
+  unfold coreCharge positiveDeficiency coreChargeAt
+  rw [Finset.sum_sub_distrib]
+  rw [← Finset.mul_sum]
+  norm_cast
+  simp
+
+theorem assignedSurplus_eq_zero_of_assignedCenters_empty
+    (empty : profile.assignedCenters = ∅) :
+    profile.assignedSurplus = 0 := by
+  unfold assignedSurplus
+  simp [empty]
+
+end ParameterizedProfile
+
 end StructuralExhaustion.Graph.AssignedSupportCharge

@@ -33,13 +33,11 @@ abbrev Node156G3Silent {V : Type u} {residual : InitialResidual V}
   ¬Node156G2Event active
 
 abbrev Node156G3Output {V : Type u} {residual : InitialResidual V}
-    (active : Node156Active V residual) (_g3 : Node156G3Silent active) :=
-  Sigma (fun _ : PUnit =>
-    PLift (
+    (active : Node156Active V residual) (_g3 : Node156G3Silent active) : Prop :=
     ∀ entry ∈ node152BranchExcessSchedule active.data.data,
       ¬∃ vertex ∈
         (node153CorridorProducer active.data.data).stages entry |>.values,
-          InducedPathColdCorridor.F4 entry vertex))
+          InducedPathColdCorridor.F4 entry vertex
 
 abbrev Node156DecisionStage {V : Type u} (residual : InitialResidual V) :=
   Core.ResidualRefinement.State.FocusedBranchDecision
@@ -63,6 +61,13 @@ noncomputable def node156G2G3Decision {V : Type u} {facts}
   Core.ResidualRefinement.State.StageNode (facts := facts)
     (@Node156DecisionStage V) :=
   Core.ResidualRefinement.State.StageNode.decideFocusedBranchNoContinuation
+    (Bypass := Node154Bypass V)
+    (Active := Node154LiveLeaf V)
+    (yes := @Node154G1Hit V)
+    (no := @Node154NoG1 V)
+    (Output := @Node154NoG1Output V)
+    (nextYes := @Node156G2Event V)
+    (nextNo := @Node156G3Silent V)
     (fun _residual active => Classical.propDecidable
       (Node156G2Event active))
     (fun _residual _active absent => absent)
@@ -74,12 +79,19 @@ noncomputable def node156G3Continuation {V : Type u} {facts}
   Core.ResidualRefinement.State.StageNode (facts := facts)
     (@Node156Stage V) :=
   Core.ResidualRefinement.State.StageNode.continueFocusedBranchNo
+    (Bypass :=
+      Core.ResidualRefinement.State.FocusedBranchDecisionNoContinuationBypass
+        (Node154Bypass V) (Node154LiveLeaf V)
+        (@Node154G1Hit V) (@Node154NoG1 V))
+    (Active := Node156Active V)
+    (yes := @Node156G2Event V)
+    (no := @Node156G3Silent V)
     (fun _residual active noG2 =>
-      ⟨PUnit.unit, ⟨by
+      by
         intro entry member targetEvent
         apply noG2
         rcases targetEvent with ⟨vertex, stageMember, proof⟩
-        exact ⟨entry, member, vertex, stageMember, proof⟩⟩⟩)
+        exact ⟨entry, member, vertex, stageMember, proof⟩)
 
 noncomputable def runInitialThroughNode156Decision {V : Type u}
     (residual : InitialResidual V) :=
