@@ -1,5 +1,5 @@
 import Mathlib.Topology.Algebra.Module.FiniteDimension
-import Hypostructure.PDE.FastTrack.DirectedExhaustiveness
+import Hypostructure.PDE.Contract
 import HypostructurePDEExamples.RepresentedNS2DQuotientDefectPacket
 
 /-!
@@ -43,12 +43,7 @@ def rowFourFocus : Core.Residual.Focus.Profile RowFourStage :=
 
 /-- The concrete represented row-4 execution lies on the focused constructor. -/
 theorem rowFourActive : rowFourFocus.Active containedDecision := by
-  change Core.Residual.Focus.YesActive containedDecision
-  cases selected : containedDecision.added with
-  | yesBranch proof =>
-      exact ⟨proof, selected⟩
-  | noBranch absent =>
-      exact (absent matching_defect_is_in_declared_geometry).elim
+  exact contained_decision_uses_success_branch
 
 abbrev ActiveRowFour := Core.Residual.Focus.ActiveView rowFourFocus
 
@@ -308,26 +303,33 @@ def codeClosureAlignmentQuery :
           rankCapability supportSpec supportCapability closureProfile) :=
   gradientQuery.map fun _stage _active _gradient => codeClosureAlignment
 
-def rowFiveProfile :
-    DirectedExhaustiveness.Profile RowFourStage rowFourFocus
+def rowFiveContract :
+    PDE.Contract.DirectedExhaustiveness RowFourStage rowFourFocus
       GeneratorState GeneratorState where
-  gradient := gradientQuery
-  closedRangeCriterion := closedRangeCriterionQuery
-  rankSpec := rankSpec
-  rankCapability := rankCapability
-  supportSpec := supportSpec
-  supportCapability := supportCapability
-  closureProfile := closureProfile
-  closureRegistration := closureRegistration
-  targetComplete := targetCompleteQuery
-  InWindow := fun _view _carrier => True
-  targetCapacity := fun _view _carrier => 1
-  targetFlux := fun _view _carrier => 1
-  inWindowOfVisible := by intros; trivial
-  positiveCapacityOfVisible := by intros; norm_num
-  nonzeroFluxOfVisible := by intros; norm_num
-  fullRankToGap := fullRankToGapQuery
-  codeClosureAlignment := codeClosureAlignmentQuery
+  profile := {
+    gradient := gradientQuery
+    closedRangeCriterion := closedRangeCriterionQuery
+    rankSpec := rankSpec
+    rankCapability := rankCapability
+    supportSpec := supportSpec
+    supportCapability := supportCapability
+    closureProfile := closureProfile
+    closureRegistration := closureRegistration
+    targetComplete := targetCompleteQuery
+    InWindow := fun _view _carrier => True
+    targetCapacity := fun _view _carrier => 1
+    targetFlux := fun _view _carrier => 1
+    inWindowOfVisible := by intros; trivial
+    positiveCapacityOfVisible := by intros; norm_num
+    nonzeroFluxOfVisible := by intros; norm_num
+    fullRankToGap := fullRankToGapQuery
+    codeClosureAlignment := codeClosureAlignmentQuery
+  }
+
+abbrev rowFiveProfile :
+    DirectedExhaustiveness.Profile RowFourStage rowFourFocus
+      GeneratorState GeneratorState :=
+  rowFiveContract.toProfile
 
 /-! ## One row-5 stage and its audit surface -/
 
@@ -343,14 +345,14 @@ abbrev RowFiveSuccessorFocus :=
 
 /-- The sole row-5 execution, appended to the literal row-4 decision stage. -/
 def rowFiveRun : Core.Counted RowFiveStage :=
-  DirectedExhaustiveness.run rowFiveProfile containedDecision
+  rowFiveContract.run containedDecision
 
 def rowFiveStage : RowFiveStage :=
   rowFiveRun.value
 
 theorem rowFiveStage_retains_rowFour :
     rowFiveStage.previous = containedDecision :=
-  DirectedExhaustiveness.run_previous rowFiveProfile containedDecision
+  rowFiveContract.run_previous containedDecision
 
 theorem rowFiveStage_retains_root_residual :
     Core.Residual.residualOf rowFiveStage =
@@ -382,21 +384,19 @@ payload schedule registered by the row-5 executor. -/
 theorem rowFiveRun_exact_work :
     rowFiveRun.checks =
       rowFourFocus.selectionBudget.checks containedDecision +
-        (DirectedExhaustiveness.payloadBudget rowFiveProfile).checks
-          containedDecision :=
-  DirectedExhaustiveness.run_checks_of_active rowFiveProfile
-    containedDecision rowFourActive
+        rowFiveContract.workBudget.checks containedDecision :=
+  rowFiveContract.run_checks_of_active containedDecision rowFourActive
 
 theorem rowFiveRun_work_is_bounded :
     rowFiveRun.checks ≤
       (rowFourFocus.selectionBudget.add
-        (DirectedExhaustiveness.payloadBudget rowFiveProfile)).coefficient *
+        rowFiveContract.workBudget).coefficient *
       ((rowFourFocus.selectionBudget.add
-        (DirectedExhaustiveness.payloadBudget rowFiveProfile)).size
+        rowFiveContract.workBudget).size
           containedDecision + 1) ^
       (rowFourFocus.selectionBudget.add
-        (DirectedExhaustiveness.payloadBudget rowFiveProfile)).degree :=
-  DirectedExhaustiveness.run_checks_bounded rowFiveProfile containedDecision
+        rowFiveContract.workBudget).degree :=
+  rowFiveContract.run_checks_bounded containedDecision
 
 /-- The active payload itself follows the finite full-rank route. -/
 theorem activePayload_is_positiveGap :

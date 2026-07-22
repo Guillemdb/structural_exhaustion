@@ -79,11 +79,9 @@ theorem node8_closure_mechanism (stage : Node8Stage.{u})
   (node8CertificateQuery.read stage active).mechanism subgraph baseline
 
 theorem node8Counted_work_bounded (previous : Node6AvoidingStage.{u}) :
-    (node8Counted previous).checks <=
-      Node6AvoidingFocus.selectionBudget.coefficient *
-        (Node6AvoidingFocus.selectionBudget.size previous + 1) ^
-          Node6AvoidingFocus.selectionBudget.degree :=
-  Graph.executeFocusedNoProperBaselineCounted_checks_bounded
+    Node6AvoidingFocus.selectionBudget.Within previous
+      (node8Counted previous).checks :=
+  Graph.executeFocusedNoProperBaselineCounted_work_within
     Node6AvoidingFocus node8MinimalityProfile
       node4ContextAtNode6AvoidingQuery previous
 
@@ -129,7 +127,7 @@ noncomputable def node8Metadata :
     ⟨"Hypostructure.Graph.Minimality",
       "NoProperBaselineCertificate.excludes"⟩,
     ⟨"Hypostructure.Graph.Minimality",
-      "executeFocusedNoProperBaselineCounted_checks_bounded"⟩,
+      "executeFocusedNoProperBaselineCounted_work_within"⟩,
     ⟨"Hypostructure.Core.Closure", "Closure.Result.strictProgress"⟩
   ]
   closureMechanisms := [Core.Closure.Mechanism.strictProgress]
@@ -149,11 +147,9 @@ theorem node8_metadata_has_no_manual_obligation
 /-- The metadata stores the same focused-selection work bound used by the
 executor. -/
 theorem node8_metadata_work_bounded (previous : Node6AvoidingStage.{u}) :
-    node8Metadata.workBound.checks previous <=
-      node8Metadata.workBound.coefficient *
-        (node8Metadata.workBound.size previous + 1) ^
-          node8Metadata.workBound.degree :=
-  node8MetadataComplete.work_bounded previous
+    node8Metadata.workBound.Within previous
+      (node8Metadata.workBound.checks previous) :=
+  node8MetadataComplete.work_within previous
 
 #print axioms node8
 #print axioms node8Counted_work_bounded

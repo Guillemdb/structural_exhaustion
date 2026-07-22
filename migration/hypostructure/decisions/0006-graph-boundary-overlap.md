@@ -4,7 +4,7 @@ Status: implemented
 
 Date: 2026-07-21
 
-Matrix rows: `graph.boundary-overlap`, EG node 13 obligation
+Matrix rows: `graph.boundary-overlap`, EG node 13 diagnostics
 
 ## Missing Use Case
 
@@ -77,6 +77,7 @@ vocabulary into Core.
 ## Compatibility Impact
 
 This is an additive Graph API and does not restrict the existing gluing context
-class. It does not approve or instantiate a correction to original EG Node 13.
-The immutable source remains unchanged, and the node remains mathematically
-open pending an explicit repair decision.
+class. EG Node 13 now uses the separate Graph-owned normalized replacement
+contract, which derives zero overlap from `OutsideContext.NoBoundaryEdges`.
+The unrestricted overlap counterexample remains as diagnostic evidence for
+callers that do not have normalized contexts.

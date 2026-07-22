@@ -94,10 +94,8 @@ theorem selected_profileMismatchRejected
 /-- Node 11 parity preserves the production focused-selection work bound. -/
 theorem node11_work_bounded
     (previous : HypostructureErdos64EG.Node10Stage.{u}) :
-    (HypostructureErdos64EG.node11Counted previous).checks <=
-      HypostructureErdos64EG.Node10Focus.selectionBudget.coefficient *
-        (HypostructureErdos64EG.Node10Focus.selectionBudget.size previous + 1) ^
-          HypostructureErdos64EG.Node10Focus.selectionBudget.degree :=
+    HypostructureErdos64EG.Node10Focus.selectionBudget.Within previous
+      (HypostructureErdos64EG.node11Counted previous).checks :=
   HypostructureErdos64EG.node11Counted_work_bounded previous
 
 /-- The legacy node-11 output stores the same paper-visible boundaried-atom

@@ -19,7 +19,7 @@ universe u
 def node6ObjectQuery :
     Core.Residual.Focus.ActiveQuery Node5Focus
       (fun _stage _active => Graph.FiniteObject.{u}) :=
-  node4ContextAtNode5Query.map fun _stage _active minimal => minimal.G
+  Graph.focusedMinimalContextObjectQuery Node5Focus node4ContextAtNode5Query
 
 /-- The entire node-6 specialization: one graph query and the node-5 algebra. -/
 def node6Encoding :=
@@ -60,14 +60,19 @@ def node5CertificateAtNode6Query :
         Node5Output stage.previous.previous active) :=
   node5CertificateQuery.preserve
 
+/-- The CT1 object query reindexed to the exact node-6 route stage. -/
+def node6ObjectAtNode6Query :
+    Core.Residual.Focus.ActiveQuery Node6Focus
+      (fun _stage _active => Graph.FiniteObject.{u}) :=
+  node6ObjectQuery.preserve
+
 /-- The inherited node-5 certificate rules out CT1's public target. -/
 def node6TargetImpossibleQuery :
     Core.Residual.Focus.ActiveQuery Node6Focus
       (fun stage active =>
         Not (Target (node6ObjectQuery.read stage.previous active))) :=
-  node5CertificateAtNode6Query.map fun _stage _active certificate => by
-    simpa [Node5Output, Target, node6ObjectQuery, node4ContextAtNode5Query] using
-      certificate.notTarget
+  mersenneReturnAlgebra.focusedAvoidanceNotTargetQuery Node6Focus
+    node6ObjectAtNode6Query node5CertificateAtNode6Query
 
 /-- Framework-owned residual on node 6's exact avoiding arm. -/
 abbrev Node6AvoidingStage := node6Encoding.AvoidingStage
@@ -85,8 +90,7 @@ noncomputable def node6ContinueAvoiding
 
 /-- Focus inherited by node 8 from node 6's avoiding residual. -/
 abbrev Node6AvoidingFocus :=
-  Core.Residual.Focus.successor Node6Focus
-    (CT1.FocusedCertificateEncoding.AvoidingEvidence node6Encoding)
+  node6Encoding.AvoidingProfile
 
 /-- Exact avoiding evidence retained by CT1 on the node-6 edge. -/
 def node6AvoidingQuery :
@@ -94,7 +98,7 @@ def node6AvoidingQuery :
       (fun stage active =>
         CT1.FocusedCertificateEncoding.AvoidingEvidence
           node6Encoding stage.previous active) :=
-  Core.Residual.Focus.ActiveQuery.latest
+  node6Encoding.avoidingEvidenceQuery
 
 @[simp] theorem node6_previous (previous : Node5Stage.{u}) :
     (node6 previous).previous = previous :=
@@ -132,20 +136,16 @@ theorem node6_work_bound (stage : Node6Stage.{u})
 
 /-- Total node-6 work includes focus selection and CT1 validation. -/
 theorem node6Counted_work_bounded (previous : Node5Stage.{u}) :
-    (node6Counted previous).checks <=
-      node6Encoding.workBudget.coefficient *
-        (node6Encoding.workBudget.size previous + 1) ^
-          node6Encoding.workBudget.degree :=
-  node6Encoding.runCounted_checks_bounded previous
+    node6Encoding.workBudget.Within previous
+      (node6Counted previous).checks :=
+  node6Encoding.runCounted_work_within previous
 
 /-- The avoidance continuation also accounts for its focus selection. -/
 theorem node6ContinueAvoidingCounted_work_bounded
     (previous : Node6Stage.{u}) :
-    (node6ContinueAvoidingCounted previous).checks <=
-      node6Encoding.SuccessorProfile.selectionBudget.coefficient *
-        (node6Encoding.SuccessorProfile.selectionBudget.size previous + 1) ^
-          node6Encoding.SuccessorProfile.selectionBudget.degree :=
-  node6Encoding.closeC1ContinueAvoidingCounted_checks_bounded
+    node6Encoding.SuccessorProfile.selectionBudget.Within previous
+      (node6ContinueAvoidingCounted previous).checks :=
+  node6Encoding.closeC1ContinueAvoidingCounted_work_within
     previous node6TargetImpossibleQuery
 
 @[simp] theorem node6ContinueAvoiding_previous (previous : Node6Stage.{u}) :
@@ -207,7 +207,7 @@ noncomputable def node6Metadata :
     ⟨"Hypostructure.CT1.FocusedCertificate",
       "FocusedCertificateEncoding.avoids_of_avoiding"⟩,
     ⟨"Hypostructure.CT1.FocusedCertificate",
-      "FocusedCertificateEncoding.runCounted_checks_bounded"⟩
+      "FocusedCertificateEncoding.runCounted_work_within"⟩
   ]
   workBound := node6Encoding.workBudget
   manualObligations := []
@@ -243,7 +243,7 @@ noncomputable def node6ContinueAvoidingMetadata :
   ]
   genericTheorems := [
     ⟨"Hypostructure.CT1.FocusedCertificate",
-      "FocusedCertificateEncoding.closeC1ContinueAvoidingCounted_checks_bounded"⟩,
+      "FocusedCertificateEncoding.closeC1ContinueAvoidingCounted_work_within"⟩,
     ⟨"Hypostructure.CT1.FocusedCertificate",
       "FocusedCertificateEncoding.closeC1ContinueAvoiding_previous"⟩
   ]
@@ -272,19 +272,15 @@ theorem node6_continue_metadata_has_no_manual_obligation
   node6ContinueAvoidingMetadataComplete.no_manual_obligation obligation
 
 theorem node6_metadata_work_bounded (previous : Node5Stage.{u}) :
-    node6Metadata.workBound.checks previous <=
-      node6Metadata.workBound.coefficient *
-        (node6Metadata.workBound.size previous + 1) ^
-          node6Metadata.workBound.degree :=
-  node6MetadataComplete.work_bounded previous
+    node6Metadata.workBound.Within previous
+      (node6Metadata.workBound.checks previous) :=
+  node6MetadataComplete.work_within previous
 
 theorem node6_continue_metadata_work_bounded
     (previous : Node6Stage.{u}) :
-    node6ContinueAvoidingMetadata.workBound.checks previous <=
-      node6ContinueAvoidingMetadata.workBound.coefficient *
-        (node6ContinueAvoidingMetadata.workBound.size previous + 1) ^
-          node6ContinueAvoidingMetadata.workBound.degree :=
-  node6ContinueAvoidingMetadataComplete.work_bounded previous
+    node6ContinueAvoidingMetadata.workBound.Within previous
+      (node6ContinueAvoidingMetadata.workBound.checks previous) :=
+  node6ContinueAvoidingMetadataComplete.work_within previous
 
 #print axioms node6
 #print axioms node6Counted_work_bounded

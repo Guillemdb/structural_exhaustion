@@ -23,6 +23,19 @@ structure PolynomialCheckBudget (Input : Sort u) where
 
 namespace PolynomialCheckBudget
 
+/-- A concrete check count lies within a registered polynomial work budget at
+one input.  This is the public predicate applications should use instead of
+expanding the coefficient, size, and degree fields inline. -/
+def Within {Input : Sort u} (budget : PolynomialCheckBudget Input)
+    (input : Input) (checks : Nat) : Prop :=
+  checks <= budget.coefficient * (budget.size input + 1) ^ budget.degree
+
+/-- The budget's own exact check schedule is within its registered envelope. -/
+theorem checks_within {Input : Sort u} (budget : PolynomialCheckBudget Input)
+    (input : Input) :
+    budget.Within input (budget.checks input) :=
+  budget.bounded input
+
 /-- A constant local schedule is a degree-zero polynomial schedule. -/
 def constant {Input : Sort u} (size : Input -> Nat) (checks : Nat) :
     PolynomialCheckBudget Input where

@@ -184,22 +184,22 @@ theorem mismatched_defect_is_outside_declared_geometry :
   norm_num at isZero
 
 theorem contained_decision_uses_success_branch :
-    match containedDecision.added with
-    | .yesBranch _ => True
-    | .noBranch _ => False := by
-  cases h : containedDecision.added with
-  | yesBranch proof => trivial
-  | noBranch absent =>
-      exact (absent matching_defect_is_in_declared_geometry).elim
+    (containedFocus (Previous := ResourceBudgetStage) (M := model)
+      (State := GeneratorState) (Quotient := QuotientState)).Active
+      containedDecision :=
+  Core.Residual.Focus.yesActiveOfComplement containedDecision
+    matching_defect_is_in_declared_geometry
 
 theorem complementary_decision_uses_residual_branch :
-    match complementaryDecision.added with
-    | .yesBranch _ => False
-    | .noBranch _ => True := by
-  cases h : complementaryDecision.added with
-  | yesBranch contained =>
-      exact (mismatched_defect_is_outside_declared_geometry contained).elim
-  | noBranch absent => trivial
+    (Core.Residual.Focus.no
+      (Yes := fun stage :
+          DefectStage ResourceBudgetStage model GeneratorState QuotientState =>
+        stage.added.IsContained)
+      (No := fun stage :
+          DefectStage ResourceBudgetStage model GeneratorState QuotientState =>
+        Not stage.added.IsContained)).Active complementaryDecision :=
+  Core.Residual.Focus.noActiveOfComplement complementaryDecision
+    mismatched_defect_is_outside_declared_geometry
 
 theorem contained_decision_retains_computed_stage :
     containedDecision.previous = zeroDefectStage :=

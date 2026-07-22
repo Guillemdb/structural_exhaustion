@@ -196,6 +196,28 @@ structure SymbolicCoverage
         system.contextResponse representatives.replacement
           (system.decode (schedule.coordinates.get index))
 
+namespace SymbolicCoverage
+
+/-- A one-coordinate schedule covers every semantic context whenever the
+context type itself has at most one point.  This is domain-independent finite
+coverage; applications provide only the coordinate. -/
+def ofSubsingletonSingleton
+    (system : Response.System.{uRepresentative, uContext, uCoordinate, uValue}
+      Representative)
+    (representatives : Response.Representatives Representative)
+    [Subsingleton system.Context] (coordinate : system.Coordinate) :
+    SymbolicCoverage system representatives
+      (ExactSchedule.ofList [coordinate]) where
+  locate := by
+    intro context
+    refine ⟨⟨0, by simp⟩, ?_, ?_⟩
+    · rw [Subsingleton.elim context (system.decode coordinate)]
+      simp [ExactSchedule.ofList]
+    · rw [Subsingleton.elim context (system.decode coordinate)]
+      simp [ExactSchedule.ofList]
+
+end SymbolicCoverage
+
 namespace Neutrality
 
 variable {table : Table system representatives schedule}

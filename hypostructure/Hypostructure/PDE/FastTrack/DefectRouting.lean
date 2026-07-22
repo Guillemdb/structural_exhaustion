@@ -1111,6 +1111,28 @@ theorem run_checks_of_inactive
       generateActiveCounted_checks_eq_payloadBudget profile previous proof)
     inactive
 
+/-- Inactive row-5 siblings append the framework-owned inactive focused
+outcome and do not install a row-6 payload. -/
+theorem run_added_of_inactive
+    {focus : Hypostructure.Core.Residual.Focus.Profile Previous}
+    {rowFive : DirectedExhaustiveness.Profile Previous focus Potential Current}
+    (profile : Profile rowFive) (previous : RowFiveStage rowFive)
+    (inactive : Not (rowFive.TargetVisibleFocus.Active previous)) :
+    Exists fun absent =>
+      (run profile previous).value.added =
+        Hypostructure.Core.Residual.Focus.Outcome.inactive absent := by
+  unfold run
+  exact Hypostructure.Core.Residual.Focus.runCountedPayload_added_of_inactive
+    (Output := fun previous proof => Generated profile
+      (Hypostructure.Core.Residual.Focus.ActiveView.of previous proof))
+    rowFive.TargetVisibleFocus (payloadBudget profile) previous
+    (fun proof _selectionChecks _selectionExact =>
+      generateActiveCounted profile
+        (Hypostructure.Core.Residual.Focus.ActiveView.of previous proof))
+    (fun proof _selectionChecks _selectionExact =>
+      generateActiveCounted_checks_eq_payloadBudget profile previous proof)
+    inactive
+
 /-- Every row-6 execution satisfies the composed focus-plus-payload bound. -/
 theorem run_checks_bounded
     {focus : Hypostructure.Core.Residual.Focus.Profile Previous}

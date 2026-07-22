@@ -12,5 +12,7 @@ import HypostructureParity.Erdos64EG.Node10
 import HypostructureParity.Erdos64EG.Node11
 import HypostructureParity.Erdos64EG.Node12
 import HypostructureParity.Erdos64EG.Node13
+import HypostructureParity.Erdos64EG.Node14
+import HypostructureParity.Erdos64EG.Node15
 import HypostructureParity.Erdos64EG.OfficialStatement
 import HypostructureParity.Erdos64EG.TargetAlgebra

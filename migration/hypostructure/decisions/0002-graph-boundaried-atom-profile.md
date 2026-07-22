@@ -91,6 +91,7 @@ inside the parity package. The capability adds no trust input and does not
 change the unfrozen legacy baseline.
 
 The unrestricted boundary-edge overlap represented by general outside
-contexts remains a replacement-stage obligation. It does not weaken this
-profile registration, and it must be discharged by the Graph-owned Node 13
-replacement contract rather than by restricting Node 11's response contexts.
+contexts is discharged at replacement time by Graph's normalized replacement
+contract when the predecessor supplies normalized atoms. It does not weaken
+this profile registration, and Node 11 remains the broad proper-atom profile
+registration rather than a node-local replacement filter.

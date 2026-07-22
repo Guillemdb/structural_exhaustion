@@ -86,10 +86,8 @@ theorem selected_c1_route_checks_eq_one
 /-- Node 7 itself is proof-only after the node-6 C1 route has been selected. -/
 theorem node7_work_bounded
     (stage : HypostructureErdos64EG.Node6Stage.{u}) :
-    HypostructureErdos64EG.node7WorkBudget.checks stage <=
-      HypostructureErdos64EG.node7WorkBudget.coefficient *
-        (HypostructureErdos64EG.node7WorkBudget.size stage + 1) ^
-          HypostructureErdos64EG.node7WorkBudget.degree :=
+    HypostructureErdos64EG.node7WorkBudget.Within stage
+      (HypostructureErdos64EG.node7WorkBudget.checks stage) :=
   HypostructureErdos64EG.node7_work_bounded stage
 
 /-- The legacy node-7 C1 terminal is the same target contradiction shape:

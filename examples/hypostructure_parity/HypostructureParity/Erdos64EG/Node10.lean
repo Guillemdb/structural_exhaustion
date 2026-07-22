@@ -76,10 +76,8 @@ theorem selected_highDegreeVerticesIndependent
 /-- Node 10 parity preserves the production focused-selection work bound. -/
 theorem node10_work_bounded
     (previous : HypostructureErdos64EG.Node9Stage.{u}) :
-    (HypostructureErdos64EG.node10Counted previous).checks <=
-      HypostructureErdos64EG.Node9Focus.selectionBudget.coefficient *
-        (HypostructureErdos64EG.Node9Focus.selectionBudget.size previous + 1) ^
-          HypostructureErdos64EG.Node9Focus.selectionBudget.degree :=
+    HypostructureErdos64EG.Node9Focus.selectionBudget.Within previous
+      (HypostructureErdos64EG.node10Counted previous).checks :=
   HypostructureErdos64EG.node10Counted_work_bounded previous
 
 /-- The legacy node-10 output states the same paper-visible high-degree

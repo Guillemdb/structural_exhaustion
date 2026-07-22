@@ -461,8 +461,16 @@ def test_erdos_node_1_closure_and_frontier_use_only_direct_native_evidence(
     assert nodes[2]["presentation_status"] == "frontier"
     assert nodes[2]["incoming"] == ["node-1"]
     graph_kinds = {node["id"]: node["kind"] for node in erdos["graph"]["nodes"]}
-    assert graph_kinds["node-1"] == "closed"
-    assert graph_kinds["node-2"] == "frontier"
+    assert graph_kinds["node-1"] == "ported"
+    assert graph_kinds["node-2"] == "paper-pending"
+    assert erdos["implementation_counts"] == {
+        "ported": 1,
+        "paper_pending": 156,
+        "total": 157,
+    }
+    assert [len(graph["nodes"]) for graph in erdos["diagram_graphs"]] == [
+        25, 9, 12, 10, 8, 13, 8, 24, 15, 20, 13,
+    ]
 
 
 def test_erdos_closed_claim_is_demoted_without_each_direct_evidence_layer(

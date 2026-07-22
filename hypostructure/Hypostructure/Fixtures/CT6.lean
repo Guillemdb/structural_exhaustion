@@ -1,4 +1,5 @@
 import Hypostructure.Graph.CT6
+import Hypostructure.Graph.InducedPathCold
 import Hypostructure.PDE.CT6
 
 /-!
@@ -102,6 +103,49 @@ theorem polynomial_work :
     result.checks ≤ capability.workCoefficient *
       (capability.inputSize previous + 1) ^ capability.workDegree :=
   result.checks_le_polynomial
+
+abbrev corridorFocus : Core.Residual.Focus.Profile Unit :=
+  Core.Residual.Focus.always Unit
+
+def corridorObject :
+    Core.Residual.Focus.ActiveQuery corridorFocus
+      fun _previous _active => Graph.FiniteObject :=
+  Core.Residual.Focus.ActiveQuery.ofFunction fun _previous _active => object
+
+def corridorItems :
+    Core.Residual.Focus.ActiveQuery corridorFocus
+      fun _previous _active => Core.Finite.Enumeration (Fin 3) :=
+  Core.Residual.Focus.ActiveQuery.ofFunction fun _previous _active =>
+    Core.Finite.Enumeration.ofNodupList [0, 1, 2] (by decide)
+
+def corridorStages :
+    Core.Residual.Focus.ActiveQuery corridorFocus
+      fun previous active =>
+        (item : Fin 3) ->
+          Core.Finite.Enumeration
+            ((corridorObject.read previous active).Vertex) :=
+  Core.Residual.Focus.ActiveQuery.ofFunction fun _previous _active _item =>
+    Core.Finite.Enumeration.ofFinEnum object.vertices
+
+def corridorEvent (_previous : Unit)
+    (_active : corridorFocus.Active _previous)
+    (item : Fin 3) (_vertices : Core.Finite.Enumeration Vertex) : Prop :=
+  item = 2
+
+def corridorContract :
+    Core.Finite.ScheduleEvents.FocusedContract corridorFocus :=
+  Graph.InducedPathCold.focusedCorridorEvents corridorObject (Fin 3)
+    corridorItems corridorStages corridorEvent
+    (fun _previous _active item => by
+      unfold corridorEvent
+      infer_instance)
+
+def corridorStage : corridorContract.Stage :=
+  corridorContract.runStage ()
+
+theorem graph_corridor_preserves_previous :
+    corridorStage.previous = () :=
+  corridorContract.runStage_previous ()
 
 end GraphFirstFailure
 

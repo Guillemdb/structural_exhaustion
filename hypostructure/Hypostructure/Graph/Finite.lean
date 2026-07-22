@@ -199,6 +199,22 @@ theorem minDegree_le_degree (object : FiniteObject)
   letI : DecidableRel object.graph.Adj := object.decideAdj
   exact object.graph.minDegree_le_degree vertex
 
+/-- Prove a lower bound on the bundled minimum degree from pointwise degree
+lower bounds. -/
+theorem le_minDegree_of_forall_le_degree (object : FiniteObject)
+    [nonempty : Nonempty object.Vertex]
+    (threshold : Nat)
+    (degreeLower : ∀ vertex : object.Vertex,
+      threshold ≤ object.degree vertex) :
+    threshold ≤ object.minDegree := by
+  letI : Nonempty object.Vertex := nonempty
+  letI : FinEnum object.Vertex := object.vertices
+  letI : DecidableRel object.graph.Adj := object.decideAdj
+  change threshold ≤ object.graph.minDegree
+  apply object.graph.le_minDegree_of_forall_le_degree threshold
+  intro vertex
+  exact degreeLower vertex
+
 theorem degree_le_maxDegree (object : FiniteObject)
     (vertex : object.Vertex) :
     object.degree vertex ≤ object.maxDegree := by

@@ -100,6 +100,22 @@ export default function GraphBlockView({ block }: { block: GraphBlock }) {
           style: { "background-color": "#514b7f" },
         },
         {
+          selector: 'node[kind = "ported"]',
+          style: {
+            "background-color": "#2f8f4e",
+            "border-color": "#d7a84b",
+            color: "#f8f3e8",
+          },
+        },
+        {
+          selector: 'node[kind = "paper-pending"]',
+          style: {
+            "background-color": "#e5b84c",
+            "border-color": "#8f6a20",
+            color: "#2d2a19",
+          },
+        },
+        {
           selector: "edge",
           style: {
             "curve-style": "bezier",

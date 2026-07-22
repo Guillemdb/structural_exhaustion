@@ -69,14 +69,11 @@ theorem node10_high_degree_vertices_independent (stage : Node10Stage.{u})
       node10IndependenceQuery.read stage active leftHigh rightHigh
 
 theorem node10Counted_work_bounded (previous : Node9Stage.{u}) :
-    (node10Counted previous).checks <=
-      Node9Focus.selectionBudget.coefficient *
-        (Node9Focus.selectionBudget.size previous + 1) ^
-          Node9Focus.selectionBudget.degree := by
-  rw [node10Counted,
-    Graph.executeFocusedMinimumDegreeSlackVertexIndependenceCounted,
-    Graph.executeFocusedSlackVertexIndependenceCounted_checks]
-  exact Node9Focus.selectionBudget.bounded previous
+    Node9Focus.selectionBudget.Within previous
+      (node10Counted previous).checks :=
+  Graph.executeFocusedMinimumDegreeSlackVertexIndependenceCounted_work_within
+    node9MinimumDegreeThreshold Node9Focus node4ContextAtNode9Query
+    node9CertificateQuery previous
 
 /-- Proof-relevant audit record for node-10 slack-vertex independence. -/
 noncomputable def node10Metadata :
@@ -122,7 +119,7 @@ noncomputable def node10Metadata :
     ⟨"Hypostructure.Graph.DeletionCriticality",
       "DeletionCriticalityCertificate.slackVerticesIndependent"⟩,
     ⟨"Hypostructure.Graph.DeletionCriticality",
-      "executeFocusedSlackVertexIndependenceCounted_checks"⟩
+      "executeFocusedMinimumDegreeSlackVertexIndependenceCounted_work_within"⟩
   ]
   closureMechanisms := []
   workBound := Node9Focus.selectionBudget
@@ -141,11 +138,9 @@ theorem node10_metadata_has_no_manual_obligation
 /-- The metadata stores the same focused-selection work bound used by the
 executor. -/
 theorem node10_metadata_work_bounded (previous : Node9Stage.{u}) :
-    node10Metadata.workBound.checks previous <=
-      node10Metadata.workBound.coefficient *
-        (node10Metadata.workBound.size previous + 1) ^
-          node10Metadata.workBound.degree :=
-  node10MetadataComplete.work_bounded previous
+    node10Metadata.workBound.Within previous
+      (node10Metadata.workBound.checks previous) :=
+  node10MetadataComplete.work_within previous
 
 #print axioms node10
 #print axioms node10Counted_work_bounded

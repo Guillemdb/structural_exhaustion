@@ -85,11 +85,9 @@ theorem node11_profileMismatchRejected (stage : Node11Stage.{u})
   rfl
 
 theorem node11Counted_work_bounded (previous : Node10Stage.{u}) :
-    (node11Counted previous).checks ≤
-      Node10Focus.selectionBudget.coefficient *
-        (Node10Focus.selectionBudget.size previous + 1) ^
-          Node10Focus.selectionBudget.degree :=
-  Graph.executeFocusedBoundariedAtomRegistrationCounted_checks_bounded
+    Node10Focus.selectionBudget.Within previous
+      (node11Counted previous).checks :=
+  Graph.executeFocusedBoundariedAtomRegistrationCounted_work_within
     Node10Focus node4ContextAtNode10Query previous
 
 /-- Node 11 performs one structural focus selection; deriving the atom family
@@ -102,11 +100,9 @@ theorem node11_checks_eq_one (stage : Node11Stage.{u})
 /-- The registered work count satisfies Graph's uniform polynomial budget. -/
 theorem node11_work_bounded (stage : Node11Stage.{u})
     (active : Node11Focus.Active stage) :
-    (node11CertificateQuery.read stage active).checks ≤
-      Node10Focus.selectionBudget.coefficient *
-        (Node10Focus.selectionBudget.size stage.previous + 1) ^
-          Node10Focus.selectionBudget.degree :=
-  (node11CertificateQuery.read stage active).work_bounded
+    Node10Focus.selectionBudget.Within stage.previous
+      (node11CertificateQuery.read stage active).checks :=
+  (node11CertificateQuery.read stage active).work_within
 
 /-- Proof-relevant audit record for node-11 boundaried-atom registration. -/
 noncomputable def node11Metadata :
@@ -149,7 +145,7 @@ noncomputable def node11Metadata :
     ⟨"Hypostructure.Graph.Response",
       "profile_ne_not_targetComplete"⟩,
     ⟨"Hypostructure.Graph.BoundariedAtom",
-      "executeFocusedBoundariedAtomRegistrationCounted_checks_bounded"⟩
+      "executeFocusedBoundariedAtomRegistrationCounted_work_within"⟩
   ]
   closureMechanisms := []
   workBound := Node10Focus.selectionBudget
@@ -168,11 +164,9 @@ theorem node11_metadata_has_no_manual_obligation
 /-- The metadata stores the same focused-selection work bound used by the
 executor. -/
 theorem node11_metadata_work_bounded (previous : Node10Stage.{u}) :
-    node11Metadata.workBound.checks previous <=
-      node11Metadata.workBound.coefficient *
-        (node11Metadata.workBound.size previous + 1) ^
-          node11Metadata.workBound.degree :=
-  node11MetadataComplete.work_bounded previous
+    node11Metadata.workBound.Within previous
+      (node11Metadata.workBound.checks previous) :=
+  node11MetadataComplete.work_within previous
 
 #print axioms node11
 #print axioms node11_boundaryDegreeProfile

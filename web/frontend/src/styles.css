@@ -201,6 +201,8 @@ tbody tr:hover { background: #f0f4ef; }
 .graph-legend-swatch[data-node-kind="terminal"] { background: #873f35; }
 .graph-legend-swatch[data-node-kind="residual"] { background: #126f73; }
 .graph-legend-swatch[data-node-kind="proof node"] { background: #514b7f; }
+.graph-legend-swatch[data-node-kind="ported"] { background: #2f8f4e; border-color: #d7a84b; }
+.graph-legend-swatch[data-node-kind="paper-pending"] { background: #e5b84c; border-color: #8f6a20; }
 .graph-relationships > p { color: var(--muted); font-size: .8rem; }
 .graph-relationships ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .45rem; margin: 0; padding: 0; list-style: none; }
 .graph-relationships li { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: .35rem; align-items: center; padding: .55rem .7rem; color: #334b4e; background: #f0f3ee; border: 1px solid var(--line); border-radius: 4px; font-size: .76rem; }

@@ -236,15 +236,24 @@ theorem Encoding.runCounted_checks_bounded {Previous : Type uPrevious}
         encoding.validationBudget previous
         (encoding.activeRoute previous) (encoding.activeRoute_checks previous)
 
+/-- Predicate-form work theorem for focused CT1 execution. -/
+theorem Encoding.runCounted_work_within {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (previous : Previous) :
+    encoding.workBudget.Within previous
+      (encoding.runCounted previous).checks :=
+  encoding.runCounted_checks_bounded previous
+
 @[simp] theorem run_previous {Previous : Type uPrevious}
     {profile : Focus.Profile Previous}
     {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
     (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
     (previous : Previous) : (Encoding.run encoding previous).previous = previous :=
   by
-    simpa [Encoding.run, Encoding.runCounted] using
-      Focus.runCountedPayload_previous profile encoding.validationBudget previous
-        (encoding.activeRoute previous) (encoding.activeRoute_checks previous)
+    simp [Encoding.run, Encoding.runCounted,
+      Focus.runCountedPayload_previous]
 
 /-- Transport a totalized target to the current activity proof. -/
 theorem target_of_total {Previous : Type uPrevious}
@@ -331,12 +340,111 @@ theorem checks_eq_zero {Previous : Type uPrevious}
 
 end AvoidingEvidence
 
+/-- Framework-owned evidence after the avoiding terminal is contradicted. -/
+structure C1Evidence {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (stage : Stage encoding) (active : encoding.SuccessorProfile.Active stage) where
+  private mk ::
+  terminal_eq : (encoding.routeQuery.read stage active).terminal =
+    _root_.Hypostructure.CT1.Terminal.c1
+
+namespace C1Evidence
+
+theorem target {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    {encoding : Encoding.{uPrevious, uCode} profile PublicTarget}
+    {stage : Stage encoding} {active : encoding.SuccessorProfile.Active stage}
+    (evidence : C1Evidence encoding stage active) :
+    PublicTarget stage.previous active :=
+  target_of_c1 (encoding.routeQuery.read stage active) evidence.terminal_eq
+
+end C1Evidence
+
+/-- Exact focused successor after the avoiding terminal has been closed. -/
+abbrev Encoding.C1Stage {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget) :=
+  Focus.Stage encoding.SuccessorProfile (C1Evidence encoding)
+
+/-- Focus inherited after CT1 has closed the avoiding branch and retained C1. -/
+abbrev Encoding.C1Profile {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget) :=
+  Focus.successor encoding.SuccessorProfile (C1Evidence encoding)
+
+/-- Close every avoiding route using a predecessor-owned proof of the public
+target. Core owns focus selection and the ledger extension. -/
+def Encoding.closeAvoidingContinueC1Counted {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (stage : Stage encoding)
+    (targetPossible : Focus.ActiveQuery encoding.SuccessorProfile
+      fun current active => PublicTarget current.previous active) :
+    Core.Counted encoding.C1Stage :=
+  Focus.runCounted encoding.SuccessorProfile
+    (Output := C1Evidence encoding) stage fun active _checks _exact =>
+    let route := encoding.routeQuery.read stage active
+    have notAvoiding : route.terminal ≠ _root_.Hypostructure.CT1.Terminal.avoiding := by
+      intro avoiding
+      exact (avoids_of_avoiding route avoiding)
+        (targetPossible.read stage active)
+    { terminal_eq := by
+        cases terminal : route.terminal with
+        | c1 => rfl
+        | avoiding => exact (notAvoiding terminal).elim }
+
+def Encoding.closeAvoidingContinueC1 {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (stage : Stage encoding)
+    (targetPossible : Focus.ActiveQuery encoding.SuccessorProfile
+      fun current active => PublicTarget current.previous active) :
+    encoding.C1Stage :=
+  (encoding.closeAvoidingContinueC1Counted stage targetPossible).value
+
+@[simp] theorem Encoding.closeAvoidingContinueC1_previous {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (stage : Stage encoding)
+    (targetPossible : Focus.ActiveQuery encoding.SuccessorProfile
+      fun current active => PublicTarget current.previous active) :
+    (encoding.closeAvoidingContinueC1 stage targetPossible).previous = stage := by
+  simp [Encoding.closeAvoidingContinueC1,
+    Encoding.closeAvoidingContinueC1Counted,
+    Focus.runCounted_previous]
+
 /-- Exact focused successor after C1 has been closed. -/
 abbrev Encoding.AvoidingStage {Previous : Type uPrevious}
     {profile : Focus.Profile Previous}
     {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
     (encoding : Encoding.{uPrevious, uCode} profile PublicTarget) :=
   Focus.Stage encoding.SuccessorProfile (AvoidingEvidence encoding)
+
+/-- Focus inherited after CT1 has closed the C1 outcome and retained the
+avoiding residual. -/
+abbrev Encoding.AvoidingProfile {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget) :=
+  Focus.successor encoding.SuccessorProfile (AvoidingEvidence encoding)
+
+/-- Retrieve CT1's exact avoiding evidence from the newest avoiding
+continuation ledger entry. -/
+def Encoding.avoidingEvidenceQuery {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget) :
+    Focus.ActiveQuery encoding.AvoidingProfile fun stage active =>
+      AvoidingEvidence encoding stage.previous active :=
+  Focus.ActiveQuery.latest
 
 /-- Counted closure of every active C1 outcome using inherited target
 avoidance. Core owns the successor-focus selection and CT1 retains only its
@@ -396,6 +504,19 @@ theorem Encoding.closeC1ContinueAvoidingCounted_checks_bounded
     rw [encoding.closeC1ContinueAvoidingCounted_checks stage targetImpossible]
     exact encoding.SuccessorProfile.selectionBudget.bounded stage
 
+/-- Predicate-form work theorem for the avoiding continuation. -/
+theorem Encoding.closeC1ContinueAvoidingCounted_work_within
+    {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (stage : Stage encoding)
+    (targetImpossible : Focus.ActiveQuery encoding.SuccessorProfile
+      fun current active => Not (PublicTarget current.previous active)) :
+    encoding.SuccessorProfile.selectionBudget.Within stage
+      (encoding.closeC1ContinueAvoidingCounted stage targetImpossible).checks :=
+  encoding.closeC1ContinueAvoidingCounted_checks_bounded stage targetImpossible
+
 @[simp] theorem closeC1ContinueAvoiding_previous {Previous : Type uPrevious}
     {profile : Focus.Profile Previous}
     {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
@@ -406,8 +527,8 @@ theorem Encoding.closeC1ContinueAvoidingCounted_checks_bounded
     (Encoding.closeC1ContinueAvoiding encoding stage targetImpossible).previous =
       stage :=
   by
-    simpa [Encoding.closeC1ContinueAvoiding,
-      Encoding.closeC1ContinueAvoidingCounted] using
-      Focus.runCounted_previous encoding.SuccessorProfile stage _
+    simp [Encoding.closeC1ContinueAvoiding,
+      Encoding.closeC1ContinueAvoidingCounted,
+      Focus.runCounted_previous]
 
 end Hypostructure.CT1.FocusedCertificateEncoding

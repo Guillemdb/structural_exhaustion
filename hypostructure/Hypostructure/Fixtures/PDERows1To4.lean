@@ -526,21 +526,18 @@ theorem nonzero_defect_outside :
   norm_num at isZero
 
 theorem contained_decision_uses_yes_branch :
-    match containedDecision.added with
-    | .yesBranch _ => True
-    | .noBranch _ => False := by
-  cases h : containedDecision.added with
-  | yesBranch proof => trivial
-  | noBranch absent =>
-      exact (absent fun value => Submodule.mem_top).elim
+    (containedFocus (Previous := Budgets.NatStage) (M := FiniteScalar.model)
+      (State := Real) (Quotient := Real)).Active containedDecision :=
+  Core.Residual.Focus.yesActiveOfComplement containedDecision
+    (fun _ => Submodule.mem_top)
 
 theorem outside_decision_uses_no_branch :
-    match outsideDecision.added with
-    | .yesBranch _ => False
-    | .noBranch _ => True := by
-  cases h : outsideDecision.added with
-  | yesBranch contained => exact (nonzero_defect_outside contained).elim
-  | noBranch absent => trivial
+    (Core.Residual.Focus.no
+      (Yes := fun stage : DefectStage Budgets.NatStage FiniteScalar.model Real Real =>
+        stage.added.IsContained)
+      (No := fun stage : DefectStage Budgets.NatStage FiniteScalar.model Real Real =>
+        Not stage.added.IsContained)).Active outsideDecision :=
+  Core.Residual.Focus.noActiveOfComplement outsideDecision nonzero_defect_outside
 
 theorem outside_decision_retains_computed_defect :
     outsideDecision.previous = nonzeroDefectStage := rfl

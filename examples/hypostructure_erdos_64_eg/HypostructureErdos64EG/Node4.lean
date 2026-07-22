@@ -34,10 +34,30 @@ def node1ResidualAtNode2Query :
     Core.Residual.Query Node2Stage (fun _stage => InitialResidual.{u}) :=
   node1ResidualQuery.preserve
 
-/-- Node 4 retrieves both inherited inputs through one active query. -/
-def node4InputQuery :=
-  node2CounterexampleQuery.and
-    (Core.Residual.Focus.ActiveQuery.ofQuery node1ResidualAtNode2Query)
+/-- Root residual read on the exact counterexample branch. -/
+def node4RootResidualQuery :
+    Core.Residual.Focus.ActiveQuery CounterexampleFocus
+      (fun _stage _active => InitialResidual.{u}) :=
+  Core.Residual.Focus.ActiveQuery.ofQuery node1ResidualAtNode2Query
+
+/-- Current graph read from the predecessor-owned root residual. -/
+def node4ObjectQuery :
+    Core.Residual.Focus.ActiveQuery CounterexampleFocus
+      (fun _stage _active => Graph.FiniteObject.{u}) :=
+  egInitialObjectActiveQuery CounterexampleFocus node4RootResidualQuery
+
+/-- Baseline proof read from the predecessor-owned root residual. -/
+def node4BaselineQuery :
+    Core.Residual.Focus.ActiveQuery CounterexampleFocus
+      (fun stage active => Baseline (node4ObjectQuery.read stage active)) :=
+  egInitialBaselineActiveQuery CounterexampleFocus node4RootResidualQuery
+
+/-- Target avoidance read from node 2's exact counterexample branch. -/
+def node4AvoidsQuery :
+    Core.Residual.Focus.ActiveQuery CounterexampleFocus
+      (fun stage active => Not (Target (node4ObjectQuery.read stage active))) :=
+  egCounterexampleAvoidsActiveQuery CounterexampleFocus
+    node4RootResidualQuery node2CounterexampleQuery
 
 /-- Node 4 uses the Core-owned selector for the node-2 positive branch. -/
 def node4WorkBudget :
@@ -45,24 +65,25 @@ def node4WorkBudget :
   CounterexampleFocus.selectionBudget
 
 /-- Node 4's sole new payload on the focused branch. -/
-abbrev Node4Output (_stage : Node2Stage.{u})
-    (_active : CounterexampleFocus.Active _stage) :=
-  Core.MinimalCounterexampleContext problem Target EGProgress
+abbrev Node4Output (stage : Node2Stage.{u})
+    (active : CounterexampleFocus.Active stage) :=
+  Graph.FocusedLexicographicMinimalOutput CounterexampleFocus
+    (BranchState := BranchState)
+    node4ObjectQuery node4BaselineQuery node4AvoidsQuery stage active
 
 /-- Exact accumulated stage after node 4. -/
 abbrev Node4Stage :=
-  Core.Residual.Focus.Stage CounterexampleFocus Node4Output
+  Graph.FocusedLexicographicMinimalStage CounterexampleFocus
+    (BranchState := BranchState)
+    node4ObjectQuery node4BaselineQuery node4AvoidsQuery
 
 /-- Counted node-4 execution, including the inactive node-3 sibling. -/
 noncomputable def node4Counted (previous : Node2Stage.{u}) :
     Core.Counted Node4Stage.{u} :=
-  Core.Residual.Focus.runCounted CounterexampleFocus
-    (Output := Node4Output) previous
-    fun active _checks _exact =>
-    let inputs := node4InputQuery.read previous active
-    Graph.selectLexicographicMinimal
-      (Baseline := Baseline) (BranchState := BranchState) (Target := Target)
-      inputs.snd.object inputs.snd.baseline inputs.fst.2 (fun _current => ())
+  Graph.executeFocusedLexicographicMinimalCounted CounterexampleFocus
+    (BranchState := BranchState)
+    node4ObjectQuery node4BaselineQuery node4AvoidsQuery
+    (fun _current => ()) previous
 
 /-- Execute minimal-counterexample selection on the exact focused branch. -/
 noncomputable def node4 (previous : Node2Stage.{u}) : Node4Stage.{u} :=
@@ -70,13 +91,17 @@ noncomputable def node4 (previous : Node2Stage.{u}) : Node4Stage.{u} :=
 
 /-- Focus inherited by every downstream counterexample node. -/
 abbrev Node4Focus :=
-  Core.Residual.Focus.successor CounterexampleFocus Node4Output
+  Graph.FocusedLexicographicMinimalProfile CounterexampleFocus
+    (BranchState := BranchState)
+    node4ObjectQuery node4BaselineQuery node4AvoidsQuery
 
 /-- Typed ledger query for the selected minimal context. -/
 def node4ContextQuery :
     Core.Residual.Focus.ActiveQuery Node4Focus
       (fun stage active => Node4Output stage.previous active) :=
-  Core.Residual.Focus.ActiveQuery.latest
+  Graph.focusedLexicographicMinimalContextQuery CounterexampleFocus
+    (BranchState := BranchState)
+    node4ObjectQuery node4BaselineQuery node4AvoidsQuery
 
 /-- The context selected at node 4 carries the registered Core minimality
 kernel for lexicographic graph progress. -/
@@ -92,15 +117,15 @@ theorem node4ContextQuery_minimal (stage : Node4Stage.{u})
 
 @[simp] theorem node4Counted_checks_eq_one (previous : Node2Stage.{u}) :
     (node4Counted previous).checks = 1 := by
-  rw [node4Counted, Core.Residual.Focus.runCounted_checks]
+  rw [node4Counted, Graph.executeFocusedLexicographicMinimalCounted_checks]
   rfl
 
 theorem node4Counted_work_bounded (previous : Node2Stage.{u}) :
-    (node4Counted previous).checks <=
-      node4WorkBudget.coefficient *
-        (node4WorkBudget.size previous + 1) ^
-          node4WorkBudget.degree :=
-  Core.Residual.Focus.runCounted_checks_bounded CounterexampleFocus previous _
+    node4WorkBudget.Within previous (node4Counted previous).checks :=
+  Graph.executeFocusedLexicographicMinimalCounted_work_within
+    CounterexampleFocus (BranchState := BranchState)
+    node4ObjectQuery node4BaselineQuery node4AvoidsQuery
+    (fun _current => ()) previous
 
 /-- Proof-relevant audit record for node-4 focused minimal selection. -/
 def node4Metadata :
@@ -109,7 +134,7 @@ def node4Metadata :
   declaration :=
     ⟨"HypostructureErdos64EG.Node4", "node4Counted"⟩
   primitiveInputs := [
-    ⟨⟨"HypostructureErdos64EG.Node4", "node4InputQuery"⟩,
+    ⟨⟨"HypostructureErdos64EG.Node4", "node4ObjectQuery"⟩,
       .semanticLaw⟩
   ]
   inferredDependencies := [
@@ -126,21 +151,25 @@ def node4Metadata :
     query := node1ResidualAtNode2Query
   }]
   frameworkSearch := [
-    ⟨"Hypostructure.Core.Residual.Focus", "Focus.runCounted"⟩,
-    ⟨"Hypostructure.Graph.Progress", "selectLexicographicMinimal"⟩
+    ⟨"Hypostructure.Graph.Progress",
+      "executeFocusedLexicographicMinimalCounted"⟩,
+    ⟨"Hypostructure.Graph.Progress",
+      "focusedLexicographicMinimalContextQuery"⟩
   ]
   generatedOutputs := [
     ⟨⟨"Hypostructure.Core.Residual.Focus", "Focus.Outcome"⟩,
       .typedOutcome⟩,
-    ⟨⟨"Hypostructure.Core.Residual.Ledger", "Ledger.extend"⟩,
+    ⟨⟨"Hypostructure.Graph.Progress",
+      "FocusedLexicographicMinimalStage"⟩,
       .residualStage⟩,
     ⟨⟨"Hypostructure.Graph.Progress", "selectLexicographicMinimal"⟩,
       .searchResult⟩
   ]
   genericTheorems := [
-    ⟨"Hypostructure.Core.Residual.Focus", "Focus.runCounted_checks"⟩,
-    ⟨"Hypostructure.Core.Residual.Focus",
-      "Focus.runCounted_checks_bounded"⟩
+    ⟨"Hypostructure.Graph.Progress",
+      "executeFocusedLexicographicMinimalCounted_checks"⟩,
+    ⟨"Hypostructure.Graph.Progress",
+      "executeFocusedLexicographicMinimalCounted_work_within"⟩
   ]
   workBound := node4WorkBudget
   manualObligations := []
@@ -158,11 +187,9 @@ theorem node4_metadata_has_no_manual_obligation
 /-- The metadata stores the same one-check branch-selection budget used by
 the counted run. -/
 theorem node4_metadata_work_bounded (previous : Node2Stage.{u}) :
-    node4Metadata.workBound.checks previous <=
-      node4Metadata.workBound.coefficient *
-        (node4Metadata.workBound.size previous + 1) ^
-          node4Metadata.workBound.degree :=
-  node4MetadataComplete.work_bounded previous
+    node4Metadata.workBound.Within previous
+      (node4Metadata.workBound.checks previous) :=
+  node4MetadataComplete.work_within previous
 
 #print axioms node4
 #print axioms node4ContextQuery_minimal

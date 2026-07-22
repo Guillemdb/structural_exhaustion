@@ -1,15 +1,14 @@
-import Hypostructure.Core.Closure
-import Hypostructure.Core.Residual.Focus
+import Hypostructure.Core.Minimality
 import Hypostructure.Graph.Progress
 import Hypostructure.Graph.Target
 
 /-!
 # Proper-subgraph minimality
 
-This module packages the reusable graph form of strict-progress closure.  A
-domain registers target monotonicity from certified proper subgraphs to their
-source.  Graph then derives, rather than receives, the certificate that a
-minimal target-avoiding object has no proper subgraph satisfying the baseline.
+This module re-exports the graph minimality API as a thin specialization of the
+generic core minimality executor. Domain-specific objects (`ProperSubgraph`,
+cycle target transport, and focused stage wrappers) are retained here; all core
+logic and routing stays in `Hypostructure.Core.Minimality`.
 -/
 
 namespace Hypostructure.Graph
@@ -47,8 +46,8 @@ def cycleProperSubgraphTargetMonotone (LengthOK : Nat -> Prop) :
     rcases target with ⟨certificate⟩
     exact ⟨certificate.mapHom subgraph.hom subgraph.hom_injective⟩
 
-/-- Complete reusable profile for excluding baseline-preserving proper
-subgraphs of one minimal target-avoiding graph. -/
+/-- Graph-level profile for applying strict-progress minimality to proper
+subgraphs. -/
 structure ProperSubgraphMinimalityProfile
     (Baseline : FiniteObject.{u} -> Prop)
     (BranchState : FiniteObject.{u} -> Type v)
@@ -56,7 +55,25 @@ structure ProperSubgraphMinimalityProfile
   targetMonotone : ProperSubgraphTargetMonotone Target
   stateOf : (object : FiniteObject.{u}) -> BranchState object
 
-/-- Framework-owned no-proper-baseline result.  Every pointwise exclusion is
+private def toCoreProfile
+    {Baseline : FiniteObject.{u} -> Prop}
+    {BranchState : FiniteObject.{u} -> Type v}
+    {Target : FiniteObject.{u} -> Prop}
+    (profile : ProperSubgraphMinimalityProfile Baseline BranchState Target) :
+    Core.Minimality.SubobjectMinimalityProfile
+      (P := problem Baseline BranchState)
+      Target
+      (lexicographicProgress Baseline BranchState)
+      ProperSubgraph :=
+  { toAmbient := fun subgraph => subgraph.value
+    smaller := fun subgraph =>
+      subgraph.smaller Baseline BranchState
+    targetMonotone := fun subgraph target =>
+      profile.targetMonotone.map subgraph target
+    stateOf := profile.stateOf
+  }
+
+/-- Framework-owned no-proper-baseline result. Every subgraph exclusion is
 tagged by Core's strict-progress mechanism. -/
 structure NoProperBaselineCertificate
     {Baseline : FiniteObject.{u} -> Prop}
@@ -64,12 +81,11 @@ structure NoProperBaselineCertificate
     {Target : FiniteObject.{u} -> Prop}
     (ctx : Core.MinimalCounterexampleContext
       (problem Baseline BranchState) Target
-      (lexicographicProgress Baseline BranchState)) where
+      (lexicographicProgress Baseline BranchState)) :=
   private mk ::
-  closure : forall (subgraph : ProperSubgraph ctx.G),
-    Baseline subgraph.value -> Core.Closure.Result False
-  mechanism : forall (subgraph : ProperSubgraph ctx.G)
-    (baseline : Baseline subgraph.value),
+  closure : ∀ (subgraph : ProperSubgraph ctx.G), Baseline subgraph.value ->
+    Core.Closure.Result False
+  mechanism : ∀ (subgraph : ProperSubgraph ctx.G) (baseline : Baseline subgraph.value),
     (closure subgraph baseline).mechanism =
       Core.Closure.Mechanism.strictProgress
 
@@ -99,25 +115,22 @@ def deriveNoProperBaseline
     (ctx : Core.MinimalCounterexampleContext
       (problem Baseline BranchState) Target
       (lexicographicProgress Baseline BranchState)) :
-    NoProperBaselineCertificate ctx where
-  closure := by
-    intro subgraph baseline
-    let candidate : Core.AvoidingContext
-        (problem Baseline BranchState) Target :=
-      Core.AvoidingContext.ofBranch
-        ({
-          G := subgraph.value
-          baseline := baseline
-          state := profile.stateOf subgraph.value
-        } : Core.BranchContext (problem Baseline BranchState))
-        (fun target => ctx.avoids (profile.targetMonotone.map subgraph target))
-    exact Core.Closure.Result.strictProgress {
-      candidate := candidate
-      smaller := subgraph.smaller Baseline BranchState
-    }
-  mechanism := by
-    intro subgraph baseline
-    rfl
+    NoProperBaselineCertificate ctx :=
+  let certificate :
+      Core.Minimality.NoSubobjectBaselineCertificate
+        (P := problem Baseline BranchState)
+        (Target := Target)
+        (progress := lexicographicProgress Baseline BranchState)
+        (Subobject := ProperSubgraph)
+        (profile := toCoreProfile profile) ctx :=
+    Core.Minimality.deriveNoSubobjectBaseline
+      (P := problem Baseline BranchState)
+      (Target := Target)
+      (progress := lexicographicProgress Baseline BranchState)
+      (Subobject := ProperSubgraph)
+      (profile := toCoreProfile profile) ctx
+  { closure := certificate.closure
+    mechanism := certificate.mechanism }
 
 /-- Cycle-target specialization used by minimum-degree counterexamples. -/
 def cycleProperSubgraphMinimalityProfile
@@ -175,11 +188,12 @@ def executeFocusedNoProperBaselineCounted
         (problem Baseline BranchState) Target
         (lexicographicProgress Baseline BranchState))
     (previous : Previous) :
-    Core.Counted (FocusedNoProperBaselineStage focus context) :=
+  Core.Counted (FocusedNoProperBaselineStage focus context) :=
   Core.Residual.Focus.runCounted focus
-    (Output := FocusedNoProperBaselineOutput focus context) previous
-    fun active _checks _exact =>
-    deriveNoProperBaseline profile (context.read previous active)
+    (Output := FocusedNoProperBaselineOutput focus context)
+    previous
+    (fun active _checks _exact =>
+      deriveNoProperBaseline profile (context.read previous active))
 
 /-- Public stage projection of counted proper-subgraph minimality. -/
 def executeFocusedNoProperBaseline
@@ -211,8 +225,13 @@ def executeFocusedNoProperBaseline
     (previous : Previous) :
     (executeFocusedNoProperBaselineCounted focus profile context previous).checks =
       focus.selectionBudget.checks previous := by
-  rw [executeFocusedNoProperBaselineCounted,
-    Core.Residual.Focus.runCounted_checks]
+  simpa [executeFocusedNoProperBaselineCounted]
+    using
+      (Core.Residual.Focus.runCounted_checks focus
+        (Output := FocusedNoProperBaselineOutput focus context)
+        previous
+        (fun active _checks _exact =>
+          deriveNoProperBaseline profile (context.read previous active)))
 
 theorem executeFocusedNoProperBaselineCounted_checks_bounded
     {Previous : Type uPrevious}
@@ -233,14 +252,33 @@ theorem executeFocusedNoProperBaselineCounted_checks_bounded
   rw [executeFocusedNoProperBaselineCounted_checks]
   exact focus.selectionBudget.bounded previous
 
-/-- Focus inherited after the Graph minimality executor. -/
-abbrev FocusedNoProperBaselineProfile
+/-- Predicate-form work theorem for focused proper-subgraph minimality. -/
+theorem executeFocusedNoProperBaselineCounted_work_within
     {Previous : Type uPrevious}
     (focus : Core.Residual.Focus.Profile Previous)
     {Baseline : FiniteObject -> Prop}
     {BranchState : FiniteObject -> Type v}
     {Target : FiniteObject -> Prop}
+    (profile : ProperSubgraphMinimalityProfile Baseline BranchState Target)
     (context : Core.Residual.Focus.ActiveQuery focus fun _previous _active =>
+      Core.MinimalCounterexampleContext
+        (problem Baseline BranchState) Target
+        (lexicographicProgress Baseline BranchState))
+    (previous : Previous) :
+    focus.selectionBudget.Within previous
+      (executeFocusedNoProperBaselineCounted focus profile context previous).checks :=
+  by
+    rw [executeFocusedNoProperBaselineCounted_checks focus profile context previous]
+    exact focus.selectionBudget.bounded previous
+
+/-- Focus inherited after the Graph minimality executor. -/
+abbrev FocusedNoProperBaselineProfile
+    {Previous : Type uPrevious}
+  (focus : Core.Residual.Focus.Profile Previous)
+    {Baseline : FiniteObject -> Prop}
+    {BranchState : FiniteObject -> Type v}
+    {Target : FiniteObject -> Prop}
+  (context : Core.Residual.Focus.ActiveQuery focus fun _previous _active =>
       Core.MinimalCounterexampleContext
         (problem Baseline BranchState) Target
         (lexicographicProgress Baseline BranchState)) :=
@@ -258,10 +296,11 @@ def focusedNoProperBaselineQuery
       Core.MinimalCounterexampleContext
         (problem Baseline BranchState) Target
         (lexicographicProgress Baseline BranchState)) :
-    Core.Residual.Focus.ActiveQuery
+  Core.Residual.Focus.ActiveQuery
       (FocusedNoProperBaselineProfile focus context)
       (fun stage active =>
-        FocusedNoProperBaselineOutput focus context stage.previous active) :=
+        FocusedNoProperBaselineOutput focus context
+          stage.previous active) :=
   Core.Residual.Focus.ActiveQuery.latest
 
 end Hypostructure.Graph

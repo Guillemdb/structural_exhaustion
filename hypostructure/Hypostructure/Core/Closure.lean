@@ -14,7 +14,7 @@ names are metadata and never close a branch by themselves.
 
 namespace Hypostructure.Core.Closure
 
-universe uAmbient uBranch uMeasure uResource
+universe uAmbient uBranch uMeasure uResource uObject uWitness
 
 /-- The exhaustive framework classification of closure mechanisms. -/
 inductive Mechanism where
@@ -166,5 +166,30 @@ def acyclicReduction
   .mk .acyclicReduction reduction.close
 
 end Result
+
+/-!## Target-hit bridge pattern -/
+
+/-- A generic target-avoidance assumption available on one object. -/
+structure TargetAvoidance
+    {α : Type uObject} (Target : α -> Prop) (object : α) where
+  avoids : ¬ Target object
+
+/-- A generic bridge from a local witness to the target predicate. -/
+structure TargetWitnessBridge
+    {α : Type uObject} (Target : α -> Prop)
+    (object : α) (Witness : Type uWitness) where
+  realizes : Witness -> Target object
+
+/-- Close a branch when a locally witnessed target is contradictory to an
+inherited target-avoidance fact. -/
+def closeTargetHit
+    {α : Type uObject}
+    {Target : α -> Prop}
+    {object : α}
+    {Witness : Type uWitness}
+    (avoidance : TargetAvoidance Target object)
+    (bridge : TargetWitnessBridge Target object Witness)
+    (witness : Witness) : Result False :=
+  Result.direct (.contradiction (avoidance.avoids (bridge.realizes witness)))
 
 end Hypostructure.Core.Closure

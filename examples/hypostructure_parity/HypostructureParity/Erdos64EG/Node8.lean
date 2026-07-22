@@ -79,11 +79,8 @@ theorem selected_closure_mechanism
 /-- Node 8 parity preserves the production focused-selection work bound. -/
 theorem node8_work_bounded
     (previous : HypostructureErdos64EG.Node6AvoidingStage.{u}) :
-    (HypostructureErdos64EG.node8Counted previous).checks <=
-      HypostructureErdos64EG.Node6AvoidingFocus.selectionBudget.coefficient *
-        (HypostructureErdos64EG.Node6AvoidingFocus.selectionBudget.size
-          previous + 1) ^
-          HypostructureErdos64EG.Node6AvoidingFocus.selectionBudget.degree :=
+    HypostructureErdos64EG.Node6AvoidingFocus.selectionBudget.Within previous
+      (HypostructureErdos64EG.node8Counted previous).checks :=
   HypostructureErdos64EG.node8Counted_work_bounded previous
 
 /-- The legacy node-8 output states the same paper-visible no-proper-core

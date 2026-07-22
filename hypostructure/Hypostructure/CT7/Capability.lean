@@ -92,6 +92,41 @@ def ofExactContexts
     subst context
     exact ⟨index, rfl, rfl⟩
 
+/-- Register a one-coordinate complete context schedule when the semantic
+context type is subsingleton.  This keeps singleton finite fixtures and
+domain examples from spelling out `Fin 1` completeness witnesses. -/
+def ofSubsingletonSingletonContexts
+    [Subsingleton spec.system.Context] [DecidableEq spec.system.Coordinate]
+    (representatives : Core.Residual.Query Previous fun _previous =>
+      Core.Response.Representatives spec.Representative)
+    (coordinate : Core.Residual.Query Previous fun _previous =>
+      spec.system.Coordinate)
+    (valueDecEq : DecidableEq spec.system.Value)
+    (realizesDecidable : (previous : Previous) ->
+      Decidable (spec.Realizes previous
+        (representatives.read previous).source
+        (spec.system.decode (coordinate.read previous)))) :
+    Capability spec :=
+  ofExactContexts representatives
+    (coordinate.map fun _previous value =>
+      Core.Finite.Enumeration.singleton value)
+    valueDecEq
+    (fun previous coordinateValue =>
+      by
+        have equal :
+            spec.system.decode coordinateValue =
+              spec.system.decode (coordinate.read previous) :=
+          Subsingleton.elim _ _
+        rw [equal]
+        exact realizesDecidable previous)
+    (by
+      intro previous context
+      refine ⟨⟨0, by
+        simp [Core.Finite.Enumeration.card,
+          Core.Finite.Enumeration.singleton,
+          Core.Finite.Enumeration.ofNodupList]⟩, ?_⟩
+      exact Subsingleton.elim _ _)
+
 /-- Exact representative pair retrieved from the predecessor ledger. -/
 def representativesAt (capability : Capability spec) (previous : Previous) :
     Core.Response.Representatives spec.Representative :=
@@ -101,6 +136,41 @@ def representativesAt (capability : Capability spec) (previous : Previous) :
 def contextsAt (capability : Capability spec) (previous : Previous) :
     Core.Finite.Enumeration spec.system.Coordinate :=
   capability.contexts.read previous
+
+@[simp] theorem contextsAt_ofSubsingletonSingletonContexts
+    [Subsingleton spec.system.Context] [DecidableEq spec.system.Coordinate]
+    (representatives : Core.Residual.Query Previous fun _previous =>
+      Core.Response.Representatives spec.Representative)
+    (coordinate : Core.Residual.Query Previous fun _previous =>
+      spec.system.Coordinate)
+    (valueDecEq : DecidableEq spec.system.Value)
+    (realizesDecidable : (previous : Previous) ->
+      Decidable (spec.Realizes previous
+        (representatives.read previous).source
+        (spec.system.decode (coordinate.read previous))))
+    (previous : Previous) :
+    (ofSubsingletonSingletonContexts representatives coordinate valueDecEq
+      realizesDecidable).contextsAt previous =
+      Core.Finite.Enumeration.singleton (coordinate.read previous) :=
+  rfl
+
+@[simp] theorem localCheckBound_ofSubsingletonSingletonContexts
+    [Subsingleton spec.system.Context] [DecidableEq spec.system.Coordinate]
+    (representatives : Core.Residual.Query Previous fun _previous =>
+      Core.Response.Representatives spec.Representative)
+    (coordinate : Core.Residual.Query Previous fun _previous =>
+      spec.system.Coordinate)
+    (valueDecEq : DecidableEq spec.system.Value)
+    (realizesDecidable : (previous : Previous) ->
+      Decidable (spec.Realizes previous
+        (representatives.read previous).source
+        (spec.system.decode (coordinate.read previous))))
+    (previous : Previous) :
+    localCheckBound
+      ((ofSubsingletonSingletonContexts representatives coordinate valueDecEq
+        realizesDecidable).contextsAt previous) = 2 := by
+  simp [localCheckBound, Core.Finite.Enumeration.card,
+    Core.Finite.Enumeration.singleton, Core.Finite.Enumeration.ofNodupList]
 
 /-- Core response-table view of the exact incoming context schedule. -/
 def exactScheduleAt (capability : Capability spec) (previous : Previous) :

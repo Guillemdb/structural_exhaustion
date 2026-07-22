@@ -1,10 +1,10 @@
 # EG Node 13: boundary-edge overlap blocks replacement
 
-Status: open original-source obligation
+Status: resolved by normalized Graph replacement contract
 
 Date: 2026-07-21
 
-Affected nodes: 13 directly; 14 and its descendants transitively
+Affected nodes: historical Node 13 review only
 
 Kernel fixture:
 `Hypostructure.Fixtures.GraphBoundaryOverlapCounterexample`
@@ -93,9 +93,16 @@ The generic identities are now implemented in
 inclusion--exclusion and the two strengthened transfer theorems without
 choosing a repair for the EG application.
 
-## Migration Consequence
+## Resolution
 
-Node 13 remains mathematically open. Node 14 cannot derive hereditary target
-uncompressibility until Node 13 is repaired, and no downstream node may be
-marked green through that dependency. The immutable manuscript and its DAG
-remain unchanged.
+The corrected Hypostructure translation follows the legacy kernel strategy:
+replacement is stated for normalized proper atoms whose outside context owns
+no boundary--boundary edge.  Graph packages that condition in
+`NormalizedProperBoundariedAtom`, derives the zero-overlap degree and edge
+count consequences internally, and runs
+`executeFocusedNormalizedAtomReplacementCounted` through Core proof
+projection.
+
+Node 13 now records no manual overlap obligation.  The unrestricted-overlap
+counterexample remains useful Graph evidence for the broader unrestricted
+gluing API, but it no longer blocks the EG normalized replacement node.

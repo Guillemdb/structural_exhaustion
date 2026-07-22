@@ -1192,6 +1192,16 @@ def build_erdos(
             >= (root / expected_source_path).stat().st_mtime_ns
         )
         has_compiled_direct_declaration = bool(module_declarations)
+        implementation_status = (
+            "ported"
+            if direct_kernel_fresh and has_compiled_direct_declaration
+            else "paper-pending"
+        )
+        implementation_status_label = (
+            "Ported to Hypostructure"
+            if implementation_status == "ported"
+            else "Original paper node not yet ported"
+        )
         closed = bool(
             row["status"] == "migrated_closed"
             and row["new_kernel"] == "fresh"
@@ -1265,27 +1275,24 @@ def build_erdos(
                             {"key": "value", "label": "Value"},
                         ],
                         "rows": [
-                            {"field": "New kernel", "value": row["new_kernel"]},
-                            {"field": "Parity", "value": row["parity_status"]},
-                            {"field": "Mathematics", "value": row["math_status"]},
-                            {"field": "Work", "value": row["work_status"]},
-                            {"field": "Status", "value": row["status"]},
+                            {"field": "Implementation diagram status", "value": implementation_status_label},
+                            {"field": "Direct native source", "value": "Present" if direct_source_matches else "Not present"},
+                            {"field": "Fresh compiled object", "value": "Present" if direct_kernel_fresh else "Not present"},
+                            {"field": "Compiled declarations", "value": "Present" if has_compiled_direct_declaration else "Not present"},
                             {"field": "Blocker", "value": public_blocker or "None recorded"},
-                            {"field": "Web evidence", "value": row["web_evidence"] or "None recorded"},
                         ],
                     },
                     {
                         "kind": "callout",
-                        "tone": "trust" if closed else "warning",
-                        "title": "Direct native closure evidence",
+                        "tone": "trust" if implementation_status == "ported" else "warning",
+                        "title": "Direct native implementation evidence",
                         "body": (
-                            "Closed presentation is backed by a reviewed migrated_closed "
-                            "state, a fresh direct NodeX object, and a compiled declaration "
-                            "from that direct module."
-                            if closed
-                            else "This node is not eligible for closed presentation from its "
-                            "current direct native evidence. Comparison checks and generated "
-                            "files cannot establish closure."
+                            "This node has a direct native Hypostructure NodeX module with "
+                            "fresh compiled evidence and declarations."
+                            if implementation_status == "ported"
+                            else "This node is still shown as a paper-side node in the "
+                            "comparison diagram until a direct native Hypostructure NodeX "
+                            "module supplies fresh compiled evidence and declarations."
                         ),
                     },
                 ],
@@ -1441,6 +1448,8 @@ def build_erdos(
             "web_evidence": row["web_evidence"],
             "direct_kernel_fresh": direct_kernel_fresh,
             "has_compiled_direct_declaration": has_compiled_direct_declaration,
+            "implementation_status": implementation_status,
+            "implementation_status_label": implementation_status_label,
             "closed": closed,
             **(
                 {
@@ -1504,6 +1513,51 @@ def build_erdos(
             if "source_id" in node
             else "missing"
         )
+    implementation_legend = [
+        {"label": "Ported to Hypostructure", "kind": "ported"},
+        {"label": "Original paper node not yet ported", "kind": "paper-pending"},
+    ]
+    ported_count = sum(
+        1 for node in nodes if node["implementation_status"] == "ported"
+    )
+    diagram_graphs: list[dict[str, Any]] = []
+    nodes_by_number = {node["number"]: node for node in nodes}
+    for label, first, last in ERDOS_DIAGRAM_PARTS:
+        part_nodes = [
+            nodes_by_number[number]
+            for number in range(first, last + 1)
+        ]
+        part_node_ids = {node["id"] for node in part_nodes}
+        columns = 6 if len(part_nodes) > 18 else 5
+        diagram_graphs.append({
+            "kind": "graph",
+            "title": f"Original proof diagram {label}: nodes {first}–{last}",
+            "description": (
+                "Green nodes are already ported to the current Hypostructure "
+                "implementation. Yellow nodes are present in the original paper "
+                "diagram and not yet direct native Hypostructure nodes. Arrows "
+                "shown here are direct predecessor edges internal to this paper "
+                "diagram panel."
+            ),
+            "nodes": [
+                {
+                    "id": node["id"],
+                    "label": node["label"],
+                    "x": (index % columns) * 210,
+                    "y": (index // columns) * 150,
+                    "kind": node["implementation_status"],
+                    "summary": node["summary"],
+                    "href": node["url"],
+                }
+                for index, node in enumerate(part_nodes)
+            ],
+            "edges": [
+                edge
+                for edge in edges
+                if edge["source"] in part_node_ids and edge["target"] in part_node_ids
+            ],
+            "legend": implementation_legend,
+        })
     return {
         "id": "erdos-problem-64",
         "title": "Erdős Problem 64",
@@ -1511,18 +1565,19 @@ def build_erdos(
         "nodes": nodes,
         "edges": edges,
         "root_node_ids": roots,
+        "implementation_counts": {
+            "ported": ported_count,
+            "paper_pending": len(nodes) - ported_count,
+            "total": len(nodes),
+        },
+        "diagram_graphs": diagram_graphs,
         "graph": {
             "kind": "graph",
-            "title": "Proof dependency graph",
-            "description": "Nodes and predecessor edges come from the immutable paper topology. Native source modules supply implementation evidence, not graph structure.",
-            "nodes": [{"id": node["id"], "label": node["label"], "x": node["position"]["x"], "y": node["position"]["y"], "kind": node["presentation_status"], "summary": node["summary"], "href": node["url"]} for node in nodes],
+            "title": "Original paper vs Hypostructure implementation",
+            "description": f"All 157 nodes and 169 arrows come from the original paper topology. Green nodes have direct native Hypostructure compiled evidence; yellow nodes remain paper-side nodes in this implementation view. Current count: {ported_count} green, {len(nodes) - ported_count} yellow.",
+            "nodes": [{"id": node["id"], "label": node["label"], "x": node["position"]["x"], "y": node["position"]["y"], "kind": node["implementation_status"], "summary": node["summary"], "href": node["url"]} for node in nodes],
             "edges": edges,
-            "legend": [
-                {"label": "Migrated closed", "kind": "closed"},
-                {"label": "Expandable frontier", "kind": "frontier"},
-                {"label": "Native source present", "kind": "implemented"},
-                {"label": "Native source missing", "kind": "missing"},
-            ],
+            "legend": implementation_legend,
         },
     }
 
@@ -1796,8 +1851,40 @@ def build_snapshot(root: Path, raw_path: Path) -> tuple[dict[str, Any], list[dic
             for example in examples
         ]}],
     })
+    pages["erdos"]["sections"].append({
+        "id": "erdos-paper-comparison",
+        "title": "Original paper diagrams vs current implementation",
+        "summary": (
+            "These panels reuse the original proof-diagram grouping. Green nodes "
+            "are already direct native Hypostructure implementations; yellow nodes "
+            "are paper nodes not yet ported into the current implementation."
+        ),
+        "blocks": [
+            {
+                "kind": "stats",
+                "items": [
+                    {
+                        "label": "Ported nodes",
+                        "value": str(erdos["implementation_counts"]["ported"]),
+                        "detail": "Direct native Hypostructure nodes with fresh compiled evidence.",
+                    },
+                    {
+                        "label": "Paper nodes not yet ported",
+                        "value": str(erdos["implementation_counts"]["paper_pending"]),
+                        "detail": "Nodes present in the original proof diagrams and still yellow here.",
+                    },
+                    {
+                        "label": "Original paper nodes",
+                        "value": str(erdos["implementation_counts"]["total"]),
+                        "detail": "Complete node set in the proof dependency topology.",
+                    },
+                ],
+            },
+            *erdos["diagram_graphs"],
+        ],
+    })
     pages["erdos"]["sections"].append(
-        {"id": "erdos-topology", "title": "Proof topology", "blocks": [erdos["graph"]]}
+        {"id": "erdos-topology", "title": "Full proof topology", "blocks": [erdos["graph"]]}
     )
     for label, first, last in ERDOS_DIAGRAM_PARTS:
         part_nodes = [

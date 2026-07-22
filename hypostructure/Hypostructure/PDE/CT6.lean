@@ -1,4 +1,5 @@
 import Hypostructure.CT6.Automation
+import Hypostructure.Core.Finite.ScheduleEvents
 import Hypostructure.PDE.Model
 
 /-!
@@ -11,7 +12,7 @@ ledger construction, coordinate change, or routing of its own.
 
 namespace Hypostructure.PDE.CT6
 
-universe uPrevious uIndex uData uModel
+universe uPrevious uIndex uData uModel uItem uOutput
 
 /-- Translate represented PDE activity into the domain-neutral CT6 spec. -/
 def orderedActivitySpec {Previous : Type uPrevious}
@@ -70,5 +71,38 @@ def orderedActivityCapability {Previous : Type uPrevious}
   workCoefficient := workCoefficient
   workDegree := workDegree
   workBound := workBound
+
+/-! ## Focused schedule-event specialization -/
+
+/-- Build a Core schedule-event executor for a represented PDE state read from
+the active residual.  PDE supplies only state-dependent local packets and their
+event predicate; Core owns the scan, split, residual registration, and routing
+surface. -/
+def focusedScheduleEvents {Previous : Type uPrevious}
+    {focus : Core.Residual.Focus.Profile Previous}
+    (M : LocalModel.{uModel})
+    (state :
+      Core.Residual.Focus.ActiveQuery focus
+        fun _previous _active => M.problem.Ambient)
+    (Item : Type uItem)
+    (items :
+      Core.Residual.Focus.ActiveQuery focus
+        fun _previous _active => Core.Finite.Enumeration Item)
+    (Output : M.problem.Ambient -> Item -> Type uOutput)
+    (runner :
+      Core.Residual.Focus.ActiveQuery focus
+        fun previous active =>
+          (item : Item) -> Output (state.read previous active) item)
+    (event : (previous : Previous) -> (active : focus.Active previous) ->
+      (item : Item) -> Output (state.read previous active) item -> Prop)
+    (eventDecidable :
+      (previous : Previous) -> (active : focus.Active previous) ->
+        (item : Item) ->
+          Decidable (event previous active item
+            ((runner.read previous active) item))) :
+    Core.Finite.ScheduleEvents.FocusedContract focus :=
+  Core.Finite.ScheduleEvents.focusedFromQueries Item items
+    (fun previous active item => Output (state.read previous active) item)
+    runner event eventDecidable
 
 end Hypostructure.PDE.CT6

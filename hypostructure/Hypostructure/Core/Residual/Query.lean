@@ -21,6 +21,13 @@ structure Query (Source : Sort uSource) (Result : Source -> Sort uResult) where
 
 namespace Query
 
+/-- Build a query from a direct source-indexed function.  This is the public
+constructor-shaped entry point for query values that do not need ledger
+composition. -/
+def ofFunction {Source : Sort uSource} {Result : Source -> Sort uResult}
+    (read : (source : Source) -> Result source) : Query Source Result :=
+  .mk read
+
 /-- Read the stable residual, independently of the depth of the ledger. -/
 def residual {Source : Sort uSource} {Residual : Type uResidual}
     [HasResidual Source Residual] :
@@ -56,6 +63,16 @@ def map {Source : Sort uSource} {Input : Source -> Sort uResult}
     Query Source Output :=
   .mk fun source => transform source (query.read source)
 
+/-- Transform one queried value into a result whose type depends on that exact
+queried value. -/
+def dependentMap {Source : Sort uSource} {Input : Source -> Sort uResult}
+    (query : Query Source Input)
+    {Output : (source : Source) -> Input source -> Sort uOutput}
+    (transform : (source : Source) -> (input : Input source) ->
+      Output source input) :
+    Query Source (fun source => Output source (query.read source)) :=
+  .mk fun source => transform source (query.read source)
+
 /-- Read two inherited values from the identical source stage. -/
 def and {Source : Sort uSource}
     {Left : Source -> Sort uResult} {Right : Source -> Sort uOutput}
@@ -68,6 +85,12 @@ def and {Source : Sort uSource}
     [HasResidual Source Residual] (source : Source) :
     (residual (Source := Source) (Residual := Residual)).read source =
       residualOf source :=
+  rfl
+
+@[simp] theorem read_ofFunction
+    {Source : Sort uSource} {Result : Source -> Sort uResult}
+    (read : (source : Source) -> Result source) (source : Source) :
+    (ofFunction read).read source = read source :=
   rfl
 
 @[simp] theorem read_latest
@@ -99,6 +122,17 @@ def and {Source : Sort uSource}
     (transform : (source : Source) -> Input source -> Output source)
     (source : Source) :
     (query.map transform).read source = transform source (query.read source) :=
+  rfl
+
+@[simp] theorem read_dependentMap
+    {Source : Sort uSource} {Input : Source -> Sort uResult}
+    (query : Query Source Input)
+    {Output : (source : Source) -> Input source -> Sort uOutput}
+    (transform : (source : Source) -> (input : Input source) ->
+      Output source input)
+    (source : Source) :
+    (query.dependentMap transform).read source =
+      transform source (query.read source) :=
   rfl
 
 @[simp] theorem read_and

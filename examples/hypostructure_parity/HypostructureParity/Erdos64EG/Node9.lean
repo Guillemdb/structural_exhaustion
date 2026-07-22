@@ -67,10 +67,8 @@ theorem selected_everyEdgeTouchesDegreeThree
 /-- Node 9 parity preserves the production focused-selection work bound. -/
 theorem node9_work_bounded
     (previous : HypostructureErdos64EG.Node8Stage.{u}) :
-    (HypostructureErdos64EG.node9Counted previous).checks <=
-      HypostructureErdos64EG.Node8Focus.selectionBudget.coefficient *
-        (HypostructureErdos64EG.Node8Focus.selectionBudget.size previous + 1) ^
-          HypostructureErdos64EG.Node8Focus.selectionBudget.degree :=
+    HypostructureErdos64EG.Node8Focus.selectionBudget.Within previous
+      (HypostructureErdos64EG.node9Counted previous).checks :=
   HypostructureErdos64EG.node9Counted_work_bounded previous
 
 /-- The legacy node-9 output states the same paper-visible endpoint predicate

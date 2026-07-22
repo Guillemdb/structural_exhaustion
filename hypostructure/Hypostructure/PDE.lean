@@ -4,6 +4,8 @@ import Hypostructure.PDE.Model
 import Hypostructure.PDE.Representation
 import Hypostructure.PDE.Observable
 import Hypostructure.PDE.Target
+import Hypostructure.PDE.Minimality
+import Hypostructure.PDE.TargetClosure
 import Hypostructure.PDE.Coordinate
 import Hypostructure.PDE.LocalTail
 import Hypostructure.PDE.FastTrack.Signature
@@ -14,6 +16,16 @@ import Hypostructure.PDE.StructuralGradient
 import Hypostructure.PDE.FastTrack.DirectedExhaustiveness
 import Hypostructure.PDE.FastTrack.DefectRouting
 import Hypostructure.PDE.FastTrack.DefectRoutingAlignment
+import Hypostructure.PDE.FastTrack.TargetCompactification
+import Hypostructure.PDE.FastTrack.CapacityProfile
+import Hypostructure.PDE.FastTrack.ExactResponseCoverage
+import Hypostructure.PDE.FastTrack.ProfileFamily
+import Hypostructure.PDE.FastTrack.BoundaryRepair
+import Hypostructure.PDE.FastTrack.ConservativeCarrier
+import Hypostructure.PDE.FastTrack.EllipticConstraintTail
+import Hypostructure.PDE.Budget
+import Hypostructure.PDE.Contract
+import Hypostructure.PDE.CT3
 import Hypostructure.PDE.CT4
 import Hypostructure.PDE.CT5
 import Hypostructure.PDE.CT6

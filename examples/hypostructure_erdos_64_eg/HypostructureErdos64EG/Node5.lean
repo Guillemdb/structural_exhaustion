@@ -25,21 +25,19 @@ def mersenneReturnAlgebra :
 /-- The sole payload established by node 5. -/
 abbrev Node5Output (stage : Node4Stage.{u})
     (active : Node4Focus.Active stage) :=
-  mersenneReturnAlgebra.AvoidanceCertificate
-    (node4ContextQuery.read stage active).G
+  Graph.RootedReturnTargetAlgebra.FocusedAvoidanceCertificateOutput
+    Node4Focus mersenneReturnAlgebra node4ContextQuery stage active
 
 /-- Exact accumulated stage after node 5. -/
 abbrev Node5Stage :=
-  Core.Residual.Focus.Stage Node4Focus Node5Output
+  Graph.RootedReturnTargetAlgebra.FocusedAvoidanceCertificateStage
+    Node4Focus mersenneReturnAlgebra node4ContextQuery
 
 /-- Counted node-5 execution, including inactive siblings. -/
 noncomputable def node5Counted (previous : Node4Stage.{u}) :
     Core.Counted Node5Stage.{u} :=
-  Core.Residual.Focus.runCounted Node4Focus
-    (Output := Node5Output) previous
-    fun active _checks _exact =>
-    let minimal := node4ContextQuery.read previous active
-    mersenneReturnAlgebra.avoidanceCertificate minimal.G minimal.avoids
+  Graph.RootedReturnTargetAlgebra.executeFocusedAvoidanceCertificateCounted
+    Node4Focus mersenneReturnAlgebra node4ContextQuery previous
 
 /-- Graph derives rooted-return avoidance from inherited target avoidance;
 Core performs all branch inspection and ledger extension. -/
@@ -48,13 +46,15 @@ noncomputable def node5 (previous : Node4Stage.{u}) : Node5Stage.{u} :=
 
 /-- Focus inherited by node 6 and later counterexample nodes. -/
 abbrev Node5Focus :=
-  Core.Residual.Focus.successor Node4Focus Node5Output
+  Graph.RootedReturnTargetAlgebra.FocusedAvoidanceCertificateProfile
+    Node4Focus mersenneReturnAlgebra node4ContextQuery
 
 /-- Typed query for node 5's exact graph-owned certificate. -/
 def node5CertificateQuery :
     Core.Residual.Focus.ActiveQuery Node5Focus
       (fun stage active => Node5Output stage.previous active) :=
-  Core.Residual.Focus.ActiveQuery.latest
+  Graph.RootedReturnTargetAlgebra.focusedAvoidanceCertificateQuery
+    Node4Focus mersenneReturnAlgebra node4ContextQuery
 
 /-- The minimal context query lifted through node 5 without copying it. -/
 def node4ContextAtNode5Query :
@@ -76,15 +76,15 @@ theorem node5_target_iff_rootedReturn
 
 @[simp] theorem node5Counted_checks_eq_one (previous : Node4Stage.{u}) :
     (node5Counted previous).checks = 1 := by
-  rw [node5Counted, Core.Residual.Focus.runCounted_checks]
+  rw [node5Counted,
+    Graph.RootedReturnTargetAlgebra.executeFocusedAvoidanceCertificateCounted_checks]
   rfl
 
 theorem node5Counted_work_bounded (previous : Node4Stage.{u}) :
-    (node5Counted previous).checks <=
-      Node4Focus.selectionBudget.coefficient *
-        (Node4Focus.selectionBudget.size previous + 1) ^
-          Node4Focus.selectionBudget.degree :=
-  Core.Residual.Focus.runCounted_checks_bounded Node4Focus previous _
+    Node4Focus.selectionBudget.Within previous
+      (node5Counted previous).checks :=
+  Graph.RootedReturnTargetAlgebra.executeFocusedAvoidanceCertificateCounted_work_within
+    Node4Focus mersenneReturnAlgebra node4ContextQuery previous
 
 /-- Proof-relevant audit record for node-5 rooted-return target algebra. -/
 def node5Metadata :
@@ -104,23 +104,26 @@ def node5Metadata :
   ]
   ledgerQueries := []
   frameworkSearch := [
-    ⟨"Hypostructure.Core.Residual.Focus", "Focus.runCounted"⟩,
     ⟨"Hypostructure.Graph.RootedReturn",
-      "RootedReturnTargetAlgebra.avoidanceCertificate"⟩
+      "RootedReturnTargetAlgebra.executeFocusedAvoidanceCertificateCounted"⟩,
+    ⟨"Hypostructure.Graph.RootedReturn",
+      "RootedReturnTargetAlgebra.focusedAvoidanceCertificateQuery"⟩
   ]
   generatedOutputs := [
     ⟨⟨"Hypostructure.Core.Residual.Focus", "Focus.Outcome"⟩,
       .typedOutcome⟩,
-    ⟨⟨"Hypostructure.Core.Residual.Ledger", "Ledger.extend"⟩,
+    ⟨⟨"Hypostructure.Graph.RootedReturn",
+      "RootedReturnTargetAlgebra.FocusedAvoidanceCertificateStage"⟩,
       .residualStage⟩,
     ⟨⟨"Hypostructure.Graph.RootedReturn",
       "RootedReturnTargetAlgebra.AvoidanceCertificate"⟩,
       .searchResult⟩
   ]
   genericTheorems := [
-    ⟨"Hypostructure.Core.Residual.Focus", "Focus.runCounted_checks"⟩,
-    ⟨"Hypostructure.Core.Residual.Focus",
-      "Focus.runCounted_checks_bounded"⟩,
+    ⟨"Hypostructure.Graph.RootedReturn",
+      "RootedReturnTargetAlgebra.executeFocusedAvoidanceCertificateCounted_checks"⟩,
+    ⟨"Hypostructure.Graph.RootedReturn",
+      "RootedReturnTargetAlgebra.executeFocusedAvoidanceCertificateCounted_work_within"⟩,
     ⟨"Hypostructure.Graph.RootedReturn",
       "RootedReturnTargetAlgebra.target_iff_hasRootedReturn"⟩,
     ⟨"Hypostructure.Graph.RootedReturn",
@@ -142,11 +145,9 @@ theorem node5_metadata_has_no_manual_obligation
 /-- The metadata stores the same one-check focused-successor budget used by
 the counted run. -/
 theorem node5_metadata_work_bounded (previous : Node4Stage.{u}) :
-    node5Metadata.workBound.checks previous <=
-      node5Metadata.workBound.coefficient *
-        (node5Metadata.workBound.size previous + 1) ^
-          node5Metadata.workBound.degree :=
-  node5MetadataComplete.work_bounded previous
+    node5Metadata.workBound.Within previous
+      (node5Metadata.workBound.checks previous) :=
+  node5MetadataComplete.work_within previous
 
 #print axioms node5
 #print axioms node5_target_iff_rootedReturn

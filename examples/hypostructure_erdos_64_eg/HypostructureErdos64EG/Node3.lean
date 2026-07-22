@@ -69,10 +69,8 @@ theorem node3_closure_mechanism (previous : Node2Stage.{u})
 
 /-- The proof-only terminal satisfies Core's zero-check polynomial budget. -/
 theorem node3_work_bounded (previous : Node2Stage.{u}) :
-    node3WorkBudget.checks previous ≤
-      node3WorkBudget.coefficient *
-        (node3WorkBudget.size previous + 1) ^ node3WorkBudget.degree :=
-  node3WorkBudget.bounded previous
+    node3WorkBudget.Within previous (node3WorkBudget.checks previous) :=
+  node3WorkBudget.checks_within previous
 
 /-- Proof-relevant audit record for the node-3 direct terminal closure. -/
 def node3Metadata :
@@ -119,11 +117,9 @@ theorem node3_metadata_has_no_manual_obligation
 
 /-- The metadata stores the same zero-work bound used by the terminal. -/
 theorem node3_metadata_work_bounded (previous : Node2Stage.{u}) :
-    node3Metadata.workBound.checks previous <=
-      node3Metadata.workBound.coefficient *
-        (node3Metadata.workBound.size previous + 1) ^
-          node3Metadata.workBound.degree :=
-  node3MetadataComplete.work_bounded previous
+    node3Metadata.workBound.Within previous
+      (node3Metadata.workBound.checks previous) :=
+  node3MetadataComplete.work_within previous
 
 #print axioms node3
 #print axioms node3_officialConclusion

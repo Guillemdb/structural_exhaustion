@@ -70,6 +70,24 @@ def transition : Routing.Transition.{0, 0, 0, 0, 0, 0}
 def routed : Routing.Stage.{0, 0, 0, 0, 0, 0} transition :=
   Routing.advance transition observed
 
+def focusedRouteProfile :
+    Routing.Profile.{0, 0, 0, 0, 0, 0} ObservedStage :=
+  Routing.Profile.ofFocus
+    (Residual.Focus.always ObservedStage)
+    executionSpec
+    executionCapability
+    (fun _source => PUnit)
+    (fun _source _active => PUnit.unit)
+    (fun _source _seed => PUnit.unit)
+
+def focusedTransition : Routing.Transition.{0, 0, 0, 0, 0, 0}
+    edge ObservedStage :=
+  Routing.Transition.register edge focusedRouteProfile
+
+def focusedRouted : Routing.Stage.{0, 0, 0, 0, 0, 0}
+    focusedTransition :=
+  Routing.advance focusedTransition observed
+
 /-- Routing consumes the exact full predecessor, not a copied local value. -/
 theorem fullLedgerPreserved : routed.previous = observed :=
   Routing.advance_previous transition observed
@@ -82,6 +100,14 @@ theorem rootResidualPreserved :
 /-- Provenance is generated from the registered edge. -/
 theorem routeProvenance : routed.added.provenance.recorded = edge :=
   routed.added.provenance.exact_edge
+
+theorem focusedRoutePreservesPredecessor :
+    focusedRouted.previous = observed :=
+  Routing.advance_previous focusedTransition observed
+
+theorem focusedRouteEnabled :
+    focusedRouted.added.discovery = Routing.Discovery.enabled PUnit.unit := by
+  rfl
 
 def rankDecrease : Routing.StrictRankDecrease 4 3 :=
   ⟨by decide⟩
@@ -178,6 +204,8 @@ theorem metadataHasNoManualObligation
 #print axioms routeRankDecreases
 #print axioms directClosureVerified
 #print axioms minimalityClosure
+#print axioms focusedRoutePreservesPredecessor
+#print axioms focusedRouteEnabled
 #print axioms metadataHasNoManualObligation
 
 end Hypostructure.Fixtures.ExecutionRouting

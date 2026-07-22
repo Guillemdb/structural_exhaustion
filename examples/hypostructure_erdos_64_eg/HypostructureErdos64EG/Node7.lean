@@ -58,10 +58,8 @@ def node7WorkBudget :
 
 /-- The proof-only terminal satisfies Core's zero-check polynomial budget. -/
 theorem node7_work_bounded (stage : Node6Stage.{u}) :
-    node7WorkBudget.checks stage <=
-      node7WorkBudget.coefficient *
-        (node7WorkBudget.size stage + 1) ^ node7WorkBudget.degree :=
-  node7WorkBudget.bounded stage
+    node7WorkBudget.Within stage (node7WorkBudget.checks stage) :=
+  node7WorkBudget.checks_within stage
 
 /-- Proof-relevant audit record for node-7 direct terminal closure. -/
 def node7Metadata :
@@ -113,11 +111,9 @@ theorem node7_metadata_has_no_manual_obligation
 
 /-- The metadata stores the same zero-work bound used by the terminal. -/
 theorem node7_metadata_work_bounded (stage : Node6Stage.{u}) :
-    node7Metadata.workBound.checks stage <=
-      node7Metadata.workBound.coefficient *
-        (node7Metadata.workBound.size stage + 1) ^
-          node7Metadata.workBound.degree :=
-  node7MetadataComplete.work_bounded stage
+    node7Metadata.workBound.Within stage
+      (node7Metadata.workBound.checks stage) :=
+  node7MetadataComplete.work_within stage
 
 #print axioms node7
 #print axioms node7_powerOfTwoCycle

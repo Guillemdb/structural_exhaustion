@@ -51,11 +51,9 @@ def node1 (residual : InitialResidual.{u}) : Node1Stage.{u} :=
 
 /-- Root initialization satisfies Core's proof-only polynomial work budget. -/
 theorem node1_work_bounded (residual : InitialResidual.{u}) :
-    (node1Counted residual).checks <=
-      node1WorkBudget.coefficient *
-        (node1WorkBudget.size residual + 1) ^ node1WorkBudget.degree := by
+    node1WorkBudget.Within residual (node1Counted residual).checks := by
   rw [node1Counted_checks_eq_budget]
-  exact node1WorkBudget.bounded residual
+  exact node1WorkBudget.checks_within residual
 
 /-- Proof-relevant audit record for the unique EG root initializer. -/
 def node1Metadata :
@@ -96,11 +94,9 @@ theorem node1_metadata_has_no_manual_obligation
 
 /-- The metadata stores the same zero-work bound used by the counted root. -/
 theorem node1_metadata_work_bounded (residual : InitialResidual.{u}) :
-    node1Metadata.workBound.checks residual <=
-      node1Metadata.workBound.coefficient *
-        (node1Metadata.workBound.size residual + 1) ^
-          node1Metadata.workBound.degree :=
-  node1MetadataComplete.work_bounded residual
+    node1Metadata.workBound.Within residual
+      (node1Metadata.workBound.checks residual) :=
+  node1MetadataComplete.work_within residual
 
 #print axioms node1
 #print axioms node1_residual

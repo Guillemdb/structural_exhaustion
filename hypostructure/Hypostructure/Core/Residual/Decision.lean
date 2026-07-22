@@ -1,3 +1,4 @@
+import Hypostructure.Core.Budget.Work
 import Hypostructure.Core.Residual.Query
 
 /-!
@@ -59,11 +60,92 @@ def run {Previous : Sort uPrevious} {Yes No : Previous -> Prop}
     | .isTrue proof => .yesBranch proof
     | .isFalse absent => .noBranch (node.no_of_not_yes previous absent)
 
+/-- A binary decision performs one framework-owned branch inspection. -/
+def workBudget {Previous : Sort uPrevious} {Yes No : Previous -> Prop}
+    (_node : Node Previous Yes No) :
+    PolynomialCheckBudget Previous :=
+  PolynomialCheckBudget.constant (fun _previous => 0) 1
+
+/-- Counted execution of a Core-owned binary decision. -/
+def runCounted {Previous : Sort uPrevious} {Yes No : Previous -> Prop}
+    (node : Node Previous Yes No) (previous : Previous) :
+    Counted (Stage Yes No) :=
+  ⟨node.run previous, 1⟩
+
 @[simp] theorem run_previous
     {Previous : Sort uPrevious} {Yes No : Previous -> Prop}
     (node : Node Previous Yes No) (previous : Previous) :
     (node.run previous).previous = previous :=
   rfl
+
+@[simp] theorem runCounted_value
+    {Previous : Sort uPrevious} {Yes No : Previous -> Prop}
+    (node : Node Previous Yes No) (previous : Previous) :
+    (node.runCounted previous).value = node.run previous :=
+  rfl
+
+@[simp] theorem runCounted_checks
+    {Previous : Sort uPrevious} {Yes No : Previous -> Prop}
+    (node : Node Previous Yes No) (previous : Previous) :
+    (node.runCounted previous).checks = (node.workBudget).checks previous :=
+  rfl
+
+/-- Predicate-form work theorem for counted binary decisions. -/
+theorem runCounted_work_within
+    {Previous : Sort uPrevious} {Yes No : Previous -> Prop}
+    (node : Node Previous Yes No) (previous : Previous) :
+    (node.workBudget).Within previous (node.runCounted previous).checks :=
+  (node.workBudget).checks_within previous
+
+/-- If the positive outcome holds, Core's binary executor returns a positive
+branch for the literal predecessor. -/
+theorem run_added_yes_of_yes
+    {Previous : Sort uPrevious} {Yes No : Previous -> Prop}
+    (node : Node Previous Yes No) {previous : Previous}
+    (yes : Yes previous) :
+    ∃ proof : Yes previous,
+      (node.run previous).added = Binary.yesBranch proof := by
+  unfold run
+  cases decision : node.yesDecidable previous with
+  | isTrue proof =>
+      exact ⟨proof, rfl⟩
+  | isFalse absent =>
+      exact (absent yes).elim
+
+/-- If the positive outcome is impossible, Core's binary executor returns a
+negative branch for the literal predecessor. -/
+theorem run_added_no_of_not_yes
+    {Previous : Sort uPrevious} {Yes No : Previous -> Prop}
+    (node : Node Previous Yes No) {previous : Previous}
+    (absent : Not (Yes previous)) :
+    ∃ proof : No previous,
+      (node.run previous).added = Binary.noBranch proof := by
+  unfold run
+  cases decision : node.yesDecidable previous with
+  | isTrue proof =>
+      exact (absent proof).elim
+  | isFalse rejected =>
+      exact ⟨node.no_of_not_yes previous rejected, rfl⟩
+
+/-- Counted execution has the same positive branch shape as the uncounted Core
+decision. -/
+theorem runCounted_added_yes_of_yes
+    {Previous : Sort uPrevious} {Yes No : Previous -> Prop}
+    (node : Node Previous Yes No) {previous : Previous}
+    (yes : Yes previous) :
+    ∃ proof : Yes previous,
+      (node.runCounted previous).value.added = Binary.yesBranch proof :=
+  node.run_added_yes_of_yes yes
+
+/-- Counted execution has the same negative branch shape as the uncounted Core
+decision. -/
+theorem runCounted_added_no_of_not_yes
+    {Previous : Sort uPrevious} {Yes No : Previous -> Prop}
+    (node : Node Previous Yes No) {previous : Previous}
+    (absent : Not (Yes previous)) :
+    ∃ proof : No previous,
+      (node.runCounted previous).value.added = Binary.noBranch proof :=
+  node.run_added_no_of_not_yes absent
 
 end Node
 

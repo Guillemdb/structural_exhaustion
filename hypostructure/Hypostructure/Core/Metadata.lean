@@ -79,6 +79,14 @@ theorem work_bounded
         (metadata.workBound.size input + 1) ^ metadata.workBound.degree :=
   metadata.workBound.bounded input
 
+/-- Predicate-form work theorem for application-facing metadata. -/
+theorem work_within
+    {Previous : Type uPrevious} {WorkInput : Type uWork}
+    {metadata : DeclarationMetadata Previous WorkInput}
+    (_complete : Complete metadata) (input : WorkInput) :
+    metadata.workBound.Within input (metadata.workBound.checks input) :=
+  metadata.workBound.checks_within input
+
 end Complete
 
 end Hypostructure.Core.Metadata

@@ -120,10 +120,8 @@ theorem legacy_counterexample_routes_to_node6
 /-- Node 6 parity preserves the production CT1 work bound. -/
 theorem node6_work_bounded
     (previous : HypostructureErdos64EG.Node5Stage.{u}) :
-    (HypostructureErdos64EG.node6Counted previous).checks <=
-      HypostructureErdos64EG.node6Encoding.workBudget.coefficient *
-        (HypostructureErdos64EG.node6Encoding.workBudget.size previous + 1) ^
-          HypostructureErdos64EG.node6Encoding.workBudget.degree :=
+    HypostructureErdos64EG.node6Encoding.workBudget.Within previous
+      (HypostructureErdos64EG.node6Counted previous).checks :=
   HypostructureErdos64EG.node6Counted_work_bounded previous
 
 #print axioms selected_ct1_semantics

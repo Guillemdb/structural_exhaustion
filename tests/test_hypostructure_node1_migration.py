@@ -108,13 +108,9 @@ def test_nodes_1_to_13_reviewed_status_stays_honest_without_clean_baseline() -> 
         assert node["new_kernel"] == "fresh"
         if node_id == 13:
             assert node["parity_status"] == "checked"
-            assert node["math_status"] == "open"
-            assert node["status"] == "migrated_open"
-            assert node["blocker"] == (
-                "original Node 13 boundary-overlap implication is false under "
-                "stated union gluing; overlap-count preservation remains a "
-                "recorded residual"
-            )
+            assert node["math_status"] == "closed"
+            assert node["status"] == "migrated_closed"
+            assert node["blocker"] == ""
         else:
             assert node["parity_status"] == "not_run"
             assert node["math_status"] == "closed"
@@ -147,10 +143,10 @@ def test_nodes_1_to_13_web_presentation_uses_direct_native_evidence_without_clos
 
     node13 = nodes[13]
     assert node13["new_kernel"] == "fresh"
-    assert node13["math_status"] == "open"
+    assert node13["math_status"] == "closed"
     assert node13["work_status"] == "captured"
     assert node13["direct_kernel_fresh"] is True
     assert node13["has_compiled_direct_declaration"] is True
-    assert node13["closed"] is False
-    assert node13["presentation_status"] == "implemented"
-    assert "overlap-count preservation" in node13["blocker"]
+    assert node13["closed"] is True
+    assert node13["presentation_status"] == "closed"
+    assert node13["blocker"] == ""

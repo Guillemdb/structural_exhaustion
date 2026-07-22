@@ -118,6 +118,41 @@ theorem boundaryOverlapEdgeCount_eq_ncard {boundary : Boundary.{u}}
   exact FiniteObject.edgeCount_eq_ncard_edgeSet
     (boundaryOverlapObject piece outside)
 
+/-- A normalized outside context has no boundary-overlap graph with any
+piece, because it owns no boundary--boundary edge. -/
+theorem boundaryOverlapGraph_eq_bot_of_context_noBoundaryEdges
+    {boundary : Boundary.{u}} (piece : BoundaryPiece boundary)
+    (outside : OutsideContext boundary)
+    (noBoundaryEdges : outside.NoBoundaryEdges) :
+    boundaryOverlapGraph piece outside = ⊥ := by
+  ext left right
+  rw [boundaryOverlapGraph_adj_iff]
+  simp [noBoundaryEdges left right]
+
+/-- A normalized outside context has zero boundary-overlap degree at every
+label. -/
+theorem boundaryOverlapDegree_eq_zero_of_context_noBoundaryEdges
+    {boundary : Boundary.{u}} (piece : BoundaryPiece boundary)
+    (outside : OutsideContext boundary)
+    (noBoundaryEdges : outside.NoBoundaryEdges)
+    (vertex : boundary.Vertex) :
+    boundaryOverlapDegree piece outside vertex = 0 := by
+  rw [boundaryOverlapDegree_eq_ncard,
+    boundaryOverlapGraph_eq_bot_of_context_noBoundaryEdges
+      piece outside noBoundaryEdges]
+  simp
+
+/-- A normalized outside context has zero boundary-overlap edge count. -/
+theorem boundaryOverlapEdgeCount_eq_zero_of_context_noBoundaryEdges
+    {boundary : Boundary.{u}} (piece : BoundaryPiece boundary)
+    (outside : OutsideContext boundary)
+    (noBoundaryEdges : outside.NoBoundaryEdges) :
+    boundaryOverlapEdgeCount piece outside = 0 := by
+  rw [boundaryOverlapEdgeCount_eq_ncard,
+    boundaryOverlapGraph_eq_bot_of_context_noBoundaryEdges
+      piece outside noBoundaryEdges]
+  simp
+
 /-- Piece-side contribution after embedding into the glued carrier. -/
 def pieceContribution {boundary : Boundary.{u}}
     (piece : BoundaryPiece boundary) (outside : OutsideContext boundary) :
@@ -239,6 +274,64 @@ theorem contextContribution_boundaryDegree {boundary : Boundary.{u}}
     FiniteObject.degree_eq_ncard_neighborSet]
   rfl
 
+/-- Embedded piece degrees at internal piece vertices are the original local
+degrees. -/
+theorem pieceContribution_internalDegree {boundary : Boundary.{u}}
+    (piece : BoundaryPiece boundary) (outside : OutsideContext boundary)
+    (internal : piece.Internal) :
+    ((pieceContribution piece outside).neighborSet (.inr (.inl internal))).ncard =
+      piece.pack.degree (.inr internal) := by
+  change ((pieceContribution piece outside).neighborSet
+    (pieceEmbedding piece outside (.inr internal))).ncard = _
+  rw [pieceContribution, SimpleGraph.neighborSet_map,
+    Set.ncard_image_of_injective _ (pieceEmbedding piece outside).injective]
+  rw [FiniteObject.degree_eq_ncard_neighborSet]
+  rfl
+
+/-- Embedded context degrees at internal context vertices are the original
+context degrees. -/
+theorem contextContribution_internalDegree {boundary : Boundary.{u}}
+    (piece : BoundaryPiece boundary) (outside : OutsideContext boundary)
+    (internal : outside.Internal) :
+    ((contextContribution piece outside).neighborSet (.inr (.inr internal))).ncard =
+      outside.pack.degree (.inr internal) := by
+  change ((contextContribution piece outside).neighborSet
+    (contextEmbedding piece outside (.inr internal))).ncard = _
+  rw [contextContribution, SimpleGraph.neighborSet_map,
+    Set.ncard_image_of_injective _ (contextEmbedding piece outside).injective]
+  rw [FiniteObject.degree_eq_ncard_neighborSet]
+  rfl
+
+/-- The context contribution has no neighbour at an internal piece vertex. -/
+theorem contextContribution_pieceInternal_neighborSet_eq_empty
+    {boundary : Boundary.{u}} (piece : BoundaryPiece boundary)
+    (outside : OutsideContext boundary) (internal : piece.Internal) :
+    (contextContribution piece outside).neighborSet (.inr (.inl internal)) =
+      ∅ := by
+  ext neighbor
+  constructor
+  · intro adjacent
+    rcases (SimpleGraph.map_adj (contextEmbedding piece outside)
+        outside.graph (.inr (.inl internal)) neighbor).mp adjacent with
+      ⟨contextLeft, _contextRight, _edge, leftEq, _rightEq⟩
+    cases contextLeft <;> simp [contextEmbedding] at leftEq
+  · simp
+
+/-- The piece contribution has no neighbour at an internal context vertex. -/
+theorem pieceContribution_contextInternal_neighborSet_eq_empty
+    {boundary : Boundary.{u}} (piece : BoundaryPiece boundary)
+    (outside : OutsideContext boundary) (internal : outside.Internal) :
+    (pieceContribution piece outside).neighborSet (.inr (.inr internal)) =
+      ∅ := by
+  ext neighbor
+  constructor
+  · intro adjacent
+    rcases (SimpleGraph.map_adj (pieceEmbedding piece outside)
+        piece.graph (.inr (.inr internal)) neighbor).mp adjacent with
+      ⟨pieceLeft, _pieceRight, _edge, leftEq, _rightEq⟩
+    cases pieceLeft <;> simp [pieceEmbedding] at leftEq
+  · simp
+
 /-- The intersection of the two embedded neighbour sets has exactly the
 boundary-overlap degree. -/
 theorem contribution_neighbor_inter_ncard {boundary : Boundary.{u}}
@@ -341,6 +434,125 @@ theorem glue_boundaryDegree_eq_of_local_eq_of_overlap_eq
   dsimp [boundaryOverlapDegreeProfile] at overlapAt
   omega
 
+/-- Under normalized context ownership, local boundary-degree equality
+transfers directly to final glued boundary-degree equality. -/
+theorem glue_boundaryDegree_eq_of_local_eq_of_context_noBoundaryEdges
+    {boundary : Boundary.{u}} {source replacement : BoundaryPiece boundary}
+    (outside : OutsideContext boundary)
+    (noBoundaryEdges : outside.NoBoundaryEdges)
+    (localDegrees : replacement.boundaryDegreeProfile =
+      source.boundaryDegreeProfile)
+    (vertex : boundary.Vertex) :
+    (glue replacement outside).degree (.inl vertex) =
+      (glue source outside).degree (.inl vertex) := by
+  apply glue_boundaryDegree_eq_of_local_eq_of_overlap_eq outside localDegrees
+  funext vertex
+  change boundaryOverlapDegree replacement outside vertex =
+    boundaryOverlapDegree source outside vertex
+  rw [boundaryOverlapDegree_eq_zero_of_context_noBoundaryEdges
+    replacement outside noBoundaryEdges vertex,
+    boundaryOverlapDegree_eq_zero_of_context_noBoundaryEdges
+    source outside noBoundaryEdges vertex]
+
+/-- Exact edge-count additivity for normalized outside contexts. -/
+theorem glue_edgeCount_of_context_noBoundaryEdges
+    {boundary : Boundary.{u}} (piece : BoundaryPiece boundary)
+    (outside : OutsideContext boundary)
+    (noBoundaryEdges : outside.NoBoundaryEdges) :
+    (glue piece outside).edgeCount =
+      piece.edgeCount + outside.pack.edgeCount := by
+  have count := glue_edgeCount_add_overlap piece outside
+  rw [boundaryOverlapEdgeCount_eq_zero_of_context_noBoundaryEdges
+    piece outside noBoundaryEdges] at count
+  simpa using count
+
+/-- Internal atom degrees are unchanged by unrestricted gluing. -/
+theorem glue_degree_pieceInternal {boundary : Boundary.{u}}
+    (piece : BoundaryPiece boundary) (outside : OutsideContext boundary)
+    (internal : piece.Internal) :
+    (glue piece outside).degree (.inr (.inl internal)) =
+      piece.pack.degree (.inr internal) := by
+  rw [FiniteObject.degree_eq_ncard_neighborSet]
+  change ((glueGraph piece outside).neighborSet
+    (.inr (.inl internal))).ncard = _
+  have neighborUnion :
+      (glueGraph piece outside).neighborSet (.inr (.inl internal)) =
+        (pieceContribution piece outside).neighborSet (.inr (.inl internal)) ∪
+          (contextContribution piece outside).neighborSet
+            (.inr (.inl internal)) := by
+    ext neighbor
+    simp [glueGraph_eq_contribution_sup]
+  rw [neighborUnion,
+    contextContribution_pieceInternal_neighborSet_eq_empty]
+  simpa using pieceContribution_internalDegree piece outside internal
+
+/-- Internal context degrees are unchanged by unrestricted gluing. -/
+theorem glue_degree_contextInternal {boundary : Boundary.{u}}
+    (piece : BoundaryPiece boundary) (outside : OutsideContext boundary)
+    (internal : outside.Internal) :
+    (glue piece outside).degree (.inr (.inr internal)) =
+      outside.pack.degree (.inr internal) := by
+  rw [FiniteObject.degree_eq_ncard_neighborSet]
+  change ((glueGraph piece outside).neighborSet
+    (.inr (.inr internal))).ncard = _
+  have neighborUnion :
+      (glueGraph piece outside).neighborSet (.inr (.inr internal)) =
+        (pieceContribution piece outside).neighborSet (.inr (.inr internal)) ∪
+          (contextContribution piece outside).neighborSet
+            (.inr (.inr internal)) := by
+    ext neighbor
+    simp [glueGraph_eq_contribution_sup]
+  rw [neighborUnion,
+    pieceContribution_contextInternal_neighborSet_eq_empty]
+  simpa using contextContribution_internalDegree piece outside internal
+
+/-- Equal local boundary degrees and an internal threshold certificate
+preserve a minimum-degree lower bound under normalized gluing. -/
+theorem glue_minDegree_ge_of_local_boundary_eq_of_context_noBoundaryEdges
+    {boundary : Boundary.{u}} (threshold : Nat)
+    {source replacement : BoundaryPiece boundary}
+    (outside : OutsideContext boundary)
+    (boundaryNonempty : Nonempty boundary.Vertex)
+    (noBoundaryEdges : outside.NoBoundaryEdges)
+    (localDegrees : replacement.boundaryDegreeProfile =
+      source.boundaryDegreeProfile)
+    (replacementInternal :
+      replacement.InternalThresholdBaseline threshold)
+    (sourceBaseline : threshold ≤ (glue source outside).minDegree) :
+    threshold ≤ (glue replacement outside).minDegree := by
+  letI : Nonempty (glue replacement outside).Vertex := by
+    rcases boundaryNonempty with ⟨vertex⟩
+    exact ⟨.inl vertex⟩
+  apply (glue replacement outside).le_minDegree_of_forall_le_degree
+  intro vertex
+  cases vertex with
+  | inl boundaryVertex =>
+      have sourceDegree : threshold ≤
+          (glue source outside).degree (.inl boundaryVertex) :=
+        sourceBaseline.trans
+          ((glue source outside).minDegree_le_degree (.inl boundaryVertex))
+      rw [glue_boundaryDegree_eq_of_local_eq_of_context_noBoundaryEdges
+        outside noBoundaryEdges localDegrees boundaryVertex]
+      exact sourceDegree
+  | inr internal =>
+      cases internal with
+      | inl replacementInternalVertex =>
+          rw [glue_degree_pieceInternal replacement outside
+            replacementInternalVertex]
+          exact replacementInternal replacementInternalVertex
+      | inr outsideInternalVertex =>
+          have sourceDegree : threshold ≤
+              (glue source outside).degree
+                (.inr (.inr outsideInternalVertex)) :=
+            sourceBaseline.trans
+              ((glue source outside).minDegree_le_degree
+                (.inr (.inr outsideInternalVertex)))
+          rw [glue_degree_contextInternal source outside
+              outsideInternalVertex] at sourceDegree
+          rw [glue_degree_contextInternal replacement outside
+              outsideInternalVertex]
+          exact sourceDegree
+
 /-- A local lexicographic decrease transfers through a fixed unrestricted
 context when the total number of overlapped boundary edges is unchanged. -/
 theorem glue_lexicographicallySmaller_of_local_of_overlapCount_eq
@@ -362,5 +574,21 @@ theorem glue_lexicographicallySmaller_of_local_of_overlapCount_eq
     · have replacementCount := glue_edgeCount_add_overlap replacement outside
       have sourceCount := glue_edgeCount_add_overlap source outside
       omega
+
+/-- A local lexicographic decrease transfers through a normalized outside
+context without an explicit overlap-count hypothesis. -/
+theorem glue_lexicographicallySmaller_of_local_of_context_noBoundaryEdges
+    {boundary : Boundary.{u}} {source replacement : BoundaryPiece boundary}
+    (outside : OutsideContext boundary)
+    (noBoundaryEdges : outside.NoBoundaryEdges)
+    (localSmaller : replacement.LocallySmaller source) :
+    (glue replacement outside).LexicographicallySmaller
+      (glue source outside) := by
+  apply glue_lexicographicallySmaller_of_local_of_overlapCount_eq outside
+    localSmaller
+  rw [boundaryOverlapEdgeCount_eq_zero_of_context_noBoundaryEdges
+      replacement outside noBoundaryEdges,
+    boundaryOverlapEdgeCount_eq_zero_of_context_noBoundaryEdges
+      source outside noBoundaryEdges]
 
 end Hypostructure.Graph

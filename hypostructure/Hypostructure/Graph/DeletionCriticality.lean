@@ -422,6 +422,29 @@ theorem executeFocusedDeletionCriticalityCounted_checks_bounded
   rw [executeFocusedDeletionCriticalityCounted_checks]
   exact focus.selectionBudget.bounded previous
 
+/-- Predicate-form work theorem for focused deletion criticality. -/
+theorem executeFocusedDeletionCriticalityCounted_work_within
+    {Previous : Type uPrevious}
+    (focus : Core.Residual.Focus.Profile Previous)
+    {Baseline : FiniteObject.{u} → Prop}
+    {BranchState : FiniteObject.{u} → Type v}
+    {Target : FiniteObject.{u} → Prop}
+    (profile : DeletionCriticalityProfile Baseline)
+    (context : Core.Residual.Focus.ActiveQuery focus
+      (fun _previous _active =>
+        Core.MinimalCounterexampleContext
+          (problem Baseline BranchState) Target
+          (lexicographicProgress Baseline BranchState)))
+    (noProper : Core.Residual.Focus.ActiveQuery focus
+      (fun previous active =>
+        NoProperBaselineCertificate (context.read previous active)))
+    (previous : Previous) :
+    focus.selectionBudget.Within previous
+      (executeFocusedDeletionCriticalityCounted focus profile context
+        noProper previous).checks :=
+  executeFocusedDeletionCriticalityCounted_checks_bounded focus profile
+    context noProper previous
+
 /-- The active branch inherited after deletion criticality. -/
 abbrev FocusedDeletionCriticalityProfile
     {Previous : Type uPrevious}
@@ -493,6 +516,28 @@ def executeFocusedMinimumDegreeDeletionCriticalityCounted
     Core.Counted
       (FocusedMinimumDegreeDeletionCriticalityStage k focus context) :=
   executeFocusedDeletionCriticalityCounted focus
+    (minimumDegreeDeletionCriticalityProfile k) context noProper previous
+
+/-- Predicate-form work theorem for the minimum-degree criticality
+specialization. -/
+theorem executeFocusedMinimumDegreeDeletionCriticalityCounted_work_within
+    {Previous : Type uPrevious} (k : Nat)
+    (focus : Core.Residual.Focus.Profile Previous)
+    {BranchState : FiniteObject.{u} → Type v}
+    {Target : FiniteObject.{u} → Prop}
+    (context : Core.Residual.Focus.ActiveQuery focus
+      (fun _previous _active =>
+        Core.MinimalCounterexampleContext
+          (problem (MinimumDegreeAtLeast k) BranchState) Target
+          (lexicographicProgress (MinimumDegreeAtLeast k) BranchState)))
+    (noProper : Core.Residual.Focus.ActiveQuery focus
+      (fun previous active =>
+        NoProperBaselineCertificate (context.read previous active)))
+    (previous : Previous) :
+    focus.selectionBudget.Within previous
+      (executeFocusedMinimumDegreeDeletionCriticalityCounted k focus context
+        noProper previous).checks :=
+  executeFocusedDeletionCriticalityCounted_work_within focus
     (minimumDegreeDeletionCriticalityProfile k) context noProper previous
 
 /-- Public stage projection of counted minimum-degree criticality. -/
@@ -705,6 +750,30 @@ theorem executeFocusedSlackVertexIndependenceCounted_checks_bounded
   rw [executeFocusedSlackVertexIndependenceCounted_checks]
   exact focus.selectionBudget.bounded previous
 
+/-- Predicate-form work theorem for focused slack-vertex independence. -/
+theorem executeFocusedSlackVertexIndependenceCounted_work_within
+    {Previous : Type uPrevious}
+    (focus : Core.Residual.Focus.Profile Previous)
+    {Baseline : FiniteObject.{u} → Prop}
+    {BranchState : FiniteObject.{u} → Type v}
+    {Target : FiniteObject.{u} → Prop}
+    (profile : DeletionCriticalityProfile Baseline)
+    (context : Core.Residual.Focus.ActiveQuery focus
+      (fun _previous _active =>
+        Core.MinimalCounterexampleContext
+          (problem Baseline BranchState) Target
+          (lexicographicProgress Baseline BranchState)))
+    (criticality : Core.Residual.Focus.ActiveQuery focus
+      (fun previous active =>
+        DeletionCriticalityCertificate profile
+          (context.read previous active)))
+    (previous : Previous) :
+    focus.selectionBudget.Within previous
+      (executeFocusedSlackVertexIndependenceCounted focus profile context
+        criticality previous).checks :=
+  executeFocusedSlackVertexIndependenceCounted_checks_bounded focus profile
+    context criticality previous
+
 /-- Active branch inherited after registering high-degree independence. -/
 abbrev FocusedSlackVertexIndependenceProfile
     {Previous : Type uPrevious}
@@ -763,6 +832,30 @@ def executeFocusedMinimumDegreeSlackVertexIndependenceCounted
       (FocusedSlackVertexIndependenceStage focus
         (minimumDegreeDeletionCriticalityProfile k) context) :=
   executeFocusedSlackVertexIndependenceCounted focus
+    (minimumDegreeDeletionCriticalityProfile k) context criticality previous
+
+/-- Predicate-form work theorem for the minimum-degree independence
+specialization. -/
+theorem executeFocusedMinimumDegreeSlackVertexIndependenceCounted_work_within
+    {Previous : Type uPrevious} (k : Nat)
+    (focus : Core.Residual.Focus.Profile Previous)
+    {BranchState : FiniteObject.{u} → Type v}
+    {Target : FiniteObject.{u} → Prop}
+    (context : Core.Residual.Focus.ActiveQuery focus
+      (fun _previous _active =>
+        Core.MinimalCounterexampleContext
+          (problem (MinimumDegreeAtLeast k) BranchState) Target
+          (lexicographicProgress (MinimumDegreeAtLeast k) BranchState)))
+    (criticality : Core.Residual.Focus.ActiveQuery focus
+      (fun previous active =>
+        DeletionCriticalityCertificate
+          (minimumDegreeDeletionCriticalityProfile k)
+          (context.read previous active)))
+    (previous : Previous) :
+    focus.selectionBudget.Within previous
+      (executeFocusedMinimumDegreeSlackVertexIndependenceCounted k focus
+        context criticality previous).checks :=
+  executeFocusedSlackVertexIndependenceCounted_work_within focus
     (minimumDegreeDeletionCriticalityProfile k) context criticality previous
 
 /-- Public stage projection of counted minimum-degree independence. -/

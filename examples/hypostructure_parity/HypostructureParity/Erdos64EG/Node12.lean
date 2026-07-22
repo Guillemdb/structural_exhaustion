@@ -56,7 +56,7 @@ private noncomputable abbrev rootNode10Stage
 
 private noncomputable abbrev rootNode11Stage
     (root : HypostructureErdos64EG.InitialResidual.{u}) :
-    HypostructureErdos64EG.Node11Stage.{u, u} :=
+    HypostructureErdos64EG.Node11Stage.{u} :=
   HypostructureErdos64EG.node11 (rootNode10Stage root)
 
 private noncomputable abbrev rootNode12Stage
@@ -73,8 +73,8 @@ theorem selected_contextUniversal
       HypostructureErdos64EG.Node12Focus.Active
         (rootNode12Stage root))
     (atom : Graph.ProperBoundariedAtom
-      (HypostructureErdos64EG.node4ContextAtNode10Query.read
-        (rootNode10Stage root) active).G)
+      (HypostructureErdos64EG.node4ContextAtNode11Query.read
+        (rootNode11Stage root) active).G)
     (system : Graph.AtomResponse.CoordinateSystem.{u, u}
       ((HypostructureErdos64EG.node11RegistrationQuery.read
         (rootNode11Stage root) active).family atom)
@@ -94,8 +94,8 @@ theorem selected_coordinateProfileRegistered
       HypostructureErdos64EG.Node12Focus.Active
         (rootNode12Stage root))
     (atom : Graph.ProperBoundariedAtom
-      (HypostructureErdos64EG.node4ContextAtNode10Query.read
-        (rootNode10Stage root) active).G)
+      (HypostructureErdos64EG.node4ContextAtNode11Query.read
+        (rootNode11Stage root) active).G)
     (system : Graph.AtomResponse.CoordinateSystem.{u, u}
       ((HypostructureErdos64EG.node11RegistrationQuery.read
         (rootNode11Stage root) active).family atom)
@@ -110,14 +110,9 @@ theorem selected_coordinateProfileRegistered
 
 /-- Node 12 parity preserves the production proof-projection work bound. -/
 theorem node12_work_bounded
-    (previous : HypostructureErdos64EG.Node11Stage.{u, u}) :
-    (HypostructureErdos64EG.node12Counted previous).checks <=
-      (Core.Residual.ProofProjection.workBudget
-        HypostructureErdos64EG.Node11Focus.{u, u}).coefficient *
-        ((Core.Residual.ProofProjection.workBudget
-          HypostructureErdos64EG.Node11Focus.{u, u}).size previous + 1) ^
-          (Core.Residual.ProofProjection.workBudget
-            HypostructureErdos64EG.Node11Focus.{u, u}).degree :=
+    (previous : HypostructureErdos64EG.Node11Stage.{u}) :
+    HypostructureErdos64EG.node12WorkBudget.Within previous
+      (HypostructureErdos64EG.node12Counted previous).checks :=
   HypostructureErdos64EG.node12Counted_work_bounded previous
 
 /-- The legacy node-12 output states the same normalized context-universality

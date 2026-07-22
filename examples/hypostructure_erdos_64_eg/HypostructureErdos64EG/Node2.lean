@@ -1,5 +1,6 @@
 import Hypostructure.Core.Metadata
 import Hypostructure.Core.Residual.Decision
+import HypostructureErdos64EG.Contract
 import HypostructureErdos64EG.Node1
 
 /-!
@@ -22,12 +23,11 @@ def node1ResidualQuery :
 
 /-- The exact positive branch of diagram node 2. -/
 def IsCounterexample (stage : Node1Stage.{u}) : Prop :=
-  let residual := node1ResidualQuery.read stage
-  problem.Baseline residual.object ∧ Not (Target residual.object)
+  EGCounterexample (node1ResidualQuery.read stage)
 
 /-- The exact negative branch of diagram node 2. -/
 def IsNotCounterexample (stage : Node1Stage.{u}) : Prop :=
-  Target (node1ResidualQuery.read stage).object
+  EGNotCounterexample (node1ResidualQuery.read stage)
 
 /-- Core-owned exhaustive decision profile for node 2. -/
 noncomputable def node2Decision :
@@ -48,14 +48,14 @@ abbrev Node2Stage :=
   Core.Residual.Decision.Stage IsCounterexample IsNotCounterexample
 
 /-- Node 2 performs one framework-owned binary branch inspection. -/
-def node2WorkBudget :
+noncomputable abbrev node2WorkBudget :
     Core.PolynomialCheckBudget Node1Stage.{u} :=
-  Core.PolynomialCheckBudget.constant (fun _previous => 0) 1
+  node2Decision.workBudget
 
 /-- Counted execution of the exact Core decision on its node-1 predecessor. -/
 noncomputable def node2Counted (previous : Node1Stage.{u}) :
     Core.Counted Node2Stage.{u} :=
-  ⟨node2Decision.run previous, 1⟩
+  node2Decision.runCounted previous
 
 /-- Execute node 2 on its literal node-1 predecessor. -/
 noncomputable def node2 (previous : Node1Stage.{u}) : Node2Stage.{u} :=
@@ -84,12 +84,8 @@ theorem node2_no_branch_of_target (previous : Node1Stage.{u})
     ∃ proof : IsNotCounterexample previous,
       (node2 previous).added =
         Core.Residual.Decision.Binary.noBranch proof := by
-  unfold node2 node2Counted Core.Residual.Decision.Node.run
-  cases decision : node2Decision.yesDecidable previous with
-  | isTrue counterexample =>
-      exact (counterexample.2 target).elim
-  | isFalse absent =>
-      exact ⟨node2Decision.no_of_not_yes previous absent, rfl⟩
+  exact node2Decision.runCounted_added_no_of_not_yes
+    (previous := previous) fun counterexample => counterexample.2 target
 
 /-- A counterexample certificate forces the exact positive constructor. -/
 theorem node2_yes_branch_of_counterexample (previous : Node1Stage.{u})
@@ -97,12 +93,8 @@ theorem node2_yes_branch_of_counterexample (previous : Node1Stage.{u})
     ∃ proof : IsCounterexample previous,
       (node2 previous).added =
         Core.Residual.Decision.Binary.yesBranch proof := by
-  unfold node2 node2Counted Core.Residual.Decision.Node.run
-  cases decision : node2Decision.yesDecidable previous with
-  | isTrue proof =>
-      exact ⟨proof, rfl⟩
-  | isFalse absent =>
-      exact (absent counterexample).elim
+  exact node2Decision.runCounted_added_yes_of_yes
+    (previous := previous) counterexample
 
 @[simp] theorem node2Counted_checks_eq_one (previous : Node1Stage.{u}) :
     (node2Counted previous).checks = 1 :=
@@ -110,18 +102,15 @@ theorem node2_yes_branch_of_counterexample (previous : Node1Stage.{u})
 
 @[simp] theorem node2Counted_checks_eq_budget (previous : Node1Stage.{u}) :
     (node2Counted previous).checks = node2WorkBudget.checks previous :=
-  rfl
+  Core.Residual.Decision.Node.runCounted_checks node2Decision previous
 
 /-- The Core binary decision satisfies its constant one-check work budget. -/
 theorem node2_work_bounded (previous : Node1Stage.{u}) :
-    (node2Counted previous).checks <=
-      node2WorkBudget.coefficient *
-        (node2WorkBudget.size previous + 1) ^ node2WorkBudget.degree := by
-  rw [node2Counted_checks_eq_budget]
-  exact node2WorkBudget.bounded previous
+    node2WorkBudget.Within previous (node2Counted previous).checks :=
+  node2Decision.runCounted_work_within previous
 
 /-- Proof-relevant audit record for the node-2 counterexample decision. -/
-def node2Metadata :
+noncomputable def node2Metadata :
     Core.Metadata.DeclarationMetadata.{u + 1, u + 1, u + 1}
       Node1Stage.{u} Node1Stage.{u} where
   declaration :=
@@ -142,17 +131,22 @@ def node2Metadata :
     query := node1ResidualQuery
   }]
   frameworkSearch := [
-    ⟨"Hypostructure.Core.Residual.Decision", "Decision.Node.run"⟩
+    ⟨"Hypostructure.Core.Residual.Decision", "Decision.Node.runCounted"⟩
   ]
   generatedOutputs := [
     ⟨⟨"Hypostructure.Core.Residual.Decision", "Decision.Binary"⟩,
       .typedOutcome⟩,
-    ⟨⟨"Hypostructure.Core.Residual.Ledger", "Ledger.extend"⟩,
+    ⟨⟨"Hypostructure.Core.Residual.Decision", "Decision.Stage"⟩,
       .residualStage⟩
   ]
   genericTheorems := [
     ⟨"Hypostructure.Core.Residual.Decision", "Decision.Node.run_previous"⟩,
-    ⟨"Hypostructure.Core.Budget.Work", "PolynomialCheckBudget.constant"⟩
+    ⟨"Hypostructure.Core.Residual.Decision",
+      "Decision.Node.runCounted_work_within"⟩,
+    ⟨"Hypostructure.Core.Residual.Decision",
+      "Decision.Node.runCounted_added_yes_of_yes"⟩,
+    ⟨"Hypostructure.Core.Residual.Decision",
+      "Decision.Node.runCounted_added_no_of_not_yes"⟩
   ]
   workBound := node2WorkBudget
   manualObligations := []
@@ -169,11 +163,9 @@ theorem node2_metadata_has_no_manual_obligation
 
 /-- The metadata stores the same one-check budget used by the counted run. -/
 theorem node2_metadata_work_bounded (previous : Node1Stage.{u}) :
-    node2Metadata.workBound.checks previous <=
-      node2Metadata.workBound.coefficient *
-        (node2Metadata.workBound.size previous + 1) ^
-          node2Metadata.workBound.degree :=
-  node2MetadataComplete.work_bounded previous
+    node2Metadata.workBound.Within previous
+      (node2Metadata.workBound.checks previous) :=
+  node2MetadataComplete.work_within previous
 
 #print axioms node2
 #print axioms node2_exhaustive

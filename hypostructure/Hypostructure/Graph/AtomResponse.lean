@@ -141,6 +141,78 @@ theorem contextUniversal_of_identified
 
 end TargetCompleteQuotient
 
+/-- A pair of coordinates is target-completely identified when some certified
+target-complete quotient identifies it. -/
+def TargetCompleteIdentification
+    {object : FiniteObject.{u}}
+    {atom : ProperBoundariedAtom object}
+    {certificate : BoundariedAtomProfileCertificate atom}
+    {Target : FiniteObject.{u} -> Prop}
+    (system : CoordinateSystem.{u, v} certificate Target)
+    (left right : system.Coordinate) : Prop :=
+  Exists fun quotient : TargetCompleteQuotient system =>
+    quotient.Identified left right
+
+/-- A target-defective coordinate pair has one literal outside context whose
+target response distinguishes the two coordinates. -/
+def TargetDefect
+    {object : FiniteObject.{u}}
+    {atom : ProperBoundariedAtom object}
+    {certificate : BoundariedAtomProfileCertificate atom}
+    {Target : FiniteObject.{u} -> Prop}
+    (system : CoordinateSystem.{u, v} certificate Target)
+    (left right : system.Coordinate) : Prop :=
+  exists outside : OutsideContext atom.decomposition.interface,
+    Not (system.targetResponse left outside <->
+      system.targetResponse right outside)
+
+/-- Failure of all-context equivalence forbids every target-complete quotient
+from identifying the two coordinates. -/
+theorem not_targetCompleteIdentification_of_not_contextEquivalent
+    {object : FiniteObject.{u}}
+    {atom : ProperBoundariedAtom object}
+    {certificate : BoundariedAtomProfileCertificate atom}
+    {Target : FiniteObject.{u} -> Prop}
+    {system : CoordinateSystem.{u, v} certificate Target}
+    {left right : system.Coordinate}
+    (failure : Not (system.ContextEquivalent left right)) :
+    Not (TargetCompleteIdentification system left right) := by
+  intro identified
+  obtain ⟨quotient, quotientIdentifies⟩ := identified
+  exact failure
+    (quotient.contextUniversal_of_identified quotientIdentifies)
+
+/-- Failure of all-context equivalence produces the distinguished outside
+context promised by the target-defect alternative. -/
+theorem targetDefect_of_not_contextEquivalent
+    {object : FiniteObject.{u}}
+    {atom : ProperBoundariedAtom object}
+    {certificate : BoundariedAtomProfileCertificate atom}
+    {Target : FiniteObject.{u} -> Prop}
+    {system : CoordinateSystem.{u, v} certificate Target}
+    {left right : system.Coordinate}
+    (failure : Not (system.ContextEquivalent left right)) :
+    TargetDefect system left right := by
+  simp only [CoordinateSystem.ContextEquivalent, not_forall] at failure
+  obtain ⟨outside, distinguishes⟩ := failure
+  exact ⟨outside, distinguishes⟩
+
+/-- The graph-local defective-identification corollary: a coordinate pair
+that is not context-universal is both unavailable to target-complete
+quotients and visibly target-defective. -/
+theorem defectiveIdentification_of_not_contextEquivalent
+    {object : FiniteObject.{u}}
+    {atom : ProperBoundariedAtom object}
+    {certificate : BoundariedAtomProfileCertificate atom}
+    {Target : FiniteObject.{u} -> Prop}
+    {system : CoordinateSystem.{u, v} certificate Target}
+    {left right : system.Coordinate}
+    (failure : Not (system.ContextEquivalent left right)) :
+    Not (TargetCompleteIdentification system left right) ∧
+      TargetDefect system left right :=
+  ⟨not_targetCompleteIdentification_of_not_contextEquivalent failure,
+    targetDefect_of_not_contextEquivalent failure⟩
+
 namespace CoordinateSystem
 
 variable {object : FiniteObject.{u}}

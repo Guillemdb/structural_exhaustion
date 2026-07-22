@@ -5,10 +5,11 @@ import HypostructureErdos64EG.Node12
 /-!
 # Diagram node 13: replacement lemma
 
-Graph owns the replacement contradiction.  Under unrestricted boundary
-gluing, the current checked framework requires the boundary-overlap count
-against the literal outside context in addition to the paper's
-boundary-degree equality.
+Graph owns the normalized replacement contradiction.  The EG instantiation
+uses the paper convention that boundary--boundary edges of an atom
+decomposition are assigned to the atom side, so the node exposes the same
+replacement certificate shape as the legacy implementation without an
+application-owned overlap residual.
 -/
 
 namespace HypostructureErdos64EG
@@ -26,13 +27,14 @@ def node4ContextAtNode12Query :
 
 /-- Exact accumulated stage emitted by Graph's replacement executor. -/
 abbrev Node13Stage :=
-  Graph.FocusedAtomReplacementStage Node12Focus.{u, v}
-    node4ContextAtNode12Query
+  Graph.FocusedNormalizedAtomReplacementStage Node12Focus.{u, v}
+    node4ContextAtNode12Query egNormalizedAtomReplacementProfile
 
 /-- Counted node-13 execution, including inactive sibling outcomes. -/
 noncomputable def node13Counted (previous : Node12Stage.{u, v}) :=
-  Graph.executeFocusedAtomReplacementCounted Node12Focus.{u, v}
-    node4ContextAtNode12Query targetIsomorphismInvariant previous
+  Graph.executeFocusedNormalizedAtomReplacementCounted Node12Focus.{u, v}
+    node4ContextAtNode12Query egNormalizedAtomReplacementProfile
+    baselineIsomorphismInvariant targetIsomorphismInvariant previous
 
 /-- Execute the replacement contradiction from the literal node-12 stage. -/
 noncomputable def node13 (previous : Node12Stage.{u, v}) :
@@ -42,32 +44,37 @@ noncomputable def node13 (previous : Node12Stage.{u, v}) :
 /-- Focus inherited by the uncompressibility node. -/
 abbrev Node13Focus :=
   Core.Residual.ProofProjection.Profile Node12Focus.{u, v}
-    (Graph.FocusedAtomReplacementClaim Node12Focus.{u, v}
-      node4ContextAtNode12Query)
+    (Graph.FocusedNormalizedAtomReplacementClaim Node12Focus.{u, v}
+      node4ContextAtNode12Query egNormalizedAtomReplacementProfile)
 
 /-- Query Graph's replacement contradiction from the newest ledger entry. -/
 def node13ReplacementQuery :=
-  Graph.focusedAtomReplacementQuery Node12Focus.{u, v}
-    node4ContextAtNode12Query
+  Graph.focusedNormalizedAtomReplacementQuery Node12Focus.{u, v}
+    node4ContextAtNode12Query egNormalizedAtomReplacementProfile
 
 /-- Query the private Core proof-projection certificate introduced by node 13. -/
 def node13CertificateQuery :=
   Core.Residual.ProofProjection.latest Node12Focus.{u, v}
-    (Graph.FocusedAtomReplacementClaim Node12Focus.{u, v}
-      node4ContextAtNode12Query)
+    (Graph.FocusedNormalizedAtomReplacementClaim Node12Focus.{u, v}
+      node4ContextAtNode12Query egNormalizedAtomReplacementProfile)
+
+/-- Canonical work budget for the node-13 proof projection. -/
+abbrev node13WorkBudget :=
+  Core.Residual.ProofProjection.workBudget Node12Focus.{u, v}
 
 @[simp] theorem node13_previous (previous : Node12Stage.{u, v}) :
     (node13 previous).previous = previous :=
   rfl
 
-/-- Any same-interface replacement certificate satisfying Graph's complete
-overlap-aware hypotheses contradicts minimality. -/
+/-- Any same-interface replacement certificate satisfying Graph's normalized
+hypotheses contradicts minimality. -/
 theorem node13_replacement (stage : Node13Stage.{u, v})
     (active : Node13Focus.Active stage) :
     let ctx := node4ContextAtNode12Query.read stage.previous active
-    forall (atom : Graph.ProperBoundariedAtom ctx.G)
-      (replacement : Graph.BoundaryPiece atom.decomposition.interface),
-        Graph.AtomReplacementCertificate ctx atom replacement -> False :=
+    forall (atom : Graph.NormalizedProperBoundariedAtom ctx.G)
+      (replacement : Graph.BoundaryPiece atom.toAtom.decomposition.interface),
+        Graph.NormalizedAtomReplacementCertificate
+          egNormalizedAtomReplacementProfile ctx atom replacement -> False :=
   node13ReplacementQuery.read stage active
 
 /-- Exact total work for both active and inactive outcomes. -/
@@ -75,20 +82,18 @@ theorem node13_replacement (stage : Node13Stage.{u, v})
     (previous : Node12Stage.{u, v}) :
     (node13Counted previous).checks = 1 := by
   change
-    (Graph.executeFocusedAtomReplacementCounted Node12Focus.{u, v}
-      node4ContextAtNode12Query targetIsomorphismInvariant previous).checks = 1
-  rw [Graph.executeFocusedAtomReplacementCounted_checks]
+    (Graph.executeFocusedNormalizedAtomReplacementCounted Node12Focus.{u, v}
+      node4ContextAtNode12Query egNormalizedAtomReplacementProfile
+      baselineIsomorphismInvariant targetIsomorphismInvariant previous).checks = 1
+  rw [Graph.executeFocusedNormalizedAtomReplacementCounted_checks]
   rfl
 
 theorem node13Counted_work_bounded (previous : Node12Stage.{u, v}) :
-    (node13Counted previous).checks <=
-      (Core.Residual.ProofProjection.workBudget Node12Focus.{u, v}).coefficient *
-        ((Core.Residual.ProofProjection.workBudget Node12Focus.{u, v}).size
-          previous + 1) ^
-            (Core.Residual.ProofProjection.workBudget
-              Node12Focus.{u, v}).degree :=
-  Graph.executeFocusedAtomReplacementCounted_checks_bounded Node12Focus.{u, v}
-    node4ContextAtNode12Query targetIsomorphismInvariant previous
+    node13WorkBudget.Within previous (node13Counted previous).checks :=
+  Graph.executeFocusedNormalizedAtomReplacementCounted_work_within
+    Node12Focus.{u, v} node4ContextAtNode12Query
+    egNormalizedAtomReplacementProfile baselineIsomorphismInvariant
+    targetIsomorphismInvariant previous
 
 @[simp] theorem node13_checks_eq_one (stage : Node13Stage.{u, v})
     (active : Node13Focus.Active stage) :
@@ -99,25 +104,13 @@ theorem node13Counted_work_bounded (previous : Node12Stage.{u, v}) :
 envelope. -/
 theorem node13_work_bounded (stage : Node13Stage.{u, v})
     (active : Node13Focus.Active stage) :
-    (node13CertificateQuery.read stage active).checks <=
-      (Core.Residual.ProofProjection.workBudget Node12Focus.{u, v}).coefficient *
-        ((Core.Residual.ProofProjection.workBudget Node12Focus.{u, v}).size
-          stage.previous + 1) ^
-            (Core.Residual.ProofProjection.workBudget
-              Node12Focus.{u, v}).degree :=
-  (node13CertificateQuery.read stage active).work_bounded
-
-/-- Metadata marker for the currently open boundary-overlap repair required
-to recover the literal paper statement under unrestricted gluing. -/
-def node13BoundaryOverlapObligation : Core.Metadata.ManualObligation where
-  source :=
-    ⟨"original_erdos_64_proof.tex", "lem:replacement"⟩
-  Claim := True
+    node13WorkBudget.Within stage.previous
+      (node13CertificateQuery.read stage active).checks :=
+  (node13CertificateQuery.read stage active).work_within
 
 /-- Proof-relevant audit record for node-13 replacement projection. -/
 noncomputable def node13Metadata :
-    Core.Metadata.DeclarationMetadata.{
-      max (u + 1) (v + 1), 0, max (u + 1) (v + 1)}
+    Core.Metadata.DeclarationMetadata.{u + 1, 0, u + 1}
       Node12Stage.{u, v} Node12Stage.{u, v} where
   declaration :=
     ⟨"HypostructureErdos64EG.Node13", "node13Counted"⟩
@@ -133,9 +126,9 @@ noncomputable def node13Metadata :
   focusedLedgerQueries := []
   frameworkSearch := [
     ⟨"Hypostructure.Graph.Replacement",
-      "executeFocusedAtomReplacementCounted"⟩,
+      "executeFocusedNormalizedAtomReplacementCounted"⟩,
     ⟨"Hypostructure.Graph.Replacement",
-      "AtomReplacementCertificate.impossible"⟩
+      "NormalizedAtomReplacementCertificate.impossible"⟩
   ]
   generatedOutputs := [
     ⟨⟨"Hypostructure.Core.Residual.ProofProjection",
@@ -145,26 +138,36 @@ noncomputable def node13Metadata :
   ]
   genericTheorems := [
     ⟨"Hypostructure.Graph.Replacement",
-      "AtomReplacementCertificate.gluedReplacement_smaller"⟩,
+      "NormalizedAtomReplacementCertificate.toAtomReplacementCertificate"⟩,
     ⟨"Hypostructure.Graph.BoundaryOverlap",
-      "glue_lexicographicallySmaller_of_local_of_overlapCount_eq"⟩,
+      "glue_lexicographicallySmaller_of_local_of_context_noBoundaryEdges"⟩,
+    ⟨"Hypostructure.Graph.BoundaryOverlap",
+      "glue_minDegree_ge_of_local_boundary_eq_of_context_noBoundaryEdges"⟩,
     ⟨"Hypostructure.Core.Residual.ProofProjection",
-      "executeCounted_checks_bounded"⟩
+      "executeCounted_work_within"⟩
   ]
   closureMechanisms := [
     .strictProgress
   ]
-  workBound := Core.Residual.ProofProjection.workBudget Node12Focus.{u, v}
-  manualObligations := [
-    node13BoundaryOverlapObligation
-  ]
+  workBound := node13WorkBudget
+  manualObligations := []
 
-/-- The current checked node deliberately records the paper/framework
-boundary-overlap residual instead of representing it as solved. -/
-theorem node13_metadata_has_boundary_overlap_obligation :
-    node13Metadata.manualObligations =
-      [node13BoundaryOverlapObligation] :=
-  rfl
+/-- Node 13 has no unrecorded mathematical or routing obligation. -/
+def node13MetadataComplete :
+    Core.Metadata.Complete node13Metadata :=
+  ⟨rfl⟩
+
+theorem node13_metadata_has_no_manual_obligation
+    (obligation : Core.Metadata.ManualObligation) :
+    Not (obligation ∈ node13Metadata.manualObligations) :=
+  node13MetadataComplete.no_manual_obligation obligation
+
+/-- The metadata stores the same focused proof-projection work bound used by
+the executor. -/
+theorem node13_metadata_work_bounded (previous : Node12Stage.{u, v}) :
+    node13Metadata.workBound.Within previous
+      (node13Metadata.workBound.checks previous) :=
+  node13MetadataComplete.work_within previous
 
 #print axioms node13
 #print axioms node13_replacement
@@ -172,6 +175,7 @@ theorem node13_metadata_has_boundary_overlap_obligation :
 #print axioms node13Counted_work_bounded
 #print axioms node13_checks_eq_one
 #print axioms node13_work_bounded
-#print axioms node13_metadata_has_boundary_overlap_obligation
+#print axioms node13_metadata_has_no_manual_obligation
+#print axioms node13_metadata_work_bounded
 
 end HypostructureErdos64EG

@@ -49,6 +49,14 @@ theorem workBudget_bounded {Previous : Type uPrevious}
           (workBudget focus).degree :=
   (workBudget focus).bounded previous
 
+/-- Canonical predicate form of the registered proof-projection work
+envelope. -/
+theorem workBudget_within {Previous : Type uPrevious}
+    (focus : Focus.Profile Previous) (previous : Previous) :
+    (workBudget focus).Within previous
+      ((workBudget focus).checks previous) :=
+  (workBudget focus).checks_within previous
+
 namespace Certificate
 
 /-- Every generated certificate satisfies Core's proof-projection work
@@ -64,6 +72,16 @@ theorem work_bounded {Previous : Type uPrevious}
           (workBudget focus).degree := by
   rw [certificate.checks_eq_budget]
   exact (workBudget focus).bounded previous
+
+/-- Canonical predicate form of `work_bounded`, avoiding expansion of the
+polynomial envelope at application sites. -/
+theorem work_within {Previous : Type uPrevious}
+    {focus : Focus.Profile Previous}
+    {Claim : (previous : Previous) -> focus.Active previous -> Prop}
+    {previous : Previous} {active : focus.Active previous}
+    (certificate : Certificate focus Claim previous active) :
+    (workBudget focus).Within previous certificate.checks :=
+  certificate.work_bounded
 
 end Certificate
 
@@ -123,6 +141,17 @@ theorem executeCounted_checks_bounded {Previous : Type uPrevious}
           (workBudget focus).degree := by
   rw [executeCounted_checks]
   exact (workBudget focus).bounded previous
+
+/-- Predicate-form work theorem for counted proof projections. -/
+theorem executeCounted_work_within {Previous : Type uPrevious}
+    (focus : Focus.Profile Previous)
+    (Claim : (previous : Previous) -> focus.Active previous -> Prop)
+    (projection : Focus.ActiveQuery focus Claim)
+    (previous : Previous) :
+    (workBudget focus).Within previous
+      (executeCounted focus Claim projection previous).checks := by
+  rw [executeCounted_checks]
+  exact workBudget_within focus previous
 
 /-- Read the exact certificate introduced by the latest focused extension. -/
 def latest {Previous : Type uPrevious}

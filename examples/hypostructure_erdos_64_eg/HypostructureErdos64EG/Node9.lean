@@ -68,14 +68,11 @@ theorem node9_edge_touches_degree_three (stage : Node9Stage.{u})
       (node9CertificateQuery.read stage active).tightEndpoint dart
 
 theorem node9Counted_work_bounded (previous : Node8Stage.{u}) :
-    (node9Counted previous).checks <=
-      Node8Focus.selectionBudget.coefficient *
-        (Node8Focus.selectionBudget.size previous + 1) ^
-          Node8Focus.selectionBudget.degree := by
-  rw [node9Counted,
-    Graph.executeFocusedMinimumDegreeDeletionCriticalityCounted,
-    Graph.executeFocusedDeletionCriticalityCounted_checks]
-  exact Node8Focus.selectionBudget.bounded previous
+    Node8Focus.selectionBudget.Within previous
+      (node9Counted previous).checks :=
+  Graph.executeFocusedMinimumDegreeDeletionCriticalityCounted_work_within
+    node9MinimumDegreeThreshold Node8Focus node4ContextAtNode8Query
+    node8CertificateQuery previous
 
 /-- Proof-relevant audit record for node-9 deletion criticality. -/
 noncomputable def node9Metadata :
@@ -121,7 +118,7 @@ noncomputable def node9Metadata :
     ⟨"Hypostructure.Graph.DeletionCriticality",
       "DeletionCriticalityCertificate.tightEndpoint"⟩,
     ⟨"Hypostructure.Graph.DeletionCriticality",
-      "executeFocusedDeletionCriticalityCounted_checks"⟩
+      "executeFocusedMinimumDegreeDeletionCriticalityCounted_work_within"⟩
   ]
   closureMechanisms := [Core.Closure.Mechanism.strictProgress]
   workBound := Node8Focus.selectionBudget
@@ -140,11 +137,9 @@ theorem node9_metadata_has_no_manual_obligation
 /-- The metadata stores the same focused-selection work bound used by the
 executor. -/
 theorem node9_metadata_work_bounded (previous : Node8Stage.{u}) :
-    node9Metadata.workBound.checks previous <=
-      node9Metadata.workBound.coefficient *
-        (node9Metadata.workBound.size previous + 1) ^
-          node9Metadata.workBound.degree :=
-  node9MetadataComplete.work_bounded previous
+    node9Metadata.workBound.Within previous
+      (node9Metadata.workBound.checks previous) :=
+  node9MetadataComplete.work_within previous
 
 #print axioms node9
 #print axioms node9Counted_work_bounded

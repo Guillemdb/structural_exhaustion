@@ -690,14 +690,10 @@ def test_eg_node_matrix_covers_exact_original_authority_topology() -> None:
     assert by_id[12]["status"] == "typechecked"
     assert by_id[12]["blocker"] == "semantic parity baseline not frozen"
 
-    assert by_id[13]["math_status"] == "open"
+    assert by_id[13]["math_status"] == "closed"
     assert by_id[13]["web_evidence"] == "generated/hypostructure/web/snapshot.json"
-    assert by_id[13]["status"] == "migrated_open"
-    assert by_id[13]["blocker"] == (
-        "original Node 13 boundary-overlap implication is false under "
-        "stated union gluing; overlap-count preservation remains a "
-        "recorded residual"
-    )
+    assert by_id[13]["status"] == "migrated_closed"
+    assert by_id[13]["blocker"] == ""
 
 
 def test_supplemental_legacy_inventory_is_not_a_paper_status_ledger() -> None:

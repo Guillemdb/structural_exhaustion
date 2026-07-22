@@ -161,6 +161,30 @@ theorem runCountedPayload_checks_of_inactive {Previous : Sort uPrevious}
       simp only [runCountedPayload, selected]
       exact profile.select_checks previous
 
+/-- On an inactive predecessor, the appended focused outcome is exactly the
+inactive marker and no active payload is installed. -/
+theorem runCountedPayload_added_of_inactive {Previous : Sort uPrevious}
+    (profile : Profile Previous)
+    (payloadBudget : PolynomialCheckBudget Previous)
+    {Output : (previous : Previous) -> profile.Active previous -> Sort uOutput}
+    (previous : Previous)
+    (onActive : (proof : profile.Active previous) ->
+      (selectionChecks : Nat) ->
+      selectionChecks = profile.selectionBudget.checks previous ->
+        Counted (Output previous proof))
+    (onActive_checks : forall proof selectionChecks exact,
+      (onActive proof selectionChecks exact).checks =
+        payloadBudget.checks previous)
+    (inactive : Not (profile.Active previous)) :
+    Exists fun absent =>
+      (runCountedPayload profile payloadBudget previous onActive
+        onActive_checks).value.added = Outcome.inactive absent := by
+  cases selected : (profile.select previous).value with
+  | isTrue proof => exact (inactive proof).elim
+  | isFalse absent =>
+      refine ⟨absent, ?_⟩
+      simp [runCountedPayload, selected]
+
 /-- Every outcome is bounded by the composed selector-plus-payload polynomial
 envelope. The inactive branch pays less because it skips the payload. -/
 theorem runCountedPayload_checks_bounded {Previous : Sort uPrevious}
@@ -254,6 +278,19 @@ theorem runCounted_checks_bounded {Previous : Sort uPrevious}
   rw [runCounted_checks]
   exact profile.selectionBudget.bounded previous
 
+/-- Predicate-form work theorem for a zero-local-work focused extension. -/
+theorem runCounted_work_within {Previous : Sort uPrevious}
+    (profile : Profile Previous)
+    {Output : (previous : Previous) -> profile.Active previous -> Sort uOutput}
+    (previous : Previous)
+    (onActive : (proof : profile.Active previous) ->
+      (checks : Nat) -> checks = profile.selectionBudget.checks previous ->
+        Output previous proof) :
+    profile.selectionBudget.Within previous
+      (runCounted profile previous onActive).checks := by
+  rw [runCounted_checks]
+  exact profile.selectionBudget.checks_within previous
+
 /-- The same branch remains focused after a node extends the ledger. -/
 def successor {Previous : Sort uPrevious} (profile : Profile Previous)
     (Output : (previous : Previous) -> profile.Active previous -> Sort uOutput) :
@@ -289,6 +326,25 @@ structure Refinement {Previous : Sort uPrevious}
 
 namespace ActiveQuery
 
+/-- Build an active query from a predecessor-owned read function.  This is the
+public constructor for domain adapters that expose data already owned by the
+literal residual; it does not allocate a new stage or copy payload. -/
+def ofFunction {Previous : Sort uPrevious} {profile : Profile Previous}
+    {Result : (previous : Previous) -> profile.Active previous -> Sort uResult}
+    (read : (previous : Previous) -> (proof : profile.Active previous) ->
+      Result previous proof) :
+    ActiveQuery profile Result :=
+  .mk read
+
+@[simp] theorem read_ofFunction {Previous : Sort uPrevious}
+    {profile : Profile Previous}
+    {Result : (previous : Previous) -> profile.Active previous -> Sort uResult}
+    (read : (previous : Previous) -> (proof : profile.Active previous) ->
+      Result previous proof)
+    (previous : Previous) (proof : profile.Active previous) :
+    (ofFunction read).read previous proof = read previous proof :=
+  rfl
+
 /-- Refine a focus by comparing a finite tag projected from one inherited
 query with a fixed expected tag. Core owns the equality decision and charges
 exactly one inspection. Callers cannot install an opaque child selector or
@@ -315,6 +371,27 @@ def equalTo {Previous : Sort uPrevious} {profile : Profile Previous}
   query.tagEqualTo (fun _previous _active value => value) expected
 
 end ActiveQuery
+
+namespace Refinement
+
+/-- Build a counted child predicate from a predecessor-owned active decision.
+The decision and exact check budget stay in Core's focus machinery; callers
+provide no successor stage, route, or terminal equality. -/
+def ofDecision {Previous : Sort uPrevious}
+    {profile : Profile Previous}
+    (Predicate : (previous : Previous) -> profile.Active previous -> Prop)
+    (decide : (previous : Previous) -> (active : profile.Active previous) ->
+      Counted (Decidable (Predicate previous active)))
+    (decisionBudget : PolynomialCheckBudget Previous)
+    (decide_checks : forall previous active,
+      (decide previous active).checks = decisionBudget.checks previous) :
+    Refinement profile where
+  Predicate := Predicate
+  decide := decide
+  decisionBudget := decisionBudget
+  decide_checks := decide_checks
+
+end Refinement
 
 /-- Evidence that both the parent focus and its counted child predicate select
 the same literal predecessor. -/
@@ -491,6 +568,20 @@ def map {Previous : Sort uPrevious} {profile : Profile Previous}
     ActiveQuery profile Output :=
   .mk fun previous proof => transform previous proof (query.read previous proof)
 
+/-- Transform one active query into a result whose type depends on the exact
+queried value. -/
+def dependentMap {Previous : Sort uPrevious} {profile : Profile Previous}
+    {Input : (previous : Previous) -> profile.Active previous -> Sort uResult}
+    (query : ActiveQuery profile Input)
+    {Output : (previous : Previous) -> (proof : profile.Active previous) ->
+      Input previous proof -> Sort uOutput}
+    (transform : (previous : Previous) -> (proof : profile.Active previous) ->
+      (input : Input previous proof) -> Output previous proof input) :
+    ActiveQuery profile
+      (fun previous proof => Output previous proof (query.read previous proof)) :=
+  .mk fun previous proof =>
+    transform previous proof (query.read previous proof)
+
 @[simp] theorem read_map {Previous : Sort uPrevious}
     {profile : Profile Previous}
     {Input : (previous : Previous) -> profile.Active previous -> Sort uResult}
@@ -500,6 +591,19 @@ def map {Previous : Sort uPrevious} {profile : Profile Previous}
       Input previous proof -> Output previous proof)
     (previous : Previous) (proof : profile.Active previous) :
     (query.map transform).read previous proof =
+      transform previous proof (query.read previous proof) :=
+  rfl
+
+@[simp] theorem read_dependentMap {Previous : Sort uPrevious}
+    {profile : Profile Previous}
+    {Input : (previous : Previous) -> profile.Active previous -> Sort uResult}
+    (query : ActiveQuery profile Input)
+    {Output : (previous : Previous) -> (proof : profile.Active previous) ->
+      Input previous proof -> Sort uOutput}
+    (transform : (previous : Previous) -> (proof : profile.Active previous) ->
+      (input : Input previous proof) -> Output previous proof input)
+    (previous : Previous) (proof : profile.Active previous) :
+    (query.dependentMap transform).read previous proof =
       transform previous proof (query.read previous proof) :=
   rfl
 
@@ -630,6 +734,17 @@ def yes {Previous : Sort uPrevious} {Yes No : Previous -> Prop} :
   selectionBudget := PolynomialCheckBudget.constant (fun _stage => 0) 1
   select_checks := fun _stage => rfl
 
+/-- Build yes-focus activity for a complementary decision from a proof of
+the yes predicate. Core owns the inspection of the decision constructor. -/
+def yesActiveOfComplement {Previous : Sort uPrevious} {Yes : Previous -> Prop}
+    (stage : Decision.Stage Yes (fun previous => Not (Yes previous)))
+    (proof : Yes stage.previous) :
+    (yes (Yes := Yes) (No := fun previous => Not (Yes previous))).Active
+      stage := by
+  cases selected : stage.added with
+  | yesBranch selectedProof => exact ⟨selectedProof, selected⟩
+  | noBranch absent => exact (absent proof).elim
+
 /-- Retrieve the yes proof selected by the focused decision constructor. -/
 def yesProof {Previous : Sort uPrevious} {Yes No : Previous -> Prop} :
     ActiveQuery (yes (Yes := Yes) (No := No)) fun stage _active =>
@@ -657,6 +772,17 @@ def no {Previous : Sort uPrevious} {Yes No : Previous -> Prop} :
       checks := 1 }
   selectionBudget := PolynomialCheckBudget.constant (fun _stage => 0) 1
   select_checks := fun _stage => rfl
+
+/-- Build no-focus activity for a complementary decision from a proof of
+the no predicate. Core owns the inspection of the decision constructor. -/
+def noActiveOfComplement {Previous : Sort uPrevious} {Yes : Previous -> Prop}
+    (stage : Decision.Stage Yes (fun previous => Not (Yes previous)))
+    (proof : Not (Yes stage.previous)) :
+    (no (Yes := Yes) (No := fun previous => Not (Yes previous))).Active
+      stage := by
+  cases selected : stage.added with
+  | yesBranch selectedProof => exact (proof selectedProof).elim
+  | noBranch selectedProof => exact ⟨selectedProof, selected⟩
 
 /-- Retrieve the no proof selected by the focused decision constructor. -/
 def noProof {Previous : Sort uPrevious} {Yes No : Previous -> Prop} :

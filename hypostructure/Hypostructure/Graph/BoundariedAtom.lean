@@ -425,6 +425,24 @@ theorem work_bounded
   rw [certificate.checks_eq_budget]
   exact focus.selectionBudget.bounded previous
 
+/-- Predicate-form work theorem for an active boundaried-atom certificate. -/
+theorem work_within
+    {Previous : Type uPrevious}
+    {focus : Core.Residual.Focus.Profile Previous}
+    {Baseline : FiniteObject.{u} → Prop}
+    {BranchState : FiniteObject.{u} → Type v}
+    {Target : FiniteObject.{u} → Prop}
+    {context : Core.Residual.Focus.ActiveQuery focus
+      (fun _previous _active =>
+        Core.MinimalCounterexampleContext
+          (problem Baseline BranchState) Target
+          (lexicographicProgress Baseline BranchState))}
+    {previous : Previous} {active : focus.Active previous}
+    (certificate : FocusedBoundariedAtomCertificate
+      focus context previous active) :
+    focus.selectionBudget.Within previous certificate.checks :=
+  certificate.work_bounded
+
 end FocusedBoundariedAtomCertificate
 
 /-- Complete Graph-owned certificate generated on one active
@@ -533,6 +551,25 @@ theorem executeFocusedBoundariedAtomRegistrationCounted_checks_bounded
             focus.selectionBudget.degree := by
   rw [executeFocusedBoundariedAtomRegistrationCounted_checks]
   exact focus.selectionBudget.bounded previous
+
+/-- Predicate-form work theorem for focused boundaried-atom registration. -/
+theorem executeFocusedBoundariedAtomRegistrationCounted_work_within
+    {Previous : Type uPrevious}
+    (focus : Core.Residual.Focus.Profile Previous)
+    {Baseline : FiniteObject.{u} → Prop}
+    {BranchState : FiniteObject.{u} → Type v}
+    {Target : FiniteObject.{u} → Prop}
+    (context : Core.Residual.Focus.ActiveQuery focus
+      (fun _previous _active =>
+        Core.MinimalCounterexampleContext
+          (problem Baseline BranchState) Target
+          (lexicographicProgress Baseline BranchState)))
+    (previous : Previous) :
+    focus.selectionBudget.Within previous
+      (executeFocusedBoundariedAtomRegistrationCounted focus context
+        previous).checks :=
+  executeFocusedBoundariedAtomRegistrationCounted_checks_bounded focus context
+    previous
 
 /-- Active branch inherited after the atom-family registration. -/
 abbrev FocusedBoundariedAtomProfile

@@ -1,4 +1,5 @@
 import Hypostructure.Graph.CT3
+import Hypostructure.PDE.CT3
 import Hypostructure.Fixtures.GraphResponse
 
 /-!
@@ -274,6 +275,47 @@ theorem novelRow_work :
       (capability.inputSize novelRowPrevious + 1) ^ capability.workDegree :=
   novelRowResult.checks_le_polynomial
 
+abbrev scheduledFocus : Core.Residual.Focus.Profile Unit :=
+  Core.Residual.Focus.always Unit
+
+def scheduledItems :
+    Core.Residual.Focus.ActiveQuery scheduledFocus
+      fun _previous _active => Core.Finite.Enumeration Bool :=
+  Core.Residual.Focus.ActiveQuery.ofFunction fun _previous _active =>
+    boolCoordinates
+
+def scheduledInput :
+    Core.Residual.Focus.ActiveQuery scheduledFocus
+      fun _previous _active => Bool -> Previous :=
+  Core.Residual.Focus.ActiveQuery.ofFunction fun _previous _active item =>
+    if item then knownRowPrevious else compressionPrevious
+
+noncomputable def scheduledContract :
+    _root_.Hypostructure.CT3.Schedule.FocusedContract scheduledFocus :=
+  _root_.Hypostructure.CT3.RunSchedule.focused spec capability Bool
+    scheduledItems scheduledInput
+
+noncomputable def scheduledStage : scheduledContract.Stage :=
+  _root_.Hypostructure.CT3.RunSchedule.runClassified spec capability Bool
+    scheduledItems scheduledInput ()
+
+theorem scheduled_stage_previous :
+    scheduledStage.previous = () :=
+  _root_.Hypostructure.CT3.RunSchedule.runClassified_previous spec capability
+    Bool scheduledItems scheduledInput ()
+
+theorem scheduled_false_terminal :
+    scheduledContract.terminal () trivial false = .compression := by
+  change ((_root_.Hypostructure.CT3.RunSchedule.resultAt spec capability Bool
+      scheduledInput).read () trivial false).terminal = .compression
+  exact compression_terminal
+
+theorem scheduled_true_terminal :
+    scheduledContract.terminal () trivial true = .knownRow := by
+  change ((_root_.Hypostructure.CT3.RunSchedule.resultAt spec capability Bool
+      scheduledInput).read () trivial true).terminal = .knownRow
+  exact knownRow_terminal
+
 end Neutral
 
 namespace Graph
@@ -453,7 +495,185 @@ theorem result_work :
       (capability.inputSize previous + 1) ^ capability.workDegree :=
   result.checks_le_polynomial
 
+abbrev scheduledFocus : Core.Residual.Focus.Profile Unit :=
+  Core.Residual.Focus.always Unit
+
+def scheduledItems :
+    Core.Residual.Focus.ActiveQuery scheduledFocus
+      fun _previous _active => Core.Finite.Enumeration Unit :=
+  Core.Residual.Focus.ActiveQuery.ofFunction fun _previous _active =>
+    Core.Finite.Enumeration.singleton ()
+
+noncomputable def scheduledInput :
+    Core.Residual.Focus.ActiveQuery scheduledFocus
+      fun _previous _active => Unit -> Previous :=
+  Core.Residual.Focus.ActiveQuery.ofFunction fun _previous _active _item =>
+    previous
+
+noncomputable def scheduledContract :
+    _root_.Hypostructure.CT3.Schedule.FocusedContract scheduledFocus :=
+  _root_.Hypostructure.Graph.CT3.focusedRunSchedule spec capability Unit
+    scheduledItems scheduledInput
+
+noncomputable def scheduledStage : scheduledContract.Stage :=
+  _root_.Hypostructure.Graph.CT3.runFocusedClassified spec capability Unit
+    scheduledItems scheduledInput ()
+
+theorem graph_scheduled_stage_previous :
+    scheduledStage.previous = () :=
+  _root_.Hypostructure.Graph.CT3.runFocusedClassified_previous spec capability
+    Unit scheduledItems scheduledInput ()
+
+theorem graph_scheduled_terminal :
+    scheduledContract.terminal () trivial () = .compression :=
+  result_terminal
+
+def scheduledEvidence (previous : Unit) (active : scheduledFocus.Active previous) :
+    _root_.Hypostructure.CT3.ScheduleWitness.EvidenceContract
+      (scheduledContract.scheduleAt previous active) where
+  GoodWitness := fun _item => Unit
+  ResidualWitness := fun _item => Unit
+  good_of_compression := fun _item _terminal => ()
+  good_of_knownRow := fun _item _terminal => ()
+  residual_of_distinguishing := fun _item _terminal => ()
+  residual_of_novelRow := fun _item _terminal => ()
+
+def scheduledPackageContract :
+    _root_.Hypostructure.CT3.SameInterface.PackageContract
+      scheduledContract where
+  evidence := scheduledEvidence
+  packageOfGood := fun _previous _active _item _good _witness =>
+    { Source := Unit
+      Replacement := Unit
+      Interface := Unit
+      Table := Unit
+      source := ()
+      replacement := ()
+      interface := ()
+      table := ()
+      boundaryCompatible := True
+      sameResponse := True
+      targetComplete := True
+      boundaryCompatibleProof := trivial
+      sameResponseProof := trivial
+      targetCompleteProof := trivial }
+
+noncomputable def scheduledPackageStage :
+    (scheduledPackageContract.sameInterfaceContract).Stage :=
+  _root_.Hypostructure.Graph.CT3.registerClassifiedSameInterface
+    scheduledPackageContract ()
+
+theorem graph_scheduled_package_stage_source_previous :
+    scheduledPackageStage.previous.previous = () :=
+  _root_.Hypostructure.Graph.CT3.registerClassifiedSameInterface_source_previous
+    scheduledPackageContract ()
+
+def residualItems :
+    Core.Residual.Focus.ActiveQuery scheduledFocus
+      fun _previous _active => Core.Finite.Enumeration Unit :=
+  Core.Residual.Focus.ActiveQuery.ofFunction fun _previous _active =>
+    Core.Finite.Enumeration.singleton ()
+
+def residualScheduleContract :
+    _root_.Hypostructure.CT3.Schedule.FocusedContract scheduledFocus where
+  Item := Unit
+  items := residualItems
+  terminal := fun _previous _active _item =>
+    _root_.Hypostructure.CT3.Terminal.distinguishing
+
+def residualEvidence (previous : Unit) (active : scheduledFocus.Active previous) :
+    _root_.Hypostructure.CT3.ScheduleWitness.EvidenceContract
+      (residualScheduleContract.scheduleAt previous active) where
+  GoodWitness := fun _item => Unit
+  ResidualWitness := fun _item => Unit
+  good_of_compression := fun _item _terminal => ()
+  good_of_knownRow := fun _item _terminal => ()
+  residual_of_distinguishing := fun _item _terminal => ()
+  residual_of_novelRow := fun _item _terminal => ()
+
+def residualRouteTarget :
+    Core.Execution.Spec residualScheduleContract.Stage where
+  Input := fun _stage => Unit
+  Outcome := fun _stage _input => Unit
+  Trace := fun _stage _input _outcome => Unit
+  Sound := fun _stage _input _outcome _trace => True
+  Exhaustive := fun _stage _input _outcome => True
+
+def residualRouteExecutor :
+    Core.Execution.Capability residualRouteTarget where
+  reference := fun _stage _input => ⟨⟨(), ()⟩, 1⟩
+  sound := by
+    intro _stage _input
+    trivial
+  exhaustive := by
+    intro _stage _input
+    trivial
+  work := Core.PolynomialCheckBudget.constant (fun _ => 1) 1
+  checks_eq := by
+    intro _stage _input
+    rfl
+
+noncomputable def residualRouteContract :
+    _root_.Hypostructure.CT3.ResidualRoute.Contract
+      residualScheduleContract where
+  evidence := residualEvidence
+  target := residualRouteTarget
+  executor := residualRouteExecutor
+  targetInput := fun _stage _seed => ()
+
+def residualRouteEdge : Core.Routing.Edge :=
+  ⟨.ct3, .ct7, "graph-ct3-classified-residual-route-fixture"⟩
+
+noncomputable def residualRouted :
+    Core.Routing.Stage (residualRouteContract.transition residualRouteEdge) :=
+  _root_.Hypostructure.Graph.CT3.advanceClassifiedResidualRoute
+    residualRouteContract residualRouteEdge ()
+
+theorem graph_residual_route_source_previous :
+    residualRouted.previous.previous = () :=
+  _root_.Hypostructure.Graph.CT3.advanceClassifiedResidualRoute_source_previous
+    residualRouteContract residualRouteEdge ()
+
 end Graph
+
+namespace PDE
+
+open Hypostructure.Core
+
+abbrev scheduledFocus : Core.Residual.Focus.Profile Unit :=
+  Core.Residual.Focus.always Unit
+
+def scheduledItems :
+    Core.Residual.Focus.ActiveQuery scheduledFocus
+      fun _previous _active => Core.Finite.Enumeration Unit :=
+  Core.Residual.Focus.ActiveQuery.ofFunction fun _previous _active =>
+    Core.Finite.Enumeration.singleton ()
+
+def scheduledInput :
+    Core.Residual.Focus.ActiveQuery scheduledFocus
+      fun _previous _active => Unit -> Neutral.Previous :=
+  Core.Residual.Focus.ActiveQuery.ofFunction fun _previous _active _item =>
+    Neutral.compressionPrevious
+
+noncomputable def scheduledContract :
+    _root_.Hypostructure.CT3.Schedule.FocusedContract scheduledFocus :=
+  _root_.Hypostructure.PDE.CT3.focusedRunSchedule Neutral.spec
+    Neutral.capability Unit scheduledItems scheduledInput
+
+noncomputable def scheduledStage : scheduledContract.Stage :=
+  _root_.Hypostructure.PDE.CT3.runFocusedClassified Neutral.spec
+    Neutral.capability Unit scheduledItems scheduledInput ()
+
+theorem pde_scheduled_stage_previous :
+    scheduledStage.previous = () :=
+  _root_.Hypostructure.PDE.CT3.runFocusedClassified_previous Neutral.spec
+    Neutral.capability Unit scheduledItems scheduledInput ()
+
+theorem pde_scheduled_terminal :
+    scheduledContract.terminal () trivial () = .compression :=
+  Neutral.compression_terminal
+
+end PDE
 
 #print axioms Neutral.compression_terminal
 #print axioms Neutral.compression_checks
@@ -467,7 +687,16 @@ end Graph
 #print axioms Neutral.novelRow_terminal
 #print axioms Neutral.novelRow_checks
 #print axioms Neutral.novelRow_verified
+#print axioms Neutral.scheduled_false_terminal
+#print axioms Neutral.scheduled_true_terminal
+#print axioms Neutral.scheduled_stage_previous
 #print axioms Graph.result_terminal
 #print axioms Graph.target_transport
+#print axioms Graph.graph_scheduled_terminal
+#print axioms Graph.graph_scheduled_stage_previous
+#print axioms Graph.graph_scheduled_package_stage_source_previous
+#print axioms Graph.graph_residual_route_source_previous
+#print axioms PDE.pde_scheduled_terminal
+#print axioms PDE.pde_scheduled_stage_previous
 
 end Hypostructure.Fixtures.CT3

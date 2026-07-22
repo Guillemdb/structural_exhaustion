@@ -68,6 +68,14 @@ def internalVertexCount {boundary : Boundary.{u}}
     (outside : OutsideContext boundary) : Nat :=
   outside.internalVertices.card
 
+/-- A normalized context owns no edge between two labelled boundary vertices.
+This is the graph-owned version of the paper convention that all
+boundary--boundary edges are assigned to the atom side. -/
+def NoBoundaryEdges {boundary : Boundary.{u}}
+    (outside : OutsideContext boundary) : Prop :=
+  ∀ left right : boundary.Vertex,
+    ¬ outside.graph.Adj (.inl left) (.inl right)
+
 /-- Forget the distinguished interface and obtain an ordinary finite graph. -/
 def pack {boundary : Boundary.{u}} (outside : OutsideContext boundary) :
     FiniteObject.{u} where

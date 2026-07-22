@@ -75,6 +75,26 @@ theorem unique_index {α : Type u} (schedule : Enumeration α)
 def toFinset {α : Type u} (schedule : Enumeration α) : Finset α :=
   @List.toFinset α schedule.decEq schedule.values
 
+/-- Enumerate the exact scheduled members as a subtype carrying membership
+evidence.  This is the Core-owned way to pass selected entries downstream
+without rebuilding a detached list of members. -/
+def attach {α : Type u} (schedule : Enumeration α) :
+    Enumeration {value : α // value ∈ schedule.values} where
+  values := schedule.values.attach
+  nodup := schedule.nodup.attach
+  decEq := by
+    letI : DecidableEq α := schedule.decEq
+    exact inferInstance
+
+@[simp] theorem mem_attach_values {α : Type u} (schedule : Enumeration α)
+    (value : {value : α // value ∈ schedule.values}) :
+    value ∈ schedule.attach.values := by
+  simp [attach]
+
+@[simp] theorem attach_card {α : Type u} (schedule : Enumeration α) :
+    schedule.attach.card = schedule.card := by
+  simp [attach, card]
+
 @[simp] theorem mem_toFinset {α : Type u} (schedule : Enumeration α)
     (value : α) : value ∈ schedule.toFinset ↔ value ∈ schedule.values := by
   letI : DecidableEq α := schedule.decEq

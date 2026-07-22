@@ -1,4 +1,4 @@
-import Hypostructure.PDE.FastTrack.DefectRouting
+import Hypostructure.PDE.Contract
 import HypostructurePDEExamples.RepresentedNS2DDirectedExhaustivenessPacket
 
 /-!
@@ -131,24 +131,29 @@ def contextCapability : CT7.Capability contextSpec :=
 
 /-! ## Row-6 registration and inactive execution -/
 
-def rowSixProfile : DefectRouting.Profile rowFiveProfile where
-  tieredSpec := tieredSpec
-  tieredCapability := tieredCapability
-  contextSpec := contextSpec
-  contextCapability := contextCapability
-  FiniteResistance := fun _view _boundary _raw => False
-  HarmonicZero := fun _view _boundary _raw => False
-  HarmonicLedgerMember := fun _view _boundary _raw => False
-  NonroutableTargetVisible := fun _view _boundary _raw => False
-  alignmentRegistration :=
-    rowFiveProfile.targetVisibleBoundaryQuery.map
-      fun _stage _active _boundary =>
-        .unavailable .notRegistered
+def rowSixContract : PDE.Contract.DefectRouting rowFiveProfile where
+  profile := {
+    tieredSpec := tieredSpec
+    tieredCapability := tieredCapability
+    contextSpec := contextSpec
+    contextCapability := contextCapability
+    FiniteResistance := fun _view _boundary _raw => False
+    HarmonicZero := fun _view _boundary _raw => False
+    HarmonicLedgerMember := fun _view _boundary _raw => False
+    NonroutableTargetVisible := fun _view _boundary _raw => False
+    alignmentRegistration :=
+      rowFiveProfile.targetVisibleBoundaryQuery.map
+        fun _stage _active _boundary =>
+          .unavailable .notRegistered
+  }
+
+abbrev rowSixProfile : DefectRouting.Profile rowFiveProfile :=
+  rowSixContract.toProfile
 
 theorem rowFiveLedgerTerminal :
     rowFiveOutputFromLedger.terminal = .positiveStructuralGap := by
   unfold rowFiveOutputFromLedger rowFiveStage rowFiveRun
-  rw [DirectedExhaustiveness.outputQuery_run_of_active]
+  rw [rowFiveContract.outputQuery_run_of_active containedDecision rowFourActive]
   exact activePayload_is_positiveGap
 
 theorem rowFiveTargetVisibleInactive :
@@ -163,11 +168,11 @@ theorem rowFiveTargetVisibleInactive :
   cases terminal
 
 def rowSixRun :=
-  DefectRouting.run rowSixProfile rowFiveStage
+  rowSixContract.run rowFiveStage
 
 theorem rowSix_retains_literal_rowFive :
-    rowSixRun.value.previous = rowFiveStage :=
-  DefectRouting.run_previous rowSixProfile rowFiveStage
+  rowSixRun.value.previous = rowFiveStage :=
+  rowSixContract.run_previous rowFiveStage
 
 theorem rowSix_retains_root_residual :
     Core.Residual.residualOf rowSixRun.value =
@@ -180,17 +185,14 @@ theorem rowSix_retains_root_residual :
 
 theorem rowSix_skips_inactive_payload :
     Exists fun absent => rowSixRun.value.added =
-      Core.Residual.Focus.Outcome.inactive absent := by
-  cases branch : rowSixRun.value.added with
-  | active proof _payload =>
-      rw [rowSix_retains_literal_rowFive] at proof
-      exact (rowFiveTargetVisibleInactive proof).elim
-  | inactive absent => exact ⟨absent, rfl⟩
+      Core.Residual.Focus.Outcome.inactive absent :=
+  rowSixContract.run_added_of_inactive rowFiveStage
+    rowFiveTargetVisibleInactive
 
 theorem rowSix_exact_work :
     rowSixRun.checks =
       rowFiveProfile.TargetVisibleFocus.selectionBudget.checks rowFiveStage :=
-  DefectRouting.run_checks_of_inactive rowSixProfile rowFiveStage
+  rowSixContract.run_checks_of_inactive rowFiveStage
     rowFiveTargetVisibleInactive
 
 theorem rowSix_target_selector_checks_exact :
@@ -211,12 +213,12 @@ theorem rowSix_selector_checks_exact : rowSixRun.checks = 2 := by
 theorem rowSix_work_is_bounded :
     rowSixRun.checks <=
       (rowFiveProfile.TargetVisibleFocus.selectionBudget.add
-        (DefectRouting.payloadBudget rowSixProfile)).coefficient *
+        rowSixContract.workBudget).coefficient *
       ((rowFiveProfile.TargetVisibleFocus.selectionBudget.add
-        (DefectRouting.payloadBudget rowSixProfile)).size rowFiveStage + 1) ^
+        rowSixContract.workBudget).size rowFiveStage + 1) ^
       (rowFiveProfile.TargetVisibleFocus.selectionBudget.add
-        (DefectRouting.payloadBudget rowSixProfile)).degree :=
-  DefectRouting.run_checks_bounded rowSixProfile rowFiveStage
+        rowSixContract.workBudget).degree :=
+  rowSixContract.run_checks_bounded rowFiveStage
 
 def importedAnalyticContracts : List Core.AuthorPrimitiveRef := []
 
