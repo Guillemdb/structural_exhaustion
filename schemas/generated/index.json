@@ -42,7 +42,8 @@
       ],
       "residualSchemas": [
         "schemas/generated/residuals/CT1.terminal.c1.schema.json",
-        "schemas/generated/residuals/CT1.residual.avoiding.schema.json"
+        "schemas/generated/residuals/CT1.residual.avoiding.schema.json",
+        "schemas/generated/residuals/CT1.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -62,7 +63,8 @@
       ],
       "residualSchemas": [
         "schemas/generated/residuals/CT2.residual.separatingContext.schema.json",
-        "schemas/generated/residuals/CT2.residual.criticality.schema.json"
+        "schemas/generated/residuals/CT2.residual.criticality.schema.json",
+        "schemas/generated/residuals/CT2.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -84,7 +86,8 @@
       ],
       "residualSchemas": [
         "schemas/generated/residuals/CT3.residual.distinguishingContext.schema.json",
-        "schemas/generated/residuals/CT3.residual.novelExternalType.schema.json"
+        "schemas/generated/residuals/CT3.residual.novelExternalType.schema.json",
+        "schemas/generated/residuals/CT3.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -107,7 +110,8 @@
       "residualSchemas": [
         "schemas/generated/residuals/CT4.residual.missingPayer.schema.json",
         "schemas/generated/residuals/CT4.residual.overloadedFibre.schema.json",
-        "schemas/generated/residuals/CT4.residual.capacity.schema.json"
+        "schemas/generated/residuals/CT4.residual.capacity.schema.json",
+        "schemas/generated/residuals/CT4.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -129,7 +133,8 @@
       "residualSchemas": [
         "schemas/generated/residuals/CT5.residual.localDeficit.schema.json",
         "schemas/generated/residuals/CT5.residual.chargeLedger.schema.json",
-        "schemas/generated/residuals/CT5.residual.aggregate.schema.json"
+        "schemas/generated/residuals/CT5.residual.aggregate.schema.json",
+        "schemas/generated/residuals/CT5.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -146,7 +151,8 @@
       ],
       "residualSchemas": [
         "schemas/generated/residuals/CT6.residual.firstFailure.schema.json",
-        "schemas/generated/residuals/CT6.residual.activeLedger.schema.json"
+        "schemas/generated/residuals/CT6.residual.activeLedger.schema.json",
+        "schemas/generated/residuals/CT6.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -164,7 +170,8 @@
         "schemas/generated/nodes/CT7.terminal.certificate.neutrality.schema.json"
       ],
       "residualSchemas": [
-        "schemas/generated/residuals/CT7.residual.distinguishingContext.schema.json"
+        "schemas/generated/residuals/CT7.residual.distinguishingContext.schema.json",
+        "schemas/generated/residuals/CT7.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -183,7 +190,8 @@
       ],
       "residualSchemas": [
         "schemas/generated/residuals/CT8.residual.removal.schema.json",
-        "schemas/generated/residuals/CT8.residual.responseSeparation.schema.json"
+        "schemas/generated/residuals/CT8.residual.responseSeparation.schema.json",
+        "schemas/generated/residuals/CT8.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -200,7 +208,8 @@
         "schemas/generated/nodes/CT9.terminal.certificate.bounded.schema.json"
       ],
       "residualSchemas": [
-        "schemas/generated/residuals/CT9.residual.overload.schema.json"
+        "schemas/generated/residuals/CT9.residual.overload.schema.json",
+        "schemas/generated/residuals/CT9.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -221,7 +230,8 @@
       ],
       "residualSchemas": [
         "schemas/generated/residuals/CT10.residual.direct.schema.json",
-        "schemas/generated/residuals/CT10.residual.promoted.schema.json"
+        "schemas/generated/residuals/CT10.residual.promoted.schema.json",
+        "schemas/generated/residuals/CT10.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -240,7 +250,8 @@
       ],
       "residualSchemas": [
         "schemas/generated/residuals/CT11.residual.admissibilityGap.schema.json",
-        "schemas/generated/residuals/CT11.residual.localizedDeficit.schema.json"
+        "schemas/generated/residuals/CT11.residual.localizedDeficit.schema.json",
+        "schemas/generated/residuals/CT11.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -261,7 +272,8 @@
       ],
       "residualSchemas": [
         "schemas/generated/residuals/CT12.residual.demand.schema.json",
-        "schemas/generated/residuals/CT12.residual.tier.schema.json"
+        "schemas/generated/residuals/CT12.residual.tier.schema.json",
+        "schemas/generated/residuals/CT12.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -284,7 +296,8 @@
       "residualSchemas": [
         "schemas/generated/residuals/CT13.residual.tierOne.schema.json",
         "schemas/generated/residuals/CT13.residual.overlap.schema.json",
-        "schemas/generated/residuals/CT13.residual.deficit.schema.json"
+        "schemas/generated/residuals/CT13.residual.deficit.schema.json",
+        "schemas/generated/residuals/CT13.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -307,7 +320,8 @@
       "residualSchemas": [
         "schemas/generated/residuals/CT14.residual.unboundedMember.schema.json",
         "schemas/generated/residuals/CT14.residual.missingLabel.schema.json",
-        "schemas/generated/residuals/CT14.residual.capacity.schema.json"
+        "schemas/generated/residuals/CT14.residual.capacity.schema.json",
+        "schemas/generated/residuals/CT14.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -328,7 +342,8 @@
       ],
       "residualSchemas": [
         "schemas/generated/residuals/CT15.residual.rankDrop.schema.json",
-        "schemas/generated/residuals/CT15.residual.fullRankLedger.schema.json"
+        "schemas/generated/residuals/CT15.residual.fullRankLedger.schema.json",
+        "schemas/generated/residuals/CT15.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -348,7 +363,8 @@
       ],
       "residualSchemas": [
         "schemas/generated/residuals/CT16.residual.properSupport.schema.json",
-        "schemas/generated/residuals/CT16.residual.closedTypeMismatch.schema.json"
+        "schemas/generated/residuals/CT16.residual.closedTypeMismatch.schema.json",
+        "schemas/generated/residuals/CT16.residual.accumulatedLedger.schema.json"
       ]
     },
     {
@@ -372,7 +388,8 @@
       "residualSchemas": [
         "schemas/generated/residuals/CT17.residual.incompatibility.schema.json",
         "schemas/generated/residuals/CT17.residual.survivors.schema.json",
-        "schemas/generated/residuals/CT17.residual.orbit.schema.json"
+        "schemas/generated/residuals/CT17.residual.orbit.schema.json",
+        "schemas/generated/residuals/CT17.residual.accumulatedLedger.schema.json"
       ]
     }
   ],
@@ -384,7 +401,27 @@
     "schemas/generated/transition-families/CT5-_CT14.schema.json",
     "schemas/generated/transition-families/CT6-_CT9.schema.json",
     "schemas/generated/transition-families/CT9-_CT7.schema.json",
-    "schemas/generated/transition-families/CT14-_CT14.schema.json"
+    "schemas/generated/transition-families/CT14-_CT14.schema.json",
+    "schemas/generated/transition-families/CT1-_CT9.schema.json",
+    "schemas/generated/transition-families/CT1-_CT10.schema.json",
+    "schemas/generated/transition-families/CT2-_CT1.schema.json",
+    "schemas/generated/transition-families/CT3-_CT1.schema.json",
+    "schemas/generated/transition-families/CT5-_CT2.schema.json",
+    "schemas/generated/transition-families/CT7-_CT5.schema.json",
+    "schemas/generated/transition-families/CT5-_CT10.schema.json",
+    "schemas/generated/transition-families/CT9-_CT1.schema.json",
+    "schemas/generated/transition-families/CT9-_CT5.schema.json",
+    "schemas/generated/transition-families/CT9-_CT10.schema.json",
+    "schemas/generated/transition-families/CT9-_CT14.schema.json",
+    "schemas/generated/transition-families/CT10-_CT5.schema.json",
+    "schemas/generated/transition-families/CT10-_CT6.schema.json",
+    "schemas/generated/transition-families/CT10-_CT9.schema.json",
+    "schemas/generated/transition-families/CT10-_CT14.schema.json",
+    "schemas/generated/transition-families/CT12-_CT10.schema.json",
+    "schemas/generated/transition-families/CT12-_CT15.schema.json",
+    "schemas/generated/transition-families/CT14-_CT1.schema.json",
+    "schemas/generated/transition-families/CT14-_CT12.schema.json",
+    "schemas/generated/transition-families/CT15-_CT9.schema.json"
   ],
   "transitionProfiles": [
     "schemas/generated/transition-profiles/CT1.residual.avoiding-_CT2.schema.json",
@@ -395,6 +432,26 @@
     "schemas/generated/transition-profiles/CT5.residual.chargeLedger-_CT14.schema.json",
     "schemas/generated/transition-profiles/CT6.residual.activeLedger-_CT9.schema.json",
     "schemas/generated/transition-profiles/CT9.residual.overload-_CT7.schema.json",
-    "schemas/generated/transition-profiles/CT14.residual.capacity-_CT14.schema.json"
+    "schemas/generated/transition-profiles/CT14.residual.capacity-_CT14.schema.json",
+    "schemas/generated/transition-profiles/CT1.residual.accumulatedLedger-_CT9.schema.json",
+    "schemas/generated/transition-profiles/CT1.residual.accumulatedLedger-_CT10.schema.json",
+    "schemas/generated/transition-profiles/CT2.residual.accumulatedLedger-_CT1.schema.json",
+    "schemas/generated/transition-profiles/CT3.residual.accumulatedLedger-_CT1.schema.json",
+    "schemas/generated/transition-profiles/CT5.residual.accumulatedLedger-_CT2.schema.json",
+    "schemas/generated/transition-profiles/CT7.residual.accumulatedLedger-_CT5.schema.json",
+    "schemas/generated/transition-profiles/CT5.residual.accumulatedLedger-_CT10.schema.json",
+    "schemas/generated/transition-profiles/CT9.residual.accumulatedLedger-_CT1.schema.json",
+    "schemas/generated/transition-profiles/CT9.residual.accumulatedLedger-_CT5.schema.json",
+    "schemas/generated/transition-profiles/CT9.residual.accumulatedLedger-_CT10.schema.json",
+    "schemas/generated/transition-profiles/CT9.residual.accumulatedLedger-_CT14.schema.json",
+    "schemas/generated/transition-profiles/CT10.residual.accumulatedLedger-_CT5.schema.json",
+    "schemas/generated/transition-profiles/CT10.residual.accumulatedLedger-_CT6.schema.json",
+    "schemas/generated/transition-profiles/CT10.residual.accumulatedLedger-_CT9.schema.json",
+    "schemas/generated/transition-profiles/CT10.residual.accumulatedLedger-_CT14.schema.json",
+    "schemas/generated/transition-profiles/CT12.residual.accumulatedLedger-_CT10.schema.json",
+    "schemas/generated/transition-profiles/CT12.residual.accumulatedLedger-_CT15.schema.json",
+    "schemas/generated/transition-profiles/CT14.residual.accumulatedLedger-_CT1.schema.json",
+    "schemas/generated/transition-profiles/CT14.residual.accumulatedLedger-_CT12.schema.json",
+    "schemas/generated/transition-profiles/CT15.residual.accumulatedLedger-_CT9.schema.json"
   ]
 }

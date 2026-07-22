@@ -1,3 +1,4 @@
+import Hypostructure.Core.Metadata
 import Hypostructure.Graph.Minimality
 import HypostructureErdos64EG.Node6
 
@@ -86,9 +87,79 @@ theorem node8Counted_work_bounded (previous : Node6AvoidingStage.{u}) :
     Node6AvoidingFocus node8MinimalityProfile
       node4ContextAtNode6AvoidingQuery previous
 
+/-- Proof-relevant audit record for node-8 focused proper-subgraph
+minimality. -/
+noncomputable def node8Metadata :
+    Core.Metadata.DeclarationMetadata.{u + 1, u + 1, u + 1}
+      Node6AvoidingStage.{u} Node6AvoidingStage.{u} where
+  declaration :=
+    ⟨"HypostructureErdos64EG.Node8", "node8Counted"⟩
+  primitiveInputs := [
+    ⟨⟨"HypostructureErdos64EG.Node8", "node8MinimalityProfile"⟩,
+      .semanticLaw⟩
+  ]
+  inferredDependencies := [
+    ⟨⟨"HypostructureErdos64EG.Node6", "node6ContinueAvoiding"⟩,
+      .predecessorProjection⟩,
+    ⟨⟨"HypostructureErdos64EG.Node8",
+      "node4ContextAtNode6AvoidingQuery"⟩,
+      .predecessorProjection⟩
+  ]
+  ledgerQueries := []
+  focusedLedgerQueries := [{
+    source := ⟨"HypostructureErdos64EG.Node8",
+      "node4ContextAtNode6AvoidingQuery"⟩
+    profile := Node6AvoidingFocus
+    Result := fun stage active =>
+      Node4Output stage.previous.previous.previous.previous active
+    query := node4ContextAtNode6AvoidingQuery
+  }]
+  frameworkSearch := [
+    ⟨"Hypostructure.Graph.Minimality",
+      "executeFocusedNoProperBaselineCounted"⟩,
+    ⟨"Hypostructure.Graph.Minimality", "deriveNoProperBaseline"⟩
+  ]
+  generatedOutputs := [
+    ⟨⟨"Hypostructure.Graph.Minimality",
+      "NoProperBaselineCertificate"⟩, .typedOutcome⟩,
+    ⟨⟨"Hypostructure.Graph.Minimality",
+      "FocusedNoProperBaselineStage"⟩, .residualStage⟩
+  ]
+  genericTheorems := [
+    ⟨"Hypostructure.Graph.Minimality",
+      "NoProperBaselineCertificate.excludes"⟩,
+    ⟨"Hypostructure.Graph.Minimality",
+      "executeFocusedNoProperBaselineCounted_checks_bounded"⟩,
+    ⟨"Hypostructure.Core.Closure", "Closure.Result.strictProgress"⟩
+  ]
+  closureMechanisms := [Core.Closure.Mechanism.strictProgress]
+  workBound := Node6AvoidingFocus.selectionBudget
+  manualObligations := []
+
+/-- Node 8 has no unrecorded mathematical or routing obligation. -/
+def node8MetadataComplete :
+    Core.Metadata.Complete node8Metadata :=
+  ⟨rfl⟩
+
+theorem node8_metadata_has_no_manual_obligation
+    (obligation : Core.Metadata.ManualObligation) :
+    Not (obligation ∈ node8Metadata.manualObligations) :=
+  node8MetadataComplete.no_manual_obligation obligation
+
+/-- The metadata stores the same focused-selection work bound used by the
+executor. -/
+theorem node8_metadata_work_bounded (previous : Node6AvoidingStage.{u}) :
+    node8Metadata.workBound.checks previous <=
+      node8Metadata.workBound.coefficient *
+        (node8Metadata.workBound.size previous + 1) ^
+          node8Metadata.workBound.degree :=
+  node8MetadataComplete.work_bounded previous
+
 #print axioms node8
 #print axioms node8Counted_work_bounded
 #print axioms node8_noProperCore
 #print axioms node8_closure_mechanism
+#print axioms node8_metadata_has_no_manual_obligation
+#print axioms node8_metadata_work_bounded
 
 end HypostructureErdos64EG

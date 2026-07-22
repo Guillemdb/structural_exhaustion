@@ -33,6 +33,7 @@ graph.proper-subgraph-minimality,Graph,graph-6,Graph/PackedMinimumDegreeCycle.le
 graph.deletion-criticality,Graph,graph-6,Graph/DeletionCriticality.lean,Graph/DeletionCriticality.lean,EG nodes 9 and 10,,GraphDeletionCriticality,kernel_checked,Graph derives endpoint tightness and slack-vertex independence from the literal minimality residual
 graph.atom-response-coordinates,Graph,graph-7,Graph/PackedBoundariedGluing.lean,Graph/AtomResponse.lean,EG node 12,,GraphAtomResponse,kernel_checked,Arbitrary local response coordinates and any certified target-complete quotient indexed by the registered atom profile
 graph.boundary-overlap,Graph,graph-6,Graph/PackedBoundariedGluing.lean,Graph/BoundaryOverlap.lean,EG node 13 obligation,,GraphBoundaryOverlap;GraphBoundaryOverlapCounterexample,kernel_checked,Exact unrestricted-gluing inclusion-exclusion without assuming local profiles transfer
+graph.atom-replacement,Graph,original_erdos_64_proof.tex node 13; ADR 0006,Graph/PackedBoundariedGluing.lean,Graph/Replacement.lean,EG node 13,PDE local replacement analogy,Graph replacement focused executor,kernel_checked,Overlap-aware same-interface atom replacement contradiction through Core strict-progress minimality
 pde.local-atlas,PDE,pde-4.2,,PDE/Atlas.lean,,PDE model,PDEBasics,kernel_checked,
 pde.equation,PDE,PDE_LAYER_API.md section 4.3,,PDE/Equation.lean,,NS2D represented equation,finite equation fixture,kernel_checked,Equation interpretation remains explicit
 pde.local-model,PDE,pde-4.1,,PDE/Model.lean,,NS2D registration,PDEBasics,kernel_checked,

@@ -417,6 +417,154 @@
           "advanceExecutor": "StructuralExhaustion.Routes.CT9ToCT7.advance"
         }
       }
+    },
+    {
+      "data": {
+        "id": "CT9.residual.accumulatedLedger->CT1",
+        "label": "CT9.residual.accumulatedLedger->CT1",
+        "kind": "transitionProfile",
+        "transitionProfile": {
+          "transitionConstructor": "StructuralExhaustion.Routes.Accumulated.transition",
+          "targetTacticId": "CT1",
+          "targetExecutableInterface": "StructuralExhaustion.CT1.Capability.executableInterface",
+          "sourceTacticId": "CT9",
+          "sourceResidualKind": "CT9.residual.accumulatedLedger",
+          "selectionClass": "forced",
+          "profileId": "CT9.residual.accumulatedLedger->CT1",
+          "familyId": "CT9->CT1",
+          "authoringBoundary": {
+            "semanticDiscovery": {
+              "kind": "problemSemanticAdapter",
+              "adapterType": "StructuralExhaustion.Routes.Accumulated.Adapter"
+            },
+            "problemSpecificInputs": [
+              "targetCapability",
+              "semanticDiscoveryAdapter"
+            ],
+            "frameworkOwnedResponsibilities": [
+              "exactSourceLedger",
+              "semanticDiscovery",
+              "targetContextConstruction",
+              "triggerConstruction",
+              "targetExecution",
+              "accumulatedLedgerOutput",
+              "transitionProvenance"
+            ]
+          },
+          "advanceExecutor": "StructuralExhaustion.Routes.Accumulated.advance"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT9.residual.accumulatedLedger->CT5",
+        "label": "CT9.residual.accumulatedLedger->CT5",
+        "kind": "transitionProfile",
+        "transitionProfile": {
+          "transitionConstructor": "StructuralExhaustion.Routes.Accumulated.transition",
+          "targetTacticId": "CT5",
+          "targetExecutableInterface": "StructuralExhaustion.CT5.Capability.executableInterface",
+          "sourceTacticId": "CT9",
+          "sourceResidualKind": "CT9.residual.accumulatedLedger",
+          "selectionClass": "forced",
+          "profileId": "CT9.residual.accumulatedLedger->CT5",
+          "familyId": "CT9->CT5",
+          "authoringBoundary": {
+            "semanticDiscovery": {
+              "kind": "problemSemanticAdapter",
+              "adapterType": "StructuralExhaustion.Routes.Accumulated.Adapter"
+            },
+            "problemSpecificInputs": [
+              "targetCapability",
+              "semanticDiscoveryAdapter"
+            ],
+            "frameworkOwnedResponsibilities": [
+              "exactSourceLedger",
+              "semanticDiscovery",
+              "targetContextConstruction",
+              "triggerConstruction",
+              "targetExecution",
+              "accumulatedLedgerOutput",
+              "transitionProvenance"
+            ]
+          },
+          "advanceExecutor": "StructuralExhaustion.Routes.Accumulated.advance"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT9.residual.accumulatedLedger->CT10",
+        "label": "CT9.residual.accumulatedLedger->CT10",
+        "kind": "transitionProfile",
+        "transitionProfile": {
+          "transitionConstructor": "StructuralExhaustion.Routes.Accumulated.transition",
+          "targetTacticId": "CT10",
+          "targetExecutableInterface": "StructuralExhaustion.CT10.Capability.executableInterface",
+          "sourceTacticId": "CT9",
+          "sourceResidualKind": "CT9.residual.accumulatedLedger",
+          "selectionClass": "forced",
+          "profileId": "CT9.residual.accumulatedLedger->CT10",
+          "familyId": "CT9->CT10",
+          "authoringBoundary": {
+            "semanticDiscovery": {
+              "kind": "problemSemanticAdapter",
+              "adapterType": "StructuralExhaustion.Routes.Accumulated.Adapter"
+            },
+            "problemSpecificInputs": [
+              "targetCapability",
+              "semanticDiscoveryAdapter"
+            ],
+            "frameworkOwnedResponsibilities": [
+              "exactSourceLedger",
+              "semanticDiscovery",
+              "targetContextConstruction",
+              "triggerConstruction",
+              "targetExecution",
+              "accumulatedLedgerOutput",
+              "transitionProvenance"
+            ]
+          },
+          "advanceExecutor": "StructuralExhaustion.Routes.Accumulated.advance"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": "CT9.residual.accumulatedLedger->CT14",
+        "label": "CT9.residual.accumulatedLedger->CT14",
+        "kind": "transitionProfile",
+        "transitionProfile": {
+          "transitionConstructor": "StructuralExhaustion.Routes.Accumulated.transition",
+          "targetTacticId": "CT14",
+          "targetExecutableInterface": "StructuralExhaustion.CT14.Capability.executableInterface",
+          "sourceTacticId": "CT9",
+          "sourceResidualKind": "CT9.residual.accumulatedLedger",
+          "selectionClass": "forced",
+          "profileId": "CT9.residual.accumulatedLedger->CT14",
+          "familyId": "CT9->CT14",
+          "authoringBoundary": {
+            "semanticDiscovery": {
+              "kind": "problemSemanticAdapter",
+              "adapterType": "StructuralExhaustion.Routes.Accumulated.Adapter"
+            },
+            "problemSpecificInputs": [
+              "targetCapability",
+              "semanticDiscoveryAdapter"
+            ],
+            "frameworkOwnedResponsibilities": [
+              "exactSourceLedger",
+              "semanticDiscovery",
+              "targetContextConstruction",
+              "triggerConstruction",
+              "targetExecution",
+              "accumulatedLedgerOutput",
+              "transitionProvenance"
+            ]
+          },
+          "advanceExecutor": "StructuralExhaustion.Routes.Accumulated.advance"
+        }
+      }
     }
   ]
 }

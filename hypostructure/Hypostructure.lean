@@ -71,6 +71,7 @@ import Hypostructure.Graph.Gluing
 import Hypostructure.Graph.BoundariedAtom
 import Hypostructure.Graph.AtomResponse
 import Hypostructure.Graph.BoundaryOverlap
+import Hypostructure.Graph.Replacement
 import Hypostructure.Graph.Response
 import Hypostructure.Graph.CT1
 import Hypostructure.Graph.CT2

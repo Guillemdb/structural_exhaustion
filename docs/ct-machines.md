@@ -4,23 +4,23 @@ Generated from the compiled `StructuralExhaustion.Canonical` registry.
 
 | Tactic | Nodes | Edges | Terminals | Author definitions | Derived operations | Residuals |
 |---|---:|---:|---:|---:|---:|---:|
-| CT1 | 5 | 4 | 2 | 10 | 24 | 2 |
-| CT2 | 7 | 6 | 4 | 22 | 25 | 2 |
-| CT3 | 9 | 8 | 4 | 19 | 7 | 2 |
-| CT4 | 9 | 8 | 4 | 9 | 9 | 3 |
-| CT5 | 8 | 7 | 4 | 11 | 8 | 3 |
-| CT6 | 4 | 3 | 2 | 7 | 14 | 2 |
-| CT7 | 6 | 5 | 3 | 6 | 5 | 1 |
-| CT8 | 6 | 5 | 3 | 8 | 6 | 2 |
-| CT9 | 5 | 4 | 2 | 5 | 32 | 1 |
-| CT10 | 8 | 7 | 3 | 8 | 7 | 2 |
-| CT11 | 6 | 5 | 2 | 4 | 6 | 2 |
-| CT12 | 8 | 8 | 3 | 6 | 7 | 2 |
-| CT13 | 9 | 8 | 4 | 14 | 6 | 3 |
-| CT14 | 9 | 8 | 4 | 7 | 6 | 3 |
-| CT15 | 8 | 7 | 3 | 6 | 9 | 2 |
-| CT16 | 7 | 6 | 3 | 8 | 3 | 2 |
-| CT17 | 10 | 9 | 5 | 14 | 9 | 3 |
+| CT1 | 5 | 4 | 2 | 10 | 24 | 3 |
+| CT2 | 7 | 6 | 4 | 22 | 25 | 3 |
+| CT3 | 9 | 8 | 4 | 19 | 7 | 3 |
+| CT4 | 9 | 8 | 4 | 9 | 9 | 4 |
+| CT5 | 8 | 7 | 4 | 11 | 8 | 4 |
+| CT6 | 4 | 3 | 2 | 7 | 14 | 3 |
+| CT7 | 6 | 5 | 3 | 6 | 5 | 2 |
+| CT8 | 6 | 5 | 3 | 8 | 6 | 3 |
+| CT9 | 5 | 4 | 2 | 5 | 32 | 2 |
+| CT10 | 8 | 7 | 3 | 8 | 7 | 3 |
+| CT11 | 6 | 5 | 2 | 4 | 6 | 3 |
+| CT12 | 8 | 8 | 3 | 6 | 7 | 3 |
+| CT13 | 9 | 8 | 4 | 14 | 6 | 4 |
+| CT14 | 9 | 8 | 4 | 7 | 6 | 4 |
+| CT15 | 8 | 7 | 3 | 6 | 9 | 3 |
+| CT16 | 7 | 6 | 3 | 8 | 3 | 3 |
+| CT17 | 10 | 9 | 5 | 14 | 9 | 4 |
 
 ## Per-node automation contracts
 
@@ -212,3 +212,23 @@ Generated from the compiled `StructuralExhaustion.Canonical` registry.
 | `CT6.residual.activeLedger->CT9` | `CT6->CT9` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT6ToCT9.ItemCollectionAdapter` |
 | `CT9.residual.overload->CT7` | `CT9->CT7` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.CT9ToCT7.ObjectAdapter` |
 | `CT14.residual.capacity->CT14` | `CT14->CT14` | `capabilityDiscovery` | targetCapability | `—` |
+| `CT1.residual.accumulatedLedger->CT9` | `CT1->CT9` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT1.residual.accumulatedLedger->CT10` | `CT1->CT10` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT2.residual.accumulatedLedger->CT1` | `CT2->CT1` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT3.residual.accumulatedLedger->CT1` | `CT3->CT1` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT5.residual.accumulatedLedger->CT2` | `CT5->CT2` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT7.residual.accumulatedLedger->CT5` | `CT7->CT5` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT5.residual.accumulatedLedger->CT10` | `CT5->CT10` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT9.residual.accumulatedLedger->CT1` | `CT9->CT1` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT9.residual.accumulatedLedger->CT5` | `CT9->CT5` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT9.residual.accumulatedLedger->CT10` | `CT9->CT10` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT9.residual.accumulatedLedger->CT14` | `CT9->CT14` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT10.residual.accumulatedLedger->CT5` | `CT10->CT5` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT10.residual.accumulatedLedger->CT6` | `CT10->CT6` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT10.residual.accumulatedLedger->CT9` | `CT10->CT9` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT10.residual.accumulatedLedger->CT14` | `CT10->CT14` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT12.residual.accumulatedLedger->CT10` | `CT12->CT10` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT12.residual.accumulatedLedger->CT15` | `CT12->CT15` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT14.residual.accumulatedLedger->CT1` | `CT14->CT1` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT14.residual.accumulatedLedger->CT12` | `CT14->CT12` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |
+| `CT15.residual.accumulatedLedger->CT9` | `CT15->CT9` | `problemSemanticAdapter` | targetCapability, semanticDiscoveryAdapter | `StructuralExhaustion.Routes.Accumulated.Adapter` |

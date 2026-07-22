@@ -1,5 +1,16 @@
 import HypostructureParity.Erdos64EG.Fixtures.K4
 import HypostructureParity.Erdos64EG.Node1
 import HypostructureParity.Erdos64EG.Node2
+import HypostructureParity.Erdos64EG.Node3
+import HypostructureParity.Erdos64EG.Node4
+import HypostructureParity.Erdos64EG.Node5
+import HypostructureParity.Erdos64EG.Node6
+import HypostructureParity.Erdos64EG.Node7
+import HypostructureParity.Erdos64EG.Node8
+import HypostructureParity.Erdos64EG.Node9
+import HypostructureParity.Erdos64EG.Node10
+import HypostructureParity.Erdos64EG.Node11
+import HypostructureParity.Erdos64EG.Node12
+import HypostructureParity.Erdos64EG.Node13
 import HypostructureParity.Erdos64EG.OfficialStatement
 import HypostructureParity.Erdos64EG.TargetAlgebra

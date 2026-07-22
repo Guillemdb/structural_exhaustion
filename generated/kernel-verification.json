@@ -2,8 +2,8 @@
   "artifactType": "leanKernelVerification",
   "schemaVersion": "2.0.0",
   "status": "kernel_checked",
-  "catalogHash": "d3802f6a8c4390187eb9dda9331b19d0727f7056cf6f25ae14695038133dd911",
-  "exampleCatalogHash": "ed239df10079dfd6ad9104d38ca26e616bb74eff7f55d1303c60eed392b37c87",
+  "catalogHash": "a53b1cee267e827d580b6c1cd5b2c838cf3fa6af3fa152c2348aeca1bf03875c",
+  "exampleCatalogHash": "5f4e3d58c49058de760b94e3defb3d6144e1611d56f9e76923dbdbf32d4337e4",
   "toolchain": {
     "pinned": "leanprover/lean4:v4.31.0",
     "observed": "Lean (version 4.31.0, x86_64-unknown-linux-gnu, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)"
@@ -21,7 +21,7 @@
     "bindingResolution": "passed",
     "noAdmissions": "passed",
     "catalogSchema": "passed",
-    "automationGraphRoutes": "passed",
+    "automationGraphTransitions": "passed",
     "schemaFreshness": "passed",
     "generatedArtifactFreshness": "passed",
     "legacyAbsence": "passed"

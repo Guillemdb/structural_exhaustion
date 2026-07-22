@@ -1,3 +1,4 @@
+import Hypostructure.Core.Metadata
 import Hypostructure.Graph.BoundariedAtom
 import HypostructureErdos64EG.Node10
 
@@ -107,6 +108,72 @@ theorem node11_work_bounded (stage : Node11Stage.{u})
           Node10Focus.selectionBudget.degree :=
   (node11CertificateQuery.read stage active).work_bounded
 
+/-- Proof-relevant audit record for node-11 boundaried-atom registration. -/
+noncomputable def node11Metadata :
+    Core.Metadata.DeclarationMetadata.{u + 1, u + 1, u + 1}
+      Node10Stage.{u} Node10Stage.{u} where
+  declaration :=
+    ⟨"HypostructureErdos64EG.Node11", "node11Counted"⟩
+  primitiveInputs := []
+  inferredDependencies := [
+    ⟨⟨"HypostructureErdos64EG.Node10", "node10"⟩,
+      .predecessorProjection⟩,
+    ⟨⟨"HypostructureErdos64EG.Node11",
+      "node4ContextAtNode10Query"⟩,
+      .predecessorProjection⟩
+  ]
+  ledgerQueries := []
+  focusedLedgerQueries := [{
+    source := ⟨"HypostructureErdos64EG.Node11",
+      "node4ContextAtNode10Query"⟩
+    profile := Node10Focus
+    Result := fun _stage _active =>
+      Core.MinimalCounterexampleContext problem Target EGProgress
+    query := node4ContextAtNode10Query
+  }]
+  frameworkSearch := [
+    ⟨"Hypostructure.Graph.BoundariedAtom",
+      "executeFocusedBoundariedAtomRegistrationCounted"⟩,
+    ⟨"Hypostructure.Graph.BoundariedAtom",
+      "deriveBoundariedAtomRegistration"⟩
+  ]
+  generatedOutputs := [
+    ⟨⟨"Hypostructure.Graph.BoundariedAtom",
+      "BoundariedAtomRegistration"⟩, .typedOutcome⟩,
+    ⟨⟨"Hypostructure.Graph.BoundariedAtom",
+      "FocusedBoundariedAtomStage"⟩, .residualStage⟩
+  ]
+  genericTheorems := [
+    ⟨"Hypostructure.Graph.BoundariedAtom",
+      "BoundariedAtomProfileCertificate.profile_apply"⟩,
+    ⟨"Hypostructure.Graph.Response",
+      "profile_ne_not_targetComplete"⟩,
+    ⟨"Hypostructure.Graph.BoundariedAtom",
+      "executeFocusedBoundariedAtomRegistrationCounted_checks_bounded"⟩
+  ]
+  closureMechanisms := []
+  workBound := Node10Focus.selectionBudget
+  manualObligations := []
+
+/-- Node 11 has no unrecorded mathematical or routing obligation. -/
+def node11MetadataComplete :
+    Core.Metadata.Complete node11Metadata :=
+  ⟨rfl⟩
+
+theorem node11_metadata_has_no_manual_obligation
+    (obligation : Core.Metadata.ManualObligation) :
+    Not (obligation ∈ node11Metadata.manualObligations) :=
+  node11MetadataComplete.no_manual_obligation obligation
+
+/-- The metadata stores the same focused-selection work bound used by the
+executor. -/
+theorem node11_metadata_work_bounded (previous : Node10Stage.{u}) :
+    node11Metadata.workBound.checks previous <=
+      node11Metadata.workBound.coefficient *
+        (node11Metadata.workBound.size previous + 1) ^
+          node11Metadata.workBound.degree :=
+  node11MetadataComplete.work_bounded previous
+
 #print axioms node11
 #print axioms node11_boundaryDegreeProfile
 #print axioms node11_profileMismatchRejected
@@ -114,5 +181,7 @@ theorem node11_work_bounded (stage : Node11Stage.{u})
 #print axioms node11Counted_work_bounded
 #print axioms node11_checks_eq_one
 #print axioms node11_work_bounded
+#print axioms node11_metadata_has_no_manual_obligation
+#print axioms node11_metadata_work_bounded
 
 end HypostructureErdos64EG

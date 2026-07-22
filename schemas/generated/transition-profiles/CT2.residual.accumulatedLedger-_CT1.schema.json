@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/transition-profiles/CT2.residual.accumulatedLedger-_CT1.schema.json",
+  "title": "CT2.residual.accumulatedLedger->CT1 executable transition profile",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/transitionProfile"
+    },
+    {
+      "const": {
+        "transitionConstructor": "StructuralExhaustion.Routes.Accumulated.transition",
+        "targetTacticId": "CT1",
+        "targetExecutableInterface": "StructuralExhaustion.CT1.Capability.executableInterface",
+        "sourceTacticId": "CT2",
+        "sourceResidualKind": "CT2.residual.accumulatedLedger",
+        "selectionClass": "forced",
+        "profileId": "CT2.residual.accumulatedLedger->CT1",
+        "familyId": "CT2->CT1",
+        "authoringBoundary": {
+          "semanticDiscovery": {
+            "kind": "problemSemanticAdapter",
+            "adapterType": "StructuralExhaustion.Routes.Accumulated.Adapter"
+          },
+          "problemSpecificInputs": [
+            "targetCapability",
+            "semanticDiscoveryAdapter"
+          ],
+          "frameworkOwnedResponsibilities": [
+            "exactSourceLedger",
+            "semanticDiscovery",
+            "targetContextConstruction",
+            "triggerConstruction",
+            "targetExecution",
+            "accumulatedLedgerOutput",
+            "transitionProvenance"
+          ]
+        },
+        "advanceExecutor": "StructuralExhaustion.Routes.Accumulated.advance"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "registry": "StructuralExhaustion.Canonical.transitionProfiles"
+  }
+}

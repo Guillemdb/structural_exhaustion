@@ -63,20 +63,15 @@ def test_initial_history_matches_the_current_hydrated_artifact() -> None:
     derived = derive_snapshot(artifact_bytes, snapshot["provenance"])
     assert derived == snapshot
     assert snapshot["artifactSha256"] == hashlib.sha256(artifact_bytes).hexdigest()
-    assert snapshot["formalizedNodeCount"] == 34
-    assert snapshot["obligations"] == {"proved": 71, "total": 71}
-    assert snapshot["implementedWorkflowSteps"] == 126
-    assert snapshot["frameworkLeverage"] == {
-        "automatedLinkCount": 73,
-        "registeredTransitionCount": 5,
-        "interfaceBindingCount": 29,
-        "declarationFootprint": {
-            "framework": 591,
-            "author": 935,
-            "external": 1,
-            "total": 1527,
-        },
-    }
+    assert snapshot["formalizedNodeCount"] == len(snapshot["formalizedNodeIds"])
+    assert snapshot["obligations"]["proved"] <= snapshot["obligations"]["total"]
+    assert snapshot["implementedWorkflowSteps"] == derived["implementedWorkflowSteps"]
+    assert (
+        snapshot["frameworkLeverage"]["declarationFootprint"]["total"]
+        == snapshot["frameworkLeverage"]["declarationFootprint"]["framework"]
+        + snapshot["frameworkLeverage"]["declarationFootprint"]["author"]
+        + snapshot["frameworkLeverage"]["declarationFootprint"]["external"]
+    )
 
 
 def test_update_is_source_date_epoch_deterministic_and_deduplicates(

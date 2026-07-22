@@ -159,7 +159,7 @@ generate: export
 validate:
 	$(PYTHON) tools/validate_repository.py
 
-kernel: generate
+kernel: generate web-data
 	$(PYTHON) tools/verify_lean.py
 
 checksums:
@@ -170,7 +170,7 @@ verify: lint kernel
 	$(MAKE) checksums
 
 test: verify web-data
-	$(PYTHON) -m pytest -q
+	UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run python -m pytest -q
 	$(MAKE) web-test
 
 hypostructure-web-export: hypostructure-framework-build
@@ -194,13 +194,13 @@ web-frontend-test: $(WEB_NODE_STAMP)
 	cd $(WEB_FRONTEND_DIR) && $(NPM) run build
 
 web-backend-test: web-data
-	UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run --with-requirements requirements.txt python -m pytest -q tests/test_web_api.py tests/test_hypostructure_web_data.py
+	UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run python -m pytest -q tests/test_web_api.py tests/test_hypostructure_web_data.py
 
 web-test: web-backend-test $(WEB_NODE_STAMP)
 	$(MAKE) web-frontend-test
 
 web: web-build
-	UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run --with-requirements requirements.txt gunicorn --preload --worker-class gthread --workers $(WEB_WORKERS) --threads $(WEB_THREADS) --timeout $(WEB_TIMEOUT) --bind $(WEB_HOST):$(WEB_PORT) 'web.backend.app.main:create_app()'
+	UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run gunicorn --preload --worker-class gthread --workers $(WEB_WORKERS) --threads $(WEB_THREADS) --timeout $(WEB_TIMEOUT) --bind $(WEB_HOST):$(WEB_PORT) 'web.backend.app.main:create_app()'
 
 manuscript: generate
 	mkdir -p build/framework

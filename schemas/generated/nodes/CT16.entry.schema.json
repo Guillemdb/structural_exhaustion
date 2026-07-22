@@ -27,7 +27,7 @@
                 "ref": "Input",
                 "provision": "derived_from_predecessor"
               },
-              "plainExplanation": "Route-facing invocation; the branch context is an index and is never\nduplicated inside a residual. ",
+              "plainExplanation": "Transition-facing invocation; the branch context is an index and is never\nduplicated inside a residual. ",
               "mathematicalDefinition": null,
               "label": "Input",
               "declarationId": "StructuralExhaustion.CT16.Input"
@@ -39,7 +39,7 @@
                 "ref": "CT16.Input",
                 "provision": "derived_definitionally"
               },
-              "plainExplanation": "Route-facing invocation; the branch context is an index and is never\nduplicated inside a residual. ",
+              "plainExplanation": "Transition-facing invocation; the branch context is an index and is never\nduplicated inside a residual. ",
               "mathematicalDefinition": null,
               "label": "CT16.Input",
               "declarationId": "StructuralExhaustion.CT16.Input"

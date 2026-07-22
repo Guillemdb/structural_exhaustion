@@ -877,7 +877,6 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode145
       evidenceDeclarations := [
-        `Erdos64EG.Internal.Node145Output,
         `Erdos64EG.Internal.Node145Stage,
         `Erdos64EG.Internal.node145P13HotColdWindowInterface,
         `Erdos64EG.Internal.node145LocalChecks_eq_zero,
@@ -895,8 +894,6 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.node146Route8Tau,
         `Erdos64EG.Internal.Node146Route8BelowThreshold,
         `Erdos64EG.Internal.Node146Route8NotBelow,
-        `Erdos64EG.Internal.Node146To147,
-        `Erdos64EG.Internal.Node146To148,
         `Erdos64EG.Internal.node146Route8ThresholdDecision,
         `Erdos64EG.Internal.node146To147Refinement,
         `Erdos64EG.Internal.node146To148Refinement,
@@ -914,7 +911,6 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       evidenceDeclarations := [
         `Erdos64EG.Internal.node147CollisionCoefficientGap,
         `Erdos64EG.Internal.node147CollisionMargin_pos,
-        `Erdos64EG.Internal.Node147Residual,
         `Erdos64EG.Internal.Node147ResidualStage,
         `Erdos64EG.Internal.node147Route8ResidualRefinement,
         `Erdos64EG.Internal.node147ResidualLocalChecks_eq_zero,
@@ -935,8 +931,6 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
         `Erdos64EG.Internal.Node148LiveHotCap,
         `Erdos64EG.Internal.Node148LiveHotFailure,
         `Erdos64EG.Internal.node148_totalDemand_eq_hot_add_cold,
-        `Erdos64EG.Internal.Node148To149,
-        `Erdos64EG.Internal.Node148To150,
         `Erdos64EG.Internal.node148LiveHotCapDecision,
         `Erdos64EG.Internal.node148To149Refinement,
         `Erdos64EG.Internal.node148To150Refinement,
@@ -952,7 +946,6 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       kind := .theorem
       primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode149
       evidenceDeclarations := [
-        `Erdos64EG.Internal.Node149DensityCap,
         `Erdos64EG.Internal.Node149Stage,
         `Erdos64EG.Internal.node149DensityCap,
         `Erdos64EG.Internal.node149LocalChecks_eq_zero,
@@ -967,10 +960,6 @@ private def proofSliceWorkflow : ExampleWorkflowDescriptor := {
       primaryDeclaration := `Erdos64EG.Internal.runInitialThroughNode150
       evidenceDeclarations := [
         `Erdos64EG.Internal.node150ColdCount,
-        `Erdos64EG.Internal.Node150Requirement,
-        `Erdos64EG.Internal.node150Requirements,
-        `Erdos64EG.Internal.node150Requirements_nodup,
-        `Erdos64EG.Internal.Node150ColdResidual,
         `Erdos64EG.Internal.Node150Stage,
         `Erdos64EG.Internal.node150ColdResidual,
         `Erdos64EG.Internal.node150LocalChecks_eq_zero,
@@ -3987,7 +3976,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       stepId := "erdos.hot-cold-window-interface"
       stageId? := some "proof-slice.p13-hot-cold-window-interface"
       title := "Hot/cold window interface"
-      plainExplanation := "Node [145] consumes the exact node-[24] low residual and exposes the accumulated sequential hot/cold window ledger, final aggregate, original-completion witness, and hot/cold outcome."
+      plainExplanation := "Node [145] consumes the exact node-[24] low residual and advances the cursor to the accumulated sequential hot/cold window interface without copying ledger data into an Erdős-owned output record."
       formalStatement := "[24]_{\\rm low}\\longrightarrow\\mathsf{Ledger}_{\\rm hot/cold}"
       status := .implemented
       correspondence := .exact
@@ -3998,9 +3987,8 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         groupId := "p13-node145-hot-cold-ledger"
         title := "Accumulated hot/cold ledger exposure"
         role := .compositionProvenance
-        explanation := "The framework maps the literal node-[24] residual to node [145]; the Erdős layer only exposes the already accumulated sequential ledger and original-completion witness."
+        explanation := "The framework maps the literal node-[24] residual to node [145]; the Erdős layer only exposes the framework-owned hot/cold cursor."
         declarations := [
-          `Erdos64EG.Internal.Node145Output,
           `Erdos64EG.Internal.Node145Stage,
           `Erdos64EG.Internal.node145P13HotColdWindowInterface,
           `Erdos64EG.Internal.runInitialThroughNode145,
@@ -4029,11 +4017,9 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         explanation := "Core performs the branch decision on the literal node-[145] residual; the node proves theta and tau arithmetic for the yes edge and the cross-multiplied lower threshold for the no edge."
         declarations := [
           `Erdos64EG.Internal.node146PackingTheta,
-          `Erdos64EG.Internal.node146Route8Tau,
-          `Erdos64EG.Internal.Node146Route8BelowThreshold,
-          `Erdos64EG.Internal.Node146Route8NotBelow,
-          `Erdos64EG.Internal.Node146To147,
-          `Erdos64EG.Internal.Node146To148,
+        `Erdos64EG.Internal.node146Route8Tau,
+        `Erdos64EG.Internal.Node146Route8BelowThreshold,
+        `Erdos64EG.Internal.Node146Route8NotBelow,
           `Erdos64EG.Internal.node146Route8ThresholdDecision,
           `Erdos64EG.Internal.node146To147Refinement,
           `Erdos64EG.Internal.node146To148Refinement,
@@ -4065,7 +4051,6 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         declarations := [
           `Erdos64EG.Internal.node147CollisionCoefficientGap,
           `Erdos64EG.Internal.node147CollisionMargin_pos,
-          `Erdos64EG.Internal.Node147Residual,
           `Erdos64EG.Internal.Node147ResidualStage,
           `Erdos64EG.Internal.node147Route8ResidualRefinement,
           `Erdos64EG.Internal.runInitialThroughNode147Residual,
@@ -4100,8 +4085,6 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
           `Erdos64EG.Internal.Node148LiveHotCap,
           `Erdos64EG.Internal.Node148LiveHotFailure,
           `Erdos64EG.Internal.node148_totalDemand_eq_hot_add_cold,
-          `Erdos64EG.Internal.Node148To149,
-          `Erdos64EG.Internal.Node148To150,
           `Erdos64EG.Internal.node148LiveHotCapDecision,
           `Erdos64EG.Internal.node148To149Refinement,
           `Erdos64EG.Internal.node148To150Refinement,
@@ -4129,9 +4112,8 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         groupId := "p13-node149-density-cap"
         title := "Density-cap terminal payload"
         role := .compositionProvenance
-        explanation := "The framework maps the exact node-[148] yes continuation and the node payload copies only the cap proof and partition equality."
+        explanation := "The framework maps the exact node-[148] yes continuation to the terminal live-hot cap cursor without copying branch facts into an Erdős-owned output record."
         declarations := [
-          `Erdos64EG.Internal.Node149DensityCap,
           `Erdos64EG.Internal.Node149Stage,
           `Erdos64EG.Internal.node149DensityCap,
           `Erdos64EG.Internal.runInitialThroughNode149,
@@ -4146,7 +4128,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       stepId := "erdos.cold-residual-after-hot-failure"
       stageId? := some "proof-slice.p13-cold-residual-after-hot-failure"
       title := "Cold residual after hot failure"
-      plainExplanation := "Node [150] consumes node [148]'s cap-failure edge, records the exact cold-window count, derives unpaid total demand, and carries the remaining cold requirements forward as residual requirements."
+      plainExplanation := "Node [150] consumes node [148]'s cap-failure edge, exposes the exact cold-window count, and carries the cold branch as a framework-owned no-continuation cursor."
       formalStatement := "\\neg(D_{\\rm total}\\le A)\\Longrightarrow C_{\\rm cold}\\ \\text{with residual requirements}"
       status := .implemented
       correspondence := .exact
@@ -4157,13 +4139,9 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
         groupId := "p13-node150-cold-residual"
         title := "Exact cold residual and requirements"
         role := .compositionProvenance
-        explanation := "Node [150] uses the framework no-continuation from node [148], stores the cold count, and records the downstream residual requirements without assuming their closure."
+        explanation := "Node [150] uses the framework no-continuation from node [148] and keeps downstream facts in the carried residual rather than an Erdős-owned output record."
         declarations := [
           `Erdos64EG.Internal.node150ColdCount,
-          `Erdos64EG.Internal.Node150Requirement,
-          `Erdos64EG.Internal.node150Requirements,
-          `Erdos64EG.Internal.node150Requirements_nodup,
-          `Erdos64EG.Internal.Node150ColdResidual,
           `Erdos64EG.Internal.Node150Stage,
           `Erdos64EG.Internal.node150ColdResidual,
           `Erdos64EG.Internal.runInitialThroughNode150,
@@ -4316,7 +4294,7 @@ private def erdosManuscript : ExampleManuscriptDescriptor := {
       status := .implemented
       correspondence := .exact
       manuscriptRefs := [
-        { label := "lem:cold-g1-terminal", title := "Cold G1 dyadic-cycle terminal", nodeIds := [155] }
+        { label := "lem:cold-germ-extraction", title := "Cold G1 dyadic-cycle terminal", nodeIds := [155] }
       ]
       declarationGroups := [{
         groupId := "p13-node155-g1-terminal"

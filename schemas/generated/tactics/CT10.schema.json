@@ -130,6 +130,23 @@
             "residualKindId": "CT10.residual.promoted",
             "leanType": "StructuralExhaustion.CT10.PromotedResidual",
             "inheritedContext": "branch"
+          },
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_from_predecessor",
+                "leanType": "complete exact predecessor ledger",
+                "fieldName": "previous"
+              },
+              {
+                "provision": "derived_by_generic_theorem",
+                "leanType": "public CT execution indexed by the predecessor",
+                "fieldName": "execution"
+              }
+            ],
+            "residualKindId": "CT10.residual.accumulatedLedger",
+            "leanType": "StructuralExhaustion.Core.Routing.ResidualStage",
+            "inheritedContext": "branch"
           }
         ],
         "nodes": [

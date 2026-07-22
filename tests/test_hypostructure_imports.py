@@ -632,7 +632,7 @@ def test_eg_node_matrix_covers_exact_original_authority_topology() -> None:
     # Preserve reviewed local obligations independently of parity.
     assert by_id[3]["math_status"] == "closed"
     assert by_id[3]["work_status"] == "captured"
-    assert by_id[3]["web_evidence"] == ""
+    assert by_id[3]["web_evidence"] == "generated/hypostructure/web/snapshot.json"
     assert by_id[3]["parity_status"] == "not_run"
     assert by_id[3]["status"] == "typechecked"
     assert by_id[3]["blocker"] == "semantic parity baseline not frozen"
@@ -656,7 +656,7 @@ def test_eg_node_matrix_covers_exact_original_authority_topology() -> None:
         assert by_id[node_id]["required_features"] == required_features
         assert by_id[node_id]["math_status"] == "closed"
         assert by_id[node_id]["work_status"] == "captured"
-        assert by_id[node_id]["web_evidence"] == ""
+        assert by_id[node_id]["web_evidence"] == "generated/hypostructure/web/snapshot.json"
         assert by_id[node_id]["parity_status"] == "not_run"
         assert by_id[node_id]["status"] == "typechecked"
         assert by_id[node_id]["blocker"] == (
@@ -673,7 +673,7 @@ def test_eg_node_matrix_covers_exact_original_authority_topology() -> None:
 
     assert by_id[11]["math_status"] == "closed"
     assert by_id[11]["work_status"] == "captured"
-    assert by_id[11]["web_evidence"] == ""
+    assert by_id[11]["web_evidence"] == "generated/hypostructure/web/snapshot.json"
     assert by_id[11]["parity_status"] == "not_run"
     assert by_id[11]["status"] == "typechecked"
     assert by_id[11]["blocker"] == "semantic parity baseline not frozen"
@@ -685,17 +685,18 @@ def test_eg_node_matrix_covers_exact_original_authority_topology() -> None:
     )
     assert by_id[12]["math_status"] == "closed"
     assert by_id[12]["work_status"] == "captured"
-    assert by_id[12]["web_evidence"] == ""
+    assert by_id[12]["web_evidence"] == "generated/hypostructure/web/snapshot.json"
     assert by_id[12]["parity_status"] == "not_run"
     assert by_id[12]["status"] == "typechecked"
     assert by_id[12]["blocker"] == "semantic parity baseline not frozen"
 
     assert by_id[13]["math_status"] == "open"
-    assert by_id[13]["web_evidence"] == ""
-    assert by_id[13]["status"] == "inventoried"
+    assert by_id[13]["web_evidence"] == "generated/hypostructure/web/snapshot.json"
+    assert by_id[13]["status"] == "migrated_open"
     assert by_id[13]["blocker"] == (
         "original Node 13 boundary-overlap implication is false under "
-        "stated union gluing; explicit correction required"
+        "stated union gluing; overlap-count preservation remains a "
+        "recorded residual"
     )
 
 

@@ -1,3 +1,4 @@
+import Hypostructure.Core.Metadata
 import Hypostructure.Core.Residual.ProofProjection
 import Hypostructure.Graph.AtomResponse
 import HypostructureErdos64EG.Node11
@@ -136,6 +137,69 @@ theorem node12_work_bounded (stage : Node12Stage.{u, v})
             (Core.Residual.ProofProjection.workBudget Node11Focus.{u, v}).degree :=
   (node12CertificateQuery.read stage active).work_bounded
 
+/-- Proof-relevant audit record for node-12 context-universality projection. -/
+noncomputable def node12Metadata :
+    Core.Metadata.DeclarationMetadata.{
+      max (u + 1) (v + 1), 0, max (u + 1) (v + 1)}
+      Node11Stage.{u, v} Node11Stage.{u, v} where
+  declaration :=
+    ⟨"HypostructureErdos64EG.Node12", "node12Counted"⟩
+  primitiveInputs := []
+  inferredDependencies := [
+    ⟨⟨"HypostructureErdos64EG.Node11", "node11"⟩,
+      .predecessorProjection⟩,
+    ⟨⟨"HypostructureErdos64EG.Node11",
+      "node11RegistrationQuery"⟩,
+      .predecessorProjection⟩,
+    ⟨⟨"HypostructureErdos64EG.Node12",
+      "node12ProjectionQuery"⟩,
+      .registeredProfile⟩
+  ]
+  ledgerQueries := []
+  focusedLedgerQueries := []
+  frameworkSearch := [
+    ⟨"Hypostructure.Core.Residual.ProofProjection",
+      "executeCounted"⟩,
+    ⟨"Hypostructure.Graph.AtomResponse",
+      "TargetCompleteQuotient.contextUniversal_of_identified"⟩
+  ]
+  generatedOutputs := [
+    ⟨⟨"Hypostructure.Core.Residual.ProofProjection",
+      "Certificate"⟩, .auditRecord⟩,
+    ⟨⟨"Hypostructure.Core.Residual.ProofProjection",
+      "Stage"⟩, .residualStage⟩
+  ]
+  genericTheorems := [
+    ⟨"Hypostructure.Graph.AtomResponse",
+      "TargetCompleteQuotient.contextUniversal_of_identified"⟩,
+    ⟨"Hypostructure.Graph.AtomResponse",
+      "CoordinateSystem.in_registered_fibre"⟩,
+    ⟨"Hypostructure.Core.Residual.ProofProjection",
+      "executeCounted_checks_bounded"⟩
+  ]
+  closureMechanisms := []
+  workBound := Core.Residual.ProofProjection.workBudget Node11Focus.{u, v}
+  manualObligations := []
+
+/-- Node 12 has no unrecorded mathematical or routing obligation. -/
+def node12MetadataComplete :
+    Core.Metadata.Complete node12Metadata :=
+  ⟨rfl⟩
+
+theorem node12_metadata_has_no_manual_obligation
+    (obligation : Core.Metadata.ManualObligation) :
+    Not (obligation ∈ node12Metadata.manualObligations) :=
+  node12MetadataComplete.no_manual_obligation obligation
+
+/-- The metadata stores the same focused proof-projection work bound used by
+the executor. -/
+theorem node12_metadata_work_bounded (previous : Node11Stage.{u, v}) :
+    node12Metadata.workBound.checks previous <=
+      node12Metadata.workBound.coefficient *
+        (node12Metadata.workBound.size previous + 1) ^
+          node12Metadata.workBound.degree :=
+  node12MetadataComplete.work_bounded previous
+
 #print axioms node12
 #print axioms node12_context_universal
 #print axioms node12_coordinate_profile_registered
@@ -143,5 +207,7 @@ theorem node12_work_bounded (stage : Node12Stage.{u, v})
 #print axioms node12Counted_work_bounded
 #print axioms node12_checks_eq_one
 #print axioms node12_work_bounded
+#print axioms node12_metadata_has_no_manual_obligation
+#print axioms node12_metadata_work_bounded
 
 end HypostructureErdos64EG

@@ -474,6 +474,43 @@
         "constructorType": "{P : Core.Problem} →\n  {S : CT7.Spec P} →\n    {capability : CT7.Capability S} →\n      {ctx : Core.BranchContext P} →\n        {input : CT7.Input S ctx} →\n          CT7.NeutralityCertificate S capability ctx input →\n            CT7.Graph.Edge S capability ctx input CT7.Graph.NodeId.distinctionSearch CT7.Graph.NodeId.neutralTerminal",
         "provision": "generated_audit"
       }
+    },
+    {
+      "data": {
+        "id": "CT7.residual.accumulatedLedger->CT5",
+        "label": "CT7.residual.accumulatedLedger->CT5",
+        "kind": "transitionProfile",
+        "transitionProfile": {
+          "transitionConstructor": "StructuralExhaustion.Routes.Accumulated.transition",
+          "targetTacticId": "CT5",
+          "targetExecutableInterface": "StructuralExhaustion.CT5.Capability.executableInterface",
+          "sourceTacticId": "CT7",
+          "sourceResidualKind": "CT7.residual.accumulatedLedger",
+          "selectionClass": "forced",
+          "profileId": "CT7.residual.accumulatedLedger->CT5",
+          "familyId": "CT7->CT5",
+          "authoringBoundary": {
+            "semanticDiscovery": {
+              "kind": "problemSemanticAdapter",
+              "adapterType": "StructuralExhaustion.Routes.Accumulated.Adapter"
+            },
+            "problemSpecificInputs": [
+              "targetCapability",
+              "semanticDiscoveryAdapter"
+            ],
+            "frameworkOwnedResponsibilities": [
+              "exactSourceLedger",
+              "semanticDiscovery",
+              "targetContextConstruction",
+              "triggerConstruction",
+              "targetExecution",
+              "accumulatedLedgerOutput",
+              "transitionProvenance"
+            ]
+          },
+          "advanceExecutor": "StructuralExhaustion.Routes.Accumulated.advance"
+        }
+      }
     }
   ]
 }

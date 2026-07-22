@@ -117,6 +117,23 @@
             "residualKindId": "CT8.residual.responseSeparation",
             "leanType": "StructuralExhaustion.CT8.SeparationResidual",
             "inheritedContext": "branch"
+          },
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_from_predecessor",
+                "leanType": "complete exact predecessor ledger",
+                "fieldName": "previous"
+              },
+              {
+                "provision": "derived_by_generic_theorem",
+                "leanType": "public CT execution indexed by the predecessor",
+                "fieldName": "execution"
+              }
+            ],
+            "residualKindId": "CT8.residual.accumulatedLedger",
+            "leanType": "StructuralExhaustion.Core.Routing.ResidualStage",
+            "inheritedContext": "branch"
           }
         ],
         "nodes": [

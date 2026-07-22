@@ -27,7 +27,7 @@
                 "ref": "Input",
                 "provision": "derived_from_predecessor"
               },
-              "plainExplanation": "Route-facing invocation.  The inherited branch context is an index, so a\nroute supplies only the scale at which CT17 must run. ",
+              "plainExplanation": "Transition-facing invocation.  The inherited branch context is an index,\nso a transition supplies only the scale at which CT17 must run. ",
               "mathematicalDefinition": null,
               "label": "Input",
               "declarationId": "StructuralExhaustion.CT17.Input"

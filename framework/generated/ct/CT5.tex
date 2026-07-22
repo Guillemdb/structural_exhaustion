@@ -98,6 +98,8 @@ Node & Problem-specific static inputs & Predecessor and inferred inputs & Framew
 \draw[ctedge] (n4.east) to[bend left=10] node[ctedgelabel] {comparison\allowbreak{}Aggregate} (n8.west);
 \node[ctroute] (p1) at (3.30,-17.55) {\textbf{CT transition}\\\texttt{CT5.\allowbreak{}residual.\allowbreak{}charge\allowbreak{}Ledger-\allowbreak{}>CT14}\\{\tiny forced; capability\allowbreak{}Discovery}};
 \draw[ctroutearrow] (n7.south)--(p1.north);
+\node[ctroute] (p2) at (10.30,-17.55) {\textbf{CT transition}\\\texttt{CT5.\allowbreak{}residual.\allowbreak{}accumulated\allowbreak{}Ledger-\allowbreak{}>CT2}\\{\tiny forced; problem\allowbreak{}Semantic\allowbreak{}Adapter}\\{\tiny adapter: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}Accumulated.\allowbreak{}Adapter}}};
+\node[ctroute] (p3) at (17.30,-17.55) {\textbf{CT transition}\\\texttt{CT5.\allowbreak{}residual.\allowbreak{}accumulated\allowbreak{}Ledger-\allowbreak{}>CT10}\\{\tiny forced; problem\allowbreak{}Semantic\allowbreak{}Adapter}\\{\tiny adapter: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}Accumulated.\allowbreak{}Adapter}}};
 \end{tikzpicture}%
 \end{adjustbox}
 \caption{Automation-first sequential machine for CT5. Each executable node has separate problem-specific static, predecessor, and framework-derived dependency boxes. Terminal nodes consume only incoming edge evidence. Transition boxes are executable framework profiles.}
@@ -111,9 +113,12 @@ Node & Problem-specific static inputs & Predecessor and inferred inputs & Framew
 \item \texttt{CT5.\allowbreak{}residual.\allowbreak{}local\allowbreak{}Deficit}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}Local\allowbreak{}Deficit\allowbreak{}Residual S input}; inherited context \texttt{branch}.
 \item \texttt{CT5.\allowbreak{}residual.\allowbreak{}charge\allowbreak{}Ledger}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}Charge\allowbreak{}Ledger\allowbreak{}Residual S capability input}; inherited context \texttt{branch}.
 \item \texttt{CT5.\allowbreak{}residual.\allowbreak{}aggregate}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT5.\allowbreak{}Aggregate\allowbreak{}Residual S capability input}; inherited context \texttt{branch}.
+\item \texttt{CT5.\allowbreak{}residual.\allowbreak{}accumulated\allowbreak{}Ledger}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Core.\allowbreak{}Routing.\allowbreak{}Residual\allowbreak{}Stage}; inherited context \texttt{branch}.
 \end{itemize}
 \paragraph{Registered transition profiles.}
 \begin{itemize}
 \item \texttt{CT5.\allowbreak{}residual.\allowbreak{}charge\allowbreak{}Ledger-\allowbreak{}>CT14}: \texttt{CT5.\allowbreak{}residual.\allowbreak{}charge\allowbreak{}Ledger} $\to$ \texttt{CT14}; executor \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}CT5\allowbreak{}To\allowbreak{}CT14.\allowbreak{}advance}; authoring mode \texttt{capability\allowbreak{}Discovery}.
+\item \texttt{CT5.\allowbreak{}residual.\allowbreak{}accumulated\allowbreak{}Ledger-\allowbreak{}>CT2}: \texttt{CT5.\allowbreak{}residual.\allowbreak{}accumulated\allowbreak{}Ledger} $\to$ \texttt{CT2}; executor \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}Accumulated.\allowbreak{}advance}; authoring mode \texttt{problem\allowbreak{}Semantic\allowbreak{}Adapter} with adapter \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}Accumulated.\allowbreak{}Adapter}.
+\item \texttt{CT5.\allowbreak{}residual.\allowbreak{}accumulated\allowbreak{}Ledger-\allowbreak{}>CT10}: \texttt{CT5.\allowbreak{}residual.\allowbreak{}accumulated\allowbreak{}Ledger} $\to$ \texttt{CT10}; executor \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}Accumulated.\allowbreak{}advance}; authoring mode \texttt{problem\allowbreak{}Semantic\allowbreak{}Adapter} with adapter \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}Accumulated.\allowbreak{}Adapter}.
 \end{itemize}
 \endgroup

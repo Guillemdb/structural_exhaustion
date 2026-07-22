@@ -1,4 +1,5 @@
 import Hypostructure.Graph.CT1
+import Hypostructure.Core.Metadata
 import HypostructureErdos64EG.Node5
 
 /-!
@@ -163,6 +164,128 @@ theorem node6_avoiding_work (stage : Node6AvoidingStage.{u})
     (node6RouteQuery.read stage.previous active).checks = 0 :=
   (node6AvoidingQuery.read stage active).checks_eq_zero
 
+/-- Proof-relevant audit record for node-6 focused CT1 execution. -/
+noncomputable def node6Metadata :
+    Core.Metadata.DeclarationMetadata.{u + 1, u + 1, u + 1}
+      Node5Stage.{u} Node5Stage.{u} where
+  declaration :=
+    ⟨"HypostructureErdos64EG.Node6", "node6Counted"⟩
+  primitiveInputs := [
+    ⟨⟨"HypostructureErdos64EG.Node6", "node6Encoding"⟩,
+      .semanticLaw⟩
+  ]
+  inferredDependencies := [
+    ⟨⟨"HypostructureErdos64EG.Node5", "node5"⟩,
+      .predecessorProjection⟩,
+    ⟨⟨"HypostructureErdos64EG.Node6", "node6ObjectQuery"⟩,
+      .predecessorProjection⟩
+  ]
+  ledgerQueries := []
+  focusedLedgerQueries := [{
+    source := ⟨"HypostructureErdos64EG.Node6", "node6ObjectQuery"⟩
+    profile := Node5Focus
+    Result := fun _stage _active => Graph.FiniteObject.{u}
+    query := node6ObjectQuery
+  }]
+  frameworkSearch := [
+    ⟨"Hypostructure.Graph.CT1",
+      "executeFocusedRootedReturnCounted"⟩,
+    ⟨"Hypostructure.CT1.FocusedCertificate",
+      "FocusedCertificateEncoding.runCounted"⟩
+  ]
+  generatedOutputs := [
+    ⟨⟨"Hypostructure.CT1.FocusedCertificate",
+      "FocusedCertificateEncoding.Route"⟩, .typedOutcome⟩,
+    ⟨⟨"Hypostructure.CT1.FocusedCertificate",
+      "FocusedCertificateEncoding.Stage"⟩, .residualStage⟩,
+    ⟨⟨"Hypostructure.CT1.CertificateEncoding",
+      "traceOfRoute"⟩, .executionTrace⟩
+  ]
+  genericTheorems := [
+    ⟨"Hypostructure.CT1.FocusedCertificate",
+      "FocusedCertificateEncoding.target_of_c1"⟩,
+    ⟨"Hypostructure.CT1.FocusedCertificate",
+      "FocusedCertificateEncoding.avoids_of_avoiding"⟩,
+    ⟨"Hypostructure.CT1.FocusedCertificate",
+      "FocusedCertificateEncoding.runCounted_checks_bounded"⟩
+  ]
+  workBound := node6Encoding.workBudget
+  manualObligations := []
+
+/-- Proof-relevant audit record for node-6's impossible-C1 continuation. -/
+noncomputable def node6ContinueAvoidingMetadata :
+    Core.Metadata.DeclarationMetadata.{u + 1, 0, u + 1}
+      Node6Stage.{u} Node6Stage.{u} where
+  declaration :=
+    ⟨"HypostructureErdos64EG.Node6",
+      "node6ContinueAvoidingCounted"⟩
+  primitiveInputs := [
+    ⟨⟨"HypostructureErdos64EG.Node6",
+      "node6TargetImpossibleQuery"⟩, .semanticLaw⟩
+  ]
+  inferredDependencies := [
+    ⟨⟨"HypostructureErdos64EG.Node6", "node6"⟩,
+      .predecessorProjection⟩,
+    ⟨⟨"HypostructureErdos64EG.Node5",
+      "node5CertificateQuery"⟩, .predecessorProjection⟩
+  ]
+  ledgerQueries := []
+  focusedLedgerQueries := []
+  frameworkSearch := [
+    ⟨"Hypostructure.CT1.FocusedCertificate",
+      "FocusedCertificateEncoding.closeC1ContinueAvoidingCounted"⟩
+  ]
+  generatedOutputs := [
+    ⟨⟨"Hypostructure.CT1.FocusedCertificate",
+      "FocusedCertificateEncoding.AvoidingEvidence"⟩, .searchResult⟩,
+    ⟨⟨"Hypostructure.Core.Residual.Focus", "runCounted"⟩,
+      .residualStage⟩
+  ]
+  genericTheorems := [
+    ⟨"Hypostructure.CT1.FocusedCertificate",
+      "FocusedCertificateEncoding.closeC1ContinueAvoidingCounted_checks_bounded"⟩,
+    ⟨"Hypostructure.CT1.FocusedCertificate",
+      "FocusedCertificateEncoding.closeC1ContinueAvoiding_previous"⟩
+  ]
+  workBound := node6Encoding.SuccessorProfile.selectionBudget
+  manualObligations := []
+
+/-- Node 6 CT1 execution has no unrecorded mathematical or routing obligation. -/
+def node6MetadataComplete :
+    Core.Metadata.Complete node6Metadata :=
+  ⟨rfl⟩
+
+/-- Node 6's avoiding continuation has no unrecorded mathematical or routing
+obligation. -/
+def node6ContinueAvoidingMetadataComplete :
+    Core.Metadata.Complete node6ContinueAvoidingMetadata :=
+  ⟨rfl⟩
+
+theorem node6_metadata_has_no_manual_obligation
+    (obligation : Core.Metadata.ManualObligation) :
+    Not (obligation ∈ node6Metadata.manualObligations) :=
+  node6MetadataComplete.no_manual_obligation obligation
+
+theorem node6_continue_metadata_has_no_manual_obligation
+    (obligation : Core.Metadata.ManualObligation) :
+    Not (obligation ∈ node6ContinueAvoidingMetadata.manualObligations) :=
+  node6ContinueAvoidingMetadataComplete.no_manual_obligation obligation
+
+theorem node6_metadata_work_bounded (previous : Node5Stage.{u}) :
+    node6Metadata.workBound.checks previous <=
+      node6Metadata.workBound.coefficient *
+        (node6Metadata.workBound.size previous + 1) ^
+          node6Metadata.workBound.degree :=
+  node6MetadataComplete.work_bounded previous
+
+theorem node6_continue_metadata_work_bounded
+    (previous : Node6Stage.{u}) :
+    node6ContinueAvoidingMetadata.workBound.checks previous <=
+      node6ContinueAvoidingMetadata.workBound.coefficient *
+        (node6ContinueAvoidingMetadata.workBound.size previous + 1) ^
+          node6ContinueAvoidingMetadata.workBound.degree :=
+  node6ContinueAvoidingMetadataComplete.work_bounded previous
+
 #print axioms node6
 #print axioms node6Counted_work_bounded
 #print axioms node6ContinueAvoiding
@@ -172,5 +295,9 @@ theorem node6_avoiding_work (stage : Node6AvoidingStage.{u})
 #print axioms node6_work_bound
 #print axioms node6_avoids
 #print axioms node6_avoiding_work
+#print axioms node6_metadata_has_no_manual_obligation
+#print axioms node6_continue_metadata_has_no_manual_obligation
+#print axioms node6_metadata_work_bounded
+#print axioms node6_continue_metadata_work_bounded
 
 end HypostructureErdos64EG

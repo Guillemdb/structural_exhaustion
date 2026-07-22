@@ -1,4 +1,5 @@
 import Hypostructure.Graph.Progress
+import Hypostructure.Core.Metadata
 import Hypostructure.Core.Residual.Focus
 import HypostructureErdos64EG.Contract
 import HypostructureErdos64EG.Node2
@@ -38,6 +39,11 @@ def node4InputQuery :=
   node2CounterexampleQuery.and
     (Core.Residual.Focus.ActiveQuery.ofQuery node1ResidualAtNode2Query)
 
+/-- Node 4 uses the Core-owned selector for the node-2 positive branch. -/
+def node4WorkBudget :
+    Core.PolynomialCheckBudget Node2Stage.{u} :=
+  CounterexampleFocus.selectionBudget
+
 /-- Node 4's sole new payload on the focused branch. -/
 abbrev Node4Output (_stage : Node2Stage.{u})
     (_active : CounterexampleFocus.Active _stage) :=
@@ -72,6 +78,14 @@ def node4ContextQuery :
       (fun stage active => Node4Output stage.previous active) :=
   Core.Residual.Focus.ActiveQuery.latest
 
+/-- The context selected at node 4 carries the registered Core minimality
+kernel for lexicographic graph progress. -/
+theorem node4ContextQuery_minimal (stage : Node4Stage.{u})
+    (active : Node4Focus.Active stage) :
+    Core.MinimalityKernel problem Target EGProgress
+      (node4ContextQuery.read stage active).toBranchContext :=
+  (node4ContextQuery.read stage active).minimal
+
 @[simp] theorem node4_previous (previous : Node2Stage.{u}) :
     (node4 previous).previous = previous :=
   rfl
@@ -83,13 +97,78 @@ def node4ContextQuery :
 
 theorem node4Counted_work_bounded (previous : Node2Stage.{u}) :
     (node4Counted previous).checks <=
-      CounterexampleFocus.selectionBudget.coefficient *
-        (CounterexampleFocus.selectionBudget.size previous + 1) ^
-          CounterexampleFocus.selectionBudget.degree :=
+      node4WorkBudget.coefficient *
+        (node4WorkBudget.size previous + 1) ^
+          node4WorkBudget.degree :=
   Core.Residual.Focus.runCounted_checks_bounded CounterexampleFocus previous _
 
+/-- Proof-relevant audit record for node-4 focused minimal selection. -/
+def node4Metadata :
+    Core.Metadata.DeclarationMetadata.{u + 1, u + 1, u + 1}
+      Node2Stage.{u} Node2Stage.{u} where
+  declaration :=
+    ⟨"HypostructureErdos64EG.Node4", "node4Counted"⟩
+  primitiveInputs := [
+    ⟨⟨"HypostructureErdos64EG.Node4", "node4InputQuery"⟩,
+      .semanticLaw⟩
+  ]
+  inferredDependencies := [
+    ⟨⟨"HypostructureErdos64EG.Node2", "node2"⟩,
+      .predecessorProjection⟩,
+    ⟨⟨"HypostructureErdos64EG.Node4", "node2CounterexampleQuery"⟩,
+      .predecessorProjection⟩,
+    ⟨⟨"HypostructureErdos64EG.Node4", "node1ResidualAtNode2Query"⟩,
+      .predecessorProjection⟩
+  ]
+  ledgerQueries := [{
+    source := ⟨"HypostructureErdos64EG.Node4", "node1ResidualAtNode2Query"⟩
+    Result := fun _stage => InitialResidual.{u}
+    query := node1ResidualAtNode2Query
+  }]
+  frameworkSearch := [
+    ⟨"Hypostructure.Core.Residual.Focus", "Focus.runCounted"⟩,
+    ⟨"Hypostructure.Graph.Progress", "selectLexicographicMinimal"⟩
+  ]
+  generatedOutputs := [
+    ⟨⟨"Hypostructure.Core.Residual.Focus", "Focus.Outcome"⟩,
+      .typedOutcome⟩,
+    ⟨⟨"Hypostructure.Core.Residual.Ledger", "Ledger.extend"⟩,
+      .residualStage⟩,
+    ⟨⟨"Hypostructure.Graph.Progress", "selectLexicographicMinimal"⟩,
+      .searchResult⟩
+  ]
+  genericTheorems := [
+    ⟨"Hypostructure.Core.Residual.Focus", "Focus.runCounted_checks"⟩,
+    ⟨"Hypostructure.Core.Residual.Focus",
+      "Focus.runCounted_checks_bounded"⟩
+  ]
+  workBound := node4WorkBudget
+  manualObligations := []
+
+/-- Node 4 has no unrecorded mathematical or routing obligation. -/
+def node4MetadataComplete :
+    Core.Metadata.Complete node4Metadata :=
+  ⟨rfl⟩
+
+theorem node4_metadata_has_no_manual_obligation
+    (obligation : Core.Metadata.ManualObligation) :
+    Not (obligation ∈ node4Metadata.manualObligations) :=
+  node4MetadataComplete.no_manual_obligation obligation
+
+/-- The metadata stores the same one-check branch-selection budget used by
+the counted run. -/
+theorem node4_metadata_work_bounded (previous : Node2Stage.{u}) :
+    node4Metadata.workBound.checks previous <=
+      node4Metadata.workBound.coefficient *
+        (node4Metadata.workBound.size previous + 1) ^
+          node4Metadata.workBound.degree :=
+  node4MetadataComplete.work_bounded previous
+
 #print axioms node4
+#print axioms node4ContextQuery_minimal
 #print axioms node4Counted_checks_eq_one
 #print axioms node4Counted_work_bounded
+#print axioms node4_metadata_has_no_manual_obligation
+#print axioms node4_metadata_work_bounded
 
 end HypostructureErdos64EG

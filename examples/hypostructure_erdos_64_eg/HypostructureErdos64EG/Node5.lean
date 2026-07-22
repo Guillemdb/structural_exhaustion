@@ -1,4 +1,5 @@
 import Hypostructure.Graph.RootedReturn
+import Hypostructure.Core.Metadata
 import HypostructureErdos64EG.Node4
 
 /-!
@@ -85,9 +86,73 @@ theorem node5Counted_work_bounded (previous : Node4Stage.{u}) :
           Node4Focus.selectionBudget.degree :=
   Core.Residual.Focus.runCounted_checks_bounded Node4Focus previous _
 
+/-- Proof-relevant audit record for node-5 rooted-return target algebra. -/
+def node5Metadata :
+    Core.Metadata.DeclarationMetadata.{u + 1, u + 1, u + 1}
+      Node4Stage.{u} Node4Stage.{u} where
+  declaration :=
+    ⟨"HypostructureErdos64EG.Node5", "node5Counted"⟩
+  primitiveInputs := [
+    ⟨⟨"HypostructureErdos64EG.Node5", "mersenneReturnAlgebra"⟩,
+      .semanticLaw⟩
+  ]
+  inferredDependencies := [
+    ⟨⟨"HypostructureErdos64EG.Node4", "node4"⟩,
+      .predecessorProjection⟩,
+    ⟨⟨"HypostructureErdos64EG.Node4", "node4ContextQuery"⟩,
+      .predecessorProjection⟩
+  ]
+  ledgerQueries := []
+  frameworkSearch := [
+    ⟨"Hypostructure.Core.Residual.Focus", "Focus.runCounted"⟩,
+    ⟨"Hypostructure.Graph.RootedReturn",
+      "RootedReturnTargetAlgebra.avoidanceCertificate"⟩
+  ]
+  generatedOutputs := [
+    ⟨⟨"Hypostructure.Core.Residual.Focus", "Focus.Outcome"⟩,
+      .typedOutcome⟩,
+    ⟨⟨"Hypostructure.Core.Residual.Ledger", "Ledger.extend"⟩,
+      .residualStage⟩,
+    ⟨⟨"Hypostructure.Graph.RootedReturn",
+      "RootedReturnTargetAlgebra.AvoidanceCertificate"⟩,
+      .searchResult⟩
+  ]
+  genericTheorems := [
+    ⟨"Hypostructure.Core.Residual.Focus", "Focus.runCounted_checks"⟩,
+    ⟨"Hypostructure.Core.Residual.Focus",
+      "Focus.runCounted_checks_bounded"⟩,
+    ⟨"Hypostructure.Graph.RootedReturn",
+      "RootedReturnTargetAlgebra.target_iff_hasRootedReturn"⟩,
+    ⟨"Hypostructure.Graph.RootedReturn",
+      "RootedReturnTargetAlgebra.not_target_iff_returnLengthSets_disjoint"⟩
+  ]
+  workBound := Node4Focus.selectionBudget
+  manualObligations := []
+
+/-- Node 5 has no unrecorded mathematical or routing obligation. -/
+def node5MetadataComplete :
+    Core.Metadata.Complete node5Metadata :=
+  ⟨rfl⟩
+
+theorem node5_metadata_has_no_manual_obligation
+    (obligation : Core.Metadata.ManualObligation) :
+    Not (obligation ∈ node5Metadata.manualObligations) :=
+  node5MetadataComplete.no_manual_obligation obligation
+
+/-- The metadata stores the same one-check focused-successor budget used by
+the counted run. -/
+theorem node5_metadata_work_bounded (previous : Node4Stage.{u}) :
+    node5Metadata.workBound.checks previous <=
+      node5Metadata.workBound.coefficient *
+        (node5Metadata.workBound.size previous + 1) ^
+          node5Metadata.workBound.degree :=
+  node5MetadataComplete.work_bounded previous
+
 #print axioms node5
 #print axioms node5_target_iff_rootedReturn
 #print axioms node5Counted_checks_eq_one
 #print axioms node5Counted_work_bounded
+#print axioms node5_metadata_has_no_manual_obligation
+#print axioms node5_metadata_work_bounded
 
 end HypostructureErdos64EG

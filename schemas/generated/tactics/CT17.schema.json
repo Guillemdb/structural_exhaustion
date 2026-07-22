@@ -187,6 +187,23 @@
             "residualKindId": "CT17.residual.orbit",
             "leanType": "StructuralExhaustion.CT17.OrbitResidual",
             "inheritedContext": "branch"
+          },
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_from_predecessor",
+                "leanType": "complete exact predecessor ledger",
+                "fieldName": "previous"
+              },
+              {
+                "provision": "derived_by_generic_theorem",
+                "leanType": "public CT execution indexed by the predecessor",
+                "fieldName": "execution"
+              }
+            ],
+            "residualKindId": "CT17.residual.accumulatedLedger",
+            "leanType": "StructuralExhaustion.Core.Routing.ResidualStage",
+            "inheritedContext": "branch"
           }
         ],
         "nodes": [
@@ -209,7 +226,7 @@
                     "ref": "Input",
                     "provision": "derived_from_predecessor"
                   },
-                  "plainExplanation": "Route-facing invocation.  The inherited branch context is an index, so a\nroute supplies only the scale at which CT17 must run. ",
+                  "plainExplanation": "Transition-facing invocation.  The inherited branch context is an index,\nso a transition supplies only the scale at which CT17 must run. ",
                   "mathematicalDefinition": null,
                   "label": "Input",
                   "declarationId": "StructuralExhaustion.CT17.Input"
@@ -2253,7 +2270,7 @@
             "name": "StructuralExhaustion.CT17.Input",
             "module": "StructuralExhaustion.CT17.Capability",
             "kind": "inductive",
-            "docString": "Route-facing invocation.  The inherited branch context is an index, so a\nroute supplies only the scale at which CT17 must run. ",
+            "docString": "Transition-facing invocation.  The inherited branch context is an index,\nso a transition supplies only the scale at which CT17 must run. ",
             "declarationId": "StructuralExhaustion.CT17.Input",
             "bodyDependencies": [
               "StructuralExhaustion.CT17.Input.mk"

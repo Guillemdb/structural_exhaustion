@@ -142,6 +142,23 @@
             "residualKindId": "CT2.residual.criticality",
             "leanType": "StructuralExhaustion.CT2.CriticalityResidual",
             "inheritedContext": "minimalCounterexampleBranch"
+          },
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_from_predecessor",
+                "leanType": "complete exact predecessor ledger",
+                "fieldName": "previous"
+              },
+              {
+                "provision": "derived_by_generic_theorem",
+                "leanType": "public CT execution indexed by the predecessor",
+                "fieldName": "execution"
+              }
+            ],
+            "residualKindId": "CT2.residual.accumulatedLedger",
+            "leanType": "StructuralExhaustion.Core.Routing.ResidualStage",
+            "inheritedContext": "branch"
           }
         ],
         "nodes": [
@@ -11813,7 +11830,7 @@
             ],
             "derivedOperations": [
               {
-                "ref": "StructuralExhaustion.CT2.certifiedReductionTacticInterface",
+                "ref": "StructuralExhaustion.CT2.certifiedReductionExecutableInterface",
                 "provision": "framework_constant"
               },
               {
@@ -13118,7 +13135,7 @@
       ],
       "derivedOperations": [
         {
-          "ref": "StructuralExhaustion.CT2.certifiedReductionTacticInterface",
+          "ref": "StructuralExhaustion.CT2.certifiedReductionExecutableInterface",
           "provision": "framework_constant"
         },
         {

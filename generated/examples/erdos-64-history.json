@@ -4,7 +4,7 @@
   "exampleId": "erdos-64",
   "snapshots": [
     {
-      "artifactSha256": "354e88c15090b2ca745b502959bcc68ce19b18159f548da3128efd3669c16ad0",
+      "artifactSha256": "8cc571101138fe2212a0764c15c1891bdb2eff86b9d2f54d3bdd2a20408d8b45",
       "manuscriptSha256": "288a17648cc9df943846cd2e5ddeae58fd9e16147216d35e43018c01cb7e3546",
       "formalizedNodeIds": [
         1,
@@ -75,28 +75,30 @@
         150,
         151,
         152,
-        153
+        153,
+        154,
+        155
       ],
-      "formalizedNodeCount": 69,
+      "formalizedNodeCount": 71,
       "obligations": {
-        "proved": 317,
-        "total": 324
+        "proved": 325,
+        "total": 330
       },
-      "implementedWorkflowSteps": 57,
+      "implementedWorkflowSteps": 60,
       "frameworkLeverage": {
         "automatedLinkCount": 38,
         "registeredTransitionCount": 1,
         "interfaceBindingCount": 4,
         "declarationFootprint": {
-          "framework": 91,
-          "author": 465,
+          "framework": 94,
+          "author": 481,
           "external": 1,
-          "total": 557
+          "total": 576
         }
       },
       "provenance": {
-        "recordedAt": "2026-07-21T09:49:50Z",
-        "gitCommit": "3d87fb8f5446ad60ac09de62d44225b5cb9b0881",
+        "recordedAt": "2026-07-22T08:31:06Z",
+        "gitCommit": "5c7053b01f6d3e69f2919741115331586ff286f1",
         "workingTree": "dirty"
       }
     }

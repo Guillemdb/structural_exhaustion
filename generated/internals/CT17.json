@@ -15,7 +15,7 @@
               "ref": "Input",
               "provision": "derived_from_predecessor"
             },
-            "plainExplanation": "Route-facing invocation.  The inherited branch context is an index, so a\nroute supplies only the scale at which CT17 must run. ",
+            "plainExplanation": "Transition-facing invocation.  The inherited branch context is an index,\nso a transition supplies only the scale at which CT17 must run. ",
             "mathematicalDefinition": null,
             "label": "Input",
             "declarationId": "StructuralExhaustion.CT17.Input"
@@ -1248,7 +1248,7 @@
       "name": "StructuralExhaustion.CT17.Input",
       "module": "StructuralExhaustion.CT17.Capability",
       "kind": "inductive",
-      "docString": "Route-facing invocation.  The inherited branch context is an index, so a\nroute supplies only the scale at which CT17 must run. ",
+      "docString": "Transition-facing invocation.  The inherited branch context is an index,\nso a transition supplies only the scale at which CT17 must run. ",
       "declarationId": "StructuralExhaustion.CT17.Input",
       "bodyDependencies": [
         "StructuralExhaustion.CT17.Input.mk"
@@ -9436,8 +9436,8 @@
       "sourceId": "StructuralExhaustion/CT17/Capability.lean",
       "moduleName": "StructuralExhaustion.CT17.Capability",
       "path": "lean/StructuralExhaustion/CT17/Capability.lean",
-      "sha256": "7d7a9eda00de5e973c2f7b4ee771939fb189d61cdf9f91a9bfb4808d6b41cf38",
-      "content": "import StructuralExhaustion.CT17.Spec\n\nnamespace StructuralExhaustion.CT17\n\nuniverse uAmbient uBranch uTarget uOffset uPosition uValue\n\n/-! The complete problem-specific CT17 API.  Every field is primitive\nmathematical data, a finite enumerator, or a decision procedure. -/\n\nstructure Capability\n    {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uAmbient, uBranch, uTarget, uOffset, uPosition, uValue} P) where\n  targets : FinEnum S.Target\n  offsets : FinEnum S.Offset\n  positions : (scale : Nat) → FinEnum (S.Position scale)\n  compatibleDecidable : (ctx : Core.BranchContext P) →\n    (target : S.Target) → (offset : S.Offset) →\n      Decidable (S.Compatible ctx target offset)\n  valueDecidableEq : DecidableEq S.Value\n  finiteScaleLimit : Nat\n\n/-- Route-facing invocation.  The inherited branch context is an index, so a\nroute supplies only the scale at which CT17 must run. -/\nstructure Input\n    {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uAmbient, uBranch, uTarget, uOffset, uPosition, uValue} P)\n    (_capability : Capability S) (_ctx : Core.BranchContext P) where\n  scale : Nat\n\nend StructuralExhaustion.CT17\n"
+      "sha256": "9a6957e0c9f1a7054b94d852b5d8f1b2b79d9d3d33ed2aafd69d858f331fa22e",
+      "content": "import StructuralExhaustion.CT17.Spec\n\nnamespace StructuralExhaustion.CT17\n\nuniverse uAmbient uBranch uTarget uOffset uPosition uValue\n\n/-! The complete problem-specific CT17 API.  Every field is primitive\nmathematical data, a finite enumerator, or a decision procedure. -/\n\nstructure Capability\n    {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uAmbient, uBranch, uTarget, uOffset, uPosition, uValue} P) where\n  targets : FinEnum S.Target\n  offsets : FinEnum S.Offset\n  positions : (scale : Nat) → FinEnum (S.Position scale)\n  compatibleDecidable : (ctx : Core.BranchContext P) →\n    (target : S.Target) → (offset : S.Offset) →\n      Decidable (S.Compatible ctx target offset)\n  valueDecidableEq : DecidableEq S.Value\n  finiteScaleLimit : Nat\n\n/-- Transition-facing invocation.  The inherited branch context is an index,\nso a transition supplies only the scale at which CT17 must run. -/\nstructure Input\n    {P : Core.Problem.{uAmbient, uBranch}}\n    (S : Spec.{uAmbient, uBranch, uTarget, uOffset, uPosition, uValue} P)\n    (_capability : Capability S) (_ctx : Core.BranchContext P) where\n  scale : Nat\n\nend StructuralExhaustion.CT17\n"
     },
     {
       "sourceId": "StructuralExhaustion/CT17/Execution.lean",

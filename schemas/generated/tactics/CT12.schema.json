@@ -129,6 +129,23 @@
             "residualKindId": "CT12.residual.tier",
             "leanType": "Capability.TierResidual",
             "inheritedContext": "loopState"
+          },
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_from_predecessor",
+                "leanType": "complete exact predecessor ledger",
+                "fieldName": "previous"
+              },
+              {
+                "provision": "derived_by_generic_theorem",
+                "leanType": "public CT execution indexed by the predecessor",
+                "fieldName": "execution"
+              }
+            ],
+            "residualKindId": "CT12.residual.accumulatedLedger",
+            "leanType": "StructuralExhaustion.Core.Routing.ResidualStage",
+            "inheritedContext": "branch"
           }
         ],
         "nodes": [
@@ -6219,6 +6236,18 @@
                 "provision": "framework_constant"
               },
               {
+                "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.MaximalVerifiedStage",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.VerifiedStage.toMaximal",
+                "provision": "framework_constant"
+              },
+              {
+                "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.maximalVerifiedStage",
+                "provision": "framework_constant"
+              },
+              {
                 "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.run_total",
                 "provision": "framework_constant"
               }
@@ -6891,6 +6920,18 @@
         },
         {
           "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.verifiedStage",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.MaximalVerifiedStage",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.VerifiedStage.toMaximal",
+          "provision": "framework_constant"
+        },
+        {
+          "ref": "StructuralExhaustion.CT12.DisjointPacking.Profile.maximalVerifiedStage",
           "provision": "framework_constant"
         },
         {

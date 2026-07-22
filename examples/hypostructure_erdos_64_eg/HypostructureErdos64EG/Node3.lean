@@ -1,5 +1,6 @@
 import Hypostructure.Core.Budget.Work
 import Hypostructure.Core.Closure
+import Hypostructure.Core.Metadata
 import Hypostructure.Core.Residual.Focus
 import HypostructureErdos64EG.Node2
 
@@ -50,6 +51,11 @@ def node3 (previous : Node2Stage.{u})
   Core.Closure.Result.direct
     (.certificate (node3_officialConclusion previous active))
 
+/-- Node 3 is a proof-only terminal, so it performs no primitive checks. -/
+def node3WorkBudget :
+    Core.PolynomialCheckBudget Node2Stage.{u} :=
+  Core.PolynomialCheckBudget.proofOnly Node2Stage.{u}
+
 /-- Node 3 uses Core's direct-certificate closure mechanism. -/
 theorem node3_closure_mechanism (previous : Node2Stage.{u})
     (active : (Core.Residual.Focus.no
@@ -58,21 +64,73 @@ theorem node3_closure_mechanism (previous : Node2Stage.{u})
   rfl
 
 @[simp] theorem node3_checks_eq_zero (previous : Node2Stage.{u}) :
-    (Core.PolynomialCheckBudget.proofOnly Node2Stage.{u}).checks previous = 0 :=
+    node3WorkBudget.checks previous = 0 :=
   Core.PolynomialCheckBudget.proofOnly_checks _ _
 
 /-- The proof-only terminal satisfies Core's zero-check polynomial budget. -/
 theorem node3_work_bounded (previous : Node2Stage.{u}) :
-    (Core.PolynomialCheckBudget.proofOnly Node2Stage.{u}).checks previous ≤
-      (Core.PolynomialCheckBudget.proofOnly Node2Stage.{u}).coefficient *
-        ((Core.PolynomialCheckBudget.proofOnly Node2Stage.{u}).size previous + 1) ^
-          (Core.PolynomialCheckBudget.proofOnly Node2Stage.{u}).degree :=
-  (Core.PolynomialCheckBudget.proofOnly Node2Stage.{u}).bounded previous
+    node3WorkBudget.checks previous ≤
+      node3WorkBudget.coefficient *
+        (node3WorkBudget.size previous + 1) ^ node3WorkBudget.degree :=
+  node3WorkBudget.bounded previous
+
+/-- Proof-relevant audit record for the node-3 direct terminal closure. -/
+def node3Metadata :
+    Core.Metadata.DeclarationMetadata.{u + 1, 0, u + 1}
+      Node2Stage.{u} Node2Stage.{u} where
+  declaration :=
+    ⟨"HypostructureErdos64EG.Node3", "node3"⟩
+  primitiveInputs := [
+    ⟨⟨"HypostructureErdos64EG.Node3", "node3_officialConclusion"⟩,
+      .semanticLaw⟩
+  ]
+  inferredDependencies := [
+    ⟨⟨"HypostructureErdos64EG.Node2", "node2"⟩,
+      .predecessorProjection⟩,
+    ⟨⟨"HypostructureErdos64EG.Node3", "node3TargetQuery"⟩,
+      .predecessorProjection⟩
+  ]
+  ledgerQueries := []
+  frameworkSearch := [
+    ⟨"Hypostructure.Core.Closure", "Closure.Result.direct"⟩
+  ]
+  generatedOutputs := [
+    ⟨⟨"Hypostructure.Core.Closure", "Closure.Result"⟩,
+      .closureResult⟩
+  ]
+  genericTheorems := [
+    ⟨"Hypostructure.Core.Closure", "Closure.Result.direct"⟩,
+    ⟨"Hypostructure.Core.Budget.Work",
+      "PolynomialCheckBudget.proofOnly_checks"⟩
+  ]
+  closureMechanisms := [Core.Closure.Mechanism.direct]
+  workBound := node3WorkBudget
+  manualObligations := []
+
+/-- Node 3 has no unrecorded mathematical or routing obligation. -/
+def node3MetadataComplete :
+    Core.Metadata.Complete node3Metadata :=
+  ⟨rfl⟩
+
+theorem node3_metadata_has_no_manual_obligation
+    (obligation : Core.Metadata.ManualObligation) :
+    Not (obligation ∈ node3Metadata.manualObligations) :=
+  node3MetadataComplete.no_manual_obligation obligation
+
+/-- The metadata stores the same zero-work bound used by the terminal. -/
+theorem node3_metadata_work_bounded (previous : Node2Stage.{u}) :
+    node3Metadata.workBound.checks previous <=
+      node3Metadata.workBound.coefficient *
+        (node3Metadata.workBound.size previous + 1) ^
+          node3Metadata.workBound.degree :=
+  node3MetadataComplete.work_bounded previous
 
 #print axioms node3
 #print axioms node3_officialConclusion
 #print axioms node3_closure_mechanism
 #print axioms node3_checks_eq_zero
 #print axioms node3_work_bounded
+#print axioms node3_metadata_has_no_manual_obligation
+#print axioms node3_metadata_work_bounded
 
 end HypostructureErdos64EG

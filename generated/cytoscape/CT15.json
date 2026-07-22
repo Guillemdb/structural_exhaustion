@@ -684,6 +684,43 @@
         "constructorType": "{P : Core.Problem} →\n  {S : CT15.Spec P} →\n    {capability : CT15.Capability S} →\n      {input : CT15.Input P} →\n        {rank : CT15.RankState S capability input} →\n          {full : CT15.FullRankState S capability input rank} →\n            {ledger : CT15.LedgerState S capability input full} →\n              CT15.FullRankLedgerResidual S capability input ledger →\n                CT15.Graph.Edge S capability input CT15.Graph.NodeId.ledgerComparison\n                  CT15.Graph.NodeId.fullRankLedgerTerminal",
         "provision": "generated_audit"
       }
+    },
+    {
+      "data": {
+        "id": "CT15.residual.accumulatedLedger->CT9",
+        "label": "CT15.residual.accumulatedLedger->CT9",
+        "kind": "transitionProfile",
+        "transitionProfile": {
+          "transitionConstructor": "StructuralExhaustion.Routes.Accumulated.transition",
+          "targetTacticId": "CT9",
+          "targetExecutableInterface": "StructuralExhaustion.CT9.Capability.executableInterface",
+          "sourceTacticId": "CT15",
+          "sourceResidualKind": "CT15.residual.accumulatedLedger",
+          "selectionClass": "forced",
+          "profileId": "CT15.residual.accumulatedLedger->CT9",
+          "familyId": "CT15->CT9",
+          "authoringBoundary": {
+            "semanticDiscovery": {
+              "kind": "problemSemanticAdapter",
+              "adapterType": "StructuralExhaustion.Routes.Accumulated.Adapter"
+            },
+            "problemSpecificInputs": [
+              "targetCapability",
+              "semanticDiscoveryAdapter"
+            ],
+            "frameworkOwnedResponsibilities": [
+              "exactSourceLedger",
+              "semanticDiscovery",
+              "targetContextConstruction",
+              "triggerConstruction",
+              "targetExecution",
+              "accumulatedLedgerOutput",
+              "transitionProvenance"
+            ]
+          },
+          "advanceExecutor": "StructuralExhaustion.Routes.Accumulated.advance"
+        }
+      }
     }
   ]
 }

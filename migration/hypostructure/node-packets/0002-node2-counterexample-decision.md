@@ -89,6 +89,7 @@ Parity is therefore normalized to the paper-visible predicates:
 | Binary decision | `node2` | Exact Core decision on the Node 1 predecessor |
 | Exhaustiveness | `node2_exhaustive` | The selected constructor proves exactly one paper branch |
 | Negative branch forcing | `node2_no_branch_of_target` | A target certificate selects the no branch |
+| Positive branch forcing | `node2_yes_branch_of_counterexample` | A counterexample certificate selects the yes branch |
 | Exact work | `node2Counted_checks_eq_one` | One primitive branch inspection |
 | Budget agreement | `node2Counted_checks_eq_budget` | Count equals registered budget |
 | Work bound | `node2_work_bounded` | Core polynomial bound |

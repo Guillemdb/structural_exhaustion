@@ -126,6 +126,7 @@ Node & Problem-specific static inputs & Predecessor and inferred inputs & Framew
 \draw[ctedge] (n4.south east) to[bend left=15] node[ctedgelabel] {table\allowbreak{}Exact} (n5.north east);
 \draw[ctedge] (n5.east) to[bend left=10] node[ctedgelabel] {row\allowbreak{}Known} (n8.west);
 \draw[ctedge] (n5.east) to[bend left=10] node[ctedgelabel] {row\allowbreak{}Novel} (n9.west);
+\node[ctroute] (p1) at (3.30,-20.60) {\textbf{CT transition}\\\texttt{CT3.\allowbreak{}residual.\allowbreak{}accumulated\allowbreak{}Ledger-\allowbreak{}>CT1}\\{\tiny forced; problem\allowbreak{}Semantic\allowbreak{}Adapter}\\{\tiny adapter: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}Accumulated.\allowbreak{}Adapter}}};
 \end{tikzpicture}%
 \end{adjustbox}
 \caption{Automation-first sequential machine for CT3. Each executable node has separate problem-specific static, predecessor, and framework-derived dependency boxes. Terminal nodes consume only incoming edge evidence. Transition boxes are executable framework profiles.}
@@ -138,5 +139,10 @@ Node & Problem-specific static inputs & Predecessor and inferred inputs & Framew
 \begin{itemize}
 \item \texttt{CT3.\allowbreak{}residual.\allowbreak{}distingu\allowbreak{}ishing\allowbreak{}Context}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}Distingui\allowbreak{}shing\allowbreak{}Context\allowbreak{}Residual S C input}; inherited context \texttt{branch}.
 \item \texttt{CT3.\allowbreak{}residual.\allowbreak{}novel\allowbreak{}External\allowbreak{}Type}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}CT3.\allowbreak{}Novel\allowbreak{}External\allowbreak{}Type\allowbreak{}Residual S C input table}; inherited context \texttt{branch}.
+\item \texttt{CT3.\allowbreak{}residual.\allowbreak{}accumulated\allowbreak{}Ledger}: \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Core.\allowbreak{}Routing.\allowbreak{}Residual\allowbreak{}Stage}; inherited context \texttt{branch}.
+\end{itemize}
+\paragraph{Registered transition profiles.}
+\begin{itemize}
+\item \texttt{CT3.\allowbreak{}residual.\allowbreak{}accumulated\allowbreak{}Ledger-\allowbreak{}>CT1}: \texttt{CT3.\allowbreak{}residual.\allowbreak{}accumulated\allowbreak{}Ledger} $\to$ \texttt{CT1}; executor \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}Accumulated.\allowbreak{}advance}; authoring mode \texttt{problem\allowbreak{}Semantic\allowbreak{}Adapter} with adapter \texttt{Structural\allowbreak{}Exhaustion.\allowbreak{}Routes.\allowbreak{}Accumulated.\allowbreak{}Adapter}.
 \end{itemize}
 \endgroup

@@ -118,7 +118,7 @@ import StructuralExhaustion
 #check StructuralExhaustion.CT2.CertifiedReductionInput.reduction
 #check StructuralExhaustion.CT2.CertifiedReductionInput.reducedBaseline
 #check StructuralExhaustion.CT2.CertifiedReductionInput.targetMonotone
-#check StructuralExhaustion.CT2.certifiedReductionTacticInterface
+#check StructuralExhaustion.CT2.certifiedReductionExecutableInterface
 #check StructuralExhaustion.CT2.CertifiedReductionInput.witness
 #check StructuralExhaustion.CT2.runCertifiedReduction
 #check StructuralExhaustion.CT2.runCertifiedReduction_terminal
@@ -704,3 +704,10 @@ import StructuralExhaustion
 #check StructuralExhaustion.Routes.CT9ToCT7.ObjectAdapter
 #check StructuralExhaustion.Routes.CT14ToCT14.transition
 #check StructuralExhaustion.Routes.CT14ToCT14.advance
+#check StructuralExhaustion.Routes.Accumulated.transition
+#check StructuralExhaustion.Routes.Accumulated.advance
+#check StructuralExhaustion.Routes.Accumulated.Adapter
+#check StructuralExhaustion.CT1.Capability.executableInterface
+#check StructuralExhaustion.CT5.Capability.executableInterface
+#check StructuralExhaustion.CT6.Capability.executableInterface
+#check StructuralExhaustion.CT15.Capability.executableInterface

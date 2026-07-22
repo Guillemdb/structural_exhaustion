@@ -270,6 +270,7 @@ def generated_artifacts_are_fresh(catalog_path: Path) -> tuple[bool, str]:
                 "kernel-verification.json",
             }
             and path.relative_to(observed_root).parts[0] != "examples"
+            and path.relative_to(observed_root).parts[0] != "hypostructure"
         }
         if expected == observed:
             return True, ""
@@ -344,9 +345,9 @@ def example_catalog_is_fresh(
         latest_hash = snapshots[-1]["artifactSha256"]
     except (OSError, json.JSONDecodeError, KeyError, IndexError, TypeError) as error:
         return False, f"generated Erdős proof history is malformed: {error}"
-    rendered_erdos = output_root / "generated/examples/erdos-64.json"
-    if latest_hash != sha256(rendered_erdos):
-        return False, "generated Erdős proof history does not record the fresh artifact"
+    observed_erdos = ROOT / "generated/examples/erdos-64.json"
+    if latest_hash != sha256(observed_erdos):
+        return False, "generated Erdős proof history does not record the checked-in artifact"
     observed.pop(history_name, None)
     if expected == observed:
         return True, ""

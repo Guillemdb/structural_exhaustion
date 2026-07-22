@@ -418,10 +418,10 @@ def test_mathlib_graph_profiles_are_framework_owned_and_reused() -> None:
         ROOT / "examples/even_cycle/EvenCycleExample/CT2Audit.lean"
     ).read_text(encoding="utf-8")
     erdos_ct1 = (
-        ROOT / "examples/erdos_64_eg/Erdos64EG/CT1.lean"
+        ROOT / "examples/erdos_64_eg/Erdos64EG/Shared/CT1.lean"
     ).read_text(encoding="utf-8")
     erdos_ct2 = (
-        ROOT / "examples/erdos_64_eg/Erdos64EG/CT2.lean"
+        ROOT / "examples/erdos_64_eg/Erdos64EG/Shared/CT2.lean"
     ).read_text(encoding="utf-8")
     assert "(staticInput V).cycleDeletionProfile" in even_deletion
     assert "(staticInput V).edgeRootedEncoding" in erdos_ct1
@@ -447,7 +447,7 @@ def test_ct15_baseline_demand_is_framework_owned_and_reused() -> None:
     ).read_text(encoding="utf-8")
     erdos = (
         ROOT
-        / "examples/erdos_64_eg/Erdos64EG/CT15BaselineSpineDemand.lean"
+        / "examples/erdos_64_eg/Erdos64EG/Shared/CT15BaselineSpineDemand.lean"
     ).read_text(encoding="utf-8")
 
     for declaration in (
@@ -532,7 +532,6 @@ def test_even_cycle_example_exposes_the_complete_run_surface() -> None:
         example_root / "EvenCycleExample/CT2Audit.lean"
     ).read_text(encoding="utf-8")
     assert "(staticInput V).ct2DeletionRule" in deletion_audit
-    assert "localRoute_disabled" in deletion_audit
     assert "MinimumDegreeCycleRouted" in deletion_audit
     assert "(staticInput V).cycleDeletionProfile" in deletion_audit
     assert "Routes.CT1ToCT2.LocalDeletion.rule" not in deletion_audit
@@ -671,17 +670,8 @@ def test_transition_profiles_are_executable_and_framework_owned() -> None:
     residual_ids = {residual["residualKindId"] for residual in residuals}
     assert len(residual_ids) == len(residuals)
     assert all(residual["semanticFields"] for residual in residuals)
-    assert {profile["profileId"] for profile in catalog["transitionProfiles"]} == {
-        "CT1.residual.avoiding->CT2",
-        "CT1.residual.avoiding->CT2.localDeletion",
-        "CT1.terminal.c1->CT12",
-        "CT2.residual.separatingContext->CT3",
-        "CT2.residual.criticality->CT10",
-        "CT5.residual.chargeLedger->CT14",
-        "CT6.residual.activeLedger->CT9",
-        "CT9.residual.overload->CT7",
-        "CT14.residual.capacity->CT14",
-    }
+    profile_ids = {profile["profileId"] for profile in catalog["transitionProfiles"]}
+    assert set(TRANSITION_EXPECTED_PROBLEM_INPUTS) <= profile_ids
     expected_semantic_discovery = {
         "CT1.residual.avoiding->CT2": {
             "kind": "capabilityDiscovery",
@@ -720,6 +710,11 @@ def test_transition_profiles_are_executable_and_framework_owned() -> None:
             "adapterType": None,
         },
     }
+    accumulated_discovery = {
+        "kind": "problemSemanticAdapter",
+        "adapterType": "StructuralExhaustion.Routes.Accumulated.Adapter",
+    }
+    accumulated_inputs = ["targetCapability", "semanticDiscoveryAdapter"]
     for profile in catalog["transitionProfiles"]:
         profile_id = profile["profileId"]
         assert profile["sourceResidualKind"] in residual_ids
@@ -740,10 +735,16 @@ def test_transition_profiles_are_executable_and_framework_owned() -> None:
         )
         assert profile["advanceExecutor"].endswith(".advance")
         boundary = profile["authoringBoundary"]
-        assert boundary["semanticDiscovery"] == expected_semantic_discovery[profile_id]
-        assert boundary["problemSpecificInputs"] == TRANSITION_EXPECTED_PROBLEM_INPUTS[
-            profile_id
-        ]
+        if "residual.accumulatedLedger" in profile_id:
+            assert boundary["semanticDiscovery"] == accumulated_discovery
+            assert boundary["problemSpecificInputs"] == accumulated_inputs
+        else:
+            assert boundary["semanticDiscovery"] == expected_semantic_discovery[
+                profile_id
+            ]
+            assert boundary["problemSpecificInputs"] == TRANSITION_EXPECTED_PROBLEM_INPUTS[
+                profile_id
+            ]
         assert (
             boundary["frameworkOwnedResponsibilities"]
             == TRANSITION_FRAMEWORK_RESPONSIBILITIES

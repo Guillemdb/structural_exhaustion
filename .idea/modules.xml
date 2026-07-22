@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/structural_exhaustion.iml" filepath="$PROJECT_DIR$/.idea/structural_exhaustion.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/structural-exhaustion.iml" filepath="$PROJECT_DIR$/.idea/structural-exhaustion.iml" />
     </modules>
   </component>
 </project>

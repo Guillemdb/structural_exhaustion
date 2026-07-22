@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://structural-exhaustion.dev/schemas/generated/transition-families/CT3-_CT1.schema.json",
+  "title": "CT3->CT1 CT transition family",
+  "allOf": [
+    {
+      "$ref": "../../lean-machine-catalog.schema.json#/$defs/transitionFamily"
+    },
+    {
+      "const": {
+        "targetTacticId": "CT1",
+        "sourceTacticId": "CT3",
+        "profileIds": [
+          "CT3.residual.accumulatedLedger->CT1"
+        ],
+        "familyId": "CT3->CT1"
+      }
+    }
+  ],
+  "x-leanSourceOfTruth": {
+    "kind": "compiledLeanEnvironment",
+    "catalog": "generated/lean-machines.json",
+    "registry": "StructuralExhaustion.Canonical.transitionFamilies"
+  }
+}

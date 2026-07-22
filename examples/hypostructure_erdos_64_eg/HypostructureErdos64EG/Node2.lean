@@ -91,6 +91,19 @@ theorem node2_no_branch_of_target (previous : Node1Stage.{u})
   | isFalse absent =>
       exact ⟨node2Decision.no_of_not_yes previous absent, rfl⟩
 
+/-- A counterexample certificate forces the exact positive constructor. -/
+theorem node2_yes_branch_of_counterexample (previous : Node1Stage.{u})
+    (counterexample : IsCounterexample previous) :
+    ∃ proof : IsCounterexample previous,
+      (node2 previous).added =
+        Core.Residual.Decision.Binary.yesBranch proof := by
+  unfold node2 node2Counted Core.Residual.Decision.Node.run
+  cases decision : node2Decision.yesDecidable previous with
+  | isTrue proof =>
+      exact ⟨proof, rfl⟩
+  | isFalse absent =>
+      exact (absent counterexample).elim
+
 @[simp] theorem node2Counted_checks_eq_one (previous : Node1Stage.{u}) :
     (node2Counted previous).checks = 1 :=
   rfl
@@ -164,6 +177,7 @@ theorem node2_metadata_work_bounded (previous : Node1Stage.{u}) :
 
 #print axioms node2
 #print axioms node2_exhaustive
+#print axioms node2_yes_branch_of_counterexample
 #print axioms node2_no_branch_of_target
 #print axioms node2Counted_checks_eq_one
 #print axioms node2Counted_checks_eq_budget

@@ -121,6 +121,23 @@
             "residualKindId": "CT16.residual.closedTypeMismatch",
             "leanType": "StructuralExhaustion.CT16.ClosedTypeMismatchResidual",
             "inheritedContext": "branch"
+          },
+          {
+            "semanticFields": [
+              {
+                "provision": "derived_from_predecessor",
+                "leanType": "complete exact predecessor ledger",
+                "fieldName": "previous"
+              },
+              {
+                "provision": "derived_by_generic_theorem",
+                "leanType": "public CT execution indexed by the predecessor",
+                "fieldName": "execution"
+              }
+            ],
+            "residualKindId": "CT16.residual.accumulatedLedger",
+            "leanType": "StructuralExhaustion.Core.Routing.ResidualStage",
+            "inheritedContext": "branch"
           }
         ],
         "nodes": [
@@ -143,7 +160,7 @@
                     "ref": "Input",
                     "provision": "derived_from_predecessor"
                   },
-                  "plainExplanation": "Route-facing invocation; the branch context is an index and is never\nduplicated inside a residual. ",
+                  "plainExplanation": "Transition-facing invocation; the branch context is an index and is never\nduplicated inside a residual. ",
                   "mathematicalDefinition": null,
                   "label": "Input",
                   "declarationId": "StructuralExhaustion.CT16.Input"
@@ -155,7 +172,7 @@
                     "ref": "CT16.Input",
                     "provision": "derived_definitionally"
                   },
-                  "plainExplanation": "Route-facing invocation; the branch context is an index and is never\nduplicated inside a residual. ",
+                  "plainExplanation": "Transition-facing invocation; the branch context is an index and is never\nduplicated inside a residual. ",
                   "mathematicalDefinition": null,
                   "label": "CT16.Input",
                   "declarationId": "StructuralExhaustion.CT16.Input"
@@ -1192,7 +1209,7 @@
             "name": "StructuralExhaustion.CT16.Input",
             "module": "StructuralExhaustion.CT16.Types",
             "kind": "inductive",
-            "docString": "Route-facing invocation; the branch context is an index and is never\nduplicated inside a residual. ",
+            "docString": "Transition-facing invocation; the branch context is an index and is never\nduplicated inside a residual. ",
             "declarationId": "StructuralExhaustion.CT16.Input",
             "bodyDependencies": [
               "StructuralExhaustion.CT16.Input.mk"
