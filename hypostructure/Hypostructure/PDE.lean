@@ -26,6 +26,8 @@ import Hypostructure.PDE.FastTrack.EllipticConstraintTail
 import Hypostructure.PDE.Budget
 import Hypostructure.PDE.Contract
 import Hypostructure.PDE.CT3
+import Hypostructure.PDE.CT1
+import Hypostructure.PDE.CT2
 import Hypostructure.PDE.CT4
 import Hypostructure.PDE.CT5
 import Hypostructure.PDE.CT6
@@ -40,6 +42,7 @@ import Hypostructure.PDE.CT14
 import Hypostructure.PDE.CT15
 import Hypostructure.PDE.CT16
 import Hypostructure.PDE.CT17
+import Hypostructure.PDE.Strategy
 
 /-!
 # Generic PDE specialization

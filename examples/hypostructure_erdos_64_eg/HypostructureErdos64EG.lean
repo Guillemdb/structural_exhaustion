@@ -81,3 +81,4 @@ import HypostructureErdos64EG.Node163
 import HypostructureErdos64EG.Node164
 import HypostructureErdos64EG.ColdBranchClosure
 import HypostructureErdos64EG.OnlyTypeAOrB
+import HypostructureErdos64EG.TypeABStrategies

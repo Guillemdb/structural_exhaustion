@@ -52,6 +52,7 @@ import Hypostructure.Core.Execution
 import Hypostructure.Core.Routing
 import Hypostructure.Core.Closure
 import Hypostructure.Core.Metadata
+import Hypostructure.Core.Strategy
 import Hypostructure.Core.NormalForm.ClassClosure
 import Hypostructure.Core.NormalForm.SignGap
 import Hypostructure.Core.NormalForm.EqualityRigidity
@@ -83,6 +84,7 @@ import Hypostructure.Graph.Object
 import Hypostructure.Graph.Problem
 import Hypostructure.Graph.Finite
 import Hypostructure.Graph.SupportComponents
+import Hypostructure.Graph.Strategy
 import Hypostructure.Graph.SupportCharge
 import Hypostructure.Graph.Budget
 import Hypostructure.Graph.NegativeSupport
