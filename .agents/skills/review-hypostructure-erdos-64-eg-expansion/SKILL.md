@@ -7,27 +7,44 @@ description: "Audit and repair the already-touched Hypostructure Erdős--Gyárf�
 
 Clear defects in the existing touched dependency cone. Do not implement the next white/frontier node. Preserve useful partial code, but demote unsupported status immediately.
 
+## EG authority preflight
+
+For any Erdős--Gyárfás Problem 64 task, read
+`original_erdos_64_proof.tex` **FIRST**, before any API/process document,
+migration row, generated view, living proof, or legacy Lean source. It is the
+immutable sole authority for EG mathematics, strategy, node identity and
+responsibility, and DAG topology. Freeze the exact quantified node contract,
+branch alternatives, and exact incoming/outgoing DAG edges from that file.
+
+Only after that contract and those edges are frozen may the matching
+kernel-checked legacy `NodeX.lean` be read, and then only as implementation and
+parity evidence. `proofs/erdos_64_eg/erdos_64_proof.tex` is a living,
+non-binding editorial cross-check; it cannot repair, supplement, weaken,
+strengthen, or redirect the original contract or edges. Any discrepancy blocks
+the task: record it and stop rather than reconciling the sources or silently
+changing the obligation. Never edit `original_erdos_64_proof.tex`.
+
+After this preflight, API/process documents govern framework ownership,
+capabilities, migration process, and status only. They never outrank or
+reinterpret the original on EG mathematics, node responsibility, or DAG
+topology.
+
 ## Establish the review basis
 
-Read completely:
+After freezing the exact contract and edges, read completely:
 
 - [`../implement-next-hypostructure-erdos-64-eg-ct/references/mandatory-node-template.md`](../implement-next-hypostructure-erdos-64-eg-ct/references/mandatory-node-template.md);
 - [`../implement-next-hypostructure-erdos-64-eg-ct/SKILL.md`](../implement-next-hypostructure-erdos-64-eg-ct/SKILL.md);
-- the exact topology, definitions, and proof in the immutable mathematical authority `original_erdos_64_proof.tex`;
-- the corresponding kernel-checked legacy node and framework declarations as implementation/parity evidence;
+- the matching kernel-checked legacy node and framework declarations as implementation/parity evidence;
 - the selected CT skill and its live `Spec` through `Automation` layers;
 - the implicated manuscript diagram/proof and `migration/hypostructure/eg-node-matrix.csv` rows;
 - every direct new predecessor and reviewed facade;
 - every consumed Core, Routes, Graph declaration and independent fixture; and
 - any parity module, trust entry, and Hypostructure-native evidence cited by the rows.
 
-Inspect the dirty worktree and preserve unrelated edits. Read frozen legacy
-code only after reconstructing the obligation from the original manuscript;
-use it as checked implementation and parity evidence, never as a production
+Inspect the dirty worktree and preserve unrelated edits. Use frozen legacy code
+as checked implementation and parity evidence, never as a production
 import, independent mathematical authority, or automatic status promotion.
-
-Never edit `original_erdos_64_proof.tex`. The living manuscript is a
-non-binding editorial cross-check and cannot change any reviewed obligation.
 
 ## Reconstruct topology and status independently
 

@@ -2,11 +2,19 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 from pathlib import Path
 
 import pytest
 
 from tools.check_hypostructure_imports import check_repository
+from tools.update_hypostructure_migration_records import (
+    EG_FIELDS,
+    ORIGINAL_EG_PREDECESSORS,
+    SUPPLEMENTAL_LEGACY_FIELDS,
+    update_eg,
+    update_supplemental_legacy,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -126,6 +134,80 @@ def test_domain_inversions_and_route_internals_are_rejected(tmp_path: Path) -> N
         "eg application imports PDE framework layer",
         "eg application imports framework Routes directly",
         "pde application imports Graph framework layer",
+    )
+    for fragment in expected:
+        assert any(fragment in item for item in errors), fragment
+
+
+def test_exact_web_exporter_may_consume_compiled_environment(
+    tmp_path: Path,
+) -> None:
+    write(
+        tmp_path,
+        "hypostructure/Hypostructure/Canonical/WebExport.lean",
+        """import Hypostructure
+import Hypostructure.PDE.NavierStokes
+import Lean
+""",
+    )
+
+    assert check_repository(tmp_path) == []
+
+
+def test_web_exporter_exception_does_not_leak_to_other_sources(
+    tmp_path: Path,
+) -> None:
+    write(
+        tmp_path,
+        "hypostructure/Hypostructure/Canonical/OtherExport.lean",
+        """import Hypostructure
+import Lean
+""",
+    )
+    write(
+        tmp_path,
+        "hypostructure/Hypostructure/Graph/WebExport.lean",
+        """import Hypostructure
+import Lean
+""",
+    )
+
+    errors = check_repository(tmp_path)
+    for relative in (
+        "hypostructure/Hypostructure/Canonical/OtherExport.lean",
+        "hypostructure/Hypostructure/Graph/WebExport.lean",
+    ):
+        assert any(
+            item.startswith(f"{relative}:1:")
+            and "layered source imports the umbrella module" in item
+            for item in errors
+        )
+        assert any(
+            item.startswith(f"{relative}:2:")
+            and "unauthorized external import Lean" in item
+            for item in errors
+        )
+
+
+def test_web_exporter_remains_inside_non_generated_trust_boundary(
+    tmp_path: Path,
+) -> None:
+    write(
+        tmp_path,
+        "hypostructure/Hypostructure/Canonical/WebExport.lean",
+        """import Hypostructure.Canonical.GeneratedCatalog
+import HypostructureErdos64EG.Node1
+import IndependentFramework.API
+axiom exporterShortcut : True
+""",
+    )
+
+    errors = check_repository(tmp_path)
+    expected = (
+        "generated source import Hypostructure.Canonical.GeneratedCatalog",
+        "generic framework imports eg application HypostructureErdos64EG.Node1",
+        "unauthorized external import IndependentFramework.API",
+        "axiom exporterShortcut is outside an External boundary",
     )
     for fragment in expected:
         assert any(fragment in item for item in errors), fragment
@@ -348,6 +430,85 @@ def read_csv(name: str) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
+def original_eg_diagram_predecessors() -> dict[int, tuple[int, ...]]:
+    source = (ROOT / "original_erdos_64_proof.tex").read_text(encoding="utf-8")
+    diagram = source[
+        source.index(r"\subsection*{Proof-dependency diagram}") : source.index(
+            r"\subsection*{Detailed dependency table}"
+        )
+    ]
+    blocks = re.findall(
+        r"\\begin\{tikzpicture\}.*?\\end\{tikzpicture\}",
+        diagram,
+        flags=re.DOTALL,
+    )
+    predecessors = {node_id: set() for node_id in range(1, 158)}
+    seen_nodes: set[int] = set()
+
+    for block in blocks:
+        aliases = {
+            alias: int(node_id)
+            for alias, node_id in re.findall(
+                r"\\node\[[^\]]+\]\s*\((\w+)\).*?"
+                r"\\textbf\{\[(\d+)\]\}",
+                block,
+            )
+        }
+        seen_nodes.update(aliases.values())
+        for arrow in re.findall(
+            r"\\draw\[arrow(?:,[^\]]*)?\](.*?);", block, flags=re.DOTALL
+        ):
+            path_aliases = [
+                alias
+                for alias in re.findall(r"\((\w+)(?:\.[^)]+)?\)", arrow)
+                if alias in aliases
+            ]
+            assert len(path_aliases) >= 2
+            source_node = aliases[path_aliases[0]]
+            target_node = aliases[path_aliases[-1]]
+            predecessors[target_node].add(source_node)
+
+    # The original captions identify these cross-panel continuation inputs.
+    continuations = {
+        26: {25},
+        35: {33},
+        47: {34},
+        57: {56},
+        65: {64},
+        66: {108},
+        78: {68},
+        86: {63},
+        110: {77, 109},
+        125: {20},
+        145: {24},
+    }
+    for node_id, incoming in continuations.items():
+        predecessors[node_id].update(incoming)
+
+    assert len(blocks) == 11
+    assert seen_nodes == set(range(1, 158))
+    return {
+        node_id: tuple(sorted(incoming))
+        for node_id, incoming in predecessors.items()
+    }
+
+
+def test_migrated_node6_split_uses_original_source_topology() -> None:
+    source_root = (
+        ROOT
+        / "examples/hypostructure_erdos_64_eg/HypostructureErdos64EG"
+    )
+    node7 = (source_root / "Node7.lean").read_text(encoding="utf-8")
+    node8 = (source_root / "Node8.lean").read_text(encoding="utf-8")
+
+    assert "import HypostructureErdos64EG.Node6" in node7
+    assert "import HypostructureErdos64EG.Node6" in node8
+    assert "import HypostructureErdos64EG.Node7" not in node8
+    assert "Node7Stage" not in node7
+    assert "Node7Focus" not in node7
+    assert "Node6AvoidingStage" in node8
+
+
 def test_api_feature_matrix_has_required_owners_and_statuses() -> None:
     rows = read_csv("api-feature-matrix.csv")
     expected_header = [
@@ -391,31 +552,10 @@ def test_api_feature_matrix_has_required_owners_and_statuses() -> None:
     }
 
 
-def test_eg_node_matrix_covers_manuscript_and_source_only_nodes() -> None:
+def test_eg_node_matrix_covers_exact_original_authority_topology() -> None:
     rows = read_csv("eg-node-matrix.csv")
-    expected_header = [
-        "node_id",
-        "paper_ref",
-        "direct_predecessors",
-        "legacy_files",
-        "legacy_declarations",
-        "normalized_input",
-        "normalized_outcomes",
-        "ct_ids",
-        "required_features",
-        "new_file",
-        "parity_module",
-        "legacy_kernel",
-        "new_kernel",
-        "parity_status",
-        "math_status",
-        "work_status",
-        "web_evidence",
-        "status",
-        "blocker",
-    ]
-    assert list(rows[0]) == expected_header
-    assert {int(row["node_id"]) for row in rows} == set(range(1, 165))
+    assert list(rows[0]) == EG_FIELDS
+    assert {int(row["node_id"]) for row in rows} == set(range(1, 158))
     assert len({row["node_id"] for row in rows}) == len(rows)
     assert {row["status"] for row in rows} <= {
         "inventoried",
@@ -427,8 +567,7 @@ def test_eg_node_matrix_covers_manuscript_and_source_only_nodes() -> None:
         "published",
         "cutover",
     }
-    assert all(row["paper_ref"] for row in rows if int(row["node_id"]) <= 157)
-    assert all(not row["paper_ref"] for row in rows if int(row["node_id"]) > 157)
+    assert all(row["paper_ref"] for row in rows)
     assert all(
         not row["legacy_files"]
         for row in rows
@@ -451,12 +590,223 @@ def test_eg_node_matrix_covers_manuscript_and_source_only_nodes() -> None:
             assert row["status"] == "scaffolded"
         else:
             assert row["status"] == "inventoried"
-    assert by_id[65]["direct_predecessors"] == "64|66"
-    assert by_id[66]["direct_predecessors"] == "108"
-    assert by_id[89]["direct_predecessors"] == "88|102"
-    assert by_id[110]["direct_predecessors"] == "77|109"
-    assert by_id[137]["direct_predecessors"] == "131|136"
-    assert by_id[144]["direct_predecessors"] == "140|142|143"
+    assert set(ORIGINAL_EG_PREDECESSORS) == set(range(1, 158))
+    assert ORIGINAL_EG_PREDECESSORS == original_eg_diagram_predecessors()
+    for node_id, predecessors in ORIGINAL_EG_PREDECESSORS.items():
+        assert by_id[node_id]["direct_predecessors"] == "|".join(
+            map(str, predecessors)
+        )
+
+    # These are intentional original/source-import divergences and guard
+    # against silently restoring source-derived topology.
+    expected_divergences = {
+        4: "2",
+        8: "6",
+        17: "15",
+        21: "19",
+        24: "22",
+        34: "32",
+        35: "33",
+        38: "36",
+        40: "38",
+        43: "41",
+        47: "34",
+        53: "50",
+        54: "52|53",
+        55: "53",
+        61: "59",
+        63: "62",
+        65: "64|66",
+        66: "108",
+        89: "88|102",
+        110: "77|109",
+        137: "131|136",
+        144: "140|142|143",
+        157: "154",
+    }
+    assert {
+        node_id: by_id[node_id]["direct_predecessors"]
+        for node_id in expected_divergences
+    } == expected_divergences
+
+    # Preserve reviewed local obligations independently of parity.
+    assert by_id[3]["math_status"] == "closed"
+    assert by_id[3]["work_status"] == "captured"
+    assert by_id[3]["web_evidence"] == ""
+    assert by_id[3]["parity_status"] == "not_run"
+    assert by_id[3]["status"] == "typechecked"
+    assert by_id[3]["blocker"] == "semantic parity baseline not frozen"
+
+    reviewed_prefix_features = {
+        4: "core.focus-selection-work|core.progress|graph.progress",
+        5: "core.focus-selection-work|graph.rooted-return",
+        6: (
+            "core.focus-selection-work|ct.ct1|graph.ct1|"
+            "graph.rooted-return"
+        ),
+        7: "core.closure|ct.ct1|graph.ct1|graph.rooted-return",
+        8: (
+            "core.focus-selection-work|core.progress|"
+            "graph.proper-subgraph-minimality"
+        ),
+        9: "core.focus-selection-work|graph.deletion-criticality",
+        10: "core.focus-selection-work|graph.deletion-criticality",
+    }
+    for node_id, required_features in reviewed_prefix_features.items():
+        assert by_id[node_id]["required_features"] == required_features
+        assert by_id[node_id]["math_status"] == "closed"
+        assert by_id[node_id]["work_status"] == "captured"
+        assert by_id[node_id]["web_evidence"] == ""
+        assert by_id[node_id]["parity_status"] == "not_run"
+        assert by_id[node_id]["status"] == "typechecked"
+        assert by_id[node_id]["blocker"] == (
+            "semantic parity baseline not frozen"
+        )
+
+    assert by_id[4]["direct_predecessors"] == "2"
+    assert by_id[5]["observed_legacy_ct_ids"] == ""
+    assert by_id[6]["observed_legacy_ct_ids"] == "CT1"
+    assert by_id[7]["observed_legacy_ct_ids"] == ""
+    assert by_id[8]["observed_legacy_ct_ids"] == "CT1"
+    for node_id in (9, 10):
+        assert by_id[node_id]["observed_legacy_ct_ids"] == ""
+
+    assert by_id[11]["math_status"] == "closed"
+    assert by_id[11]["work_status"] == "captured"
+    assert by_id[11]["web_evidence"] == ""
+    assert by_id[11]["parity_status"] == "not_run"
+    assert by_id[11]["status"] == "typechecked"
+    assert by_id[11]["blocker"] == "semantic parity baseline not frozen"
+
+    assert by_id[12]["observed_legacy_ct_ids"] == ""
+    assert by_id[12]["required_features"] == (
+        "core.proof-projection|graph.atom-response-coordinates|"
+        "graph.boundaried-atom-profile"
+    )
+    assert by_id[12]["math_status"] == "closed"
+    assert by_id[12]["work_status"] == "captured"
+    assert by_id[12]["web_evidence"] == ""
+    assert by_id[12]["parity_status"] == "not_run"
+    assert by_id[12]["status"] == "typechecked"
+    assert by_id[12]["blocker"] == "semantic parity baseline not frozen"
+
+    assert by_id[13]["math_status"] == "open"
+    assert by_id[13]["web_evidence"] == ""
+    assert by_id[13]["status"] == "inventoried"
+    assert by_id[13]["blocker"] == (
+        "original Node 13 boundary-overlap implication is false under "
+        "stated union gluing; explicit correction required"
+    )
+
+
+def test_supplemental_legacy_inventory_is_not_a_paper_status_ledger() -> None:
+    rows = read_csv("supplemental-legacy-evidence.csv")
+    assert list(rows[0]) == SUPPLEMENTAL_LEGACY_FIELDS
+    assert [int(row["legacy_node_id"]) for row in rows] == list(
+        range(158, 165)
+    )
+    assert len({row["legacy_node_id"] for row in rows}) == len(rows)
+    assert {
+        int(row["legacy_node_id"]): row["observed_imports"] for row in rows
+    } == {
+        158: "157",
+        159: "158",
+        160: "159",
+        161: "160",
+        162: "160",
+        163: "161",
+        164: "163",
+    }
+    assert {
+        int(row["legacy_node_id"]): row["observed_ct_ids"] for row in rows
+    } == {
+        158: "",
+        159: "CT3",
+        160: "CT3",
+        161: "",
+        162: "CT3",
+        163: "CT3",
+        164: "CT3",
+    }
+    assert all("excluded from the original EG DAG" in row["notes"] for row in rows)
+    assert "status" not in rows[0]
+    assert "direct_predecessors" not in rows[0]
+    assert "parity_status" not in rows[0]
+    assert "math_status" not in rows[0]
+
+
+def test_eg_updater_never_derives_paper_edges_from_legacy_imports(
+    tmp_path: Path,
+) -> None:
+    write(
+        tmp_path,
+        "examples/erdos_64_eg/Erdos64EG/Node4.lean",
+        "import Erdos64EG.Node3\n",
+    )
+    write(
+        tmp_path,
+        "examples/erdos_64_eg/Erdos64EG/Node8.lean",
+        "import Erdos64EG.Node7\n",
+    )
+    write(
+        tmp_path,
+        "examples/erdos_64_eg/Erdos64EG/Node158.lean",
+        "import Erdos64EG.Node157\n",
+    )
+    matrix = tmp_path / "migration/hypostructure/eg-node-matrix.csv"
+    supplemental = (
+        tmp_path / "migration/hypostructure/supplemental-legacy-evidence.csv"
+    )
+    matrix.parent.mkdir(parents=True, exist_ok=True)
+    with matrix.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=EG_FIELDS, lineterminator="\n")
+        writer.writeheader()
+        node11 = {field: "" for field in EG_FIELDS}
+        node11.update(
+            {
+                "node_id": "11",
+                "math_status": "open",
+                "work_status": "not_captured",
+                "blocker": "reviewed Node 11 blocker",
+            }
+        )
+        source_only = {field: "" for field in EG_FIELDS}
+        source_only.update(
+            {
+                "node_id": "160",
+                "normalized_input": "reviewed source-only input",
+                "normalized_outcomes": "reviewed source-only outcome",
+                "observed_legacy_ct_ids": "CT3",
+            }
+        )
+        writer.writerows((node11, source_only))
+
+    update_supplemental_legacy(tmp_path, supplemental, matrix)
+    update_eg(tmp_path, matrix)
+
+    with matrix.open(newline="", encoding="utf-8") as handle:
+        by_id = {
+            int(row["node_id"]): row for row in csv.DictReader(handle)
+        }
+    with supplemental.open(newline="", encoding="utf-8") as handle:
+        supplemental_by_id = {
+            int(row["legacy_node_id"]): row for row in csv.DictReader(handle)
+        }
+
+    assert by_id[4]["direct_predecessors"] == "2"
+    assert by_id[8]["direct_predecessors"] == "6"
+    assert by_id[11]["math_status"] == "open"
+    assert by_id[11]["work_status"] == "not_captured"
+    assert by_id[11]["blocker"] == "reviewed Node 11 blocker"
+    assert 158 not in by_id
+    assert supplemental_by_id[158]["observed_imports"] == "157"
+    assert supplemental_by_id[160]["normalized_input"] == (
+        "reviewed source-only input"
+    )
+    assert supplemental_by_id[160]["normalized_outcomes"] == (
+        "reviewed source-only outcome"
+    )
+    assert supplemental_by_id[160]["observed_ct_ids"] == "CT3"
 
 
 def test_pde_row_matrix_covers_rows_one_through_eighteen_and_17b() -> None:
@@ -492,6 +842,28 @@ def test_pde_row_matrix_covers_rows_one_through_eighteen_and_17b() -> None:
     for row_id in ("1", "2", "3", "4"):
         assert by_id[row_id]["kernel_status"] == "kernel_checked"
         assert by_id[row_id]["integration_status"] == "fixture_checked"
+
+    assert by_id["2"]["ns2d_instance"] == "not_started"
+    assert "RepresentedNS2DGeneratorFormPacket" in by_id["2"][
+        "axiom_free_fixture"
+    ]
+    assert "valid represented equation state" in by_id["2"]["notes"]
+    assert "full continuum admissibility is not encoded" in by_id["2"][
+        "notes"
+    ]
+
+    assert by_id["3"]["ns2d_instance"] == "not_started"
+    assert "RepresentedNS2DResourceBudgetPacket" in by_id["3"][
+        "axiom_free_fixture"
+    ]
+    assert "proves no NSE energy estimate" in by_id["3"]["notes"]
+
+    assert by_id["4"]["ns2d_instance"] == "not_started"
+    assert "RepresentedNS2DQuotientDefectPacket" in by_id["4"][
+        "axiom_free_fixture"
+    ]
+    assert "typed query preserved across row 3" in by_id["4"]["notes"]
+    assert "prove no continuum q/U" in by_id["4"]["notes"]
 
 
 def test_baseline_and_decision_templates_are_machine_usable() -> None:

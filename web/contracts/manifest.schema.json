@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hypostructure.dev/contracts/web-manifest-2.0.0.schema.json",
+  "title": "Hypostructure documentation manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "snapshot_sha256", "counts", "sources"],
+  "properties": {
+    "schema_version": {"const": "2.0.0"},
+    "snapshot_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "counts": {
+      "type": "object",
+      "required": ["pages", "sources", "modules", "declarations", "cts", "routes", "examples", "erdos_nodes", "search_documents"],
+      "properties": {
+        "pages": {"type": "integer", "minimum": 10},
+        "sources": {"type": "integer", "minimum": 1},
+        "modules": {"type": "integer", "minimum": 1},
+        "declarations": {"type": "integer", "minimum": 1},
+        "cts": {"const": 17},
+        "routes": {"type": "integer", "minimum": 1},
+        "examples": {"type": "integer", "minimum": 1},
+        "erdos_nodes": {"const": 157},
+        "search_documents": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "sha256"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

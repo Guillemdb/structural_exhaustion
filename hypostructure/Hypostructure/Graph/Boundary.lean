@@ -3,10 +3,11 @@ import Hypostructure.Graph.Finite
 /-!
 # Finite graph boundaries
 
-The piece owns all boundary--boundary edges.  A normalized outside context
-owns none, so the two finite sides have an exact, disjoint ownership convention
-when they are glued.  The structures contain no target, obstruction, or
-problem-specific state.
+A boundary piece and an outside context are finite boundaried graphs on the
+same labelled interface.  Either side may own boundary--boundary edges; gluing
+identifies equal boundary labels and takes the union of both edge sets.  Edge
+ownership may therefore overlap.  The structures contain no target,
+obstruction, or problem-specific state.
 -/
 
 namespace Hypostructure.Graph
@@ -26,21 +27,19 @@ def vertexCount (boundary : Boundary.{u}) : Nat :=
 
 end Boundary
 
-/-- The atom side of a graph decomposition.  It owns boundary--boundary edges. -/
+/-- The atom side of a graph decomposition. -/
 structure BoundaryPiece (boundary : Boundary.{u}) where
   Internal : Type u
   internalVertices : FinEnum Internal
   graph : SimpleGraph (boundary.Vertex ⊕ Internal)
   decideAdj : DecidableRel graph.Adj
 
-/-- The normalized global context.  Its boundary--boundary edge set is empty. -/
+/-- The outside side of a graph decomposition on the same labelled boundary. -/
 structure OutsideContext (boundary : Boundary.{u}) where
   Internal : Type u
   internalVertices : FinEnum Internal
   graph : SimpleGraph (boundary.Vertex ⊕ Internal)
   decideAdj : DecidableRel graph.Adj
-  noBoundaryEdge : forall left right : boundary.Vertex,
-    Not (graph.Adj (.inl left) (.inl right))
 
 namespace BoundaryPiece
 
@@ -69,7 +68,7 @@ def internalVertexCount {boundary : Boundary.{u}}
     (outside : OutsideContext boundary) : Nat :=
   outside.internalVertices.card
 
-/-- Forget the interface normalization and obtain an ordinary finite graph. -/
+/-- Forget the distinguished interface and obtain an ordinary finite graph. -/
 def pack {boundary : Boundary.{u}} (outside : OutsideContext boundary) :
     FiniteObject.{u} where
   Vertex := boundary.Vertex ⊕ outside.Internal
@@ -118,7 +117,7 @@ def PieceOwns {boundary : Boundary.{u}}
       pieceEmbedding piece outside pieceLeft = left /\
       pieceEmbedding piece outside pieceRight = right
 
-/-- One glued adjacency contributed by the normalized context side. -/
+/-- One glued adjacency contributed by the context side. -/
 def ContextOwns {boundary : Boundary.{u}}
     (piece : BoundaryPiece boundary) (outside : OutsideContext boundary)
     (left right : GluedVertex piece outside) : Prop :=

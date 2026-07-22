@@ -30,6 +30,21 @@ FRAMEWORK_WORKFLOWS = {
 }
 EXPECTED_SKILLS = {*CT_SKILLS, *MIGRATED_WORKFLOWS, *FRAMEWORK_WORKFLOWS}
 
+EG_AUTHORITY_PREFLIGHT_SKILLS = {
+    "understand-hypostructure-framework",
+    "design-hypostructure-proof",
+    "implement-hypostructure-proof",
+    "implement-hypostructure-graph-proof",
+    "implement-hypostructure-route",
+    "extend-hypostructure-framework",
+    "review-hypostructure-framework-change",
+    "maintain-hypostructure-migration",
+    "repair-hypostructure-manuscript",
+    "red-team-hypostructure-manuscript-repair",
+    "implement-next-hypostructure-erdos-64-eg-ct",
+    "review-hypostructure-erdos-64-eg-expansion",
+}
+
 REFERENCE_FILES = {
     "implement-next-hypostructure-erdos-64-eg-ct": {
         "mandatory-node-template.md"
@@ -165,6 +180,95 @@ def test_legacy_skill_names_and_production_paths_are_removed() -> None:
         assert "generated/lean-machines.json" not in skill
         if name not in parity_only:
             assert "lean/StructuralExhaustion" not in skill
+
+
+def test_eg_capable_skills_enforce_original_first_authority_preflight() -> None:
+    required_phrases = (
+        "## eg authority preflight",
+        "`original_erdos_64_proof.tex` **first**",
+        "immutable sole authority for eg mathematics",
+        "node identity and responsibility",
+        "dag topology",
+        "freeze the exact quantified node contract",
+        "exact incoming/outgoing dag edges",
+        "matching kernel-checked legacy `nodex.lean`",
+        "implementation and parity evidence",
+        "`proofs/erdos_64_eg/erdos_64_proof.tex` is a living",
+        "cannot repair, supplement, weaken, strengthen, or redirect",
+        "any discrepancy blocks the task",
+        "api/process documents govern framework ownership",
+        "migration process, and status only",
+        "never outrank or reinterpret the original",
+    )
+    ordered_phrases = (
+        "`original_erdos_64_proof.tex` **first**",
+        "freeze the exact quantified node contract",
+        "matching kernel-checked legacy `nodex.lean`",
+        "`proofs/erdos_64_eg/erdos_64_proof.tex` is a living",
+        "any discrepancy blocks the task",
+        "after this preflight, api/process documents govern",
+    )
+    secondary_sources = (
+        "hypostructure_migration_guide.md",
+        "domain_independent_core.md",
+        "graph_layer_api.md",
+        "migration/hypostructure/eg-node-matrix.csv",
+        "proofs/erdos_64_eg/erdos_64_proof.tex",
+        "nodex.lean",
+    )
+
+    assert EG_AUTHORITY_PREFLIGHT_SKILLS <= EXPECTED_SKILLS
+    for name in sorted(EG_AUTHORITY_PREFLIGHT_SKILLS):
+        skill = normalized(name).lower()
+        for phrase in required_phrases:
+            assert phrase in skill, f"{name} lacks EG authority rule: {phrase}"
+
+        positions = [skill.index(phrase) for phrase in ordered_phrases]
+        assert positions == sorted(positions), (
+            f"{name} does not enforce original-contract-first source order"
+        )
+
+        original_position = skill.index("original_erdos_64_proof.tex")
+        for source in secondary_sources:
+            if source in skill:
+                assert original_position < skill.index(source), (
+                    f"{name} names {source} before the original EG authority"
+                )
+
+
+def test_migration_guidance_separates_eg_math_from_api_status_authority() -> None:
+    readme = (
+        ROOT / "migration/hypostructure/README.md"
+    ).read_text(encoding="utf-8")
+    authority = " ".join(
+        readme[
+            readme.index("## Authority by Concern") : readme.index("## Ledgers")
+        ].lower().split()
+    )
+
+    for phrase in (
+        "### eg authority preflight",
+        "`original_erdos_64_proof.tex` **first**",
+        "immutable sole authority for eg mathematics",
+        "freeze the exact quantified node contract",
+        "matching kernel-checked legacy `nodex.lean`",
+        "any discrepancy blocks the task",
+        "### framework ownership and status",
+        "these api/process documents never outrank or reinterpret",
+    ):
+        assert phrase in authority
+
+    ordered_phrases = (
+        "`original_erdos_64_proof.tex` **first**",
+        "freeze the exact quantified node contract",
+        "matching kernel-checked legacy `nodex.lean`",
+        "proofs/erdos_64_eg/erdos_64_proof.tex",
+        "any discrepancy blocks the task",
+        "### framework ownership and status",
+        "hypostructure_migration_guide.md",
+    )
+    positions = [authority.index(phrase) for phrase in ordered_phrases]
+    assert positions == sorted(positions)
 
 
 def test_each_ct_skill_is_live_status_aware() -> None:

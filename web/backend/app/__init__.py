@@ -1,1 +1,1 @@
-"""Artifact-backed API for the structural-exhaustion explorer."""
+"""Artifact-backed API for the Hypostructure documentation site."""

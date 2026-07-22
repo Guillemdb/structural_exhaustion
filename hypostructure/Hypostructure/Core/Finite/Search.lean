@@ -107,6 +107,32 @@ def hitOfHasHit {α : Type u} {schedule : Enumeration α}
   | none => simp [HasHit, found] at hasHit
   | some hit => exact hit
 
+/-- Recovering a hit from successful evidence returns the exact hit stored by
+the canonical execution. -/
+theorem hitOfHasHit_eq_of_eq_some {α : Type u}
+    {schedule : Enumeration α} {predicate : α -> Prop}
+    (execution : Execution schedule predicate) (hasHit : execution.HasHit)
+    (hit : IndexedHit schedule predicate)
+    (found : execution.hit? = some hit) :
+    execution.hitOfHasHit hasHit = hit := by
+  rcases execution with ⟨stored, exhaustive⟩
+  cases stored with
+  | none => simp [HasHit] at hasHit
+  | some storedHit =>
+      have equal : storedHit = hit := Option.some.inj found
+      subst hit
+      rfl
+
+/-- A successful execution stores exactly the hit recovered from its proof. -/
+theorem hit?_eq_some_hitOfHasHit {α : Type u}
+    {schedule : Enumeration α} {predicate : α -> Prop}
+    (execution : Execution schedule predicate) (hasHit : execution.HasHit) :
+    execution.hit? = some (execution.hitOfHasHit hasHit) := by
+  cases found : execution.hit? with
+  | none => simp [HasHit, found] at hasHit
+  | some hit =>
+      rw [execution.hitOfHasHit_eq_of_eq_some hasHit hit found]
+
 /-- The complementary branch is derived from the execution certificate, not
 authored by the caller. -/
 theorem avoids_of_not_hasHit {α : Type u} {schedule : Enumeration α}

@@ -310,19 +310,19 @@ loss, exterior escape, multiple profiles, or scale instability.
 
 ## 8. Continuum fast-track registration
 
-The full fast track extends `LocalModel` with the smallest primitive data from
-which the notebook invariants can be derived:
+The full fast track accumulates the smallest primitive capabilities from which
+the notebook invariants can be derived. In particular, row 4 reads the
+generator/form already installed at row 2; it does not accept a second copy:
 
 ```lean
-structure FastTrackSignature (M : LocalModel)
-    (Target : M.problem.Ambient -> Prop) where
-  observables : ObservableInterface M.problem M.atlas
-  generatorForm : GeneratorForm M
-  budget : Core.ResourceBudget
-  quotient : RepresentedQuotient M
-  quotientGenerator : QuotientGenerator M quotient
-  defectGeometry : DefectGeometry M
-  targetInterface : TargetInterface M Target observables
+variable (formQuery : Core.Residual.Query Previous
+  (fun _ => GeneratorForm M State))
+variable (quotient : (previous : Previous) ->
+  RepresentedQuotient (formQuery.read previous) Quotient)
+variable (quotientGenerator : (previous : Previous) ->
+  QuotientGenerator (formQuery.read previous) (quotient previous))
+
+def row4 := PDE.registerDefect formQuery quotient quotientGenerator previous
 ```
 
 The author does **not** provide:
@@ -344,7 +344,8 @@ The PDE layer exposes small independent profiles.
 
 | Capability | Author primitives | Framework-derived result |
 |---|---|---|
-| `GeneratorForm` | closed form, domain, sector and decomposition laws | represented symmetric/skew/boundary split |
+| `GeneratorForm` | represented state presentation, domain, generator/form data, topology, closure, sector and decomposition laws | equation-attached generator/form stage with restriction to nested windows |
+| `RepresentedQuotient` | projection and lift on the exact inherited form-state carrier, quotient generator | exact `L_X U - U L_Q` defect registered in the complete predecessor ledger |
 | `DefectGeometry` | positive form/operator and domain facts | routable/harmonic split and resistance residual |
 | `TargetCompactification` | affordable windows, shells, restrictions, flux reflection | escaping/in-window split and zero-flux residual ledger |
 | `CapacityProfile` | affordable potentials and energy comparison | zero-capacity closure or positive-capacity residual |
@@ -356,6 +357,72 @@ The PDE layer exposes small independent profiles.
 | `RigidityProfile` | Liouville, Pohozaev, Noether, virial, or separator theorem | equality-quotient closure or exact residual |
 | `CompactExtraction` | compactness and obstruction-persistence theorems | extracted descendant stage |
 | `ProfileFamily` | residual-owned profiles, decoupling and mass laws | multibubble, cascade, peeling, and hidden-mass outcomes |
+
+### 9.1 Generator-state attachment and analytic boundary
+
+Every `GeneratorForm M State` must include a
+`RepresentedStatePresentation M State`: one registered atlas window and a
+total map sending each form state to a valid `EquationState` for `M.equation`
+on that window. The PDE layer derives restriction of those states to every
+nested window. This prevents the equation parameter from being phantom and
+lets downstream rows query the exact represented equation state from the
+ledger.
+
+This attachment is semantic, not analytic. The current executable capability
+does not derive an `L2` presentation, coercivity, Markovianity,
+quasi-regularity, a Beurling-Deny-LeJan decomposition, nonnegative killing,
+the exact `E^s_1` sector estimate, a right process, or capacity/polar theory.
+Those are named PDE-boundary contracts required by the authoritative row-2
+source before a Navier-Stokes instance can advance beyond fixture status. A
+finite or zero-form packet may test registration and ledger preservation, but
+it cannot discharge any of those contracts by degeneracy.
+
+### 9.2 Quotient source and continuum boundary
+
+`RepresentedQuotient form Quotient` is indexed by the complete inherited
+`GeneratorForm`, not merely by a free state type. Its source carrier is
+therefore exactly the represented row-2 state carrier. The row-4 executor
+obtains that form only through a typed query preserved across row 3, computes
+the intertwining defect, extends the ledger, and invokes Core's exhaustive
+geometry decision.
+
+This operator-level capability is the minimal executable algebra. It does not
+by itself construct the continuum point map `q : X -> Q`, prove that `U` is
+pullback along `q`, establish operator domains, or prove membership in a
+Navier--Stokes defect geometry. Those obligations are explicit in issue 0003.
+A finite identity-quotient packet is fixture evidence only and cannot promote
+the continuum NS2D row.
+
+### 9.3 Structural gradient and directed exhaustiveness
+
+`StructuralGradient Potential Current` is a closed, densely defined
+Mathlib `LinearPMap` between real Hilbert spaces. Its domain, range, and
+kernel are the exact operator objects used by the row-5 source. A
+`PositiveStructuralGap` contains a literal `gamma > 0` and the Poincare
+inequality on `D(G) intersect (ker G)^perp`; it is not a finite-rank tag.
+
+The pinned Mathlib release does not package the unbounded closed-range
+criterion in the form required by Theorem 4.3. The model therefore registers
+that analytic theorem as `ClosedRangeCriterion`. Given a genuine gap, the PDE
+layer derives `ClosedRangeCertificate` and then constructs the orthogonal
+represented/residual decomposition as a sealed
+`DirectedExhaustivenessCertificate`. An application cannot provide the
+projection outputs, and CT15 full rank alone cannot trigger this derivation.
+
+The complementary route uses `Core.NormalForm.ClassClosure`. Its finite
+exhaustive miss only proves invisibility of the registered family. Literal
+vanishing of the whole quotient requires the separate
+`ClassClosure.TargetComplete` law, which says that every nonnull quotient
+class has a target-visible representative in that exact family. Core proves
+`AvoidsTargetVisible` if and only if `BoundaryZero` under this law and only
+then exposes zero-quotient propagation as row-5 closure.
+
+CT16 is an independent compactification-code audit. Its support scan, closed
+code computation, and equality comparison are counted operations with exact
+budgets. The row-5 profile must prove that proper support is impossible and
+that CT16 exact/mismatch terminals agree with class-closure zero/visible
+terminals. CT16 does not recompute the class-closure scan and its code equality
+has no quotient meaning without those bridge laws.
 
 ## 10. Fast-track rows and framework execution
 
@@ -370,7 +437,7 @@ and terminal validation are distinct operations.
 | 2. Generator/form | Core certification node | generator/form stage | missing closability or sector evidence |
 | 3. Budget | Core certification node | B1-B4 resource budget | nontransportable affordability |
 | 4. Quotient defect | Core derived stage | computed represented defect | defect outside declared geometry |
-| 5. Directed exhaustiveness | CT15 then CT16/CT10 | closed range or zero boundary quotient | target-visible boundary defect |
+| 5. Directed exhaustiveness | CT15 then CT16 and Core class closure | positive gap/closed range or target-complete zero boundary quotient | in-window target-visible positive-capacity nonzero-flux boundary defect |
 | 6. Routing | CT13 then CT7 | finite resistance with harmonic part closed | nonroutable harmonic residual |
 | 7. Capacity | CT14/CT1 | zero-capacity target exclusion | positive-capacity target witness |
 | 8. Committor/operator | CT3 then CT7 | response-complete quotient | projection or residual obstruction |

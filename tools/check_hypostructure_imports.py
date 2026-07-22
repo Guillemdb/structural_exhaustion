@@ -16,6 +16,9 @@ FRAMEWORK_MODULE = Path("hypostructure/Hypostructure.lean")
 EG_ROOT = Path("examples/hypostructure_erdos_64_eg")
 PDE_ROOT = Path("examples/hypostructure_pde")
 DEFAULT_ALLOWLIST = Path("migration/hypostructure/trust-allowlist.json")
+BUILD_TIME_EXPORTERS = frozenset(
+    {Path("hypostructure/Hypostructure/Canonical/WebExport.lean")}
+)
 
 LEGACY_MODULE_PREFIXES = (
     "StructuralExhaustion",
@@ -250,6 +253,11 @@ def _has_module_prefix(module: str, prefix: str) -> bool:
     return module == prefix or module.startswith(f"{prefix}.")
 
 
+def _is_build_time_exporter(source: SourceFile) -> bool:
+    """Recognize exact top-level consumers of the compiled Lean environment."""
+    return source.relative in BUILD_TIME_EXPORTERS
+
+
 def _forbidden_name(name: str) -> str | None:
     components = re.split(r"[._]", name)
     lowered = [component.casefold() for component in components]
@@ -283,6 +291,8 @@ def _route_ct_numbers(source: SourceFile) -> set[int]:
 
 def _framework_layer_error(source: SourceFile, module: str) -> str | None:
     if not _has_module_prefix(module, "Hypostructure"):
+        return None
+    if _is_build_time_exporter(source):
         return None
     if module == "Hypostructure":
         if source.layer == "root":
@@ -373,6 +383,8 @@ def _import_error(source: SourceFile, module: str) -> str | None:
                 return f"generic framework imports {package} application {module}"
         if _has_module_prefix(module, "Hypostructure"):
             return _framework_layer_error(source, module)
+        if _is_build_time_exporter(source) and _has_module_prefix(module, "Lean"):
+            return None
         if any(
             _has_module_prefix(module, prefix)
             for prefix in ALLOWED_EXTERNAL_MODULE_PREFIXES

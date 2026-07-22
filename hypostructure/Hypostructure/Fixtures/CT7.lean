@@ -107,6 +107,16 @@ def residual : Mode -> Residual
 def previous (mode : Mode) : Previous :=
   Core.Residual.Ledger.initial (residual mode)
 
+def realizationGenerated :=
+  _root_.Hypostructure.CT7.generateCounted capability (previous .realization)
+
+def distinguishingGenerated :=
+  _root_.Hypostructure.CT7.generateCounted capability
+    (previous .distinguishing)
+
+def neutralGenerated :=
+  _root_.Hypostructure.CT7.generateCounted capability (previous .neutral)
+
 def realizationResult : _root_.Hypostructure.CT7.ExecutionResult spec capability :=
   _root_.Hypostructure.CT7.execute spec capability (previous .realization)
 
@@ -138,6 +148,107 @@ theorem realization_checks : realizationResult.checks = 2 := rfl
 theorem distinguishing_checks : distinguishingResult.checks = 4 := rfl
 
 theorem neutral_checks : neutralResult.checks = 4 := rfl
+
+theorem realization_generated_terminal :
+    realizationGenerated.value.terminal = .realization := rfl
+
+theorem distinguishing_generated_terminal :
+    distinguishingGenerated.value.terminal = .distinguishing := rfl
+
+theorem neutral_generated_terminal :
+    neutralGenerated.value.terminal = .neutral := rfl
+
+theorem realization_generated_checks : realizationGenerated.checks = 2 := rfl
+
+theorem distinguishing_generated_checks :
+    distinguishingGenerated.checks = 4 := rfl
+
+theorem neutral_generated_checks : neutralGenerated.checks = 4 := rfl
+
+theorem realization_component_checks :
+    realizationGenerated.value.realizationChecks = 2 ∧
+      realizationGenerated.value.distinctionChecks = 0 := by
+  exact ⟨rfl, rfl⟩
+
+theorem distinguishing_component_checks :
+    distinguishingGenerated.value.realizationChecks = 2 ∧
+      distinguishingGenerated.value.distinctionChecks = 2 := by
+  exact ⟨rfl, rfl⟩
+
+theorem neutral_component_checks :
+    neutralGenerated.value.realizationChecks = 2 ∧
+      neutralGenerated.value.distinctionChecks = 2 := by
+  exact ⟨rfl, rfl⟩
+
+theorem realization_skips_distinction_execution :
+    realizationGenerated.value.distinctionExecution = none := rfl
+
+theorem distinguishing_retains_distinction_execution :
+    distinguishingGenerated.value.distinctionExecution =
+      some (_root_.Hypostructure.CT7.countedDistinctionScan capability
+        (previous .distinguishing)).value := rfl
+
+theorem neutral_retains_distinction_execution :
+    neutralGenerated.value.distinctionExecution =
+      some (_root_.Hypostructure.CT7.countedDistinctionScan capability
+        (previous .neutral)).value := rfl
+
+theorem realization_exact_count_equation :
+    realizationGenerated.value.checks =
+      (_root_.Hypostructure.CT7.countedRealizationScan capability
+        (previous .realization)).checks :=
+  realizationGenerated.value.checks_eq_realization rfl
+
+theorem distinguishing_exact_count_equation :
+    distinguishingGenerated.value.checks =
+      (_root_.Hypostructure.CT7.countedRealizationScan capability
+        (previous .distinguishing)).checks +
+      (_root_.Hypostructure.CT7.countedDistinctionScan capability
+        (previous .distinguishing)).checks :=
+  distinguishingGenerated.value.checks_eq_distinguishing rfl
+
+theorem neutral_exact_count_equation :
+    neutralGenerated.value.checks =
+      (_root_.Hypostructure.CT7.countedRealizationScan capability
+        (previous .neutral)).checks +
+      (_root_.Hypostructure.CT7.countedDistinctionScan capability
+        (previous .neutral)).checks :=
+  neutralGenerated.value.checks_eq_neutral rfl
+
+theorem realization_generation_budget_exact :
+    (_root_.Hypostructure.CT7.generationBudget capability).checks
+      (previous .realization) = realizationGenerated.checks := rfl
+
+theorem distinguishing_generation_budget_exact :
+    (_root_.Hypostructure.CT7.generationBudget capability).checks
+      (previous .distinguishing) = distinguishingGenerated.checks := rfl
+
+theorem neutral_generation_budget_exact :
+    (_root_.Hypostructure.CT7.generationBudget capability).checks
+      (previous .neutral) = neutralGenerated.checks := rfl
+
+theorem realization_generated_verified :
+    _root_.Hypostructure.CT7.OutcomeClaim
+      realizationGenerated.value.outcome :=
+  realizationGenerated.value.outcome.verified
+
+theorem distinguishing_generated_verified :
+    _root_.Hypostructure.CT7.OutcomeClaim
+      distinguishingGenerated.value.outcome :=
+  distinguishingGenerated.value.outcome.verified
+
+theorem neutral_generated_verified :
+    _root_.Hypostructure.CT7.OutcomeClaim neutralGenerated.value.outcome :=
+  neutralGenerated.value.outcome.verified
+
+theorem realization_run_stores_generated :
+    realizationResult.stage.added = realizationGenerated.value := rfl
+
+theorem distinguishing_run_stores_generated :
+    distinguishingResult.stage.added = distinguishingGenerated.value := rfl
+
+theorem neutral_run_stores_generated :
+    neutralResult.stage.added = neutralGenerated.value := rfl
 
 theorem realization_trace : realizationResult.traceNodes =
     [.entry, .contextSchedule, .realizationSearch, .realizationTerminal] := rfl
@@ -314,12 +425,19 @@ theorem result_verified :
 end PDE
 
 #print axioms Neutral.realization_terminal
+#print axioms Neutral.realization_exact_count_equation
+#print axioms Neutral.realization_generated_verified
 #print axioms Neutral.realization_verified
 #print axioms Neutral.distinguishing_terminal
+#print axioms Neutral.distinguishing_exact_count_equation
+#print axioms Neutral.distinguishing_generated_verified
 #print axioms Neutral.distinguishing_verified
 #print axioms Neutral.neutral_terminal
+#print axioms Neutral.neutral_exact_count_equation
+#print axioms Neutral.neutral_generated_verified
 #print axioms Neutral.neutral_verified
 #print axioms Neutral.neutral_total
+#print axioms _root_.Hypostructure.CT7.generateCounted_checks_eq_budget
 #print axioms Graph.result_terminal
 #print axioms Graph.result_verified
 #print axioms PDE.result_terminal

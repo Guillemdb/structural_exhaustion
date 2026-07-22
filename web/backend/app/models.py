@@ -1,607 +1,72 @@
-"""Public API response models for the framework explorer."""
+"""Pydantic contracts at the Flask API and generated-artifact boundaries."""
 
 from __future__ import annotations
 
-from typing import Any, Literal
+from typing import Any, ClassVar
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 
-class ApiModel(BaseModel):
+class StrictModel(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
-class ArtifactWarningView(ApiModel):
-    code: Literal["staleHash"]
-    message: str
-
-
-class VerificationView(ApiModel):
-    state: Literal["verified", "stale", "failed"]
-    reportedStatus: str
-    catalogHash: str
-    verificationCatalogHash: str
-    message: str
-    toolchain: dict[str, Any]
-    aggregate: dict[str, str]
-
-
-class CatalogView(ApiModel):
-    schemaVersion: str
-    catalogHash: str
-    sourceOfTruth: dict[str, Any]
-
-
-class ExampleCatalogView(ApiModel):
-    schemaVersion: str
-    catalogHash: str
-    sourceOfTruth: dict[str, Any]
-
-
-class ExampleVerificationView(ApiModel):
-    state: Literal["verified", "stale", "failed"]
-    reportedStatus: str
-    exampleCatalogHash: str
-    verificationExampleCatalogHash: str
-    message: str
-
-
-class FrameworkTotals(ApiModel):
-    tactics: int
-    nodes: int
-    transitions: int
-    terminals: int
-    residualKinds: int
-    transitionFamilies: int
-    transitionProfiles: int
-    implementedTransitions: int
-    manualObligations: int
-
-
-class TacticSummary(ApiModel):
-    tacticId: str
-    title: str
-    apiVersion: str
-    namespace: str
-    nodeCount: int
-    transitionCount: int
-    terminalCount: int
-    residualCount: int
-    manualObligationCount: int
-
-
-class ImplementedTransitionRecord(ApiModel):
-    transitionId: str
-    sourceTacticId: str
-    targetTacticId: str
-    relationshipKind: Literal[
-        "registeredTransition",
-        "frameworkComposition",
-        "proofData",
-        "validation",
-        "scheduleAudit",
-        "sharedProblem",
-    ]
-    automationClass: Literal[
-        "registeredTransition", "frameworkExecutor", "frameworkAudit"
-    ]
-    frameworkAutomated: Literal[True]
-    automationDeclarationIds: list[str]
-    label: str
-    summary: str
-    exampleId: str
-    exampleTitle: str
-    workflowId: str
-    workflowTitle: str
-    workflowCompletion: Literal["complete", "partial"]
-    linkId: str
-    sourceStageId: str
-    sourceStageTitle: str
-    sourceDeclarationId: str
-    targetStageId: str
-    targetStageTitle: str
-    targetDeclarationId: str
-    transitionProfileId: str | None = None
-    evidenceDeclarationIds: list[str]
-
-
-class HealthResponse(ApiModel):
-    status: Literal["ok"]
-    artifactType: Literal["frameworkExplorerHealth"]
-    artifactWarnings: list[ArtifactWarningView]
-    catalog: CatalogView
-    verification: VerificationView
-    tacticCount: int
-    exampleCount: int
-
-
-class FrameworkResponse(ApiModel):
-    artifactType: Literal["frameworkExplorer"]
-    artifactWarnings: list[ArtifactWarningView]
-    catalog: CatalogView
-    verification: VerificationView
-    exampleCatalog: ExampleCatalogView
-    exampleVerification: ExampleVerificationView
-    totals: FrameworkTotals
-    tactics: list[TacticSummary]
-    transitionFamilies: list[dict[str, Any]]
-    transitionProfiles: list[dict[str, Any]]
-    implementedTransitions: list[ImplementedTransitionRecord]
-
-
-class TacticResponse(ApiModel):
-    artifactType: Literal["frameworkExplorerTactic"]
-    artifactWarnings: list[ArtifactWarningView]
-    catalogHash: str
-    verification: VerificationView
-    tactic: dict[str, Any]
-    graph: dict[str, Any]
-    inboundTransitionProfiles: list[dict[str, Any]]
-    outboundTransitionProfiles: list[dict[str, Any]]
-
-
-class InternalReference(ApiModel):
-    ref: str
-    provision: str
-
-
-class InternalStep(ApiModel):
-    stepId: str
-    role: Literal[
-        "authorObject",
-        "inferredInstance",
-        "predecessorState",
-        "operation",
-        "theorem",
-        "output",
-    ]
-    reference: InternalReference
-    plainExplanation: str
-    mathematicalDefinition: str | None
-    label: str
-    declarationId: str | None
-
-
-class InternalEdge(ApiModel):
-    edgeId: str
-    sourceStepId: str
-    targetStepId: str
-    relation: Literal["consumes", "then", "produces", "certifies"]
-
-
-class InternalFlow(ApiModel):
-    nodeId: str
-    steps: list[InternalStep]
-    edges: list[InternalEdge]
-
-
-class NodeInternalRecord(ApiModel):
-    nodeId: str
-    internalFlow: InternalFlow
-
-
-class SourcePosition(ApiModel):
-    line: int
-    column: int
-
-
-class SourceRange(ApiModel):
-    start: SourcePosition
-    end: SourcePosition
-
-
-class InternalDeclaration(ApiModel):
-    declarationId: str
-    name: str
-    kind: Literal[
-        "axiom",
-        "definition",
-        "theorem",
-        "opaque",
-        "quotient",
-        "inductive",
-        "constructor",
-        "recursor",
-    ]
-    type: str
-    docString: str | None
-    module: str | None
-    sourceFile: str | None
-    range: SourceRange | None
-    selectionRange: SourceRange | None
-    bodyAvailable: bool
-    typeDependencies: list[str]
-    bodyDependencies: list[str]
-    projectLocal: bool
-    sourceId: str | None
-
-
-class InternalSource(ApiModel):
-    sourceId: str
-    moduleName: str | None
-    path: str
-    sha256: str
-    content: str
-
-
-class TacticInternals(ApiModel):
-    artifactType: Literal["structuralExhaustionNodeInternals"]
-    schemaVersion: Literal["1.0.0"]
-    tacticId: str
-    apiVersion: str
-    nodes: list[NodeInternalRecord]
-    declarations: list[InternalDeclaration]
-    sources: list[InternalSource]
-
-
-class TacticInternalsResponse(ApiModel):
-    artifactType: Literal["frameworkExplorerTacticInternals"]
-    artifactWarnings: list[ArtifactWarningView]
-    catalogHash: str
-    verification: VerificationView
-    internals: TacticInternals
-
-
-class ExampleWorkflowSummary(ApiModel):
-    workflowId: str
-    title: str
-    purpose: str
-    completion: str
-
-
-class ExampleSummary(ApiModel):
-    exampleId: str
-    title: str
-    summary: str
-    proofStatus: Literal["complete", "partial"]
-    tacticIds: list[str]
-    workflowCount: int
-    workflows: list[ExampleWorkflowSummary]
-
-
-class ExamplesResponse(ApiModel):
-    artifactType: Literal["frameworkExplorerExamples"]
-    artifactWarnings: list[ArtifactWarningView]
-    catalog: ExampleCatalogView
-    verification: ExampleVerificationView
-    examples: list[ExampleSummary]
-
-
-class ExampleDescriptorSource(ApiModel):
-    path: str
-    sha256: str
-
-
-class ExampleSourceOfTruth(ApiModel):
-    kind: Literal["compiledLeanEnvironment"]
-    rootModule: str
-    descriptor: str
-    descriptorSource: ExampleDescriptorSource | None = None
-
-
-class ExampleStageRecord(ApiModel):
-    stageId: str
-    title: str
-    summary: str
-    kind: Literal["problem", "tactic", "adapter", "certificate", "theorem", "fixture"]
-    tacticId: str | None = None
-    primaryDeclarationId: str
-    evidenceDeclarationIds: list[str]
-
-
-class ExampleLinkRecord(ApiModel):
-    linkId: str
-    sourceStageId: str
-    targetStageId: str
-    kind: Literal[
-        "registeredRoute",
-        "registeredTransition",
-        "frameworkComposition",
-        "proofData",
-        "validation",
-        "scheduleAudit",
-        "sharedProblem",
-    ]
-    label: str
-    summary: str
-    routeId: str | None = None
-    transitionProfileId: str | None = None
-    automationDeclarationIds: list[str]
-    evidenceDeclarationIds: list[str]
-
-
-class ExampleWorkflowRecord(ApiModel):
-    workflowId: str
-    title: str
-    summary: str
-    purpose: str
-    completion: Literal["complete", "partial"]
-    stages: list[ExampleStageRecord]
-    links: list[ExampleLinkRecord]
-
-
-class DocumentationAudienceCopy(ApiModel):
-    summary: str
-    inputs: str
-    result: str
-
-
-class DocumentationExampleRecord(ApiModel):
-    exampleId: str
-    workflowId: str
-    title: str
-    exampleTitle: str
-    workflow: ExampleWorkflowRecord
-
-
-class DocumentationCapabilityRecord(ApiModel):
-    capabilityId: str
-    layer: Literal["core", "graph"]
-    category: str
-    title: str
-    depth: Literal["index", "walkthrough"]
-    mathematician: DocumentationAudienceCopy
-    leanUser: DocumentationAudienceCopy
-    declarations: list[str]
-    relatedTacticIds: list[str]
-    relatedCapabilityIds: list[str]
-    examples: list[DocumentationExampleRecord]
-
-
-class DocumentationTacticGuide(ApiModel):
-    tacticId: str
-    role: str
-    useWhen: str
-    leanEntry: str
-
-
-class DocumentationResponse(ApiModel):
-    artifactType: Literal["frameworkExplorerDocumentation"]
-    artifactWarnings: list[ArtifactWarningView]
-    schemaVersion: Literal["1.0.0"]
-    catalogHash: str
-    sourceOfTruth: dict[str, Any]
-    verification: VerificationView
-    capabilities: list[DocumentationCapabilityRecord]
-    tacticGuides: list[DocumentationTacticGuide]
-
-
-class ExampleInterfaceBindingRecord(ApiModel):
-    bindingId: str
-    workflowId: str
-    stageId: str
-    tacticId: str
-    role: str
-    summary: str
-    problemDeclarationId: str
-    frameworkDeclarationId: str
-
-
-class ExampleManuscriptReferenceRecord(ApiModel):
-    label: str
-    title: str
-    nodeIds: list[int]
-
-
-class ExampleManuscriptInlineRecord(ApiModel):
-    kind: Literal[
-        "text",
-        "code",
-        "space",
-        "softBreak",
-        "lineBreak",
-        "math",
-        "emphasis",
-        "strong",
-        "underline",
-        "strikeout",
-        "smallCaps",
-        "upright",
-        "reference",
-        "citation",
-    ]
-    text: str | None = None
-    display: bool | None = None
-    tex: str | None = None
-    children: list["ExampleManuscriptInlineRecord"] | None = None
-    labels: list[str] | None = None
-    referenceKind: str | None = None
-    prefix: str | None = None
-    keys: list[str] | None = None
-
-
-class ExampleManuscriptBlockRecord(ApiModel):
-    kind: Literal[
-        "paragraph",
-        "heading",
-        "environment",
-        "orderedList",
-        "bulletList",
-        "blockQuote",
-        "codeBlock",
-        "figure",
-    ]
-    inlines: list[ExampleManuscriptInlineRecord] | None = None
-    level: int | None = None
-    label: str | None = None
-    environment: str | None = None
-    title: list[ExampleManuscriptInlineRecord] | None = None
-    blocks: list["ExampleManuscriptBlockRecord"] | None = None
-    start: int | None = None
-    items: list[list["ExampleManuscriptBlockRecord"]] | None = None
-    text: str | None = None
-    svg: str | None = None
-    svgSha256: str | None = None
-    caption: list["ExampleManuscriptBlockRecord"] | None = None
-
-
-class ExampleManuscriptFragmentRecord(ApiModel):
-    label: str
-    environment: str
-    sourceLine: int
-    includesProof: bool
-    contentSha256: str
-    blocks: list[ExampleManuscriptBlockRecord]
-
-
-class ExampleDeclarationGroupRecord(ApiModel):
-    groupId: str
-    title: str
-    role: Literal[
-        "mathematicalDefinition",
-        "semanticTheorem",
-        "encodingBridge",
-        "tacticExecution",
-        "executionAudit",
-        "soundnessTotality",
-        "workBound",
-        "compositionProvenance",
-        "frameworkInterface",
-        "externalTheorem",
-        "fixture",
-    ]
-    explanation: str
-    declarationIds: list[str]
-
-
-class ExampleProofStepRecord(ApiModel):
-    stepId: str
-    stageId: str | None = None
-    title: str
-    plainExplanation: str
-    formalStatement: str
-    status: Literal["implemented", "next", "notStarted"]
-    correspondence: Literal[
-        "exact", "equivalentEncoding", "specialization", "composite", "support", "partial"
-    ]
-    manuscriptRefs: list[ExampleManuscriptReferenceRecord]
-    declarationGroups: list[ExampleDeclarationGroupRecord]
-    scopeNotes: str
-    workBound: str
-
-
-class ExampleManuscriptCoverageRecord(ApiModel):
-    implementedSteps: int
-    totalSteps: int
-    explainedDeclarations: int
-    displayedDeclarations: int
-    verifiedMathematicalObjects: int
-    totalMathematicalObjects: int
-    verifiedDiagramNodes: int
-    totalDiagramNodes: int
-    verifiedWorkflowSteps: int
-
-
-class ExampleNodeObligationRecord(ApiModel):
-    nodeId: int
-    obligationId: str
-    title: str
-    statement: str
-    status: Literal["proved", "partial", "missing"]
-    evidenceStepIds: list[str]
-
-
-class ExampleManuscriptRecord(ApiModel):
-    title: str
-    path: str
-    sha256: str
-    fragments: list[ExampleManuscriptFragmentRecord]
-    formalizedNodeIds: list[int]
-    nodeObligations: list[ExampleNodeObligationRecord] = []
-    proofSteps: list[ExampleProofStepRecord]
-    coverage: ExampleManuscriptCoverageRecord
-
-
-class ExampleDeclarationRecord(ApiModel):
-    declarationId: str
-    name: str
-    kind: str
-    type: str
-    sourceId: str
-    startLine: int
-    startColumn: int
-    endLine: int
-    endColumn: int
-    selectionStartLine: int
-    selectionStartColumn: int
-    selectionEndLine: int
-    selectionEndColumn: int
-
-
-class ExampleSourceRecord(ApiModel):
-    sourceId: str
-    moduleName: str
-    path: str
-    sha256: str
-    content: str
-
-
-class ExampleDetail(ApiModel):
-    artifactType: Literal["structuralExhaustionExample"]
-    schemaVersion: Literal["1.4.0"]
-    sourceOfTruth: ExampleSourceOfTruth
-    exampleId: str
-    title: str
-    summary: str
-    proofStatus: Literal["complete", "partial"]
-    tacticIds: list[str]
-    workflows: list[ExampleWorkflowRecord]
-    interfaceBindings: list[ExampleInterfaceBindingRecord]
-    manuscript: ExampleManuscriptRecord | None
-    declarations: list[ExampleDeclarationRecord]
-    sources: list[ExampleSourceRecord]
-
-
-class ExampleResponse(ApiModel):
-    artifactType: Literal["frameworkExplorerExample"]
-    artifactWarnings: list[ArtifactWarningView]
-    catalogHash: str
-    frameworkCatalogHash: str
-    verification: ExampleVerificationView
-    example: ExampleDetail
-    tactics: list[TacticSummary]
-
-
-class ErdosProofHistoryObligations(ApiModel):
-    proved: int
-    total: int
-
-
-class ErdosProofDeclarationFootprint(ApiModel):
-    framework: int
-    author: int
-    external: int
-    total: int
-
-
-class ErdosProofFrameworkLeverage(ApiModel):
-    automatedLinkCount: int
-    registeredTransitionCount: int
-    interfaceBindingCount: int
-    declarationFootprint: ErdosProofDeclarationFootprint
-
-
-class ErdosProofHistoryProvenance(ApiModel):
-    recordedAt: str
-    gitCommit: str | None
-    workingTree: Literal["clean", "dirty", "unknown"]
-    sourceDateEpoch: int | None = None
-
-
-class ErdosProofHistorySnapshot(ApiModel):
-    artifactSha256: str
-    manuscriptSha256: str
-    formalizedNodeIds: list[int]
-    formalizedNodeCount: int
-    obligations: ErdosProofHistoryObligations
-    implementedWorkflowSteps: int
-    frameworkLeverage: ErdosProofFrameworkLeverage
-    provenance: ErdosProofHistoryProvenance
-
-
-class ErdosProofHistoryResponse(ApiModel):
-    artifactType: Literal["frameworkExplorerErdosProofHistory"]
-    artifactWarnings: list[ArtifactWarningView]
-    schemaVersion: Literal["1.0.0"]
-    exampleId: Literal["erdos-64"]
-    snapshots: list[ErdosProofHistorySnapshot]
+class ManifestSourceModel(StrictModel):
+    id: str = Field(min_length=1, max_length=240)
+    path: str = Field(min_length=1, max_length=1000)
+    sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+
+class ManifestModel(StrictModel):
+    schema_version: str = Field(min_length=1)
+    snapshot_sha256: str
+    counts: dict[str, int]
+    sources: list[ManifestSourceModel]
+
+    @field_validator("counts")
+    @classmethod
+    def counts_are_natural(cls, value: dict[str, int]) -> dict[str, int]:
+        if any(count < 0 for count in value.values()):
+            raise ValueError("manifest counts must be nonnegative")
+        return value
+
+
+class SnapshotModel(StrictModel):
+    schema_version: str = Field(min_length=1)
+    site: dict[str, Any]
+    pages: dict[str, dict[str, Any]]
+    modules: list[dict[str, Any]] | dict[str, dict[str, Any]]
+    declarations: list[dict[str, Any]] | dict[str, dict[str, Any]]
+    cts: list[dict[str, Any]] | dict[str, dict[str, Any]]
+    routes: list[dict[str, Any]] | dict[str, dict[str, Any]]
+    examples: list[dict[str, Any]] | dict[str, dict[str, Any]]
+    erdos: dict[str, Any]
+    sources: list[dict[str, Any]] | dict[str, dict[str, Any]]
+    search_documents: list[dict[str, Any]]
+    trust: dict[str, Any]
+
+
+class SearchQuery(StrictModel):
+    q: str = Field(default="", max_length=200)
+    kind: str | None = Field(default=None, min_length=1, max_length=100)
+    module: str | None = Field(default=None, min_length=1, max_length=300)
+    page: int = Field(default=1, ge=1)
+    page_size: int = Field(default=20, ge=1, le=100)
+
+    @field_validator("q")
+    @classmethod
+    def normalize_query(cls, value: str) -> str:
+        return " ".join(value.split())
+
+
+class SourceExcerptQuery(StrictModel):
+    start: int | None = Field(default=None, ge=1)
+    end: int | None = Field(default=None, ge=1)
+    default_span: ClassVar[int] = 160
+    maximum_span: ClassVar[int] = 400
+
+    @model_validator(mode="after")
+    def ordered_range(self) -> "SourceExcerptQuery":
+        if self.start is not None and self.end is not None and self.end < self.start:
+            raise ValueError("end line must not precede start line")
+        return self

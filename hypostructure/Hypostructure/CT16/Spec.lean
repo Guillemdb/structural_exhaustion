@@ -12,7 +12,11 @@ namespace Hypostructure.CT16
 
 universe uPrevious uCoordinate uCode
 
-/-- Domain-neutral whole-support and closed-code semantics. -/
+/-- Domain-neutral whole-support and closed-code semantics.
+
+`closedCode` is the mathematical denotation.  Executable CT16 capabilities must
+register a counted implementation, prove that its value equals this denotation,
+and supply its exact polynomial work budget. -/
 structure Spec (Previous : Type uPrevious) where
   Coordinate : Previous -> Type uCoordinate
   InSupport : (previous : Previous) -> Coordinate previous -> Prop

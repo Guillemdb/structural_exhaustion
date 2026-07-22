@@ -7,20 +7,48 @@ description: "Maintain the Structural Exhaustion-to-Hypostructure migration as a
 
 Maintain evidence, not appearances. Keep source inventory, kernel freshness, semantic parity, mathematical closure, work, trust, integration, publication, and cutover as separate judgments.
 
-## Follow the authority order
+## EG authority preflight
 
-Resolve conflicts in this order:
+For any Erdős--Gyárfás Problem 64 task, read
+`original_erdos_64_proof.tex` **FIRST**, before any API/process document,
+migration row, generated view, living proof, or legacy Lean source. It is the
+immutable sole authority for EG mathematics, strategy, node identity and
+responsibility, and DAG topology. Freeze the exact quantified node contract,
+branch alternatives, and exact incoming/outgoing DAG edges from that file.
 
-1. `HYPOSTRUCTURE_MIGRATION_GUIDE.md` for process and status semantics.
-2. `DOMAIN_INDEPENDENT_CORE.md`, `GRAPH_LAYER_API.md`, and `PDE_LAYER_API.md` for required ownership and public capabilities.
-3. The target manuscript/notebook for topology and mathematical responsibility.
-4. Direct Lean source for declarations/imports and fresh direct `.olean` files for kernel evidence.
-5. Migration matrices for reviewed inventory/status.
-6. Generated catalogs and web data as derived outputs only.
+Only after that contract and those edges are frozen may the matching
+kernel-checked legacy `NodeX.lean` be read, and then only as implementation and
+parity evidence. `proofs/erdos_64_eg/erdos_64_proof.tex` is a living,
+non-binding editorial cross-check; it cannot repair, supplement, weaken,
+strengthen, or redirect the original contract or edges. Any discrepancy blocks
+the task: record it and stop rather than reconciling the sources or silently
+changing the obligation. Never edit `original_erdos_64_proof.tex`.
 
-Legacy code is a frozen parity oracle until cutover, never a production dependency or API adapter. Only `examples/hypostructure_parity` may import both systems.
+After this preflight, API/process documents govern framework ownership,
+capabilities, migration process, and status only. They never outrank or
+reinterpret the original on EG mathematics, node responsibility, or DAG
+topology.
 
-Maintain the three committed ledgers directly: `migration/hypostructure/api-feature-matrix.csv`, `migration/hypostructure/eg-node-matrix.csv`, and `migration/hypostructure/pde-row-matrix.csv`.
+## Apply authority by concern
+
+- `HYPOSTRUCTURE_MIGRATION_GUIDE.md` governs migration process and status
+  semantics.
+- `DOMAIN_INDEPENDENT_CORE.md`, `GRAPH_LAYER_API.md`, and `PDE_LAYER_API.md`
+  govern required ownership and public capabilities.
+- A target's designated mathematical source governs its theorem, strategy, and
+  topology. For EG this is exclusively `original_erdos_64_proof.tex`, with
+  exactly Nodes 1-157 and the complete original-derived predecessor map.
+- Direct Lean source and fresh direct `.olean` files establish implementation
+  and kernel observations, not mathematical authority.
+- Migration matrices record reviewed inventory/status. Generated catalogs and
+  web data are derived outputs only.
+
+Legacy code is a frozen kernel-checked implementation and parity oracle until
+cutover. For EG, consult it only after the preflight; it is never mathematical
+or topology authority, a production dependency, or an API adapter. Only
+`examples/hypostructure_parity` may import both systems.
+
+Maintain the four committed ledgers directly: `migration/hypostructure/api-feature-matrix.csv`, `migration/hypostructure/eg-node-matrix.csv`, `migration/hypostructure/supplemental-legacy-evidence.csv`, and `migration/hypostructure/pde-row-matrix.csv`.
 
 ## Freeze the baseline before claiming parity
 
@@ -66,15 +94,16 @@ Before running the source refresher, inspect `git status`, the current matrix di
 python3 tools/update_hypostructure_migration_records.py --root .
 ```
 
-Inspect all three CSV diffs. The tool:
+Inspect all four CSV diffs. The tool:
 
 - updates source-derived API status from module/source and `.olean` freshness;
 - preserves reviewed feature rows by key;
-- refreshes EG direct predecessors from source plus the manuscript-only topology table;
+- refreshes every EG direct predecessor for Nodes 1-157 from the complete explicit map derived from `original_erdos_64_proof.tex`, never from imports;
+- records source-only legacy Nodes 158-164 in the supplemental implementation/parity inventory, excluded from the paper DAG, frontier, status, and completeness;
 - demotes reviewed EG states when their direct kernel basis becomes stale/missing; and
 - preserves reviewed parity/math/work fields rather than proving them.
 
-After every refresh, validate headers, unique keys, CT1-CT17 coverage, node coverage/topology, allowed vocabularies, and PDE rows including 17b. Never hand-promote a field from a neighboring field.
+After every refresh, validate headers, unique keys, CT1-CT17 coverage, exact paper-node coverage and topology, supplemental exclusion, allowed vocabularies, and PDE rows including 17b. Never hand-promote a field from a neighboring field.
 
 Use these state meanings exactly:
 
@@ -98,7 +127,7 @@ An ADR is not implementation evidence. Leave matrix status unchanged until sourc
 
 ## Maintain semantic parity
 
-Define parity only in `examples/hypostructure_parity`. Compare normalized paper-visible behavior: official inputs, baseline/target meaning, branch partitions in both directions, terminal/residual predicates, public facts, predecessor retention, work, and trust.
+Define parity only in `examples/hypostructure_parity`. For EG, compare normalized behavior visible in `original_erdos_64_proof.tex`: official inputs, baseline/target meaning, branch partitions in both directions, terminal/residual predicates, public facts, predecessor retention, work, and trust.
 
 Use explicit relations between old/new representations; do not expose production conversion functions. Golden fixtures may compare deterministic tags/codes, but general parity requires theorems. Record manuscript-correct differences rather than reproducing unsupported legacy assumptions. Parity never establishes mathematical closure.
 
@@ -128,7 +157,7 @@ Never overwrite the historical legacy artifact during an ordinary new-framework 
 
 ## Execute cutover only as a dedicated phase
 
-Require all Core/Graph/PDE APIs, CT1-CT17, registered routes, target applications, fixtures, fresh catalogs, direct kernel evidence, trust audits, firewall, and clean `migration-test` to pass first. Require every in-scope EG node to be directly closed or an explicit named active frontier according to the approved release criterion.
+Require all Core/Graph/PDE APIs, CT1-CT17, registered routes, target applications, fixtures, fresh catalogs, direct kernel evidence, trust audits, firewall, and clean `migration-test` to pass first. Require every original EG Node 1-157 to be directly closed or an explicit named active frontier according to the approved release criterion. Never count supplemental legacy Nodes 158-164 toward this condition.
 
 Then follow the guide's ordered cutover: freeze legacy development, generate a final comparison, switch build/example/catalog/web defaults, run a clean release gate, remove legacy and parity packages in one dedicated cleanup, remove obsolete schemas/targets/allowlists, perform required absence searches, regenerate everything, rerun from a clean checkout, and tag only after the second clean gate.
 
@@ -136,4 +165,4 @@ Do not keep an in-tree archive or compatibility namespace. Git history and the b
 
 ## Report maintenance results
 
-Report baseline identity/freshness, matrix rows changed, source-derived versus reviewed fields, ADRs, direct kernel evidence, parity/math/work/trust deltas, firewall results, dual-run checks, blockers, and whether any cutover entry condition remains unmet. Never describe the migration as complete while a required field or clean gate is missing.
+Report baseline identity/freshness, matrix and supplemental rows changed, source-derived versus reviewed fields, ADRs, direct kernel evidence, parity/math/work/trust deltas, firewall results, dual-run checks, blockers, and whether any cutover entry condition remains unmet. Never describe the migration as complete while a required field or clean gate is missing.

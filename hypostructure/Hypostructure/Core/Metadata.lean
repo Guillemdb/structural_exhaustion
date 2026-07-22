@@ -1,6 +1,7 @@
 import Hypostructure.Core.Closure
 import Hypostructure.Core.Execution
 import Hypostructure.Core.Provision
+import Hypostructure.Core.Residual.Focus
 import Hypostructure.Core.Residual.Query
 
 /-!
@@ -21,6 +22,13 @@ structure LedgerQueryUse (Previous : Type uPrevious) where
   Result : Previous -> Type uQuery
   query : Residual.Query Previous Result
 
+/-- One actual proof-indexed query used on a framework-owned focused branch. -/
+structure FocusedLedgerQueryUse (Previous : Type uPrevious) where
+  source : DeclarationRef
+  profile : Residual.Focus.Profile Previous
+  Result : (previous : Previous) -> profile.Active previous -> Type uQuery
+  query : Residual.Focus.ActiveQuery profile Result
+
 /-- A remaining manual obligation is a source-labelled proposition.  Complete
 metadata cannot contain one. -/
 structure ManualObligation where
@@ -34,6 +42,8 @@ structure DeclarationMetadata (Previous : Type uPrevious)
   primitiveInputs : List AuthorPrimitiveRef
   inferredDependencies : List InferredDependencyRef
   ledgerQueries : List (LedgerQueryUse.{uPrevious, uQuery} Previous)
+  focusedLedgerQueries :
+    List (FocusedLedgerQueryUse.{uPrevious, uQuery} Previous) := []
   frameworkSearch : List DeclarationRef
   generatedOutputs : List FrameworkOutputRef
   genericTheorems : List DeclarationRef

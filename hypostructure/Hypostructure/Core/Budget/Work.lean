@@ -13,7 +13,7 @@ namespace Hypostructure.Core
 universe u v
 
 /-- A uniform polynomial upper bound for a family of primitive-check counts. -/
-structure PolynomialCheckBudget (Input : Type u) where
+structure PolynomialCheckBudget (Input : Sort u) where
   size : Input -> Nat
   checks : Input -> Nat
   coefficient : Nat
@@ -24,7 +24,7 @@ structure PolynomialCheckBudget (Input : Type u) where
 namespace PolynomialCheckBudget
 
 /-- A constant local schedule is a degree-zero polynomial schedule. -/
-def constant {Input : Type u} (size : Input -> Nat) (checks : Nat) :
+def constant {Input : Sort u} (size : Input -> Nat) (checks : Nat) :
     PolynomialCheckBudget Input where
   size := size
   checks := fun _ => checks
@@ -33,7 +33,7 @@ def constant {Input : Type u} (size : Input -> Nat) (checks : Nat) :
   bounded := by simp
 
 /-- A proof-only projection performs no primitive inspection. -/
-def zero {Input : Type u} (size : Input -> Nat) :
+def zero {Input : Sort u} (size : Input -> Nat) :
     PolynomialCheckBudget Input where
   size := size
   checks := fun _ => 0
@@ -41,8 +41,18 @@ def zero {Input : Type u} (size : Input -> Nat) :
   degree := 1
   bounded := by simp
 
+/-- Canonical work budget for a proof-only declaration whose input size is
+irrelevant because it performs no primitive inspection. -/
+def proofOnly (Input : Sort u) : PolynomialCheckBudget Input :=
+  zero fun _input => 0
+
+@[simp]
+theorem proofOnly_checks (Input : Sort u) (input : Input) :
+    (proofOnly Input).checks input = 0 :=
+  rfl
+
 /-- Reindex a verified work schedule along an input adapter. -/
-def comap {Input : Type u} {Next : Type v}
+def comap {Input : Sort u} {Next : Sort v}
     (budget : PolynomialCheckBudget Input) (adapter : Next -> Input) :
     PolynomialCheckBudget Next where
   size := fun input => budget.size (adapter input)
@@ -52,7 +62,7 @@ def comap {Input : Type u} {Next : Type v}
   bounded := fun input => budget.bounded (adapter input)
 
 /-- Repeat every primitive check in a schedule a fixed number of times. -/
-def scale {Input : Type u} (factor : Nat)
+def scale {Input : Sort u} (factor : Nat)
     (budget : PolynomialCheckBudget Input) :
     PolynomialCheckBudget Input where
   size := budget.size
@@ -64,7 +74,7 @@ def scale {Input : Type u} (factor : Nat)
     simpa [Nat.mul_assoc] using
       Nat.mul_le_mul_left factor (budget.bounded input)
 
-private theorem term_le_commonEnvelope {Input : Type u}
+private theorem term_le_commonEnvelope {Input : Sort u}
     (budget other : PolynomialCheckBudget Input) (input : Input) :
     budget.coefficient * (budget.size input + 1) ^ budget.degree <=
       budget.coefficient *
@@ -80,7 +90,7 @@ private theorem term_le_commonEnvelope {Input : Type u}
       Nat.pow_le_pow_right (Nat.succ_pos _) (Nat.le_max_left _ _)
 
 /-- Sequential composition under a framework-computed common envelope. -/
-def add {Input : Type u}
+def add {Input : Sort u}
     (left right : PolynomialCheckBudget Input) :
     PolynomialCheckBudget Input where
   size := fun input => max (left.size input) (right.size input)
@@ -111,7 +121,7 @@ def add {Input : Type u}
         rw [Nat.add_mul]
 
 /-- Mutually exclusive branches pay the larger exact branch count. -/
-def branch {Input : Type u}
+def branch {Input : Sort u}
     (left right : PolynomialCheckBudget Input) :
     PolynomialCheckBudget Input :=
   let combined := add left right
@@ -126,22 +136,22 @@ def branch {Input : Type u}
 
 end PolynomialCheckBudget
 
-/-- A computed value paired with its exact primitive-check count. -/
-structure Counted (Output : Type v) where
+/-- A computed value or proof paired with its exact primitive-check count. -/
+structure Counted (Output : Sort v) where
   value : Output
   checks : Nat
 
 namespace Counted
 
-def pure {Output : Type v} (value : Output) : Counted Output :=
+def pure {Output : Sort v} (value : Output) : Counted Output :=
   ⟨value, 0⟩
 
-def map {Output : Type v} {Next : Type u} (f : Output -> Next)
+def map {Output : Sort v} {Next : Sort u} (f : Output -> Next)
     (result : Counted Output) : Counted Next :=
   ⟨f result.value, result.checks⟩
 
 /-- Sequential counted computation; primitive checks add exactly. -/
-def bind {Output : Type v} {Next : Type u} (result : Counted Output)
+def bind {Output : Sort v} {Next : Sort u} (result : Counted Output)
     (next : Output -> Counted Next) : Counted Next :=
   let continuation := next result.value
   ⟨continuation.value, result.checks + continuation.checks⟩

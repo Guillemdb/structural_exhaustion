@@ -4,8 +4,9 @@ import Hypostructure.CT16.Theorems
 # CT16 public automation surface
 
 Applications provide one capability and the literal predecessor.  CT16 owns
-query evaluation, support scanning, code computation, both decisions, the
-single ledger extension, terminal evidence, tracing, and accounting.
+query evaluation, one counted support scan, one counted code computation on the
+whole-support branch, one counted equality decision, the single ledger
+extension, terminal evidence, tracing, and exact composed accounting.
 -/
 
 namespace Hypostructure.CT16

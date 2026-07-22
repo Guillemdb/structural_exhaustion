@@ -40,6 +40,28 @@ theorem verified {Previous : Type uPrevious}
 
 end Outcome
 
+namespace Generated
+
+/-- Output-only generation proves the semantic claim selected by its sealed
+terminal. -/
+theorem verified {Previous : Type uPrevious}
+    {spec : Spec.{uPrevious, uCoordinate, uCode} Previous}
+    {capability : Capability spec} {previous : Previous}
+    (generated : Generated spec capability previous) :
+    OutcomeClaim spec capability previous generated.terminal :=
+  generated.outcome.verified
+
+/-- Output-only generation exposes the exact three-component work equation. -/
+theorem work_exact {Previous : Type uPrevious}
+    {spec : Spec.{uPrevious, uCoordinate, uCode} Previous}
+    {capability : Capability spec} {previous : Previous}
+    (generated : Generated spec capability previous) :
+    generated.checks = generated.supportChecks +
+      (generated.codeChecks + generated.equalityChecks) :=
+  generated.checks_eq
+
+end Generated
+
 namespace ExecutionResult
 
 /-- Aggregate semantic soundness of a completed CT16 execution. -/
@@ -75,12 +97,21 @@ theorem run_total {Previous : Type uPrevious}
       result.stage.previous = previous ∧
       OutcomeClaim spec capability previous result.terminal ∧
       result.traceNodes = Trace.expectedNodes result.terminal ∧
-      result.checks ≤ (capability.linearWorkBudget).coefficient *
-        ((capability.linearWorkBudget).size previous + 1) ^
-          (capability.linearWorkBudget).degree := by
+      result.checks ≤ (capability.completeWorkBudget).coefficient *
+        ((capability.completeWorkBudget).size previous + 1) ^
+          (capability.completeWorkBudget).degree := by
   let result := run spec capability previous
   exact ⟨result, rfl, result.verified, result.trace_exact,
     result.checks_le_polynomial⟩
+
+/-- CT16's public runner has the exact predecessor-indexed generation count,
+not only the complete-schedule upper bound. -/
+theorem run_exact_work {Previous : Type uPrevious}
+    (spec : Spec.{uPrevious, uCoordinate, uCode} Previous)
+    (capability : Capability spec) (previous : Previous) :
+    (run spec capability previous).checks =
+      (generationBudget spec capability).checks previous :=
+  run_checks_eq_generationBudget spec capability previous
 
 /-- Reference execution is deterministic in relational form. -/
 theorem run_deterministic {Previous : Type uPrevious}

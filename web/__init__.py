@@ -1,1 +1,1 @@
-"""Web application package for the structural-exhaustion explorer."""
+"""Hypostructure documentation application."""

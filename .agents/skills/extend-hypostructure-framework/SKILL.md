@@ -5,10 +5,34 @@ description: Add or improve reusable Hypostructure capabilities in Core, CT1-CT1
 
 # Extend the Hypostructure Framework
 
-Read `references/extension-work-packet.md` and complete it from live evidence.
 Implement the smallest reusable capability that makes the real consumer thin.
 
+## EG authority preflight
+
+For any Erdős--Gyárfás Problem 64 task, read
+`original_erdos_64_proof.tex` **FIRST**, before any API/process document,
+migration row, generated view, living proof, or legacy Lean source. It is the
+immutable sole authority for EG mathematics, strategy, node identity and
+responsibility, and DAG topology. Freeze the exact quantified node contract,
+branch alternatives, and exact incoming/outgoing DAG edges from that file.
+
+Only after that contract and those edges are frozen may the matching
+kernel-checked legacy `NodeX.lean` be read, and then only as implementation and
+parity evidence. `proofs/erdos_64_eg/erdos_64_proof.tex` is a living,
+non-binding editorial cross-check; it cannot repair, supplement, weaken,
+strengthen, or redirect the original contract or edges. Any discrepancy blocks
+the task: record it and stop rather than reconciling the sources or silently
+changing the obligation. Never edit `original_erdos_64_proof.tex`.
+
+After this preflight, API/process documents govern framework ownership,
+capabilities, migration process, and status only. They never outrank or
+reinterpret the original on EG mathematics, node responsibility, or DAG
+topology.
+
 ## Prove the gap
+
+Read `references/extension-work-packet.md` and complete it from live evidence.
+For an EG task, open it only after completing the authority preflight.
 
 Read the consumer mathematics, API contracts, migration row, exact current
 source, fixtures, and import firewall. Demonstrate that no live public

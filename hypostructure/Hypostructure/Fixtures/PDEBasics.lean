@@ -7,8 +7,8 @@ import Hypostructure.PDE.NavierStokes
 
 These fixtures use finite scalar fields.  They test local restriction,
 coordinate composition, gauge semantics, exact local/tail assembly, finite
-budget localization, and pointwise closure without importing Graph or any
-legacy module.
+budget localization, and pointwise closure without importing Graph or another
+domain layer.
 -/
 
 namespace Hypostructure.Fixtures.PDEBasics

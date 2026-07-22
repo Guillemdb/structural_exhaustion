@@ -77,7 +77,11 @@ def signature : PDE.FastTrack.Signature model target where
 
 def root : Core.Residual.Ledger Unit := Core.Residual.Ledger.initial ()
 
-def signatureStage := signature.register root
+abbrev SignatureStage :=
+  Core.Residual.Ledger.Extension (Core.Residual.Ledger Unit)
+    (fun _ => PDE.FastTrack.Signature model target)
+
+def signatureStage : SignatureStage := signature.register root
 
 theorem signature_stage_retains_root : signatureStage.previous = root := rfl
 
@@ -145,6 +149,18 @@ namespace FiniteForm
 
 def productForm : BilinearForm Real := LinearMap.mul Real Real
 
+/-- The scalar form state is the scalar local equation object itself. -/
+def representedEquationState (state : Real) :
+    EquationState FiniteScalar.equation () where
+  object := state
+  data := ()
+  valid := trivial
+
+def statePresentation :
+    RepresentedStatePresentation FiniteScalar.model Real where
+  window := ()
+  realize := representedEquationState
+
 def discreteTopology : FormTopology Real where
   converges := fun sequence limit => sequence 0 = limit
   scalarCauchy := fun _ => True
@@ -167,6 +183,7 @@ def closableLaw : ClosableFormLaw Real (⊤ : Submodule Real Real)
     simp [productForm]
 
 def closedGeneratorForm : GeneratorForm FiniteScalar.model Real where
+  statePresentation := statePresentation
   domain := ⊤
   generator := LinearMap.id
   pairing := productForm
@@ -200,14 +217,38 @@ def closableGeneratorForm : GeneratorForm FiniteScalar.model Real := {
   closure := .closable closableLaw
 }
 
-def closedStage := closedGeneratorForm.register FiniteScalar.signatureStage
-def closableStage := closableGeneratorForm.register FiniteScalar.signatureStage
+abbrev GeneratorFormStage :=
+  Core.Residual.Ledger.Extension FiniteScalar.SignatureStage
+    (fun _ => GeneratorForm FiniteScalar.model Real)
+
+def closedStage : GeneratorFormStage :=
+  closedGeneratorForm.register FiniteScalar.signatureStage
+
+def closableStage : GeneratorFormStage :=
+  closableGeneratorForm.register FiniteScalar.signatureStage
+
+def formQuery : Core.Residual.Query GeneratorFormStage
+    (fun _ => GeneratorForm FiniteScalar.model Real) :=
+  Core.Residual.Query.latest
 
 theorem closed_stage_retains_signature :
     closedStage.previous = FiniteScalar.signatureStage := rfl
 
 theorem closable_stage_retains_signature :
     closableStage.previous = FiniteScalar.signatureStage := rfl
+
+theorem closed_form_equation_state_object (state : Real) :
+    (closedGeneratorForm.equationState state).object = state :=
+  rfl
+
+theorem closable_form_equation_state_object (state : Real) :
+    (closableGeneratorForm.equationState state).object = state :=
+  rfl
+
+theorem closed_form_restricts_equation_state (state : Real) :
+    (closedGeneratorForm.restrictEquationState (window := ()) trivial state).object =
+      state :=
+  rfl
 
 end FiniteForm
 
@@ -270,7 +311,12 @@ def natInput : Core.ResourceTranscript.Input natBudget Nat Eq Nat Nat where
   staticDynamic := natStaticDynamic
 
 def natTranscript := Core.ResourceTranscript.derive natInput
-def natStage := Core.ResourceTranscript.register natInput FiniteForm.closedStage
+abbrev NatStage :=
+  Core.Residual.Ledger.Extension FiniteForm.GeneratorFormStage
+    (fun _ => Core.ResourceTranscript.Transcript natInput)
+
+def natStage : NatStage :=
+  Core.ResourceTranscript.register natInput FiniteForm.closedStage
 
 theorem nat_stage_retains_form :
     natStage.previous = FiniteForm.closedStage := rfl
@@ -380,100 +426,101 @@ end Budgets
 
 namespace QuotientDefect
 
-def representedQuotient : RepresentedQuotient FiniteScalar.model
-    FiniteScalar.signature.semantics Real Real where
-  represent := id
+def representedQuotient (form : GeneratorForm FiniteScalar.model Real) :
+    RepresentedQuotient form Real where
   project := LinearMap.id
   lift := LinearMap.id
   project_lift := by
     apply LinearMap.ext
     intro value
     rfl
-  equivalent_project := by
-    intro left right equivalent
-    cases equivalent
-    rfl
 
-def matchingGenerator :
-    QuotientGenerator FiniteForm.closedGeneratorForm representedQuotient where
+def matchingGenerator (form : GeneratorForm FiniteScalar.model Real) :
+    QuotientGenerator form (representedQuotient form) where
   generator := LinearMap.id
 
-def zeroQuotientGenerator :
-    QuotientGenerator FiniteForm.closedGeneratorForm representedQuotient where
+def zeroQuotientGenerator (form : GeneratorForm FiniteScalar.model Real) :
+    QuotientGenerator form (representedQuotient form) where
   generator := 0
 
-def zeroDefectStage := registerDefect FiniteForm.closedGeneratorForm
-  representedQuotient matchingGenerator Budgets.natStage
+def formQuery : Core.Residual.Query Budgets.NatStage
+    (fun _ => GeneratorForm FiniteScalar.model Real) :=
+  FiniteForm.formQuery.preserve
+    (Added := fun _ => Core.ResourceTranscript.Transcript Budgets.natInput)
 
-def nonzeroDefectStage := registerDefect FiniteForm.closedGeneratorForm
-  representedQuotient zeroQuotientGenerator Budgets.natStage
+def quotientAt (previous : Budgets.NatStage) :
+    RepresentedQuotient (formQuery.read previous) Real :=
+  representedQuotient (formQuery.read previous)
+
+def matchingGeneratorAt (previous : Budgets.NatStage) :
+    QuotientGenerator (formQuery.read previous) (quotientAt previous) :=
+  matchingGenerator (formQuery.read previous)
+
+def zeroGeneratorAt (previous : Budgets.NatStage) :
+    QuotientGenerator (formQuery.read previous) (quotientAt previous) :=
+  zeroQuotientGenerator (formQuery.read previous)
+
+noncomputable def topGeometry : DefectGeometry Real where
+  carrier := ⊤
+  presentation := .boundedOperator {
+    operator := ContinuousLinearMap.id Real Real
+    operator_positive := ContinuousLinearMap.isPositive_id
+    carrier_invariant := by simp
+  }
+
+noncomputable def bottomGeometry : DefectGeometry Real where
+  carrier := ⊥
+  presentation := .boundedOperator {
+    operator := ContinuousLinearMap.id Real Real
+    operator_positive := ContinuousLinearMap.isPositive_id
+    carrier_invariant := by
+      intro state inCarrier
+      simpa using inCarrier
+  }
+
+noncomputable def zeroDefectStage := registerDefect formQuery quotientAt
+  matchingGeneratorAt (fun _ => topGeometry) Budgets.natStage
+
+noncomputable def nonzeroDefectStage := registerDefect formQuery quotientAt
+  zeroGeneratorAt (fun _ => bottomGeometry) Budgets.natStage
 
 theorem zero_defect_retains_budget :
     zeroDefectStage.previous = Budgets.natStage := rfl
 
-theorem zero_defect_is_zero : zeroDefectStage.added = 0 := by
+theorem zero_defect_is_zero : zeroDefectStage.added.defect = 0 := by
   apply LinearMap.ext
   intro value
   change intertwiningDefect FiniteForm.closedGeneratorForm
-    representedQuotient matchingGenerator value = 0
+    (representedQuotient FiniteForm.closedGeneratorForm)
+      (matchingGenerator FiniteForm.closedGeneratorForm) value = 0
   simp [intertwiningDefect, matchingGenerator, representedQuotient,
     FiniteForm.closedGeneratorForm]
 
-theorem nonzero_defect_at_one : nonzeroDefectStage.added 1 = 1 := by
+theorem nonzero_defect_at_one : nonzeroDefectStage.added.defect 1 = 1 := by
   change intertwiningDefect FiniteForm.closedGeneratorForm
-    representedQuotient zeroQuotientGenerator 1 = 1
+    (representedQuotient FiniteForm.closedGeneratorForm)
+      (zeroQuotientGenerator FiniteForm.closedGeneratorForm) 1 = 1
   simp [intertwiningDefect, zeroQuotientGenerator, representedQuotient,
     FiniteForm.closedGeneratorForm]
 
-def topGeometry : DefectGeometry Real where
-  domain := ⊤
-  carrier := ⊤
-  carrier_le_domain := le_rfl
-  pairing := FiniteForm.productForm
-  positiveOperator := LinearMap.id
-  positive_on_domain := by
-    intro state inDomain
-    change 0 <= state * state
-    exact mul_self_nonneg state
-  preserves_carrier := by simp
-
-def bottomGeometry : DefectGeometry Real where
-  domain := ⊤
-  carrier := ⊥
-  carrier_le_domain := bot_le
-  pairing := FiniteForm.productForm
-  positiveOperator := LinearMap.id
-  positive_on_domain := by
-    intro state inDomain
-    change 0 <= state * state
-    exact mul_self_nonneg state
-  preserves_carrier := by
-    intro state inCarrier
-    simpa using inCarrier
-
-def topDecidable {Previous : Sort uPrevious} : forall stage :
-    DefectStage Previous Real Real,
-    Decidable (topGeometry.Contains stage.added) := by
-  intro stage
-  exact isTrue fun value => Submodule.mem_top
-
-noncomputable def bottomDecidable {Previous : Sort uPrevious} : forall stage :
-    DefectStage Previous Real Real,
-    Decidable (bottomGeometry.Contains stage.added) := by
+noncomputable def geometryDecidable {Previous : Sort uPrevious} : forall stage :
+    DefectStage Previous FiniteScalar.model Real Real,
+    Decidable stage.added.IsContained := by
   intro stage
   classical
   infer_instance
 
-def containedDecision := decideGeometry topGeometry topDecidable zeroDefectStage
+noncomputable def containedDecision :=
+  decideGeometry geometryDecidable zeroDefectStage
 
 noncomputable def outsideDecision :=
-  decideGeometry bottomGeometry bottomDecidable nonzeroDefectStage
+  decideGeometry geometryDecidable nonzeroDefectStage
 
 theorem nonzero_defect_outside :
-    Not (bottomGeometry.Contains nonzeroDefectStage.added) := by
+    Not (bottomGeometry.Contains nonzeroDefectStage.added.defect) := by
   intro contained
   have atOne := contained 1
-  have isZero : nonzeroDefectStage.added 1 = 0 := by
+  have isZero : nonzeroDefectStage.added.defect 1 = 0 := by
     simpa [bottomGeometry] using atOne
   rw [nonzero_defect_at_one] at isZero
   norm_num at isZero
@@ -504,6 +551,10 @@ end QuotientDefect
 #print axioms NavierStokes2D.pressure_gauge_preserves_registered_target
 #print axioms FiniteForm.closed_stage_retains_signature
 #print axioms FiniteForm.closable_stage_retains_signature
+#print axioms FiniteForm.closed_form_equation_state_object
+#print axioms FiniteForm.closable_form_equation_state_object
+#print axioms FiniteForm.closed_form_restricts_equation_state
+#print axioms PDE.GeneratorForm.restrictEquationState_object
 #print axioms Budgets.nat_b2_example
 #print axioms Budgets.real_energy_b2_example
 #print axioms QuotientDefect.zero_defect_is_zero

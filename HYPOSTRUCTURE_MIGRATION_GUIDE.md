@@ -132,15 +132,27 @@ node is then read as implementation and parity evidence.  The living
 manuscript may help locate commentary, but it cannot add, remove, strengthen,
 weaken, or redirect a migration obligation.
 
-At the time this guide was written, the EG application had direct node facade
-files for nodes 1-64 and 145-164, plus many nested implementation modules. The
-compiled export and direct files can temporarily disagree while the worktree is
-being developed. Therefore no hard-coded node set in this document is a status
-authority. Phase 0 always regenerates and freezes a fresh baseline.
+The generated `migration/hypostructure/eg-original-node-anchors.json` may be
+used only to locate the exact node command in the pinned original. Its declared
+scope is `diagram_anchor_only`; it does not replace reading the surrounding
+definitions, theorem statements, continuation prose, or detailed dependency
+entry needed to freeze the full quantified contract.
 
-The current recovery status script also hard-codes the original node range
-1-157. Hypostructure must not copy that assumption. New status tooling reads
-the node universe and topology from the example-owned manifest.
+At the time this guide was written, the EG application had direct node facade
+files for Nodes 1-64 and 145-164, plus many nested implementation modules. The
+compiled export and direct files can temporarily disagree while the worktree is
+being developed. They are therefore implementation and parity observations,
+not topology authority. Phase 0 still regenerates and freezes their evidence at
+a named clean baseline.
+
+For EG specifically, the paper node universe and topology are fixed by the
+numbered diagrams and continuation captions of `original_erdos_64_proof.tex`:
+exactly Nodes 1-157. The migration updater carries one complete explicit map of
+those predecessors. Source-only legacy Nodes 158-164 are recorded in a separate
+supplemental evidence inventory and are excluded from the paper DAG, frontier,
+and migration-completeness criteria. A compiled example descriptor may mirror
+the authoritative map for rendering, but may not infer or change it from Lean
+imports.
 
 ## 4. Chosen package topology
 
@@ -530,6 +542,32 @@ It emits the exact open residual prescribed by the manuscript. The parity
 record documents the deliberate difference and `math_status` remains open
 until a real producer closes it.
 
+### 8.5 Apparent gaps in the immutable EG source
+
+If formalization reveals that a statement or proof step in
+`original_erdos_64_proof.tex` does not follow from its written hypotheses, do
+not repair it from the living manuscript, a future file, or a stronger legacy
+structure. Apply this protocol:
+
+1. Reconstruct the exact statement, quantifiers, definitions, and incoming
+   edges from the original source.
+2. Reduce the failure to the smallest domain-generic obligation.
+3. When finite, add a kernel-checked counterexample or independence fixture in
+   `Hypostructure.Fixtures`; otherwise record the failed proof obligation
+   exactly.
+4. Record the issue in a separate migration document, including any hidden
+   premise found in legacy implementation evidence.
+5. Implement reusable framework machinery for the honest strengthened
+   contract or for a typed complementary residual, but do not instantiate that
+   strengthening as an original-paper fact.
+6. Leave the paper node `math_status=open` and its downstream frontier closed.
+7. Require an explicit approved correction before changing the migration
+   theorem statement or adding a premise not present in the original.
+
+The immutable source itself is never edited by the migration. A checked
+legacy proof under a stronger representation establishes implementation
+evidence for that stronger representation, not the original theorem.
+
 ## 9. Phase 0: freeze a trustworthy baseline
 
 No Hypostructure implementation begins until the legacy baseline is
@@ -585,20 +623,30 @@ silently accepted as baseline behavior.
 
 ### 9.4 Build a topology inventory
 
-Extract from the manuscript and WebExport:
+Extract the following topology and mathematical fields exclusively from
+`original_erdos_64_proof.tex`:
 
 - every paper node ID;
 - direct incoming and outgoing edges;
 - closure leaves;
 - active residual leaves;
 - node-to-proof-step evidence;
-- node-to-CT use;
-- node-to-source declaration bindings; and
-- every current partial obligation.
+- and the responsibility assigned to each node.
 
-Store this in the initial EG node matrix. Numeric order is not treated as
-topological order. For example, the current 61-64 split has a nontrivial import
-order, and join nodes may depend on more than one earlier paper edge.
+Then attach observational fields from the kernel-checked legacy source and
+WebExport without allowing those sources to alter the paper graph:
+
+- node-to-CT implementation use;
+- node-to-source declaration bindings;
+- direct source and `.olean` freshness;
+- parity-facing declarations; and
+- every current implementation-side partial obligation.
+
+Store Nodes 1-157 in the EG node matrix. Store source-only legacy nodes in the
+supplemental evidence inventory, which has no paper status, frontier, or
+completeness fields. Numeric order is not treated as topological order. For
+example, Nodes 65 and 89 have feedback inputs, and join nodes may depend on more
+than one earlier paper edge.
 
 ### 9.5 Phase 0 exit gate
 
@@ -735,6 +783,16 @@ Implement the dependent proof ledger before any CT:
 The implementation may use a dependent list, nested sigma type, or equivalent
 representation, but its public API exposes only typed construction and query.
 
+Implement `Core.Residual.ProofProjection` for a node that derives one
+predecessor-indexed proposition from an exact active query without inspecting
+new primitive data. Core owns its private certificate, focused execution,
+ledger extension, latest queries, inactive outcome, and definitionally zero
+local projection work. Its total executor budget is exactly the counted
+selection budget inherited from the focus. The application supplies only the
+dependent claim and proof query. A proof projection is not a substitute for a CT search or a binary
+decision: any new inspection or alternative must use the corresponding
+framework executor.
+
 Required negative tests:
 
 - a query for an absent fact does not elaborate;
@@ -742,6 +800,11 @@ Required negative tests:
 - a successor cannot replace the residual carrier;
 - a sibling fact is still retrievable after focused continuation; and
 - a copied application output is unnecessary in all fixtures.
+
+The proof-projection fixture additionally checks active and inactive
+execution, exact latest-query retrieval, literal predecessor and root-residual
+retention, one counted structural focus selection, and zero additional
+projection work.
 
 ### 11.6 Decision and join primitives
 
@@ -978,7 +1041,8 @@ The canonical metadata records for each executable node:
 
 - primitive author inputs;
 - inferred dependencies;
-- predecessor ledger queries;
+- ordinary predecessor ledger queries;
+- proof-indexed predecessor queries on framework-owned focused branches;
 - framework search;
 - generated states and residuals;
 - generic theorems;
@@ -1066,8 +1130,8 @@ Implement:
 
 - labelled finite boundaries;
 - pieces with internal vertices;
-- normalized outside contexts;
-- disjoint edge ownership;
+- finite outside contexts with the same labelled boundary;
+- possibly overlapping boundary-edge ownership;
 - literal graph union on a sum vertex type;
 - reconstruction isomorphism;
 - boundary-degree transport;
@@ -1453,20 +1517,31 @@ just in time, always generically.
 
 Each node is migrated in a separate reviewable work packet:
 
-1. Read the exact manuscript node and outgoing edges.
-2. Read the legacy direct facade and every declaration in its dependency cone.
-3. Identify the literal predecessor residual and all facts the node uses.
-4. Classify every used fact as root data, predecessor payload, ledger query,
+1. Open `original_erdos_64_proof.tex` and, before consulting any other EG
+   source, extract the node's exact quantified hypotheses, inherited facts,
+   branch alternatives, terminal or residual meaning, incoming edges, and
+   outgoing edges. Record the diagram part, bracketed node ID, and every
+   theorem/definition label cited by that node as its immutable source locator.
+   The generated diagram-anchor registry may locate the node's exact TeX
+   command, but its `diagram_anchor_only` entry is never the complete contract.
+2. Freeze that original-derived contract in the work packet. The living
+   manuscript, repair notes, generated metadata, and Lean imports may not add,
+   remove, strengthen, weaken, or redirect any part of it.
+3. Only then read the matching kernel-checked legacy `NodeX.lean` facade and
+   every declaration in its dependency cone, solely as implementation and
+   parity evidence.
+4. Identify the literal predecessor residual and all facts the node uses.
+5. Classify every used fact as root data, predecessor payload, ledger query,
    domain theorem, external theorem, or unsupported legacy assumption.
-5. Select the CT or Core executor from the specification.
-6. Record any missing generic feature in the API feature matrix.
-7. Implement that feature at the lowest correct owner with independent
+6. Select the CT or Core executor from the specification.
+7. Record any missing generic feature in the API feature matrix.
+8. Implement that feature at the lowest correct owner with independent
    fixtures before touching the node.
-8. Implement the new node as a thin executor call.
-9. Prove all branch and public-fact parity theorems.
-10. Audit transitive axioms and work bounds.
-11. Add compiled metadata and web evidence.
-12. Update `parity_status`, `math_status`, and migration status independently.
+9. Implement the new node as a thin executor call.
+10. Prove all branch and public-fact parity theorems.
+11. Audit transitive axioms and work bounds.
+12. Add compiled metadata and web evidence.
+13. Update `parity_status`, `math_status`, and migration status independently.
 
 ### 17.2 Required node file shape
 
@@ -1546,7 +1621,8 @@ A node reaches `migrated_closed` only if:
 
 ### 17.6 Suggested EG migration waves
 
-The waves are planning buckets. Actual order follows the frozen manuscript DAG.
+The waves are planning buckets. Actual order follows the immutable DAG in
+`original_erdos_64_proof.tex`.
 
 | Wave | Nodes/responsibility | Expected framework pressure |
 |---|---|---|
@@ -1558,14 +1634,18 @@ The waves are planning buckets. Actual order follows the frozen manuscript DAG.
 | EG-5 | Nodes 25-47 | Remainder support, CT14/CT15, rank split, response and whole-support closure |
 | EG-6 | Nodes 48-64 | Entropy, product/budget transfer, sign split, CT11 localization, branch routing |
 | EG-7 | Original nodes 65-144 | Type A/B, fans, ports, charging, matching, role fibres, and classifier blocks |
-| EG-8 | Nodes 145-164 | Route-8 threshold and cold-branch residual chain |
-| EG-9 | Nodes 165 onward | Later manuscript repairs and active frontier, strictly by DAG readiness |
+| EG-8 | Original Nodes 145-157 | Route-8 threshold and cold-branch chain through the three terminal germ cases |
 
 EG-7 requires special care because substantial legacy work is currently
 packaged in shared modules rather than one direct facade per paper node. The
 new application creates one direct `NodeX.lean` facade only when that node's
 literal producer and evidence are migrated. It does not mark a numeric range
 green from one aggregate theorem.
+
+Legacy Nodes 158-164 are not an EG migration wave. They remain supplemental
+implementation/parity evidence unless and until a distinct, explicitly scoped
+non-paper theorem is specified; they never count toward completion of the
+original EG DAG.
 
 The current worktree theorem `Erdos64EG.Internal.only_type_A_or_B` is only a
 constructor destructor for an already supplied `Node63Stage`. It does not
@@ -1587,9 +1667,11 @@ minimal root without the legacy `largeEnoughTail` premise.
 - Every direct facade has a fresh `.olean`.
 - Every non-missing obligation has a compiled evidence step.
 - Legacy and new status are shown separately.
-- All closed nodes are parity- and manuscript-checked.
+- All closed nodes are parity-checked and checked against
+  `original_erdos_64_proof.tex`.
 - Open migrated nodes expose named residuals.
-- The next frontier is computed from topology: all direct parents closed.
+- The next frontier is computed from the original-authority topology: all
+  direct parents closed.
 - `migration-test` passes.
 
 ## 18. Phase 9: complete Graph ownership and reusable theorem migration
@@ -1691,15 +1773,35 @@ derived transcript and appends it to the proof ledger.
 
 ### 19.2 Row 5: directed exhaustiveness
 
-Implement the structural-gradient/closed-range profile using CT15 followed by
-CT16 or CT10 as required. Outcomes:
+Implement the structural-gradient/closed-range profile using one focused,
+counted CT15 to CT16 to Core class-closure executor. CT15 is only a finite
+rank audit. Each of its two full-rank terminals reaches the analytic branch
+through an explicit theorem producing a genuine positive Poincare gap for the
+registered closed densely defined structural-gradient operator. A rank drop
+only enables the independent compactification-code audit.
 
-- positive structural gap;
-- zero boundary quotient and ledger propagation; or
-- exact target-visible boundary-defect residual.
+CT16 must reuse one counted support scan, count its closed-code computation
+and equality comparison, rule out proper support for this row, and prove that
+its exact/mismatch terminals agree with class-closure avoidance/visibility.
+The class-closure family must separately satisfy `TargetComplete`; only then
+does Core upgrade exhaustive avoidance to literal whole-quotient
+`BoundaryZero`. Outcomes:
+
+- positive structural gap with framework-derived closed range and orthogonal
+  directed exhaustiveness;
+- target-complete zero boundary quotient and framework-owned ledger
+  propagation; or
+- exact in-window target-visible boundary-defect residual with positive
+  target capacity and nonzero certified target flux.
+
+The last outcome does not reach the target at row 5. Realization/nonpolarity
+remains a downstream certificate. A regularized ridge solve is never accepted
+as exact closed range.
 
 Validate first on a finite-dimensional linear operator before the NS2D
-instance supplies any analytic closed-range theorem.
+instance supplies any analytic closed-range theorem. The finite fixture tests
+routing and ledger semantics; because finite-dimensional ranges are closed,
+it is not evidence for a genuinely nonclosed continuum range.
 
 ### 19.3 Row 6: routing
 
@@ -1878,8 +1980,8 @@ For a new EG node:
 - **yellow:** direct file exists but is not fresh/kernel-checked or has a
   partial mathematical obligation;
 - **white:** no direct file;
-- **orange:** no direct file and every direct parent is green in the
-  Hypostructure topology.
+- **orange:** no direct file and every direct parent is green in the immutable
+  topology from `original_erdos_64_proof.tex`.
 
 Parity status is displayed separately and never determines color.
 
@@ -1895,20 +1997,28 @@ rejects:
 - a fresh legacy `.olean` used as new-framework evidence; and
 - a topology edge whose source or target is absent from the manifest.
 
-### 20.4 Example-owned topology
+### 20.4 Authority-owned topology and compiled descriptors
 
-Replace hard-coded node ranges with a compiled example topology descriptor:
+For EG, the complete Node 1-157 topology is owned by
+`original_erdos_64_proof.tex` and committed explicitly in the migration
+updater. A compiled example descriptor mirrors, but does not discover, these
+fields:
 
 - node IDs;
 - edges;
-- original/manuscript status;
+- original-paper status;
 - internal-helper distinction;
 - direct source path;
 - obligation IDs; and
 - frontier policy.
 
-The same renderer can then support Chapter 1 nodes, later repair nodes, PDE
-rows, and future applications.
+The renderer validates this descriptor against the authoritative migration
+matrix before using it. Legacy imports and source inventory can populate source
+paths and evidence bindings only. Source-only Nodes 158-164 use the separate
+supplemental inventory and never enter the EG descriptor's paper frontier or
+completeness calculation. Other applications may provide their own explicit
+authority-owned descriptors so the renderer can also support PDE rows and
+future proof programs.
 
 ### 20.5 Migration dashboard
 
@@ -2409,8 +2519,8 @@ The first concrete implementation work should follow this exact order:
 16. Implement CT3 plus Graph gluing and migrate nodes 11-14.
 17. Port the exact HSS external theorem contract and migrate nodes 15-16.
 18. Implement CT12 and CT10; migrate nodes 17-18.
-19. Continue by manuscript topology, invoking the framework-gap protocol for
-    every missing generic operation.
+19. Continue by the topology of `original_erdos_64_proof.tex`, invoking the
+    framework-gap protocol for every missing generic operation.
 20. In parallel after each CT wave, implement the corresponding PDE toy and
     fast-track row so Core remains genuinely cross-domain.
 

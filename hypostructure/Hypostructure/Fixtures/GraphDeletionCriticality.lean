@@ -146,9 +146,8 @@ def previous : Previous :=
 
 /-- The fixture keeps its only branch active; production callers may use any
 decision-generated focus with the same executor. -/
-def focus : Focus.Profile Previous where
-  Active := fun _previous => True
-  activeDecidable := fun _previous => .isTrue trivial
+abbrev focus : Focus.Profile Previous :=
+  Focus.always Previous
 
 def contextLedgerQuery : Query Previous (fun _previous =>
     Core.MinimalCounterexampleContext

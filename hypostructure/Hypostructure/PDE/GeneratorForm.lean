@@ -4,10 +4,10 @@ import Hypostructure.PDE.FastTrack.Signature
 /-!
 # Generic represented generator forms
 
-Row 2 registers primitive generator/form data.  The capability is independent
-of a particular equation and uses a caller-registered sequential form
-topology, so closedness and closability are explicit mathematical laws rather
-than hidden analytic assumptions.
+Row 2 registers primitive generator/form data on a represented local equation
+state.  The capability uses a caller-registered sequential form topology, so
+closedness and closability are explicit mathematical laws rather than hidden
+analytic assumptions.
 -/
 
 namespace Hypostructure.PDE
@@ -56,11 +56,44 @@ inductive FormClosureLaw (State : Type v) [AddCommGroup State]
   | closed (law : ClosedFormLaw State domain form topology)
   | closable (law : ClosableFormLaw State domain form topology)
 
-/-- Equation-independent generator/form capability.  The exact decomposition,
-sector estimate, and generator representation are primitive laws; no PDE
-coefficient or theorem target appears here. -/
+/-- A total presentation of generator states as valid represented equation
+states on one fixed local window.  This is only a semantic attachment to the
+registered equation; it supplies no analytic admissibility theorem. -/
+structure RepresentedStatePresentation (M : LocalModel.{u})
+    (State : Type v) where
+  window : M.atlas.Window
+  realize : State -> EquationState M.equation window
+
+namespace RepresentedStatePresentation
+
+/-- Restrict a represented generator state to any nested local window. -/
+def restrict {M : LocalModel.{u}} {State : Type v}
+    (presentation : RepresentedStatePresentation M State)
+    {window : M.atlas.Window}
+    (nested : M.atlas.nested window presentation.window)
+    (state : State) : EquationState M.equation window :=
+  (presentation.realize state).restrict nested
+
+@[simp]
+theorem restrict_object {M : LocalModel.{u}} {State : Type v}
+    (presentation : RepresentedStatePresentation M State)
+    {window : M.atlas.Window}
+    (nested : M.atlas.nested window presentation.window)
+    (state : State) :
+    (presentation.restrict nested state).object =
+      M.atlas.restrictLocal nested (presentation.realize state).object :=
+  rfl
+
+end RepresentedStatePresentation
+
+/-- Generator/form capability on states that are all presented as valid states
+of the registered local equation.  The exact decomposition, sector estimate,
+and generator representation remain primitive laws; this record does not
+assert quasi-regularity, coercivity, a Beurling-Deny-LeJan decomposition, or
+equation-specific analytic admissibility. -/
 structure GeneratorForm (M : LocalModel.{u}) (State : Type v)
     [AddCommGroup State] [Module Real State] where
+  statePresentation : RepresentedStatePresentation M State
   domain : Submodule Real State
   generator : State →ₗ[Real] State
   pairing : BilinearForm State
@@ -85,6 +118,31 @@ structure GeneratorForm (M : LocalModel.{u}) (State : Type v)
         Real.sqrt (symmetricPart y y)
 
 namespace GeneratorForm
+
+/-- The represented equation state attached to a generator state. -/
+def equationState {M : LocalModel.{u}} {State : Type v}
+    [AddCommGroup State] [Module Real State]
+    (form : GeneratorForm M State) (state : State) :
+    EquationState M.equation form.statePresentation.window :=
+  form.statePresentation.realize state
+
+/-- Restrict the equation state attached to a generator state. -/
+def restrictEquationState {M : LocalModel.{u}} {State : Type v}
+    [AddCommGroup State] [Module Real State]
+    (form : GeneratorForm M State) {window : M.atlas.Window}
+    (nested : M.atlas.nested window form.statePresentation.window)
+    (state : State) : EquationState M.equation window :=
+  form.statePresentation.restrict nested state
+
+@[simp]
+theorem restrictEquationState_object {M : LocalModel.{u}} {State : Type v}
+    [AddCommGroup State] [Module Real State]
+    (form : GeneratorForm M State) {window : M.atlas.Window}
+    (nested : M.atlas.nested window form.statePresentation.window)
+    (state : State) :
+    (form.restrictEquationState nested state).object =
+      M.atlas.restrictLocal nested (form.equationState state).object :=
+  rfl
 
 /-- Core node that installs row 2 in the complete row-1 predecessor ledger. -/
 def registrationNode {Previous : Sort uPrevious}

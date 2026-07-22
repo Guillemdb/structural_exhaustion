@@ -40,7 +40,9 @@ def vertexSpec {Previous : Type uPrevious}
   targetCode := fun _previous => targetCode
 
 /-- Build the graph CT16 capability.  Vertex enumeration is derived from the
-queried packed object; no ambient graph or code universe is enumerated. -/
+queried packed object; no ambient graph or code universe is enumerated.  The
+graph code implementation is counted separately from its mathematical
+denotation and carries an exact predecessor-indexed budget. -/
 def vertexCapability {Previous : Type uPrevious}
     (object : Core.Residual.Query Previous fun _previous =>
       FiniteObject.{uVertex})
@@ -49,6 +51,13 @@ def vertexCapability {Previous : Type uPrevious}
     (ClosedCode : Type uCode)
     (closedCode : FiniteObject.{uVertex} -> ClosedCode)
     (targetCode : ClosedCode)
+    (computeClosedCode : FiniteObject.{uVertex} -> Core.Counted ClosedCode)
+    (computeClosedCode_correct : forall selected,
+      (computeClosedCode selected).value = closedCode selected)
+    (codeComputationBudget : Core.PolynomialCheckBudget Previous)
+    (computeClosedCode_checks : forall previous,
+      (computeClosedCode (object.read previous)).checks =
+        codeComputationBudget.checks previous)
     (inSupportDecidable : (selected : FiniteObject.{uVertex}) ->
       (vertex : selected.Vertex) -> Decidable (InSupport selected vertex))
     (codeDecidableEq : DecidableEq ClosedCode) :
@@ -57,6 +66,15 @@ def vertexCapability {Previous : Type uPrevious}
   coordinates := vertexCoordinates object
   inSupportDecidable := fun previous coordinate =>
     inSupportDecidable (object.read previous) coordinate
-  codeDecidableEq := fun _previous => codeDecidableEq
+  codeComputation := {
+    run := fun previous => computeClosedCode (object.read previous)
+    correct := fun previous =>
+      computeClosedCode_correct (object.read previous)
+    budget := codeComputationBudget
+    checks_eq := computeClosedCode_checks
+  }
+  equalityDecision :=
+    _root_.Hypostructure.CT16.CodeEqualityDecision.unitCost
+      codeComputationBudget.size (fun _previous => codeDecidableEq)
 
 end Hypostructure.Graph.CT16

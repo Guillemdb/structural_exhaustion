@@ -9,6 +9,11 @@ import Hypostructure.PDE.LocalTail
 import Hypostructure.PDE.FastTrack.Signature
 import Hypostructure.PDE.GeneratorForm
 import Hypostructure.PDE.Quotient
+import Hypostructure.PDE.DirectResistance
+import Hypostructure.PDE.StructuralGradient
+import Hypostructure.PDE.FastTrack.DirectedExhaustiveness
+import Hypostructure.PDE.FastTrack.DefectRouting
+import Hypostructure.PDE.FastTrack.DefectRoutingAlignment
 import Hypostructure.PDE.CT4
 import Hypostructure.PDE.CT5
 import Hypostructure.PDE.CT6

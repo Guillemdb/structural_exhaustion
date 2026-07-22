@@ -23,6 +23,7 @@ import Hypostructure.Core.Residual.Stage
 import Hypostructure.Core.Residual.Query
 import Hypostructure.Core.Residual.Decision
 import Hypostructure.Core.Residual.Focus
+import Hypostructure.Core.Residual.ProofProjection
 import Hypostructure.Core.Residual.Join
 import Hypostructure.Core.Compactness.Extraction
 import Hypostructure.Core.ClosedLedger.Closure
@@ -68,6 +69,8 @@ import Hypostructure.Graph.Coordinate
 import Hypostructure.Graph.Boundary
 import Hypostructure.Graph.Gluing
 import Hypostructure.Graph.BoundariedAtom
+import Hypostructure.Graph.AtomResponse
+import Hypostructure.Graph.BoundaryOverlap
 import Hypostructure.Graph.Response
 import Hypostructure.Graph.CT1
 import Hypostructure.Graph.CT2

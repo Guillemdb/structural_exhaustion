@@ -88,13 +88,34 @@ structure ClosedCodeState {Previous : Type uPrevious}
   code : spec.ClosedCode previous
   exact : code = spec.closedCode previous
 
-/-- Compute the closed code once, without enumerating candidate codes. -/
+/-- Execute the registered closed-code computation exactly once and retain its
+semantic equality with `Spec.closedCode`. -/
+def countedClosedCode {Previous : Type uPrevious}
+    {spec : Spec.{uPrevious, uCoordinate, uCode} Previous}
+    (capability : Capability spec) (previous : Previous)
+    (whole : WholeSupportState capability previous) :
+    Core.Counted (ClosedCodeState capability previous) :=
+  let computed := capability.codeComputation.run previous
+  ⟨.mk whole computed.value (capability.codeComputation.correct previous),
+    computed.checks⟩
+
+/-- Compatibility projection of the counted closed-code operation.  CT16's
+executor uses `countedClosedCode`; callers using this projection intentionally
+discard only the already registered work count. -/
 def computeClosedCode {Previous : Type uPrevious}
     {spec : Spec.{uPrevious, uCoordinate, uCode} Previous}
     (capability : Capability spec) (previous : Previous)
     (whole : WholeSupportState capability previous) :
     ClosedCodeState capability previous :=
-  .mk whole (spec.closedCode previous) rfl
+  (countedClosedCode capability previous whole).value
+
+@[simp] theorem countedClosedCode_checks {Previous : Type uPrevious}
+    {spec : Spec.{uPrevious, uCoordinate, uCode} Previous}
+    (capability : Capability spec) (previous : Previous)
+    (whole : WholeSupportState capability previous) :
+    (countedClosedCode capability previous whole).checks =
+      capability.codeComputation.budget.checks previous :=
+  capability.codeComputation.checks_eq previous
 
 /-- Whole-support state with a literal target-code equality. -/
 structure ExactCodeCertificate {Previous : Type uPrevious}

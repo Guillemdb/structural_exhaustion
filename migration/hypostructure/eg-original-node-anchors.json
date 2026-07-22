@@ -1,0 +1,1598 @@
+{
+  "schema_version": 1,
+  "scope": "diagram_anchor_only",
+  "scope_note": "This registry anchors only node identity and each displayed proof-dependency diagram statement. It does not claim that normalized_input, normalized_outcomes, or any node's full quantified contract has been reviewed. Before implementation, read the definitions and theorems cited by the node in original_erdos_64_proof.tex.",
+  "claims": {
+    "node_identity_and_diagram_statement_anchored": true,
+    "normalized_input_reviewed": false,
+    "normalized_outcomes_reviewed": false,
+    "full_quantified_contract_reviewed": false
+  },
+  "original": {
+    "path": "original_erdos_64_proof.tex",
+    "byte_size": 835801,
+    "sha256": "215248521b7dbc6519076d506101b80a1c9a8425ee5c13b48a4ec52df21d2e10"
+  },
+  "diagram_slice": {
+    "start_marker": "\\subsection*{Proof-dependency diagram}",
+    "end_marker_exclusive": "\\subsection*{Detailed dependency table}",
+    "line_start": 552,
+    "line_end": 1081,
+    "byte_start": 30320,
+    "byte_end_exclusive": 67626,
+    "sha256": "97d0cfe3c85453c8d08ae22dcb254e7089a605af61931e07a71cedffbab858ed"
+  },
+  "node_count": 157,
+  "nodes": [
+    {
+      "node_id": 1,
+      "source_order": 1,
+      "line_start": 571,
+      "line_end": 571,
+      "byte_start": 31145,
+      "byte_end_exclusive": 31199,
+      "raw_tex_sha256": "5f26360bc17a3d2d1d7bd177e91b21093a03e7a0d0544ad229898e912d4f939a",
+      "raw_tex": "\\node[box] (G) {\\textbf{[1]}~finite simple graph $G$};"
+    },
+    {
+      "node_id": 2,
+      "source_order": 2,
+      "line_start": 572,
+      "line_end": 572,
+      "byte_start": 31200,
+      "byte_end_exclusive": 31293,
+      "raw_tex_sha256": "a3a7ba0603efedc2e804ec7f68ca1c2955738a10aea5f1dc8629fe2e1e48204d",
+      "raw_tex": "\\node[dec, below=of G] (bad) {\\textbf{[2]}~counterexample? $\\delta(G)\\ge3$ and no $C_{2^j}$};"
+    },
+    {
+      "node_id": 3,
+      "source_order": 3,
+      "line_start": 573,
+      "line_end": 573,
+      "byte_start": 31294,
+      "byte_end_exclusive": 31366,
+      "raw_tex_sha256": "0051c9d26791b8e13e21249119c3825a680735a75b0a2c6912c2624b6bc70e59",
+      "raw_tex": "\\node[term, right=of bad] (notbad) {\\textbf{[3]}~not a\\\\counterexample};"
+    },
+    {
+      "node_id": 4,
+      "source_order": 4,
+      "line_start": 574,
+      "line_end": 574,
+      "byte_start": 31367,
+      "byte_end_exclusive": 31461,
+      "raw_tex_sha256": "b8a72370ba5f8a42d68647c45711a3f05c508ef859bdf1cbd0c6976906be6703",
+      "raw_tex": "\\node[box, below=of bad] (min) {\\textbf{[4]}~choose lexicographically minimal counterexample};"
+    },
+    {
+      "node_id": 5,
+      "source_order": 5,
+      "line_start": 575,
+      "line_end": 575,
+      "byte_start": 31462,
+      "byte_end_exclusive": 31581,
+      "raw_tex_sha256": "54edfd0b66cf4e11d38af520596846c4dab9887fa6c063da788473878b628855",
+      "raw_tex": "\\node[box, below=of min] (target) {\\textbf{[5]}~target algebra: $R_e(G)\\cap\\Mers=\\varnothing$ for every oriented edge};"
+    },
+    {
+      "node_id": 6,
+      "source_order": 6,
+      "line_start": 576,
+      "line_end": 576,
+      "byte_start": 31582,
+      "byte_end_exclusive": 31655,
+      "raw_tex_sha256": "6855e06d1d56c5ca7f91d209cf6bfa9b8d76f44e278bf83f47aa56830470fa35",
+      "raw_tex": "\\node[dec, below=of target] (ret) {\\textbf{[6]}~Mersenne return exists?};"
+    },
+    {
+      "node_id": 7,
+      "source_order": 7,
+      "line_start": 577,
+      "line_end": 577,
+      "byte_start": 31656,
+      "byte_end_exclusive": 31725,
+      "raw_tex_sha256": "0d97b4342f85bc83fcf5911c8e6ecc32d9b597945bfee228cb82c4d2779c192c",
+      "raw_tex": "\\node[term, right=of ret] (cycle) {\\textbf{[7]}~power-of-two\\\\cycle};"
+    },
+    {
+      "node_id": 8,
+      "source_order": 8,
+      "line_start": 578,
+      "line_end": 578,
+      "byte_start": 31726,
+      "byte_end_exclusive": 31816,
+      "raw_tex_sha256": "6e78cbb5dca3907ff328fadfe20598118b0c17288cf44fcd7abe4f5a6d9f38c9",
+      "raw_tex": "\\node[box, below=of ret] (core) {\\textbf{[8]}~no proper subgraph with minimum degree $3$};"
+    },
+    {
+      "node_id": 9,
+      "source_order": 9,
+      "line_start": 579,
+      "line_end": 579,
+      "byte_start": 31817,
+      "byte_end_exclusive": 31930,
+      "raw_tex_sha256": "ee7c8bf105057a022c8910034ed54f99f8683ac07d2ca7f16dd3eab71bed1e5a",
+      "raw_tex": "\\node[box, below=of core] (delete) {\\textbf{[9]}~edge deletion critical; every edge touches a degree-$3$ vertex};"
+    },
+    {
+      "node_id": 10,
+      "source_order": 10,
+      "line_start": 580,
+      "line_end": 580,
+      "byte_start": 31931,
+      "byte_end_exclusive": 32009,
+      "raw_tex_sha256": "6e4df013326feedaa3146f0b0baa482bea9979ffcb998d13a0284c35edcea33b",
+      "raw_tex": "\\node[box, below=of delete] (hiind) {\\textbf{[10]}~$V_{\\ge4}(G)$ independent};"
+    },
+    {
+      "node_id": 11,
+      "source_order": 11,
+      "line_start": 581,
+      "line_end": 581,
+      "byte_start": 32010,
+      "byte_end_exclusive": 32121,
+      "raw_tex_sha256": "a483fe950ea6f0ea433f5603fae2cc8d16f46384b9f9deed23893aa1497781b6",
+      "raw_tex": "\\node[box, below=of hiind] (bd) {\\textbf{[11]}~boundaried atoms; boundary degree profile $\\mathbf d_\\partial$};"
+    },
+    {
+      "node_id": 12,
+      "source_order": 12,
+      "line_start": 582,
+      "line_end": 582,
+      "byte_start": 32122,
+      "byte_end_exclusive": 32226,
+      "raw_tex_sha256": "143d9dc9f0eb278dcea06a9c5f551c5a95562a9f91986cde9936bde85265c25b",
+      "raw_tex": "\\node[box, below=of bd] (univ) {\\textbf{[12]}~context-universality for target-complete identifications};"
+    },
+    {
+      "node_id": 13,
+      "source_order": 13,
+      "line_start": 583,
+      "line_end": 583,
+      "byte_start": 32227,
+      "byte_end_exclusive": 32297,
+      "raw_tex_sha256": "117215e53bf4add799cad02244130ee8a85e1ffbc2599df799b1f8e6dc9c4c77",
+      "raw_tex": "\\node[box, below=of univ] (replace) {\\textbf{[13]}~replacement lemma};"
+    },
+    {
+      "node_id": 14,
+      "source_order": 14,
+      "line_start": 584,
+      "line_end": 584,
+      "byte_start": 32298,
+      "byte_end_exclusive": 32407,
+      "raw_tex_sha256": "9ee7a8f8d3b374135eaff2869e8a831e6e40ecffd2266fdc2d99ca20ab6a5576",
+      "raw_tex": "\\node[box, below=of replace] (uncomp) {\\textbf{[14]}~hereditary target-uncompressibility of proper supports};"
+    },
+    {
+      "node_id": 15,
+      "source_order": 15,
+      "line_start": 585,
+      "line_end": 585,
+      "byte_start": 32408,
+      "byte_end_exclusive": 32484,
+      "raw_tex_sha256": "6d63a82716be6fc74a07af824cc16db49edec6b587fdd189afe1587132f83fa1",
+      "raw_tex": "\\node[dec, below=of uncomp] (p13free) {\\textbf{[15]}~$G$ is $P_{13}$-free?};"
+    },
+    {
+      "node_id": 16,
+      "source_order": 16,
+      "line_start": 586,
+      "line_end": 586,
+      "byte_start": 32485,
+      "byte_end_exclusive": 32569,
+      "raw_tex_sha256": "b3ad544c1053da7bdbc77b5fcc2c6e3d7f1f18376444119bb9107c9811737792",
+      "raw_tex": "\\node[term, right=of p13free] (hss) {\\textbf{[16]}~HSS theorem\\\\gives target cycle};"
+    },
+    {
+      "node_id": 17,
+      "source_order": 17,
+      "line_start": 587,
+      "line_end": 587,
+      "byte_start": 32570,
+      "byte_end_exclusive": 32677,
+      "raw_tex_sha256": "a3dca546632f37a6923f48fcdfd21aa13c57ef1d6dc3effc80e7343444fe1111",
+      "raw_tex": "\\node[box, below=of p13free] (pack) {\\textbf{[17]}~maximal disjoint induced-$P_{13}$ packing $\\mathcal P$};"
+    },
+    {
+      "node_id": 18,
+      "source_order": 18,
+      "line_start": 588,
+      "line_end": 588,
+      "byte_start": 32678,
+      "byte_end_exclusive": 32805,
+      "raw_tex_sha256": "e5d75465239488378d83dc166e0f349c56421c76011fe5ae5c2c4f9e23d7db88",
+      "raw_tex": "\\node[box, below=of pack] (p13alg) {\\textbf{[18]}~$P_{13}$ label algebra: $399$ labels; relations $C_s$; curvature $\\Omega_2$};"
+    },
+    {
+      "node_id": 19,
+      "source_order": 19,
+      "line_start": 589,
+      "line_end": 589,
+      "byte_start": 32806,
+      "byte_end_exclusive": 32916,
+      "raw_tex_sha256": "d516f8ec2388ad29c112675b9e3a277e9926f2688bae3ab44ada9db61fda7a3e",
+      "raw_tex": "\\node[dec, below=of p13alg] (surplusq) {\\textbf{[19]}~non-near-cubic surplus?\\\\$\\sigma(G)>C_{\\rm sp}\\sqrt n$};"
+    },
+    {
+      "node_id": 20,
+      "source_order": 20,
+      "line_start": 590,
+      "line_end": 590,
+      "byte_start": 32917,
+      "byte_end_exclusive": 33010,
+      "raw_tex_sha256": "0719588fc0342ede3ca1d11d2f3b160010435f569d9cb3feedf4858d8a845668",
+      "raw_tex": "\\node[box, right=of surplusq] (surplusclose) {\\textbf{[20]}~surplus-pair\\\\accounting branch};"
+    },
+    {
+      "node_id": 21,
+      "source_order": 21,
+      "line_start": 591,
+      "line_end": 591,
+      "byte_start": 33011,
+      "byte_end_exclusive": 33105,
+      "raw_tex_sha256": "1e3a44ce978ee9c8a72916de7520338699cfe55f389153d78643be388a953f35",
+      "raw_tex": "\\node[box, below=of surplusq] (enum) {\\textbf{[21]}~finite enumeration: $c_\\Omega$, $c_{13}$};"
+    },
+    {
+      "node_id": 22,
+      "source_order": 22,
+      "line_start": 592,
+      "line_end": 592,
+      "byte_start": 33106,
+      "byte_end_exclusive": 33191,
+      "raw_tex_sha256": "34016a3b84e613e8509546d97b3d0ea5c0731cd457bfbf63cf097b7b88db5960",
+      "raw_tex": "\\node[dec, below=of enum] (many) {\\textbf{[22]}~$P_{13}$ packing density too large?};"
+    },
+    {
+      "node_id": 23,
+      "source_order": 23,
+      "line_start": 593,
+      "line_end": 593,
+      "byte_start": 33192,
+      "byte_end_exclusive": 33280,
+      "raw_tex_sha256": "51043793df2edb18e9747158004209632672eacf5ec34883f3bdb6e34f4e62c3",
+      "raw_tex": "\\node[term, right=of many] (overflow) {\\textbf{[23]}~$P_{13}$ window\\\\entropy overflow};"
+    },
+    {
+      "node_id": 24,
+      "source_order": 24,
+      "line_start": 594,
+      "line_end": 594,
+      "byte_start": 33281,
+      "byte_end_exclusive": 33411,
+      "raw_tex_sha256": "e3bfddef55404a4fe21badca1784ee343b0070ae40dbc469ec6afa937e99b563",
+      "raw_tex": "\\node[box, below=of many] (theta) {\\textbf{[24]}~$\\theta\\le\\theta_{\\rm win}+o(1)$;\\\\high entropy: $\\theta\\le0.01198542083\\ldots$};"
+    },
+    {
+      "node_id": 25,
+      "source_order": 25,
+      "line_start": 595,
+      "line_end": 595,
+      "byte_start": 33412,
+      "byte_end_exclusive": 33531,
+      "raw_tex_sha256": "65d29b89ca3a740357069d8ff9484e08aae3d52843476ca6fec1d02fc0a73342",
+      "raw_tex": "\\node[box, below=of theta] (R) {\\textbf{[25]}~Residual A: $R=G-\\bigcup V(P)$ is large and componentwise $P_{13}$-free};"
+    },
+    {
+      "node_id": 26,
+      "source_order": 26,
+      "line_start": 638,
+      "line_end": 638,
+      "byte_start": 35585,
+      "byte_end_exclusive": 35670,
+      "raw_tex_sha256": "ecd874ac30563999248bd9d0f2e20774407964b96eec8cbfaaf0982aaaa08946",
+      "raw_tex": "\\node[box] (R) {\\textbf{[26]}~Residual A: $R$ large and componentwise $P_{13}$-free};"
+    },
+    {
+      "node_id": 27,
+      "source_order": 27,
+      "line_start": 639,
+      "line_end": 639,
+      "byte_start": 35671,
+      "byte_end_exclusive": 35761,
+      "raw_tex_sha256": "8097df6dea0ebd944d2cc8bcde550c5ced7a0fc77b16666936857ba10fb87364",
+      "raw_tex": "\\node[box, below=of R] (no3) {\\textbf{[27]}~no component of $R$ has an internal $3$-core};"
+    },
+    {
+      "node_id": 28,
+      "source_order": 28,
+      "line_start": 640,
+      "line_end": 640,
+      "byte_start": 35762,
+      "byte_end_exclusive": 35864,
+      "raw_tex_sha256": "9cbc256d1fd0ff6f80751b6eeb833a42365dd6a168027bfa3dae67c543b7ef7f",
+      "raw_tex": "\\node[box, below=of no3] (defp) {\\textbf{[28]}~positive deficiency $\\defp(X)=\\sum_v\\max(0,3-d_X(v))$};"
+    },
+    {
+      "node_id": 29,
+      "source_order": 29,
+      "line_start": 641,
+      "line_end": 641,
+      "byte_start": 35865,
+      "byte_end_exclusive": 36010,
+      "raw_tex_sha256": "dfb9806c3afff4276aa9d1101433f0c17552fdb569aa6232ee96d765175ed144",
+      "raw_tex": "\\node[box, below=of defp] (stub) {\\textbf{[29]}~external-incidence supply:\\\\$\\defp(R)\\le15p_{13}+o(n)$\\\\and $\\defp(R)-\\sigma_R\\le15p_{13}+o(n)$};"
+    },
+    {
+      "node_id": 30,
+      "source_order": 30,
+      "line_start": 642,
+      "line_end": 642,
+      "byte_start": 36011,
+      "byte_end_exclusive": 36171,
+      "raw_tex_sha256": "bcb83fbba55e321ca73922bacca726e6fe10abdb406d10e82ff9d96c44f2f312",
+      "raw_tex": "\\node[box, below=of stub] (wedge) {\\textbf{[30]}~wedge lower bound: $W_2(R)\\ge\\omega_{\\rm win}|R|-o(|R|)$\\\\(sharper high-entropy $\\omega=2.57407357888\\ldots$)};"
+    },
+    {
+      "node_id": 31,
+      "source_order": 31,
+      "line_start": 643,
+      "line_end": 643,
+      "byte_start": 36172,
+      "byte_end_exclusive": 36258,
+      "raw_tex_sha256": "4fb8fe2308979af908901cf46e724dd28d85712d15f0facb1f73c6f2aaadd6ce",
+      "raw_tex": "\\node[box, below=of wedge] (rank) {\\textbf{[31]}~curvature target-rank $r_\\Omega(R)$};"
+    },
+    {
+      "node_id": 32,
+      "source_order": 32,
+      "line_start": 644,
+      "line_end": 644,
+      "byte_start": 36259,
+      "byte_end_exclusive": 36347,
+      "raw_tex_sha256": "7fc45639cb9e261f44f12e723e47f4c3a19bfd2fcc73f7692bb53214b6d59054",
+      "raw_tex": "\\node[dec, below=of rank] (drop) {\\textbf{[32]}~rank drop? $r_\\Omega(R)<W_2(R)-o(W_2)$};"
+    },
+    {
+      "node_id": 33,
+      "source_order": 33,
+      "line_start": 645,
+      "line_end": 645,
+      "byte_start": 36348,
+      "byte_end_exclusive": 36445,
+      "raw_tex_sha256": "28076cfecc938b6f7833c570de562e466a69b728a4f13657dd106391cc30ba8a",
+      "raw_tex": "\\node[box, right=of drop] (depopen) {\\textbf{[33]}~Branch D: rank-reducing curvature dependence};"
+    },
+    {
+      "node_id": 34,
+      "source_order": 34,
+      "line_start": 646,
+      "line_end": 646,
+      "byte_start": 36446,
+      "byte_end_exclusive": 36576,
+      "raw_tex_sha256": "a0e040fbc61fef6d5be4f4c5077b1558e97a2e76bd61c2be79585ca79f8903bb",
+      "raw_tex": "\\node[box, below=of drop] (fullrank) {\\textbf{[34]}~Residual B: no rank drop; full curvature rank $r_\\Omega(R)\\ge W_2(R)-o(W_2)$};"
+    },
+    {
+      "node_id": 35,
+      "source_order": 35,
+      "line_start": 673,
+      "line_end": 673,
+      "byte_start": 38000,
+      "byte_end_exclusive": 38078,
+      "raw_tex_sha256": "ada2115de6c9c35fe475b4840a2c63341c216cdc941495aed6c46cb75ba6ad0d",
+      "raw_tex": "\\node[box] (dep) {\\textbf{[35]}~Branch D: rank-reducing curvature dependence};"
+    },
+    {
+      "node_id": 36,
+      "source_order": 36,
+      "line_start": 674,
+      "line_end": 674,
+      "byte_start": 38079,
+      "byte_end_exclusive": 38163,
+      "raw_tex_sha256": "2fcfb18e487b1fae32edfa924c10536fd83de245404c477ba7cfc752de8d2dc7",
+      "raw_tex": "\\node[dec, below=of dep] (ctx) {\\textbf{[36]}~valid against every outside context?};"
+    },
+    {
+      "node_id": 37,
+      "source_order": 37,
+      "line_start": 675,
+      "line_end": 675,
+      "byte_start": 38164,
+      "byte_end_exclusive": 38242,
+      "raw_tex_sha256": "2ccaebcf55ef0ba69af9cb0e43386a7c4313d06e06d0d4b046840b1be4377cb4",
+      "raw_tex": "\\node[term, right=of ctx] (defect) {\\textbf{[37]}~target-defective\\\\quotient};"
+    },
+    {
+      "node_id": 38,
+      "source_order": 38,
+      "line_start": 676,
+      "line_end": 676,
+      "byte_start": 38243,
+      "byte_end_exclusive": 38344,
+      "raw_tex_sha256": "a9640f225b6ab21ce9fc0ce6485a352be982e902204f9ce48083e5b4a14e6d01",
+      "raw_tex": "\\node[dec, below=of ctx] (atom) {\\textbf{[38]}~target-complete with\\\\smaller proper representative?};"
+    },
+    {
+      "node_id": 39,
+      "source_order": 39,
+      "line_start": 677,
+      "line_end": 677,
+      "byte_start": 38345,
+      "byte_end_exclusive": 38424,
+      "raw_tex_sha256": "f42addada794211dc4904ee3c6a9be954b6a290e04b7584eac3b85da1f9913e1",
+      "raw_tex": "\\node[term, right=of atom] (atomterm) {\\textbf{[39]}~proper atom\\\\compression};"
+    },
+    {
+      "node_id": 40,
+      "source_order": 40,
+      "line_start": 678,
+      "line_end": 678,
+      "byte_start": 38425,
+      "byte_end_exclusive": 38523,
+      "raw_tex_sha256": "99ed6ad7effe147cbea40c6b9f7a3ca8680a3403aedb224930e1b32043867a49",
+      "raw_tex": "\\node[box, below=of atom] (Z) {\\textbf{[40]}~requires enlarged connected support $Z\\supsetneq C$};"
+    },
+    {
+      "node_id": 41,
+      "source_order": 41,
+      "line_start": 679,
+      "line_end": 679,
+      "byte_start": 38524,
+      "byte_end_exclusive": 38590,
+      "raw_tex_sha256": "56699619e19a9dada10feadf57caa24cab65a46e2ad3d2a87c16c4d6d8407240",
+      "raw_tex": "\\node[dec, below=of Z] (properZ) {\\textbf{[41]}~$Z\\subsetneq G$?};"
+    },
+    {
+      "node_id": 42,
+      "source_order": 42,
+      "line_start": 680,
+      "line_end": 680,
+      "byte_start": 38591,
+      "byte_end_exclusive": 38714,
+      "raw_tex_sha256": "5d6d8f874c46a7104069aca377c5c597217d61d5ccc25feb2390042b4b708234",
+      "raw_tex": "\\node[term, right=of properZ] (properterm) {\\textbf{[42]}~proper-support\\\\smearing closure:\\\\target defect or compression};"
+    },
+    {
+      "node_id": 43,
+      "source_order": 43,
+      "line_start": 681,
+      "line_end": 681,
+      "byte_start": 38715,
+      "byte_end_exclusive": 38803,
+      "raw_tex_sha256": "649ab5c88a9e5a33bf9d8626a27c500a414a009fcb17ac94ac3c3bb32a436f4e",
+      "raw_tex": "\\node[box, below=of properZ] (global) {\\textbf{[43]}~$Z=G$: whole-graph delocalization};"
+    },
+    {
+      "node_id": 44,
+      "source_order": 44,
+      "line_start": 682,
+      "line_end": 682,
+      "byte_start": 38804,
+      "byte_end_exclusive": 38906,
+      "raw_tex_sha256": "7bbb72e5ceb88811002d208104ad16f092acfcfcca453373989ac9d21c7d7153",
+      "raw_tex": "\\node[box, below=of global] (rankwall) {\\textbf{[44]}~$1$--$3$ repair identity $s=p-2+2\\beta-\\sigma$};"
+    },
+    {
+      "node_id": 45,
+      "source_order": 45,
+      "line_start": 683,
+      "line_end": 683,
+      "byte_start": 38907,
+      "byte_end_exclusive": 39013,
+      "raw_tex_sha256": "9bfae78876c48373b9a7c63ec98a5843c900fff28fd3026d8fe8c485dfa4de5d",
+      "raw_tex": "\\node[box, below=of rankwall] (globalterm) {\\textbf{[45]}~target / replacement /\\\\global profile barrier};"
+    },
+    {
+      "node_id": 46,
+      "source_order": 46,
+      "line_start": 684,
+      "line_end": 684,
+      "byte_start": 39014,
+      "byte_end_exclusive": 39096,
+      "raw_tex_sha256": "22736f2c53c7dd64a2f68c0de159edf29521b9697c52a69bb880d10f60c758f9",
+      "raw_tex": "\\node[term, left=of globalterm] (closed) {\\textbf{[46]}~rank-drop branch\\\\closed};"
+    },
+    {
+      "node_id": 47,
+      "source_order": 47,
+      "line_start": 714,
+      "line_end": 714,
+      "byte_start": 40384,
+      "byte_end_exclusive": 40485,
+      "raw_tex_sha256": "d3317bb36ccc43650421983b6f65af469226a2cf2e17bb7cce935efac8135d1d",
+      "raw_tex": "\\node[box] (fullrank) {\\textbf{[47]}~Residual B: full curvature rank $r_\\Omega(R)\\ge W_2(R)-o(W_2)$};"
+    },
+    {
+      "node_id": 48,
+      "source_order": 48,
+      "line_start": 715,
+      "line_end": 715,
+      "byte_start": 40486,
+      "byte_end_exclusive": 40645,
+      "raw_tex_sha256": "ff5167c3355845538fac551c63c24e89e869a7c37f917782383e625e0cebe661",
+      "raw_tex": "\\node[box, below=of fullrank] (cost) {\\textbf{[48]}~forced curvature cost $c_\\Omega W_2(R)\\ge K_{\\rm win}|R|-o(|R|)$\\\\(high entropy: $K=5.89262883286\\ldots$)};"
+    },
+    {
+      "node_id": 49,
+      "source_order": 49,
+      "line_start": 716,
+      "line_end": 716,
+      "byte_start": 40646,
+      "byte_end_exclusive": 40759,
+      "raw_tex_sha256": "bd6cf7e08b9dd3d40a38ffe1079e47b3cd9adee63d5c4b559ede16cf3ecc5d35",
+      "raw_tex": "\\node[box, below=of cost] (eta) {\\textbf{[49]}~per-vertex remainder entropy $\\eta(R)=\\log_2|\\mathcal G(R)|/|R|$};"
+    },
+    {
+      "node_id": 50,
+      "source_order": 50,
+      "line_start": 717,
+      "line_end": 717,
+      "byte_start": 40760,
+      "byte_end_exclusive": 40845,
+      "raw_tex_sha256": "291ee941aa858ee363d0351a709da3798603d98f80848222420e3ebd46488e34",
+      "raw_tex": "\\node[dec, below=of eta] (expensive) {\\textbf{[50]}~$\\eta(R)\\ge\\frac1{10}\\log_2 n$?};"
+    },
+    {
+      "node_id": 51,
+      "source_order": 51,
+      "line_start": 718,
+      "line_end": 718,
+      "byte_start": 40846,
+      "byte_end_exclusive": 40935,
+      "raw_tex_sha256": "11e47d726a18452fcce4ad29fb5b9a6c523b013b18942f8ea3663721b23a83a4",
+      "raw_tex": "\\node[box, right=of expensive] (expbranch) {\\textbf{[51]}~high-entropy remainder branch};"
+    },
+    {
+      "node_id": 52,
+      "source_order": 52,
+      "line_start": 719,
+      "line_end": 719,
+      "byte_start": 40936,
+      "byte_end_exclusive": 41045,
+      "raw_tex_sha256": "d66db432adfcafd1fa1682c32b7a3524e2666fac6078d012976bacb0e64bae96",
+      "raw_tex": "\\node[box, below=of expbranch] (windowacct) {\\textbf{[52]}~window plus remainder accounting bounds $\\theta$};"
+    },
+    {
+      "node_id": 53,
+      "source_order": 53,
+      "line_start": 720,
+      "line_end": 720,
+      "byte_start": 41046,
+      "byte_end_exclusive": 41147,
+      "raw_tex_sha256": "520da03f29cc9d67f1e3cf10043f90836783ed7782a7eb0d45450235deb3f33b",
+      "raw_tex": "\\node[dec, below=of expensive] (smallbudget) {\\textbf{[53]}~remaining non-curvature budget $<K|R|$?};"
+    },
+    {
+      "node_id": 54,
+      "source_order": 54,
+      "line_start": 721,
+      "line_end": 721,
+      "byte_start": 41148,
+      "byte_end_exclusive": 41226,
+      "raw_tex_sha256": "2c924c64a46f8a30ade89fb75104f50b2206633463c66adb0dc9e795dd97b464",
+      "raw_tex": "\\node[term, below=of windowacct] (entcap) {\\textbf{[54]}~entropy cap\\\\closes};"
+    },
+    {
+      "node_id": 55,
+      "source_order": 55,
+      "line_start": 722,
+      "line_end": 722,
+      "byte_start": 41227,
+      "byte_end_exclusive": 41351,
+      "raw_tex_sha256": "3c927a134a1cb8f84eba3b78190f1edbda6a9662d27b7b949e3df59f213419f9",
+      "raw_tex": "\\node[box, below=of smallbudget] (thetaN) {\\textbf{[55]}~Residual C: large-budget branch; $\\theta\\le\\theta_{\\rm win}+o(1)$};"
+    },
+    {
+      "node_id": 56,
+      "source_order": 56,
+      "line_start": 723,
+      "line_end": 723,
+      "byte_start": 41352,
+      "byte_end_exclusive": 41489,
+      "raw_tex_sha256": "f6b42d7924793050ab07ce0e98b403fbe89831378323f6e4423b984db433ff67",
+      "raw_tex": "\\node[box, below=of thetaN] (netcap) {\\textbf{[56]}~$\\Delta_{\\mathrm{net}}(R)=\\dfrac{\\defp(R)-\\sigma_R}{|R|}\\le\\tau_{\\rm win}+o(1)<1/4$};"
+    },
+    {
+      "node_id": 57,
+      "source_order": 57,
+      "line_start": 753,
+      "line_end": 753,
+      "byte_start": 42872,
+      "byte_end_exclusive": 42945,
+      "raw_tex_sha256": "9a715ebab127cfb7fd0e2465b9a64050ab8de0644bb2cdde492de88762ebafdb",
+      "raw_tex": "\\node[box] (netcap) at (0.00,6.90) {\\textbf{[57]}~large-budget\\\\net cap};"
+    },
+    {
+      "node_id": 58,
+      "source_order": 58,
+      "line_start": 754,
+      "line_end": 754,
+      "byte_start": 42946,
+      "byte_end_exclusive": 43015,
+      "raw_tex_sha256": "d72272745ab5e40b43dad49531f8bd19cdbb64d39d4984ff6b3c2d17324ce065",
+      "raw_tex": "\\node[box] (Ndef) at (0.00,5.25) {\\textbf{[58]}~net charge\\\\\\(\\No\\)};"
+    },
+    {
+      "node_id": 59,
+      "source_order": 59,
+      "line_start": 755,
+      "line_end": 755,
+      "byte_start": 43016,
+      "byte_end_exclusive": 43086,
+      "raw_tex_sha256": "7fea2acdb2d1fa6384dec461af50926bf0408b68f4a72db911db9ff25c9b5ba9",
+      "raw_tex": "\\node[dec] (globalnet) at (0.00,3.35) {\\textbf{[59]}~\\(\\No(R)\\ge0\\)?};"
+    },
+    {
+      "node_id": 60,
+      "source_order": 60,
+      "line_start": 756,
+      "line_end": 756,
+      "byte_start": 43087,
+      "byte_end_exclusive": 43163,
+      "raw_tex_sha256": "ed72929feea729ab22459f68f1a348a03bc5cb56e74cadc2e54826cd722df7fe",
+      "raw_tex": "\\node[term] (contrad) at (5.35,3.35) {\\textbf{[60]}~net-cap\\\\contradiction};"
+    },
+    {
+      "node_id": 61,
+      "source_order": 61,
+      "line_start": 757,
+      "line_end": 757,
+      "byte_start": 43164,
+      "byte_end_exclusive": 43244,
+      "raw_tex_sha256": "97b4ab9c1484c9d8b206b3fb26ad81e87400f569ef49f7aa85540e65020fc4a1",
+      "raw_tex": "\\node[box] (minX) at (0.00,1.35) {\\textbf{[61]}~choose connected\\\\\\(\\No(X)<0\\)};"
+    },
+    {
+      "node_id": 62,
+      "source_order": 62,
+      "line_start": 758,
+      "line_end": 758,
+      "byte_start": 43245,
+      "byte_end_exclusive": 43319,
+      "raw_tex_sha256": "9831e581d4fca74d566c8f6e05a7d297bfa08a952949fb4e0ed0855625b8060c",
+      "raw_tex": "\\node[dec] (surplus) at (0.00,-0.65) {\\textbf{[62]}~high-degree surplus?};"
+    },
+    {
+      "node_id": 63,
+      "source_order": 63,
+      "line_start": 759,
+      "line_end": 759,
+      "byte_start": 43320,
+      "byte_end_exclusive": 43403,
+      "raw_tex_sha256": "40a1535f884d342424c571209509f64cdad888bd607b2011d14eaf91b7a06bfc",
+      "raw_tex": "\\node[box] (typeA) at (-4.85,-2.95) {\\textbf{[63]}~Type A\\\\continued in Part VIII};"
+    },
+    {
+      "node_id": 64,
+      "source_order": 64,
+      "line_start": 760,
+      "line_end": 760,
+      "byte_start": 43404,
+      "byte_end_exclusive": 43485,
+      "raw_tex_sha256": "0a4e42502cd346cfd9a9d5b06257c98b95fde800f980baa539aaa68808cb774f",
+      "raw_tex": "\\node[wide] (typeB) at (4.85,-2.95) {\\textbf{[64]}~Type B\\\\continued in Part VI};"
+    },
+    {
+      "node_id": 65,
+      "source_order": 65,
+      "line_start": 787,
+      "line_end": 787,
+      "byte_start": 44815,
+      "byte_end_exclusive": 44943,
+      "raw_tex_sha256": "0ec2fb2820035c7a0720741fb837d659c9c94860ee66a11fc48684971904bf99",
+      "raw_tex": "\\node[wide] (typeB) at (0.00,8.60) {\\textbf{[65]}~Type B assigned support:\\\\high-degree fan centers and decorated handoff data};"
+    },
+    {
+      "node_id": 66,
+      "source_order": 66,
+      "line_start": 788,
+      "line_end": 788,
+      "byte_start": 44944,
+      "byte_end_exclusive": 45050,
+      "raw_tex_sha256": "d71d306dced188cd56ee1b409f97ab93b8a8d325f65f8a6c5cc94a66b8cdd9ef",
+      "raw_tex": "\\node[box,dashed] (decorB) at (6.75,8.60) {\\textbf{[66]}~Type A exit 7 input\\\\from the Part VIII handoff};"
+    },
+    {
+      "node_id": 67,
+      "source_order": 67,
+      "line_start": 789,
+      "line_end": 789,
+      "byte_start": 45051,
+      "byte_end_exclusive": 45157,
+      "raw_tex_sha256": "e1842a7e4d7dccc3322e8f18465458174a96d2893ff2df1f47c32887cbd215a1",
+      "raw_tex": "\\node[box] (highind) at (0.00,6.85) {\\textbf{[67]}~high-degree centers independent; fan neighbours cubic};"
+    },
+    {
+      "node_id": 68,
+      "source_order": 68,
+      "line_start": 790,
+      "line_end": 790,
+      "byte_start": 45158,
+      "byte_end_exclusive": 45241,
+      "raw_tex_sha256": "1a008a723f1508339bf21ab934efa20605c14d3c1505c15a05dc3cf7a14ad572",
+      "raw_tex": "\\node[dec] (degsplit) at (0.00,4.85) {\\textbf{[68]}~some center has \\(d_G(h)>4\\)?};"
+    },
+    {
+      "node_id": 69,
+      "source_order": 69,
+      "line_start": 791,
+      "line_end": 791,
+      "byte_start": 45242,
+      "byte_end_exclusive": 45403,
+      "raw_tex_sha256": "b4941a333e2c48af50ca403b91fcd3f0dcb2285e32bec7d8807c11f45258e6a2",
+      "raw_tex": "\\node[wide] (localgt) at (6.75,4.85) {\\textbf{[69]}~degree \\(>4\\) local dichotomy:\\\\fan-compatible open pair or \\(k-2\\) triangular ports gives fan-closed ports};"
+    },
+    {
+      "node_id": 70,
+      "source_order": 70,
+      "line_start": 792,
+      "line_end": 792,
+      "byte_start": 45404,
+      "byte_end_exclusive": 45543,
+      "raw_tex_sha256": "106fbfcdfe66766a426e75947b33c75117e6f6805ab64b3d3bc3a0d2d824fc82",
+      "raw_tex": "\\node[wide] (fsafe) at (0.00,2.55) {\\textbf{[70]}~fan-safe graph, \\(P_{13}\\) certificate graph, and certificate-marked cap \\(d_G(h)\\le8\\)};"
+    },
+    {
+      "node_id": 71,
+      "source_order": 71,
+      "line_start": 793,
+      "line_end": 793,
+      "byte_start": 45544,
+      "byte_end_exclusive": 45625,
+      "raw_tex_sha256": "3d5f82c413917a194806a4f0dd343f90a6701a9098e7de4355f72d4ff2b67d37",
+      "raw_tex": "\\node[dec] (certq) at (0.00,0.25) {\\textbf{[71]}~certificate labelling present?};"
+    },
+    {
+      "node_id": 72,
+      "source_order": 72,
+      "line_start": 794,
+      "line_end": 794,
+      "byte_start": 45626,
+      "byte_end_exclusive": 45732,
+      "raw_tex_sha256": "2fa2b848c661df2ef05d030710e3e13e3470df38e3f92d2be24f128ad44ff69a",
+      "raw_tex": "\\node[dec] (b2q) at (0.00,-2.55) {\\textbf{[72]}~local fan-window ledger complete; B2 disjointness holds?};"
+    },
+    {
+      "node_id": 73,
+      "source_order": 73,
+      "line_start": 795,
+      "line_end": 795,
+      "byte_start": 45733,
+      "byte_end_exclusive": 45847,
+      "raw_tex_sha256": "0ea77bd373726174f84c9360614aa7dab3efbfd14b67be308f503398c9847375",
+      "raw_tex": "\\node[wide] (typeBres) at (6.75,-2.55) {\\textbf{[73]}~B2 disjointness fails:\\\\minimal Type B overlap obstruction};"
+    },
+    {
+      "node_id": 74,
+      "source_order": 74,
+      "line_start": 796,
+      "line_end": 796,
+      "byte_start": 45848,
+      "byte_end_exclusive": 45967,
+      "raw_tex_sha256": "3ef9597f79a96b5bb0b24aa54cc1928b112b5891048f8582c165050c3afa4eb5",
+      "raw_tex": "\\node[wide] (fanthm) at (-3.80,-5.35) {\\textbf{[74]}~B2 holds:\\\\bridge reduction gives \\(\\No(X)\\ge0\\) outside route 8};"
+    },
+    {
+      "node_id": 75,
+      "source_order": 75,
+      "line_start": 797,
+      "line_end": 797,
+      "byte_start": 45968,
+      "byte_end_exclusive": 46108,
+      "raw_tex_sha256": "4063c946c95e081d727f162f2b2e125c098d84a03cc7f933e29da425aa7d5233",
+      "raw_tex": "\\node[wide] (fanmass) at (6.75,-5.35) {\\textbf{[75]}~bridge fan-mass:\\\\fan-certificate centers and B2 failures charged to assigned surplus};"
+    },
+    {
+      "node_id": 76,
+      "source_order": 76,
+      "line_start": 798,
+      "line_end": 798,
+      "byte_start": 46109,
+      "byte_end_exclusive": 46229,
+      "raw_tex_sha256": "df871a1ffbbc22e7c9d5b57dd17cac492f9a008ac6c6b8daf1d0efc0cfbd82ec",
+      "raw_tex": "\\node[wide] (closed) at (0.00,-7.95) {\\textbf{[76]}~Type B cannot carry the linear deficit outside two-carrier route 8};"
+    },
+    {
+      "node_id": 77,
+      "source_order": 77,
+      "line_start": 799,
+      "line_end": 799,
+      "byte_start": 46230,
+      "byte_end_exclusive": 46317,
+      "raw_tex_sha256": "b884aa06a51319cc1fce14f8adfc93ce2a6fe35f2d3463f16987553cd858f1d9",
+      "raw_tex": "\\node[box] (route8) at (6.75,-7.95) {\\textbf{[77]}~route-8 cores\\\\continue in Part IX};"
+    },
+    {
+      "node_id": 78,
+      "source_order": 78,
+      "line_start": 833,
+      "line_end": 833,
+      "byte_start": 47877,
+      "byte_end_exclusive": 47962,
+      "raw_tex_sha256": "288bf5767ba758764f654b3f736a740289cf29b1017008764df2e1a2edd36c14",
+      "raw_tex": "\\node[dec] (split) at (0.00,6.60) {\\textbf{[78]}~degree-\\(4\\) branch:\\\\\\(d_G(h)=4\\)};"
+    },
+    {
+      "node_id": 79,
+      "source_order": 79,
+      "line_start": 834,
+      "line_end": 834,
+      "byte_start": 47963,
+      "byte_end_exclusive": 48099,
+      "raw_tex_sha256": "7381da0d0aaadd6d19848f00e0739879141c8a0f848cb148dd328f81facbc631",
+      "raw_tex": "\\node[wide] (profile) at (0.00,4.15) {\\textbf{[79]}~degree-\\(4\\) fan profile:\\\\center surplus \\(1\\), \\(0\\le c\\le4\\), \\(D_B=c-\\frac74\\)};"
+    },
+    {
+      "node_id": 80,
+      "source_order": 80,
+      "line_start": 835,
+      "line_end": 835,
+      "byte_start": 48100,
+      "byte_end_exclusive": 48181,
+      "raw_tex_sha256": "07bdbae70688ecacf0955ac8751fd8a187ce1c64cd6b5e13b74041f274429799",
+      "raw_tex": "\\node[dec] (certq) at (0.00,1.65) {\\textbf{[80]}~certificate labelling present?};"
+    },
+    {
+      "node_id": 81,
+      "source_order": 81,
+      "line_start": 836,
+      "line_end": 836,
+      "byte_start": 48182,
+      "byte_end_exclusive": 48284,
+      "raw_tex_sha256": "ab117e9fe0d4145f7efa42c8f85ea1ae1e6a9250a2ad8b690f75d563584ed493",
+      "raw_tex": "\\node[dec] (ledgerq) at (0.00,-1.35) {\\textbf{[81]}~\\(c\\le1\\), or \\(c\\ge2\\) with B2 disjoint ledger?};"
+    },
+    {
+      "node_id": 82,
+      "source_order": 82,
+      "line_start": 837,
+      "line_end": 837,
+      "byte_start": 48285,
+      "byte_end_exclusive": 48413,
+      "raw_tex_sha256": "7974cdb685eed61c7dcc2ed1c79a5f94c4931370b1424d821d2aac4fbbd0fe12",
+      "raw_tex": "\\node[wide] (closedledger) at (-5.20,-4.25) {\\textbf{[82]}~yes:\\\\certificate-closed or B2-paid; \\(\\No(X)\\ge0\\) outside route 8};"
+    },
+    {
+      "node_id": 83,
+      "source_order": 83,
+      "line_start": 838,
+      "line_end": 838,
+      "byte_start": 48414,
+      "byte_end_exclusive": 48532,
+      "raw_tex_sha256": "ca852ad82cd6329a5290cf6ca5b850064d4b3609b0b42493eed12b2929630a2c",
+      "raw_tex": "\\node[wide] (overlap) at (5.45,-4.25) {\\textbf{[83]}~no:\\\\\\(c\\ge2\\) and B2 fails; minimal Type B overlap obstruction};"
+    },
+    {
+      "node_id": 84,
+      "source_order": 84,
+      "line_start": 839,
+      "line_end": 839,
+      "byte_start": 48533,
+      "byte_end_exclusive": 48669,
+      "raw_tex_sha256": "e20deafd6053c1dd1e8ac0e73f8da31bfa05ab8a072d2980bb296fb04c65d817",
+      "raw_tex": "\\node[wide] (fanmass) at (5.45,-6.95) {\\textbf{[84]}~fan-mass route:\\\\certificate failures and B2 failures charged to assigned surplus};"
+    },
+    {
+      "node_id": 85,
+      "source_order": 85,
+      "line_start": 840,
+      "line_end": 840,
+      "byte_start": 48670,
+      "byte_end_exclusive": 48827,
+      "raw_tex_sha256": "42ecd3e98b1973ea8368dd04d9d3aadacd9519fcdf2a25acc4dd9233f834971e",
+      "raw_tex": "\\node[wide] (closed) at (0.00,-9.25) {\\textbf{[85]}~degree-\\(4\\) Type B cannot carry linear deficit outside route 8 once the fan-mass residual is sublinear};"
+    },
+    {
+      "node_id": 86,
+      "source_order": 86,
+      "line_start": 869,
+      "line_end": 869,
+      "byte_start": 50231,
+      "byte_end_exclusive": 50312,
+      "raw_tex_sha256": "e1a05355e8c222abc9bac8e2f19a8ad8abaee604c6174c39fa409628739ef9b2",
+      "raw_tex": "\\node[box] (typeA) {\\textbf{[86]}~Type A: $\\sigma(X)=0$, hence $\\defp(X)<|X|/4$};"
+    },
+    {
+      "node_id": 87,
+      "source_order": 87,
+      "line_start": 870,
+      "line_end": 870,
+      "byte_start": 50313,
+      "byte_end_exclusive": 50432,
+      "raw_tex_sha256": "c1f3ad5dcc9b949e29ec5118abaa49125fb395bac057a8c72cf49f01d0fb3122",
+      "raw_tex": "\\node[box, below=of typeA] (bounded) {\\textbf{[87]}~$P_{13}$-free; subcubic case has $\\diam(X)\\le11$ and $|X|\\le6142$};"
+    },
+    {
+      "node_id": 88,
+      "source_order": 88,
+      "line_start": 871,
+      "line_end": 871,
+      "byte_start": 50433,
+      "byte_end_exclusive": 50539,
+      "raw_tex_sha256": "b527fb6b468462cb406cd04f4381f1d53eaf476ef6e08eff4936aa36fc794026",
+      "raw_tex": "\\node[box, below=of bounded] (thresholds) {\\textbf{[88]}~raw thresholds $H_0\\le4$, $H_1\\le8$, $H_2\\le12$};"
+    },
+    {
+      "node_id": 89,
+      "source_order": 89,
+      "line_start": 872,
+      "line_end": 872,
+      "byte_start": 50540,
+      "byte_end_exclusive": 50634,
+      "raw_tex_sha256": "cbfb053e9cb188b81ce9dbea7dd1edfde04e729983574ce87d9e3e8f33ad41fa",
+      "raw_tex": "\\node[dec, below=of thresholds] (saturated) {\\textbf{[89]}~some receiver has $L(w)\\ge4q(w)$?};"
+    },
+    {
+      "node_id": 90,
+      "source_order": 90,
+      "line_start": 873,
+      "line_end": 873,
+      "byte_start": 50635,
+      "byte_end_exclusive": 50730,
+      "raw_tex_sha256": "ef96a38e824545efc29101e2016171dce74b9751427114a28172f119936fa8f7",
+      "raw_tex": "\\node[box, left=1.00cm of saturated] (unsat) {\\textbf{[90]}~no: unsaturated\\\\$L(w)\\le4q(w)-1$};"
+    },
+    {
+      "node_id": 91,
+      "source_order": 91,
+      "line_start": 874,
+      "line_end": 874,
+      "byte_start": 50731,
+      "byte_end_exclusive": 50806,
+      "raw_tex_sha256": "273dea75d5f91267be1c016cc8271f790a6a1cd214f5fb37f665f8aea5caf5a1",
+      "raw_tex": "\\node[box, below=of unsat] (atomthm) {\\textbf{[91]}~$3/7/11$ charge bound};"
+    },
+    {
+      "node_id": 92,
+      "source_order": 92,
+      "line_start": 875,
+      "line_end": 875,
+      "byte_start": 50807,
+      "byte_end_exclusive": 50896,
+      "raw_tex_sha256": "c62e17e0e3f985ac068ac1d791d15532735f548caf1d6ee2f87b90e1d8392904",
+      "raw_tex": "\\node[term, below=of atomthm] (closed) {\\textbf{[92]}~unsaturated Type A\\\\charge closes};"
+    },
+    {
+      "node_id": 93,
+      "source_order": 93,
+      "line_start": 876,
+      "line_end": 876,
+      "byte_start": 50897,
+      "byte_end_exclusive": 51003,
+      "raw_tex_sha256": "b03576455e95e6f28e1974c1a630fe611a330a052757c17a650f94e69587e0aa",
+      "raw_tex": "\\node[dec, below=of saturated] (visq) {\\textbf{[93]}~some port has four visible\\\\receiver-entry returns?};"
+    },
+    {
+      "node_id": 94,
+      "source_order": 94,
+      "line_start": 877,
+      "line_end": 877,
+      "byte_start": 51004,
+      "byte_end_exclusive": 51115,
+      "raw_tex_sha256": "f9cf91db662132cdd0aa6b16fb98323fe7e5dd6dcebafcf9a6b6a010aa9b6fdb",
+      "raw_tex": "\\node[box, below=of visq] (silent) {\\textbf{[94]}~visible-first excess:\\\\$S_{\\rm sil}^{\\rm exc}(X)\\ge4D_A(X)$};"
+    },
+    {
+      "node_id": 95,
+      "source_order": 95,
+      "line_start": 878,
+      "line_end": 878,
+      "byte_start": 51116,
+      "byte_end_exclusive": 51195,
+      "raw_tex_sha256": "d8762408ed31c3a85ee2571755b9a89effe6b5b21b9143dcc203f7e48a891fd5",
+      "raw_tex": "\\node[dec, right=1.10cm of visq] (e1) {\\textbf{[95]}~exit 1?\\\\Mersenne return};"
+    },
+    {
+      "node_id": 96,
+      "source_order": 96,
+      "line_start": 879,
+      "line_end": 879,
+      "byte_start": 51196,
+      "byte_end_exclusive": 51262,
+      "raw_tex_sha256": "62f216b0f1a1a1b3e4a01ee8576b610687777190a1b526fcf650ae85e7e467b4",
+      "raw_tex": "\\node[term, right=1.00cm of e1] (t1) {\\textbf{[96]}~target cycle};"
+    },
+    {
+      "node_id": 97,
+      "source_order": 97,
+      "line_start": 880,
+      "line_end": 880,
+      "byte_start": 51263,
+      "byte_end_exclusive": 51336,
+      "raw_tex_sha256": "9ffb66f10dcd8025208a9e8ac132bf6cf16b071538446571194b475a9a0a080a",
+      "raw_tex": "\\node[dec, below=of e1] (e2) {\\textbf{[97]}~exit 2?\\\\power-of-two theta};"
+    },
+    {
+      "node_id": 98,
+      "source_order": 98,
+      "line_start": 881,
+      "line_end": 881,
+      "byte_start": 51337,
+      "byte_end_exclusive": 51403,
+      "raw_tex_sha256": "e7ffc9c03bd0c1dfff51a95e146ba45259ac0fe41726bb88c77878e17bf37270",
+      "raw_tex": "\\node[term, right=1.00cm of e2] (t2) {\\textbf{[98]}~target cycle};"
+    },
+    {
+      "node_id": 99,
+      "source_order": 99,
+      "line_start": 882,
+      "line_end": 882,
+      "byte_start": 51404,
+      "byte_end_exclusive": 51483,
+      "raw_tex_sha256": "ae88578b6b3c4bc466c993d11686911d13a6e575aa54813a9e1d8be2091679a6",
+      "raw_tex": "\\node[dec, below=of e2] (e3) {\\textbf{[99]}~exit 3?\\\\$P_{13}$ label collision};"
+    },
+    {
+      "node_id": 100,
+      "source_order": 100,
+      "line_start": 883,
+      "line_end": 883,
+      "byte_start": 51484,
+      "byte_end_exclusive": 51562,
+      "raw_tex_sha256": "1e14e3933fd1fab3d5e4a062cb9c4853b4cea338eb6182fbf6b77c90069435c5",
+      "raw_tex": "\\node[term, right=1.00cm of e3] (t3) {\\textbf{[100]}~label/target\\\\collision};"
+    },
+    {
+      "node_id": 101,
+      "source_order": 101,
+      "line_start": 884,
+      "line_end": 884,
+      "byte_start": 51563,
+      "byte_end_exclusive": 51644,
+      "raw_tex_sha256": "aa269c1ed9ffe54445e5a3f834329e280608afa8d156bbcb16800c0d5d0beb7f",
+      "raw_tex": "\\node[dec, below=of e3] (e4) {\\textbf{[101]}~exit 4?\\\\target-defective quotient};"
+    },
+    {
+      "node_id": 102,
+      "source_order": 102,
+      "line_start": 885,
+      "line_end": 885,
+      "byte_start": 51645,
+      "byte_end_exclusive": 51728,
+      "raw_tex_sha256": "d1ec68b6545362da358a45243b17ccc40c0a5afe43847d510eaf179975e785e7",
+      "raw_tex": "\\node[box, right=1.00cm of e4] (t4) {\\textbf{[102]}~target-defect\\\\peels one load};"
+    },
+    {
+      "node_id": 103,
+      "source_order": 103,
+      "line_start": 886,
+      "line_end": 886,
+      "byte_start": 51729,
+      "byte_end_exclusive": 51821,
+      "raw_tex_sha256": "c6bf21a8e6a7fe8ad82be75d7b4a031bf3e58c253121750db990d8081489a50c",
+      "raw_tex": "\\node[dec, below=of e4] (e5) {\\textbf{[103]}~exit 5?\\\\target-complete response compression};"
+    },
+    {
+      "node_id": 104,
+      "source_order": 104,
+      "line_start": 887,
+      "line_end": 887,
+      "byte_start": 51822,
+      "byte_end_exclusive": 51909,
+      "raw_tex_sha256": "cd81efa7496977f62d198b8d2f2ad573da153a76113c156c447f56b2bff7bda4",
+      "raw_tex": "\\node[term, right=1.00cm of e5] (t5) {\\textbf{[104]}~uncompressibility\\\\contradiction};"
+    },
+    {
+      "node_id": 105,
+      "source_order": 105,
+      "line_start": 888,
+      "line_end": 888,
+      "byte_start": 51910,
+      "byte_end_exclusive": 51994,
+      "raw_tex_sha256": "7db8c91276b62acced4fdd394e58e940bfa51822c1fe39d3d2ff00f9b834fe0a",
+      "raw_tex": "\\node[dec, below=of e5] (e6) {\\textbf{[105]}~exit 6?\\\\proper/global delocalization};"
+    },
+    {
+      "node_id": 106,
+      "source_order": 106,
+      "line_start": 889,
+      "line_end": 889,
+      "byte_start": 51995,
+      "byte_end_exclusive": 52079,
+      "raw_tex_sha256": "55f3a77262f661f046ac0ceddca0a6af91e96d10610afa2ff95f32236094bf8b",
+      "raw_tex": "\\node[term, right=1.00cm of e6] (t6) {\\textbf{[106]}~delocalization\\\\branch closes};"
+    },
+    {
+      "node_id": 107,
+      "source_order": 107,
+      "line_start": 890,
+      "line_end": 890,
+      "byte_start": 52080,
+      "byte_end_exclusive": 52157,
+      "raw_tex_sha256": "680ec2708925c4744444e0be6c6eb7b4f5f67b9f80bf8e8628889fe667eecde7",
+      "raw_tex": "\\node[dec, below=of e6] (e7) {\\textbf{[107]}~exit 7?\\\\decorated handoff fan};"
+    },
+    {
+      "node_id": 108,
+      "source_order": 108,
+      "line_start": 891,
+      "line_end": 891,
+      "byte_start": 52158,
+      "byte_end_exclusive": 52241,
+      "raw_tex_sha256": "8f6f12d4600cf4d7d6765621af3b09e5c023dc1af5eaa9ca52518a8ea5bac3fd",
+      "raw_tex": "\\node[box, right=1.00cm of e7] (decorB) {\\textbf{[108]}~returns to Type B handoff};"
+    },
+    {
+      "node_id": 109,
+      "source_order": 109,
+      "line_start": 892,
+      "line_end": 892,
+      "byte_start": 52242,
+      "byte_end_exclusive": 52331,
+      "raw_tex_sha256": "583e5357a4df124d620399ab08afc36056a9cd416389c7cb8b91f0632b2c7cfb",
+      "raw_tex": "\\node[box, below=of e7] (route8) {\\textbf{[109]}~route-8 residual\\\\continued in Part IX};"
+    },
+    {
+      "node_id": 110,
+      "source_order": 110,
+      "line_start": 938,
+      "line_end": 938,
+      "byte_start": 54897,
+      "byte_end_exclusive": 54969,
+      "raw_tex_sha256": "a103ffb8a4195f29f5db039c8d6ce587ffeb1918db7814017fa329184973b8a8",
+      "raw_tex": "\\node[box] (route8) {\\textbf{[110]}~exit (8): route-8 residual profile};"
+    },
+    {
+      "node_id": 111,
+      "source_order": 111,
+      "line_start": 939,
+      "line_end": 939,
+      "byte_start": 54970,
+      "byte_end_exclusive": 55121,
+      "raw_tex_sha256": "113b34dd670cfd48508577fd8adf922c97daa30b0b55689f6ba34f110f979296",
+      "raw_tex": "\\node[box, below=of route8] (extract) {\\textbf{[111]}~global squeeze extracts a route-8 Type A collection $\\mathcal X_A$ carrying $D_A(\\mathcal X_A)$};"
+    },
+    {
+      "node_id": 112,
+      "source_order": 112,
+      "line_start": 940,
+      "line_end": 940,
+      "byte_start": 55122,
+      "byte_end_exclusive": 55245,
+      "raw_tex_sha256": "e6e298fdca1d981d03164635e4b1492b579f4b1c55da341f147f284c80ce0afe",
+      "raw_tex": "\\node[box, below=of extract] (burden) {\\textbf{[112]}~route-8 burden:\\\\$N_{\\rm basin}(\\mathcal X_A)\\ge4D_A(\\mathcal X_A)$};"
+    },
+    {
+      "node_id": 113,
+      "source_order": 113,
+      "line_start": 941,
+      "line_end": 941,
+      "byte_start": 55246,
+      "byte_end_exclusive": 55377,
+      "raw_tex_sha256": "c8c77501ac7ef7c691cb3e5cb761314d426a3414c7c033c77421806dd2f245a5",
+      "raw_tex": "\\node[box, below=of burden] (deficit) {\\textbf{[113]}~large-budget deficit:\\\\$D_A(\\mathcal X_A)\\ge(1/4-\\tau_{\\rm win})|R|-o(|R|)$};"
+    },
+    {
+      "node_id": 114,
+      "source_order": 114,
+      "line_start": 942,
+      "line_end": 942,
+      "byte_start": 55378,
+      "byte_end_exclusive": 55555,
+      "raw_tex_sha256": "6acf8572f8c750b5e02abb96e6cf1caf2cd4668e26668bc7928220960a95b556",
+      "raw_tex": "\\node[box, below=of deficit] (core) {\\textbf{[114]}~each entry passes to its canonical minimal target-complete carrier core\\\\inside the declared $u$-supported response algebra};"
+    },
+    {
+      "node_id": 115,
+      "source_order": 115,
+      "line_start": 943,
+      "line_end": 943,
+      "byte_start": 55556,
+      "byte_end_exclusive": 55659,
+      "raw_tex_sha256": "7a37dfbded06d5bf1a1837e208e33fb5f7cf6ea97419817283d05b5642931257",
+      "raw_tex": "\\node[dec, below=of core] (smallcore) {\\textbf{[115]}~some entry has\\\\$\\alpha_{\\mathcal X}(\\xi)\\le1$?};"
+    },
+    {
+      "node_id": 116,
+      "source_order": 116,
+      "line_start": 944,
+      "line_end": 944,
+      "byte_start": 55660,
+      "byte_end_exclusive": 55745,
+      "raw_tex_sha256": "5d467e69ac8d71cc5bdc5cf992a62b8696c55596171071df5acc16bee6e5d72f",
+      "raw_tex": "\\node[term, right=of smallcore] (closedexits) {\\textbf{[116]}~exits (4)--(7)\\\\occur};"
+    },
+    {
+      "node_id": 117,
+      "source_order": 117,
+      "line_start": 945,
+      "line_end": 945,
+      "byte_start": 55746,
+      "byte_end_exclusive": 55852,
+      "raw_tex_sha256": "7fc0f79be3ebfa5d285a5ea8fbf724c937699f9c0addab8987bb5f3b1ab595b4",
+      "raw_tex": "\\node[dec, below=of smallcore] (twocarrier) {\\textbf{[117]}~some entry has\\\\$\\pi_{\\mathcal X}(\\xi)\\le2$?};"
+    },
+    {
+      "node_id": 118,
+      "source_order": 118,
+      "line_start": 946,
+      "line_end": 946,
+      "byte_start": 55853,
+      "byte_end_exclusive": 55940,
+      "raw_tex_sha256": "83d7ed7422a97dda16f1f66b1a9343edf37182987b69bc0a48b338ec36f25ac4",
+      "raw_tex": "\\node[box, right=of twocarrier] (residual) {\\textbf{[118]}~two-carrier\\\\route-8 entry};"
+    },
+    {
+      "node_id": 119,
+      "source_order": 119,
+      "line_start": 947,
+      "line_end": 947,
+      "byte_start": 55941,
+      "byte_end_exclusive": 56089,
+      "raw_tex_sha256": "ef67df0ee270efb30c8eeb220b3ce6ab5a9a38819093267e0ace12ee603f5456",
+      "raw_tex": "\\node[box, below=of twocarrier] (private) {\\textbf{[119]}~no two-carrier entry:\\\\every indexed entry has at least three private essential carriers};"
+    },
+    {
+      "node_id": 120,
+      "source_order": 120,
+      "line_start": 948,
+      "line_end": 948,
+      "byte_start": 56090,
+      "byte_end_exclusive": 56245,
+      "raw_tex_sha256": "47d29eb16730018ec361a59b5e04d2e7365b644e47b6b910a211a3f241de296b",
+      "raw_tex": "\\node[box, below=of private] (upper) {\\textbf{[120]}~private-carrier budget:\\\\$3N_{\\rm basin}(\\mathcal X_A)\\le\\defp(R)+o(|R|)\\le\\tau_{\\rm win}|R|+o(|R|)$};"
+    },
+    {
+      "node_id": 121,
+      "source_order": 121,
+      "line_start": 949,
+      "line_end": 949,
+      "byte_start": 56246,
+      "byte_end_exclusive": 56384,
+      "raw_tex_sha256": "80ea67b889565f2d150b1ba837f4d4ebd03c754d565ebb3df69d7009129b40ba",
+      "raw_tex": "\\node[box, below=of upper] (lower) {\\textbf{[121]}~burden plus deficit:\\\\$N_{\\rm basin}(\\mathcal X_A)\\ge4(1/4-\\tau_{\\rm win})|R|-o(|R|)$};"
+    },
+    {
+      "node_id": 122,
+      "source_order": 122,
+      "line_start": 950,
+      "line_end": 950,
+      "byte_start": 56385,
+      "byte_end_exclusive": 56526,
+      "raw_tex_sha256": "584ff2d546d0ec727b71f1464a92d085df009c1e1640ce3b23150620b412f04d",
+      "raw_tex": "\\node[term, below=of lower] (contrad) {\\textbf{[122]}~contradiction:\\\\$\\tau_{\\rm win}\\ge12(1/4-\\tau_{\\rm win})$,\\\\but $\\tau_{\\rm win}<3/13$};"
+    },
+    {
+      "node_id": 123,
+      "source_order": 123,
+      "line_start": 951,
+      "line_end": 951,
+      "byte_start": 56527,
+      "byte_end_exclusive": 56696,
+      "raw_tex_sha256": "986cae913ce92b5059c4a99aa80750780908d180a1f7067c338773ab563ad790",
+      "raw_tex": "\\node[nobox, right=0.90cm of residual] (pressure) {\\textbf{[123]}~large-budget pressure descent:\\\\target-defect entries peel by exit (4);\\\\terminal survivor is route 8};"
+    },
+    {
+      "node_id": 124,
+      "source_order": 124,
+      "line_start": 952,
+      "line_end": 952,
+      "byte_start": 56697,
+      "byte_end_exclusive": 56816,
+      "raw_tex_sha256": "46202481d9ae4d99f3302116f563dcd0f0089c9a7f0dfe454c7cbfd7fab24fcc",
+      "raw_tex": "\\node[term, right=0.90cm of pressure] (nogo) {\\textbf{[124]}~local no-go theorem:\\\\no two-carrier route-8 obstruction};"
+    },
+    {
+      "node_id": 125,
+      "source_order": 125,
+      "line_start": 986,
+      "line_end": 986,
+      "byte_start": 59087,
+      "byte_end_exclusive": 59215,
+      "raw_tex_sha256": "34943ac08532d2c06fd1b85abb600dfee75ef792095f5a463c1217c8ea44ada4",
+      "raw_tex": "\\node[wide] (resid) at (-1.55,8.20) {\\textbf{[125]}~sparse-pressure survivor:\\\\after \\(P_{13}\\) label algebra and sparse exits};"
+    },
+    {
+      "node_id": 126,
+      "source_order": 126,
+      "line_start": 987,
+      "line_end": 987,
+      "byte_start": 59216,
+      "byte_end_exclusive": 59324,
+      "raw_tex_sha256": "b60d935d54c11a7771529c203e3ae9147e14fdf233e3be3e5272e561056bf475",
+      "raw_tex": "\\node[box] (slack) at (-1.55,6.55) {\\textbf{[126]}~sparse envelope:\\\\\\(m\\le2n-2\\), \\(\\sigma=n-6-2\\lambda\\)};"
+    },
+    {
+      "node_id": 127,
+      "source_order": 127,
+      "line_start": 988,
+      "line_end": 988,
+      "byte_start": 59325,
+      "byte_end_exclusive": 59468,
+      "raw_tex_sha256": "1954d002626cc37ca4c1b07f4d4393e8d781fe4ba915475130f19092e98b7ffe",
+      "raw_tex": "\\node[box] (extract) at (-1.55,4.90) {\\textbf{[127]}~excess-port extraction:\\\\\\(\\mathcal A=\\mathcal P_{\\rm exc}\\), \\(|\\mathcal A|=\\sigma(G)\\)};"
+    },
+    {
+      "node_id": 128,
+      "source_order": 128,
+      "line_start": 989,
+      "line_end": 989,
+      "byte_start": 59469,
+      "byte_end_exclusive": 59598,
+      "raw_tex_sha256": "61e6dff9d86954a3d666aab0e048c5d28db3db521c805642f56fd489ff9c47b2",
+      "raw_tex": "\\node[box] (activate) at (-1.55,3.25) {\\textbf{[128]}~canonical activation:\\\\returns \\(R_p\\); open \\(Q_p\\); triangular response};"
+    },
+    {
+      "node_id": 129,
+      "source_order": 129,
+      "line_start": 990,
+      "line_end": 990,
+      "byte_start": 59599,
+      "byte_end_exclusive": 59750,
+      "raw_tex_sha256": "546aaefc176ba82c43fe5ef1c468f43687f54f7debceb4b049519dc9c0e3172a",
+      "raw_tex": "\\node[box] (thin) at (-1.55,1.60) {\\textbf{[129]}~full active family and baseline:\\\\\\(\\mathcal A_0=\\mathcal P_{\\rm exc}\\), \\(E_{\\rm spine}\\le C_E n\\)};"
+    },
+    {
+      "node_id": 130,
+      "source_order": 130,
+      "line_start": 991,
+      "line_end": 991,
+      "byte_start": 59751,
+      "byte_end_exclusive": 59841,
+      "raw_tex_sha256": "1107938ed47087af6c6d2ee2c2f4b7bebb4617ddd0c82c18e7ad63257fc71b06",
+      "raw_tex": "\\node[dec] (rankq) at (-1.55,-0.35) {\\textbf{[130]}~canonical pair split:\\\\blocker-free?};"
+    },
+    {
+      "node_id": 131,
+      "source_order": 131,
+      "line_start": 992,
+      "line_end": 992,
+      "byte_start": 59842,
+      "byte_end_exclusive": 59985,
+      "raw_tex_sha256": "390e850a37178d2814c5a506874a0d8c6a93b805c138e662b1119efb82129df9",
+      "raw_tex": "\\node[box] (entropy) at (-7.40,-0.35) {\\textbf{[131]}~free-pair entropy sandwich:\\\\\\(|\\Pi_{\\rm free}|\\le E_{\\rm spine}+(\\sigma/2+1)\\log_2 n\\)};"
+    },
+    {
+      "node_id": 132,
+      "source_order": 132,
+      "line_start": 993,
+      "line_end": 993,
+      "byte_start": 59986,
+      "byte_end_exclusive": 60089,
+      "raw_tex_sha256": "45eb0cbf869cc2c9a5bc7e51821270162a11383b6d45065a39f85df23129bd8f",
+      "raw_tex": "\\node[dec] (depend) at (5.70,-0.35) {\\textbf{[132]}~blocked-pair routing:\\\\exit or canonical blocker?};"
+    },
+    {
+      "node_id": 133,
+      "source_order": 133,
+      "line_start": 994,
+      "line_end": 994,
+      "byte_start": 60090,
+      "byte_end_exclusive": 60171,
+      "raw_tex_sha256": "56f86b99447006bcb82038b545da0babe7713ab9da6b99ca0263381ecd250b61",
+      "raw_tex": "\\node[term] (exit) at (12.00,-4.45) {\\textbf{[133]}~sparse surplus\\\\exit closes};"
+    },
+    {
+      "node_id": 134,
+      "source_order": 134,
+      "line_start": 995,
+      "line_end": 995,
+      "byte_start": 60172,
+      "byte_end_exclusive": 60316,
+      "raw_tex_sha256": "2440e69c726438334a4efc8dea061e029e1aec4a557db7593a9229c789a58866",
+      "raw_tex": "\\node[wide] (blockers) at (5.70,-3.05) {\\textbf{[134]}~canonical blocker ledger:\\\\each blocked pair gets one \\(B_\\pi\\)\\\\and one capacity token};"
+    },
+    {
+      "node_id": 135,
+      "source_order": 135,
+      "line_start": 996,
+      "line_end": 996,
+      "byte_start": 60317,
+      "byte_end_exclusive": 60445,
+      "raw_tex_sha256": "15da43f9dd17d04466e5a1500f3fe6934c1e0f457affbd5aaf8595c0cabddcc2",
+      "raw_tex": "\\node[wide] (joinpress) at (5.70,-5.35) {\\textbf{[135]}~exact window-join pressure:\\\\\\(e(R,W)+2e_\\times(W)=15p_{13}+\\sigma_W\\)};"
+    },
+    {
+      "node_id": 136,
+      "source_order": 136,
+      "line_start": 997,
+      "line_end": 997,
+      "byte_start": 60446,
+      "byte_end_exclusive": 60628,
+      "raw_tex_sha256": "e846c931d25adeee35e1afb509f7f85749a3d17d29f7a242d18fb1673b1b5304",
+      "raw_tex": "\\node[wide] (supplyq) at (5.70,-7.55) {\\textbf{[136]}~tokenized blocked-pair ledger:\\\\\\(|\\Pi_{\\rm blk}|=\\sum_{C,t,r}\\ell(t,r)\\),\\\\supplies \\(15p_{13}+\\sigma_W,\\sigma_R,4n+2\\sigma\\)};"
+    },
+    {
+      "node_id": 137,
+      "source_order": 137,
+      "line_start": 998,
+      "line_end": 998,
+      "byte_start": 60629,
+      "byte_end_exclusive": 60719,
+      "raw_tex_sha256": "af14a8d2035e143d86b5db0f711d1064057cbbf0c8c339dcbaf7237463d2960c",
+      "raw_tex": "\\node[dec] (highload) at (5.70,-9.75) {\\textbf{[137]}~coupled excess\\\\\\(D_{\\rm all}>0\\)?};"
+    },
+    {
+      "node_id": 138,
+      "source_order": 138,
+      "line_start": 999,
+      "line_end": 999,
+      "byte_start": 60720,
+      "byte_end_exclusive": 60858,
+      "raw_tex_sha256": "43643f6c25fc8048bac909540bd55e0df2a6a8b7508d23395e94992e423c8ec3",
+      "raw_tex": "\\node[term] (nearclose) at (11.90,-9.75) {\\textbf{[138]}~no coupled overload:\\\\explicit quadratic bound on \\(\\sigma\\);\\\\near-cubic spine};"
+    },
+    {
+      "node_id": 139,
+      "source_order": 139,
+      "line_start": 1000,
+      "line_end": 1000,
+      "byte_start": 60859,
+      "byte_end_exclusive": 60942,
+      "raw_tex_sha256": "7907f9eaed62781dc983b3d540acfcd784f4e10b1c4b9201c5a86a3c28051825",
+      "raw_tex": "\\node[dec] (wclass) at (5.70,-12.35) {\\textbf{[139]}~token in\\\\\\(\\mathfrak T_W\\)?};"
+    },
+    {
+      "node_id": 140,
+      "source_order": 140,
+      "line_start": 1001,
+      "line_end": 1001,
+      "byte_start": 60943,
+      "byte_end_exclusive": 61058,
+      "raw_tex_sha256": "7f65a464038b057936e46bddbc7ea7d7d2ec9d9a304f003c481128d662c36639",
+      "raw_tex": "\\node[box] (wres) at (11.90,-12.35) {\\textbf{[140]}~window-incidence\\\\geometric audit:\\\\homogeneous matching/star};"
+    },
+    {
+      "node_id": 141,
+      "source_order": 141,
+      "line_start": 1002,
+      "line_end": 1002,
+      "byte_start": 61059,
+      "byte_end_exclusive": 61142,
+      "raw_tex_sha256": "b1ae202b6291da301a772ebdc395c2a7dce41e1d604210ec975ab5bdee08cf0c",
+      "raw_tex": "\\node[dec] (rclass) at (5.70,-15.15) {\\textbf{[141]}~token in\\\\\\(\\mathfrak T_R\\)?};"
+    },
+    {
+      "node_id": 142,
+      "source_order": 142,
+      "line_start": 1003,
+      "line_end": 1003,
+      "byte_start": 61143,
+      "byte_end_exclusive": 61259,
+      "raw_tex_sha256": "dd686371f372f15696f5067758a67761826d5bebea9d8a66bab4efc1840aca5d",
+      "raw_tex": "\\node[box] (rres) at (11.90,-15.15) {\\textbf{[142]}~remainder-surplus\\\\geometric audit:\\\\homogeneous matching/star};"
+    },
+    {
+      "node_id": 143,
+      "source_order": 143,
+      "line_start": 1004,
+      "line_end": 1004,
+      "byte_start": 61260,
+      "byte_end_exclusive": 61375,
+      "raw_tex_sha256": "9319337cc1e1e81588bf7756308b5c50e54cf935c6e7e2f18ebe3612c2bf3725",
+      "raw_tex": "\\node[box] (pres) at (5.70,-17.95) {\\textbf{[143]}~primitive-carrier\\\\geometric audit:\\\\homogeneous matching/star};"
+    },
+    {
+      "node_id": 144,
+      "source_order": 144,
+      "line_start": 1005,
+      "line_end": 1005,
+      "byte_start": 61376,
+      "byte_end_exclusive": 61499,
+      "raw_tex_sha256": "d48d2d169a0aece2dfa5ae29294d4a933ff058276b6000a2cd6bf621ee37645f",
+      "raw_tex": "\\node[term] (capcontra) at (11.90,-17.95) {\\textbf{[144]}~bottleneck discharge:\\\\sparse exit, Type B, or near-cubic spine};"
+    },
+    {
+      "node_id": 145,
+      "source_order": 145,
+      "line_start": 1049,
+      "line_end": 1049,
+      "byte_start": 64673,
+      "byte_end_exclusive": 64780,
+      "raw_tex_sha256": "dffaedf336ca6dae379eca6c1e53d286605e14b58bb0d0b1308199c870ca973e",
+      "raw_tex": "\\node[wide] (interface) at (0.00,7.50) {\\textbf{[145]}~hot/cold window interface after the spine estimate};"
+    },
+    {
+      "node_id": 146,
+      "source_order": 146,
+      "line_start": 1050,
+      "line_end": 1050,
+      "byte_start": 64781,
+      "byte_end_exclusive": 64850,
+      "raw_tex_sha256": "eeae2daa9dd882843213654d16e096b103239dab93fd71bbe66d13459e82b468",
+      "raw_tex": "\\node[dec] (route8) at (0.00,5.50) {\\textbf{[146]}~\\(\\theta<1/78\\)?};"
+    },
+    {
+      "node_id": 147,
+      "source_order": 147,
+      "line_start": 1051,
+      "line_end": 1051,
+      "byte_start": 64851,
+      "byte_end_exclusive": 64952,
+      "raw_tex_sha256": "ae2a95e2307feb13972f58415716437e3511b220f3d9ba0de3b1f054bb668759",
+      "raw_tex": "\\node[term] (route8closed) at (5.95,5.50) {\\textbf{[147]}~route-8 private-carrier\\\\collision closes};"
+    },
+    {
+      "node_id": 148,
+      "source_order": 148,
+      "line_start": 1052,
+      "line_end": 1052,
+      "byte_start": 64953,
+      "byte_end_exclusive": 65032,
+      "raw_tex_sha256": "15d92ec4c668958a3355305c8480a0f9c53db68659e80ea961c690398c42391c",
+      "raw_tex": "\\node[dec] (hot) at (0.00,3.20) {\\textbf{[148]}~live-hot entropy\\\\cap closes?};"
+    },
+    {
+      "node_id": 149,
+      "source_order": 149,
+      "line_start": 1053,
+      "line_end": 1053,
+      "byte_start": 65033,
+      "byte_end_exclusive": 65111,
+      "raw_tex_sha256": "36d299b13eaac1af2508ad246d01f8ceecb8091ba81a0783a617a6f15529e1e2",
+      "raw_tex": "\\node[term] (density) at (5.95,3.20) {\\textbf{[149]}~\\(P_{13}\\) density\\\\cap};"
+    },
+    {
+      "node_id": 150,
+      "source_order": 150,
+      "line_start": 1054,
+      "line_end": 1054,
+      "byte_start": 65112,
+      "byte_end_exclusive": 65238,
+      "raw_tex_sha256": "c8f348e88f380d58b5473339e59b5edadd32ffbd7baf7c2e11dc1f197fe213d0",
+      "raw_tex": "\\node[wide] (coldmass) at (0.00,0.95) {\\textbf{[150]}~hot failure forces cold mass:\\\\\\(C\\ge(\\theta-\\theta_{\\rm win})n-o(n)\\)};"
+    },
+    {
+      "node_id": 151,
+      "source_order": 151,
+      "line_start": 1055,
+      "line_end": 1055,
+      "byte_start": 65239,
+      "byte_end_exclusive": 65336,
+      "raw_tex_sha256": "492898353d72fc6d6533ef1e6f969b64503a8f0131facd6d455983a7d5d96a04",
+      "raw_tex": "\\node[wide] (cubic) at (0.00,-1.15) {\\textbf{[151]}~all but \\(o(n)\\) cold windows ambient-cubic};"
+    },
+    {
+      "node_id": 152,
+      "source_order": 152,
+      "line_start": 1056,
+      "line_end": 1056,
+      "byte_start": 65337,
+      "byte_end_exclusive": 65445,
+      "raw_tex_sha256": "9c688e568c56e56e3a46027f48605ae4990e94f3a9fca3eae085db7c7a6afe8e",
+      "raw_tex": "\\node[wide] (stubs) at (0.00,-3.25) {\\textbf{[152]}~stub excess:\\\\\\(b(\\mathfrak S_{\\rm cold})\\ge13C-o(n)\\)};"
+    },
+    {
+      "node_id": 153,
+      "source_order": 153,
+      "line_start": 1057,
+      "line_end": 1057,
+      "byte_start": 65446,
+      "byte_end_exclusive": 65567,
+      "raw_tex_sha256": "dfc7dd7ee121d6691cd7d773fa0219d0fe2ef70e5140f29957b9f1dc30b0e933",
+      "raw_tex": "\\node[wide] (germs) at (0.00,-5.35) {\\textbf{[153]}~first-failure extraction:\\\\\\(N_{\\rm germ}\\ge13C/D_{\\rm cold}-o(n)\\)};"
+    },
+    {
+      "node_id": 154,
+      "source_order": 154,
+      "line_start": 1058,
+      "line_end": 1058,
+      "byte_start": 65568,
+      "byte_end_exclusive": 65642,
+      "raw_tex_sha256": "d597515ad9e230b8cc559bc9089cacc3241e38f2b75f96d8f109a579d5d4b49d",
+      "raw_tex": "\\node[dec] (germcase) at (0.00,-7.80) {\\textbf{[154]}~bounded germ case?};"
+    },
+    {
+      "node_id": 155,
+      "source_order": 155,
+      "line_start": 1059,
+      "line_end": 1059,
+      "byte_start": 65643,
+      "byte_end_exclusive": 65714,
+      "raw_tex_sha256": "c712f53c6c4bc1bbeb537af6b51daa1b5dbc9dbfaa52711b19ef5f1199ffa59b",
+      "raw_tex": "\\node[term] (hit) at (-6.25,-10.15) {\\textbf{[155]}~G1: dyadic\\\\cycle};"
+    },
+    {
+      "node_id": 156,
+      "source_order": 156,
+      "line_start": 1060,
+      "line_end": 1060,
+      "byte_start": 65715,
+      "byte_end_exclusive": 65811,
+      "raw_tex_sha256": "5f21f03494d502457373f603bb38d310c1fe3cdfae1dae738f561ff9886fd355",
+      "raw_tex": "\\node[term] (defect) at (0.00,-10.15) {\\textbf{[156]}~G2: target defect,\\\\exit (4), or handoff};"
+    },
+    {
+      "node_id": 157,
+      "source_order": 157,
+      "line_start": 1061,
+      "line_end": 1061,
+      "byte_start": 65812,
+      "byte_end_exclusive": 65910,
+      "raw_tex_sha256": "0fa382a9a4c1fb62d84192af7d916e8e61625202ca37cd3ae3d77bbbb287ad2f",
+      "raw_tex": "\\node[term] (compress) at (6.25,-10.15) {\\textbf{[157]}~G3 or same-interface\\\\table: compression};"
+    }
+  ]
+}

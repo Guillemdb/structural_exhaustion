@@ -148,7 +148,19 @@ def focusedRootedReturnEncoding {Previous : Type uPrevious}
       (object.read previous active)).mpr ⟨certificate⟩
   acceptsDecidable := fun _previous _active _certificate => .isTrue trivial
 
-/-- Execute rooted-return CT1 on the exact active graph branch. -/
+/-- Counted rooted-return CT1 execution on the exact focused graph branch. -/
+noncomputable def executeFocusedRootedReturnCounted {Previous : Type uPrevious}
+    (profile : Core.Residual.Focus.Profile Previous)
+    (object : Core.Residual.Focus.ActiveQuery profile fun _previous _active =>
+      FiniteObject.{uVertex})
+    (LengthOK : Nat -> Prop)
+    (algebra : RootedReturnTargetAlgebra LengthOK) (previous : Previous) :
+    Core.Counted
+      (_root_.Hypostructure.CT1.FocusedCertificateEncoding.Stage
+        (focusedRootedReturnEncoding profile object LengthOK algebra)) :=
+  (focusedRootedReturnEncoding profile object LengthOK algebra).runCounted previous
+
+/-- Public stage projection of the counted focused rooted-return execution. -/
 noncomputable def executeFocusedRootedReturn {Previous : Type uPrevious}
     (profile : Core.Residual.Focus.Profile Previous)
     (object : Core.Residual.Focus.ActiveQuery profile fun _previous _active =>
@@ -157,6 +169,6 @@ noncomputable def executeFocusedRootedReturn {Previous : Type uPrevious}
     (algebra : RootedReturnTargetAlgebra LengthOK) (previous : Previous) :
     _root_.Hypostructure.CT1.FocusedCertificateEncoding.Stage
       (focusedRootedReturnEncoding profile object LengthOK algebra) :=
-  (focusedRootedReturnEncoding profile object LengthOK algebra).run previous
+  (executeFocusedRootedReturnCounted profile object LengthOK algebra previous).value
 
 end Hypostructure.Graph.CT1

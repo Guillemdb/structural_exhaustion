@@ -63,13 +63,34 @@ def distinctionChecks (capability : Capability spec)
     (previous : Previous) : Nat :=
   (countedDistinctionScan capability previous).checks
 
-/-- Route realization through Core's canonical first-hit decision. -/
-def routeRealization (capability : Capability spec) (previous : Previous) :=
-  Core.Finite.Search.route (realizationScan capability previous)
+/-- Route an already executed realization scan without evaluating its predicate
+again. -/
+def routeRealizationExecution (capability : Capability spec)
+    (previous : Previous)
+    (execution : Core.Finite.Search.Execution
+      (capability.contextsAt previous)
+      (ScheduledRealizes capability previous)) :=
+  Core.Finite.Search.route execution
 
-/-- Route response distinction through Core's canonical first-hit decision. -/
+/-- Route the canonical realization scan through Core's first-hit decision. -/
+def routeRealization (capability : Capability spec) (previous : Previous) :=
+  routeRealizationExecution capability previous
+    (realizationScan capability previous)
+
+/-- Route an already executed response-distinction scan without evaluating its
+predicate again. -/
+def routeDistinctionExecution (capability : Capability spec)
+    (previous : Previous)
+    (execution : Core.Finite.Search.Execution
+      (capability.contextsAt previous)
+      (ResponseMismatch capability previous)) :=
+  Core.Finite.Search.route execution
+
+/-- Route the canonical response-distinction scan through Core's first-hit
+decision. -/
 def routeDistinction (capability : Capability spec) (previous : Previous) :=
-  Core.Finite.Search.route (distinctionScan capability previous)
+  routeDistinctionExecution capability previous
+    (distinctionScan capability previous)
 
 theorem realizationChecks_le_card (capability : Capability spec)
     (previous : Previous) :

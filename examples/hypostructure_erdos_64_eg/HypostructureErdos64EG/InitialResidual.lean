@@ -1,4 +1,3 @@
-import Hypostructure.Core.Context
 import Hypostructure.Core.Residual.Ledger
 import HypostructureErdos64EG.Problem
 
@@ -20,17 +19,6 @@ classification data.
 structure InitialResidual where
   object : Graph.FiniteObject.{u}
   baseline : problem.Baseline object
-
-namespace InitialResidual
-
-/-- Install the problem's unique initial branch state. -/
-def toBranchContext (residual : InitialResidual.{u}) :
-    Core.BranchContext problem where
-  G := residual.object
-  baseline := residual.baseline
-  state := ()
-
-end InitialResidual
 
 /-- The unique root stage of the accumulated Hypostructure ledger. -/
 abbrev InitialStage := Core.Residual.Ledger InitialResidual.{u}

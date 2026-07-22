@@ -3,11 +3,11 @@ import Hypostructure.Core.Routing
 /-!
 # Stable transition profile registry
 
-This catalog separates three facts that must not be conflated during the
-migration:
+This catalog separates three facts that must not be conflated when inspecting
+the routing layer:
 
-* `baseline` rows record profiles that were executable in the source registry;
-* `planned` rows record routes required by the EG or PDE migration; and
+* `baseline` rows record established profile identities;
+* `planned` rows record route requirements named by the EG or PDE domains; and
 * only a separately supplied, typed `Core.Routing.Profile` can make a catalog
   row executable in Hypostructure.
 
@@ -259,7 +259,7 @@ this list does not assert that a new CT endpoint has been implemented. -/
 def baselineProfiles : List Entry :=
   baselineSpecialized ++ baselineAccumulated
 
-/-! ## Five missing EG profile requirements -/
+/-! ## Five EG profile requirements -/
 
 def egCt12ToCt6SurplusPort : Entry :=
   egRequirementEntry .ct12 .ct6
@@ -281,7 +281,8 @@ def egCt9ToCt9CoupledOverload : Entry :=
   egRequirementEntry .ct9 .ct9
     "CT9.residual.coupledClassOverload->CT9"
 
-/-- Missing routes exposed by the EG migration. -/
+/-- Route-profile requirements used by the EG application.  These entries are
+discovery metadata; they do not by themselves assert executable transitions. -/
 def egRequirements : List Entry := [
   egCt12ToCt6SurplusPort,
   egCt6ToCt15BaselineSpine,

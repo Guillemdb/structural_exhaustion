@@ -20,17 +20,22 @@ def node4ContextAtNode8Query :
     Core.Residual.Focus.ActiveQuery Node8Focus
       (fun stage active =>
         Node4Output stage.previous.previous.previous.previous.previous active) :=
-  node4ContextAtNode7Query.preserve
+  node4ContextAtNode6AvoidingQuery.preserve
 
 /-- Exact accumulated stage emitted by Graph's deletion-criticality executor. -/
 abbrev Node9Stage :=
   Graph.FocusedMinimumDegreeDeletionCriticalityStage 3 Node8Focus
     node4ContextAtNode8Query
 
+/-- Counted node-9 execution from the literal node-8 predecessor. -/
+noncomputable def node9Counted (previous : Node8Stage.{u}) :
+    Core.Counted Node9Stage.{u} :=
+  Graph.executeFocusedMinimumDegreeDeletionCriticalityCounted 3 Node8Focus
+    node4ContextAtNode8Query node8CertificateQuery previous
+
 /-- Execute node 9 from the literal node-8 predecessor. -/
 noncomputable def node9 (previous : Node8Stage.{u}) : Node9Stage.{u} :=
-  Graph.executeFocusedMinimumDegreeDeletionCriticality 3 Node8Focus
-    node4ContextAtNode8Query node8CertificateQuery previous
+  (node9Counted previous).value
 
 /-- Focus inherited by node 10. -/
 abbrev Node9Focus :=
@@ -54,7 +59,18 @@ theorem node9_edge_touches_degree_three (stage : Node9Stage.{u})
       (node4ContextAtNode8Query.read stage.previous active).G.degree dart.snd = 3 :=
   (node9CertificateQuery.read stage active).tightEndpoint dart
 
+theorem node9Counted_work_bounded (previous : Node8Stage.{u}) :
+    (node9Counted previous).checks <=
+      Node8Focus.selectionBudget.coefficient *
+        (Node8Focus.selectionBudget.size previous + 1) ^
+          Node8Focus.selectionBudget.degree := by
+  rw [node9Counted,
+    Graph.executeFocusedMinimumDegreeDeletionCriticalityCounted,
+    Graph.executeFocusedDeletionCriticalityCounted_checks]
+  exact Node8Focus.selectionBudget.bounded previous
+
 #print axioms node9
+#print axioms node9Counted_work_bounded
 #print axioms node9_edge_touches_degree_three
 
 end HypostructureErdos64EG

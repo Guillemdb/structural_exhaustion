@@ -160,7 +160,28 @@ abbrev FocusedNoProperBaselineStage
   Core.Residual.Focus.Stage focus
     (FocusedNoProperBaselineOutput focus context)
 
-/-- Execute generic proper-subgraph minimality only on the active branch. -/
+/-- Counted execution of generic proper-subgraph minimality on the active
+branch. The derived certificate is proof-only, so the exact work is the
+framework-owned focus selection. -/
+def executeFocusedNoProperBaselineCounted
+    {Previous : Type uPrevious}
+    (focus : Core.Residual.Focus.Profile Previous)
+    {Baseline : FiniteObject -> Prop}
+    {BranchState : FiniteObject -> Type v}
+    {Target : FiniteObject -> Prop}
+    (profile : ProperSubgraphMinimalityProfile Baseline BranchState Target)
+    (context : Core.Residual.Focus.ActiveQuery focus fun _previous _active =>
+      Core.MinimalCounterexampleContext
+        (problem Baseline BranchState) Target
+        (lexicographicProgress Baseline BranchState))
+    (previous : Previous) :
+    Core.Counted (FocusedNoProperBaselineStage focus context) :=
+  Core.Residual.Focus.runCounted focus
+    (Output := FocusedNoProperBaselineOutput focus context) previous
+    fun active _checks _exact =>
+    deriveNoProperBaseline profile (context.read previous active)
+
+/-- Public stage projection of counted proper-subgraph minimality. -/
 def executeFocusedNoProperBaseline
     {Previous : Type uPrevious}
     (focus : Core.Residual.Focus.Profile Previous)
@@ -174,8 +195,43 @@ def executeFocusedNoProperBaseline
         (lexicographicProgress Baseline BranchState))
     (previous : Previous) :
     FocusedNoProperBaselineStage focus context :=
-  Core.Residual.Focus.run focus previous fun active =>
-    deriveNoProperBaseline profile (context.read previous active)
+  (executeFocusedNoProperBaselineCounted focus profile context previous).value
+
+@[simp] theorem executeFocusedNoProperBaselineCounted_checks
+    {Previous : Type uPrevious}
+    (focus : Core.Residual.Focus.Profile Previous)
+    {Baseline : FiniteObject -> Prop}
+    {BranchState : FiniteObject -> Type v}
+    {Target : FiniteObject -> Prop}
+    (profile : ProperSubgraphMinimalityProfile Baseline BranchState Target)
+    (context : Core.Residual.Focus.ActiveQuery focus fun _previous _active =>
+      Core.MinimalCounterexampleContext
+        (problem Baseline BranchState) Target
+        (lexicographicProgress Baseline BranchState))
+    (previous : Previous) :
+    (executeFocusedNoProperBaselineCounted focus profile context previous).checks =
+      focus.selectionBudget.checks previous := by
+  rw [executeFocusedNoProperBaselineCounted,
+    Core.Residual.Focus.runCounted_checks]
+
+theorem executeFocusedNoProperBaselineCounted_checks_bounded
+    {Previous : Type uPrevious}
+    (focus : Core.Residual.Focus.Profile Previous)
+    {Baseline : FiniteObject -> Prop}
+    {BranchState : FiniteObject -> Type v}
+    {Target : FiniteObject -> Prop}
+    (profile : ProperSubgraphMinimalityProfile Baseline BranchState Target)
+    (context : Core.Residual.Focus.ActiveQuery focus fun _previous _active =>
+      Core.MinimalCounterexampleContext
+        (problem Baseline BranchState) Target
+        (lexicographicProgress Baseline BranchState))
+    (previous : Previous) :
+    (executeFocusedNoProperBaselineCounted focus profile context previous).checks <=
+      focus.selectionBudget.coefficient *
+        (focus.selectionBudget.size previous + 1) ^
+          focus.selectionBudget.degree := by
+  rw [executeFocusedNoProperBaselineCounted_checks]
+  exact focus.selectionBudget.bounded previous
 
 /-- Focus inherited after the Graph minimality executor. -/
 abbrev FocusedNoProperBaselineProfile

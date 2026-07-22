@@ -102,22 +102,149 @@ def Encoding.routeQuery {Previous : Type uPrevious}
       Output encoding stage.previous active :=
   Focus.ActiveQuery.latest
 
-/-- Execute proof-carrying CT1 only where the predecessor focus is active. -/
+/-- Exact CT1 validation schedule on one predecessor.  The successful route
+performs one primitive validation and the avoiding route performs none. -/
+noncomputable def Encoding.validationBudget {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    : Core.PolynomialCheckBudget Previous where
+  size := fun _previous => 0
+  checks := fun previous =>
+    (_root_.Hypostructure.CT1.CertificateEncoding.routePublicTarget
+      encoding.total previous).checks
+  coefficient := 1
+  degree := 0
+  bounded := by
+    intro previous
+    rw [(_root_.Hypostructure.CT1.CertificateEncoding.routePublicTarget
+      encoding.total previous).checks_eq_terminal]
+    cases (_root_.Hypostructure.CT1.CertificateEncoding.routePublicTarget
+      encoding.total previous).terminal <;> simp
+
+/-- Complete focused CT1 budget: one inherited branch selection followed, on
+the active branch only, by certificate validation. -/
+noncomputable def Encoding.workBudget {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget) :
+    Core.PolynomialCheckBudget Previous :=
+  profile.selectionBudget.add encoding.validationBudget
+
+/-- One CT1 route paired with its exact local validation count. -/
+noncomputable def Encoding.routeCounted {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (previous : Previous) :
+    Core.Counted
+      (_root_.Hypostructure.CT1.CertificateEncoding.Route
+        encoding.total previous) :=
+  let route :=
+    _root_.Hypostructure.CT1.CertificateEncoding.routePublicTarget
+      encoding.total previous
+  ⟨route, route.checks⟩
+
+@[simp] theorem Encoding.routeCounted_checks {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (previous : Previous) :
+    (encoding.routeCounted previous).checks =
+      encoding.validationBudget.checks previous :=
+  rfl
+
+/-- Dependent active callback used by Core's counted focus executor. -/
+noncomputable def Encoding.activeRoute {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (previous : Previous) (active : profile.Active previous)
+    (_selectionChecks : Nat)
+    (_exact : _selectionChecks = profile.selectionBudget.checks previous) :
+    Core.Counted (Output encoding previous active) :=
+  encoding.routeCounted previous
+
+@[simp] theorem Encoding.activeRoute_checks {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (previous : Previous) (active : profile.Active previous)
+    (selectionChecks : Nat)
+    (exact : selectionChecks = profile.selectionBudget.checks previous) :
+    (encoding.activeRoute previous active selectionChecks exact).checks =
+      encoding.validationBudget.checks previous :=
+  encoding.routeCounted_checks previous
+
+/-- Execute proof-carrying CT1 with exact selector-plus-validation work. -/
+noncomputable def Encoding.runCounted {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (previous : Previous) : Core.Counted (Stage encoding) :=
+  Focus.runCountedPayload profile encoding.validationBudget previous
+    (encoding.activeRoute previous) (encoding.activeRoute_checks previous)
+
+/-- Public stage projection of the complete counted CT1 execution. -/
 noncomputable def Encoding.run {Previous : Type uPrevious}
     {profile : Focus.Profile Previous}
     {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
     (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
     (previous : Previous) : Stage encoding :=
-  Focus.run profile previous fun _active =>
-    _root_.Hypostructure.CT1.CertificateEncoding.routePublicTarget
-      encoding.total previous
+  (encoding.runCounted previous).value
+
+theorem Encoding.runCounted_checks_of_active {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (previous : Previous) (active : profile.Active previous) :
+    (encoding.runCounted previous).checks =
+      encoding.workBudget.checks previous :=
+  by
+    simpa [Encoding.runCounted, Encoding.workBudget] using
+      Focus.runCountedPayload_checks_of_active profile
+        encoding.validationBudget previous
+        (encoding.activeRoute previous) (encoding.activeRoute_checks previous)
+        active
+
+theorem Encoding.runCounted_checks_of_inactive {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (previous : Previous) (inactive : Not (profile.Active previous)) :
+    (encoding.runCounted previous).checks =
+      profile.selectionBudget.checks previous :=
+  by
+    simpa [Encoding.runCounted] using
+      Focus.runCountedPayload_checks_of_inactive profile
+        encoding.validationBudget previous
+        (encoding.activeRoute previous) (encoding.activeRoute_checks previous)
+        inactive
+
+theorem Encoding.runCounted_checks_bounded {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (previous : Previous) :
+    (encoding.runCounted previous).checks <=
+      encoding.workBudget.coefficient *
+        (encoding.workBudget.size previous + 1) ^
+          encoding.workBudget.degree :=
+  by
+    simpa [Encoding.runCounted, Encoding.workBudget] using
+      Focus.runCountedPayload_checks_bounded profile
+        encoding.validationBudget previous
+        (encoding.activeRoute previous) (encoding.activeRoute_checks previous)
 
 @[simp] theorem run_previous {Previous : Type uPrevious}
     {profile : Focus.Profile Previous}
     {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
     (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
     (previous : Previous) : (Encoding.run encoding previous).previous = previous :=
-  rfl
+  by
+    simpa [Encoding.run, Encoding.runCounted] using
+      Focus.runCountedPayload_previous profile encoding.validationBudget previous
+        (encoding.activeRoute previous) (encoding.activeRoute_checks previous)
 
 /-- Transport a totalized target to the current activity proof. -/
 theorem target_of_total {Previous : Type uPrevious}
@@ -211,8 +338,26 @@ abbrev Encoding.AvoidingStage {Previous : Type uPrevious}
     (encoding : Encoding.{uPrevious, uCode} profile PublicTarget) :=
   Focus.Stage encoding.SuccessorProfile (AvoidingEvidence encoding)
 
-/-- Close every active C1 outcome using inherited target avoidance and retain
-only CT1's exact avoiding evidence. -/
+/-- Counted closure of every active C1 outcome using inherited target
+avoidance. Core owns the successor-focus selection and CT1 retains only its
+exact avoiding evidence. -/
+def Encoding.closeC1ContinueAvoidingCounted {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (stage : Stage encoding)
+    (targetImpossible : Focus.ActiveQuery encoding.SuccessorProfile
+      fun current active => Not (PublicTarget current.previous active)) :
+    Core.Counted encoding.AvoidingStage :=
+  Focus.runCounted encoding.SuccessorProfile
+    (Output := AvoidingEvidence encoding) stage fun active _checks _exact =>
+    let route := encoding.routeQuery.read stage active
+    let impossibleTotal : Not (TotalTarget PublicTarget stage.previous) := by
+      intro total
+      exact targetImpossible.read stage active (target_of_total total)
+    { terminal_eq := route.terminal_avoiding_of_not_target impossibleTotal }
+
+/-- Public stage projection of the counted C1 closure. -/
 def Encoding.closeC1ContinueAvoiding {Previous : Type uPrevious}
     {profile : Focus.Profile Previous}
     {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
@@ -221,12 +366,35 @@ def Encoding.closeC1ContinueAvoiding {Previous : Type uPrevious}
     (targetImpossible : Focus.ActiveQuery encoding.SuccessorProfile
       fun current active => Not (PublicTarget current.previous active)) :
     encoding.AvoidingStage :=
-  Focus.run encoding.SuccessorProfile stage fun active =>
-    let route := encoding.routeQuery.read stage active
-    let impossibleTotal : Not (TotalTarget PublicTarget stage.previous) := by
-      intro total
-      exact targetImpossible.read stage active (target_of_total total)
-    { terminal_eq := route.terminal_avoiding_of_not_target impossibleTotal }
+  (encoding.closeC1ContinueAvoidingCounted stage targetImpossible).value
+
+@[simp] theorem Encoding.closeC1ContinueAvoidingCounted_checks
+    {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (stage : Stage encoding)
+    (targetImpossible : Focus.ActiveQuery encoding.SuccessorProfile
+      fun current active => Not (PublicTarget current.previous active)) :
+    (encoding.closeC1ContinueAvoidingCounted stage targetImpossible).checks =
+      encoding.SuccessorProfile.selectionBudget.checks stage := by
+  rw [Encoding.closeC1ContinueAvoidingCounted, Focus.runCounted_checks]
+
+theorem Encoding.closeC1ContinueAvoidingCounted_checks_bounded
+    {Previous : Type uPrevious}
+    {profile : Focus.Profile Previous}
+    {PublicTarget : (previous : Previous) -> profile.Active previous -> Prop}
+    (encoding : Encoding.{uPrevious, uCode} profile PublicTarget)
+    (stage : Stage encoding)
+    (targetImpossible : Focus.ActiveQuery encoding.SuccessorProfile
+      fun current active => Not (PublicTarget current.previous active)) :
+    (encoding.closeC1ContinueAvoidingCounted stage targetImpossible).checks <=
+      encoding.SuccessorProfile.selectionBudget.coefficient *
+        (encoding.SuccessorProfile.selectionBudget.size stage + 1) ^
+          encoding.SuccessorProfile.selectionBudget.degree :=
+  by
+    rw [encoding.closeC1ContinueAvoidingCounted_checks stage targetImpossible]
+    exact encoding.SuccessorProfile.selectionBudget.bounded stage
 
 @[simp] theorem closeC1ContinueAvoiding_previous {Previous : Type uPrevious}
     {profile : Focus.Profile Previous}
@@ -237,6 +405,9 @@ def Encoding.closeC1ContinueAvoiding {Previous : Type uPrevious}
       fun current active => Not (PublicTarget current.previous active)) :
     (Encoding.closeC1ContinueAvoiding encoding stage targetImpossible).previous =
       stage :=
-  rfl
+  by
+    simpa [Encoding.closeC1ContinueAvoiding,
+      Encoding.closeC1ContinueAvoidingCounted] using
+      Focus.runCounted_previous encoding.SuccessorProfile stage _
 
 end Hypostructure.CT1.FocusedCertificateEncoding

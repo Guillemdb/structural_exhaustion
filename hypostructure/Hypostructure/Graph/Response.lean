@@ -18,7 +18,7 @@ namespace Hypostructure.Graph.Response
 
 open Hypostructure.Core
 
-universe u uContext uCoordinate uValue uMeasure
+universe u uContext uCoordinate uValue uMeasure uProfile
 
 /-! ## Literal all-context target completeness -/
 
@@ -31,42 +31,42 @@ def ContextEquivalent {boundary : Boundary.{u}}
   forall outside : OutsideContext boundary,
     Target (glue left outside) <-> Target (glue right outside)
 
-/-- Exact graph target-completeness combines the immutable boundary-degree
-fibre with universal target response.  Context equivalence alone is not a
-target-complete identification. -/
+/-- Exact graph target-completeness combines equality in a caller-selected
+immutable profile fibre with universal target response.  Context equivalence
+alone is not a target-complete identification. -/
 structure TargetComplete {boundary : Boundary.{u}}
+    {Profile : Type uProfile} (profile : BoundaryPiece boundary -> Profile)
     (Target : FiniteObject.{u} -> Prop)
     (left right : BoundaryPiece boundary) : Prop where
-  boundaryDegreeProfile_eq :
-    left.boundaryDegreeProfile = right.boundaryDegreeProfile
+  profile_eq : profile left = profile right
   contextEquivalent : ContextEquivalent Target left right
 
 /-- One literal outside context witnessing failure of target equivalence. -/
-structure TargetDefect {boundary : Boundary.{u}}
+def TargetDefect {boundary : Boundary.{u}}
     (Target : FiniteObject.{u} -> Prop)
-    (left right : BoundaryPiece boundary) : Prop where
-  outside : OutsideContext boundary
-  distinguishes :
+    (left right : BoundaryPiece boundary) : Prop :=
+  exists outside : OutsideContext boundary,
     Not (Target (glue left outside) <-> Target (glue right outside))
 
-/-- Different boundary-degree fibres can never be target-completely
+/-- Different immutable profile fibres can never be target-completely
 identified, independently of every all-context response test. -/
-theorem boundaryDegreeProfile_ne_not_targetComplete
+theorem profile_ne_not_targetComplete
     {boundary : Boundary.{u}}
+    {Profile : Type uProfile} {profile : BoundaryPiece boundary -> Profile}
     {Target : FiniteObject.{u} -> Prop}
     {left right : BoundaryPiece boundary}
-    (different :
-      left.boundaryDegreeProfile != right.boundaryDegreeProfile) :
-    Not (TargetComplete Target left right) := by
+    (different : profile left ≠ profile right) :
+    Not (TargetComplete profile Target left right) := by
   intro complete
-  exact different complete.boundaryDegreeProfile_eq
+  exact different complete.profile_eq
 
 /-- Target completeness projects to the context-universality obligation. -/
 theorem TargetComplete.contextUniversal
     {boundary : Boundary.{u}}
+    {Profile : Type uProfile} {profile : BoundaryPiece boundary -> Profile}
     {Target : FiniteObject.{u} -> Prop}
     {left right : BoundaryPiece boundary}
-    (complete : TargetComplete Target left right) :
+    (complete : TargetComplete profile Target left right) :
     ContextEquivalent Target left right :=
   complete.contextEquivalent
 
@@ -128,7 +128,7 @@ theorem exactSystem_coordinateResponse
   rfl
 
 /-- The unrestricted constructor, whose semantic context type is literally
-all normalized outside contexts at the common boundary. -/
+all finite outside contexts at the common boundary. -/
 noncomputable def outsideSystem
     {boundary : Boundary.{u}}
     (Coordinate : Type uCoordinate)

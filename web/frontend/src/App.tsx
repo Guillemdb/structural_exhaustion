@@ -1,33 +1,48 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
 
-import { FrameworkPage } from "./pages/FrameworkPage";
-import { ErdosGyarfasPage } from "./pages/ErdosGyarfasPage";
-import { ExamplePage } from "./pages/ExamplePage";
-import { ExamplesPage } from "./pages/ExamplesPage";
-import { TacticPage } from "./pages/TacticPage";
-import { ERDOS_GYARFAS_PATH } from "./routes";
-import { AudienceProvider } from "./audience";
-import { CoreDocumentationPage, GraphDocumentationPage } from "./pages/DocumentationPage";
+import { AppShell } from "./components/AppShell";
+
+const DataPage = lazy(() => import("./pages/DataPage"));
+const SearchPage = lazy(() => import("./pages/SearchPage"));
+const SourcePage = lazy(() => import("./pages/SourcePage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
+
+function RouteFallback() {
+  return (
+    <section className="request-state" role="status">
+      <span className="loading-mark" aria-hidden="true" />
+      <p>Opening documentation…</p>
+    </section>
+  );
+}
 
 export default function App() {
   return (
-    <AudienceProvider>
-    <Routes>
-      <Route path="/" element={<Navigate to="/framework/core" replace />} />
-      <Route path="/framework" element={<Navigate to="/framework/core" replace />} />
-      <Route path="/framework/core" element={<CoreDocumentationPage />} />
-      <Route path="/framework/tactics" element={<FrameworkPage />} />
-      <Route path="/framework/graph" element={<GraphDocumentationPage />} />
-      <Route path="/ct/:tacticId" element={<TacticPage />} />
-      <Route path={ERDOS_GYARFAS_PATH} element={<ErdosGyarfasPage />} />
-      <Route path="/examples" element={<ExamplesPage />} />
-      <Route
-        path="/examples/erdos-64"
-        element={<Navigate to={ERDOS_GYARFAS_PATH} replace />}
-      />
-      <Route path="/examples/:exampleId" element={<ExamplePage />} />
-      <Route path="*" element={<Navigate to="/framework/core" replace />} />
-    </Routes>
-    </AudienceProvider>
+    <AppShell>
+      <Suspense fallback={<RouteFallback />}>
+        <Routes>
+          <Route path="/" element={<DataPage source={{ kind: "page", id: "home" }} />} />
+          <Route path="/start" element={<DataPage source={{ kind: "page", id: "start" }} />} />
+          <Route path="/core" element={<DataPage source={{ kind: "page", id: "core" }} />} />
+          <Route path="/core/cts" element={<DataPage source={{ kind: "page", id: "cts" }} />} />
+          <Route path="/core/cts/:ctId" element={<DataPage source={{ kind: "ct", parameter: "ctId" }} />} />
+          <Route path="/core/routes" element={<DataPage source={{ kind: "page", id: "routes" }} />} />
+          <Route path="/core/routes/:routeId" element={<DataPage source={{ kind: "route", parameter: "routeId" }} />} />
+          <Route path="/graph" element={<DataPage source={{ kind: "page", id: "graph" }} />} />
+          <Route path="/pde" element={<DataPage source={{ kind: "page", id: "pde" }} />} />
+          <Route path="/examples" element={<DataPage source={{ kind: "page", id: "examples" }} />} />
+          <Route path="/examples/:exampleId" element={<DataPage source={{ kind: "example", parameter: "exampleId" }} />} />
+          <Route path="/erdos" element={<DataPage source={{ kind: "page", id: "erdos" }} />} />
+          <Route path="/erdos/nodes/:nodeId" element={<DataPage source={{ kind: "erdos-node", parameter: "nodeId" }} />} />
+          <Route path="/reference" element={<DataPage source={{ kind: "page", id: "reference" }} />} />
+          <Route path="/reference/modules/:moduleId" element={<DataPage source={{ kind: "module", parameter: "moduleId" }} />} />
+          <Route path="/reference/declarations/:declarationId" element={<DataPage source={{ kind: "declaration", parameter: "declarationId" }} />} />
+          <Route path="/source/:sourceId" element={<SourcePage />} />
+          <Route path="/search" element={<SearchPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Suspense>
+    </AppShell>
   );
 }

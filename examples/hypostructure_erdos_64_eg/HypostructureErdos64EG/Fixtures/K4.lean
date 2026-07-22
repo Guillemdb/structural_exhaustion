@@ -61,9 +61,6 @@ def rootStage : InitialStage :=
 noncomputable def node2Stage : Node2Stage :=
   node2 rootStage
 
-noncomputable def node3Stage : Node3Stage :=
-  node3 node2Stage
-
 theorem rootStage_exact :
     Core.Residual.residualOf rootStage = rootResidual :=
   rfl
@@ -73,8 +70,22 @@ theorem node2Stage_is_noBranch :
       node2Stage.added = Core.Residual.Decision.Binary.noBranch proof :=
   node2_no_branch_of_target rootStage k4Target
 
-theorem node3Stage_exact_predecessor : node3Stage.previous = node2Stage :=
-  rfl
+/-- The framework-generated focus proof for node 2's exact no constructor. -/
+noncomputable def node3Active :
+    (Core.Residual.Focus.no
+      (Yes := IsCounterexample) (No := IsNotCounterexample)).Active node2Stage := by
+  rcases node2Stage_is_noBranch with ⟨proof, selected⟩
+  exact ⟨proof, selected⟩
+
+/-- Node 3 consumes the focused no branch and returns direct closure. -/
+noncomputable def node3Stage :
+    Core.Closure.Result (Node3OfficialConclusion node2Stage.previous) :=
+  node3 node2Stage node3Active
+
+theorem node3Active_exact_selection :
+    node2Stage.added =
+      Core.Residual.Decision.Binary.noBranch node3Active.proof :=
+  node3Active.selected
 
 theorem k4OfficialConclusion :
     ∃ (exponent : Nat) (vertex : object.Vertex)

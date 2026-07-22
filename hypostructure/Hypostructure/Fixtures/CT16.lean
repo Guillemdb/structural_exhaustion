@@ -48,6 +48,39 @@ def spec : _root_.Hypostructure.CT16.Spec Previous where
     computedCode (Core.Residual.residualOf previous).mode
   targetCode := fun _previous => false
 
+def codeCost : Mode -> Nat
+  | .proper => 1
+  | .exact => 2
+  | .mismatch => 3
+
+def codeComputationBudget : Core.PolynomialCheckBudget Previous where
+  size := fun _previous => 0
+  checks := fun previous =>
+    codeCost (Core.Residual.residualOf previous).mode
+  coefficient := 3
+  degree := 0
+  bounded := by
+    intro previous
+    cases mode : (Core.Residual.residualOf previous).mode <;>
+      simp [codeCost]
+
+def codeComputation :
+    _root_.Hypostructure.CT16.ClosedCodeComputation spec where
+  run := fun previous =>
+    ⟨spec.closedCode previous,
+      codeCost (Core.Residual.residualOf previous).mode⟩
+  correct := by intros; rfl
+  budget := codeComputationBudget
+  checks_eq := by intros; rfl
+
+def equalityDecision :
+    _root_.Hypostructure.CT16.CodeEqualityDecision spec :=
+  _root_.Hypostructure.CT16.CodeEqualityDecision.unitCost
+    codeComputationBudget.size (by
+      intro _previous
+      change DecidableEq Bool
+      infer_instance)
+
 def coordinateQuery : Core.Residual.Query Previous fun previous =>
     Core.Finite.Enumeration (spec.Coordinate previous) :=
   (Core.Residual.Query.residual
@@ -60,10 +93,8 @@ def capability : _root_.Hypostructure.CT16.Capability spec where
     intro previous coordinate
     cases mode : (Core.Residual.residualOf previous).mode <;>
       simp [spec, inSupport, mode] <;> infer_instance
-  codeDecidableEq := by
-    intro _previous
-    change DecidableEq Bool
-    infer_instance
+  codeComputation := codeComputation
+  equalityDecision := equalityDecision
 
 def residual (mode : Mode) : Residual where
   mode := mode
@@ -103,11 +134,33 @@ theorem exact_support_checks : exactResult.supportChecks = 3 := rfl
 
 theorem mismatch_support_checks : mismatchResult.supportChecks = 3 := rfl
 
+theorem proper_code_checks : properResult.codeChecks = 0 := rfl
+
+theorem exact_code_checks : exactResult.codeChecks = 2 := rfl
+
+theorem mismatch_code_checks : mismatchResult.codeChecks = 3 := rfl
+
+theorem proper_equality_checks : properResult.equalityChecks = 0 := rfl
+
+theorem exact_equality_checks : exactResult.equalityChecks = 1 := rfl
+
+theorem mismatch_equality_checks : mismatchResult.equalityChecks = 1 := rfl
+
 theorem proper_checks : properResult.checks = 2 := rfl
 
-theorem exact_checks : exactResult.checks = 5 := rfl
+theorem exact_checks : exactResult.checks = 6 := rfl
 
-theorem mismatch_checks : mismatchResult.checks = 5 := rfl
+theorem mismatch_checks : mismatchResult.checks = 7 := rfl
+
+theorem exact_checks_composed :
+    exactResult.checks = exactResult.supportChecks +
+      (exactResult.codeChecks + exactResult.equalityChecks) :=
+  exactResult.checks_eq
+
+theorem mismatch_checks_composed :
+    mismatchResult.checks = mismatchResult.supportChecks +
+      (mismatchResult.codeChecks + mismatchResult.equalityChecks) :=
+  mismatchResult.checks_eq
 
 theorem proper_trace :
     properResult.traceNodes =
@@ -202,8 +255,15 @@ def inSupport (selected : Graph.FiniteObject)
 def spec := Graph.CT16.vertexSpec objectQuery inSupport Nat
   (fun selected => selected.vertices.card) 3
 
+def computeClosedCode (selected : Graph.FiniteObject) : Core.Counted Nat :=
+  ⟨selected.vertices.card, 2⟩
+
+def codeComputationBudget : Core.PolynomialCheckBudget Previous :=
+  Core.PolynomialCheckBudget.constant (fun _previous => 0) 2
+
 def capability := Graph.CT16.vertexCapability objectQuery inSupport Nat
   (fun selected => selected.vertices.card) 3
+  computeClosedCode (by intros; rfl) codeComputationBudget (by intros; rfl)
   (fun _selected _vertex => .isTrue trivial) inferInstance
 
 def previous : Previous :=
@@ -216,7 +276,13 @@ theorem result_previous : result.stage.previous = previous := rfl
 
 theorem result_terminal : result.terminal = .exactCode := rfl
 
-theorem result_checks : result.checks = 5 := rfl
+theorem result_support_checks : result.supportChecks = 3 := rfl
+
+theorem result_code_checks : result.codeChecks = 2 := rfl
+
+theorem result_equality_checks : result.equalityChecks = 1 := rfl
+
+theorem result_checks : result.checks = 6 := rfl
 
 theorem result_exact_code :
     _root_.Hypostructure.CT16.ExactClosedType spec previous
@@ -287,8 +353,15 @@ def inSupport (object : Bool) (_coordinate : Fin 2) : Prop := object = true
 def spec := PDE.CT16.compactifiedSpec model objectQuery (Fin 2)
   inSupport Bool id true
 
+def computeClosedCode (object : Bool) : Core.Counted Bool :=
+  ⟨object, 3⟩
+
+def codeComputationBudget : Core.PolynomialCheckBudget Previous :=
+  Core.PolynomialCheckBudget.constant (fun _previous => 0) 3
+
 def capability := PDE.CT16.compactifiedCapability model objectQuery (Fin 2)
   coordinateQuery inSupport Bool id true
+  computeClosedCode (by intros; rfl) codeComputationBudget (by intros; rfl)
   (fun object _coordinate => Bool.decEq object true) inferInstance
 
 def previous : Previous :=
@@ -301,7 +374,13 @@ theorem result_previous : result.stage.previous = previous := rfl
 
 theorem result_terminal : result.terminal = .exactCode := rfl
 
-theorem result_checks : result.checks = 4 := rfl
+theorem result_support_checks : result.supportChecks = 2 := rfl
+
+theorem result_code_checks : result.codeChecks = 3 := rfl
+
+theorem result_equality_checks : result.equalityChecks = 1 := rfl
+
+theorem result_checks : result.checks = 6 := rfl
 
 theorem result_exact_code :
     _root_.Hypostructure.CT16.ExactClosedType spec previous

@@ -1,4 +1,4 @@
-.PHONY: help lint build framework-build example-build even-cycle-example-build erdos-example-build greedy-coloring-example-build mantel-example-build mathlib-cache export example-export erdos-web-status-sync erdos-proof-history schemas generate validate kernel verify test manuscript checksums web web-build web-test web-frontend-test hypostructure-framework-build hypostructure-fixtures-build hypostructure-erdos-build hypostructure-pde-build hypostructure-parity-build hypostructure-mathlib-cache hypostructure-lint hypostructure-test migration-test
+.PHONY: help lint build framework-build example-build even-cycle-example-build erdos-example-build greedy-coloring-example-build mantel-example-build mathlib-cache export example-export erdos-web-status-sync erdos-proof-history schemas generate validate kernel verify test manuscript checksums web web-data hypostructure-web-export web-build web-test web-backend-test web-frontend-test hypostructure-framework-build hypostructure-fixtures-build hypostructure-erdos-build hypostructure-pde-build hypostructure-parity-build hypostructure-mathlib-cache hypostructure-lint eg-source-authority-check hypostructure-test migration-test
 
 .DEFAULT_GOAL := build
 
@@ -20,8 +20,14 @@ DOCUMENTATION_CATALOG := generated/framework-documentation.json
 EXAMPLE_EXPORT_DIR := build/example-exports
 WEB_FRONTEND_DIR := web/frontend
 WEB_NODE_STAMP := $(WEB_FRONTEND_DIR)/node_modules/.package-lock.json
+HYPOSTRUCTURE_WEB_RAW := generated/hypostructure/web/declarations.raw.json
+HYPOSTRUCTURE_WEB_SNAPSHOT := generated/hypostructure/web/snapshot.json
+HYPOSTRUCTURE_WEB_MANIFEST := generated/hypostructure/web/manifest.json
 WEB_HOST ?= 127.0.0.1
 WEB_PORT ?= 8000
+WEB_WORKERS ?= 1
+WEB_THREADS ?= 4
+WEB_TIMEOUT ?= 60
 
 help:
 	@printf '%s\n' \
@@ -36,6 +42,7 @@ help:
 	  '  make hypostructure-pde-build  Compile the independent PDE and NS2D example ladder' \
 	  '  make hypostructure-parity-build  Prove normalized legacy/new EG parity fixtures' \
 	  '  make hypostructure-lint  Enforce the Hypostructure production import firewall' \
+	  '  make eg-source-authority-check  Verify the immutable EG original and diagram locator' \
 	  '  make hypostructure-test  Build and lint the current Hypostructure migration slice' \
 	  '  make even-cycle-example-build  Compile the external even-cycle example package' \
 	  '  make erdos-example-build  Compile the partial Erdős Problem 64 example package' \
@@ -51,8 +58,9 @@ help:
 	  '  make kernel      Regenerate and kernel-check bindings, freshness, and absence of admissions' \
 	  '  make verify      Run the complete linter, generation, kernel, validation, and checksum chain' \
 	  '  make test        Run make verify plus Python and web regression checks' \
-	  '  make web         Build and serve the framework explorer on one local URL' \
-	  '  make web-test    Run backend/frontend explorer tests and production build' \
+	  '  make web-data    Build the compiled Hypostructure documentation snapshot' \
+	  '  make web         Build and serve the Flask + React documentation site' \
+	  '  make web-test    Verify the data build, Flask API, React UI, and production bundle' \
 	  '  make manuscript  Regenerate CT figures and compile the PDF manuscript'
 
 lint:
@@ -65,10 +73,11 @@ hypostructure-framework-build:
 	cd $(HYPOSTRUCTURE_DIR) && lake build
 
 hypostructure-fixtures-build: hypostructure-framework-build
-	cd $(HYPOSTRUCTURE_DIR) && lake build Hypostructure.PDE Hypostructure.Fixtures.PDEBasics Hypostructure.Fixtures.PDERows1To4 Hypostructure.Fixtures.ClosedLedger Hypostructure.Fixtures.CompactExtraction Hypostructure.Fixtures.LocalToGlobal Hypostructure.Fixtures.Response Hypostructure.Fixtures.Finite Hypostructure.Fixtures.ExecutionRouting Hypostructure.Fixtures.Decision Hypostructure.Fixtures.Focus Hypostructure.Fixtures.NormalForms Hypostructure.Fixtures.GraphAssembly Hypostructure.Fixtures.GraphProgress Hypostructure.Fixtures.GraphMinimality Hypostructure.Fixtures.GraphDeletionCriticality Hypostructure.Fixtures.GraphBoundariedAtom Hypostructure.Fixtures.GraphResponse Hypostructure.Fixtures.RootedReturn Hypostructure.Fixtures.CT1 Hypostructure.Fixtures.CT2 Hypostructure.Fixtures.CT3 Hypostructure.Fixtures.CT4 Hypostructure.Fixtures.CT5 Hypostructure.Fixtures.CT6 Hypostructure.Fixtures.CT7 Hypostructure.Fixtures.CT8 Hypostructure.Fixtures.CT9 Hypostructure.Fixtures.CT10 Hypostructure.Fixtures.CT11 Hypostructure.Fixtures.CT12 Hypostructure.Fixtures.CT13 Hypostructure.Fixtures.CT14 Hypostructure.Fixtures.CT15 Hypostructure.Fixtures.CT16 Hypostructure.Fixtures.CT17 Hypostructure.Fixtures.RouteRegistry
+	cd $(HYPOSTRUCTURE_DIR) && lake build Hypostructure.PDE Hypostructure.Fixtures.PDEBasics Hypostructure.Fixtures.PDERows1To4 Hypostructure.Fixtures.PDERow5DirectedExhaustiveness Hypostructure.Fixtures.PDERow6DefectRoutingRaw Hypostructure.Fixtures.PDERow6FiniteOrthogonalAlignment Hypostructure.Fixtures.PDERow6FinitePressureGaugeAlignment Hypostructure.Fixtures.ClosedLedger Hypostructure.Fixtures.CompactExtraction Hypostructure.Fixtures.LocalToGlobal Hypostructure.Fixtures.Response Hypostructure.Fixtures.Finite Hypostructure.Fixtures.ExecutionRouting Hypostructure.Fixtures.Decision Hypostructure.Fixtures.Focus Hypostructure.Fixtures.ProofProjection Hypostructure.Fixtures.NormalForms Hypostructure.Fixtures.GraphAssembly Hypostructure.Fixtures.GraphProgress Hypostructure.Fixtures.GraphMinimality Hypostructure.Fixtures.GraphDeletionCriticality Hypostructure.Fixtures.GraphBoundariedAtom Hypostructure.Fixtures.GraphAtomResponse Hypostructure.Fixtures.GraphBoundaryOverlap Hypostructure.Fixtures.GraphBoundaryOverlapCounterexample Hypostructure.Fixtures.GraphResponse Hypostructure.Fixtures.RootedReturn Hypostructure.Fixtures.CT1 Hypostructure.Fixtures.CT2 Hypostructure.Fixtures.CT3 Hypostructure.Fixtures.CT4 Hypostructure.Fixtures.CT5 Hypostructure.Fixtures.CT6 Hypostructure.Fixtures.CT7 Hypostructure.Fixtures.CT8 Hypostructure.Fixtures.CT9 Hypostructure.Fixtures.CT10 Hypostructure.Fixtures.CT11 Hypostructure.Fixtures.CT12 Hypostructure.Fixtures.CT13 Hypostructure.Fixtures.CT14 Hypostructure.Fixtures.CT15 Hypostructure.Fixtures.CT16 Hypostructure.Fixtures.CT17 Hypostructure.Fixtures.RouteRegistry
 
 hypostructure-erdos-build: hypostructure-framework-build
 	cd $(HYPOSTRUCTURE_ERDOS_EXAMPLE_DIR) && lake build
+	cd $(HYPOSTRUCTURE_ERDOS_EXAMPLE_DIR) && lake build HypostructureErdos64EG.Node1
 	cd $(HYPOSTRUCTURE_ERDOS_EXAMPLE_DIR) && lake build HypostructureErdos64EG.Fixtures.K4
 
 hypostructure-pde-build: hypostructure-fixtures-build
@@ -76,6 +85,7 @@ hypostructure-pde-build: hypostructure-fixtures-build
 
 hypostructure-parity-build: hypostructure-erdos-build
 	cd $(HYPOSTRUCTURE_PARITY_DIR) && lake build
+	cd $(HYPOSTRUCTURE_PARITY_DIR) && lake build HypostructureParity.Erdos64EG.Node1
 
 hypostructure-mathlib-cache:
 	cd $(HYPOSTRUCTURE_DIR) && lake exe cache get
@@ -86,7 +96,10 @@ hypostructure-mathlib-cache:
 hypostructure-lint:
 	$(PYTHON) tools/check_hypostructure_imports.py --root .
 
-hypostructure-test: hypostructure-lint hypostructure-fixtures-build hypostructure-erdos-build hypostructure-pde-build hypostructure-parity-build
+eg-source-authority-check:
+	$(PYTHON) tools/extract_eg_original_node_anchors.py --root . --check
+
+hypostructure-test: eg-source-authority-check hypostructure-lint hypostructure-fixtures-build hypostructure-erdos-build hypostructure-pde-build hypostructure-parity-build
 
 migration-test: test hypostructure-test
 
@@ -156,14 +169,23 @@ verify: lint kernel
 	$(MAKE) validate
 	$(MAKE) checksums
 
-test: verify
+test: verify web-data
 	$(PYTHON) -m pytest -q
-	$(MAKE) web-frontend-test
+	$(MAKE) web-test
+
+hypostructure-web-export: hypostructure-framework-build
+	cd $(HYPOSTRUCTURE_DIR) && lake build Hypostructure.PDE Hypostructure.PDE.NavierStokes
+	cd $(HYPOSTRUCTURE_DIR) && HYPOSTRUCTURE_WEB_DECLARATIONS_EXPORT=../$(HYPOSTRUCTURE_WEB_RAW) lake env lean Hypostructure/Canonical/WebExport.lean
+
+web-data: hypostructure-lint hypostructure-fixtures-build hypostructure-erdos-build hypostructure-pde-build hypostructure-web-export
+	$(PYTHON) tools/build_hypostructure_web_data.py --skip-declaration-export
+	@test -s $(HYPOSTRUCTURE_WEB_SNAPSHOT)
+	@test -s $(HYPOSTRUCTURE_WEB_MANIFEST)
 
 $(WEB_NODE_STAMP): $(WEB_FRONTEND_DIR)/package.json $(WEB_FRONTEND_DIR)/package-lock.json
 	cd $(WEB_FRONTEND_DIR) && $(NPM) ci
 
-web-build: $(WEB_NODE_STAMP)
+web-build: web-data $(WEB_NODE_STAMP)
 	cd $(WEB_FRONTEND_DIR) && $(NPM) run build
 
 web-frontend-test: $(WEB_NODE_STAMP)
@@ -171,12 +193,14 @@ web-frontend-test: $(WEB_NODE_STAMP)
 	cd $(WEB_FRONTEND_DIR) && $(NPM) run typecheck
 	cd $(WEB_FRONTEND_DIR) && $(NPM) run build
 
-web-test: $(WEB_NODE_STAMP)
-	UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run --with-requirements requirements.txt python -m pytest -q tests/test_web_api.py
+web-backend-test: web-data
+	UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run --with-requirements requirements.txt python -m pytest -q tests/test_web_api.py tests/test_hypostructure_web_data.py
+
+web-test: web-backend-test $(WEB_NODE_STAMP)
 	$(MAKE) web-frontend-test
 
 web: web-build
-	STRUCTURAL_EXHAUSTION_ALLOW_STALE_HASHES=1 UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run --with-requirements requirements.txt uvicorn web.backend.app.main:app --host $(WEB_HOST) --port $(WEB_PORT)
+	UV_CACHE_DIR=$(UV_CACHE_DIR) $(UV) run --with-requirements requirements.txt gunicorn --preload --worker-class gthread --workers $(WEB_WORKERS) --threads $(WEB_THREADS) --timeout $(WEB_TIMEOUT) --bind $(WEB_HOST):$(WEB_PORT) 'web.backend.app.main:create_app()'
 
 manuscript: generate
 	mkdir -p build/framework

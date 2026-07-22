@@ -26,10 +26,15 @@ abbrev Node10Stage :=
     (Graph.minimumDegreeDeletionCriticalityProfile 3)
     node4ContextAtNode9Query
 
+/-- Counted node-10 execution from the literal node-9 predecessor. -/
+noncomputable def node10Counted (previous : Node9Stage.{u}) :
+    Core.Counted Node10Stage.{u} :=
+  Graph.executeFocusedMinimumDegreeSlackVertexIndependenceCounted 3 Node9Focus
+    node4ContextAtNode9Query node9CertificateQuery previous
+
 /-- Execute node 10 from the literal node-9 predecessor. -/
 noncomputable def node10 (previous : Node9Stage.{u}) : Node10Stage.{u} :=
-  Graph.executeFocusedMinimumDegreeSlackVertexIndependence 3 Node9Focus
-    node4ContextAtNode9Query node9CertificateQuery previous
+  (node10Counted previous).value
 
 /-- Focus inherited by node 11. -/
 abbrev Node10Focus :=
@@ -58,7 +63,18 @@ theorem node10_high_degree_vertices_independent (stage : Node10Stage.{u})
       left right) :=
   node10IndependenceQuery.read stage active leftHigh rightHigh
 
+theorem node10Counted_work_bounded (previous : Node9Stage.{u}) :
+    (node10Counted previous).checks <=
+      Node9Focus.selectionBudget.coefficient *
+        (Node9Focus.selectionBudget.size previous + 1) ^
+          Node9Focus.selectionBudget.degree := by
+  rw [node10Counted,
+    Graph.executeFocusedMinimumDegreeSlackVertexIndependenceCounted,
+    Graph.executeFocusedSlackVertexIndependenceCounted_checks]
+  exact Node9Focus.selectionBudget.bounded previous
+
 #print axioms node10
+#print axioms node10Counted_work_bounded
 #print axioms node10_high_degree_vertices_independent
 
 end HypostructureErdos64EG

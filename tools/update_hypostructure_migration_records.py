@@ -5,9 +5,24 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
+import json
 import re
 from dataclasses import dataclass
 from pathlib import Path
+
+try:
+    from tools.extract_eg_original_node_anchors import (
+        AnchorExtractionError,
+        extract_registry,
+        render_registry,
+    )
+except ModuleNotFoundError:
+    from extract_eg_original_node_anchors import (  # type: ignore[no-redef]
+        AnchorExtractionError,
+        extract_registry,
+        render_registry,
+    )
 
 
 NODE_FILE = re.compile(r"Node(?P<node>[0-9]+)\.lean$")
@@ -19,6 +34,243 @@ CT_IMPORT = re.compile(
     re.MULTILINE,
 )
 
+AUTHORITY_MANIFEST = Path("migration/hypostructure/source-authority.json")
+ORIGINAL_NODE_ANCHOR_REGISTRY = Path(
+    "migration/hypostructure/eg-original-node-anchors.json"
+)
+ORIGINAL_NODE_ANCHOR_GENERATOR = "tools/extract_eg_original_node_anchors.py"
+ORIGINAL_EG_SOURCE = "original_erdos_64_proof.tex"
+ORIGINAL_EG_BYTE_SIZE = 835801
+ORIGINAL_EG_SHA256 = (
+    "215248521b7dbc6519076d506101b80a1c9a8425ee5c13b48a4ec52df21d2e10"
+)
+LIVING_EG_SOURCE = "proofs/erdos_64_eg/erdos_64_proof.tex"
+LEGACY_EG_PATHS = [
+    "lean/StructuralExhaustion",
+    "examples/erdos_64_eg/Erdos64EG/Node*.lean",
+]
+ORIGINAL_FIRST_STEP = (
+    "extract and freeze the exact quantified node contract and original DAG edges"
+)
+LEGACY_SECOND_STEP = (
+    "consult the matching kernel-checked legacy NodeX.lean dependency cone as "
+    "implementation and parity evidence"
+)
+DISCREPANCY_POLICY = (
+    "record an issue and block the affected node pending explicit source correction"
+)
+REQUIRED_PROHIBITED_REQUIREMENTS_SOURCES = {
+    LIVING_EG_SOURCE,
+    "Future Lean files",
+    "generated metadata",
+    "legacy Lean imports",
+}
+
+
+class SourceAuthorityError(RuntimeError):
+    """Raised before migration writes when the EG authority contract is invalid."""
+
+
+def _require_authority(condition: bool, detail: str) -> None:
+    if not condition:
+        raise SourceAuthorityError(
+            f"EG source-authority preflight failed: {detail}"
+        )
+
+
+def _authority_section(
+    authority: dict[str, object], name: str
+) -> dict[str, object]:
+    section = authority.get(name)
+    _require_authority(
+        isinstance(section, dict),
+        f"{name} must be a JSON object",
+    )
+    return section
+
+
+def validate_eg_source_authority(root: Path) -> None:
+    """Validate the immutable EG authority contract without writing anything."""
+    manifest_path = root / AUTHORITY_MANIFEST
+    try:
+        encoded_manifest = manifest_path.read_text(encoding="utf-8")
+    except OSError as error:
+        raise SourceAuthorityError(
+            "EG source-authority preflight failed: cannot read "
+            f"{AUTHORITY_MANIFEST}: {error}"
+        ) from error
+
+    try:
+        loaded = json.loads(encoded_manifest)
+    except json.JSONDecodeError as error:
+        raise SourceAuthorityError(
+            "EG source-authority preflight failed: "
+            f"{AUTHORITY_MANIFEST} is not valid JSON: {error}"
+        ) from error
+
+    _require_authority(
+        isinstance(loaded, dict),
+        f"{AUTHORITY_MANIFEST} must contain a JSON object",
+    )
+    authority: dict[str, object] = loaded
+    _require_authority(
+        type(authority.get("schema_version")) is int
+        and authority["schema_version"] == 1,
+        "schema_version must be exactly 1",
+    )
+    _require_authority(
+        authority.get("scope") == "erdos-gyarfas-problem-64",
+        "scope must be exactly 'erdos-gyarfas-problem-64'",
+    )
+
+    original = _authority_section(authority, "original")
+    _require_authority(
+        original.get("path") == ORIGINAL_EG_SOURCE,
+        f"original.path must be exactly {ORIGINAL_EG_SOURCE!r}",
+    )
+    _require_authority(
+        original.get("role") == "sole EG mathematical and DAG authority",
+        "original.role must identify the sole EG mathematical and DAG authority",
+    )
+    for field in (
+        "mathematical_authority",
+        "dag_authority",
+        "must_not_be_edited",
+        "corrections_require_explicit_approval",
+    ):
+        _require_authority(
+            original.get(field) is True,
+            f"original.{field} must be true",
+        )
+    _require_authority(
+        type(original.get("byte_size")) is int
+        and original["byte_size"] == ORIGINAL_EG_BYTE_SIZE,
+        f"original.byte_size must be pinned to {ORIGINAL_EG_BYTE_SIZE}",
+    )
+    _require_authority(
+        original.get("sha256") == ORIGINAL_EG_SHA256,
+        f"original.sha256 must be pinned to {ORIGINAL_EG_SHA256}",
+    )
+
+    living = _authority_section(authority, "living_proof")
+    _require_authority(
+        living.get("path") == LIVING_EG_SOURCE,
+        f"living_proof.path must be exactly {LIVING_EG_SOURCE!r}",
+    )
+    _require_authority(
+        living.get("role") == "non-binding editorial cross-check only",
+        "living_proof.role must remain non-binding editorial evidence",
+    )
+    for field in ("mathematical_authority", "dag_authority"):
+        _require_authority(
+            living.get(field) is False,
+            f"living_proof.{field} must be false",
+        )
+
+    legacy = _authority_section(authority, "legacy_lean")
+    _require_authority(
+        legacy.get("paths") == LEGACY_EG_PATHS,
+        "legacy_lean.paths must identify only the reviewed legacy Lean roots",
+    )
+    _require_authority(
+        legacy.get("role")
+        == "kernel-checked implementation and parity evidence only",
+        "legacy_lean.role must remain implementation and parity evidence only",
+    )
+    for field in ("mathematical_authority", "dag_authority"):
+        _require_authority(
+            legacy.get(field) is False,
+            f"legacy_lean.{field} must be false",
+        )
+
+    anchors = _authority_section(authority, "original_node_anchor_registry")
+    _require_authority(
+        anchors.get("path") == ORIGINAL_NODE_ANCHOR_REGISTRY.as_posix(),
+        "original_node_anchor_registry.path must name the reviewed locator",
+    )
+    _require_authority(
+        anchors.get("generator") == ORIGINAL_NODE_ANCHOR_GENERATOR,
+        "original_node_anchor_registry.generator must name the pinned extractor",
+    )
+    _require_authority(
+        anchors.get("role")
+        == "exact diagram locator generated only from the pinned original",
+        "original_node_anchor_registry.role must remain locator-only",
+    )
+    _require_authority(
+        anchors.get("scope") == "diagram_anchor_only",
+        "original_node_anchor_registry.scope must be diagram_anchor_only",
+    )
+    for field in ("mathematical_authority", "full_quantified_contract_reviewed"):
+        _require_authority(
+            anchors.get(field) is False,
+            f"original_node_anchor_registry.{field} must be false",
+        )
+
+    workflow = _authority_section(authority, "migration_workflow")
+    _require_authority(
+        workflow.get("requirements_source") == ORIGINAL_EG_SOURCE,
+        "migration_workflow.requirements_source must be the original EG proof",
+    )
+    _require_authority(
+        workflow.get("first_step") == ORIGINAL_FIRST_STEP,
+        "migration_workflow.first_step must extract original requirements first",
+    )
+    _require_authority(
+        workflow.get("second_step") == LEGACY_SECOND_STEP,
+        "migration_workflow.second_step must consult legacy Lean second",
+    )
+    _require_authority(
+        workflow.get("discrepancy_policy") == DISCREPANCY_POLICY,
+        "migration_workflow.discrepancy_policy must block on discrepancies",
+    )
+    prohibited = workflow.get("prohibited_requirements_sources")
+    _require_authority(
+        isinstance(prohibited, list)
+        and all(type(item) is str for item in prohibited),
+        "migration_workflow.prohibited_requirements_sources must be a string list",
+    )
+    missing_prohibited = REQUIRED_PROHIBITED_REQUIREMENTS_SOURCES - set(prohibited)
+    _require_authority(
+        not missing_prohibited,
+        "migration_workflow.prohibited_requirements_sources is missing "
+        f"{sorted(missing_prohibited)}",
+    )
+
+    source_path = root / ORIGINAL_EG_SOURCE
+    try:
+        original_bytes = source_path.read_bytes()
+    except OSError as error:
+        raise SourceAuthorityError(
+            "EG source-authority preflight failed: cannot read "
+            f"{ORIGINAL_EG_SOURCE}: {error}"
+        ) from error
+    _require_authority(
+        len(original_bytes) == ORIGINAL_EG_BYTE_SIZE,
+        f"{ORIGINAL_EG_SOURCE} byte_size is {len(original_bytes)}, "
+        f"expected {ORIGINAL_EG_BYTE_SIZE}",
+    )
+    observed_sha256 = hashlib.sha256(original_bytes).hexdigest()
+    _require_authority(
+        observed_sha256 == ORIGINAL_EG_SHA256,
+        f"{ORIGINAL_EG_SOURCE} sha256 is {observed_sha256}, "
+        f"expected {ORIGINAL_EG_SHA256}",
+    )
+
+    anchor_path = root / ORIGINAL_NODE_ANCHOR_REGISTRY
+    try:
+        committed_anchors = anchor_path.read_bytes()
+        expected_anchors = render_registry(extract_registry(root))
+    except (OSError, AnchorExtractionError) as error:
+        raise SourceAuthorityError(
+            "EG source-authority preflight failed: cannot verify "
+            f"{ORIGINAL_NODE_ANCHOR_REGISTRY}: {error}"
+        ) from error
+    _require_authority(
+        committed_anchors == expected_anchors,
+        f"{ORIGINAL_NODE_ANCHOR_REGISTRY} does not match the pinned original",
+    )
+
 EG_FIELDS = [
     "node_id",
     "paper_ref",
@@ -27,7 +279,7 @@ EG_FIELDS = [
     "legacy_declarations",
     "normalized_input",
     "normalized_outcomes",
-    "ct_ids",
+    "observed_legacy_ct_ids",
     "required_features",
     "new_file",
     "parity_module",
@@ -101,6 +353,8 @@ FEATURES = [
     Feature("core.proof-ledger", "Core", "core-4.1", "Core/ResidualRefinement.lean", "Core/Residual/Ledger.lean", "EG root", "PDE row chain", "ResidualLedger"),
     Feature("core.typed-query", "Core", "core-4.1", "Core/ResidualRefinement.lean", "Core/Residual/Query.lean", "EG node 2", "PDE row 2", "ResidualLedger"),
     Feature("core.decision", "Core", "core-4.1", "Core/ResidualRefinement.lean", "Core/Residual/Decision.lean", "EG node 2", "PDE sign toy", "ResidualLedger"),
+    Feature("core.focus-selection-work", "Core", "core-4.1;core-9", "Core/FocusedActiveContinuation.lean", "Core/Residual/Focus.lean", "EG focused chain", "PDE focused row chain", "Focus;ProofProjection", "Every focus carries a counted selector and polynomial selection budget"),
+    Feature("core.focus-refinement", "Core", "core-4.1;core-9", "", "Core/Residual/Focus.lean", "finite-tag branch refinement", "PDE rows 5 and 6", "Focus;PDERow5DirectedExhaustiveness", "Core derives counted child focuses from inherited finite tags; the raw refinement constructor remains private"),
     Feature("core.join", "Core", "core-4.1", "Core/ResidualRefinement.lean", "Core/Residual/Join.lean", "first manuscript join", "PDE merged row", "ResidualLedger"),
     Feature("core.coordinate-system", "Core", "core-5", "domain coordinate modules", "Core/Coordinate/System.lean", "graph restriction", "PDE recentering", "CoordinatesAndAssembly"),
     Feature("core.coordinate-path", "Core", "core-5", "manual domain composition", "Core/Coordinate/Path.lean", "graph composite", "PDE recenter-rescale", "CoordinatesAndAssembly"),
@@ -111,7 +365,8 @@ FEATURES = [
     Feature("core.resource-budget", "Core", "core-9", "graph budget modules", "Core/Budget/Resource.lean", "graph charge", "energy/capacity", "Budgets"),
     Feature("core.resource-transcript", "Core", "pde-8", "", "Core/Budget/Transcript.lean", "graph resource fixture", "PDE row 3", "PDERows1To4"),
     Feature("core.continued-decision", "Core", "core-4.1", "Core/ResidualRefinement.lean", "Core/Residual/Decision.lean", "EG node 5", "PDE branch continuation", "Decision"),
-    Feature("core.normal-form-class-closure", "Core", "core-10", "", "Core/NormalForm/ClassClosure.lean", "graph closed classes", "PDE quotient closure", "NormalForms"),
+    Feature("core.proof-projection", "Core", "core-4.1", "Core/ResidualRefinement.lean", "Core/Residual/ProofProjection.lean", "EG node 12", "PDE derived row fact", "ProofProjection", "Counted focused proposition derived from an exact predecessor query with zero additional projection work"),
+    Feature("core.normal-form-class-closure", "Core", "core-10", "", "Core/NormalForm/ClassClosure.lean", "graph closed classes", "PDE quotient closure", "ClassClosureCounted", "Finite avoidance is separated from target-complete whole-quotient zero; the counted generator reports the exact scan work"),
     Feature("core.normal-form-sign-gap", "Core", "core-10", "", "Core/NormalForm/SignGap.lean", "graph budget sign", "PDE flux sign", "NormalForms"),
     Feature("core.normal-form-equality-rigidity", "Core", "core-10", "", "Core/NormalForm/EqualityRigidity.lean", "graph equality class", "PDE rigidity row", "NormalForms"),
     Feature("graph.finite-object", "Graph", "graph-4", "Graph/FiniteObject.lean", "Graph/Object.lean", "EG problem", "", "GraphBasics"),
@@ -122,6 +377,9 @@ FEATURES = [
     Feature("graph.cycle-target", "Graph", "graph-7", "Graph target modules", "Graph/Target.lean", "EG target", "", "GraphBasics"),
     Feature("graph.rooted-return", "Graph", "graph-7", "Graph/EdgeRootedReturn.lean", "Graph/RootedReturn.lean", "EG node 5", "", "RootedReturn"),
     Feature("graph.proper-subgraph-minimality", "Graph", "graph-6", "Graph/PackedMinimumDegreeCycle.lean", "Graph/Minimality.lean", "EG node 8", "", "GraphMinimality"),
+    Feature("graph.deletion-criticality", "Graph", "graph-6", "Graph/DeletionCriticality.lean", "Graph/DeletionCriticality.lean", "EG nodes 9 and 10", "", "GraphDeletionCriticality", "Graph derives endpoint tightness and slack-vertex independence from the literal minimality residual"),
+    Feature("graph.atom-response-coordinates", "Graph", "graph-7", "Graph/PackedBoundariedGluing.lean", "Graph/AtomResponse.lean", "EG node 12", "", "GraphAtomResponse", "Arbitrary local response coordinates and any certified target-complete quotient indexed by the registered atom profile"),
+    Feature("graph.boundary-overlap", "Graph", "graph-6", "Graph/PackedBoundariedGluing.lean", "Graph/BoundaryOverlap.lean", "EG node 13 obligation", "", "GraphBoundaryOverlap;GraphBoundaryOverlapCounterexample", "Exact unrestricted-gluing inclusion-exclusion without assuming local profiles transfer"),
     Feature("pde.local-atlas", "PDE", "pde-4.2", "", "PDE/Atlas.lean", "", "PDE model", "PDEBasics"),
     Feature("pde.equation", "PDE", "pde-4.3", "", "PDE/Equation.lean", "", "PDE model", "PDEBasics"),
     Feature("pde.local-model", "PDE", "pde-4.1", "", "PDE/Model.lean", "", "NS2D registration", "PDEBasics"),
@@ -130,9 +388,14 @@ FEATURES = [
     Feature("pde.observable", "PDE", "pde-7", "", "PDE/Observable.lean", "", "PDE row 1", "PDERows1To4"),
     Feature("pde.target-interface", "PDE", "pde-7", "", "PDE/Target.lean", "", "PDE row 1", "PDERows1To4"),
     Feature("pde.fast-track-signature", "PDE", "pde-8", "", "PDE/FastTrack/Signature.lean", "", "PDE row 1", "PDERows1To4"),
-    Feature("pde.generator-form", "PDE", "pde-8", "", "PDE/GeneratorForm.lean", "", "PDE row 2", "PDERows1To4"),
-    Feature("pde.represented-quotient", "PDE", "pde-8", "", "PDE/Quotient.lean", "", "PDE row 4", "PDERows1To4"),
-    Feature("pde.defect-geometry", "PDE", "pde-8", "", "PDE/Quotient.lean", "", "PDE row 4", "PDERows1To4"),
+    Feature("pde.generator-form", "PDE", "pde-8", "", "PDE/GeneratorForm.lean", "", "PDE row 2", "PDERows1To4", "Every form state realizes a valid registered equation state; continuum admissibility remains an explicit PDE-boundary contract"),
+    Feature("pde.represented-quotient", "PDE", "pde-8", "", "PDE/Quotient.lean", "", "PDE row 4", "PDERows1To4;RepresentedNS2DQuotientDefectPacket", "Indexed by the exact inherited GeneratorForm; the defect executor reads that form through a typed predecessor query"),
+    Feature("pde.defect-geometry", "PDE", "pde-8", "", "PDE/Quotient.lean", "", "PDE row 4", "PDERows1To4;RepresentedNS2DQuotientDefectPacket", "Core decides exact containment of the framework-computed defect; continuum NS2D geometry remains an explicit boundary contract"),
+    Feature("pde.structural-gradient", "PDE", "pde-8", "", "PDE/StructuralGradient.lean", "", "PDE row 5", "PDEStructuralGradient;RepresentedNS2DDirectedExhaustivenessPacket", "The PDE layer registers the represented closed densely defined operator and derives closed range only through an explicit positive-gap criterion"),
+    Feature("pde.directed-exhaustiveness", "PDE", "pde-8", "", "PDE/FastTrack/DirectedExhaustiveness.lean", "", "PDE row 5", "PDERow5DirectedExhaustiveness;RepresentedNS2DDirectedExhaustivenessPacket", "One focused counted CT15-to-CT16-to-ClassClosure executor; all bridge laws are predecessor-owned active queries"),
+    Feature("pde.defect-routing-raw", "PDE", "pde-8", "", "PDE/FastTrack/DefectRouting.lean", "", "PDE row 6 raw execution", "PDERow6DefectRoutingRaw;RepresentedNS2DDefectRoutingPacket", "Kernel-checked source-neutral CT13-to-CT7 transcript and typed unavailable-alignment residual; no analytic or continuum row-6 claim"),
+    Feature("pde.direct-resistance", "PDE", "pde-8", "", "PDE/DirectResistance.lean", "", "PDE row 6 analytic alignment", "PDERow6FiniteOrthogonalAlignment;PDERow6FinitePressureGaugeAlignment", "Generic exact-defect orthogonal projection, finite compensator, nonroutable harmonic, energy, and drift contract; no continuum theorem is inferred"),
+    Feature("pde.defect-routing-alignment", "PDE", "pde-8", "", "PDE/FastTrack/DefectRoutingAlignment.lean", "", "PDE row 6 analytic semantics", "PDERow6FiniteOrthogonalAlignment;PDERow6FinitePressureGaugeAlignment", "Strict predecessor-query alignment derives semantic tags, nonroutability, routes, preserved reads, and exact work; continuum alignment remains unregistered"),
 ] + [
     Feature(
         f"ct.ct{number}",
@@ -244,7 +507,7 @@ PDE_ROWS = [
     ("2", "generator/form", "represented generator|form", ""),
     ("3", "budget", "resource budget|B1-B4", ""),
     ("4", "quotient defect", "quotient|defect computation", ""),
-    ("5", "directed exhaustiveness", "rank|closed range|classifier", "CT15|CT16|CT10"),
+    ("5", "directed exhaustiveness", "structural gradient|closed-range criterion|target-complete quotient audit", "CT15|CT16|Core ClassClosure"),
     ("6", "routing", "defect routing|harmonic split", "CT13|CT7"),
     ("7", "capacity", "capacity|target validation", "CT14|CT1"),
     ("8", "committor/operator", "exact response|projection error", "CT3|CT7"),
@@ -593,7 +856,9 @@ def update_eg(root: Path, output: Path) -> None:
                 "legacy_files": (
                     str(source.relative_to(root)) if source.is_file() else ""
                 ),
-                "ct_ids": "|".join(f"CT{ct}" for ct in cts),
+                "observed_legacy_ct_ids": "|".join(
+                    f"CT{ct}" for ct in cts
+                ),
                 "new_file": str(new_source.relative_to(root)),
                 "parity_module": (
                     "examples/hypostructure_parity/HypostructureParity/"
@@ -623,6 +888,9 @@ def update_eg(root: Path, output: Path) -> None:
         refreshed["direct_predecessors"] = default["direct_predecessors"]
         refreshed["legacy_files"] = default["legacy_files"]
         refreshed["paper_ref"] = default["paper_ref"]
+        refreshed["observed_legacy_ct_ids"] = default[
+            "observed_legacy_ct_ids"
+        ]
         refreshed["status"] = refreshed_eg_status(
             old.get("status", ""), new_source, new_olean
         )
@@ -653,6 +921,11 @@ def update_supplemental_legacy(
         )
         former = former_paper_rows.get(str(number), {})
         old = previous.get(str(number), {})
+        reviewed_ct_ids = (
+            old.get("observed_ct_ids", "")
+            or former.get("observed_legacy_ct_ids", "")
+            or "|".join(f"CT{ct}" for ct in observed_cts)
+        )
         default = {
             "legacy_node_id": str(number),
             "source_file": (
@@ -662,7 +935,7 @@ def update_supplemental_legacy(
             "legacy_declarations": former.get("legacy_declarations", ""),
             "normalized_input": former.get("normalized_input", ""),
             "normalized_outcomes": former.get("normalized_outcomes", ""),
-            "observed_ct_ids": "|".join(f"CT{ct}" for ct in observed_cts),
+            "observed_ct_ids": reviewed_ct_ids,
             "legacy_kernel": (
                 olean_status(source, legacy_olean)
                 if source.is_file()
@@ -677,7 +950,6 @@ def update_supplemental_legacy(
         for field in (
             "source_file",
             "observed_imports",
-            "observed_ct_ids",
             "legacy_kernel",
         ):
             refreshed[field] = default[field]
@@ -686,7 +958,61 @@ def update_supplemental_legacy(
     write_rows(output, SUPPLEMENTAL_LEGACY_FIELDS, rows)
 
 
-def update_pde(output: Path) -> None:
+def pde_module_paths(root: Path, module: str) -> tuple[Path, Path] | None:
+    if module.startswith("Hypostructure."):
+        package = root / "hypostructure"
+    elif module.startswith("HypostructurePDEExamples."):
+        package = root / "examples/hypostructure_pde"
+    else:
+        return None
+
+    relative = Path(*module.split(".")).with_suffix(".lean")
+    source = package / relative
+    olean = package / ".lake/build/lib/lean" / relative.with_suffix(".olean")
+    return source, olean
+
+
+def pde_module_is_fresh(root: Path, module: str) -> bool:
+    paths = pde_module_paths(root, module)
+    if paths is None:
+        return False
+    source, olean = paths
+    return source.is_file() and olean_status(source, olean) == "fresh"
+
+
+def observed_pde_statuses(root: Path, fixture_spec: str) -> tuple[str, str]:
+    modules = tuple(
+        item.strip() for item in fixture_spec.split(";") if item.strip()
+    )
+    if not modules or any(
+        pde_module_paths(root, module) is None for module in modules
+    ):
+        return "not_checked", "not_checked"
+
+    framework_modules = tuple(
+        module for module in modules if module.startswith("Hypostructure.")
+    )
+    example_modules = tuple(
+        module
+        for module in modules
+        if module.startswith("HypostructurePDEExamples.")
+    )
+    framework_fresh = bool(framework_modules) and all(
+        pde_module_is_fresh(root, module) for module in framework_modules
+    )
+    kernel_status = "kernel_checked" if framework_fresh else "not_checked"
+    integration_fresh = (
+        framework_fresh
+        and bool(example_modules)
+        and all(pde_module_is_fresh(root, module) for module in example_modules)
+    )
+    integration_status = (
+        "fixture_checked" if integration_fresh else "not_checked"
+    )
+    return kernel_status, integration_status
+
+
+def update_pde(root: Path, output: Path) -> None:
     previous = read_existing(output, "row_id")
     rows: list[dict[str, str]] = []
     for row_id, title, capabilities, chain in PDE_ROWS:
@@ -701,7 +1027,13 @@ def update_pde(output: Path) -> None:
                 "integration_status": "not_checked",
             }
         )
-        rows.append({**default, **previous.get(row_id, {})})
+        refreshed = {**default, **previous.get(row_id, {})}
+        kernel_status, integration_status = observed_pde_statuses(
+            root, refreshed["axiom_free_fixture"]
+        )
+        refreshed["kernel_status"] = kernel_status
+        refreshed["integration_status"] = integration_status
+        rows.append(refreshed)
     write_rows(output, PDE_FIELDS, rows)
 
 
@@ -716,6 +1048,7 @@ def main() -> int:
     )
     args = parser.parse_args()
     root = args.root.resolve()
+    validate_eg_source_authority(root)
     output = root / "migration/hypostructure"
     if args.only == "all":
         update_api(root, output / "api-feature-matrix.csv")
@@ -725,7 +1058,7 @@ def main() -> int:
     )
     update_eg(root, paper_matrix)
     if args.only == "all":
-        update_pde(output / "pde-row-matrix.csv")
+        update_pde(root, output / "pde-row-matrix.csv")
     print(f"Updated Hypostructure migration records under {output}")
     return 0
 

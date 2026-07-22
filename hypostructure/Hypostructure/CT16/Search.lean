@@ -46,6 +46,21 @@ def supportChecks {Previous : Type uPrevious}
     (capability : Capability spec) (previous : Previous) : Nat :=
   (countedSupportScan spec capability previous).checks
 
+/-- Exact predecessor-indexed budget of the canonical early-terminating support
+scan. -/
+def supportWorkBudget {Previous : Type uPrevious}
+    (spec : Spec.{uPrevious, uCoordinate, uCode} Previous)
+    (capability : Capability spec) :
+    Core.PolynomialCheckBudget Previous where
+  size := fun previous => (capability.coordinatesAt previous).card
+  checks := supportChecks spec capability
+  coefficient := 1
+  degree := 1
+  bounded := by
+    intro previous
+    exact (Core.Finite.Accounting.executionChecks_le_card
+      (supportScan spec capability previous)).trans (by simp)
+
 /-- Core-owned support route: yes means first missing coordinate; no means
 whole support on the exact schedule. -/
 abbrev RoutedSupport {Previous : Type uPrevious}
@@ -61,12 +76,25 @@ abbrev RoutedSupport {Previous : Type uPrevious}
         (fun coordinate => Not (spec.InSupport previous coordinate)) =>
       WholeSupportState capability previous)
 
-/-- Route the support scan through Core's first-hit decision executor. -/
+/-- Route an already executed support scan through Core without evaluating the
+support predicate again. -/
+def routeSupportExecution {Previous : Type uPrevious}
+    (spec : Spec.{uPrevious, uCoordinate, uCode} Previous)
+    (capability : Capability spec) (previous : Previous) :
+    (execution : Core.Finite.Search.Execution
+      (capability.coordinatesAt previous)
+      (fun coordinate => Not (spec.InSupport previous coordinate))) ->
+    RoutedSupport spec capability previous :=
+  Core.Finite.Search.route
+
+/-- Compatibility route that performs the canonical scan once.  Counted CT16
+generation calls `routeSupportExecution` on the execution it already owns. -/
 def routeSupport {Previous : Type uPrevious}
     (spec : Spec.{uPrevious, uCoordinate, uCode} Previous)
     (capability : Capability spec) (previous : Previous) :
     RoutedSupport spec capability previous :=
-  Core.Finite.Search.route (supportScan spec capability previous)
+  routeSupportExecution spec capability previous
+    (supportScan spec capability previous)
 
 /-- Core's literal equality/complement route for one computed code. -/
 abbrev RoutedCode {Previous : Type uPrevious}
@@ -88,8 +116,31 @@ def codeDecisionNode {Previous : Type uPrevious}
   Core.Residual.Decision.Node.complement
     (fun state : ClosedCodeState capability previous =>
       state.code = spec.targetCode previous)
-    (fun state => capability.codeDecidableEq previous
-      state.code (spec.targetCode previous))
+    (fun state =>
+      (capability.equalityDecision.run previous state.code).value)
+
+/-- Route one already computed proof-carrying equality decision without invoking
+the comparison procedure again. -/
+def routeCodeDecision {Previous : Type uPrevious}
+    {spec : Spec.{uPrevious, uCoordinate, uCode} Previous}
+    (capability : Capability spec) (previous : Previous)
+    (state : ClosedCodeState capability previous)
+    (decision : Decidable (state.code = spec.targetCode previous)) :
+    RoutedCode capability previous :=
+  Core.Residual.Ledger.extend state <|
+    match decision with
+    | .isTrue equal => .yesBranch equal
+    | .isFalse notEqual => .noBranch notEqual
+
+/-- Execute the registered equality comparison once, route its proof-carrying
+decision, and preserve its exact count. -/
+def countedRouteCode {Previous : Type uPrevious}
+    {spec : Spec.{uPrevious, uCoordinate, uCode} Previous}
+    (capability : Capability spec) (previous : Previous)
+    (state : ClosedCodeState capability previous) :
+    Core.Counted (RoutedCode capability previous) :=
+  (capability.equalityDecision.run previous state.code).map
+    (routeCodeDecision capability previous state)
 
 /-- Compare exactly the computed code with the literal target code. -/
 def routeCode {Previous : Type uPrevious}
@@ -97,7 +148,15 @@ def routeCode {Previous : Type uPrevious}
     (capability : Capability spec) (previous : Previous)
     (state : ClosedCodeState capability previous) :
     RoutedCode capability previous :=
-  (codeDecisionNode capability previous).run state
+  (countedRouteCode capability previous state).value
+
+@[simp] theorem countedRouteCode_checks {Previous : Type uPrevious}
+    {spec : Spec.{uPrevious, uCoordinate, uCode} Previous}
+    (capability : Capability spec) (previous : Previous)
+    (state : ClosedCodeState capability previous) :
+    (countedRouteCode capability previous state).checks =
+      capability.equalityDecision.budget.checks previous :=
+  capability.equalityDecision.checks_eq previous state.code
 
 theorem supportChecks_le_card {Previous : Type uPrevious}
     (spec : Spec.{uPrevious, uCoordinate, uCode} Previous)

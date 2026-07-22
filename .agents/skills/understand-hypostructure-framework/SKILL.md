@@ -9,9 +9,30 @@ Map what the repository proves now. Separate specification, source presence,
 compiled evidence, and migration intent; do not describe the target architecture
 as already executable.
 
-## Establish authority
+## EG authority preflight
 
-Work from the repository root and inspect the dirty worktree. Read, in order:
+For any Erdős--Gyárfás Problem 64 task, read
+`original_erdos_64_proof.tex` **FIRST**, before any API/process document,
+migration row, generated view, living proof, or legacy Lean source. It is the
+immutable sole authority for EG mathematics, strategy, node identity and
+responsibility, and DAG topology. Freeze the exact quantified node contract,
+branch alternatives, and exact incoming/outgoing DAG edges from that file.
+
+Only after that contract and those edges are frozen may the matching
+kernel-checked legacy `NodeX.lean` be read, and then only as implementation and
+parity evidence. `proofs/erdos_64_eg/erdos_64_proof.tex` is a living,
+non-binding editorial cross-check; it cannot repair, supplement, weaken,
+strengthen, or redirect the original contract or edges. Any discrepancy blocks
+the task: record it and stop rather than reconciling the sources or silently
+changing the obligation. Never edit `original_erdos_64_proof.tex`.
+
+After this preflight, API/process documents govern framework ownership,
+capabilities, migration process, and status only. They never outrank or
+reinterpret the original on EG mathematics, node responsibility, or DAG
+topology.
+
+Work from the repository root and inspect the dirty worktree. After completing
+the EG preflight when applicable, read in this order:
 
 1. `HYPOSTRUCTURE_MIGRATION_GUIDE.md` for process and status semantics;
 2. `DOMAIN_INDEPENDENT_CORE.md`, `GRAPH_LAYER_API.md`, and `PDE_LAYER_API.md`

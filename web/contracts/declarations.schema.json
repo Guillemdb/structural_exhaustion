@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hypostructure.dev/contracts/compiled-declarations-1.0.0.schema.json",
+  "title": "Compiled Hypostructure declaration catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["artifact_type", "schema_version", "framework", "ct_catalog", "route_registry", "declarations"],
+  "properties": {
+    "artifact_type": {"const": "hypostructure_declaration_catalog"},
+    "schema_version": {"const": "1.0.0"},
+    "framework": {
+      "type": "object",
+      "required": ["name", "namespace", "source_of_truth"],
+      "properties": {
+        "name": {"const": "Hypostructure"},
+        "namespace": {"const": "Hypostructure"},
+        "source_of_truth": {"const": "compiled_lean_environment"}
+      },
+      "additionalProperties": false
+    },
+    "ct_catalog": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "CT1"}, {"const": "CT2"}, {"const": "CT3"}, {"const": "CT4"},
+        {"const": "CT5"}, {"const": "CT6"}, {"const": "CT7"}, {"const": "CT8"},
+        {"const": "CT9"}, {"const": "CT10"}, {"const": "CT11"}, {"const": "CT12"},
+        {"const": "CT13"}, {"const": "CT14"}, {"const": "CT15"}, {"const": "CT16"},
+        {"const": "CT17"}
+      ],
+      "items": false,
+      "minItems": 17,
+      "maxItems": 17
+    },
+    "route_registry": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["route_id", "source_ct", "target_ct", "family_id", "profile_id", "owner", "kind", "catalog_status", "executable_evidence"],
+        "properties": {
+          "route_id": {"type": "string", "minLength": 1},
+          "source_ct": {"pattern": "^CT(?:[1-9]|1[0-7])$"},
+          "target_ct": {"pattern": "^CT(?:[1-9]|1[0-7])$"},
+          "family_id": {"type": "string", "minLength": 1},
+          "profile_id": {"type": "string", "minLength": 1},
+          "owner": {"enum": ["framework", "erdos", "pde"]},
+          "kind": {"enum": ["specialized_discovery", "generic_accumulated", "profile_requirement", "family_requirement"]},
+          "catalog_status": {"enum": ["baseline", "planned"]},
+          "executable_evidence": {"type": "null"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "declarations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["declaration_id", "name", "kind", "type", "doc_string", "module", "source_file", "range", "selection_range", "body_available", "type_dependencies", "body_dependencies", "layer"],
+        "properties": {
+          "declaration_id": {"type": "string", "pattern": "^Hypostructure(?:\\.|$)"},
+          "name": {"type": "string", "pattern": "^Hypostructure(?:\\.|$)"},
+          "kind": {"enum": ["axiom", "definition", "theorem", "opaque", "quotient", "inductive", "constructor", "recursor"]},
+          "type": {"type": "string"},
+          "doc_string": {"type": ["string", "null"]},
+          "module": {"type": "string", "pattern": "^Hypostructure(?:\\.|$)"},
+          "source_file": {"type": "string", "pattern": "^Hypostructure/.*\\.lean$"},
+          "range": {"anyOf": [{"$ref": "#/$defs/range"}, {"type": "null"}]},
+          "selection_range": {"anyOf": [{"$ref": "#/$defs/range"}, {"type": "null"}]},
+          "body_available": {"type": "boolean"},
+          "type_dependencies": {"type": "array", "items": {"type": "string"}},
+          "body_dependencies": {"type": "array", "items": {"type": "string"}},
+          "layer": {"enum": ["framework", "core", "ct", "routes", "graph", "pde"]}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "position": {
+      "type": "object",
+      "required": ["line", "column"],
+      "properties": {
+        "line": {"type": "integer", "minimum": 1},
+        "column": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "range": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {
+        "start": {"$ref": "#/$defs/position"},
+        "end": {"$ref": "#/$defs/position"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

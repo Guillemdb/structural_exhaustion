@@ -135,10 +135,35 @@ def deficitResult :=
 def reconciledResult :=
   _root_.Hypostructure.CT13.execute spec capability (previous .reconciled)
 
+/-- Output-only generated values used by focused downstream executors. -/
+def tierOneGenerated :=
+  _root_.Hypostructure.CT13.generateCounted capability (previous .tierOne)
+
+def overlapGenerated :=
+  _root_.Hypostructure.CT13.generateCounted capability (previous .overlap)
+
+def deficitGenerated :=
+  _root_.Hypostructure.CT13.generateCounted capability (previous .deficit)
+
+def reconciledGenerated :=
+  _root_.Hypostructure.CT13.generateCounted capability (previous .reconciled)
+
 theorem tierOne_terminal : tierOneResult.terminal = .tierOne := by decide
 theorem overlap_terminal : overlapResult.terminal = .overlap := by decide
 theorem deficit_terminal : deficitResult.terminal = .deficit := by decide
 theorem reconciled_terminal : reconciledResult.terminal = .reconciled := by decide
+
+theorem tierOneGenerated_terminal :
+    tierOneGenerated.value.terminal = .tierOne := by decide
+
+theorem overlapGenerated_terminal :
+    overlapGenerated.value.terminal = .overlap := by decide
+
+theorem deficitGenerated_terminal :
+    deficitGenerated.value.terminal = .deficit := by decide
+
+theorem reconciledGenerated_terminal :
+    reconciledGenerated.value.terminal = .reconciled := by decide
 
 theorem tierOne_previous :
     tierOneResult.stage.previous = previous .tierOne := rfl
@@ -150,6 +175,159 @@ theorem tierOne_checks : tierOneResult.checks = 2 := by decide
 theorem overlap_checks : overlapResult.checks = 6 := by decide
 theorem deficit_checks : deficitResult.checks = 11 := by decide
 theorem reconciled_checks : reconciledResult.checks = 11 := by decide
+
+/-- The output-only generator exposes the same exact branch counts retained by
+the accumulated executor. -/
+theorem tierOneGenerated_checks : tierOneGenerated.checks = 2 := by decide
+theorem overlapGenerated_checks : overlapGenerated.checks = 6 := by decide
+theorem deficitGenerated_checks : deficitGenerated.checks = 11 := by decide
+theorem reconciledGenerated_checks : reconciledGenerated.checks = 11 := by decide
+
+theorem tierOneGenerated_budget_exact :
+    tierOneGenerated.checks =
+      (_root_.Hypostructure.CT13.generationBudget capability).checks
+        (previous .tierOne) :=
+  _root_.Hypostructure.CT13.generateCounted_checks_eq_budget capability
+    (previous .tierOne)
+
+theorem overlapGenerated_budget_exact :
+    overlapGenerated.checks =
+      (_root_.Hypostructure.CT13.generationBudget capability).checks
+        (previous .overlap) :=
+  _root_.Hypostructure.CT13.generateCounted_checks_eq_budget capability
+    (previous .overlap)
+
+theorem deficitGenerated_budget_exact :
+    deficitGenerated.checks =
+      (_root_.Hypostructure.CT13.generationBudget capability).checks
+        (previous .deficit) :=
+  _root_.Hypostructure.CT13.generateCounted_checks_eq_budget capability
+    (previous .deficit)
+
+theorem reconciledGenerated_budget_exact :
+    reconciledGenerated.checks =
+      (_root_.Hypostructure.CT13.generationBudget capability).checks
+        (previous .reconciled) :=
+  _root_.Hypostructure.CT13.generateCounted_checks_eq_budget capability
+    (previous .reconciled)
+
+/-- Exact equations are stated against evidence extracted from the sealed
+generated terminal, never against caller-provided branch data. -/
+theorem tierOneGenerated_equation :
+    tierOneGenerated.checks =
+      (tierOneGenerated.value.tierOneEvidence
+        tierOneGenerated_terminal).index.1 + 1 :=
+  _root_.Hypostructure.CT13.generateCounted_checks_eq_tierOne capability
+    (previous .tierOne) tierOneGenerated_terminal
+
+theorem overlapGenerated_equation :
+    overlapGenerated.checks = payerOrder.card +
+      obstructionOrder.comparisonCount +
+        (overlapGenerated.value.overlapEvidence
+          overlapGenerated_terminal).hit.index.1 + 1 :=
+  _root_.Hypostructure.CT13.generateCounted_checks_eq_overlap capability
+    (previous .overlap) overlapGenerated_terminal
+
+theorem deficitGenerated_equation :
+    let residual := deficitGenerated.value.deficitEvidence
+      deficitGenerated_terminal
+    let selected := _root_.Hypostructure.CT13.selectedTierTwo capability
+      (previous .deficit) residual.ledger.fallback
+    deficitGenerated.checks = payerOrder.card +
+      obstructionOrder.comparisonCount +
+        selected.card * selected.card + selected.card + 1 :=
+  _root_.Hypostructure.CT13.generateCounted_checks_eq_deficit capability
+    (previous .deficit) deficitGenerated_terminal
+
+theorem reconciledGenerated_equation :
+    let certificate := reconciledGenerated.value.reconciliationEvidence
+      reconciledGenerated_terminal
+    let selected := _root_.Hypostructure.CT13.selectedTierTwo capability
+      (previous .reconciled) certificate.ledger.fallback
+    reconciledGenerated.checks = payerOrder.card +
+      obstructionOrder.comparisonCount +
+        selected.card * selected.card + selected.card + 1 :=
+  _root_.Hypostructure.CT13.generateCounted_checks_eq_reconciled capability
+    (previous .reconciled) reconciledGenerated_terminal
+
+/-- Component checks pin one actual scan/build/comparison at every depth. -/
+theorem tierOne_primary_scan_checks :
+    (_root_.Hypostructure.CT13.countedTierOneScan capability
+      (previous .tierOne)).checks = 2 := by decide
+
+def overlapGeneratedEvidence :=
+  overlapGenerated.value.overlapEvidence overlapGenerated_terminal
+
+theorem overlap_primary_scan_checks :
+    (_root_.Hypostructure.CT13.countedTierOneScan capability
+      (previous .overlap)).checks = 3 := by decide
+
+theorem overlap_fallback_checks :
+    (_root_.Hypostructure.CT13.countedComputeFallback capability
+      (previous .overlap)
+      overlapGeneratedEvidence.fallback.tierOneAbsent).checks = 1 := by decide
+
+theorem overlap_pair_scan_checks :
+    (_root_.Hypostructure.CT13.countedOverlapScan capability
+      (previous .overlap) overlapGeneratedEvidence.fallback).checks = 2 := by
+  decide
+
+def deficitGeneratedEvidence :=
+  deficitGenerated.value.deficitEvidence deficitGenerated_terminal
+
+theorem deficit_primary_scan_checks :
+    (_root_.Hypostructure.CT13.countedTierOneScan capability
+      (previous .deficit)).checks = 3 := by decide
+
+theorem deficit_fallback_checks :
+    (_root_.Hypostructure.CT13.countedComputeFallback capability
+      (previous .deficit)
+      deficitGeneratedEvidence.ledger.fallback.tierOneAbsent).checks = 1 := by
+  decide
+
+theorem deficit_pair_scan_checks :
+    (_root_.Hypostructure.CT13.countedOverlapScan capability
+      (previous .deficit) deficitGeneratedEvidence.ledger.fallback).checks = 4 :=
+  by decide
+
+theorem deficit_ledger_checks :
+    (_root_.Hypostructure.CT13.countedBuildReconciliationLedger capability
+      (previous .deficit) deficitGeneratedEvidence.ledger.fallback
+      deficitGeneratedEvidence.ledger.overlapFree).checks = 2 := by decide
+
+theorem deficit_comparison_checks :
+    (_root_.Hypostructure.CT13.countedCompare capability
+      (previous .deficit) deficitGeneratedEvidence.ledger).checks = 1 := by
+  decide
+
+def reconciledGeneratedEvidence :=
+  reconciledGenerated.value.reconciliationEvidence
+    reconciledGenerated_terminal
+
+theorem reconciled_primary_scan_checks :
+    (_root_.Hypostructure.CT13.countedTierOneScan capability
+      (previous .reconciled)).checks = 3 := by decide
+
+theorem reconciled_fallback_checks :
+    (_root_.Hypostructure.CT13.countedComputeFallback capability
+      (previous .reconciled)
+      reconciledGeneratedEvidence.ledger.fallback.tierOneAbsent).checks = 1 := by
+  decide
+
+theorem reconciled_pair_scan_checks :
+    (_root_.Hypostructure.CT13.countedOverlapScan capability
+      (previous .reconciled)
+      reconciledGeneratedEvidence.ledger.fallback).checks = 4 := by decide
+
+theorem reconciled_ledger_checks :
+    (_root_.Hypostructure.CT13.countedBuildReconciliationLedger capability
+      (previous .reconciled) reconciledGeneratedEvidence.ledger.fallback
+      reconciledGeneratedEvidence.ledger.overlapFree).checks = 2 := by decide
+
+theorem reconciled_comparison_checks :
+    (_root_.Hypostructure.CT13.countedCompare capability
+      (previous .reconciled) reconciledGeneratedEvidence.ledger).checks = 1 := by
+  decide
 
 theorem tierOne_trace : tierOneResult.traceNodes =
     [.entry, .payerSchedule, .tierOneSearch, .tierOneTerminal] := by decide
@@ -329,9 +507,16 @@ end PDEAdapter
 #print axioms Neutral.deficit_verified
 #print axioms Neutral.reconciled_verified
 #print axioms Neutral.reconciled_total
+#print axioms Neutral.tierOneGenerated_equation
+#print axioms Neutral.overlapGenerated_equation
+#print axioms Neutral.deficitGenerated_equation
+#print axioms Neutral.reconciledGenerated_equation
 #print axioms GraphAdapter.verified
 #print axioms PDEAdapter.verified
 #print axioms _root_.Hypostructure.CT13.outcomeChecks_le_limit
+#print axioms _root_.Hypostructure.CT13.generateCounted_checks
+#print axioms _root_.Hypostructure.CT13.generateCounted_checks_eq_budget
+#print axioms _root_.Hypostructure.CT13.generateCounted_checks_le_polynomial
 #print axioms _root_.Hypostructure.CT13.run_total
 
 end Hypostructure.Fixtures.CT13

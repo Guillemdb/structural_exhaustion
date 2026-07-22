@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "scope": "erdos-gyarfas-problem-64",
+  "original": {
+    "path": "original_erdos_64_proof.tex",
+    "role": "sole EG mathematical and DAG authority",
+    "sha256": "215248521b7dbc6519076d506101b80a1c9a8425ee5c13b48a4ec52df21d2e10",
+    "byte_size": 835801,
+    "mathematical_authority": true,
+    "dag_authority": true,
+    "must_not_be_edited": true,
+    "corrections_require_explicit_approval": true
+  },
+  "living_proof": {
+    "path": "proofs/erdos_64_eg/erdos_64_proof.tex",
+    "role": "non-binding editorial cross-check only",
+    "mathematical_authority": false,
+    "dag_authority": false
+  },
+  "legacy_lean": {
+    "paths": [
+      "lean/StructuralExhaustion",
+      "examples/erdos_64_eg/Erdos64EG/Node*.lean"
+    ],
+    "role": "kernel-checked implementation and parity evidence only",
+    "mathematical_authority": false,
+    "dag_authority": false
+  },
+  "original_node_anchor_registry": {
+    "path": "migration/hypostructure/eg-original-node-anchors.json",
+    "generator": "tools/extract_eg_original_node_anchors.py",
+    "role": "exact diagram locator generated only from the pinned original",
+    "scope": "diagram_anchor_only",
+    "mathematical_authority": false,
+    "full_quantified_contract_reviewed": false
+  },
+  "migration_workflow": {
+    "requirements_source": "original_erdos_64_proof.tex",
+    "first_step": "extract and freeze the exact quantified node contract and original DAG edges",
+    "second_step": "consult the matching kernel-checked legacy NodeX.lean dependency cone as implementation and parity evidence",
+    "discrepancy_policy": "record an issue and block the affected node pending explicit source correction",
+    "prohibited_requirements_sources": [
+      "proofs/erdos_64_eg/erdos_64_proof.tex",
+      "Future Lean files",
+      "generated metadata",
+      "legacy Lean imports"
+    ]
+  }
+}

@@ -38,7 +38,7 @@ def emptyPiece : BoundaryPiece boundary where
   decideAdj := by
     infer_instance
 
-/-- A normalized outside context containing its boundary--internal edge. -/
+/-- An outside context containing its boundary--internal edge. -/
 def edgeOutside : OutsideContext boundary where
   Internal := Unit
   internalVertices := inferInstance
@@ -46,21 +46,14 @@ def edgeOutside : OutsideContext boundary where
   decideAdj := by
     letI : DecidableEq boundary.Vertex := boundary.vertices.decEq
     infer_instance
-  noBoundaryEdge := by
-    intro left right
-    cases left
-    cases right
-    simp
 
-/-- A normalized outside context with no edges. -/
+/-- An outside context with no edges. -/
 def emptyOutside : OutsideContext boundary where
   Internal := Unit
   internalVertices := inferInstance
   graph := ⊥
   decideAdj := by
     infer_instance
-  noBoundaryEdge := by
-    simp
 
 /-- The residual-owned context codes are explicit; no graph space is scanned. -/
 def outsideByCode : Bool -> OutsideContext boundary

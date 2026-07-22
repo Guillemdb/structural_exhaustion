@@ -1,3 +1,4 @@
+import HypostructureErdos64EG.Contract
 import HypostructureErdos64EG.InitialResidual
 import HypostructureErdos64EG.Node1
 import HypostructureErdos64EG.Node2
@@ -10,3 +11,4 @@ import HypostructureErdos64EG.Node8
 import HypostructureErdos64EG.Node9
 import HypostructureErdos64EG.Node10
 import HypostructureErdos64EG.Node11
+import HypostructureErdos64EG.Node12
