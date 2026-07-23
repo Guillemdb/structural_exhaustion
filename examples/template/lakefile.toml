@@ -1,0 +1,16 @@
+name = "hypostructure_template"
+version = "0.1.0"
+defaultTargets = ["Template"]
+
+[[require]]
+name = "hypostructure"
+path = "../../hypostructure"
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+git = "https://github.com/leanprover-community/mathlib4"
+rev = "v4.31.0"
+
+[[lean_lib]]
+name = "Template"

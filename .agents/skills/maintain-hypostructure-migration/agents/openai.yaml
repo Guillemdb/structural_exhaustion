@@ -1,4 +1,4 @@
 interface:
-  display_name: "Maintain the Hypostructure Migration"
-  short_description: "Maintain parity, evidence, and cutover state"
-  default_prompt: "Use $maintain-hypostructure-migration to refresh and audit the Hypostructure migration evidence and status ledgers."
+  display_name: "Maintain Hypostructure Migration"
+  short_description: "Maintain strategy parity and cutover"
+  default_prompt: "Use $maintain-hypostructure-migration to audit strategy parity, kernel evidence, and cutover state."

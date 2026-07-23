@@ -1,0 +1,4 @@
+interface:
+  display_name: "Closed Code Strategy"
+  short_description: "Build closed-code exhaustion strategies"
+  default_prompt: "Use $implement-closed-code-strategy to implement this support-code exhaustion argument."

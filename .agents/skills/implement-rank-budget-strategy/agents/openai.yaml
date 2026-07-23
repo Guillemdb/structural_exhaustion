@@ -1,0 +1,4 @@
+interface:
+  display_name: "Rank and Budget Strategy"
+  short_description: "Build rank and budget splitting strategies"
+  default_prompt: "Use $implement-rank-budget-strategy to implement this rank, budget, and survivor argument."

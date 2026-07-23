@@ -1,4 +1,4 @@
 interface:
   display_name: "Implement a Hypostructure Proof"
-  short_description: "Build an end-to-end Hypostructure proof"
-  default_prompt: "Use $implement-hypostructure-proof to implement this theorem as a thin, status-aware Hypostructure application."
+  short_description: "Build an end-to-end strategy proof"
+  default_prompt: "Use $implement-hypostructure-proof to implement this theorem through problemDefinition and Core strategies."

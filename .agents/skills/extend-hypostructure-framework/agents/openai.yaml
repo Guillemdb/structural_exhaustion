@@ -1,4 +1,4 @@
 interface:
   display_name: "Extend the Hypostructure Framework"
-  short_description: "Add reusable Hypostructure capabilities"
-  default_prompt: "Use $extend-hypostructure-framework to add this missing reusable capability at the correct Hypostructure layer."
+  short_description: "Add reusable strategy capabilities"
+  default_prompt: "Use $extend-hypostructure-framework to add the missing reusable strategy capability at the correct layer."

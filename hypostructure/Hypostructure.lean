@@ -53,6 +53,7 @@ import Hypostructure.Core.Routing
 import Hypostructure.Core.Closure
 import Hypostructure.Core.Metadata
 import Hypostructure.Core.Strategy
+import Hypostructure.Core.Strategy.Dag
 import Hypostructure.Core.NormalForm.ClassClosure
 import Hypostructure.Core.NormalForm.SignGap
 import Hypostructure.Core.NormalForm.EqualityRigidity

@@ -1,4 +1,4 @@
 interface:
   display_name: "Design a Hypostructure Proof"
-  short_description: "Design a proof with Hypostructure CTs"
-  default_prompt: "Use $design-hypostructure-proof to map this mathematical proof into a status-aware Hypostructure CT chain."
+  short_description: "Design a reusable strategy proof program"
+  default_prompt: "Use $design-hypostructure-proof to map this manuscript proof into a decision-complete strategy graph."

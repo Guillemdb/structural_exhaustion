@@ -1,4 +1,4 @@
 interface:
   display_name: "Repair a Hypostructure Manuscript"
-  short_description: "Repair proof gaps through typed residuals"
-  default_prompt: "Use $repair-hypostructure-manuscript to repair this mathematical gap with typed Hypostructure residuals."
+  short_description: "Repair gaps through strategy residuals"
+  default_prompt: "Use $repair-hypostructure-manuscript to repair this gap from its exact strategy residual."

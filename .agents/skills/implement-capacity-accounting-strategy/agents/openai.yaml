@@ -1,0 +1,4 @@
+interface:
+  display_name: "Capacity Accounting Strategy"
+  short_description: "Build charging and capacity strategies"
+  default_prompt: "Use $implement-capacity-accounting-strategy to implement this charging and overload argument."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Compose Hypostructure Strategies"
+  short_description: "Compose dependent strategies and branches"
+  default_prompt: "Use $compose-hypostructure-strategies to assemble this proof from reusable Core strategies."

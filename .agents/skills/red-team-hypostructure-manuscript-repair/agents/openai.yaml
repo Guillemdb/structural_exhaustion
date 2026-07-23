@@ -1,4 +1,4 @@
 interface:
-  display_name: "Red-Team a Hypostructure Repair"
-  short_description: "Adversarially audit a manuscript repair"
-  default_prompt: "Use $red-team-hypostructure-manuscript-repair to adversarially audit this proposed Hypostructure manuscript repair."
+  display_name: "Red-Team a Strategy Repair"
+  short_description: "Adversarially audit a strategy repair"
+  default_prompt: "Use $red-team-hypostructure-manuscript-repair to audit this proposed strategy-level repair."

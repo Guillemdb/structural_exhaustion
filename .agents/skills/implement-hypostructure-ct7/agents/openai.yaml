@@ -1,4 +1,0 @@
-interface:
-  display_name: "Implement Hypostructure CT7"
-  short_description: "Implement CT7 with live Hypostructure APIs"
-  default_prompt: "Use $implement-hypostructure-ct7 to implement this CT7 step against the live Hypostructure contract."

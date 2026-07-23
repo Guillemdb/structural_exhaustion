@@ -1,0 +1,4 @@
+interface:
+  display_name: "Implement Erdos Strategy"
+  short_description: "Translate the EG paper into strategies"
+  default_prompt: "Use $implement-hypostructure-erdos-strategy to translate a cohesive paper block into the registered strategy DAG."

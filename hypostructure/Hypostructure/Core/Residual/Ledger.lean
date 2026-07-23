@@ -73,6 +73,14 @@ instance {Previous : Sort uPrevious} {Added : Previous -> Sort uAdded}
     (extend previous added).added = added :=
   rfl
 
+/-- Every extension is canonically reconstructed from its retained
+predecessor and its one added value.  The constructor remains private; this
+theorem is the public equality API for ledger reconstruction. -/
+theorem extend_eta (stage : Extension Previous Added) :
+    extend stage.previous stage.added = stage := by
+  cases stage
+  rfl
+
 @[simp] theorem residualOf_extend
     {Previous : Sort uPrevious} {Added : Previous -> Sort uAdded}
     {Residual : Type uResidual} [HasResidual Previous Residual]

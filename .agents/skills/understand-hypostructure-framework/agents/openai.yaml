@@ -1,4 +1,4 @@
 interface:
-  display_name: "Understand the Hypostructure Framework"
-  short_description: "Map live Hypostructure capabilities and status"
-  default_prompt: "Use $understand-hypostructure-framework to explain the live framework capabilities, ownership, status, and trust boundaries."
+  display_name: "Understand Hypostructure"
+  short_description: "Map live strategy APIs and ownership"
+  default_prompt: "Use $understand-hypostructure-framework to explain the live strategy API, ownership, outputs, and trust boundaries."

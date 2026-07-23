@@ -8,11 +8,10 @@ open Hypostructure
 universe u
 
 /-!
-# Minimal EG problem registration
+# EG problem and target registration
 
-The target is external to `Core.Problem`. The application registers only the
-minimum-degree baseline, a trivial initial branch state, and the exact dyadic
-cycle proposition from the official statement.
+The application boundary exposes one Core problem and one Core target.  The
+remaining declarations are compatibility names for the manuscript facades.
 -/
 
 /-- The sole baseline hypothesis in the official theorem. -/
@@ -26,6 +25,11 @@ def BranchState (_object : Graph.FiniteObject.{u}) : Type :=
 /-- The minimal domain-neutral problem registration for Problem 64. -/
 def problem : Core.Problem :=
   Graph.problem Baseline BranchState
+
+/-! The public theorem proposition is registered beside the Core problem
+contract.  Core keeps targets separate from `Problem`; this alias is the
+application boundary consumed by strategy-level terminal proofs. -/
+abbrev officialStatement : Prop := OfficialStatement.{u}
 
 /-- A packed graph realizes the target when it has an accepted Mathlib cycle. -/
 def Target (object : Graph.FiniteObject.{u}) : Prop :=
@@ -53,6 +57,50 @@ theorem target_iff_official_conclusion (object : Graph.FiniteObject.{u}) :
       length_ok := (powerOfTwoLength_iff cycle.length).mpr
         ⟨exponent, lower, lengthEq⟩
     }⟩
+
+/-! The single public target contract consumed by strategy code. -/
+
+def target : Core.Target problem where
+  Predicate := Target
+  Statement := officialStatement
+  statement_to_target := by
+    intro official object baseline
+    change OfficialStatement at official
+    letI : Fintype object.Vertex :=
+      @FinEnum.instFintype _ object.vertices
+    letI : DecidableRel object.graph.Adj := object.decideAdj
+    apply (target_iff_official_conclusion object).mpr
+    simpa [Baseline] using
+      official object.Vertex object.graph baseline
+  target_to_statement := by
+    intro all V G _ _ minimumDegree
+    let vertices : FinEnum V :=
+      FinEnum.ofEquiv (Fin (Fintype.card V))
+        (Fintype.equivFin V)
+    let object : Graph.FiniteObject :=
+      Graph.FiniteObject.of G vertices inferInstance
+    have baseline : Baseline object := by
+      have fintype_eq :
+          (inferInstance : Fintype V) = @FinEnum.instFintype _ vertices :=
+        Subsingleton.elim _ _
+      have decide_eq :
+          (inferInstance : DecidableRel G.Adj) = object.decideAdj :=
+        Subsingleton.elim _ _
+      unfold Baseline
+      change 3 ≤ @SimpleGraph.minDegree V G
+        (@FinEnum.instFintype _ vertices) object.decideAdj
+      rw [← fintype_eq, ← decide_eq]
+      exact minimumDegree
+    rcases (target_iff_official_conclusion object).mp
+      (all object baseline) with
+      ⟨exponent, vertex, cycle, lower, isCycle, lengthEq⟩
+    exact ⟨exponent, vertex, cycle, lower, isCycle, lengthEq⟩
+
+/-- Complete problem registration consumed by the strategy DAG runner. -/
+def definition : Core.ProblemDefinition where
+  problem := problem
+  target := target
+  initialState := fun _ => ()
 
 /-- The EG baseline descends through packed graph isomorphism. -/
 def baselineIsomorphismInvariant :

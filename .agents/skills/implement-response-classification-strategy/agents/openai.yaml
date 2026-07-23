@@ -1,0 +1,4 @@
+interface:
+  display_name: "Response Classification Strategy"
+  short_description: "Build reusable response classifiers"
+  default_prompt: "Use $implement-response-classification-strategy to implement this finite response argument."

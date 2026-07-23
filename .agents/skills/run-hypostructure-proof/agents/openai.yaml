@@ -1,0 +1,4 @@
+interface:
+  display_name: "Run Hypostructure Proof"
+  short_description: "Run a declaration and certify its result"
+  default_prompt: "Use $run-hypostructure-proof to run problemDefinition and report its kernel-certified theorem or residual."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Erdos Strategy"
+  short_description: "Audit an EG strategy implementation"
+  default_prompt: "Use $review-hypostructure-erdos-strategy to audit the current EG strategy DAG without advancing it."

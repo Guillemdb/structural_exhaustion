@@ -1,0 +1,4 @@
+interface:
+  display_name: "Support Localization Strategy"
+  short_description: "Localize and peel structured support"
+  default_prompt: "Use $implement-support-localization-strategy to implement this support localization argument."

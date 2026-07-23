@@ -1,0 +1,4 @@
+interface:
+  display_name: "Target Avoidance Strategy"
+  short_description: "Build target-or-residual strategies"
+  default_prompt: "Use $implement-target-avoidance-strategy to implement this target realization and avoidance argument."

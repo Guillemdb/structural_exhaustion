@@ -1,4 +1,0 @@
-interface:
-  display_name: "Review Hypostructure Erdős 64 Expansion"
-  short_description: "Audit the migrated Erdős 64 proof frontier"
-  default_prompt: "Use $review-hypostructure-erdos-64-eg-expansion to audit and repair the current migrated Erdős 64 frontier."

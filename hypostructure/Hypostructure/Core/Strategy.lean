@@ -1,4 +1,5 @@
 import Hypostructure.Core.Finite.Enumeration
+import Hypostructure.Core.Problem
 import Hypostructure.Core.Residual.Ledger
 import Hypostructure.Core.Budget.Dynamic
 
@@ -16,6 +17,269 @@ namespace Hypostructure.Core.Strategy
 universe uPrevious uTerminal uPayload uLeft uRight uItem uValue uCode
 
 open Hypostructure.Core.Residual
+
+/-! ## Problem initialization
+
+The application boundary supplies only a Core problem and one theorem input.
+Core packages that input as the first residual and creates the initial ledger;
+all later strategies receive this exact stage through the ordinary composition
+API.
+-/
+
+structure ProblemInput (P : Core.Problem) where
+  object : P.Ambient
+  baseline : P.Baseline object
+  branchState : P.BranchState object
+
+abbrev InitStage (P : Core.Problem) :=
+  Ledger (ProblemInput P)
+
+structure InitStrategy (P : Core.Problem) where
+  run : ProblemInput P -> InitStage P
+
+def InitStrategy.forProblem (P : Core.Problem) : InitStrategy P where
+  run input := Ledger.initial input
+
+@[simp] theorem InitStrategy.run_residual
+    (P : Core.Problem) (input : ProblemInput P) :
+    residualOf ((InitStrategy.forProblem P).run input) = input :=
+  rfl
+
+@[simp] theorem InitStrategy.run_object
+    (P : Core.Problem) (input : ProblemInput P) :
+    (residualOf ((InitStrategy.forProblem P).run input)).object = input.object :=
+  rfl
+
+/-! ## Target-closed strategy programs
+
+This is the generic endpoint for a composed strategy.  The program owns its
+execution stage and proves target realization from the literal residual carried
+by that stage.  Core does not inspect or manufacture the stage payload; it
+only exposes the target theorem bridge. -/
+
+structure TargetProgram (P : Core.Problem) (T : Core.Target P) where
+  Stage : Type uPrevious
+  [stageResidual : HasResidual Stage (ProblemInput P)]
+  branchState : forall object, P.BranchState object
+  run : ProblemInput P -> Stage
+  object_preserved : forall input,
+    (residualOf (run input)).object = input.object
+  target : forall input,
+    T.Predicate (residualOf (run input)).object
+
+theorem TargetProgram.statement
+    (program : TargetProgram P T) : T.Statement := by
+  apply T.target_to_statement
+  intro object baseline
+  let input : ProblemInput P :=
+    { object := object
+      baseline := baseline
+      branchState := program.branchState object }
+  simpa [program.object_preserved input] using program.target input
+
+/-! ## Target reductions with an explicit unresolved residual
+
+An unfinished strategy is still an unconditional reduction when every input
+ends in either a certified target or a typed residual for a later strategy.
+The residual is dependent on the exact final stage, so it cannot be detached
+or replaced by application-side data. -/
+
+structure TargetReduction (P : Core.Problem) (T : Core.Target P) where
+  private mk ::
+  Stage : Type uPrevious
+  [stageResidual : HasResidual Stage (ProblemInput P)]
+  Remaining : Stage -> Type uPayload
+  branchState : forall object, P.BranchState object
+  run : (input : ProblemInput P) -> Ledger.Extension Stage (fun stage =>
+    Sum (PLift (T.Predicate (residualOf stage).object)) (Remaining stage))
+  object_preserved : forall input,
+    (residualOf (run input).previous).object = input.object
+
+/-- Public output-side name for a strategy reduction.  Every execution exposes
+either a certified target or the exact residual that still needs a consumer. -/
+abbrev OutputStrategy (P : Core.Problem) (T : Core.Target P) :=
+  TargetReduction P T
+
+/-- A framework-owned executable strategy chain.  Its representation has a
+private constructor, so application modules can only obtain a value through
+Core strategy composition and terminal constructors. -/
+abbrev Chain (P : Core.Problem) (T : Core.Target P) :=
+  OutputStrategy P T
+
+/-- Lift a target-closed program into the output protocol.  A closed program
+has no remaining residual, so its output is always the target side and no
+later continuation is evaluated. -/
+def TargetProgram.toOutputStrategy
+    (program : TargetProgram P T) : OutputStrategy P T where
+  Stage := program.Stage
+  stageResidual := program.stageResidual
+  Remaining := fun _ => Empty
+  branchState := program.branchState
+  run input := Ledger.extend (program.run input) (Sum.inl ⟨program.target input⟩)
+  object_preserved := program.object_preserved
+
+def OutputStrategy.output
+    (strategy : OutputStrategy P T) (input : ProblemInput P) :=
+  (strategy.run input).added
+
+/-- Core-owned unresolved endpoint.  This constructor cannot assert target
+closure: it records the exact predecessor as the certified residual and fixes
+the output alternative to `inr`. -/
+def OutputStrategy.unresolved
+    [HasResidual Stage (ProblemInput P)]
+    (branchState : forall object, P.BranchState object)
+    (runStage : ProblemInput P -> Stage)
+    (object_preserved : forall input,
+      (residualOf (runStage input)).object = input.object) : Chain P T where
+  Stage := Stage
+  Remaining := fun _ => PUnit
+  branchState := branchState
+  run input := Ledger.extend (runStage input) (Sum.inr PUnit.unit)
+  object_preserved := object_preserved
+
+theorem OutputStrategy.unconditional
+    (strategy : OutputStrategy P T)
+    (target_case : forall input,
+      ∃ proof : PLift (T.Predicate
+        (@residualOf strategy.Stage (ProblemInput P)
+          strategy.stageResidual (strategy.run input).previous).object),
+        strategy.output input = Sum.inl proof) :
+    T.Statement := by
+  apply T.target_to_statement
+  intro object baseline
+  let input : ProblemInput P :=
+    { object := object
+      baseline := baseline
+      branchState := strategy.branchState object }
+  rcases target_case input with ⟨proof, _equality⟩
+  have certified := proof.down
+  rw [strategy.object_preserved input] at certified
+  simpa using certified
+
+/-- Empty residual families close automatically.  The application supplies no
+outcome classifier; Core eliminates the impossible residual alternative from
+the final ledger entry. -/
+theorem OutputStrategy.unconditional_of_isEmpty
+    (strategy : OutputStrategy P T)
+    [empty : forall stage, IsEmpty (strategy.Remaining stage)] :
+    T.Statement := by
+  apply strategy.unconditional
+  intro input
+  cases output : strategy.output input with
+  | inl proof => exact ⟨proof, rfl⟩
+  | inr residual => exact isEmptyElim residual
+
+/-- Run a reduction to its earliest unconditional boundary.  If every input
+reaches the target side, the result is the target theorem and no continuation
+is needed.  Otherwise the result contains an input and the exact residual
+produced by that run. -/
+noncomputable def OutputStrategy.closeOrResidual
+    (strategy : OutputStrategy P T) :
+    Sum (PLift T.Statement)
+      (Sigma fun input =>
+        Sigma fun residual : strategy.Remaining (strategy.run input).previous =>
+          PLift (strategy.output input = Sum.inr residual)) := by
+  classical
+  by_cases h : forall input,
+      ∃ proof : PLift (T.Predicate
+        (@residualOf strategy.Stage (ProblemInput P)
+          strategy.stageResidual (strategy.run input).previous).object),
+        strategy.output input = Sum.inl proof
+  · exact Sum.inl ⟨OutputStrategy.unconditional strategy h⟩
+  · push_neg at h
+    let input := Classical.choose h
+    have notTarget := Classical.choose_spec h
+    cases output : strategy.output input with
+    | inl proof =>
+        exact False.elim (notTarget proof (by simpa [output]))
+    | inr residual =>
+        exact Sum.inr ⟨input, residual, ⟨output⟩⟩
+
+/-- Runner-facing diagnostic projection.  This does not execute or transform
+the strategy; it only inspects the already-defined output boundary to report
+the earliest unconditional theorem or unresolved residual. -/
+abbrev OutputDiagnostics (strategy : OutputStrategy P T) :=
+  Sum (PLift T.Statement)
+    (Sigma fun input =>
+      Sigma fun residual : strategy.Remaining (strategy.run input).previous =>
+        PLift (strategy.output input = Sum.inr residual))
+
+noncomputable def OutputStrategy.diagnose
+    (strategy : OutputStrategy P T) : OutputDiagnostics strategy :=
+  strategy.closeOrResidual
+
+/-! ## Hypostructure runner
+
+The runner is the application-independent end-to-end boundary.  An
+instantiation supplies one problem, its target contract, and one composed
+strategy.  Execution remains the strategy's ordinary output; diagnostics are
+an additional runner-side projection and never alter the strategy chain. -/
+
+structure Hypostructure.{uAmbient, uBranch, uRunnerStage, uRunnerPayload} where
+  Problem : Core.Problem.{uAmbient, uBranch}
+  Target : Core.Target Problem
+  strategy : Chain.{uAmbient, uBranch, uRunnerStage, uRunnerPayload}
+    Problem Target
+
+/-- Internal compiled declaration consumed by the low-level runner.  Public
+applications use `Strategy.Dag.ProblemDeclaration`, whose DAG is lowered to
+this representation exclusively by Core. -/
+structure CompiledDeclaration.{uAmbient, uBranch, uRunnerStage, uRunnerPayload} where
+  problem : Core.Problem.{uAmbient, uBranch}
+  target : Core.Target problem
+  strategy : Chain.{uAmbient, uBranch, uRunnerStage, uRunnerPayload}
+    problem target
+
+def Hypostructure.ofDeclaration
+    (declaration : CompiledDeclaration) :
+    Hypostructure where
+  Problem := declaration.problem
+  Target := declaration.target
+  strategy := declaration.strategy
+
+def CompiledDeclaration.hypostructure
+    (declaration : CompiledDeclaration) :
+    Hypostructure :=
+  Hypostructure.ofDeclaration declaration
+
+def CompiledDeclaration.run
+    (declaration : CompiledDeclaration)
+    (input : ProblemInput declaration.problem) :=
+  declaration.strategy.output input
+
+noncomputable def CompiledDeclaration.diagnose
+    (declaration : CompiledDeclaration) :=
+  declaration.strategy.diagnose
+
+theorem CompiledDeclaration.unconditional
+    (declaration : CompiledDeclaration)
+    (target_case : forall input,
+      ∃ proof : PLift (declaration.target.Predicate
+        (@residualOf declaration.strategy.Stage
+          (ProblemInput declaration.problem)
+          declaration.strategy.stageResidual
+          (declaration.strategy.run input).previous).object),
+        declaration.strategy.output input = Sum.inl proof) :
+    declaration.target.Statement :=
+  OutputStrategy.unconditional declaration.strategy target_case
+
+def Hypostructure.run (program : Hypostructure) :=
+  program.strategy.output
+
+noncomputable def Hypostructure.diagnose (program : Hypostructure) :=
+  program.strategy.diagnose
+
+theorem Hypostructure.unconditional
+    (program : Hypostructure)
+    (target_case : forall input,
+      ∃ proof : PLift (program.Target.Predicate
+        (@residualOf program.strategy.Stage
+          (ProblemInput program.Problem)
+          program.strategy.stageResidual
+          (program.strategy.run input).previous).object),
+        program.strategy.output input = Sum.inl proof) :
+    program.Target.Statement :=
+  OutputStrategy.unconditional program.strategy target_case
 
 /-- A strategy output indexed by its terminal.  The payload is dependent on
 the literal predecessor and terminal, so branches cannot exchange data. -/
@@ -193,10 +457,10 @@ def dependentChain {Previous : Type uPrevious}
     (previous : Previous) :=
   chain first next previous
 
-/-- A reusable finite strategy fragment with one dependent continuation.  A
+/- A reusable finite strategy fragment with one dependent continuation.  A
 longer program is formed by nesting `Sequence` in the continuation contract;
 all predecessor stages remain literal ledger values. -/
-/-
+/-! Disabled draft sequence API.
 structure Sequence (Previous : Type uPrevious) where
   first : Contract.{uPrevious, uTerminal, uPayload} Previous
   next : (stage : Ledger.Extension Previous
@@ -348,6 +612,30 @@ def branchContinuation
     (previous : Previous) :=
   runRouted split left right previous
 
+/-- Continue a routed branch sequence from the complete joined stage.  The
+next strategy is indexed by that stage, so it may inspect the selected branch
+and all retained ledger entries through the normal residual queries. -/
+def routedChain
+    (split : Dichotomy Previous)
+    (left : (previous : Previous) -> split.LeftPayload previous -> Contract Previous)
+    (right : (previous : Previous) -> split.RightPayload previous -> Contract Previous)
+    (next : (stage : Ledger.Extension Previous (RoutedJoin split left right)) ->
+      Contract (Ledger.Extension Previous (RoutedJoin split left right)))
+    (previous : Previous) :
+    Ledger.Extension (Ledger.Extension Previous (RoutedJoin split left right))
+      (fun stage => Sigma ((next stage).Payload stage)) := by
+  let joined := runRouted split left right previous
+  exact Ledger.extend joined ((next joined).produce joined)
+
+@[simp] theorem routedChain_previous
+    (split : Dichotomy Previous)
+    (left : (previous : Previous) -> split.LeftPayload previous -> Contract Previous)
+    (right : (previous : Previous) -> split.RightPayload previous -> Contract Previous)
+    (next : (stage : Ledger.Extension Previous (RoutedJoin split left right)) ->
+      Contract (Ledger.Extension Previous (RoutedJoin split left right)))
+    (previous : Previous) :
+    (routedChain split left right next previous).previous.previous = previous := rfl
+
 
 @[simp] theorem pipelineChain_previous {Previous : Type uPrevious}
     (first : Pipeline Previous)
@@ -467,6 +755,32 @@ abbrev BranchJoin (Previous : Type uPrevious) (split : Dichotomy Previous)
     (previous : Previous) : Type _ :=
   Ledger.Extension Previous (RoutedJoin split left right)
 
+/-- A routed execution together with its final terminal certificate.  The
+certificate is indexed by the exact joined ledger stage, so closure cannot be
+proved for a detached or reconstructed branch payload. -/
+structure RoutedClosure (Previous : Type uPrevious) where
+  split : Dichotomy.{uPrevious, uPrevious, uPrevious} Previous
+  left : (previous : Previous) -> split.LeftPayload previous ->
+    Contract.{uPrevious, 0, uPrevious} Previous
+  right : (previous : Previous) -> split.RightPayload previous ->
+    Contract.{uPrevious, 0, uPrevious} Previous
+  terminal : TerminalCertificate (Ledger.Extension Previous
+      (RoutedJoin split left right))
+
+def RoutedClosure.run {Previous : Type uPrevious}
+    (closure : RoutedClosure Previous)
+    (previous : Previous) :=
+  runRouted closure.split closure.left closure.right previous
+
+theorem RoutedClosure.closed (closure : RoutedClosure Previous)
+    (previous : Previous) :
+    match closure.terminal.kind with
+    | .target => closure.terminal.target
+        (closure.run previous)
+    | .avoiding => closure.terminal.avoiding
+        (closure.run previous) :=
+  closure.terminal.closed (closure.run previous)
+
 structure BranchWork (Previous : Type uPrevious) where
   left : Previous -> Nat
   right : Previous -> Nat
@@ -478,6 +792,35 @@ structure DomainStrategy (Previous : Type uPrevious) where
   execution : Contract.{uPrevious, 0, uPrevious} Previous
   projection : StrategyProjection Previous Previous
   work : WorkProfile Previous
+
+/-! ## Generic success-or-residual strategy
+
+Many domain rows have the same shape: a predecessor-owned predicate either
+closes the row or leaves a typed residual for the next strategy.  The domain
+supplies only the predicate, its decider, and residual construction. -/
+
+inductive BinaryTerminal where
+  | success
+  | residual
+  deriving DecidableEq, Repr
+
+def binaryContract {Previous : Type uPrevious} {Residual : Previous -> Type uPayload}
+    (Success : Previous -> Prop)
+    (decideSuccess : (previous : Previous) -> Decidable (Success previous))
+    (residual : (previous : Previous) -> Residual previous) :
+    Contract.{uPrevious, 0, uPayload} Previous where
+  Terminal := BinaryTerminal
+  Payload := fun previous terminal => match terminal with
+    | .success => ULift.{uPayload} (PLift (Success previous))
+    | .residual => Residual previous
+  produce previous :=
+    @dite _ (Success previous) (decideSuccess previous)
+      (fun proof => ⟨.success, ⟨⟨proof⟩⟩⟩)
+      (fun _ => ⟨.residual, residual previous⟩)
+  exhaustive previous := by
+    exact @dite _ (Success previous) (decideSuccess previous)
+      (fun proof => ⟨⟨.success, ⟨⟨proof⟩⟩⟩⟩)
+      (fun _ => ⟨⟨.residual, residual previous⟩⟩)
 
 def WorkEvidence.ofAdapter (adapter : CTAdapter Previous) :
     WorkEvidence Previous where
@@ -593,5 +936,132 @@ structure ClosedCodeExhaustion (Previous : Type uPrevious) where
   observedCode : (previous : Previous) -> Code previous -> Code previous
   closed : (previous : Previous) ->
     observedCode previous (targetCode previous) = targetCode previous
+
+/-! ## Executable strategy-pattern boundaries -/
+
+def OrderedWitnessScan.asContract
+    (strategy : OrderedWitnessScan Previous) : Contract Previous where
+  Terminal := PUnit
+  Payload := fun previous _ => strategy.Result previous
+  produce previous := ⟨PUnit.unit, strategy.run previous⟩
+  exhaustive previous := ⟨⟨PUnit.unit, strategy.run previous⟩⟩
+
+namespace ResponseClassifier
+
+abbrev Entry (strategy : ResponseClassifier Previous) (previous : Previous) :=
+  Sigma fun item : strategy.Item previous =>
+    Sigma fun cls : strategy.Class previous =>
+      PLift (strategy.classify previous (strategy.observe previous item) = cls)
+
+def entry (strategy : ResponseClassifier Previous) (previous : Previous)
+    (item : strategy.Item previous) : strategy.Entry previous :=
+  ⟨item, strategy.classify previous (strategy.observe previous item), ⟨rfl⟩⟩
+
+def entries (strategy : ResponseClassifier Previous) (previous : Previous) :
+    List (strategy.Entry previous) :=
+  (strategy.schedule.read previous).values.map (strategy.entry previous)
+
+def asContract (strategy : ResponseClassifier Previous) : Contract Previous where
+  Terminal := PUnit
+  Payload := fun previous _ => List (strategy.Entry previous)
+  produce previous := ⟨PUnit.unit, strategy.entries previous⟩
+  exhaustive previous := ⟨⟨PUnit.unit, strategy.entries previous⟩⟩
+
+end ResponseClassifier
+
+namespace CapacityLedger
+
+abbrev Entry (strategy : CapacityLedger Previous) (previous : Previous) :=
+  Sigma fun item : strategy.Item previous =>
+    PLift (strategy.contribution previous item <=
+      strategy.capacity previous (strategy.classify previous item))
+
+def entry (strategy : CapacityLedger Previous) (previous : Previous)
+    (item : strategy.Item previous) : strategy.Entry previous :=
+  ⟨item, ⟨strategy.totalWithin previous item⟩⟩
+
+def entries (strategy : CapacityLedger Previous) (previous : Previous) :
+    List (strategy.Entry previous) :=
+  (strategy.schedule.read previous).values.map (strategy.entry previous)
+
+def asContract (strategy : CapacityLedger Previous) : Contract Previous where
+  Terminal := PUnit
+  Payload := fun previous _ => List (strategy.Entry previous)
+  produce previous := ⟨PUnit.unit, strategy.entries previous⟩
+  exhaustive previous := ⟨⟨PUnit.unit, strategy.entries previous⟩⟩
+
+end CapacityLedger
+
+def SupportLocalization.asContract
+    (strategy : SupportLocalization Previous) : Contract Previous where
+  Terminal := PUnit
+  Payload := fun previous _ =>
+    Sigma fun cell : strategy.Cell previous =>
+      PLift (strategy.localBudget previous cell < 0)
+  produce previous :=
+    ⟨PUnit.unit, strategy.selected previous,
+      ⟨strategy.selected_negative previous⟩⟩
+  exhaustive previous :=
+    ⟨⟨PUnit.unit, strategy.selected previous,
+      ⟨strategy.selected_negative previous⟩⟩⟩
+
+inductive TargetAvoidingTerminal where
+  | target
+  | avoiding
+
+def TargetAvoidingContinuation.Payload
+    (strategy : TargetAvoidingContinuation Previous)
+    (previous : Previous) : TargetAvoidingTerminal -> Type _
+  | .target => Sigma fun certificate : strategy.TargetCertificate previous =>
+      PLift (strategy.target previous certificate)
+  | .avoiding => strategy.AvoidingResidual previous
+
+theorem TargetAvoidingContinuation.nonemptyPayload
+    (strategy : TargetAvoidingContinuation Previous) (previous : Previous) :
+    Nonempty (Sigma (strategy.Payload previous)) := by
+  rcases strategy.target_or_avoiding previous with target | avoiding
+  · rcases target with ⟨certificate, proof⟩
+    exact ⟨⟨.target, certificate, ⟨proof⟩⟩⟩
+  · rcases avoiding with ⟨residual⟩
+    exact ⟨⟨.avoiding, residual⟩⟩
+
+noncomputable def TargetAvoidingContinuation.asContract
+    (strategy : TargetAvoidingContinuation Previous) : Contract Previous where
+  Terminal := TargetAvoidingTerminal
+  Payload := strategy.Payload
+  produce previous := Classical.choice (strategy.nonemptyPayload previous)
+  exhaustive previous := strategy.nonemptyPayload previous
+
+inductive RankBudgetTerminal where
+  | high
+  | low
+
+def RankBudgetSplit.Payload (strategy : RankBudgetSplit Previous)
+    (previous : Previous) : RankBudgetTerminal -> Type
+  | .high => PLift (strategy.high previous)
+  | .low => PLift (strategy.low previous)
+
+theorem RankBudgetSplit.nonemptyPayload
+    (strategy : RankBudgetSplit Previous) (previous : Previous) :
+    Nonempty (Sigma (strategy.Payload previous)) := by
+  rcases strategy.exhaustive previous with high | low
+  · exact ⟨⟨.high, ⟨high⟩⟩⟩
+  · exact ⟨⟨.low, ⟨low⟩⟩⟩
+
+noncomputable def RankBudgetSplit.asContract
+    (strategy : RankBudgetSplit Previous) : Contract Previous where
+  Terminal := RankBudgetTerminal
+  Payload := strategy.Payload
+  produce previous := Classical.choice (strategy.nonemptyPayload previous)
+  exhaustive previous := strategy.nonemptyPayload previous
+
+def ClosedCodeExhaustion.asContract
+    (strategy : ClosedCodeExhaustion Previous) : Contract Previous where
+  Terminal := PUnit
+  Payload := fun previous _ =>
+    PLift (strategy.observedCode previous (strategy.targetCode previous) =
+      strategy.targetCode previous)
+  produce previous := ⟨PUnit.unit, ⟨strategy.closed previous⟩⟩
+  exhaustive previous := ⟨⟨PUnit.unit, ⟨strategy.closed previous⟩⟩⟩
 
 end Hypostructure.Core.Strategy

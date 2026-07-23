@@ -1,4 +1,4 @@
 interface:
-  display_name: "Implement a Hypostructure Graph Proof"
-  short_description: "Build a graph proof with Hypostructure"
-  default_prompt: "Use $implement-hypostructure-graph-proof to implement this finite graph theorem through the Hypostructure Graph layer."
+  display_name: "Implement a Graph Strategy Proof"
+  short_description: "Build a graph strategy proof"
+  default_prompt: "Use $implement-hypostructure-graph-proof to implement this graph theorem through reusable Core strategies."

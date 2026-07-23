@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ordered Exhaustion Strategy"
+  short_description: "Build ordered scans and peeling strategies"
+  default_prompt: "Use $implement-ordered-exhaustion-strategy to implement this ordered residual scan as a reusable strategy."
